@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
+import com.esofthead.mycollab.core.MyCollabException;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -117,8 +118,7 @@ public class SplitButton extends CustomComponent {
                             "splitButtonPopupVisibilityChange",
                             SplitButtonPopupVisibilityEvent.class);
         } catch (final java.lang.NoSuchMethodException e) {
-            throw new java.lang.RuntimeException(
-                    "Internal error finding methods in TabSheet");
+            throw new MyCollabException("Internal error finding methods in TabSheet");
         }
     }
 
@@ -146,8 +146,7 @@ public class SplitButton extends CustomComponent {
                 SPLIT_POPUP_VISIBLE_CHANGE_METHOD);
     }
 
-    public interface SplitButtonPopupVisibilityListener extends
-            Serializable {
+    public interface SplitButtonPopupVisibilityListener extends Serializable {
         void splitButtonPopupVisibilityChange(
                 SplitButtonPopupVisibilityEvent event);
     }
@@ -157,8 +156,7 @@ public class SplitButton extends CustomComponent {
 
         private boolean isVisible;
 
-        public SplitButtonPopupVisibilityEvent(Component source,
-                                               boolean isVisible) {
+        public SplitButtonPopupVisibilityEvent(Component source, boolean isVisible) {
             super(source);
             this.isVisible = isVisible;
         }

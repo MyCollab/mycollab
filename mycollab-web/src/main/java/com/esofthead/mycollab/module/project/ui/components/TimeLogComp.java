@@ -22,6 +22,7 @@ import com.esofthead.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.esofthead.mycollab.module.project.service.ItemTimeLoggingService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -67,7 +68,7 @@ public abstract class TimeLogComp<V extends ValuedBean> extends MVerticalLayout 
                             showEditTimeWindow(bean);
                         }
                     });
-            editBtn.setStyleName("link");
+            editBtn.setStyleName(UIConstants.THEME_LINK);
             editBtn.addStyleName("info-hdr");
             header.addComponent(editBtn);
         }

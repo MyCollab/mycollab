@@ -35,16 +35,14 @@ import com.vaadin.ui.TextField;
  * 
  * @param <B>
  */
-class OpportunityEditFormFieldFactory<B extends Opportunity> extends
-		AbstractBeanFieldGroupEditFieldFactory<B> {
+class OpportunityEditFormFieldFactory<B extends Opportunity> extends AbstractBeanFieldGroupEditFieldFactory<B> {
 	private static final long serialVersionUID = 1L;
 
 	OpportunityEditFormFieldFactory(GenericBeanForm<B> form) {
 		super(form);
 	}
 
-	OpportunityEditFormFieldFactory(GenericBeanForm<B> form,
-			boolean isValidateForm) {
+	OpportunityEditFormFieldFactory(GenericBeanForm<B> form, boolean isValidateForm) {
 		super(form, isValidateForm);
 	}
 
@@ -66,8 +64,7 @@ class OpportunityEditFormFieldFactory<B extends Opportunity> extends
 			}
 			return tf;
 		} else if (propertyId.equals("currencyid")) {
-			CurrencyComboBoxField currencyBox = new CurrencyComboBoxField();
-			return currencyBox;
+			return new CurrencyComboBoxField();
 		} else if (propertyId.equals("salesstage")) {
 			return new OpportunitySalesStageComboBox();
 		} else if (propertyId.equals("opportunitytype")) {

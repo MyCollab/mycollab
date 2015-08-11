@@ -88,7 +88,7 @@ public class TaskFormLayoutFactory implements IFormLayoutFactory {
 					AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 7);
 		} else if (propertyId.equals("tasklistid")) {
 			this.informationLayout.addComponent(field,
-					AppContext.getMessage(TaskI18nEnum.FORM_TASKGROUP), 0, 8);
+					AppContext.getMessage(TaskI18nEnum.FORM_MILESTONE), 0, 8);
 		} else if (propertyId.equals("percentagecomplete")) {
 			this.informationLayout.addComponent(field, AppContext
 					.getMessage(TaskI18nEnum.FORM_PERCENTAGE_COMPLETE), 0, 9);

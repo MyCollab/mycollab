@@ -22,9 +22,10 @@ import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.SearchHandler;
-import com.esofthead.mycollab.vaadin.ui.ButtonLinkLegacy;
+import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Window;
 import org.vaadin.maddon.layouts.MVerticalLayout;
@@ -32,81 +33,67 @@ import org.vaadin.maddon.layouts.MVerticalLayout;
 import java.util.Arrays;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class ContactSelectionWindow extends Window {
+    private static final long serialVersionUID = 1L;
 
-	private static final long serialVersionUID = 1L;
-	private ContactTableDisplay tableItem;
-	private FieldSelection<Contact> fieldSelection;
+    private ContactTableDisplay tableItem;
+    private FieldSelection<Contact> fieldSelection;
 
-	public ContactSelectionWindow(FieldSelection<Contact> fieldSelection) {
-		super("Contact Selection");
-		this.setWidth("900px");
-		this.fieldSelection = fieldSelection;
-		this.setModal(true);
-		this.setResizable(false);
-	}
+    public ContactSelectionWindow(FieldSelection<Contact> fieldSelection) {
+        super("Contact Selection");
+        this.setWidth("900px");
+        this.fieldSelection = fieldSelection;
+        this.setModal(true);
+        this.setResizable(false);
+    }
 
-	public void show() {
-		MVerticalLayout layout = new MVerticalLayout();
-		ContactSimpleSearchPanel contactSimpleSearchPanel = new ContactSimpleSearchPanel();
-		contactSimpleSearchPanel
-				.addSearchHandler(new SearchHandler<ContactSearchCriteria>() {
+    public void show() {
+        MVerticalLayout layout = new MVerticalLayout();
+        ContactSimpleSearchPanel contactSimpleSearchPanel = new ContactSimpleSearchPanel();
+        contactSimpleSearchPanel.addSearchHandler(new SearchHandler<ContactSearchCriteria>() {
+            @Override
+            public void onSearch(ContactSearchCriteria criteria) {
+                tableItem.setSearchCriteria(criteria);
+            }
 
-					@Override
-					public void onSearch(ContactSearchCriteria criteria) {
-						tableItem.setSearchCriteria(criteria);
-					}
-
-				});
-		layout.addComponent(contactSimpleSearchPanel);
-		layout.addComponent(tableItem);
+        });
+        layout.addComponent(contactSimpleSearchPanel);
+        layout.addComponent(tableItem);
         createContactList();
-		this.setContent(layout);
+        this.setContent(layout);
 
-		tableItem.setSearchCriteria(new ContactSearchCriteria());
-		center();
-	}
+        tableItem.setSearchCriteria(new ContactSearchCriteria());
+        center();
+    }
 
-	@SuppressWarnings("serial")
-	private void createContactList() {
-		tableItem = new ContactTableDisplay(Arrays.asList(
-				ContactTableFieldDef.name(), ContactTableFieldDef.account(),
-				ContactTableFieldDef.phoneOffice(), ContactTableFieldDef.email(),
-				ContactTableFieldDef.assignUser()));
-		tableItem.setWidth("100%");
+    @SuppressWarnings("serial")
+    private void createContactList() {
+        tableItem = new ContactTableDisplay(Arrays.asList(ContactTableFieldDef.name(), ContactTableFieldDef.account(),
+                ContactTableFieldDef.phoneOffice(), ContactTableFieldDef.email(), ContactTableFieldDef.assignUser()));
+        tableItem.setWidth("100%");
         tableItem.setDisplayNumItems(10);
 
-		tableItem.addGeneratedColumn("contactName",
-				new Table.ColumnGenerator() {
-					private static final long serialVersionUID = 1L;
+        tableItem.addGeneratedColumn("contactName", new Table.ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
 
-					@Override
-					public com.vaadin.ui.Component generateCell(
-							final Table source, final Object itemId,
-							final Object columnId) {
-						final SimpleContact contact = tableItem
-								.getBeanByIndex(itemId);
+            @Override
+            public Component generateCell(Table source, Object itemId, Object columnId) {
+                final SimpleContact contact = tableItem.getBeanByIndex(itemId);
 
-						ButtonLinkLegacy b = new ButtonLinkLegacy(contact.getContactName(),
-								new Button.ClickListener() {
-
-									@Override
-									public void buttonClick(
-											final Button.ClickEvent event) {
-										fieldSelection.fireValueChange(contact);
-										ContactSelectionWindow.this.close();
-									}
-								});
-                        b.setDescription(CrmTooltipGenerator.generateToolTipContact(
-                                AppContext.getUserLocale(), contact,
-                                AppContext.getSiteUrl(), AppContext.getTimezone()));
-						return b;
-					}
-				});
-	}
+                ButtonLink b = new ButtonLink(contact.getContactName(), new Button.ClickListener() {
+                    @Override
+                    public void buttonClick(Button.ClickEvent event) {
+                        fieldSelection.fireValueChange(contact);
+                        ContactSelectionWindow.this.close();
+                    }
+                });
+                b.setDescription(CrmTooltipGenerator.generateToolTipContact(AppContext.getUserLocale(),
+                        contact, AppContext.getSiteUrl(), AppContext.getTimezone()));
+                return b;
+            }
+        });
+    }
 }

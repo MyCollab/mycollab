@@ -25,7 +25,6 @@ import com.esofthead.mycollab.core.persistence.service.DefaultService;
 import com.esofthead.mycollab.module.project.dao.ItemTimeLoggingMapper;
 import com.esofthead.mycollab.module.project.dao.ItemTimeLoggingMapperExt;
 import com.esofthead.mycollab.module.project.dao.MilestoneMapperExt;
-import com.esofthead.mycollab.module.project.dao.TaskListMapperExt;
 import com.esofthead.mycollab.module.project.domain.ItemTimeLogging;
 import com.esofthead.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria;
 import com.esofthead.mycollab.module.project.service.ItemTimeLoggingService;
@@ -62,9 +61,6 @@ public class ItemTimeLoggingServiceImpl extends DefaultService<Integer, ItemTime
 
     @Autowired
     private ActivityStreamService activityStreamService;
-
-    @Autowired
-    private TaskListMapperExt projectTaskListMapperExt;
 
     @Autowired
     private MilestoneMapperExt milestoneMapperExt;
@@ -147,21 +143,6 @@ public class ItemTimeLoggingServiceImpl extends DefaultService<Integer, ItemTime
                     }
                 });
         CacheUtils.cleanCaches(sAccountId, ItemTimeLoggingService.class, ProjectService.class);
-    }
-
-    @Override
-    public Double getTotalBillableHoursByTaskList(Integer taskListId, Integer sAccountId) {
-        return projectTaskListMapperExt.getTotalBillableHours(taskListId);
-    }
-
-    @Override
-    public Double getTotalNonBillableHoursByTaskList(Integer taskListId, Integer sAccountId) {
-        return projectTaskListMapperExt.getTotalNonBillableHours(taskListId);
-    }
-
-    @Override
-    public Double getRemainHoursByTaskList(Integer taskListId, Integer sAccountId) {
-        return projectTaskListMapperExt.getRemainHours(taskListId);
     }
 
     @Override

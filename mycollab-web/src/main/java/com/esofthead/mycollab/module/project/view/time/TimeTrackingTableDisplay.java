@@ -104,7 +104,7 @@ public class TimeTrackingTableDisplay
                                         ContentMode.HTML);
                             } else {
                                 Label timeTrackingLink = new Label(buildItemValue(itemLogging), ContentMode.HTML);
-                                timeTrackingLink.addStyleName("link");
+                                timeTrackingLink.addStyleName(UIConstants.THEME_LINK);
                                 timeTrackingLink.addStyleName(UIConstants.WORD_WRAP);
                                 timeTrackingLink.setWidth("100%");
 

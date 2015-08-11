@@ -39,82 +39,61 @@ public class TaskDefaultFormLayoutFactory {
 
         DynaSection mainSection = new DynaSectionBuilder().layoutType(LayoutType.TWO_COLUMN).build();
 
-        mainSection.addField(new TextDynaFieldBuilder()
-                        .fieldName(Task.Field.taskname).displayName(
-                                AppContext.getMessage(TaskI18nEnum.FORM_TASK_NAME))
-                        .fieldIndex(0).mandatory(true).required(true)
-                        .colSpan(true).build());
+        mainSection.addField(new TextDynaFieldBuilder().fieldName(Task.Field.taskname)
+                .displayName(AppContext.getMessage(TaskI18nEnum.FORM_TASK_NAME))
+                .fieldIndex(0).mandatory(true).required(true)
+                .colSpan(true).build());
 
-        mainSection.addField(new TextDynaFieldBuilder()
-                .fieldName(Task.Field.startdate)
-                .displayName(
-                        AppContext.getMessage(TaskI18nEnum.FORM_START_DATE))
-                .fieldIndex(1).build());
+        mainSection.addField(new TextDynaFieldBuilder().fieldName(Task.Field.startdate)
+                .displayName(AppContext.getMessage(TaskI18nEnum.FORM_START_DATE)).fieldIndex(1).build());
 
-        mainSection.addField(new TextDynaFieldBuilder()
-                        .fieldName(Task.Field.actualstartdate)
-                        .displayName(
-                                AppContext.getMessage(TaskI18nEnum.FORM_ACTUAL_START_DATE))
-                        .fieldIndex(2).build());
+        mainSection.addField(new TextDynaFieldBuilder().fieldName(Task.Field.actualstartdate)
+                .displayName(AppContext.getMessage(TaskI18nEnum.FORM_ACTUAL_START_DATE))
+                .fieldIndex(2).build());
 
-        mainSection.addField(new TextDynaFieldBuilder()
-                .fieldName(Task.Field.enddate)
+        mainSection.addField(new TextDynaFieldBuilder().fieldName(Task.Field.enddate)
                 .displayName(AppContext.getMessage(TaskI18nEnum.FORM_END_DATE))
                 .fieldIndex(3).build());
 
-        mainSection.addField(new TextDynaFieldBuilder()
-                .fieldName(Task.Field.actualenddate)
-                .displayName(
-                        AppContext.getMessage(TaskI18nEnum.FORM_ACTUAL_END_DATE))
+        mainSection.addField(new TextDynaFieldBuilder().fieldName(Task.Field.actualenddate)
+                .displayName(AppContext.getMessage(TaskI18nEnum.FORM_ACTUAL_END_DATE))
                 .fieldIndex(4).build());
 
-        mainSection.addField(new TextDynaFieldBuilder()
-                .fieldName(Task.Field.deadline)
+        mainSection.addField(new TextDynaFieldBuilder().fieldName(Task.Field.deadline)
                 .displayName(AppContext.getMessage(TaskI18nEnum.FORM_DEADLINE))
                 .fieldIndex(5).build());
 
-        mainSection.addField(new TextDynaFieldBuilder()
-                .fieldName(Task.Field.priority)
+        mainSection.addField(new TextDynaFieldBuilder().fieldName(Task.Field.priority)
                 .displayName(AppContext.getMessage(TaskI18nEnum.FORM_PRIORITY))
                 .fieldIndex(6).build());
 
-        mainSection.addField(new TextDynaFieldBuilder()
-                .fieldName(Task.Field.assignuser)
-                .displayName(
-                        AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE))
+        mainSection.addField(new TextDynaFieldBuilder().fieldName(Task.Field.assignuser)
+                .displayName(AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE))
                 .fieldIndex(7).build());
 
-        mainSection
-                .addField(new TextDynaFieldBuilder()
-                        .fieldName(Task.Field.tasklistid).required(true)
-                        .displayName(
-                                AppContext.getMessage(TaskI18nEnum.FORM_TASKGROUP))
-                        .fieldIndex(8).build());
+        mainSection.addField(new TextDynaFieldBuilder().fieldName(Task.Field.milestoneid).required(true)
+                .displayName(AppContext.getMessage(TaskI18nEnum.FORM_MILESTONE))
+                .fieldIndex(8).build());
 
-        mainSection
-                .addField(new TextDynaFieldBuilder()
-                        .fieldName(Task.Field.percentagecomplete)
-                        .displayName(
-                                AppContext.getMessage(TaskI18nEnum.FORM_PERCENTAGE_COMPLETE))
-                        .colSpan(true).fieldIndex(9).build());
+        mainSection.addField(new TextDynaFieldBuilder().fieldName(Task.Field.percentagecomplete)
+                .displayName(AppContext.getMessage(TaskI18nEnum.FORM_PERCENTAGE_COMPLETE))
+               .fieldIndex(9).build());
 
-        mainSection.addField(new TextDynaFieldBuilder()
-                .fieldName(Task.Field.notes)
+        mainSection.addField(new TextDynaFieldBuilder().fieldName(Task.Field.status)
+                .displayName(AppContext.getMessage(TaskI18nEnum.FORM_STATUS))
+                .fieldIndex(10).build());
+
+        mainSection.addField(new TextDynaFieldBuilder().fieldName(Task.Field.notes)
                 .displayName(AppContext.getMessage(TaskI18nEnum.FORM_NOTES))
-                .colSpan(true).fieldIndex(10).build());
-
-        mainSection.addField(new TextDynaFieldBuilder()
-                .fieldName(Task.Field.id)
-                .displayName(
-                        AppContext.getMessage(TaskI18nEnum.FORM_ATTACHMENT))
                 .colSpan(true).fieldIndex(11).build());
 
-        mainSection
-                .addField(new TextDynaFieldBuilder()
-                        .fieldName(Task.Field.parenttaskid)
-                        .displayName(
-                                AppContext.getMessage(TaskI18nEnum.FORM_SUB_TASKS))
-                        .colSpan(true).fieldIndex(12).build());
+        mainSection.addField(new TextDynaFieldBuilder().fieldName(Task.Field.id)
+                .displayName(AppContext.getMessage(TaskI18nEnum.FORM_ATTACHMENT))
+                .colSpan(true).fieldIndex(12).build());
+
+        mainSection.addField(new TextDynaFieldBuilder().fieldName(Task.Field.parenttaskid)
+                .displayName(AppContext.getMessage(TaskI18nEnum.FORM_SUB_TASKS))
+                .colSpan(true).fieldIndex(12).build());
 
         defaultForm.addSection(mainSection);
     }

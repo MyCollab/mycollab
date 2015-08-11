@@ -36,7 +36,7 @@ public class LabelLink extends Label {
 
     public LabelLink(String title, String href) {
         super("", ContentMode.HTML);
-        this.setStyleName("link");
+        this.setStyleName(UIConstants.THEME_LINK);
 
         createContent(title, href);
         this.setValue(div.write());

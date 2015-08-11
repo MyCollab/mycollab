@@ -17,8 +17,9 @@
 package com.esofthead.mycollab.module.project.esb.impl
 
 import com.esofthead.mycollab.common.ModuleNameConstants
-import com.esofthead.mycollab.common.dao.{ActivityStreamMapper, CommentMapper}
-import com.esofthead.mycollab.common.domain.{ActivityStreamExample, CommentExample}
+import com.esofthead.mycollab.common.dao.{OptionValMapper, ActivityStreamMapper, CommentMapper}
+import com.esofthead.mycollab.common.domain.{OptionValExample, ActivityStreamExample, CommentExample}
+import com.esofthead.mycollab.common.service.OptionValService
 import com.esofthead.mycollab.module.GenericCommand
 import com.esofthead.mycollab.module.ecm.service.ResourceService
 import com.esofthead.mycollab.module.page.service.PageService
@@ -32,6 +33,7 @@ import org.springframework.stereotype.Component
     @Autowired private val commentMapper: CommentMapper = null
     @Autowired private val resourceService: ResourceService = null
     @Autowired private val pageService: PageService = null
+    @Autowired private val optionValMapper:OptionValMapper = null
 
     @AllowConcurrentEvents
     @Subscribe
@@ -41,6 +43,7 @@ import org.springframework.stereotype.Component
             deleteRelatedComments(project.getId)
             deleteProjectFiles(event.accountId, project.getId)
             deleteProjectPages(event.accountId, project.getId)
+            deleteProjectOptions(event.accountId, project.getId);
         }
     }
 
@@ -64,5 +67,11 @@ import org.springframework.stereotype.Component
     private def deleteProjectPages(accountid: Integer, projectId: Integer) {
         val rootPath: String = String.format("%d/project/%d/.page", accountid, projectId)
         pageService.removeResource(rootPath)
+    }
+
+    private def deleteProjectOptions(accountid: Integer, projectId: Integer): Unit = {
+        val ex:OptionValExample = new OptionValExample
+        ex.createCriteria().andExtraidEqualTo(projectId)
+        optionValMapper.deleteByExample(ex)
     }
 }

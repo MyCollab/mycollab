@@ -251,7 +251,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
             if (propertyId.equals("assignuser")) {
                 return new FormViewField(beanItem.getAssignUserFullName());
             } else if (propertyId.equals("taskListName")) {
-                return new FormViewField(beanItem.getTaskListName());
+//                return new FormViewField(beanItem.getTaskListName());
             } else if (propertyId.equals("startdate")) {
                 return new FormViewField(AppContext.formatDate(beanItem.getStartdate()));
             } else if (propertyId.equals("enddate")) {
@@ -263,7 +263,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
             } else if (propertyId.equals("deadline")) {
                 return new FormViewField(AppContext.formatDate(beanItem.getDeadline()));
             } else if (propertyId.equals("tasklistid")) {
-                return new FormViewField(beanItem.getTaskListName());
+//                return new FormViewField(beanItem.getTaskListName());
             } else if (propertyId.equals("priority")) {
                 if (StringUtils.isNotBlank(beanItem.getPriority())) {
                     final Resource iconPriority = new ExternalResource(ProjectResources

@@ -62,13 +62,7 @@
     </sql>
 
     <sql id="orderStatement">
-        ORDER BY
-        <if test="searchCriteria.orderByField != null">${searchCriteria.orderByField}
-            ${searchCriteria.sortDirection},
-        </if>
-        <![CDATA[
-            m_crm_contact.lastUpdatedTime DESC
-        ]]>
+        ORDER BY m_crm_contact.lastUpdatedTime DESC
     </sql>
 
     <select id="getTotalCount" resultType="int" parameterType="ContactSearchCriteria">

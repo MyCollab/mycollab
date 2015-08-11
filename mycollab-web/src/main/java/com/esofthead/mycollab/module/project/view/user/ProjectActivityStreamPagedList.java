@@ -29,6 +29,7 @@ import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ProjectActivityStream;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.ProjectTypeI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectActivityStreamService;
 import com.esofthead.mycollab.module.project.service.ProjectPageService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
@@ -50,8 +51,8 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.peter.buttongroup.ButtonGroup;
 
-import java.util.*;
 import java.util.Calendar;
+import java.util.*;
 
 /**
  * @author MyCollab Ltd.
@@ -112,7 +113,11 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Activi
                     currentDate = itemCreatedDate;
                 }
                 StringBuffer content = new StringBuffer();
-                String itemType = AppContext.getMessage(ProjectLocalizationTypeMap.getType(activityStream.getType()));
+                ProjectTypeI18nEnum typeEnum = ProjectLocalizationTypeMap.getType(activityStream.getType());
+                if (typeEnum == null) {
+                    continue;
+                }
+                String itemType = AppContext.getMessage(typeEnum);
                 String assigneeParam = buildAssigneeValue(activityStream);
                 String itemParam = buildItemValue(activityStream);
 
@@ -123,15 +128,13 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Activi
                     content.append(AppContext.getMessage(ProjectCommonI18nEnum.FEED_USER_ACTIVITY_UPDATE_ACTION_TITLE,
                             assigneeParam, itemType, itemParam));
                     if (activityStream.getAssoAuditLog() != null) {
-                        content.append(ProjectAuditLogStreamGenerator
-                                .generatorDetailChangeOfActivity(activityStream));
+                        content.append(ProjectAuditLogStreamGenerator.generatorDetailChangeOfActivity(activityStream));
                     }
                 } else if (ActivityStreamConstants.ACTION_COMMENT.equals(activityStream.getAction())) {
                     content.append(AppContext.getMessage(ProjectCommonI18nEnum.FEED_USER_ACTIVITY_COMMENT_ACTION_TITLE,
                             assigneeParam, itemType, itemParam));
                     if (activityStream.getAssoAuditLog() != null) {
-                        content.append("<p><ul><li>\"").append(activityStream.getAssoAuditLog()
-                                .getChangeset()).append("\"</li></ul></p>");
+                        content.append("<p><ul><li>\"").append(activityStream.getAssoAuditLog().getChangeset()).append("\"</li></ul></p>");
                     }
 
                 }

@@ -18,12 +18,12 @@ package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
-import com.esofthead.mycollab.module.project.view.parameters.TaskFilterParameter;
 import com.esofthead.mycollab.module.user.CommonTooltipGenerator;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
@@ -33,7 +33,10 @@ import com.esofthead.mycollab.vaadin.ui.Depot;
 import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
+import com.google.common.eventbus.Subscribe;
+import com.rits.cloning.Cloner;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.UI;
 import org.apache.commons.lang3.StringUtils;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
@@ -49,9 +52,37 @@ public class UnresolvedTaskByAssigneeWidget extends Depot {
 
     private TaskSearchCriteria searchCriteria;
 
+    private ApplicationEventListener<TaskEvent.HasTaskChange> taskChangeHandler = new
+            ApplicationEventListener<TaskEvent.HasTaskChange>() {
+                @Override
+                @Subscribe
+                public void handle(TaskEvent.HasTaskChange event) {
+                    if (searchCriteria != null) {
+                        UI.getCurrent().access(new Runnable() {
+                            @Override
+                            public void run() {
+                                UnresolvedTaskByAssigneeWidget.this.setSearchCriteria(searchCriteria);
+                            }
+                        });
+                    }
+                }
+            };
+
     public UnresolvedTaskByAssigneeWidget() {
         super(AppContext.getMessage(TaskI18nEnum.WIDGET_UNRESOLVED_BY_ASSIGNEE_TITLE), new MVerticalLayout());
         this.setContentBorder(true);
+    }
+
+    @Override
+    public void attach() {
+        EventBusFactory.getInstance().register(taskChangeHandler);
+        super.attach();
+    }
+
+    @Override
+    public void detach() {
+        EventBusFactory.getInstance().unregister(taskChangeHandler);
+        super.detach();
     }
 
     public void setSearchCriteria(final TaskSearchCriteria searchCriteria) {
@@ -78,8 +109,8 @@ public class UnresolvedTaskByAssigneeWidget extends Depot {
 
                 TaskAssigneeLink userLbl = new TaskAssigneeLink(assignUser, item.getExtraValue(), assignUserFullName);
                 assigneeLayout.addComponent(userLbl);
-                ProgressBarIndicator indicator = new ProgressBarIndicator(
-                        totalCountItems, totalCountItems - item.getValue(), false);
+                ProgressBarIndicator indicator = new ProgressBarIndicator(totalCountItems,
+                        totalCountItems - item.getValue(), false);
                 indicator.setWidth("100%");
                 assigneeLayout.with(indicator).expand(indicator);
                 bodyContent.addComponent(assigneeLayout);
@@ -96,23 +127,19 @@ public class UnresolvedTaskByAssigneeWidget extends Depot {
 
                 @Override
                 public void buttonClick(final ClickEvent event) {
-                    searchCriteria.setAssignUser(new StringSearchField(assignee));
-                    TaskFilterParameter filterParam = new TaskFilterParameter(
-                            searchCriteria, AppContext.getMessage(
-                            TaskI18nEnum.OPT_FILTER_TASK_BY_ASSIGNEE,
-                            assigneeFullName));
-                    EventBusFactory.getInstance().post(new TaskEvent.Search(this, filterParam));
+                    Cloner cloner = new Cloner();
+                    TaskSearchCriteria criteria = cloner.deepClone(searchCriteria);
+                    criteria.setAssignUser(new StringSearchField(assignee));
+                    EventBusFactory.getInstance().post(new TaskEvent.SearchRequest(this, criteria));
                 }
             });
 
-            this.setStyleName("link");
+            this.setStyleName(UIConstants.THEME_LINK);
             this.setWidth("110px");
             this.addStyleName(UIConstants.TEXT_ELLIPSIS);
             this.setIcon(UserAvatarControlFactory.createAvatarResource(assigneeAvatarId, 16));
-            UserService service = ApplicationContextUtil
-                    .getSpringBean(UserService.class);
-            SimpleUser user = service.findUserByUserNameInAccount(assignee,
-                    AppContext.getAccountId());
+            UserService service = ApplicationContextUtil.getSpringBean(UserService.class);
+            SimpleUser user = service.findUserByUserNameInAccount(assignee, AppContext.getAccountId());
             this.setDescription(CommonTooltipGenerator.generateTooltipUser(AppContext.getUserLocale(), user,
                     AppContext.getSiteUrl(), AppContext.getTimezone()));
         }

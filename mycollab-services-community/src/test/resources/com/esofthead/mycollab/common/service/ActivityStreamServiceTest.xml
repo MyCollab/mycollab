@@ -9,11 +9,11 @@
         registerStatus="Active" username="hainguyen" accountId="1"
         registeredTime="2013-04-10 13:29:23" />
 
-    <s_activitystream id="1" module="aa" type="task"
+    <s_activitystream id="1" module="aa" type="bug"
         typeId="1" action="save" sAccountId="1" />
-    <s_activitystream id="2" module="aa" type="task"
+    <s_activitystream id="2" module="aa" type="bug"
         typeId="1" action="save" sAccountId="1" />
-    <s_activitystream id="3" module="bb" type="task"
+    <s_activitystream id="3" module="bb" type="bug"
         typeId="1" action="update" sAccountId="1" />
 
     <m_comment id="1" comment="comment1" createdUser="hainguyen"

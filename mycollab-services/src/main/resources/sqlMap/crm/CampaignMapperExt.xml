@@ -155,8 +155,10 @@
         <![CDATA[
         ORDER BY
         
-        #ifnotnull($_parameter.searchCriteria.orderByField)
-            ${searchCriteria.orderByField} ${searchCriteria.sortDirection},
+        #ifnotnull($_parameter.searchCriteria.orderFields)
+            #repeat(${_parameter.searchCriteria.orderFields} $orderField "" "" "")
+                ${orderField.field} ${orderField.direction},
+            #end
         #end
         m_crm_campaign.lastUpdatedTime DESC
         ]]>

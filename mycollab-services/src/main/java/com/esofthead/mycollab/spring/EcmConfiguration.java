@@ -37,7 +37,7 @@ import javax.jcr.SimpleCredentials;
 public class EcmConfiguration {
 
     @Bean
-    @DependsOn(value = "dataSource")
+    @DependsOn(value = "dbMigration")
     public RepositoryFactoryBean repository() {
         RepositoryFactoryBean bean = new RepositoryFactoryBean();
         bean.setConfiguration(new ClassPathResource("jackrabbit-repo.xml"));

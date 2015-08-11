@@ -29,8 +29,7 @@ import com.esofthead.mycollab.module.ecm.domain.ExternalDrive;
  *
  */
 @IgnoreCacheClass
-public interface ExternalDriveService extends
-		ICrudService<Integer, ExternalDrive> {
+public interface ExternalDriveService extends ICrudService<Integer, ExternalDrive> {
 
 	List<ExternalDrive> getExternalDrivesOfUser(String username);
 }

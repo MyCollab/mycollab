@@ -316,8 +316,6 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
             if (Task.Field.assignuser.equalTo(propertyId)) {
                 return new ProjectUserFormLinkField(beanItem.getAssignuser(),
                         beanItem.getAssignUserAvatarId(), beanItem.getAssignUserFullName());
-            } else if (SimpleTask.Field.taskListName.equalTo(propertyId)) {
-                return new DefaultViewField(beanItem.getTaskListName());
             } else if (Task.Field.startdate.equalTo(propertyId)) {
                 return new DateViewField(beanItem.getStartdate());
             } else if (Task.Field.enddate.equalTo(propertyId)) {
@@ -328,9 +326,9 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
                 return new DateViewField(beanItem.getActualenddate());
             } else if (Task.Field.deadline.equalTo(propertyId)) {
                 return new DateViewField(beanItem.getDeadline());
-            } else if (Task.Field.tasklistid.equalTo(propertyId)) {
-                return new ProjectItemViewField(ProjectTypeConstants.TASK_LIST, beanItem.getTasklistid() + "",
-                        beanItem.getTaskListName());
+            } else if (Task.Field.milestoneid.equalTo(propertyId)) {
+                return new ProjectItemViewField(ProjectTypeConstants.MILESTONE, beanItem.getMilestoneid() + "",
+                        beanItem.getMilestoneName());
             } else if (Task.Field.id.equalTo(propertyId)) {
                 return new ProjectFormAttachmentDisplayField(beanItem.getProjectid(),
                         ProjectTypeConstants.TASK, beanItem.getId());
@@ -338,7 +336,8 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
                 if (StringUtils.isNotBlank(beanItem.getPriority())) {
                     String priorityLink = ProjectResources.getIconResourceLink12ByTaskPriority(beanItem.getPriority());
                     String priorityVal = AppContext.getMessage(TaskPriority.class, beanItem.getPriority());
-                    Div div = new Div().appendChild(new Img("", priorityLink), new DivLessFormatter().EMPTY_SPACE(), new Text(priorityVal));
+                    Div div = new Div().appendChild(new Img("", priorityLink), new DivLessFormatter().EMPTY_SPACE(),
+                            new Text(priorityVal));
                     return new DefaultViewField(div.write(), ContentMode.HTML);
                 }
             } else if (Task.Field.notes.equalTo(propertyId)) {
@@ -368,7 +367,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
                 @Override
                 public void buttonClick(ClickEvent event) {
                     SimpleTask task = new SimpleTask();
-                    task.setTasklistid(beanItem.getTasklistid());
+                    task.setMilestoneid(beanItem.getMilestoneid());
                     task.setParenttaskid(beanItem.getId());
                     task.setPriority(TaskPriority.Medium.name());
                     EventBusFactory.getInstance().post(new TaskEvent.GotoAdd(TaskReadViewImpl.this, task));

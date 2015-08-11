@@ -112,10 +112,7 @@
     </delete>
     
     <sql id="orderStatement">
-        ORDER BY <if test="orderByField != null">${orderByField} ${sortDirection}, </if>
-        <![CDATA[
-            lastUpdatedTime DESC
-        ]]>
+        ORDER BY lastUpdatedTime DESC
     </sql>
 
     <select id="findPagableListByCriteria" resultMap="SimpleTargetResult"

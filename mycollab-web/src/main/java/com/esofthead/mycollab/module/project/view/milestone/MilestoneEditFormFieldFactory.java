@@ -39,8 +39,7 @@ import java.util.Arrays;
  * 
  * @param <B>
  */
-public class MilestoneEditFormFieldFactory<B extends Milestone> extends
-		AbstractBeanFieldGroupEditFieldFactory<B> {
+public class MilestoneEditFormFieldFactory<B extends Milestone> extends AbstractBeanFieldGroupEditFieldFactory<B> {
 	private static final long serialVersionUID = 1L;
 
 	MilestoneEditFormFieldFactory(GenericBeanForm<B> form) {
@@ -56,8 +55,7 @@ public class MilestoneEditFormFieldFactory<B extends Milestone> extends
 			return userbox;
 		} else if (propertyId.equals("status")) {
 			if (attachForm.getBean().getStatus() == null) {
-				attachForm.getBean().setStatus(
-						MilestoneStatus.InProgress.toString());
+				attachForm.getBean().setStatus(MilestoneStatus.InProgress.toString());
 			}
 			return new ProgressStatusComboBox();
 		} else if (propertyId.equals("name")) {
@@ -69,18 +67,17 @@ public class MilestoneEditFormFieldFactory<B extends Milestone> extends
 			}
 			return tf;
 		} else if (propertyId.equals("description")) {
-			final RichTextArea descArea = new RichTextArea();
+			RichTextArea descArea = new RichTextArea();
 			descArea.setNullRepresentation("");
 			return descArea;
 		} else if (propertyId.equals("numOpenTasks")) {
-			final ContainerHorizontalViewField taskComp = new ContainerHorizontalViewField();
-			final int numOpenTask = (attachForm.getBean() instanceof SimpleMilestone) ? ((SimpleMilestone) attachForm
+			ContainerHorizontalViewField taskComp = new ContainerHorizontalViewField();
+			int numOpenTask = (attachForm.getBean() instanceof SimpleMilestone) ? ((SimpleMilestone) attachForm
 					.getBean()).getNumOpenTasks() : 0;
-			final int numTasks = (attachForm.getBean() instanceof SimpleMilestone) ? ((SimpleMilestone) attachForm
+			int numTasks = (attachForm.getBean() instanceof SimpleMilestone) ? ((SimpleMilestone) attachForm
 					.getBean()).getNumTasks() : 0;
 
-			final ProgressBarIndicator progressTask = new ProgressBarIndicator(
-					numTasks, numOpenTask);
+			ProgressBarIndicator progressTask = new ProgressBarIndicator(numTasks, numOpenTask);
 			progressTask.setWidth("100%");
 			taskComp.addComponentField(progressTask);
 			return taskComp;
@@ -96,8 +93,7 @@ public class MilestoneEditFormFieldFactory<B extends Milestone> extends
 			super();
 			setCaption(null);
 			this.setNullSelectionAllowed(false);
-			this.loadData(Arrays.asList(MilestoneStatus.InProgress,
-					MilestoneStatus.Future, MilestoneStatus.Closed));
+			this.loadData(Arrays.asList(MilestoneStatus.InProgress, MilestoneStatus.Future, MilestoneStatus.Closed));
 
 			this.setItemIcon(MilestoneStatus.InProgress.name(), FontAwesome.SPINNER);
 			this.setItemIcon(MilestoneStatus.Future.name(), FontAwesome.CLOCK_O);

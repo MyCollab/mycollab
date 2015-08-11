@@ -29,7 +29,6 @@ import static com.esofthead.mycollab.module.project.view.bug.BugHistoryList.bugF
 import static com.esofthead.mycollab.module.project.view.bug.ComponentHistoryLogList.componentFormatter;
 import static com.esofthead.mycollab.module.project.view.bug.VersionHistoryLogList.versionFormatter;
 import static com.esofthead.mycollab.module.project.view.task.TaskHistoryList.taskFormatter;
-import static com.esofthead.mycollab.module.project.view.task.TaskGroupHistoryLogList.tasklistFormatter;
 import static com.esofthead.mycollab.module.project.view.milestone.MilestoneHistoryLogList.milestoneFormatter;
 
 /**
@@ -42,22 +41,13 @@ public class ProjectAuditLogStreamGenerator {
 	private static final Map<String, AuditLogPrinter> auditPrinters;
 	static {
 		auditPrinters = new HashMap<>();
-		auditPrinters.put(ProjectTypeConstants.BUG, new AuditLogPrinter(
-				bugFomatter));
-		auditPrinters.put(ProjectTypeConstants.TASK, new AuditLogPrinter(
-				taskFormatter));
-		auditPrinters.put(ProjectTypeConstants.TASK_LIST, new AuditLogPrinter(
-				tasklistFormatter));
-		auditPrinters.put(ProjectTypeConstants.MILESTONE, new AuditLogPrinter(
-				milestoneFormatter));
-		auditPrinters.put(ProjectTypeConstants.RISK, new AuditLogPrinter(
-				RiskFormatter.instance));
-		auditPrinters.put(ProjectTypeConstants.PROBLEM, new AuditLogPrinter(
-				ProblemFormatter.instance));
-		auditPrinters.put(ProjectTypeConstants.BUG_COMPONENT,
-				new AuditLogPrinter(componentFormatter));
-		auditPrinters.put(ProjectTypeConstants.BUG_VERSION,
-				new AuditLogPrinter(versionFormatter));
+		auditPrinters.put(ProjectTypeConstants.BUG, new AuditLogPrinter(bugFomatter));
+		auditPrinters.put(ProjectTypeConstants.TASK, new AuditLogPrinter(taskFormatter));
+		auditPrinters.put(ProjectTypeConstants.MILESTONE, new AuditLogPrinter(milestoneFormatter));
+		auditPrinters.put(ProjectTypeConstants.RISK, new AuditLogPrinter(RiskFormatter.instance));
+		auditPrinters.put(ProjectTypeConstants.PROBLEM, new AuditLogPrinter(ProblemFormatter.instance));
+		auditPrinters.put(ProjectTypeConstants.BUG_COMPONENT, new AuditLogPrinter(componentFormatter));
+		auditPrinters.put(ProjectTypeConstants.BUG_VERSION, new AuditLogPrinter(versionFormatter));
 	}
 
 	public static String generatorDetailChangeOfActivity(SimpleActivityStream activityStream) {

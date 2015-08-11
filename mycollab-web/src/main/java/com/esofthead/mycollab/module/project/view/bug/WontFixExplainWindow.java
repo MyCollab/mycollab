@@ -90,8 +90,8 @@ class WontFixExplainWindow extends Window {
             @Override
             public ComponentContainer getLayout() {
                 VerticalLayout layout = new VerticalLayout();
-                this.informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
-                layout.addComponent(this.informationLayout.getLayout());
+                informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
+                layout.addComponent(informationLayout.getLayout());
 
                 MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(new MarginInfo(true, true, false, false));
                 layout.addComponent(controlsBtn);
@@ -128,8 +128,7 @@ class WontFixExplainWindow extends Window {
                                 WontFixExplainWindow.this.close();
                                 callbackForm.refreshBugItem();
                             } else {
-                                NotificationUtil.showErrorNotification(AppContext.
-                                        getMessage(BugI18nEnum.ERROR_WONT_FIX_EXPLAIN_REQUIRE_MSG));
+                                NotificationUtil.showErrorNotification(AppContext.getMessage(BugI18nEnum.ERROR_WONT_FIX_EXPLAIN_REQUIRE_MSG));
                                 return;
                             }
 
@@ -158,14 +157,13 @@ class WontFixExplainWindow extends Window {
             @Override
             public void attachField(Object propertyId, Field<?> field) {
                 if (propertyId.equals("resolution")) {
-                    this.informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_RESOLUTION), 0, 0);
+                    informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_RESOLUTION), 0, 0);
                 } else if (propertyId.equals("assignuser")) {
-                    this.informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 1);
+                    informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 1);
                 } else if (propertyId.equals("fixedVersions")) {
-                    this.informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_FIXED_VERSIONS), 0, 2);
+                    informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_FIXED_VERSIONS), 0, 2);
                 } else if (propertyId.equals("comment")) {
-                    this.informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_COMMENT), 0, 3, 2,
-                            "100%", Alignment.MIDDLE_LEFT);
+                    informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_COMMENT), 0, 3, 2, "100%");
                 }
             }
         }

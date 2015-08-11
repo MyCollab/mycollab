@@ -16,70 +16,62 @@
  */
 package com.esofthead.mycollab.module.project.ui.format;
 
-import com.esofthead.mycollab.html.FormatUtils;
-import com.esofthead.mycollab.module.project.*;
-import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
-import com.hp.gagawa.java.elements.Text;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.HistoryFieldFormat;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Span;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.0
- * 
  */
 public class MilestoneHistoryFieldFormat implements HistoryFieldFormat {
-	private static final Logger LOG = LoggerFactory
-			.getLogger(MilestoneHistoryFieldFormat.class);
+    private static final Logger LOG = LoggerFactory
+            .getLogger(MilestoneHistoryFieldFormat.class);
 
-	@Override
-	public Component toVaadinComponent(String value) {
-		try {
-			int milestoneId = Integer.parseInt(value);
-			String html = ProjectLinkBuilder
-					.generateMilestoneHtmlLink(milestoneId);
-			return new Label(html, ContentMode.HTML);
-		} catch (NumberFormatException e) {
-			return new Label("");
-		}
-	}
+    @Override
+    public Component toVaadinComponent(String value) {
+        try {
+            int milestoneId = Integer.parseInt(value);
+            String html = ProjectLinkBuilder.generateMilestoneHtmlLink(milestoneId);
+            return new Label(html, ContentMode.HTML);
+        } catch (NumberFormatException e) {
+            return new Label("");
+        }
+    }
 
-	@Override
-	public String toString(String value) {
-		if (StringUtils.isBlank(value)) {
-			return new Span().write();
-		}
+    @Override
+    public String toString(String value) {
+        if (StringUtils.isBlank(value)) {
+            return new Span().write();
+        }
 
-		try {
-			int milestoneId = Integer.parseInt(value);
-			MilestoneService milestoneService = ApplicationContextUtil
-					.getSpringBean(MilestoneService.class);
-			SimpleMilestone milestone = milestoneService.findById(milestoneId,
-					AppContext.getAccountId());
+        try {
+            int milestoneId = Integer.parseInt(value);
+            MilestoneService milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
+            SimpleMilestone milestone = milestoneService.findById(milestoneId, AppContext.getAccountId());
 
-			if (milestone != null) {
-				return ProjectLinkBuilder.generateProjectItemLinkWithTooltip(CurrentProjectVariables.getShortName(),
-						milestone.getProjectid(), milestone.getName(), ProjectTypeConstants.MILESTONE, milestone.getId() + "", milestone.getId() + "");
-			}
-		} catch (Exception e) {
-			LOG.error("Error", e);
-		}
+            if (milestone != null) {
+                return ProjectLinkBuilder.generateProjectItemLinkWithTooltip(CurrentProjectVariables.getShortName(),
+                        milestone.getProjectid(), milestone.getName(), ProjectTypeConstants.MILESTONE, milestone.getId() + "",
+                        milestone.getId() + "");
+            }
+        } catch (Exception e) {
+            LOG.error("Error", e);
+        }
 
-		return value;
-	}
+        return value;
+    }
 
 }

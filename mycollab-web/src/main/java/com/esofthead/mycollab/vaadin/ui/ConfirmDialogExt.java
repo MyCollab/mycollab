@@ -16,23 +16,19 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
+import com.vaadin.ui.UI;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.dialogs.ConfirmDialog.Listener;
 
-import com.vaadin.ui.UI;
-
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
 public class ConfirmDialogExt {
-	public static void show(UI parentWindow, String windowCaption,
-			String message, String okCaption, String cancelCaption,
-			Listener listener) {
-		ConfirmDialog.setFactory(new ConfirmDialogFactory());
-		ConfirmDialog.show(parentWindow, windowCaption, message, okCaption,
-				cancelCaption, listener);
-	}
+    public static ConfirmDialog show(UI parentWindow, String windowCaption, String message, String okCaption,
+                            String cancelCaption, Listener listener) {
+        ConfirmDialog.setFactory(new ConfirmDialogFactory());
+        return ConfirmDialog.show(parentWindow, windowCaption, message, okCaption,
+                cancelCaption, listener);
+    }
 }

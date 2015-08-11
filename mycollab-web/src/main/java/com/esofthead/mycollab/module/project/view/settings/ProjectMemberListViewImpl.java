@@ -18,7 +18,6 @@ package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.common.GenericLinkUtils;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
@@ -68,21 +67,15 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
 
         viewHeader.with(headerText).expand(headerText);
 
-        Button createBtn = new Button(
-                AppContext
-                        .getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEES),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        Button createBtn = new Button(AppContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEES), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(Button.ClickEvent event) {
-                        EventBusFactory.getInstance().post(
-                                new ProjectMemberEvent.GotoInviteMembers(this,
-                                        null));
-                    }
-                });
-        createBtn.setEnabled(CurrentProjectVariables
-                .canWrite(ProjectRolePermissionCollections.USERS));
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(this, null));
+            }
+        });
+        createBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS));
         createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         createBtn.setIcon(FontAwesome.PLUS);
 
@@ -101,8 +94,7 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
     @SuppressWarnings("unchecked")
     public void setSearchCriteria(ProjectMemberSearchCriteria searchCriteria) {
         contentLayout.removeAllComponents();
-        ProjectMemberService prjMemberService = ApplicationContextUtil
-                .getSpringBean(ProjectMemberService.class);
+        ProjectMemberService prjMemberService = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
         List<SimpleProjectMember> memberLists = prjMemberService
                 .findPagableListByCriteria(new SearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
 
@@ -169,12 +161,9 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
         memberRole.setContentMode(ContentMode.HTML);
         memberRole.setStyleName("member-role");
         if (member.isAdmin()) {
-            memberRole.setValue(roleLink
-                    + "style=\"color: #B00000;\">" + "Project Admin" + "</a>");
+            memberRole.setValue(roleLink + "style=\"color: #B00000;\">" + "Project Admin" + "</a>");
         } else {
-            memberRole.setValue(roleLink
-                    + "style=\"color:gray;font-size:12px;\">"
-                    + member.getRoleName() + "</a>");
+            memberRole.setValue(roleLink + "style=\"color:gray;font-size:12px;\">" + member.getRoleName() + "</a>");
         }
         memberRole.setSizeUndefined();
         memberInfo.addComponent(memberRole);
@@ -197,23 +186,22 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
             infoStatus.addStyleName("member-email");
             waitingNotLayout.addComponent(infoStatus);
 
-            ButtonLinkLegacy resendInvitationLink = new ButtonLinkLegacy(
-                    AppContext.getMessage(ProjectMemberI18nEnum.BUTTON_RESEND_INVITATION),
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            ButtonLink resendInvitationLink = new ButtonLink(
+                    AppContext.getMessage(ProjectMemberI18nEnum.BUTTON_RESEND_INVITATION), new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(ClickEvent event) {
-                            ProjectMemberMapper projectMemberMapper = ApplicationContextUtil.getSpringBean(ProjectMemberMapper.class);
-                            member.setStatus(RegisterStatusConstants.VERIFICATING);
-                            projectMemberMapper.updateByPrimaryKeySelective(member);
-                            waitingNotLayout.removeAllComponents();
-                            Label statusEmail = new Label(AppContext.getMessage(ProjectMemberI18nEnum.SENDING_EMAIL_INVITATION));
-                            statusEmail.addStyleName("member-email");
-                            waitingNotLayout.addComponent(statusEmail);
-                        }
-                    });
-            resendInvitationLink.setStyleName("link");
+                @Override
+                public void buttonClick(ClickEvent event) {
+                    ProjectMemberMapper projectMemberMapper = ApplicationContextUtil.getSpringBean(ProjectMemberMapper.class);
+                    member.setStatus(RegisterStatusConstants.VERIFICATING);
+                    projectMemberMapper.updateByPrimaryKeySelective(member);
+                    waitingNotLayout.removeAllComponents();
+                    Label statusEmail = new Label(AppContext.getMessage(ProjectMemberI18nEnum.SENDING_EMAIL_INVITATION));
+                    statusEmail.addStyleName("member-email");
+                    waitingNotLayout.addComponent(statusEmail);
+                }
+            });
+            resendInvitationLink.setStyleName(UIConstants.THEME_LINK);
             resendInvitationLink.addStyleName("member-email");
             waitingNotLayout.addComponent(resendInvitationLink);
             memberInfo.addComponent(waitingNotLayout);

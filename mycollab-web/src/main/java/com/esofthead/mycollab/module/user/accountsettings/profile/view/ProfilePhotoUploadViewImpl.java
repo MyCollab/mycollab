@@ -55,8 +55,7 @@ import java.io.IOException;
  * @since 1.0
  */
 @ViewComponent
-public class ProfilePhotoUploadViewImpl extends AbstractPageView implements
-        ProfilePhotoUploadView {
+public class ProfilePhotoUploadViewImpl extends AbstractPageView implements ProfilePhotoUploadView {
     private static final long serialVersionUID = 1L;
 
     private static final Logger LOG = LoggerFactory.getLogger(ProfilePhotoUploadViewImpl.class);
@@ -116,8 +115,7 @@ public class ProfilePhotoUploadViewImpl extends AbstractPageView implements
                     try {
                         BufferedImage image = ImageIO.read(new ByteArrayInputStream(scaleImageData));
                         UserAvatarService userAvatarService = ApplicationContextUtil.getSpringBean(UserAvatarService.class);
-                        userAvatarService.uploadAvatar(image, AppContext.getUsername(),
-                                AppContext.getUserAvatarId());
+                        userAvatarService.uploadAvatar(image, AppContext.getUsername(), AppContext.getUserAvatarId());
                         Page.getCurrent().getJavaScript().execute("window.location.reload();");
                     } catch (IOException e) {
                         throw new MyCollabException("Error when saving user avatar", e);

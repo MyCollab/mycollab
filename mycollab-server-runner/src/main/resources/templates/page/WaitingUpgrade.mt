@@ -96,7 +96,7 @@ h3 {
 	</div>
 	<input type="hidden" id="postUrl" value=$!postUrl>
 </body>
-<script src="/assets/js/jquery-1.10.2.min.js"></script>
+<script src="/assets/js/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
         checkUpgradeReady();

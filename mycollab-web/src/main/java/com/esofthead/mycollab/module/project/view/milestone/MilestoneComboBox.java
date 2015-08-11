@@ -38,56 +38,49 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @SuppressWarnings("serial")
 public class MilestoneComboBox extends ComboBox {
 
-	public MilestoneComboBox() {
-		super();
-		this.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
+    public MilestoneComboBox() {
+        super();
+        this.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
 
-		MilestoneSearchCriteria criteria = new MilestoneSearchCriteria();
-		SimpleProject project = CurrentProjectVariables.getProject();
-		if (project != null) {
-			criteria.setProjectId(new NumberSearchField(SearchField.AND,
-					project.getId()));
+        MilestoneSearchCriteria criteria = new MilestoneSearchCriteria();
+        SimpleProject project = CurrentProjectVariables.getProject();
+        if (project != null) {
+            criteria.setProjectId(new NumberSearchField(SearchField.AND, project.getId()));
 
-			MilestoneService milestoneService = ApplicationContextUtil
-					.getSpringBean(MilestoneService.class);
-			List<SimpleMilestone> milestoneList = (List<SimpleMilestone>) milestoneService
-					.findPagableListByCriteria(new SearchRequest<>(
-							criteria, 0, Integer.MAX_VALUE));
+            MilestoneService milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
+            List<SimpleMilestone> milestoneList = (List<SimpleMilestone>) milestoneService
+                    .findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 
-			Collections.sort(milestoneList, new MilestoneComparator());
+            Collections.sort(milestoneList, new MilestoneComparator());
 
-			for (SimpleMilestone milestone : milestoneList) {
-				this.addItem(milestone.getId());
-				this.setItemCaption(milestone.getId(), milestone.getName());
-				Resource iconRes = ProjectAssetsUtil.getPhaseIcon(milestone.getStatus());
-				this.setItemIcon(milestone.getId(), iconRes);
-			}
-		}
+            for (SimpleMilestone milestone : milestoneList) {
+                this.addItem(milestone.getId());
+                this.setItemCaption(milestone.getId(), milestone.getName());
+                Resource iconRes = ProjectAssetsUtil.getPhaseIcon(milestone.getStatus());
+                this.setItemIcon(milestone.getId(), iconRes);
+            }
+        }
 
-	}
+    }
 
-	private static class MilestoneComparator implements Comparator<Milestone>, Serializable {
+    private static class MilestoneComparator implements Comparator<Milestone>, Serializable {
 
-		@Override
-		public int compare(Milestone milestone1, Milestone milestone2) {
-			if (MilestoneStatus.InProgress.toString().equals(
-					milestone1.getStatus())) {
-				return -1;
-			} else if (MilestoneStatus.Future.toString().equals(
-					milestone1.getStatus())) {
-				return MilestoneStatus.InProgress.toString().equals(
-						milestone2.getStatus()) ? 1 : -1;
-			} else {
-				return 1;
-			}
-		}
+        @Override
+        public int compare(Milestone milestone1, Milestone milestone2) {
+            if (MilestoneStatus.InProgress.toString().equals(milestone1.getStatus())) {
+                return -1;
+            } else if (MilestoneStatus.Future.toString().equals(milestone1.getStatus())) {
+                return MilestoneStatus.InProgress.toString().equals(milestone2.getStatus()) ? 1 : -1;
+            } else {
+                return 1;
+            }
+        }
 
-	}
+    }
 }

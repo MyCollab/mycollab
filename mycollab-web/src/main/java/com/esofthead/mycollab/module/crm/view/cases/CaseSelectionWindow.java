@@ -21,9 +21,10 @@ import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.SearchHandler;
-import com.esofthead.mycollab.vaadin.ui.ButtonLinkLegacy;
+import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Window;
 import org.vaadin.maddon.layouts.MVerticalLayout;
@@ -54,12 +55,12 @@ public class CaseSelectionWindow extends Window {
         CaseSimpleSearchPanel caseSimpleSearchPanel = new CaseSimpleSearchPanel();
         caseSimpleSearchPanel.addSearchHandler(new SearchHandler<CaseSearchCriteria>() {
 
-                    @Override
-                    public void onSearch(CaseSearchCriteria criteria) {
-                        tableItem.setSearchCriteria(criteria);
-                    }
+            @Override
+            public void onSearch(CaseSearchCriteria criteria) {
+                tableItem.setSearchCriteria(criteria);
+            }
 
-                });
+        });
         layout.addComponent(caseSimpleSearchPanel);
         layout.addComponent(tableItem);
         this.setContent(layout);
@@ -80,24 +81,19 @@ public class CaseSelectionWindow extends Window {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public com.vaadin.ui.Component generateCell(final Table source,
-                                                        final Object itemId, final Object columnId) {
+            public Component generateCell(Table source, Object itemId, Object columnId) {
                 final SimpleCase cases = tableItem.getBeanByIndex(itemId);
 
-                ButtonLinkLegacy b = new ButtonLinkLegacy(cases.getSubject(),
-                        new Button.ClickListener() {
+                ButtonLink b = new ButtonLink(cases.getSubject(), new Button.ClickListener() {
 
-                            @SuppressWarnings("unchecked")
-                            @Override
-                            public void buttonClick(
-                                    final Button.ClickEvent event) {
-                                fieldSelection.fireValueChange(cases);
-                                CaseSelectionWindow.this.close();
-                            }
-                        });
+                    @Override
+                    public void buttonClick(Button.ClickEvent event) {
+                        fieldSelection.fireValueChange(cases);
+                        CaseSelectionWindow.this.close();
+                    }
+                });
                 b.setDescription(CrmTooltipGenerator.generateTooltipCases(
-                        AppContext.getUserLocale(), cases,
-                        AppContext.getSiteUrl(), AppContext.getTimezone()));
+                        AppContext.getUserLocale(), cases, AppContext.getSiteUrl(), AppContext.getTimezone()));
                 return b;
             }
         });

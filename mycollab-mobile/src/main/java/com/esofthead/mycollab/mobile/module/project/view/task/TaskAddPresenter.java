@@ -91,14 +91,14 @@ public class TaskAddPresenter extends AbstractMobilePresenter<TaskAddView> {
 			view.editItem(task);
 			super.onGo(navigator, data);
 			if (task.getId() == null) {
-				AppContext
-						.addFragment(
-								"project/task/task/add/"
-										+ GenericLinkUtils.encodeParam(CurrentProjectVariables
-                                                .getProjectId(),
-										task.getTasklistid()),
-								AppContext
-										.getMessage(TaskI18nEnum.FORM_NEW_TASK_TITLE));
+//				AppContext
+//						.addFragment(
+//								"project/task/task/add/"
+//										+ GenericLinkUtils.encodeParam(CurrentProjectVariables
+//                                                .getProjectId(),
+//										task.getTasklistid()),
+//								AppContext
+//										.getMessage(TaskI18nEnum.FORM_NEW_TASK_TITLE));
 			} else {
 				AppContext.addFragment(
 						ProjectLinkGenerator.generateTaskEditLink(

@@ -36,6 +36,7 @@ import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanPagedList;
 import com.esofthead.mycollab.vaadin.ui.DefaultBeanPagedList;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
@@ -91,8 +92,7 @@ public class ProjectMembersWidget extends MVerticalLayout {
         titleLbl.setValue(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_MEMBERS_TITLE, memberList.getTotalCount()));
     }
 
-    public static class MemberRowDisplayHandler implements
-            AbstractBeanPagedList.RowDisplayHandler<SimpleProjectMember> {
+    public static class MemberRowDisplayHandler implements AbstractBeanPagedList.RowDisplayHandler<SimpleProjectMember> {
 
         @Override
         public Component generateRow(AbstractBeanPagedList host, SimpleProjectMember member, int rowIndex) {
@@ -105,7 +105,7 @@ public class ProjectMembersWidget extends MVerticalLayout {
             layout.with(content).expand(content);
 
             CssLayout footer = new CssLayout();
-            footer.setStyleName("activity-date");
+            footer.setStyleName(UIConstants.FOOTER_NOTE);
 
             Label memberRole = new Label();
             memberRole.setContentMode(ContentMode.HTML);

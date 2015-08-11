@@ -45,8 +45,8 @@ public class FavoriteItemServiceImpl extends DefaultCrudService<Integer, Favorit
     @Override
     public void saveOrDelete(FavoriteItem item) {
         FavoriteItemExample ex = new FavoriteItemExample();
-        ex.createCriteria().andTypeEqualTo(item.getType()).andTypeidEqualTo(item.getTypeid()).andCreateduserEqualTo
-                (item.getCreateduser());
+        ex.createCriteria().andTypeEqualTo(item.getType()).andTypeidEqualTo(item.getTypeid()).
+                andCreateduserEqualTo(item.getCreateduser());
         int count = favoriteItemMapper.countByExample(ex);
         if (count > 0) {
             favoriteItemMapper.deleteByExample(ex);

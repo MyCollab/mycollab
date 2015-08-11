@@ -158,7 +158,7 @@ public class OpportunitySearchPanel extends DefaultGenericSearchPanel<Opportunit
                             OpportunitySearchPanel.this.moveToAdvancedSearchLayout();
                         }
                     });
-            advancedSearchBtn.setStyleName("link");
+            advancedSearchBtn.setStyleName(UIConstants.THEME_LINK);
             layout.with(advancedSearchBtn).withAlign(advancedSearchBtn, Alignment.MIDDLE_CENTER);
             return layout;
         }

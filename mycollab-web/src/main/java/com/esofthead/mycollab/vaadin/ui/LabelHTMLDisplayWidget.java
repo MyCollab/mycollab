@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import com.esofthead.mycollab.vaadin.ui.utils.LabelStringGenerator;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.server.FontAwesome;
@@ -32,7 +31,6 @@ import org.apache.commons.lang3.StringUtils;
 @SuppressWarnings("serial")
 public class LabelHTMLDisplayWidget extends HorizontalLayout {
     private static int NUM_CUT = 100;
-    private static final LabelStringGenerator menuLinkGenerator = new BugDescriptionLinkLabelStringGenerator();
     private Label lbDes;
     private boolean hasShowLess;
     private String description;
@@ -44,7 +42,7 @@ public class LabelHTMLDisplayWidget extends HorizontalLayout {
             addComponent(new Label("<<No Description>>"));
             return;
         }
-        String contentLabel = menuLinkGenerator.handleText(content);
+        String contentLabel = trimText(content);
         lbDes = new Label(description, ContentMode.HTML);
         if (contentLabel != null && contentLabel.length() > NUM_CUT) {
             hasShowLess = true;
@@ -65,10 +63,7 @@ public class LabelHTMLDisplayWidget extends HorizontalLayout {
                         if (hasShowLess) {
                             lbDes.setValue(description + " " + FontAwesome.MINUS_SQUARE.getHtml());
                         } else {
-                            lbDes.setValue(menuLinkGenerator
-                                    .handleText(description)
-                                    + " "
-                                    + FontAwesome.PLUS_SQUARE.getHtml());
+                            lbDes.setValue(trimText(description) + " " + FontAwesome.PLUS_SQUARE.getHtml());
                         }
                         lbDes.setContentMode(ContentMode.HTML);
                         hasShowLess = !hasShowLess;
@@ -78,15 +73,10 @@ public class LabelHTMLDisplayWidget extends HorizontalLayout {
         });
     }
 
-    private static class BugDescriptionLinkLabelStringGenerator implements
-            LabelStringGenerator {
-
-        @Override
-        public String handleText(String value) {
-            if (value != null && value.length() > NUM_CUT) {
-                return value.substring(0, NUM_CUT) + "...";
-            }
-            return value;
+    private static String trimText(String value) {
+        if (value != null && value.length() > NUM_CUT) {
+            return value.substring(0, NUM_CUT) + "...";
         }
+        return value;
     }
 }

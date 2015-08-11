@@ -20,13 +20,11 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.db.query.Param;
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
-import com.esofthead.mycollab.module.project.events.TaskListEvent;
-import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.ProjectViewHeader;
+import com.esofthead.mycollab.module.project.view.milestone.MilestoneListSelect;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberListSelect;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
@@ -40,7 +38,7 @@ import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
  * @author MyCollab Ltd.
- * @since 4.0
+ * @since 4.0.0
  */
 public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteria> {
     private static final long serialVersionUID = 1L;
@@ -50,7 +48,8 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
             TaskSearchCriteria.p_assignee, TaskSearchCriteria.p_createtime,
             TaskSearchCriteria.p_duedate, TaskSearchCriteria.p_lastupdatedtime,
             TaskSearchCriteria.p_status, TaskSearchCriteria.p_startdate, TaskSearchCriteria.p_enddate,
-            TaskSearchCriteria.p_actualstartdate, TaskSearchCriteria.p_actualenddate};
+            TaskSearchCriteria.p_actualstartdate, TaskSearchCriteria.p_actualenddate,
+            TaskSearchCriteria.p_milestoneId, TaskSearchCriteria.p_taskkey};
 
     @Override
     protected HeaderWithFontAwesome buildSearchTitle() {
@@ -59,18 +58,6 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
 
     @Override
     protected void buildExtraControls() {
-        Button backBtn = new Button(AppContext.getMessage(TaskI18nEnum.BUTTON_BACK_TO_DASHBOARD),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void buttonClick(ClickEvent event) {
-                        EventBusFactory.getInstance().post(new TaskListEvent.GotoTaskListScreen(this, null));
-                    }
-                });
-        backBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-        backBtn.setIcon(FontAwesome.ARROW_LEFT);
-        addHeaderRight(backBtn);
     }
 
     @Override
@@ -87,14 +74,6 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
         if (getCompositionRoot() instanceof TaskBasicSearchLayout) {
             ((TaskBasicSearchLayout) getCompositionRoot()).setNameField(name);
         }
-    }
-
-    public void getAdvanceSearch() {
-        moveToAdvancedSearchLayout();
-    }
-
-    public void getBasicSearch() {
-        moveToBasicSearchLayout();
     }
 
     private class TaskBasicSearchLayout extends BasicSearchLayout<TaskSearchCriteria> {
@@ -151,16 +130,15 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
             });
             basicSearchBody.with(cancelBtn).withAlign(cancelBtn, Alignment.MIDDLE_CENTER);
 
-            Button advancedSearchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            Button advancedSearchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH), new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(final ClickEvent event) {
-                            moveToAdvancedSearchLayout();
-                        }
-                    });
-            advancedSearchBtn.setStyleName("link");
+                @Override
+                public void buttonClick(final ClickEvent event) {
+                    moveToAdvancedSearchLayout();
+                }
+            });
+            advancedSearchBtn.setStyleName(UIConstants.THEME_LINK);
 
             basicSearchBody.with(advancedSearchBtn).withAlign(advancedSearchBtn, Alignment.MIDDLE_CENTER);
             return basicSearchBody;
@@ -212,6 +190,10 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
         protected Component buildSelectionComp(String fieldId) {
             if ("task-assignuser".equals(fieldId)) {
                 return new ProjectMemberListSelect(false);
+            } else if ("task-milestone".equals(fieldId)) {
+                return new MilestoneListSelect();
+            } else if ("task-status".equals(fieldId)) {
+                return new TaskStatusListSelect();
             }
             return null;
         }

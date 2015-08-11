@@ -53,7 +53,7 @@ UserDeniedPage.mt<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
     <input type="hidden" id="toName" value="$!toName">
     <input type="hidden" id="inviterName" value="$!inviterName">
 </body>
-<script src="${defaultUrls.cdn_url}js/jquery-1.10.2.min.js"></script>
+<script src="${defaultUrls.cdn_url}js/jquery-2.1.4.min.js"></script>
 <script>
     $(document).ready(function(){
         $('#message').val("");

@@ -27,7 +27,7 @@ import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.SearchHandler;
-import com.esofthead.mycollab.vaadin.ui.ButtonLinkLegacy;
+import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
@@ -94,11 +94,10 @@ public class BugSelectionWindow extends Window {
                 final SimpleBug bug = tableItem.getBeanByIndex(itemId);
 
                 String bugName = "[%s-%s] %s";
-                bugName = String.format(bugName, CurrentProjectVariables
-                        .getProject().getShortname(), bug.getBugkey(), bug
-                        .getSummary());
+                bugName = String.format(bugName, CurrentProjectVariables.getProject().getShortname(),
+                        bug.getBugkey(), bug.getSummary());
 
-                ButtonLinkLegacy b = new ButtonLinkLegacy(bugName, new Button.ClickListener() {
+                ButtonLink b = new ButtonLink(bugName, new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
@@ -114,8 +113,7 @@ public class BugSelectionWindow extends Window {
                     b.addStyleName(UIConstants.LINK_OVERDUE);
                 }
 
-                b.setDescription(ProjectTooltipGenerator.generateToolTipBug(
-                        AppContext.getUserLocale(), bug,
+                b.setDescription(ProjectTooltipGenerator.generateToolTipBug(AppContext.getUserLocale(), bug,
                         AppContext.getSiteUrl(), AppContext.getTimezone()));
                 return b;
 

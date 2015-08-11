@@ -109,8 +109,7 @@ class ReOpenWindow extends Window {
                         if (EditForm.this.validateForm()) {
                             bug.setStatus(BugStatus.ReOpened.name());
 
-                            BugRelatedItemService bugRelatedItemService = ApplicationContextUtil.
-                                    getSpringBean(BugRelatedItemService.class);
+                            BugRelatedItemService bugRelatedItemService = ApplicationContextUtil.getSpringBean(BugRelatedItemService.class);
                             bugRelatedItemService.updateFixedVersionsOfBug(bug.getId(), fixedVersionSelect.getSelectedItems());
 
                             // Save bug status and assignee
@@ -159,14 +158,13 @@ class ReOpenWindow extends Window {
             @Override
             public void attachField(Object propertyId, Field<?> field) {
                 if (propertyId.equals("resolution")) {
-                    this.informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_RESOLUTION), 0, 0);
+                    informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_RESOLUTION), 0, 0);
                 } else if (propertyId.equals("assignuser")) {
-                    this.informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 1);
+                    informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 1);
                 } else if (propertyId.equals("fixedVersions")) {
-                    this.informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_FIXED_VERSIONS), 0, 2);
+                    informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_FIXED_VERSIONS), 0, 2);
                 } else if (propertyId.equals("comment")) {
-                    this.informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_COMMENT), 0,
-                            3, 2, "100%", Alignment.MIDDLE_LEFT);
+                    informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_COMMENT), 0, 3, 2, "100%");
                 }
             }
         }
@@ -188,7 +186,6 @@ class ReOpenWindow extends Window {
                     return new ProjectMemberSelectionField();
                 } else if (propertyId.equals("fixedVersions")) {
                     fixedVersionSelect = new VersionMultiSelectField();
-
                     return fixedVersionSelect;
                 } else if (propertyId.equals("comment")) {
                     commentArea = new RichTextEditField();

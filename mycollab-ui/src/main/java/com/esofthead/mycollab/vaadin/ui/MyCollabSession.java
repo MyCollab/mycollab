@@ -19,7 +19,6 @@ package com.esofthead.mycollab.vaadin.ui;
 import com.esofthead.mycollab.common.SessionIdGenerator;
 import com.esofthead.mycollab.core.SessionExpireException;
 import com.esofthead.mycollab.vaadin.MyCollabUI;
-import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
 
 /**

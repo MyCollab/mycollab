@@ -48,4 +48,8 @@ public class Folder extends Resource {
 	public void addChild(Folder child) {
 		childs.add(child);
 	}
+
+	public boolean isHiddenFolder() {
+		return getName().startsWith(".");
+	}
 }

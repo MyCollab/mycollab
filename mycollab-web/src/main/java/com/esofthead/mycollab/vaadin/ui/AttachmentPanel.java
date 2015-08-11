@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.vaadin.ui;
 
 import com.esofthead.mycollab.core.utils.FileUtils;
-import com.esofthead.mycollab.core.utils.ImageUtil;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
@@ -39,9 +38,9 @@ import org.slf4j.LoggerFactory;
 import org.vaadin.easyuploads.MultiFileUploadExt;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,8 +50,7 @@ import java.util.Map;
  * @author MyCollab Ltd.
  * @since 2.0
  */
-public class AttachmentPanel extends VerticalLayout implements
-        AttachmentUploadComponent {
+public class AttachmentPanel extends VerticalLayout implements AttachmentUploadComponent {
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = LoggerFactory.getLogger(AttachmentPanel.class);
     private Map<String, File> fileStores;
@@ -122,44 +120,8 @@ public class AttachmentPanel extends VerticalLayout implements
                 try {
                     String fileName = entry.getKey();
                     File file = entry.getValue();
-                    String fileExt = "";
-                    int index = fileName.lastIndexOf(".");
-                    if (index > 0) {
-                        fileExt = fileName.substring(index + 1,
-                                fileName.length());
-                    }
-
-                    if ("jpg".equalsIgnoreCase(fileExt) || "png".equalsIgnoreCase(fileExt)) {
-                        try {
-                            BufferedImage bufferedImage = ImageIO.read(file);
-
-                            int imgHeight = bufferedImage.getHeight();
-                            int imgWidth = bufferedImage.getWidth();
-
-                            float scale;
-                            float destWidth = 974;
-                            float destHeight = 718;
-
-                            float scaleX = Math.min(destHeight / imgHeight, 1);
-                            float scaleY = Math.min(destWidth / imgWidth, 1);
-                            scale = Math.min(scaleX, scaleY);
-                            BufferedImage scaledImage = ImageUtil.scaleImage(bufferedImage, scale);
-
-                            ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-                            ImageIO.write(scaledImage, fileExt, outStream);
-
-                            resourceService.saveContent(constructContent(fileName, attachmentPath),
-                                    AppContext.getUsername(),
-                                    new ByteArrayInputStream(outStream.toByteArray()), AppContext.getAccountId());
-                        } catch (IOException e) {
-                            LOG.error("Error in upload file", e);
-                            resourceService.saveContent(constructContent(fileName, attachmentPath),
-                                    AppContext.getUsername(), new FileInputStream(file), AppContext.getAccountId());
-                        }
-                    } else {
-                        resourceService.saveContent(constructContent(fileName, attachmentPath),
-                                AppContext.getUsername(), new FileInputStream(file), AppContext.getAccountId());
-                    }
+                    resourceService.saveContent(constructContent(fileName, attachmentPath),
+                            AppContext.getUsername(), new FileInputStream(file), AppContext.getAccountId());
 
                 } catch (FileNotFoundException e) {
                     LOG.error("Error when attach content in UI", e);
@@ -205,8 +167,7 @@ public class AttachmentPanel extends VerticalLayout implements
         if (fileStores.containsKey(fileName)) {
             NotificationUtil.showWarningNotification("File " + fileName + " is existed.");
         } else {
-            LOG.debug("Store file " + fileName + " in path "
-                    + file.getAbsolutePath() + " is existed: " + file.exists());
+            LOG.debug("Store file " + fileName + " in path " + file.getAbsolutePath() + " is existed: " + file.exists());
             fileStores.put(fileName, file);
             displayFileName(file, fileName);
         }

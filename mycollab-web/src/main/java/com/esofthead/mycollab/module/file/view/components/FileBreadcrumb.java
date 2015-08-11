@@ -29,6 +29,7 @@ import com.esofthead.mycollab.vaadin.events.SearchHandler;
 import com.esofthead.mycollab.vaadin.mvp.CacheableComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.CommonUIFactory;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.lexaden.breadcrumb.Breadcrumb;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -42,8 +43,7 @@ import java.util.List;
  * @since 1.0
  */
 @ViewComponent
-public class FileBreadcrumb extends Breadcrumb implements CacheableComponent,
-        HasSearchHandlers<FileSearchCriteria> {
+public class FileBreadcrumb extends Breadcrumb implements CacheableComponent, HasSearchHandlers<FileSearchCriteria> {
     private static final long serialVersionUID = 1L;
 
     private List<SearchHandler<FileSearchCriteria>> handers;
@@ -88,7 +88,7 @@ public class FileBreadcrumb extends Breadcrumb implements CacheableComponent,
                         notifySearchHandler(criteria);
                     }
                 });
-        documentBtnLink.addStyleName("link");
+        documentBtnLink.addStyleName(UIConstants.THEME_LINK);
         this.addLink(documentBtnLink);
         this.setLinkEnabled(true, 1);
     }
@@ -106,8 +106,7 @@ public class FileBreadcrumb extends Breadcrumb implements CacheableComponent,
     private void displayMyCollabFolder(final Folder folder) {
         String folderPath = folder.getPath();
         if (!folderPath.startsWith(rootFolderPath)) {
-            throw new MyCollabException("Invalid path " + rootFolderPath
-                    + "---" + folderPath);
+            throw new MyCollabException("Invalid path " + rootFolderPath + "---" + folderPath);
         }
 
         String remainPath = folderPath.substring(rootFolderPath.length());
@@ -148,8 +147,7 @@ public class FileBreadcrumb extends Breadcrumb implements CacheableComponent,
         final StringBuffer curPath = new StringBuffer("");
         String[] path = folderPath.split("/");
         if (path.length == 0) {
-            Button btn = new Button(StringUtils.trim(folder.getExternalDrive()
-                    .getFoldername(), 25, true));
+            Button btn = new Button(StringUtils.trim(folder.getExternalDrive().getFoldername(), 25, true));
             this.addLink(btn);
             this.select(2);
             return;
@@ -165,11 +163,13 @@ public class FileBreadcrumb extends Breadcrumb implements CacheableComponent,
                 curPath.append(pathName);
             }
 
+            final String buttonPath = curPath.toString();
+
             Button btn = new Button(StringUtils.trim(pathName, 25, true), new ClickListener() {
                 @Override
                 public void buttonClick(ClickEvent clickEvent) {
                     FileSearchCriteria criteria = new FileSearchCriteria();
-                    criteria.setBaseFolder(curPath.toString());
+                    criteria.setBaseFolder(buttonPath);
 
                     criteria.setRootFolder("/");
                     criteria.setStorageName(StorageNames.DROPBOX);

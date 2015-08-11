@@ -25,12 +25,14 @@ import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.Task;
+import com.esofthead.mycollab.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
-import com.esofthead.mycollab.module.project.events.TaskListEvent;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.module.project.view.ProjectViewPresenter;
+import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
+import com.esofthead.mycollab.module.project.view.parameters.TaskScreenData;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.EditFormHandler;
@@ -67,7 +69,9 @@ public class TaskAddPresenter extends AbstractPresenter<TaskAddView> {
             public void onCancel() {
                 ViewState viewState = HistoryViewManager.back();
                 if (viewState.hasPresenters(NullViewState.EmptyPresenter.class, ProjectViewPresenter.class)) {
-                    EventBusFactory.getInstance().post(new TaskListEvent.GotoTaskListScreen(this, null));
+                    PageActionChain chain = new PageActionChain(new ProjectScreenData.Goto
+                            (CurrentProjectVariables.getProjectId()), new TaskScreenData.GotoDashboard());
+                    EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
                 }
             }
 
@@ -108,10 +112,11 @@ public class TaskAddPresenter extends AbstractPresenter<TaskAddView> {
         item.setProjectid(CurrentProjectVariables.getProjectId());
         if (item.getPercentagecomplete() == null) {
             item.setPercentagecomplete(new Double(0));
-            item.setStatus(StatusI18nEnum.Open.name());
         } else if (item.getPercentagecomplete().doubleValue() == 100d) {
             item.setStatus(StatusI18nEnum.Closed.name());
-        } else {
+        }
+
+        if (item.getStatus() == null) {
             item.setStatus(StatusI18nEnum.Open.name());
         }
 

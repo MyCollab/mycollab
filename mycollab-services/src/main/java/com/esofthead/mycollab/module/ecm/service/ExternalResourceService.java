@@ -73,7 +73,7 @@ public interface ExternalResourceService extends IService {
 	 * @param path
 	 * @return
 	 */
-	Folder createFolder(ExternalDrive drive, String path);
+	Folder createNewFolder(ExternalDrive drive, String path);
 
 	/**
 	 * 

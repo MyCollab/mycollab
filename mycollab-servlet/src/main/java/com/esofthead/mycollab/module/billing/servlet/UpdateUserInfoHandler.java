@@ -48,8 +48,7 @@ import java.util.Locale;
  */
 @WebServlet(name = "updateUserInfoServlet", urlPatterns = "/user/confirm_invite/update_info/*")
 public class UpdateUserInfoHandler extends GenericHttpServlet {
-	private static final Logger LOG = LoggerFactory
-			.getLogger(UpdateUserInfoHandler.class);
+	private static final Logger LOG = LoggerFactory.getLogger(UpdateUserInfoHandler.class);
 
 	@Autowired
 	private UserMapper userMapper;
@@ -75,16 +74,13 @@ public class UpdateUserInfoHandler extends GenericHttpServlet {
 
 		try {
 			LOG.debug("Update password of user {}", username);
-			UserService userService = ApplicationContextUtil
-					.getSpringBean(UserService.class);
+			UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
 			userService.updateWithSession(user, username);
 
-			userService.updateUserAccountStatus(username, sAccountId,
-					RegisterStatusConstants.ACTIVE);
+			userService.updateUserAccountStatus(username, sAccountId, RegisterStatusConstants.ACTIVE);
 		} catch (Exception e) {
 			LOG.error("Error when update user - userAccount", e);
-			String errMsg = LocalizationHelper.getMessage(Locale.US,
-					GenericI18Enum.ERROR_USER_NOTICE_INFORMATION_MESSAGE);
+			String errMsg = LocalizationHelper.getMessage(Locale.US, GenericI18Enum.ERROR_USER_NOTICE_INFORMATION_MESSAGE);
 			throw new MyCollabException(errMsg);
 		}
 	}

@@ -34,22 +34,6 @@
         ]]>
     </sql>
 
-    <sql id="queryTaskGroupSearchCriteria">
-        <![CDATA[
-        #set($searchCriteria = $_parameter.searchCriteria)
-
-        #ifnotnull($searchCriteria.prjKeys)
-            m_prj_task_list.projectid IN
-            #repeat(${searchCriteria.prjKeys.values} $projectId "," "(" ")")
-                @{projectId}
-            #end
-        #end
-        #ifnotnull($searchCriteria.txtValue)
-            ${searchCriteria.txtValue.operation} (m_prj_task_list.name LIKE '%${searchCriteria.txtValue.value}%' OR m_prj_task_list.description LIKE '%${searchCriteria.txtValue.value}%')
-        #end
-        ]]>
-    </sql>
-
     <sql id="queryMessageSearchCriteria">
         <![CDATA[
         #set($searchCriteria = $_parameter.searchCriteria)
@@ -169,8 +153,10 @@
 
     <sql id="orderStatement">
         ORDER BY
-        #ifnotnull($_parameter.searchCriteria.orderByField)
-        ${_parameter.searchCriteria.orderByField} ${_parameter.searchCriteria.sortDirection},
+        #ifnotnull($_parameter.searchCriteria.orderFields)
+        #repeat(${_parameter.searchCriteria.orderFields} $orderField "" "" "")
+        ${orderField.field} ${orderField.direction},
+        #end
         #end
         lastUpdatedTime DESC
     </sql>
@@ -185,18 +171,6 @@
         FROM m_prj_task
         LEFT OUTER JOIN s_user ON (m_prj_task.logBy = s_user.username)
         INNER JOIN m_prj_project ON (m_prj_task.projectid = m_prj_project.id)
-    </sql>
-
-    <sql id="selectTaskGroupItem">
-        SELECT 'Project-TaskList' AS type, m_prj_task_list.id AS typeId, s_user.username AS createdUser, s_user.avatarId
-        AS createdUserAvatarId,
-        concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS createdUserDisplayName,
-        m_prj_task_list.createdTime, m_prj_task_list.lastUpdatedTime, m_prj_task_list.name AS summary,
-        m_prj_task_list.description AS description, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
-        m_prj_project.shortname AS projectShortName, NULL AS extraTypeId
-        FROM m_prj_task_list
-        LEFT OUTER JOIN s_user ON (m_prj_task_list.createduser = s_user.username)
-        INNER JOIN m_prj_project ON (m_prj_task_list.projectid = m_prj_project.id)
     </sql>
 
     <sql id="selectMessageItem">
@@ -297,15 +271,6 @@
         )
         UNION
         (
-        <include refid="selectTaskGroupItem"/>
-        #ifnotnull($_parameter.searchCriteria)
-        #trimext("WHERE" "AND|OR")
-        <include refid="queryTaskGroupSearchCriteria"/>
-        #end
-        #end
-        )
-        UNION
-        (
         <include refid="selectMessageItem"/>
         #ifnotnull($_parameter.searchCriteria)
         #trimext("WHERE" "AND|OR")
@@ -377,16 +342,6 @@
         #ifnotnull($_parameter.searchCriteria)
         #trimext("WHERE" "AND|OR")
         <include refid="queryTaskSearchCriteria" />
-        #end
-        #end
-    </select>
-    <select id="getTotalCountFromTaskGroup" parameterType="ProjectGenericItemSearchCriteria"
-            resultType="int" lang="velocity">
-        SELECT count(*) as totalCount
-        FROM m_prj_task_list
-        #ifnotnull($_parameter.searchCriteria)
-        #trimext("WHERE" "AND|OR")
-        <include refid="queryTaskGroupSearchCriteria" />
         #end
         #end
     </select>

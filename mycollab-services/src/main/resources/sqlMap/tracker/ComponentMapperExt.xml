@@ -75,8 +75,10 @@
     
     <sql id="orderStatement">
         ORDER BY
-        #ifnotnull($_parameter.searchCriteria.orderByField)
-            ${_parameter.searchCriteria.orderByField} ${_parameter.searchCriteria.sortDirection},
+        #ifnotnull($_parameter.searchCriteria.orderFields)
+        #repeat(${_parameter.searchCriteria.orderFields} $orderField "" "" "")
+        ${orderField.field} ${orderField.direction},
+        #end
         #end
         m_tracker_component.lastUpdatedTime DESC
     </sql>

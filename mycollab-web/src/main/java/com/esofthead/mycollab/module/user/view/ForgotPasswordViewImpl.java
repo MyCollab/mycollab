@@ -41,7 +41,6 @@ import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.TextField;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 1.0
  */
@@ -62,17 +61,12 @@ public class ForgotPasswordViewImpl extends AbstractPageView implements
             CustomLayout customLayout = CustomLayoutExt.createLayout("forgotPassword");
             customLayout.setStyleName("forgotPwdForm");
 
-            nameOrEmailField = new TextField(
-                    AppContext.getMessage(ShellI18nEnum.FORM_EMAIL));
+            nameOrEmailField = new TextField(AppContext.getMessage(ShellI18nEnum.FORM_EMAIL));
             customLayout.addComponent(nameOrEmailField, "nameoremail");
 
-            Button sendEmail = new Button(AppContext.getMessage(ShellI18nEnum.BUTTON_RESET_PASSWORD));
-            sendEmail.setStyleName(UIConstants.THEME_GREEN_LINK);
-            sendEmail.addClickListener(new ClickListener() {
-                private static final long serialVersionUID = 1L;
-
+            Button sendEmail = new Button(AppContext.getMessage(ShellI18nEnum.BUTTON_RESET_PASSWORD), new ClickListener() {
                 @Override
-                public void buttonClick(ClickEvent event) {
+                public void buttonClick(ClickEvent clickEvent) {
                     String username = nameOrEmailField.getValue();
                     if (StringUtils.isValidEmail(username)) {
                         UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
@@ -101,6 +95,7 @@ public class ForgotPasswordViewImpl extends AbstractPageView implements
                     }
                 }
             });
+            sendEmail.setStyleName(UIConstants.THEME_GREEN_LINK);
             customLayout.addComponent(sendEmail, "loginButton");
 
             Button memoBackBtn = new Button(AppContext.getMessage(ShellI18nEnum.BUTTON_IGNORE_RESET_PASSWORD));

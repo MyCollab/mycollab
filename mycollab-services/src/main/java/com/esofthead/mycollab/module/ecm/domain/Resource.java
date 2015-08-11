@@ -16,117 +16,137 @@
  */
 package com.esofthead.mycollab.module.ecm.domain;
 
+import com.esofthead.mycollab.core.arguments.NotBindable;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import java.util.Calendar;
 
-import com.esofthead.mycollab.core.arguments.NotBindable;
-
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 public class Resource implements Comparable<Resource> {
-	
-	@NotBindable
-	private boolean selected = false;
-	
-	private String uuid = "";
-	private String createdBy = "";
-	private Calendar created;
-	private String path = "";
 
-	// length is Kilobyte value
-	private Long size = 0L;
-	private String createdUser;
-	private String name;
+    @NotBindable
+    private boolean selected = false;
 
-	public String getCreatedBy() {
-		return createdBy;
-	}
+    private String uuid = "";
+    private String createdBy = "";
+    private Calendar created;
+    private String path = "";
 
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
+    // length is Kilobyte value
+    private Long size = 0L;
+    private String createdUser;
+    private String name;
 
-	public Calendar getCreated() {
-		return created;
-	}
+    public String getCreatedBy() {
+        return createdBy;
+    }
 
-	public void setCreated(Calendar created) {
-		this.created = created;
-	}
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
 
-	public void setPath(String path) {
-		this.path = path;
-	}
+    public Calendar getCreated() {
+        return created;
+    }
 
-	public String getPath() {
-		return path;
-	}
+    public void setCreated(Calendar created) {
+        this.created = created;
+    }
 
-	public Long getSize() {
-		return size;
-	}
+    public void setPath(String path) {
+        this.path = path;
+    }
 
-	public void setSize(Long size) {
-		this.size = size;
-	}
+    public String getPath() {
+        return path;
+    }
 
-	public String getUuid() {
-		return uuid;
-	}
+    public Long getSize() {
+        return size;
+    }
 
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
-	}
+    public void setSize(Long size) {
+        this.size = size;
+    }
 
-	public String getName() {
-		if (name == null) {
-			int index = path.lastIndexOf("/");
-			return path.substring(index + 1);
-		} else {
-			return name;
-		}
-	}
+    public String getUuid() {
+        return uuid;
+    }
 
-	public String getCreatedUser() {
-		return createdUser;
-	}
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
 
-	public void setCreatedUser(String createdUser) {
-		this.createdUser = createdUser;
-	}
+    public String getName() {
+        if (name == null) {
+            int index = path.lastIndexOf("/");
+            return path.substring(index + 1);
+        } else {
+            return name;
+        }
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getCreatedUser() {
+        return createdUser;
+    }
 
-	public boolean isSelected() {
-		return selected;
-	}
+    public void setCreatedUser(String createdUser) {
+        this.createdUser = createdUser;
+    }
 
-	public void setSelected(boolean selected) {
-		this.selected = selected;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	@Override
-	public int compareTo(Resource arg0) {
-		if (this instanceof Folder && arg0 instanceof Content) {
-			return -1;
-		} else if (this instanceof Folder && arg0 instanceof Folder) {
-			if (this.getCreated() != null && arg0.getCreated() != null) {
-				return this.getCreated().getTime()
-						.compareTo(arg0.getCreated().getTime());
-			} else {
-				return this.getName().compareTo(arg0.getName());
-			}
-		} else {
-			return 1;
-		}
-	}
+    public boolean isSelected() {
+        return selected;
+    }
 
-	public boolean isExternalResource() {
-		return ((this instanceof ExternalFolder) || (this instanceof ExternalContent));
-	}
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+    @Override
+    public int compareTo(Resource arg0) {
+        if (this instanceof Folder && arg0 instanceof Content) {
+            return -1;
+        } else if (this instanceof Folder && arg0 instanceof Folder) {
+            if (this.getCreated() != null && arg0.getCreated() != null) {
+                return this.getCreated().getTime()
+                        .compareTo(arg0.getCreated().getTime());
+            } else {
+                return this.getName().compareTo(arg0.getName());
+            }
+        } else {
+            return 1;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(1, 101).append(getPath()).build();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        if (obj.getClass() != getClass()) {
+            return false;
+        }
+        Resource res = (Resource) obj;
+        return new EqualsBuilder().append(getPath(), res.getPath()).build();
+    }
+
+    public boolean isExternalResource() {
+        return ((this instanceof ExternalFolder) || (this instanceof ExternalContent));
+    }
 }

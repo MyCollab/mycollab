@@ -49,9 +49,7 @@ import java.util.List;
 @Auditable()
 @Watchable(userFieldName = "assignuser")
 @NotifyAgent(AccountRelayEmailNotificationAction.class)
-public class AccountServiceImpl extends
-        DefaultService<Integer, Account, AccountSearchCriteria> implements
-        AccountService {
+public class AccountServiceImpl extends DefaultService<Integer, Account, AccountSearchCriteria> implements AccountService {
     static {
         ClassInfoMap.put(AccountServiceImpl.class, new ClassInfo(ModuleNameConstants.CRM, CrmTypeConstants.ACCOUNT));
     }
@@ -83,29 +81,23 @@ public class AccountServiceImpl extends
     public Integer saveWithSession(Account record, String username) {
         int result = super.saveWithSession(record, username);
 
-        if (record.getExtraData() != null
-                && record.getExtraData() instanceof SimpleCampaign) {
+        if (record.getExtraData() != null && record.getExtraData() instanceof SimpleCampaign) {
             CampaignAccount assoAccount = new CampaignAccount();
             assoAccount.setAccountid(record.getId());
-            assoAccount.setCampaignid(((SimpleCampaign) record.getExtraData())
-                    .getId());
+            assoAccount.setCampaignid(((SimpleCampaign) record.getExtraData()).getId());
             assoAccount.setCreatedtime(new GregorianCalendar().getTime());
 
-            CampaignService campaignService = ApplicationContextUtil
-                    .getSpringBean(CampaignService.class);
-            campaignService.saveCampaignAccountRelationship(
-                    Arrays.asList(assoAccount), record.getSaccountid());
+            CampaignService campaignService = ApplicationContextUtil.getSpringBean(CampaignService.class);
+            campaignService.saveCampaignAccountRelationship(Arrays.asList(assoAccount), record.getSaccountid());
         }
         return result;
     }
 
     @Override
-    public void saveAccountLeadRelationship(List<AccountLead> associateLeads,
-                                            Integer accountId) {
+    public void saveAccountLeadRelationship(List<AccountLead> associateLeads, Integer accountId) {
         for (AccountLead associateLead : associateLeads) {
             AccountLeadExample ex = new AccountLeadExample();
-            ex.createCriteria()
-                    .andAccountidEqualTo(associateLead.getAccountid())
+            ex.createCriteria().andAccountidEqualTo(associateLead.getAccountid())
                     .andLeadidEqualTo(associateLead.getLeadid());
             if (accountLeadMapper.countByExample(ex) == 0) {
                 associateLead.setCreatetime(new GregorianCalendar().getTime());
@@ -115,17 +107,14 @@ public class AccountServiceImpl extends
     }
 
     @Override
-    public void removeAccountLeadRelationship(AccountLead associateLead,
-                                              Integer accountId) {
+    public void removeAccountLeadRelationship(AccountLead associateLead, Integer accountId) {
         AccountLeadExample ex = new AccountLeadExample();
-        ex.createCriteria().andAccountidEqualTo(associateLead.getAccountid())
-                .andLeadidEqualTo(associateLead.getLeadid());
+        ex.createCriteria().andAccountidEqualTo(associateLead.getAccountid()).andLeadidEqualTo(associateLead.getLeadid());
         accountLeadMapper.deleteByExample(ex);
     }
 
     @Override
-    public SimpleAccount findAccountAssoWithConvertedLead(Integer leadId,
-                                                          Integer accountId) {
+    public SimpleAccount findAccountAssoWithConvertedLead(Integer leadId, Integer accountId) {
         return accountMapperExt.findAccountAssoWithConvertedLead(leadId);
     }
 

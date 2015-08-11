@@ -59,15 +59,12 @@ class GroupPageAddWindow extends Window {
 
         if (editFolder == null) {
             folder = new Folder();
-            this.setCaption(AppContext
-                    .getMessage(Page18InEnum.DIALOG_NEW_GROUP_TITLE));
+            this.setCaption(AppContext.getMessage(Page18InEnum.DIALOG_NEW_GROUP_TITLE));
             String pagePath = CurrentProjectVariables.getCurrentPagePath();
-            folder.setPath(pagePath + "/"
-                    + StringUtils.generateSoftUniqueId());
+            folder.setPath(pagePath + "/" + StringUtils.generateSoftUniqueId());
         } else {
             folder = editFolder;
-            this.setCaption(AppContext
-                    .getMessage(Page18InEnum.DIALOG_EDIT_GROUP_TITLE));
+            this.setCaption(AppContext.getMessage(Page18InEnum.DIALOG_EDIT_GROUP_TITLE));
         }
 
         editForm.setBean(folder);
@@ -86,73 +83,58 @@ class GroupPageAddWindow extends Window {
         @Override
         public void setBean(final Folder item) {
             this.setFormLayoutFactory(new FormLayoutFactory());
-            this.setBeanFormFieldFactory(new EditFormFieldFactory(
-                    EditForm.this));
+            this.setBeanFormFieldFactory(new EditFormFieldFactory(EditForm.this));
             super.setBean(item);
         }
 
         class FormLayoutFactory implements IFormLayoutFactory {
-
             private static final long serialVersionUID = 1L;
+
             private GridFormLayoutHelper informationLayout;
 
             @Override
             public ComponentContainer getLayout() {
                 final VerticalLayout layout = new VerticalLayout();
-                this.informationLayout =  GridFormLayoutHelper.defaultFormLayoutHelper(2, 2);
-                layout.addComponent(this.informationLayout.getLayout());
+                informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 2);
+                layout.addComponent(informationLayout.getLayout());
 
-                final MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true,
-                        false));
+                final MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false));
                 layout.addComponent(controlsBtn);
 
-                final Button cancelBtn = new Button(
-                        AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
-                        new Button.ClickListener() {
-                            private static final long serialVersionUID = 1L;
+                final Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-                            @Override
-                            public void buttonClick(
-                                    final Button.ClickEvent event) {
-                                GroupPageAddWindow.this.close();
-                            }
-                        });
+                    @Override
+                    public void buttonClick(Button.ClickEvent event) {
+                        GroupPageAddWindow.this.close();
+                    }
+                });
                 cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
                 controlsBtn.addComponent(cancelBtn);
-                controlsBtn.setComponentAlignment(cancelBtn,
-                        Alignment.MIDDLE_LEFT);
+                controlsBtn.setComponentAlignment(cancelBtn, Alignment.MIDDLE_LEFT);
 
-                final Button saveBtn = new Button(
-                        AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
-                        new Button.ClickListener() {
-                            private static final long serialVersionUID = 1L;
+                Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-                            @Override
-                            public void buttonClick(
-                                    final Button.ClickEvent event) {
-                                if (EditForm.this.validateForm()) {
-                                    PageService pageService = ApplicationContextUtil
-                                            .getSpringBean(PageService.class);
-                                    pageService.createFolder(folder,
-                                            AppContext.getUsername());
-                                    folder.setCreatedTime(new GregorianCalendar());
-                                    folder.setCreatedUser(AppContext
-                                            .getUsername());
-                                    GroupPageAddWindow.this.close();
-                                    EventBusFactory.getInstance().post(new PageEvent.GotoList(GroupPageAddWindow.this,
-                                            folder.getPath()));
-                                }
-                            }
-                        });
+                    @Override
+                    public void buttonClick(final Button.ClickEvent event) {
+                        if (EditForm.this.validateForm()) {
+                            PageService pageService = ApplicationContextUtil.getSpringBean(PageService.class);
+                            pageService.createFolder(folder, AppContext.getUsername());
+                            folder.setCreatedTime(new GregorianCalendar());
+                            folder.setCreatedUser(AppContext.getUsername());
+                            GroupPageAddWindow.this.close();
+                            EventBusFactory.getInstance().post(new PageEvent.GotoList(GroupPageAddWindow.this, folder.getPath()));
+                        }
+                    }
+                });
                 saveBtn.setIcon(FontAwesome.SAVE);
                 saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
                 saveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
                 controlsBtn.addComponent(saveBtn);
-                controlsBtn.setComponentAlignment(saveBtn,
-                        Alignment.MIDDLE_RIGHT);
+                controlsBtn.setComponentAlignment(saveBtn, Alignment.MIDDLE_RIGHT);
 
-                layout.setComponentAlignment(controlsBtn,
-                        Alignment.MIDDLE_RIGHT);
+                layout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
 
                 return layout;
             }
@@ -160,13 +142,9 @@ class GroupPageAddWindow extends Window {
             @Override
             public void attachField(Object propertyId, Field<?> field) {
                 if (propertyId.equals("name")) {
-                    this.informationLayout.addComponent(field,
-                            AppContext.getMessage(Page18InEnum.FORM_GROUP),
-                            0, 0);
+                    informationLayout.addComponent(field, AppContext.getMessage(Page18InEnum.FORM_GROUP), 0, 0);
                 } else if (propertyId.equals("description")) {
-                    this.informationLayout.addComponent(field, AppContext
-                                    .getMessage(GenericI18Enum.FORM_DESCRIPTION),
-                            0, 1, 2, "100%", Alignment.MIDDLE_LEFT);
+                    informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 1, 2, "100%");
                 }
 
             }

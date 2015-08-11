@@ -30,7 +30,7 @@ public class SimpleTask extends Task {
     private static final long serialVersionUID = 1L;
     private String projectName;
     private String projectShortname;
-    private String taskListName;
+    private String milestoneName;
     private String assignUserAvatarId;
     private String assignUserFullName;
     private String assignUserTimeZone;
@@ -75,12 +75,12 @@ public class SimpleTask extends Task {
         this.projectName = projectName;
     }
 
-    public String getTaskListName() {
-        return taskListName;
+    public String getMilestoneName() {
+        return milestoneName;
     }
 
-    public void setTaskListName(String taskListName) {
-        this.taskListName = taskListName;
+    public void setMilestoneName(String milestoneName) {
+        this.milestoneName = milestoneName;
     }
 
     public String getAssignUserFullName() {

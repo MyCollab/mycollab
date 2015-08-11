@@ -18,6 +18,7 @@ package com.esofthead.mycollab.community.ui.chart;
 
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.web.CustomLayoutExt;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -33,6 +34,7 @@ import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import org.jfree.ui.RectangleInsets;
 import org.jfree.util.Rotation;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 import java.awt.*;
 import java.text.AttributedString;
@@ -87,8 +89,7 @@ public abstract class PieChartWrapper<S extends SearchCriteria> extends GenericC
         final List keys = pieDataSet.getKeys();
         for (int i = 0; i < keys.size(); i++) {
             final Comparable key = (Comparable) keys.get(i);
-            plot.setSectionPaint(key, Color.decode("0x"
-                    + GenericChartWrapper.CHART_COLOR_STR[i
+            plot.setSectionPaint(key, Color.decode("0x" + GenericChartWrapper.CHART_COLOR_STR[i
                     % GenericChartWrapper.CHART_COLOR_STR.length]));
         }
         // OPTIONAL CUSTOMISATION COMPLETED.
@@ -134,14 +135,15 @@ public abstract class PieChartWrapper<S extends SearchCriteria> extends GenericC
         final List keys = pieDataSet.getKeys();
 
         for (int i = 0; i < keys.size(); i++) {
-            final HorizontalLayout layout = new HorizontalLayout();
-            layout.setMargin(new MarginInfo(false, false, false, true));
+            final MHorizontalLayout layout = new MHorizontalLayout().withSpacing(false).
+                    withMargin(new MarginInfo(false, false, false, true));
             layout.addStyleName("inline-block");
+            layout.setSizeUndefined();
+            layout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+
             final Comparable key = (Comparable) keys.get(i);
             final String color = "<div style = \" width:8px;height:8px;border-radius:5px;background: #"
-                    + GenericChartWrapper.CHART_COLOR_STR[i
-                    % GenericChartWrapper.CHART_COLOR_STR.length]
-                    + "\" />";
+                    + GenericChartWrapper.CHART_COLOR_STR[i % GenericChartWrapper.CHART_COLOR_STR.length] + "\" />";
             final Label lblCircle = new Label(color);
             lblCircle.setContentMode(ContentMode.HTML);
 
@@ -160,12 +162,8 @@ public abstract class PieChartWrapper<S extends SearchCriteria> extends GenericC
                     PieChartWrapper.this.onClickedDescription(key.toString());
                 }
             });
-            btnLink.addStyleName("link");
-            layout.addComponent(lblCircle);
-            layout.setComponentAlignment(lblCircle, Alignment.MIDDLE_CENTER);
-            layout.addComponent(btnLink);
-            layout.setComponentAlignment(btnLink, Alignment.MIDDLE_CENTER);
-            layout.setSizeUndefined();
+            btnLink.addStyleName(UIConstants.THEME_LINK);
+            layout.with(lblCircle, btnLink);
             mainLayout.addComponent(layout);
         }
         boxWrapper.setWidth("100%");

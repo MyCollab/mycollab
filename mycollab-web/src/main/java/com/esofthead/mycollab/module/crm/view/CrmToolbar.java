@@ -27,6 +27,7 @@ import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.OptionPopupContent;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
@@ -152,7 +153,6 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
         popupButtonsControl.addOption(newMeetingBtn);
 
         addPopupMenu.setContent(popupButtonsControl);
-//        addPopupMenu.setStyleName("link");
         addPopupMenu.addStyleName("quickadd-btn");
         addComponent(addPopupMenu);
         setExpandRatio(addPopupMenu, 1.0f);
@@ -249,7 +249,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
         String key;
 
         MenuItem(String key, String caption, ClickListener listener) {
-            this.setStyleName("link");
+            this.setStyleName(UIConstants.THEME_LINK);
             this.key = key;
             this.setCaption(caption);
             this.addClickListener(listener);

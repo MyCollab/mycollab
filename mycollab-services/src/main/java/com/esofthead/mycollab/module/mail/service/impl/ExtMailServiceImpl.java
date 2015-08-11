@@ -25,25 +25,21 @@ import com.esofthead.mycollab.module.mail.service.ExtMailService;
 import org.springframework.stereotype.Service;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @Service
-public class ExtMailServiceImpl extends AbstractMailService implements
-        ExtMailService {
+public class ExtMailServiceImpl extends AbstractMailService implements ExtMailService {
 
     @Override
     public boolean isMailSetupValid() {
-        EmailConfiguration emailConfiguration = SiteConfiguration
-                .getEmailConfiguration();
+        EmailConfiguration emailConfiguration = SiteConfiguration.getEmailConfiguration();
         return !(emailConfiguration.getHost().equals(""));
     }
 
     @Override
     protected IMailer getMailer() {
-        EmailConfiguration emailConfiguration = SiteConfiguration
-                .getEmailConfiguration();
+        EmailConfiguration emailConfiguration = SiteConfiguration.getEmailConfiguration();
         if (!isMailSetupValid()) {
             return new NullMailer();
         }

@@ -11,7 +11,7 @@
             jdbcType="VARCHAR" />
         <result column="numComments" property="numComments"
             jdbcType="INTEGER" />
-        <result column="taskListName" property="taskListName"
+        <result column="milestoneName" property="milestoneName"
             jdbcType="VARCHAR" />
         <result column="assignUserAvatarId" property="assignUserAvatarId"
             jdbcType="VARCHAR" />
@@ -55,8 +55,8 @@
             #end
         #end
         
-        #ifnotnull($searchCriteria.taskListId)
-            ${searchCriteria.taskListId.operation} m_prj_task.tasklistid = @{searchCriteria.taskListId.value,jdbcType=NUMERIC}
+        #ifnotnull($searchCriteria.milestoneId)
+            ${searchCriteria.milestoneId.operation} m_prj_task.milestoneId = @{searchCriteria.milestoneId.value,jdbcType=NUMERIC}
             AND m_prj_task.parentTaskId IS NULL
         #end
         
@@ -75,7 +75,7 @@
         #end
         
         #ifnotnull($searchCriteria.milestoneId)
-            ${searchCriteria.milestoneId.operation} m_prj_task_list.milestoneId=@{searchCriteria.milestoneId.value,jdbcType=NUMERIC}
+            ${searchCriteria.milestoneId.operation} m_prj_task.milestoneId=@{searchCriteria.milestoneId.value,jdbcType=NUMERIC}
         #end
 
         #ifnotnull($searchCriteria.dueDate)
@@ -83,6 +83,10 @@
             CAST(m_prj_task.deadline AS DATE )
             ${searchCriteria.dueDate.comparison}
             @{searchCriteria.dueDate.value}
+        #end
+
+        #ifnotnull($searchCriteria.hasParentTask)
+            ${searchCriteria.hasParentTask.operation} m_prj_task.parentTaskId IS NULL
         #end
         
         #selectExpr($searchCriteria.extraFields)
@@ -119,8 +123,8 @@
             #end
         #end
         
-        #ifnotnull($searchCriteria.taskListId)
-            ${searchCriteria.taskListId.operation} m_prj_task.tasklistid = @{searchCriteria.taskListId.value,jdbcType=NUMERIC}
+        #ifnotnull($searchCriteria.milestoneId)
+            ${searchCriteria.milestoneId.operation} m_prj_task.milestoneId = @{searchCriteria.milestoneId.value,jdbcType=NUMERIC}
             AND m_prj_task.parentTaskId IS NULL
         #end
         
@@ -133,7 +137,11 @@
         #end
         
         #ifnotnull($searchCriteria.milestoneId)
-            ${searchCriteria.milestoneId.operation} m_prj_task_list.milestoneId=@{searchCriteria.milestoneId.value,jdbcType=NUMERIC}
+            ${searchCriteria.milestoneId.operation} m_prj_task.milestoneId=@{searchCriteria.milestoneId.value,jdbcType=NUMERIC}
+        #end
+
+        #ifnotnull($searchCriteria.hasParentTask)
+            ${searchCriteria.hasParentTask.operation} m_prj_task.parentTaskId IS NULL
         #end
         
         #totalCountExpr($searchCriteria.extraFields)
@@ -145,17 +153,24 @@
           SELECT m_prj_task.id, m_prj_task.taskname, m_prj_task.percentagecomplete, m_prj_task.startdate, m_prj_task.enddate, m_prj_task.priority, 
                  m_prj_task.duration, m_prj_task.isestimated, m_prj_task.projectid, m_prj_task.deadline, m_prj_task.notes, m_prj_task.taskindex, 
                  m_prj_task.actualStartDate, m_prj_task.actualEndDate, m_prj_task.originalEstimate, m_prj_task.remainEstimate,
-                 m_prj_task.tasklistid, m_prj_task.createdTime, m_prj_task.lastUpdatedTime, m_prj_task.assignUser, m_prj_task.sAccountId, m_prj_task.parentTaskId,
-                 m_prj_task_list.name AS taskListName, m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortname, m_prj_task.status,
+                 m_prj_task.milestoneId, m_prj_task.createdTime, m_prj_task.lastUpdatedTime, m_prj_task.assignUser, m_prj_task.sAccountId, m_prj_task.parentTaskId,
+                 m_prj_milestone.name AS milestoneName, m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortname, m_prj_task.status,
                  m_prj_task.logBy, m_prj_task.taskkey,
                  s_user.avatarId AS assignUserAvatarId,
                  concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS assignUserFullName,
                  log_user.avatarId AS logByAvatarId,
                  concat(log_user.firstname, ' ', LTRIM(concat(IFNULL(log_user.middlename, ''), ' ')), log_user.lastname) AS logByFullName,
-                 parentTask.taskname AS parentTaskName, parentTask.taskkey AS parentTaskKey
+                 parentTask.taskname AS parentTaskName, parentTask.taskkey AS parentTaskKey,
+                 (SELECT count(*)
+                    FROM m_comment
+                    WHERE m_comment.type='Project-Task' AND m_comment.typeid=m_prj_task.id) AS numComments,
+                 (SELECT count(*)
+                    FROM m_prj_task AS subtask_tbl
+                    WHERE subtask_tbl.parentTaskId = m_prj_task.id
+                 ) AS numSubTasks
           FROM m_prj_task
               LEFT OUTER JOIN m_prj_project ON (m_prj_task.projectid = m_prj_project.id) 
-              LEFT OUTER JOIN m_prj_task_list ON (m_prj_task_list.id = m_prj_task.tasklistid)
+              LEFT OUTER JOIN m_prj_milestone ON (m_prj_milestone.id = m_prj_task.milestoneId)
               LEFT OUTER JOIN s_user ON (s_user.username = m_prj_task.assignUser)
               LEFT OUTER JOIN s_user AS log_user ON (log_user.username = m_prj_task.logBy)
               LEFT OUTER JOIN m_prj_task AS parentTask ON (m_prj_task.parentTaskId=parentTask.id)
@@ -165,11 +180,12 @@
     <sql id="orderStatement">
         <![CDATA[
         ORDER BY
-        #ifnotnull($_parameter.searchCriteria.orderByField)
-            ${_parameter.searchCriteria.orderByField}
-            ${_parameter.searchCriteria.sortDirection},
+        #ifnotnull($_parameter.searchCriteria.orderFields)
+            #repeat(${_parameter.searchCriteria.orderFields} $orderField "" "" "")
+                ${orderField.field} ${orderField.direction},
+            #end
         #end
-        m_prj_task.createdTime ASC, m_prj_task.startdate ASC, m_prj_task.enddate ASC
+        m_prj_task.lastUpdatedTime DESC, m_prj_task.createdTime DESC
         ]]>
     </sql>
 
@@ -184,7 +200,6 @@
     <select id="getTotalCount" resultType="int" parameterType="TaskSearchCriteria"
         lang="velocity">
         SELECT count(*) as totalCount FROM m_prj_task
-        	LEFT OUTER JOIN m_prj_task_list ON (m_prj_task_list.id = m_prj_task.tasklistid)
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
                 <include refid="queryTotalCountSearchCriteria" />

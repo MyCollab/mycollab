@@ -229,7 +229,7 @@ public class LeadConvertReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
                         }
                     });
             accountLink.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT));
-            accountLink.setStyleName("link");
+            accountLink.setStyleName(UIConstants.THEME_LINK);
             layoutHelper.addComponent(accountLink, "Account", 0, 0);
         } else {
             layoutHelper.addComponent(new Label(""), "Account", 0, 0);
@@ -254,7 +254,7 @@ public class LeadConvertReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
                         }
                     });
             contactLink.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT));
-            contactLink.setStyleName("link");
+            contactLink.setStyleName(UIConstants.THEME_LINK);
             layoutHelper.addComponent(contactLink, "Contact", 0, 1);
         } else {
             layoutHelper.addComponent(new Label(""), "Contact", 0, 1);
@@ -279,7 +279,7 @@ public class LeadConvertReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
                         }
                     });
             opportunityLink.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.OPPORTUNITY));
-            opportunityLink.setStyleName("link");
+            opportunityLink.setStyleName(UIConstants.THEME_LINK);
             layoutHelper.addComponent(opportunityLink, "Opportunity", 0, 2);
         } else {
             layoutHelper.addComponent(new Label(""), "Opportunity", 0, 2);

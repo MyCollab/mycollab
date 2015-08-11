@@ -16,60 +16,53 @@
  */
 package com.esofthead.mycollab.core.persistence.service;
 
-import java.util.List;
-
-import org.apache.ibatis.session.RowBounds;
-
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
+import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 /**
- * 
+ * @param <S>
  * @author MyCollab Ltd.
  * @since 1.0
- * 
- * @param <S>
  */
-public abstract class DefaultSearchService<S extends SearchCriteria> implements
-		ISearchableService<S> {
+public abstract class DefaultSearchService<S extends SearchCriteria> implements ISearchableService<S> {
 
-	public abstract ISearchableDAO<S> getSearchMapper();
+    public abstract ISearchableDAO<S> getSearchMapper();
 
-	@Override
-	public int getTotalCount(S criteria) {
-		return getSearchMapper().getTotalCount(criteria);
-	}
+    @Override
+    public int getTotalCount(S criteria) {
+        return getSearchMapper().getTotalCount(criteria);
+    }
 
-	@Override
-	public List findPagableListByCriteria(SearchRequest<S> searchRequest) {
-		return getSearchMapper().findPagableListByCriteria(
-				searchRequest.getSearchCriteria(),
-				new RowBounds((searchRequest.getCurrentPage() - 1)
-						* searchRequest.getNumberOfItems(), searchRequest
-						.getNumberOfItems()));
-	}
+    @Override
+    public List findPagableListByCriteria(SearchRequest<S> searchRequest) {
+        return getSearchMapper().findPagableListByCriteria(searchRequest.getSearchCriteria(),
+                new RowBounds((searchRequest.getCurrentPage() - 1) * searchRequest.getNumberOfItems(),
+                        searchRequest.getNumberOfItems()));
+    }
 
-	@Override
-	public List findAbsoluteListByCriteria(S searchCriteria, Integer firstIndex,
-										   Integer numberOftems) {
-		return getSearchMapper().findPagableListByCriteria(searchCriteria,
-				new RowBounds(firstIndex, numberOftems));
-	}
+    @Override
+    public List findAbsoluteListByCriteria(S searchCriteria, Integer firstIndex, Integer numberOftems) {
+        return getSearchMapper().findPagableListByCriteria(searchCriteria,
+                new RowBounds(firstIndex, numberOftems));
+    }
 
-	@Override
-	public void removeByCriteria(S criteria, Integer accountId) {
-		getSearchMapper().removeByCriteria(criteria);
+    @Override
+    public void removeByCriteria(S criteria, Integer accountId) {
+        getSearchMapper().removeByCriteria(criteria);
 
-	}
+    }
 
-	@Override
-	public Integer getNextItemKey(S criteria) {
-		return getSearchMapper().getNextItemKey(criteria);
-	}
+    @Override
+    public Integer getNextItemKey(S criteria) {
+        return getSearchMapper().getNextItemKey(criteria);
+    }
 
-	@Override
-	public Integer getPreviousItemKey(S criteria) {
-		return getSearchMapper().getPreviousItemKey(criteria);
-	}
+    @Override
+    public Integer getPreviousItemKey(S criteria) {
+        return getSearchMapper().getPreviousItemKey(criteria);
+    }
 }

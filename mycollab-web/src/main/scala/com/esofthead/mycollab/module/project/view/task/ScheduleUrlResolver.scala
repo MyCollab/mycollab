@@ -20,7 +20,8 @@ import com.esofthead.mycollab.common.UrlTokenizer
 import com.esofthead.mycollab.eventmanager.EventBusFactory
 import com.esofthead.mycollab.module.project.events.ProjectEvent
 import com.esofthead.mycollab.module.project.view.ProjectUrlResolver
-import com.esofthead.mycollab.module.project.view.parameters.{ProjectScreenData, TaskGroupScreenData}
+import com.esofthead.mycollab.module.project.view.parameters.TaskScreenData.{GotoDashboard, GotoGanttChart}
+import com.esofthead.mycollab.module.project.view.parameters.{ProjectScreenData, TaskScreenData}
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain
 
 /**
@@ -30,24 +31,23 @@ import com.esofthead.mycollab.vaadin.mvp.PageActionChain
 class ScheduleUrlResolver extends ProjectUrlResolver {
     this.addSubResolver("dashboard", new DashboardUrlResolver)
     this.addSubResolver("task", new TaskUrlResolver)
-    this.addSubResolver("taskgroup", new TaskGroupUrlResolver)
     this.addSubResolver("gantt", new GanttUrlResolver)
-    this.defaultUrlResolver = new FilterUrlResolver
+    this.addSubResolver("kanban", new KanbanUrlResolver)
+    this.defaultUrlResolver = new DashboardUrlResolver
 
     private class DashboardUrlResolver extends ProjectUrlResolver {
         protected override def handlePage(params: String*) {
             val projectId = new UrlTokenizer(params(0)).getInt
-            val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
-                new TaskGroupScreenData.GotoDashboard)
+            val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new GotoDashboard)
             EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
         }
     }
 
-    private class FilterUrlResolver extends ProjectUrlResolver {
-        protected override def handlePage(params: String*) {
+    private class KanbanUrlResolver extends ProjectUrlResolver {
+        protected override def handlePage(params: String*): Unit = {
             val projectId = new UrlTokenizer(params(0)).getInt
             val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
-                new TaskGroupScreenData.GotoDashboard)
+                new TaskScreenData.GotoKanbanView)
             EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
         }
     }
@@ -56,7 +56,7 @@ class ScheduleUrlResolver extends ProjectUrlResolver {
         protected override def handlePage(params: String*) {
             val projectId = new UrlTokenizer(params(0)).getInt
             val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
-                new TaskGroupScreenData.GotoGanttChartView)
+                new GotoGanttChart)
             EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
         }
     }

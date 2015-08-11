@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.html.LinkUtils;
 import com.esofthead.mycollab.module.billing.UserStatusConstants;
@@ -31,6 +32,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.EditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.*;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
+import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.B;
@@ -55,39 +57,37 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
 
     @Override
     protected void postInitView() {
-        view.getEditFormHandlers().addFormHandler(
-                new EditFormHandler<SimpleUser>() {
-                    private static final long serialVersionUID = 1L;
+        view.getEditFormHandlers().addFormHandler(new EditFormHandler<SimpleUser>() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void onSave(final SimpleUser item) {
-                        save(item);
-                        ExtMailService mailService = ApplicationContextUtil.getSpringBean(ExtMailService.class);
-                        if (mailService.isMailSetupValid()) {
-                            ViewState viewState = HistoryViewManager.back();
-                            if (viewState instanceof NullViewState) {
-                                EventBusFactory.getInstance().post(new UserEvent.GotoList(this, null));
-                            }
-                        } else {
-                            UI.getCurrent().addWindow(new GetStartedInstructionWindow(item));
-                        }
-
+            @Override
+            public void onSave(final SimpleUser item) {
+                save(item);
+                ExtMailService mailService = ApplicationContextUtil.getSpringBean(ExtMailService.class);
+                if (mailService.isMailSetupValid()) {
+                    ViewState viewState = HistoryViewManager.back();
+                    if (viewState instanceof NullViewState) {
+                        EventBusFactory.getInstance().post(new UserEvent.GotoList(this, null));
                     }
+                } else {
+                    UI.getCurrent().addWindow(new GetStartedInstructionWindow(item));
+                }
+            }
 
-                    @Override
-                    public void onCancel() {
-                        ViewState viewState = HistoryViewManager.back();
-                        if (viewState instanceof NullViewState) {
-                            EventBusFactory.getInstance().post(new UserEvent.GotoList(this, null));
-                        }
-                    }
+            @Override
+            public void onCancel() {
+                ViewState viewState = HistoryViewManager.back();
+                if (viewState instanceof NullViewState) {
+                    EventBusFactory.getInstance().post(new UserEvent.GotoList(this, null));
+                }
+            }
 
-                    @Override
-                    public void onSaveAndNew(final SimpleUser item) {
-                        save(item);
-                        EventBusFactory.getInstance().post(new UserEvent.GotoAdd(this, null));
-                    }
-                });
+            @Override
+            public void onSaveAndNew(final SimpleUser item) {
+                save(item);
+                EventBusFactory.getInstance().post(new UserEvent.GotoAdd(this, null));
+            }
+        });
     }
 
     public void save(SimpleUser item) {
@@ -100,6 +100,8 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
 
         if (item.getUsername() == null) {
             userService.saveUserAccount(item, AppContext.getAccountId(), AppContext.getUsername());
+            NotificationUtil.showNotification(AppContext.getMessage(GenericI18Enum.HELP_SPAM_FILTER_PREVENT_TITLE),
+                    AppContext.getMessage(GenericI18Enum.HELP_SPAM_FILTER_PREVENT_MESSAGE));
         } else {
             userService.updateUserAccount(item, AppContext.getAccountId());
         }
@@ -177,20 +179,17 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
                 private static final long serialVersionUID = 1L;
 
                 @Override
-                public void buttonClick(
-                        final Button.ClickEvent event) {
+                public void buttonClick(final Button.ClickEvent event) {
                     ViewState viewState = HistoryViewManager.back();
                     if (viewState instanceof NullViewState) {
-                        EventBusFactory.getInstance().post(
-                                new UserEvent.GotoList(this, null));
+                        EventBusFactory.getInstance().post(new UserEvent.GotoList(this, null));
                     }
                     GetStartedInstructionWindow.this.close();
                 }
             });
             doneBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
             controlsBtn.with(addNewBtn, doneBtn);
-            contentLayout.with(controlsBtn).withAlign(controlsBtn,
-                    Alignment.MIDDLE_RIGHT);
+            contentLayout.with(controlsBtn).withAlign(controlsBtn, Alignment.MIDDLE_RIGHT);
         }
     }
 }

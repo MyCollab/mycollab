@@ -27,7 +27,6 @@ import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
 import com.esofthead.mycollab.module.project.view.bug.IPrioritySummaryChartWidget;
-import com.esofthead.mycollab.module.project.view.parameters.BugFilterParameter;
 import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
@@ -44,20 +43,15 @@ import java.util.List;
  * @since 1.0
  */
 @ViewComponent
-public class PrioritySummaryChartWidget extends
-        PieChartWrapper<BugSearchCriteria> implements
-        IPrioritySummaryChartWidget {
+public class PrioritySummaryChartWidget extends PieChartWrapper<BugSearchCriteria> implements IPrioritySummaryChartWidget {
     private static final long serialVersionUID = 1L;
 
     public PrioritySummaryChartWidget(int width, int height) {
-        super(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_PRIORIY_TITLE),
-                BugPriority.class, width, height);
+        super(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_PRIORIY_TITLE), BugPriority.class, width, height);
     }
 
     public PrioritySummaryChartWidget() {
-        super(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_PRIORIY_TITLE),
-                BugPriority.class, 400, 280);
-
+        super(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_PRIORIY_TITLE), BugPriority.class, 400, 280);
     }
 
     @Override
@@ -75,11 +69,9 @@ public class PrioritySummaryChartWidget extends
         // create the dataset...
         final DefaultPieDataset dataset = new DefaultPieDataset();
 
-        BugService bugService = ApplicationContextUtil
-                .getSpringBean(BugService.class);
+        BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
 
-        List<GroupItem> groupItems = bugService
-                .getPrioritySummary(searchCriteria);
+        List<GroupItem> groupItems = bugService.getPrioritySummary(searchCriteria);
 
         BugPriority[] bugPriorities = OptionI18nEnum.bug_priorities;
         for (BugPriority priority : bugPriorities) {
@@ -105,7 +97,6 @@ public class PrioritySummaryChartWidget extends
         BugSearchCriteria searchCriteria = new BugSearchCriteria();
         searchCriteria.setPriorities(new SetSearchField<>(key));
         searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-        BugFilterParameter param = new BugFilterParameter(key + " Bug List", searchCriteria);
-        EventBusFactory.getInstance().post(new BugEvent.GotoList(this, new BugScreenData.Search(param)));
+        EventBusFactory.getInstance().post(new BugEvent.GotoList(this, searchCriteria));
     }
 }

@@ -67,8 +67,7 @@ class AccountEditFormFieldFactory<B extends Account> extends AbstractBeanFieldGr
 			if (isValidateForm) {
 				tf.setNullRepresentation("");
 				tf.setRequired(true);
-				tf.setRequiredError(AppContext
-						.getMessage(AccountI18nEnum.ERROR_ACCOUNT_NAME_IS_NULL));
+				tf.setRequiredError(AppContext.getMessage(AccountI18nEnum.ERROR_ACCOUNT_NAME_IS_NULL));
 			}
 
 			return tf;

@@ -209,7 +209,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
                 infoStatus.addStyleName("member-email");
                 waitingNotLayout.addComponent(infoStatus);
 
-                ButtonLinkLegacy resendInvitationLink = new ButtonLinkLegacy("Resend Invitation", new Button.ClickListener() {
+                ButtonLink resendInvitationLink = new ButtonLink("Resend Invitation", new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
@@ -223,7 +223,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
                         waitingNotLayout.addComponent(statusEmail);
                     }
                 });
-                resendInvitationLink.setStyleName("link");
+                resendInvitationLink.setStyleName(UIConstants.THEME_LINK);
                 resendInvitationLink.addStyleName("member-email");
                 waitingNotLayout.addComponent(resendInvitationLink);
                 memberInfo.addComponent(waitingNotLayout);
@@ -382,7 +382,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
 
             layout.addComponent(taskLbl);
 
-            Div footerDiv = new Div().setCSSClass("activity-date");
+            Div footerDiv = new Div().setCSSClass(UIConstants.FOOTER_NOTE);
 
             if (genericTask.getDueDate() != null) {
                 footerDiv.appendChild(new Text(AppContext.getMessage(TaskI18nEnum.OPT_DUE_DATE,

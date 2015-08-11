@@ -83,6 +83,7 @@ public class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearch
 
                 final ContextMenu contextMenu = new ContextMenu();
                 contextMenu.setAsContextMenuOf(bugSettingBtn);
+                contextMenu.setOpenAutomatically(false);
 
                 contextMenu.addItemClickListener(new ContextMenuItemClickListener() {
 
@@ -135,8 +136,8 @@ public class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearch
                                                     ConfirmDialog dialog) {
                                                 if (dialog.isConfirmed()) {
                                                     BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
-                                                    bugService.removeWithSession(bug,
-                                                            AppContext.getUsername(), AppContext.getAccountId());
+                                                    bugService.removeWithSession(bug, AppContext.getUsername(),
+                                                            AppContext.getAccountId());
                                                     refresh();
                                                 }
                                             }
@@ -265,7 +266,8 @@ public class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearch
         contextMenu.open(locx - 25, locy);
         contextMenu.removeAllItems();
 
-        contextMenu.addItem(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT)).setData(new MenuItemData("action", "edit", AppContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
+        ContextMenuItem editMenu = contextMenu.addItem(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), FontAwesome.EDIT);
+        editMenu.setData(new MenuItemData("action", "edit", AppContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
 
         ContextMenuItem statusMenuItem = contextMenu.addItem("Status");
         if (BugStatus.Open.name().equals(bug.getStatus()) || BugStatus.ReOpened.name().equals(bug.getStatus())) {
@@ -302,6 +304,8 @@ public class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearch
         ContextMenuItem priorityMenuItem = contextMenu.addItem(AppContext.getMessage(BugI18nEnum.FORM_PRIORITY));
         for (BugPriority bugPriority : OptionI18nEnum.bug_priorities) {
             ContextMenuItem prioritySubMenuItem = priorityMenuItem.addItem(AppContext.getMessage(bugPriority));
+            prioritySubMenuItem.setIcon(new ExternalResource(ProjectResources.getIconResourceLink12ByBugPriority(bugPriority.name
+                    ())));
             prioritySubMenuItem.setData(new MenuItemData("priority", bugPriority.name(), AppContext.getMessage(bugPriority)));
             if (bugPriority.name().equals(bug.getPriority())) {
                 prioritySubMenuItem.setEnabled(false);
@@ -314,6 +318,8 @@ public class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearch
             ContextMenuItem severitySubMenuItem = severityMenuItem
                     .addItem(AppContext.getMessage(bugSeverity));
             severityMenuItem.setData(new MenuItemData("severity", bugSeverity.name(), AppContext.getMessage(bugSeverity)));
+            severitySubMenuItem.setIcon(new ExternalResource(ProjectResources.getIconResourceLink12ByBugSeverity
+                    (bugSeverity.name())));
             if (bugSeverity.name().equals(bug.getSeverity())) {
                 severitySubMenuItem.setEnabled(false);
             }
@@ -322,8 +328,8 @@ public class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearch
         // Add delete button
         ContextMenuItem deleteMenuItem = contextMenu.addItem(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE));
         deleteMenuItem.setData(new MenuItemData("action", "delete", AppContext.getMessage(GenericI18Enum.BUTTON_DELETE)));
-        deleteMenuItem.setEnabled(CurrentProjectVariables
-                .canAccess(ProjectRolePermissionCollections.BUGS));
+        deleteMenuItem.setIcon(FontAwesome.TRASH_O);
+        deleteMenuItem.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.BUGS));
     }
 
     private static class MenuItemData {

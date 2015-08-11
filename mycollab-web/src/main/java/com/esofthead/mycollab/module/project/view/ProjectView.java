@@ -22,32 +22,32 @@ import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.vaadin.ui.Component;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public interface ProjectView extends PageView {
 
-	void initView(SimpleProject project);
-	
-	void updateProjectFeatures();
+    void initView(SimpleProject project);
 
-	void gotoUsersAndGroup(ScreenData<?> data);
+    void updateProjectFeatures();
 
-	void gotoMilestoneView(ScreenData<?> data);
-	
-	void gotoPageView(ScreenData<?> data);
+    void gotoUsersAndGroup(ScreenData<?> data);
 
-	void gotoStandupReportView(ScreenData<?> data);
+    void gotoMilestoneView(ScreenData<?> data);
 
-	void gotoRiskView(ScreenData<?> data);
+    void gotoPageView(ScreenData<?> data);
 
-	void gotoBugView(ScreenData<?> data);
+    void gotoStandupReportView(ScreenData<?> data);
 
-	void gotoTaskList(ScreenData<?> data);
+    void gotoRiskView(ScreenData<?> data);
 
-	void gotoTimeTrackingView(ScreenData<?> data);
+    void gotoBugView(ScreenData<?> data);
 
-	Component gotoSubView(String name);
+    void gotoTaskView(ScreenData<?> data);
+
+    void gotoTimeTrackingView(ScreenData<?> data);
+
+    Component gotoSubView(String name);
+
+    void setNavigatorVisibility(boolean visibility);
 }

@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.service;
 
-import java.util.List;
-
 import com.esofthead.mycollab.core.cache.CacheEvict;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.cache.Cacheable;
@@ -25,55 +23,45 @@ import com.esofthead.mycollab.core.persistence.service.IDefaultService;
 import com.esofthead.mycollab.module.project.domain.ItemTimeLogging;
 import com.esofthead.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria;
 
+import java.util.List;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public interface ItemTimeLoggingService extends
-		IDefaultService<Integer, ItemTimeLogging, ItemTimeLoggingSearchCriteria> {
+        IDefaultService<Integer, ItemTimeLogging, ItemTimeLoggingSearchCriteria> {
 
-	@Cacheable
-	Double getTotalHoursByCriteria(@CacheKey ItemTimeLoggingSearchCriteria criteria);
+    @Cacheable
+    Double getTotalHoursByCriteria(@CacheKey ItemTimeLoggingSearchCriteria criteria);
 
-	@CacheEvict
-	void batchSaveTimeLogging(List<ItemTimeLogging> timeLoggings,
-			@CacheKey Integer sAccountId);
+    @CacheEvict
+    void batchSaveTimeLogging(List<ItemTimeLogging> timeLoggings, @CacheKey Integer sAccountId);
 
-	@Cacheable
-	Double getTotalBillableHoursByTaskList(Integer taskListId, @CacheKey Integer sAccountId);
+    @Cacheable
+    Double getTotalBillableHoursByMilestone(Integer milestoneId, @CacheKey Integer sAccountId);
 
-	@Cacheable
-	Double getTotalNonBillableHoursByTaskList(Integer taskListId, @CacheKey Integer sAccountId);
+    @Cacheable
+    Double getTotalNonBillableHoursByMilestone(Integer milestoneId, @CacheKey Integer sAccountId);
 
-	@Cacheable
-	Double getRemainHoursByTaskList(Integer taskListId, @CacheKey Integer sAccountId);
+    @Cacheable
+    Double getRemainHoursByMilestone(Integer milestoneId, @CacheKey Integer sAccountId);
 
-	@Cacheable
-	Double getTotalBillableHoursByMilestone(Integer milestoneId, @CacheKey Integer sAccountId);
+    @Cacheable
+    Double getTotalBillableHoursByComponent(Integer componentId, @CacheKey Integer sAccountId);
 
-	@Cacheable
-	Double getTotalNonBillableHoursByMilestone(Integer milestoneId, @CacheKey Integer sAccountId);
+    @Cacheable
+    Double getTotalNonBillableHoursByComponent(Integer componentId, @CacheKey Integer sAccountId);
 
-	@Cacheable
-	Double getRemainHoursByMilestone(Integer milestoneId, @CacheKey Integer sAccountId);
+    @Cacheable
+    Double getRemainHoursByComponent(Integer componentId, @CacheKey Integer sAccountId);
 
-	@Cacheable
-	Double getTotalBillableHoursByComponent(Integer componentId, @CacheKey Integer sAccountId);
+    @Cacheable
+    Double getTotalBillableHoursByVersion(Integer versionId, @CacheKey Integer sAccountId);
 
-	@Cacheable
-	Double getTotalNonBillableHoursByComponent(Integer componentId, @CacheKey Integer sAccountId);
+    @Cacheable
+    Double getTotalNonBillableHoursByVersion(Integer versionId, @CacheKey Integer sAccountId);
 
-	@Cacheable
-	Double getRemainHoursByComponent(Integer componentId, @CacheKey Integer sAccountId);
-
-	@Cacheable
-	Double getTotalBillableHoursByVersion(Integer versionId, @CacheKey Integer sAccountId);
-
-	@Cacheable
-	Double getTotalNonBillableHoursByVersion(Integer versionId, @CacheKey Integer sAccountId);
-
-	@Cacheable
-	Double getRemainHoursByVersion(Integer versionId, @CacheKey Integer sAccountId);
+    @Cacheable
+    Double getRemainHoursByVersion(Integer versionId, @CacheKey Integer sAccountId);
 }

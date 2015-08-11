@@ -137,7 +137,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
                 initLabelCaption();
             }
         });
-        monthViewBtn.setStyleName("link");
+        monthViewBtn.setStyleName(UIConstants.THEME_LINK);
         popupLayout.addComponent(monthViewBtn);
 
         weekViewBtn = new Button("Weekly", new Button.ClickListener() {
@@ -151,7 +151,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
                 datePicker.selectWeek(new Date());
             }
         });
-        weekViewBtn.setStyleName("link");
+        weekViewBtn.setStyleName(UIConstants.THEME_LINK);
         popupLayout.addComponent(weekViewBtn);
 
         dailyViewBtn = new Button("Daily", new Button.ClickListener() {
@@ -166,7 +166,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
                 calendarComponent.switchToDateView(currentDate);
             }
         });
-        dailyViewBtn.setStyleName("link");
+        dailyViewBtn.setStyleName(UIConstants.THEME_LINK);
         popupLayout.addComponent(dailyViewBtn);
 
         toggleViewBtn.setContent(popupLayout);
@@ -208,23 +208,20 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
             }
         };
 
-        ButtonLinkLegacy todoBtn = new ButtonLinkLegacy("New Task", listener);
+        ButtonLink todoBtn = new ButtonLink("New Task", listener);
         actionBtnLayout.addOption(todoBtn);
         todoBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.TASK));
-        todoBtn.setEnabled(AppContext
-                .canWrite(RolePermissionCollections.CRM_TASK));
+        todoBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_TASK));
 
-        Button callBtn = new ButtonLinkLegacy("New Call", listener);
+        Button callBtn = new ButtonLink("New Call", listener);
         actionBtnLayout.addOption(callBtn);
         callBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CALL));
-        callBtn.setEnabled(AppContext
-                .canWrite(RolePermissionCollections.CRM_CALL));
+        callBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CALL));
 
-        ButtonLinkLegacy meetingBtn = new ButtonLinkLegacy("New Meeting", listener);
+        ButtonLink meetingBtn = new ButtonLink("New Meeting", listener);
         actionBtnLayout.addOption(meetingBtn);
         meetingBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.MEETING));
-        meetingBtn.setEnabled(AppContext
-                .canWrite(RolePermissionCollections.CRM_MEETING));
+        meetingBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_MEETING));
 
         calendarActionBtn.setContent(actionBtnLayout);
 
@@ -235,19 +232,16 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
         calendarViewBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
         viewSwitcher.addButton(calendarViewBtn);
 
-        Button activityListBtn = new Button("Activities",
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 2156576556541398934L;
+        Button activityListBtn = new Button("Activities", new Button.ClickListener() {
+            private static final long serialVersionUID = 2156576556541398934L;
 
-                    @Override
-                    public void buttonClick(ClickEvent evt) {
-                        ActivitySearchCriteria criteria = new ActivitySearchCriteria();
-                        criteria.setSaccountid(new NumberSearchField(AppContext
-                                .getAccountId()));
-                        EventBusFactory.getInstance().post(
-                                new ActivityEvent.GotoTodoList(this, null));
-                    }
-                });
+            @Override
+            public void buttonClick(ClickEvent evt) {
+                ActivitySearchCriteria criteria = new ActivitySearchCriteria();
+                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                EventBusFactory.getInstance().post(new ActivityEvent.GotoTodoList(this, null));
+            }
+        });
         activityListBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
         viewSwitcher.addButton(activityListBtn);
 
@@ -257,8 +251,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
         calendarComponent = new CalendarDisplay();
         mainContent.addComponent(calendarComponent);
         mainContent.setExpandRatio(calendarComponent, 1);
-        mainContent.setComponentAlignment(calendarComponent,
-                Alignment.MIDDLE_CENTER);
+        mainContent.setComponentAlignment(calendarComponent, Alignment.MIDDLE_CENTER);
 
         HorizontalLayout spacing = new HorizontalLayout();
         spacing.setHeight("30px");
@@ -280,8 +273,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
         completeWapper.addStyleName("eventLblcompleted");
         Label completeLabel = new Label("Completed");
         completeWapper.addComponent(completeLabel);
-        completeWapper.setComponentAlignment(completeLabel,
-                Alignment.MIDDLE_CENTER);
+        completeWapper.setComponentAlignment(completeLabel, Alignment.MIDDLE_CENTER);
         noteInfoLayout.addComponent(completeWapper);
 
         HorizontalLayout overdueWapper = new HorizontalLayout();
@@ -290,8 +282,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
         overdueWapper.addStyleName("eventLbloverdue");
         Label overdueLabel = new Label("Overdue");
         overdueWapper.addComponent(overdueLabel);
-        overdueWapper.setComponentAlignment(overdueLabel,
-                Alignment.MIDDLE_CENTER);
+        overdueWapper.setComponentAlignment(overdueLabel, Alignment.MIDDLE_CENTER);
         noteInfoLayout.addComponent(overdueWapper);
 
         HorizontalLayout futureWapper = new HorizontalLayout();

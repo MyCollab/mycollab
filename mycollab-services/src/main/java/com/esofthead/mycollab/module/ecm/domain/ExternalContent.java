@@ -16,39 +16,48 @@
  */
 package com.esofthead.mycollab.module.ecm.domain;
 
+import java.io.OutputStream;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 public class ExternalContent extends Content {
-	private String storageName;
+    private String storageName;
 
-	private ExternalDrive externalDrive;
+    private ExternalDrive externalDrive;
 
-	public ExternalContent() {
-		super();
-	}
+    private byte[] thumbnailBytes;
 
-	public ExternalContent(String path) {
-		super(path);
-	}
+    public ExternalContent() {
+        super();
+    }
 
-	public String getStorageName() {
-		return storageName;
-	}
+    public ExternalContent(String path) {
+        super(path);
+    }
 
-	public void setStorageName(String storageName) {
-		this.storageName = storageName;
-	}
+    public String getStorageName() {
+        return storageName;
+    }
 
-	public ExternalDrive getExternalDrive() {
-		return externalDrive;
-	}
+    public void setStorageName(String storageName) {
+        this.storageName = storageName;
+    }
 
-	public void setExternalDrive(ExternalDrive externalDrive) {
-		this.externalDrive = externalDrive;
-	}
+    public ExternalDrive getExternalDrive() {
+        return externalDrive;
+    }
 
+    public void setExternalDrive(ExternalDrive externalDrive) {
+        this.externalDrive = externalDrive;
+    }
+
+    public byte[] getThumbnailBytes() {
+        return thumbnailBytes;
+    }
+
+    public void setThumbnailBytes(byte[] thumbnailBytes) {
+        this.thumbnailBytes = thumbnailBytes;
+    }
 }

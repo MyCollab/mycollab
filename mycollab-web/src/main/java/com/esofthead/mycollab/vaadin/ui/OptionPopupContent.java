@@ -16,22 +16,24 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
-import org.vaadin.maddon.layouts.MVerticalLayout;
+
+import com.vaadin.ui.*;
 
 /**
  * @author MyCollab Ltd.
  * @since 5.0.3
  */
-public class OptionPopupContent extends MVerticalLayout {
+public class OptionPopupContent extends CustomComponent {
     public OptionPopupContent() {
-        withSpacing(false).withMargin(false).withStyleName(UIConstants.OPTION_POPUP_CONTENT).withWidth("200px");
+        VerticalLayout root = new VerticalLayout();
+        root.setStyleName(UIConstants.OPTION_POPUP_CONTENT);
+        root.setWidth("200px");
+        this.setCompositionRoot(root);
     }
 
-    @Override
     public OptionPopupContent withWidth(String width) {
-        return (OptionPopupContent) super.withWidth(width);
+        this.getCompositionRoot().setWidth(width);
+        return this;
     }
 
     public void addOption(Component btn) {
@@ -40,11 +42,12 @@ public class OptionPopupContent extends MVerticalLayout {
         btn.setStyleName("action");
         wrap.addStyleName("action-wrap");
         wrap.addComponent(btn);
-        super.addComponent(wrap);
+        ((ComponentContainer) this.getCompositionRoot()).addComponent(wrap);
     }
 
     @Override
-    public void addComponent(Component c) {
-        this.addOption(c);
+    public int getComponentCount() {
+        Component root = getCompositionRoot();
+        return root != null ? ((ComponentContainer)root).getComponentCount() : 0;
     }
 }

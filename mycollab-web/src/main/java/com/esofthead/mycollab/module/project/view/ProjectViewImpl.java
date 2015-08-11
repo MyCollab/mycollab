@@ -369,6 +369,12 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
     }
 
     @Override
+    public void setNavigatorVisibility(boolean visibility) {
+        myProjectTab.setNavigatorVisibility(visibility);
+        vTabsheetFix.setVisible(visibility);
+    }
+
+    @Override
     public Component gotoSubView(String viewId) {
         Component comp = myProjectTab.selectTab(viewId);
         if (comp instanceof TransparentContainer) {
@@ -402,10 +408,8 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 
         if (CurrentProjectVariables.hasTaskFeature()) {
             myProjectTab.addTab(constructTaskDashboardComponent(),
-                    ProjectTypeConstants.TASK, 4,
-                    AppContext.getMessage(ProjectCommonI18nEnum.VIEW_TASK),
-                    GenericLinkUtils.URL_PREFIX_PARAM
-                            + ProjectLinkGenerator.generateTaskDashboardLink(prjId));
+                    ProjectTypeConstants.TASK, 4, AppContext.getMessage(ProjectCommonI18nEnum.VIEW_TASK),
+                    GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateTaskDashboardLink(prjId));
         } else {
             myProjectTab.removeTab(ProjectTypeConstants.TASK);
         }
@@ -494,7 +498,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
     }
 
     @Override
-    public void gotoTaskList(ScreenData<?> data) {
+    public void gotoTaskView(ScreenData<?> data) {
         taskPresenter.go(ProjectViewImpl.this, data);
     }
 

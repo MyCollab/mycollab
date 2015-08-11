@@ -16,26 +16,18 @@
  */
 package com.esofthead.mycollab.module.file.service.impl;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
+import com.esofthead.mycollab.configuration.FileStorage;
+import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.module.file.service.RawContentService;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.esofthead.mycollab.configuration.FileStorage;
-import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.module.file.service.RawContentService;
+import java.io.*;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 public class FileRawContentServiceImpl implements RawContentService {
 
@@ -54,7 +46,7 @@ public class FileRawContentServiceImpl implements RawContentService {
         int startFileNameIndex = objectPath.lastIndexOf("/");
         if (startFileNameIndex > 0) {
             /*
-			 * make sure the directory exist
+             * make sure the directory exist
 			 */
             String folderPath = objectPath.substring(0, startFileNameIndex);
             File file = new File(baseFolder, folderPath);
@@ -72,7 +64,7 @@ public class FileRawContentServiceImpl implements RawContentService {
                 outStream.write(buffer, 0, byteRead);
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new MyCollabException(e);
         }
 
     }

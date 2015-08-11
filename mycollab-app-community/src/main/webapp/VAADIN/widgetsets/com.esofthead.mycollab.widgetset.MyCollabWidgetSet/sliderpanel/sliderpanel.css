@@ -139,11 +139,13 @@
   background: #808080;
   pointer-events: all;
 }
-.v-sliderpanel-tab.closed .v-sliderpanel-icon {
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAclBMVEX///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////8GMOiGAAAAJXRSTlMAAQIEER4gIiYoNDU2Nzk7Pj9AQVVWf4GDhJ+goafJysvX2Pj5IsXCZQAAAIRJREFUeNplz90WgiAQBOBBUdQosywzU0Td93/FYg4XZd8FP8tZGBCo030Y+7NCZCehyYLaVaK1DftqC+tlCeNWAcrxsCg4OYVGKMuEGjx+Cx0GEV8ak6bGlF7kyUKudZJonbPw13LZX6rm3bOwDOY9gx3wcfuOTsdZyFlEqu5eY3/l99+t7xfl++A/UgAAAABJRU5ErkJggg==);
+.v-sliderpanel-tab.open .v-sliderpanel-icon:before {
+  content: "\f055";
+  color: white;
 }
-.v-sliderpanel-tab.open .v-sliderpanel-icon {
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAUVBMVEX///////////////////////////////////////////////////////////////////////////////////////////////////////////94FlRsAAAAGnRSTlMAAREgIig2NzhAQUJWgoOEhqChp8vMzdf4+ZRjm1EAAABmSURBVHjaXc5ZDoAwCATQwarVutd97n9QlRCT9n2SAQYfCUNcpyAwfqPaPFR/0Vw9XvXN310DYnnbEgQmWoxMjIjkWZWqOslFB65QTgf5Sn40ZG93AXxaLK+umsPyHka6Ka5zJ3g9Tp4RixdNH3gAAAAASUVORK5CYII=);
+.v-sliderpanel-tab.closed .v-sliderpanel-icon:before {
+  content: "\f056";
+  color: white;
 }
 .v-sliderpanel-tab .v-sliderpanel-caption {
   padding: 3px 0 0 15px;
@@ -152,32 +154,43 @@
 
 /* --------- icon --------- */
 .v-sliderpanel-icon {
-  height: 16px;
-  width: 16px;
+  height: 22px;
+  width: 22px;
   position: absolute;
-  top: 13px;
-  right: 13px;
-  background-repeat: no-repeat;
-  background-size: 16px 16px;
+  top: 10px;
+  right: 10px;
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: inline-block;
+  line-height: 22px;
+  font-size: 16px;
+  text-align: center;
 }
 
 /* --------- different colors --------- */
-.v-sliderpanel-tab.blackico.open .v-sliderpanel-icon {
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAMFBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABaPxwLAAAAD3RSTlMA+cyENkGhIhHXVqcoIECBIfWeAAAAVUlEQVQI12NgYGA12xzAAAQs+v//f3IAMhb+BwIpoIA8iPHRgYHpPxgoMMRDGP8Y7CGMzwz5P4+Xl9fM/wZk3Ojo6AUyYFIwxV/h2uEGwqxAWAp3BgDA51EmzCXOsQAAAABJRU5ErkJggg==);
+.v-sliderpanel-tab.blackico.open .v-sliderpanel-icon:before {
+  content: "\f055";
+  color: black;
 }
-.v-sliderpanel-tab.blackico.closed .v-sliderpanel-icon {
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAOVBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC8dlA9AAAAEnRSTlMAH/nYyjWgP1UmEYGnhIM5KH/lcNzDAAAAYUlEQVQY02VPWw6AMAhr3XvzMXf/wzpBTQz9IZQWKATHGdct4UXwQ+CD9nkZD5Ysc+mdE+bWqL4UdQFJ1aTWhP1PNMTp7yRA9rknCsFagVophLGYpeasecy8bsJp/PbFvwCKpwpnMY31/QAAAABJRU5ErkJggg==);
+.v-sliderpanel-tab.blackico.closed .v-sliderpanel-icon:before {
+  content: "\f056";
+  color: black;
 }
 
 .sp-white.v-sliderpanel-content, .sp-white.v-sliderpanel-tab {
   background: #fafafa;
   color: #000;
 }
-.sp-white.v-sliderpanel-tab.open .v-sliderpanel-icon {
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAMFBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABaPxwLAAAAD3RSTlMA+cyENkGhIhHXVqcoIECBIfWeAAAAVUlEQVQI12NgYGA12xzAAAQs+v//f3IAMhb+BwIpoIA8iPHRgYHpPxgoMMRDGP8Y7CGMzwz5P4+Xl9fM/wZk3Ojo6AUyYFIwxV/h2uEGwqxAWAp3BgDA51EmzCXOsQAAAABJRU5ErkJggg==);
+.sp-white.v-sliderpanel-tab.open .v-sliderpanel-icon:before {
+  content: "\f055";
+  color: black;
 }
-.sp-white.v-sliderpanel-tab.closed .v-sliderpanel-icon {
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAOVBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC8dlA9AAAAEnRSTlMAH/nYyjWgP1UmEYGnhIM5KH/lcNzDAAAAYUlEQVQY02VPWw6AMAhr3XvzMXf/wzpBTQz9IZQWKATHGdct4UXwQ+CD9nkZD5Ysc+mdE+bWqL4UdQFJ1aTWhP1PNMTp7yRA9rknCsFagVophLGYpeasecy8bsJp/PbFvwCKpwpnMY31/QAAAABJRU5ErkJggg==);
+.sp-white.v-sliderpanel-tab.closed .v-sliderpanel-icon:before {
+  content: "\f056";
+  color: black;
 }
 .sp-white .v-sliderpanel-content {
   -moz-box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.2);

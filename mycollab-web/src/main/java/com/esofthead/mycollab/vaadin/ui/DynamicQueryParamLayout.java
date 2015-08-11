@@ -72,7 +72,7 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends 
 
             @Override
             public void buttonClick(final ClickEvent event) {
-                DynamicQueryParamLayout.this.callSearchAction();
+                callSearchAction();
             }
         });
         searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
@@ -101,7 +101,7 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends 
                         .moveToBasicSearchLayout();
             }
         });
-        basicSearchBtn.setStyleName("link");
+        basicSearchBtn.setStyleName(UIConstants.THEME_LINK);
         buttonControls.with(basicSearchBtn).withAlign(basicSearchBtn, Alignment.MIDDLE_CENTER);
         return buttonControls;
     }

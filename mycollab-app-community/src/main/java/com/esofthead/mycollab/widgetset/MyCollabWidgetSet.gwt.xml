@@ -39,11 +39,13 @@
 
     <inherits name="org.tltv.gantt.WidgetSet" />
 
-    <inherits name="com.esofthead.vaadin.popupbutton.WidgetSet" />
-
     <inherits name="com.esofthead.vaadin.floatingcomponent.WidgetSet" />
 
     <inherits name="org.vaadin.suggestfield.WidgetSet" />
 
     <inherits name="org.vaadin.sliderpanel.WidgetSet" />
+
+    <inherits name="org.vaadin.addons.fancybox.FancyboxWidgetSet" />
+
+    <inherits name="org.vaadin.jouni.restrain.RestrainWidgetset" />
 </module>

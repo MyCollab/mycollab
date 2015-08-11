@@ -19,26 +19,16 @@ package com.esofthead.mycollab.module.project.view.bug.components;
 
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.view.bug.BugDisplayWidget;
-import com.esofthead.mycollab.module.project.view.parameters.BugFilterParameter;
 import com.esofthead.mycollab.vaadin.AppContext;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class RecentBugUpdateWidget extends BugDisplayWidget {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public RecentBugUpdateWidget() {
-		super(AppContext.getMessage(BugI18nEnum.WIDGET_UPDATED_RECENTLY_TITLE),
-				false, BugRowDisplayHandler.class);
-	}
-
-	@Override
-	protected BugFilterParameter constructMoreDisplayFilter() {
-		return new BugFilterParameter(
-				AppContext.getMessage(BugI18nEnum.WIDGET_RECENT_BUGS_TITLE),
-				searchCriteria);
-	}
+    public RecentBugUpdateWidget() {
+        super(AppContext.getMessage(BugI18nEnum.WIDGET_UPDATED_RECENTLY_TITLE), false, BugRowDisplayHandler.class);
+    }
 }

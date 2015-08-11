@@ -25,17 +25,16 @@ import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.Task;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
+import com.esofthead.mycollab.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
-import com.esofthead.mycollab.module.project.events.TaskListEvent;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
+import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
+import com.esofthead.mycollab.module.project.view.parameters.TaskScreenData;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
-import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
-import com.esofthead.mycollab.vaadin.mvp.ScreenData;
-import com.esofthead.mycollab.vaadin.mvp.ViewManager;
-import com.esofthead.mycollab.vaadin.mvp.ViewScope;
+import com.esofthead.mycollab.vaadin.mvp.*;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
@@ -92,7 +91,9 @@ public class TaskReadPresenter extends AbstractPresenter<TaskReadView> {
                                             getSpringBean(ProjectTaskService.class);
                                     taskService.removeWithSession(data,
                                             AppContext.getUsername(), AppContext.getAccountId());
-                                    EventBusFactory.getInstance().post(new TaskListEvent.GotoTaskListScreen(this, null));
+                                    PageActionChain chain = new PageActionChain(new ProjectScreenData.Goto
+                                            (CurrentProjectVariables.getProjectId()), new TaskScreenData.GotoDashboard());
+                                    EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
                                 }
                             }
                         });
@@ -107,7 +108,9 @@ public class TaskReadPresenter extends AbstractPresenter<TaskReadView> {
 
             @Override
             public void onCancel() {
-                EventBusFactory.getInstance().post(new TaskListEvent.GotoTaskListScreen(this, null));
+                PageActionChain chain = new PageActionChain(new ProjectScreenData.Goto
+                        (CurrentProjectVariables.getProjectId()), new TaskScreenData.GotoDashboard());
+                EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
             }
 
             @Override

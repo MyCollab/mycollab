@@ -125,7 +125,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
                         UI.getCurrent().addWindow(new BasicInfoChangeWindow(formItem.getBean()));
                     }
                 });
-        btnChangeBasicInfo.setStyleName("link");
+        btnChangeBasicInfo.setStyleName(UIConstants.THEME_LINK);
 
         HorizontalLayout btnChangeBasicInfoWrapper = new HorizontalLayout();
         btnChangeBasicInfoWrapper.setWidth("40px");
@@ -158,7 +158,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
                         UI.getCurrent().addWindow(new PasswordChangeWindow(formItem.getBean()));
                     }
                 });
-        btnChangePassword.setStyleName("link");
+        btnChangePassword.setStyleName(UIConstants.THEME_LINK);
         passwordWrapper.with(btnChangePassword).withAlign(btnChangePassword, Alignment.MIDDLE_LEFT);
         basicLayout.with(passwordWrapper).withAlign(passwordWrapper, Alignment.MIDDLE_LEFT);
 
@@ -203,7 +203,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
                                 UI.getCurrent().addWindow(new ContactInfoChangeWindow(formItem.getBean()));
                             }
                         });
-                btnChangeContactInfo.addStyleName("link");
+                btnChangeContactInfo.addStyleName(UIConstants.THEME_LINK);
                 contactInformationHeader.with(contactInformationHeaderLbl, btnChangeContactInfo);
 
                 layout.addComponent(contactInformationHeader);
@@ -233,7 +233,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
                                 UI.getCurrent().addWindow(new AdvancedInfoChangeWindow(formItem.getBean()));
                             }
                         });
-                btnChangeAdvanceInfo.addStyleName("link");
+                btnChangeAdvanceInfo.addStyleName(UIConstants.THEME_LINK);
                 advanceInfoHeader.with(btnChangeAdvanceInfo).withAlign(btnChangeAdvanceInfo, Alignment.MIDDLE_LEFT);
                 layout.addComponent(advancedInfoLayout.getLayout());
                 return layout;

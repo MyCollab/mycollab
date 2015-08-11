@@ -145,6 +145,10 @@ public class AppContext implements Serializable {
         }
     }
 
+    public SimpleUser getUserOfContext() {
+        return session;
+    }
+
     /**
      * Keep user session in server sessions
      *
@@ -198,8 +202,7 @@ public class AppContext implements Serializable {
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public static String getMessage(Class<? extends Enum> enumCls,
-                                    String option, Object... objects) {
+    public static String getMessage(Class<? extends Enum> enumCls, String option, Object... objects) {
         try {
             if (option == null)
                 return "";
@@ -288,8 +291,7 @@ public class AppContext implements Serializable {
      */
     public static String getSiteUrl() {
         if (getInstance().siteUrl == null) {
-            getInstance().siteUrl = SiteConfiguration
-                    .getSiteUrl(getInstance().subDomain);
+            getInstance().siteUrl = SiteConfiguration.getSiteUrl(getInstance().subDomain);
         }
 
         return getInstance().siteUrl;

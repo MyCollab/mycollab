@@ -93,73 +93,54 @@ class AssignBugWindow extends Window {
                 this.informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 2);
 
                 layout.addComponent(this.informationLayout.getLayout());
-
                 MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false));
 
                 layout.addComponent(controlsBtn);
 
-                final Button approveBtn = new Button(
-                        AppContext.getMessage(GenericI18Enum.BUTTON_ASSIGN),
-                        new Button.ClickListener() {
-                            private static final long serialVersionUID = 1L;
+                final Button approveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ASSIGN), new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-                            @Override
-                            public void buttonClick(final Button.ClickEvent event) {
+                    @Override
+                    public void buttonClick(final Button.ClickEvent event) {
 
-                                if (EditForm.this.validateForm()) {
-                                    // Save bug status and assignee
-                                    final BugService bugService = ApplicationContextUtil
-                                            .getSpringBean(BugService.class);
-                                    bugService.updateSelectiveWithSession(
-                                            AssignBugWindow.this.bug,
-                                            AppContext.getUsername());
+                        if (EditForm.this.validateForm()) {
+                            // Save bug status and assignee
+                            final BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+                            bugService.updateSelectiveWithSession(AssignBugWindow.this.bug, AppContext.getUsername());
 
-                                    // Save comment
-                                    final String commentValue = EditForm.this.commentArea
-                                            .getValue();
-                                    if (StringUtils.isNotBlank(commentValue)) {
-                                        final CommentWithBLOBs comment = new CommentWithBLOBs();
-                                        comment.setComment(Jsoup.clean(
-                                                commentValue,
-                                                Whitelist.relaxed()));
-                                        comment.setCreatedtime(new GregorianCalendar()
-                                                .getTime());
-                                        comment.setCreateduser(AppContext
-                                                .getUsername());
-                                        comment.setSaccountid(AppContext
-                                                .getAccountId());
-                                        comment.setType(ProjectTypeConstants.BUG);
-                                        comment.setTypeid("" + bug.getId());
-                                        comment.setExtratypeid(CurrentProjectVariables
-                                                .getProjectId());
+                            // Save comment
+                            final String commentValue = commentArea.getValue();
+                            if (StringUtils.isNotBlank(commentValue)) {
+                                final CommentWithBLOBs comment = new CommentWithBLOBs();
+                                comment.setComment(Jsoup.clean(commentValue, Whitelist.relaxed()));
+                                comment.setCreatedtime(new GregorianCalendar().getTime());
+                                comment.setCreateduser(AppContext.getUsername());
+                                comment.setSaccountid(AppContext.getAccountId());
+                                comment.setType(ProjectTypeConstants.BUG);
+                                comment.setTypeid("" + bug.getId());
+                                comment.setExtratypeid(CurrentProjectVariables.getProjectId());
 
-                                        CommentService commentService = ApplicationContextUtil
-                                                .getSpringBean(CommentService.class);
-                                        commentService.saveWithSession(comment,
-                                                AppContext.getUsername());
-                                    }
-
-                                    AssignBugWindow.this.close();
-                                    AssignBugWindow.this.callbackForm
-                                            .refreshBugItem();
-                                }
+                                CommentService commentService = ApplicationContextUtil.getSpringBean(CommentService.class);
+                                commentService.saveWithSession(comment, AppContext.getUsername());
                             }
-                        });
+
+                            AssignBugWindow.this.close();
+                            AssignBugWindow.this.callbackForm.refreshBugItem();
+                        }
+                    }
+                });
                 approveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
                 approveBtn.setIcon(FontAwesome.SHARE);
                 approveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 
-                Button cancelBtn = new Button(
-                        AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
-                        new Button.ClickListener() {
-                            private static final long serialVersionUID = 1L;
+                Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-                            @Override
-                            public void buttonClick(
-                                    final Button.ClickEvent event) {
-                                AssignBugWindow.this.close();
-                            }
-                        });
+                    @Override
+                    public void buttonClick(final Button.ClickEvent event) {
+                        AssignBugWindow.this.close();
+                    }
+                });
                 cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
                 controlsBtn.with(approveBtn, cancelBtn);
 
@@ -171,19 +152,14 @@ class AssignBugWindow extends Window {
             @Override
             public void attachField(Object propertyId, Field<?> field) {
                 if (propertyId.equals("assignuser")) {
-                    this.informationLayout
-                            .addComponent(field, AppContext
-                                            .getMessage(GenericI18Enum.FORM_ASSIGNEE),
-                                    0, 0);
+                    this.informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 0);
                 } else if (propertyId.equals("comment")) {
-                    this.informationLayout.addComponent(field, "Comment", 0, 1,
-                            2, "100%", Alignment.MIDDLE_LEFT);
+                    this.informationLayout.addComponent(field, "Comment", 0, 1, 2, "100%");
                 }
             }
         }
 
-        private class EditFormFieldFactory extends
-                AbstractBeanFieldGroupEditFieldFactory<BugWithBLOBs> {
+        private class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<BugWithBLOBs> {
             private static final long serialVersionUID = 1L;
 
             public EditFormFieldFactory(GenericBeanForm<BugWithBLOBs> form) {

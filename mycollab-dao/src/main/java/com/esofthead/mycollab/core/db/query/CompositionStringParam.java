@@ -44,10 +44,8 @@ public class CompositionStringParam extends Param {
 		this.params = params;
 	}
 
-	public SearchField buildSearchField(String prefixOper, String compareOper,
-			String value) {
-		CompositionSearchField searchField = new CompositionSearchField(
-				prefixOper);
+	public SearchField buildSearchField(String prefixOper, String compareOper, String value) {
+		CompositionSearchField searchField = new CompositionSearchField(prefixOper);
 		for (StringParam param : params) {
 			SearchField field = param.buildSearchField("", compareOper, value);
 			searchField.addField(field);

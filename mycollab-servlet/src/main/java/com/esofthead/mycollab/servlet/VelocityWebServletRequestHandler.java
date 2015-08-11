@@ -39,8 +39,7 @@ public abstract class VelocityWebServletRequestHandler extends GenericHttpServle
 
     protected TemplateContext pageContext = new TemplateContext();
 
-    public String generatePageByTemplate(Locale locale, String templatePath,
-                                         Map<String, Object> params) {
+    public String generatePageByTemplate(Locale locale, String templatePath, Map<String, Object> params) {
         Reader reader = LocalizationHelper.templateReader(templatePath, locale);
 
         if (params != null) {

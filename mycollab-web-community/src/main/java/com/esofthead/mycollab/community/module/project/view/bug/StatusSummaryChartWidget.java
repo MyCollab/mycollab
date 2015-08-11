@@ -27,8 +27,6 @@ import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.view.bug.IStatusSummaryChartWidget;
-import com.esofthead.mycollab.module.project.view.parameters.BugFilterParameter;
-import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -44,18 +42,15 @@ import java.util.List;
  * @since 1.0
  */
 @ViewComponent
-public class StatusSummaryChartWidget extends
-        PieChartWrapper<BugSearchCriteria> implements IStatusSummaryChartWidget {
+public class StatusSummaryChartWidget extends PieChartWrapper<BugSearchCriteria> implements IStatusSummaryChartWidget {
     private static final long serialVersionUID = 1L;
 
     public StatusSummaryChartWidget(int width, int height) {
-        super(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_STATUS_TITLE),
-                BugStatus.class, width, height);
+        super(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_STATUS_TITLE), BugStatus.class, width, height);
     }
 
     public StatusSummaryChartWidget() {
-        super(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_STATUS_TITLE),
-                BugStatus.class, 400, 280);
+        super(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_STATUS_TITLE), BugStatus.class, 400, 280);
     }
 
     @Override
@@ -73,10 +68,8 @@ public class StatusSummaryChartWidget extends
         // create the dataset...
         final DefaultPieDataset dataset = new DefaultPieDataset();
 
-        BugService bugService = ApplicationContextUtil
-                .getSpringBean(BugService.class);
-        List<GroupItem> groupItems = bugService
-                .getStatusSummary(searchCriteria);
+        BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+        List<GroupItem> groupItems = bugService.getStatusSummary(searchCriteria);
 
         BugStatus[] bugStatuses = OptionI18nEnum.bug_statuses;
         for (BugStatus status : bugStatuses) {
@@ -102,8 +95,6 @@ public class StatusSummaryChartWidget extends
         BugSearchCriteria searchCriteria = new BugSearchCriteria();
         searchCriteria.setStatuses(new SetSearchField<>(key));
         searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-        BugFilterParameter param = new BugFilterParameter(key + " Bug List", searchCriteria);
-        EventBusFactory.getInstance().post(new BugEvent.GotoList(this, new BugScreenData.Search(param)));
-
+        EventBusFactory.getInstance().post(new BugEvent.GotoList(this, searchCriteria));
     }
 }

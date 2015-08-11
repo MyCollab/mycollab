@@ -26,7 +26,10 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.resources.StreamDownloadResourceUtil;
 import com.esofthead.mycollab.vaadin.resources.file.FileAssetsUtil;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
+import com.esofthead.mycollab.vaadin.ui.FontIconLabel;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.UserLink;
 import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.vaadin.server.FileDownloader;
 import com.vaadin.server.FontAwesome;
@@ -69,8 +72,7 @@ public class FileDownloadWindow extends Window {
         iconWrapper.addComponent(iconEmbed);
         layout.with(iconWrapper).withAlign(iconWrapper, Alignment.MIDDLE_CENTER);
 
-        final GridFormLayoutHelper info = new GridFormLayoutHelper(1, 4,
-                "100%", "100px", Alignment.TOP_LEFT);
+        final GridFormLayoutHelper info = new GridFormLayoutHelper(1, 4, "100%", "100px", Alignment.TOP_LEFT);
         info.getLayout().setWidth("100%");
         info.getLayout().setMargin(new MarginInfo(false, true, false, true));
         info.getLayout().setSpacing(false);
@@ -89,7 +91,8 @@ public class FileDownloadWindow extends Window {
         UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
         SimpleUser user = userService.findUserByUserNameInAccount(content.getCreatedUser(), AppContext.getAccountId());
         if (user == null) {
-            info.addComponent(new UserLink(AppContext.getUsername(), AppContext.getUserAvatarId(), AppContext.getUserDisplayName()), "Created by", 0, 1);
+            info.addComponent(new UserLink(AppContext.getUsername(), AppContext.getUserAvatarId(),
+                    AppContext.getUserDisplayName()), "Created by", 0, 1);
         } else {
             info.addComponent(new UserLink(user.getUsername(), user.getAvatarid(), user.getDisplayName()), "Created by", 0, 1);
         }
@@ -109,32 +112,26 @@ public class FileDownloadWindow extends Window {
         List<Resource> resources = new ArrayList<>();
         resources.add(content);
 
-        StreamResource downloadResource = StreamDownloadResourceUtil
-                .getStreamResourceSupportExtDrive(resources);
+        StreamResource downloadResource = StreamDownloadResourceUtil.getStreamResourceSupportExtDrive(resources);
 
         FileDownloader fileDownloader = new FileDownloader(downloadResource);
         fileDownloader.extend(downloadBtn);
         downloadBtn.setIcon(FontAwesome.DOWNLOAD);
         downloadBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 
-        buttonControls.with(downloadBtn).withAlign(downloadBtn,
-                Alignment.MIDDLE_CENTER);
+        buttonControls.with(downloadBtn).withAlign(downloadBtn, Alignment.MIDDLE_CENTER);
 
-        final Button cancelBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
-                new ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        final Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        FileDownloadWindow.this.close();
-                    }
-                });
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                FileDownloadWindow.this.close();
+            }
+        });
         cancelBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
-        buttonControls.with(cancelBtn).withAlign(cancelBtn,
-                Alignment.MIDDLE_CENTER);
-        layout.with(buttonControls).withAlign(buttonControls,
-                Alignment.MIDDLE_CENTER);
+        buttonControls.with(cancelBtn).withAlign(cancelBtn, Alignment.MIDDLE_CENTER);
+        layout.with(buttonControls).withAlign(buttonControls, Alignment.MIDDLE_CENTER);
         this.setContent(layout);
     }
 }

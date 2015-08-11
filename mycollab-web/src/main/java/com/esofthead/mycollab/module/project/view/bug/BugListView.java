@@ -19,13 +19,14 @@ package com.esofthead.mycollab.module.project.view.bug;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.vaadin.desktop.ui.ListView;
+import com.esofthead.mycollab.vaadin.mvp.LazyPageView;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public interface BugListView extends ListView<BugSearchCriteria, SimpleBug> {
-	public static final String VIEW_DEF_ID = "project-bug-list";
+    String VIEW_DEF_ID = "project-bug-list";
+
+    void queryBug(BugSearchCriteria searchCriteria);
 }

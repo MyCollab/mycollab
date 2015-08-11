@@ -27,8 +27,6 @@ public class ProjectTypeConstants {
 	
 	public static final String PROJECT_ROLE = "project_role";
 
-	public static final String TASK_LIST = "Project-TaskList";
-
 	public static final String TASK = "Project-Task";
 
 	public static final String MESSAGE = "Project-Message";

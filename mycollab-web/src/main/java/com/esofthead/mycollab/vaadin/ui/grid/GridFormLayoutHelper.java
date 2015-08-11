@@ -79,37 +79,24 @@ public class GridFormLayoutHelper implements Serializable {
         return this.layout.getRows();
     }
 
-    public void addComponent(Component field, String caption, int columns,
-                             int rows, int colspan, String width) {
-        this.addComponent(field, caption, columns, rows, colspan, width,
-                this.captionAlignment);
+    public void addComponent(Component field, String caption, int columns, int rows, int colspan, String width) {
+        this.addComponent(field, caption, columns, rows, colspan, width, this.captionAlignment);
     }
 
     public void addComponent(Component field, String caption, int columns, int rows) {
-        this.addComponent(field, caption, columns, rows, 1,
-                this.fieldControlWidth, captionAlignment);
+        this.addComponent(field, caption, columns, rows, 1, this.fieldControlWidth, captionAlignment);
     }
 
-    public void addComponent(Component field, String caption,
-                             int columns, int rows, Alignment alignment) {
-        this.addComponent(field, caption, columns, rows, 1,
-                this.fieldControlWidth, alignment);
-    }
-
-    public void addComponent(Component field, String caption, int columns,
-                             int rows, int colspan, String width, Alignment alignment) {
-        GridCellWrapper cell = buildCell(caption, columns, rows, colspan,
-                width, alignment);
+    private void addComponent(Component field, String caption, int columns, int rows, int colspan, String width, Alignment alignment) {
+        GridCellWrapper cell = buildCell(caption, columns, rows, colspan, width, alignment);
         cell.addComponent(field);
     }
 
     public GridCellWrapper buildCell(String caption, int columns, int rows) {
-        return buildCell(caption, columns, rows, 1, fieldControlWidth,
-                captionAlignment);
+        return buildCell(caption, columns, rows, 1, fieldControlWidth, captionAlignment);
     }
 
-    public GridCellWrapper buildCell(String caption, int columns, int rows,
-                                     int colspan, String width, Alignment alignment) {
+    public GridCellWrapper buildCell(String caption, int columns, int rows, int colspan, String width, Alignment alignment) {
         if (StringUtils.isNotBlank(caption)) {
             Label captionLbl = new Label(caption);
             MHorizontalLayout captionWrapper = new MHorizontalLayout().withSpacing(false).withMargin(true)

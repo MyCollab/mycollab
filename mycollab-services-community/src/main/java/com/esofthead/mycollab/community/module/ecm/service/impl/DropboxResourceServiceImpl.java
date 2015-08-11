@@ -63,7 +63,7 @@ public class DropboxResourceServiceImpl implements DropboxResourceService {
 	}
 
 	@Override
-	public Folder createFolder(ExternalDrive drive, String path) {
+	public Folder createNewFolder(ExternalDrive drive, String path) {
 		throw new UnsupportedFeatureException(
 				"This feature is not supported except onsite mode");
 	}

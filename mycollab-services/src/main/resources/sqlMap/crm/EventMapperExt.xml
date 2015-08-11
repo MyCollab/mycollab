@@ -171,9 +171,11 @@
 
 	<sql id="orderStatement">
 		ORDER BY
-        #ifnotnull($_parameter.searchCriteria.orderByField)
-		    ${_parameter.searchCriteria.orderByField} ${_parameter.searchCriteria.sortDirection},
-        #end
+		#ifnotnull($_parameter.searchCriteria.orderFields)
+		    #repeat(${_parameter.searchCriteria.orderFields} $orderField "" "" "")
+		        ${orderField.field} ${orderField.direction},
+		    #end
+		#end
         lastUpdatedTime DESC
 	</sql>
 

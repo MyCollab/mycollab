@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.vaadin.desktop.ui;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.reporting.ReportExportType;
 import com.esofthead.mycollab.reporting.RpParameterBuilder;
@@ -86,25 +85,19 @@ public abstract class DefaultMassEditActionHandler implements MassItemActionHand
                 throw new MyCollabException("Do not support export type " + exportType);
         }
 
-        AbstractPagedBeanTable pagedBeanTable = ((ListView) presenter
-                .getView()).getPagedBeanTable();
+        AbstractPagedBeanTable pagedBeanTable = ((ListView) presenter.getView()).getPagedBeanTable();
         if (presenter.isSelectAll) {
-            return new StreamResource(
-                    new SimpleGridExportItemsStreamResource.AllItems(
-                            getReportTitle(), new RpParameterBuilder(
-                            pagedBeanTable.getDisplayColumns()),
-                            exportType,
-                            presenter.getSearchService(),
-                            presenter.searchCriteria,
-                            getReportModelClassType()), exportFileName);
+            return new StreamResource(new SimpleGridExportItemsStreamResource.AllItems(
+                    getReportTitle(), new RpParameterBuilder(
+                    pagedBeanTable.getDisplayColumns()), exportType,
+                    presenter.getSearchService(),
+                    presenter.searchCriteria, getReportModelClassType()), exportFileName);
         } else {
-            return new StreamResource(
-                    new SimpleGridExportItemsStreamResource.ListData(
-                            getReportTitle(), new RpParameterBuilder(
-                            pagedBeanTable.getDisplayColumns()),
-                            exportType,
-                            presenter.getSelectedItems(),
-                            getReportModelClassType()), exportFileName);
+            return new StreamResource(new SimpleGridExportItemsStreamResource.ListData(
+                    getReportTitle(), new RpParameterBuilder(
+                    pagedBeanTable.getDisplayColumns()),
+                    exportType, presenter.getSelectedItems(),
+                    getReportModelClassType()), exportFileName);
         }
     }
 

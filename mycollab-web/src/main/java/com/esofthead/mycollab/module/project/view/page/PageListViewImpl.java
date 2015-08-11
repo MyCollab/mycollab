@@ -280,7 +280,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
                     }
                 });
         editBtn.setIcon(FontAwesome.EDIT);
-        editBtn.setStyleName("link");
+        editBtn.setStyleName(UIConstants.THEME_LINK);
         editBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.PAGES));
         controlBtns.addComponent(editBtn);
 
@@ -314,7 +314,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
                 });
         deleteBtn.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.PAGES));
         deleteBtn.setIcon(FontAwesome.TRASH_O);
-        deleteBtn.setStyleName("link");
+        deleteBtn.setStyleName(UIConstants.THEME_LINK);
         controlBtns.addComponent(deleteBtn);
 
         block.addComponent(controlBtns);
@@ -370,7 +370,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
                 });
         editBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.PAGES));
         editBtn.setIcon(FontAwesome.EDIT);
-        editBtn.setStyleName("link");
+        editBtn.setStyleName(UIConstants.THEME_LINK);
         controlBtns.addComponent(editBtn);
 
         Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
@@ -403,7 +403,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
                 });
         deleteBtn.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.PAGES));
         deleteBtn.setIcon(FontAwesome.TRASH_O);
-        deleteBtn.setStyleName("link");
+        deleteBtn.setStyleName(UIConstants.THEME_LINK);
         controlBtns.addComponent(deleteBtn);
 
         block.addComponent(controlBtns);

@@ -75,6 +75,7 @@ import org.vaadin.maddon.layouts.MVerticalLayout;
 import org.vaadin.sliderpanel.SliderPanel;
 import org.vaadin.sliderpanel.client.SliderMode;
 import org.vaadin.sliderpanel.client.SliderTabPosition;
+import org.vaadin.teemu.VaadinIcons;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -111,6 +112,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         this.removeAllComponents();
         bodyLayout = new CssLayout();
         bodyLayout.addStyleName("main-view");
+        bodyLayout.setId("main-body");
         bodyLayout.setSizeFull();
         this.with(createTopMenu(), bodyLayout, createFooter()).expand(bodyLayout);
     }
@@ -231,7 +233,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         serviceMenu = new ServiceMenu();
 
         serviceMenu.addService(AppContext.getMessage(GenericI18Enum.MODULE_PROJECT),
-                new AssetResource(WebResourceIds._16_project), new Button.ClickListener() {
+                VaadinIcons.TASKS, new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
@@ -243,7 +245,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
                 });
 
         serviceMenu.addService(AppContext.getMessage(GenericI18Enum.MODULE_CRM),
-                new AssetResource(WebResourceIds._16_customer), new Button.ClickListener() {
+                VaadinIcons.MONEY, new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
@@ -253,7 +255,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
                 });
 
         serviceMenu.addService(AppContext.getMessage(GenericI18Enum.MODULE_DOCUMENT),
-                new AssetResource(WebResourceIds._16_document), new Button.ClickListener() {
+                VaadinIcons.SUITCASE, new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
@@ -263,7 +265,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
                 });
 
         serviceMenu.addService(AppContext.getMessage(GenericI18Enum.MODULE_PEOPLE),
-                new AssetResource(WebResourceIds._16_account), new Button.ClickListener() {
+                VaadinIcons.USERS, new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
@@ -359,25 +361,32 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         }
 
         if (SiteConfiguration.getDeploymentMode() == DeploymentMode.standalone) {
-            try {
-                Client client = ClientBuilder.newBuilder().build();
-                WebTarget target = client.target("https://api.mycollab.com/api/checkupdate?version=" + MyCollabVersion.getVersion());
-                Response response = target.request().get();
-                String values = response.readEntity(String.class);
-                Gson gson = new Gson();
-                Properties props = gson.fromJson(values, Properties.class);
-                String version = props.getProperty("version");
-                if (MyCollabVersion.isEditionNewer(version)) {
-                    if (AppContext.isAdmin() && StringUtils.isNotBlank(props.getProperty("autoDownload"))) {
-                        UI.getCurrent().addWindow(new UpgradeConfirmWindow(props));
-                    } else {
-                        EventBusFactory.getInstance().post(new ShellEvent.NewNotification(this,
-                                new NewUpdateNotification(props)));
+            UI.getCurrent().access(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Client client = ClientBuilder.newBuilder().build();
+                        WebTarget target = client.target("https://api.mycollab.com/api/checkupdate?version=" + MyCollabVersion.getVersion());
+                        Response response = target.request().get();
+                        String values = response.readEntity(String.class);
+                        Gson gson = new Gson();
+                        Properties props = gson.fromJson(values, Properties.class);
+                        String version = props.getProperty("version");
+                        if (MyCollabVersion.isEditionNewer(version)) {
+                            if (AppContext.isAdmin() && StringUtils.isNotBlank(props.getProperty("autoDownload"))) {
+                                UI.getCurrent().addWindow(new UpgradeConfirmWindow(props));
+                                UI.getCurrent().push();
+                            } else {
+                                EventBusFactory.getInstance().post(new ShellEvent.NewNotification(this,
+                                        new NewUpdateNotification(props)));
+                            }
+                        }
+                    } catch (Exception e) {
+                        LOG.error("Error when call remote api", e);
                     }
                 }
-            } catch (Exception e) {
-                LOG.error("Error when call remote api", e);
-            }
+            });
+
 
             ExtMailService mailService = ApplicationContextUtil.getSpringBean(ExtMailService.class);
             if (!mailService.isMailSetupValid()) {

@@ -40,8 +40,7 @@ public abstract class ProjectGenericListPresenter<V extends ListView<S, B>, S ex
 
 	private Class<? extends PageView> noItemFallbackViewClass;
 
-	public ProjectGenericListPresenter(Class<V> viewClass,
-			Class<? extends PageView> noItemFallbackViewClass) {
+	public ProjectGenericListPresenter(Class<V> viewClass, Class<? extends PageView> noItemFallbackViewClass) {
 		super(viewClass);
 		this.noItemFallbackViewClass = noItemFallbackViewClass;
 	}
@@ -58,10 +57,8 @@ public abstract class ProjectGenericListPresenter<V extends ListView<S, B>, S ex
 		displayView(container, data);
 	}
 
-	public void displayNoExistItems(ComponentContainer container,
-			ScreenData<?> data) {
-		this.candidateView = ViewManager
-				.getCacheComponent(noItemFallbackViewClass);
+	public void displayNoExistItems(ComponentContainer container, ScreenData<?> data) {
+		this.candidateView = ViewManager.getCacheComponent(noItemFallbackViewClass);
 		displayView(container, data);
 	}
 

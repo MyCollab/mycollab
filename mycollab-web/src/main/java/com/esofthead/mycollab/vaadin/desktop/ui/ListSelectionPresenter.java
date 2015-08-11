@@ -16,10 +16,6 @@
  */
 package com.esofthead.mycollab.vaadin.desktop.ui;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
@@ -30,14 +26,16 @@ import com.esofthead.mycollab.vaadin.events.SelectionOptionHandler;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.ui.CheckBoxDecor;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 /**
- * 
- * @author MyCollab Ltd.
- * @since 1.0
- * 
  * @param <V>
  * @param <S>
  * @param <B>
+ * @author MyCollab Ltd.
+ * @since 1.0
  */
 public abstract class ListSelectionPresenter<V extends ListView<S, B>, S extends SearchCriteria, B extends ValuedBean>
         extends AbstractPresenter<V> {
@@ -75,45 +73,44 @@ public abstract class ListSelectionPresenter<V extends ListView<S, B>, S extends
             }
         });
 
-        view.getOptionSelectionHandlers().addSelectionOptionHandler(
-                new SelectionOptionHandler() {
-                    private static final long serialVersionUID = 1L;
-                    @Override
-                    public void onSelectCurrentPage() {
-                        isSelectAll = false;
-                        selectAllItemsInCurrentPage();
-                        checkWhetherEnableTableActionControl();
-                    }
+        view.getOptionSelectionHandlers().addSelectionOptionHandler(new SelectionOptionHandler() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void onDeSelect() {
-                        Collection<B> currentDataList = view.getPagedBeanTable().getCurrentDataList();
-                        isSelectAll = false;
-                        for (B item : currentDataList) {
-                            item.setSelected(false);
-                            CheckBoxDecor checkBox = (CheckBoxDecor) item.getExtraData();
-                            checkBox.setValueWithoutNotifyListeners(false);
-                        }
-                        checkWhetherEnableTableActionControl();
-                    }
+            @Override
+            public void onSelectCurrentPage() {
+                isSelectAll = false;
+                selectAllItemsInCurrentPage();
+                checkWhetherEnableTableActionControl();
+            }
 
-                    @Override
-                    public void onSelectAll() {
-                        isSelectAll = true;
-                        selectAllItemsInCurrentPage();
-                        checkWhetherEnableTableActionControl();
-                    }
-                });
+            @Override
+            public void onDeSelect() {
+                Collection<B> currentDataList = view.getPagedBeanTable().getCurrentDataList();
+                isSelectAll = false;
+                for (B item : currentDataList) {
+                    item.setSelected(false);
+                    CheckBoxDecor checkBox = (CheckBoxDecor) item.getExtraData();
+                    checkBox.setValueWithoutNotifyListeners(false);
+                }
+                checkWhetherEnableTableActionControl();
+            }
 
-        view.getSelectableItemHandlers().addSelectableItemHandler(
-                new SelectableItemHandler<B>() {
-                    @Override
-                    public void onSelect(B item) {
-                        isSelectAll = false;
-                        item.setSelected(!item.isSelected());
-                        checkWhetherEnableTableActionControl();
-                    }
-                });
+            @Override
+            public void onSelectAll() {
+                isSelectAll = true;
+                selectAllItemsInCurrentPage();
+                checkWhetherEnableTableActionControl();
+            }
+        });
+
+        view.getSelectableItemHandlers().addSelectableItemHandler(new SelectableItemHandler<B>() {
+            @Override
+            public void onSelect(B item) {
+                isSelectAll = false;
+                item.setSelected(!item.isSelected());
+                checkWhetherEnableTableActionControl();
+            }
+        });
     }
 
     protected void selectAllItemsInCurrentPage() {

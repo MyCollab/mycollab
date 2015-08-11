@@ -21,78 +21,76 @@ import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.3.3
- *
  */
 public class OptionI18nEnum {
-	public static TaskPriority[] task_priorities = { TaskPriority.Urgent,
-			TaskPriority.High, TaskPriority.Medium, TaskPriority.Low,
-			TaskPriority.None };
+    public static TaskPriority[] task_priorities = {TaskPriority.Urgent,
+            TaskPriority.High, TaskPriority.Medium, TaskPriority.Low,
+            TaskPriority.None};
 
-	public static BugStatus[] bug_statuses = { BugStatus.Open,
-			BugStatus.InProgress, BugStatus.Verified, BugStatus.Resolved,
-			BugStatus.ReOpened };
+    public static BugStatus[] bug_statuses = {BugStatus.Open,
+            BugStatus.InProgress, BugStatus.Verified, BugStatus.Resolved,
+            BugStatus.ReOpened};
 
-	public static BugPriority[] bug_priorities = { BugPriority.Blocker,
-			BugPriority.Critical, BugPriority.Major, BugPriority.Minor,
-			BugPriority.Trivial };
+    public static BugPriority[] bug_priorities = {BugPriority.Blocker,
+            BugPriority.Critical, BugPriority.Major, BugPriority.Minor,
+            BugPriority.Trivial};
 
-	public static BugSeverity[] bug_severities = { BugSeverity.Critical,
-			BugSeverity.Major, BugSeverity.Minor, BugSeverity.Trivial };
+    public static BugSeverity[] bug_severities = {BugSeverity.Critical,
+            BugSeverity.Major, BugSeverity.Minor, BugSeverity.Trivial};
 
-	public static BugResolution[] bug_resolutions = { BugResolution.Fixed,
-			BugResolution.Won_Fix, BugResolution.Duplicate,
-			BugResolution.Incomplete, BugResolution.CannotReproduce,
-			BugResolution.WaitforVerification, BugResolution.Newissue,
-			BugResolution.ReOpen };
+    public static BugResolution[] bug_resolutions = {BugResolution.Fixed,
+            BugResolution.Won_Fix, BugResolution.Duplicate,
+            BugResolution.Incomplete, BugResolution.CannotReproduce,
+            BugResolution.WaitforVerification, BugResolution.Newissue,
+            BugResolution.ReOpen};
 
-	@BaseName("localization/project-milestone-status")
-	@LocaleData(value = { @Locale("en-US"), @Locale("ja-JP") }, defaultCharset = "UTF-8")
-	public static enum MilestoneStatus {
-		Future, Closed, InProgress
-	}
+    @BaseName("localization/project-milestone-status")
+    @LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
+    public static enum MilestoneStatus {
+        Future, Closed, InProgress
+    }
 
-	@BaseName("localization/project-task-priority")
-	@LocaleData(value = { @Locale("en-US"), @Locale("ja-JP") }, defaultCharset = "UTF-8")
-	public static enum TaskPriority {
-		Urgent, High, Medium, Low, None
-	}
+    @BaseName("localization/project-task-priority")
+    @LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
+    public static enum TaskPriority {
+        Urgent, High, Medium, Low, None
+    }
 
-	@BaseName("localization/project-bug-status")
-	@LocaleData(value = { @Locale("en-US"), @Locale("ja-JP") }, defaultCharset = "UTF-8")
-	public static enum BugStatus {
-		Open, InProgress, Verified, Resolved, ReOpened
-	}
+    @BaseName("localization/project-bug-status")
+    @LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
+    public static enum BugStatus {
+        Open, InProgress, Verified, Resolved, ReOpened
+    }
 
-	@BaseName("localization/project-bug-priority")
-	@LocaleData(value = { @Locale("en-US"), @Locale("ja-JP") }, defaultCharset = "UTF-8")
-	public static enum BugPriority {
-		Blocker, Critical, Major, Minor, Trivial
-	}
+    @BaseName("localization/project-bug-priority")
+    @LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
+    public static enum BugPriority {
+        Blocker, Critical, Major, Minor, Trivial
+    }
 
-	@BaseName("localization/project-bug-severity")
-	@LocaleData(value = { @Locale("en-US"), @Locale("ja-JP") }, defaultCharset = "UTF-8")
-	public static enum BugSeverity {
-		Critical, Major, Minor, Trivial
-	}
+    @BaseName("localization/project-bug-severity")
+    @LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
+    public static enum BugSeverity {
+        Critical, Major, Minor, Trivial
+    }
 
-	@BaseName("localization/project-bug-resolution")
-	@LocaleData(value = { @Locale("en-US"), @Locale("ja-JP") }, defaultCharset = "UTF-8")
-	public static enum BugResolution {
-		Fixed,
-		Won_Fix,
-		Duplicate,
-		Incomplete,
-		CannotReproduce,
-		WaitforVerification,
-		Newissue,
-		ReOpen
-	}
+    @BaseName("localization/project-bug-resolution")
+    @LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
+    public static enum BugResolution {
+        Fixed,
+        Won_Fix,
+        Duplicate,
+        Incomplete,
+        CannotReproduce,
+        WaitforVerification,
+        Newissue,
+        ReOpen
+    }
 
     @BaseName("localization/project-bug-related")
-    @LocaleData(value = { @Locale("en-US"), @Locale("ja-JP") }, defaultCharset = "UTF-8")
+    @LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
     public static enum BugRelation {
         Related, Duplicated, Block
     }

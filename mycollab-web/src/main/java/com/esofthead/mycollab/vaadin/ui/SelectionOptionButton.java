@@ -31,8 +31,7 @@ import java.util.Set;
  * @author MyCollab Ltd.
  * @since 2.0
  */
-public class SelectionOptionButton extends SplitButton implements
-        HasSelectionOptionHandlers {
+public class SelectionOptionButton extends SplitButton implements HasSelectionOptionHandlers {
     private static final long serialVersionUID = 1L;
     private boolean isSelectAll = false;
     private boolean isSelected = false;
@@ -46,8 +45,7 @@ public class SelectionOptionButton extends SplitButton implements
     private final Button selectThisPageBtn;
 
     @SuppressWarnings("serial")
-    public SelectionOptionButton(
-            @SuppressWarnings("rawtypes") final HasSelectableItemHandlers selectableItemHandlers) {
+    public SelectionOptionButton(HasSelectableItemHandlers selectableItemHandlers) {
         super();
         this.selectableItemHandlers = selectableItemHandlers;
         addStyleName(UIConstants.THEME_GREEN_LINK);
@@ -66,12 +64,10 @@ public class SelectionOptionButton extends SplitButton implements
             public void splitButtonPopupVisibilityChange(
                     final SplitButtonPopupVisibilityEvent event) {
                 if (event.isPopupVisible()) {
-                    selectAllBtn.setCaption("Select All ("
-                            + SelectionOptionButton.this.selectableItemHandlers
+                    selectAllBtn.setCaption("Select All (" + SelectionOptionButton.this.selectableItemHandlers
                             .totalItemsCount() + ")");
 
-                    selectThisPageBtn.setCaption("Select This Page ("
-                            + SelectionOptionButton.this.selectableItemHandlers
+                    selectThisPageBtn.setCaption("Select This Page (" + SelectionOptionButton.this.selectableItemHandlers
                             .currentViewCount() + ")");
                 }
             }
@@ -79,41 +75,37 @@ public class SelectionOptionButton extends SplitButton implements
 
         final OptionPopupContent selectContent = new OptionPopupContent().withWidth("150px");
 
-        selectAllBtn = new ButtonLinkLegacy("", new Button.ClickListener() {
+        selectAllBtn = new ButtonLink("", new Button.ClickListener() {
             @Override
             public void buttonClick(final ClickEvent event) {
                 isSelectAll = true;
-                SelectionOptionButton.this
-                        .setIcon(FontAwesome.CHECK_SQUARE_O);
+                SelectionOptionButton.this.setIcon(FontAwesome.CHECK_SQUARE_O);
                 fireSelectAll();
                 SelectionOptionButton.this.setPopupVisible(false);
             }
         });
         selectContent.addOption(selectAllBtn);
 
-        selectThisPageBtn = new ButtonLinkLegacy("", new Button.ClickListener() {
+        selectThisPageBtn = new ButtonLink("", new Button.ClickListener() {
             @Override
             public void buttonClick(final ClickEvent event) {
                 isSelectAll = false;
-                SelectionOptionButton.this
-                        .setIcon(FontAwesome.CHECK_SQUARE_O);
+                SelectionOptionButton.this.setIcon(FontAwesome.CHECK_SQUARE_O);
                 fireSelectCurrentPage();
                 SelectionOptionButton.this.setPopupVisible(false);
             }
         });
         selectContent.addOption(selectThisPageBtn);
 
-        Button deSelectBtn = new ButtonLinkLegacy("Deselect All",
-                new Button.ClickListener() {
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        isSelectAll = false;
-                        SelectionOptionButton.this
-                                .setIcon(FontAwesome.SQUARE_O);
-                        fireDeselect();
-                        SelectionOptionButton.this.setPopupVisible(false);
-                    }
-                });
+        Button deSelectBtn = new ButtonLink("Deselect All", new Button.ClickListener() {
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                isSelectAll = false;
+                SelectionOptionButton.this.setIcon(FontAwesome.SQUARE_O);
+                fireDeselect();
+                SelectionOptionButton.this.setPopupVisible(false);
+            }
+        });
         selectContent.addOption(deSelectBtn);
         setContent(selectContent);
     }
@@ -128,7 +120,7 @@ public class SelectionOptionButton extends SplitButton implements
 
     private void fireDeselect() {
         if (handlers != null) {
-            for (final SelectionOptionHandler handler : handlers) {
+            for (SelectionOptionHandler handler : handlers) {
                 handler.onDeSelect();
             }
         }
@@ -145,7 +137,7 @@ public class SelectionOptionButton extends SplitButton implements
 
     private void fireSelectCurrentPage() {
         if (handlers != null) {
-            for (final SelectionOptionHandler handler : handlers) {
+            for (SelectionOptionHandler handler : handlers) {
                 handler.onSelectCurrentPage();
             }
         }
@@ -153,8 +145,8 @@ public class SelectionOptionButton extends SplitButton implements
 
     public void setSelectedCheckbox(final boolean selected) {
         isSelected = selected;
-        final Resource icon = (selected) ? FontAwesome.CHECK_SQUARE_O : FontAwesome.SQUARE_O;
-        SelectionOptionButton.this.setIcon(icon);
+        Resource icon = (selected) ? FontAwesome.CHECK_SQUARE_O : FontAwesome.SQUARE_O;
+        this.setIcon(icon);
     }
 
     private void toggleChangeOption() {

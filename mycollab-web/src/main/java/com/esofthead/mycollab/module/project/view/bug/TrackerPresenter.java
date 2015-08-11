@@ -54,8 +54,8 @@ public class TrackerPresenter extends AbstractPresenter<TrackerContainer> {
         projectViewContainer.gotoSubView(ProjectTypeConstants.BUG);
 
         IPresenter<?> presenter;
-        if (ClassUtils.instanceOf(data, BugScreenData.Search.class,
-                BugScreenData.Add.class, BugScreenData.Edit.class, BugScreenData.Read.class)) {
+        if (ClassUtils.instanceOf(data, BugScreenData.Search.class, BugScreenData.Add.class, BugScreenData.Edit.class,
+                BugScreenData.Read.class, BugScreenData.GotoKanbanView.class)) {
             presenter = PresenterResolver.getPresenter(BugPresenter.class);
         } else if (ClassUtils.instanceOf(data, ComponentScreenData.Add.class, ComponentScreenData.Edit.class,
                 ComponentScreenData.Search.class, ComponentScreenData.Read.class)) {

@@ -36,8 +36,7 @@ public class MassUpdateContactWindow extends MassUpdateWindow<Contact> {
 	private static final long serialVersionUID = 1L;
 
 	public MassUpdateContactWindow(String title, ContactListPresenter presenter) {
-		super(title, CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT),
-				new Contact(), presenter);
+		super(title, CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT), new Contact(), presenter);
 	}
 
 	@Override
@@ -62,20 +61,18 @@ public class MassUpdateContactWindow extends MassUpdateWindow<Contact> {
             VerticalLayout formLayout = new VerticalLayout();
 			formLayout.setDefaultComponentAlignment(Alignment.TOP_CENTER);
 
-            Label organizationHeader = new Label(
-					AppContext.getMessage(ContactI18nEnum.SECTION_DESCRIPTION));
+            Label organizationHeader = new Label(AppContext.getMessage(ContactI18nEnum.SECTION_DESCRIPTION));
 			organizationHeader.setStyleName(UIConstants.H2_STYLE2);
 			formLayout.addComponent(organizationHeader);
 
-			this.informationLayout =  GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
-			formLayout.addComponent(this.informationLayout.getLayout());
+			informationLayout =  GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
+			formLayout.addComponent(informationLayout.getLayout());
 
-			this.addressLayout =  GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
-            Label addressHeader = new Label(
-					AppContext.getMessage(ContactI18nEnum.SECTION_ADDRESS));
+			addressLayout =  GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
+            Label addressHeader = new Label(AppContext.getMessage(ContactI18nEnum.SECTION_ADDRESS));
 			addressHeader.setStyleName(UIConstants.H2_STYLE2);
 			formLayout.addComponent(addressHeader);
-			formLayout.addComponent(this.addressLayout.getLayout());
+			formLayout.addComponent(addressLayout.getLayout());
 			formLayout.addComponent(buildButtonControls());
 			return formLayout;
 		}
@@ -83,44 +80,31 @@ public class MassUpdateContactWindow extends MassUpdateWindow<Contact> {
 		@Override
 		public void attachField(final Object propertyId, final Field<?> field) {
 			if (propertyId.equals("accountid")) {
-				this.informationLayout.addComponent(field,
-						AppContext.getMessage(ContactI18nEnum.FORM_ACCOUNTS), 0, 0);
+				informationLayout.addComponent(field, AppContext.getMessage(ContactI18nEnum.FORM_ACCOUNTS), 0, 0);
 			} else if (propertyId.equals("title")) {
-				this.informationLayout.addComponent(field,
-                        AppContext.getMessage(ContactI18nEnum.FORM_TITLE), 1, 0);
+				informationLayout.addComponent(field, AppContext.getMessage(ContactI18nEnum.FORM_TITLE), 1, 0);
 			} else if (propertyId.equals("leadsource")) {
-				this.informationLayout.addComponent(field,
-                        AppContext.getMessage(ContactI18nEnum.FORM_LEAD_SOURCE), 0, 1);
+				informationLayout.addComponent(field, AppContext.getMessage(ContactI18nEnum.FORM_LEAD_SOURCE), 0, 1);
 			} else if (propertyId.equals("assignuser")) {
-				this.informationLayout.addComponent(field, AppContext
-						.getMessage(GenericI18Enum.FORM_ASSIGNEE), 1, 1);
+				informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 1, 1);
 			} else if (propertyId.equals("iscallable")) {
-				this.informationLayout.addComponent(field,
-                        AppContext.getMessage(ContactI18nEnum.FORM_IS_CALLABLE), 0, 2, 2, "100%", Alignment.TOP_LEFT);
+				informationLayout.addComponent(field, AppContext.getMessage(ContactI18nEnum.FORM_IS_CALLABLE), 0, 2, 2, "100%");
 			} else if (propertyId.equals("primcity")) {
-				this.addressLayout.addComponent(field, AppContext
-						.getMessage(ContactI18nEnum.FORM_PRIMARY_CITY), 0, 0);
+				addressLayout.addComponent(field, AppContext.getMessage(ContactI18nEnum.FORM_PRIMARY_CITY), 0, 0);
 			} else if (propertyId.equals("primstate")) {
-				this.addressLayout.addComponent(field, AppContext
-						.getMessage(ContactI18nEnum.FORM_PRIMARY_STATE), 1, 0);
+				addressLayout.addComponent(field, AppContext.getMessage(ContactI18nEnum.FORM_PRIMARY_STATE), 1, 0);
 			} else if (propertyId.equals("primpostalcode")) {
-				this.addressLayout.addComponent(field,
-                        AppContext.getMessage(ContactI18nEnum.FORM_PRIMARY_POSTAL_CODE), 0, 1);
+				addressLayout.addComponent(field, AppContext.getMessage(ContactI18nEnum.FORM_PRIMARY_POSTAL_CODE), 0, 1);
 			} else if (propertyId.equals("primcountry")) {
-				this.addressLayout.addComponent(field,
-                        AppContext.getMessage(ContactI18nEnum.FORM_PRIMARY_COUNTRY), 1, 1);
+				addressLayout.addComponent(field, AppContext.getMessage(ContactI18nEnum.FORM_PRIMARY_COUNTRY), 1, 1);
 			} else if (propertyId.equals("othercity")) {
-				this.addressLayout.addComponent(field,
-						AppContext.getMessage(ContactI18nEnum.FORM_OTHER_CITY), 0, 2);
+				addressLayout.addComponent(field, AppContext.getMessage(ContactI18nEnum.FORM_OTHER_CITY), 0, 2);
 			} else if (propertyId.equals("otherstate")) {
-				this.addressLayout.addComponent(field,
-                        AppContext.getMessage(ContactI18nEnum.FORM_OTHER_STATE), 1, 2);
+				addressLayout.addComponent(field, AppContext.getMessage(ContactI18nEnum.FORM_OTHER_STATE), 1, 2);
 			} else if (propertyId.equals("otherpostalcode")) {
-				this.addressLayout.addComponent(field,
-                        AppContext.getMessage(ContactI18nEnum.FORM_OTHER_POSTAL_CODE), 0, 3);
+				addressLayout.addComponent(field, AppContext.getMessage(ContactI18nEnum.FORM_OTHER_POSTAL_CODE), 0, 3);
 			} else if (propertyId.equals("othercountry")) {
-				this.addressLayout.addComponent(field, AppContext
-						.getMessage(ContactI18nEnum.FORM_OTHER_COUNTRY), 1, 3);
+				addressLayout.addComponent(field, AppContext.getMessage(ContactI18nEnum.FORM_OTHER_COUNTRY), 1, 3);
 			}
 		}
 	}

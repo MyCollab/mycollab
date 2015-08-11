@@ -20,7 +20,6 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
-import com.esofthead.mycollab.module.project.view.parameters.BugFilterParameter;
 import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -88,8 +87,7 @@ public class TrackerContainer extends AbstractPageView {
                         !AppContext.getMessage(BugI18nEnum.TAB_BUG).equals(selectedTabId)) {
                     BugSearchCriteria criteria = new BugSearchCriteria();
                     criteria.setProjectId(new NumberSearchField(project.getId()));
-                    bugPresenter.go(TrackerContainer.this, new BugScreenData.Search(
-                            new BugFilterParameter("All Bugs", criteria)));
+                    bugPresenter.go(TrackerContainer.this, new BugScreenData.Search(criteria));
                 } else if (AppContext.getMessage(BugI18nEnum.TAB_COMPONENT).equals(caption)
                         && !AppContext.getMessage(BugI18nEnum.TAB_COMPONENT).equals(selectedTabId)) {
                     componentPresenter.go(TrackerContainer.this, null);

@@ -79,7 +79,7 @@ abstract class SendMailToFollowersAction[B] extends SendingRelayEmailNotificatio
                     buildExtraTemplateVariables(context)
                     contentGenerator.putVariable("userName", user.getDisplayName)
                     if (context.getTypeid != null) {
-                        val auditLog: SimpleAuditLog = auditLogService.findLatestLog(context.getTypeid.toInt, context.getSaccountid)
+                        val auditLog: SimpleAuditLog = auditLogService.findLastestLog(context.getTypeid.toInt, context.getSaccountid)
                         contentGenerator.putVariable("historyLog", auditLog)
                         contentGenerator.putVariable("context", context)
                         contentGenerator.putVariable("mapper", getItemFieldMapper)

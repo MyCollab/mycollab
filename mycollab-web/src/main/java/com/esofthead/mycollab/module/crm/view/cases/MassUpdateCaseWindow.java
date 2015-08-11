@@ -35,10 +35,8 @@ import com.vaadin.ui.*;
 public class MassUpdateCaseWindow extends MassUpdateWindow<CaseWithBLOBs> {
 	private static final long serialVersionUID = 1L;
 
-	public MassUpdateCaseWindow(final String title,
-			final CaseListPresenter presenter) {
-		super(title, CrmAssetsManager.getAsset(CrmTypeConstants.CASE),
-				new CaseWithBLOBs(), presenter);
+	public MassUpdateCaseWindow(String title, CaseListPresenter presenter) {
+		super(title, CrmAssetsManager.getAsset(CrmTypeConstants.CASE), new CaseWithBLOBs(), presenter);
 	}
 
 	@Override
@@ -51,25 +49,22 @@ public class MassUpdateCaseWindow extends MassUpdateWindow<CaseWithBLOBs> {
 		return new CaseEditFormFieldFactory<>(updateForm, false);
 	}
 
-	private class MassUpdateContactFormLayoutFactory implements
-			IFormLayoutFactory {
+	private class MassUpdateContactFormLayoutFactory implements IFormLayoutFactory {
 		private static final long serialVersionUID = 1L;
 
 		private GridFormLayoutHelper informationLayout;
 
 		@Override
 		public ComponentContainer getLayout() {
-			final VerticalLayout formLayout = new VerticalLayout();
+			VerticalLayout formLayout = new VerticalLayout();
 			formLayout.setDefaultComponentAlignment(Alignment.TOP_CENTER);
 
-			final Label organizationHeader = new Label(
-					AppContext
-							.getMessage(CaseI18nEnum.SECTION_CASE_INFORMATION));
+			Label organizationHeader = new Label(AppContext.getMessage(CaseI18nEnum.SECTION_CASE_INFORMATION));
 			organizationHeader.setStyleName(UIConstants.H2_STYLE2);
 			formLayout.addComponent(organizationHeader);
 
-			this.informationLayout =  GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
-			formLayout.addComponent(this.informationLayout.getLayout());
+			informationLayout =  GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
+			formLayout.addComponent(informationLayout.getLayout());
 
 			formLayout.addComponent(buildButtonControls());
 
@@ -84,8 +79,7 @@ public class MassUpdateCaseWindow extends MassUpdateWindow<CaseWithBLOBs> {
 			} else if (propertyId.equals("status")) {
 				this.informationLayout.addComponent(field, "Status", 1, 0);
 			} else if (propertyId.equals("accountid")) {
-				this.informationLayout
-						.addComponent(field, "Account Name", 0, 1);
+				this.informationLayout.addComponent(field, "Account Name", 0, 1);
 			} else if (propertyId.equals("origin")) {
 				this.informationLayout.addComponent(field, "Origin", 1, 1);
 			} else if (propertyId.equals("type")) {
@@ -93,9 +87,7 @@ public class MassUpdateCaseWindow extends MassUpdateWindow<CaseWithBLOBs> {
 			} else if (propertyId.equals("reason")) {
 				this.informationLayout.addComponent(field, "Reason", 1, 2);
 			} else if (propertyId.equals("assignuser")) {
-				this.informationLayout.addComponent(field, AppContext
-						.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 3,
-						2, "297px", Alignment.TOP_LEFT);
+				this.informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 3, 2, "297px");
 			}
 		}
 	}

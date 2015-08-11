@@ -51,11 +51,9 @@ public abstract class DefaultService<K extends Serializable, T, S extends Search
 
     @Override
     public List findPagableListByCriteria(SearchRequest<S> searchRequest) {
-        return getSearchMapper().findPagableListByCriteria(
-                searchRequest.getSearchCriteria(),
-                new RowBounds((searchRequest.getCurrentPage() - 1)
-                        * searchRequest.getNumberOfItems(), searchRequest
-                        .getNumberOfItems()));
+        return getSearchMapper().findPagableListByCriteria(searchRequest.getSearchCriteria(),
+                new RowBounds((searchRequest.getCurrentPage() - 1) * searchRequest.getNumberOfItems(),
+                        searchRequest.getNumberOfItems()));
     }
 
     @Override
@@ -102,8 +100,7 @@ public abstract class DefaultService<K extends Serializable, T, S extends Search
     public void updateBySearchCriteria(T record, S searchCriteria) {
         ISearchableDAO<S> searchMapper = getSearchMapper();
         if (searchMapper != null && searchMapper instanceof IMassUpdateDAO) {
-            ((IMassUpdateDAO) searchMapper).updateBySearchCriteria(record,
-                    searchCriteria);
+            ((IMassUpdateDAO) searchMapper).updateBySearchCriteria(record, searchCriteria);
         }
     }
 

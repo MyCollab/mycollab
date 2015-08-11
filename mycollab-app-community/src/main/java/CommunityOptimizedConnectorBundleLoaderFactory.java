@@ -16,7 +16,6 @@
  */
 
 import com.google.gwt.core.ext.typeinfo.JClassType;
-import com.vaadin.client.metadata.ConnectorBundleLoader;
 import com.vaadin.server.widgetsetutils.ConnectorBundleLoaderFactory;
 import com.vaadin.shared.ui.Connect;
 
@@ -45,7 +44,6 @@ public class CommunityOptimizedConnectorBundleLoaderFactory extends
 
     @Override
     protected Connect.LoadStyle getLoadStyle(JClassType connectorType) {
-        ConnectorBundleLoader a;
         if (eagerConnectors.contains(connectorType.getQualifiedBinaryName())) {
             return Connect.LoadStyle.EAGER;
         } else {

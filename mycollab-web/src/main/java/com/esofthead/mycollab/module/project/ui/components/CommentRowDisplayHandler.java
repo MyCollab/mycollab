@@ -19,7 +19,6 @@ package com.esofthead.mycollab.module.project.ui.components;
 import com.esofthead.mycollab.common.domain.SimpleComment;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CommentService;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -61,8 +60,8 @@ public class CommentRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleC
 
         ELabel timePostLbl = new ELabel(AppContext.getMessage(
                 GenericI18Enum.EXT_ADDED_COMMENT, comment.getOwnerFullName(),
-                AppContext.formatPrettyTime(comment.getCreatedtime())), ContentMode.HTML).withDescription(AppContext.formatDateTime(comment
-                .getCreatedtime()));
+                AppContext.formatPrettyTime(comment.getCreatedtime())), ContentMode.HTML).
+                withDescription(AppContext.formatDateTime(comment.getCreatedtime()));
         timePostLbl.setStyleName("time-post");
 
         if (hasDeletePermission(comment)) {
@@ -76,8 +75,7 @@ public class CommentRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleC
                 @Override
                 public void buttonClick(ClickEvent event) {
                     ConfirmDialogExt.show(UI.getCurrent(),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
-                                    AppContext.getSiteName()),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
                             AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                             AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                             AppContext.getMessage(GenericI18Enum.BUTTON_NO),
@@ -87,8 +85,7 @@ public class CommentRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleC
                                 @Override
                                 public void onClose(ConfirmDialog dialog) {
                                     if (dialog.isConfirmed()) {
-                                        CommentService commentService = ApplicationContextUtil
-                                                .getSpringBean(CommentService.class);
+                                        CommentService commentService = ApplicationContextUtil.getSpringBean(CommentService.class);
                                         commentService.removeWithSession(comment,
                                                 AppContext.getUsername(), AppContext.getAccountId());
                                         CommentRowDisplayHandler.this.owner.removeRow(layout);
@@ -112,8 +109,7 @@ public class CommentRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleC
         if (!CollectionUtils.isEmpty(attachments)) {
             MVerticalLayout messageFooter = new MVerticalLayout().withSpacing(false).withWidth
                     ("100%").withStyleName("message-footer");
-            AttachmentDisplayComponent attachmentDisplay = new AttachmentDisplayComponent(
-                    attachments);
+            AttachmentDisplayComponent attachmentDisplay = new AttachmentDisplayComponent(attachments);
             attachmentDisplay.setWidth("100%");
             messageFooter.with(attachmentDisplay).withAlign(attachmentDisplay, Alignment.MIDDLE_RIGHT);
             rowLayout.addComponent(messageFooter);

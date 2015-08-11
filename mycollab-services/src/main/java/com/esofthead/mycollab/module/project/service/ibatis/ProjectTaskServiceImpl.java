@@ -27,7 +27,6 @@ import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
-import com.esofthead.mycollab.core.utils.ArrayUtils;
 import com.esofthead.mycollab.lock.DistributionLockUtil;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.dao.TaskMapper;
@@ -41,11 +40,17 @@ import com.esofthead.mycollab.schedule.email.project.ProjectTaskRelayEmailNotifi
 import com.google.common.eventbus.AsyncEventBus;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.sql.DataSource;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 
@@ -59,8 +64,7 @@ import java.util.concurrent.locks.Lock;
 @Auditable()
 @Watchable(userFieldName = "assignuser", extraTypeId = "projectid")
 @NotifyAgent(ProjectTaskRelayEmailNotificationAction.class)
-public class ProjectTaskServiceImpl extends DefaultService<Integer, Task, TaskSearchCriteria> implements
-        ProjectTaskService {
+public class ProjectTaskServiceImpl extends DefaultService<Integer, Task, TaskSearchCriteria> implements ProjectTaskService {
 
     static {
         ClassInfoMap.put(ProjectTaskServiceImpl.class, new ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.TASK));
@@ -72,6 +76,9 @@ public class ProjectTaskServiceImpl extends DefaultService<Integer, Task, TaskSe
     private TaskMapperExt taskMapperExt;
     @Autowired
     private AsyncEventBus asyncEventBus;
+
+    @Autowired
+    private DataSource dataSource;
 
     @Override
     public ICrudGenericDAO<Integer, Task> getCrudMapper() {
@@ -91,9 +98,11 @@ public class ProjectTaskServiceImpl extends DefaultService<Integer, Task, TaskSe
     @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     @Override
     public Integer saveWithSession(Task record, String username) {
-        if ((record.getPercentagecomplete() != null) && (record.getPercentagecomplete() == 100)) {
+        if (record.getPercentagecomplete() == 100d) {
             record.setStatus(StatusI18nEnum.Closed.name());
-        } else {
+        }
+
+        if (record.getStatus() == null) {
             record.setStatus(StatusI18nEnum.Open.name());
         }
         record.setLogby(username);
@@ -104,10 +113,8 @@ public class ProjectTaskServiceImpl extends DefaultService<Integer, Task, TaskSe
                 Integer key = taskMapperExt.getMaxKey(record.getProjectid());
                 record.setTaskkey((key == null) ? 1 : (key + 1));
 
-                CacheUtils.cleanCaches(record.getSaccountid(),
-                        ProjectService.class, ProjectGenericTaskService.class,
-                        ProjectTaskListService.class, ProjectActivityStreamService.class,
-                        ProjectMemberService.class, MilestoneService.class);
+                CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class, ProjectGenericTaskService.class,
+                        ProjectActivityStreamService.class, ProjectMemberService.class, MilestoneService.class);
 
                 return super.saveWithSession(record, username);
             } else {
@@ -135,8 +142,7 @@ public class ProjectTaskServiceImpl extends DefaultService<Integer, Task, TaskSe
         }
 
         CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class,
-                ProjectGenericTaskService.class, ProjectTaskListService.class,
-                ProjectActivityStreamService.class, ProjectMemberService.class,
+                ProjectGenericTaskService.class, ProjectActivityStreamService.class, ProjectMemberService.class,
                 MilestoneService.class, ItemTimeLoggingService.class);
     }
 
@@ -149,7 +155,7 @@ public class ProjectTaskServiceImpl extends DefaultService<Integer, Task, TaskSe
     @Override
     public void massRemoveWithSession(List<Task> items, String username, Integer accountId) {
         super.massRemoveWithSession(items, username, accountId);
-        CacheUtils.cleanCaches(accountId, ProjectTaskListService.class, ProjectService.class, ProjectGenericTaskService.class,
+        CacheUtils.cleanCaches(accountId, ProjectService.class, ProjectGenericTaskService.class,
                 ProjectActivityStreamService.class, MilestoneService.class, ItemTimeLoggingService.class);
         DeleteProjectTaskEvent event = new DeleteProjectTaskEvent(items.toArray(new Task[items.size()]),
                 username, accountId);
@@ -168,8 +174,7 @@ public class ProjectTaskServiceImpl extends DefaultService<Integer, Task, TaskSe
 
     @Override
     public SimpleTask findByProjectAndTaskKey(Integer taskkey, String projectShortName, Integer sAccountId) {
-        return taskMapperExt.findByProjectAndTaskKey(taskkey, projectShortName,
-                sAccountId);
+        return taskMapperExt.findByProjectAndTaskKey(taskkey, projectShortName, sAccountId);
     }
 
     @SuppressWarnings("unchecked")
@@ -178,17 +183,24 @@ public class ProjectTaskServiceImpl extends DefaultService<Integer, Task, TaskSe
         TaskSearchCriteria searchCriteria = new TaskSearchCriteria();
         searchCriteria.setSaccountid(new NumberSearchField(sAccountId));
         searchCriteria.setParentTaskId(new NumberSearchField(parentTaskId));
-        return taskMapperExt.findPagableListByCriteria(searchCriteria,
-                new RowBounds(0, Integer.MAX_VALUE));
+        return taskMapperExt.findPagableListByCriteria(searchCriteria, new RowBounds(0, Integer.MAX_VALUE));
     }
 
     @Override
-    public List<SimpleTask> findSubTasksOfGroup(Integer taskgroupId, @CacheKey Integer sAccountId) {
-        TaskSearchCriteria searchCriteria = new TaskSearchCriteria();
-        searchCriteria.setSaccountid(new NumberSearchField(sAccountId));
-        searchCriteria.setTaskListId(new NumberSearchField(taskgroupId));
-        return taskMapperExt.findPagableListByCriteria(searchCriteria,
-                new RowBounds(0, Integer.MAX_VALUE));
-    }
+    public void massUpdateTaskIndexes(final List<Map<String, Integer>> mapIndexes, @CacheKey Integer sAccountId) {
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        jdbcTemplate.batchUpdate("UPDATE `m_prj_task` SET `taskindex`=? WHERE `id`=?", new
+                BatchPreparedStatementSetter() {
+                    @Override
+                    public void setValues(PreparedStatement preparedStatement, int i) throws SQLException {
+                        preparedStatement.setInt(1, mapIndexes.get(i).get("index"));
+                        preparedStatement.setInt(2, mapIndexes.get(i).get("id"));
+                    }
 
+                    @Override
+                    public int getBatchSize() {
+                        return mapIndexes.size();
+                    }
+                });
+    }
 }

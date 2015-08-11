@@ -17,13 +17,15 @@
 package com.esofthead.mycollab.module.crm.view.opportunity;
 
 import com.esofthead.mycollab.module.crm.CrmTooltipGenerator;
+import com.esofthead.mycollab.module.crm.domain.Opportunity;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.SearchHandler;
-import com.esofthead.mycollab.vaadin.ui.ButtonLinkLegacy;
+import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Window;
 import org.vaadin.maddon.layouts.MVerticalLayout;
@@ -35,8 +37,8 @@ import java.util.Arrays;
  * @since 1.0
  */
 public class OpportunitySelectionWindow extends Window {
-
     private static final long serialVersionUID = 1L;
+
     private OpportunityTableDisplay tableItem;
     private FieldSelection fieldSelection;
 
@@ -53,15 +55,14 @@ public class OpportunitySelectionWindow extends Window {
 
         createOpportunityList();
         OpportunitySimpleSearchPanel opportunitySimpleSearchPanel = new OpportunitySimpleSearchPanel();
-        opportunitySimpleSearchPanel
-                .addSearchHandler(new SearchHandler<OpportunitySearchCriteria>() {
+        opportunitySimpleSearchPanel.addSearchHandler(new SearchHandler<OpportunitySearchCriteria>() {
 
-                    @Override
-                    public void onSearch(OpportunitySearchCriteria criteria) {
-                        tableItem.setSearchCriteria(criteria);
-                    }
+            @Override
+            public void onSearch(OpportunitySearchCriteria criteria) {
+                tableItem.setSearchCriteria(criteria);
+            }
 
-                });
+        });
         layout.with(opportunitySimpleSearchPanel, tableItem);
         this.setContent(layout);
 
@@ -70,42 +71,32 @@ public class OpportunitySelectionWindow extends Window {
     }
 
     private void createOpportunityList() {
-        tableItem = new OpportunityTableDisplay(Arrays.asList(
-                OpportunityTableFieldDef.opportunityName(),
-                OpportunityTableFieldDef.saleStage(),
-                OpportunityTableFieldDef.accountName(),
+        tableItem = new OpportunityTableDisplay(Arrays.asList(OpportunityTableFieldDef.opportunityName(),
+                OpportunityTableFieldDef.saleStage(), OpportunityTableFieldDef.accountName(),
                 OpportunityTableFieldDef.assignUser()));
         tableItem.setDisplayNumItems(10);
         tableItem.setWidth("100%");
 
-        tableItem.addGeneratedColumn("opportunityname",
-                new Table.ColumnGenerator() {
+        tableItem.addGeneratedColumn(Opportunity.Field.opportunityname.name(), new Table.ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public Component generateCell(Table source, Object itemId, Object columnId) {
+                final SimpleOpportunity opportunity = tableItem.getBeanByIndex(itemId);
+
+                ButtonLink b = new ButtonLink(opportunity.getOpportunityname(), new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
-                    public com.vaadin.ui.Component generateCell(
-                            final Table source, final Object itemId,
-                            final Object columnId) {
-                        final SimpleOpportunity opportunity = tableItem.getBeanByIndex(itemId);
-
-                        ButtonLinkLegacy b = new ButtonLinkLegacy(opportunity
-                                .getOpportunityname(),
-                                new Button.ClickListener() {
-                                    private static final long serialVersionUID = 1L;
-
-                                    @Override
-                                    public void buttonClick(
-                                            final Button.ClickEvent event) {
-                                        fieldSelection.fireValueChange(opportunity);
-                                        OpportunitySelectionWindow.this.close();
-                                    }
-                                });
-                        b.setDescription(CrmTooltipGenerator
-                                .generateTooltipOpportunity(AppContext.getUserLocale(),
-                                        opportunity, AppContext.getSiteUrl(),
-                                        AppContext.getTimezone()));
-                        return b;
+                    public void buttonClick(Button.ClickEvent event) {
+                        fieldSelection.fireValueChange(opportunity);
+                        OpportunitySelectionWindow.this.close();
                     }
                 });
+                b.setDescription(CrmTooltipGenerator.generateTooltipOpportunity(AppContext.getUserLocale(),
+                        opportunity, AppContext.getSiteUrl(), AppContext.getTimezone()));
+                return b;
+            }
+        });
     }
 }

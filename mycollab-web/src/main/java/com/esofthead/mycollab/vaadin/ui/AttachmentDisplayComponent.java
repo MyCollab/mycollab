@@ -17,6 +17,8 @@
 package com.esofthead.mycollab.vaadin.ui;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.configuration.MyCollabAssets;
+import com.esofthead.mycollab.configuration.Storage;
 import com.esofthead.mycollab.core.utils.FileUtils;
 import com.esofthead.mycollab.core.utils.MimeTypesUtil;
 import com.esofthead.mycollab.core.utils.StringUtils;
@@ -25,16 +27,19 @@ import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.resources.VaadinResource;
+import com.esofthead.mycollab.vaadin.resources.file.FileAssetsUtil;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Li;
 import com.hp.gagawa.java.elements.Span;
 import com.hp.gagawa.java.elements.Ul;
-import com.vaadin.event.MouseEvents;
+import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FileDownloader;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
+import com.vaadin.shared.communication.SharedState;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
+import org.vaadin.addons.fancybox.Fancybox;
 import org.vaadin.dialogs.ConfirmDialog;
 
 import java.util.List;
@@ -45,8 +50,6 @@ import java.util.List;
  */
 public class AttachmentDisplayComponent extends CssLayout {
     private static final long serialVersionUID = 1L;
-
-    private static final Resource DEFAULT_SOURCE = new AssetResource(WebResourceIds._docs_256);
 
     public AttachmentDisplayComponent(List<Content> attachments) {
         for (Content attachment : attachments) {
@@ -70,16 +73,21 @@ public class AttachmentDisplayComponent extends CssLayout {
         thumbnailWrap.setSizeFull();
         thumbnailWrap.setStyleName("thumbnail-wrap");
 
-        Image thumbnail = new Image(null);
+        Link thumbnail = new Link();
         if (org.apache.commons.lang3.StringUtils.isBlank(attachment.getThumbnail())) {
-            thumbnail.setSource(DEFAULT_SOURCE);
+            thumbnail.setIcon(FileAssetsUtil.getFileIconResource(attachment.getName()));
         } else {
-            thumbnail.setSource(VaadinResource.getInstance()
-                    .getResource(attachment.getThumbnail()));
+            thumbnail.setIcon(VaadinResource.getInstance().getResource(attachment.getThumbnail()));
+        }
+
+        if (MimeTypesUtil.isImageType(docName)) {
+            thumbnail.setResource(VaadinResource.getInstance().getResource(attachment.getPath()));
+            new Fancybox(thumbnail).setPadding(0).setVersion("2.1.5").setEnabled(true).setDebug(true);
         }
 
         Div contentTooltip = new Div().appendChild(new Span().appendText(docName).setStyle("font-weight:bold"));
-        Ul ul = new Ul().appendChild(new Li().appendText("Size: " + FileUtils.getVolumeDisplay(attachment.getSize()))).setStyle("line-height:1.5em");
+        Ul ul = new Ul().appendChild(new Li().appendText("Size: " + FileUtils.getVolumeDisplay(attachment.getSize()))).
+                setStyle("line-height:1.5em");
         ul.appendChild(new Li().appendText("Last modified: " + AppContext.formatPrettyTime(attachment.getLastModified().getTime())));
         contentTooltip.appendChild(ul);
         thumbnail.setDescription(contentTooltip.write());
@@ -87,20 +95,6 @@ public class AttachmentDisplayComponent extends CssLayout {
         thumbnailWrap.addComponent(thumbnail);
 
         attachmentLayout.addComponent(thumbnailWrap, "top: 0px; left: 0px; bottom: 0px; right: 0px; z-index: 0;");
-
-        if (MimeTypesUtil.isImageType(docName)) {
-            thumbnail.addClickListener(new MouseEvents.ClickListener() {
-                private static final long serialVersionUID = -2853211588120500523L;
-
-                @Override
-                public void click(MouseEvents.ClickEvent event) {
-                    Resource previewResource = VaadinResource
-                            .getInstance().getResource(
-                                    attachment.getPath());
-                    UI.getCurrent().addWindow(new AttachmentPreviewWindow(previewResource));
-                }
-            });
-        }
 
         CssLayout attachmentNameWrap = new CssLayout();
         attachmentNameWrap.setWidth(UIConstants.DEFAULT_ATTACHMENT_THUMBNAIL_WIDTH);
@@ -116,10 +110,8 @@ public class AttachmentDisplayComponent extends CssLayout {
 
             @Override
             public void buttonClick(ClickEvent event) {
-                ConfirmDialogExt.show(UI.getCurrent(), AppContext.getMessage(
-                                GenericI18Enum.DIALOG_DELETE_TITLE,
-                                AppContext.getSiteName()), AppContext
-                                .getMessage(GenericI18Enum.CONFIRM_DELETE_ATTACHMENT),
+                ConfirmDialogExt.show(UI.getCurrent(), AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
+                                AppContext.getSiteName()), AppContext.getMessage(GenericI18Enum.CONFIRM_DELETE_ATTACHMENT),
                         AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                         AppContext.getMessage(GenericI18Enum.BUTTON_NO),
                         new ConfirmDialog.Listener() {

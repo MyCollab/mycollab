@@ -113,45 +113,41 @@ public class ProjectAddWindow extends Window {
         public ComponentContainer getLayout() {
             VerticalLayout projectAddLayout = new VerticalLayout();
 
-            this.informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 4);
-            projectAddLayout.addComponent(this.informationLayout.getLayout());
+            informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 4);
+            projectAddLayout.addComponent(informationLayout.getLayout());
 
             MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(true).withStyleName("addNewControl");
 
-            Button closeBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE),
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            Button closeBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE), new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(final ClickEvent event) {
-                            ProjectAddWindow.this.close();
-                        }
+                @Override
+                public void buttonClick(final ClickEvent event) {
+                    ProjectAddWindow.this.close();
+                }
 
-                    });
+            });
             closeBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
             buttonControls.with(closeBtn).withAlign(closeBtn, Alignment.MIDDLE_RIGHT);
 
-            Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(final ClickEvent event) {
-                            if (editForm.validateForm()) {
-                                project.setSaccountid(AppContext.getAccountId());
-                                ProjectService projectService = ApplicationContextUtil
-                                        .getSpringBean(ProjectService.class);
+                @Override
+                public void buttonClick(final ClickEvent event) {
+                    if (editForm.validateForm()) {
+                        project.setSaccountid(AppContext.getAccountId());
+                        ProjectService projectService = ApplicationContextUtil.getSpringBean(ProjectService.class);
 
-                                projectService.saveWithSession(ProjectAddWindow.this.project,
-                                        AppContext.getUsername());
+                        projectService.saveWithSession(project, AppContext.getUsername());
 
-                                EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this,
-                                        new PageActionChain(new ProjectScreenData.Goto(project.getId()))));
-                                ProjectAddWindow.this.close();
-                            }
-                        }
+                        EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this,
+                                new PageActionChain(new ProjectScreenData.Goto(project.getId()))));
+                        ProjectAddWindow.this.close();
+                    }
+                }
 
-                    });
+            });
             saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
             saveBtn.setIcon(FontAwesome.SAVE);
             saveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
@@ -163,29 +159,21 @@ public class ProjectAddWindow extends Window {
         }
 
         @Override
-        public void attachField(final Object propertyId, final Field<?> field) {
+        public void attachField(Object propertyId, Field<?> field) {
             if (propertyId.equals("name")) {
-                this.informationLayout.addComponent(field,
-                        AppContext.getMessage(ProjectI18nEnum.FORM_NAME), 0, 0);
+                informationLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_NAME), 0, 0);
             } else if (propertyId.equals("homepage")) {
-                this.informationLayout.addComponent(field,
-                        AppContext.getMessage(ProjectI18nEnum.FORM_HOME_PAGE),
-                        1, 0);
+                informationLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_HOME_PAGE), 1, 0);
             } else if (propertyId.equals("shortname")) {
-                this.informationLayout.addComponent(field,
-                        AppContext.getMessage(ProjectI18nEnum.FORM_SHORT_NAME), 0, 1);
+                informationLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_SHORT_NAME), 0, 1);
             } else if (propertyId.equals("projectstatus")) {
-                this.informationLayout.addComponent(field,
-                        AppContext.getMessage(ProjectI18nEnum.FORM_STATUS), 1, 1);
+                informationLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_STATUS), 1, 1);
             } else if (propertyId.equals("planstartdate")) {
-                this.informationLayout.addComponent(field,
-                        AppContext.getMessage(ProjectI18nEnum.FORM_PLAN_START_DATE), 0, 2);
+                informationLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_PLAN_START_DATE), 0, 2);
             } else if (propertyId.equals("planenddate")) {
-                this.informationLayout.addComponent(field, AppContext
-                        .getMessage(ProjectI18nEnum.FORM_PLAN_END_DATE), 1, 2);
+                informationLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_PLAN_END_DATE), 1, 2);
             } else if (propertyId.equals("description")) {
-                this.informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION),
-                        0, 3, 2, "100%", Alignment.MIDDLE_LEFT);
+                informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 3, 2, "100%");
             }
 
         }

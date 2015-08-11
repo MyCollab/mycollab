@@ -210,23 +210,20 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
         milestoneLink.addStyleName("milestone-name");
         milestoneLink.setWidth("100%");
 
-        MHorizontalLayout milestoneHeader = new MHorizontalLayout()
-                .withWidth("100%").with(milestoneLink).expand(milestoneLink);
+        MHorizontalLayout milestoneHeader = new MHorizontalLayout().withWidth("100%").with(milestoneLink).expand(milestoneLink);
 
         PopupButton taskSettingPopupBtn = new PopupButton();
         taskSettingPopupBtn.setWidth("20px");
         OptionPopupContent filterBtnLayout = new OptionPopupContent().withWidth("100px");
 
-        Button editButton = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        Button editButton = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(ClickEvent event) {
-                        EventBusFactory.getInstance().post(
-                                new MilestoneEvent.GotoEdit(MilestoneListViewImpl.this, milestone));
-                    }
-                });
+            @Override
+            public void buttonClick(ClickEvent event) {
+                EventBusFactory.getInstance().post(new MilestoneEvent.GotoEdit(MilestoneListViewImpl.this, milestone));
+            }
+        });
         editButton.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
         editButton.setIcon(FontAwesome.EDIT);
         filterBtnLayout.addOption(editButton);
@@ -272,38 +269,25 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
         layout.addComponent(spacing);
 
         GridFormLayoutHelper layoutHelper = new GridFormLayoutHelper(1, 5, "100%", "80px");
-        layoutHelper.addComponent(
-                new ELabel(AppContext.formatDate(milestone.getStartdate())),
-                AppContext.getMessage(MilestoneI18nEnum.FORM_START_DATE_FIELD),
-                0, 0, Alignment.TOP_LEFT);
-        layoutHelper.addComponent(
-                new ELabel(AppContext.formatDate(milestone.getEnddate())),
-                AppContext.getMessage(MilestoneI18nEnum.FORM_END_DATE_FIELD),
-                0, 1, Alignment.TOP_LEFT);
+        layoutHelper.addComponent(new ELabel(AppContext.formatDate(milestone.getStartdate())),
+                AppContext.getMessage(MilestoneI18nEnum.FORM_START_DATE_FIELD), 0, 0);
+        layoutHelper.addComponent(new ELabel(AppContext.formatDate(milestone.getEnddate())),
+                AppContext.getMessage(MilestoneI18nEnum.FORM_END_DATE_FIELD), 0, 1);
 
         CssLayout linkWrapper = new CssLayout();
         linkWrapper.setWidth("100%");
-        linkWrapper.addComponent(new ProjectUserLink(milestone.getOwner(),
-                milestone.getOwnerAvatarId(), milestone.getOwnerFullName()));
-        layoutHelper.addComponent(linkWrapper,
-                AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 2,
-                Alignment.TOP_LEFT);
+        linkWrapper.addComponent(new ProjectUserLink(milestone.getOwner(), milestone.getOwnerAvatarId(), milestone.getOwnerFullName()));
+        layoutHelper.addComponent(linkWrapper, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 2);
 
-        ProgressBarIndicator progressTask = new ProgressBarIndicator(
-                milestone.getNumTasks(), milestone.getNumOpenTasks());
+        ProgressBarIndicator progressTask = new ProgressBarIndicator(milestone.getNumTasks(), milestone.getNumOpenTasks());
         progressTask.setWidth("100%");
 
-        layoutHelper.addComponent(progressTask,
-                AppContext.getMessage(MilestoneI18nEnum.FORM_TASK_FIELD), 0, 3,
-                Alignment.TOP_LEFT);
+        layoutHelper.addComponent(progressTask, AppContext.getMessage(MilestoneI18nEnum.FORM_TASK_FIELD), 0, 3);
 
-        ProgressBarIndicator progressBug = new ProgressBarIndicator(
-                milestone.getNumBugs(), milestone.getNumOpenBugs());
+        ProgressBarIndicator progressBug = new ProgressBarIndicator(milestone.getNumBugs(), milestone.getNumOpenBugs());
         progressBug.setWidth("100%");
 
-        layoutHelper.addComponent(progressBug,
-                AppContext.getMessage(MilestoneI18nEnum.FORM_BUG_FIELD), 0, 4,
-                Alignment.TOP_LEFT);
+        layoutHelper.addComponent(progressBug, AppContext.getMessage(MilestoneI18nEnum.FORM_BUG_FIELD), 0, 4);
         GridLayout milestoneInfoLayout = layoutHelper.getLayout();
         milestoneInfoLayout.setWidth("100%");
         milestoneInfoLayout.setMargin(false);

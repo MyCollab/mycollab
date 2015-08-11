@@ -24,7 +24,10 @@ import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.form.field.*;
 import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -111,28 +114,17 @@ public class ProjectInformationComponent extends VerticalLayout {
                 private GridFormLayoutHelper informationLayout;
 
                 @Override
-                public void attachField(final Object propertyId,
-                                        final Field<?> field) {
+                public void attachField(Object propertyId, Field<?> field) {
                     if (Project.Field.homepage.equalTo(propertyId)) {
-                        this.informationLayout.addComponent(field, AppContext
-                                        .getMessage(ProjectI18nEnum.FORM_HOME_PAGE), 0,
-                                0, Alignment.TOP_LEFT);
+                        informationLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_HOME_PAGE), 0, 0);
                     } else if (Project.Field.projectstatus.equalTo(propertyId)) {
-                        this.informationLayout.addComponent(field, AppContext
-                                        .getMessage(ProjectI18nEnum.FORM_STATUS), 1,
-                                0, Alignment.TOP_LEFT);
+                        informationLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_STATUS), 1, 0);
                     } else if (SimpleProject.Field.totalBillableHours.equalTo(propertyId)) {
-                        this.informationLayout.addComponent(field, AppContext
-                                        .getMessage(ProjectI18nEnum.FORM_BILLABLE_HOURS), 0,
-                                1, Alignment.TOP_LEFT);
+                        informationLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_BILLABLE_HOURS), 0, 1);
                     } else if (SimpleProject.Field.totalNonBillableHours.equalTo(propertyId)) {
-                        this.informationLayout.addComponent(field, AppContext
-                                        .getMessage(ProjectI18nEnum.FORM_NON_BILLABLE_HOURS), 1,
-                                1, Alignment.TOP_LEFT);
+                        informationLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_NON_BILLABLE_HOURS), 1, 1);
                     } else if (Project.Field.description.equalTo(propertyId)) {
-                        this.informationLayout.addComponent(field, AppContext
-                                        .getMessage(GenericI18Enum.FORM_DESCRIPTION),
-                                0, 2, 2, "100%", Alignment.TOP_LEFT);
+                        informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 2, 2, "100%");
                     }
                 }
 
@@ -142,31 +134,28 @@ public class ProjectInformationComponent extends VerticalLayout {
                     return informationLayout.getLayout();
                 }
             });
-            this.previewForm
-                    .setBeanFormFieldFactory(new AbstractBeanFieldGroupViewFieldFactory<SimpleProject>(
-                            previewForm) {
-                        private static final long serialVersionUID = 1L;
+            this.previewForm.setBeanFormFieldFactory(new AbstractBeanFieldGroupViewFieldFactory<SimpleProject>(previewForm) {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        protected Field<?> onCreateField(Object propertyId) {
-                            if (propertyId.equals("homepage")) {
-                                return new UrlLinkViewField(project.getHomepage());
-                            } else if (Project.Field.description.equalTo(propertyId)) {
-                                return new RichTextViewField(project.getDescription());
-                            } else if (SimpleProject.Field.totalBillableHours.equalTo(propertyId)) {
-                                return new RoundNumberField(project.getTotalBillableHours());
-                            } else if (SimpleProject.Field.totalNonBillableHours.equalTo(propertyId)) {
-                                return new RoundNumberField(project.getTotalNonBillableHours());
-                            }
-                            return null;
-                        }
-                    });
+                @Override
+                protected Field<?> onCreateField(Object propertyId) {
+                    if (propertyId.equals("homepage")) {
+                        return new UrlLinkViewField(project.getHomepage());
+                    } else if (Project.Field.description.equalTo(propertyId)) {
+                        return new RichTextViewField(project.getDescription());
+                    } else if (SimpleProject.Field.totalBillableHours.equalTo(propertyId)) {
+                        return new RoundNumberField(project.getTotalBillableHours());
+                    } else if (SimpleProject.Field.totalNonBillableHours.equalTo(propertyId)) {
+                        return new RoundNumberField(project.getTotalNonBillableHours());
+                    }
+                    return null;
+                }
+            });
             previewForm.setBean(project);
         }
     }
 
-    private class DetailProjectInformation extends VerticalLayout implements
-            ProjectDisplayInformation {
+    private class DetailProjectInformation extends VerticalLayout implements ProjectDisplayInformation {
         private static final long serialVersionUID = 1L;
         private final AdvancedPreviewBeanForm<SimpleProject> previewForm;
 
@@ -179,36 +168,36 @@ public class ProjectInformationComponent extends VerticalLayout {
         public void show() {
             this.previewForm.setFormLayoutFactory(new ProjectInformationLayout());
             this.previewForm.setBeanFormFieldFactory(new AbstractBeanFieldGroupViewFieldFactory<SimpleProject>(previewForm) {
-                        private static final long serialVersionUID = 1L;
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        protected Field<?> onCreateField(Object propertyId) {
-                            if (propertyId.equals("planstartdate")) {
-                                return new DateViewField(project.getPlanstartdate());
-                            } else if (propertyId.equals("planenddate")) {
-                                return new DateViewField(project.getPlanenddate());
-                            } else if (propertyId.equals("actualstartdate")) {
-                                return new DateViewField(project.getActualstartdate());
-                            } else if (propertyId.equals("actualenddate")) {
-                                return new DateViewField(project.getActualenddate());
-                            } else if (propertyId.equals("homepage")) {
-                                return new UrlLinkViewField(project.getHomepage());
-                            } else if (propertyId.equals("description")) {
-                                return new RichTextViewField(project.getDescription());
-                            } else if (propertyId.equals("currencyid")) {
-                                if (project.getCurrency() != null) {
-                                    return new DefaultViewField(project.getCurrency().getShortname());
-                                } else {
-                                    return new DefaultViewField("");
-                                }
-                            } else if (SimpleProject.Field.totalBillableHours.equalTo(propertyId)) {
-                                return new RoundNumberField(project.getTotalBillableHours());
-                            } else if (SimpleProject.Field.totalNonBillableHours.equalTo(propertyId)) {
-                                return new RoundNumberField(project.getTotalNonBillableHours());
-                            }
-                            return null;
+                @Override
+                protected Field<?> onCreateField(Object propertyId) {
+                    if (propertyId.equals("planstartdate")) {
+                        return new DateViewField(project.getPlanstartdate());
+                    } else if (propertyId.equals("planenddate")) {
+                        return new DateViewField(project.getPlanenddate());
+                    } else if (propertyId.equals("actualstartdate")) {
+                        return new DateViewField(project.getActualstartdate());
+                    } else if (propertyId.equals("actualenddate")) {
+                        return new DateViewField(project.getActualenddate());
+                    } else if (propertyId.equals("homepage")) {
+                        return new UrlLinkViewField(project.getHomepage());
+                    } else if (propertyId.equals("description")) {
+                        return new RichTextViewField(project.getDescription());
+                    } else if (propertyId.equals("currencyid")) {
+                        if (project.getCurrency() != null) {
+                            return new DefaultViewField(project.getCurrency().getShortname());
+                        } else {
+                            return new DefaultViewField("");
                         }
-                    });
+                    } else if (SimpleProject.Field.totalBillableHours.equalTo(propertyId)) {
+                        return new RoundNumberField(project.getTotalBillableHours());
+                    } else if (SimpleProject.Field.totalNonBillableHours.equalTo(propertyId)) {
+                        return new RoundNumberField(project.getTotalNonBillableHours());
+                    }
+                    return null;
+                }
+            });
             previewForm.setBean(project);
         }
     }

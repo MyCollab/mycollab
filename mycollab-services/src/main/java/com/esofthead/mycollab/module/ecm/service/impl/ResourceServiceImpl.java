@@ -119,12 +119,10 @@ public class ResourceServiceImpl implements ResourceService {
                 BufferedImage image = ImageUtil.generateImageThumbnail(newInputStream);
                 if (image != null) {
                     String thumbnailPath = String.format(".thumbnail/%d/%s.%s",
-                            sAccountId, StringUtils.generateSoftUniqueId(),
-                            "png");
+                            sAccountId, StringUtils.generateSoftUniqueId(), "png");
                     File tmpFile = File.createTempFile("tmp", "png");
                     ImageIO.write(image, "png", new FileOutputStream(tmpFile));
-                    rawContentService.saveContent(thumbnailPath,
-                            new FileInputStream(tmpFile));
+                    rawContentService.saveContent(thumbnailPath, new FileInputStream(tmpFile));
                     content.setThumbnail(thumbnailPath);
                 }
             } catch (IOException e) {

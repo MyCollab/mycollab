@@ -22,13 +22,7 @@ import com.esofthead.mycollab.mobile.module.project.ui.InsideProjectNavigationMe
 import com.esofthead.mycollab.mobile.module.project.view.bug.BugPresenter;
 import com.esofthead.mycollab.mobile.module.project.view.message.MessagePresenter;
 import com.esofthead.mycollab.mobile.module.project.view.milestone.MilestonePresenter;
-import com.esofthead.mycollab.mobile.module.project.view.parameters.BugScreenData;
-import com.esofthead.mycollab.mobile.module.project.view.parameters.MessageScreenData;
-import com.esofthead.mycollab.mobile.module.project.view.parameters.MilestoneScreenData;
-import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectMemberScreenData;
-import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectScreenData;
-import com.esofthead.mycollab.mobile.module.project.view.parameters.TaskGroupScreenData;
-import com.esofthead.mycollab.mobile.module.project.view.parameters.TaskScreenData;
+import com.esofthead.mycollab.mobile.module.project.view.parameters.*;
 import com.esofthead.mycollab.mobile.module.project.view.settings.ProjectUserPresenter;
 import com.esofthead.mycollab.mobile.module.project.view.task.TaskPresenter;
 import com.esofthead.mycollab.mobile.mvp.AbstractPresenter;
@@ -51,89 +45,87 @@ import com.vaadin.ui.UI;
  */
 public class ProjectViewPresenter extends AbstractPresenter<ProjectView> {
 
-	private static final long serialVersionUID = -2509768926569804614L;
+    private static final long serialVersionUID = -2509768926569804614L;
 
-	public ProjectViewPresenter() {
-		super(ProjectView.class);
-	}
+    public ProjectViewPresenter() {
+        super(ProjectView.class);
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		if (data == null) {
-			// do nothing
-		}
-		if (data.getParams() instanceof Integer) {
-			ProjectService projectService = ApplicationContextUtil
-					.getSpringBean(ProjectService.class);
-			SimpleProject project = projectService.findById(
-					(Integer) data.getParams(), AppContext.getAccountId());
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        if (data == null) {
+            // do nothing
+        }
+        if (data.getParams() instanceof Integer) {
+            ProjectService projectService = ApplicationContextUtil
+                    .getSpringBean(ProjectService.class);
+            SimpleProject project = projectService.findById(
+                    (Integer) data.getParams(), AppContext.getAccountId());
 
-			if (project == null) {
-				NotificationUtil.showRecordNotExistNotification();
-			} else {
-				CurrentProjectVariables.setProject(project);
-				((MobileNavigationManager) UI.getCurrent().getContent())
-						.setNavigationMenu(new InsideProjectNavigationMenu());
-			}
-		}
-	}
+            if (project == null) {
+                NotificationUtil.showRecordNotExistNotification();
+            } else {
+                CurrentProjectVariables.setProject(project);
+                ((MobileNavigationManager) UI.getCurrent().getContent())
+                        .setNavigationMenu(new InsideProjectNavigationMenu());
+            }
+        }
+    }
 
-	@Override
-	protected void onDefaultStopChain() {
-		ProjectDashboardPresenter presenter = PresenterResolver
-				.getPresenter(ProjectDashboardPresenter.class);
-		presenter.go((MobileNavigationManager) UI.getCurrent().getContent(),
-				null);
-	}
+    @Override
+    protected void onDefaultStopChain() {
+        ProjectDashboardPresenter presenter = PresenterResolver
+                .getPresenter(ProjectDashboardPresenter.class);
+        presenter.go((MobileNavigationManager) UI.getCurrent().getContent(),
+                null);
+    }
 
-	@Override
-	protected void onHandleChain(ComponentContainer container,
-			PageActionChain pageActionChain) {
-		ScreenData<?> pageAction = pageActionChain.peek();
+    @Override
+    protected void onHandleChain(ComponentContainer container,
+                                 PageActionChain pageActionChain) {
+        ScreenData<?> pageAction = pageActionChain.peek();
 
-		IPresenter<?> presenter;
-		if (ClassUtils.instanceOf(pageAction,
-				ProjectScreenData.GotoDashboard.class)) {
-			presenter = PresenterResolver
-					.getPresenter(ProjectDashboardPresenter.class);
-		} else if (ClassUtils.instanceOf(pageAction,
-				ProjectScreenData.ViewActivities.class)) {
-			presenter = PresenterResolver
-					.getPresenter(ProjectActivityStreamPresenter.class);
-		} else if (ClassUtils.instanceOf(pageAction,
-				MessageScreenData.Read.class, MessageScreenData.Search.class,
-				MessageScreenData.Add.class)) {
-			presenter = PresenterResolver.getPresenter(MessagePresenter.class);
-		} else if (ClassUtils.instanceOf(pageAction, TaskScreenData.List.class,
-				TaskScreenData.Read.class, TaskScreenData.Add.class,
-				TaskScreenData.Edit.class, TaskGroupScreenData.List.class,
-				TaskGroupScreenData.Read.class, TaskGroupScreenData.Add.class,
-				TaskGroupScreenData.Edit.class)) {
-			presenter = PresenterResolver.getPresenter(TaskPresenter.class);
-		} else if (ClassUtils.instanceOf(pageAction,
-				MilestoneScreenData.List.class,
-				MilestoneScreenData.Search.class,
-				MilestoneScreenData.Read.class, MilestoneScreenData.Add.class,
-				MilestoneScreenData.Edit.class)) {
-			presenter = PresenterResolver
-					.getPresenter(MilestonePresenter.class);
-		} else if (ClassUtils.instanceOf(pageAction,
-				BugScreenData.Search.class, BugScreenData.Add.class,
-				BugScreenData.Read.class, BugScreenData.Edit.class)) {
-			presenter = PresenterResolver.getPresenter(BugPresenter.class);
-		} else if (ClassUtils.instanceOf(pageAction,
-				ProjectMemberScreenData.Search.class,
-				ProjectMemberScreenData.Add.class,
-				ProjectMemberScreenData.InviteProjectMembers.class,
-				ProjectMemberScreenData.Read.class,
-				ProjectMemberScreenData.Edit.class)) {
-			presenter = PresenterResolver
-					.getPresenter(ProjectUserPresenter.class);
-		} else {
-			throw new UnsupportedOperationException(
-					"Not support page action chain " + pageAction);
-		}
+        IPresenter<?> presenter;
+        if (ClassUtils.instanceOf(pageAction,
+                ProjectScreenData.GotoDashboard.class)) {
+            presenter = PresenterResolver
+                    .getPresenter(ProjectDashboardPresenter.class);
+        } else if (ClassUtils.instanceOf(pageAction,
+                ProjectScreenData.ViewActivities.class)) {
+            presenter = PresenterResolver
+                    .getPresenter(ProjectActivityStreamPresenter.class);
+        } else if (ClassUtils.instanceOf(pageAction,
+                MessageScreenData.Read.class, MessageScreenData.Search.class,
+                MessageScreenData.Add.class)) {
+            presenter = PresenterResolver.getPresenter(MessagePresenter.class);
+        } else if (ClassUtils.instanceOf(pageAction, TaskScreenData.List.class,
+                TaskScreenData.Read.class, TaskScreenData.Add.class,
+                TaskScreenData.Edit.class)) {
+            presenter = PresenterResolver.getPresenter(TaskPresenter.class);
+        } else if (ClassUtils.instanceOf(pageAction,
+                MilestoneScreenData.List.class,
+                MilestoneScreenData.Search.class,
+                MilestoneScreenData.Read.class, MilestoneScreenData.Add.class,
+                MilestoneScreenData.Edit.class)) {
+            presenter = PresenterResolver
+                    .getPresenter(MilestonePresenter.class);
+        } else if (ClassUtils.instanceOf(pageAction,
+                BugScreenData.Search.class, BugScreenData.Add.class,
+                BugScreenData.Read.class, BugScreenData.Edit.class)) {
+            presenter = PresenterResolver.getPresenter(BugPresenter.class);
+        } else if (ClassUtils.instanceOf(pageAction,
+                ProjectMemberScreenData.Search.class,
+                ProjectMemberScreenData.Add.class,
+                ProjectMemberScreenData.InviteProjectMembers.class,
+                ProjectMemberScreenData.Read.class,
+                ProjectMemberScreenData.Edit.class)) {
+            presenter = PresenterResolver
+                    .getPresenter(ProjectUserPresenter.class);
+        } else {
+            throw new UnsupportedOperationException(
+                    "Not support page action chain " + pageAction);
+        }
 
-		presenter.handleChain(container, pageActionChain);
-	}
+        presenter.handleChain(container, pageActionChain);
+    }
 }

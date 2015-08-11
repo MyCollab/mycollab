@@ -21,63 +21,65 @@ import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Field;
 
 /**
- * 
+ * @param <B>
  * @author MyCollab Ltd.
  * @since 3.0
- * 
- * @param <B>
  */
 public class GenericBeanForm<B> extends CssLayout {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private IFormLayoutFactory layoutFactory;
-	private boolean isValid;
+    private IFormLayoutFactory layoutFactory;
+    private boolean isValid;
 
-	protected IBeanFieldGroupFieldFactory<B> fieldFactory;
-	protected B bean;
+    protected IBeanFieldGroupFieldFactory<B> fieldFactory;
+    protected B bean;
 
-	public GenericBeanForm() {
-		super();
-	}
+    public GenericBeanForm() {
+        super();
+    }
 
-	public void setFormLayoutFactory(IFormLayoutFactory layoutFactory) {
-		this.layoutFactory = layoutFactory;
-	}
+    public void setFormLayoutFactory(IFormLayoutFactory layoutFactory) {
+        this.layoutFactory = layoutFactory;
+    }
 
-	public void setBeanFormFieldFactory(IBeanFieldGroupFieldFactory<B> fieldFactory) {
-		this.fieldFactory = fieldFactory;
-	}
+    public void setBeanFormFieldFactory(IBeanFieldGroupFieldFactory<B> fieldFactory) {
+        this.fieldFactory = fieldFactory;
+    }
 
-	public B getBean() {
-		return bean;
-	}
+    public IBeanFieldGroupFieldFactory<B> getFieldFactory() {
+        return fieldFactory;
+    }
 
-	public void setBean(B bean) {
-		this.bean = bean;
+    public B getBean() {
+        return bean;
+    }
 
-		this.removeAllComponents();
-		this.addComponent(layoutFactory.getLayout());
+    public void setBean(B bean) {
+        this.bean = bean;
 
-		if (fieldFactory == null) {
-			throw new MyCollabException("Field factory must be set");
-		}
+        this.removeAllComponents();
+        this.addComponent(layoutFactory.getLayout());
 
-		fieldFactory.setBean(bean);
-	}
+        if (fieldFactory == null) {
+            throw new MyCollabException("Field factory must be set");
+        }
 
-	void commit() {
-		fieldFactory.commit();
-	}
+        fieldFactory.setBean(bean);
+    }
 
-	public void attachField(Object propertyId, Field<?> field) {
-		layoutFactory.attachField(propertyId, field);
-	}
+    void commit() {
+        fieldFactory.commit();
+    }
 
-	public void setValid(boolean value) {
-		isValid = value;
-	}
+    public void attachField(Object propertyId, Field<?> field) {
+        layoutFactory.attachField(propertyId, field);
+    }
 
-	protected boolean isValid() {
-		return this.isValid;
-	}
+    public void setValid(boolean value) {
+        isValid = value;
+    }
+
+    protected boolean isValid() {
+        return this.isValid;
+    }
 }

@@ -100,7 +100,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
 
                 }
             });
-            editBtn.setStyleName("link");
+            editBtn.setStyleName(UIConstants.THEME_LINK);
             editBtn.addStyleName("info-hdr");
             header.addComponent(editBtn);
         }
@@ -113,7 +113,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
         currentUserFollow = isUserWatching(bean);
 
         final Button toogleWatching = new Button("");
-        toogleWatching.setStyleName("link");
+        toogleWatching.setStyleName(UIConstants.THEME_LINK);
         toogleWatching.addStyleName("info-hdr");
         toogleWatching.addClickListener(new ClickListener() {
             private static final long serialVersionUID = 1L;
@@ -156,7 +156,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
                         }
                     }
                 });
-        followersBtn.setStyleName("link");
+        followersBtn.setStyleName(UIConstants.THEME_LINK);
         layout.addComponent(followersBtn);
     }
 
@@ -239,7 +239,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
 
         private DefaultPagedBeanTable<MonitorItemService, MonitorSearchCriteria, SimpleMonitorItem> tableItem;
 
-        public CompFollowersEditWindow(boolean isEdit) {
+        CompFollowersEditWindow(boolean isEdit) {
             this.setModal(true);
             this.setResizable(false);
             this.setCaption(AppContext.getMessage(FollowerI18nEnum.DIALOG_WATCHERS_TITLE));
@@ -288,13 +288,9 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
 
             tableItem = new DefaultPagedBeanTable<>(ApplicationContextUtil.getSpringBean(MonitorItemService.class),
                     SimpleMonitorItem.class, Arrays.asList(
-                    new TableViewField(FollowerI18nEnum.OPT_FOLLOWER_NAME,
-                            "user", UIConstants.TABLE_EX_LABEL_WIDTH),
-                    new TableViewField(
-                            FollowerI18nEnum.OPT_FOLLOWER_CREATE_DATE,
-                            "monitorDate", UIConstants.TABLE_DATE_WIDTH),
-                    new TableViewField(null, "id",
-                            UIConstants.TABLE_CONTROL_WIDTH)));
+                    new TableViewField(FollowerI18nEnum.OPT_FOLLOWER_NAME, "user", UIConstants.TABLE_EX_LABEL_WIDTH),
+                    new TableViewField(FollowerI18nEnum.OPT_FOLLOWER_CREATE_DATE, "monitorDate", UIConstants.TABLE_DATE_WIDTH),
+                    new TableViewField(null, "id", UIConstants.TABLE_CONTROL_WIDTH)));
 
             tableItem.addGeneratedColumn("user", new Table.ColumnGenerator() {
                 private static final long serialVersionUID = 1L;

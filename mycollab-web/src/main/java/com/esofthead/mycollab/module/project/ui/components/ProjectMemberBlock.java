@@ -21,6 +21,7 @@ import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.utils.TooltipHelper;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.hp.gagawa.java.elements.A;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -34,10 +35,11 @@ import java.util.UUID;
  * @author MyCollab Ltd.
  * @since 5.0.4
  */
-public class ProjectMemberBlock extends MVerticalLayout{
+public class ProjectMemberBlock extends MVerticalLayout {
     public ProjectMemberBlock(String username, String userAvatarId, String displayName) {
         withMargin(false).withWidth("80px");
-        MButton button = new MButton(UserAvatarControlFactory.createAvatarResource(userAvatarId, 48)).withStyleName("link");
+        MButton button = new MButton(UserAvatarControlFactory.createAvatarResource(userAvatarId, 48)).
+                withStyleName(UIConstants.THEME_LINK);
 
         String uid = UUID.randomUUID().toString();
         DivLessFormatter div = new DivLessFormatter();

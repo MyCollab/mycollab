@@ -114,7 +114,7 @@ public class TaskListPresenter extends AbstractListPresenter<TaskListView, TaskS
                 TaskSearchCriteria criteria = new TaskSearchCriteria();
                 criteria.setProjectid(new NumberSearchField(
                         CurrentProjectVariables.getProjectId()));
-                criteria.setTaskListId(new NumberSearchField(taskList.getId()));
+//                criteria.setMilestoneId(new NumberSearchField(taskList.getId()));
                 criteria.setStatuses(new SetSearchField<>("Open"));
 
                 super.onGo(container, data);

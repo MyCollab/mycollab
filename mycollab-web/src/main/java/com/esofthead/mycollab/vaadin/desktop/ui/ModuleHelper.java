@@ -60,15 +60,4 @@ public class ModuleHelper {
         IModule module = getCurrentModule();
         return (module != null) && (module instanceof AccountModule);
     }
-
-    public static IModule getModuleOwner(PageView view) {
-        if (view == null) {
-            return null;
-        }
-        if (view instanceof IModule) {
-            return (IModule)view;
-        } else {
-            return getModuleOwner((PageView)view.getParent());
-        }
-    }
 }

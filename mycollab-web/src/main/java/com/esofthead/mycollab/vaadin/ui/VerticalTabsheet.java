@@ -16,453 +16,444 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
+import com.esofthead.mycollab.core.MyCollabException;
+import com.vaadin.server.ErrorMessage;
+import com.vaadin.server.Page;
+import com.vaadin.server.Resource;
+import com.vaadin.ui.*;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
+import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
+import com.vaadin.ui.TabSheet.Tab;
+
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import com.esofthead.mycollab.core.MyCollabException;
-import com.vaadin.server.ErrorMessage;
-import com.vaadin.server.Page;
-import com.vaadin.server.Resource;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.TabSheet;
-import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
-import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
-import com.vaadin.ui.TabSheet.Tab;
-import com.vaadin.ui.VerticalLayout;
-
 /**
- * 
  * @author MyCollab Ltd.
  * @since 3.0
  */
 public class VerticalTabsheet extends CustomComponent {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     private static final String TABSHEET_STYLENAME = "vertical-tabsheet";
     private static final String TAB_STYLENAME = "tab";
     private static final String TAB_SELECTED_STYLENAME = "tab-selected";
 
-	private VerticalLayout navigatorContainer;
-	private CssLayout tabContainer;
-	private VerticalLayout contentWrapper;
-	private CssLayout navigatorWrapper;
+    private VerticalLayout navigatorContainer;
+    private CssLayout tabContainer;
+    protected VerticalLayout contentWrapper;
+    protected CssLayout navigatorWrapper;
 
-	private Map<String, Tab> compMap = new HashMap<>();
+    private Map<String, Tab> compMap = new HashMap<>();
 
-	private Component selectedButton = null;
-	private Tab selectedComp = null;
+    private Component selectedButton = null;
+    private Tab selectedComp = null;
 
-	public VerticalTabsheet() {
-		this(true);
-	}
+    public VerticalTabsheet() {
+        this(true);
+    }
 
-	public VerticalTabsheet(boolean isLeft) {
-		CssLayout contentLayout = new CssLayout();
+    public VerticalTabsheet(boolean isLeft) {
+        CssLayout contentLayout = new CssLayout();
 
-		navigatorWrapper = new CssLayout();
-		navigatorWrapper.setStyleName("navigator-wrap");
-		navigatorContainer = new VerticalLayout();
-		navigatorWrapper.addComponent(navigatorContainer);
+        navigatorWrapper = new CssLayout();
+        navigatorWrapper.setStyleName("navigator-wrap");
+        navigatorContainer = new VerticalLayout();
+        navigatorWrapper.addComponent(navigatorContainer);
 
-		contentWrapper = new VerticalLayout();
-		contentWrapper.setStyleName("container-wrap");
-		contentWrapper.setWidth("100%");
+        contentWrapper = new VerticalLayout();
+        contentWrapper.setStyleName("container-wrap");
+        contentWrapper.setWidth("100%");
 
-		tabContainer = new CssLayout();
-		tabContainer.setWidth("100%");
-		contentWrapper.addComponent(tabContainer);
+        tabContainer = new CssLayout();
+        tabContainer.setWidth("100%");
+        contentWrapper.addComponent(tabContainer);
 
-		if (isLeft) {
-			contentLayout.addComponent(navigatorWrapper);
-			contentLayout.addComponent(contentWrapper);
+        if (isLeft) {
+            contentLayout.addComponent(navigatorWrapper);
+            contentLayout.addComponent(contentWrapper);
 
-		} else {
-			contentLayout.addComponent(contentWrapper);
-			contentLayout.addComponent(navigatorWrapper);
-		}
+        } else {
+            contentLayout.addComponent(contentWrapper);
+            contentLayout.addComponent(navigatorWrapper);
+        }
 
-		this.setCompositionRoot(contentLayout);
-		this.setStyleName(TABSHEET_STYLENAME);
-	}
+        this.setCompositionRoot(contentLayout);
+        this.setStyleName(TABSHEET_STYLENAME);
+    }
 
-	public void addTab(Component component, String id, String caption) {
-		addTab(component, id, 0, caption, null, null);
-	}
+    public void setNavigatorVisibility(boolean visibility) {
+        navigatorContainer.setVisible(visibility);
+        navigatorWrapper.setVisible(visibility);
+    }
 
-	public void addTab(Component component, String id, int level,
-			String caption, String link) {
-		addTab(component, id, level, caption, link, null);
-	}
+    public void addTab(Component component, String id, String caption) {
+        addTab(component, id, 0, caption, null, null);
+    }
 
-	public void addTab(Component component, String id, String caption,
-			Resource resource) {
-		addTab(component, id, 0, caption, null, resource);
-	}
+    public void addTab(Component component, String id, int level, String caption, String link) {
+        addTab(component, id, level, caption, link, null);
+    }
 
-	public void addTab(Component component, String id, int level,
-			String caption, String link, Resource resource) {
-		if (!hasTab(id)) {
-			final ButtonTabImpl button = new ButtonTabImpl(id, level, caption,
-					link);
+    public void addTab(Component component, String id, String caption, Resource resource) {
+        addTab(component, id, 0, caption, null, resource);
+    }
 
-			button.addClickListener(new ClickListener() {
-				private static final long serialVersionUID = 1L;
+    public void addTab(Component component, String id, int level, String caption, String link, Resource resource) {
+        if (!hasTab(id)) {
+            final ButtonTabImpl button = new ButtonTabImpl(id, level, caption, link);
 
-				@Override
-				public void buttonClick(ClickEvent event) {
-					if (!event.isCtrlKey() && !event.isMetaKey()) {
-						if (selectedButton != button) {
-							clearTabSelection(true);
-							selectedButton = button;
-							selectedButton.addStyleName(TAB_SELECTED_STYLENAME);
-							selectedComp = compMap.get(button.getTabId());
-						}
-						fireTabChangeEvent(new SelectedTabChangeEvent(
-								VerticalTabsheet.this));
-					} else {
-						Page.getCurrent().open(button.link, "_blank", false);
-					}
+            button.addClickListener(new ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-				}
-			});
+                @Override
+                public void buttonClick(ClickEvent event) {
+                    if (!event.isCtrlKey() && !event.isMetaKey()) {
+                        if (selectedButton != button) {
+                            clearTabSelection(true);
+                            selectedButton = button;
+                            selectedButton.addStyleName(TAB_SELECTED_STYLENAME);
+                            selectedComp = compMap.get(button.getTabId());
+                        }
+                        fireTabChangeEvent(new SelectedTabChangeEvent(
+                                VerticalTabsheet.this));
+                    } else {
+                        Page.getCurrent().open(button.link, "_blank", false);
+                    }
 
-			if (resource == null) {
-				setDefaulButtonIcon(button, false);
-			} else {
-				button.setIcon(resource);
-			}
-			button.setStyleName(TAB_STYLENAME);
-			button.setWidth("100%");
+                }
+            });
 
-			if (button.getLevel() > 0) {
-				int insertIndex = 0;
-				for (int i = 0; i < navigatorContainer.getComponentCount(); i++) {
-					ButtonTabImpl buttonTmp = (ButtonTabImpl) navigatorContainer
-							.getComponent(i);
-					if (buttonTmp.getLevel() > level) {
-						break;
-					} else {
-						insertIndex++;
-					}
-				}
-				navigatorContainer.addComponent(button, insertIndex);
-			} else {
-				navigatorContainer.addComponent(button);
-			}
+            if (resource == null) {
+                setDefaulButtonIcon(button, false);
+            } else {
+                button.setIcon(resource);
+            }
+            button.setStyleName(TAB_STYLENAME);
+            button.setWidth("100%");
 
-			TabImpl tabImpl = new TabImpl(id, caption, component);
-			compMap.put(id, tabImpl);
-		}
+            if (button.getLevel() > 0) {
+                int insertIndex = 0;
+                for (int i = 0; i < navigatorContainer.getComponentCount(); i++) {
+                    ButtonTabImpl buttonTmp = (ButtonTabImpl) navigatorContainer.getComponent(i);
+                    if (buttonTmp.getLevel() > level) {
+                        break;
+                    } else {
+                        insertIndex++;
+                    }
+                }
+                navigatorContainer.addComponent(button, insertIndex);
+            } else {
+                navigatorContainer.addComponent(button);
+            }
 
-	}
+            TabImpl tabImpl = new TabImpl(id, caption, component);
+            compMap.put(id, tabImpl);
+        }
 
-	public boolean hasTab(String viewId) {
-		return compMap.containsKey(viewId);
-	}
+    }
 
-	public void removeTab(String viewId) {
-		Tab tabImpl = compMap.get(viewId);
-		if (tabImpl != null) {
-			ButtonTabImpl button = getButtonById(viewId);
-			if (button != null) {
-				navigatorContainer.removeComponent(button);
-				compMap.remove(viewId);
-			}
-		}
-	}
+    public boolean hasTab(String viewId) {
+        return compMap.containsKey(viewId);
+    }
 
-	private ButtonTabImpl getButtonById(String viewId) {
-		for (int i = 0; i < navigatorContainer.getComponentCount(); i++) {
-			ButtonTabImpl button = (ButtonTabImpl) navigatorContainer.getComponent(i);
-			if (viewId.equals(button.getTabId())) {
-				return button;
-			}
-		}
+    public void removeTab(String viewId) {
+        Tab tabImpl = compMap.get(viewId);
+        if (tabImpl != null) {
+            ButtonTabImpl button = getButtonById(viewId);
+            if (button != null) {
+                navigatorContainer.removeComponent(button);
+                compMap.remove(viewId);
+            }
+        }
+    }
 
-		return null;
-	}
+    private ButtonTabImpl getButtonById(String viewId) {
+        for (int i = 0; i < navigatorContainer.getComponentCount(); i++) {
+            ButtonTabImpl button = (ButtonTabImpl) navigatorContainer.getComponent(i);
+            if (viewId.equals(button.getTabId())) {
+                return button;
+            }
+        }
 
-	private void fireTabChangeEvent(SelectedTabChangeEvent event) {
-		this.fireEvent(event);
-	}
+        return null;
+    }
 
-	private static final Method SELECTED_TAB_CHANGE_METHOD;
-	static {
-		try {
-			SELECTED_TAB_CHANGE_METHOD = SelectedTabChangeListener.class
-					.getDeclaredMethod("selectedTabChange", SelectedTabChangeEvent.class);
-		} catch (final java.lang.NoSuchMethodException e) {
-			throw new java.lang.RuntimeException(
-					"Internal error finding methods in TabSheet");
-		}
-	}
+    private void fireTabChangeEvent(SelectedTabChangeEvent event) {
+        this.fireEvent(event);
+    }
 
-	public void addSelectedTabChangeListener(TabSheet.SelectedTabChangeListener listener) {
-		this.addListener(SelectedTabChangeEvent.class, listener,
-				SELECTED_TAB_CHANGE_METHOD);
-	}
+    private static final Method SELECTED_TAB_CHANGE_METHOD;
 
-	public Component selectTab(String viewId) {
-		Tab tab = compMap.get(viewId);
-		Button btn = getButtonById(viewId);
-		if (btn != null) {
-			selectedButton = btn;
-			clearTabSelection(true);
-			selectedButton.addStyleName(TAB_SELECTED_STYLENAME);
-			setDefaulButtonIcon(selectedButton, true);
-			selectedComp = tab;
-			tabContainer.removeAllComponents();
-			tabContainer.addComponent(tab.getComponent());
-			return tab.getComponent();
-		} else {
-			return null;
-		}
-	}
+    static {
+        try {
+            SELECTED_TAB_CHANGE_METHOD = SelectedTabChangeListener.class
+                    .getDeclaredMethod("selectedTabChange", SelectedTabChangeEvent.class);
+        } catch (NoSuchMethodException e) {
+            throw new MyCollabException("Internal error finding methods in TabSheet");
+        }
+    }
 
-	public Tab getSelectedTab() {
-		return selectedComp;
-	}
+    public void addSelectedTabChangeListener(TabSheet.SelectedTabChangeListener listener) {
+        this.addListener(SelectedTabChangeEvent.class, listener, SELECTED_TAB_CHANGE_METHOD);
+    }
 
-	@Override
-	public void setWidth(float width, Unit unit) {
-		super.setWidth(width, unit);
+    public Component selectTab(String viewId) {
+        Tab tab = compMap.get(viewId);
+        Button btn = getButtonById(viewId);
+        if (btn != null) {
+            selectedButton = btn;
+            clearTabSelection(true);
+            selectedButton.addStyleName(TAB_SELECTED_STYLENAME);
+            setDefaulButtonIcon(selectedButton, true);
+            selectedComp = tab;
+            tabContainer.removeAllComponents();
+            tabContainer.addComponent(tab.getComponent());
+            return tab.getComponent();
+        } else {
+            return null;
+        }
+    }
 
-		if (getCompositionRoot() != null)
-			getCompositionRoot().setWidth(width, unit);
-	}
+    public Tab getSelectedTab() {
+        return selectedComp;
+    }
 
-	public void setNavigatorWidth(String width) {
-		navigatorContainer.setWidth(width);
-		Iterator<Component> i = navigatorContainer.iterator();
-		while (i.hasNext()) {
-			Component childComponent = i.next();
-			childComponent.setWidth(width);
-		}
-	}
+    @Override
+    public void setWidth(float width, Unit unit) {
+        super.setWidth(width, unit);
 
-	public void setNavigatorStyleName(String styleName) {
+        if (getCompositionRoot() != null)
+            getCompositionRoot().setWidth(width, unit);
+    }
+
+    public void setNavigatorWidth(String width) {
+        navigatorContainer.setWidth(width);
+        Iterator<Component> i = navigatorContainer.iterator();
+        while (i.hasNext()) {
+            Component childComponent = i.next();
+            childComponent.setWidth(width);
+        }
+    }
+
+    public void setNavigatorStyleName(String styleName) {
         navigatorContainer.setStyleName(styleName);
-	}
+    }
 
-	public void setContainerStyleName(String styleName) {
+    public void setContainerStyleName(String styleName) {
         tabContainer.setStyleName(styleName);
-	}
+    }
 
-	private void clearTabSelection(boolean setDefaultIcon) {
-		Iterator<Component> iterator = navigatorContainer.iterator();
-		if (setDefaultIcon) {
-			while (iterator.hasNext()) {
-				Component btn = iterator.next();
-				if (btn.getStyleName().contains(TAB_SELECTED_STYLENAME)) {
-					btn.removeStyleName(TAB_SELECTED_STYLENAME);
-					setDefaulButtonIcon(btn, false);
-				}
-			}
-		} else {
-			while (iterator.hasNext()) {
-				Component btn = iterator.next();
-				if (btn.getStyleName().contains(TAB_SELECTED_STYLENAME)) {
-					btn.removeStyleName(TAB_SELECTED_STYLENAME);
-				}
-			}
-		}
-	}
+    private void clearTabSelection(boolean setDefaultIcon) {
+        Iterator<Component> iterator = navigatorContainer.iterator();
+        if (setDefaultIcon) {
+            while (iterator.hasNext()) {
+                Component btn = iterator.next();
+                if (btn.getStyleName().contains(TAB_SELECTED_STYLENAME)) {
+                    btn.removeStyleName(TAB_SELECTED_STYLENAME);
+                    setDefaulButtonIcon(btn, false);
+                }
+            }
+        } else {
+            while (iterator.hasNext()) {
+                Component btn = iterator.next();
+                if (btn.getStyleName().contains(TAB_SELECTED_STYLENAME)) {
+                    btn.removeStyleName(TAB_SELECTED_STYLENAME);
+                }
+            }
+        }
+    }
 
-	public VerticalLayout getContentWrapper() {
-		return this.contentWrapper;
-	}
+    public VerticalLayout getContentWrapper() {
+        return this.contentWrapper;
+    }
 
-	public CssLayout getNavigatorWrapper() {
-		return this.navigatorWrapper;
-	}
+    public CssLayout getNavigatorWrapper() {
+        return this.navigatorWrapper;
+    }
 
-	protected void setDefaulButtonIcon(Component btn, Boolean selected) {
+    protected void setDefaulButtonIcon(Component btn, Boolean selected) {
 
-	}
+    }
 
-	public void replaceContainer(ComponentContainer newContainer, ComponentContainer newPosition) {
-		ComponentContainer containerParent = (ComponentContainer) tabContainer.getParent();
-		if (containerParent != null) {
-			containerParent.removeComponent(tabContainer);
-		}
-		if (newPosition == null)
-			newPosition = newContainer;
-		newPosition.addComponent(tabContainer);
-		contentWrapper.addComponent(newContainer);
-	}
+    public void replaceContainer(ComponentContainer newContainer, ComponentContainer newPosition) {
+        ComponentContainer containerParent = (ComponentContainer) tabContainer.getParent();
+        if (containerParent != null) {
+            containerParent.removeComponent(tabContainer);
+        }
+        if (newPosition == null)
+            newPosition = newContainer;
+        newPosition.addComponent(tabContainer);
+        contentWrapper.addComponent(newContainer);
+    }
 
-	public static class ButtonTabImpl extends Button {
-		private static final long serialVersionUID = 1L;
+    public static class ButtonTabImpl extends Button {
+        private static final long serialVersionUID = 1L;
 
-		private String tabId;
-		private int level;
-		String link;
+        private String tabId;
+        private int level;
+        String link;
 
-		public ButtonTabImpl(String id, int level, String caption, String link) {
-			super(caption);
-			this.tabId = id;
-			this.link = link;
-			this.level = level;
-		}
+        public ButtonTabImpl(String id, int level, String caption, String link) {
+            super(caption);
+            this.tabId = id;
+            this.link = link;
+            this.level = level;
+        }
 
-		public String getTabId() {
-			return tabId;
-		}
+        public String getTabId() {
+            return tabId;
+        }
 
-		public int getLevel() {
-			return level;
-		}
-	}
+        public int getLevel() {
+            return level;
+        }
+    }
 
-	public static class TabImpl implements Tab {
-		private static final long serialVersionUID = 1L;
+    public static class TabImpl implements Tab {
+        private static final long serialVersionUID = 1L;
 
-		private String tabId;
-		private String caption;
-		private Component component;
+        private String tabId;
+        private String caption;
+        private Component component;
 
-		public TabImpl(String id, String caption, Component component) {
-			this.tabId = id;
-			this.caption = caption;
-			this.component = component;
-		}
+        public TabImpl(String id, String caption, Component component) {
+            this.tabId = id;
+            this.caption = caption;
+            this.component = component;
+        }
 
-		@Override
-		public boolean isVisible() {
-			throw new MyCollabException("Do not support");
-		}
+        @Override
+        public boolean isVisible() {
+            throw new MyCollabException("Do not support");
+        }
 
-		@Override
-		public void setVisible(boolean visible) {
-			throw new MyCollabException("Do not support");
-		}
+        @Override
+        public void setVisible(boolean visible) {
+            throw new MyCollabException("Do not support");
+        }
 
-		@Override
-		public boolean isClosable() {
-			throw new MyCollabException("Do not support");
-		}
+        @Override
+        public boolean isClosable() {
+            throw new MyCollabException("Do not support");
+        }
 
-		@Override
-		public void setClosable(boolean closable) {
-			throw new MyCollabException("Do not support");
-		}
+        @Override
+        public void setClosable(boolean closable) {
+            throw new MyCollabException("Do not support");
+        }
 
-		@Override
-		public boolean isEnabled() {
-			throw new MyCollabException("Do not support");
-		}
+        @Override
+        public boolean isEnabled() {
+            throw new MyCollabException("Do not support");
+        }
 
-		@Override
-		public void setEnabled(boolean enabled) {
-			throw new MyCollabException("Do not support");
-		}
+        @Override
+        public void setEnabled(boolean enabled) {
+            throw new MyCollabException("Do not support");
+        }
 
-		@Override
-		public void setCaption(String caption) {
-			this.caption = caption;
+        @Override
+        public void setCaption(String caption) {
+            this.caption = caption;
 
-		}
+        }
 
-		@Override
-		public String getCaption() {
-			return caption;
-		}
+        @Override
+        public String getCaption() {
+            return caption;
+        }
 
-		public String getTabId() {
-			return tabId;
-		}
+        public String getTabId() {
+            return tabId;
+        }
 
-		@Override
-		public Resource getIcon() {
-			throw new MyCollabException("Do not support");
-		}
+        @Override
+        public Resource getIcon() {
+            throw new MyCollabException("Do not support");
+        }
 
-		@Override
-		public void setIcon(Resource icon) {
-			throw new MyCollabException("Do not support");
+        @Override
+        public void setIcon(Resource icon) {
+            throw new MyCollabException("Do not support");
 
-		}
+        }
 
-		@Override
-		public String getDescription() {
-			throw new MyCollabException("Do not support");
-		}
+        @Override
+        public String getDescription() {
+            throw new MyCollabException("Do not support");
+        }
 
-		@Override
-		public void setDescription(String description) {
-			throw new MyCollabException("Do not support");
-		}
+        @Override
+        public void setDescription(String description) {
+            throw new MyCollabException("Do not support");
+        }
 
-		@Override
-		public void setComponentError(ErrorMessage componentError) {
-			throw new MyCollabException("Do not support");
+        @Override
+        public void setComponentError(ErrorMessage componentError) {
+            throw new MyCollabException("Do not support");
 
-		}
+        }
 
-		@Override
-		public ErrorMessage getComponentError() {
-			throw new MyCollabException("Do not support");
-		}
+        @Override
+        public ErrorMessage getComponentError() {
+            throw new MyCollabException("Do not support");
+        }
 
-		@Override
-		public Component getComponent() {
-			return component;
-		}
+        @Override
+        public Component getComponent() {
+            return component;
+        }
 
-		@Override
-		public void setStyleName(String styleName) {
-			component.setStyleName(styleName);
+        @Override
+        public void setStyleName(String styleName) {
+            component.setStyleName(styleName);
 
-		}
+        }
 
-		@Override
-		public String getStyleName() {
-			return component.getStyleName();
-		}
+        @Override
+        public String getStyleName() {
+            return component.getStyleName();
+        }
 
-		@Override
-		public void setDefaultFocusComponent(Focusable component) {
-			throw new MyCollabException("Do not support");
+        @Override
+        public void setDefaultFocusComponent(Focusable component) {
+            throw new MyCollabException("Do not support");
 
-		}
+        }
 
-		@Override
-		public Focusable getDefaultFocusComponent() {
-			throw new MyCollabException("Do not support");
-		}
+        @Override
+        public Focusable getDefaultFocusComponent() {
+            throw new MyCollabException("Do not support");
+        }
 
-		@Override
-		public void setIcon(Resource icon, String iconAltText) {
-			throw new MyCollabException("Do not support");
-		}
+        @Override
+        public void setIcon(Resource icon, String iconAltText) {
+            throw new MyCollabException("Do not support");
+        }
 
-		@Override
-		public String getIconAlternateText() {
-			throw new MyCollabException("Do not support");
-		}
+        @Override
+        public String getIconAlternateText() {
+            throw new MyCollabException("Do not support");
+        }
 
-		@Override
-		public void setIconAlternateText(String iconAltText) {
-			throw new MyCollabException("Do not support");
-		}
+        @Override
+        public void setIconAlternateText(String iconAltText) {
+            throw new MyCollabException("Do not support");
+        }
 
-		@Override
-		public void setId(String id) {
-			throw new MyCollabException("Do not support");
+        @Override
+        public void setId(String id) {
+            throw new MyCollabException("Do not support");
+        }
 
-		}
+        @Override
+        public String getId() {
+            throw new MyCollabException("Do not support");
+        }
 
-		@Override
-		public String getId() {
-			throw new MyCollabException("Do not support");
-		}
-
-	}
+    }
 }

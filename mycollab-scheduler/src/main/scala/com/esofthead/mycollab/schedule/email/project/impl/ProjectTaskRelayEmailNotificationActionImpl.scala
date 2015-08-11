@@ -147,7 +147,7 @@ class ProjectTaskRelayEmailNotificationActionImpl extends SendMailToFollowersAct
         put(Task.Field.assignuser, new AssigneeFieldFormat(Task.Field.assignuser.name, GenericI18Enum.FORM_ASSIGNEE))
         put(Task.Field.isestimated, TaskI18nEnum.FORM_IS_ESTIMATED)
         put(Task.Field.remainestimate, TaskI18nEnum.FORM_REMAIN_ESTIMATE)
-        put(Task.Field.tasklistid, new TaskGroupFieldFormat(Task.Field.tasklistid.name, TaskI18nEnum.FORM_TASKGROUP))
+        put(Task.Field.milestoneid, new MilestoneFieldFormat(Task.Field.milestoneid.name, TaskI18nEnum.FORM_MILESTONE))
         put(Task.Field.notes, TaskI18nEnum.FORM_NOTES)
         put(Task.Field.status, TaskI18nEnum.FORM_STATUS)
     }
@@ -186,15 +186,15 @@ class ProjectTaskRelayEmailNotificationActionImpl extends SendMailToFollowersAct
         }
     }
 
-    class TaskGroupFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldFormat(fieldName, displayName) {
+    class MilestoneFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldFormat(fieldName, displayName) {
 
         def formatField(context: MailContext[_]): String = {
             val task: SimpleTask = context.getWrappedBean.asInstanceOf[SimpleTask]
-            if (task.getTasklistid != null) {
-                val img: Text = new Text(ProjectResources.getFontIconHtml(ProjectTypeConstants.TASK_LIST));
-                val tasklistlink: String = ProjectLinkGenerator.generateTaskGroupPreviewFullLink(context.siteUrl, task.getProjectid,
-                    task.getTasklistid)
-                val link: A = FormatUtils.newA(tasklistlink, task.getTaskListName)
+            if (task.getMilestoneid != null) {
+                val img: Text = new Text(ProjectResources.getFontIconHtml(ProjectTypeConstants.MILESTONE));
+                val tasklistlink: String = ProjectLinkGenerator.generateMilestonePreviewFullLink(context.siteUrl, task.getProjectid,
+                    task.getMilestoneid)
+                val link: A = FormatUtils.newA(tasklistlink, task.getMilestoneName)
                 FormatUtils.newLink(img, link).write
             }
             else {
@@ -207,14 +207,14 @@ class ProjectTaskRelayEmailNotificationActionImpl extends SendMailToFollowersAct
                 return new Span().write
             }
             try {
-                val taskgroupId: Int = value.toInt
-                val tasklistService: ProjectTaskListService = ApplicationContextUtil.getSpringBean(classOf[ProjectTaskListService])
-                val taskgroup: SimpleTaskList = tasklistService.findById(taskgroupId, context.getUser.getAccountId)
-                if (taskgroup != null) {
-                    val img: Text = new Text(ProjectResources.getFontIconHtml(ProjectTypeConstants.TASK_LIST));
-                    val taskListLink: String = ProjectLinkGenerator.generateTaskGroupPreviewFullLink(context.siteUrl, taskgroup
-                        .getProjectid, taskgroup.getId)
-                    val link: A = FormatUtils.newA(taskListLink, taskgroup.getName)
+                val milestoneId: Int = value.toInt
+                val milestoneService: MilestoneService = ApplicationContextUtil.getSpringBean(classOf[MilestoneService])
+                val milestone: SimpleMilestone = milestoneService.findById(milestoneId, context.getUser.getAccountId)
+                if (milestone != null) {
+                    val img: Text = new Text(ProjectResources.getFontIconHtml(ProjectTypeConstants.MILESTONE));
+                    val taskListLink: String = ProjectLinkGenerator.generateMilestonePreviewFullLink(context.siteUrl, milestone
+                        .getProjectid, milestone.getId)
+                    val link: A = FormatUtils.newA(taskListLink, milestone.getName)
                     return FormatUtils.newLink(img, link).write
                 }
             }

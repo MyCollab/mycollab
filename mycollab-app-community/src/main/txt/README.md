@@ -34,7 +34,7 @@ Installation
 2. Follow installation guideline at [https://community.mycollab.com/installation-guideline/](https://community
 .mycollab.com/installation-guideline/)
 3. If you already installed MyCollab and you want to upgrade to MyCollab latest version, this link [https://community
-.mycollab.com/upgrade/](http://community.mycollab.com/upgrade/) will instruct steps to make your task easily
+.mycollab.com/upgrade/](http://community.mycollab.com/upgrade/) will instruct steps to make your bug easily
 
 If you want to understand more MyCollab advanced configuration settings, please visit the link [https://community
 .mycollab.com/configuration/](https://community.mycollab.com/configuration/). You will finish reading and 
@@ -42,6 +42,32 @@ understanding in a matter of minutes.
 
 Last changelog
 ==============
+
+Version 5.1.1
+-----------------------------
+**Library Upgrades**
+
+* Jackson library 2.6.0, DynamicReports 4.0.1
+* Vaadin 7.5.3
+* JQuery 2.1.4
+
+**Improvements & New Features**
+
+* New kanban board for project tasks, bugs
+* Update attachment display
+* Generate thumbnail for images
+* Update the task management workflow to remove the task group !!!
+* Reduce the time response for heavy loading page
+* Improve Gantt chart
+
+**Bug Fixes**
+
+* General bug fixes of file module
+* Can not download file folder
+* The bug widgets do not refresh when bug status changed
+* Can not display tooltip of CRM bug
+* Upload files do not show the progress properly
+
 
 Version 5.1.0
 -----------------------------
@@ -54,7 +80,7 @@ Version 5.1.0
 * Redesign the email template
 * Can resend the invitation
 * Optimize Vaadin widgetsets
-* Remove Camel library and reduce the number of threads daemon
+* Remove Camel library and reduce the number of threads daemons
 * Reduce chart generator memory footprint
 * Theme color consistent fixed
 * Add outlook smtp help message
@@ -151,7 +177,7 @@ Version 5.0.7
 **Bug Fixes**
 
 * Minor bug fixes on IE browsers when user press button
-* Email subject of task group has project name is null
+* Email subject of bug group has project name is null
 
 Version 5.0.6
 -----------------------------
@@ -162,7 +188,7 @@ Version 5.0.6
 **Improvements & New Features**
 
 * Redirect to the server host instead localhost after installing successfully
-* Minor change in task display
+* Minor change in bug display
 * Add help menu in view
 * More comprehensive message to instruct user understand field value better
 * Request user change username for the first time login after installation
@@ -207,7 +233,7 @@ Version 5.0.5
 * Support font awesome in emails
 * Minor bug fixes in reporting
 * Cache reflection fields hence upgrade the app performance up to 5%
-* Add time summary for task group, milestone, component, version views
+* Add time summary for bug group, milestone, component, version views
 * Allow system admin can change the SMTP setting on the fly
 * Enable gzip compression for assets by default
 * Replace the old log4j library by logback
@@ -233,7 +259,7 @@ Version 5.0.4
 * The new project file module
 * Revise the application variable scopes
 * Support quick review with instant tooltip
-* Revise the task list display
+* Revise the bug list display
 * Minor improve on page view
 * Display uploaded file size
 * Add detail information for uploaded file in tooltip
@@ -270,7 +296,7 @@ Version 5.0.3
 * Display bug context menu properly according to coordination of mouse
 * Can not change the project information
 * Correct year format of contact birthday
-* Prevent the issue of can not view task or bug because the project short name is invalid
+* Prevent the issue of can not view bug or bug because the project short name is invalid
 * Do not display year in birthday combo box
 
 Version 5.0.2
@@ -305,21 +331,21 @@ Version 5.0.1
 * Optimize SQL query and there are some processes are 2x faster !!!
 * Add custom notifiers
 * Support default button in windows
-* Improve search result of task list
+* Improve search result of bug list
 * Support tag for tasks, bugs
 * User is able to manage the favorites
 * User is able to select the notifiers when he creates the new bug
 * Display number of items in the search panel
 * Support tooltip for project message widget
 * Screen navigator works more efficiently
-* Add more strictly validation constraint to project task
+* Add more strictly validation constraint to project bug
 
 **Bug Fixes**
 
 * Attachment box in Safari display wrongly
 * Query project member tasks show wrong items
 * Query project roles did not work
-* Export task list to document throws exception
+* Export bug list to document throws exception
 * Can not sending email in several cases
 
 Version 5.0.0
@@ -335,12 +361,12 @@ Version 5.0.0
 
 * Check the latest version notification
 * Replace icons by font awesome
-* Revise task group layout
-* Support sub tasks for project task
+* Revise bug group layout
+* Support sub tasks for project bug
 * Simplify application configuration (for developers) to utilize convention over configuration
 * Using Scala for several back-end components such as scheduler
-* Allow assign user in task view
-* Allow deselect assignee in bug or task
+* Allow assign user in bug view
+* Allow deselect assignee in bug or bug
 * Revise project and crm views
 * Revise the related bug relationship
 * Remove redundant css elements
@@ -354,7 +380,7 @@ Version 5.0.0
 * Update time logging but not update the project information immediately
 * Tooltip of several entities do not display properly
 * Time logging display the double value wrongly some times
-* Gantt chart display to miss the last day of task
+* Gantt chart display to miss the last day of bug
 * Default permission of guest role is wide open
 
 
@@ -392,12 +418,12 @@ Version 4.5.4
 
 **Improvements**
 
-* Make the right widgets fly over when user scroll to the bottom in the task list view
+* Make the right widgets fly over when user scroll to the bottom in the bug list view
 * Revise Task, Bug, Risk, Problem, Milestone read views
 * [Mobile] Make the back button associates to native back action to improve the navigation performance
 * [Mobile] Support thumbnail for attachment
 * [Mobile] User can preview attachment easily
-* [Mobile] Support display hyperlinks for assignee, task, task group, milestone etc
+* [Mobile] Support display hyperlinks for assignee, bug, bug group, milestone etc
 * [Mobile] Revise time logging component
 * [Mobile] Revise the mobile toolbar display
 * [Mobile] Replace icons for better UI experience
@@ -483,16 +509,16 @@ Version 4.5.1
 * Project time logging is displayed in multiple layouts
 * User can add comment to project component and project version
 * Validate project shortname is unique in account
-* Make links of bug and task are readable
+* Make links of bug and bug are readable
 * Add tooltip to pretty time display
 
 **Bug Fixes**
 
-* Save task in task read view throws exception
+* Save bug in bug read view throws exception
 * Inconsistent time logging permission
 * Throws exception if user saves an empty search criteria
-* Return redundant task element for empty task list
-* Switch view causes the right widget in task, bug display in the wrong position
+* Return redundant bug element for empty bug list
+* Switch view causes the right widget in bug, bug display in the wrong position
 
 Version 4.5.0
 -----------------------------
@@ -506,7 +532,7 @@ Version 4.5.0
 * Reload site after user change information to make this change is applied immediately
 * Improve error handling in event bus implementation
 * The project time tracking views support multiple views
-* Create the default task group when user create the new project
+* Create the default bug group when user create the new project
 * Support more search criteria for bug
 * Support display inline more image file types different than jpg/png
 
@@ -516,7 +542,7 @@ Version 4.5.0
 * Milestone simple view display wrongly
 * Display date time field correctly with user custom timezone
 * Can not display username in phase detail view if the display name is empty
-* Log user is removed when user update task status
+* Log user is removed when user update bug status
 * Can not trace activity when user update several kinds of items
 
 Version 4.4.0
@@ -642,7 +668,7 @@ Version 4.2.0
 * Adjust JVM parameters to avoid the PerGem error
 * Update icons to make UI more intuitive
 * Add welcome message for view that has empty retrieved items.
-* Add push service in Vaadin to lazy load heavy task on UI
+* Add push service in Vaadin to lazy load heavy bug on UI
 * Remove border of buttons
 * Texts of emails
 
@@ -679,7 +705,7 @@ Version 4.1.0
 **Improvements**
 
 * Boot time of application is much faster than previous version in some OSes
-* Email template of task and bug are re-ordered fields more logically
+* Email template of bug and bug are re-ordered fields more logically
 * Cache spring service classes to init application context faster
 * Support user localization.common
 * Make install process easier for non-tech users

@@ -22,9 +22,10 @@ import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.SearchHandler;
-import com.esofthead.mycollab.vaadin.ui.ButtonLinkLegacy;
+import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Window;
 import org.vaadin.maddon.layouts.MVerticalLayout;
@@ -79,30 +80,24 @@ public class AccountSelectionWindow extends Window {
         tableItem.setWidth("100%");
         tableItem.setDisplayNumItems(10);
 
-        tableItem.addGeneratedColumn("accountname",
-                new Table.ColumnGenerator() {
-                    private static final long serialVersionUID = 1L;
+        tableItem.addGeneratedColumn("accountname", new Table.ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
 
+            @Override
+            public Component generateCell(Table source, Object itemId, Object columnId) {
+                final SimpleAccount account = tableItem.getBeanByIndex(itemId);
+
+                ButtonLink accountLink = new ButtonLink(account.getAccountname(), new Button.ClickListener() {
                     @Override
-                    public com.vaadin.ui.Component generateCell(
-                            final Table source, final Object itemId,
-                            final Object columnId) {
-                        final SimpleAccount account = tableItem.getBeanByIndex(itemId);
-
-                        ButtonLinkLegacy accountLink = new ButtonLinkLegacy(account.getAccountname(),
-                                new Button.ClickListener() {
-
-                                    @Override
-                                    public void buttonClick(Button.ClickEvent event) {
-                                        fieldSelection.fireValueChange(account);
-                                        AccountSelectionWindow.this.close();
-                                    }
-                                });
-                        accountLink.setDescription(CrmTooltipGenerator.generateToolTipAccount(
-                                AppContext.getUserLocale(), account,
-                                AppContext.getSiteUrl()));
-                        return accountLink;
+                    public void buttonClick(Button.ClickEvent event) {
+                        fieldSelection.fireValueChange(account);
+                        AccountSelectionWindow.this.close();
                     }
                 });
+                accountLink.setDescription(CrmTooltipGenerator.generateToolTipAccount(
+                        AppContext.getUserLocale(), account, AppContext.getSiteUrl()));
+                return accountLink;
+            }
+        });
     }
 }

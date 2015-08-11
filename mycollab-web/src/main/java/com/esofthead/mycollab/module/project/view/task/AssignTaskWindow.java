@@ -51,11 +51,9 @@ public class AssignTaskWindow extends Window {
     private final EditForm editForm;
 
     public AssignTaskWindow(Task task) {
-        super(AppContext.getMessage(TaskI18nEnum.DIALOG_ASSIGN_TASK_TITLE,
-                task.getTaskname()));
+        super(AppContext.getMessage(TaskI18nEnum.DIALOG_ASSIGN_TASK_TITLE, task.getTaskname()));
 
-        MVerticalLayout contentLayout = new MVerticalLayout()
-                .withMargin(new MarginInfo(false, false, true, false));
+        MVerticalLayout contentLayout = new MVerticalLayout().withMargin(new MarginInfo(false, false, true, false));
 
         this.task = task;
         this.setWidth("750px");
@@ -95,72 +93,55 @@ public class AssignTaskWindow extends Window {
                 MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false));
                 layout.addComponent(controlsBtn);
 
-                Button cancelBtn = new Button(
-                        AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
-                        new Button.ClickListener() {
-                            private static final long serialVersionUID = 1L;
+                Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-                            @Override
-                            public void buttonClick(Button.ClickEvent event) {
-                                AssignTaskWindow.this.close();
-                            }
-                        });
+                    @Override
+                    public void buttonClick(Button.ClickEvent event) {
+                        AssignTaskWindow.this.close();
+                    }
+                });
                 cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 
-                Button approveBtn = new Button(
-                        AppContext.getMessage(GenericI18Enum.BUTTON_ASSIGN),
-                        new Button.ClickListener() {
-                            private static final long serialVersionUID = 1L;
+                Button approveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ASSIGN), new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-                            @Override
-                            public void buttonClick(Button.ClickEvent event) {
-                                if (EditForm.this.validateForm()) {
-                                    // Save task status and assignee
-                                    ProjectTaskService taskService = ApplicationContextUtil
-                                            .getSpringBean(ProjectTaskService.class);
-                                    taskService.updateWithSession(task,
-                                            AppContext.getUsername());
+                    @Override
+                    public void buttonClick(Button.ClickEvent event) {
+                        if (EditForm.this.validateForm()) {
+                            // Save task status and assignee
+                            ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                            taskService.updateWithSession(task,
+                                    AppContext.getUsername());
 
-                                    // Save comment
-                                    String commentValue = commentArea
-                                            .getValue();
-                                    if (commentValue != null
-                                            && !commentValue.trim().equals("")) {
-                                        CommentWithBLOBs comment = new CommentWithBLOBs();
-                                        comment.setComment(commentArea
-                                                .getValue());
-                                        comment.setCreatedtime(new GregorianCalendar()
-                                                .getTime());
-                                        comment.setCreateduser(AppContext
-                                                .getUsername());
-                                        comment.setSaccountid(AppContext
-                                                .getAccountId());
-                                        comment.setType(ProjectTypeConstants.TASK);
-                                        comment.setTypeid("" + task.getId());
-                                        comment.setExtratypeid(CurrentProjectVariables
-                                                .getProjectId());
+                            // Save comment
+                            String commentValue = commentArea.getValue();
+                            if (commentValue != null && !commentValue.trim().equals("")) {
+                                CommentWithBLOBs comment = new CommentWithBLOBs();
+                                comment.setComment(commentArea.getValue());
+                                comment.setCreatedtime(new GregorianCalendar().getTime());
+                                comment.setCreateduser(AppContext.getUsername());
+                                comment.setSaccountid(AppContext.getAccountId());
+                                comment.setType(ProjectTypeConstants.TASK);
+                                comment.setTypeid("" + task.getId());
+                                comment.setExtratypeid(CurrentProjectVariables.getProjectId());
 
-                                        CommentService commentService = ApplicationContextUtil
-                                                .getSpringBean(CommentService.class);
-                                        commentService.saveWithSession(comment,
-                                                AppContext.getUsername());
-                                    }
-
-                                    AssignTaskWindow.this.close();
-                                    EventBusFactory.getInstance().post(
-                                            new TaskEvent.GotoRead(this, task
-                                                    .getId()));
-                                }
+                                CommentService commentService = ApplicationContextUtil.getSpringBean(CommentService.class);
+                                commentService.saveWithSession(comment, AppContext.getUsername());
                             }
-                        });
+
+                            AssignTaskWindow.this.close();
+                            EventBusFactory.getInstance().post(new TaskEvent.GotoRead(this, task.getId()));
+                        }
+                    }
+                });
                 approveBtn.setIcon(FontAwesome.SHARE);
                 approveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
                 approveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 
                 controlsBtn.with(cancelBtn, approveBtn).alignAll(Alignment.MIDDLE_RIGHT);
 
-                layout.setComponentAlignment(controlsBtn,
-                        Alignment.MIDDLE_RIGHT);
+                layout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
 
                 return layout;
             }
@@ -168,20 +149,15 @@ public class AssignTaskWindow extends Window {
             @Override
             public void attachField(Object propertyId, Field<?> field) {
                 if (Task.Field.assignuser.equalTo(propertyId)) {
-                    informationLayout
-                            .addComponent(field, AppContext
-                                            .getMessage(GenericI18Enum.FORM_ASSIGNEE),
-                                    0, 0);
+                    informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 0);
                 } else if (propertyId.equals("comment")) {
                     informationLayout.addComponent(field,
-                            AppContext.getMessage(TaskI18nEnum.FORM_COMMENT),
-                            0, 1, 2, "100%", Alignment.MIDDLE_LEFT);
+                            AppContext.getMessage(TaskI18nEnum.FORM_COMMENT), 0, 1, 2, "100%");
                 }
             }
         }
 
-        private class EditFormFieldFactory extends
-                AbstractBeanFieldGroupEditFieldFactory<Task> {
+        private class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Task> {
             private static final long serialVersionUID = 1L;
 
             public EditFormFieldFactory(GenericBeanForm<Task> form) {

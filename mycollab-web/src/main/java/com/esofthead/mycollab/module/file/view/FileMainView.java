@@ -25,6 +25,5 @@ import com.esofthead.mycollab.vaadin.mvp.PageView;
  * 
  */
 public interface FileMainView extends PageView {
-
 	void display();
 }

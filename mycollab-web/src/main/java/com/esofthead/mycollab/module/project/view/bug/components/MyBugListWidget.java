@@ -18,26 +18,16 @@ package com.esofthead.mycollab.module.project.view.bug.components;
 
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.view.bug.BugDisplayWidget;
-import com.esofthead.mycollab.module.project.view.parameters.BugFilterParameter;
 import com.esofthead.mycollab.vaadin.AppContext;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class MyBugListWidget extends BugDisplayWidget {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public MyBugListWidget() {
-		super(AppContext.getMessage(BugI18nEnum.WIDGET_MY_OPEN_BUGS_TITLE),
-				true, BugRowDisplayHandler.class);
-	}
-
-	@Override
-	protected BugFilterParameter constructMoreDisplayFilter() {
-		return new BugFilterParameter(AppContext.getMessage(BugI18nEnum.WIDGET_MY_BUGS_TITLE),
-				searchCriteria);
-	}
+    public MyBugListWidget() {
+        super(AppContext.getMessage(BugI18nEnum.WIDGET_MY_OPEN_BUGS_TITLE), true, BugRowDisplayHandler.class);
+    }
 }

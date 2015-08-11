@@ -21,67 +21,80 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public abstract class SearchCriteria implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public static final String ASC = "ASC";
+    public static final String ASC = "ASC";
 
-	public static final String DESC = "DESC";
+    public static final String DESC = "DESC";
 
-	private String orderByField;
+    private List<OrderField> orderFields;
 
-	private String sortDirection;
+    private NumberSearchField saccountid;
 
-	private NumberSearchField saccountid;
+    private List<SearchField> extraFields;
 
-	private List<SearchField> extraFields;
+    public SearchCriteria() {
+        saccountid = new NumberSearchField(GroupIdProvider.getAccountId());
+    }
 
-	public SearchCriteria() {
-		saccountid = new NumberSearchField(GroupIdProvider.getAccountId());
-	}
+    public NumberSearchField getSaccountid() {
+        return saccountid;
+    }
 
-	public String getOrderByField() {
-		return orderByField;
-	}
+    public void setSaccountid(NumberSearchField saccountid) {
+        this.saccountid = saccountid;
+    }
 
-	public void setOrderByField(String orderByField) {
-		this.orderByField = orderByField;
-	}
+    public List<SearchField> getExtraFields() {
+        return extraFields;
+    }
 
-	public String getSortDirection() {
-		return sortDirection;
-	}
+    public void setExtraFields(List<SearchField> extraFields) {
+        this.extraFields = extraFields;
+    }
 
-	public void setSortDirection(String sortDirection) {
-		this.sortDirection = sortDirection;
-	}
+    public SearchCriteria addExtraField(SearchField extraField) {
+        if (extraFields == null) {
+            extraFields = new ArrayList<>();
+        }
+        extraFields.add(extraField);
+        return this;
+    }
 
-	public NumberSearchField getSaccountid() {
-		return saccountid;
-	}
+    public void addOrderField(OrderField orderField) {
+        if (orderFields == null) {
+            orderFields = new ArrayList<>();
+        }
+        orderFields.add(orderField);
+    }
 
-	public void setSaccountid(NumberSearchField saccountid) {
-		this.saccountid = saccountid;
-	}
+    public List<OrderField> getOrderFields() {
+        return orderFields;
+    }
 
-	public List<SearchField> getExtraFields() {
-		return extraFields;
-	}
+    public void setOrderFields(List<OrderField> orderFields) {
+        this.orderFields = orderFields;
+    }
 
-	public void setExtraFields(List<SearchField> extraFields) {
-		this.extraFields = extraFields;
-	}
+    public static class OrderField implements Serializable {
+        private String field;
+        private String direction;
 
-	public SearchCriteria addExtraField(SearchField extraField) {
-		if (extraFields == null) {
-			extraFields = new ArrayList<>();
-		}
-		extraFields.add(extraField);
-		return this;
-	}
+        public OrderField(String field, String direction) {
+            this.field = field;
+            this.direction = direction;
+        }
+
+        public String getField() {
+            return field;
+        }
+
+        public String getDirection() {
+            return direction;
+        }
+    }
 }

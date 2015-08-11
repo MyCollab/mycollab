@@ -26,10 +26,10 @@ import java.util.regex.Pattern;
  *
  */
 public class MyCollabVersion {
-    public static final String THEME_VERSION = "mycollab_20150720";
+    public static final String THEME_VERSION = "mycollab_20150810";
 
 	public static String getVersion() {
-		return "5.1.0";
+		return "5.1.1";
 	}
 
     static int[] getVersionNumbers(String ver) {
@@ -51,6 +51,12 @@ public class MyCollabVersion {
         return isEditionNewer(testFW, getVersion());
     }
 
+    /**
+     *
+     * @param testFW
+     * @param baseFW
+     * @return true if testFW is greater than baseFW
+     */
     public static boolean isEditionNewer(String testFW, String baseFW) {
         try {
             int[] testVer = getVersionNumbers(testFW);

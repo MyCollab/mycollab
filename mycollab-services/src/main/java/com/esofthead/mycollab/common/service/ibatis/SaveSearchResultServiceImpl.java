@@ -35,10 +35,8 @@ import com.esofthead.mycollab.core.persistence.service.DefaultService;
  * 
  */
 @Service
-public class SaveSearchResultServiceImpl
-		extends
-		DefaultService<Integer, SaveSearchResultWithBLOBs, SaveSearchResultCriteria>
-		implements SaveSearchResultService {
+public class SaveSearchResultServiceImpl extends
+		DefaultService<Integer, SaveSearchResultWithBLOBs, SaveSearchResultCriteria> implements SaveSearchResultService {
 
 	@Autowired
 	private SaveSearchResultMapper saveSearchResultMapper;

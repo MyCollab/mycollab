@@ -30,6 +30,82 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  *
+ * This file is part of mycollab-web.
+ *
+ * mycollab-web is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * mycollab-web is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * This file is part of mycollab-ui.
+ *
+ * mycollab-ui is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * mycollab-ui is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with mycollab-ui.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * This file is part of mycollab-ui.
+ *
+ * mycollab-ui is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * mycollab-ui is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with mycollab-ui.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * This file is part of mycollab-ui.
+ *
+ * mycollab-ui is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * mycollab-ui is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with mycollab-ui.  If not, see <http://www.gnu.org/licenses/>.
+ */
+/**
+ * This file is part of mycollab-web.
+ *
+ * mycollab-web is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * mycollab-web is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
+ *
  * This file is part of mycollab-ui.
  *
  * mycollab-ui is free software: you can redistribute it and/or modify
@@ -101,23 +177,13 @@ public abstract class AbstractLazyPageView extends AbstractPageView implements L
             isRunning = true;
             progressIndicator = new ProgressIndicator();
             UI.getCurrent().addWindow(progressIndicator);
-            UI.getCurrent().setPollInterval(1000);
-            new InitializerThread().start();
-        }
-    }
-
-    abstract protected void displayView();
-
-    private class InitializerThread extends Thread {
-        @Override
-        public void run() {
             UI.getCurrent().access(new Runnable() {
                 @Override
                 public void run() {
                     try {
                         displayView();
+                        UI.getCurrent().push();
                     } finally {
-                        UI.getCurrent().setPollInterval(-1);
                         progressIndicator.close();
                         progressIndicator = null;
                         isRunning = false;
@@ -127,6 +193,8 @@ public abstract class AbstractLazyPageView extends AbstractPageView implements L
             });
         }
     }
+
+    abstract protected void displayView();
 
     private static class ProgressIndicator extends Window {
         private static final long serialVersionUID = -6157950150738214354L;

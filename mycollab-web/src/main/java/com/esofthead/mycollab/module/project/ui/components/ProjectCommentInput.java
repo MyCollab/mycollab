@@ -83,58 +83,47 @@ public class ProjectCommentInput extends MHorizontalLayout {
         uploadExt.addComponent(attachments);
         controlsLayout.with(uploadExt).withAlign(uploadExt, Alignment.TOP_LEFT).expand(uploadExt);
 
-        final Button cancelBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        final Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(ClickEvent event) {
-                        commentArea.setValue("");
-                    }
-                });
+            @Override
+            public void buttonClick(ClickEvent event) {
+                commentArea.setValue("");
+            }
+        });
         cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 
-        final Button newCommentBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_POST),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        final Button newCommentBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_POST), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(final Button.ClickEvent event) {
-                        CommentWithBLOBs comment = new CommentWithBLOBs();
-                        comment.setComment(Jsoup.clean(commentArea.getValue(),
-                                Whitelist.relaxed()));
-                        comment.setCreatedtime(new GregorianCalendar()
-                                .getTime());
-                        comment.setCreateduser(AppContext.getUsername());
-                        comment.setSaccountid(AppContext.getAccountId());
-                        comment.setType(type);
-                        comment.setTypeid("" + typeId);
-                        comment.setExtratypeid(extraTypeId);
+            @Override
+            public void buttonClick(final Button.ClickEvent event) {
+                CommentWithBLOBs comment = new CommentWithBLOBs();
+                comment.setComment(Jsoup.clean(commentArea.getValue(), Whitelist.relaxed()));
+                comment.setCreatedtime(new GregorianCalendar().getTime());
+                comment.setCreateduser(AppContext.getUsername());
+                comment.setSaccountid(AppContext.getAccountId());
+                comment.setType(type);
+                comment.setTypeid("" + typeId);
+                comment.setExtratypeid(extraTypeId);
 
-                        final CommentService commentService = ApplicationContextUtil
-                                .getSpringBean(CommentService.class);
-                        int commentId = commentService.saveWithSession(comment,
-                                AppContext.getUsername(), emailHandler);
+                final CommentService commentService = ApplicationContextUtil.getSpringBean(CommentService.class);
+                int commentId = commentService.saveWithSession(comment, AppContext.getUsername(), emailHandler);
 
-                        String attachmentPath = AttachmentUtils
-                                .getCommentAttachmentPath(typeVal,
-                                        AppContext.getAccountId(),
-                                        CurrentProjectVariables.getProjectId(),
-                                        typeId, commentId);
+                String attachmentPath = AttachmentUtils.getCommentAttachmentPath(typeVal, AppContext.getAccountId(),
+                        CurrentProjectVariables.getProjectId(), typeId, commentId);
 
-                        if (!"".equals(attachmentPath)) {
-                            attachments.saveContentsToRepo(attachmentPath);
-                        }
+                if (!"".equals(attachmentPath)) {
+                    attachments.saveContentsToRepo(attachmentPath);
+                }
 
-                        // save success, clear comment area and load list
-                        // comments again
-                        commentArea.setValue("");
-                        attachments.removeAllAttachmentsDisplay();
-                        component.reload();
-                    }
-                });
+                // save success, clear comment area and load list
+                // comments again
+                commentArea.setValue("");
+                attachments.removeAllAttachmentsDisplay();
+                component.reload();
+            }
+        });
         newCommentBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         newCommentBtn.setIcon(FontAwesome.SEND);
         controlsLayout.with(cancelBtn, newCommentBtn);

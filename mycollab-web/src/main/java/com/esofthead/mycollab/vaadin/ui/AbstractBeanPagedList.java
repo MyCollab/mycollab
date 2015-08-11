@@ -23,6 +23,7 @@ import com.esofthead.mycollab.vaadin.events.PagableHandler;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 import java.util.HashSet;
 import java.util.List;
@@ -32,8 +33,7 @@ import java.util.Set;
  * @author MyCollab Ltd.
  * @since 2.0
  */
-public abstract class AbstractBeanPagedList<S extends SearchCriteria, T>
-        extends VerticalLayout implements HasPagableHandlers {
+public abstract class AbstractBeanPagedList<S extends SearchCriteria, T> extends VerticalLayout implements HasPagableHandlers {
     private static final long serialVersionUID = 1L;
 
     private int defaultNumberSearchItems = 10;
@@ -47,7 +47,7 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T>
     protected int totalCount;
     protected List<T> currentListData;
     protected CssLayout controlBarWrapper;
-    protected HorizontalLayout pageManagement;
+    protected MHorizontalLayout pageManagement;
     protected SearchRequest<S> searchRequest;
 
     public AbstractBeanPagedList(RowDisplayHandler<T> rowDisplayHandler,
@@ -80,20 +80,20 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T>
         controlBar.setWidth("100%");
         this.controlBarWrapper.addComponent(controlBar);
 
-        this.pageManagement = new HorizontalLayout();
+        this.pageManagement = new MHorizontalLayout();
+        this.pageManagement.setWidth(null);
 
         // defined layout here ---------------------------
 
         if (this.currentPage > 1) {
-            final Button firstLink = new ButtonLinkLegacy("1",
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            Button firstLink = new ButtonLink("1", new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(final ClickEvent event) {
-                            pageChange(1);
-                        }
-                    }, false);
+                @Override
+                public void buttonClick(final ClickEvent event) {
+                    pageChange(1);
+                }
+            }, false);
             firstLink.addStyleName("buttonPaging");
             this.pageManagement.addComponent(firstLink);
         }
@@ -103,8 +103,7 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T>
             this.pageManagement.addComponent(ss1);
         }
         if (this.currentPage > 3) {
-            final Button previous2 = new ButtonLinkLegacy(
-                    "" + (this.currentPage - 2), new ClickListener() {
+            Button previous2 = new ButtonLink("" + (this.currentPage - 2), new ClickListener() {
                 private static final long serialVersionUID = 1L;
 
                 @Override
@@ -116,8 +115,7 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T>
             this.pageManagement.addComponent(previous2);
         }
         if (this.currentPage > 2) {
-            final Button previous1 = new ButtonLinkLegacy(
-                    "" + (this.currentPage - 1), new ClickListener() {
+            final Button previous1 = new ButtonLink("" + (this.currentPage - 1), new ClickListener() {
                 private static final long serialVersionUID = 1L;
 
                 @Override
@@ -129,7 +127,7 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T>
             this.pageManagement.addComponent(previous1);
         }
         // Here add current ButtonLinkLegacy
-        final Button current = new ButtonLinkLegacy("" + this.currentPage,
+        final Button current = new ButtonLink("" + this.currentPage,
                 new ClickListener() {
                     private static final long serialVersionUID = 1L;
 
@@ -144,7 +142,7 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T>
         this.pageManagement.addComponent(current);
         final int range = this.totalPage - this.currentPage;
         if (range >= 1) {
-            final Button next1 = new ButtonLinkLegacy("" + (this.currentPage + 1),
+            final Button next1 = new ButtonLink("" + (this.currentPage + 1),
                     new ClickListener() {
                         private static final long serialVersionUID = 1L;
 
@@ -157,42 +155,37 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T>
             this.pageManagement.addComponent(next1);
         }
         if (range >= 2) {
-            final Button next2 = new ButtonLinkLegacy("" + (this.currentPage + 2),
-                    new ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            Button next2 = new ButtonLink("" + (this.currentPage + 2), new ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(final ClickEvent event) {
-                            pageChange(currentPage + 2);
-                        }
-                    }, false);
+                @Override
+                public void buttonClick(final ClickEvent event) {
+                    pageChange(currentPage + 2);
+                }
+            }, false);
             next2.addStyleName("buttonPaging");
             this.pageManagement.addComponent(next2);
         }
         if (range >= 4) {
-            final Label ss2 = new Label("...");
+            Label ss2 = new Label("...");
             ss2.addStyleName("buttonPaging");
             this.pageManagement.addComponent(ss2);
         }
         if (range >= 3) {
-            final Button last = new ButtonLinkLegacy("" + this.totalPage,
-                    new ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            Button last = new ButtonLink("" + this.totalPage, new ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(final ClickEvent event) {
-                            pageChange(totalPage);
-                        }
-                    }, false);
+                @Override
+                public void buttonClick(final ClickEvent event) {
+                    pageChange(totalPage);
+                }
+            }, false);
             last.addStyleName("buttonPaging");
             this.pageManagement.addComponent(last);
         }
 
-        this.pageManagement.setWidth(null);
-        this.pageManagement.setSpacing(true);
         controlBar.addComponent(this.pageManagement);
-        controlBar.setComponentAlignment(this.pageManagement,
-                Alignment.MIDDLE_RIGHT);
+        controlBar.setComponentAlignment(this.pageManagement, Alignment.MIDDLE_RIGHT);
 
         return this.controlBarWrapper;
     }
@@ -281,9 +274,7 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T>
 
     public int setSearchCriteria(final S searchCriteria) {
         listContainer.removeAllComponents();
-
-        searchRequest = new SearchRequest<>(searchCriteria, currentPage,
-                defaultNumberSearchItems);
+        searchRequest = new SearchRequest<>(searchCriteria, currentPage, defaultNumberSearchItems);
         doSearch();
         return totalCount;
     }

@@ -26,6 +26,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
@@ -79,7 +80,7 @@ public class TagViewComponent extends CssLayout {
                 TagViewComponent.this.addComponent(createSaveTagComp());
             }
         });
-        addTagBtn.setStyleName("link");
+        addTagBtn.setStyleName(UIConstants.THEME_LINK);
         return addTagBtn;
     }
 
@@ -132,8 +133,8 @@ public class TagViewComponent extends CssLayout {
         if ("".equals(query) || query == null) {
             return Collections.emptyList();
         }
-        suggestedTags = tagService.findTagsInAccount(query, new String[]{ProjectTypeConstants.BUG, ProjectTypeConstants
-                .TASK}, AppContext.getAccountId());
+        suggestedTags = tagService.findTagsInAccount(query, new String[]{ProjectTypeConstants.BUG,
+                ProjectTypeConstants.TASK}, AppContext.getAccountId());
         return new ArrayList<Object>(suggestedTags);
     }
 
@@ -166,7 +167,7 @@ public class TagViewComponent extends CssLayout {
 //                    EventBusFactory.getInstance().post(new ProjectEvent.GotoTagListView(TagBlock.this, tag));
                 }
             });
-            tagLink.setStyleName("link");
+            tagLink.setStyleName(UIConstants.THEME_LINK);
             this.addComponent(tagLink);
             Button deleteBtn = new Button(FontAwesome.TIMES);
             deleteBtn.addClickListener(new Button.ClickListener() {

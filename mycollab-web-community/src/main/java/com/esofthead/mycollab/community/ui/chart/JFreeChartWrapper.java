@@ -32,25 +32,8 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
 /**
- * A simple JFreeChart wrapper that renders charts in SVG to browser.
- * <p/>
- * To use this component, you'll need all the common JFreeChart and Batik
- * libraries.
- * <p/>
- * For MSIE it will fall back to PNG rendering (not that nice when printing).
- * <p/>
- * Supported sizes are currently just pixels, inches, centimeters (converted to
- * pixels by 96dpi). Set them to wrapper.
- * <p/>
- * TODO make it support relative sizes (should be possible to do cleanly with
- * SVG)
- * <p/>
- * TODO when browsers develop SVG could be painted to target instead of
- * registering application resource. This would shorten rendering time and
- * lessen memory consumption on server. This already works ok for webkit
- * browsers. Firefox and Opera fail with gradients.
- *
- * @author mattitahvonen
+ * @author MyCollab Ltd
+ * @since 5.1.1
  */
 @SuppressWarnings("serial")
 public class JFreeChartWrapper extends Embedded {

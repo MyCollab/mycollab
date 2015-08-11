@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
+import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
@@ -26,16 +27,19 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
-import com.esofthead.mycollab.module.project.view.parameters.TaskFilterParameter;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ButtonI18nComp;
 import com.esofthead.mycollab.vaadin.ui.Depot;
 import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.google.common.eventbus.Subscribe;
+import com.rits.cloning.Cloner;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.UI;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
@@ -49,13 +53,40 @@ public class UnresolvedTaskByPriorityWidget extends Depot {
     private static final long serialVersionUID = 1L;
 
     private TaskSearchCriteria searchCriteria;
+    private ApplicationEventListener<TaskEvent.HasTaskChange> taskChangeHandler = new
+            ApplicationEventListener<TaskEvent.HasTaskChange>() {
+                @Override
+                @Subscribe
+                public void handle(TaskEvent.HasTaskChange event) {
+                    if (searchCriteria != null) {
+                        UI.getCurrent().access(new Runnable() {
+                            @Override
+                            public void run() {
+                                UnresolvedTaskByPriorityWidget.this.setSearchCriteria(searchCriteria);
+                            }
+                        });
+                    }
+                }
+            };
 
     public UnresolvedTaskByPriorityWidget() {
         super(AppContext.getMessage(TaskI18nEnum.WIDGET_UNRESOLVED_BY_PRIORITY_TITLE), new MVerticalLayout());
         this.setContentBorder(true);
     }
 
-    public void setSearchCriteria(final TaskSearchCriteria searchCriteria) {
+    @Override
+    public void attach() {
+        EventBusFactory.getInstance().register(taskChangeHandler);
+        super.attach();
+    }
+
+    @Override
+    public void detach() {
+        EventBusFactory.getInstance().unregister(taskChangeHandler);
+        super.detach();
+    }
+
+    public void setSearchCriteria(TaskSearchCriteria searchCriteria) {
         this.searchCriteria = searchCriteria;
         this.bodyContent.removeAllComponents();
         ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
@@ -75,7 +106,7 @@ public class UnresolvedTaskByPriorityWidget extends Depot {
                         Resource iconPriority = new ExternalResource(ProjectResources.getIconResourceLink12ByTaskPriority(priority.name()));
                         userLbl.setIcon(iconPriority);
                         userLbl.setWidth("110px");
-                        userLbl.setStyleName("link");
+                        userLbl.setStyleName(UIConstants.THEME_LINK);
 
                         priorityLayout.addComponent(userLbl);
                         ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount, totalCount - item.getValue(), false);
@@ -92,7 +123,7 @@ public class UnresolvedTaskByPriorityWidget extends Depot {
                     Resource iconPriority = new ExternalResource(ProjectResources.getIconResourceLink12ByTaskPriority(priority.name()));
                     userLbl.setIcon(iconPriority);
                     userLbl.setWidth("110px");
-                    userLbl.setStyleName("link");
+                    userLbl.setStyleName(UIConstants.THEME_LINK);
                     priorityLayout.addComponent(userLbl);
                     ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount, totalCount, false);
                     indicator.setWidth("100%");
@@ -109,9 +140,10 @@ public class UnresolvedTaskByPriorityWidget extends Depot {
         @Override
         public void buttonClick(final ClickEvent event) {
             String key = ((ButtonI18nComp) event.getButton()).getKey();
-            searchCriteria.setPriorities(new SetSearchField<>(key));
-            TaskFilterParameter filterParam = new TaskFilterParameter(searchCriteria, "Task Filter by Priority: " + key);
-            EventBusFactory.getInstance().post(new TaskEvent.Search(this, filterParam));
+            Cloner cloner = new Cloner();
+            TaskSearchCriteria criteria = cloner.deepClone(searchCriteria);
+            criteria.setPriorities(new SetSearchField<>(key));
+            EventBusFactory.getInstance().post(new TaskEvent.SearchRequest(this, criteria));
         }
     }
 }

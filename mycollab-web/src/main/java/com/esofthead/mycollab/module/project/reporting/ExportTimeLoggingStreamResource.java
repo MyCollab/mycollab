@@ -29,50 +29,46 @@ import java.util.Date;
 import static net.sf.dynamicreports.report.builder.DynamicReports.*;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @SuppressWarnings("serial")
 public class ExportTimeLoggingStreamResource extends ExportItemsStreamResource {
-	private ItemTimeLoggingService searchService;
-	private ItemTimeLoggingSearchCriteria searchCriteria;
+    private ItemTimeLoggingService searchService;
+    private ItemTimeLoggingSearchCriteria searchCriteria;
 
-	public ExportTimeLoggingStreamResource(String title,
-			ReportExportType outputForm, ItemTimeLoggingService searchService,
-			ItemTimeLoggingSearchCriteria searchCriteria) {
-		super(AppContext.getTimezone(), AppContext.getUserLocale(), title, outputForm);
+    public ExportTimeLoggingStreamResource(String title,
+                                           ReportExportType outputForm, ItemTimeLoggingService searchService,
+                                           ItemTimeLoggingSearchCriteria searchCriteria) {
+        super(AppContext.getTimezone(), AppContext.getUserLocale(), title, outputForm);
 
-		this.searchService = searchService;
-		this.searchCriteria = searchCriteria;
-	}
+        this.searchService = searchService;
+        this.searchCriteria = searchCriteria;
+    }
 
-	@Override
-	protected void initReport() throws Exception {
-		TextColumnBuilder<String> summaryColumn = col.column("Summary",
-				"summary", type.stringType()).setWidth(400);
+    @Override
+    protected void initReport() throws Exception {
+        TextColumnBuilder<String> summaryColumn = col.column("Summary",
+                "summary", type.stringType()).setWidth(400);
 
-		TextColumnBuilder<String> logUserColumn = col.column("Logged User",
-				"logUserFullName", type.stringType());
+        TextColumnBuilder<String> logUserColumn = col.column("Logged User",
+                "logUserFullName", type.stringType());
 
-		TextColumnBuilder<Double> logValueColumn = col.column("Hours",
-				"logvalue", type.doubleType()).setWidth(150);
+        TextColumnBuilder<Double> logValueColumn = col.column("Hours",
+                "logvalue", type.doubleType()).setWidth(150);
 
-		TextColumnBuilder<Date> createdTimeColumn = col.column("Created Time",
-				"createdtime", type.dateType()).setWidth(100);
+        TextColumnBuilder<Date> createdTimeColumn = col.column("Created Time",
+                "createdtime", type.dateType()).setWidth(100);
 
-		reportBuilder
-				.columns(summaryColumn, logUserColumn, logValueColumn,
-						createdTimeColumn).groupBy(logUserColumn)
-				.subtotalsAtSummary(sbt.sum(logValueColumn));
+        reportBuilder.columns(summaryColumn, logUserColumn, logValueColumn, createdTimeColumn).groupBy(logUserColumn)
+                .subtotalsAtSummary(sbt.sum(logValueColumn));
 
-	}
+    }
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@Override
-	protected void fillReport() throws Exception {
-		reportBuilder.setDataSource(new GroupIteratorDataSource(searchService,
-				searchCriteria));
-	}
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    @Override
+    protected void fillReport() throws Exception {
+        reportBuilder.setDataSource(new GroupIteratorDataSource(searchService,
+                searchCriteria));
+    }
 }

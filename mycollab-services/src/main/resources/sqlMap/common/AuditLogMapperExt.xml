@@ -71,9 +71,10 @@
 
     <sql id="orderStatement">
         ORDER BY
-        #ifnotnull($_parameter.searchCriteria.orderByField)
-            ${searchCriteria.orderByField}
-            ${searchCriteria.sortDirection}, 
+        #ifnotnull($_parameter.searchCriteria.orderFields)
+            #repeat(${_parameter.searchCriteria.orderFields} $orderField "" "" "")
+                ${orderField.field} ${orderField.direction},
+            #end
         #end
         
         m_audit_log.posteddate DESC

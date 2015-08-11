@@ -100,7 +100,7 @@ public class CampaignTableDisplay
                 b.setDescription(CrmTooltipGenerator.generateTooltipCampaign(
                         AppContext.getUserLocale(), campaign,
                         AppContext.getSiteUrl(), AppContext.getTimezone()));
-                b.setStyleName("link");
+                b.setStyleName(UIConstants.THEME_LINK);
 
                 if ("Complete".equals(campaign.getStatus())) {
                     b.addStyleName(UIConstants.LINK_COMPLETED);

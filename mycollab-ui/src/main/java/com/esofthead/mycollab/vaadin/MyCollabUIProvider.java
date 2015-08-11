@@ -19,6 +19,7 @@ package com.esofthead.mycollab.vaadin;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.vaadin.server.UIClassSelectionEvent;
 import com.vaadin.server.UIProvider;
+import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
 
 /**
@@ -31,16 +32,22 @@ public class MyCollabUIProvider extends UIProvider {
     @SuppressWarnings("unchecked")
     @Override
     public Class<? extends UI> getUIClass(UIClassSelectionEvent event) {
+        VaadinRequest request = event.getRequest();
+        String uiClass;
         String userAgent;
         try {
-            userAgent = event.getRequest().getHeader("user-agent").toLowerCase();
+            userAgent = request.getHeader("user-agent").toLowerCase();
         } catch (Exception e) {
             return null;
 
         }
 
-        String uiClass = userAgent.contains("mobile") ? "com.esofthead.mycollab.mobile.MobileApplication"
-                : "com.esofthead.mycollab.web.DesktopApplication";
+        if (request.getPathInfo().startsWith("/popup/OAuthUI")) {
+            uiClass = "com.esofthead.mycollab.ondemand.module.file.view.OAuthUI";
+        } else {
+            uiClass = userAgent.contains("mobile") ? "com.esofthead.mycollab.mobile.MobileApplication"
+                    : "com.esofthead.mycollab.web.DesktopApplication";
+        }
 
         try {
             return (Class<? extends UI>) Class.forName(uiClass);

@@ -193,7 +193,7 @@
         #end
 
         #ifnotnull($searchCriteria.milestoneId)
-            ${searchCriteria.milestoneId.operation} (SELECT COUNT(*) FROM m_prj_task_list WHERE m_prj_task_list.id = m_prj_task.tasklistid AND m_prj_task_list.milestoneId = @{searchCriteria.milestoneId.value}) > 0
+            ${searchCriteria.milestoneId.operation} m_prj_task.milestoneId = @{searchCriteria.milestoneId.value}
         #end
 
         #ifnotnull($searchCriteria.types)
@@ -323,8 +323,10 @@
 
 	<sql id="orderStatement">
 		ORDER BY
-        #ifnotnull($_parameter.searchCriteria.orderByField)
-		    ${_parameter.searchCriteria.orderByField} ${_parameter.searchCriteria.sortDirection},
+        #ifnotnull($_parameter.searchCriteria.orderFields)
+        #repeat(${_parameter.searchCriteria.orderFields} $orderField "" "" "")
+        ${orderField.field} ${orderField.direction},
+        #end
         #end
         lastUpdatedTime DESC
 	</sql>

@@ -25,6 +25,9 @@
         <result column="milestoneName" jdbcType="VARCHAR"
             property="milestoneName" />
 
+        <result column="numComments" property="numComments"
+                jdbcType="INTEGER" />
+
         <collection columnPrefix="affectedversion_" notNullColumn="id"
             ofType="com.esofthead.mycollab.module.tracker.domain.Version"
             property="affectedVersions"
@@ -46,7 +49,7 @@
         #set($searchCriteria = $_parameter.searchCriteria)
         
         #ifnotnull($searchCriteria.assignuser)
-            ${searchCriteria.assignuser.operation} m_tracker_bug.assignuser=@{searchCriteria.assignuser.value}
+            ${searchCriteria.assignuser.operation} m_tracker_bug.assignuser #equals($searchCriteria.assignuser.value)
         #end
         
         #ifnotnull($searchCriteria.summary)
@@ -211,7 +214,7 @@
         #set($searchCriteria = $_parameter.searchCriteria)
         
         #ifnotnull($searchCriteria.assignuser)
-            ${searchCriteria.assignuser.operation} m_tracker_bug.assignuser=@{searchCriteria.assignuser.value}
+            ${searchCriteria.assignuser.operation} m_tracker_bug.assignuser #equals($searchCriteria.assignuser.value)
         #end
         
         #ifnotnull($searchCriteria.summary)
@@ -383,9 +386,12 @@
                  m_tracker_bug.cus_int_08, m_tracker_bug.cus_int_09, m_tracker_bug.cus_int_10, m_tracker_bug.cus_str_01, 
                  m_tracker_bug.cus_str_02, m_tracker_bug.cus_str_03, m_tracker_bug.cus_str_04,
                  m_tracker_bug.cus_str_05, m_tracker_bug.cus_time_01, m_tracker_bug.cus_time_02, 
-                 m_tracker_bug.cus_time_03, m_tracker_bug.cus_time_04, m_tracker_bug.cus_dbl_01, 
+                 m_tracker_bug.cus_time_03, m_tracker_bug.cus_time_04, m_tracker_bug.cus_dbl_01, m_tracker_bug.bugindex,
                  m_tracker_bug.cus_dbl_02, m_tracker_bug.cus_dbl_03, m_tracker_bug.projectid, 
                  m_tracker_bug.resolveddate, m_tracker_bug.sAccountId, m_tracker_bug.description, m_tracker_bug.estimateTime,
+                 (SELECT count(*)
+                    FROM m_comment
+                    WHERE m_comment.type='Project-Bug' AND m_comment.typeid=m_tracker_bug.id) AS numComments,
                  m_tracker_bug.estimateRemainTime, m_tracker_bug.milestoneId, bugkey, milestone.name as milestoneName,
                  concat(assignuserTbl.firstname, ' ', LTRIM(concat(IFNULL(assignuserTbl.middlename, ''), ' ')), assignuserTbl.lastname) as assignuserFullName,
                  assignuserTbl.avatarId AS assignUserAvatarId,
@@ -460,8 +466,10 @@
 
     <sql id="orderStatement">
         ORDER BY
-        #ifnotnull($_parameter.searchCriteria.orderByField)
-            ${_parameter.searchCriteria.orderByField} ${_parameter.searchCriteria.sortDirection},
+        #ifnotnull($_parameter.searchCriteria.orderFields)
+        #repeat(${_parameter.searchCriteria.orderFields} $orderField "" "" "")
+        ${orderField.field} ${orderField.direction},
+        #end
         #end
         m_tracker_bug.lastUpdatedTime DESC
     </sql>

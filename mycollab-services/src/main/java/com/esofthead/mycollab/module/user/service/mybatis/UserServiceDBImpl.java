@@ -304,8 +304,7 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
         criteria.setUsername(new StringSearchField(username));
         criteria.setSaccountid(new NumberSearchField(accountId));
 
-        List<SimpleUser> users = userMapperExt.findPagableListByCriteria(
-                criteria, new RowBounds(0, Integer.MAX_VALUE));
+        List<SimpleUser> users = userMapperExt.findPagableListByCriteria(criteria, new RowBounds(0, Integer.MAX_VALUE));
         if (CollectionUtils.isEmpty(users)) {
             return null;
         } else {

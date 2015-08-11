@@ -21,7 +21,6 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.module.project.view.ProjectGenericListPresenter;
-import com.esofthead.mycollab.module.project.view.parameters.BugFilterParameter;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
@@ -32,77 +31,68 @@ import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @LoadPolicy(scope = ViewScope.PROTOTYPE)
-public class BugListPresenter extends
-		ProjectGenericListPresenter<BugListView, BugSearchCriteria, SimpleBug>
-		implements ListCommand<BugSearchCriteria> {
+public class BugListPresenter extends ProjectGenericListPresenter<BugListView, BugSearchCriteria, SimpleBug>
+        implements ListCommand<BugSearchCriteria> {
+    private static final long serialVersionUID = 1L;
+    private BugService bugService;
 
-	private static final long serialVersionUID = 1L;
-	private BugService bugService;
+    public BugListPresenter() {
+        super(BugListView.class, BugListNoItemView.class);
+        bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+    }
 
-	public BugListPresenter() {
-		super(BugListView.class, BugListNoItemView.class);
-		bugService = ApplicationContextUtil.getSpringBean(BugService.class);
-	}
+    @Override
+    protected void postInitView() {
+        view.getSearchHandlers().addSearchHandler(new SearchHandler<BugSearchCriteria>() {
+            @Override
+            public void onSearch(BugSearchCriteria criteria) {
+                doSearch(criteria);
+            }
+        });
+    }
 
-	@Override
-	protected void postInitView() {
-		view.getSearchHandlers().addSearchHandler(
-				new SearchHandler<BugSearchCriteria>() {
-					@Override
-					public void onSearch(BugSearchCriteria criteria) {
-						doSearch(criteria);
-					}
-				});
-	}
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.BUGS)) {
+            BugContainer trackerContainer = (BugContainer) container;
+            trackerContainer.removeAllComponents();
+            trackerContainer.addComponent(view.getWidget());
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		if (CurrentProjectVariables
-				.canRead(ProjectRolePermissionCollections.BUGS)) {
-			BugContainer trackerContainer = (BugContainer) container;
-			trackerContainer.removeAllComponents();
-			trackerContainer.addComponent(view.getWidget());
+            searchCriteria = (BugSearchCriteria) data.getParams();
+            int totalCount = bugService.getTotalCount(searchCriteria);
 
-			BugFilterParameter param = (BugFilterParameter) data.getParams();
-			searchCriteria = param.getSearchCriteria();
-			int totalCount = bugService
-					.getTotalCount(param.getSearchCriteria());
+            if (totalCount > 0) {
+                this.displayListView(container, data);
+                doSearch(searchCriteria);
+            } else {
+                this.displayNoExistItems(container, data);
+            }
 
-			if (totalCount > 0) {
-				this.displayListView(container, data);
-				doSearch(searchCriteria);
-			} else {
-				this.displayNoExistItems(container, data);
-			}
+            ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
+            breadcrumb.gotoBugList();
+        } else {
+            NotificationUtil.showMessagePermissionAlert();
+        }
+    }
 
-			ProjectBreadcrumb breadcrumb = ViewManager
-					.getCacheComponent(ProjectBreadcrumb.class);
-			breadcrumb.gotoBugList();
-		} else {
-			NotificationUtil.showMessagePermissionAlert();
-		}
-	}
-
-	@Override
-	public void doSearch(BugSearchCriteria searchCriteria) {
-		int totalCountItems = view.getPagedBeanTable().setSearchCriteria(searchCriteria);
+    @Override
+    public void doSearch(BugSearchCriteria searchCriteria) {
+        int totalCountItems = getSearchService().getTotalCount(searchCriteria);
         view.getSearchHandlers().setTotalCountNumber(totalCountItems);
-	}
+        view.queryBug(searchCriteria);
+    }
 
-	@Override
-	public ISearchableService<BugSearchCriteria> getSearchService() {
-		return bugService;
-	}
+    @Override
+    public ISearchableService<BugSearchCriteria> getSearchService() {
+        return bugService;
+    }
 
-	@Override
-	protected void deleteSelectedItems() {
-		throw new UnsupportedOperationException(
-				"This presenter doesn't support this operation");
-	}
+    @Override
+    protected void deleteSelectedItems() {
+        throw new UnsupportedOperationException("This presenter doesn't support this operation");
+    }
 }

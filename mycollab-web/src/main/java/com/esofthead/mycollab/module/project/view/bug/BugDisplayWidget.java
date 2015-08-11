@@ -20,8 +20,6 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.events.BugEvent;
-import com.esofthead.mycollab.module.project.view.parameters.BugFilterParameter;
-import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
@@ -38,58 +36,52 @@ import com.vaadin.ui.VerticalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public abstract class BugDisplayWidget extends Depot {
-	private static final long serialVersionUID = 1L;
-	private static int MAX_ITEM_DISPLAY = 5;
+    private static final long serialVersionUID = 1L;
+    private static int MAX_ITEM_DISPLAY = 5;
 
-	protected BugSearchCriteria searchCriteria;
-	private BeanList<BugService, BugSearchCriteria, SimpleBug> dataList;
+    protected BugSearchCriteria searchCriteria;
+    private BeanList<BugService, BugSearchCriteria, SimpleBug> dataList;
 
-	private String title;
-	private boolean isDisplayTotalCount;
+    private String title;
+    private boolean isDisplayTotalCount;
 
-	public BugDisplayWidget(String title, boolean isDisplayTotalCount,
-							Class<? extends RowDisplayHandler<SimpleBug>> rowDisplayHandler) {
-		super(title, new VerticalLayout());
-		this.title = title;
-		this.isDisplayTotalCount = isDisplayTotalCount;
-		dataList = new BeanList<>(ApplicationContextUtil.getSpringBean(BugService.class), rowDisplayHandler);
-		bodyContent.addComponent(dataList);
-		bodyContent.setStyleName(UIConstants.BUG_LIST);
-	}
+    public BugDisplayWidget(String title, boolean isDisplayTotalCount,
+                            Class<? extends RowDisplayHandler<SimpleBug>> rowDisplayHandler) {
+        super(title, new VerticalLayout());
+        this.title = title;
+        this.isDisplayTotalCount = isDisplayTotalCount;
+        dataList = new BeanList<>(ApplicationContextUtil.getSpringBean(BugService.class), rowDisplayHandler);
+        bodyContent.addComponent(dataList);
+        bodyContent.setStyleName(UIConstants.BUG_LIST);
+    }
 
-	protected abstract BugFilterParameter constructMoreDisplayFilter();
+    public void setSearchCriteria(final BugSearchCriteria searchCriteria) {
+        this.searchCriteria = searchCriteria;
+        if (isDisplayTotalCount) {
+            int totalCount = dataList.getTotalCount(searchCriteria);
+            String depotTitle = String.format("%s (%d)", title, totalCount);
+            this.setTitle(depotTitle);
+        }
+        SearchRequest<BugSearchCriteria> searchRequest = new SearchRequest<>(searchCriteria, 0, BugDisplayWidget.MAX_ITEM_DISPLAY);
+        int displayItemsCount = dataList.setSearchRequest(searchRequest);
+        if (displayItemsCount == BugDisplayWidget.MAX_ITEM_DISPLAY) {
+            Button moreBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_MORE), new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-	public void setSearchCriteria(final BugSearchCriteria searchCriteria) {
-		this.searchCriteria = searchCriteria;
-		if (isDisplayTotalCount) {
-			int totalCount = dataList.getTotalCount(searchCriteria);
-			String depotTitle = String.format("%s (%d)", title, totalCount);
-			this.setTitle(depotTitle);
-		}
-		SearchRequest<BugSearchCriteria> searchRequest = new SearchRequest<>(searchCriteria, 0, BugDisplayWidget.MAX_ITEM_DISPLAY);
-		int displayItemsCount = dataList.setSearchRequest(searchRequest);
-		if (displayItemsCount == BugDisplayWidget.MAX_ITEM_DISPLAY) {
-			Button moreBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_MORE),
-					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
-
-						@Override
-						public void buttonClick(final ClickEvent event) {
-							EventBusFactory.getInstance().post(new BugEvent.GotoList(BugDisplayWidget.this,
-											new BugScreenData.Search(constructMoreDisplayFilter())));
-						}
-					});
-			moreBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			MVerticalLayout widgetFooter = new MVerticalLayout().withSpacing(false).withWidth("100%");
-			widgetFooter.addStyleName("widget-footer");
-			widgetFooter.with(moreBtn).withAlign(moreBtn, Alignment.TOP_RIGHT);
-			bodyContent.addComponent(widgetFooter);
-		}
-	}
+                @Override
+                public void buttonClick(final ClickEvent event) {
+                    EventBusFactory.getInstance().post(new BugEvent.GotoList(BugDisplayWidget.this, searchCriteria));
+                }
+            });
+            moreBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+            MVerticalLayout widgetFooter = new MVerticalLayout().withSpacing(false).withWidth("100%");
+            widgetFooter.addStyleName("widget-footer");
+            widgetFooter.with(moreBtn).withAlign(moreBtn, Alignment.TOP_RIGHT);
+            bodyContent.addComponent(widgetFooter);
+        }
+    }
 }

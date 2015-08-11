@@ -20,6 +20,7 @@ import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.user.AccountLinkBuilder;
 import com.esofthead.mycollab.utils.TooltipHelper;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.hp.gagawa.java.elements.A;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -36,7 +37,8 @@ import java.util.UUID;
 public class UserBlock extends MVerticalLayout {
     public UserBlock(String username, String userAvatarId, String displayName) {
         withMargin(false).withWidth("80px");
-        MButton button = new MButton(UserAvatarControlFactory.createAvatarResource(userAvatarId, 48)).withStyleName("link");
+        MButton button = new MButton(UserAvatarControlFactory.createAvatarResource(userAvatarId, 48)).
+                withStyleName(UIConstants.THEME_LINK);
 
         String uid = UUID.randomUUID().toString();
         DivLessFormatter div = new DivLessFormatter();

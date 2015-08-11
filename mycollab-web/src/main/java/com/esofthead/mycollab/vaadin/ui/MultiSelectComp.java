@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.vaadin.ui;
 
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.vaadin.popupbutton.PopupButtonExt;
 import com.hp.gagawa.java.elements.Li;
 import com.hp.gagawa.java.elements.Ul;
 import com.vaadin.ui.*;
@@ -25,6 +24,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 import java.util.ArrayList;
@@ -39,8 +39,8 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
 
     private static final Logger log = LoggerFactory.getLogger(MultiSelectComp.class);
 
-    protected TextField componentsDisplay;
-    protected PopupButtonExt componentPopupSelection;
+    protected TextField componentsText;
+    protected PopupButton componentPopupSelection;
     private VerticalLayout popupContent;
 
     private String propertyDisplayField;
@@ -53,22 +53,21 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
         propertyDisplayField = displayName;
         items = createData();
 
-        componentsDisplay = new TextField();
-        componentsDisplay.setNullRepresentation("");
-        componentsDisplay.setReadOnly(true);
-        componentsDisplay.addStyleName("noBorderRight");
-        componentsDisplay.setWidth("100%");
+        componentsText = new TextField();
+        componentsText.setNullRepresentation("");
+        componentsText.setReadOnly(true);
+        componentsText.addStyleName("noBorderRight");
+        componentsText.setWidth("100%");
 
-        componentPopupSelection = new PopupButtonExt();
-        componentPopupSelection
-                .addClickListener(new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        componentPopupSelection = new PopupButton();
+        componentPopupSelection.addClickListener(new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        MultiSelectComp.this.initContentPopup();
-                    }
-                });
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                MultiSelectComp.this.initContentPopup();
+            }
+        });
 
         popupContent = new VerticalLayout();
         this.componentPopupSelection.setContent(popupContent);
@@ -81,17 +80,17 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
     @Override
     protected Component initContent() {
         MHorizontalLayout content = new MHorizontalLayout().withSpacing(false).withWidth(widthVal).with
-                (componentsDisplay).withAlign(componentsDisplay, Alignment.MIDDLE_LEFT);
+                (componentsText).withAlign(componentsText, Alignment.MIDDLE_LEFT);
 
         componentPopupSelection.addStyleName(UIConstants.MULTI_SELECT_BG);
         componentPopupSelection.setWidth("25px");
-        componentPopupSelection.setPopupPositionComponent(content);
+        componentPopupSelection.setDirection(Alignment.TOP_LEFT);
 
         CssLayout btnWrapper = new CssLayout();
         btnWrapper.setWidthUndefined();
         btnWrapper.addStyleName(UIConstants.MULTI_SELECT_BG);
         btnWrapper.addComponent(componentPopupSelection);
-        content.with(btnWrapper).expand(componentsDisplay);
+        content.with(btnWrapper).expand(componentsText);
         return content;
     }
 
@@ -104,9 +103,9 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
     public void resetComp() {
         selectedItems.clear();
 
-        componentsDisplay.setReadOnly(false);
-        componentsDisplay.setValue("");
-        componentsDisplay.setReadOnly(true);
+        componentsText.setReadOnly(false);
+        componentsText.setValue("");
+        componentsText.setReadOnly(true);
     }
 
     private void initContentPopup() {
@@ -133,8 +132,7 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
         String itemName = "";
         if (!"".equals(propertyDisplayField)) {
             try {
-                itemName = (String) PropertyUtils.getProperty(item,
-                        propertyDisplayField);
+                itemName = (String) PropertyUtils.getProperty(item, propertyDisplayField);
             } catch (final Exception e) {
                 e.printStackTrace();
             }
@@ -142,8 +140,7 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
             itemName = item.toString();
         }
 
-        final ItemSelectionComp<T> chkItem = new ItemSelectionComp<T>(item,
-                itemName);
+        final ItemSelectionComp<T> chkItem = new ItemSelectionComp<T>(item, itemName);
         chkItem.setImmediate(true);
 
         chkItem.addValueChangeListener(new ValueChangeListener() {
@@ -167,20 +164,19 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
     }
 
     private void displaySelectedItems() {
-        componentsDisplay.setReadOnly(false);
-        componentsDisplay.setValue(getDisplaySelectedItemsString());
-        componentsDisplay.setReadOnly(true);
+        componentsText.setReadOnly(false);
+        componentsText.setValue(getDisplaySelectedItemsString());
+        componentsText.setReadOnly(true);
         Ul ul = new Ul();
         try {
             for (T item : selectedItems) {
-                String objDisplayName = (String) PropertyUtils.getProperty(
-                        item, propertyDisplayField);
+                String objDisplayName = (String) PropertyUtils.getProperty(item, propertyDisplayField);
                 ul.appendChild(new Li().appendText(objDisplayName));
             }
         } catch (Exception e) {
             log.error("Error when build tooltip", e);
         }
-        componentsDisplay.setDescription(ul.write());
+        componentsText.setDescription(ul.write());
     }
 
     public void setSelectedItems(List<T> selectedValues) {
@@ -206,10 +202,8 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
             return false;
         } else {
             try {
-                Integer field1 = (Integer) PropertyUtils.getProperty(
-                        value1, "id");
-                Integer field2 = (Integer) PropertyUtils.getProperty(
-                        value2, "id");
+                Integer field1 = (Integer) PropertyUtils.getProperty(value1, "id");
+                Integer field2 = (Integer) PropertyUtils.getProperty(value2, "id");
                 return field1.equals(field2);
             } catch (final Exception e) {
                 log.error("Error when compare value", e);
@@ -227,8 +221,7 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
         for (int i = 0; i < selectedItems.size(); i++) {
             final Object itemObj = selectedItems.get(i);
             try {
-                String objDisplayName = (String) PropertyUtils.getProperty(
-                        itemObj, propertyDisplayField);
+                String objDisplayName = (String) PropertyUtils.getProperty(itemObj, propertyDisplayField);
                 if (i == selectedItems.size() - 1) {
                     str.append(objDisplayName);
                 } else {

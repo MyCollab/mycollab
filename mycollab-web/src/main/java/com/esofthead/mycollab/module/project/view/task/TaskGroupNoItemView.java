@@ -16,9 +16,11 @@
  */
 package com.esofthead.mycollab.module.project.view.task;
 
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.i18n.TaskGroupI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
@@ -43,7 +45,7 @@ public class TaskGroupNoItemView extends ProjectListNoItemView {
 
     @Override
     protected FontAwesome viewIcon() {
-        return ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK_LIST);
+        return ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK);
     }
 
     @Override
@@ -68,9 +70,7 @@ public class TaskGroupNoItemView extends ProjectListNoItemView {
 
             @Override
             public void buttonClick(final ClickEvent event) {
-                final TaskGroupAddWindow taskListWindow = new TaskGroupAddWindow(
-                        null);
-                UI.getCurrent().addWindow(taskListWindow);
+                EventBusFactory.getInstance().post(new TaskEvent.GotoAdd(TaskGroupNoItemView.this, null));
             }
         };
     }

@@ -85,6 +85,10 @@ public abstract class MyCollabUI extends UI {
         return attributes.get(key);
     }
 
+    public AppContext getCurrentContext() {
+        return currentContext;
+    }
+
     @Override
     public void close() {
         LOG.debug("Application is closed. Clean all resources");

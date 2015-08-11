@@ -46,17 +46,14 @@ public class CSVImportEntityProcess<S extends ICrudService, E> {
 	private Validator validation;
 
 	public CSVImportEntityProcess() {
-		validation = ApplicationContextUtil
-				.getSpringBean(LocalValidatorFactoryBean.class);
+		validation = ApplicationContextUtil.getSpringBean(LocalValidatorFactoryBean.class);
 	}
 
 	/**
 	 * @throw this method throw IllegalArgumentException. You should catch it.
 	 */
-	public void doImport(File file, boolean isHasHeader, S service,
-			Class<E> beanCls, List<ImportFieldDef> fieldDef) {
+	public void doImport(File file, boolean isHasHeader, S service, Class<E> beanCls, List<ImportFieldDef> fieldDef) {
 		try {
-			// TODO: miss header
 			CSVReader csvReader = new CSVReader(new FileReader(file));
 			CSVObjectEntityConverter<E> converter = new CSVObjectEntityConverter<E>();
 			String[] rowData = csvReader.readNext();

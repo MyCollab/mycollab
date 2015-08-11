@@ -16,49 +16,55 @@
  */
 package com.esofthead.mycollab.core.db.query;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.0
- * 
  */
 public class Param {
 
-	protected String id;
+    protected String id;
 
-	protected Enum<?> displayName;
+    protected Enum<?> displayName;
 
-	public Param() {
-		this("", null);
-	}
+    public Param() {
+        this("", null);
+    }
 
-	public Param(String id, Enum<?> displayName) {
-		this.id = id;
-		this.displayName = displayName;
-	}
+    public Param(String id, Enum<?> displayName) {
+        this.id = id;
+        this.displayName = displayName;
+    }
 
-	public String getId() {
-		return id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public Enum<?> getDisplayName() {
-		return displayName;
-	}
+    public Enum<?> getDisplayName() {
+        return displayName;
+    }
 
-	public void setDisplayName(Enum<?> displayName) {
-		this.displayName = displayName;
-	}
+    public void setDisplayName(Enum<?> displayName) {
+        this.displayName = displayName;
+    }
 
-	@Override
-	public boolean equals(Object value) {
-		if (!(value instanceof Param)) {
-			return false;
-		} else {
-			return id.equals(((Param) value).id);
-		}
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        if (obj.getClass() != getClass()) {
+            return false;
+        }
+        Param item = (Param) obj;
+        return new EqualsBuilder().append(id, item.id).build();
+    }
 }

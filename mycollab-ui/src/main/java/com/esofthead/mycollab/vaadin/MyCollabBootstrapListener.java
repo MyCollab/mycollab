@@ -52,7 +52,8 @@ public class MyCollabBootstrapListener implements BootstrapListener {
         response.getDocument().head().append("<meta name=\"robots\" content=\"nofollow\" />");
 
         response.getDocument().head()
-                .append(String.format("<script type=\"text/javascript\" src=\"%sjs/jquery-1.10.2.min.js\"></script>", SiteConfiguration.getCdnUrl()));
+                .append(String.format("<script type=\"text/javascript\" src=\"%sjs/jquery-2.1.4.min.js\"></script>",
+                        SiteConfiguration.getCdnUrl()));
         response.getDocument().head()
                 .append(String.format("<script type=\"text/javascript\" src=\"%sjs/stickytooltip.js?v=%s\"></script>", SiteConfiguration.getCdnUrl(), MyCollabVersion.getVersion()));
     }

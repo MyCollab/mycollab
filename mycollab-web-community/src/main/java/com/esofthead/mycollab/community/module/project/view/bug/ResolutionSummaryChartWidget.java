@@ -27,8 +27,6 @@ import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
 import com.esofthead.mycollab.module.project.view.bug.IBugResolutionSummaryChartWidget;
-import com.esofthead.mycollab.module.project.view.parameters.BugFilterParameter;
-import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -44,20 +42,15 @@ import java.util.List;
  * @since 1.0
  */
 @ViewComponent
-public class ResolutionSummaryChartWidget extends
-        PieChartWrapper<BugSearchCriteria> implements
-        IBugResolutionSummaryChartWidget {
+public class ResolutionSummaryChartWidget extends PieChartWrapper<BugSearchCriteria> implements IBugResolutionSummaryChartWidget {
     private static final long serialVersionUID = 1L;
 
     public ResolutionSummaryChartWidget(int width, int height) {
-        super(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_RESOLUTION_TITLE),
-                BugResolution.class, width, height);
+        super(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_RESOLUTION_TITLE), BugResolution.class, width, height);
     }
 
     public ResolutionSummaryChartWidget() {
-        super(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_RESOLUTION_TITLE),
-                BugResolution.class, 400, 280);
-
+        super(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_RESOLUTION_TITLE), BugResolution.class, 400, 280);
     }
 
     @Override
@@ -74,11 +67,9 @@ public class ResolutionSummaryChartWidget extends
         // create the dataset...
         final DefaultPieDataset dataset = new DefaultPieDataset();
 
-        BugService bugService = ApplicationContextUtil
-                .getSpringBean(BugService.class);
+        BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
 
-        List<GroupItem> groupItems = bugService
-                .getResolutionDefectsSummary(searchCriteria);
+        List<GroupItem> groupItems = bugService.getResolutionDefectsSummary(searchCriteria);
 
         BugResolution[] bugResolutions = OptionI18nEnum.bug_resolutions;
         for (BugResolution resolution : bugResolutions) {
@@ -104,7 +95,6 @@ public class ResolutionSummaryChartWidget extends
         BugSearchCriteria searchCriteria = new BugSearchCriteria();
         searchCriteria.setResolutions(new SetSearchField<>(key));
         searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-        BugFilterParameter param = new BugFilterParameter(key + " Bug List", searchCriteria);
-        EventBusFactory.getInstance().post(new BugEvent.GotoList(this, new BugScreenData.Search(param)));
+        EventBusFactory.getInstance().post(new BugEvent.GotoList(this, searchCriteria));
     }
 }

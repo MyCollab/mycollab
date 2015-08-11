@@ -28,29 +28,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @Service
-public class RelayEmailNotificationServiceImpl
-		extends
-		DefaultService<Integer, RelayEmailNotificationWithBLOBs, RelayEmailNotificationSearchCriteria>
-		implements RelayEmailNotificationService {
+public class RelayEmailNotificationServiceImpl extends
+        DefaultService<Integer, RelayEmailNotificationWithBLOBs, RelayEmailNotificationSearchCriteria>
+        implements RelayEmailNotificationService {
+    @Autowired
+    private RelayEmailNotificationMapper relayEmailNotificationMapper;
 
-	@Autowired
-	private RelayEmailNotificationMapper relayEmailNotificationMapper;
-	@Autowired
-	private RelayEmailNotificationMapperExt relayEmailNotificationMapperExt;
+    @Autowired
+    private RelayEmailNotificationMapperExt relayEmailNotificationMapperExt;
 
-	@Override
-	public ICrudGenericDAO getCrudMapper() {
-		return relayEmailNotificationMapper;
-	}
+    @Override
+    public ICrudGenericDAO getCrudMapper() {
+        return relayEmailNotificationMapper;
+    }
 
-	@Override
-	public ISearchableDAO<RelayEmailNotificationSearchCriteria> getSearchMapper() {
-		return relayEmailNotificationMapperExt;
-	}
+    @Override
+    public ISearchableDAO<RelayEmailNotificationSearchCriteria> getSearchMapper() {
+        return relayEmailNotificationMapperExt;
+    }
 }

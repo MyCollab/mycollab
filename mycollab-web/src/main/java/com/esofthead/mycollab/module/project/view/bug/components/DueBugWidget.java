@@ -26,7 +26,6 @@ import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.view.bug.BugDisplayWidget;
-import com.esofthead.mycollab.module.project.view.parameters.BugFilterParameter;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -54,13 +53,7 @@ public class DueBugWidget extends BugDisplayWidget {
     private static final long serialVersionUID = 1L;
 
     public DueBugWidget() {
-        super(AppContext.getMessage(BugI18nEnum.WIDGET_DUE_BUGS_TITLE), true,
-                DueBugRowDisplayHandler.class);
-    }
-
-    @Override
-    protected BugFilterParameter constructMoreDisplayFilter() {
-        return new BugFilterParameter("Due Bugs", searchCriteria);
+        super(AppContext.getMessage(BugI18nEnum.WIDGET_DUE_BUGS_TITLE), true, DueBugRowDisplayHandler.class);
     }
 
     public static class DueBugRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleBug> {

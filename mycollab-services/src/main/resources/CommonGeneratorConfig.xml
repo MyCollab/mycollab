@@ -55,6 +55,9 @@
         <table domainObjectName="RelayEmailNotification" schema="mycollab"
                tableName="s_relay_email_notification"/>
 
+        <table schema="mycollab" tableName="m_options"
+               domainObjectName="OptionVal"/>
+
         <table schema="mycollab" tableName="m_audit_log"
                domainObjectName="AuditLog"/>
 

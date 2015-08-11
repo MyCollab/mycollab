@@ -47,9 +47,7 @@ import org.springframework.stereotype.Service;
  * @since 1.0
  */
 @Service
-public class CommentServiceImpl extends
-        DefaultService<Integer, CommentWithBLOBs, CommentSearchCriteria> implements
-        CommentService {
+public class CommentServiceImpl extends DefaultService<Integer, CommentWithBLOBs, CommentSearchCriteria> implements CommentService {
 
     private static final Logger LOG = LoggerFactory.getLogger(CommentServiceImpl.class);
 
@@ -82,21 +80,15 @@ public class CommentServiceImpl extends
 
     @Override
     public Integer saveWithSession(CommentWithBLOBs record, String username,
-                               Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
+                                   Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
         Integer saveId = super.saveWithSession(record, username);
 
         if (ProjectTypeConstants.MESSAGE.equals(record.getType())) {
-            CacheUtils
-                    .cleanCaches(record.getSaccountid(), MessageService.class);
+            CacheUtils.cleanCaches(record.getSaccountid(), MessageService.class);
         }
 
-        relayEmailNotificationService.saveWithSession(
-                getRelayEmailNotification(record, username,
-                        emailHandler), username);
-
-        activityStreamService.saveWithSession(
-                getActivityStream(record, username), username);
-
+        relayEmailNotificationService.saveWithSession(getRelayEmailNotification(record, username, emailHandler), username);
+        activityStreamService.saveWithSession(getActivityStream(record, username), username);
         return saveId;
     }
 
@@ -111,25 +103,20 @@ public class CommentServiceImpl extends
         activityStream.setExtratypeid(record.getExtratypeid());
         if (record.getType() != null && record.getType().startsWith("Project-")) {
             activityStream.setModule(ModuleNameConstants.PRJ);
-            CacheUtils.cleanCaches(record.getSaccountid(),
-                    ProjectActivityStreamService.class);
-        } else if (record.getType() != null
-                && record.getType().startsWith("Crm-")) {
+            CacheUtils.cleanCaches(record.getSaccountid(), ProjectActivityStreamService.class);
+        } else if (record.getType() != null && record.getType().startsWith("Crm-")) {
             activityStream.setModule(ModuleNameConstants.CRM);
         } else {
-            LOG.error("Can not define module type of bean {}",
-                    BeanUtility.printBeanObj(record));
+            LOG.error("Can not define module type of bean {}", BeanUtility.printBeanObj(record));
         }
         return activityStream;
     }
 
-    private RelayEmailNotificationWithBLOBs getRelayEmailNotification(CommentWithBLOBs record,
-                                                                      String username,
+    private RelayEmailNotificationWithBLOBs getRelayEmailNotification(CommentWithBLOBs record, String username,
                                                                       Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
         RelayEmailNotificationWithBLOBs relayEmailNotification = new RelayEmailNotificationWithBLOBs();
         relayEmailNotification.setSaccountid(record.getSaccountid());
-        relayEmailNotification
-                .setAction(MonitorTypeConstants.ADD_COMMENT_ACTION);
+        relayEmailNotification.setAction(MonitorTypeConstants.ADD_COMMENT_ACTION);
         relayEmailNotification.setChangeby(record.getCreateduser());
         relayEmailNotification.setChangecomment(record.getComment());
         relayEmailNotification.setType(record.getType());

@@ -93,8 +93,8 @@
                    concat(createdUserTbl.firstname, ' ', LTRIM(concat(IFNULL(createdUserTbl.middlename, ''), ' ')), createdUserTbl.lastname) AS createdUserFullName,
                    s_user.avatarId AS ownerAvatarId,
                    concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS ownerFullName,
-                   (SELECT COUNT(*) FROM m_prj_task, m_prj_task_list WHERE m_prj_task.tasklistid=m_prj_task_list.id AND m_prj_task_list.milestoneId=m_prj_milestone.id) AS numTasks,
-                   (SELECT COUNT(*) FROM m_prj_task, m_prj_task_list WHERE m_prj_task.tasklistid=m_prj_task_list.id AND m_prj_task.status='Open' AND m_prj_task_list.milestoneId=m_prj_milestone.id) AS numOpenTasks,
+                   (SELECT COUNT(*) FROM m_prj_task WHERE m_prj_task.milestoneId=m_prj_milestone.id) AS numTasks,
+                   (SELECT COUNT(*) FROM m_prj_task WHERE m_prj_task.milestoneId=m_prj_milestone.id AND m_prj_task.status='Open') AS numOpenTasks,
                    (SELECT COUNT(*) FROM m_tracker_bug WHERE m_tracker_bug.milestoneId=m_prj_milestone.id) AS numBugs,
                     (SELECT COUNT(*) FROM m_tracker_bug WHERE m_tracker_bug.milestoneId=m_prj_milestone.id AND m_tracker_bug.status IN ('Open', 'InProgress', 'Reopenned')) AS numOpenBugs,
                    m_prj_project.name as projectName
@@ -130,8 +130,10 @@
 
     <sql id="orderStatement">
         ORDER BY
-        #ifnotnull($_parameter.searchCriteria.orderByField)
-            ${_parameter.searchCriteria.orderByField} ${_parameter.searchCriteria.sortDirection},
+        #ifnotnull($_parameter.searchCriteria.orderFields)
+            #repeat(${_parameter.searchCriteria.orderFields} $orderField "" "" "")
+                ${orderField.field} ${orderField.direction},
+            #end
         #end
         m_prj_milestone.lastUpdatedTime DESC
     </sql>
@@ -153,8 +155,7 @@
         #end
     </select>
 
-    <select id="getPreviousItemKey" parameterType="map"
-        resultType="java.lang.Integer" lang="velocity">
+    <select id="getPreviousItemKey" parameterType="map" resultType="java.lang.Integer" lang="velocity">
         SELECT MAX(id) FROM m_prj_milestone
 
         #ifnotnull($_parameter.searchCriteria)
@@ -164,15 +165,13 @@
         #end
     </select>
 
-    <select id="getTotalBillableHours" parameterType="int"
-            resultType="double" lang="velocity">
+    <select id="getTotalBillableHours" parameterType="int" resultType="double" lang="velocity">
         SELECT COALESCE(SUM(timeValue), 0)
         FROM
         (
         (SELECT m_prj_time_logging.logValue AS timeValue
-            FROM m_prj_milestone, m_prj_task_list, m_prj_task, m_prj_time_logging
-            WHERE m_prj_milestone.id = @{milestoneid} AND m_prj_task_list.milestoneId = m_prj_milestone.id
-                AND m_prj_task_list.id = m_prj_task.tasklistid
+            FROM m_prj_milestone, m_prj_task, m_prj_time_logging
+            WHERE m_prj_milestone.id = @{milestoneid} AND m_prj_task.milestoneId = m_prj_milestone.id
                 AND m_prj_task.id = m_prj_time_logging.typeid
                 AND m_prj_time_logging.type = 'Project-Task'
                 AND m_prj_time_logging.isBillable = '1')
@@ -191,9 +190,8 @@
         FROM
         (
         (SELECT m_prj_time_logging.logValue AS timeValue
-            FROM m_prj_milestone, m_prj_task_list, m_prj_task, m_prj_time_logging
-            WHERE m_prj_milestone.id = @{milestoneid} AND m_prj_task_list.milestoneId = m_prj_milestone.id
-                AND m_prj_task_list.id = m_prj_task.tasklistid
+            FROM m_prj_milestone, m_prj_task, m_prj_time_logging
+            WHERE m_prj_milestone.id = @{milestoneid} AND m_prj_task.milestoneId = m_prj_milestone.id
                 AND m_prj_task.id = m_prj_time_logging.typeid
                 AND m_prj_time_logging.type = 'Project-Task'
                 AND m_prj_time_logging.isBillable = '0')
@@ -211,9 +209,8 @@
         SELECT COALESCE(SUM(timeValue), 0)
         FROM
         ((SELECT m_prj_task.remainEstimate AS timeValue
-            FROM m_prj_milestone, m_prj_task_list, m_prj_task
-            WHERE m_prj_milestone.id = @{milestoneid} AND m_prj_task_list.milestoneId = m_prj_milestone.id
-                AND m_prj_task_list.id = m_prj_task.tasklistid)
+            FROM m_prj_milestone, m_prj_task
+            WHERE m_prj_milestone.id = @{milestoneid} AND m_prj_task.milestoneId = m_prj_milestone.id)
         UNION
         (SELECT m_tracker_bug.estimateRemainTime AS timeValue
             FROM m_prj_milestone, m_tracker_bug

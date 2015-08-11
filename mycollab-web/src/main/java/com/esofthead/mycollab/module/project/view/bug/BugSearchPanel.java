@@ -21,11 +21,8 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.db.query.Param;
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
-import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.ProjectViewHeader;
 import com.esofthead.mycollab.module.project.view.bug.components.ComponentListSelect;
@@ -67,19 +64,7 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
 
     @Override
     protected void buildExtraControls() {
-        Button createBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_NEW_BUG),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        EventBusFactory.getInstance().post(new BugEvent.GotoAdd(this, null));
-                    }
-                });
-        createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-        createBtn.setIcon(FontAwesome.PLUS);
-        createBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS));
-        addHeaderRight(createBtn);
     }
 
     @Override
@@ -152,7 +137,7 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
                             moveToAdvancedSearchLayout();
                         }
                     });
-            advancedSearchBtn.setStyleName("link");
+            advancedSearchBtn.setStyleName(UIConstants.THEME_LINK);
             basicSearchBody.with(advancedSearchBtn).withAlign(advancedSearchBtn, Alignment.MIDDLE_CENTER);
 
             return basicSearchBody;

@@ -132,11 +132,11 @@ public class ProjectTooltipGenerator {
             Td cell42 = buildCellLink(assignUserLink, assignUserAvatarLink,
                     task.getAssignUserFullName());
             Td cell43 = buildCellName(LocalizationHelper.getMessage(locale,
-                    TaskI18nEnum.FORM_TASKGROUP));
-            String taskgroupLink = (task.getTaskListName() != null) ? ProjectLinkGenerator
-                    .generateTaskGroupPreviewFullLink(siteURL,
-                            task.getProjectid(), task.getTasklistid()) : "";
-            Td cell44 = buildCellLink(taskgroupLink, task.getTaskListName());
+                    TaskI18nEnum.FORM_MILESTONE));
+            String taskgroupLink = (task.getMilestoneName() != null) ? ProjectLinkGenerator
+                    .generateMilestonePreviewFullLink(siteURL,
+                            task.getProjectid(), task.getMilestoneid()) : "";
+            Td cell44 = buildCellLink(taskgroupLink, task.getMilestoneName());
             trRow4.appendChild(cell41, cell42, cell43, cell44);
             tooltipManager.appendRow(trRow4);
 
@@ -517,51 +517,6 @@ public class ProjectTooltipGenerator {
             return tooltipManager.create().write();
         } catch (Exception e) {
             LOG.error("Error while generate tooltip for Component", e);
-            return null;
-        }
-    }
-
-    public static String generateToolTipTaskList(Locale locale,
-                                                 SimpleTaskList taskList, String siteURL, TimeZone timeZone) {
-
-        if (taskList == null)
-            return generateTolltipNull(locale);
-        try {
-            TooltipBuilder tooltipManager = new TooltipBuilder();
-            tooltipManager.setTitle(taskList.getName());
-
-            Tr trRow2 = new Tr();
-            Td cell21 = buildCellName(LocalizationHelper.getMessage(locale,
-                    GenericI18Enum.FORM_DESCRIPTION));
-            Td cell22 = buildCellValue(trimHtmlTags(taskList.getDescription()));
-            cell22.setAttribute("colspan", "3");
-            trRow2.appendChild(cell21, cell22);
-            tooltipManager.appendRow(trRow2);
-
-            // Assignee
-            Tr trRow3 = new Tr();
-            Td cell31 = buildCellName(LocalizationHelper.getMessage(locale,
-                    GenericI18Enum.FORM_ASSIGNEE));
-            String ownerLink = (taskList.getOwner() != null) ? AccountLinkGenerator
-                    .generatePreviewFullUserLink(siteURL, taskList.getOwner())
-                    : "";
-            String ownerAvatarLink = Storage.getAvatarPath(
-                    taskList.getOwnerAvatarId(), 16);
-            Td cell32 = buildCellLink(ownerLink, ownerAvatarLink,
-                    taskList.getOwnerFullName());
-            Td cell33 = buildCellName(LocalizationHelper.getMessage(locale,
-                    TaskGroupI18nEnum.FORM_PHASE_FIELD));
-            String milestoneLink = (taskList.getMilestoneid() != null) ? ProjectLinkGenerator
-                    .generateMilestonePreviewFullLink(siteURL,
-                            taskList.getProjectid(), taskList.getId()) : "";
-            Td cell34 = buildCellLink(milestoneLink,
-                    taskList.getMilestoneName());
-            trRow3.appendChild(cell31, cell32, cell33, cell34);
-            tooltipManager.appendRow(trRow3);
-
-            return tooltipManager.create().write();
-        } catch (Exception e) {
-            LOG.error("Error while generate tooltip for TaskGroup", e);
             return null;
         }
     }

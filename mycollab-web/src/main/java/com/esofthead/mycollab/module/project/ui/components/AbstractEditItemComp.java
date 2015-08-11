@@ -34,8 +34,7 @@ import com.vaadin.ui.Field;
  * 
  * @param <B>
  */
-public abstract class AbstractEditItemComp<B> extends AbstractPageView
-		implements IFormAddView<B> {
+public abstract class AbstractEditItemComp<B> extends AbstractPageView implements IFormAddView<B> {
 	private static final long serialVersionUID = 1L;
 
 	protected B beanItem;

@@ -39,6 +39,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanPagedList;
 import com.esofthead.mycollab.vaadin.ui.DefaultBeanPagedList;
 import com.esofthead.mycollab.vaadin.ui.SafeHtmlLabel;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
@@ -163,7 +164,7 @@ public class TaskStatusComponent extends MVerticalLayout {
             }
             content.addComponent(descLbl);
 
-            Div footerDiv = new Div().setCSSClass("activity-date");
+            Div footerDiv = new Div().setCSSClass(UIConstants.FOOTER_NOTE);
 
             Date dueDate = genericTask.getDueDate();
             if (dueDate != null) {

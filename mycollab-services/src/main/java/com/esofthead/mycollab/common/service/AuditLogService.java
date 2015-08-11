@@ -27,8 +27,7 @@ import com.esofthead.mycollab.core.persistence.service.IDefaultService;
  * @since 1.0
  * 
  */
-public interface AuditLogService extends
-		IDefaultService<Integer, AuditLog, AuditLogSearchCriteria> {
+public interface AuditLogService extends IDefaultService<Integer, AuditLog, AuditLogSearchCriteria> {
 
-	SimpleAuditLog findLatestLog(int auditLogId, int sAccountId);
+	SimpleAuditLog findLastestLog(int auditLogId, int sAccountId);
 }

@@ -54,7 +54,7 @@ public class ResourceMoverImpl implements ResourceMover {
 				ExternalResourceService destService = ResourceUtils
 						.getExternalResourceService(ResourceUtils
 								.getType(destRes));
-				createdFolder = destService.createFolder(
+				createdFolder = destService.createNewFolder(
 						ResourceUtils.getExternalDrive(destRes), destMovePath);
 			} else {
 				createdFolder = resourceService.createNewFolder(

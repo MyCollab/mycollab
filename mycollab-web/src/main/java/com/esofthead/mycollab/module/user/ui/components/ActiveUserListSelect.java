@@ -50,14 +50,12 @@ public class ActiveUserListSelect extends ListSelect {
         criteria.setRegisterStatuses(new SetSearchField<>(RegisterStatusConstants.ACTIVE));
 
         UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
-        userList = userService.findPagableListByCriteria(new SearchRequest<>(
-                criteria, 0, Integer.MAX_VALUE));
+        userList = userService.findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 
         for (SimpleUser user : userList) {
             this.addItem(user.getUsername());
             this.setItemCaption(user.getUsername(), user.getDisplayName());
-            this.setItemIcon(user.getUsername(),
-                    UserAvatarControlFactory.createAvatarResource(user.getAvatarid(), 16));
+            this.setItemIcon(user.getUsername(), UserAvatarControlFactory.createAvatarResource(user.getAvatarid(), 16));
         }
 
         this.setRows(4);

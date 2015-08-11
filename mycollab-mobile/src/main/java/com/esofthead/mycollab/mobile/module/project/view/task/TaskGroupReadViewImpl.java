@@ -73,7 +73,7 @@ public class TaskGroupReadViewImpl extends
 	@Override
 	protected void initRelatedComponents() {
 		associateComments = new ProjectCommentListDisplay(
-				ProjectTypeConstants.TASK_LIST,
+				ProjectTypeConstants.TASK,
 				CurrentProjectVariables.getProjectId(), true,
 				ProjectTaskGroupRelayEmailNotificationAction.class);
 		if (associateComments.getNumComments() > 0) {

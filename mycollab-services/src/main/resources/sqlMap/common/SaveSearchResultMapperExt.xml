@@ -25,13 +25,7 @@
     </sql>
 
     <sql id="orderStatement">
-        ORDER BY
-        <if test="searchCriteria.orderByField != null">${searchCriteria.orderByField}
-            ${searchCriteria.sortDirection},
-        </if>
-        <![CDATA[
-            s_save_search_result.lastUpdatedTime DESC
-        ]]>
+        ORDER BY s_save_search_result.lastUpdatedTime DESC
     </sql>
 
     <select id="findPagableListByCriteria" parameterType="SaveSearchResultCriteria"

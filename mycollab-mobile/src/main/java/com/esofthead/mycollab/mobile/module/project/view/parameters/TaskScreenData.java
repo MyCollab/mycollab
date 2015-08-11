@@ -21,33 +21,30 @@ import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 
 /**
  * @author MyCollab Ltd.
- *
  * @since 4.5.0
- *
  */
 public class TaskScreenData {
-	public static class List extends ScreenData<Integer> {
-		public List(Integer param) {
-			super(param);
-		}
-	}
+    public static class List extends ScreenData<Integer> {
+        public List(Integer param) {
+            super(param);
+        }
+    }
 
-	public static class Add extends ScreenData<SimpleTask> {
-		public Add(Integer taskListId) {
-			super(new SimpleTask());
-			this.getParams().setTasklistid(taskListId);
-		}
-	}
+    public static class Add extends ScreenData<SimpleTask> {
+        public Add(Integer taskListId) {
+            super(new SimpleTask());
+        }
+    }
 
-	public static class Read extends ScreenData<Integer> {
-		public Read(Integer param) {
-			super(param);
-		}
-	}
+    public static class Read extends ScreenData<Integer> {
+        public Read(Integer param) {
+            super(param);
+        }
+    }
 
-	public static class Edit extends ScreenData<SimpleTask> {
-		public Edit(SimpleTask param) {
-			super(param);
-		}
-	}
+    public static class Edit extends ScreenData<SimpleTask> {
+        public Edit(SimpleTask param) {
+            super(param);
+        }
+    }
 }

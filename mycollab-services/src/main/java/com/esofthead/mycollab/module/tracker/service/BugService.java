@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.tracker.service;
 
 import com.esofthead.mycollab.common.domain.GroupItem;
+import com.esofthead.mycollab.core.cache.CacheEvict;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.cache.Cacheable;
 import com.esofthead.mycollab.core.persistence.service.IDefaultService;
@@ -26,6 +27,7 @@ import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author MyCollab Ltd.
@@ -62,4 +64,7 @@ public interface BugService extends IDefaultService<Integer, BugWithBLOBs, BugSe
 
     @Cacheable
     List<GroupItem> getComponentDefectsSummary(@CacheKey BugSearchCriteria searchCriteria);
+
+    @CacheEvict
+    void massUpdateBugIndexes(List<Map<String, Integer>> mapIndexes, @CacheKey Integer sAccountId);
 }

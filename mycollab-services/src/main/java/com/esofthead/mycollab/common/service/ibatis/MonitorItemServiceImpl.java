@@ -35,8 +35,7 @@ import java.util.Collection;
  * @since 1.0
  */
 @Service
-public class MonitorItemServiceImpl extends
-        DefaultService<Integer, MonitorItem, MonitorSearchCriteria> implements
+public class MonitorItemServiceImpl extends DefaultService<Integer, MonitorItem, MonitorSearchCriteria> implements
         MonitorItemService {
 
     @Autowired
@@ -58,17 +57,14 @@ public class MonitorItemServiceImpl extends
     @Override
     public boolean isUserWatchingItem(String username, String type, int typeid) {
         MonitorItemExample ex = new MonitorItemExample();
-        ex.createCriteria().andUserEqualTo(username).andTypeEqualTo(type)
-                .andTypeidEqualTo(typeid);
+        ex.createCriteria().andUserEqualTo(username).andTypeEqualTo(type).andTypeidEqualTo(typeid);
         return monitorItemMapper.countByExample(ex) > 0;
     }
 
     @Override
     public Integer saveWithSession(MonitorItem record, String username) {
         MonitorItemExample ex = new MonitorItemExample();
-        ex.createCriteria().andTypeEqualTo(record.getType())
-                .andTypeidEqualTo(record.getTypeid())
-                .andUserEqualTo(record.getUser());
+        ex.createCriteria().andTypeEqualTo(record.getType()).andTypeidEqualTo(record.getTypeid()).andUserEqualTo(record.getUser());
         int count = monitorItemMapper.countByExample(ex);
         if (count > 0) {
             return 1;

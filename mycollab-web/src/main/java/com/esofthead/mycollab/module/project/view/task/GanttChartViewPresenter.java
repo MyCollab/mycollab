@@ -18,26 +18,19 @@ package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
-import com.esofthead.mycollab.module.project.view.ProjectModule;
-import com.esofthead.mycollab.module.project.view.ProjectView;
 import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.HasComponents;
-
-import java.util.Iterator;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 4.0
- *
  */
 @LoadPolicy(scope = ViewScope.PROTOTYPE)
 public class GanttChartViewPresenter extends AbstractPresenter<GanttChartView> {
@@ -50,38 +43,16 @@ public class GanttChartViewPresenter extends AbstractPresenter<GanttChartView> {
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.TASKS)) {
-            ProjectModule prjView = getRoot(container, ProjectModule.class);
-            prjView.removeAllComponents();
-            prjView.addComponent(view.getWidget());
+            TaskContainer taskContainer = (TaskContainer) container;
+            taskContainer.navigateToContainer(ProjectTypeConstants.TASK);
+            taskContainer.removeAllComponents();
+            taskContainer.addComponent(view.getWidget());
             view.displayGanttChart();
 
             ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
             breadCrumb.gotoGanttView();
         } else {
             NotificationUtil.showMessagePermissionAlert();
-        }
-    }
-
-    private static <T> T getRoot(Component container, Class<T> type) {
-        HasComponents parent = container.getParent();
-        while (parent != null) {
-            if (type.isAssignableFrom(parent.getClass())) {
-                return (T) parent;
-            } else {
-                parent = parent.getParent();
-            }
-        }
-        return null;
-    }
-
-    private static void removeChildComponent(ComponentContainer container, Class<?> type) {
-        Iterator componentsIt = container.iterator();
-        while (componentsIt.hasNext()) {
-            Object comp = componentsIt.next();
-            if (type.isAssignableFrom(comp.getClass())) {
-                container.removeComponent((Component)comp);
-                return;
-            }
         }
     }
 }

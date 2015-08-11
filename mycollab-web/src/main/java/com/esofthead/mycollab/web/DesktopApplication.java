@@ -38,14 +38,16 @@ import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.GoogleAnalyticsService;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.google.common.eventbus.Subscribe;
+import com.vaadin.annotations.Push;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
-import com.vaadin.server.DefaultErrorHandler;
-import com.vaadin.server.Page;
+import com.vaadin.event.UIEvents;
+import com.vaadin.server.*;
 import com.vaadin.server.Page.UriFragmentChangedEvent;
 import com.vaadin.server.Page.UriFragmentChangedListener;
-import com.vaadin.server.VaadinRequest;
-import com.vaadin.server.VaadinSession;
+import com.vaadin.shared.communication.PushMode;
+import com.vaadin.shared.ui.ui.Transport;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import org.slf4j.Logger;
@@ -61,6 +63,7 @@ import java.util.Collection;
  */
 @Theme(MyCollabVersion.THEME_VERSION)
 @Widgetset("com.esofthead.mycollab.widgetset.MyCollabWidgetSet")
+@Push(value = PushMode.MANUAL, transport = Transport.LONG_POLLING)
 public class DesktopApplication extends MyCollabUI {
     private static final long serialVersionUID = 1L;
 
@@ -102,21 +105,27 @@ public class DesktopApplication extends MyCollabUI {
         mainWindowContainer = new MainWindowContainer();
         this.setContent(mainWindowContainer);
 
-        getPage().addUriFragmentChangedListener(
-                new UriFragmentChangedListener() {
-                    private static final long serialVersionUID = 1L;
+        getPage().addUriFragmentChangedListener(new UriFragmentChangedListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void uriFragmentChanged(UriFragmentChangedEvent event) {
-                        enter(event.getUriFragment());
-                    }
-                });
+            @Override
+            public void uriFragmentChanged(UriFragmentChangedEvent event) {
+                enter(event.getUriFragment());
+            }
+        });
 
         String userAgent = request.getHeader("user-agent");
         if (isInNotSupportedBrowserList(userAgent.toLowerCase())) {
             NotificationUtil.showWarningNotification("Your browser is out of date. Some features of MyCollab will not" +
                     " behave correctly. You should upgrade to the newer browser.");
         }
+
+        addPollListener(new UIEvents.PollListener() {
+            @Override
+            public void poll(UIEvents.PollEvent event) {
+                LOG.info("Poll event: " + event.getSource());
+            }
+        });
     }
 
     private boolean isInNotSupportedBrowserList(String userAgent) {
@@ -190,8 +199,22 @@ public class DesktopApplication extends MyCollabUI {
         }
 
         LOG.error("Error", e);
-        NotificationUtil.showErrorNotification(AppContext
-                .getMessage(GenericI18Enum.ERROR_USER_NOTICE_INFORMATION_MESSAGE));
+        ConfirmDialog dialog = ConfirmDialogExt.show(UI.getCurrent(),
+                AppContext.getMessage(GenericI18Enum.WINDOW_ERROR_TITLE, AppContext.getSiteName()),
+                AppContext.getMessage(GenericI18Enum.ERROR_USER_NOTICE_INFORMATION_MESSAGE),
+                AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                new ConfirmDialog.Listener() {
+                    private static final long serialVersionUID = 1L;
+
+                    @Override
+                    public void onClose(ConfirmDialog dialog) {
+
+                    }
+                });
+        Button okBtn = dialog.getOkButton();
+        BrowserWindowOpener opener = new BrowserWindowOpener("http://support.mycollab.com");
+        opener.extend(okBtn);
     }
 
     private void enter(String uriFragement) {

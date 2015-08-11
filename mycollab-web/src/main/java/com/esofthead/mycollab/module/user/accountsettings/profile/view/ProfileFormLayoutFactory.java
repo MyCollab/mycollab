@@ -100,58 +100,35 @@ public abstract class ProfileFormLayoutFactory implements IFormLayoutFactory {
         @Override
         public void attachField(Object propertyId, Field<?> field) {
             if (propertyId.equals("firstname")) {
-                this.basicInformationLayout.addComponent(field,
-                        AppContext.getMessage(UserI18nEnum.FORM_FIRST_NAME), 0,
-                        0);
+                basicInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_FIRST_NAME), 0, 0);
             } else if (propertyId.equals("lastname")) {
-                this.basicInformationLayout.addComponent(field,
-                        AppContext.getMessage(UserI18nEnum.FORM_LAST_NAME), 0,
-                        1);
+                basicInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_LAST_NAME), 0, 1);
             } else if (propertyId.equals("nickname")) {
-                this.basicInformationLayout.addComponent(field,
-                        AppContext.getMessage(UserI18nEnum.FORM_NICK_NAME), 1,
-                        0);
+                basicInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_NICK_NAME), 1, 0);
             } else if (propertyId.equals("dateofbirth")) {
-                this.basicInformationLayout
-                        .addComponent(field, AppContext
-                                .getMessage(UserI18nEnum.FORM_BIRTHDAY), 1, 1);
+                basicInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_BIRTHDAY), 1, 1);
             } else if (propertyId.equals("email")) {
-                this.basicInformationLayout.addComponent(field,
-                        AppContext.getMessage(UserI18nEnum.FORM_EMAIL), 0, 2);
+                basicInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_EMAIL), 0, 2);
             } else if (propertyId.equals("timezone")) {
-                this.basicInformationLayout.addComponent(field,
-                        AppContext.getMessage(UserI18nEnum.FORM_TIMEZONE), 0,
-                        3, 2, "262px", Alignment.MIDDLE_LEFT);
+                basicInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_TIMEZONE), 0, 3, 2, "262px");
             } else if (propertyId.equals("roleid")) {
-                this.basicInformationLayout.addComponent(field,
-                        AppContext.getMessage(UserI18nEnum.FORM_ROLE), 1, 2);
+                basicInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_ROLE), 1, 2);
             } else if (propertyId.equals("company")) {
-                this.advancedInformationLayout.addComponent(field,
-                        AppContext.getMessage(UserI18nEnum.FORM_COMPANY), 0, 0);
+                advancedInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_COMPANY), 0, 0);
             } else if (propertyId.equals("country")) {
-                this.advancedInformationLayout.addComponent(field,
-                        AppContext.getMessage(UserI18nEnum.FORM_COUNTRY), 0, 1,
-                        2, "262px", Alignment.MIDDLE_LEFT);
+                advancedInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_COUNTRY), 0, 1, 2, "262px");
             } else if (propertyId.equals("website")) {
-                this.advancedInformationLayout.addComponent(field,
-                        AppContext.getMessage(UserI18nEnum.FORM_WEBSITE), 1, 0);
+                advancedInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_WEBSITE), 1, 0);
             } else if (propertyId.equals("workphone")) {
-                this.contactInformationLayout.addComponent(field,
-                        AppContext.getMessage(UserI18nEnum.FORM_WORK_PHONE), 0,
-                        0);
+                contactInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_WORK_PHONE), 0, 0);
             } else if (propertyId.equals("homephone")) {
-                this.contactInformationLayout.addComponent(field,
-                        AppContext.getMessage(UserI18nEnum.FORM_HOME_PHONE), 0,
-                        1);
+                contactInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_HOME_PHONE), 0, 1);
             } else if (propertyId.equals("facebookaccount")) {
-                this.contactInformationLayout.addComponent(field, "Facebook",
-                        1, 0);
+                contactInformationLayout.addComponent(field, "Facebook", 1, 0);
             } else if (propertyId.equals("twitteraccount")) {
-                this.contactInformationLayout.addComponent(field, "Twitter", 1,
-                        1);
+                contactInformationLayout.addComponent(field, "Twitter", 1, 1);
             } else if (propertyId.equals("skypecontact")) {
-                this.contactInformationLayout.addComponent(field, "Skype", 0,
-                        2, 2, "262px", Alignment.MIDDLE_LEFT);
+                contactInformationLayout.addComponent(field, "Skype", 0, 2, 2, "262px");
             }
         }
     }

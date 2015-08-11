@@ -57,8 +57,7 @@ import org.vaadin.maddon.layouts.MVerticalLayout;
  * 
  */
 @ViewComponent
-public class FollowingTicketViewImpl extends AbstractPageView implements
-		FollowingTicketView {
+public class FollowingTicketViewImpl extends AbstractPageView implements FollowingTicketView {
 	private static final long serialVersionUID = 1L;
 
 	private SplitButton exportButtonControl;

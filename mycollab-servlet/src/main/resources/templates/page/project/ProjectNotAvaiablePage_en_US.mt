@@ -34,7 +34,7 @@
         </div>
     </div>
 </body>
-<script src="${defaultUrls.cdn_url}js/jquery-1.10.2.min.js"></script>
+<script src="${defaultUrls.cdn_url}js/jquery-2.1.4.min.js"></script>
 <script>
     function login(){
         window.location.assign("$!loginURL");

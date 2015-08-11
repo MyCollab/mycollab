@@ -101,8 +101,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
     }
 
     private void displayWorkflowControl() {
-        if (BugStatus.Open.name().equals(beanItem.getStatus())
-                || BugStatus.ReOpened.name().equals(beanItem.getStatus())) {
+        if (BugStatus.Open.name().equals(beanItem.getStatus()) || BugStatus.ReOpened.name().equals(beanItem.getStatus())) {
             this.bugWorkflowControl.removeAllComponents();
             ButtonGroup navButton = new ButtonGroup();
             Button startProgressBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_START_PROGRESS), new Button.ClickListener() {
@@ -307,7 +306,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                     bugContainer.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
                     String bugLinkValue = buildItemValue(relatedBug);
                     Button statusLink = new Button(AppContext.getMessage(OptionI18nEnum.BugRelation.class, relatedBug.getRelatedType()));
-                    statusLink.setStyleName("link");
+                    statusLink.setStyleName(UIConstants.THEME_LINK);
                     statusLink.addStyleName("block");
                     Label bugLink = new Label(bugLinkValue, ContentMode.HTML);
                     bugContainer.with(bugLink);
@@ -392,8 +391,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
 
     @Override
     protected ComponentContainer createButtonControls() {
-        ProjectPreviewFormControlsGenerator<SimpleBug> bugPreviewFormControls = new
-                ProjectPreviewFormControlsGenerator<>(previewForm);
+        ProjectPreviewFormControlsGenerator<SimpleBug> bugPreviewFormControls = new ProjectPreviewFormControlsGenerator<>(previewForm);
         MButton linkBtn = new MButton("Link", new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
@@ -526,11 +524,12 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
 
                             @Override
                             public void buttonClick(ClickEvent event) {
-                                EventBusFactory.getInstance().post(new BugComponentEvent.GotoRead(BugReadViewImpl.this, component.getId()));
+                                EventBusFactory.getInstance().post(new BugComponentEvent.GotoRead(
+                                        BugReadViewImpl.this, component.getId()));
                             }
                         });
                         componentContainer.addComponentField(componentLink);
-                        componentLink.setStyleName("link");
+                        componentLink.setStyleName(UIConstants.THEME_LINK);
                         componentLink.addStyleName("block");
                     }
                     return componentContainer;
@@ -551,7 +550,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                             }
                         });
                         componentContainer.addComponentField(versionLink);
-                        versionLink.setStyleName("link");
+                        versionLink.setStyleName(UIConstants.THEME_LINK);
                         versionLink.addStyleName("block");
                     }
                     return componentContainer;
@@ -572,7 +571,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                             }
                         });
                         componentContainer.addComponentField(versionLink);
-                        versionLink.setStyleName("link");
+                        versionLink.setStyleName(UIConstants.THEME_LINK);
                         versionLink.addStyleName("block");
                     }
                     return componentContainer;

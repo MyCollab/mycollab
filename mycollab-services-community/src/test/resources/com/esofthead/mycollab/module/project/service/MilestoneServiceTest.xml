@@ -56,22 +56,22 @@
 		milestoneId="3" projectid="1" sAccountId="1" />
 
 	<m_prj_task sAccountId="1" projectid="1" id="1"
-		percentagecomplete="10" taskname="task 1" tasklistid="1" />
+		percentagecomplete="10" taskname="bug 1" tasklistid="1" />
 
 	<m_prj_task sAccountId="1" projectid="1" id="2"
-		percentagecomplete="20" taskname="task 2" tasklistid="2" />
+		percentagecomplete="20" taskname="bug 2" tasklistid="2" />
 
 	<m_prj_task sAccountId="1" projectid="1" id="3"
-		percentagecomplete="30" taskname="task 3" tasklistid="2" />
+		percentagecomplete="30" taskname="bug 3" tasklistid="2" />
 
 	<m_prj_task sAccountId="1" projectid="1" id="4"
-		percentagecomplete="40" taskname="task 4" tasklistid="3" />
+		percentagecomplete="40" taskname="bug 4" tasklistid="3" />
 
 	<m_prj_task sAccountId="1" projectid="1" id="5"
-		percentagecomplete="50" taskname="task 5" tasklistid="3" />
+		percentagecomplete="50" taskname="bug 5" tasklistid="3" />
 
 	<m_prj_task sAccountId="1" projectid="1" id="6"
-		percentagecomplete="60" taskname="task 6" tasklistid="3" />
+		percentagecomplete="60" taskname="bug 6" tasklistid="3" />
 
 	<m_tracker_bug status="Open" sAccountId="1" id="1"
 		milestoneId="4" projectid="1" summary="sum 1" />

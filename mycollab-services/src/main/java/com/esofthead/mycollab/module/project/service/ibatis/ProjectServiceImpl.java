@@ -40,10 +40,10 @@ import com.esofthead.mycollab.module.project.dao.ProjectMapperExt;
 import com.esofthead.mycollab.module.project.dao.ProjectMemberMapper;
 import com.esofthead.mycollab.module.project.domain.*;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
+import com.esofthead.mycollab.module.project.esb.AddProjectEvent;
 import com.esofthead.mycollab.module.project.esb.DeleteProjectEvent;
 import com.esofthead.mycollab.module.project.service.ProjectRoleService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
-import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
 import com.esofthead.mycollab.security.AccessPermissionFlag;
 import com.esofthead.mycollab.security.PermissionMap;
 import com.google.common.eventbus.AsyncEventBus;
@@ -84,9 +84,6 @@ public class ProjectServiceImpl extends DefaultService<Integer, Project, Project
     private ProjectRoleService projectRoleService;
 
     @Autowired
-    private ProjectTaskListService taskListService;
-
-    @Autowired
     private BillingPlanCheckerService billingPlanCheckerService;
 
     @Autowired
@@ -105,18 +102,15 @@ public class ProjectServiceImpl extends DefaultService<Integer, Project, Project
 
     @Override
     public Integer updateWithSession(Project record, String username) {
-        assertExistProjectShortnameInAccount(record.getId(), record.getShortname(),
-                record.getSaccountid());
+        assertExistProjectShortnameInAccount(record.getId(), record.getShortname(), record.getSaccountid());
         return super.updateWithSession(record, username);
     }
 
     @Override
     public Integer saveWithSession(Project record, String username) {
-        billingPlanCheckerService.validateAccountCanCreateMoreProject(record
-                .getSaccountid());
+        billingPlanCheckerService.validateAccountCanCreateMoreProject(record.getSaccountid());
 
-        assertExistProjectShortnameInAccount(null, record.getShortname(),
-                record.getSaccountid());
+        assertExistProjectShortnameInAccount(null, record.getShortname(), record.getSaccountid());
 
         Integer projectId = super.saveWithSession(record, username);
 
@@ -131,8 +125,7 @@ public class ProjectServiceImpl extends DefaultService<Integer, Project, Project
         projectMemberMapper.insert(projectMember);
 
         // add client role to project
-        ProjectRole clientRole = createProjectRole(projectId,
-                record.getSaccountid(), "Client", "Default role for client");
+        ProjectRole clientRole = createProjectRole(projectId, record.getSaccountid(), "Client", "Default role for client");
 
         int clientRoleId = projectRoleService.saveWithSession(clientRole, username);
 
@@ -194,13 +187,10 @@ public class ProjectServiceImpl extends DefaultService<Integer, Project, Project
         projectRoleService.savePermission(projectId, adminRoleId,
                 permissionMapAdmin, record.getSaccountid());
 
-        LOG.debug("Create default task group");
-        TaskList taskList = new TaskList();
-        taskList.setProjectid(projectId);
-        taskList.setSaccountid(record.getSaccountid());
-        taskList.setStatus(StatusI18nEnum.Open.name());
-        taskList.setName("General Assignments");
-        taskListService.saveWithSession(taskList, username);
+
+        //Do async task to create some post data after project is created
+        AddProjectEvent event = new AddProjectEvent(projectId, record.getSaccountid());
+        asyncEventBus.post(event);
 
         return projectId;
     }

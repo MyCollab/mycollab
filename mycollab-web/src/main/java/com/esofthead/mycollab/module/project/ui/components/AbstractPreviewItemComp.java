@@ -220,9 +220,7 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
     protected void addBottomPanel(ComponentContainer container) {
         if (container != null) {
             if (bodyContent.getComponentCount() >= 2) {
-                bodyContent.replaceComponent(bodyContent
-                                .getComponent(bodyContent.getComponentCount() - 1),
-                        container);
+                bodyContent.replaceComponent(bodyContent.getComponent(bodyContent.getComponentCount() - 1), container);
             } else {
                 bodyContent.addComponent(container);
             }

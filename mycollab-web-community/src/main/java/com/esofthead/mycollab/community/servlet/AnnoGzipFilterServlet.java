@@ -25,7 +25,8 @@ import javax.servlet.annotation.WebInitParam;
  * @author MyCollab Ltd
  * @since 5.0.5
  */
-@WebFilter(urlPatterns = {"/*"}, description = "Gzip Filter", initParams = {@WebInitParam(name = "mimeTypes",
-        value = "text/html,text/plain,text/xml,application/xhtml+xml,text/css,application/javascript,image/svg+xml")} )
+@WebFilter(urlPatterns = {"/assets/*", "/VAADIN/*"}, description = "Gzip Filter", asyncSupported = false,
+        initParams = {@WebInitParam(name = "mimeTypes",
+                value = "text/html,text/plain,text/xml,application/xhtml+xml,text/css,application/javascript,image/svg+xml")})
 public class AnnoGzipFilterServlet extends GzipFilter {
 }

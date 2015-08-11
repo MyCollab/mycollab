@@ -41,10 +41,7 @@
     </delete>
     
     <sql id="orderStatement">
-        ORDER BY <if test="orderByField != null">${orderByField} ${sortDirection}, </if>
-        <![CDATA[
-            m_crm_product_catalog.lastUpdatedTime DESC
-        ]]>
+        ORDER BY m_crm_product_catalog.lastUpdatedTime DESC
     </sql>
 
 	<select id="findPagableListByCriteria"

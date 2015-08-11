@@ -35,9 +35,7 @@ import java.util.List;
  * @since 2.0
  */
 @Service
-public class CustomViewStoreServiceImpl extends
-        DefaultCrudService<Integer, CustomViewStore> implements
-        CustomViewStoreService {
+public class CustomViewStoreServiceImpl extends DefaultCrudService<Integer, CustomViewStore> implements CustomViewStoreService {
     @Autowired
     private CustomViewStoreMapper customViewStoreMapper;
 
@@ -47,13 +45,10 @@ public class CustomViewStoreServiceImpl extends
     }
 
     @Override
-    public CustomViewStore getViewLayoutDef(Integer accountId, String username,
-                                            String viewId) {
+    public CustomViewStore getViewLayoutDef(Integer accountId, String username, String viewId) {
         CustomViewStoreExample ex = new CustomViewStoreExample();
-        ex.createCriteria().andCreateduserEqualTo(username)
-                .andViewidEqualTo(viewId).andSaccountidEqualTo(accountId);
-        List<CustomViewStore> views = customViewStoreMapper
-                .selectByExampleWithBLOBs(ex);
+        ex.createCriteria().andCreateduserEqualTo(username).andViewidEqualTo(viewId).andSaccountidEqualTo(accountId);
+        List<CustomViewStore> views = customViewStoreMapper.selectByExampleWithBLOBs(ex);
         if (CollectionUtils.isNotEmpty(views)) {
             return views.get(0);
         }
@@ -62,8 +57,7 @@ public class CustomViewStoreServiceImpl extends
 
     @Override
     public void saveOrUpdateViewLayoutDef(CustomViewStore viewStore) {
-        CustomViewStore viewLayoutDef = getViewLayoutDef(
-                viewStore.getSaccountid(), viewStore.getCreateduser(),
+        CustomViewStore viewLayoutDef = getViewLayoutDef(viewStore.getSaccountid(), viewStore.getCreateduser(),
                 viewStore.getViewid());
         viewStore.setCreatedtime(new GregorianCalendar().getTime());
         if (!(viewLayoutDef instanceof NullCustomViewStore)) {

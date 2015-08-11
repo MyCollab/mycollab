@@ -17,8 +17,6 @@
 
 package com.esofthead.mycollab.module.project.view.bug.components;
 
-import java.util.List;
-
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
@@ -32,49 +30,43 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.ui.MultiSelectComp;
 import com.vaadin.data.Property;
 
+import java.util.List;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @SuppressWarnings("rawtypes")
 public class VersionMultiSelectField extends MultiSelectComp {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public VersionMultiSelectField() {
-		super("versionname");
-	}
+    public VersionMultiSelectField() {
+        super("versionname");
+    }
 
-	@SuppressWarnings("unchecked")
-	@Override
-	protected List<Version> createData() {
-		VersionSearchCriteria searchCriteria = new VersionSearchCriteria();
-		searchCriteria.setStatus(new StringSearchField(StatusI18nEnum.Open
-				.name()));
+    @SuppressWarnings("unchecked")
+    @Override
+    protected List<Version> createData() {
+        VersionSearchCriteria searchCriteria = new VersionSearchCriteria();
+        searchCriteria.setStatus(new StringSearchField(StatusI18nEnum.Open.name()));
+        searchCriteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
+        VersionService versionService = ApplicationContextUtil.getSpringBean(VersionService.class);
+        List<Version> versions = versionService.findPagableListByCriteria(new SearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
+        return versions;
+    }
 
-		searchCriteria.setProjectId(new NumberSearchField(SearchField.AND,
-				CurrentProjectVariables.getProjectId()));
+    @SuppressWarnings("unchecked")
+    @Override
+    public void setPropertyDataSource(Property newDataSource) {
+        List<Version> versions = (List<Version>) newDataSource.getValue();
+        if (versions != null) {
+            this.setSelectedItems(versions);
+        }
+        super.setPropertyDataSource(newDataSource);
+    }
 
-		VersionService versionService = ApplicationContextUtil
-				.getSpringBean(VersionService.class);
-		List<Version> versions = versionService
-				.findPagableListByCriteria(new SearchRequest<VersionSearchCriteria>(
-						searchCriteria, 0, Integer.MAX_VALUE));
-		return versions;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public void setPropertyDataSource(Property newDataSource) {
-		List<Version> versions = (List<Version>) newDataSource.getValue();
-		if (versions != null) {
-			this.setSelectedItems(versions);
-		}
-		super.setPropertyDataSource(newDataSource);
-	}
-
-	@Override
-	public Class<?> getType() {
-		return Object.class;
-	}
+    @Override
+    public Class<?> getType() {
+        return Object.class;
+    }
 }

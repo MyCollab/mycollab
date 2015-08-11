@@ -19,7 +19,6 @@ package com.esofthead.mycollab.module.project.view
 import java.util.GregorianCalendar
 
 import com.esofthead.mycollab.common.domain.Tag
-import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum
 import com.esofthead.mycollab.core.MyCollabException
 import com.esofthead.mycollab.core.arguments._
 import com.esofthead.mycollab.core.utils.{BeanUtility, StringUtils}
@@ -32,7 +31,9 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus
 import com.esofthead.mycollab.module.project.service.StandupReportService
 import com.esofthead.mycollab.module.project.view.file.FilePresenter
 import com.esofthead.mycollab.module.project.view.message.MessagePresenter
+import com.esofthead.mycollab.module.project.view.parameters.BugScreenData.Search
 import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData.SearchItem
+import com.esofthead.mycollab.module.project.view.parameters.TaskScreenData.GotoDashboard
 import com.esofthead.mycollab.module.project.view.parameters._
 import com.esofthead.mycollab.module.project.view.problem.IProblemPresenter
 import com.esofthead.mycollab.module.project.view.user.ProjectDashboardPresenter
@@ -50,7 +51,6 @@ import com.google.common.eventbus.Subscribe
  */
 class ProjectController(val projectView: ProjectView) extends AbstractController {
     bindProjectEvents()
-    bindTaskListEvents()
     bindTaskEvents()
     bindRiskEvents()
     bindProblemEvents()
@@ -89,54 +89,11 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
         })
     }
 
-    private def bindTaskListEvents(): Unit = {
-        this.register(new ApplicationEventListener[TaskListEvent.GotoRead] {
-            @Subscribe def handle(event: TaskListEvent.GotoRead) {
-                val data: TaskGroupScreenData.Read = new TaskGroupScreenData.Read(event.getData.asInstanceOf[Integer])
-                projectView.gotoTaskList(data)
-            }
-        })
-
-        this.register(new ApplicationEventListener[TaskListEvent.GotoEdit] {
-            @Subscribe def handle(event: TaskListEvent.GotoEdit) {
-                val data: TaskGroupScreenData.Edit = new TaskGroupScreenData.Edit(event.getData.asInstanceOf[TaskList])
-                projectView.gotoTaskList(data)
-            }
-        })
-
-        this.register(new ApplicationEventListener[TaskListEvent.GotoAdd] {
-            @Subscribe def handle(event: TaskListEvent.GotoAdd) {
-                val taskList: TaskList = new TaskList
-                taskList.setProjectid(CurrentProjectVariables.getProjectId)
-                taskList.setStatus(StatusI18nEnum.Open.name)
-                val data: TaskGroupScreenData.Add = new TaskGroupScreenData.Add(taskList)
-                projectView.gotoTaskList(data)
-            }
-        })
-        this.register(new ApplicationEventListener[TaskListEvent.GotoTaskListScreen] {
-            @Subscribe def handle(event: TaskListEvent.GotoTaskListScreen) {
-                projectView.gotoTaskList(null)
-            }
-        })
-        this.register(new ApplicationEventListener[TaskListEvent.ReoderTaskList] {
-            @Subscribe def handle(event: TaskListEvent.ReoderTaskList) {
-                val data: TaskGroupScreenData.ReorderTaskListRequest = new TaskGroupScreenData.ReorderTaskListRequest
-                projectView.gotoTaskList(data)
-            }
-        })
-        this.register(new ApplicationEventListener[TaskListEvent.GotoGanttChartView] {
-            @Subscribe def handle(event: TaskListEvent.GotoGanttChartView) {
-                val data: TaskGroupScreenData.GotoGanttChartView = new TaskGroupScreenData.GotoGanttChartView
-                projectView.gotoTaskList(data)
-            }
-        })
-    }
-
     private def bindTaskEvents(): Unit = {
         this.register(new ApplicationEventListener[TaskEvent.GotoRead] {
             @Subscribe def handle(event: TaskEvent.GotoRead) {
                 val data: TaskScreenData.Read = new TaskScreenData.Read(event.getData.asInstanceOf[Integer])
-                projectView.gotoTaskList(data)
+                projectView.gotoTaskView(data)
             }
         })
         this.register(new ApplicationEventListener[TaskEvent.GotoAdd] {
@@ -149,25 +106,32 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
                 else {
                     data = new TaskScreenData.Add(new SimpleTask)
                 }
-                projectView.gotoTaskList(data)
+                projectView.gotoTaskView(data)
             }
         })
         this.register(new ApplicationEventListener[TaskEvent.GotoEdit] {
             @Subscribe def handle(event: TaskEvent.GotoEdit) {
                 val data: TaskScreenData.Edit = new TaskScreenData.Edit(event.getData.asInstanceOf[SimpleTask])
-                projectView.gotoTaskList(data)
+                projectView.gotoTaskView(data)
             }
         })
         this.register(new ApplicationEventListener[TaskEvent.GotoGanttChart] {
             @Subscribe def handle(event: TaskEvent.GotoGanttChart) {
-                val data: TaskScreenData.GanttChart = new TaskScreenData.GanttChart
-                projectView.gotoTaskList(data)
+                val data: TaskScreenData.GotoGanttChart = new TaskScreenData.GotoGanttChart
+                projectView.gotoTaskView(data)
             }
         })
-        this.register(new ApplicationEventListener[TaskEvent.Search] {
-            @Subscribe def handle(event: TaskEvent.Search) {
-                val data: TaskScreenData.Search = new TaskScreenData.Search(event.getData.asInstanceOf[TaskFilterParameter])
-                projectView.gotoTaskList(data)
+        this.register(new ApplicationEventListener[TaskEvent.GotoKanbanView] {
+            @Subscribe override def handle(event: TaskEvent.GotoKanbanView): Unit = {
+                val data: TaskScreenData.GotoKanbanView = new TaskScreenData.GotoKanbanView
+                projectView.gotoTaskView(data)
+            }
+        })
+
+        this.register(new ApplicationEventListener[TaskEvent.GotoDashboard] {
+            @Subscribe def handle(event: TaskEvent.GotoDashboard) {
+                val data: TaskScreenData.GotoDashboard = new GotoDashboard()
+                projectView.gotoTaskView(data)
             }
         })
     }
@@ -257,6 +221,14 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
                 projectView.gotoBugView(data)
             }
         })
+
+        this.register(new ApplicationEventListener[BugEvent.GotoKanbanView] {
+            @Subscribe override def handle(event: BugEvent.GotoKanbanView): Unit = {
+                val data: BugScreenData.GotoKanbanView = new BugScreenData.GotoKanbanView
+                projectView.gotoBugView(data)
+            }
+        })
+
         this.register(new ApplicationEventListener[BugEvent.GotoList] {
             @Subscribe def handle(event: BugEvent.GotoList) {
                 val params: Any = event.getData
@@ -264,12 +236,11 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
                     val criteria: BugSearchCriteria = new BugSearchCriteria
                     criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId))
                     criteria.setStatuses(new SetSearchField[String](BugStatus.InProgress.name,
-                        BugStatus.Open.name, BugStatus.ReOpened.name))
-                    val parameter: BugFilterParameter = new BugFilterParameter("Open Bugs", criteria)
-                    projectView.gotoBugView(new BugScreenData.Search(parameter))
+                        BugStatus.Open.name, BugStatus.ReOpened.name, BugStatus.Resolved.name))
+                    projectView.gotoBugView(new BugScreenData.Search(criteria))
                 }
-                else if (params.isInstanceOf[BugScreenData.Search]) {
-                    projectView.gotoBugView(params.asInstanceOf[BugScreenData.Search])
+                else if (params.isInstanceOf[BugSearchCriteria]) {
+                    projectView.gotoBugView(new Search(params.asInstanceOf[BugSearchCriteria]))
                 }
                 else {
                     throw new MyCollabException("Invalid search parameter: " + BeanUtility.printBeanObj(params))

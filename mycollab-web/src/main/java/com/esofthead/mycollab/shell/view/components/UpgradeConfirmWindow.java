@@ -46,13 +46,13 @@ import java.util.concurrent.locks.Lock;
  * @since 5.0.4
  */
 public class UpgradeConfirmWindow extends Window {
-    private static String headerTemplate = "There is the new MyCollab version %s . For the " +
+    private static String headerTemplate = "MyCollab just got better . For the " +
             "enhancements and security purpose, you should upgrade to the latest version";
 
     private Properties props;
 
     public UpgradeConfirmWindow(Properties props) {
-        super("There is the new MyCollab update");
+        super("A new update is ready to install");
         this.props = props;
         this.setModal(true);
         this.setResizable(false);
@@ -87,7 +87,6 @@ public class UpgradeConfirmWindow extends Window {
         Button autoUpgradeBtn = new Button("Auto Upgrade", new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                UI.getCurrent().setPollInterval(1000);
                 new Thread(new AutoUpgradeProcess()).start();
                 UpgradeConfirmWindow.this.close();
             }
@@ -165,7 +164,7 @@ public class UpgradeConfirmWindow extends Window {
                 NotificationUtil.showErrorNotification("Can not download the latest MyCollab distribution. You could try again or install MyCollab manually");
             } finally {
                 if (UI.getCurrent() != null) {
-                    UI.getCurrent().setPollInterval(-1);
+                    UI.getCurrent().push();
                 }
             }
         }

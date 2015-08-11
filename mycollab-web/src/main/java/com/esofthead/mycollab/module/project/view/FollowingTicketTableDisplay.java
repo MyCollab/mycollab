@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.view.parameters.*;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
-import com.esofthead.mycollab.vaadin.ui.ButtonLinkLegacy;
+import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserLink;
@@ -65,7 +65,7 @@ public class FollowingTicketTableDisplay
             public Object generateCell(final Table source, final Object itemId,
                                        final Object columnId) {
                 final FollowingTicket ticket = getBeanByIndex(itemId);
-                final ButtonLinkLegacy ticketLink = new ButtonLinkLegacy(ticket
+                final ButtonLink ticketLink = new ButtonLink(ticket
                         .getSummary());
 
                 if (ProjectTypeConstants.BUG.equals(ticket.getType())) {
@@ -197,7 +197,7 @@ public class FollowingTicketTableDisplay
             public Object generateCell(final Table source, final Object itemId,
                                        final Object columnId) {
                 final FollowingTicket ticket = getBeanByIndex(itemId);
-                final ButtonLinkLegacy projectLink = new ButtonLinkLegacy(ticket
+                final ButtonLink projectLink = new ButtonLink(ticket
                         .getProjectName());
                 projectLink.addClickListener(new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;

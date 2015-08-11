@@ -22,8 +22,8 @@ import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
+import com.esofthead.mycollab.module.project.ui.format.MilestoneHistoryFieldFormat;
 import com.esofthead.mycollab.module.project.ui.format.ProjectMemberHistoryFieldFormat;
-import com.esofthead.mycollab.module.project.ui.format.TaskGroupHistoryFieldFormat;
 import com.esofthead.mycollab.utils.FieldGroupFormatter;
 import com.esofthead.mycollab.utils.FieldGroupFormatter.I18nHistoryFieldFormat;
 import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
@@ -63,7 +63,7 @@ public class TaskHistoryList extends HistoryLogComponent {
         taskFormatter.generateFieldDisplayHandler("assignuser",
                 GenericI18Enum.FORM_ASSIGNEE, new ProjectMemberHistoryFieldFormat());
         taskFormatter.generateFieldDisplayHandler("tasklistid",
-                TaskI18nEnum.FORM_TASKGROUP, new TaskGroupHistoryFieldFormat());
+                TaskI18nEnum.FORM_MILESTONE, new MilestoneHistoryFieldFormat());
         taskFormatter.generateFieldDisplayHandler("percentagecomplete",
                 TaskI18nEnum.FORM_PERCENTAGE_COMPLETE);
         taskFormatter.generateFieldDisplayHandler("notes", TaskI18nEnum.FORM_NOTES);

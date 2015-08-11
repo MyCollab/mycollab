@@ -104,8 +104,8 @@ public class TaskGroupReadPresenter extends AbstractMobilePresenter<TaskGroupRea
                     this.view.previewItem(taskList);
                     super.onGo(navigator, data);
 
-                    AppContext.addFragment(ProjectLinkGenerator.generateTaskGroupPreviewLink(
-                            CurrentProjectVariables.getProjectId(), taskList.getId()), taskList.getName());
+//                    AppContext.addFragment(ProjectLinkGenerator.generateTaskGroupPreviewLink(
+//                            CurrentProjectVariables.getProjectId(), taskList.getId()), taskList.getName());
                 } else {
                     NotificationUtil.showRecordNotExistNotification();
                 }

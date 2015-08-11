@@ -70,7 +70,7 @@
     <input type="hidden" id="email" value="$!email">
     <input type="hidden" id="roleId" value="$!roleId">
 </body>
-<script src="${defaultUrls.cdn_url}js/jquery-1.10.2.min.js"></script>
+<script src="${defaultUrls.cdn_url}js/jquery-2.1.4.min.js"></script>
 <script>
     $(document).ready(function(){
     });

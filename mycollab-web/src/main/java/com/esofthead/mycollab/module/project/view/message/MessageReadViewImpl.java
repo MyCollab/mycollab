@@ -142,8 +142,7 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
                     });
             deleteBtn.setIcon(FontAwesome.TRASH_O);
             deleteBtn.addStyleName(UIConstants.THEME_RED_LINK);
-            deleteBtn.setEnabled(CurrentProjectVariables
-                    .canAccess(ProjectRolePermissionCollections.MESSAGES));
+            deleteBtn.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.MESSAGES));
 
             stickyCheck = new CheckBox(AppContext.getMessage(MessageI18nEnum.FORM_IS_STICK), message.getIsstick());
             stickyCheck.addValueChangeListener(new ValueChangeListener() {
@@ -174,7 +173,8 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
                 messageLayout.addStyleName("important-message");
             }
 
-            ProjectMemberBlock userBlock = new ProjectMemberBlock(message.getPosteduser(), message.getPostedUserAvatarId(), message.getFullPostedUserName());
+            ProjectMemberBlock userBlock = new ProjectMemberBlock(message.getPosteduser(), message.getPostedUserAvatarId(),
+                    message.getFullPostedUserName());
 
             messageLayout.addComponent(userBlock);
 
@@ -203,10 +203,8 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
 
             ResourceService attachmentService = ApplicationContextUtil
                     .getSpringBean(ResourceService.class);
-            List<Content> attachments = attachmentService
-                    .getContents(AttachmentUtils.getProjectEntityAttachmentPath(
-                            AppContext.getAccountId(), message.getProjectid(),
-                            ProjectTypeConstants.MESSAGE, "" + message.getId()));
+            List<Content> attachments = attachmentService.getContents(AttachmentUtils.getProjectEntityAttachmentPath(
+                    AppContext.getAccountId(), message.getProjectid(), ProjectTypeConstants.MESSAGE, "" + message.getId()));
             if (CollectionUtils.isNotEmpty(attachments)) {
                 HorizontalLayout attachmentField = new HorizontalLayout();
                 Button attachmentIcon = new Button(null, FontAwesome.PAPERCLIP);

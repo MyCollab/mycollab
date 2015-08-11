@@ -98,7 +98,7 @@ abstract class CrmDefaultSendingRelayEmailAction[B <: ValuedBean] extends Sendin
                 bean = getBeanInContext(context)
                 if (bean != null) {
                     val subject: String = context.getMessage(getUpdateSubjectKey, context.getChangeByUserFullName, getItemName)
-                    val auditLog: SimpleAuditLog = auditLogService.findLatestLog(context.getTypeid.toInt, context.getSaccountid)
+                    val auditLog: SimpleAuditLog = auditLogService.findLastestLog(context.getTypeid.toInt, context.getSaccountid)
                     contentGenerator.putVariable("historyLog", auditLog)
                     context.wrappedBean = bean
                     buildExtraTemplateVariables(context)

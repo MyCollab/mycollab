@@ -61,8 +61,7 @@ public abstract class GenericLinkUtils {
 	public static String generateSiteUrlByAccountId(Integer sAccountId) {
 		String siteUrl = "";
 		if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
-			BillingAccountService billingAccountService = ApplicationContextUtil
-					.getSpringBean(BillingAccountService.class);
+			BillingAccountService billingAccountService = ApplicationContextUtil.getSpringBean(BillingAccountService.class);
 			BillingAccount account = billingAccountService.getAccountById(sAccountId);
 			if (account != null) {
 				siteUrl = SiteConfiguration.getSiteUrl(account.getSubdomain());

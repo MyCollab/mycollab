@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.project.view.parameters
 
 import com.esofthead.mycollab.module.tracker.domain.BugWithBLOBs
+import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria
 import com.esofthead.mycollab.vaadin.mvp.ScreenData
 
 /**
@@ -27,12 +28,14 @@ object BugScreenData {
 
     class GotoDashboard extends ScreenData {}
 
-    class Search(params: BugFilterParameter) extends ScreenData[BugFilterParameter](params) {}
+    class Search(params: BugSearchCriteria) extends ScreenData[BugSearchCriteria](params) {}
 
     class Read(params: Integer) extends ScreenData[Integer](params) {}
 
     class Add(params: BugWithBLOBs) extends ScreenData[BugWithBLOBs](params) {}
 
     class Edit(params: BugWithBLOBs) extends ScreenData[BugWithBLOBs](params) {}
+
+    class GotoKanbanView extends ScreenData {}
 
 }

@@ -16,9 +16,8 @@
  */
 package com.esofthead.mycollab.module.project.service;
 
-import java.util.List;
-
 import com.esofthead.mycollab.common.domain.GroupItem;
+import com.esofthead.mycollab.core.cache.CacheEvict;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.cache.Cacheable;
 import com.esofthead.mycollab.core.persistence.service.IDefaultService;
@@ -26,32 +25,30 @@ import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.Task;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 
+import java.util.List;
+import java.util.Map;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
-public interface ProjectTaskService extends
-		IDefaultService<Integer, Task, TaskSearchCriteria> {
+public interface ProjectTaskService extends IDefaultService<Integer, Task, TaskSearchCriteria> {
 
-	@Cacheable
-	SimpleTask findById(Integer taskId, @CacheKey Integer sAccountId);
+    @Cacheable
+    SimpleTask findById(Integer taskId, @CacheKey Integer sAccountId);
 
-	@Cacheable
-	List<SimpleTask> findSubTasksOfGroup(Integer taskgroupId, @CacheKey Integer sAccountId);
+    @Cacheable
+    List<SimpleTask> findSubTasks(Integer parentTaskId, @CacheKey Integer sAccountId);
 
-	@Cacheable
-	List<SimpleTask> findSubTasks(Integer parentTaskId, @CacheKey Integer sAccountId);
+    @Cacheable
+    SimpleTask findByProjectAndTaskKey(Integer taskkey, String projectShortName, @CacheKey Integer sAccountId);
 
-	@Cacheable
-	SimpleTask findByProjectAndTaskKey(Integer taskkey, String projectShortName,
-			@CacheKey Integer sAccountId);
+    @Cacheable
+    List<GroupItem> getPrioritySummary(@CacheKey TaskSearchCriteria criteria);
 
-	@Cacheable
-	List<GroupItem> getPrioritySummary(@CacheKey TaskSearchCriteria criteria);
+    @Cacheable
+    List<GroupItem> getAssignedDefectsSummary(@CacheKey TaskSearchCriteria criteria);
 
-	@Cacheable
-	List<GroupItem> getAssignedDefectsSummary(
-			@CacheKey TaskSearchCriteria criteria);
+    @CacheEvict
+    void massUpdateTaskIndexes(List<Map<String, Integer>> mapIndexes, @CacheKey Integer sAccountId);
 }

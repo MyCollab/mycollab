@@ -213,7 +213,7 @@ public class SimpleProject extends Project {
 		return StatusI18nEnum.Archived.name().equals(getProjectstatus());
 	}
 
-	public static enum Field {
+	public enum Field {
 		totalBillableHours, totalNonBillableHours;
 
 		public boolean equalTo(Object value) {

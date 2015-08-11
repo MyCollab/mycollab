@@ -65,9 +65,6 @@
         <table domainObjectName="Task" schema="mycollab"
             tableName="m_prj_task" />
 
-        <table domainObjectName="TaskList" schema="mycollab"
-            tableName="m_prj_task_list" />
-
         <table domainObjectName="ProjectMember" schema="mycollab"
             tableName="m_prj_member" />
 

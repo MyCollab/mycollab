@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.ecm.esb
 
 import com.esofthead.mycollab.eventmanager.ApplicationEvent
+import com.esofthead.mycollab.module.file.CloudDriveInfo
 
 /**
  *
@@ -27,6 +28,6 @@ import com.esofthead.mycollab.eventmanager.ApplicationEvent
 object CloudDriveOAuthCallbackEvent {
 
     @SerialVersionUID(1L)
-    class ReceiveCloudDriveInfo(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+    class ReceiveCloudDriveInfo(source: AnyRef, data: CloudDriveInfo) extends ApplicationEvent(source, data) {}
 
 }

@@ -39,8 +39,8 @@ import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
-import java.util.Calendar;
 import java.util.*;
+import java.util.Calendar;
 
 /**
  * @author MyCollab Ltd.
@@ -103,13 +103,10 @@ public abstract class AbstractResourceMovingWindow extends Window {
                 final Folder expandFolder = (Folder) event.getItemId();
                 // load externalResource if currentExpandFolder is rootFolder
                 if (baseFolder.getPath().equals(expandFolder.getPath())) {
-                    List<ExternalDrive> externalDrives = externalDriveService
-                            .getExternalDrivesOfUser(AppContext.getUsername());
+                    List<ExternalDrive> externalDrives = externalDriveService.getExternalDrivesOfUser(AppContext.getUsername());
                     for (ExternalDrive externalDrive : externalDrives) {
-                        ExternalFolder externalMapFolder = new ExternalFolder(
-                                "/");
-                        externalMapFolder.setStorageName(externalDrive
-                                .getStoragename());
+                        ExternalFolder externalMapFolder = new ExternalFolder("/");
+                        externalMapFolder.setStorageName(externalDrive.getStoragename());
                         externalMapFolder.setExternalDrive(externalDrive);
                         externalMapFolder.setName(externalDrive.getFoldername());
 
@@ -119,13 +116,8 @@ public abstract class AbstractResourceMovingWindow extends Window {
                         externalMapFolder.setCreated(cal);
                         expandFolder.addChild(externalMapFolder);
 
-                        folderTree.addItem(
-                                new Object[]{
-                                        externalMapFolder.getName(),
-                                        AppContext
-                                                .formatDateTime(externalMapFolder
-                                                        .getCreated().getTime())},
-                                externalMapFolder);
+                        folderTree.addItem(new Object[]{externalMapFolder.getName(),
+                                AppContext.formatDateTime(externalMapFolder.getCreated().getTime())}, externalMapFolder);
 
                         folderTree.setItemIcon(externalMapFolder, FontAwesome.DROPBOX);
                         folderTree.setItemCaption(externalMapFolder, externalMapFolder.getName());
@@ -134,8 +126,7 @@ public abstract class AbstractResourceMovingWindow extends Window {
                 }
                 if (expandFolder instanceof ExternalFolder) {
                     List<ExternalFolder> subFolders = externalResourceService.getSubFolders(
-                            ((ExternalFolder) expandFolder).getExternalDrive(),
-                            expandFolder.getPath());
+                            ((ExternalFolder) expandFolder).getExternalDrive(), expandFolder.getPath());
                     for (final Folder subFolder : subFolders) {
                         expandFolder.addChild(subFolder);
                         Date dateTime = ((ExternalFolder) subFolder).getExternalDrive().getCreatedtime();
@@ -184,9 +175,9 @@ public abstract class AbstractResourceMovingWindow extends Window {
             }
 
             private void recursiveRemoveSubItem(Folder collapseFolder) {
-                List<Folder> childs = collapseFolder.getChilds();
-                if (childs.size() > 0) {
-                    for (final Folder subFolder : childs) {
+                List<Folder> childFolders = collapseFolder.getChilds();
+                if (childFolders.size() > 0) {
+                    for (Folder subFolder : childFolders) {
                         recursiveRemoveSubItem(subFolder);
                     }
                     folderTree.removeItem(collapseFolder);
@@ -196,15 +187,14 @@ public abstract class AbstractResourceMovingWindow extends Window {
             }
         });
 
-        this.folderTree
-                .addItemClickListener(new ItemClickEvent.ItemClickListener() {
-                    private static final long serialVersionUID = 1L;
+        this.folderTree.addItemClickListener(new ItemClickEvent.ItemClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void itemClick(final ItemClickEvent event) {
-                        baseFolder = (Folder) event.getItemId();
-                    }
-                });
+            @Override
+            public void itemClick(final ItemClickEvent event) {
+                baseFolder = (Folder) event.getItemId();
+            }
+        });
 
         contentLayout.addComponent(resourceContainer);
         displayFiles();
@@ -221,8 +211,7 @@ public abstract class AbstractResourceMovingWindow extends Window {
                     for (Resource res : movedResources) {
                         try {
                             resourceMover.moveResource(res, baseFolder,
-                                    AppContext.getUsername(),
-                                    AppContext.getAccountId());
+                                    AppContext.getUsername(), AppContext.getAccountId());
                         } catch (Exception e) {
                             checkingFail = true;
                         }
@@ -236,21 +225,18 @@ public abstract class AbstractResourceMovingWindow extends Window {
         moveBtn.setIcon(FontAwesome.ARROWS);
         moveBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
         controlGroupBtnLayout.addComponent(moveBtn);
-        Button cancelBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
-                new ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(ClickEvent event) {
-                        AbstractResourceMovingWindow.this.close();
-                    }
-                });
+            @Override
+            public void buttonClick(ClickEvent event) {
+                AbstractResourceMovingWindow.this.close();
+            }
+        });
         cancelBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
         controlGroupBtnLayout.addComponent(cancelBtn);
 
-        contentLayout.with(controlGroupBtnLayout).withAlign(
-                controlGroupBtnLayout, Alignment.MIDDLE_CENTER);
+        contentLayout.with(controlGroupBtnLayout).withAlign(controlGroupBtnLayout, Alignment.MIDDLE_CENTER);
     }
 
     public abstract void displayAfterMoveSuccess(Folder folder, boolean checking);
