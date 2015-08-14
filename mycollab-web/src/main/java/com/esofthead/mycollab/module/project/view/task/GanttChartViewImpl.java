@@ -18,52 +18,40 @@ package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.configuration.Storage;
 import com.esofthead.mycollab.core.arguments.BooleanSearchField;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
-import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.view.ProjectView;
-import com.esofthead.mycollab.module.project.view.task.gantt.GanttExt;
-import com.esofthead.mycollab.module.project.view.task.gantt.GanttItemWrapper;
-import com.esofthead.mycollab.module.project.view.task.gantt.QuickEditTaskWindow;
-import com.esofthead.mycollab.module.project.view.task.gantt.StepExt;
+import com.esofthead.mycollab.module.project.view.task.gantt.*;
 import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
-import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UIUtils;
-import com.google.common.eventbus.Subscribe;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Div;
-import com.hp.gagawa.java.elements.Img;
-import com.vaadin.data.util.BeanItemContainer;
+import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
+import com.vaadin.data.Property;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.tltv.gantt.Gantt;
 import org.tltv.gantt.Gantt.MoveEvent;
 import org.tltv.gantt.Gantt.ResizeEvent;
-import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.tltv.gantt.client.shared.Resolution;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * @author MyCollab Ltd.
@@ -75,8 +63,9 @@ public class GanttChartViewImpl extends AbstractPageView implements GanttChartVi
 
     private boolean projectNavigatorVisibility = false;
 
+    private MHorizontalLayout mainLayout;
     private GanttExt gantt;
-    private TaskHierarchyComp taskTable;
+    private GanttTreeTable taskTable;
     private Button toogleMenuShowBtn;
     private ProjectTaskService taskService;
 
@@ -106,7 +95,26 @@ public class GanttChartViewImpl extends AbstractPageView implements GanttChartVi
         });
         toogleMenuShowBtn.addStyleName(UIConstants.THEME_LINK);
 
-        Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
+        HorizontalLayout resWrapper = new HorizontalLayout();
+        Label resLbl = new Label("Resolution: ");
+        final ComboBox resValue = new ValueComboBox(false, "Day", "Week");
+        resValue.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
+            public void valueChange(Property.ValueChangeEvent event) {
+                String val = (String) resValue.getValue();
+                if ("Day".equals(val)) {
+                    gantt.setResolution(Resolution.Day);
+                } else if ("Week".equals(val)) {
+                    gantt.setResolution(Resolution.Week);
+                }
+            }
+        });
+        resWrapper.setSpacing(true);
+        resWrapper.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+        resWrapper.addComponent(resLbl);
+        resWrapper.addComponent(resValue);
+
+        Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.M_BUTTON_BACK), new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, new String[]{
@@ -115,13 +123,14 @@ public class GanttChartViewImpl extends AbstractPageView implements GanttChartVi
         });
         cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 
-        header.with(headerWrapper, toogleMenuShowBtn, cancelBtn).withAlign(headerWrapper, Alignment.MIDDLE_LEFT)
-                .withAlign(toogleMenuShowBtn, Alignment.MIDDLE_RIGHT)
-                .withAlign(cancelBtn, Alignment.MIDDLE_RIGHT).expand(headerWrapper);
+        header.with(headerWrapper, toogleMenuShowBtn, resWrapper, cancelBtn).withAlign(headerWrapper, Alignment.MIDDLE_LEFT)
+                .withAlign(toogleMenuShowBtn, Alignment.MIDDLE_RIGHT).withAlign(cancelBtn, Alignment.MIDDLE_RIGHT).expand(headerWrapper);
         taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
 
-        HorizontalLayout ganttLayout = constructGanttChart();
-        this.with(header, ganttLayout).expand(ganttLayout);
+        mainLayout = new MHorizontalLayout().withSpacing(false);
+        mainLayout.addStyleName("gantt_container");
+        mainLayout.setSizeFull();
+        this.with(header, mainLayout).expand(mainLayout);
     }
 
     @Override
@@ -135,38 +144,6 @@ public class GanttChartViewImpl extends AbstractPageView implements GanttChartVi
         if (view != null) {
             view.setNavigatorVisibility(visibility);
         }
-    }
-
-    private MHorizontalLayout constructGanttChart() {
-        MHorizontalLayout mainLayout = new MHorizontalLayout().withSpacing(false).withWidth("100%");
-        mainLayout.addStyleName("gantt_container");
-
-        taskTable = new TaskHierarchyComp();
-        taskTable.setWidth("800px");
-
-        gantt = new GanttExt();
-        gantt.setVerticalScrollDelegateTarget(taskTable);
-
-        gantt.addMoveListener(new Gantt.MoveListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void onGanttMove(MoveEvent event) {
-                updateTasksInfo((StepExt) event.getStep(), event.getStartDate(), event.getEndDate());
-            }
-        });
-
-        gantt.addResizeListener(new Gantt.ResizeListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void onGanttResize(ResizeEvent event) {
-                updateTasksInfo((StepExt) event.getStep(), event.getStartDate(), event.getEndDate());
-            }
-        });
-
-        mainLayout.with(taskTable, gantt).expand(gantt);
-        return mainLayout;
     }
 
     private void updateTasksInfo(StepExt step, long startDate, long endDate) {
@@ -187,13 +164,36 @@ public class GanttChartViewImpl extends AbstractPageView implements GanttChartVi
     public void displayGanttChart() {
         toogleMenuShowBtn.setCaption("Show menu");
         setProjectNavigatorVisibility(false);
+        mainLayout.removeAllComponents();
+
+        gantt = new GanttExt();
+        taskTable = new GanttTreeTable(gantt);
+
+        gantt.addMoveListener(new Gantt.MoveListener() {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void onGanttMove(MoveEvent event) {
+                updateTasksInfo((StepExt) event.getStep(), event.getStartDate(), event.getEndDate());
+            }
+        });
+
+        gantt.addResizeListener(new Gantt.ResizeListener() {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void onGanttResize(ResizeEvent event) {
+                updateTasksInfo((StepExt) event.getStep(), event.getStartDate(), event.getEndDate());
+            }
+        });
+
+        mainLayout.with(taskTable, gantt).expand(gantt);
+
         updateStepList();
     }
 
     @SuppressWarnings("unchecked")
     private void updateStepList() {
-        gantt.removeSteps();
-        taskTable.removeAllItems();
         final TaskSearchCriteria criteria = new TaskSearchCriteria();
         criteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
         criteria.setHasParentTask(new BooleanSearchField());
@@ -209,8 +209,8 @@ public class GanttChartViewImpl extends AbstractPageView implements GanttChartVi
                     if (!tasks.isEmpty()) {
                         for (final SimpleTask task : tasks) {
                             final GanttItemWrapper itemWrapper = new GanttItemWrapper(task);
-                            taskTable.addTask(itemWrapper);
                             gantt.addTask(itemWrapper);
+                            taskTable.addTask(itemWrapper);
                         }
                         UI.getCurrent().push();
                     }
@@ -229,154 +229,5 @@ public class GanttChartViewImpl extends AbstractPageView implements GanttChartVi
         });
     }
 
-    void insertSteps(final GanttItemWrapper parent, final List<GanttItemWrapper> childs) {
-        final int stepIndex = gantt.getStepIndex(parent.getStep());
-        if (stepIndex != -1) {
-            for (GanttItemWrapper child : childs) {
-                taskTable.addItem(child);
-                taskTable.setParent(child, parent);
-                taskTable.setChildrenAllowed(child, child.hasSubTasks());
-            }
-        }
-    }
 
-    class TaskHierarchyComp extends TreeTable {
-        private BeanItemContainer<GanttItemWrapper> beanContainer;
-
-        private ApplicationEventListener<TaskEvent.GanttTaskUpdate> taskUpdateHandler = new
-                ApplicationEventListener<TaskEvent.GanttTaskUpdate>() {
-                    @Override
-                    @Subscribe
-                    public void handle(TaskEvent.GanttTaskUpdate event) {
-                        GanttItemWrapper ganttItemWrapper = (GanttItemWrapper) event.getData();
-                        updateTaskTree(ganttItemWrapper);
-                    }
-                };
-
-        TaskHierarchyComp() {
-            super();
-            this.setImmediate(true);
-            beanContainer = new BeanItemContainer<>(GanttItemWrapper.class);
-            this.setContainerDataSource(beanContainer);
-            this.setVisibleColumns("name", "startDate", "endDate", "duration");
-            this.setColumnHeader("name", "Task");
-            this.setColumnExpandRatio("name", 1.0f);
-            this.setColumnHeader("startDate", "Start");
-            this.setColumnWidth("startDate", 75);
-            this.setColumnHeader("endDate", "End");
-            this.setColumnWidth("endDate", 75);
-            this.setColumnHeader("duration", "Duration");
-            this.setColumnWidth("duration", 80);
-
-            this.addGeneratedColumn("name", new ColumnGenerator() {
-                @Override
-                public Object generateCell(Table table, Object itemId, Object columnId) {
-                    GanttItemWrapper item = (GanttItemWrapper) itemId;
-                    SimpleTask task = item.getTask();
-
-                    String taskLinkContent;
-                    String uid = UUID.randomUUID().toString();
-                    String taskPriority = task.getPriority();
-                    Img priorityLink = new Img(taskPriority, ProjectResources.getIconResourceLink12ByTaskPriority
-                            (taskPriority)).setTitle(taskPriority);
-
-                    String linkName = String.format("[#%d] - %s", task.getTaskkey(), task.getTaskname());
-                    A taskLink = new A().setId("tag" + uid).appendText(linkName).setStyle("display:inline");
-
-                    taskLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, ProjectTypeConstants.TASK, task.getId() + ""));
-                    taskLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
-
-                    String avatarLink = Storage.getAvatarPath(task.getAssignUserAvatarId(), 16);
-                    Img avatarImg = new Img(task.getAssignUserFullName(), avatarLink).setTitle(task.getAssignUserFullName());
-
-                    Div resultDiv = new DivLessFormatter().appendChild(priorityLink, DivLessFormatter.EMPTY_SPACE(),
-                            avatarImg, DivLessFormatter.EMPTY_SPACE(), taskLink, DivLessFormatter.EMPTY_SPACE(),
-                            TooltipHelper.buildDivTooltipEnable(uid));
-                    taskLinkContent = resultDiv.write();
-
-                    Label taskLbl = new Label(taskLinkContent, ContentMode.HTML);
-                    if (task.isCompleted()) {
-                        taskLbl.addStyleName("completed");
-                    } else if (task.isOverdue()) {
-                        taskLbl.addStyleName("overdue");
-                    }
-                    return taskLbl;
-                }
-            });
-
-            this.addGeneratedColumn("startDate", new ColumnGenerator() {
-                @Override
-                public Object generateCell(Table table, Object itemId, Object columnId) {
-                    GanttItemWrapper item = (GanttItemWrapper) itemId;
-                    return new Label(AppContext.formatDate(item.getStartDate()));
-                }
-            });
-
-            this.addGeneratedColumn("endDate", new ColumnGenerator() {
-                @Override
-                public Object generateCell(Table table, Object itemId, Object columnId) {
-                    GanttItemWrapper item = (GanttItemWrapper) itemId;
-                    return new Label(AppContext.formatDate(item.getEndDate()));
-                }
-            });
-
-            this.addGeneratedColumn("duration", new ColumnGenerator() {
-                @Override
-                public Object generateCell(Table table, Object itemId, Object columnId) {
-                    GanttItemWrapper item = (GanttItemWrapper) itemId;
-                    double dur = item.getDuration();
-                    return new Label(dur + " d");
-                }
-            });
-
-            this.addExpandListener(new Tree.ExpandListener() {
-                @Override
-                public void nodeExpand(Tree.ExpandEvent expandEvent) {
-                    GanttItemWrapper item = (GanttItemWrapper) expandEvent.getItemId();
-                    List<GanttItemWrapper> subTasks = item.subTasks();
-                    insertSteps(item, subTasks);
-                }
-            });
-
-            this.addCollapseListener(new Tree.CollapseListener() {
-                @Override
-                public void nodeCollapse(Tree.CollapseEvent collapseEvent) {
-
-                }
-            });
-
-            this.setCellStyleGenerator(new CellStyleGenerator() {
-                @Override
-                public String getStyle(Table table, Object itemId, Object propertyId) {
-                    if (propertyId == null) {
-                        GanttItemWrapper item = (GanttItemWrapper) itemId;
-                        return (item.hasSubTasks()) ? "hasChildTasks" : null;
-                    } else {
-                        return null;
-                    }
-                }
-            });
-        }
-
-        @Override
-        public void attach() {
-            EventBusFactory.getInstance().register(taskUpdateHandler);
-            super.attach();
-        }
-
-        @Override
-        public void detach() {
-            EventBusFactory.getInstance().unregister(taskUpdateHandler);
-            super.detach();
-        }
-
-        private void updateTaskTree(GanttItemWrapper ganttItemWrapper) {
-            this.markAsDirtyRecursive();
-        }
-
-        void addTask(GanttItemWrapper itemWrapper) {
-            beanContainer.addBean(itemWrapper);
-            this.setChildrenAllowed(itemWrapper, itemWrapper.hasSubTasks());
-        }
-    }
 }

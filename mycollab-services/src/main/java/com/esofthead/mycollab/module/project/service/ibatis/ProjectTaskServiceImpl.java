@@ -23,6 +23,7 @@ import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.common.interceptor.aspect.*;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
+import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
@@ -49,6 +50,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -179,10 +181,11 @@ public class ProjectTaskServiceImpl extends DefaultService<Integer, Task, TaskSe
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<SimpleTask> findSubTasks(Integer parentTaskId, Integer sAccountId) {
+    public List<SimpleTask> findSubTasks(Integer parentTaskId, Integer sAccountId, SearchCriteria.OrderField orderField) {
         TaskSearchCriteria searchCriteria = new TaskSearchCriteria();
         searchCriteria.setSaccountid(new NumberSearchField(sAccountId));
         searchCriteria.setParentTaskId(new NumberSearchField(parentTaskId));
+        searchCriteria.setOrderFields(Arrays.asList(orderField));
         return taskMapperExt.findPagableListByCriteria(searchCriteria, new RowBounds(0, Integer.MAX_VALUE));
     }
 

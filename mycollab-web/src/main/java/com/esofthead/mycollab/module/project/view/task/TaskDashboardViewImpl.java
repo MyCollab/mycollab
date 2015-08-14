@@ -59,8 +59,8 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.apache.commons.collections.CollectionUtils;
-import org.vaadin.maddon.layouts.MHorizontalLayout;
-import org.vaadin.maddon.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.Arrays;
 import java.util.List;
@@ -222,10 +222,10 @@ public class TaskDashboardViewImpl extends AbstractLazyPageView implements TaskD
         groupWrapLayout.addComponent(viewButtons);
 
         mainLayout = new MHorizontalLayout().withFullHeight().withFullWidth();
-        this.wrapBody = new VerticalLayout();
+        wrapBody = new VerticalLayout();
         wrapBody.setSpacing(true);
 
-        this.rightColumn = new MVerticalLayout().withWidth("300px").withMargin(false);
+        rightColumn = new MVerticalLayout().withWidth("300px").withMargin(false);
 
         mainLayout.with(wrapBody, rightColumn).expand(wrapBody);
 
@@ -285,6 +285,7 @@ public class TaskDashboardViewImpl extends AbstractLazyPageView implements TaskD
     public void queryTask(final TaskSearchCriteria searchCriteria) {
         baseCriteria = searchCriteria;
         wrapBody.removeAllComponents();
+
         if (GROUP_DUE_DATE.equals(groupByState)) {
             searchCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("deadline", sortDirection)));
             taskGroupOrderComponent = new DueDateOrderComponent();
@@ -317,7 +318,7 @@ public class TaskDashboardViewImpl extends AbstractLazyPageView implements TaskD
                     }
                 }
             });
-            moreBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
+            moreBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
             wrapBody.addComponent(moreBtn);
         }
         List<SimpleTask> tasks = projectTaskService.findPagableListByCriteria(new SearchRequest<>(searchCriteria, currentPage + 1, 20));

@@ -28,7 +28,7 @@ import com.esofthead.mycollab.vaadin.ui.BeanList;
 import com.esofthead.mycollab.vaadin.ui.ReloadableComponent;
 import com.esofthead.mycollab.vaadin.ui.TabSheetLazyLoadComponent;
 import com.vaadin.shared.ui.MarginInfo;
-import org.vaadin.maddon.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  *

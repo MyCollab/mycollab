@@ -36,7 +36,7 @@ import com.hp.gagawa.java.elements.A;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.apache.commons.lang3.time.DateUtils;
-import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.Date;
 import java.util.GregorianCalendar;

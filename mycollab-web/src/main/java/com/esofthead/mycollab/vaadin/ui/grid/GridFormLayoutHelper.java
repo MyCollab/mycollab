@@ -20,7 +20,7 @@ import com.esofthead.mycollab.vaadin.ui.MultiSelectComp;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.ui.*;
 import org.apache.commons.lang3.StringUtils;
-import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.io.Serializable;
 import java.util.HashMap;

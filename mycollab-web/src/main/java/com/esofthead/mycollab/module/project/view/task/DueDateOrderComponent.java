@@ -16,7 +16,9 @@
  */
 package com.esofthead.mycollab.module.project.view.task;
 
+import com.esofthead.mycollab.core.utils.SortedArrayMap;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
+import com.google.common.collect.Ordering;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
@@ -36,7 +38,7 @@ import java.util.TreeMap;
  * @since 5.1.1
  */
 public class DueDateOrderComponent extends TaskGroupOrderComponent {
-    private Map<DateTime, GroupComponent> dueDateAvailables = new TreeMap<>();
+    private SortedArrayMap<DateTime, GroupComponent> dueDateAvailables = new SortedArrayMap<>();
     private GroupComponent unspecifiedTasks;
 
     @Override
@@ -52,7 +54,13 @@ public class DueDateOrderComponent extends TaskGroupOrderComponent {
                 } else {
                     GroupComponent groupComponent = new GroupComponent(monDay);
                     dueDateAvailables.put(monDay, groupComponent);
-                    addComponent(groupComponent);
+                    int index = dueDateAvailables.getKeyIndex(monDay);
+                    if (index > -1) {
+                        addComponent(groupComponent, index);
+                    } else {
+                        addComponent(groupComponent);
+                    }
+
                     groupComponent.insertTask(task);
                 }
             } else {

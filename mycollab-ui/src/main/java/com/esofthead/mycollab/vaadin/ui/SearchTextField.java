@@ -22,7 +22,7 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.TextField;
 import org.apache.commons.lang3.StringUtils;
-import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -31,14 +31,13 @@ import org.vaadin.maddon.layouts.MHorizontalLayout;
 public abstract class SearchTextField extends MHorizontalLayout {
     private FontIconLabel icon;
     private TextField innerField;
-    private ShortcutListener shortcutListener = new ShortcutListener("searchfield", ShortcutAction.KeyCode.ENTER,
-            null) {
+    private ShortcutListener shortcutListener = new ShortcutListener("searchfield", ShortcutAction.KeyCode.ENTER, null) {
         @Override
         public void handleAction(Object sender, Object target) {
             String value = ((TextField) target).getValue();
-                if (StringUtils.isNotBlank(value)) {
-                    doSearch(value);
-                }
+            if (StringUtils.isNotBlank(value)) {
+                doSearch(value);
+            }
         }
     };
 

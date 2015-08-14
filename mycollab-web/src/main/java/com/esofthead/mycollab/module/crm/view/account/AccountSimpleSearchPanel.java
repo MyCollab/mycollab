@@ -60,8 +60,7 @@ public class AccountSimpleSearchPanel extends GenericSearchPanel<AccountSearchCr
     private void createBasicSearchLayout() {
         layoutSearchPanel = new GridLayout(3, 3);
         layoutSearchPanel.setSpacing(true);
-        group = new ValueComboBox(false, "Name", "Email", "Website", "Phone",
-                AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE));
+        group = new ValueComboBox(false, "Name", "Email", "Website", "Phone", AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE));
         group.select("Name");
         group.setImmediate(true);
         group.addValueChangeListener(new Property.ValueChangeListener() {
@@ -77,8 +76,7 @@ public class AccountSimpleSearchPanel extends GenericSearchPanel<AccountSearchCr
                     addTextFieldSearch();
                 } else if (searchType.equals("Phone")) {
                     addTextFieldSearch();
-                } else if (searchType.equals(AppContext
-                        .getMessage(GenericI18Enum.FORM_ASSIGNEE))) {
+                } else if (searchType.equals(AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE))) {
                     addUserListSelectField();
                 }
             }
@@ -89,8 +87,7 @@ public class AccountSimpleSearchPanel extends GenericSearchPanel<AccountSearchCr
 
         addTextFieldSearch();
 
-        Button searchBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
+        Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
         searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         searchBtn.setIcon(FontAwesome.SEARCH);
         searchBtn.setDescription("Search");
@@ -108,8 +105,7 @@ public class AccountSimpleSearchPanel extends GenericSearchPanel<AccountSearchCr
 
     private void doSearch() {
         searchCriteria = new AccountSearchCriteria();
-        searchCriteria.setSaccountid(new NumberSearchField(
-                SearchField.AND, AppContext.getAccountId()));
+        searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
 
         String searchType = (String) group.getValue();
         if (StringUtils.isNotBlank(searchType)) {
@@ -117,21 +113,13 @@ public class AccountSimpleSearchPanel extends GenericSearchPanel<AccountSearchCr
                 String strSearch = textValueField.getValue();
                 if (StringUtils.isNotBlank(strSearch)) {
                     if (searchType.equals("Name")) {
-                        searchCriteria
-                                .setAccountname(new StringSearchField(
-                                        SearchField.AND, strSearch));
+                        searchCriteria.setAccountname(new StringSearchField(SearchField.AND, strSearch));
                     } else if (searchType.equals("Email")) {
-                        searchCriteria
-                                .setAnyMail(new StringSearchField(
-                                        SearchField.AND, strSearch));
+                        searchCriteria.setAnyMail(new StringSearchField(SearchField.AND, strSearch));
                     } else if (searchType.equals("Website")) {
-                        searchCriteria
-                                .setWebsite(new StringSearchField(
-                                        SearchField.AND, strSearch));
+                        searchCriteria.setWebsite(new StringSearchField(SearchField.AND, strSearch));
                     } else if (searchType.equals("Phone")) {
-                        searchCriteria
-                                .setAnyPhone(new StringSearchField(
-                                        SearchField.AND, strSearch));
+                        searchCriteria.setAnyPhone(new StringSearchField(SearchField.AND, strSearch));
                     }
                 }
             }

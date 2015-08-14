@@ -144,8 +144,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
             if (i == 0) {
                 tableItem.setColumnExpandRatio(viewField.getField(), 1.0f);
             } else {
-                tableItem.setColumnWidth(viewField.getField(),
-                        viewField.getDefaultWidth());
+                tableItem.setColumnWidth(viewField.getField(), viewField.getDefaultWidth());
             }
         }
 
@@ -303,9 +302,8 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
                 private static final long serialVersionUID = 1L;
 
                 @Override
-                public void buttonClick(final ClickEvent event) {
-                    AbstractPagedBeanTable.this
-                            .pageChange(AbstractPagedBeanTable.this.currentPage - 1);
+                public void buttonClick(ClickEvent event) {
+                    pageChange(AbstractPagedBeanTable.this.currentPage - 1);
                 }
             }, false);
             previous1.addStyleName("buttonPaging");

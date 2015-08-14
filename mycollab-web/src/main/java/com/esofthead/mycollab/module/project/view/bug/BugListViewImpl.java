@@ -61,8 +61,8 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import org.apache.commons.collections.CollectionUtils;
-import org.vaadin.maddon.layouts.MHorizontalLayout;
-import org.vaadin.maddon.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.Arrays;
 import java.util.List;
@@ -286,7 +286,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
                     }
                 }
             });
-            moreBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
+            moreBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
             wrapBody.addComponent(moreBtn);
         }
         List<SimpleBug> bugs = bugService.findPagableListByCriteria(new SearchRequest<>(searchCriteria, currentPage + 1, 20));

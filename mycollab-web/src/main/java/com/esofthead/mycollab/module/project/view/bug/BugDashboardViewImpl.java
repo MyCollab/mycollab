@@ -47,8 +47,8 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import org.vaadin.maddon.layouts.MHorizontalLayout;
-import org.vaadin.maddon.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -168,7 +168,7 @@ public class BugDashboardViewImpl extends AbstractLazyPageView implements BugDas
         dueDefectsCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
         dueDefectsCriteria.setDueDate(new DateSearchField(DateTimeUtils.getCurrentDateWithoutMS(), DateTimeSearchField.LESSTHANEQUAL));
         dueDefectsCriteria.setStatuses(new SetSearchField<>(BugStatus.InProgress.name(),
-                BugStatus.Open.name(), BugStatus.ReOpened.name(), BugStatus.Resolved.name()));
+                BugStatus.Open.name(), BugStatus.ReOpened.name()));
         dueBugWidget.setSearchCriteria(dueDefectsCriteria);
 
         BugSearchCriteria waitingApprovalCriteria = new BugSearchCriteria();

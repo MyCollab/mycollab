@@ -47,7 +47,7 @@ Version 5.1.1
 -----------------------------
 **Library Upgrades**
 
-* Jackson library 2.6.0, DynamicReports 4.0.1
+* Jackson library 2.6.1, DynamicReports 4.0.1, MyBatis 3.3.0, Spring 4.2.0.RELEASE, Infinispan 7.2.4
 * Vaadin 7.5.3
 * JQuery 2.1.4
 

@@ -28,6 +28,7 @@ import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 
@@ -59,16 +60,14 @@ public class AccountTableDisplay extends DefaultPagedBeanTable<AccountService, A
             public Object generateCell(final Table source, final Object itemId,
                                        final Object columnId) {
                 final SimpleAccount account = getBeanByIndex(itemId);
-                final CheckBoxDecor cb = new CheckBoxDecor("", account
-                        .isSelected());
+                final CheckBoxDecor cb = new CheckBoxDecor("", account.isSelected());
                 cb.addValueChangeListener(new ValueChangeListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
                     public void valueChange(ValueChangeEvent event) {
                         AccountTableDisplay.this.fireSelectItemEvent(account);
-                        fireTableEvent(new TableClickEvent(
-                                AccountTableDisplay.this, account, "selected"));
+                        fireTableEvent(new TableClickEvent(AccountTableDisplay.this, account, "selected"));
 
                     }
                 });
@@ -81,8 +80,7 @@ public class AccountTableDisplay extends DefaultPagedBeanTable<AccountService, A
             private static final long serialVersionUID = 1L;
 
             @Override
-            public com.vaadin.ui.Component generateCell(final Table source,
-                                                        final Object itemId, final Object columnId) {
+            public Component generateCell(Table source, Object itemId, Object columnId) {
                 SimpleAccount account = getBeanByIndex(itemId);
                 return new EmailLink(account.getEmail());
             }
@@ -92,16 +90,13 @@ public class AccountTableDisplay extends DefaultPagedBeanTable<AccountService, A
             private static final long serialVersionUID = 1L;
 
             @Override
-            public com.vaadin.ui.Component generateCell(final Table source,
-                                                        final Object itemId, final Object columnId) {
+            public Component generateCell(Table source, Object itemId, Object columnId) {
                 SimpleAccount account = getBeanByIndex(itemId);
 
                 LabelLink b = new LabelLink(account.getAccountname(),
-                        CrmLinkBuilder.generateAccountPreviewLinkFull(account
-                                .getId()));
+                        CrmLinkBuilder.generateAccountPreviewLinkFull(account.getId()));
                 b.setDescription(CrmTooltipGenerator.generateToolTipAccount(
-                        AppContext.getUserLocale(), account,
-                        AppContext.getSiteUrl()));
+                        AppContext.getUserLocale(), account, AppContext.getSiteUrl()));
                 return b;
             }
         });
@@ -110,12 +105,10 @@ public class AccountTableDisplay extends DefaultPagedBeanTable<AccountService, A
             private static final long serialVersionUID = 1L;
 
             @Override
-            public com.vaadin.ui.Component generateCell(final Table source,
-                                                        final Object itemId, final Object columnId) {
-                final SimpleAccount account = getBeanByIndex(itemId);
+            public Component generateCell(Table source, Object itemId, Object columnId) {
+                SimpleAccount account = getBeanByIndex(itemId);
                 return new UserLink(account.getAssignuser(),
-                        account.getAssignUserAvatarId(), account
-                        .getAssignUserFullName());
+                        account.getAssignUserAvatarId(), account.getAssignUserFullName());
 
             }
         });
@@ -126,7 +119,7 @@ public class AccountTableDisplay extends DefaultPagedBeanTable<AccountService, A
             @Override
             public com.vaadin.ui.Component generateCell(final Table source,
                                                         final Object itemId, final Object columnId) {
-                final SimpleAccount account = getBeanByIndex(itemId);
+                SimpleAccount account = getBeanByIndex(itemId);
                 if (account.getWebsite() != null) {
                     return new UrlLink(account.getWebsite());
                 } else {

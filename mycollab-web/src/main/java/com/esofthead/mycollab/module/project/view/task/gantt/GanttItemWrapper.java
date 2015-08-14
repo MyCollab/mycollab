@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.task.gantt;
 
+import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.module.project.ProjectTooltipGenerator;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
@@ -62,8 +63,8 @@ public class GanttItemWrapper {
         return task.getTaskname();
     }
 
-    public List<GanttItemWrapper> subTasks() {
-        List<SimpleTask> subTasks = projectTaskService.findSubTasks(task.getId(), AppContext.getAccountId());
+    public List<GanttItemWrapper> subTasks(SearchCriteria.OrderField orderField) {
+        List<SimpleTask> subTasks = projectTaskService.findSubTasks(task.getId(), AppContext.getAccountId(), orderField);
         if (subItems == null) {
             subItems = new ArrayList<>();
             for (SimpleTask subTask : subTasks) {
@@ -123,6 +124,14 @@ public class GanttItemWrapper {
 
     public Date getEndDate() {
         return endDate;
+    }
+
+    public Date getActualStartDate() {
+        return task.getActualstartdate();
+    }
+
+    public Date getActualEndDate() {
+        return task.getActualenddate();
     }
 
     public void setStartDate(Date startDate) {

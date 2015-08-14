@@ -23,7 +23,7 @@ import com.esofthead.mycollab.vaadin.events.PagableHandler;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.HashSet;
 import java.util.List;

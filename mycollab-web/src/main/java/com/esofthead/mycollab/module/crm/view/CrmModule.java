@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.crm.view;
 
-import org.vaadin.maddon.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.events.CrmEvent;

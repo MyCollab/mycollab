@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import org.vaadin.maddon.button.MButton;
+import org.vaadin.viritin.button.MButton;
 
 /**
  * Button link

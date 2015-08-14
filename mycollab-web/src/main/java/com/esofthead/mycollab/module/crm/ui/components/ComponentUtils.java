@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.crm.ui.components;
 
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
-import org.vaadin.maddon.button.MButton;
+import org.vaadin.viritin.button.MButton;
 
 /**
  * @author MyCollab Ltd.

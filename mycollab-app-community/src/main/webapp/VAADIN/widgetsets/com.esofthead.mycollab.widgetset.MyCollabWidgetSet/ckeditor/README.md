@@ -15,7 +15,7 @@ http://docs.ckeditor.com
 
 ## Installation
 
-Installing CKEditor is an easy bug. Just follow these simple steps:
+Installing CKEditor is an easy task. Just follow these simple steps:
 
  1. **Download** the latest version from the CKEditor website:
     http://ckeditor.com. You should have already completed this step, but be

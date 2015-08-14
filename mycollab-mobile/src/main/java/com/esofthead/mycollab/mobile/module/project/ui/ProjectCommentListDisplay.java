@@ -34,7 +34,7 @@ import com.esofthead.mycollab.vaadin.ui.SafeHtmlLabel;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.vaadin.ui.*;
 import org.apache.commons.collections.CollectionUtils;
-import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.List;
 

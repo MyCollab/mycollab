@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.view.task.gantt;
 
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.tltv.gantt.client.shared.AbstractStep;
 import org.tltv.gantt.client.shared.Step;
 
 /**
@@ -33,32 +31,5 @@ public class StepExt extends Step {
 
     public void setGanttItemWrapper(GanttItemWrapper ganttItemWrapper) {
         this.ganttItemWrapper = ganttItemWrapper;
-    }
-
-    public int hashCode() {
-        return new HashCodeBuilder(1, 31).append(getUid()).build();
-    }
-
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        } else if (obj == null) {
-            return false;
-        } else {
-            if (obj instanceof AbstractStep) {
-                AbstractStep other = (AbstractStep) obj;
-                if (this.getUid() == null) {
-                    if (other.getUid() != null) {
-                        return false;
-                    }
-                } else if (!this.getUid().equals(other.getUid())) {
-                    return false;
-                }
-
-                return true;
-            } else {
-                return false;
-            }
-        }
     }
 }

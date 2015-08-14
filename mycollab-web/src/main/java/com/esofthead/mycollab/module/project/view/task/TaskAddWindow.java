@@ -34,7 +34,7 @@ import com.esofthead.mycollab.vaadin.ui.form.field.AttachmentUploadField;
 import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
-import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
  * @author MyCollab Ltd
@@ -89,7 +89,7 @@ class TaskAddWindow extends Window {
                 });
                 updateAllBtn.addStyleName(UIConstants.THEME_LINK);
 
-                Button updateBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL), new Button.ClickListener() {
+                Button updateBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
                     @Override
                     public void buttonClick(Button.ClickEvent clickEvent) {
                         if (EditForm.this.validateForm()) {

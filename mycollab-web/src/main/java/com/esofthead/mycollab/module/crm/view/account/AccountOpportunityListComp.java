@@ -38,7 +38,8 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.vaadin.dialogs.ConfirmDialog;
-import org.vaadin.maddon.button.MButton;
+import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -48,8 +49,7 @@ import java.util.Map;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class AccountOpportunityListComp extends
-        RelatedListComp2<OpportunityService, OpportunitySearchCriteria, SimpleOpportunity> {
+public class AccountOpportunityListComp extends RelatedListComp2<OpportunityService, OpportunitySearchCriteria, SimpleOpportunity> {
     private static final long serialVersionUID = -2414709814283942446L;
 
     private Account account;
@@ -59,11 +59,9 @@ public class AccountOpportunityListComp extends
     static {
         Map<String, String> tmpMap = new HashMap<>();
         for (int i = 0; i < CrmDataTypeFactory.getOpportunitySalesStageList().length; i++) {
-            String roleKeyName = CrmDataTypeFactory
-                    .getOpportunitySalesStageList()[i];
+            String roleKeyName = CrmDataTypeFactory.getOpportunitySalesStageList()[i];
             if (!tmpMap.containsKey(roleKeyName)) {
-                tmpMap.put(roleKeyName,
-                        AbstractBeanBlockList.COLOR_STYLENAME_LIST[i]);
+                tmpMap.put(roleKeyName, AbstractBeanBlockList.COLOR_STYLENAME_LIST[i]);
             }
         }
         colormap = Collections.unmodifiableMap(tmpMap);
@@ -80,9 +78,7 @@ public class AccountOpportunityListComp extends
         HorizontalLayout controlsBtnWrap = new HorizontalLayout();
         controlsBtnWrap.setWidth("100%");
 
-        HorizontalLayout notesWrap = new HorizontalLayout();
-        notesWrap.setWidth("100%");
-        notesWrap.setSpacing(true);
+        MHorizontalLayout notesWrap = new MHorizontalLayout().withWidth("100%");
         Label noteLbl = new Label("Note: ");
         noteLbl.setSizeUndefined();
         noteLbl.setStyleName("list-note-lbl");
@@ -92,41 +88,33 @@ public class AccountOpportunityListComp extends
         noteBlock.setWidth("100%");
         noteBlock.setStyleName("list-note-block");
         for (int i = 0; i < CrmDataTypeFactory.getOpportunitySalesStageList().length; i++) {
-            Label note = new Label(
-                    CrmDataTypeFactory.getOpportunitySalesStageList()[i]);
+            Label note = new Label(CrmDataTypeFactory.getOpportunitySalesStageList()[i]);
             note.setStyleName("note-label");
-            note.addStyleName(colormap.get(CrmDataTypeFactory
-                    .getOpportunitySalesStageList()[i]));
+            note.addStyleName(colormap.get(CrmDataTypeFactory.getOpportunitySalesStageList()[i]));
             note.setSizeUndefined();
 
             noteBlock.addComponent(note);
         }
-        notesWrap.addComponent(noteBlock);
-        notesWrap.setExpandRatio(noteBlock, 1.0f);
+        notesWrap.with(noteBlock).expand(noteBlock);
 
         controlsBtnWrap.addComponent(notesWrap);
 
         controlsBtnWrap.setWidth("100%");
-        final Button createBtn = new Button(
-                AppContext
-                        .getMessage(OpportunityI18nEnum.BUTTON_NEW_OPPORTUNITY),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = -8101659779838108951L;
+        final Button createBtn = new Button(AppContext.getMessage(OpportunityI18nEnum.BUTTON_NEW_OPPORTUNITY), new Button.ClickListener() {
+            private static final long serialVersionUID = -8101659779838108951L;
 
-                    @Override
-                    public void buttonClick(final Button.ClickEvent event) {
-                        fireNewRelatedItem("");
-                    }
-                });
+            @Override
+            public void buttonClick(final Button.ClickEvent event) {
+                fireNewRelatedItem("");
+            }
+        });
         createBtn.setSizeUndefined();
-        createBtn.setEnabled(AppContext
-                .canWrite(RolePermissionCollections.CRM_OPPORTUNITY));
+        createBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY));
         createBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
         createBtn.setIcon(FontAwesome.PLUS);
 
         controlsBtnWrap.addComponent(createBtn);
-        controlsBtnWrap
-                .setComponentAlignment(createBtn, Alignment.MIDDLE_RIGHT);
+        controlsBtnWrap.setComponentAlignment(createBtn, Alignment.MIDDLE_RIGHT);
         return controlsBtnWrap;
     }
 
@@ -137,10 +125,8 @@ public class AccountOpportunityListComp extends
 
     private void loadOpportunities() {
         final OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(SearchField.AND,
-                AppContext.getAccountId()));
-        criteria.setAccountId(new NumberSearchField(SearchField.AND, account
-                .getId()));
+        criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+        criteria.setAccountId(new NumberSearchField(SearchField.AND, account.getId()));
         setSearchCriteria(criteria);
     }
 
@@ -149,8 +135,7 @@ public class AccountOpportunityListComp extends
         loadOpportunities();
     }
 
-    public class AccountOpportunityBlockDisplay implements
-            BlockDisplayHandler<SimpleOpportunity> {
+    public class AccountOpportunityBlockDisplay implements BlockDisplayHandler<SimpleOpportunity> {
 
         @Override
         public Component generateBlock(final SimpleOpportunity opportunity, int blockIndex) {
@@ -159,8 +144,7 @@ public class AccountOpportunityListComp extends
             beanBlock.setWidth("350px");
 
             VerticalLayout blockContent = new VerticalLayout();
-            HorizontalLayout blockTop = new HorizontalLayout();
-            blockTop.setSpacing(true);
+            MHorizontalLayout blockTop = new MHorizontalLayout().withWidth("100%");
             CssLayout iconWrap = new CssLayout();
             iconWrap.setStyleName("icon-wrap");
             FontIconLabel opportunityIcon = new FontIconLabel(CrmAssetsManager.getAsset(CrmTypeConstants.OPPORTUNITY));
@@ -231,17 +215,12 @@ public class AccountOpportunityListComp extends
                         .addStyleName(colormap.get(opportunity.getSalesstage()));
             }
 
-            ELabel opportunityExpectedCloseDate = new ELabel(
-                    "Expected Close Date: "
-                            + AppContext
-                            .formatPrettyTime(opportunity
-                                    .getExpectedcloseddate())).withDescription(AppContext.formatDate
-                    (opportunity.getExpectedcloseddate()));
+            ELabel opportunityExpectedCloseDate = new ELabel("Expected Close Date: " +
+                    AppContext.formatPrettyTime(opportunity.getExpectedcloseddate()))
+                    .withDescription(AppContext.formatDate(opportunity.getExpectedcloseddate()));
             opportunityInfo.addComponent(opportunityExpectedCloseDate);
 
-            blockTop.addComponent(opportunityInfo);
-            blockTop.setExpandRatio(opportunityInfo, 1.0f);
-            blockTop.setWidth("100%");
+            blockTop.with(opportunityInfo).expand(opportunityInfo);
             blockContent.addComponent(blockTop);
 
             blockContent.setWidth("100%");

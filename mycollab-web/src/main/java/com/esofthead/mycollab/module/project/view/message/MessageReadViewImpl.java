@@ -46,8 +46,8 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.dialogs.ConfirmDialog;
-import org.vaadin.maddon.layouts.MHorizontalLayout;
-import org.vaadin.maddon.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.List;
 
@@ -112,34 +112,31 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
             header.removeAllComponents();
             MVerticalLayout messageAddLayout = new MVerticalLayout().withMargin(false).withWidth("100%");
 
-            Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(ClickEvent event) {
-                            ConfirmDialogExt.show(UI.getCurrent(),
-                                    AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                                    AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                                    AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                                    AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                                    new ConfirmDialog.Listener() {
-                                        private static final long serialVersionUID = 1L;
+                @Override
+                public void buttonClick(ClickEvent event) {
+                    ConfirmDialogExt.show(UI.getCurrent(),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                            new ConfirmDialog.Listener() {
+                                private static final long serialVersionUID = 1L;
 
-                                        @Override
-                                        public void onClose(
-                                                final ConfirmDialog dialog) {
-                                            if (dialog.isConfirmed()) {
-                                                MessageService messageService = ApplicationContextUtil
-                                                        .getSpringBean(MessageService.class);
-                                                messageService.removeWithSession(message,
-                                                        AppContext.getUsername(), AppContext.getAccountId());
-                                                previewForm.fireCancelForm(message);
-                                            }
-                                        }
-                                    });
-                        }
-                    });
+                                @Override
+                                public void onClose(
+                                        final ConfirmDialog dialog) {
+                                    if (dialog.isConfirmed()) {
+                                        MessageService messageService = ApplicationContextUtil.getSpringBean(MessageService.class);
+                                        messageService.removeWithSession(message, AppContext.getUsername(), AppContext.getAccountId());
+                                        previewForm.fireCancelForm(message);
+                                    }
+                                }
+                            });
+                }
+            });
             deleteBtn.setIcon(FontAwesome.TRASH_O);
             deleteBtn.addStyleName(UIConstants.THEME_RED_LINK);
             deleteBtn.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.MESSAGES));
@@ -201,8 +198,7 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
             messageContent.setStyleName("message-body");
             rowLayout.addComponent(messageContent);
 
-            ResourceService attachmentService = ApplicationContextUtil
-                    .getSpringBean(ResourceService.class);
+            ResourceService attachmentService = ApplicationContextUtil.getSpringBean(ResourceService.class);
             List<Content> attachments = attachmentService.getContents(AttachmentUtils.getProjectEntityAttachmentPath(
                     AppContext.getAccountId(), message.getProjectid(), ProjectTypeConstants.MESSAGE, "" + message.getId()));
             if (CollectionUtils.isNotEmpty(attachments)) {

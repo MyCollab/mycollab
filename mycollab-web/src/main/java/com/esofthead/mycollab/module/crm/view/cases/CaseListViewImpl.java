@@ -34,7 +34,7 @@ import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.UI;
-import org.vaadin.maddon.button.MButton;
+import org.vaadin.viritin.button.MButton;
 
 import java.util.Arrays;
 

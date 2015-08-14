@@ -38,8 +38,8 @@ import com.rits.cloning.Cloner;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.UI;
 import org.apache.commons.lang3.StringUtils;
-import org.vaadin.maddon.layouts.MHorizontalLayout;
-import org.vaadin.maddon.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.List;
 

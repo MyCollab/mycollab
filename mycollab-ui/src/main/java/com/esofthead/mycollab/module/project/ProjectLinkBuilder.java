@@ -185,7 +185,7 @@ public class ProjectLinkBuilder {
     public static String generateProjectItemLink(String prjShortName, Integer projectId, String type, String typeId) {
         String result = "";
 
-        if (org.apache.commons.lang3.StringUtils.isBlank(typeId)) {
+        if (typeId == null || org.apache.commons.lang3.StringUtils.isBlank(typeId)) {
             return "";
         }
 

@@ -26,5 +26,6 @@ import java.util.List;
  * @since 5.1.1
  */
 abstract class TaskGroupOrderComponent extends CssLayout {
+
     abstract void insertTasks(List<SimpleTask> tasks);
 }

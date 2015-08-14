@@ -19,7 +19,7 @@ package com.esofthead.mycollab.vaadin.ui;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import com.esofthead.mycollab.core.arguments.RangeDateSearchField;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;

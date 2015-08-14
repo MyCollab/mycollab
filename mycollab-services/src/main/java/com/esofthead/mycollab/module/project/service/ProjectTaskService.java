@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.project.service;
 
 import com.esofthead.mycollab.common.domain.GroupItem;
+import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.cache.CacheEvict;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.cache.Cacheable;
@@ -38,7 +39,7 @@ public interface ProjectTaskService extends IDefaultService<Integer, Task, TaskS
     SimpleTask findById(Integer taskId, @CacheKey Integer sAccountId);
 
     @Cacheable
-    List<SimpleTask> findSubTasks(Integer parentTaskId, @CacheKey Integer sAccountId);
+    List<SimpleTask> findSubTasks(Integer parentTaskId, @CacheKey Integer sAccountId, SearchCriteria.OrderField orderField);
 
     @Cacheable
     SimpleTask findByProjectAndTaskKey(Integer taskkey, String projectShortName, @CacheKey Integer sAccountId);

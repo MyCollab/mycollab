@@ -37,7 +37,7 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.vaadin.dialogs.ConfirmDialog;
-import org.vaadin.maddon.button.MButton;
+import org.vaadin.viritin.button.MButton;
 
 /**
  * @author MyCollab Ltd.

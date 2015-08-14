@@ -18,62 +18,59 @@ package com.esofthead.mycollab.module.crm.view.account;
 
 import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
+import com.esofthead.mycollab.module.crm.ui.components.IndustryComboBox;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserComboBox;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.CountryComboBox;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.module.crm.ui.components.IndustryComboBox;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.TextField;
-import org.vaadin.maddon.fields.MTextField;
 
 /**
- * 
+ * @param <B>
  * @author MyCollab Ltd.
  * @since 3.0
- * 
- * @param <B>
  */
 class AccountEditFormFieldFactory<B extends Account> extends AbstractBeanFieldGroupEditFieldFactory<B> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	AccountEditFormFieldFactory(GenericBeanForm<B> form) {
-		super(form);
-	}
+    AccountEditFormFieldFactory(GenericBeanForm<B> form) {
+        super(form);
+    }
 
-	AccountEditFormFieldFactory(GenericBeanForm<B> form, boolean isValidateForm) {
-		super(form, isValidateForm);
-	}
+    AccountEditFormFieldFactory(GenericBeanForm<B> form, boolean isValidateForm) {
+        super(form, isValidateForm);
+    }
 
-	@Override
-	protected Field<?> onCreateField(Object propertyId) {
-		if (Account.Field.type.equalTo(propertyId)) {
-			return new AccountTypeComboBox();
-		} else if (Account.Field.industry.equalTo(propertyId)) {
-			return  new IndustryComboBox();
-		} else if (Account.Field.assignuser.equalTo(propertyId)) {
-			ActiveUserComboBox userBox = new ActiveUserComboBox();
-			userBox.select(attachForm.getBean().getAssignuser());
-			return userBox;
-		} else if (Account.Field.description.equalTo(propertyId)) {
-			return new RichTextEditField();
-		} else if (Account.Field.billingcountry.equalTo(propertyId)
-				|| Account.Field.shippingcountry.equalTo(propertyId)) {
-			return new CountryComboBox();
-		} else if (Account.Field.accountname.equalTo(propertyId)) {
-			TextField tf = new TextField();
-			if (isValidateForm) {
-				tf.setNullRepresentation("");
-				tf.setRequired(true);
-				tf.setRequiredError(AppContext.getMessage(AccountI18nEnum.ERROR_ACCOUNT_NAME_IS_NULL));
-			}
+    @Override
+    protected Field<?> onCreateField(Object propertyId) {
+        if (Account.Field.type.equalTo(propertyId)) {
+            return new AccountTypeComboBox();
+        } else if (Account.Field.industry.equalTo(propertyId)) {
+            return new IndustryComboBox();
+        } else if (Account.Field.assignuser.equalTo(propertyId)) {
+            ActiveUserComboBox userBox = new ActiveUserComboBox();
+            userBox.select(attachForm.getBean().getAssignuser());
+            return userBox;
+        } else if (Account.Field.description.equalTo(propertyId)) {
+            return new RichTextEditField();
+        } else if (Account.Field.billingcountry.equalTo(propertyId)
+                || Account.Field.shippingcountry.equalTo(propertyId)) {
+            return new CountryComboBox();
+        } else if (Account.Field.accountname.equalTo(propertyId)) {
+            TextField tf = new TextField();
+            if (isValidateForm) {
+                tf.setNullRepresentation("");
+                tf.setRequired(true);
+                tf.setRequiredError(AppContext.getMessage(AccountI18nEnum.ERROR_ACCOUNT_NAME_IS_NULL));
+            }
 
-			return tf;
-		}
+            return tf;
+        }
 
-		return null;
-	}
+        return null;
+    }
 
 }

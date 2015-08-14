@@ -20,23 +20,27 @@ import com.esofthead.mycollab.common.i18n.DayI18nEnum;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.Storage;
 import com.esofthead.mycollab.html.DivLessFormatter;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
-import com.esofthead.mycollab.module.project.ProjectTooltipGenerator;
+import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.BeanList;
 import com.esofthead.mycollab.vaadin.ui.LabelHTMLDisplayWidget;
-import com.esofthead.mycollab.vaadin.ui.LabelLink;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.hp.gagawa.java.elements.*;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 import org.apache.commons.lang3.StringUtils;
-import org.vaadin.maddon.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.teemu.VaadinIcons;
 
 import java.util.UUID;
 
@@ -48,14 +52,8 @@ public class BugRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleBug> 
     @Override
     public Component generateRow(SimpleBug bug, int rowIndex) {
         MVerticalLayout rowContent = new MVerticalLayout().withWidth("100%").withStyleName("list-row");
-        LabelLink defectLink = new LabelLink(String.format("[#%d] - %s", bug.getBugkey(), bug.getSummary()),
-                ProjectLinkBuilder.generateBugPreviewFullLink(bug.getBugkey(), bug.getProjectShortName()));
-        defectLink.setWidth("100%");
+        Label defectLink = new Label(buildBugLink(bug), ContentMode.HTML);
         defectLink.addStyleName("font-large");
-        defectLink.setIconLink(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG));
-        defectLink.setDescription(ProjectTooltipGenerator
-                .generateToolTipBug(AppContext.getUserLocale(), bug,
-                        AppContext.getSiteUrl(), AppContext.getTimezone()));
 
         if (bug.isCompleted()) {
             defectLink.addStyleName(UIConstants.LINK_COMPLETED);
@@ -69,27 +67,52 @@ public class BugRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleBug> 
         rowContent.addComponent(descInfo);
 
         Div footer = new Div().setStyle("width:100%").setCSSClass("footer2");
-        Span lastUpdatedTimeTxt = new Span().appendText(AppContext.getMessage(
-                DayI18nEnum.LAST_UPDATED_ON,
-                AppContext.formatPrettyTime(bug.getLastupdatedtime()))).setTitle(AppContext.formatDateTime(bug
-                .getLastupdatedtime()));
 
-        Text assigneeTxt = new Text("&nbsp;-&nbsp;" + AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE) + ":&nbsp;");
-        if (StringUtils.isBlank(bug.getAssignuser())) {
-            footer.appendChild(lastUpdatedTimeTxt, assigneeTxt, new Text("None"));
-        } else {
-            String uid = UUID.randomUUID().toString();
-            Img userAvatar = new Img("", Storage.getAvatarPath(bug.getAssignUserAvatarId(), 16));
-            A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(bug
-                    .getProjectid(), bug.getAssignuser())).appendText(com.esofthead.mycollab.core.utils.StringUtils
-                    .trim(bug.getAssignuserFullName(), 30, true));
-            userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(uid, bug.getAssignuser()));
-            userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
-            footer.appendChild(lastUpdatedTimeTxt, assigneeTxt, userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink,
-                    DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));
+        if (bug.getLastupdatedtime() != null) {
+            Div lastUpdatedDiv = new Div().appendText(VaadinIcons.CLOCK.getHtml() + " " + AppContext.formatPrettyTime(bug
+                    .getLastupdatedtime())).setTitle(AppContext.getMessage(GenericI18Enum.FORM_LAST_UPDATED_TIME));
+            footer.appendChild(lastUpdatedDiv).appendChild(DivLessFormatter.EMPTY_SPACE());
         }
 
-        rowContent.addComponent(new Label(footer.write(), ContentMode.HTML));
+        if (bug.getStatus() != null) {
+            Div statusDiv = new Div().appendText(FontAwesome.INFO_CIRCLE.getHtml() + " " + AppContext.getMessage(OptionI18nEnum.BugStatus
+                    .class, bug.getStatus())).setTitle(AppContext.getMessage(BugI18nEnum.FORM_STATUS));
+            footer.appendChild(statusDiv).appendChild(DivLessFormatter.EMPTY_SPACE());
+        }
+
+        if (bug.getMilestoneid() != null) {
+            Div milestoneDiv = new Div().appendText(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE)
+                    .getHtml() +
+                    " " + bug.getMilestoneName());
+            footer.appendChild(milestoneDiv).appendChild(DivLessFormatter.EMPTY_SPACE());
+        }
+
+        if (footer.getChildren().size() > 0) {
+            rowContent.addComponent(new Label(footer.write(), ContentMode.HTML));
+        }
         return rowContent;
+    }
+
+    private String buildBugLink(SimpleBug bug) {
+        String uid = UUID.randomUUID().toString();
+        String priority = bug.getPriority();
+        Img priorityLink = new Img(priority, ProjectResources.getIconResourceLink12ByBugPriority(
+                (priority))).setTitle(priority);
+
+        String linkName = String.format("[#%d] - %s", bug.getBugkey(), bug.getSummary());
+        A taskLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateBugPreviewFullLink(bug.getBugkey(),
+                CurrentProjectVariables.getShortName())).appendText(linkName).setStyle("display:inline");
+
+        taskLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, ProjectTypeConstants.BUG,
+                bug.getId() + ""));
+        taskLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
+
+        String avatarLink = Storage.getAvatarPath(bug.getAssignUserAvatarId(), 16);
+        Img avatarImg = new Img(bug.getAssignuserFullName(), avatarLink).setTitle(bug.getAssignuserFullName());
+
+        Div resultDiv = new DivLessFormatter().appendChild(priorityLink, DivLessFormatter.EMPTY_SPACE(),
+                avatarImg, DivLessFormatter.EMPTY_SPACE(), taskLink, DivLessFormatter.EMPTY_SPACE(),
+                TooltipHelper.buildDivTooltipEnable(uid));
+        return resultDiv.write();
     }
 }

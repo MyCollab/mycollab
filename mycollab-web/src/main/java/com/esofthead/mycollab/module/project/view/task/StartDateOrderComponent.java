@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.task;
 
+import com.esofthead.mycollab.core.utils.SortedArrayMap;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.CssLayout;
@@ -28,15 +29,13 @@ import org.joda.time.format.DateTimeFormatter;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * @author MyCollab Ltd
  * @since 5.1.1
  */
 public class StartDateOrderComponent extends TaskGroupOrderComponent {
-    private Map<DateTime, GroupComponent> startDateAvailables = new TreeMap<>();
+    private SortedArrayMap<DateTime, GroupComponent> startDateAvailables = new SortedArrayMap<>();
     private GroupComponent unspecifiedTasks;
 
     @Override
@@ -52,7 +51,13 @@ public class StartDateOrderComponent extends TaskGroupOrderComponent {
                 } else {
                     GroupComponent groupComponent = new GroupComponent(monDay);
                     startDateAvailables.put(monDay, groupComponent);
-                    addComponent(groupComponent);
+                    int index = startDateAvailables.getKeyIndex(monDay);
+                    if (index > -1) {
+                        addComponent(groupComponent, index);
+                    } else {
+                        addComponent(groupComponent);
+                    }
+
                     groupComponent.insertTask(task);
                 }
             } else {

@@ -29,7 +29,7 @@
 	}
 
 .v-vaadin-version:after {
-	content: "7.5.2";
+	content: "7.5.3";
 }
 
 .v-generated-body {
@@ -9447,7 +9447,7 @@ div .addview-layout-body .v-horizontallayout-gridform-field.v-margin-left {
 	vertical-align: sub;
 }
 
-.task-attached {
+.bug-attached {
 	background: none;
 	padding: 0px 7px 1px;
 	margin-right: 2px;
@@ -9799,7 +9799,7 @@ div.v-button.token-field:hover {
 }
 
 .tasklist .taskrow {
-	padding: 5px 5px 5px 10px;
+	padding: 10px;
 	border-style: solid;
 	border-color: #CFCFCF;
 	border-width: 0px 0px 1px 0px;
@@ -9823,21 +9823,21 @@ div.v-button.token-field:hover {
 	box-shadow: inset 5px 0px 0px 0px rgba(0, 0, 0, 0.36);
 }
 
-.task-component {
+.bug-component {
 	margin-bottom: 5px;
 	background-color: whitesmoke;
 }
 
-.task-component  > .v-csslayout-margin {
+.bug-component  > .v-csslayout-margin {
 	border: 1px solid rgba(0, 0, 0, 0.25);
 	padding-left: 5px;
 }
 
-.task-component .task-name {
+.bug-component .bug-name {
 	font-weight: bold;
 }
 
-.task-component .created-time {
+.bug-component .created-time {
 	color: gray;
 	font-size: 12px;
 }
@@ -9902,59 +9902,59 @@ div.v-button.token-field:hover {
 	padding-bottom: 0px;
 }
 
-.task-list .taskadd-popup .colored-gridlayout {
+.bug-list .taskadd-popup .colored-gridlayout {
 	border: none;
 }
 
-.task-list .colored-gridlayout {
+.bug-list .colored-gridlayout {
 	border-width: 0px 1px 1px 1px;
 	border-style: solid;
 	border-color: #CFCFCF;
 }
 
-.task-list-footer {
+.bug-list-footer {
 	border-width: 0px 1px 1px 1px;
 	border-style: solid;
 	border-color: #CFCFCF;
 }
 
-.task-list-footer.v-margin-top {
+.bug-list-footer.v-margin-top {
 	padding-top: 5px;
 }
 
-.task-list-footer.v-margin-right {
+.bug-list-footer.v-margin-right {
 	padding-right: 5px;
 }
 
-.task-list-footer.v-margin-bottom {
+.bug-list-footer.v-margin-bottom {
 	padding-bottom: 5px;
 }
 
-.task-list-footer.v-margin-left {
+.bug-list-footer.v-margin-left {
 	padding-left: 5px;
 }
 
-.v-tabsheet-content .task-list .task-list-footer {
+.v-tabsheet-content .bug-list .bug-list-footer {
 	border-width: 1px 0px 0px;
 }
 
-.v-tabsheet-content .depotComp.task-list .task-list-footer {
+.v-tabsheet-content .depotComp.bug-list .bug-list-footer {
 	border-width: 0px 1px 1px;
 }
 
-.v-tabsheet-content .task-list .v-table-header-wrap, .v-tabsheet-content .task-list .v-table-body-wrapper {
+.v-tabsheet-content .bug-list .v-table-header-wrap, .v-tabsheet-content .bug-list .v-table-body-wrapper {
 	border-width: 1px 0px 0px;
 }
 
-.v-tabsheet-content .depotComp.task-list .v-table-header-wrap {
+.v-tabsheet-content .depotComp.bug-list .v-table-header-wrap {
 	border-width: 1px 1px 0px;
 }
 
-.v-tabsheet-content .depotComp.task-list .v-table-body-wrapper {
+.v-tabsheet-content .depotComp.bug-list .v-table-body-wrapper {
 	border-width: 1px;
 }
 
-.v-tabsheet-content .task-list .v-csslayout-comp-header {
+.v-tabsheet-content .bug-list .v-csslayout-comp-header {
 	padding: 5px;
 }
 
@@ -9962,6 +9962,18 @@ div.v-button.token-field:hover {
 	border-style: solid;
 	border-width: 1px 1px 1px 0px;
 	border-color: #CFCFCF;
+}
+
+.gantt_container  > div > div .v-treetable {
+	overflow-x: scroll;
+}
+
+.gantt_container  > div > div .v-treetable .v-table-footer-wrap {
+	height: 0px;
+}
+
+.gantt_container .v-table-header  > div table .v-table-header-cell .v-table-caption-container, .gantt_container .v-table-header  > div table .v-table-header-cell .v-table-resizer {
+	height: 44px;
 }
 
 .gantt_container .v-table-row-odd {
@@ -9991,12 +10003,6 @@ div.v-button.token-field:hover {
 .gantt_container .v-table-row-hasChildTasks {
 	background-color: gainsboro;
 	font-weight: bold;
-}
-
-.gantt_container .v-table-column-selector {
-	height: 0px;
-	width: 0px;
-	background: none;
 }
 
 .gantt_container .v-table-table tr td.v-table-cell-content {
@@ -11414,7 +11420,7 @@ input.v-textfield-errorField {
 	white-space: normal;
 }
 
-.depotComp.task-list .h2 {
+.depotComp.bug-list .h2 {
 	color: black;
 }
 
@@ -11454,7 +11460,7 @@ input.v-textfield-errorField {
 	border-top: none;
 }
 
-.filter-task-table {
+.filter-bug-table {
 	border-color: #CFCFCF;
 	border-style: solid;
 	border-width: 1px 0px 0px;

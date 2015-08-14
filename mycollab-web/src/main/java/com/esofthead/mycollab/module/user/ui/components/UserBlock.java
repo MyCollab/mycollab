@@ -25,8 +25,8 @@ import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.hp.gagawa.java.elements.A;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Label;
-import org.vaadin.maddon.button.MButton;
-import org.vaadin.maddon.layouts.MVerticalLayout;
+import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.UUID;
 

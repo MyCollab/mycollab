@@ -65,8 +65,7 @@ public class BugPresenter extends AbstractPresenter<BugContainer> {
             BugSearchCriteria criteria = new BugSearchCriteria();
             criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
             criteria.setStatuses(new SetSearchField<>(OptionI18nEnum.BugStatus.InProgress.name(),
-                    OptionI18nEnum.BugStatus.Open.name(), OptionI18nEnum.BugStatus.ReOpened.name(), OptionI18nEnum
-                    .BugStatus.Resolved.name()));
+                    OptionI18nEnum.BugStatus.Open.name(), OptionI18nEnum.BugStatus.ReOpened.name()));
             data = new BugScreenData.Search(criteria);
             presenter = PresenterResolver.getPresenter(BugListPresenter.class);
         } else if (data instanceof BugScreenData.Search) {

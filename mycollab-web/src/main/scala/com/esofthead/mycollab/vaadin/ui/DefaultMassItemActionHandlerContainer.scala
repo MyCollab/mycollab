@@ -25,7 +25,7 @@ import com.esofthead.mycollab.vaadin.events.{MassItemActionHandler, ViewItemActi
 import com.vaadin.server.StreamResource.StreamSource
 import com.vaadin.server.{FontAwesome, FileDownloader, Resource, StreamResource}
 import com.vaadin.ui.Button
-import org.vaadin.maddon.layouts.MHorizontalLayout
+import org.vaadin.viritin.layouts.MHorizontalLayout
 import org.vaadin.peter.buttongroup.ButtonGroup
 
 /**

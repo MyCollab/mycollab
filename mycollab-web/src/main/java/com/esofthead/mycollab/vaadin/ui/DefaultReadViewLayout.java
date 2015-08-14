@@ -19,7 +19,7 @@ package com.esofthead.mycollab.vaadin.ui;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Label;
 import org.apache.commons.lang3.StringUtils;
-import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
  * @author MyCollab Ltd.
