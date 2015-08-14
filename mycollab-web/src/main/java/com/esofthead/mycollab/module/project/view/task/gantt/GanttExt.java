@@ -19,7 +19,10 @@ package com.esofthead.mycollab.module.project.view.task.gantt;
 import com.vaadin.server.Page;
 import org.tltv.gantt.Gantt;
 import org.tltv.gantt.StepComponent;
+import org.tltv.gantt.SubStepComponent;
+import org.tltv.gantt.client.shared.AbstractStep;
 import org.tltv.gantt.client.shared.Step;
+import org.tltv.gantt.client.shared.SubStep;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -82,6 +85,25 @@ public class GanttExt extends Gantt {
         if (maxDate.getTimeInMillis() < task.getEndDate().getTime()) {
             maxDate.setTimeInMillis(task.getEndDate().getTime());
             updateGanttMaxDate();
+        }
+    }
+
+    @Override
+    public AbstractStep getStep(String uid) {
+        if (uid == null) {
+            return null;
+        } else {
+            StepExt key = new StepExt();
+            key.setUid(uid);
+            StepComponent sc = this.stepComponents.get(key);
+            if (sc != null) {
+                return sc.getState().step;
+            } else {
+                SubStep key1 = new SubStep();
+                key1.setUid(uid);
+                SubStepComponent sub = this.subStepMap.get(key1);
+                return sub != null ? sub.getState().step : null;
+            }
         }
     }
 }
