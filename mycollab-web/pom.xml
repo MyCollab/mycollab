@@ -141,7 +141,7 @@
         <dependency>
             <groupId>org.tltv.gantt</groupId>
             <artifactId>gantt-addon</artifactId>
-            <version>0.9.1-SNAPSHOT</version>
+            <version>0.9.1</version>
         </dependency>
 
         <dependency>
