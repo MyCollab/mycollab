@@ -16,29 +16,22 @@
  */
 package com.esofthead.mycollab.module.crm.service.ibatis;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.esofthead.mycollab.common.interceptor.aspect.Auditable;
-import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
 import com.esofthead.mycollab.module.crm.dao.ProductMapper;
 import com.esofthead.mycollab.module.crm.dao.QuoteMapper;
 import com.esofthead.mycollab.module.crm.dao.QuoteMapperExt;
-import com.esofthead.mycollab.module.crm.domain.Product;
-import com.esofthead.mycollab.module.crm.domain.ProductExample;
-import com.esofthead.mycollab.module.crm.domain.Quote;
-import com.esofthead.mycollab.module.crm.domain.QuoteGroupProduct;
-import com.esofthead.mycollab.module.crm.domain.SimpleQuoteGroupProduct;
+import com.esofthead.mycollab.module.crm.domain.*;
 import com.esofthead.mycollab.module.crm.domain.criteria.QuoteSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.QuoteGroupProductService;
 import com.esofthead.mycollab.module.crm.service.QuoteService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -70,7 +63,7 @@ public class QuoteServiceImpl extends DefaultService<Integer, Quote, QuoteSearch
 
     @Override
     public void saveSimpleQuoteGroupProducts(int accountid, int quoteId,
-            List<SimpleQuoteGroupProduct> entity) {
+                                             List<SimpleQuoteGroupProduct> entity) {
         quoteGroupProductService.deleteQuoteGroupByQuoteId(quoteId);
 
         for (SimpleQuoteGroupProduct simpleQuoteGroupProduct : entity) {

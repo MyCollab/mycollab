@@ -436,7 +436,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
                 }
             });
             new Restrain(dragLayoutContainer).setMinHeight("50px").setMaxHeight((Page.getCurrent()
-                    .getBrowserWindowHeight() - 265) + "px");
+                    .getBrowserWindowHeight() - 350) + "px");
 
             HorizontalLayout headerLayout = new HorizontalLayout();
             headerLayout.setWidth("100%");

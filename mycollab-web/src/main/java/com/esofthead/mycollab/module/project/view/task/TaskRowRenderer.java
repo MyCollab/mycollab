@@ -26,10 +26,11 @@ import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
-import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
+import com.esofthead.mycollab.module.project.ui.components.TaskCompleteStatusSelection;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.OptionPopupContent;
@@ -57,7 +58,7 @@ class TaskRowRenderer extends MHorizontalLayout {
 
     private PopupButton taskSettingPopupBtn;
 
-    TaskRowRenderer(SimpleTask task) {
+    TaskRowRenderer(final SimpleTask task) {
         this.task = task;
         withSpacing(false).withMargin(false).withWidth("100%").addStyleName("taskrow");
         this.with(createTaskActionControl());
@@ -79,37 +80,34 @@ class TaskRowRenderer extends MHorizontalLayout {
         taskLinkLbl.addStyleName("wordWrap");
         wrapTaskInfoLayout.addComponent(taskLinkLbl);
 
-        MHorizontalLayout footer = new MHorizontalLayout();
+        MHorizontalLayout footer = new MHorizontalLayout().withSpacing(false);
         footer.addStyleName(UIConstants.FOOTER_NOTE);
         if (task.getNumComments() != null && task.getNumComments() > 0) {
             Div comment = new Div().appendText(FontAwesome.COMMENT_O.getHtml() + " " + task.getNumComments()).setTitle("Comment");
             footer.addComponent(new ELabel(comment.write(), ContentMode.HTML).withDescription("Comment"));
         }
+
+        TaskPopupFieldFactory popupFieldFactory = ViewManager.getCacheComponent(TaskPopupFieldFactory.class);
+
         if (task.getStatus() != null) {
-            Label statusBtn = new Label(FontAwesome.INFO_CIRCLE.getHtml() + " " + task.getStatus(), ContentMode.HTML);
-            statusBtn.setDescription(AppContext.getMessage(TaskI18nEnum.FORM_STATUS));
-            footer.addComponent(statusBtn);
+            PopupView field = popupFieldFactory.createTaskStatusPopupField(task);
+            footer.addComponent(field);
         }
         if (task.getMilestoneid() != null) {
-            Label milestoneLbl = new Label(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE).getHtml() +
-                    " " + task.getMilestoneName(), ContentMode.HTML);
-            milestoneLbl.setDescription(AppContext.getMessage(TaskI18nEnum.FORM_MILESTONE));
-            footer.addComponent(milestoneLbl);
+            PopupView field = popupFieldFactory.createTaskMilestonePopupField(task);
+            footer.addComponent(field);
         }
-        if (task.getPercentagecomplete() > 0) {
-            Label percentBtn = new Label(VaadinIcons.CALENDAR_CLOCK.getHtml() + " " + String.format(" %s%%",
-                    task.getPercentagecomplete()), ContentMode.HTML);
-            percentBtn.setDescription(AppContext.getMessage(TaskI18nEnum.FORM_PERCENTAGE_COMPLETE));
-            footer.addComponent(percentBtn);
+        if (task.getPercentagecomplete() >= 0) {
+            PopupView field = popupFieldFactory.createTaskPercentagePopupField(task);
+            footer.addComponent(field);
         }
 
         if (task.getDeadline() != null) {
             String deadlineTooltip = String.format("%s: %s", AppContext.getMessage(TaskI18nEnum.FORM_DEADLINE),
                     AppContext.formatDate(task.getDeadline()));
-            Label deadlineBtn = new Label(String.format(" %s %s", FontAwesome.CLOCK_O.getHtml(),
-                    AppContext.formatPrettyTime(task.getDeadlineRoundPlusOne())), ContentMode.HTML);
-            deadlineBtn.setDescription(deadlineTooltip);
-            footer.addComponent(deadlineBtn);
+            PopupView field = popupFieldFactory.createTaskDeadlinePopupField(task);
+            field.setDescription(deadlineTooltip);
+            footer.addComponent(field);
         }
 
         if (footer.getComponentCount() > 0) {

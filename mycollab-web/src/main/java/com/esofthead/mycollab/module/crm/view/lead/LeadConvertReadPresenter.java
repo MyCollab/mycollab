@@ -26,7 +26,7 @@ import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.module.crm.events.LeadEvent;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
-import com.esofthead.mycollab.module.crm.view.CrmToolbar;
+import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -36,85 +36,68 @@ import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 3.0
- * 
  */
-public class LeadConvertReadPresenter extends
-		CrmGenericPresenter<LeadConvertReadView> {
-	private static final long serialVersionUID = 1L;
+public class LeadConvertReadPresenter extends CrmGenericPresenter<LeadConvertReadView> {
+    private static final long serialVersionUID = 1L;
 
-	public LeadConvertReadPresenter() {
-		super(LeadConvertReadView.class);
-	}
+    public LeadConvertReadPresenter() {
+        super(LeadConvertReadView.class);
+    }
 
-	@Override
-	protected void postInitView() {
-		view.getPreviewFormHandlers().addFormHandler(
-				new DefaultPreviewFormHandler<SimpleLead>() {
-					@Override
-					public void onCancel() {
-						EventBusFactory.getInstance().post(
-								new LeadEvent.GotoList(this, null));
-					}
+    @Override
+    protected void postInitView() {
+        view.getPreviewFormHandlers().addFormHandler(new DefaultPreviewFormHandler<SimpleLead>() {
+            @Override
+            public void onCancel() {
+                EventBusFactory.getInstance().post(new LeadEvent.GotoList(this, null));
+            }
 
-					@Override
-					public void gotoNext(SimpleLead data) {
-						LeadService contactService = ApplicationContextUtil
-								.getSpringBean(LeadService.class);
-						LeadSearchCriteria criteria = new LeadSearchCriteria();
-						criteria.setSaccountid(new NumberSearchField(AppContext
-								.getAccountId()));
-						criteria.setId(new NumberSearchField(data.getId(),
-								NumberSearchField.GREATER));
-						Integer nextId = contactService
-								.getNextItemKey(criteria);
-						if (nextId != null) {
-							EventBusFactory.getInstance().post(
-									new LeadEvent.GotoRead(this, nextId));
-						} else {
-							NotificationUtil.showGotoLastRecordNotification();
-						}
-					}
+            @Override
+            public void gotoNext(SimpleLead data) {
+                LeadService contactService = ApplicationContextUtil.getSpringBean(LeadService.class);
+                LeadSearchCriteria criteria = new LeadSearchCriteria();
+                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
+                Integer nextId = contactService.getNextItemKey(criteria);
+                if (nextId != null) {
+                    EventBusFactory.getInstance().post(new LeadEvent.GotoRead(this, nextId));
+                } else {
+                    NotificationUtil.showGotoLastRecordNotification();
+                }
+            }
 
-					@Override
-					public void gotoPrevious(SimpleLead data) {
-						LeadService contactService = ApplicationContextUtil
-								.getSpringBean(LeadService.class);
-						LeadSearchCriteria criteria = new LeadSearchCriteria();
-						criteria.setSaccountid(new NumberSearchField(AppContext
-								.getAccountId()));
-						criteria.setId(new NumberSearchField(data.getId(),
-								NumberSearchField.LESSTHAN));
-						Integer nextId = contactService
-								.getPreviousItemKey(criteria);
-						if (nextId != null) {
-							EventBusFactory.getInstance().post(
-									new LeadEvent.GotoRead(this, nextId));
-						} else {
-							NotificationUtil.showGotoFirstRecordNotification();
-						}
-					}
-				});
-	}
+            @Override
+            public void gotoPrevious(SimpleLead data) {
+                LeadService contactService = ApplicationContextUtil.getSpringBean(LeadService.class);
+                LeadSearchCriteria criteria = new LeadSearchCriteria();
+                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
+                Integer nextId = contactService.getPreviousItemKey(criteria);
+                if (nextId != null) {
+                    EventBusFactory.getInstance().post(new LeadEvent.GotoRead(this, nextId));
+                } else {
+                    NotificationUtil.showGotoFirstRecordNotification();
+                }
+            }
+        });
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		CrmToolbar.navigateItem(CrmTypeConstants.LEAD);
-		if (AppContext.canRead(RolePermissionCollections.CRM_LEAD)) {
-			if (data.getParams() instanceof SimpleLead) {
-				SimpleLead lead = (SimpleLead) data.getParams();
-				super.onGo(container, data);
-				view.previewItem(lead);
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        CrmModule.navigateItem(CrmTypeConstants.LEAD);
+        if (AppContext.canRead(RolePermissionCollections.CRM_LEAD)) {
+            if (data.getParams() instanceof SimpleLead) {
+                SimpleLead lead = (SimpleLead) data.getParams();
+                super.onGo(container, data);
+                view.previewItem(lead);
 
-				AppContext.addFragment(CrmLinkGenerator
-						.generateLeadPreviewLink(lead.getId()), AppContext
-						.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
-								"Lead", lead.getLeadName()));
-			}
-		} else {
-			NotificationUtil.showMessagePermissionAlert();
-		}
-	}
+                AppContext.addFragment(CrmLinkGenerator.generateLeadPreviewLink(lead.getId()),
+                        AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE, "Lead", lead.getLeadName()));
+            }
+        } else {
+            NotificationUtil.showMessagePermissionAlert();
+        }
+    }
 }

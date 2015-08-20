@@ -31,22 +31,6 @@ public interface ProjectView extends PageView {
 
     void updateProjectFeatures();
 
-    void gotoUsersAndGroup(ScreenData<?> data);
-
-    void gotoMilestoneView(ScreenData<?> data);
-
-    void gotoPageView(ScreenData<?> data);
-
-    void gotoStandupReportView(ScreenData<?> data);
-
-    void gotoRiskView(ScreenData<?> data);
-
-    void gotoBugView(ScreenData<?> data);
-
-    void gotoTaskView(ScreenData<?> data);
-
-    void gotoTimeTrackingView(ScreenData<?> data);
-
     Component gotoSubView(String name);
 
     void setNavigatorVisibility(boolean visibility);

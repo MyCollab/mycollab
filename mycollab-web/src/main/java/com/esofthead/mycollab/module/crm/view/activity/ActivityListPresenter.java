@@ -25,7 +25,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.service.EventService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericListPresenter;
-import com.esofthead.mycollab.module.crm.view.CrmToolbar;
+import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -81,7 +81,7 @@ public class ActivityListPresenter extends
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        CrmToolbar.navigateItem(CrmTypeConstants.ACTIVITY);
+        CrmModule.navigateItem(CrmTypeConstants.ACTIVITY);
         if (AppContext.canRead(RolePermissionCollections.CRM_MEETING)
                 || AppContext.canRead(RolePermissionCollections.CRM_TASK)
                 || AppContext.canRead(RolePermissionCollections.CRM_CALL)) {

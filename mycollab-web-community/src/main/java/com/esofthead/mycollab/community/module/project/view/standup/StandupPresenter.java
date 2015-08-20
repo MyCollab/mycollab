@@ -29,8 +29,7 @@ import com.vaadin.ui.ComponentContainer;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class StandupPresenter extends AbstractPresenter<IStandupContainer>
-		implements IStandupPresenter {
+public class StandupPresenter extends AbstractPresenter<IStandupContainer> implements IStandupPresenter {
 	private static final long serialVersionUID = 1L;
 
 	public StandupPresenter() {
@@ -41,6 +40,5 @@ public class StandupPresenter extends AbstractPresenter<IStandupContainer>
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		ProjectView projectViewContainer = (ProjectView) container;
 		projectViewContainer.gotoSubView(ProjectTypeConstants.STANDUP);
-
 	}
 }

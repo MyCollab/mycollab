@@ -44,8 +44,7 @@ import java.util.Set;
  *
  * @param <B>
  */
-public abstract class AbstractBeanFieldGroupEditFieldFactory<B> implements
-        IBeanFieldGroupFieldFactory<B>, CommitHandler {
+public abstract class AbstractBeanFieldGroupEditFieldFactory<B> implements IBeanFieldGroupFieldFactory<B>, CommitHandler {
     private static final long serialVersionUID = 1L;
 
     protected GenericBeanForm<B> attachForm;
@@ -97,8 +96,7 @@ public abstract class AbstractBeanFieldGroupEditFieldFactory<B> implements
                 ((RichTextArea) formField).setNullRepresentation("");
             } else if (formField instanceof DateField) {
                 ((DateField) formField).setTimeZone(AppContext.getTimezone());
-                ((DateField) formField).setDateFormat(AppContext
-                        .getUserDateFormat().getShortDateFormat());
+                ((DateField) formField).setDateFormat(AppContext.getUserDateFormat().getShortDateFormat());
             }
 
             attachForm.attachField(field.getName(), formField);

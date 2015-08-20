@@ -17,57 +17,29 @@
 package com.esofthead.mycollab.vaadin.mvp;
 
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.VerticalLayout;
 
 import java.io.Serializable;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @SuppressWarnings("serial")
-public abstract class AbstractCssPageView extends CssLayout implements PageView, Serializable {
-	protected CssLayout vTabsheetFix;
-	private String vTabsheetFixWidth = "250px";
-	private boolean vTabsheetIsLeft = false;
-
-	public AbstractCssPageView() {
-		this(false);
-	}
-
-    public AbstractCssPageView(boolean isLeftAlign) {
+public abstract class AbstractCssPageView extends VerticalLayout implements PageView, Serializable {
+    public AbstractCssPageView() {
         this.setStyleName("page-view");
-        this.setWidth("100%");
-        this.vTabsheetIsLeft = isLeftAlign;
-        this.updateVerticalTabsheetFixStatus();
+        this.setSizeFull();
     }
 
-	public void updateVerticalTabsheetFixStatus() {
-        if (vTabsheetFix == null) {
-            vTabsheetFix = new CssLayout();
-            vTabsheetFix.setStyleName("verticaltabsheet-fix");
-            this.addComponentAsFirst(vTabsheetFix);
-        } else if (vTabsheetFix.getParent() != this) {
-            this.addComponentAsFirst(vTabsheetFix);
-        }
-        vTabsheetFix.setWidth(this.vTabsheetFixWidth);
-        if (this.vTabsheetIsLeft)
-            vTabsheetFix.addStyleName("is-left");
-        else
-            vTabsheetFix.removeStyleName("is-left");
-	}
+    @Override
+    public ComponentContainer getWidget() {
+        return this;
+    }
 
-	@Override
-	public ComponentContainer getWidget() {
-		return this;
-	}
-
-	@SuppressWarnings("rawtypes")
-	@Override
-	public void addViewListener(ViewListener listener) {
-		addListener(ViewEvent.VIEW_IDENTIFIER(), ViewEvent.class, listener,
-				ViewListener.viewInitMethod);
-	}
+    @SuppressWarnings("rawtypes")
+    @Override
+    public void addViewListener(ViewListener listener) {
+        addListener(ViewEvent.VIEW_IDENTIFIER(), ViewEvent.class, listener, ViewListener.viewInitMethod);
+    }
 }

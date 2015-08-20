@@ -55,10 +55,8 @@ public class ViewManager {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T extends CacheableComponent> T getCacheComponent(
-			final Class<T> viewClass) {
-		Map<Class<?>, Object> viewMap = (Map<Class<?>, Object>) MyCollabSession
-				.getVariable(VIEW_MANAGER_VAL);
+	public static <T extends CacheableComponent> T getCacheComponent(final Class<T> viewClass) {
+		Map<Class<?>, Object> viewMap = (Map<Class<?>, Object>) MyCollabSession.getVariable(VIEW_MANAGER_VAL);
 		if (viewMap == null) {
 			viewMap = new HashMap<>();
 			MyCollabSession.putVariable(VIEW_MANAGER_VAL, viewMap);

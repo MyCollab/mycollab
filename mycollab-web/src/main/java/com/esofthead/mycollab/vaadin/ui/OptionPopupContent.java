@@ -45,9 +45,13 @@ public class OptionPopupContent extends CustomComponent {
         ((ComponentContainer) this.getCompositionRoot()).addComponent(wrap);
     }
 
+    public void addSeparator() {
+        ((ComponentContainer) this.getCompositionRoot()).addComponent(new Hr());
+    }
+
     @Override
     public int getComponentCount() {
         Component root = getCompositionRoot();
-        return root != null ? ((ComponentContainer)root).getComponentCount() : 0;
+        return root != null ? ((ComponentContainer) root).getComponentCount() : 0;
     }
 }

@@ -26,7 +26,7 @@ import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericListPresenter;
-import com.esofthead.mycollab.module.crm.view.CrmToolbar;
+import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -103,7 +103,7 @@ public class LeadListPresenter extends CrmGenericListPresenter<LeadListView, Lea
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        CrmToolbar.navigateItem(CrmTypeConstants.LEAD);
+        CrmModule.navigateItem(CrmTypeConstants.LEAD);
         if (AppContext.canRead(RolePermissionCollections.CRM_LEAD)) {
             searchCriteria = (LeadSearchCriteria) data.getParams();
             int totalCount = leadService.getTotalCount(searchCriteria);
@@ -114,8 +114,7 @@ public class LeadListPresenter extends CrmGenericListPresenter<LeadListView, Lea
                 this.displayNoExistItems(container, data);
             }
 
-            AppContext.addFragment("crm/lead/list",
-                    AppContext.getMessage(LeadI18nEnum.VIEW_LIST_TITLE));
+            AppContext.addFragment("crm/lead/list", AppContext.getMessage(LeadI18nEnum.VIEW_LIST_TITLE));
         } else {
             NotificationUtil.showMessagePermissionAlert();
         }
@@ -138,8 +137,7 @@ public class LeadListPresenter extends CrmGenericListPresenter<LeadListView, Lea
                 checkWhetherEnableTableActionControl();
             }
         } else {
-            leadService.removeByCriteria(searchCriteria,
-                    AppContext.getAccountId());
+            leadService.removeByCriteria(searchCriteria, AppContext.getAccountId());
             doSearch(searchCriteria);
         }
     }

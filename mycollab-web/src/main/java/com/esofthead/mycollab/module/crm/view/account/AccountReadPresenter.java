@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
-import com.esofthead.mycollab.module.crm.view.CrmToolbar;
+import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -237,7 +237,7 @@ public class AccountReadPresenter extends CrmGenericPresenter<AccountReadView> {
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        CrmToolbar.navigateItem(CrmTypeConstants.ACCOUNT);
+        CrmModule.navigateItem(CrmTypeConstants.ACCOUNT);
         if (AppContext.canRead(RolePermissionCollections.CRM_ACCOUNT)) {
             if (data.getParams() instanceof Integer) {
                 AccountService accountService = ApplicationContextUtil.getSpringBean(AccountService.class);

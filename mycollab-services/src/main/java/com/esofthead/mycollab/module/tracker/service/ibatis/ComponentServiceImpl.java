@@ -17,7 +17,10 @@
 package com.esofthead.mycollab.module.tracker.service.ibatis;
 
 import com.esofthead.mycollab.common.ModuleNameConstants;
-import com.esofthead.mycollab.common.interceptor.aspect.*;
+import com.esofthead.mycollab.common.interceptor.aspect.ClassInfo;
+import com.esofthead.mycollab.common.interceptor.aspect.ClassInfoMap;
+import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
+import com.esofthead.mycollab.common.interceptor.aspect.Watchable;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
@@ -38,19 +41,20 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-@Traceable(nameField = "componentname", extraFieldName = "projectid")
-@Auditable()
+@Traceable(nameField = "componentname", extraFieldName = "projectid", notifyAgent = ComponentRelayEmailNotificationAction.class)
 @Watchable(userFieldName = "userlead", extraTypeId = "projectid")
-@NotifyAgent(ComponentRelayEmailNotificationAction.class)
 public class ComponentServiceImpl extends DefaultService<Integer, Component, ComponentSearchCriteria> implements
         ComponentService {
     static {
         ClassInfoMap.put(ComponentServiceImpl.class, new ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.BUG_COMPONENT));
     }
 
-    @Autowired private ComponentMapper componentMapper;
-    @Autowired private ComponentMapperExt componentMapperExt;
-    @Autowired private AsyncEventBus asyncEventBus;
+    @Autowired
+    private ComponentMapper componentMapper;
+    @Autowired
+    private ComponentMapperExt componentMapperExt;
+    @Autowired
+    private AsyncEventBus asyncEventBus;
 
     @Override
     public ICrudGenericDAO<Integer, Component> getCrudMapper() {

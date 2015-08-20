@@ -52,15 +52,11 @@ public class MilestonePresenter extends AbstractPresenter<MilestoneContainer> {
 
 		AbstractPresenter presenter;
 		if (data instanceof MilestoneScreenData.Search) {
-			presenter = PresenterResolver
-					.getPresenter(MilestoneListPresenter.class);
-		} else if (data instanceof MilestoneScreenData.Add
-				|| data instanceof MilestoneScreenData.Edit) {
-			presenter = PresenterResolver
-					.getPresenter(MilestoneAddPresenter.class);
+			presenter = PresenterResolver.getPresenter(MilestoneListPresenter.class);
+		} else if (data instanceof MilestoneScreenData.Add || data instanceof MilestoneScreenData.Edit) {
+			presenter = PresenterResolver.getPresenter(MilestoneAddPresenter.class);
 		} else if (data instanceof MilestoneScreenData.Read) {
-			presenter = PresenterResolver
-					.getPresenter(MilestoneReadPresenter.class);
+			presenter = PresenterResolver.getPresenter(MilestoneReadPresenter.class);
 		} else {
 			throw new MyCollabException("Do not support screen data " + data);
 		}

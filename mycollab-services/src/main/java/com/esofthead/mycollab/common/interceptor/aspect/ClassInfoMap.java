@@ -30,6 +30,10 @@ public class ClassInfoMap {
         mapWrapper.put(cls, classInfo);
     }
 
+    public static ClassInfo getClassInfo(Class cls) {
+        return mapWrapper.get(cls);
+    }
+
     public static String getModule(Class cls) {
         return mapWrapper.get(cls).getModule();
     }

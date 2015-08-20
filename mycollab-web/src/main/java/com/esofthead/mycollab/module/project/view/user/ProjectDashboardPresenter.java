@@ -35,8 +35,7 @@ import com.vaadin.ui.ComponentContainer;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class ProjectDashboardPresenter extends
-        AbstractPresenter<ProjectDashboardContainer> {
+public class ProjectDashboardPresenter extends AbstractPresenter<ProjectDashboardContainer> {
     private static final long serialVersionUID = 1L;
 
     public ProjectDashboardPresenter() {
@@ -55,14 +54,11 @@ public class ProjectDashboardPresenter extends
 
         view.removeAllComponents();
 
-        ProjectBreadcrumb breadcrumb = ViewManager
-                .getCacheComponent(ProjectBreadcrumb.class);
+        ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
 
         if (data instanceof ProjectScreenData.Edit) {
-            if (CurrentProjectVariables
-                    .canWrite(ProjectRolePermissionCollections.PROJECT)) {
-                ProjectAddPresenter presenter = PresenterResolver
-                        .getPresenter(ProjectAddPresenter.class);
+            if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.PROJECT)) {
+                ProjectAddPresenter presenter = PresenterResolver.getPresenter(ProjectAddPresenter.class);
                 presenter.go(view, data);
                 breadcrumb.gotoProjectEdit();
             } else {
@@ -75,10 +71,8 @@ public class ProjectDashboardPresenter extends
             ProjectSearchItemPresenter presenter = PresenterResolver.getPresenter(ProjectSearchItemPresenter.class);
             presenter.go(view, data);
         } else {
-            if (CurrentProjectVariables
-                    .canRead(ProjectRolePermissionCollections.PROJECT)) {
-                ProjectSummaryPresenter presenter = PresenterResolver
-                        .getPresenter(ProjectSummaryPresenter.class);
+            if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.PROJECT)) {
+                ProjectSummaryPresenter presenter = PresenterResolver.getPresenter(ProjectSummaryPresenter.class);
                 presenter.go(view, data);
                 breadcrumb.gotoProjectDashboard();
             } else {

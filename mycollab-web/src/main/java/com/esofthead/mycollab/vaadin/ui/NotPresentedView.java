@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -43,7 +45,7 @@ public class NotPresentedView extends AbstractPageView {
         layout.addComponent(titleIcon);
         layout.setComponentAlignment(titleIcon, Alignment.MIDDLE_CENTER);
 
-        Label label = new Label("The feature is not presented for this edition");
+        Label label = new Label(AppContext.getMessage(GenericI18Enum.NOTIFICATION_FEATURE_NOT_AVAILABLE_IN_VERSION));
         label.setStyleName("h2_community");
         layout.addComponent(label);
         layout.setComponentAlignment(label, Alignment.MIDDLE_CENTER);

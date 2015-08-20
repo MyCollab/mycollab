@@ -20,7 +20,6 @@ import com.esofthead.mycollab.cache.CacheUtils;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.interceptor.aspect.ClassInfo;
 import com.esofthead.mycollab.common.interceptor.aspect.ClassInfoMap;
-import com.esofthead.mycollab.common.interceptor.aspect.NotifyAgent;
 import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
@@ -48,8 +47,7 @@ import java.util.List;
  */
 @Service
 @Transactional
-@Traceable(nameField = "title", extraFieldName = "projectid")
-@NotifyAgent(MessageRelayEmailNotificationAction.class)
+@Traceable(nameField = "title", extraFieldName = "projectid", notifyAgent = MessageRelayEmailNotificationAction.class)
 public class MessageServiceImpl extends DefaultService<Integer, Message, MessageSearchCriteria> implements MessageService {
 
     static {

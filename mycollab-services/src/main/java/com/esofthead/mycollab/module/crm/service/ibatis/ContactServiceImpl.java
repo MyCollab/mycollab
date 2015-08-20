@@ -17,7 +17,10 @@
 package com.esofthead.mycollab.module.crm.service.ibatis;
 
 import com.esofthead.mycollab.common.ModuleNameConstants;
-import com.esofthead.mycollab.common.interceptor.aspect.*;
+import com.esofthead.mycollab.common.interceptor.aspect.ClassInfo;
+import com.esofthead.mycollab.common.interceptor.aspect.ClassInfoMap;
+import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
+import com.esofthead.mycollab.common.interceptor.aspect.Watchable;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
@@ -44,13 +47,9 @@ import java.util.List;
  */
 @Service
 @Transactional
-@Traceable(nameField = "lastname")
-@Auditable()
+@Traceable(nameField = "lastname", notifyAgent = ContactRelayEmailNotificationAction.class)
 @Watchable(userFieldName = "assignuser")
-@NotifyAgent(ContactRelayEmailNotificationAction.class)
-public class ContactServiceImpl extends
-        DefaultService<Integer, Contact, ContactSearchCriteria> implements
-        ContactService {
+public class ContactServiceImpl extends DefaultService<Integer, Contact, ContactSearchCriteria> implements ContactService {
     static {
         ClassInfoMap.put(ContactServiceImpl.class, new ClassInfo(ModuleNameConstants.CRM, CrmTypeConstants.CONTACT));
     }
@@ -83,13 +82,10 @@ public class ContactServiceImpl extends
     }
 
     @Override
-    public void removeContactOpportunityRelationship(
-            ContactOpportunity associateOpportunity, Integer sAccountId) {
+    public void removeContactOpportunityRelationship(ContactOpportunity associateOpportunity, Integer sAccountId) {
         ContactOpportunityExample ex = new ContactOpportunityExample();
-        ex.createCriteria()
-                .andContactidEqualTo(associateOpportunity.getContactid())
-                .andOpportunityidEqualTo(
-                        associateOpportunity.getOpportunityid());
+        ex.createCriteria().andContactidEqualTo(associateOpportunity.getContactid())
+                .andOpportunityidEqualTo(associateOpportunity.getOpportunityid());
         contactOpportunityMapper.deleteByExample(ex);
     }
 
@@ -113,8 +109,7 @@ public class ContactServiceImpl extends
     }
 
     @Override
-    public void saveContactCaseRelationship(List<ContactCase> associateCases,
-                                            Integer accountId) {
+    public void saveContactCaseRelationship(List<ContactCase> associateCases, Integer accountId) {
         for (ContactCase associateCase : associateCases) {
             ContactCaseExample ex = new ContactCaseExample();
             ex.createCriteria()

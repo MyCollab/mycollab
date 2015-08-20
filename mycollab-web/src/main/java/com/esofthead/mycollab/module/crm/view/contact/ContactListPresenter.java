@@ -27,7 +27,7 @@ import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericListPresenter;
-import com.esofthead.mycollab.module.crm.view.CrmToolbar;
+import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -105,7 +105,7 @@ public class ContactListPresenter extends CrmGenericListPresenter<ContactListVie
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        CrmToolbar.navigateItem(CrmTypeConstants.CONTACT);
+        CrmModule.navigateItem(CrmTypeConstants.CONTACT);
         if (AppContext.canRead(RolePermissionCollections.CRM_CONTACT)) {
             searchCriteria = (ContactSearchCriteria) data.getParams();
             int totalCount = contactService.getTotalCount(searchCriteria);

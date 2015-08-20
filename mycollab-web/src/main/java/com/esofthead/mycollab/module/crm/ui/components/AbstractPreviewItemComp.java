@@ -45,6 +45,7 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractCssPageView {
     protected VerticalTabsheet previewItemContainer;
 
     public AbstractPreviewItemComp(Resource iconResource) {
+        super();
         previewItemContainer = new CrmVerticalTabsheet(false);
 
         addComponent(previewItemContainer);
@@ -52,7 +53,6 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractCssPageView {
         previewItemContainer.setNavigatorWidth("100%");
         previewItemContainer.setNavigatorStyleName("sidebar-menu");
         previewItemContainer.setContainerStyleName("tab-content");
-        previewItemContainer.setHeight(null);
 
         CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
         navigatorWrapper.setWidth("250px");

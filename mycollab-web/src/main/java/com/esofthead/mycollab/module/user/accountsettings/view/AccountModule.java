@@ -16,17 +16,15 @@
  */
 package com.esofthead.mycollab.module.user.accountsettings.view;
 
-import com.esofthead.mycollab.vaadin.mvp.IModule;
+import com.esofthead.mycollab.web.IDesktopModule;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- *
  */
-public interface AccountModule extends IModule {
-	void gotoSubView(String viewName);
-	
-	void gotoUserProfilePage();
+public interface AccountModule extends IDesktopModule {
+    void gotoSubView(String viewName);
+
+    void gotoUserProfilePage();
 
 }

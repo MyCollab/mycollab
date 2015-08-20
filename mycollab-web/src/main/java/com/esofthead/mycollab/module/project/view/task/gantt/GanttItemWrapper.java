@@ -134,6 +134,10 @@ public class GanttItemWrapper {
         return task.getActualenddate();
     }
 
+    public Double getPercentageComplete() {
+        return task.getPercentagecomplete();
+    }
+
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
         task.setStartdate(startDate);
@@ -173,6 +177,8 @@ public class GanttItemWrapper {
         step.setStartDate(startDate);
         step.setEndDate(endDate);
         step.setGanttItemWrapper(this);
+        step.setProgress(task.getPercentagecomplete());
+//        step.setShowProgress(true);
         return step;
     }
 

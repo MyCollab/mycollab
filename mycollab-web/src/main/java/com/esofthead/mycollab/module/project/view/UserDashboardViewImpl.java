@@ -151,21 +151,6 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
                 false)).withWidth("100%");
         headerContentTop.with(headerLabel).withAlign(headerLabel, Alignment.TOP_LEFT).expand(headerLabel);
 
-        if (AppContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT)) {
-            Button createProjectBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.BUTTON_NEW_PROJECT),
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
-
-                        @Override
-                        public void buttonClick(final Button.ClickEvent event) {
-                            UI.getCurrent().addWindow(new ProjectAddWindow());
-                        }
-                    });
-            createProjectBtn.setIcon(FontAwesome.PLUS);
-            createProjectBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-            headerContentTop.with(createProjectBtn).withAlign(createProjectBtn, Alignment.TOP_RIGHT);
-        }
-
         SearchTextField searchTextField = new SearchTextField() {
             @Override
             public void doSearch(String value) {

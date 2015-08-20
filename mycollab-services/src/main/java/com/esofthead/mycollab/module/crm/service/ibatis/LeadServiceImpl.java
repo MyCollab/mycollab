@@ -16,17 +16,11 @@
  */
 package com.esofthead.mycollab.module.crm.service.ibatis;
 
-import java.util.Arrays;
-import java.util.GregorianCalendar;
-
-import com.esofthead.mycollab.common.interceptor.aspect.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.esofthead.mycollab.common.ModuleNameConstants;
+import com.esofthead.mycollab.common.interceptor.aspect.ClassInfo;
+import com.esofthead.mycollab.common.interceptor.aspect.ClassInfoMap;
+import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
+import com.esofthead.mycollab.common.interceptor.aspect.Watchable;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
@@ -34,36 +28,25 @@ import com.esofthead.mycollab.core.persistence.service.DefaultService;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.dao.LeadMapper;
 import com.esofthead.mycollab.module.crm.dao.LeadMapperExt;
-import com.esofthead.mycollab.module.crm.domain.Account;
-import com.esofthead.mycollab.module.crm.domain.AccountLead;
-import com.esofthead.mycollab.module.crm.domain.CampaignLead;
-import com.esofthead.mycollab.module.crm.domain.Contact;
-import com.esofthead.mycollab.module.crm.domain.ContactLead;
-import com.esofthead.mycollab.module.crm.domain.ContactOpportunity;
-import com.esofthead.mycollab.module.crm.domain.Lead;
-import com.esofthead.mycollab.module.crm.domain.Opportunity;
-import com.esofthead.mycollab.module.crm.domain.OpportunityLead;
-import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
-import com.esofthead.mycollab.module.crm.domain.SimpleLead;
-import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
+import com.esofthead.mycollab.module.crm.domain.*;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
-import com.esofthead.mycollab.module.crm.service.AccountService;
-import com.esofthead.mycollab.module.crm.service.CampaignService;
-import com.esofthead.mycollab.module.crm.service.ContactService;
-import com.esofthead.mycollab.module.crm.service.LeadService;
-import com.esofthead.mycollab.module.crm.service.OpportunityService;
+import com.esofthead.mycollab.module.crm.service.*;
 import com.esofthead.mycollab.schedule.email.crm.LeadRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Arrays;
+import java.util.GregorianCalendar;
 
 @Service
 @Transactional
-@Traceable(nameField = "lastname")
-@Auditable()
+@Traceable(nameField = "lastname", notifyAgent = LeadRelayEmailNotificationAction.class)
 @Watchable(userFieldName = "assignuser")
-@NotifyAgent(LeadRelayEmailNotificationAction.class)
-public class LeadServiceImpl extends
-        DefaultService<Integer, Lead, LeadSearchCriteria> implements
-        LeadService {
+public class LeadServiceImpl extends DefaultService<Integer, Lead, LeadSearchCriteria> implements LeadService {
     static {
         ClassInfoMap.put(LeadServiceImpl.class, new ClassInfo(ModuleNameConstants.CRM, CrmTypeConstants.LEAD));
     }
@@ -93,23 +76,17 @@ public class LeadServiceImpl extends
     @Override
     public Integer saveWithSession(Lead lead, String username) {
         Integer result = super.saveWithSession(lead, username);
-        if (lead.getExtraData() != null
-                && (lead.getExtraData() instanceof SimpleCampaign)) {
+        if (lead.getExtraData() != null && (lead.getExtraData() instanceof SimpleCampaign)) {
             CampaignLead associateLead = new CampaignLead();
-            associateLead.setCampaignid(((SimpleCampaign) lead.getExtraData())
-                    .getId());
+            associateLead.setCampaignid(((SimpleCampaign) lead.getExtraData()).getId());
             associateLead.setLeadid(lead.getId());
             associateLead.setCreatedtime(new GregorianCalendar().getTime());
 
-            CampaignService campaignService = ApplicationContextUtil
-                    .getSpringBean(CampaignService.class);
-            campaignService.saveCampaignLeadRelationship(
-                    Arrays.asList(associateLead), lead.getSaccountid());
-        } else if (lead.getExtraData() != null
-                && lead.getExtraData() instanceof SimpleOpportunity) {
+            CampaignService campaignService = ApplicationContextUtil.getSpringBean(CampaignService.class);
+            campaignService.saveCampaignLeadRelationship(Arrays.asList(associateLead), lead.getSaccountid());
+        } else if (lead.getExtraData() != null && lead.getExtraData() instanceof SimpleOpportunity) {
             OpportunityLead associateLead = new OpportunityLead();
-            associateLead.setOpportunityid(((SimpleOpportunity) lead
-                    .getExtraData()).getId());
+            associateLead.setOpportunityid(((SimpleOpportunity) lead.getExtraData()).getId());
             associateLead.setLeadid(lead.getId());
             associateLead.setCreatedtime(new GregorianCalendar().getTime());
 
@@ -122,9 +99,7 @@ public class LeadServiceImpl extends
     }
 
     @Override
-    public void convertLead(SimpleLead lead, Opportunity opportunity,
-                            String convertUser) {
-
+    public void convertLead(SimpleLead lead, Opportunity opportunity, String convertUser) {
         LOG.debug("Create new account and save it");
         Account account = new Account();
         account.setAccountname(lead.getAccountname());
@@ -179,8 +154,7 @@ public class LeadServiceImpl extends
         if (opportunity != null) {
             opportunity.setAccountid(accountId);
             opportunity.setSaccountid(lead.getSaccountid());
-            OpportunityService opportunityService = ApplicationContextUtil
-                    .getSpringBean(OpportunityService.class);
+            OpportunityService opportunityService = ApplicationContextUtil.getSpringBean(OpportunityService.class);
             int opportunityId = opportunityService.saveWithSession(opportunity,
                     convertUser);
 

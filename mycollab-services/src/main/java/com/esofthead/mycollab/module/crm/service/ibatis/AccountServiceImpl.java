@@ -17,7 +17,10 @@
 package com.esofthead.mycollab.module.crm.service.ibatis;
 
 import com.esofthead.mycollab.common.ModuleNameConstants;
-import com.esofthead.mycollab.common.interceptor.aspect.*;
+import com.esofthead.mycollab.common.interceptor.aspect.ClassInfo;
+import com.esofthead.mycollab.common.interceptor.aspect.ClassInfoMap;
+import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
+import com.esofthead.mycollab.common.interceptor.aspect.Watchable;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
@@ -45,10 +48,8 @@ import java.util.List;
  */
 @Service
 @Transactional
-@Traceable(nameField = "accountname")
-@Auditable()
+@Traceable(nameField = "accountname", notifyAgent = AccountRelayEmailNotificationAction.class)
 @Watchable(userFieldName = "assignuser")
-@NotifyAgent(AccountRelayEmailNotificationAction.class)
 public class AccountServiceImpl extends DefaultService<Integer, Account, AccountSearchCriteria> implements AccountService {
     static {
         ClassInfoMap.put(AccountServiceImpl.class, new ClassInfo(ModuleNameConstants.CRM, CrmTypeConstants.ACCOUNT));

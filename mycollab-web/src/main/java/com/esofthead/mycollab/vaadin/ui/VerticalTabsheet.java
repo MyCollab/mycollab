@@ -26,6 +26,7 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
 import com.vaadin.ui.TabSheet.Tab;
+import org.vaadin.jouni.restrain.Restrain;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -58,6 +59,7 @@ public class VerticalTabsheet extends CustomComponent {
 
     public VerticalTabsheet(boolean isLeft) {
         CssLayout contentLayout = new CssLayout();
+        new Restrain(contentLayout).setMinHeight("100%");
 
         navigatorWrapper = new CssLayout();
         navigatorWrapper.setStyleName("navigator-wrap");

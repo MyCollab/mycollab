@@ -57,6 +57,8 @@ public class ThemeManager {
             extraStyles.append(".topNavigation .serviceMenuContainer .service-menu.v-buttongroup .v-button:hover { background-color: #"
                     + accountTheme.getTopmenubgselected() + "; }");
 
+            extraStyles.append(".v-button.add-btn-popup:hover { background-color: #" + accountTheme.getTopmenubgselected() + "; }");
+
         }
 
         if (accountTheme.getTopmenutext() != null) {
@@ -69,19 +71,25 @@ public class ThemeManager {
 
             extraStyles.append(".topNavigation .serviceMenuContainer .service-menu.v-buttongroup .v-button:hover { color: #"
                     + accountTheme.getTopmenutextselected() + "; }");
+
+            extraStyles.append(".v-button.add-btn-popup:hover { color: #"
+                    + accountTheme.getTopmenutextselected() + "; }");
         }
 
 		/* Vertical Tabsheet */
 
         if (accountTheme.getVtabsheetbg() != null) {
-            extraStyles.append(".verticaltabsheet-fix { background-color: #"
-                    + accountTheme.getVtabsheetbg() + "; }");
-
-            extraStyles.append(".v-progressbar.medium .v-progressbar-indicator { background-color: #"
+            extraStyles.append(".vertical-tabsheet .navigator-wrap { background-color: #"
                     + accountTheme.getVtabsheetbg() + "; }");
         }
 
         if (accountTheme.getVtabsheetbgselected() != null) {
+            extraStyles.append(".v-progressbar-indicator { background-color: #"
+                    + accountTheme.getVtabsheetbgselected() + "; }");
+
+            extraStyles.append(".v-progressbar.medium .v-progressbar-indicator { background-color: #"
+                    + accountTheme.getVtabsheetbgselected() + "; }");
+
             extraStyles.append(".vertical-tabsheet .v-button-tab.tab-selected > .v-button-wrap { background-color: #"
                     + accountTheme.getVtabsheetbgselected() + "; }");
 
@@ -105,29 +113,22 @@ public class ThemeManager {
 
 		/* Tabsheet */
         if (accountTheme.getTabsheetbg() != null) {
-            extraStyles.append(".h-sidebar-menu .v-button.v-button-link.isSelected { background-color: #"
-                    + accountTheme.getTabsheetbg() + "; }");
-
-            extraStyles.append(".h-sidebar-menu .v-button.v-button-link:hover { background-color: #"
-                    + accountTheme.getTabsheetbg() + "; }");
-
             extraStyles.append(".tab-style3 > .v-tabsheet-tabcontainer > .v-tabsheet-tabs > tbody > tr > .v-tabsheet-tabitemcell > " +
                     ".v-tabsheet-tabitem { background-color: #"
                     + accountTheme.getTabsheetbg() + "; }");
         }
 
         if (accountTheme.getTabsheetbgselected() != null) {
+            extraStyles.append(".project-info { background-color: #"
+                    + accountTheme.getTabsheetbgselected() + "; }");
+
+
             extraStyles.append(".h-sidebar-menu, .projectfeed-hdr-wrapper { background-color: #"
                     + accountTheme.getTabsheetbgselected() + "; }");
 
             //Set style of popup content
             extraStyles.append(".optionPopupContent .action-wrap .v-button-action { color: #" + accountTheme
                     .getTabsheetbgselected() + "; }");
-
-            extraStyles.append(".helpPanel .v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-tab, " +
-                    ".helpPanel .v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-content" +
-                    " { background-color: #" + accountTheme.getTabsheetbgselected() + "; }");
-
 
             //Set link style
             extraStyles.append(".v-app a { color: #" + accountTheme.getTabsheetbgselected() + "; }");
@@ -153,22 +154,11 @@ public class ThemeManager {
         }
 
         if (accountTheme.getTabsheettext() != null) {
-            extraStyles.append(".h-sidebar-menu .v-button.v-button-link.isSelected { color: #" + accountTheme.getTabsheettext() + "; }");
-
-            extraStyles.append(".h-sidebar-menu .v-button.v-button-link:hover .v-button-caption, .h-sidebar-menu .v-button" +
-                    ".v-button-link.isSelected .v-button-caption:hover { color: #"
-                    + accountTheme.getTabsheettext() + "; }");
-
             extraStyles.append(".tab-style3 > .v-tabsheet-tabcontainer > .v-tabsheet-tabs > tbody > tr > .v-tabsheet-tabitemcell > .v-tabsheet-tabitem { color: #"
                     + accountTheme.getTabsheettext() + "; }");
         }
 
         if (accountTheme.getTabsheettextselected() != null) {
-            extraStyles.append(".h-sidebar-menu .v-button.v-button-link:active, .h-sidebar-menu .v-button.v-button-link { color: #"
-                    + accountTheme.getTabsheettextselected() + "; }");
-
-            extraStyles.append(".crm-toolbar .quickadd-btn.v-popupbutton{color: #" + accountTheme.getTabsheettextselected() + ";}");
-
             extraStyles.append(".tab-style3 > .v-tabsheet-tabcontainer > .v-tabsheet-tabs > tbody > tr > .v-tabsheet-tabitemcell > .v-tabsheet-tabitem.v-tabsheet-tabitem-selected { color: #"
                     + accountTheme.getTabsheettextselected() + "; }");
 
@@ -189,9 +179,6 @@ public class ThemeManager {
         if (accountTheme.getActionbtn() != null) {
             extraStyles.append(".v-button.v-button-greenbtn, .v-button-greenbtn:focus { background-color: #" + accountTheme.getActionbtn()
                     + "; border-color: #" + getBorderColor(accountTheme.getActionbtn()) + "; }");
-
-            extraStyles.append(".crm-toolbar .quickadd-btn .v-button-caption:before { " +
-                    "background-color: #" + accountTheme.getActionbtn() + ";}");
 
             extraStyles.append(".v-button.add-project-btn {background-color: #" + accountTheme
                     .getActionbtn() + ";}");
@@ -321,7 +308,7 @@ public class ThemeManager {
 		/* Vertical Tabsheet */
 
         if (accountTheme.getVtabsheetbg() != null) {
-            demoExtraStyles.append(".example-block .verticaltabsheet-fix { background-color: #"
+            demoExtraStyles.append(".example-block .navigator-wrap { background-color: #"
                     + accountTheme.getVtabsheetbg() + "; }");
         }
 

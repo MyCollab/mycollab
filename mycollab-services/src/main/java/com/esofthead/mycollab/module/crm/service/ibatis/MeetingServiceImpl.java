@@ -18,7 +18,10 @@ package com.esofthead.mycollab.module.crm.service.ibatis;
 
 import com.esofthead.mycollab.cache.CacheUtils;
 import com.esofthead.mycollab.common.ModuleNameConstants;
-import com.esofthead.mycollab.common.interceptor.aspect.*;
+import com.esofthead.mycollab.common.interceptor.aspect.ClassInfo;
+import com.esofthead.mycollab.common.interceptor.aspect.ClassInfoMap;
+import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
+import com.esofthead.mycollab.common.interceptor.aspect.Watchable;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
@@ -43,10 +46,8 @@ import java.util.List;
  */
 @Service
 @Transactional
-@Traceable(nameField = "subject")
-@Auditable()
+@Traceable(nameField = "subject", notifyAgent = MeetingRelayEmailNotificationAction.class)
 @Watchable(userFieldName = "createduser")
-@NotifyAgent(MeetingRelayEmailNotificationAction.class)
 public class MeetingServiceImpl extends DefaultService<Integer, MeetingWithBLOBs, MeetingSearchCriteria> implements MeetingService {
     static {
         ClassInfoMap.put(MeetingServiceImpl.class, new ClassInfo(ModuleNameConstants.CRM, CrmTypeConstants.MEETING));

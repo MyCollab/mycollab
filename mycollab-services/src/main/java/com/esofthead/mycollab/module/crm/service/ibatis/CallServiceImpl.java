@@ -18,7 +18,10 @@ package com.esofthead.mycollab.module.crm.service.ibatis;
 
 import com.esofthead.mycollab.cache.CacheUtils;
 import com.esofthead.mycollab.common.ModuleNameConstants;
-import com.esofthead.mycollab.common.interceptor.aspect.*;
+import com.esofthead.mycollab.common.interceptor.aspect.ClassInfo;
+import com.esofthead.mycollab.common.interceptor.aspect.ClassInfoMap;
+import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
+import com.esofthead.mycollab.common.interceptor.aspect.Watchable;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
@@ -43,10 +46,8 @@ import java.util.List;
  */
 @Service
 @Transactional
-@Traceable(nameField = "subject")
-@Auditable()
+@Traceable(nameField = "subject", notifyAgent = CallRelayEmailNotificationAction.class)
 @Watchable(userFieldName = "assignuser")
-@NotifyAgent(CallRelayEmailNotificationAction.class)
 public class CallServiceImpl extends DefaultService<Integer, CallWithBLOBs, CallSearchCriteria> implements CallService {
     static {
         ClassInfoMap.put(CallServiceImpl.class, new ClassInfo(ModuleNameConstants.CRM, CrmTypeConstants.CALL));

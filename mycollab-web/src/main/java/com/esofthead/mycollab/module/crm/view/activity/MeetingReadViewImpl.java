@@ -37,10 +37,10 @@ import com.vaadin.ui.CssLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
- * 
+ *
  * @author MyCollab Ltd.
  * @since 1.0
- * 
+ *
  */
 @ViewComponent
 public class MeetingReadViewImpl extends AbstractPreviewItemComp<SimpleMeeting>
@@ -101,8 +101,7 @@ public class MeetingReadViewImpl extends AbstractPreviewItemComp<SimpleMeeting>
 		dateInfoComp = new DateInfoComp();
 		basicInfo.addComponent(dateInfoComp);
 
-		followersComp = new CrmFollowersComp<>(
-				CrmTypeConstants.MEETING, RolePermissionCollections.CRM_MEETING);
+		followersComp = new CrmFollowersComp<>(CrmTypeConstants.MEETING, RolePermissionCollections.CRM_MEETING);
 		basicInfo.addComponent(followersComp);
 
 		navigatorWrapper.addComponentAsFirst(basicInfo);

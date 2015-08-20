@@ -25,7 +25,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.events.OpportunityEvent;
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
-import com.esofthead.mycollab.module.crm.view.CrmToolbar;
+import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -50,46 +50,41 @@ public class OpportunityAddPresenter extends CrmGenericPresenter<OpportunityAddV
 
     @Override
     protected void postInitView() {
-        view.getEditFormHandlers().addFormHandler(
-                new EditFormHandler<SimpleOpportunity>() {
-                    private static final long serialVersionUID = 1L;
+        view.getEditFormHandlers().addFormHandler(new EditFormHandler<SimpleOpportunity>() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void onSave(final SimpleOpportunity item) {
-                        int opportunityId = saveOpportunity(item);
-                        EventBusFactory.getInstance().post(new OpportunityEvent.GotoRead(this, opportunityId));
-                    }
+            @Override
+            public void onSave(final SimpleOpportunity item) {
+                int opportunityId = saveOpportunity(item);
+                EventBusFactory.getInstance().post(new OpportunityEvent.GotoRead(this, opportunityId));
+            }
 
-                    @Override
-                    public void onCancel() {
-                        ViewState viewState = HistoryViewManager.back();
-                        if (viewState instanceof NullViewState) {
-                            EventBusFactory.getInstance().post(
-                                    new OpportunityEvent.GotoList(this, null));
-                        }
-                    }
+            @Override
+            public void onCancel() {
+                ViewState viewState = HistoryViewManager.back();
+                if (viewState instanceof NullViewState) {
+                    EventBusFactory.getInstance().post(new OpportunityEvent.GotoList(this, null));
+                }
+            }
 
-                    @Override
-                    public void onSaveAndNew(final SimpleOpportunity item) {
-                        saveOpportunity(item);
-                        EventBusFactory.getInstance().post(
-                                new OpportunityEvent.GotoAdd(this, null));
-                    }
-                });
+            @Override
+            public void onSaveAndNew(final SimpleOpportunity item) {
+                saveOpportunity(item);
+                EventBusFactory.getInstance().post(new OpportunityEvent.GotoAdd(this, null));
+            }
+        });
     }
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        CrmToolbar.navigateItem(CrmTypeConstants.OPPORTUNITY);
+        CrmModule.navigateItem(CrmTypeConstants.OPPORTUNITY);
         if (AppContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY)) {
             SimpleOpportunity opportunity = null;
             if (data.getParams() instanceof SimpleOpportunity) {
                 opportunity = (SimpleOpportunity) data.getParams();
             } else if (data.getParams() instanceof Integer) {
-                OpportunityService accountService = ApplicationContextUtil
-                        .getSpringBean(OpportunityService.class);
-                opportunity = accountService.findById(
-                        (Integer) data.getParams(), AppContext.getAccountId());
+                OpportunityService accountService = ApplicationContextUtil.getSpringBean(OpportunityService.class);
+                opportunity = accountService.findById((Integer) data.getParams(), AppContext.getAccountId());
             }
             if (opportunity == null) {
                 NotificationUtil.showRecordNotExistNotification();
@@ -100,18 +95,11 @@ public class OpportunityAddPresenter extends CrmGenericPresenter<OpportunityAddV
 
             if (opportunity.getId() == null) {
                 AppContext.addFragment("crm/opportunity/add", AppContext
-                        .getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
-                                "Opportunity"));
+                        .getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE, "Opportunity"));
             } else {
-                AppContext
-                        .addFragment(
-                                "crm/opportunity/edit/"
-                                        + UrlEncodeDecoder.encode(opportunity
-                                        .getId()),
-                                AppContext.getMessage(
-                                        GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
-                                        "Opportunity",
-                                        opportunity.getOpportunityname()));
+                AppContext.addFragment("crm/opportunity/edit/" + UrlEncodeDecoder.encode(opportunity.getId()),
+                        AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, "Opportunity",
+                                opportunity.getOpportunityname()));
             }
         } else {
             NotificationUtil.showMessagePermissionAlert();
@@ -119,16 +107,13 @@ public class OpportunityAddPresenter extends CrmGenericPresenter<OpportunityAddV
     }
 
     private int saveOpportunity(Opportunity opportunity) {
-        OpportunityService opportunityService = ApplicationContextUtil
-                .getSpringBean(OpportunityService.class);
+        OpportunityService opportunityService = ApplicationContextUtil.getSpringBean(OpportunityService.class);
 
         opportunity.setSaccountid(AppContext.getAccountId());
         if (opportunity.getId() == null) {
-            opportunityService.saveWithSession(opportunity,
-                    AppContext.getUsername());
+            opportunityService.saveWithSession(opportunity, AppContext.getUsername());
         } else {
-            opportunityService.updateWithSession(opportunity,
-                    AppContext.getUsername());
+            opportunityService.updateWithSession(opportunity, AppContext.getUsername());
         }
         return opportunity.getId();
     }

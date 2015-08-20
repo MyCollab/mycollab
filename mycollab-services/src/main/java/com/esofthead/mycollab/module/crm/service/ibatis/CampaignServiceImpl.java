@@ -17,7 +17,10 @@
 package com.esofthead.mycollab.module.crm.service.ibatis;
 
 import com.esofthead.mycollab.common.ModuleNameConstants;
-import com.esofthead.mycollab.common.interceptor.aspect.*;
+import com.esofthead.mycollab.common.interceptor.aspect.ClassInfo;
+import com.esofthead.mycollab.common.interceptor.aspect.ClassInfoMap;
+import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
+import com.esofthead.mycollab.common.interceptor.aspect.Watchable;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
@@ -41,13 +44,9 @@ import java.util.List;
  */
 @Service
 @Transactional
-@Traceable(nameField = "campaignname")
-@Auditable()
+@Traceable(nameField = "campaignname", notifyAgent = CampaignRelayEmailNotificationAction.class)
 @Watchable(userFieldName = "assignuser")
-@NotifyAgent(CampaignRelayEmailNotificationAction.class)
-public class CampaignServiceImpl extends
-        DefaultService<Integer, CampaignWithBLOBs, CampaignSearchCriteria>
-        implements CampaignService {
+public class CampaignServiceImpl extends DefaultService<Integer, CampaignWithBLOBs, CampaignSearchCriteria> implements CampaignService {
 
     static {
         ClassInfoMap.put(CampaignServiceImpl.class, new ClassInfo(ModuleNameConstants.CRM, CrmTypeConstants.CAMPAIGN));

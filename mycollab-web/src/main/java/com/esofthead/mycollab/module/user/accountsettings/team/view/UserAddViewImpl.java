@@ -101,9 +101,8 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
 
         @Override
         public ComponentContainer getLayout() {
-            String title = (user.getUsername() == null) ? AppContext
-                    .getMessage(UserI18nEnum.VIEW_NEW_USER) : user
-                    .getDisplayName();
+            String title = (user.getUsername() == null) ? AppContext.getMessage(UserI18nEnum.VIEW_NEW_USER) :
+                    user.getDisplayName();
             AddViewLayout formAddLayout = new AddViewLayout(title, FontAwesome.USER);
 
             Label organizationHeader = new Label(AppContext.getMessage(UserI18nEnum.SECTION_BASIC_INFORMATION));

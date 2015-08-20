@@ -25,7 +25,7 @@ import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.CampaignI18nEnum;
 import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericListPresenter;
-import com.esofthead.mycollab.module.crm.view.CrmToolbar;
+import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -89,7 +89,7 @@ public class CampaignListPresenter extends
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        CrmToolbar.navigateItem(CrmTypeConstants.CAMPAIGN);
+        CrmModule.navigateItem(CrmTypeConstants.CAMPAIGN);
         if (AppContext.canRead(RolePermissionCollections.CRM_CAMPAIGN)) {
             searchCriteria = (CampaignSearchCriteria) data.getParams();
             int totalCount = campaignService.getTotalCount(searchCriteria);

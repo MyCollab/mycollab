@@ -37,8 +37,7 @@ public class DefaultBeanPagedList<SearchService extends ISearchableService<S>, S
 		this(searchService, rowDisplayHandler, 20);
 	}
 
-	public DefaultBeanPagedList(SearchService searchService,
-			RowDisplayHandler<T> rowDisplayHandler, int defaultNumberSearchItems) {
+	public DefaultBeanPagedList(SearchService searchService, RowDisplayHandler<T> rowDisplayHandler, int defaultNumberSearchItems) {
 		super(rowDisplayHandler, defaultNumberSearchItems);
 		this.searchService = searchService;
 	}

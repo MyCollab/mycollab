@@ -25,7 +25,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.events.LeadEvent;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
-import com.esofthead.mycollab.module.crm.view.CrmToolbar;
+import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -50,47 +50,42 @@ public class LeadAddPresenter extends CrmGenericPresenter<LeadAddView> {
 
     @Override
     protected void postInitView() {
-        view.getEditFormHandlers().addFormHandler(
-                new EditFormHandler<SimpleLead>() {
-                    private static final long serialVersionUID = 1L;
+        view.getEditFormHandlers().addFormHandler(new EditFormHandler<SimpleLead>() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void onSave(final SimpleLead lead) {
-                        int leadId = saveLead(lead);
-                        EventBusFactory.getInstance().post(new LeadEvent.GotoRead(this, leadId));
-                    }
+            @Override
+            public void onSave(final SimpleLead lead) {
+                int leadId = saveLead(lead);
+                EventBusFactory.getInstance().post(new LeadEvent.GotoRead(this, leadId));
+            }
 
-                    @Override
-                    public void onCancel() {
-                        ViewState viewState = HistoryViewManager.back();
-                        if (viewState instanceof NullViewState) {
-                            EventBusFactory.getInstance().post(
-                                    new LeadEvent.GotoList(this, null));
-                        }
-                    }
+            @Override
+            public void onCancel() {
+                ViewState viewState = HistoryViewManager.back();
+                if (viewState instanceof NullViewState) {
+                    EventBusFactory.getInstance().post(new LeadEvent.GotoList(this, null));
+                }
+            }
 
-                    @Override
-                    public void onSaveAndNew(final SimpleLead lead) {
-                        saveLead(lead);
-                        EventBusFactory.getInstance().post(
-                                new LeadEvent.GotoAdd(this, null));
-                    }
-                });
+            @Override
+            public void onSaveAndNew(final SimpleLead lead) {
+                saveLead(lead);
+                EventBusFactory.getInstance().post(new LeadEvent.GotoAdd(this, null));
+            }
+        });
     }
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        CrmToolbar.navigateItem(CrmTypeConstants.LEAD);
+        CrmModule.navigateItem(CrmTypeConstants.LEAD);
         if (AppContext.canWrite(RolePermissionCollections.CRM_LEAD)) {
             SimpleLead lead = null;
 
             if (data.getParams() instanceof SimpleLead) {
                 lead = (SimpleLead) data.getParams();
             } else if (data.getParams() instanceof Integer) {
-                LeadService leadService = ApplicationContextUtil
-                        .getSpringBean(LeadService.class);
-                lead = leadService.findById(
-                        (Integer) data.getParams(), AppContext.getAccountId());
+                LeadService leadService = ApplicationContextUtil.getSpringBean(LeadService.class);
+                lead = leadService.findById((Integer) data.getParams(), AppContext.getAccountId());
             }
 
             if (lead == null) {
@@ -105,12 +100,8 @@ public class LeadAddPresenter extends CrmGenericPresenter<LeadAddView> {
                 AppContext.addFragment("crm/lead/add", AppContext.getMessage(
                         GenericI18Enum.BROWSER_ADD_ITEM_TITLE, "Lead"));
             } else {
-                AppContext.addFragment(
-                        "crm/lead/edit/"
-                                + UrlEncodeDecoder.encode(lead.getId()),
-                        AppContext.getMessage(
-                                GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, "Lead",
-                                lead.getLastname()));
+                AppContext.addFragment("crm/lead/edit/" + UrlEncodeDecoder.encode(lead.getId()),
+                        AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, "Lead", lead.getLastname()));
             }
         } else {
             NotificationUtil.showMessagePermissionAlert();
@@ -119,9 +110,7 @@ public class LeadAddPresenter extends CrmGenericPresenter<LeadAddView> {
     }
 
     private int saveLead(Lead lead) {
-        LeadService leadService = ApplicationContextUtil
-                .getSpringBean(LeadService.class);
-
+        LeadService leadService = ApplicationContextUtil.getSpringBean(LeadService.class);
         lead.setSaccountid(AppContext.getAccountId());
         if (lead.getId() == null) {
             leadService.saveWithSession(lead, AppContext.getUsername());

@@ -61,24 +61,21 @@ public class MilestoneAddPresenter extends AbstractPresenter<MilestoneAddView> {
                     public void onCancel() {
                         ViewState viewState = HistoryViewManager.back();
                         if (viewState.hasPresenters(NullViewState.EmptyPresenter.class, ProjectViewPresenter.class)) {
-                            EventBusFactory.getInstance().post(
-                                    new MilestoneEvent.GotoList(this, null));
+                            EventBusFactory.getInstance().post(new MilestoneEvent.GotoList(this, null));
                         }
                     }
 
                     @Override
                     public void onSaveAndNew(Milestone milestone) {
                         saveMilestone(milestone);
-                        EventBusFactory.getInstance().post(
-                                new MilestoneEvent.GotoAdd(this, null));
+                        EventBusFactory.getInstance().post(new MilestoneEvent.GotoAdd(this, null));
                     }
                 });
     }
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        if (CurrentProjectVariables
-                .canWrite(ProjectRolePermissionCollections.MILESTONES)) {
+        if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES)) {
             MilestoneContainer milestoneContainer = (MilestoneContainer) container;
             milestoneContainer.navigateToContainer(ProjectTypeConstants.MILESTONE);
             milestoneContainer.removeAllComponents();
@@ -87,8 +84,7 @@ public class MilestoneAddPresenter extends AbstractPresenter<MilestoneAddView> {
             Milestone milestone = (Milestone) data.getParams();
             view.editItem(milestone);
 
-            ProjectBreadcrumb breadcrumb = ViewManager
-                    .getCacheComponent(ProjectBreadcrumb.class);
+            ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
             if (milestone.getId() == null) {
                 breadcrumb.gotoMilestoneAdd();
             } else {
@@ -100,8 +96,7 @@ public class MilestoneAddPresenter extends AbstractPresenter<MilestoneAddView> {
     }
 
     private int saveMilestone(Milestone milestone) {
-        MilestoneService milestoneService = ApplicationContextUtil
-                .getSpringBean(MilestoneService.class);
+        MilestoneService milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
         milestone.setProjectid(CurrentProjectVariables.getProjectId());
         milestone.setSaccountid(AppContext.getAccountId());
 

@@ -52,8 +52,7 @@ public class PagePresenter extends AbstractPresenter<PageContainer> {
 		AbstractPresenter presenter;
 		if (data instanceof PageScreenData.Search) {
 			presenter = PresenterResolver.getPresenter(PageListPresenter.class);
-		} else if (data instanceof PageScreenData.Add
-				| data instanceof PageScreenData.Edit) {
+		} else if (data instanceof PageScreenData.Add || data instanceof PageScreenData.Edit) {
 			presenter = PresenterResolver.getPresenter(PageAddPresenter.class);
 		} else if (data instanceof PageScreenData.Read) {
 			presenter = PresenterResolver.getPresenter(PageReadPresenter.class);

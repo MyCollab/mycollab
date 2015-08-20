@@ -32,75 +32,72 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
-public class NotificationButton extends PopupButton implements
-		PopupButton.PopupVisibilityListener,
-		ApplicationEventListener<ShellEvent.NewNotification> {
-	private static final long serialVersionUID = 2908372640829060184L;
+public class NotificationButton extends PopupButton implements PopupButton.PopupVisibilityListener,
+        ApplicationEventListener<ShellEvent.NewNotification> {
+    private static final long serialVersionUID = 2908372640829060184L;
 
-	private final List<AbstractNotification> notificationItems;
-	private final VerticalLayout notificationContainer;
+    private final List<AbstractNotification> notificationItems;
+    private final VerticalLayout notificationContainer;
 
-	public NotificationButton() {
-		super();
-		notificationItems = new ArrayList<>();
-		notificationContainer = new VerticalLayout();
-		notificationContainer.setMargin(true);
-		this.setContent(notificationContainer);
-		this.setIcon(FontAwesome.BELL);
-		this.setStyleName("notification-button");
+    public NotificationButton() {
+        super();
+        notificationItems = new ArrayList<>();
+        notificationContainer = new VerticalLayout();
+        notificationContainer.setMargin(true);
+        this.setContent(notificationContainer);
+        this.setIcon(FontAwesome.BELL);
+        this.setStyleName("notification-button");
 
-		addPopupVisibilityListener(this);
-		EventBusFactory.getInstance().register(this);
-	}
+        addPopupVisibilityListener(this);
+        EventBusFactory.getInstance().register(this);
+    }
 
-	@Override
-	public void popupVisibilityChange(PopupVisibilityEvent event) {
-		notificationContainer.removeAllComponents();
+    @Override
+    public void popupVisibilityChange(PopupVisibilityEvent event) {
+        notificationContainer.removeAllComponents();
 
-		if (notificationItems.size() > 0) {
-			for (AbstractNotification item : notificationItems) {
+        if (notificationItems.size() > 0) {
+            for (AbstractNotification item : notificationItems) {
                 Component comp = item.renderContent();
                 comp.setStyleName("notification-type");
                 comp.addStyleName("notification-type-"
                         + item.getType());
-				notificationContainer.addComponent(comp);
-			}
-		} else {
-			Label noItemLbl = new Label("There is no notification right now");
-			notificationContainer.addComponent(noItemLbl);
-			notificationContainer.setComponentAlignment(noItemLbl,
-					Alignment.MIDDLE_CENTER);
-		}
-	}
+                notificationContainer.addComponent(comp);
+            }
+        } else {
+            Label noItemLbl = new Label("There is no notification right now");
+            notificationContainer.addComponent(noItemLbl);
+            notificationContainer.setComponentAlignment(noItemLbl,
+                    Alignment.MIDDLE_CENTER);
+        }
+    }
 
-	public void addNotification(AbstractNotification notification) {
-		notificationItems.add(notification);
-		updateCaption();
-	}
+    public void addNotification(AbstractNotification notification) {
+        notificationItems.add(notification);
+        updateCaption();
+    }
 
-	public void removeNotification(AbstractNotification notification) {
-		notificationItems.remove(notification);
-		updateCaption();
-	}
+    public void removeNotification(AbstractNotification notification) {
+        notificationItems.remove(notification);
+        updateCaption();
+    }
 
-	protected void updateCaption() {
-		if (notificationItems.size() > 0) {
-			this.setCaption(String.valueOf(notificationItems.size()));
-		} else {
-			this.setCaption(null);
-		}
-	}
+    protected void updateCaption() {
+        if (notificationItems.size() > 0) {
+            this.setCaption(String.valueOf(notificationItems.size()));
+        } else {
+            this.setCaption(null);
+        }
+    }
 
-	@Subscribe
-	@Override
-	public void handle(ShellEvent.NewNotification event) {
-		if (event.getData() instanceof AbstractNotification) {
-			addNotification((AbstractNotification) event.getData());
-		}
-	}
+    @Subscribe
+    @Override
+    public void handle(ShellEvent.NewNotification event) {
+        if (event.getData() instanceof AbstractNotification) {
+            addNotification((AbstractNotification) event.getData());
+        }
+    }
 }

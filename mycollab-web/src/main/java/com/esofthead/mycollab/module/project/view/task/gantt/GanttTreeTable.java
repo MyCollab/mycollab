@@ -27,6 +27,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.google.common.eventbus.Subscribe;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
@@ -37,6 +38,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Tree;
 import com.vaadin.ui.TreeTable;
+import org.vaadin.peter.contextmenu.ContextMenu;
 
 import java.util.List;
 import java.util.UUID;
@@ -68,7 +70,8 @@ public class GanttTreeTable extends TreeTable {
         gantt.setVerticalScrollDelegateTarget(this);
         beanContainer = new BeanItemContainer<>(GanttItemWrapper.class);
         this.setContainerDataSource(beanContainer);
-        this.setVisibleColumns("name", "startDate", "endDate", "duration", "actualStartDate", "actualEndDate");
+        this.setVisibleColumns("name", "startDate", "endDate", "duration", "actualStartDate", "actualEndDate",
+                "percentageComplete");
         this.setColumnHeader("name", "Task");
         this.setColumnExpandRatio("name", 1.0f);
         this.setColumnHeader("startDate", "Start");
@@ -81,11 +84,14 @@ public class GanttTreeTable extends TreeTable {
         this.setColumnWidth("actualStartDate", 80);
         this.setColumnHeader("actualEndDate", "Actual End");
         this.setColumnWidth("actualEndDate", 80);
+        this.setColumnHeader("percentageComplete", "% Complete");
+        this.setColumnWidth("percentageComplete", 80);
         this.setColumnCollapsingAllowed(true);
         this.setColumnCollapsed("actualStartDate", true);
         this.setColumnCollapsed("actualEndDate", true);
         this.setSelectable(true);
         this.setSortEnabled(true);
+        this.setEditable(true);
 
         this.addGeneratedColumn("name", new ColumnGenerator() {
             @Override
@@ -138,6 +144,15 @@ public class GanttTreeTable extends TreeTable {
                 return new Label(AppContext.formatDate(item.getEndDate()));
             }
         });
+
+        this.addGeneratedColumn("percentageComplete", new ColumnGenerator() {
+            @Override
+            public Object generateCell(Table table, Object itemId, Object columnId) {
+                GanttItemWrapper item = (GanttItemWrapper) itemId;
+                return new Label(item.getPercentageComplete() + " %");
+            }
+        });
+
 
         this.addGeneratedColumn("actualEndDate", new ColumnGenerator() {
             @Override
@@ -195,6 +210,35 @@ public class GanttTreeTable extends TreeTable {
                 }
             }
         });
+
+        final ContextMenu contextMenu = new ContextMenu();
+        contextMenu.setAsContextMenuOf(this);
+        contextMenu.setOpenAutomatically(false);
+
+        ContextMenu.ContextMenuOpenedListener.TableListener tableListener = new ContextMenu.ContextMenuOpenedListener.TableListener() {
+
+            public void onContextMenuOpenFromRow(ContextMenu.ContextMenuOpenedOnTableRowEvent event) {
+                // read clicked row item and property from event and modify menu
+                Object source = event.getSource();
+                contextMenu.removeAllItems();
+                contextMenu.addItem("Hello");
+                Object item = event.getItemId();
+                Object propertyId = event.getPropertyId();
+                contextMenu.open(GanttTreeTable.this);
+            }
+
+            public void onContextMenuOpenFromHeader(ContextMenu.ContextMenuOpenedOnTableHeaderEvent event) {
+                NotificationUtil.showErrorNotification("Open from header");
+            }
+
+            public void onContextMenuOpenFromFooter(ContextMenu.ContextMenuOpenedOnTableFooterEvent event) {
+                NotificationUtil.showErrorNotification("Open from footer");
+            }
+        };
+
+
+
+        contextMenu.addContextMenuTableListener(tableListener);
     }
 
     @Override

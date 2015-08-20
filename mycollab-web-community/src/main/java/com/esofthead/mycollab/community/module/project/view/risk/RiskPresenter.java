@@ -30,8 +30,7 @@ import com.vaadin.ui.ComponentContainer;
  * @since 1.0
  * 
  */
-public class RiskPresenter extends AbstractPresenter<IRiskContainer> implements
-		IRiskPresenter {
+public class RiskPresenter extends AbstractPresenter<IRiskContainer> implements IRiskPresenter {
 	private static final long serialVersionUID = 1L;
 
 	public RiskPresenter() {

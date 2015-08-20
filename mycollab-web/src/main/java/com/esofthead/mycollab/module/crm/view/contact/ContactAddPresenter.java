@@ -25,7 +25,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.events.ContactEvent;
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
-import com.esofthead.mycollab.module.crm.view.CrmToolbar;
+import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -50,47 +50,41 @@ public class ContactAddPresenter extends CrmGenericPresenter<ContactAddView> {
 
     @Override
     protected void postInitView() {
-        view.getEditFormHandlers().addFormHandler(
-                new EditFormHandler<SimpleContact>() {
-                    private static final long serialVersionUID = 1L;
+        view.getEditFormHandlers().addFormHandler(new EditFormHandler<SimpleContact>() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void onSave(final SimpleContact contact) {
-                        int contactId = saveContact(contact);
-                        EventBusFactory.getInstance().post(new ContactEvent.GotoRead(this, contactId));
+            @Override
+            public void onSave(final SimpleContact contact) {
+                int contactId = saveContact(contact);
+                EventBusFactory.getInstance().post(new ContactEvent.GotoRead(this, contactId));
+            }
 
-                    }
+            @Override
+            public void onCancel() {
+                ViewState viewState = HistoryViewManager.back();
+                if (viewState instanceof NullViewState) {
+                    EventBusFactory.getInstance().post(new ContactEvent.GotoList(this, null));
+                }
+            }
 
-                    @Override
-                    public void onCancel() {
-                        ViewState viewState = HistoryViewManager.back();
-                        if (viewState instanceof NullViewState) {
-                            EventBusFactory.getInstance().post(
-                                    new ContactEvent.GotoList(this, null));
-                        }
-                    }
-
-                    @Override
-                    public void onSaveAndNew(final SimpleContact contact) {
-                        saveContact(contact);
-                        EventBusFactory.getInstance().post(
-                                new ContactEvent.GotoAdd(this, null));
-                    }
-                });
+            @Override
+            public void onSaveAndNew(final SimpleContact contact) {
+                saveContact(contact);
+                EventBusFactory.getInstance().post(new ContactEvent.GotoAdd(this, null));
+            }
+        });
     }
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        CrmToolbar.navigateItem(CrmTypeConstants.CONTACT);
+        CrmModule.navigateItem(CrmTypeConstants.CONTACT);
         if (AppContext.canWrite(RolePermissionCollections.CRM_CONTACT)) {
             SimpleContact contact = null;
             if (data.getParams() instanceof SimpleContact) {
                 contact = (SimpleContact) data.getParams();
             } else if (data.getParams() instanceof Integer) {
-                ContactService contactService = ApplicationContextUtil
-                        .getSpringBean(ContactService.class);
-                contact = contactService.findById(
-                        (Integer) data.getParams(), AppContext.getAccountId());
+                ContactService contactService = ApplicationContextUtil.getSpringBean(ContactService.class);
+                contact = contactService.findById((Integer) data.getParams(), AppContext.getAccountId());
             }
             if (contact == null) {
                 NotificationUtil.showRecordNotExistNotification();
@@ -101,8 +95,7 @@ public class ContactAddPresenter extends CrmGenericPresenter<ContactAddView> {
 
             if (contact.getId() == null) {
                 AppContext.addFragment("crm/contact/add", AppContext
-                        .getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
-                                "Contact"));
+                        .getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE, "Contact"));
             } else {
                 AppContext.addFragment(
                         "crm/contact/edit/"
@@ -117,8 +110,7 @@ public class ContactAddPresenter extends CrmGenericPresenter<ContactAddView> {
     }
 
     private int saveContact(Contact contact) {
-        ContactService contactService = ApplicationContextUtil
-                .getSpringBean(ContactService.class);
+        ContactService contactService = ApplicationContextUtil.getSpringBean(ContactService.class);
 
         contact.setSaccountid(AppContext.getAccountId());
         if (contact.getId() == null) {

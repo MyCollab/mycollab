@@ -33,8 +33,7 @@ import com.vaadin.ui.TabSheet.Tab;
  * @since 2.0
  */
 @ViewComponent
-public class UserPermissionManagementViewImpl extends AbstractPageView
-        implements UserPermissionManagementView {
+public class UserPermissionManagementViewImpl extends AbstractPageView implements UserPermissionManagementView {
     private static final long serialVersionUID = 1L;
     private TabSheetDecorator groupTab;
     private UserPresenter userPresenter;
@@ -43,9 +42,7 @@ public class UserPermissionManagementViewImpl extends AbstractPageView
     public UserPermissionManagementViewImpl() {
         groupTab = new TabSheetDecorator();
         groupTab.setStyleName(UIConstants.THEME_TAB_STYLE3);
-
         this.addComponent(groupTab);
-
         buildComponents();
     }
 
@@ -61,8 +58,7 @@ public class UserPermissionManagementViewImpl extends AbstractPageView
 
             @Override
             public void selectedTabChange(SelectedTabChangeEvent event) {
-                Tab tab = ((TabSheetDecorator) event.getTabSheet())
-                        .getSelectedTabInfo();
+                Tab tab = ((TabSheetDecorator) event.getTabSheet()).getSelectedTabInfo();
                 String caption = tab.getCaption();
                 if ("Users".equals(caption)) {
                     userPresenter.go(UserPermissionManagementViewImpl.this, null);
@@ -71,8 +67,6 @@ public class UserPermissionManagementViewImpl extends AbstractPageView
                 }
             }
         });
-
-        userPresenter.go(this, null);
 
     }
 

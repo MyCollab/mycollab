@@ -16,12 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.service.ibatis;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.esofthead.mycollab.common.interceptor.aspect.Auditable;
-import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
@@ -32,34 +26,37 @@ import com.esofthead.mycollab.module.crm.domain.SimpleTarget;
 import com.esofthead.mycollab.module.crm.domain.Target;
 import com.esofthead.mycollab.module.crm.domain.criteria.TargetSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.TargetService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
 public class TargetServiceImpl extends
-		DefaultService<Integer, Target, TargetSearchCriteria> implements
-		TargetService {
+        DefaultService<Integer, Target, TargetSearchCriteria> implements
+        TargetService {
 
-	@Autowired
-	private TargetMapper targetMapper;
+    @Autowired
+    private TargetMapper targetMapper;
 
-	@Autowired
-	private TargetMapperExt targetMapperExt;
+    @Autowired
+    private TargetMapperExt targetMapperExt;
 
-	@Autowired
-	private CrmTaskMapper taskMapper;
+    @Autowired
+    private CrmTaskMapper taskMapper;
 
-	@Override
-	public ICrudGenericDAO<Integer, Target> getCrudMapper() {
-		return targetMapper;
-	}
+    @Override
+    public ICrudGenericDAO<Integer, Target> getCrudMapper() {
+        return targetMapper;
+    }
 
-	@Override
-	public ISearchableDAO<TargetSearchCriteria> getSearchMapper() {
-		return targetMapperExt;
-	}
+    @Override
+    public ISearchableDAO<TargetSearchCriteria> getSearchMapper() {
+        return targetMapperExt;
+    }
 
-	public SimpleTarget findTargetById(int targetId) {
-		return targetMapperExt.findTargetById(targetId);
-	}
+    public SimpleTarget findTargetById(int targetId) {
+        return targetMapperExt.findTargetById(targetId);
+    }
 
 }

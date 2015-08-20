@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.module.project.service.ibatis;
 
 import com.esofthead.mycollab.common.ModuleNameConstants;
-import com.esofthead.mycollab.common.interceptor.aspect.Auditable;
 import com.esofthead.mycollab.common.interceptor.aspect.ClassInfo;
 import com.esofthead.mycollab.common.interceptor.aspect.ClassInfoMap;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
@@ -43,10 +42,7 @@ import org.springframework.stereotype.Service;
  * @since 1.0
  */
 @Service
-@Auditable()
-public class ProjectRoleServiceImpl extends
-        DefaultService<Integer, ProjectRole, ProjectRoleSearchCriteria>
-        implements ProjectRoleService {
+public class ProjectRoleServiceImpl extends DefaultService<Integer, ProjectRole, ProjectRoleSearchCriteria> implements ProjectRoleService {
 
     static {
         ClassInfoMap.put(ProjectRoleServiceImpl.class, new ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.PROJECT_ROLE));

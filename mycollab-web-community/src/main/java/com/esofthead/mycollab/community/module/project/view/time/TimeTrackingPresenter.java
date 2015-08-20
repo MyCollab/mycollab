@@ -29,9 +29,7 @@ import com.vaadin.ui.ComponentContainer;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class TimeTrackingPresenter extends
-		AbstractPresenter<ITimeTrackingContainer> implements
-		ITimeTrackingPresenter {
+public class TimeTrackingPresenter extends AbstractPresenter<ITimeTrackingContainer> implements ITimeTrackingPresenter {
 	private static final long serialVersionUID = 1L;
 
 	public TimeTrackingPresenter() {

@@ -26,7 +26,7 @@ import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.CaseI18nEnum;
 import com.esofthead.mycollab.module.crm.service.CaseService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericListPresenter;
-import com.esofthead.mycollab.module.crm.view.CrmToolbar;
+import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -103,7 +103,7 @@ public class CaseListPresenter extends CrmGenericListPresenter<CaseListView, Cas
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        CrmToolbar.navigateItem(CrmTypeConstants.CASE);
+        CrmModule.navigateItem(CrmTypeConstants.CASE);
         if (AppContext.canRead(RolePermissionCollections.CRM_CASE)) {
             searchCriteria = (CaseSearchCriteria) data.getParams();
             int totalCount = caseService.getTotalCount(searchCriteria);

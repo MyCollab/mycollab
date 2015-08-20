@@ -25,30 +25,19 @@ import org.apache.ibatis.annotations.Param;
  * @since 5.0.3
  */
 public interface ProjectGenericItemMapper extends ISearchableDAO<ProjectGenericItemSearchCriteria> {
-    int getTotalCountFromProblem(
-            @Param("searchCriteria") ProjectGenericItemSearchCriteria criteria);
+    int getTotalCountFromProblem(@Param("searchCriteria") ProjectGenericItemSearchCriteria criteria);
 
-    int getTotalCountFromRisk(
-            @Param("searchCriteria") ProjectGenericItemSearchCriteria criteria);
+    int getTotalCountFromRisk(@Param("searchCriteria") ProjectGenericItemSearchCriteria criteria);
 
-    int getTotalCountFromBug(
-            @Param("searchCriteria") ProjectGenericItemSearchCriteria criteria);
+    int getTotalCountFromBug(@Param("searchCriteria") ProjectGenericItemSearchCriteria criteria);
 
-    int getTotalCountFromVersion(
-            @Param("searchCriteria") ProjectGenericItemSearchCriteria criteria);
+    int getTotalCountFromVersion(@Param("searchCriteria") ProjectGenericItemSearchCriteria criteria);
 
-    int getTotalCountFromComponent(
-            @Param("searchCriteria") ProjectGenericItemSearchCriteria criteria);
+    int getTotalCountFromComponent(@Param("searchCriteria") ProjectGenericItemSearchCriteria criteria);
 
-    int getTotalCountFromTask(
-            @Param("searchCriteria") ProjectGenericItemSearchCriteria criteria);
+    int getTotalCountFromTask(@Param("searchCriteria") ProjectGenericItemSearchCriteria criteria);
 
-    int getTotalCountFromTaskGroup(
-            @Param("searchCriteria") ProjectGenericItemSearchCriteria criteria);
+    int getTotalCountFromMessage(@Param("searchCriteria") ProjectGenericItemSearchCriteria criteria);
 
-    int getTotalCountFromMessage(
-            @Param("searchCriteria") ProjectGenericItemSearchCriteria criteria);
-
-    int getTotalCountFromMilestone(
-            @Param("searchCriteria") ProjectGenericItemSearchCriteria criteria);
+    int getTotalCountFromMilestone(@Param("searchCriteria") ProjectGenericItemSearchCriteria criteria);
 }

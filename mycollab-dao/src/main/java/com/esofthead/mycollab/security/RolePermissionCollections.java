@@ -18,63 +18,51 @@ package com.esofthead.mycollab.security;
 
 /**
  * Keep all permissions of MyCollab
- * 
+ *
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class RolePermissionCollections {
+    public static final String CRM_ACCOUNT = "Account";
+    public static final String CRM_CONTACT = "Contact";
+    public static final String CRM_CAMPAIGN = "Campaign";
+    public static final String CRM_LEAD = "Lead";
+    public static final String CRM_OPPORTUNITY = "Opportunity";
+    public static final String CRM_CASE = "Case";
+    public static final String CRM_TASK = "Task";
+    public static final String CRM_MEETING = "Meeting";
+    public static final String CRM_CALL = "Call";
+    public static final String CRM_DOCUMENT = "Document";
 
-	public static final String CRM_ACCOUNT = "Account";
-	public static final String CRM_CONTACT = "Contact";
-	public static final String CRM_CAMPAIGN = "Campaign";
-	public static final String CRM_LEAD = "Lead";
-	public static final String CRM_OPPORTUNITY = "Opportunity";
-	public static final String CRM_CASE = "Case";
-	public static final String CRM_TASK = "Task";
-	public static final String CRM_MEETING = "Meeting";
-	public static final String CRM_CALL = "Call";
-	public static final String CRM_DOCUMENT = "Document";
+    public static final String ACCOUNT_USER = "User";
+    public static final String ACCOUNT_ROLE = "Role";
+    public static final String ACCOUNT_BILLING = "Billing";
+    public static final String ACCOUNT_THEME = "Theme";
 
-	public static final String ACCOUNT_USER = "User";
-	public static final String ACCOUNT_ROLE = "Role";
-	public static final String ACCOUNT_BILLING = "Billing";
-	public static final String ACCOUNT_THEME = "Theme";
+    public static final String CREATE_NEW_PROJECT = "CreateNewProject";
 
-	public static final String CREATE_NEW_PROJECT = "CreateNewProject";
+    public static final String PUBLIC_DOCUMENT_ACCESS = "PublicDocumentAccess";
 
-	public static final String PUBLIC_DOCUMENT_ACCESS = "PublicDocumentAccess";
+    public static final PermissionDefItem[] CRM_PERMISSIONS_ARR = {
+            new PermissionDefItem(CRM_ACCOUNT, "Account", AccessPermissionFlag.class),
+            new PermissionDefItem(CRM_CONTACT, "Contact", AccessPermissionFlag.class),
+            new PermissionDefItem(CRM_CAMPAIGN, "Campaign", AccessPermissionFlag.class),
+            new PermissionDefItem(CRM_LEAD, "Lead", AccessPermissionFlag.class),
+            new PermissionDefItem(CRM_OPPORTUNITY, "Opportunity", AccessPermissionFlag.class),
+            new PermissionDefItem(CRM_CASE, "Case", AccessPermissionFlag.class),
+            new PermissionDefItem(CRM_TASK, "Task", AccessPermissionFlag.class),
+            new PermissionDefItem(CRM_MEETING, "Meeting", AccessPermissionFlag.class),
+            new PermissionDefItem(CRM_CALL, "Call", AccessPermissionFlag.class)};
 
-	public static final PermissionDefItem[] CRM_PERMISSIONS_ARR = {
-			new PermissionDefItem(CRM_ACCOUNT, "Account",
-					AccessPermissionFlag.class),
-			new PermissionDefItem(CRM_CONTACT, "Contact",
-					AccessPermissionFlag.class),
-			new PermissionDefItem(CRM_CAMPAIGN, "Campaign",
-					AccessPermissionFlag.class),
-			new PermissionDefItem(CRM_LEAD, "Lead", AccessPermissionFlag.class),
-			new PermissionDefItem(CRM_OPPORTUNITY, "Opportunity",
-					AccessPermissionFlag.class),
-			new PermissionDefItem(CRM_CASE, "Case", AccessPermissionFlag.class),
-			new PermissionDefItem(CRM_TASK, "Task", AccessPermissionFlag.class),
-			new PermissionDefItem(CRM_MEETING, "Meeting",
-					AccessPermissionFlag.class),
-			new PermissionDefItem(CRM_CALL, "Call", AccessPermissionFlag.class) };
+    public static final PermissionDefItem[] ACCOUNT_PERMISSION_ARR = {
+            new PermissionDefItem(ACCOUNT_USER, "User", AccessPermissionFlag.class),
+            new PermissionDefItem(ACCOUNT_ROLE, "Role", AccessPermissionFlag.class),
+            new PermissionDefItem(ACCOUNT_BILLING, "Billing Management", BooleanPermissionFlag.class),
+            new PermissionDefItem(ACCOUNT_THEME, "Theme", BooleanPermissionFlag.class)};
 
-	public static final PermissionDefItem[] ACCOUNT_PERMISSION_ARR = {
-			new PermissionDefItem(ACCOUNT_USER, "User",
-					AccessPermissionFlag.class),
-			new PermissionDefItem(ACCOUNT_ROLE, "Role",
-					AccessPermissionFlag.class),
-			new PermissionDefItem(ACCOUNT_BILLING, "Billing Management",
-					BooleanPermissionFlag.class),
-			new PermissionDefItem(ACCOUNT_THEME, "Theme",
-					BooleanPermissionFlag.class) };
+    public static final PermissionDefItem[] PROJECT_PERMISSION_ARR = {new PermissionDefItem(
+            CREATE_NEW_PROJECT, "Create New Project", BooleanPermissionFlag.class)};
 
-	public static final PermissionDefItem[] PROJECT_PERMISSION_ARR = { new PermissionDefItem(
-			CREATE_NEW_PROJECT, "Create New Project",
-			BooleanPermissionFlag.class) };
-
-	public static final PermissionDefItem[] DOCUMENT_PERMISSION_ARR = { new PermissionDefItem(
-			PUBLIC_DOCUMENT_ACCESS, "Public Documents",
-			AccessPermissionFlag.class) };
+    public static final PermissionDefItem[] DOCUMENT_PERMISSION_ARR = {new PermissionDefItem(
+            PUBLIC_DOCUMENT_ACCESS, "Public Documents", AccessPermissionFlag.class)};
 }

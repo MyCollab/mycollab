@@ -141,8 +141,7 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 
             @Override
             public void buttonClick(ClickEvent event) {
-                EventBusFactory.getInstance().post(
-                        new UserEvent.GotoRead(UserListViewImpl.this, member.getUsername()));
+                EventBusFactory.getInstance().post(new UserEvent.GotoRead(UserListViewImpl.this, member.getUsername()));
             }
         });
 

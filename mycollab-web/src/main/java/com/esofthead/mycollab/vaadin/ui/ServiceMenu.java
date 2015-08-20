@@ -16,52 +16,59 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import java.util.Iterator;
-
-import org.vaadin.peter.buttongroup.ButtonGroup;
-
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
+import org.vaadin.peter.buttongroup.ButtonGroup;
+
+import java.util.Iterator;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class ServiceMenu extends ButtonGroup {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private static final String COMPONENT_STYLENAME = "service-menu";
-	private static final String SELECTED_STYLENAME = "selected";
+    private static final String COMPONENT_STYLENAME = "service-menu";
+    private static final String SELECTED_STYLENAME = "selected";
 
-	public ServiceMenu() {
-		super();
-		this.setStyleName(COMPONENT_STYLENAME);
-	}
+    public ServiceMenu() {
+        super();
+        this.setStyleName(COMPONENT_STYLENAME);
+    }
 
-	public void addService(String serviceName, Resource linkIcon, ClickListener listener) {
+    public void addService(String serviceName, Resource linkIcon, ClickListener listener) {
         Button newService = new Button(serviceName, listener);
-		newService.setIcon(linkIcon);
+        newService.setIcon(linkIcon);
+        this.addButton(newService);
+    }
 
-		this.addButton(newService);
-	}
+    public void addService(String serviceName, ClickListener listener) {
+        Button newService = new Button(serviceName, listener);
+        this.addButton(newService);
+    }
 
-	public void selectService(int index) {
-		Iterator<Component> iterator = this.iterator();
+    public void addService(String id, String serviceName, ClickListener listener) {
+        Button newService = new Button(serviceName, listener);
+        newService.setId(id);
+        this.addButton(newService);
+    }
 
-		int i = 0;
-		while (iterator.hasNext()) {
-			Component comp = iterator.next();
-			if (i == index) {
-				comp.addStyleName(SELECTED_STYLENAME);
-			} else {
-				comp.removeStyleName(SELECTED_STYLENAME);
-			}
-			i++;
-		}
-	}
+    public void selectService(int index) {
+        Iterator<Component> iterator = this.iterator();
+
+        int i = 0;
+        while (iterator.hasNext()) {
+            Component comp = iterator.next();
+            if (i == index) {
+                comp.addStyleName(SELECTED_STYLENAME);
+            } else {
+                comp.removeStyleName(SELECTED_STYLENAME);
+            }
+            i++;
+        }
+    }
 
 }

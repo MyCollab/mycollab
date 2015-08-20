@@ -30,9 +30,7 @@ import com.vaadin.ui.ComponentContainer;
  * @since 1.0
  * 
  */
-public class ProblemPresenter extends AbstractPresenter<IProblemContainer>
-		implements IProblemPresenter {
-
+public class ProblemPresenter extends AbstractPresenter<IProblemContainer> implements IProblemPresenter {
 	private static final long serialVersionUID = 1L;
 
 	public ProblemPresenter() {

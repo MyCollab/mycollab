@@ -16,18 +16,25 @@
  */
 package com.esofthead.mycollab.common.interceptor.aspect;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author MyCollab Ltd.
  * @since 5.0.1
  */
 public class ClassInfo {
     private String module;
-
     private String type;
+    private List<String> excludeHistoryFields;
 
     public ClassInfo(String module, String type) {
         this.module = module;
         this.type = type;
+        excludeHistoryFields = new ArrayList<>();
+        excludeHistoryFields.add("id");
+        excludeHistoryFields.add("lastupdatedtime");
+        excludeHistoryFields.add("createdtime");
     }
 
     public String getModule() {
@@ -44,5 +51,13 @@ public class ClassInfo {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public void addExcludeHistoryField(String field) {
+        excludeHistoryFields.add(field);
+    }
+
+    public List<String> getExcludeHistoryFields() {
+        return excludeHistoryFields;
     }
 }

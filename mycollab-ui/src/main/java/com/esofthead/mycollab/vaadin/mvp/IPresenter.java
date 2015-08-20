@@ -32,8 +32,7 @@ public interface IPresenter<V extends PageView> extends Serializable {
 	 * @param container
 	 * @param pageActionChain
 	 */
-	void handleChain(ComponentContainer container,
-			PageActionChain pageActionChain);
+	void handleChain(ComponentContainer container, PageActionChain pageActionChain);
 
 	/**
 	 * 
@@ -48,8 +47,7 @@ public interface IPresenter<V extends PageView> extends Serializable {
 	 * @param data
 	 * @param isHistoryTrack
 	 */
-	void go(ComponentContainer container, ScreenData<?> data,
-			boolean isHistoryTrack);
+	void go(ComponentContainer container, ScreenData<?> data, boolean isHistoryTrack);
 
 	/**
 	 * 

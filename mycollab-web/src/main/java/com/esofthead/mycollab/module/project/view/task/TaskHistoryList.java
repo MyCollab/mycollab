@@ -62,7 +62,7 @@ public class TaskHistoryList extends HistoryLogComponent {
                 TaskI18nEnum.FORM_REMAIN_ESTIMATE);
         taskFormatter.generateFieldDisplayHandler("assignuser",
                 GenericI18Enum.FORM_ASSIGNEE, new ProjectMemberHistoryFieldFormat());
-        taskFormatter.generateFieldDisplayHandler("tasklistid",
+        taskFormatter.generateFieldDisplayHandler("milestoneid",
                 TaskI18nEnum.FORM_MILESTONE, new MilestoneHistoryFieldFormat());
         taskFormatter.generateFieldDisplayHandler("percentagecomplete",
                 TaskI18nEnum.FORM_PERCENTAGE_COMPLETE);

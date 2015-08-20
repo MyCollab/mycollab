@@ -45,6 +45,8 @@ import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.time.DateUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -56,8 +58,9 @@ import java.util.UUID;
  * @since 1.0
  */
 public class ActivityStreamComponent extends CssLayout {
-
     private static final long serialVersionUID = 1L;
+
+    private static Logger LOG = LoggerFactory.getLogger(ActivityStreamComponent.class);
 
     private final ProjectActivityStreamPagedList2 activityStreamList;
 
@@ -176,7 +179,7 @@ public class ActivityStreamComponent extends CssLayout {
                     currentFeedBlock.addComponent(streamWrapper);
                 }
             } catch (final Exception e) {
-                throw new MyCollabException(e);
+                LOG.error("Error in tooltip", e);
             }
         }
 

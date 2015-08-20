@@ -121,6 +121,7 @@ public class TaskDashboardViewImpl extends AbstractLazyPageView implements TaskD
         this.withMargin(new MarginInfo(false, true, true, true));
         taskSearchPanel = new TaskSearchPanel();
         MHorizontalLayout groupWrapLayout = new MHorizontalLayout();
+        groupWrapLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         groupWrapLayout.addComponent(new Label("Filter:"));
         final SavedFilterComboBox savedFilterComboBox = new SavedFilterComboBox(ProjectTypeConstants.TASK);

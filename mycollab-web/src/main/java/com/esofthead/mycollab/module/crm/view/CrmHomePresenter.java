@@ -24,24 +24,22 @@ import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @LoadPolicy(scope = ViewScope.PROTOTYPE)
 public class CrmHomePresenter extends CrmGenericPresenter<CrmHomeView> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public CrmHomePresenter() {
-		super(CrmHomeView.class);
-	}
+    public CrmHomePresenter() {
+        super(CrmHomeView.class);
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		super.onGo(container, data);
-		CrmToolbar.navigateItem(CrmTypeConstants.DASHBOARD);
-		view.lazyLoadView();
-		AppContext.addFragment("crm/dashboard", "Customer Dashboard");
-	}
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        super.onGo(container, data);
+        CrmModule.navigateItem(CrmTypeConstants.DASHBOARD);
+        view.lazyLoadView();
+        AppContext.addFragment("crm/dashboard", "Customer Dashboard");
+    }
 }

@@ -34,4 +34,6 @@ public @interface Traceable {
 	String nameField();
 
 	String extraFieldName() default "";
+
+	Class notifyAgent();
 }

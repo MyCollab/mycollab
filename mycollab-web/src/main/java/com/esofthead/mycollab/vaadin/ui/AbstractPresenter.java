@@ -43,8 +43,7 @@ public abstract class AbstractPresenter<V extends PageView> implements IPresente
         this.viewClass = viewClass;
         implClass = (Class<V>) ViewManager.getViewImplCls(viewClass);
         if (implClass == null) {
-            throw new MyCollabException(
-                    "Can not find the implementation for view " + viewClass);
+            throw new MyCollabException("Can not find the implementation for view " + viewClass);
         }
     }
 

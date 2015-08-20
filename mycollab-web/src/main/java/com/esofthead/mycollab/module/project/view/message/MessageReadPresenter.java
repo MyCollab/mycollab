@@ -38,88 +38,81 @@ import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @LoadPolicy(scope = ViewScope.PROTOTYPE)
 public class MessageReadPresenter extends AbstractPresenter<MessageReadView> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public MessageReadPresenter() {
-		super(MessageReadView.class);
-	}
+    public MessageReadPresenter() {
+        super(MessageReadView.class);
+    }
 
-	@Override
-	protected void postInitView() {
-		view.getPreviewFormHandlers().addFormHandler(
-				new PreviewFormHandler<SimpleMessage>() {
+    @Override
+    protected void postInitView() {
+        view.getPreviewFormHandlers().addFormHandler(new PreviewFormHandler<SimpleMessage>() {
 
-					@Override
-					public void onEdit(SimpleMessage data) {
-					}
+            @Override
+            public void onEdit(SimpleMessage data) {
+            }
 
-					@Override
-					public void onDelete(SimpleMessage data) {
-					}
+            @Override
+            public void onDelete(SimpleMessage data) {
+            }
 
-					@Override
-					public void onClone(SimpleMessage data) {
-					}
+            @Override
+            public void onClone(SimpleMessage data) {
+            }
 
-					@Override
-					public void onCancel() {
-						EventBusFactory.getInstance().post(
-								new MessageEvent.GotoList(this, null));
-					}
+            @Override
+            public void onCancel() {
+                EventBusFactory.getInstance().post(new MessageEvent.GotoList(this, null));
+            }
 
-					@Override
-					public void onAssign(SimpleMessage data) {
-					}
+            @Override
+            public void onAssign(SimpleMessage data) {
+            }
 
-					@Override
-					public void gotoPrevious(SimpleMessage data) {
-					}
+            @Override
+            public void gotoPrevious(SimpleMessage data) {
+            }
 
-					@Override
-					public void gotoNext(SimpleMessage data) {
-					}
+            @Override
+            public void gotoNext(SimpleMessage data) {
+            }
 
-					@Override
-					public void onExtraAction(String action, SimpleMessage data) {
+            @Override
+            public void onExtraAction(String action, SimpleMessage data) {
 
-					}
+            }
 
-					@Override
-					public void onAdd(SimpleMessage data) {
-					}
-				});
-	}
+            @Override
+            public void onAdd(SimpleMessage data) {
+            }
+        });
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		if (CurrentProjectVariables
-				.canRead(ProjectRolePermissionCollections.MESSAGES)) {
-			MessageContainer messageContainer = (MessageContainer) container;
-			messageContainer.navigateToContainer(ProjectTypeConstants.MESSAGE);
-			messageContainer.removeAllComponents();
-			messageContainer.addComponent(view.getWidget());
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.MESSAGES)) {
+            MessageContainer messageContainer = (MessageContainer) container;
+            messageContainer.navigateToContainer(ProjectTypeConstants.MESSAGE);
+            messageContainer.removeAllComponents();
+            messageContainer.addComponent(view.getWidget());
 
-			if (data.getParams() instanceof Integer) {
-				MessageService messageService = ApplicationContextUtil
-						.getSpringBean(MessageService.class);
-				SimpleMessage message = messageService.findById(
-						(Integer) data.getParams(), AppContext.getAccountId());
-				view.previewItem(message);
+            if (data.getParams() instanceof Integer) {
+                MessageService messageService = ApplicationContextUtil.getSpringBean(MessageService.class);
+                SimpleMessage message = messageService.findById((Integer) data.getParams(), AppContext.getAccountId());
+                view.previewItem(message);
 
-				ProjectBreadcrumb breadCrumb = ViewManager
-						.getCacheComponent(ProjectBreadcrumb.class);
-				breadCrumb.gotoMessage(message);
-			} else {
-				throw new MyCollabException("Unhanddle this case yet");
-			}
-		} else {
-			NotificationUtil.showMessagePermissionAlert();
-		}
-	}
+                ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
+                breadCrumb.gotoMessage(message);
+            } else {
+                throw new MyCollabException("Unhanddle this case yet");
+            }
+        } else {
+            NotificationUtil.showMessagePermissionAlert();
+        }
+    }
 }

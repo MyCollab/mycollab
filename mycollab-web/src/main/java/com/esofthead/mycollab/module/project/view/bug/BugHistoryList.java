@@ -38,27 +38,20 @@ import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
  */
 @SuppressWarnings("serial")
 public class BugHistoryList extends HistoryLogComponent {
-
     public static final FieldGroupFormatter bugFomatter;
 
     static {
         bugFomatter = new FieldGroupFormatter();
 
-        bugFomatter.generateFieldDisplayHandler("description",
-                GenericI18Enum.FORM_DESCRIPTION);
-        bugFomatter.generateFieldDisplayHandler("environment",
-                BugI18nEnum.FORM_ENVIRONMENT);
-        bugFomatter.generateFieldDisplayHandler("summary",
-                BugI18nEnum.FORM_SUMMARY);
+        bugFomatter.generateFieldDisplayHandler("description", GenericI18Enum.FORM_DESCRIPTION);
+        bugFomatter.generateFieldDisplayHandler("environment", BugI18nEnum.FORM_ENVIRONMENT);
+        bugFomatter.generateFieldDisplayHandler("summary", BugI18nEnum.FORM_SUMMARY);
         bugFomatter.generateFieldDisplayHandler("status",
-                BugI18nEnum.FORM_STATUS, new I18nHistoryFieldFormat(
-                        BugStatus.class));
+                BugI18nEnum.FORM_STATUS, new I18nHistoryFieldFormat(BugStatus.class));
         bugFomatter.generateFieldDisplayHandler("priority",
-                BugI18nEnum.FORM_PRIORITY, new I18nHistoryFieldFormat(
-                        BugPriority.class));
+                BugI18nEnum.FORM_PRIORITY, new I18nHistoryFieldFormat(BugPriority.class));
         bugFomatter.generateFieldDisplayHandler("severity",
-                BugI18nEnum.FORM_SEVERITY, new I18nHistoryFieldFormat(
-                        BugSeverity.class));
+                BugI18nEnum.FORM_SEVERITY, new I18nHistoryFieldFormat(BugSeverity.class));
         bugFomatter.generateFieldDisplayHandler("resolution",
                 BugI18nEnum.FORM_RESOLUTION, new I18nHistoryFieldFormat(
                         BugResolution.class));

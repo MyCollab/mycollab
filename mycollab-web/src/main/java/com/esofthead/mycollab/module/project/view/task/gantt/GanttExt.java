@@ -39,7 +39,7 @@ public class GanttExt extends Gantt {
         maxDate = new GregorianCalendar();
         this.setResizableSteps(true);
         this.setMovableSteps(true);
-        this.setHeight((Page.getCurrent().getBrowserWindowHeight() - 200) + "px");
+        this.setHeight((Page.getCurrent().getBrowserWindowHeight() - 270) + "px");
         updateGanttMinDate();
         updateGanttMaxDate();
     }
@@ -57,7 +57,6 @@ public class GanttExt extends Gantt {
 
     public void addTask(int index, GanttItemWrapper task) {
         Step step = task.getStep();
-        System.out.println("Addf step: " + index);
         super.addStep(index, step);
         calculateMaxMinDates(task);
     }

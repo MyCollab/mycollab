@@ -26,7 +26,6 @@ import com.esofthead.mycollab.vaadin.ui.NotPresentedView;
  * @since 1.0
  */
 @ViewComponent
-public class StandupContainer extends NotPresentedView implements
-		IStandupContainer {
+public class StandupContainer extends NotPresentedView implements IStandupContainer {
 	private static final long serialVersionUID = 1L;
 }

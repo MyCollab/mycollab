@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.view.user;
 
-import com.esofthead.mycollab.module.project.view.ProjectInformationComponent;
 import com.esofthead.mycollab.vaadin.mvp.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.vaadin.shared.ui.MarginInfo;
@@ -26,45 +25,39 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @SuppressWarnings("serial")
 @ViewComponent
 public class ProjectSummaryViewImpl extends AbstractLazyPageView implements ProjectSummaryView {
 
-	@Override
-	protected void displayView() {
-		withMargin(new MarginInfo(true, false, false, false));
+    @Override
+    protected void displayView() {
+        withMargin(new MarginInfo(true, false, false, false));
 
-		CssLayout contentWrapper = new CssLayout();
-		contentWrapper.setStyleName("content-wrapper");
-		contentWrapper.setWidth("100%");
-		this.addComponent(contentWrapper);
+        CssLayout contentWrapper = new CssLayout();
+        contentWrapper.setStyleName("content-wrapper");
+        contentWrapper.setWidth("100%");
+        this.addComponent(contentWrapper);
 
-		ProjectInformationComponent prjView = new ProjectInformationComponent();
-		contentWrapper.addComponent(prjView);
+        MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%");
+        contentWrapper.addComponent(layout);
+        VerticalLayout leftPanel = new VerticalLayout();
 
-		MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%");
-		contentWrapper.addComponent(layout);
-		VerticalLayout leftPanel = new VerticalLayout();
+        ProjectActivityStreamComponent activityPanel = new ProjectActivityStreamComponent();
+        leftPanel.addComponent(activityPanel);
+        layout.addComponent(leftPanel);
 
-		ProjectActivityStreamComponent activityPanel = new ProjectActivityStreamComponent();
-		leftPanel.addComponent(activityPanel);
-		layout.addComponent(leftPanel);
-
-		MVerticalLayout rightPanel = new MVerticalLayout().withMargin(new MarginInfo(false, false, false, true));
-		layout.addComponent(rightPanel);
-		ProjectMembersWidget membersWidget = new ProjectMembersWidget();
-		ProjectAssignmentsWidget taskOverdueWidget = new ProjectAssignmentsWidget();
+        MVerticalLayout rightPanel = new MVerticalLayout().withMargin(new MarginInfo(false, false, false, true));
+        layout.addComponent(rightPanel);
+        ProjectMembersWidget membersWidget = new ProjectMembersWidget();
+        ProjectAssignmentsWidget taskOverdueWidget = new ProjectAssignmentsWidget();
 
         rightPanel.with(membersWidget, taskOverdueWidget);
 
-		activityPanel.showProjectFeeds();
-		prjView.displayProjectInformation();
-		membersWidget.showInformation();
-		taskOverdueWidget.showOpenAssignments();
-	}
+        activityPanel.showProjectFeeds();
+        membersWidget.showInformation();
+        taskOverdueWidget.showOpenAssignments();
+    }
 }

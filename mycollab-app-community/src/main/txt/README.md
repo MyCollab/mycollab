@@ -43,6 +43,20 @@ understanding in a matter of minutes.
 Last changelog
 ==============
 
+Version 5.1.2
+-----------------------------
+
+**Improvements & New Features**
+
+* Menu navigator is easy to understand for geeks
+* Improve the product layout general
+
+**Bug Fixes**
+
+* Search in project throws error
+* Remove redundant warning message of permission when user access the profile page
+
+
 Version 5.1.1
 -----------------------------
 **Library Upgrades**

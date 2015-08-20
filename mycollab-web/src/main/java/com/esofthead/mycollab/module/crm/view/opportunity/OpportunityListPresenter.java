@@ -25,7 +25,7 @@ import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriter
 import com.esofthead.mycollab.module.crm.i18n.OpportunityI18nEnum;
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericListPresenter;
-import com.esofthead.mycollab.module.crm.view.CrmToolbar;
+import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -45,8 +45,7 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class OpportunityListPresenter extends
-        CrmGenericListPresenter<OpportunityListView, OpportunitySearchCriteria, SimpleOpportunity>
+public class OpportunityListPresenter extends CrmGenericListPresenter<OpportunityListView, OpportunitySearchCriteria, SimpleOpportunity>
         implements MassUpdateCommand<Opportunity> {
     private static final long serialVersionUID = 1L;
 
@@ -90,7 +89,7 @@ public class OpportunityListPresenter extends
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        CrmToolbar.navigateItem(CrmTypeConstants.OPPORTUNITY);
+        CrmModule.navigateItem(CrmTypeConstants.OPPORTUNITY);
         if (AppContext.canRead(RolePermissionCollections.CRM_OPPORTUNITY)) {
             searchCriteria = (OpportunitySearchCriteria) data.getParams();
             int totalCount = opportunityService.getTotalCount(searchCriteria);
@@ -101,8 +100,7 @@ public class OpportunityListPresenter extends
                 this.displayNoExistItems(container, data);
             }
 
-            AppContext.addFragment("crm/opportunity/list",
-                    AppContext.getMessage(OpportunityI18nEnum.VIEW_LIST_TITLE));
+            AppContext.addFragment("crm/opportunity/list", AppContext.getMessage(OpportunityI18nEnum.VIEW_LIST_TITLE));
         } else {
             NotificationUtil.showMessagePermissionAlert();
         }
@@ -111,8 +109,7 @@ public class OpportunityListPresenter extends
     @Override
     protected void deleteSelectedItems() {
         if (!isSelectAll) {
-            Collection<SimpleOpportunity> currentDataList = view
-                    .getPagedBeanTable().getCurrentDataList();
+            Collection<SimpleOpportunity> currentDataList = view.getPagedBeanTable().getCurrentDataList();
             List<Opportunity> keyList = new ArrayList<>();
             for (SimpleOpportunity item : currentDataList) {
                 if (item.isSelected()) {

@@ -46,8 +46,7 @@ public class ProfileReadPresenter extends AbstractPresenter<ProfileReadView> {
 		User currentUser = AppContext.getUser();
 		view.previewItem(currentUser);
 
-		AccountSettingBreadcrumb breadcrumb = ViewManager
-				.getCacheComponent(AccountSettingBreadcrumb.class);
+		AccountSettingBreadcrumb breadcrumb = ViewManager.getCacheComponent(AccountSettingBreadcrumb.class);
 		breadcrumb.gotoProfile();
 	}
 }

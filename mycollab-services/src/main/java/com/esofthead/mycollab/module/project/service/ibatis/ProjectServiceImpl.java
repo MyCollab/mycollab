@@ -44,6 +44,7 @@ import com.esofthead.mycollab.module.project.esb.AddProjectEvent;
 import com.esofthead.mycollab.module.project.esb.DeleteProjectEvent;
 import com.esofthead.mycollab.module.project.service.ProjectRoleService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
+import com.esofthead.mycollab.schedule.email.project.ProjectRelayEmailNotificationAction;
 import com.esofthead.mycollab.security.AccessPermissionFlag;
 import com.esofthead.mycollab.security.PermissionMap;
 import com.google.common.eventbus.AsyncEventBus;
@@ -62,7 +63,7 @@ import java.util.List;
  */
 @Service
 @Transactional
-@Traceable(nameField = "name", extraFieldName = "id")
+@Traceable(nameField = "name", extraFieldName = "id", notifyAgent = ProjectRelayEmailNotificationAction.class)
 public class ProjectServiceImpl extends DefaultService<Integer, Project, ProjectSearchCriteria> implements ProjectService {
 
     static {

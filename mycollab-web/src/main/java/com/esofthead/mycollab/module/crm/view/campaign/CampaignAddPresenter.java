@@ -25,7 +25,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.events.CampaignEvent;
 import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
-import com.esofthead.mycollab.module.crm.view.CrmToolbar;
+import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -80,16 +80,14 @@ public class CampaignAddPresenter extends CrmGenericPresenter<CampaignAddView> {
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        CrmToolbar.navigateItem(CrmTypeConstants.CAMPAIGN);
+        CrmModule.navigateItem(CrmTypeConstants.CAMPAIGN);
         if (AppContext.canWrite(RolePermissionCollections.CRM_CAMPAIGN)) {
             SimpleCampaign campaign = null;
             if (data.getParams() instanceof SimpleCampaign) {
                 campaign = (SimpleCampaign) data.getParams();
             } else if (data.getParams() instanceof Integer) {
-                CampaignService campaignService = ApplicationContextUtil
-                        .getSpringBean(CampaignService.class);
-                campaign = campaignService.findById(
-                        (Integer) data.getParams(), AppContext.getAccountId());
+                CampaignService campaignService = ApplicationContextUtil.getSpringBean(CampaignService.class);
+                campaign = campaignService.findById((Integer) data.getParams(), AppContext.getAccountId());
             }
             if (campaign == null) {
                 NotificationUtil.showRecordNotExistNotification();
@@ -100,16 +98,11 @@ public class CampaignAddPresenter extends CrmGenericPresenter<CampaignAddView> {
             view.editItem(campaign);
 
             if (campaign.getId() == null) {
-                AppContext.addFragment("crm/campaign/add", AppContext
-                        .getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
-                                "Campaign"));
+                AppContext.addFragment("crm/campaign/add", AppContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
+                        "Campaign"));
             } else {
-                AppContext.addFragment(
-                        "crm/campaign/edit/"
-                                + UrlEncodeDecoder.encode(campaign.getId()),
-                        AppContext.getMessage(
-                                GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
-                                "Campaign", campaign.getCampaignname()));
+                AppContext.addFragment("crm/campaign/edit/" + UrlEncodeDecoder.encode(campaign.getId()),
+                        AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, "Campaign", campaign.getCampaignname()));
             }
         } else {
             NotificationUtil.showMessagePermissionAlert();
@@ -117,15 +110,13 @@ public class CampaignAddPresenter extends CrmGenericPresenter<CampaignAddView> {
     }
 
     private int saveCampaign(CampaignWithBLOBs campaign) {
-        CampaignService campaignService = ApplicationContextUtil
-                .getSpringBean(CampaignService.class);
+        CampaignService campaignService = ApplicationContextUtil.getSpringBean(CampaignService.class);
 
         campaign.setSaccountid(AppContext.getAccountId());
         if (campaign.getId() == null) {
             campaignService.saveWithSession(campaign, AppContext.getUsername());
         } else {
-            campaignService.updateWithSession(campaign,
-                    AppContext.getUsername());
+            campaignService.updateWithSession(campaign, AppContext.getUsername());
         }
         return campaign.getId();
     }

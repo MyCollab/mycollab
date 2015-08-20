@@ -63,10 +63,10 @@ public abstract class AbstractListItemComp<S extends SearchCriteria, B> extends
         this.setMargin(new MarginInfo(false, true, true, true));
 
         searchPanel = createSearchPanel();
-        addComponent(searchPanel);
+        with(searchPanel);
 
         contentLayout = new MVerticalLayout().withSpacing(false).withMargin(false);
-        addComponent(contentLayout);
+        with(contentLayout).expand(contentLayout);
 
         this.tableItem = createBeanTable();
         buildLayout();
@@ -93,7 +93,7 @@ public abstract class AbstractListItemComp<S extends SearchCriteria, B> extends
         layout.with(tableActionControls, selectedItemsNumberLabel).withAlign(selectedItemsNumberLabel,
                 Alignment.MIDDLE_LEFT).expand(selectedItemsNumberLabel);
 
-        contentLayout.with(layoutWrapper, tableItem);
+        contentLayout.with(layoutWrapper, tableItem).expand(tableItem);
 
         extraControlsLayout = new ButtonGroup();
         buildExtraControls();

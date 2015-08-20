@@ -20,7 +20,10 @@ import com.esofthead.mycollab.cache.CacheUtils;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
-import com.esofthead.mycollab.common.interceptor.aspect.*;
+import com.esofthead.mycollab.common.interceptor.aspect.ClassInfo;
+import com.esofthead.mycollab.common.interceptor.aspect.ClassInfoMap;
+import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
+import com.esofthead.mycollab.common.interceptor.aspect.Watchable;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
@@ -62,20 +65,22 @@ import java.util.concurrent.locks.Lock;
  */
 @Service
 @Transactional
-@Traceable(nameField = "taskname", extraFieldName = "projectid")
-@Auditable()
+@Traceable(nameField = "taskname", extraFieldName = "projectid", notifyAgent = ProjectTaskRelayEmailNotificationAction.class)
 @Watchable(userFieldName = "assignuser", extraTypeId = "projectid")
-@NotifyAgent(ProjectTaskRelayEmailNotificationAction.class)
 public class ProjectTaskServiceImpl extends DefaultService<Integer, Task, TaskSearchCriteria> implements ProjectTaskService {
 
     static {
-        ClassInfoMap.put(ProjectTaskServiceImpl.class, new ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.TASK));
+        ClassInfo taskInfo = new ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.TASK);
+        taskInfo.addExcludeHistoryField(Task.Field.taskindex.name());
+        ClassInfoMap.put(ProjectTaskServiceImpl.class, taskInfo);
     }
 
     @Autowired
     private TaskMapper taskMapper;
+
     @Autowired
     private TaskMapperExt taskMapperExt;
+
     @Autowired
     private AsyncEventBus asyncEventBus;
 

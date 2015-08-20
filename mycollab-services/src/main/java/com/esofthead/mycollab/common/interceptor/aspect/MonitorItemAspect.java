@@ -52,20 +52,17 @@ public class MonitorItemAspect {
     private RelayEmailNotificationService relayEmailNotificationService;
 
     @AfterReturning("execution(public * com.esofthead.mycollab..service..*.saveWithSession(..)) && args(bean, username)")
-    public void traceSaveActivity(JoinPoint joinPoint, Object bean,
-                                  String username) {
+    public void traceSaveActivity(JoinPoint joinPoint, Object bean, String username) {
         Advised advised = (Advised) joinPoint.getThis();
         Class<?> cls = advised.getTargetSource().getTargetClass();
         try {
             Watchable watchableAnnotation = cls.getAnnotation(Watchable.class);
             if (watchableAnnotation != null) {
-                int sAccountId = (Integer) PropertyUtils.getProperty(bean,
-                        "saccountid");
+                int sAccountId = (Integer) PropertyUtils.getProperty(bean, "saccountid");
                 int typeId = (Integer) PropertyUtils.getProperty(bean, "id");
                 Integer extraTypeId = null;
                 if (!"".equals(watchableAnnotation.extraTypeId())) {
-                    extraTypeId = (Integer) PropertyUtils.getProperty(bean,
-                            watchableAnnotation.extraTypeId());
+                    extraTypeId = (Integer) PropertyUtils.getProperty(bean, watchableAnnotation.extraTypeId());
                 }
 
                 MonitorItem monitorItem = new MonitorItem();
@@ -77,25 +74,21 @@ public class MonitorItemAspect {
                 monitorItem.setSaccountid(sAccountId);
 
                 monitorItemService.saveWithSession(monitorItem, username);
-                LOG.debug("Save monitor item: "
-                        + BeanUtility.printBeanObj(monitorItem));
+                LOG.debug("Save monitor item: " + BeanUtility.printBeanObj(monitorItem));
 
                 if (!watchableAnnotation.userFieldName().equals("")) {
-                    String moreUser = (String) PropertyUtils.getProperty(bean,
-                            watchableAnnotation.userFieldName());
+                    String moreUser = (String) PropertyUtils.getProperty(bean, watchableAnnotation.userFieldName());
                     if (moreUser != null && !moreUser.equals(username)) {
                         monitorItem.setId(null);
                         monitorItem.setUser(moreUser);
-                        monitorItemService.saveWithSession(monitorItem,
-                                moreUser);
+                        monitorItemService.saveWithSession(monitorItem, moreUser);
                     }
                 }
             }
 
-            NotifyAgent notifyAgent = cls.getAnnotation(NotifyAgent.class);
-            if (notifyAgent != null) {
-                int sAccountId = (Integer) PropertyUtils.getProperty(bean,
-                        "saccountid");
+            Traceable traceAnnotation = cls.getAnnotation(Traceable.class);
+            if (traceAnnotation != null) {
+                int sAccountId = (Integer) PropertyUtils.getProperty(bean, "saccountid");
                 int typeId = (Integer) PropertyUtils.getProperty(bean, "id");
                 RelayEmailNotificationWithBLOBs relayNotification = new RelayEmailNotificationWithBLOBs();
                 relayNotification.setChangeby(username);
@@ -104,15 +97,12 @@ public class MonitorItemAspect {
                 relayNotification.setType(ClassInfoMap.getType(cls));
                 relayNotification.setAction(MonitorTypeConstants.CREATE_ACTION);
                 relayNotification.setTypeid("" + typeId);
-                relayNotification.setEmailhandlerbean(notifyAgent.value().getName());
-                relayEmailNotificationService.saveWithSession(
-                        relayNotification, username);
+                relayNotification.setEmailhandlerbean(traceAnnotation.notifyAgent().getName());
+                relayEmailNotificationService.saveWithSession(relayNotification, username);
                 // Save notification item
             }
         } catch (Exception e) {
-            LOG.error(
-                    "Error when save relay email notification for save action of service "
-                            + cls.getName(), e);
+            LOG.error("Error when save relay email notification for save action of service " + cls.getName(), e);
         }
     }
 }

@@ -17,7 +17,10 @@
 package com.esofthead.mycollab.module.crm.service.ibatis;
 
 import com.esofthead.mycollab.common.ModuleNameConstants;
-import com.esofthead.mycollab.common.interceptor.aspect.*;
+import com.esofthead.mycollab.common.interceptor.aspect.ClassInfo;
+import com.esofthead.mycollab.common.interceptor.aspect.ClassInfoMap;
+import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
+import com.esofthead.mycollab.common.interceptor.aspect.Watchable;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
@@ -39,13 +42,9 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional
-@Traceable(nameField = "subject")
-@Auditable()
+@Traceable(nameField = "subject", notifyAgent = CaseRelayEmailNotificationAction.class)
 @Watchable(userFieldName = "assignuser")
-@NotifyAgent(CaseRelayEmailNotificationAction.class)
-public class CaseServiceImpl extends
-        DefaultService<Integer, CaseWithBLOBs, CaseSearchCriteria> implements
-        CaseService {
+public class CaseServiceImpl extends DefaultService<Integer, CaseWithBLOBs, CaseSearchCriteria> implements CaseService {
     static {
         ClassInfoMap.put(CaseServiceImpl.class, new ClassInfo(ModuleNameConstants.CRM, CrmTypeConstants.CASE));
     }

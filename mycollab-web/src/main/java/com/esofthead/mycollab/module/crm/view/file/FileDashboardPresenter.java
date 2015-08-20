@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.crm.view.file;
 
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
-import com.esofthead.mycollab.module.crm.view.CrmToolbar;
+import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
@@ -28,28 +28,26 @@ import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 @LoadPolicy(scope = ViewScope.PROTOTYPE)
 public class FileDashboardPresenter extends CrmGenericPresenter<FileDashboardView> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public FileDashboardPresenter() {
-		super(FileDashboardView.class);
-	}
+    public FileDashboardPresenter() {
+        super(FileDashboardView.class);
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		CrmToolbar.navigateItem(CrmTypeConstants.FILE);
-		if (AppContext.canRead(RolePermissionCollections.CRM_DOCUMENT)) {
-			super.onGo(container, data);
-			view.displayFiles();
-			AppContext.addFragment("crm/file/dashboard", "Customer: File Dashboard");
-		} else {
-			NotificationUtil.showMessagePermissionAlert();
-		}
-	}
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        CrmModule.navigateItem(CrmTypeConstants.FILE);
+        if (AppContext.canRead(RolePermissionCollections.CRM_DOCUMENT)) {
+            super.onGo(container, data);
+            view.displayFiles();
+            AppContext.addFragment("crm/file/dashboard", "Customer: File Dashboard");
+        } else {
+            NotificationUtil.showMessagePermissionAlert();
+        }
+    }
 }

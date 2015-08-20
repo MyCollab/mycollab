@@ -18,31 +18,28 @@ package com.esofthead.mycollab.module.crm.view.activity;
 
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
-import com.esofthead.mycollab.module.crm.view.CrmToolbar;
+import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
-public class ActivityCalendarPresenter extends
-		CrmGenericPresenter<ActivityCalendarView> {
-	private static final long serialVersionUID = 1L;
+public class ActivityCalendarPresenter extends CrmGenericPresenter<ActivityCalendarView> {
+    private static final long serialVersionUID = 1L;
 
-	public ActivityCalendarPresenter() {
-		super(ActivityCalendarView.class);
-	}
+    public ActivityCalendarPresenter() {
+        super(ActivityCalendarView.class);
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		CrmToolbar.navigateItem(CrmTypeConstants.ACTIVITY);
-		super.onGo(container, data);
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        CrmModule.navigateItem(CrmTypeConstants.ACTIVITY);
+        super.onGo(container, data);
 
-		AppContext.addFragment("crm/activity/calendar", "Calendar");
-	}
+        AppContext.addFragment("crm/activity/calendar", "Calendar");
+    }
 
 }

@@ -31,7 +31,6 @@ public class AccountAssetsResolver {
         logo.setStyleName(BaseTheme.BUTTON_LINK);
         logo.setIcon(createLogoResource(logoId, size));
         return logo;
-
     }
 
     public static Resource createLogoResource(String logoId, int size) {

@@ -43,8 +43,6 @@
 
     <inherits name="org.vaadin.suggestfield.WidgetSet" />
 
-    <inherits name="org.vaadin.sliderpanel.WidgetSet" />
-
     <inherits name="org.vaadin.addons.fancybox.FancyboxWidgetSet" />
 
     <inherits name="org.vaadin.jouni.restrain.RestrainWidgetset" />

@@ -40,8 +40,7 @@ public class ProjectSearchItemPresenter extends AbstractPresenter<ProjectSearchI
         String params = (String)data.getParams();
         view.displayResults(params);
 
-        ProjectBreadcrumb breadcrumb = ViewManager
-                .getCacheComponent(ProjectBreadcrumb.class);
+        ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
         breadcrumb.gotoSearchProjectItems();
     }
 }

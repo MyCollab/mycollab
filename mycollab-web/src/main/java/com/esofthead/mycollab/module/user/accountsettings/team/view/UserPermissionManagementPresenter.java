@@ -33,8 +33,7 @@ import com.vaadin.ui.ComponentContainer;
  * @author MyCollab Ltd.
  * @since 2.0
  */
-public class UserPermissionManagementPresenter extends
-		AbstractPresenter<UserPermissionManagementView> {
+public class UserPermissionManagementPresenter extends AbstractPresenter<UserPermissionManagementView> {
 	private static final long serialVersionUID = 1L;
 
 	public UserPermissionManagementPresenter() {

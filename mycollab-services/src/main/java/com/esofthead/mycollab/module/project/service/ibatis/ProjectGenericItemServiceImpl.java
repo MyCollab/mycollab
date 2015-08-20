@@ -42,12 +42,13 @@ public class ProjectGenericItemServiceImpl extends DefaultSearchService<ProjectG
 
     @Override
     public int getTotalCount(ProjectGenericItemSearchCriteria criteria) {
-        return projectGenericItemMapper.getTotalCountFromTask(criteria) + projectGenericItemMapper
-                .getTotalCountFromTaskGroup(criteria) + projectGenericItemMapper
-                .getTotalCountFromMessage(criteria) + projectGenericItemMapper.getTotalCountFromMilestone(criteria) +
-                projectGenericItemMapper.getTotalCountFromBug(criteria) + projectGenericItemMapper
-                .getTotalCountFromVersion(criteria) + projectGenericItemMapper.getTotalCountFromComponent(criteria)
-                + projectGenericItemMapper.getTotalCountFromRisk(criteria) + projectGenericItemMapper
-                .getTotalCountFromProblem(criteria);
+        return projectGenericItemMapper.getTotalCountFromTask(criteria) +
+                projectGenericItemMapper.getTotalCountFromMessage(criteria) +
+                projectGenericItemMapper.getTotalCountFromMilestone(criteria) +
+                projectGenericItemMapper.getTotalCountFromBug(criteria) +
+                projectGenericItemMapper.getTotalCountFromVersion(criteria) +
+                projectGenericItemMapper.getTotalCountFromComponent(criteria) +
+                projectGenericItemMapper.getTotalCountFromRisk(criteria) +
+                projectGenericItemMapper.getTotalCountFromProblem(criteria);
     }
 }

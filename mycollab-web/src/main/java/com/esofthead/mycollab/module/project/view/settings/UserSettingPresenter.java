@@ -32,54 +32,43 @@ import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class UserSettingPresenter extends AbstractPresenter<UserSettingView> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public UserSettingPresenter() {
-		super(UserSettingView.class);
-	}
+    public UserSettingPresenter() {
+        super(UserSettingView.class);
+    }
 
-	@Override
-	public void go(ComponentContainer container, ScreenData<?> data) {
-		super.go(container, data, false);
-	}
+    @Override
+    public void go(ComponentContainer container, ScreenData<?> data) {
+        super.go(container, data, false);
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		ProjectView projectViewContainer = (ProjectView) container;
-		projectViewContainer.gotoSubView(ProjectTypeConstants.MEMBER);
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        ProjectView projectViewContainer = (ProjectView) container;
+        projectViewContainer.gotoSubView(ProjectTypeConstants.MEMBER);
 
-		AbstractPresenter<?> presenter;
-		if (ClassUtils.instanceOf(data, ProjectRoleScreenData.Search.class,
-				ProjectRoleScreenData.Add.class,
-				ProjectRoleScreenData.Read.class)) {
-			view.gotoSubView(AppContext
-					.getMessage(ProjectCommonI18nEnum.VIEW_ROLES));
-			presenter = PresenterResolver
-					.getPresenter(ProjectRolePresenter.class);
-		} else if (ClassUtils.instanceOf(data,
-				ProjectMemberScreenData.Read.class,
-				ProjectMemberScreenData.Search.class,
-				ProjectMemberScreenData.Add.class,
-				ProjectMemberScreenData.InviteProjectMembers.class)) {
-			view.gotoSubView(AppContext
-					.getMessage(ProjectCommonI18nEnum.VIEW_USERS));
-			presenter = PresenterResolver
-					.getPresenter(ProjectUserPresenter.class);
-		} else if (ClassUtils.instanceOf(data,
-				ProjectSettingScreenData.ViewSettings.class)) {
-			view.gotoSubView(AppContext
-					.getMessage(ProjectCommonI18nEnum.VIEW_SETTINGS));
-			presenter = PresenterResolver
-					.getPresenter(ProjectSettingPresenter.class);
-		} else {
-			throw new MyCollabException("No support screen data: " + data);
-		}
+        AbstractPresenter<?> presenter;
+        if (ClassUtils.instanceOf(data, ProjectRoleScreenData.Search.class, ProjectRoleScreenData.Add.class,
+                ProjectRoleScreenData.Read.class)) {
+            view.gotoSubView(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_ROLES));
+            presenter = PresenterResolver.getPresenter(ProjectRolePresenter.class);
+        } else if (ClassUtils.instanceOf(data, ProjectMemberScreenData.Read.class,
+                ProjectMemberScreenData.Search.class, ProjectMemberScreenData.Add.class,
+                ProjectMemberScreenData.InviteProjectMembers.class)) {
+            view.gotoSubView(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_USERS));
+            presenter = PresenterResolver.getPresenter(ProjectUserPresenter.class);
+        } else if (ClassUtils.instanceOf(data, ProjectSettingScreenData.ViewSettings.class)) {
+            view.gotoSubView(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_SETTINGS));
+            presenter = PresenterResolver.getPresenter(ProjectSettingPresenter.class);
+        } else {
+            throw new MyCollabException("No support screen data: " + data);
+        }
 
-		presenter.go(view, data);
-	}
+        presenter.go(view, data);
+    }
 }

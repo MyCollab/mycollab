@@ -26,7 +26,7 @@ import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.esofthead.mycollab.module.crm.events.*;
 import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
-import com.esofthead.mycollab.module.crm.view.CrmToolbar;
+import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -168,7 +168,7 @@ public class CampaignReadPresenter extends CrmGenericPresenter<CampaignReadView>
             public void selectAssociateItems(Set<SimpleAccount> items) {
                 if (items.size() > 0) {
                     SimpleCampaign campaign = view.getItem();
-                    List<CampaignAccount> associateAccounts = new ArrayList<CampaignAccount>();
+                    List<CampaignAccount> associateAccounts = new ArrayList<>();
                     for (SimpleAccount account : items) {
                         CampaignAccount assoAccount = new CampaignAccount();
                         assoAccount.setAccountid(account.getId());
@@ -227,7 +227,7 @@ public class CampaignReadPresenter extends CrmGenericPresenter<CampaignReadView>
             public void selectAssociateItems(Set<SimpleLead> items) {
                 if (items.size() > 0) {
                     SimpleCampaign campaign = view.getItem();
-                    List<CampaignLead> associateLeads = new ArrayList<CampaignLead>();
+                    List<CampaignLead> associateLeads = new ArrayList<>();
                     for (SimpleLead lead : items) {
                         CampaignLead associateLead = new CampaignLead();
                         associateLead.setCampaignid(campaign.getId());
@@ -248,7 +248,7 @@ public class CampaignReadPresenter extends CrmGenericPresenter<CampaignReadView>
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        CrmToolbar.navigateItem(CrmTypeConstants.CAMPAIGN);
+        CrmModule.navigateItem(CrmTypeConstants.CAMPAIGN);
         if (AppContext.canRead(RolePermissionCollections.CRM_CAMPAIGN)) {
             if (data.getParams() instanceof Integer) {
                 CampaignService campaignService = ApplicationContextUtil.getSpringBean(CampaignService.class);

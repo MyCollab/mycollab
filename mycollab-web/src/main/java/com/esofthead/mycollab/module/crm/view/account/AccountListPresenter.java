@@ -27,7 +27,7 @@ import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericListPresenter;
-import com.esofthead.mycollab.module.crm.view.CrmToolbar;
+import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -129,7 +129,7 @@ public class AccountListPresenter extends CrmGenericListPresenter<AccountListVie
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        CrmToolbar.navigateItem(CrmTypeConstants.ACCOUNT);
+        CrmModule.navigateItem(CrmTypeConstants.ACCOUNT);
         if (AppContext.canRead(RolePermissionCollections.CRM_ACCOUNT)) {
             searchCriteria = (AccountSearchCriteria) data.getParams();
             int totalCount = accountService.getTotalCount(searchCriteria);

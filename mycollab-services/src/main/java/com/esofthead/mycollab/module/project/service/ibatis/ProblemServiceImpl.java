@@ -18,11 +18,13 @@ package com.esofthead.mycollab.module.project.service.ibatis;
 
 import com.esofthead.mycollab.cache.CacheUtils;
 import com.esofthead.mycollab.common.ModuleNameConstants;
-import com.esofthead.mycollab.common.interceptor.aspect.*;
+import com.esofthead.mycollab.common.interceptor.aspect.ClassInfo;
+import com.esofthead.mycollab.common.interceptor.aspect.ClassInfoMap;
+import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
+import com.esofthead.mycollab.common.interceptor.aspect.Watchable;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
-import com.esofthead.mycollab.core.utils.ArrayUtils;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.dao.ProblemMapper;
 import com.esofthead.mycollab.module.project.dao.ProblemMapperExt;
@@ -48,10 +50,8 @@ import java.util.List;
  */
 @Service
 @Transactional
-@Traceable(nameField = "issuename", extraFieldName = "projectid")
-@Auditable()
+@Traceable(nameField = "issuename", extraFieldName = "projectid", notifyAgent = ProjectProblemRelayEmailNotificationAction.class)
 @Watchable(userFieldName = "assigntouser", extraTypeId = "projectid")
-@NotifyAgent(ProjectProblemRelayEmailNotificationAction.class)
 public class ProblemServiceImpl extends DefaultService<Integer, Problem, ProblemSearchCriteria> implements ProblemService {
 
     static {

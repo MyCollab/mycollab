@@ -20,12 +20,14 @@ package com.esofthead.mycollab.common.interceptor.aspect;
 import com.esofthead.mycollab.cache.LocalCacheManager;
 import com.esofthead.mycollab.common.ActivityStreamConstants;
 import com.esofthead.mycollab.common.MonitorTypeConstants;
-import com.esofthead.mycollab.common.domain.*;
+import com.esofthead.mycollab.common.domain.ActivityStreamWithBLOBs;
+import com.esofthead.mycollab.common.domain.AuditLog;
+import com.esofthead.mycollab.common.domain.MonitorItem;
+import com.esofthead.mycollab.common.domain.RelayEmailNotificationWithBLOBs;
 import com.esofthead.mycollab.common.service.ActivityStreamService;
 import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.common.service.MonitorItemService;
 import com.esofthead.mycollab.common.service.RelayEmailNotificationService;
-import com.esofthead.mycollab.common.service.ibatis.AuditLogServiceImpl.AuditLogUtil;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.aspectj.lang.JoinPoint;
@@ -40,9 +42,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.stereotype.Component;
 
-import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  * @author MyCollab Ltd.
@@ -73,7 +75,7 @@ public class AuditLogAspect {
         Advised advised = (Advised) joinPoint.getThis();
         Class<?> cls = advised.getTargetSource().getTargetClass();
 
-        Auditable auditAnnotation = cls.getAnnotation(Auditable.class);
+        Traceable auditAnnotation = cls.getAnnotation(Traceable.class);
         if (auditAnnotation != null) {
             try {
                 int typeid = (Integer) PropertyUtils.getProperty(bean, "id");
@@ -107,19 +109,6 @@ public class AuditLogAspect {
         Advised advised = (Advised) joinPoint.getThis();
         Class<?> cls = advised.getTargetSource().getTargetClass();
 
-        Traceable traceableAnnotation = cls.getAnnotation(Traceable.class);
-        Integer activityStreamId = null;
-        if (traceableAnnotation != null) {
-            try {
-                ActivityStreamWithBLOBs activity = TraceableAspect.constructActivity(cls,
-                        traceableAnnotation, bean, username,
-                        ActivityStreamConstants.ACTION_UPDATE);
-                activityStreamId = activityStreamService.save(activity);
-            } catch (Exception e) {
-                LOG.error("Error when save activity for save action of service " + cls.getName(), e);
-            }
-        }
-
         try {
             Watchable watchableAnnotation = cls.getAnnotation(Watchable.class);
             if (watchableAnnotation != null) {
@@ -141,8 +130,7 @@ public class AuditLogAspect {
                 monitorItem.setSaccountid(sAccountId);
                 monitorItemService.saveWithSession(monitorItem, username);
 
-                // check whether the current user is in monitor list, if
-                // not add him in
+                // check whether the current user is in monitor list, if not add him in
                 if (!watchableAnnotation.userFieldName().equals("")) {
                     String moreUser = (String) PropertyUtils.getProperty(bean, watchableAnnotation.userFieldName());
                     if (moreUser != null && !moreUser.equals(username)) {
@@ -153,26 +141,38 @@ public class AuditLogAspect {
                 }
             }
 
-            NotifyAgent notifyAgent = cls.getAnnotation(NotifyAgent.class);
-            if (notifyAgent != null) {
-                Integer sAccountId = (Integer) PropertyUtils.getProperty(bean, "saccountid");
-                Integer auditLogId = saveAuditLog(cls, bean, username, sAccountId, activityStreamId);
-                Integer typeId = (Integer) PropertyUtils.getProperty(bean, "id");
-                // Save notification email
-                RelayEmailNotificationWithBLOBs relayNotification = new RelayEmailNotificationWithBLOBs();
-                relayNotification.setChangeby(username);
-                relayNotification.setChangecomment("");
-                relayNotification.setSaccountid(sAccountId);
-                relayNotification.setType(ClassInfoMap.getType(cls));
-                relayNotification.setTypeid("" + typeId);
-                relayNotification.setEmailhandlerbean(notifyAgent.value().getName());
-                if (auditLogId != null) {
-                    relayNotification.setExtratypeid(auditLogId);
+            Traceable traceableAnnotation = cls.getAnnotation(Traceable.class);
+            if (traceableAnnotation != null) {
+                try {
+                    ClassInfo classInfo = ClassInfoMap.getClassInfo(cls);
+                    String changeSet = getChangeSet(cls, bean, classInfo.getExcludeHistoryFields());
+                    if (changeSet != null) {
+                        ActivityStreamWithBLOBs activity = TraceableAspect.constructActivity(cls,
+                                traceableAnnotation, bean, username, ActivityStreamConstants.ACTION_UPDATE);
+                        Integer activityStreamId = activityStreamService.save(activity);
+
+                        Integer sAccountId = (Integer) PropertyUtils.getProperty(bean, "saccountid");
+                        Integer auditLogId = saveAuditLog(cls, bean, changeSet, username, sAccountId, activityStreamId);
+
+                        Integer typeId = (Integer) PropertyUtils.getProperty(bean, "id");
+                        // Save notification email
+                        RelayEmailNotificationWithBLOBs relayNotification = new RelayEmailNotificationWithBLOBs();
+                        relayNotification.setChangeby(username);
+                        relayNotification.setChangecomment("");
+                        relayNotification.setSaccountid(sAccountId);
+                        relayNotification.setType(ClassInfoMap.getType(cls));
+                        relayNotification.setTypeid("" + typeId);
+                        relayNotification.setEmailhandlerbean(traceableAnnotation.notifyAgent().getName());
+                        if (auditLogId != null) {
+                            relayNotification.setExtratypeid(auditLogId);
+                        }
+                        relayNotification.setAction(MonitorTypeConstants.UPDATE_ACTION);
+
+                        relayEmailNotificationService.saveWithSession(relayNotification, username);
+                    }
+                } catch (Exception e) {
+                    LOG.error("Error when save activity for save action of service " + cls.getName(), e);
                 }
-
-                relayNotification.setAction(MonitorTypeConstants.UPDATE_ACTION);
-
-                relayEmailNotificationService.saveWithSession(relayNotification, username);
             }
         } catch (Exception e) {
             LOG.error("Error when save audit for save action of service "
@@ -180,43 +180,45 @@ public class AuditLogAspect {
         }
     }
 
-    private Integer saveAuditLog(Class<?> targetCls, Object bean,
-                                 String username, Integer sAccountId, Integer activityStreamId) {
-        Auditable auditAnnotation = targetCls.getAnnotation(Auditable.class);
-        if (auditAnnotation != null) {
-            String key;
-            String changeSet = "";
-            try {
+    private String getChangeSet(Class<?> targetCls, Object bean, List<String> excludeHistoryFields) {
+        try {
+            Integer typeid = (Integer) PropertyUtils.getProperty(bean, "id");
+            String key = bean.toString() + ClassInfoMap.getType(targetCls) + typeid;
 
-                int typeid = (Integer) PropertyUtils.getProperty(bean, "id");
-                key = bean.toString() + ClassInfoMap.getType(targetCls) + typeid;
-
-                Object oldValue = caches.get(key);
-                if (oldValue != null) {
-                    AuditLog auditLog = new AuditLog();
-                    auditLog.setPosteduser(username);
-                    auditLog.setModule(ClassInfoMap.getModule(targetCls));
-                    auditLog.setType(ClassInfoMap.getType(targetCls));
-                    auditLog.setTypeid(typeid);
-                    auditLog.setSaccountid(sAccountId);
-                    auditLog.setPosteddate(new GregorianCalendar().getTime());
-                    changeSet = AuditLogUtil.getChangeSet(oldValue, bean);
-                    auditLog.setChangeset(changeSet);
-                    auditLog.setObjectClass(oldValue.getClass().getName());
-                    if (activityStreamId != null) {
-                        auditLog.setActivitylogid(activityStreamId);
-                    }
-
-                    return auditLogService.saveWithSession(auditLog, "");
-                }
-            } catch (Exception e) {
-                LOG.error("Error when save audit for save action of service "
-                        + targetCls.getName() + "and bean: " + BeanUtility.printBeanObj(bean)
-                        + " and changeset is " + changeSet, e);
-                return null;
+            Object oldValue = caches.get(key);
+            if (oldValue != null) {
+                return AuditLogUtil.getChangeSet(oldValue, bean, excludeHistoryFields);
             }
+            return null;
+        } catch (Exception e) {
+            LOG.error("Error while generate changeset", e);
+            return null;
         }
+    }
 
-        return null;
+    private Integer saveAuditLog(Class<?> targetCls, Object bean, String changeSet, String username, Integer sAccountId,
+                                 Integer activityStreamId) {
+        try {
+            Integer typeid = (Integer) PropertyUtils.getProperty(bean, "id");
+            AuditLog auditLog = new AuditLog();
+            auditLog.setPosteduser(username);
+            auditLog.setModule(ClassInfoMap.getModule(targetCls));
+            auditLog.setType(ClassInfoMap.getType(targetCls));
+            auditLog.setTypeid(typeid);
+            auditLog.setSaccountid(sAccountId);
+            auditLog.setPosteddate(new GregorianCalendar().getTime());
+            auditLog.setChangeset(changeSet);
+            auditLog.setObjectClass(bean.getClass().getName());
+            if (activityStreamId != null) {
+                auditLog.setActivitylogid(activityStreamId);
+            }
+
+            return auditLogService.saveWithSession(auditLog, "");
+        } catch (Exception e) {
+            LOG.error("Error when save audit for save action of service "
+                    + targetCls.getName() + "and bean: " + BeanUtility.printBeanObj(bean)
+                    + " and changeset is " + changeSet, e);
+            return null;
+        }
     }
 }

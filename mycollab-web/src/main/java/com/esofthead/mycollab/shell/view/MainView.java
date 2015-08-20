@@ -16,8 +16,8 @@
  */
 package com.esofthead.mycollab.shell.view;
 
-import com.esofthead.mycollab.vaadin.mvp.IModule;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
+import com.esofthead.mycollab.web.IDesktopModule;
 
 /**
  * @author MyCollab Ltd
@@ -26,5 +26,5 @@ import com.esofthead.mycollab.vaadin.mvp.PageView;
 public interface MainView extends PageView {
     void display();
 
-    void addModule(IModule module);
+    void addModule(IDesktopModule module);
 }

@@ -8,22 +8,22 @@ MyCollab is the free and open source collaboration tools, it has three existing 
 <table>
   <tr>
     <td align="center">
-      <a href="https://farm1.staticflickr.com/443/19664383788_83dc66010a_o.png" target="_blank" title="Project Dashboard">
-        <img src="https://farm1.staticflickr.com/443/19664383788_92c6b0a99b.jpg" alt="Project Dashboard">
+      <a href="https://farm6.staticflickr.com/5738/20729139805_9d3801736f_o.png" target="_blank" title="Project Dashboard">
+        <img src="https://farm6.staticflickr.com/5738/20729139805_76106de29d_n.jpg" alt="Project Dashboard">
       </a>
       <br />
       <em>Project Dashboard</em>
     </td>
     <td align="center">
-      <a href="https://farm1.staticflickr.com/396/19577852578_a38de55ca6_o.png" target="_blank" title="Bug Dashboard">
-        <img src="https://farm1.staticflickr.com/396/19577852578_122a94c225.jpg" alt="Bug Dashboard">
+      <a href="https://farm1.staticflickr.com/598/20541153148_200f406971_o.png" target="_blank" title="Bug Dashboard">
+        <img src="https://farm1.staticflickr.com/598/20541153148_7c1059668c_n.jpg" alt="Bug Dashboard">
       </a>
       <br />
       <em>Bug Dashboard</em>
     </td>
     <td align="center">
-    <a href="https://farm1.staticflickr.com/388/19739698636_9982fb7322_o.png" target="_blank" title="Task Dashboard">
-      <img src="https://farm1.staticflickr.com/388/19739698636_994454be0e.jpg" alt="Task Dashboard">
+    <a href="https://farm1.staticflickr.com/578/20106566554_56871ac66a_o.png" target="_blank" title="Task Dashboard">
+      <img src="https://farm1.staticflickr.com/578/20106566554_47bbb68d89_n.jpg" alt="Task Dashboard">
     </a>
       <br />
       <em>Task Dashboard</em>
@@ -31,22 +31,22 @@ MyCollab is the free and open source collaboration tools, it has three existing 
   </tr>
   <tr>
     <td align="center">
-    <a href="https://farm1.staticflickr.com/452/19758610202_c476d2e5c2_o.png" target="_blank" title="Page Editor">
-        <img src="https://farm1.staticflickr.com/452/19758610202_de72a48982.jpg" alt="Page Editor">
+    <a href="https://farm6.staticflickr.com/5712/20106564264_f97568814b_o.png" target="_blank" title="Kanban Board">
+        <img src="https://farm6.staticflickr.com/5712/20106564264_420cabc72b.jpg" alt="Kanban Board">
       </a>
       <br />
-      <em>Page Editor</em>
+      <em>Kanban Board</em>
     </td>
     <td align="center">
-      <a href="https://farm1.staticflickr.com/545/19765871405_538b490e25_o.png" target="_blank" title="File Management">
-        <img src="https://farm1.staticflickr.com/545/19765871405_f7729a08b1.jpg" alt="File Management">
+      <a href="https://farm6.staticflickr.com/5641/20541155648_b8fa40086f_o.png" target="_blank" title="File Management">
+        <img src="https://farm6.staticflickr.com/5641/20541155648_7c164b4b0d.jpg" alt="File Management">
       </a>
       <br />
       <em>Project File Management</em>
     </td>
     <td align="center">
-      <a href="https://farm4.staticflickr.com/3678/19577854308_f3b00a9822_o.png" target="_blank" title="Customer Account">
-        <img src="https://farm4.staticflickr.com/3678/19577854308_30a21af23e.jpg" alt="Customer Account">
+      <a href="https://farm6.staticflickr.com/5783/20719834632_85e8ee39f0_o.png" target="_blank" title="Customer Account">
+        <img src="https://farm6.staticflickr.com/5783/20719834632_5e5200d5ec.jpg" alt="Customer Account">
       </a>
       <br />
       <em>Customer Account</em>
@@ -67,7 +67,7 @@ MyCollab provides the rich set features of Project Management, Customer Manageme
   * Project Management
   * Online Document Editor
   * Activity stream and audit logging
-  * Time Tracking (partly for premium users only)
+  * Kanban board
   * Gantt chart
   * Issues Management
   * Tasks and its dependencies management
@@ -86,7 +86,7 @@ Please take a look at MyCollab requirements:
 
 ## Installation
 
-The current MyCollab version is 5.1.0 released on 17th July, 2015. This branch will focus in mobile devices, reporting and customize options for on-demand edition.
+The current MyCollab version is 5.1.2 released on 20th August, 2015. This branch will focus in mobile devices, reporting and customize options for on-demand edition.
 
 1. Download MyCollab binary - https://community.mycollab.com/download/
 2. Follow installation guideline at https://community.mycollab.com/installation-guideline/

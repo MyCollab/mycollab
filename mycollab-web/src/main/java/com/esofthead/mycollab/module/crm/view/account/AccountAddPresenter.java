@@ -25,7 +25,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.events.AccountEvent;
 import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
-import com.esofthead.mycollab.module.crm.view.CrmToolbar;
+import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -50,46 +50,41 @@ public class AccountAddPresenter extends CrmGenericPresenter<AccountAddView> {
 
     @Override
     protected void postInitView() {
-        view.getEditFormHandlers().addFormHandler(
-                new EditFormHandler<SimpleAccount>() {
-                    private static final long serialVersionUID = 1L;
+        view.getEditFormHandlers().addFormHandler(new EditFormHandler<SimpleAccount>() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void onSave(final SimpleAccount account) {
-                        int accountId = saveAccount(account);
-                        EventBusFactory.getInstance().post(new AccountEvent.GotoRead(this, accountId));
-                    }
+            @Override
+            public void onSave(final SimpleAccount account) {
+                int accountId = saveAccount(account);
+                EventBusFactory.getInstance().post(new AccountEvent.GotoRead(this, accountId));
+            }
 
-                    @Override
-                    public void onCancel() {
-                        ViewState viewState = HistoryViewManager.back();
-                        if (viewState instanceof NullViewState) {
-                            EventBusFactory.getInstance().post(
-                                    new AccountEvent.GotoList(this, null));
-                        }
-                    }
+            @Override
+            public void onCancel() {
+                ViewState viewState = HistoryViewManager.back();
+                if (viewState instanceof NullViewState) {
+                    EventBusFactory.getInstance().post(new AccountEvent.GotoList(this, null));
+                }
+            }
 
-                    @Override
-                    public void onSaveAndNew(final SimpleAccount account) {
-                        saveAccount(account);
-                        EventBusFactory.getInstance().post(
-                                new AccountEvent.GotoAdd(this, null));
-                    }
-                });
+            @Override
+            public void onSaveAndNew(final SimpleAccount account) {
+                saveAccount(account);
+                EventBusFactory.getInstance().post(new AccountEvent.GotoAdd(this, null));
+            }
+        });
     }
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        CrmToolbar.navigateItem(CrmTypeConstants.ACCOUNT);
+        CrmModule.navigateItem(CrmTypeConstants.ACCOUNT);
         if (AppContext.canWrite(RolePermissionCollections.CRM_ACCOUNT)) {
             SimpleAccount account = null;
             if (data.getParams() instanceof SimpleAccount) {
                 account = (SimpleAccount) data.getParams();
             } else if (data.getParams() instanceof Integer) {
-                AccountService accountService = ApplicationContextUtil
-                        .getSpringBean(AccountService.class);
-                account = accountService.findById((Integer) data.getParams(),
-                        AppContext.getAccountId());
+                AccountService accountService = ApplicationContextUtil.getSpringBean(AccountService.class);
+                account = accountService.findById((Integer) data.getParams(), AppContext.getAccountId());
             }
 
             if (account == null) {
@@ -100,17 +95,11 @@ public class AccountAddPresenter extends CrmGenericPresenter<AccountAddView> {
             super.onGo(container, data);
             view.editItem(account);
             if (account.getId() == null) {
-                AppContext.addFragment("crm/account/add", AppContext
-                        .getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
-                                "Account"));
+                AppContext.addFragment("crm/account/add", AppContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE, "Account"));
 
             } else {
-                AppContext.addFragment(
-                        "crm/account/edit/"
-                                + UrlEncodeDecoder.encode(account.getId()),
-                        AppContext.getMessage(
-                                GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
-                                "Account", account.getAccountname()));
+                AppContext.addFragment("crm/account/edit/" + UrlEncodeDecoder.encode(account.getId()),
+                        AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, "Account", account.getAccountname()));
             }
         } else {
             NotificationUtil.showMessagePermissionAlert();
@@ -118,8 +107,7 @@ public class AccountAddPresenter extends CrmGenericPresenter<AccountAddView> {
     }
 
     private int saveAccount(Account account) {
-        AccountService accountService = ApplicationContextUtil
-                .getSpringBean(AccountService.class);
+        AccountService accountService = ApplicationContextUtil.getSpringBean(AccountService.class);
 
         account.setSaccountid(AppContext.getAccountId());
         if (account.getId() == null) {

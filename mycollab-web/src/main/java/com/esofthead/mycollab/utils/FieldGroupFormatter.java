@@ -58,15 +58,12 @@ public class FieldGroupFormatter {
 
     static {
         defaultFieldHandlers = new HashMap<>();
-        defaultFieldHandlers
-                .put(DEFAULT_FIELD, new DefaultHistoryFieldFormat());
+        defaultFieldHandlers.put(DEFAULT_FIELD, new DefaultHistoryFieldFormat());
         defaultFieldHandlers.put(DATE_FIELD, new DateHistoryFieldFormat());
-        defaultFieldHandlers.put(DATETIME_FIELD,
-                new DateTimeHistoryFieldFormat());
+        defaultFieldHandlers.put(DATETIME_FIELD, new DateTimeHistoryFieldFormat());
         defaultFieldHandlers.put(PRETTY_DATE_FIELD, new PrettyDateHistoryFieldFormat());
         defaultFieldHandlers.put(PRETTY_DATE_TIME_FIELD, new PrettyDateTimeHistoryFieldFormat());
-        defaultFieldHandlers.put(CURRENCY_FIELD,
-                new CurrencyHistoryFieldFormat());
+        defaultFieldHandlers.put(CURRENCY_FIELD, new CurrencyHistoryFieldFormat());
     }
 
     @SuppressWarnings("rawtypes")
@@ -75,15 +72,12 @@ public class FieldGroupFormatter {
     }
 
     @SuppressWarnings("rawtypes")
-    public void generateFieldDisplayHandler(String fieldName, Enum displayName,
-                                            HistoryFieldFormat format) {
-        fieldsFormat.put(fieldName,
-                new FieldDisplayHandler(displayName, format));
+    public void generateFieldDisplayHandler(String fieldName, Enum displayName, HistoryFieldFormat format) {
+        fieldsFormat.put(fieldName, new FieldDisplayHandler(displayName, format));
     }
 
     @SuppressWarnings("rawtypes")
-    public void generateFieldDisplayHandler(String fieldName, Enum displayName,
-                                            String formatName) {
+    public void generateFieldDisplayHandler(String fieldName, Enum displayName, String formatName) {
         fieldsFormat.put(fieldName, new FieldDisplayHandler(displayName,
                 defaultFieldHandlers.get(formatName)));
     }
@@ -275,7 +269,6 @@ public class FieldGroupFormatter {
 
     @SuppressWarnings("rawtypes")
     public static class I18nHistoryFieldFormat implements HistoryFieldFormat {
-
         private Class<? extends Enum> enumCls;
 
         public I18nHistoryFieldFormat(Class<? extends Enum> enumCls) {

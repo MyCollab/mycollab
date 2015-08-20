@@ -23,15 +23,17 @@ import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.CaseWithBLOBs;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.events.CaseEvent;
-import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.service.CaseService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
-import com.esofthead.mycollab.module.crm.view.CrmToolbar;
+import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.EditFormHandler;
-import com.esofthead.mycollab.vaadin.mvp.*;
+import com.esofthead.mycollab.vaadin.mvp.HistoryViewManager;
+import com.esofthead.mycollab.vaadin.mvp.NullViewState;
+import com.esofthead.mycollab.vaadin.mvp.ScreenData;
+import com.esofthead.mycollab.vaadin.mvp.ViewState;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 
@@ -48,46 +50,41 @@ public class CaseAddPresenter extends CrmGenericPresenter<CaseAddView> {
 
     @Override
     protected void postInitView() {
-        view.getEditFormHandlers().addFormHandler(
-                new EditFormHandler<SimpleCase>() {
-                    private static final long serialVersionUID = 1L;
+        view.getEditFormHandlers().addFormHandler(new EditFormHandler<SimpleCase>() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void onSave(final SimpleCase cases) {
-                        saveCase(cases);
-                        EventBusFactory.getInstance().post(new CaseEvent.GotoRead(this, cases.getId()));
-                    }
+            @Override
+            public void onSave(final SimpleCase cases) {
+                saveCase(cases);
+                EventBusFactory.getInstance().post(new CaseEvent.GotoRead(this, cases.getId()));
+            }
 
-                    @Override
-                    public void onCancel() {
-                        ViewState viewState = HistoryViewManager.back();
-                        if (viewState instanceof NullViewState) {
-                            EventBusFactory.getInstance().post(
-                                    new CaseEvent.GotoList(this, null));
-                        }
-                    }
+            @Override
+            public void onCancel() {
+                ViewState viewState = HistoryViewManager.back();
+                if (viewState instanceof NullViewState) {
+                    EventBusFactory.getInstance().post(new CaseEvent.GotoList(this, null));
+                }
+            }
 
-                    @Override
-                    public void onSaveAndNew(final SimpleCase cases) {
-                        saveCase(cases);
-                        EventBusFactory.getInstance().post(
-                                new CaseEvent.GotoAdd(this, null));
-                    }
-                });
+            @Override
+            public void onSaveAndNew(final SimpleCase cases) {
+                saveCase(cases);
+                EventBusFactory.getInstance().post(new CaseEvent.GotoAdd(this, null));
+            }
+        });
     }
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        CrmToolbar.navigateItem(CrmTypeConstants.CASE);
+        CrmModule.navigateItem(CrmTypeConstants.CASE);
         if (AppContext.canWrite(RolePermissionCollections.CRM_CASE)) {
             SimpleCase cases = null;
             if (data.getParams() instanceof SimpleCase) {
                 cases = (SimpleCase) data.getParams();
             } else if (data.getParams() instanceof Integer) {
-                CaseService caseService = ApplicationContextUtil
-                        .getSpringBean(CaseService.class);
-                cases = caseService.findById((Integer) data.getParams(),
-                        AppContext.getAccountId());
+                CaseService caseService = ApplicationContextUtil.getSpringBean(CaseService.class);
+                cases = caseService.findById((Integer) data.getParams(), AppContext.getAccountId());
             }
             if (cases == null) {
                 NotificationUtil.showRecordNotExistNotification();
@@ -100,12 +97,8 @@ public class CaseAddPresenter extends CrmGenericPresenter<CaseAddView> {
                 AppContext.addFragment("crm/cases/add", AppContext.getMessage(
                         GenericI18Enum.BROWSER_ADD_ITEM_TITLE, "Case"));
             } else {
-                AppContext.addFragment(
-                        "crm/cases/edit/"
-                                + UrlEncodeDecoder.encode(cases.getId()),
-                        AppContext.getMessage(
-                                GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, "Case",
-                                cases.getSubject()));
+                AppContext.addFragment("crm/cases/edit/" + UrlEncodeDecoder.encode(cases.getId()),
+                        AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, "Case", cases.getSubject()));
             }
         } else {
             NotificationUtil.showMessagePermissionAlert();
@@ -113,8 +106,7 @@ public class CaseAddPresenter extends CrmGenericPresenter<CaseAddView> {
     }
 
     private int saveCase(CaseWithBLOBs cases) {
-        CaseService caseService = ApplicationContextUtil
-                .getSpringBean(CaseService.class);
+        CaseService caseService = ApplicationContextUtil.getSpringBean(CaseService.class);
 
         cases.setSaccountid(AppContext.getAccountId());
         if (cases.getId() == null) {

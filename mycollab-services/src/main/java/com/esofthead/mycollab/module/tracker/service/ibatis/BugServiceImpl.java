@@ -19,7 +19,9 @@ package com.esofthead.mycollab.module.tracker.service.ibatis;
 import com.esofthead.mycollab.cache.CacheUtils;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.domain.GroupItem;
-import com.esofthead.mycollab.common.interceptor.aspect.*;
+import com.esofthead.mycollab.common.interceptor.aspect.ClassInfo;
+import com.esofthead.mycollab.common.interceptor.aspect.ClassInfoMap;
+import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
@@ -55,12 +57,12 @@ import java.util.concurrent.locks.Lock;
 
 @Service
 @Transactional
-@Traceable(nameField = "summary", extraFieldName = "projectid")
-@Auditable()
-@NotifyAgent(BugRelayEmailNotificationAction.class)
+@Traceable(nameField = "summary", extraFieldName = "projectid", notifyAgent = BugRelayEmailNotificationAction.class)
 public class BugServiceImpl extends DefaultService<Integer, BugWithBLOBs, BugSearchCriteria> implements BugService {
     static {
-        ClassInfoMap.put(BugServiceImpl.class, new ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.BUG));
+        ClassInfo bugInfo = new ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.BUG);
+        bugInfo.addExcludeHistoryField(BugWithBLOBs.Field.bugindex.name());
+        ClassInfoMap.put(BugServiceImpl.class, bugInfo);
     }
 
     @Autowired

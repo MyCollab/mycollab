@@ -50,10 +50,6 @@ public class UIConstants {
     public static final String FOOTER_NOTE = "footer-note";
     public static final String BUG_LIST = "bug-list";
     public static final String MULTI_SELECT_BG = "multiselect";
-    public static final String PROJECT_INFO = "projectinfo";
-    public static final String PROJECT_INFO_HEADER = "projectinfo-header";
-    public static final String PROJECT_INFO_FOOTER = "projectinfo-footer";
-    public static final String PROJECT_NAME = "project-name";
     public static final String WORD_WRAP = "wordWrap";
     public static final String TEXT_ELLIPSIS = "text-ellipsis";
     public static final String TEXT_BLUE = "bluetxt";

@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.user.accountsettings.view;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -31,11 +32,14 @@ import com.esofthead.mycollab.module.user.accountsettings.view.parameters.Billin
 import com.esofthead.mycollab.module.user.ui.SettingUIConstants;
 import com.esofthead.mycollab.module.user.ui.components.UserVerticalTabsheet;
 import com.esofthead.mycollab.premium.module.user.accountsettings.view.UserAccountController;
+import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.*;
+import com.esofthead.mycollab.vaadin.ui.ServiceMenu;
 import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet;
 import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet.TabImpl;
 import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
@@ -52,6 +56,9 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 public class AccountModuleImpl extends AbstractCssPageView implements AccountModule {
     private static final long serialVersionUID = 1L;
 
+    private MHorizontalLayout serviceMenuContainer;
+    private ServiceMenu serviceMenu;
+
     private UserVerticalTabsheet accountTab;
 
     private ProfilePresenter profilePresenter;
@@ -61,7 +68,7 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
     private SetupPresenter setupPresenter;
 
     public AccountModuleImpl() {
-        super(true);
+        super();
         ControllerRegistry.addController(new UserAccountController(this));
         this.setWidth("100%");
         this.addStyleName("main-content-wrapper accountViewContainer");
@@ -74,11 +81,10 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
         topPanel.addComponent(breadcrumb);
 
         this.accountTab = new UserVerticalTabsheet();
-        this.accountTab.setWidth("100%");
+        this.accountTab.setSizeFull();
         this.accountTab.setNavigatorWidth("250px");
         this.accountTab.setNavigatorStyleName("sidebar-menu");
         this.accountTab.setContainerStyleName("tab-content");
-        this.accountTab.setHeight(null);
 
         VerticalLayout contentWrapper = this.accountTab.getContentWrapper();
         contentWrapper.addStyleName("main-content");
@@ -130,8 +136,7 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
                 if (SettingUIConstants.PROFILE.equals(tabId)) {
                     profilePresenter.go(AccountModuleImpl.this, null);
                 } else if (SettingUIConstants.BILLING.equals(tabId)) {
-                    billingPresenter.go(AccountModuleImpl.this,
-                            new BillingScreenData.BillingSummary());
+                    billingPresenter.go(AccountModuleImpl.this, new BillingScreenData.BillingSummary());
                 } else if (SettingUIConstants.USERS.equals(tabId)) {
                     userPermissionPresenter.go(AccountModuleImpl.this, null);
                 } else if (SettingUIConstants.GENERAL_SETTING.equals(tabId)) {
@@ -144,20 +149,17 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
     }
 
     private ComponentContainer constructAccountSettingsComponent() {
-        this.billingPresenter = PresenterResolver
-                .getPresenter(IBillingPresenter.class);
+        this.billingPresenter = PresenterResolver.getPresenter(IBillingPresenter.class);
         return this.billingPresenter.getView();
     }
 
     private ComponentContainer constructUserInformationComponent() {
-        this.profilePresenter = PresenterResolver
-                .getPresenter(ProfilePresenter.class);
+        this.profilePresenter = PresenterResolver.getPresenter(ProfilePresenter.class);
         return this.profilePresenter.getView();
     }
 
     private ComponentContainer constructUserRoleComponent() {
-        this.userPermissionPresenter = PresenterResolver
-                .getPresenter(UserPermissionManagementPresenter.class);
+        this.userPermissionPresenter = PresenterResolver.getPresenter(UserPermissionManagementPresenter.class);
         return this.userPermissionPresenter.getView();
     }
 
@@ -178,7 +180,52 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
 
     @Override
     public void gotoUserProfilePage() {
-        EventBusFactory.getInstance().post(
-                new ProfileEvent.GotoProfileView(this, null));
+        EventBusFactory.getInstance().post(new ProfileEvent.GotoProfileView(this, null));
+    }
+
+    @Override
+    public MHorizontalLayout buildMenu() {
+        if (serviceMenuContainer == null) {
+            serviceMenuContainer = new MHorizontalLayout();
+            serviceMenu = new ServiceMenu();
+            serviceMenu.addService("Projects", new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent clickEvent) {
+                    EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, new String[]{"dashboard"}));
+                    serviceMenu.selectService(0);
+                }
+            });
+
+            serviceMenu.addService(AppContext.getMessage(GenericI18Enum.MODULE_CRM), new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
+
+                @Override
+                public void buttonClick(final Button.ClickEvent event) {
+                    EventBusFactory.getInstance().post(new ShellEvent.GotoCrmModule(this, null));
+                }
+            });
+
+            serviceMenu.addService(AppContext.getMessage(GenericI18Enum.MODULE_DOCUMENT), new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
+
+                @Override
+                public void buttonClick(final Button.ClickEvent event) {
+                    EventBusFactory.getInstance().post(new ShellEvent.GotoFileModule(this, null));
+                }
+            });
+
+
+            serviceMenu.addService("People", new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent clickEvent) {
+                    EventBusFactory.getInstance().post(
+                            new ShellEvent.GotoUserAccountModule(this, new String[]{"user", "list"}));
+
+                }
+            });
+            serviceMenuContainer.with(serviceMenu);
+        }
+        serviceMenu.selectService(3);
+        return serviceMenuContainer;
     }
 }

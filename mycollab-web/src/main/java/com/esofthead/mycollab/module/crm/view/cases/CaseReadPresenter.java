@@ -29,7 +29,7 @@ import com.esofthead.mycollab.module.crm.events.ContactEvent;
 import com.esofthead.mycollab.module.crm.service.CaseService;
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
-import com.esofthead.mycollab.module.crm.view.CrmToolbar;
+import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -135,34 +135,27 @@ public class CaseReadPresenter extends CrmGenericPresenter<CaseReadView> {
             }
         });
 
-        view.getRelatedActivityHandlers().addRelatedListHandler(
-                new AbstractRelatedListHandler<SimpleActivity>() {
-                    @Override
-                    public void createNewRelatedItem(String itemId) {
-                        if (itemId.equals("task")) {
-                            SimpleTask task = new SimpleTask();
-                            task.setType(CrmTypeConstants.CASE);
-                            task.setTypeid(view.getItem().getId());
-                            EventBusFactory.getInstance().post(
-                                    new ActivityEvent.TaskEdit(
-                                            CaseReadPresenter.this, task));
-                        } else if (itemId.equals("meeting")) {
-                            SimpleMeeting meeting = new SimpleMeeting();
-                            meeting.setType(CrmTypeConstants.CASE);
-                            meeting.setTypeid(view.getItem().getId());
-                            EventBusFactory.getInstance().post(
-                                    new ActivityEvent.MeetingEdit(
-                                            CaseReadPresenter.this, meeting));
-                        } else if (itemId.equals("call")) {
-                            SimpleCall call = new SimpleCall();
-                            call.setType(CrmTypeConstants.CASE);
-                            call.setTypeid(view.getItem().getId());
-                            EventBusFactory.getInstance().post(
-                                    new ActivityEvent.CallEdit(
-                                            CaseReadPresenter.this, call));
-                        }
-                    }
-                });
+        view.getRelatedActivityHandlers().addRelatedListHandler(new AbstractRelatedListHandler<SimpleActivity>() {
+            @Override
+            public void createNewRelatedItem(String itemId) {
+                if (itemId.equals("task")) {
+                    SimpleTask task = new SimpleTask();
+                    task.setType(CrmTypeConstants.CASE);
+                    task.setTypeid(view.getItem().getId());
+                    EventBusFactory.getInstance().post(new ActivityEvent.TaskEdit(CaseReadPresenter.this, task));
+                } else if (itemId.equals("meeting")) {
+                    SimpleMeeting meeting = new SimpleMeeting();
+                    meeting.setType(CrmTypeConstants.CASE);
+                    meeting.setTypeid(view.getItem().getId());
+                    EventBusFactory.getInstance().post(new ActivityEvent.MeetingEdit(CaseReadPresenter.this, meeting));
+                } else if (itemId.equals("call")) {
+                    SimpleCall call = new SimpleCall();
+                    call.setType(CrmTypeConstants.CASE);
+                    call.setTypeid(view.getItem().getId());
+                    EventBusFactory.getInstance().post(new ActivityEvent.CallEdit(CaseReadPresenter.this, call));
+                }
+            }
+        });
 
         view.getRelatedContactHandlers().addRelatedListHandler(
                 new AbstractRelatedListHandler<SimpleContact>() {
@@ -170,9 +163,7 @@ public class CaseReadPresenter extends CrmGenericPresenter<CaseReadView> {
                     public void createNewRelatedItem(String itemId) {
                         SimpleContact contact = new SimpleContact();
                         contact.setExtraData(view.getItem());
-                        EventBusFactory.getInstance().post(
-                                new ContactEvent.GotoEdit(
-                                        CaseReadPresenter.this, contact));
+                        EventBusFactory.getInstance().post(new ContactEvent.GotoEdit(CaseReadPresenter.this, contact));
                     }
 
                     @Override
@@ -183,18 +174,12 @@ public class CaseReadPresenter extends CrmGenericPresenter<CaseReadView> {
                             ContactCase associateContact = new ContactCase();
                             associateContact.setCaseid(cases.getId());
                             associateContact.setContactid(contact.getId());
-                            associateContact
-                                    .setCreatedtime(new GregorianCalendar()
-                                            .getTime());
-
+                            associateContact.setCreatedtime(new GregorianCalendar().getTime());
                             associateContacts.add(associateContact);
                         }
 
-                        ContactService contactService = ApplicationContextUtil
-                                .getSpringBean(ContactService.class);
-                        contactService.saveContactCaseRelationship(
-                                associateContacts, AppContext.getAccountId());
-
+                        ContactService contactService = ApplicationContextUtil.getSpringBean(ContactService.class);
+                        contactService.saveContactCaseRelationship(associateContacts, AppContext.getAccountId());
                         view.getRelatedContactHandlers().refresh();
                     }
                 });
@@ -202,22 +187,17 @@ public class CaseReadPresenter extends CrmGenericPresenter<CaseReadView> {
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        CrmToolbar.navigateItem(CrmTypeConstants.CASE);
+        CrmModule.navigateItem(CrmTypeConstants.CASE);
         if (AppContext.canRead(RolePermissionCollections.CRM_CASE)) {
             if (data.getParams() instanceof Integer) {
-                CaseService caseService = ApplicationContextUtil
-                        .getSpringBean(CaseService.class);
-                SimpleCase cases = caseService.findById(
-                        (Integer) data.getParams(), AppContext.getAccountId());
+                CaseService caseService = ApplicationContextUtil.getSpringBean(CaseService.class);
+                SimpleCase cases = caseService.findById((Integer) data.getParams(), AppContext.getAccountId());
                 if (cases != null) {
                     super.onGo(container, data);
                     view.previewItem(cases);
 
-                    AppContext.addFragment(CrmLinkGenerator
-                            .generateCasePreviewLink(cases.getId()), AppContext
-                            .getMessage(
-                                    GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
-                                    "Case", cases.getSubject()));
+                    AppContext.addFragment(CrmLinkGenerator.generateCasePreviewLink(cases.getId()),
+                            AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE, "Case", cases.getSubject()));
                 } else {
                     NotificationUtil.showRecordNotExistNotification();
                     return;

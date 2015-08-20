@@ -29,8 +29,7 @@ import com.vaadin.ui.ComponentContainer;
  * 
  */
 @LoadPolicy(scope = ViewScope.PROTOTYPE)
-public class ProjectSummaryPresenter extends
-		AbstractPresenter<ProjectSummaryView> {
+public class ProjectSummaryPresenter extends AbstractPresenter<ProjectSummaryView> {
 	private static final long serialVersionUID = 1L;
 
 	public ProjectSummaryPresenter() {

@@ -72,9 +72,7 @@ public class RoleTableDisplay extends DefaultPagedBeanTable<RoleService, RoleSea
             public com.vaadin.ui.Component generateCell(Table source,
                                                         final Object itemId, Object columnId) {
                 SimpleRole role = getBeanByIndex(itemId);
-
-                return new LabelLink(role.getRolename(),
-                        GenericLinkUtils.URL_PREFIX_PARAM
+                return new LabelLink(role.getRolename(), GenericLinkUtils.URL_PREFIX_PARAM
                                 + AccountLinkGenerator.generateRoleLink(role.getId()));
             }
         });

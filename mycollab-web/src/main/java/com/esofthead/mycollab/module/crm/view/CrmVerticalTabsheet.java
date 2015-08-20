@@ -41,6 +41,5 @@ public class CrmVerticalTabsheet extends VerticalTabsheet {
 
         Resource resource = CrmAssetsManager.getAsset(tabId);
         btn.setIcon(resource);
-
 	}
 }

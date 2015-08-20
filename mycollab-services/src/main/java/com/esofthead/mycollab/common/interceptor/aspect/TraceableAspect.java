@@ -41,30 +41,24 @@ import java.util.GregorianCalendar;
 @Aspect
 @Component
 public class TraceableAspect {
-    private static final Logger LOG = LoggerFactory
-            .getLogger(TraceableAspect.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TraceableAspect.class);
 
     @Autowired
     private ActivityStreamService activityStreamService;
 
     @AfterReturning("execution(public * com.esofthead.mycollab..service..*.saveWithSession(..)) && args(bean, username)")
-    public void traceSaveActivity(JoinPoint joinPoint, Object bean,
-                                  String username) {
-
+    public void traceSaveActivity(JoinPoint joinPoint, Object bean, String username) {
         Advised advised = (Advised) joinPoint.getThis();
         Class<?> cls = advised.getTargetSource().getTargetClass();
 
         Traceable traceableAnnotation = cls.getAnnotation(Traceable.class);
         if (traceableAnnotation != null) {
             try {
-                ActivityStreamWithBLOBs activity = constructActivity(cls,
-                        traceableAnnotation, bean, username,
+                ActivityStreamWithBLOBs activity = constructActivity(cls, traceableAnnotation, bean, username,
                         ActivityStreamConstants.ACTION_CREATE);
                 activityStreamService.save(activity);
             } catch (Exception e) {
-                LOG.error(
-                        "Error when save activity for save action of service "
-                                + cls.getName(), e);
+                LOG.error("Error when save activity for save action of service " + cls.getName(), e);
             }
         }
 
@@ -72,21 +66,17 @@ public class TraceableAspect {
 
     static ActivityStreamWithBLOBs constructActivity(Class<?> cls, Traceable traceableAnnotation,
                                                      Object bean, String username, String action)
-            throws IllegalAccessException, InvocationTargetException,
-            NoSuchMethodException {
-
+            throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         ActivityStreamWithBLOBs activity = new ActivityStreamWithBLOBs();
         activity.setModule(ClassInfoMap.getModule(cls));
         activity.setType(ClassInfoMap.getType(cls));
-        activity.setTypeid(String.valueOf(PropertyUtils.getProperty(bean,
-                traceableAnnotation.idField())));
+        activity.setTypeid(String.valueOf(PropertyUtils.getProperty(bean, traceableAnnotation.idField())));
         activity.setCreatedtime(new GregorianCalendar().getTime());
         activity.setAction(action);
         activity.setSaccountid((Integer) PropertyUtils.getProperty(bean, "saccountid"));
         activity.setCreateduser(username);
 
-        Object nameObj = PropertyUtils.getProperty(bean,
-                traceableAnnotation.nameField());
+        Object nameObj = PropertyUtils.getProperty(bean, traceableAnnotation.nameField());
         String nameField;
         if (nameObj instanceof Date) {
             nameField = DateTimeUtils.formatDate((Date) nameObj, "MM/dd/yyyy");
@@ -96,8 +86,7 @@ public class TraceableAspect {
         activity.setNamefield(nameField);
 
         if (!"".equals(traceableAnnotation.extraFieldName())) {
-            Integer extraTypeId = (Integer) PropertyUtils.getProperty(bean,
-                    traceableAnnotation.extraFieldName());
+            Integer extraTypeId = (Integer) PropertyUtils.getProperty(bean, traceableAnnotation.extraFieldName());
             activity.setExtratypeid(extraTypeId);
         }
         return activity;

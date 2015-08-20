@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.crm.view.activity;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.i18n.ActivityI18nEnum;
-import com.esofthead.mycollab.module.crm.view.CrmToolbar;
+import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.module.crm.view.parameters.ActivityScreenData;
 import com.esofthead.mycollab.module.crm.view.parameters.AssignmentScreenData;
 import com.esofthead.mycollab.module.crm.view.parameters.CallScreenData;
@@ -31,66 +31,56 @@ import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
 public class ActivityPresenter extends AbstractPresenter<ActivityContainer> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public ActivityPresenter() {
-		super(ActivityContainer.class);
-	}
+    public ActivityPresenter() {
+        super(ActivityContainer.class);
+    }
 
-	@Override
-	public void go(ComponentContainer container, ScreenData<?> data) {
-		super.go(container, data, false);
-	}
+    @Override
+    public void go(ComponentContainer container, ScreenData<?> data) {
+        super.go(container, data, false);
+    }
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		CrmToolbar.navigateItem(CrmTypeConstants.ACTIVITY);
-		ActivityRootView activityContainer = (ActivityRootView) container;
-		ActivityContainer eventContainer = (ActivityContainer) activityContainer
-				.gotoView(AppContext
-						.getMessage(ActivityI18nEnum.TAB_ACTIVITY_TITLE));
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        CrmModule.navigateItem(CrmTypeConstants.ACTIVITY);
+        ActivityRootView activityContainer = (ActivityRootView) container;
+        ActivityContainer eventContainer = (ActivityContainer) activityContainer
+                .gotoView(AppContext.getMessage(ActivityI18nEnum.TAB_ACTIVITY_TITLE));
 
-		AbstractPresenter presenter;
+        AbstractPresenter presenter;
 
-		if (data instanceof AssignmentScreenData.Add) {
-			presenter = PresenterResolver
-					.getPresenter(AssignmentAddPresenter.class);
-		} else if (data instanceof AssignmentScreenData.Edit) {
-			presenter = PresenterResolver
-					.getPresenter(AssignmentAddPresenter.class);
-		} else if (data instanceof AssignmentScreenData.Read) {
-			presenter = PresenterResolver
-					.getPresenter(AssignmentReadPresenter.class);
-		} else if (data instanceof MeetingScreenData.Add) {
-			presenter = PresenterResolver
-					.getPresenter(MeetingAddPresenter.class);
-		} else if (data instanceof MeetingScreenData.Edit) {
-			presenter = PresenterResolver
-					.getPresenter(MeetingAddPresenter.class);
-		} else if (data instanceof MeetingScreenData.Read) {
-			presenter = PresenterResolver
-					.getPresenter(MeetingReadPresenter.class);
-		} else if (data instanceof CallScreenData.Add) {
-			presenter = PresenterResolver.getPresenter(CallAddPresenter.class);
-		} else if (data instanceof CallScreenData.Edit) {
-			presenter = PresenterResolver.getPresenter(CallAddPresenter.class);
-		} else if (data instanceof CallScreenData.Read) {
-			presenter = PresenterResolver.getPresenter(CallReadPresenter.class);
-		} else if (data instanceof ActivityScreenData.GotoActivityList) {
-			presenter = PresenterResolver
-					.getPresenter(ActivityListPresenter.class);
-		} else {
-			throw new MyCollabException("Do not support data " + data);
-		}
+        if (data instanceof AssignmentScreenData.Add) {
+            presenter = PresenterResolver.getPresenter(AssignmentAddPresenter.class);
+        } else if (data instanceof AssignmentScreenData.Edit) {
+            presenter = PresenterResolver.getPresenter(AssignmentAddPresenter.class);
+        } else if (data instanceof AssignmentScreenData.Read) {
+            presenter = PresenterResolver.getPresenter(AssignmentReadPresenter.class);
+        } else if (data instanceof MeetingScreenData.Add) {
+            presenter = PresenterResolver.getPresenter(MeetingAddPresenter.class);
+        } else if (data instanceof MeetingScreenData.Edit) {
+            presenter = PresenterResolver.getPresenter(MeetingAddPresenter.class);
+        } else if (data instanceof MeetingScreenData.Read) {
+            presenter = PresenterResolver.getPresenter(MeetingReadPresenter.class);
+        } else if (data instanceof CallScreenData.Add) {
+            presenter = PresenterResolver.getPresenter(CallAddPresenter.class);
+        } else if (data instanceof CallScreenData.Edit) {
+            presenter = PresenterResolver.getPresenter(CallAddPresenter.class);
+        } else if (data instanceof CallScreenData.Read) {
+            presenter = PresenterResolver.getPresenter(CallReadPresenter.class);
+        } else if (data instanceof ActivityScreenData.GotoActivityList) {
+            presenter = PresenterResolver.getPresenter(ActivityListPresenter.class);
+        } else {
+            throw new MyCollabException("Do not support data " + data);
+        }
 
-		presenter.go(eventContainer, data);
-	}
+        presenter.go(eventContainer, data);
+    }
 
 }

@@ -19,7 +19,9 @@ package com.esofthead.mycollab.module.project.service.ibatis;
 
 import com.esofthead.mycollab.cache.CacheUtils;
 import com.esofthead.mycollab.common.ModuleNameConstants;
-import com.esofthead.mycollab.common.interceptor.aspect.*;
+import com.esofthead.mycollab.common.interceptor.aspect.ClassInfo;
+import com.esofthead.mycollab.common.interceptor.aspect.ClassInfoMap;
+import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
@@ -37,53 +39,49 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @Service
 @Transactional
-@Traceable(nameField = "name", extraFieldName = "projectid")
-@Auditable()
-@NotifyAgent(ProjectMilestoneRelayEmailNotificationAction.class)
-public class MilestoneServiceImpl extends DefaultService<Integer, Milestone, MilestoneSearchCriteria>
-		implements MilestoneService {
+@Traceable(nameField = "name", extraFieldName = "projectid", notifyAgent = ProjectMilestoneRelayEmailNotificationAction.class)
+public class MilestoneServiceImpl extends DefaultService<Integer, Milestone, MilestoneSearchCriteria> implements MilestoneService {
 
     static {
         ClassInfoMap.put(MilestoneServiceImpl.class, new ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.MILESTONE));
     }
 
-	@Autowired
-	protected MilestoneMapper milestoneMapper;
+    @Autowired
+    protected MilestoneMapper milestoneMapper;
 
-	@Autowired
-	protected MilestoneMapperExt milestoneMapperExt;
+    @Autowired
+    protected MilestoneMapperExt milestoneMapperExt;
 
-	@Override
-	public ICrudGenericDAO<Integer, Milestone> getCrudMapper() {
-		return milestoneMapper;
-	}
+    @Override
+    public ICrudGenericDAO<Integer, Milestone> getCrudMapper() {
+        return milestoneMapper;
+    }
 
-	@Override
-	public ISearchableDAO<MilestoneSearchCriteria> getSearchMapper() {
-		return milestoneMapperExt;
-	}
+    @Override
+    public ISearchableDAO<MilestoneSearchCriteria> getSearchMapper() {
+        return milestoneMapperExt;
+    }
 
-	@Override
-	public SimpleMilestone findById(Integer milestoneId, Integer sAccountId) {
-		return milestoneMapperExt.findById(milestoneId);
-	}
+    @Override
+    public SimpleMilestone findById(Integer milestoneId, Integer sAccountId) {
+        return milestoneMapperExt.findById(milestoneId);
+    }
 
-	@Override
-	public Integer saveWithSession(Milestone record, String username) {
-		Integer recordId = super.saveWithSession(record, username);
+    @Override
+    public Integer saveWithSession(Milestone record, String username) {
+        Integer recordId = super.saveWithSession(record, username);
         CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class);
-		return recordId;
-	}
+        return recordId;
+    }
 
-	@Override
-	public Integer updateWithSession(Milestone record, String username) {
+    @Override
+    public Integer updateWithSession(Milestone record, String username) {
         CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class);
-		return super.updateWithSession(record, username);
-	}
+        return super.updateWithSession(record, username);
+    }
 }

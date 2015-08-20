@@ -42,12 +42,8 @@ public class MyCollabUIProvider extends UIProvider {
 
         }
 
-        if (request.getPathInfo().startsWith("/popup/OAuthUI")) {
-            uiClass = "com.esofthead.mycollab.ondemand.module.file.view.OAuthUI";
-        } else {
-            uiClass = userAgent.contains("mobile") ? "com.esofthead.mycollab.mobile.MobileApplication"
-                    : "com.esofthead.mycollab.web.DesktopApplication";
-        }
+        uiClass = userAgent.contains("mobile") ? "com.esofthead.mycollab.mobile.MobileApplication"
+                : "com.esofthead.mycollab.web.DesktopApplication";
 
         try {
             return (Class<? extends UI>) Class.forName(uiClass);

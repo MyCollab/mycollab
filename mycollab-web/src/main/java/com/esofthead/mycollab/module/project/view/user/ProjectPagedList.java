@@ -24,7 +24,10 @@ import com.esofthead.mycollab.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectService;
-import com.esofthead.mycollab.module.project.view.parameters.*;
+import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
+import com.esofthead.mycollab.module.project.view.parameters.MilestoneScreenData;
+import com.esofthead.mycollab.module.project.view.parameters.ProjectMemberScreenData;
+import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
@@ -44,15 +47,13 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
         super(ApplicationContextUtil.getSpringBean(ProjectService.class), new ProjectRowDisplayHandler(), 4);
     }
 
-    public static class ProjectRowDisplayHandler implements
-            AbstractBeanPagedList.RowDisplayHandler<SimpleProject> {
+    public static class ProjectRowDisplayHandler implements AbstractBeanPagedList.RowDisplayHandler<SimpleProject> {
 
         @Override
-        public Component generateRow(AbstractBeanPagedList host, final SimpleProject project,
-                                     final int rowIndex) {
+        public Component generateRow(AbstractBeanPagedList host, final SimpleProject project, final int rowIndex) {
             final CssLayout layout = new CssLayout();
             layout.setWidth("100%");
-            layout.setStyleName("projectblock");
+            layout.addStyleName("projectblock");
 
             final MHorizontalLayout projectLayout = new MHorizontalLayout().withSpacing(false).withWidth("100%");
             projectLayout.addStyleName("project-status");
@@ -70,31 +71,25 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
             linkIconFix.setWidth("100%");
             final LabelLink projectLink = new LabelLink(String.format("[%s] %s", project.getShortname(), project.getName()),
                     ProjectLinkBuilder.generateProjectFullLink(project.getId()));
-            projectLink.addStyleName("project-name");
+            projectLink.addStyleName("h2");
             linkIconFix.addComponent(projectLink);
             linkIconFix.setExpandRatio(projectLink, 1.0f);
 
-            ButtonLink projectMember = new ButtonLink(
-                    project.getNumActiveMembers() + " member"
-                            + (project.getNumActiveMembers() > 1 ? "s" : ""),
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = -7865685578305013464L;
+            ButtonLink projectMember = new ButtonLink(project.getNumActiveMembers() + " member"
+                    + (project.getNumActiveMembers() > 1 ? "s" : ""), new Button.ClickListener() {
+                private static final long serialVersionUID = -7865685578305013464L;
 
-                        @Override
-                        public void buttonClick(Button.ClickEvent event) {
-                            EventBusFactory.getInstance()
-                                    .post(new ProjectEvent.GotoMyProject(
-                                            this, new PageActionChain(
-                                            new ProjectScreenData.Goto(project.getId()),
-                                            new ProjectMemberScreenData.Search(null))));
-                        }
-                    }, false);
+                @Override
+                public void buttonClick(Button.ClickEvent event) {
+                    EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, new PageActionChain(
+                            new ProjectScreenData.Goto(project.getId()), new ProjectMemberScreenData.Search(null))));
+                }
+            }, false);
             projectMember.setStyleName(UIConstants.THEME_LINK);
             MHorizontalLayout metaInfo = new MHorizontalLayout().withWidth("100%");
             metaInfo.setDefaultComponentAlignment(Alignment.TOP_LEFT);
             metaInfo.addComponent(projectMember);
-            Label createdTimeLbl = new ELabel(" - "
-                    + AppContext.getMessage(ProjectI18nEnum.OPT_CREATED_ON,
+            Label createdTimeLbl = new ELabel(" - " + AppContext.getMessage(ProjectI18nEnum.OPT_CREATED_ON,
                     AppContext.formatPrettyTime(project.getCreatedtime()))).withDescription(AppContext.formatDateTime
                     (project.getCreatedtime()));
             createdTimeLbl.setStyleName("createdtime-lbl");
