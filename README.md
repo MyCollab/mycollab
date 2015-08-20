@@ -72,6 +72,7 @@ MyCollab provides the rich set features of Project Management, Customer Manageme
   * Issues Management
   * Tasks and its dependencies management
   * Milestones
+  * Time tracking (for premium users only)
   * Risk/Problem Management (For premium users only)
   * People and Permission management
   * Support English and Japanese, more languages will be added in future

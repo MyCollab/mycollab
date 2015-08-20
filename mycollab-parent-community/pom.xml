@@ -436,7 +436,7 @@
         </repository>
         <repository>
             <id>mycollab-repo</id>
-            <url>https://raw.githubusercontent.com/esofthead/mycollab-maven-repo/master</url>
+            <url>https://raw.githubusercontent.com/MyCollab/mycollab-maven-repo/master/</url>
         </repository>
     </repositories>
     <pluginRepositories>
