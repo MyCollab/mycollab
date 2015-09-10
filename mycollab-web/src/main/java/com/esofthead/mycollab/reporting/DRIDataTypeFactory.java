@@ -37,8 +37,7 @@ class DRIDataTypeFactory {
 	private static final CurrencyType currencyType = new CurrencyType();
 
 	@SuppressWarnings("unchecked")
-	static <T extends DRIDataType<?, ?>> T detectType(Field field)
-			throws DRException {
+	static <T extends DRIDataType<?, ?>> T detectType(Field field) throws DRException {
 		if (field.getAnnotation(NotInReport.class) != null) {
 			return null;
 		}

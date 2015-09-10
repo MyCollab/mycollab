@@ -18,65 +18,46 @@
 package com.esofthead.mycollab.vaadin.mvp;
 
 import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.mvp.service.ComponentScannerService;
 import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
-import org.reflections.Reflections;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.VIEW_MANAGER_VAL;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class ViewManager {
-	protected static final Set<Class<?>> viewClasses;
 
-	static {
-		Reflections reflections = new Reflections("com.esofthead.mycollab");
-		viewClasses = reflections.getTypesAnnotatedWith(ViewComponent.class);
-	}
+    @SuppressWarnings("unchecked")
+    public static <T extends CacheableComponent> T getCacheComponent(final Class<T> viewClass) {
+        Map<Class<?>, Object> viewMap = (Map<Class<?>, Object>) MyCollabSession.getVariable(VIEW_MANAGER_VAL);
+        if (viewMap == null) {
+            viewMap = new HashMap<>();
+            MyCollabSession.putVariable(VIEW_MANAGER_VAL, viewMap);
+        }
 
-	public static Class<?> getViewImplCls(Class<?> viewClass) {
-		for (Class<?> classInstance : viewClasses) {
-			if (viewClass.isAssignableFrom(classInstance)) {
-				return classInstance;
-			}
-		}
-		return null;
-	}
-
-	public static void init() {
-
-	}
-
-	@SuppressWarnings("unchecked")
-	public static <T extends CacheableComponent> T getCacheComponent(final Class<T> viewClass) {
-		Map<Class<?>, Object> viewMap = (Map<Class<?>, Object>) MyCollabSession.getVariable(VIEW_MANAGER_VAL);
-		if (viewMap == null) {
-			viewMap = new HashMap<>();
-			MyCollabSession.putVariable(VIEW_MANAGER_VAL, viewMap);
-		}
-
-		try {
-			T value = (T) viewMap.get(viewClass);
-			if (value == null) {
-				Class<?> implCls = getViewImplCls(viewClass);
-				if (implCls != null) {
-					value = (T) implCls.newInstance();
-					viewMap.put(viewClass, value);
-					return value;
-				}
-			} else {
-				return value;
-			}
-			throw new MyCollabException("Can not find the implementation class for view " + viewClass);
-		} catch (Exception e) {
-			throw new MyCollabException("Can not create view instance of class: " + viewClass, e);
-		}
-	}
+        try {
+            T value = (T) viewMap.get(viewClass);
+            if (value == null) {
+                ComponentScannerService componentScannerService = ApplicationContextUtil.getSpringBean
+                        (ComponentScannerService.class);
+                Class<?> implCls = componentScannerService.getViewImplCls(viewClass);
+                if (implCls != null) {
+                    value = (T) implCls.newInstance();
+                    viewMap.put(viewClass, value);
+                    return value;
+                }
+            } else {
+                return value;
+            }
+            throw new MyCollabException("Can not find the implementation class for view " + viewClass);
+        } catch (Exception e) {
+            throw new MyCollabException("Can not create view instance of class: " + viewClass, e);
+        }
+    }
 }

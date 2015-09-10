@@ -49,17 +49,15 @@
         ]]>
     </select>
 
-    <select id="getSubdomainsOfUser" resultType="java.lang.String"
-        parameterType="java.lang.String">
+    <select id="getSubdomainsOfUser" resultType="java.lang.String" parameterType="java.lang.String">
         <![CDATA[
         SELECT DISTINCT s_account.subdomain
             FROM s_account, s_user_account
-            WHERE s_user_account.username=#{username} AND s_user_account.accountId=s_account.id
+            WHERE s_user_account.username=#{username, jdbcType=VARCHAR} AND s_user_account.accountId=s_account.id
         ]]>
     </select>
 
-    <resultMap
-        extends="com.esofthead.mycollab.module.user.dao.BillingAccountMapperExt.SimpleBillingAccountResult"
+    <resultMap extends="com.esofthead.mycollab.module.user.dao.BillingAccountMapperExt.SimpleBillingAccountResult"
         id="BillingAccountWithOwnersResult"
         type="com.esofthead.mycollab.module.user.domain.BillingAccountWithOwners">
         <collection columnPrefix="owner_"

@@ -23,7 +23,7 @@ import com.esofthead.mycollab.common.domain.criteria.RelayEmailNotificationSearc
 import com.esofthead.mycollab.common.service.RelayEmailNotificationService
 import com.esofthead.mycollab.core.arguments.{SearchRequest, SetSearchField}
 import com.esofthead.mycollab.module.crm.CrmTypeConstants
-import com.esofthead.mycollab.schedule.email.crm.impl.CrmDefaultSendingRelayEmailAction
+import com.esofthead.mycollab.schedule.email.crm.service.CrmDefaultSendingRelayEmailAction
 import com.esofthead.mycollab.spring.ApplicationContextUtil
 import org.quartz.JobExecutionContext
 import org.slf4j.{Logger, LoggerFactory}

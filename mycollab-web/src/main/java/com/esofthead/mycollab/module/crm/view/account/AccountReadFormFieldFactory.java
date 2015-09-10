@@ -33,8 +33,7 @@ import com.vaadin.ui.Field;
  * @since 3.0
  * 
  */
-public class AccountReadFormFieldFactory extends
-		AbstractBeanFieldGroupViewFieldFactory<SimpleAccount> {
+public class AccountReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<SimpleAccount> {
 	private static final long serialVersionUID = 1L;
 
 	public AccountReadFormFieldFactory(GenericBeanForm<SimpleAccount> form) {
@@ -48,14 +47,11 @@ public class AccountReadFormFieldFactory extends
 		if (propertyId.equals("email")) {
 			return new EmailViewField(account.getEmail());
 		} else if (propertyId.equals("assignuser")) {
-			return new UserLinkViewField(account.getAssignuser(),
-					account.getAssignUserAvatarId(),
-					account.getAssignUserFullName());
+			return new UserLinkViewField(account.getAssignuser(), account.getAssignUserAvatarId(), account.getAssignUserFullName());
 		} else if (propertyId.equals("website")) {
 			return new UrlLinkViewField(account.getWebsite());
 		} else if (propertyId.equals("type")) {
-			return new I18nFormViewField(account.getType(),
-					OptionI18nEnum.AccountType.class);
+			return new I18nFormViewField(account.getType(), OptionI18nEnum.AccountType.class);
 		} else if (propertyId.equals("description")) {
 			return new RichTextViewField(account.getDescription());
 		}

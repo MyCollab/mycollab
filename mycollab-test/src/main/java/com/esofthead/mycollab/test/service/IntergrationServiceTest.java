@@ -17,7 +17,7 @@
 
 package com.esofthead.mycollab.test.service;
 
-import com.esofthead.mycollab.spring.test.RootConfigurationTest;
+import com.esofthead.mycollab.spring.test.service.RootConfigurationTest;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.springframework.test.context.ActiveProfiles;

@@ -31,10 +31,8 @@ import com.vaadin.shared.ui.MarginInfo;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 public class CommentDisplay extends MVerticalLayout implements ReloadableComponent {
     private static final long serialVersionUID = 1L;
@@ -44,15 +42,13 @@ public class CommentDisplay extends MVerticalLayout implements ReloadableCompone
     private String typeId;
     private ProjectCommentInput commentBox;
 
-    public CommentDisplay(String type, Integer extraTypeId,
-            Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
+    public CommentDisplay(String type, Integer extraTypeId, Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
         withMargin(new MarginInfo(true, false, true, true)).withStyleName("comment-display");
         this.type = type;
         commentBox = new ProjectCommentInput(this, type, extraTypeId, emailHandler);
         this.addComponent(commentBox);
 
-        commentList = new BeanList<>(ApplicationContextUtil.getSpringBean(CommentService.class),
-                CommentRowDisplayHandler.class);
+        commentList = new BeanList<>(ApplicationContextUtil.getSpringBean(CommentService.class), CommentRowDisplayHandler.class);
         commentList.setDisplayEmptyListText(false);
         this.addComponent(commentList);
 
@@ -71,13 +67,11 @@ public class CommentDisplay extends MVerticalLayout implements ReloadableCompone
 
         Object parentComp = this.getParent();
         if (parentComp instanceof TabSheetLazyLoadComponent) {
-            ((TabSheetLazyLoadComponent) parentComp).getTab(this)
-                    .setCaption(AppContext.getMessage(GenericI18Enum
-                            .TAB_COMMENT, numComments));
+            ((TabSheetLazyLoadComponent) parentComp).getTab(this).setCaption(AppContext.getMessage(GenericI18Enum.TAB_COMMENT, numComments));
         }
     }
 
-    public void loadComments(final String typeId) {
+    public void loadComments(String typeId) {
         this.typeId = typeId;
         if (commentBox != null) {
             commentBox.setTypeAndId(typeId);

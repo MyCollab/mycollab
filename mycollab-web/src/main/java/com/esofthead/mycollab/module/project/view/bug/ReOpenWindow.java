@@ -54,12 +54,12 @@ import java.util.GregorianCalendar;
  * @since 1.0
  */
 @SuppressWarnings("serial")
-class ReOpenWindow extends Window {
+public class ReOpenWindow extends Window {
     private final SimpleBug bug;
     private VersionMultiSelectField fixedVersionSelect;
     private final IBugCallbackStatusComp callbackForm;
 
-    ReOpenWindow(final IBugCallbackStatusComp callbackForm, final SimpleBug bug) {
+    public ReOpenWindow(final IBugCallbackStatusComp callbackForm, final SimpleBug bug) {
         super("Reopen bug '" + bug.getSummary() + "'");
         this.setResizable(false);
         this.setModal(true);
@@ -86,7 +86,7 @@ class ReOpenWindow extends Window {
         public void setBean(final BugWithBLOBs newDataSource) {
             this.setFormLayoutFactory(new FormLayoutFactory());
             this.setBeanFormFieldFactory(new EditFormFieldFactory(EditForm.this));
-            super.setBean((BugWithBLOBs)newDataSource.copy());
+            super.setBean((BugWithBLOBs) newDataSource.copy());
         }
 
         class FormLayoutFactory implements IFormLayoutFactory {
@@ -140,7 +140,6 @@ class ReOpenWindow extends Window {
                 });
                 wonFixBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
                 wonFixBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
-                controlsBtn.with(wonFixBtn).withAlign(wonFixBtn, Alignment.MIDDLE_RIGHT);
 
                 Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
                     @Override
@@ -149,7 +148,7 @@ class ReOpenWindow extends Window {
                     }
                 });
                 cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-                controlsBtn.with(cancelBtn).withAlign(cancelBtn, Alignment.MIDDLE_RIGHT);
+                controlsBtn.with(cancelBtn, wonFixBtn);
 
                 layout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
                 return layout;

@@ -21,7 +21,6 @@ import com.esofthead.mycollab.common.domain.OptionVal;
 import com.esofthead.mycollab.common.domain.SaveSearchResultWithBLOBs;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.OptionValService;
-import com.esofthead.mycollab.configuration.Storage;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
@@ -30,7 +29,6 @@ import com.esofthead.mycollab.core.db.query.SearchFieldInfo;
 import com.esofthead.mycollab.core.utils.XStreamJsonDeSerializer;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.*;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
@@ -44,17 +42,15 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.google.common.eventbus.Subscribe;
-import com.hp.gagawa.java.elements.Div;
-import com.hp.gagawa.java.elements.Img;
 import com.vaadin.data.Property;
 import com.vaadin.event.dd.DragAndDropEvent;
 import com.vaadin.event.dd.DropHandler;
 import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
 import com.vaadin.event.dd.acceptcriteria.Not;
 import com.vaadin.server.ExternalResource;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.dd.HorizontalDropLocation;
@@ -334,32 +330,25 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
                     AppContext.getSiteUrl(), AppContext.getTimezone()));
             root.with(taskBtn);
 
-            Div footerDiv = new Div().setStyle("display:flex").setCSSClass("footer2");
+            MHorizontalLayout footer = new MHorizontalLayout().withStyleName("footer2").withSpacing(false);
+            TaskPopupFieldFactory popupFieldFactory = ViewManager.getCacheComponent(TaskPopupFieldFactory.class);
 
-            // Build footer
-            if (task.getNumComments() != null && task.getNumComments() > 0) {
-                Div comment = new Div().appendText(FontAwesome.COMMENT_O.getHtml() + " " + task.getNumComments()).setTitle("Comment");
-                footerDiv.appendChild(comment).appendChild(DivLessFormatter.EMPTY_SPACE());
-            }
+            PopupView commentField = popupFieldFactory.createTaskCommentsPopupField(task);
+            footer.addComponent(commentField);
 
             if (task.getDeadlineRoundPlusOne() != null) {
+                PopupView field = popupFieldFactory.createTaskDeadlinePopupField(task);
                 String deadline = String.format("%s: %s", AppContext.getMessage(TaskI18nEnum.FORM_DEADLINE),
                         AppContext.formatDate(task.getDeadlineRoundPlusOne()));
-                Div deadlineDiv = new Div().appendText(FontAwesome.CLOCK_O.getHtml() + " " + AppContext.formatPrettyTime(task
-                        .getDeadlineRoundPlusOne())).setTitle(deadline);
-                footerDiv.appendChild(deadlineDiv).appendChild(DivLessFormatter.EMPTY_SPACE());
+                field.setDescription(deadline);
+                footer.addComponent(field);
             }
 
             if (task.getAssignuser() != null) {
-                Img userAvatar = new Img("", Storage.getAvatarPath(task.getAssignUserAvatarId(), 16))
-                        .setTitle(task.getAssignUserFullName());
-                footerDiv.appendChild(userAvatar);
+                footer.add(UserAvatarControlFactory.createUserAvatarEmbeddedButton(task.getAssignUserAvatarId(), 16));
             }
 
-            if (footerDiv.getChildren().size() > 0) {
-                Label footer = new Label(footerDiv.write(), ContentMode.HTML);
-                root.addComponent(footer);
-            }
+            root.addComponent(footer);
         }
     }
 
@@ -526,7 +515,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
                 cancelBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
                 controlsBtn.with(saveBtn, cancelBtn);
                 layout.with(controlsBtn).withAlign(controlsBtn, Alignment.MIDDLE_RIGHT);
-                if (newTaskComp != null) {
+                if (newTaskComp != null && newTaskComp.getParent() != null) {
                     ((ComponentContainer) newTaskComp.getParent()).removeComponent(newTaskComp);
                 }
                 newTaskComp = layout;

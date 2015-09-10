@@ -34,23 +34,19 @@ import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
  * @since 1.0
  * 
  */
-public interface AccountService extends
-		IDefaultService<Integer, Account, AccountSearchCriteria> {
+public interface AccountService extends IDefaultService<Integer, Account, AccountSearchCriteria> {
 
 	@Cacheable
 	SimpleAccount findById(Integer id, @CacheKey Integer accountId);
 
 	@CacheEvict
 	@CacheArgs(values={LeadService.class})
-	void saveAccountLeadRelationship(List<AccountLead> associateLeads,
-			@CacheKey Integer accountId);
+	void saveAccountLeadRelationship(List<AccountLead> associateLeads, @CacheKey Integer accountId);
 
 	@CacheEvict
 	@CacheArgs(values={LeadService.class})
-	void removeAccountLeadRelationship(AccountLead associateLead,
-			@CacheKey Integer accountId);
+	void removeAccountLeadRelationship(AccountLead associateLead, @CacheKey Integer accountId);
 
 	@Cacheable
-	SimpleAccount findAccountAssoWithConvertedLead(Integer leadId,
-			@CacheKey Integer accountId);
+	SimpleAccount findAccountAssoWithConvertedLead(Integer leadId, @CacheKey Integer accountId);
 }

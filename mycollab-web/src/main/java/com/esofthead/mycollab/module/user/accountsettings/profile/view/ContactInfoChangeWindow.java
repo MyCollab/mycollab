@@ -63,7 +63,7 @@ class ContactInfoChangeWindow extends Window {
         this.setWidth("450px");
         this.setResizable(false);
         this.setModal(true);
-        this.validation = ApplicationContextUtil.getSpringBean(LocalValidatorFactoryBean.class);
+        this.validation = ApplicationContextUtil.getSpringBean("validator", LocalValidatorFactoryBean.class);
         this.initUI();
         this.center();
         this.setCaption(AppContext.getMessage(UserI18nEnum.WINDOW_CHANGE_CONTACT_INFO_TITLE));
@@ -165,8 +165,7 @@ class ContactInfoChangeWindow extends Window {
             UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
             userService.updateWithSession(this.user, AppContext.getUsername());
 
-            EventBusFactory.getInstance().post(new ProfileEvent.GotoProfileView(
-                    ContactInfoChangeWindow.this, null));
+            EventBusFactory.getInstance().post(new ProfileEvent.GotoProfileView(ContactInfoChangeWindow.this, null));
             close();
             Page.getCurrent().getJavaScript().execute("window.location.reload();");
         }

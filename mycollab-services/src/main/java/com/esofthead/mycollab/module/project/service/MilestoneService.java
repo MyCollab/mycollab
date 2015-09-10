@@ -23,15 +23,12 @@ import com.esofthead.mycollab.core.persistence.service.IDefaultService;
 import com.esofthead.mycollab.module.project.domain.Milestone;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
-import org.apache.ibatis.annotations.Param;
 
 /**
- * 
  * @author MyCollab Ltd.
  */
-public interface MilestoneService extends
-		IDefaultService<Integer, Milestone, MilestoneSearchCriteria> {
+public interface MilestoneService extends IDefaultService<Integer, Milestone, MilestoneSearchCriteria> {
 
-	@Cacheable
-	SimpleMilestone findById(Integer milestoneId, @CacheKey Integer sAccountId);
+    @Cacheable
+    SimpleMilestone findById(Integer milestoneId, @CacheKey Integer sAccountId);
 }

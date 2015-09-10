@@ -16,31 +16,28 @@
  */
 package com.esofthead.mycollab.validator.constraints;
 
+import com.esofthead.mycollab.core.utils.StringUtils;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import org.apache.commons.lang3.StringUtils;
-
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 @SuppressWarnings("ucd")
 public class URLValidator implements ConstraintValidator<URL, String> {
 
-	@Override
-	public void initialize(URL constraintAnnotation) {
-	}
+    @Override
+    public void initialize(URL constraintAnnotation) {
+    }
 
-	@Override
-	public boolean isValid(String value, ConstraintValidatorContext context) {
-		if (!StringUtils.isBlank(value)) {
-			return value
-					.matches("[-a-zA-Z0-9@:%_\\+.~#?&//=]{2,256}\\.[a-z]{2,4}\\b(\\/[-a-zA-Z0-9@:%_\\+.~#?&//=]*)?");
-		} else {
-			return true;
-		}
-	}
+    @Override
+    public boolean isValid(String value, ConstraintValidatorContext context) {
+        if (!StringUtils.isBlank(value)) {
+            return value.matches("[-a-zA-Z0-9@:%_\\+.~#?&//=]{2,256}\\.[a-z]{2,4}\\b(\\/[-a-zA-Z0-9@:%_\\+.~#?&//=]*)?");
+        } else {
+            return true;
+        }
+    }
 }

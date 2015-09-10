@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.ecm.esb.impl
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.locks.Lock
 
-import com.esofthead.mycollab.core.utils.BeanUtility
+import com.esofthead.mycollab.core.utils.{BeanUtility, StringUtils}
 import com.esofthead.mycollab.lock.DistributionLockUtil
 import com.esofthead.mycollab.module.GenericCommand
 import com.esofthead.mycollab.module.ecm.domain.DriveInfo
@@ -27,7 +27,6 @@ import com.esofthead.mycollab.module.ecm.esb.SaveContentEvent
 import com.esofthead.mycollab.module.ecm.service.DriveInfoService
 import com.esofthead.mycollab.module.file.service.RawContentService
 import com.google.common.eventbus.{AllowConcurrentEvents, Subscribe}
-import org.apache.commons.lang3.StringUtils
 import org.slf4j.{Logger, LoggerFactory}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -73,7 +72,7 @@ object SaveContentCommandImpl {
         }
         catch {
             case e: Exception => SaveContentCommandImpl.LOG.error(String.format("Error while save content %s",
-                    BeanUtility.printBeanObj(event.content)), e)
+                BeanUtility.printBeanObj(event.content)), e)
         } finally {
             lock.unlock
         }

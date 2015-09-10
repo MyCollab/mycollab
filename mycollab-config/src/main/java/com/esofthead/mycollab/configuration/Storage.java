@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.configuration;
 
 import com.esofthead.mycollab.core.MyCollabException;
-import org.apache.commons.lang3.StringUtils;
+import com.esofthead.mycollab.core.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

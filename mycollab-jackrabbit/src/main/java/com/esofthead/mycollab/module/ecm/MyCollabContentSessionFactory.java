@@ -16,162 +16,139 @@
  */
 package com.esofthead.mycollab.module.ecm;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.extensions.jcr.JcrSessionFactory;
+
 import javax.jcr.PropertyType;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
-import javax.jcr.nodetype.NoSuchNodeTypeException;
 import javax.jcr.nodetype.NodeType;
 import javax.jcr.nodetype.NodeTypeManager;
 import javax.jcr.nodetype.NodeTypeTemplate;
 import javax.jcr.nodetype.PropertyDefinitionTemplate;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.extensions.jcr.JcrSessionFactory;
-
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class MyCollabContentSessionFactory extends JcrSessionFactory {
+    private static final Logger LOG = LoggerFactory.getLogger(MyCollabContentSessionFactory.class);
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(MyCollabContentSessionFactory.class);
+    @Override
+    protected void registerNodeTypes() throws Exception {
+        LOG.info("Register node types");
+        Session session = getSession();
+        final String[] jcrNamespaces = session.getWorkspace().getNamespaceRegistry().getPrefixes();
+        boolean createNamespace = true;
+        for (int i = 0; i < jcrNamespaces.length; i++) {
+            if (jcrNamespaces[i].equals("mycollab")) {
+                createNamespace = false;
+                LOG.debug("Jackrabbit OCM namespace exists.");
+            }
+        }
+        if (createNamespace) {
+            session.getWorkspace().getNamespaceRegistry()
+                    .registerNamespace("mycollab", "http://www.esofthead.com/mycollab");
+            LOG.debug("Successfully created Mycollab content namespace.");
+        }
+        if (session.getRootNode() == null) {
+            throw new ContentException("Jcr session setup not successful.");
+        }
 
-	@Override
-	protected void registerNodeTypes() throws Exception {
-		LOG.info("Register node types");
-		Session session = getSession();
-		final String[] jcrNamespaces = session.getWorkspace()
-				.getNamespaceRegistry().getPrefixes();
-		boolean createNamespace = true;
-		for (int i = 0; i < jcrNamespaces.length; i++) {
-			if (jcrNamespaces[i].equals("mycollab")) {
-				createNamespace = false;
-				LOG.debug("Jackrabbit OCM namespace exists.");
-			}
-		}
-		if (createNamespace) {
-			session.getWorkspace()
-					.getNamespaceRegistry()
-					.registerNamespace("mycollab",
-							"http://www.esofthead.com/mycollab");
-			LOG.debug("Successfully created Mycollab content namespace.");
-		}
-		if (session.getRootNode() == null) {
-			throw new ContentException("Jcr session setup not successful.");
-		}
+        NodeTypeManager manager = session.getWorkspace().getNodeTypeManager();
+        manager.registerNodeType(createMyCollabContentType(manager), true);
+        manager.registerNodeType(createMyCollabFolderType(manager), true);
+        session.logout();
+    }
 
-		NodeTypeManager manager = session.getWorkspace()
-				.getNodeTypeManager();
-		manager.registerNodeType(createMyCollabContentType(manager), true);
-		manager.registerNodeType(createMyCollabFolderType(manager), true);
-		session.logout();
-	}
+    @SuppressWarnings("unchecked")
+    private NodeTypeTemplate createMyCollabContentType(NodeTypeManager manager) throws RepositoryException {
+        LOG.info("Register mycollab content type");
+        NodeType hierachyNode = manager.getNodeType(NodeType.NT_HIERARCHY_NODE);
+        // Create content node type
+        NodeTypeTemplate contentTypeTemplate = manager.createNodeTypeTemplate(hierachyNode);
 
-	@SuppressWarnings("unchecked")
-	private NodeTypeTemplate createMyCollabContentType(NodeTypeManager manager)
-			throws RepositoryException {
-		LOG.info("Register mycollab content type");
-		NodeType hierachyNode = manager.getNodeType(NodeType.NT_HIERARCHY_NODE);
-		// Create content node type
-		NodeTypeTemplate contentTypeTemplate = manager
-				.createNodeTypeTemplate(hierachyNode);
+        contentTypeTemplate.setAbstract(false);
+        contentTypeTemplate.setMixin(false);
+        contentTypeTemplate.setName("mycollab:content");
+        contentTypeTemplate.setPrimaryItemName("content");
+        contentTypeTemplate.setDeclaredSuperTypeNames(new String[]{NodeType.NT_HIERARCHY_NODE});
+        contentTypeTemplate.setQueryable(true);
+        contentTypeTemplate.setOrderableChildNodes(false);
+        LOG.debug("PROPERTY {} {}",
+                contentTypeTemplate.getDeclaredPropertyDefinitions().length,
+                contentTypeTemplate.getDeclaredChildNodeDefinitions().length);
 
-		contentTypeTemplate.setAbstract(false);
-		contentTypeTemplate.setMixin(false);
-		contentTypeTemplate.setName("mycollab:content");
-		contentTypeTemplate.setPrimaryItemName("content");
-		contentTypeTemplate
-				.setDeclaredSuperTypeNames(new String[] { NodeType.NT_HIERARCHY_NODE });
-		contentTypeTemplate.setQueryable(true);
-		contentTypeTemplate.setOrderableChildNodes(false);
-		LOG.debug("PROPERTY {} {}",
-				contentTypeTemplate.getDeclaredPropertyDefinitions().length,
-				contentTypeTemplate.getDeclaredChildNodeDefinitions().length);
+        PropertyDefinitionTemplate createdUserPropertyTemplate = manager
+                .createPropertyDefinitionTemplate();
+        createdUserPropertyTemplate.setMultiple(false);
+        createdUserPropertyTemplate.setName("mycollab:createdUser");
+        createdUserPropertyTemplate.setMandatory(true);
+        createdUserPropertyTemplate.setRequiredType(PropertyType.STRING);
+        contentTypeTemplate.getPropertyDefinitionTemplates().add(createdUserPropertyTemplate);
 
-		PropertyDefinitionTemplate createdUserPropertyTemplate = manager
-				.createPropertyDefinitionTemplate();
-		createdUserPropertyTemplate.setMultiple(false);
-		createdUserPropertyTemplate.setName("mycollab:createdUser");
-		createdUserPropertyTemplate.setMandatory(true);
-		createdUserPropertyTemplate.setRequiredType(PropertyType.STRING);
-		contentTypeTemplate.getPropertyDefinitionTemplates().add(
-				createdUserPropertyTemplate);
+        PropertyDefinitionTemplate contentPathPropertyTemplate = manager.createPropertyDefinitionTemplate();
+        contentPathPropertyTemplate.setMultiple(false);
+        contentPathPropertyTemplate.setName("mycollab:contentPath");
+        contentPathPropertyTemplate.setMandatory(false);
+        contentPathPropertyTemplate.setRequiredType(PropertyType.STRING);
+        contentTypeTemplate.getPropertyDefinitionTemplates().add(contentPathPropertyTemplate);
 
-		PropertyDefinitionTemplate contentPathPropertyTemplate = manager
-				.createPropertyDefinitionTemplate();
-		contentPathPropertyTemplate.setMultiple(false);
-		contentPathPropertyTemplate.setName("mycollab:contentPath");
-		contentPathPropertyTemplate.setMandatory(false);
-		contentPathPropertyTemplate.setRequiredType(PropertyType.STRING);
-		contentTypeTemplate.getPropertyDefinitionTemplates().add(
-				contentPathPropertyTemplate);
-		
-		PropertyDefinitionTemplate thumbnailPathPropertyTemplate = manager
-				.createPropertyDefinitionTemplate();
-		thumbnailPathPropertyTemplate.setMultiple(false);
-		thumbnailPathPropertyTemplate.setName("mycollab:thumbnailPath");
-		thumbnailPathPropertyTemplate.setMandatory(false);
-		thumbnailPathPropertyTemplate.setRequiredType(PropertyType.STRING);
-		contentTypeTemplate.getPropertyDefinitionTemplates().add(
-				thumbnailPathPropertyTemplate);
+        PropertyDefinitionTemplate thumbnailPathPropertyTemplate = manager.createPropertyDefinitionTemplate();
+        thumbnailPathPropertyTemplate.setMultiple(false);
+        thumbnailPathPropertyTemplate.setName("mycollab:thumbnailPath");
+        thumbnailPathPropertyTemplate.setMandatory(false);
+        thumbnailPathPropertyTemplate.setRequiredType(PropertyType.STRING);
+        contentTypeTemplate.getPropertyDefinitionTemplates().add(
+                thumbnailPathPropertyTemplate);
 
-		PropertyDefinitionTemplate lastModifiedUserPropertyTemplate = manager
-				.createPropertyDefinitionTemplate();
-		lastModifiedUserPropertyTemplate.setMultiple(false);
-		lastModifiedUserPropertyTemplate.setName("mycollab:lastModifiedUser");
-		lastModifiedUserPropertyTemplate.setMandatory(true);
-		lastModifiedUserPropertyTemplate.setRequiredType(PropertyType.STRING);
-		contentTypeTemplate.getPropertyDefinitionTemplates().add(
-				lastModifiedUserPropertyTemplate);
+        PropertyDefinitionTemplate lastModifiedUserPropertyTemplate = manager.createPropertyDefinitionTemplate();
+        lastModifiedUserPropertyTemplate.setMultiple(false);
+        lastModifiedUserPropertyTemplate.setName("mycollab:lastModifiedUser");
+        lastModifiedUserPropertyTemplate.setMandatory(true);
+        lastModifiedUserPropertyTemplate.setRequiredType(PropertyType.STRING);
+        contentTypeTemplate.getPropertyDefinitionTemplates().add(lastModifiedUserPropertyTemplate);
 
-		PropertyDefinitionTemplate mimeTypePropertyTemplate = manager
-				.createPropertyDefinitionTemplate();
-		mimeTypePropertyTemplate.setMultiple(false);
-		mimeTypePropertyTemplate.setName("mycollab:mimeType");
-		mimeTypePropertyTemplate.setMandatory(false);
-		mimeTypePropertyTemplate.setRequiredType(PropertyType.STRING);
-		contentTypeTemplate.getPropertyDefinitionTemplates().add(
-				mimeTypePropertyTemplate);
+        PropertyDefinitionTemplate mimeTypePropertyTemplate = manager
+                .createPropertyDefinitionTemplate();
+        mimeTypePropertyTemplate.setMultiple(false);
+        mimeTypePropertyTemplate.setName("mycollab:mimeType");
+        mimeTypePropertyTemplate.setMandatory(false);
+        mimeTypePropertyTemplate.setRequiredType(PropertyType.STRING);
+        contentTypeTemplate.getPropertyDefinitionTemplates().add(
+                mimeTypePropertyTemplate);
 
-		PropertyDefinitionTemplate sizePropertyTemplate = manager
-				.createPropertyDefinitionTemplate();
-		sizePropertyTemplate.setMultiple(false);
-		sizePropertyTemplate.setName("mycollab:size");
-		sizePropertyTemplate.setMandatory(true);
-		sizePropertyTemplate.setRequiredType(PropertyType.LONG);
-		contentTypeTemplate.getPropertyDefinitionTemplates().add(
-				sizePropertyTemplate);
+        PropertyDefinitionTemplate sizePropertyTemplate = manager.createPropertyDefinitionTemplate();
+        sizePropertyTemplate.setMultiple(false);
+        sizePropertyTemplate.setName("mycollab:size");
+        sizePropertyTemplate.setMandatory(true);
+        sizePropertyTemplate.setRequiredType(PropertyType.LONG);
+        contentTypeTemplate.getPropertyDefinitionTemplates().add(sizePropertyTemplate);
 
-		return contentTypeTemplate;
-	}
+        return contentTypeTemplate;
+    }
 
-	@SuppressWarnings("unchecked")
-	private NodeTypeTemplate createMyCollabFolderType(NodeTypeManager manager)
-			throws RepositoryException {
-		// Create content node type
-		NodeTypeTemplate contentTypeTemplate = manager.createNodeTypeTemplate();
+    @SuppressWarnings("unchecked")
+    private NodeTypeTemplate createMyCollabFolderType(NodeTypeManager manager) throws RepositoryException {
+        // Create content node type
+        NodeTypeTemplate contentTypeTemplate = manager.createNodeTypeTemplate();
 
-		contentTypeTemplate.setAbstract(false);
-		contentTypeTemplate.setMixin(false);
-		contentTypeTemplate.setName("mycollab:folder");
-		contentTypeTemplate.setPrimaryItemName("folder");
-		contentTypeTemplate
-				.setDeclaredSuperTypeNames(new String[] { NodeType.NT_FOLDER });
-		contentTypeTemplate.setQueryable(true);
-		contentTypeTemplate.setOrderableChildNodes(false);
+        contentTypeTemplate.setAbstract(false);
+        contentTypeTemplate.setMixin(false);
+        contentTypeTemplate.setName("mycollab:folder");
+        contentTypeTemplate.setPrimaryItemName("folder");
+        contentTypeTemplate.setDeclaredSuperTypeNames(new String[]{NodeType.NT_FOLDER});
+        contentTypeTemplate.setQueryable(true);
+        contentTypeTemplate.setOrderableChildNodes(false);
 
-		PropertyDefinitionTemplate createdPropertyTemplate = manager
-				.createPropertyDefinitionTemplate();
-		createdPropertyTemplate.setMultiple(false);
-		createdPropertyTemplate.setName("mycollab:createdUser");
-		createdPropertyTemplate.setMandatory(true);
-		createdPropertyTemplate.setRequiredType(PropertyType.STRING);
-		contentTypeTemplate.getPropertyDefinitionTemplates().add(
-				createdPropertyTemplate);
-		return contentTypeTemplate;
-	}
+        PropertyDefinitionTemplate createdPropertyTemplate = manager
+                .createPropertyDefinitionTemplate();
+        createdPropertyTemplate.setMultiple(false);
+        createdPropertyTemplate.setName("mycollab:createdUser");
+        createdPropertyTemplate.setMandatory(true);
+        createdPropertyTemplate.setRequiredType(PropertyType.STRING);
+        contentTypeTemplate.getPropertyDefinitionTemplates().add(createdPropertyTemplate);
+        return contentTypeTemplate;
+    }
 }

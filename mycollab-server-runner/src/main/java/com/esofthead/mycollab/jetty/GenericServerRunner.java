@@ -19,7 +19,7 @@ package com.esofthead.mycollab.jetty;
 import ch.qos.logback.classic.Level;
 import com.esofthead.mycollab.configuration.ApplicationProperties;
 import com.esofthead.mycollab.configuration.DatabaseConfiguration;
-import com.esofthead.mycollab.configuration.LogConfig;
+import com.esofthead.mycollab.configuration.logging.LogConfig;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.FileUtils;

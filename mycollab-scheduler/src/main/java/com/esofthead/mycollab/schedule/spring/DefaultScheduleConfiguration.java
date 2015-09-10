@@ -18,8 +18,8 @@ package com.esofthead.mycollab.schedule.spring;
 
 import com.esofthead.mycollab.schedule.AutowiringSpringBeanJobFactory;
 import com.esofthead.mycollab.schedule.QuartzScheduleProperties;
-import com.esofthead.mycollab.schedule.email.user.impl.SendUserInvitationEmailJob;
-import com.esofthead.mycollab.schedule.email.user.impl.UserSignUpEmailNotificationJob;
+import com.esofthead.mycollab.schedule.email.user.service.SendUserInvitationEmailJob;
+import com.esofthead.mycollab.schedule.email.user.service.UserSignUpEmailNotificationJob;
 import com.esofthead.mycollab.schedule.jobs.CrmSendingRelayEmailNotificationJob;
 import com.esofthead.mycollab.schedule.jobs.ProjectSendingRelayEmailNotificationJob;
 import com.esofthead.mycollab.schedule.jobs.SendingRelayEmailJob;

@@ -47,11 +47,13 @@
     m_form_section*,
     m_form_section_field*,
     m_monitor_item*,
+    m_options*,
     m_prj_customize_view*,
     m_prj_member*,
     m_prj_message*,
     m_prj_milestone*,
     m_prj_notifications*,
+    m_prj_predecessor*,
     m_prj_problem*,
     m_prj_project*,
     m_prj_risk*,
@@ -59,7 +61,6 @@
     m_prj_role_permission*,
     m_prj_standup*,
     m_prj_task*,
-    m_prj_task_list*,
     m_prj_time_logging*,
     m_tracker_bug*,
     m_tracker_bug_related_item*,
@@ -805,6 +806,7 @@
     createdTime CDATA #REQUIRED
     lastUpdatedTime CDATA #REQUIRED
     folderName CDATA #REQUIRED
+    shareAccountId CDATA #IMPLIED
 >
 
 <!ELEMENT m_form_custom_field_value EMPTY>
@@ -890,6 +892,21 @@
     sAccountId CDATA #REQUIRED
 >
 
+<!ELEMENT m_options EMPTY>
+<!ATTLIST m_options
+    id CDATA #REQUIRED
+    type CDATA #REQUIRED
+    typeVal CDATA #REQUIRED
+    description CDATA #IMPLIED
+    orderIndex CDATA #IMPLIED
+    sAccountId CDATA #REQUIRED
+    createdtime CDATA #REQUIRED
+    createdUser CDATA #IMPLIED
+    extraId CDATA #IMPLIED
+    isDefault CDATA #REQUIRED
+    refOption CDATA #IMPLIED
+>
+
 <!ELEMENT m_prj_customize_view EMPTY>
 <!ATTLIST m_prj_customize_view
     id CDATA #REQUIRED
@@ -952,6 +969,9 @@
     status CDATA #REQUIRED
     createduser CDATA #IMPLIED
     prjKey CDATA #IMPLIED
+    actualstartdate CDATA #IMPLIED
+    actualenddate CDATA #IMPLIED
+    deadline CDATA #IMPLIED
 >
 
 <!ELEMENT m_prj_notifications EMPTY>
@@ -961,6 +981,18 @@
     projectId CDATA #REQUIRED
     sAccountId CDATA #REQUIRED
     level CDATA #REQUIRED
+>
+
+<!ELEMENT m_prj_predecessor EMPTY>
+<!ATTLIST m_prj_predecessor
+    id CDATA #REQUIRED
+    type CDATA #REQUIRED
+    predestype CDATA #REQUIRED
+    createdTime CDATA #REQUIRED
+    createdUser CDATA #IMPLIED
+    lagDay CDATA #IMPLIED
+    sourceId CDATA #REQUIRED
+    descId CDATA #REQUIRED
 >
 
 <!ELEMENT m_prj_problem EMPTY>
@@ -1017,6 +1049,7 @@
     lastUpdatedTime CDATA #IMPLIED
     avatarId CDATA #IMPLIED
     contextAsk CDATA #IMPLIED
+    deadline CDATA #IMPLIED
 >
 
 <!ELEMENT m_prj_risk EMPTY>
@@ -1092,7 +1125,6 @@
     taskindex CDATA #IMPLIED
     actualStartDate CDATA #IMPLIED
     actualEndDate CDATA #IMPLIED
-    tasklistid CDATA #IMPLIED
     createdTime CDATA #IMPLIED
     lastUpdatedTime CDATA #IMPLIED
     assignUser CDATA #IMPLIED
@@ -1103,23 +1135,8 @@
     originalEstimate CDATA #IMPLIED
     remainEstimate CDATA #IMPLIED
     parentTaskId CDATA #IMPLIED
->
-
-<!ELEMENT m_prj_task_list EMPTY>
-<!ATTLIST m_prj_task_list
-    id CDATA #REQUIRED
-    name CDATA #REQUIRED
-    description CDATA #IMPLIED
-    projectid CDATA #REQUIRED
-    createdTime CDATA #IMPLIED
-    lastUpdatedTime CDATA #IMPLIED
-    sAccountId CDATA #REQUIRED
     milestoneId CDATA #IMPLIED
-    owner CDATA #IMPLIED
-    groupIndex CDATA #IMPLIED
-    status CDATA #REQUIRED
-    createduser CDATA #IMPLIED
-    prjKey CDATA #IMPLIED
+    ganttindex CDATA #IMPLIED
 >
 
 <!ELEMENT m_prj_time_logging EMPTY>
@@ -1184,6 +1201,7 @@
     sAccountId CDATA #REQUIRED
     milestoneId CDATA #IMPLIED
     bugkey CDATA #IMPLIED
+    bugIndex CDATA #IMPLIED
 >
 
 <!ELEMENT m_tracker_bug_related_item EMPTY>

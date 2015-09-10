@@ -99,8 +99,7 @@ public class ResourceServiceImpl implements ResourceService {
         if (sAccountId != null) {
             try {
                 fileSize = refStream.available();
-                billingPlanCheckerService.validateAccountCanUploadMoreFiles(
-                        sAccountId, fileSize);
+                billingPlanCheckerService.validateAccountCanUploadMoreFiles(sAccountId, fileSize);
             } catch (IOException e) {
                 LOG.error("Can not get available bytes", e);
             }
@@ -167,27 +166,20 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public List<Resource> searchResourcesByName(String baseFolderPath,
-                                                String resourceName) {
-        return contentJcrDao
-                .searchResourcesByName(baseFolderPath, resourceName);
+    public List<Resource> searchResourcesByName(String baseFolderPath, String resourceName) {
+        return contentJcrDao.searchResourcesByName(baseFolderPath, resourceName);
     }
 
     @Override
-    public void moveResource(String oldPath, String destinationFolderPath,
-                             String userMove) {
-        String oldResourceName = oldPath.substring(
-                oldPath.lastIndexOf("/") + 1, oldPath.length());
+    public void moveResource(String oldPath, String destinationFolderPath, String userMove) {
+        String oldResourceName = oldPath.substring(oldPath.lastIndexOf("/") + 1, oldPath.length());
 
         Resource oldResource = contentJcrDao.getResource(oldPath);
 
-        if ((oldResource instanceof Folder)
-                && destinationFolderPath.contains(oldPath)) {
-            throw new UserInvalidInputException(
-                    "Can not move asset(s) to folder " + destinationFolderPath);
+        if ((oldResource instanceof Folder) && destinationFolderPath.contains(oldPath)) {
+            throw new UserInvalidInputException("Can not move asset(s) to folder " + destinationFolderPath);
         } else {
-            String destinationPath = destinationFolderPath + "/"
-                    + oldResourceName;
+            String destinationPath = destinationFolderPath + "/" + oldResourceName;
             contentJcrDao.moveResource(oldPath, destinationPath);
             rawContentService.movePath(oldPath, destinationPath);
         }

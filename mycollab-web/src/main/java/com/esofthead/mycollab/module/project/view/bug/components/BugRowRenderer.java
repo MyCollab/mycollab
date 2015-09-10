@@ -25,11 +25,14 @@ import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
+import com.esofthead.mycollab.module.project.view.bug.BugPopupFieldFactory;
+import com.esofthead.mycollab.module.project.view.task.TaskPopupFieldFactory;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.OptionPopupContent;
@@ -77,37 +80,32 @@ public class BugRowRenderer extends MHorizontalLayout {
         bugLinkLbl.addStyleName("wordWrap");
         wrapBugInfoLayout.addComponent(bugLinkLbl);
 
+        BugPopupFieldFactory popupFieldFactory = ViewManager.getCacheComponent(BugPopupFieldFactory.class);
+
         MHorizontalLayout footer = new MHorizontalLayout();
         footer.addStyleName(UIConstants.FOOTER_NOTE);
-        if (bug.getNumComments() != null && bug.getNumComments() > 0) {
-            Div comment = new Div().appendText(FontAwesome.COMMENT_O.getHtml() + " " + bug.getNumComments()).setTitle("Comment");
-            footer.addComponent(new ELabel(comment.write(), ContentMode.HTML).withDescription("Comment"));
-        }
+
+        PopupView commentsField =  popupFieldFactory.createBugCommentsPopupField(bug);
+        footer.addComponent(commentsField);
+
         if (bug.getStatus() != null) {
-            Label statusBtn = new Label(FontAwesome.INFO_CIRCLE.getHtml() + " " + AppContext.getMessage(OptionI18nEnum.BugStatus
-                    .class, bug.getStatus()), ContentMode.HTML);
-            statusBtn.setDescription(AppContext.getMessage(BugI18nEnum.FORM_STATUS));
-            footer.addComponent(statusBtn);
+            PopupView field = popupFieldFactory.createBugStatusPopupField(bug);
+            footer.addComponent(field);
         }
         if (bug.getMilestoneid() != null) {
-            Label milestoneLbl = new Label(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE).getHtml() +
-                    " " + bug.getMilestoneName(), ContentMode.HTML);
-            milestoneLbl.setDescription(AppContext.getMessage(BugI18nEnum.FORM_PHASE));
-            footer.addComponent(milestoneLbl);
+            PopupView field = popupFieldFactory.createBugMilestonePopupField(bug);
+            footer.addComponent(field);
         }
 
         if (bug.getDuedate() != null) {
             String deadlineTooltip = String.format("%s: %s", AppContext.getMessage(BugI18nEnum.FORM_DUE_DATE),
                     AppContext.formatDate(bug.getDuedate()));
-            Label deadlineBtn = new Label(String.format(" %s %s", VaadinIcons.USER_CLOCK.getHtml(),
-                    AppContext.formatPrettyTime(bug.getDueDateRoundPlusOne())), ContentMode.HTML);
-            deadlineBtn.setDescription(deadlineTooltip);
-            footer.addComponent(deadlineBtn);
+            PopupView field = popupFieldFactory.createBugDeadlinePopupField(bug);
+            field.setDescription(deadlineTooltip);
+            footer.addComponent(field);
         }
 
-        if (footer.getComponentCount() > 0) {
-            wrapBugInfoLayout.addComponent(footer);
-        }
+        wrapBugInfoLayout.addComponent(footer);
         this.with(wrapBugInfoLayout).expand(wrapBugInfoLayout);
     }
 

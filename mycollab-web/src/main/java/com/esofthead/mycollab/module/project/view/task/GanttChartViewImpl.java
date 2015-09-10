@@ -18,19 +18,17 @@ package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.core.arguments.BooleanSearchField;
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
-import com.esofthead.mycollab.module.project.domain.SimpleTask;
-import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
-import com.esofthead.mycollab.module.project.events.TaskEvent;
-import com.esofthead.mycollab.module.project.service.ProjectTaskService;
+import com.esofthead.mycollab.module.project.domain.AssignWithPredecessors;
+import com.esofthead.mycollab.module.project.domain.MilestoneGanttItem;
+import com.esofthead.mycollab.module.project.domain.ProjectGanttItem;
+import com.esofthead.mycollab.module.project.domain.TaskGanttItem;
+import com.esofthead.mycollab.module.project.service.GanttAssignmentService;
 import com.esofthead.mycollab.module.project.view.ProjectView;
-import com.esofthead.mycollab.module.project.view.task.gantt.*;
+import com.esofthead.mycollab.module.project.view.task.gantt.GanttExt;
+import com.esofthead.mycollab.module.project.view.task.gantt.GanttItemWrapper;
+import com.esofthead.mycollab.module.project.view.task.gantt.GanttTreeTable;
 import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -43,14 +41,12 @@ import com.vaadin.data.Property;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
-import org.tltv.gantt.Gantt;
-import org.tltv.gantt.Gantt.MoveEvent;
-import org.tltv.gantt.Gantt.ResizeEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tltv.gantt.client.shared.Resolution;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.Arrays;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -60,6 +56,7 @@ import java.util.List;
 @ViewComponent
 public class GanttChartViewImpl extends AbstractPageView implements GanttChartView {
     private static final long serialVersionUID = 1L;
+    private static Logger LOG = LoggerFactory.getLogger(GanttChartViewImpl.class);
 
     private boolean projectNavigatorVisibility = false;
 
@@ -67,13 +64,13 @@ public class GanttChartViewImpl extends AbstractPageView implements GanttChartVi
     private GanttExt gantt;
     private GanttTreeTable taskTable;
     private Button toogleMenuShowBtn;
-    private ProjectTaskService taskService;
+    private GanttAssignmentService ganttAssignmentService;
 
     public GanttChartViewImpl() {
         this.setSizeFull();
         this.withMargin(true);
 
-        MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
+        MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(false, false, true, false))
                 .withStyleName("hdr-view").withWidth("100%");
         header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
         Label headerText = new Label("Gantt chart", ContentMode.HTML);
@@ -125,13 +122,15 @@ public class GanttChartViewImpl extends AbstractPageView implements GanttChartVi
 
         header.with(headerWrapper, toogleMenuShowBtn, resWrapper, cancelBtn).withAlign(headerWrapper, Alignment.MIDDLE_LEFT)
                 .withAlign(toogleMenuShowBtn, Alignment.MIDDLE_RIGHT).withAlign(cancelBtn, Alignment.MIDDLE_RIGHT).expand(headerWrapper);
-        taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+
+        ganttAssignmentService = ApplicationContextUtil.getSpringBean(GanttAssignmentService.class);
 
         mainLayout = new MHorizontalLayout().withSpacing(false);
         mainLayout.addStyleName("gantt_container");
         mainLayout.setSizeFull();
         this.with(header, mainLayout).expand(mainLayout);
     }
+
 
     @Override
     public void detach() {
@@ -146,21 +145,6 @@ public class GanttChartViewImpl extends AbstractPageView implements GanttChartVi
         }
     }
 
-    private void updateTasksInfo(StepExt step, long startDate, long endDate) {
-        GanttItemWrapper ganttItemWrapper = step.getGanttItemWrapper();
-        SimpleTask task = ganttItemWrapper.getTask();
-        GregorianCalendar calendar = new GregorianCalendar();
-        calendar.setTimeInMillis(startDate);
-        ganttItemWrapper.setStartDate(calendar.getTime());
-
-        calendar.setTimeInMillis(endDate);
-        ganttItemWrapper.setEndDate(calendar.getTime());
-        taskService.updateSelectiveWithSession(task, AppContext.getUsername());
-        EventBusFactory.getInstance().post(new TaskEvent.GanttTaskUpdate(GanttChartViewImpl.this, ganttItemWrapper));
-        ganttItemWrapper.markAsDirty();
-        gantt.calculateMaxMinDates(ganttItemWrapper);
-    }
-
     public void displayGanttChart() {
         toogleMenuShowBtn.setCaption("Show menu");
         setProjectNavigatorVisibility(false);
@@ -169,65 +153,47 @@ public class GanttChartViewImpl extends AbstractPageView implements GanttChartVi
         gantt = new GanttExt();
         taskTable = new GanttTreeTable(gantt);
 
-        gantt.addMoveListener(new Gantt.MoveListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void onGanttMove(MoveEvent event) {
-                updateTasksInfo((StepExt) event.getStep(), event.getStartDate(), event.getEndDate());
-            }
-        });
-
-        gantt.addResizeListener(new Gantt.ResizeListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void onGanttResize(ResizeEvent event) {
-                updateTasksInfo((StepExt) event.getStep(), event.getStartDate(), event.getEndDate());
-            }
-        });
-
         mainLayout.with(taskTable, gantt).expand(gantt);
 
-        updateStepList();
+        showSteps();
+    }
+
+    @Override
+    public GanttExt getGantt() {
+        return gantt;
+    }
+
+    @Override
+    public GanttTreeTable getTaskTable() {
+        return taskTable;
     }
 
     @SuppressWarnings("unchecked")
-    private void updateStepList() {
-        final TaskSearchCriteria criteria = new TaskSearchCriteria();
-        criteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-        criteria.setHasParentTask(new BooleanSearchField());
-        criteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("createdTime", SearchCriteria.ASC)));
-        int totalTasks = taskService.getTotalCount(criteria);
-        final int pages = totalTasks / 20;
+    private void showSteps() {
         UI.getCurrent().access(new Runnable() {
             @Override
             public void run() {
-                for (int page = 0; page < pages + 1; page++) {
-                    List<SimpleTask> tasks = taskService.findPagableListByCriteria(new SearchRequest<>(criteria, page + 1, 20));
-
-                    if (!tasks.isEmpty()) {
-                        for (final SimpleTask task : tasks) {
-                            final GanttItemWrapper itemWrapper = new GanttItemWrapper(task);
-                            gantt.addTask(itemWrapper);
-                            taskTable.addTask(itemWrapper);
-                        }
-                        UI.getCurrent().push();
+                List<AssignWithPredecessors> assignments = ganttAssignmentService.getTaskWithPredecessors(Arrays.asList
+                        (CurrentProjectVariables.getProjectId()), AppContext.getAccountId());
+                if (assignments.size() == 1) {
+                    ProjectGanttItem projectGanttItem = (ProjectGanttItem) assignments.get(0);
+                    List<MilestoneGanttItem> milestoneGanttItems = projectGanttItem.getSubTasks();
+                    for (MilestoneGanttItem milestoneGanttItem : milestoneGanttItems) {
+                        GanttItemWrapper itemWrapper = new GanttItemWrapper(gantt, milestoneGanttItem);
+                        taskTable.addTask(itemWrapper);
                     }
-                }
-            }
-        });
 
-        gantt.addClickListener(new Gantt.ClickListener() {
-            @Override
-            public void onGanttClick(Gantt.ClickEvent clickEvent) {
-                if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) {
-                    StepExt step = (StepExt) clickEvent.getStep();
-                    getUI().addWindow(new QuickEditTaskWindow(gantt, step.getGanttItemWrapper()));
+                    List<TaskGanttItem> taskGanttItems = projectGanttItem.getTasksWithNoMilestones();
+                    for (TaskGanttItem taskGanttItem : taskGanttItems) {
+                        GanttItemWrapper itemWrapper = new GanttItemWrapper(gantt, taskGanttItem);
+                        taskTable.addTask(itemWrapper);
+                    }
+                    taskTable.updateWholeGanttIndexes();
+                    UI.getCurrent().push();
+                } else {
+                    LOG.error("Error to query multiple value " + CurrentProjectVariables.getProjectId());
                 }
             }
         });
     }
-
-
 }

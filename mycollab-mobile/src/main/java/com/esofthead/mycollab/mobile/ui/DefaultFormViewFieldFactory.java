@@ -178,7 +178,6 @@ public class DefaultFormViewFieldFactory {
 	}
 
 	public static class FormEmailLinkViewField extends CustomField<String> {
-
 		private static final long serialVersionUID = 1L;
 
 		private String email;
@@ -287,7 +286,7 @@ public class DefaultFormViewFieldFactory {
 			label.setWidth("100%");
 			label.setContentMode(ContentMode.TEXT);
 
-			if (org.apache.commons.lang3.StringUtils.isNotBlank(key)) {
+			if (StringUtils.isNotBlank(key)) {
 				try {
 					String value = AppContext.getMessage(enumClass, key);
 					label.setValue(value);

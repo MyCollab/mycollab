@@ -14,10 +14,14 @@
             <pattern>%d{"HH:mm:ss,SSS"} %5p %c{1}:%L - %m%n</pattern>
         </encoder>
     </appender>
-    <appender name="email" class="com.esofthead.mycollab.configuration.MailAppender">
+    <appender name="email" class="com.esofthead.mycollab.configuration.logging.MailAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>%5p %c{1}:%L - %m%n</pattern>
         </layout>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <filter class="com.esofthead.mycollab.configuration.logging.ExceptionFilter"/>
     </appender>
     <appender name="R" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>logs/mycollab.out</file>
@@ -32,7 +36,7 @@
             <pattern>%d{"HH:mm:ss,SSS"} %5p %c{1}:%L - %m%n</pattern>
         </encoder>
     </appender>
-    <logger name="org.springframework" level="INFO"/>
+    <logger name="org.springframework" level="DEBUG"/>
     <logger name="com.esofthead.mycollab.**.dao" level="INFO"/>
     <logger name="java.sql" level="INFO"/>
     <logger name="org.apache.ibatis" level="INFO"/>

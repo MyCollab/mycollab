@@ -21,10 +21,7 @@ import com.esofthead.mycollab.common.ui.components.notification.*;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.core.MyCollabVersion;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.events.SessionEvent;
-import com.esofthead.mycollab.events.SessionEvent.UserProfileChangeEvent;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.jetty.ServerInstance;
 import com.esofthead.mycollab.module.billing.AccountStatusConstants;
@@ -51,7 +48,6 @@ import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.esofthead.mycollab.web.CustomLayoutExt;
 import com.esofthead.mycollab.web.IDesktopModule;
-import com.google.common.eventbus.Subscribe;
 import com.google.gson.Gson;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
@@ -70,18 +66,16 @@ import com.vaadin.ui.Button.ClickListener;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.converter.FormHttpMessageConverter;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.teemu.VaadinIcons;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -312,12 +306,11 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
                 @Override
                 public void run() {
                     try {
-                        Client client = ClientBuilder.newBuilder().build();
-                        WebTarget target = client.target("https://api.mycollab.com/api/checkupdate?version=" + MyCollabVersion.getVersion());
-                        Response response = target.request().get();
-                        String values = response.readEntity(String.class);
+                        RestTemplate restTemplate = new RestTemplate();
+                        String result = restTemplate.getForObject("https://api.mycollab.com/api/checkupdate?version=" +
+                                MyCollabVersion.getVersion(), String.class);
                         Gson gson = new Gson();
-                        Properties props = gson.fromJson(values, Properties.class);
+                        Properties props = gson.fromJson(result, Properties.class);
                         String version = props.getProperty("version");
                         if (MyCollabVersion.isEditionNewer(version)) {
                             if (AppContext.isAdmin() && StringUtils.isNotBlank(props.getProperty("autoDownload"))) {
@@ -602,16 +595,16 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
                         TestimonialWindow.this.close();
                         NotificationUtil.showNotification("We appreciate your kindness action", "Thank you for your time");
                         try {
-                            Client client = ClientBuilder.newBuilder().build();
-                            WebTarget target = client.target("https://api.mycollab.com/api/testimonial");
-                            javax.ws.rs.core.Form form = new javax.ws.rs.core.Form();
-                            form.param("company", entity.getCompany());
-                            form.param("displayname", entity.getDisplayname());
-                            form.param("email", entity.getEmail());
-                            form.param("jobrole", entity.getJobrole());
-                            form.param("testimonial", entity.getTestimonial());
-                            form.param("website", entity.getWebsite());
-                            target.request().post(Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED_TYPE));
+                            RestTemplate restTemplate = new RestTemplate();
+                            restTemplate.getMessageConverters().add(new FormHttpMessageConverter());
+                            MultiValueMap<String, Object> values = new LinkedMultiValueMap<>();
+                            values.add("company", entity.getCompany());
+                            values.add("displayname", entity.getDisplayname());
+                            values.add("email", entity.getEmail());
+                            values.add("jobrole", entity.getJobrole());
+                            values.add("testimonial", entity.getTestimonial());
+                            values.add("website", entity.getWebsite());
+                            restTemplate.postForObject("https://api.mycollab.com/api/testimonial", values, String.class);
                         } catch (Exception e) {
                             LOG.error("Error when call remote api", e);
                         }
@@ -625,36 +618,6 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
 
             content.with(buttonControls).withAlign(buttonControls, Alignment.MIDDLE_RIGHT);
             this.setContent(content);
-        }
-    }
-
-    private static class UserAvatarComp extends CssLayout {
-        private static final long serialVersionUID = 1L;
-
-        public UserAvatarComp() {
-            addUserAvatar();
-
-            // add listener to listen the change avatar or user information to
-            // update top menu
-            EventBusFactory.getInstance().register(new ApplicationEventListener<SessionEvent.UserProfileChangeEvent>() {
-                private static final long serialVersionUID = 1L;
-
-                @Subscribe
-                @Override
-                public void handle(UserProfileChangeEvent event) {
-                    if ("avatarid".equals(event.getFieldChange())) {
-                        UserAvatarComp.this.removeAllComponents();
-                        addUserAvatar();
-                    }
-                }
-            });
-            this.setDescription(AppContext.getUserDisplayName());
-        }
-
-        private void addUserAvatar() {
-            Image userAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(
-                    AppContext.getUserAvatarId(), 24);
-            this.addComponent(userAvatar);
         }
     }
 }

@@ -18,32 +18,30 @@ package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
-import com.esofthead.mycollab.configuration.Storage;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.html.DivLessFormatter;
-import com.esofthead.mycollab.module.project.*;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
+import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
-import com.esofthead.mycollab.module.project.ui.components.TaskCompleteStatusSelection;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
-import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.OptionPopupContent;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
-import com.hp.gagawa.java.elements.Img;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.hene.popupbutton.PopupButton;
-import org.vaadin.teemu.VaadinIcons;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.UUID;
@@ -59,6 +57,7 @@ class TaskRowRenderer extends MHorizontalLayout {
     private PopupButton taskSettingPopupBtn;
 
     TaskRowRenderer(final SimpleTask task) {
+        TaskPopupFieldFactory popupFieldFactory = ViewManager.getCacheComponent(TaskPopupFieldFactory.class);
         this.task = task;
         withSpacing(false).withMargin(false).withWidth("100%").addStyleName("taskrow");
         this.with(createTaskActionControl());
@@ -78,16 +77,19 @@ class TaskRowRenderer extends MHorizontalLayout {
             taskLinkLbl.removeStyleName("completed overdue");
         }
         taskLinkLbl.addStyleName("wordWrap");
-        wrapTaskInfoLayout.addComponent(taskLinkLbl);
+        HorizontalLayout headerLayout = new HorizontalLayout();
+        PopupView priorityField = popupFieldFactory.createTaskPriorityPopupField(task);
+        PopupView assigneeField = popupFieldFactory.createTaskAssigneePopupField(task);
+        headerLayout.addComponent(priorityField);
+        headerLayout.addComponent(assigneeField);
+        headerLayout.addComponent(taskLinkLbl);
+        wrapTaskInfoLayout.addComponent(headerLayout);
 
         MHorizontalLayout footer = new MHorizontalLayout().withSpacing(false);
         footer.addStyleName(UIConstants.FOOTER_NOTE);
-        if (task.getNumComments() != null && task.getNumComments() > 0) {
-            Div comment = new Div().appendText(FontAwesome.COMMENT_O.getHtml() + " " + task.getNumComments()).setTitle("Comment");
-            footer.addComponent(new ELabel(comment.write(), ContentMode.HTML).withDescription("Comment"));
-        }
 
-        TaskPopupFieldFactory popupFieldFactory = ViewManager.getCacheComponent(TaskPopupFieldFactory.class);
+        PopupView commentField = popupFieldFactory.createTaskCommentsPopupField(task);
+        footer.addComponent(commentField);
 
         if (task.getStatus() != null) {
             PopupView field = popupFieldFactory.createTaskStatusPopupField(task);
@@ -110,17 +112,12 @@ class TaskRowRenderer extends MHorizontalLayout {
             footer.addComponent(field);
         }
 
-        if (footer.getComponentCount() > 0) {
-            wrapTaskInfoLayout.addComponent(footer);
-        }
+        wrapTaskInfoLayout.addComponent(footer);
         this.with(wrapTaskInfoLayout).expand(wrapTaskInfoLayout);
     }
 
     private String buildTaskLink() {
         String uid = UUID.randomUUID().toString();
-        String taskPriority = task.getPriority();
-        Img priorityLink = new Img(taskPriority, ProjectResources.getIconResourceLink12ByTaskPriority
-                (taskPriority)).setTitle(taskPriority);
 
         String linkName = String.format("[#%d] - %s", task.getTaskkey(), task.getTaskname());
         A taskLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateTaskPreviewFullLink(task.getTaskkey(),
@@ -129,12 +126,7 @@ class TaskRowRenderer extends MHorizontalLayout {
         taskLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, ProjectTypeConstants.TASK, task.getId() + ""));
         taskLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
 
-        String avatarLink = Storage.getAvatarPath(task.getAssignUserAvatarId(), 16);
-        Img avatarImg = new Img(task.getAssignUserFullName(), avatarLink).setTitle(task.getAssignUserFullName());
-
-        Div resultDiv = new DivLessFormatter().appendChild(priorityLink, DivLessFormatter.EMPTY_SPACE(),
-                avatarImg, DivLessFormatter.EMPTY_SPACE(), taskLink, DivLessFormatter.EMPTY_SPACE(),
-                TooltipHelper.buildDivTooltipEnable(uid));
+        Div resultDiv = new DivLessFormatter().appendChild(taskLink, DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));
         return resultDiv.write();
     }
 

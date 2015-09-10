@@ -164,8 +164,7 @@ public class ProjectTooltipGenerator {
         }
     }
 
-    public static String generateToolTipBug(Locale locale, SimpleBug bug,
-                                            String siteURL, TimeZone timeZone) {
+    public static String generateToolTipBug(Locale locale, SimpleBug bug, String siteURL, TimeZone timeZone) {
         if (bug == null) {
             return generateTolltipNull(locale);
         }
@@ -177,8 +176,7 @@ public class ProjectTooltipGenerator {
             String dateFormat = LocaleHelper.getDateFormatInstance(locale).getDateFormat();
 
             Tr trRow1 = new Tr();
-            Td cell11 = buildCellName(LocalizationHelper.getMessage(locale,
-                    GenericI18Enum.FORM_DESCRIPTION));
+            Td cell11 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_DESCRIPTION));
             Td cell12 = buildCellValue(trimHtmlTags(bug.getDescription()));
             cell12.setAttribute("colspan", "3");
             trRow1.appendChild(cell11, cell12);
@@ -266,9 +264,7 @@ public class ProjectTooltipGenerator {
 
             return tooltipManager.create().write();
         } catch (Exception e) {
-            LOG.error(
-                    "Error while generate tooltip for servlet project-bug tooltip",
-                    e);
+            LOG.error("Error while generate tooltip for servlet project-bug tooltip", e);
             return null;
         }
     }
@@ -607,15 +603,12 @@ public class ProjectTooltipGenerator {
 
             return tooltipManager.create().write();
         } catch (Exception e) {
-            LOG.error(
-                    "Error while generate tooltip for servlet project tooltip",
-                    e);
+            LOG.error("Error while generate tooltip for servlet project tooltip", e);
             return null;
         }
     }
 
-    public static String generateToolTipMilestone(Locale locale,
-                                                  SimpleMilestone milestone, String siteURL, TimeZone timeZone) {
+    public static String generateToolTipMilestone(Locale locale, SimpleMilestone milestone, String siteURL, TimeZone timeZone) {
         if (milestone == null)
             return generateTolltipNull(locale);
 

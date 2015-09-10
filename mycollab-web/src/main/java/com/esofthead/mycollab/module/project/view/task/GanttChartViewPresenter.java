@@ -16,17 +16,33 @@
  */
 package com.esofthead.mycollab.module.project.view.task;
 
+import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.domain.AssignWithPredecessors;
+import com.esofthead.mycollab.module.project.domain.TaskPredecessor;
+import com.esofthead.mycollab.module.project.events.GanttEvent;
+import com.esofthead.mycollab.module.project.service.GanttAssignmentService;
+import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
+import com.esofthead.mycollab.module.project.view.task.gantt.GanttItemWrapper;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
+import com.google.common.eventbus.Subscribe;
 import com.vaadin.ui.ComponentContainer;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author MyCollab Ltd.
@@ -36,8 +52,95 @@ import com.vaadin.ui.ComponentContainer;
 public class GanttChartViewPresenter extends AbstractPresenter<GanttChartView> {
     private static final long serialVersionUID = 1L;
 
+    private GanttAssignmentService ganttAssignmentService = ApplicationContextUtil.getSpringBean(GanttAssignmentService.class);
+
+    private Set<AssignWithPredecessors> queueSetTasksUpdate;
+    private Set<AssignWithPredecessors> queueSetTasksDelete;
+    private ApplicationEventListener<GanttEvent.ClearGanttItemsNeedUpdate> massUpdateGanttItemsUpdateHandler = new
+            ApplicationEventListener<GanttEvent.ClearGanttItemsNeedUpdate>() {
+                @Override
+                @Subscribe
+                public void handle(GanttEvent.ClearGanttItemsNeedUpdate event) {
+                    massUpdateTasksInfoInQueue();
+                }
+            };
+
+    private ApplicationEventListener<GanttEvent.AddGanttItemUpdateToQueue> addTaskToQueueHandler = new
+            ApplicationEventListener<GanttEvent.AddGanttItemUpdateToQueue>() {
+                @Override
+                @Subscribe
+                public void handle(GanttEvent.AddGanttItemUpdateToQueue event) {
+                    AssignWithPredecessors item = (AssignWithPredecessors) event.getData();
+                    if (!queueSetTasksDelete.contains(item)) {
+                        queueSetTasksUpdate.add(item);
+                    }
+                }
+            };
+
+    private ApplicationEventListener<GanttEvent.DeleteGanttItemUpdateToQueue> deleteTaskToQueueHandler = new
+            ApplicationEventListener<GanttEvent.DeleteGanttItemUpdateToQueue>() {
+                @Subscribe
+                @Override
+                public void handle(GanttEvent.DeleteGanttItemUpdateToQueue event) {
+                    AssignWithPredecessors item = (AssignWithPredecessors) event.getData();
+                    if (queueSetTasksUpdate.contains(item)) {
+                        queueSetTasksUpdate.remove(item);
+                    }
+                    queueSetTasksDelete.add(item);
+                }
+            };
+
+    private ApplicationEventListener<GanttEvent.ModifyPredecessors> predecessorsModifyHandler = new
+            ApplicationEventListener<GanttEvent.ModifyPredecessors>() {
+                @Override
+                @Subscribe
+                public void handle(GanttEvent.ModifyPredecessors event) {
+                    GanttItemWrapper ganttItemWrapper = (GanttItemWrapper) event.getSource();
+                    List<TaskPredecessor> predecessors = (List<TaskPredecessor>) event.getData();
+                    ganttItemWrapper.adjustTaskDatesByPredecessors(predecessors);
+                    ProjectTaskService projectTaskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                    projectTaskService.massUpdatePredecessors(ganttItemWrapper.getId(), predecessors, AppContext.getAccountId());
+                    ganttItemWrapper.getTask().setPredecessors(predecessors);
+                    view.getTaskTable().refreshRowCache();
+                }
+            };
+
     public GanttChartViewPresenter() {
         super(GanttChartView.class);
+    }
+
+    @Override
+    protected void viewAttached() {
+        queueSetTasksUpdate = new HashSet<>();
+        queueSetTasksDelete = new HashSet<>();
+        EventBusFactory.getInstance().register(addTaskToQueueHandler);
+        EventBusFactory.getInstance().register(massUpdateGanttItemsUpdateHandler);
+        EventBusFactory.getInstance().register(predecessorsModifyHandler);
+        EventBusFactory.getInstance().register(deleteTaskToQueueHandler);
+    }
+
+    @Override
+    protected void viewDetached() {
+        EventBusFactory.getInstance().unregister(addTaskToQueueHandler);
+        EventBusFactory.getInstance().unregister(massUpdateGanttItemsUpdateHandler);
+        EventBusFactory.getInstance().unregister(predecessorsModifyHandler);
+        EventBusFactory.getInstance().unregister(deleteTaskToQueueHandler);
+        massUpdateTasksInfoInQueue();
+        massDeleteTasksInQueue();
+    }
+
+    private void massUpdateTasksInfoInQueue() {
+        if (queueSetTasksUpdate.size() > 0) {
+            ganttAssignmentService.massUpdateGanttItems(new ArrayList<>(queueSetTasksUpdate), AppContext.getAccountId());
+            queueSetTasksUpdate.clear();
+        }
+    }
+
+    private void massDeleteTasksInQueue() {
+        if (queueSetTasksDelete.size() > 0) {
+            ganttAssignmentService.massDeleteGanttItems(new ArrayList<>(queueSetTasksDelete), AppContext.getAccountId());
+            queueSetTasksDelete.clear();
+        }
     }
 
     @Override

@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import static com.esofthead.mycollab.configuration.ApplicationProperties.*;
 
@@ -62,6 +63,7 @@ public class SiteConfiguration {
     private List<Locale> supportedLanguages;
 
     public static void loadConfiguration() {
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
         int serverPort = Integer.parseInt(System.getProperty(ApplicationProperties.MYCOLLAB_PORT, "8080"));
         ApplicationProperties.loadProps();
         instance = new SiteConfiguration();

@@ -43,6 +43,26 @@ understanding in a matter of minutes.
 Last changelog
 ==============
 
+Version 5.1.3
+-----------------------------
+
+**Library Upgrades**
+
+* Vaadin 7.5.4
+
+**Improvements & New Features**
+
+* Reduce the startup time
+* Several minor UI improvements
+* Support task predecessors
+* Edit inline on Gantt chart
+
+**Bug Fixes**
+
+* Has redundant scrollbar on internet explorer
+* Navigate folder by clicking file breadcrumb throws exception in several cases
+
+
 Version 5.1.2
 -----------------------------
 

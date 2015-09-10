@@ -124,9 +124,7 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements B
             } else if (propertyId.equals("id")) {
                 attachmentUploadField = new ProjectFormAttachmentUploadField();
                 if (beanItem.getId() != null) {
-                    attachmentUploadField.getAttachments(
-                            beanItem.getProjectid(),
-                            ProjectTypeConstants.BUG, beanItem.getId());
+                    attachmentUploadField.getAttachments(beanItem.getProjectid(), ProjectTypeConstants.BUG, beanItem.getId());
                 }
                 return attachmentUploadField;
             } else if (propertyId.equals("severity")) {
@@ -181,9 +179,8 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements B
 
     @Override
     protected String initFormHeader() {
-        return (beanItem.getId() == null) ? AppContext
-                .getMessage(BugI18nEnum.FORM_NEW_BUG_TITLE) : AppContext
-                .getMessage(BugI18nEnum.FORM_EDIT_BUG_TITLE);
+        return (beanItem.getId() == null) ? AppContext.getMessage(BugI18nEnum.FORM_NEW_BUG_TITLE) :
+                AppContext.getMessage(BugI18nEnum.FORM_EDIT_BUG_TITLE);
     }
 
     @Override
@@ -209,11 +206,9 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements B
     @Override
     protected IFormLayoutFactory initFormLayoutFactory() {
         if (beanItem.getId() == null) {
-            return new DynaFormLayout(ProjectTypeConstants.BUG,
-                    BugDefaultFormLayoutFactory.getForm());
+            return new DynaFormLayout(ProjectTypeConstants.BUG, BugDefaultFormLayoutFactory.getForm());
         } else {
-            return new DynaFormLayout(ProjectTypeConstants.BUG,
-                    BugDefaultFormLayoutFactory.getForm(), "selected");
+            return new DynaFormLayout(ProjectTypeConstants.BUG, BugDefaultFormLayoutFactory.getForm(), "selected");
         }
     }
 

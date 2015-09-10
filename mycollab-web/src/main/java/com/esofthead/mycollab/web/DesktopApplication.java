@@ -35,13 +35,12 @@ import com.esofthead.mycollab.vaadin.MyCollabUI;
 import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
-import com.esofthead.mycollab.vaadin.ui.GoogleAnalyticsService;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
+import com.esofthead.mycollab.vaadin.ui.service.GoogleAnalyticsService;
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.annotations.Push;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
-import com.vaadin.event.UIEvents;
 import com.vaadin.server.*;
 import com.vaadin.server.Page.UriFragmentChangedEvent;
 import com.vaadin.server.Page.UriFragmentChangedListener;
@@ -49,6 +48,7 @@ import com.vaadin.shared.communication.PushMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
+import org.mybatis.spring.MyBatisSystemException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.dialogs.ConfirmDialog;
@@ -118,13 +118,6 @@ public class DesktopApplication extends MyCollabUI {
             NotificationUtil.showWarningNotification("Your browser is out of date. Some features of MyCollab will not" +
                     " behave correctly. You should upgrade to the newer browser.");
         }
-
-        addPollListener(new UIEvents.PollListener() {
-            @Override
-            public void poll(UIEvents.PollEvent event) {
-                LOG.info("Poll event: " + event.getSource());
-            }
-        });
     }
 
     private boolean isInNotSupportedBrowserList(String userAgent) {
@@ -133,20 +126,18 @@ public class DesktopApplication extends MyCollabUI {
     }
 
     private void handleException(Throwable e) {
-        IgnoreException ignoreException = (IgnoreException) getExceptionType(e, IgnoreException.class);
+        IgnoreException ignoreException = getExceptionType(e, IgnoreException.class);
         if (ignoreException != null) {
             return;
         }
 
-        SessionExpireException sessionExpireException = (SessionExpireException) getExceptionType(
-                e, SessionExpireException.class);
+        SessionExpireException sessionExpireException = getExceptionType(e, SessionExpireException.class);
         if (sessionExpireException != null) {
             Page.getCurrent().getJavaScript().execute("window.location.reload();");
             return;
         }
 
-        UsageExceedBillingPlanException usageBillingException = (UsageExceedBillingPlanException) getExceptionType(
-                e, UsageExceedBillingPlanException.class);
+        UsageExceedBillingPlanException usageBillingException = getExceptionType(e, UsageExceedBillingPlanException.class);
         if (usageBillingException != null) {
             if (AppContext.isAdmin()) {
                 ConfirmDialogExt.show(UI.getCurrent(),
@@ -175,25 +166,29 @@ public class DesktopApplication extends MyCollabUI {
             return;
         }
 
-        UserInvalidInputException invalidException = (UserInvalidInputException) getExceptionType(e, UserInvalidInputException.class);
+        UserInvalidInputException invalidException = getExceptionType(e, UserInvalidInputException.class);
         if (invalidException != null) {
             NotificationUtil.showWarningNotification(AppContext.getMessage(
                     GenericI18Enum.ERROR_USER_INPUT_MESSAGE, invalidException.getMessage()));
             return;
         }
 
-        UnsupportedFeatureException unsupportedException = (UnsupportedFeatureException) getExceptionType(
-                e, UnsupportedFeatureException.class);
+        UnsupportedFeatureException unsupportedException = getExceptionType(e, UnsupportedFeatureException.class);
         if (unsupportedException != null) {
             NotificationUtil.showFeatureNotPresentInSubscription();
             return;
         }
 
-        ResourceNotFoundException resourceNotFoundException = (ResourceNotFoundException) getExceptionType(
-                e, ResourceNotFoundException.class);
+        ResourceNotFoundException resourceNotFoundException = getExceptionType(e, ResourceNotFoundException.class);
         if (resourceNotFoundException != null) {
             NotificationUtil.showWarningNotification("Can not found resource.");
             LOG.error("404", resourceNotFoundException);
+            return;
+        }
+
+        MyBatisSystemException dataAccessException = getExceptionType(e, MyBatisSystemException.class);
+        if (dataAccessException != null) {
+            NotificationUtil.showErrorNotification(AppContext.getMessage(GenericI18Enum.ERROR_DATABASE_ESTABLISH));
             return;
         }
 
@@ -257,9 +252,9 @@ public class DesktopApplication extends MyCollabUI {
         BrowserCookie.setCookie(DesktopApplication.NAME_COOKIE, "");
     }
 
-    private static Throwable getExceptionType(Throwable e, Class<? extends Throwable> exceptionType) {
+    private static <T> T getExceptionType(Throwable e, Class<T> exceptionType) {
         if (exceptionType.isAssignableFrom(e.getClass())) {
-            return e;
+            return (T) e;
         } else if (e.getCause() != null) {
             return getExceptionType(e.getCause(), exceptionType);
         } else {

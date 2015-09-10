@@ -19,35 +19,28 @@ package com.esofthead.mycollab.support.domain;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
-import javax.ws.rs.FormParam;
 
 /**
  * @author MyCollab Ltd
  * @since 5.0.6
  */
 public class TestimonialForm {
-    @FormParam("displayname")
     @NotNull(message = "Name must be not null")
-    @Length(max=100, message="Field value is too long")
+    @Length(max = 100, message = "Field value is too long")
     private String displayname;
 
-    @FormParam("jobrole")
-    @Length(max=100, message="Field value is too long")
+    @Length(max = 100, message = "Field value is too long")
     private String jobrole;
 
-    @FormParam("company")
-    @Length(max=100, message="Field value is too long")
+    @Length(max = 100, message = "Field value is too long")
     private String company;
 
-    @FormParam("website")
-    @Length(max=100, message="Field value is too long")
+    @Length(max = 100, message = "Field value is too long")
     private String website;
 
-    @FormParam("testimonial")
     @NotNull(message = "Testimonial must be not null")
     private String testimonial;
 
-    @FormParam("email")
     @NotNull(message = "Email must be not null")
     private String email;
 

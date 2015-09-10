@@ -31,7 +31,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 @Configuration
 public class ValidatorConfiguration {
 
-	@Bean
+	@Bean()
 	public LocalValidatorFactoryBean validator() {
 		LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
 		bean.setMappingLocations(new ClassPathResource("validator/crm-constraints.xml"),

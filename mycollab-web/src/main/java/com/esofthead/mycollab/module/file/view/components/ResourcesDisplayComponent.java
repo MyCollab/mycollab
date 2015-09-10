@@ -59,9 +59,9 @@ import org.slf4j.LoggerFactory;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.easyuploads.MultiFileUploadExt;
 import org.vaadin.hene.popupbutton.PopupButton;
+import org.vaadin.peter.buttongroup.ButtonGroup;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
-import org.vaadin.peter.buttongroup.ButtonGroup;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -154,9 +154,13 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                     parentFolder = baseFolder;
                 }
 
-                resourcesContainer.constructBody(parentFolder);
-                baseFolder = parentFolder;
-                fileBreadCrumb.gotoFolder(baseFolder);
+                if (parentFolder != null) {
+                    resourcesContainer.constructBody(parentFolder);
+                    baseFolder = parentFolder;
+                    fileBreadCrumb.gotoFolder(baseFolder);
+                } else {
+                    LOG.error("Can not get parent folder", baseFolder.getPath());
+                }
             }
         });
         goUpBtn.setDescription("Back to parent folder");

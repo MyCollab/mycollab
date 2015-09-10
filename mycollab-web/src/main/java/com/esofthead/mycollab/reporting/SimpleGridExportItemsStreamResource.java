@@ -63,36 +63,30 @@ public abstract class SimpleGridExportItemsStreamResource<T> extends ExportItems
         // Add field of report
         Field[] clsFields = ClassUtils.getAllFields(classType);
         for (Field objField : clsFields) {
-            if ("selected".equals(objField.getName())
-                    || "extraData".equals(objField.getName())) {
+            if ("selected".equals(objField.getName()) || "extraData".equals(objField.getName())) {
                 continue;
             }
 
-            DRIDataType<Object, ? extends Object> jrType = DRIDataTypeFactory
-                    .detectType(objField);
+            DRIDataType<Object, ? extends Object> jrType = DRIDataTypeFactory.detectType(objField);
             if (jrType != null) {
                 reportBuilder.addField(objField.getName(), jrType);
             }
         }
         List<TableViewFieldDecorator> fields = parameters.getFields();
 
-        Map<String, MValue> lstFieldBuilder = ColumnBuilderClassMapper
-                .getListFieldBuilder(classType);
+        Map<String, MValue> lstFieldBuilder = ColumnBuilderClassMapper.getListFieldBuilder(classType);
         if (lstFieldBuilder != null) {
             // build columns of report
             for (TableViewFieldDecorator field : fields) {
                 MValue columnFieldBuilder = lstFieldBuilder.get(field.getField());
                 if (columnFieldBuilder != null) {
-                    field.setComponentBuilder(reportTemplate
-                            .buildCompBuilder(columnFieldBuilder));
+                    field.setComponentBuilder(reportTemplate.buildCompBuilder(columnFieldBuilder));
                 }
 
-                LOG.debug("Construct component builder {} and width {}",
-                        field.getField(), field.getDefaultWidth());
+                LOG.debug("Construct component builder {} and width {}", field.getField(), field.getDefaultWidth());
                 ComponentColumnBuilder columnBuilder = col.componentColumn(
                         AppContext.getMessage(field.getDescKey()),
-                        field.getComponentBuilder()).setWidth(
-                        field.getDefaultWidth());
+                        field.getComponentBuilder()).setWidth(field.getDefaultWidth());
 
                 reportBuilder.addColumn(columnBuilder);
             }

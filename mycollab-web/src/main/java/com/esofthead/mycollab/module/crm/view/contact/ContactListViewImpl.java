@@ -39,10 +39,8 @@ import org.vaadin.viritin.button.MButton;
 import java.util.Arrays;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 @ViewComponent
 public class ContactListViewImpl extends AbstractListItemComp<ContactSearchCriteria, SimpleContact>
@@ -55,7 +53,7 @@ public class ContactListViewImpl extends AbstractListItemComp<ContactSearchCrite
             @Override
             public void buttonClick(ClickEvent clickEvent) {
                 UI.getCurrent().addWindow(new ContactListCustomizeWindow(
-                                ContactListView.VIEW_DEF_ID, tableItem));
+                        ContactListView.VIEW_DEF_ID, tableItem));
             }
         });
         this.addExtraButton(customizeViewBtn);
@@ -92,13 +90,9 @@ public class ContactListViewImpl extends AbstractListItemComp<ContactSearchCrite
             public void itemClick(final TableClickEvent event) {
                 final SimpleContact contact = (SimpleContact) event.getData();
                 if ("contactName".equals(event.getFieldName())) {
-                    EventBusFactory.getInstance().post(
-                            new ContactEvent.GotoRead(ContactListViewImpl.this,
-                                    contact.getId()));
+                    EventBusFactory.getInstance().post(new ContactEvent.GotoRead(ContactListViewImpl.this, contact.getId()));
                 } else if ("accountName".equals(event.getFieldName())) {
-                    EventBusFactory.getInstance().post(
-                            new AccountEvent.GotoRead(ContactListViewImpl.this,
-                                    contact.getAccountid()));
+                    EventBusFactory.getInstance().post(new AccountEvent.GotoRead(ContactListViewImpl.this, contact.getAccountid()));
                 }
             }
         });

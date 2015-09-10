@@ -35,7 +35,19 @@ public class ProjectMemberSelectionField extends CustomField<String> {
 
 	public ProjectMemberSelectionField() {
 		super();
+		this.setImmediate(true);
 		memberSelectionBox = new ProjectMemberSelectionBox(true);
+        memberSelectionBox.addValueChangeListener(new ValueChangeListener() {
+            @Override
+            public void valueChange(Property.ValueChangeEvent event) {
+                SimpleProjectMember value = (SimpleProjectMember)memberSelectionBox.getValue();
+                if (value != null) {
+                    ProjectMemberSelectionField.this.setValue(value.getDisplayName());
+                } else {
+                    ProjectMemberSelectionField.this.setValue(null);
+                }
+            }
+        });
 	}
 
 	@Override
@@ -47,6 +59,8 @@ public class ProjectMemberSelectionField extends CustomField<String> {
 		super.setPropertyDataSource(newDataSource);
 	}
 
+
+
 	@Override
 	public void commit() throws SourceException, InvalidValueException {
 		SimpleProjectMember value = (SimpleProjectMember) memberSelectionBox.getValue();
@@ -57,10 +71,6 @@ public class ProjectMemberSelectionField extends CustomField<String> {
 		}
 
 		super.commit();
-	}
-
-	public ProjectMemberSelectionBox getWrappedComponent() {
-		return memberSelectionBox;
 	}
 
 	@Override

@@ -17,37 +17,20 @@
 package com.esofthead.mycollab.vaadin.mvp;
 
 import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.mvp.service.ComponentScannerService;
 import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
-import org.reflections.Reflections;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Map;
-import java.util.Set;
 import java.util.WeakHashMap;
 
 import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.PRESENTER_VAL;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 public final class PresenterResolver {
-    private static final Logger LOG = LoggerFactory.getLogger(PresenterResolver.class);
-
-    private static Set<Class<? extends IPresenter>> presenterClasses;
-
-    static {
-        LOG.debug("Scan presenter implementation");
-        Reflections reflections = new Reflections("com.esofthead.mycollab");
-        presenterClasses = reflections.getSubTypesOf(IPresenter.class);
-    }
-
-    public static void init() {
-
-    }
 
     public static <P extends IPresenter> P getPresenter(Class<P> presenterClass) {
         Map<Class<?>, Object> presenterMap = (Map<Class<?>, Object>) MyCollabSession
@@ -78,10 +61,11 @@ public final class PresenterResolver {
             if (!presenterClass.isInterface()) {
                 value = presenterClass.newInstance();
             } else {
-                for (Class<?> classInstance : presenterClasses) {
-                    if (presenterClass.isAssignableFrom(classInstance) && !classInstance.isInterface()) {
-                        value = (P) classInstance.newInstance();
-                    }
+                ComponentScannerService componentScannerService = ApplicationContextUtil.getSpringBean
+                        (ComponentScannerService.class);
+                Class presenterClassImpl = componentScannerService.getPresenterImplCls(presenterClass);
+                if (presenterClassImpl != null) {
+                    value = (P) presenterClassImpl.newInstance();
                 }
             }
             if (value != null) {

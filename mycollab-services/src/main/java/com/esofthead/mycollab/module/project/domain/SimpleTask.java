@@ -162,7 +162,7 @@ public class SimpleTask extends Task {
     }
 
     public boolean isCompleted() {
-        return OptionI18nEnum.StatusI18nEnum.Closed.name().equals(getStatus()) && (getPercentagecomplete() !=  null)
+        return OptionI18nEnum.StatusI18nEnum.Closed.name().equals(getStatus()) && (getPercentagecomplete() != null)
                 && (100d == getPercentagecomplete());
     }
 
@@ -181,10 +181,10 @@ public class SimpleTask extends Task {
 
     public Date getDeadlineRoundPlusOne() {
         Date value = getDeadline();
-        return (value !=  null) ?  DateTimeUtils.subtractOrAddDayDuration(value, 1) : null;
+        return (value != null) ? DateTimeUtils.subtractOrAddDayDuration(value, 1) : null;
     }
 
-    public static enum Field {
+    public enum Field {
         assignUserFullName, taskListName;
 
         public boolean equalTo(Object value) {

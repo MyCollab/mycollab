@@ -87,7 +87,7 @@ public abstract class ExportItemsStreamResource implements StreamResource.Stream
         new Thread(new Runnable() {
             @Override
             public void run() {
-                try  {
+                try {
                     reportBuilder = createReport();
 
                     initReport();
@@ -109,9 +109,7 @@ public abstract class ExportItemsStreamResource implements StreamResource.Stream
                                 "Do not support output type " + outputForm);
                     }
                 } catch (Exception e) {
-                    EventBusFactory.getInstance().post(
-                            new ShellEvent.NotifyErrorEvent(
-                                    ExportItemsStreamResource.this, e));
+                    EventBusFactory.getInstance().post(new ShellEvent.NotifyErrorEvent(ExportItemsStreamResource.this, e));
                 } finally {
                     try {
                         outStream.close();

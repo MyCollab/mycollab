@@ -48,7 +48,7 @@ import java.util.GregorianCalendar;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-class ResolvedInputWindow extends Window {
+public class ResolvedInputWindow extends Window {
     private static final long serialVersionUID = 1L;
 
     private final SimpleBug bug;
@@ -56,7 +56,7 @@ class ResolvedInputWindow extends Window {
     private VersionMultiSelectField fixedVersionSelect;
     private final IBugCallbackStatusComp callbackForm;
 
-    ResolvedInputWindow(IBugCallbackStatusComp callbackForm, SimpleBug bug) {
+    public ResolvedInputWindow(IBugCallbackStatusComp callbackForm, SimpleBug bug) {
         super("Resolve bug '" + bug.getSummary() + "'");
         this.bug = bug;
         this.callbackForm = callbackForm;
@@ -137,7 +137,6 @@ class ResolvedInputWindow extends Window {
                 });
                 resolveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
                 resolveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
-                controlsBtn.with(resolveBtn).withAlign(resolveBtn, Alignment.MIDDLE_RIGHT);
 
                 Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
@@ -148,7 +147,7 @@ class ResolvedInputWindow extends Window {
                     }
                 });
                 cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-                controlsBtn.with(cancelBtn).withAlign(cancelBtn, Alignment.MIDDLE_RIGHT);
+                controlsBtn.with(cancelBtn, resolveBtn);
 
                 layout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
 

@@ -38,6 +38,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.sql.DataSource;
+
 /**
  * @author MyCollab Ltd.
  * @since 1.0
@@ -46,7 +48,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @Traceable(nameField = "name", extraFieldName = "projectid", notifyAgent = ProjectMilestoneRelayEmailNotificationAction.class)
 public class MilestoneServiceImpl extends DefaultService<Integer, Milestone, MilestoneSearchCriteria> implements MilestoneService {
-
     static {
         ClassInfoMap.put(MilestoneServiceImpl.class, new ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.MILESTONE));
     }
@@ -56,6 +57,9 @@ public class MilestoneServiceImpl extends DefaultService<Integer, Milestone, Mil
 
     @Autowired
     protected MilestoneMapperExt milestoneMapperExt;
+
+    @Autowired
+    private DataSource dataSource;
 
     @Override
     public ICrudGenericDAO<Integer, Milestone> getCrudMapper() {

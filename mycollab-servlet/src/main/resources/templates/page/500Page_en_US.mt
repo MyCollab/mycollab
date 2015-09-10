@@ -12,7 +12,7 @@
 }
 
 </style>
-<title>Page not found</title>
+<title>Error</title>
 </head>
 <body style="height: 100%; margin: 0; padding: 0; width: 100%;">
 	<div id="container" style="height:100%;">

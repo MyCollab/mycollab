@@ -19,6 +19,7 @@ package com.esofthead.mycollab.mobile.ui;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.utils.ImageUtil;
 import com.esofthead.mycollab.core.utils.MimeTypesUtil;
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.module.ecm.domain.Content;
@@ -63,11 +64,10 @@ public class MobileAttachmentUtils {
         thumbnailWrap.setStyleName("thumbnail-wrap");
 
         Image thumbnail = new Image(null);
-        if (org.apache.commons.lang3.StringUtils.isBlank(attachment.getThumbnail())) {
+        if (StringUtils.isBlank(attachment.getThumbnail())) {
             thumbnail.setSource(DEFAULT_SOURCE);
         } else {
-            thumbnail.setSource(VaadinResource.getInstance()
-                    .getResource(attachment.getThumbnail()));
+            thumbnail.setSource(VaadinResource.getInstance().getResource(attachment.getThumbnail()));
         }
         thumbnail.setWidth("100%");
         thumbnailWrap.addComponent(thumbnail);
@@ -78,20 +78,16 @@ public class MobileAttachmentUtils {
         }
 
         if (MimeTypesUtil.isImageType(docName)) {
-            Button b = new Button(attachment.getTitle(),
-                    new Button.ClickListener() {
+            Button b = new Button(attachment.getTitle(), new Button.ClickListener() {
+                private static final long serialVersionUID = -1713187920922886934L;
 
-                        private static final long serialVersionUID = -1713187920922886934L;
-
-                        @Override
-                        public void buttonClick(Button.ClickEvent event) {
-                            AttachmentPreviewView previewView = new AttachmentPreviewView(
-                                    VaadinResource.getInstance()
-                                            .getResource(attachment.getPath()));
-                            EventBusFactory.getInstance().post(
-                                    new ShellEvent.PushView(this, previewView));
-                        }
-                    });
+                @Override
+                public void buttonClick(Button.ClickEvent event) {
+                    AttachmentPreviewView previewView = new AttachmentPreviewView(VaadinResource.getInstance()
+                            .getResource(attachment.getPath()));
+                    EventBusFactory.getInstance().post(new ShellEvent.PushView(this, previewView));
+                }
+            });
             b.setWidth("100%");
             attachmentRow.addComponent(b);
             attachmentRow.setExpandRatio(b, 1.0f);
@@ -123,12 +119,10 @@ public class MobileAttachmentUtils {
         thumbnailWrap.setStyleName("thumbnail-wrap");
 
         Image thumbnail = new Image(null);
-        if (org.apache.commons.lang3.StringUtils.isBlank(attachment
-                .getThumbnail())) {
+        if (StringUtils.isBlank(attachment.getThumbnail())) {
             thumbnail.setSource(DEFAULT_SOURCE);
         } else {
-            thumbnail.setSource(VaadinResource.getInstance()
-                    .getResource(attachment.getThumbnail()));
+            thumbnail.setSource(VaadinResource.getInstance().getResource(attachment.getThumbnail()));
         }
         thumbnail.setWidth("100%");
         thumbnailWrap.addComponent(thumbnail);
@@ -138,8 +132,7 @@ public class MobileAttachmentUtils {
         attachmentLayout.addComponent(attachmentLink);
         attachmentLayout.setExpandRatio(attachmentLink, 1.0f);
 
-        Button removeAttachment = new Button(
-                String.format("<span aria-hidden=\"true\" data-icon=\"%s\"></span>", IconConstants.DELETE),
+        Button removeAttachment = new Button(String.format("<span aria-hidden=\"true\" data-icon=\"%s\"></span>", IconConstants.DELETE),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 

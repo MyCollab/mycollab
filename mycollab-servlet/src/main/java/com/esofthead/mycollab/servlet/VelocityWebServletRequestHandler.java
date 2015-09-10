@@ -19,7 +19,7 @@ package com.esofthead.mycollab.servlet;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.template.velocity.TemplateContext;
-import com.esofthead.mycollab.template.velocity.TemplateEngine;
+import com.esofthead.mycollab.template.velocity.service.TemplateEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Reader;

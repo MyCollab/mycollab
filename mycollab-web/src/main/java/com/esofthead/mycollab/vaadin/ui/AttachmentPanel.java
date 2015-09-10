@@ -30,7 +30,6 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.slf4j.Logger;
@@ -73,7 +72,6 @@ public class AttachmentPanel extends VerticalLayout implements AttachmentUploadC
         Button removeBtn = new Button(null, new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
-            @SuppressFBWarnings({"RV_RETURN_VALUE_IGNORED_BAD_PRACTICE"})
             @Override
             public void buttonClick(ClickEvent event) {
                 File file = fileStores.get(fileName);
@@ -137,7 +135,6 @@ public class AttachmentPanel extends VerticalLayout implements AttachmentUploadC
         return content;
     }
 
-    @SuppressFBWarnings({"RV_RETURN_VALUE_IGNORED_BAD_PRACTICE"})
     public List<File> files() {
         List<File> listFile = null;
         if (MapUtils.isNotEmpty(fileStores)) {

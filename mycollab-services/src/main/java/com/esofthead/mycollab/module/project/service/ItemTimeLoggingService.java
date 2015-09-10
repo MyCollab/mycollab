@@ -29,8 +29,7 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public interface ItemTimeLoggingService extends
-        IDefaultService<Integer, ItemTimeLogging, ItemTimeLoggingSearchCriteria> {
+public interface ItemTimeLoggingService extends IDefaultService<Integer, ItemTimeLogging, ItemTimeLoggingSearchCriteria> {
 
     @Cacheable
     Double getTotalHoursByCriteria(@CacheKey ItemTimeLoggingSearchCriteria criteria);

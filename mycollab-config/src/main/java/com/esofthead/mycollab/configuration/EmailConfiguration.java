@@ -23,74 +23,73 @@ import javax.validation.constraints.NotNull;
 
 /**
  * Email configuration of MyCollab
- * 
+ *
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class EmailConfiguration implements Cloneable {
-	@NotNull
-	private String host;
-	@NotNull
-	private String user;
-	@NotNull
-	private String password;
+    @NotNull
+    private String host;
+    @NotNull
+    private String user;
+    @NotNull
+    private String password;
 
-	@Digits(integer = 6, fraction = 0)
-	private Integer port;
+    @Digits(integer = 6, fraction = 0)
+    private Integer port;
 
-	private boolean isStartTls = false;
+    private boolean isStartTls = false;
 
     private boolean isSsl = false;
 
-	EmailConfiguration(String host, String username, String password, int port, boolean isStartTls, boolean isSsl) {
-		this.host = host;
-		this.user = username;
-		this.password = password;
-		this.port = port;
-		this.isStartTls = isStartTls;
+    EmailConfiguration(String host, String username, String password, int port, boolean isStartTls, boolean isSsl) {
+        this.host = host;
+        this.user = username;
+        this.password = password;
+        this.port = port;
+        this.isStartTls = isStartTls;
         this.isSsl = isSsl;
-	}
+    }
 
-	public String getHost() {
-		return host;
-	}
+    public String getHost() {
+        return host;
+    }
 
-	public String getUser() {
-		return user;
-	}
+    public String getUser() {
+        return user;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public Integer getPort() {
-		return port;
-	}
+    public Integer getPort() {
+        return port;
+    }
 
-	public void setHost(String host) {
-		this.host = host;
-	}
+    public void setHost(String host) {
+        this.host = host;
+    }
 
-	public void setUser(String user) {
-		this.user = user;
-	}
+    public void setUser(String user) {
+        this.user = user;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public void setPort(Integer port) {
-		this.port = port;
-	}
+    public void setPort(Integer port) {
+        this.port = port;
+    }
 
-	public boolean getIsStartTls() {
-		return isStartTls;
-	}
+    public boolean getIsStartTls() {
+        return isStartTls;
+    }
 
-	public void setIsStartTls(boolean isStartTls) {
-		this.isStartTls = isStartTls;
-	}
+    public void setIsStartTls(boolean isStartTls) {
+        this.isStartTls = isStartTls;
+    }
 
     public boolean getIsSsl() {
         return isSsl;

@@ -16,9 +16,11 @@
  */
 package com.esofthead.mycollab.spring;
 
-import javax.sql.DataSource;
-
+import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.health.HealthCheckRegistry;
+import com.zaxxer.hikari.HikariDataSource;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -26,11 +28,11 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import javax.sql.DataSource;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.6.0
- *
  */
 @Configuration
 @Profile("production")
@@ -38,17 +40,30 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class DataSourceConfiguration {
 
-	@Bean(name = "dataSource")
-	public DataSource dataSource() {
-		JndiDataSourceLookup ds = new JndiDataSourceLookup();
-		ds.setResourceRef(true);
-		DataSource dataSource = ds.getDataSource("java:comp/env/jdbc/mycollabdatasource");
-		return dataSource;
-	}
+    @Autowired
+    private MetricRegistry metricRegistry;
 
-	@Bean
-	public DataSourceTransactionManager txManager() {
-		DataSourceTransactionManager bean = new DataSourceTransactionManager(dataSource());
-		return bean;
-	}
+    @Autowired
+    private HealthCheckRegistry healthCheckRegistry;
+
+    @Bean(name = "dataSource")
+    public DataSource dataSource() {
+        JndiDataSourceLookup ds = new JndiDataSourceLookup();
+        ds.setResourceRef(true);
+        HikariDataSource dataSource = (HikariDataSource) ds.getDataSource("java:comp/env/jdbc/mycollabdatasource");
+        if (metricRegistry != null) {
+            dataSource.setMetricRegistry(metricRegistry);
+        }
+
+        if (healthCheckRegistry != null) {
+            dataSource.setHealthCheckRegistry(healthCheckRegistry);
+        }
+        return dataSource;
+    }
+
+    @Bean
+    public DataSourceTransactionManager txManager() {
+        DataSourceTransactionManager bean = new DataSourceTransactionManager(dataSource());
+        return bean;
+    }
 }

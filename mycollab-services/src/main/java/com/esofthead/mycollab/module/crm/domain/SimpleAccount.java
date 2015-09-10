@@ -45,8 +45,7 @@ public class SimpleAccount extends Account {
 
 	public String getCreatedUserFullName() {
 		if (StringUtils.isBlank(createdUserFullName)) {
-			return com.esofthead.mycollab.core.utils.StringUtils
-					.extractNameFromEmail(getCreateduser());
+			return com.esofthead.mycollab.core.utils.StringUtils.extractNameFromEmail(getCreateduser());
 		}
 
 		return createdUserFullName;

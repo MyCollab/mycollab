@@ -40,7 +40,7 @@ import com.esofthead.mycollab.module.user.service.BillingAccountService;
 import com.esofthead.mycollab.security.AccessPermissionFlag;
 import com.esofthead.mycollab.security.PermissionMap;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
-import com.esofthead.mycollab.vaadin.ui.GoogleAnalyticsService;
+import com.esofthead.mycollab.vaadin.ui.service.GoogleAnalyticsService;
 import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.server.Page;

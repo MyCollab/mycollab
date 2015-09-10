@@ -44,6 +44,11 @@ public class ELabel extends Label {
         return this;
     }
 
+    public ELabel withWidth(String width) {
+        this.setWidth(width);
+        return this;
+    }
+
     public ELabel withStyleName(String styleName) {
         this.setStyleName(styleName);
         return this;

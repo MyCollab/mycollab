@@ -13,6 +13,14 @@
     </listener>
 
     <listener>
+        <listener-class>com.esofthead.mycollab.servlet.MetricsServletContextListener</listener-class>
+    </listener>
+
+    <listener>
+        <listener-class>com.esofthead.mycollab.servlet.HealthcheckServletContextListener</listener-class>
+    </listener>
+
+    <listener>
         <listener-class>se.jiderhamn.classloader.leak.prevention.ClassLoaderLeakPreventor</listener-class>
     </listener>
 

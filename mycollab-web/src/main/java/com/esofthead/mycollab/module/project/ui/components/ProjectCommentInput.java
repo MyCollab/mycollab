@@ -55,8 +55,8 @@ public class ProjectCommentInput extends MHorizontalLayout {
     private String typeId;
     private Integer extraTypeId;
 
-    ProjectCommentInput(final ReloadableComponent component, final String typeVal,
-                        Integer extraTypeIdVal, final Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
+    ProjectCommentInput(final ReloadableComponent component, final String typeVal, Integer extraTypeIdVal,
+                        final Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
         super();
         this.withMargin(new MarginInfo(false, true, false, false)).withWidth("100%").withStyleName("message");
 

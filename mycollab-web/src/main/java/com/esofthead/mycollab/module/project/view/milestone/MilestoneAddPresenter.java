@@ -47,30 +47,29 @@ public class MilestoneAddPresenter extends AbstractPresenter<MilestoneAddView> {
 
     @Override
     protected void postInitView() {
-        view.getEditFormHandlers().addFormHandler(
-                new EditFormHandler<Milestone>() {
-                    private static final long serialVersionUID = 1L;
+        view.getEditFormHandlers().addFormHandler(new EditFormHandler<Milestone>() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void onSave(Milestone milestone) {
-                        int milestoneId = saveMilestone(milestone);
-                        EventBusFactory.getInstance().post(new MilestoneEvent.GotoRead(this, milestoneId));
-                    }
+            @Override
+            public void onSave(Milestone milestone) {
+                int milestoneId = saveMilestone(milestone);
+                EventBusFactory.getInstance().post(new MilestoneEvent.GotoRead(this, milestoneId));
+            }
 
-                    @Override
-                    public void onCancel() {
-                        ViewState viewState = HistoryViewManager.back();
-                        if (viewState.hasPresenters(NullViewState.EmptyPresenter.class, ProjectViewPresenter.class)) {
-                            EventBusFactory.getInstance().post(new MilestoneEvent.GotoList(this, null));
-                        }
-                    }
+            @Override
+            public void onCancel() {
+                ViewState viewState = HistoryViewManager.back();
+                if (viewState.hasPresenters(NullViewState.EmptyPresenter.class, ProjectViewPresenter.class)) {
+                    EventBusFactory.getInstance().post(new MilestoneEvent.GotoList(this, null));
+                }
+            }
 
-                    @Override
-                    public void onSaveAndNew(Milestone milestone) {
-                        saveMilestone(milestone);
-                        EventBusFactory.getInstance().post(new MilestoneEvent.GotoAdd(this, null));
-                    }
-                });
+            @Override
+            public void onSaveAndNew(Milestone milestone) {
+                saveMilestone(milestone);
+                EventBusFactory.getInstance().post(new MilestoneEvent.GotoAdd(this, null));
+            }
+        });
     }
 
     @Override

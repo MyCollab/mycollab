@@ -39,8 +39,7 @@ public class DateTimeUtilsTest {
         Date newDate2 = DateTimeUtils.trimHMSOfDate(newDate);
         Assert.assertEquals(value.getTime(), newDate2.getTime());
 
-        Date newDate3 = DateTimeUtils.trimHMSOfDate(DateTimeUtils
-                .convertTimeFromSystemTimezoneToUTC(value.getTime()));
+        Date newDate3 = DateTimeUtils.trimHMSOfDate(DateTimeUtils.convertTimeFromSystemTimezoneToUTC(value.getTime()));
         Assert.assertEquals(value.getTime(), newDate3.getTime());
     }
 
@@ -50,11 +49,9 @@ public class DateTimeUtilsTest {
         DateTimeZone.setDefault(DateTimeZone.UTC);
 
         GregorianCalendar date = new GregorianCalendar(2014, 0, 30, 23, 0, 0);
-        Date dateUTC = DateTimeUtils.convertTimeFromSystemTimezoneToUTC(date
-                .getTimeInMillis());
+        Date dateUTC = DateTimeUtils.convertTimeFromSystemTimezoneToUTC(date.getTimeInMillis());
 
-        Date currentTime = DateTimeUtils
-                .convertTimeFromUTCToSystemTimezone(dateUTC.getTime());
+        Date currentTime = DateTimeUtils.convertTimeFromUTCToSystemTimezone(dateUTC.getTime());
         GregorianCalendar returnDate = new GregorianCalendar();
         returnDate.setTime(currentTime);
         Assert.assertEquals(returnDate.getTimeInMillis(), date.getTimeInMillis());

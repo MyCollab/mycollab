@@ -42,8 +42,15 @@ public class StringUtils {
         return trim(input, length, true);
     }
 
+    public static boolean isBlank(CharSequence value) {
+        return org.apache.commons.lang3.StringUtils.isBlank(value);
+    }
+
+    public static boolean isNotBlank(CharSequence value) {
+        return org.apache.commons.lang3.StringUtils.isNotBlank(value);
+    }
+
     /**
-     *
      * @param input
      * @param length
      * @param withEllipsis
@@ -71,12 +78,11 @@ public class StringUtils {
     }
 
     /**
-     *
      * @param value
      * @return
      */
     public static String formatRichText(String value) {
-        if (org.apache.commons.lang3.StringUtils.isBlank(value)) {
+        if (isBlank(value)) {
             return "";
         }
 
@@ -115,7 +121,7 @@ public class StringUtils {
     }
 
     public static String trimHtmlTags(String value) {
-        if (org.apache.commons.lang3.StringUtils.isBlank(value)) {
+        if (isBlank(value)) {
             return "";
         } else {
             String str = Jsoup.parse(value).text();

@@ -45,10 +45,8 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
 public class AccountListPresenter extends CrmGenericListPresenter<AccountListView, AccountSearchCriteria, SimpleAccount>
         implements MassUpdateCommand<Account> {
@@ -65,44 +63,43 @@ public class AccountListPresenter extends CrmGenericListPresenter<AccountListVie
         super.postInitView();
         accountService = ApplicationContextUtil.getSpringBean(AccountService.class);
 
-        view.getPopupActionHandlers().setMassActionHandler(
-                new DefaultMassEditActionHandler(this) {
-                    @Override
-                    protected Class<SimpleAccount> getReportModelClassType() {
-                        return SimpleAccount.class;
-                    }
+        view.getPopupActionHandlers().setMassActionHandler(new DefaultMassEditActionHandler(this) {
+            @Override
+            protected Class<SimpleAccount> getReportModelClassType() {
+                return SimpleAccount.class;
+            }
 
-                    @Override
-                    protected String getReportTitle() {
-                        return AppContext.getMessage(AccountI18nEnum.VIEW_LIST_TITLE);
-                    }
+            @Override
+            protected String getReportTitle() {
+                return AppContext.getMessage(AccountI18nEnum.VIEW_LIST_TITLE);
+            }
 
-                    @Override
-                    protected void onSelectExtra(String id) {
-                        if (ViewItemAction.MAIL_ACTION().equals(id)) {
-                            if (isSelectAll) {
-                                NotificationUtil.showWarningNotification(AppContext
-                                        .getMessage(ErrorI18nEnum.NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS));
-                            } else {
-                                List<String> lstMail = new ArrayList<>();
-                                Collection<SimpleAccount> tableData = view
-                                        .getPagedBeanTable()
-                                        .getCurrentDataList();
-                                for (SimpleAccount item : tableData) {
-                                    if (item.isSelected()) {
-                                        lstMail.add(String.format("%s <%s>", item.getAccountname(), item.getEmail()));
-                                    }
-                                }
-                                UI.getCurrent().addWindow(new MailFormWindow(lstMail));
+            @Override
+            protected void onSelectExtra(String id) {
+                if (ViewItemAction.MAIL_ACTION().equals(id)) {
+                    if (isSelectAll) {
+                        NotificationUtil.showWarningNotification(AppContext
+                                .getMessage(ErrorI18nEnum.NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS));
+                    } else {
+                        List<String> lstMail = new ArrayList<>();
+                        Collection<SimpleAccount> tableData = view
+                                .getPagedBeanTable()
+                                .getCurrentDataList();
+                        for (SimpleAccount item : tableData) {
+                            if (item.isSelected()) {
+                                lstMail.add(String.format("%s <%s>", item.getAccountname(), item.getEmail()));
                             }
-                        } else if (ViewItemAction.MASS_UPDATE_ACTION().equals(id)) {
-                            MassUpdateAccountWindow massUpdateWindow = new MassUpdateAccountWindow(
-                                    AppContext.getMessage(GenericI18Enum.WINDOW_MASS_UPDATE_TITLE,
-                                                    AppContext.getMessage(CrmCommonI18nEnum.ACCOUNT)), AccountListPresenter.this);
-                            UI.getCurrent().addWindow(massUpdateWindow);
                         }
+                        UI.getCurrent().addWindow(new MailFormWindow(lstMail));
                     }
-                });
+                } else if (ViewItemAction.MASS_UPDATE_ACTION().equals(id)) {
+                    MassUpdateAccountWindow massUpdateWindow = new MassUpdateAccountWindow(
+                            AppContext.getMessage(GenericI18Enum.WINDOW_MASS_UPDATE_TITLE,
+                                    AppContext.getMessage(CrmCommonI18nEnum.ACCOUNT)), AccountListPresenter.this);
+                    UI.getCurrent().addWindow(massUpdateWindow);
+                }
+            }
+        });
     }
 
     @Override

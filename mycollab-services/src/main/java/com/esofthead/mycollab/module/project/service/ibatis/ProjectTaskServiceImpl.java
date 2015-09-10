@@ -33,16 +33,22 @@ import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
 import com.esofthead.mycollab.lock.DistributionLockUtil;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.dao.PredecessorMapper;
 import com.esofthead.mycollab.module.project.dao.TaskMapper;
 import com.esofthead.mycollab.module.project.dao.TaskMapperExt;
+import com.esofthead.mycollab.module.project.domain.PredecessorExample;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.Task;
+import com.esofthead.mycollab.module.project.domain.TaskPredecessor;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.esb.DeleteProjectTaskEvent;
 import com.esofthead.mycollab.module.project.service.*;
 import com.esofthead.mycollab.schedule.email.project.ProjectTaskRelayEmailNotificationAction;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.google.common.eventbus.AsyncEventBus;
 import org.apache.ibatis.session.RowBounds;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -51,9 +57,11 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -68,6 +76,7 @@ import java.util.concurrent.locks.Lock;
 @Traceable(nameField = "taskname", extraFieldName = "projectid", notifyAgent = ProjectTaskRelayEmailNotificationAction.class)
 @Watchable(userFieldName = "assignuser", extraTypeId = "projectid")
 public class ProjectTaskServiceImpl extends DefaultService<Integer, Task, TaskSearchCriteria> implements ProjectTaskService {
+    private static Logger LOG = LoggerFactory.getLogger(ProjectTaskServiceImpl.class);
 
     static {
         ClassInfo taskInfo = new ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.TASK);
@@ -210,5 +219,41 @@ public class ProjectTaskServiceImpl extends DefaultService<Integer, Task, TaskSe
                         return mapIndexes.size();
                     }
                 });
+    }
+
+    @Override
+    public void massUpdatePredecessors(Integer taskSourceId, final List<TaskPredecessor> predecessors, Integer sAccountId) {
+        Lock lock = DistributionLockUtil.getLock("task-service" + sAccountId);
+        try {
+            PredecessorMapper predecessorMapper = ApplicationContextUtil.getSpringBean(PredecessorMapper.class);
+            PredecessorExample ex = new PredecessorExample();
+            ex.createCriteria().andSourceidEqualTo(taskSourceId);
+            predecessorMapper.deleteByExample(ex);
+
+            JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+            final long now = new GregorianCalendar().getTimeInMillis();
+            if (lock.tryLock(30, TimeUnit.SECONDS)) {
+                jdbcTemplate.batchUpdate("INSERT INTO `m_prj_predecessor`(`type`, `predestype`, `lagDay`, `sourceId`," +
+                                "`descId`, `createdTime`) VALUES ('Project-Task', ?, ?, ?, ?, ?)",
+                        new BatchPreparedStatementSetter() {
+                            @Override
+                            public void setValues(PreparedStatement preparedStatement, int i) throws SQLException {
+                                preparedStatement.setString(1, predecessors.get(i).getPredestype());
+                                preparedStatement.setInt(2, predecessors.get(i).getLagday());
+                                preparedStatement.setInt(3, predecessors.get(i).getSourceid());
+                                preparedStatement.setInt(4, predecessors.get(i).getDescid());
+                                preparedStatement.setDate(5, new Date(now));
+                            }
+
+                            @Override
+                            public int getBatchSize() {
+                                return predecessors.size();
+                            }
+                        });
+            }
+        } catch (Exception e) {
+            throw new MyCollabException(e);
+        }
+
     }
 }

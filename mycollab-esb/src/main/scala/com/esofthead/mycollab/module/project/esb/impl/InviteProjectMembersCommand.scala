@@ -21,8 +21,7 @@ import java.util.Date
 import com.esofthead.mycollab.configuration.SiteConfiguration
 import com.esofthead.mycollab.i18n.LocalizationHelper
 import com.esofthead.mycollab.module.GenericCommand
-import com.esofthead.mycollab.module.mail.IContentGenerator
-import com.esofthead.mycollab.module.mail.service.MailRelayService
+import com.esofthead.mycollab.module.mail.service.{IContentGenerator, MailRelayService}
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator
 import com.esofthead.mycollab.module.project.domain.{SimpleProject, SimpleProjectMember}
 import com.esofthead.mycollab.module.project.esb.InviteProjectMembersEvent

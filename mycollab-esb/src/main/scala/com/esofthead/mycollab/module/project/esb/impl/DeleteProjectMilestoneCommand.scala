@@ -22,6 +22,8 @@ import com.esofthead.mycollab.module.GenericCommand
 import com.esofthead.mycollab.module.ecm.service.ResourceService
 import com.esofthead.mycollab.module.file.AttachmentUtils
 import com.esofthead.mycollab.module.project.ProjectTypeConstants
+import com.esofthead.mycollab.module.project.dao.PredecessorMapper
+import com.esofthead.mycollab.module.project.domain.PredecessorExample
 import com.esofthead.mycollab.module.project.esb.DeleteProjectMilestoneEvent
 import com.google.common.eventbus.{AllowConcurrentEvents, Subscribe}
 import org.springframework.beans.factory.annotation.Autowired
@@ -30,13 +32,14 @@ import org.springframework.stereotype.Component
 @Component class DeleteProjectMilestoneCommand extends GenericCommand {
     @Autowired private val resourceService: ResourceService = null
     @Autowired private val commentMapper: CommentMapper = null
+    @Autowired private val predecessorMapper: PredecessorMapper = null
 
     @AllowConcurrentEvents
     @Subscribe
     def removedMilestone(event: DeleteProjectMilestoneEvent): Unit = {
-        Array(event.milestoneId, event.projectId, event.username)
         removeRelatedFiles(event.accountId, event.projectId, event.milestoneId)
         removeRelatedComments(event.milestoneId)
+        removePredecessorMilestones(event.milestoneId)
     }
 
     private def removeRelatedFiles(accountId: Integer, projectId: Integer, milestoneId: Integer) {
@@ -49,5 +52,12 @@ import org.springframework.stereotype.Component
         val ex: CommentExample = new CommentExample
         ex.createCriteria.andTypeEqualTo(ProjectTypeConstants.MILESTONE).andExtratypeidEqualTo(milestoneId)
         commentMapper.deleteByExample(ex)
+    }
+
+    private def removePredecessorMilestones(milestoneId: Integer): Unit = {
+        val ex: PredecessorExample = new PredecessorExample
+        ex.or().andSourceidEqualTo(milestoneId).andSourcetypeEqualTo(ProjectTypeConstants.MILESTONE)
+        ex.or().andDescidEqualTo(milestoneId).andDesctypeEqualTo(ProjectTypeConstants.MILESTONE)
+        predecessorMapper.deleteByExample(ex);
     }
 }

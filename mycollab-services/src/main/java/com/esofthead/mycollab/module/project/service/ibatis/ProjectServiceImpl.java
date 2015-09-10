@@ -174,10 +174,8 @@ public class ProjectServiceImpl extends DefaultService<Integer, Project, Project
 
         // add admin role to project
         LOG.debug("Add admin role to project {}", record.getName());
-        ProjectRole adminRole = createProjectRole(projectId,
-                record.getSaccountid(), "Admin", "Default role for admin");
-        int adminRoleId = projectRoleService.saveWithSession(adminRole,
-                username);
+        ProjectRole adminRole = createProjectRole(projectId, record.getSaccountid(), "Admin", "Default role for admin");
+        int adminRoleId = projectRoleService.saveWithSession(adminRole, username);
 
         PermissionMap permissionMapAdmin = new PermissionMap();
         for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {

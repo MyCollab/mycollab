@@ -48,12 +48,12 @@ import java.util.GregorianCalendar;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-class ApproveInputWindow extends Window {
+public class ApproveInputWindow extends Window {
     private static final long serialVersionUID = 1L;
     private final SimpleBug bug;
     private final IBugCallbackStatusComp callbackForm;
 
-    ApproveInputWindow(IBugCallbackStatusComp callbackForm, SimpleBug bug) {
+    public ApproveInputWindow(IBugCallbackStatusComp callbackForm, SimpleBug bug) {
         super("Approve bug '" + bug.getSummary() + "'");
         this.setResizable(false);
         this.setModal(true);
@@ -129,7 +129,6 @@ class ApproveInputWindow extends Window {
                 });
                 approveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
                 approveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
-                controlsBtn.with(approveBtn).withAlign(approveBtn, Alignment.MIDDLE_LEFT);
 
                 Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
@@ -140,7 +139,7 @@ class ApproveInputWindow extends Window {
                     }
                 });
                 cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-                controlsBtn.with(cancelBtn).withAlign(cancelBtn, Alignment.MIDDLE_LEFT);
+                controlsBtn.with(cancelBtn, approveBtn);
 
                 layout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
                 return layout;

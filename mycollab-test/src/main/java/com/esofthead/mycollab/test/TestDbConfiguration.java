@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.test;
 
+import com.esofthead.mycollab.test.service.DataSourceFactoryBean;
+
 import java.io.InputStream;
 import java.util.Properties;
 

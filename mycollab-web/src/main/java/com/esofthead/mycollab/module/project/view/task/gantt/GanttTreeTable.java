@@ -16,32 +16,35 @@
  */
 package com.esofthead.mycollab.module.project.view.task.gantt;
 
-import com.esofthead.mycollab.configuration.Storage;
-import com.esofthead.mycollab.core.arguments.SearchCriteria;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.html.DivLessFormatter;
-import com.esofthead.mycollab.module.project.ProjectResources;
-import com.esofthead.mycollab.module.project.ProjectTypeConstants;
-import com.esofthead.mycollab.module.project.domain.SimpleTask;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.domain.TaskPredecessor;
+import com.esofthead.mycollab.module.project.events.GanttEvent;
+import com.esofthead.mycollab.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
-import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
+import com.esofthead.mycollab.vaadin.ui.form.field.converter.LocalDateConverter;
 import com.google.common.eventbus.Subscribe;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Div;
-import com.hp.gagawa.java.elements.Img;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Table;
-import com.vaadin.ui.Tree;
-import com.vaadin.ui.TreeTable;
+import com.vaadin.data.Container;
+import com.vaadin.event.FieldEvents;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.*;
+import org.apache.commons.collections.CollectionUtils;
+import org.joda.time.LocalDate;
+import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.peter.contextmenu.ContextMenu;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * @author MyCollab Ltd
@@ -49,17 +52,19 @@ import java.util.UUID;
  */
 public class GanttTreeTable extends TreeTable {
     private GanttExt gantt;
-    private BeanItemContainer<GanttItemWrapper> beanContainer;
+    private GanttItemContainer beanContainer;
 
-    private String sortField = "createdTime";
+    private boolean ganttIndexIsChanged = false;
 
-    private ApplicationEventListener<TaskEvent.GanttTaskUpdate> taskUpdateHandler = new
-            ApplicationEventListener<TaskEvent.GanttTaskUpdate>() {
-                @Override
+    protected List<Field> fields = new ArrayList<>();
+
+    private ApplicationEventListener<GanttEvent.UpdateGanttItemDates> updateTaskInfoHandler = new
+            ApplicationEventListener<GanttEvent.UpdateGanttItemDates>() {
                 @Subscribe
-                public void handle(TaskEvent.GanttTaskUpdate event) {
-                    GanttItemWrapper ganttItemWrapper = (GanttItemWrapper) event.getData();
-                    updateTaskTree(ganttItemWrapper);
+                @Override
+                public void handle(GanttEvent.UpdateGanttItemDates event) {
+                    GanttItemWrapper item = (GanttItemWrapper) event.getData();
+                    updateTaskTree(item);
                 }
             };
 
@@ -67,106 +72,64 @@ public class GanttTreeTable extends TreeTable {
         super();
         this.gantt = gantt;
         this.setWidth("800px");
-        gantt.setVerticalScrollDelegateTarget(this);
-        beanContainer = new BeanItemContainer<>(GanttItemWrapper.class);
+        this.setBuffered(true);
+        beanContainer = gantt.getBeanContainer();
         this.setContainerDataSource(beanContainer);
-        this.setVisibleColumns("name", "startDate", "endDate", "duration", "actualStartDate", "actualEndDate",
-                "percentageComplete");
+        this.setVisibleColumns("ganttIndex", "name", "startDate", "endDate", "duration", "percentageComplete",
+                "predecessors", "assignUser", "actualStartDate", "actualEndDate");
+        this.setColumnHeader("ganttIndex", "");
+        this.setColumnWidth("ganttIndex", 35);
         this.setColumnHeader("name", "Task");
         this.setColumnExpandRatio("name", 1.0f);
+        this.setHierarchyColumn("name");
         this.setColumnHeader("startDate", "Start");
-        this.setColumnWidth("startDate", 75);
+        this.setColumnWidth("startDate", 80);
         this.setColumnHeader("endDate", "End");
-        this.setColumnWidth("endDate", 75);
+        this.setColumnWidth("endDate", 80);
         this.setColumnHeader("duration", "Duration");
-        this.setColumnWidth("duration", 80);
+        this.setColumnWidth("duration", 75);
+        this.setColumnHeader("predecessors", "Predecessors");
+        this.setColumnWidth("predecessors", 80);
         this.setColumnHeader("actualStartDate", "Actual Start");
         this.setColumnWidth("actualStartDate", 80);
         this.setColumnHeader("actualEndDate", "Actual End");
         this.setColumnWidth("actualEndDate", 80);
         this.setColumnHeader("percentageComplete", "% Complete");
         this.setColumnWidth("percentageComplete", 80);
+        this.setColumnHeader("assignUser", "Assignee");
+        this.setColumnWidth("assignUser", 80);
         this.setColumnCollapsingAllowed(true);
         this.setColumnCollapsed("actualStartDate", true);
         this.setColumnCollapsed("actualEndDate", true);
-        this.setSelectable(true);
-        this.setSortEnabled(true);
+        this.setColumnCollapsed("assignUser", true);
         this.setEditable(true);
 
-        this.addGeneratedColumn("name", new ColumnGenerator() {
+        this.addGeneratedColumn("ganttIndex", new ColumnGenerator() {
             @Override
             public Object generateCell(Table table, Object itemId, Object columnId) {
                 GanttItemWrapper item = (GanttItemWrapper) itemId;
-                SimpleTask task = item.getTask();
+                return new Label("" + item.getGanttIndex());
+            }
+        });
 
-                String taskLinkContent;
-                String uid = UUID.randomUUID().toString();
-                String taskPriority = task.getPriority();
-                Img priorityLink = new Img(taskPriority, ProjectResources.getIconResourceLink12ByTaskPriority
-                        (taskPriority)).setTitle(taskPriority);
-
-                String linkName = String.format("[#%d] - %s", task.getTaskkey(), task.getTaskname());
-                A taskLink = new A().setId("tag" + uid).appendText(linkName).setStyle("display:inline");
-
-                taskLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, ProjectTypeConstants.TASK, task.getId() + ""));
-                taskLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
-
-                String avatarLink = Storage.getAvatarPath(task.getAssignUserAvatarId(), 16);
-                Img avatarImg = new Img(task.getAssignUserFullName(), avatarLink).setTitle(task.getAssignUserFullName());
-
-                Div resultDiv = new DivLessFormatter().appendChild(priorityLink, DivLessFormatter.EMPTY_SPACE(),
-                        avatarImg, DivLessFormatter.EMPTY_SPACE(), taskLink, DivLessFormatter.EMPTY_SPACE(),
-                        TooltipHelper.buildDivTooltipEnable(uid));
-                taskLinkContent = resultDiv.write();
-
-                Label taskLbl = new Label(taskLinkContent, ContentMode.HTML);
-                if (task.isCompleted()) {
-                    taskLbl.addStyleName("completed");
-                } else if (task.isOverdue()) {
-                    taskLbl.addStyleName("overdue");
+        this.addGeneratedColumn("predecessors", new ColumnGenerator() {
+            @Override
+            public Object generateCell(Table table, Object itemId, Object columnId) {
+                GanttItemWrapper item = (GanttItemWrapper) itemId;
+                List<TaskPredecessor> predecessors = item.getPredecessors();
+                if (CollectionUtils.isNotEmpty(predecessors)) {
+                    StringBuilder builder = new StringBuilder();
+                    for (TaskPredecessor predecessor : predecessors) {
+                        builder.append(predecessor.getGanttIndex());
+                        builder.append(",");
+                    }
+                    if (builder.charAt(builder.length() - 1) == ',') {
+                        builder.deleteCharAt(builder.length() - 1);
+                    }
+                    return new Label(builder.toString());
+                } else {
+                    return new Label();
                 }
-                return taskLbl;
-            }
-        });
-
-        this.addGeneratedColumn("startDate", new ColumnGenerator() {
-            @Override
-            public Object generateCell(Table table, Object itemId, Object columnId) {
-                GanttItemWrapper item = (GanttItemWrapper) itemId;
-                return new Label(AppContext.formatDate(item.getStartDate()));
-            }
-        });
-
-        this.addGeneratedColumn("endDate", new ColumnGenerator() {
-            @Override
-            public Object generateCell(Table table, Object itemId, Object columnId) {
-                GanttItemWrapper item = (GanttItemWrapper) itemId;
-                return new Label(AppContext.formatDate(item.getEndDate()));
-            }
-        });
-
-        this.addGeneratedColumn("percentageComplete", new ColumnGenerator() {
-            @Override
-            public Object generateCell(Table table, Object itemId, Object columnId) {
-                GanttItemWrapper item = (GanttItemWrapper) itemId;
-                return new Label(item.getPercentageComplete() + " %");
-            }
-        });
-
-
-        this.addGeneratedColumn("actualEndDate", new ColumnGenerator() {
-            @Override
-            public Object generateCell(Table table, Object itemId, Object columnId) {
-                GanttItemWrapper item = (GanttItemWrapper) itemId;
-                return new Label(AppContext.formatDate(item.getActualEndDate()));
-            }
-        });
-
-        this.addGeneratedColumn("actualStartDate", new ColumnGenerator() {
-            @Override
-            public Object generateCell(Table table, Object itemId, Object columnId) {
-                GanttItemWrapper item = (GanttItemWrapper) itemId;
-                return new Label(AppContext.formatDate(item.getActualStartDate()));
             }
         });
 
@@ -179,12 +142,90 @@ public class GanttTreeTable extends TreeTable {
             }
         });
 
+
+        this.setTableFieldFactory(new TableFieldFactory() {
+            @Override
+            public Field<?> createField(Container container, Object itemId, Object propertyId, Component uiContext) {
+                Field field = null;
+                final GanttItemWrapper ganttItem = (GanttItemWrapper) itemId;
+                if ("name".equals(propertyId)) {
+                    if (ganttItem.isMilestone()) {
+                        field = new MilestoneNameCellField();
+                    } else {
+                        field = new TextField();
+                        ((TextField) field).setDescription(ganttItem.getName());
+                    }
+
+                } else if ("percentageComplete".equals(propertyId)) {
+                    field = new TextField();
+                    ((TextField) field).setNullRepresentation("0");
+                    ((TextField) field).setImmediate(true);
+                    if (ganttItem.hasSubTasks()) {
+                        field.setEnabled(false);
+                        ((TextField) field).setDescription("Because this row has sub-tasks, this cell " +
+                                "is a summary value and can not be edited directly. You can edit cells " +
+                                "beneath this row to change its value");
+                    }
+                } else if ("startDate".equals(propertyId) || "endDate".equals(propertyId) ||
+                        "actualStartDate".equals(propertyId) || "actualEndDate".equals(propertyId)) {
+                    field = new DateField();
+                    ((DateField) field).setConverter(new LocalDateConverter());
+                    ((DateField) field).setImmediate(true);
+                    if (ganttItem.hasSubTasks()) {
+                        field.setEnabled(false);
+                        ((DateField) field).setDescription("Because this row has sub-tasks, this cell " +
+                                "is a summary value and can not be edited directly. You can edit cells " +
+                                "beneath this row to change its value");
+                    }
+                } else if ("assignUser".equals(propertyId)) {
+                    field = new ProjectMemberSelectionField();
+                }
+
+                if (field != null) {
+                    field.setBuffered(true);
+                    field.setWidth("100%");
+                    if (ganttItem.isMilestone()) {
+                        if (!CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES)) {
+                            field.setEnabled(false);
+                            ((AbstractComponent) field).setDescription(AppContext.getMessage(GenericI18Enum.NOTIFICATION_NO_PERMISSION_DO_TASK));
+                        }
+                    } else if (ganttItem.isTask()) {
+                        if (!CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) {
+                            field.setEnabled(false);
+                            ((AbstractComponent) field).setDescription(AppContext.getMessage(GenericI18Enum.NOTIFICATION_NO_PERMISSION_DO_TASK));
+                        }
+                    } else {
+                        throw new MyCollabException("Do not support gantt item type " + ganttItem.getTask());
+                    }
+
+                    if (field instanceof FieldEvents.BlurNotifier) {
+                        ((FieldEvents.BlurNotifier) field).addBlurListener(new FieldEvents.BlurListener() {
+                            @Override
+                            public void blur(FieldEvents.BlurEvent event) {
+                                Object o = event.getSource();
+                                if (o instanceof Field) {
+                                    Field f = (Field) o;
+                                    if (f.isModified()) {
+                                        f.commit();
+                                        EventBusFactory.getInstance().post(new GanttEvent.AddGanttItemUpdateToQueue
+                                                (GanttTreeTable.this, ganttItem.getTask()));
+                                        GanttTreeTable.this.refreshRowCache();
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+                return field;
+            }
+        });
+
         this.addExpandListener(new Tree.ExpandListener() {
             @Override
             public void nodeExpand(Tree.ExpandEvent expandEvent) {
                 GanttItemWrapper item = (GanttItemWrapper) expandEvent.getItemId();
-                List<GanttItemWrapper> subTasks = item.subTasks(new SearchCriteria.OrderField(sortField, SearchCriteria.ASC));
-                insertSteps(item, subTasks);
+                List<GanttItemWrapper> subTasks = item.subTasks();
+                insertSubSteps(item, subTasks);
             }
         });
 
@@ -192,64 +233,58 @@ public class GanttTreeTable extends TreeTable {
             @Override
             public void nodeCollapse(Tree.CollapseEvent collapseEvent) {
                 GanttItemWrapper item = (GanttItemWrapper) collapseEvent.getItemId();
-                List<GanttItemWrapper> subTasks = item.subTasks(new SearchCriteria.OrderField(sortField, SearchCriteria.ASC));
+                List<GanttItemWrapper> subTasks = item.subTasks();
                 removeSubSteps(item, subTasks);
             }
         });
 
-        this.addHeaderClickListener(new HeaderClickListener() {
+        this.setCellStyleGenerator(new CellStyleGenerator() {
             @Override
-            public void headerClick(HeaderClickEvent event) {
-                String propertyId = (String) event.getPropertyId();
-                sortField = propertyId;
-                beanContainer.sort(new String[]{propertyId}, new boolean[]{true});
-                List<GanttItemWrapper> items = beanContainer.getItemIds();
-                gantt.removeSteps();
-                for (GanttItemWrapper task : items) {
-                    gantt.addTask(task);
+            public String getStyle(Table source, Object itemId, Object propertyId) {
+                GanttItemWrapper item = (GanttItemWrapper) itemId;
+                if (item.isMilestone()) {
+                    return "milestone";
                 }
+                return null;
             }
         });
 
-        final ContextMenu contextMenu = new ContextMenu();
+        final GanttContextMenu contextMenu = new GanttContextMenu();
         contextMenu.setAsContextMenuOf(this);
         contextMenu.setOpenAutomatically(false);
 
         ContextMenu.ContextMenuOpenedListener.TableListener tableListener = new ContextMenu.ContextMenuOpenedListener.TableListener() {
 
             public void onContextMenuOpenFromRow(ContextMenu.ContextMenuOpenedOnTableRowEvent event) {
-                // read clicked row item and property from event and modify menu
-                Object source = event.getSource();
-                contextMenu.removeAllItems();
-                contextMenu.addItem("Hello");
-                Object item = event.getItemId();
-                Object propertyId = event.getPropertyId();
+                GanttItemWrapper item = (GanttItemWrapper) event.getItemId();
+                contextMenu.displayContextMenu(item);
                 contextMenu.open(GanttTreeTable.this);
             }
 
             public void onContextMenuOpenFromHeader(ContextMenu.ContextMenuOpenedOnTableHeaderEvent event) {
-                NotificationUtil.showErrorNotification("Open from header");
             }
 
             public void onContextMenuOpenFromFooter(ContextMenu.ContextMenuOpenedOnTableFooterEvent event) {
-                NotificationUtil.showErrorNotification("Open from footer");
             }
         };
 
-
-
         contextMenu.addContextMenuTableListener(tableListener);
+        gantt.setVerticalScrollDelegateTarget(this);
+    }
+
+    GanttItemContainer getRawContainer() {
+        return beanContainer;
     }
 
     @Override
     public void attach() {
-        EventBusFactory.getInstance().register(taskUpdateHandler);
+        EventBusFactory.getInstance().register(updateTaskInfoHandler);
         super.attach();
     }
 
     @Override
     public void detach() {
-        EventBusFactory.getInstance().unregister(taskUpdateHandler);
+        EventBusFactory.getInstance().unregister(updateTaskInfoHandler);
         super.detach();
     }
 
@@ -258,21 +293,49 @@ public class GanttTreeTable extends TreeTable {
     }
 
     public void addTask(GanttItemWrapper itemWrapper) {
+        int ganttIndex = beanContainer.size() + 1;
+        itemWrapper.setGanttIndex(ganttIndex);
         beanContainer.addBean(itemWrapper);
-        this.setChildrenAllowed(itemWrapper, itemWrapper.hasSubTasks());
+        gantt.addTask(itemWrapper);
+        ganttIndexIsChanged = true;
+
+        if (itemWrapper.hasSubTasks()) {
+            this.setChildrenAllowed(itemWrapper, true);
+            this.setCollapsed(itemWrapper, false);
+        } else {
+            this.setChildrenAllowed(itemWrapper, false);
+        }
     }
 
-    void insertSteps(final GanttItemWrapper parent, final List<GanttItemWrapper> childs) {
+    private void insertSubSteps(final GanttItemWrapper parent, final List<GanttItemWrapper> children) {
         final int stepIndex = gantt.getStepIndex(parent.getStep());
         int count = 0;
         if (stepIndex != -1) {
-            for (GanttItemWrapper child : childs) {
+            LocalDate startDate = parent.getStartDate();
+            LocalDate endDate = parent.getEndDate();
+            int ganttStartIndex = (parent.getGanttIndex() != null) ? parent.getGanttIndex() : beanContainer.indexOfId(parent) + 1;
+
+            for (GanttItemWrapper child : children) {
                 this.addItem(child);
+
+                int ganttIndex = ++ganttStartIndex;
+                child.setGanttIndex(ganttIndex);
+                ganttIndexIsChanged = true;
+
                 this.setParent(child, parent);
-                this.setChildrenAllowed(child, child.hasSubTasks());
                 gantt.addTask(stepIndex + count + 1, child);
+                if (child.hasSubTasks()) {
+                    this.setChildrenAllowed(child, true);
+                    this.setCollapsed(child, false);
+                } else {
+                    this.setChildrenAllowed(child, false);
+                }
                 count++;
+                startDate = DateTimeUtils.min(startDate, child.getStartDate());
+                endDate = DateTimeUtils.max(endDate, child.getEndDate());
             }
+            parent.setStartAndEndDate(startDate, endDate, false, false);
+            gantt.markStepDirty(parent.getStep());
         }
     }
 
@@ -283,6 +346,164 @@ public class GanttTreeTable extends TreeTable {
                 this.removeItem(child);
                 gantt.removeStep(child.getStep());
             }
+        }
+    }
+
+    public void updateWholeGanttIndexes() {
+        if (ganttIndexIsChanged) {
+            Collection<GanttItemWrapper> items = beanContainer.getItemIds();
+            for (GanttItemWrapper item : items) {
+                EventBusFactory.getInstance().post(new GanttEvent.AddGanttItemUpdateToQueue(GanttTreeTable.this, item.getTask()));
+            }
+        }
+    }
+
+    private void calculateWholeGanttIndexes() {
+        GanttItemWrapper item = beanContainer.firstItemId();
+        int index = 1;
+        while (item != null) {
+            System.out.println("Item: " + index + "---" + item.getName());
+            item.setGanttIndex(index);
+            item = beanContainer.nextItemId(item);
+            index++;
+        }
+        this.refreshRowCache();
+    }
+
+    private class GanttContextMenu extends ContextMenu {
+
+        GanttContextMenu() {
+        }
+
+        void displayContextMenu(final GanttItemWrapper taskWrapper) {
+            this.removeAllItems();
+            ContextMenuItem detailMenuItem = this.addItem("Detail", FontAwesome.BARS);
+            detailMenuItem.addItemClickListener(new ContextMenuItemClickListener() {
+                @Override
+                public void contextMenuItemClicked(ContextMenuItemClickEvent event) {
+                    if (taskWrapper.isTask()) {
+                        EventBusFactory.getInstance().post(new TaskEvent.GotoRead(GanttTreeTable.this, taskWrapper.getId()));
+                    } else if (taskWrapper.isMilestone()) {
+                        EventBusFactory.getInstance().post(new MilestoneEvent.GotoRead(GanttTreeTable.this, taskWrapper.getId()));
+                    }
+                }
+            });
+
+            ContextMenuItem predecessorMenuItem = this.addItem("Predecessors", FontAwesome.MAP_MARKER);
+            predecessorMenuItem.addItemClickListener(new ContextMenuItemClickListener() {
+                @Override
+                public void contextMenuItemClicked(ContextMenuItemClickEvent contextMenuItemClickEvent) {
+                    if (taskWrapper.isTask()) {
+                        UI.getCurrent().addWindow(new PredecessorWindow(GanttTreeTable.this, taskWrapper));
+                    } else {
+                        NotificationUtil.showWarningNotification("Can not edit predecessors for milestone");
+                    }
+                }
+            });
+
+            ContextMenuItem indentMenuItem = this.addItem("Indent", FontAwesome.INDENT);
+            indentMenuItem.setEnabled(taskWrapper.isIndentable());
+            indentMenuItem.addItemClickListener(new ContextMenuItemClickListener() {
+                @Override
+                public void contextMenuItemClicked(ContextMenuItemClickEvent contextMenuItemClickEvent) {
+                    GanttItemWrapper preItemWrapper = beanContainer.prevItemId(taskWrapper);
+                    if (preItemWrapper != null && preItemWrapper != taskWrapper.getParent()) {
+                        taskWrapper.updateParentRelationship(preItemWrapper);
+                        GanttTreeTable.this.setChildrenAllowed(preItemWrapper, true);
+                        GanttTreeTable.this.setParent(taskWrapper, preItemWrapper);
+                        GanttTreeTable.this.setCollapsed(preItemWrapper, false);
+                        GanttTreeTable.this.refreshRowCache();
+                        EventBusFactory.getInstance().post(new GanttEvent.AddGanttItemUpdateToQueue
+                                (GanttTreeTable.this, taskWrapper.getTask()));
+                    }
+                }
+            });
+
+            ContextMenuItem outdentMenuItem = this.addItem("Outdent", FontAwesome.OUTDENT);
+            outdentMenuItem.setEnabled(taskWrapper.isOutdentable());
+            outdentMenuItem.addItemClickListener(new ContextMenuItemClickListener() {
+                @Override
+                public void contextMenuItemClicked(ContextMenuItemClickEvent contextMenuItemClickEvent) {
+                    GanttItemWrapper parent = taskWrapper.getParent();
+                    if (parent != null) {
+                        GanttItemWrapper nextItem = beanContainer.nextItemId(taskWrapper);
+
+                        // Set all below tasks of taskWrapper have parent is taskWrapper
+                        while (nextItem != null && nextItem.getParent() == parent) {
+                            nextItem.updateParentRelationship(taskWrapper);
+                            GanttTreeTable.this.setParent(nextItem, taskWrapper);
+                            EventBusFactory.getInstance().post(new GanttEvent.AddGanttItemUpdateToQueue
+                                    (GanttTreeTable.this, nextItem.getTask()));
+                        }
+                        GanttTreeTable.this.setChildrenAllowed(taskWrapper, taskWrapper.hasSubTasks());
+
+                        taskWrapper.updateParentRelationship(parent.getParent());
+                        GanttTreeTable.this.setParent(taskWrapper, parent.getParent());
+                        GanttTreeTable.this.setChildrenAllowed(parent, parent.hasSubTasks());
+                        GanttTreeTable.this.refreshRowCache();
+                        EventBusFactory.getInstance().post(new GanttEvent.AddGanttItemUpdateToQueue
+                                (GanttTreeTable.this, taskWrapper.getTask()));
+                    }
+                }
+            });
+
+            ContextMenuItem inserRowBeforeMenuItem = this.addItem("Insert row before", FontAwesome.PLUS_CIRCLE);
+            inserRowBeforeMenuItem.addItemClickListener(new ContextMenuItemClickListener() {
+                @Override
+                public void contextMenuItemClicked(ContextMenuItemClickEvent contextMenuItemClickEvent) {
+                    beanContainer.prevItemId(taskWrapper);
+                }
+            });
+
+            ContextMenuItem insertRowAfterMenuItem = this.addItem("Insert row after", FontAwesome.PLUS_CIRCLE);
+            insertRowAfterMenuItem.addItemClickListener(new ContextMenuItemClickListener() {
+                @Override
+                public void contextMenuItemClicked(ContextMenuItemClickEvent contextMenuItemClickEvent) {
+
+                }
+            });
+
+            ContextMenuItem deleteRowMenuItem = this.addItem("Delete row", FontAwesome.TRASH_O);
+            deleteRowMenuItem.addItemClickListener(new ContextMenuItemClickListener() {
+                @Override
+                public void contextMenuItemClicked(ContextMenuItemClickEvent contextMenuItemClickEvent) {
+                    ConfirmDialogExt.show(UI.getCurrent(),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
+                                    AppContext.getSiteName()),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_MULTIPLE_ITEMS_MESSAGE),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                            new ConfirmDialog.Listener() {
+                                private static final long serialVersionUID = 1L;
+
+                                @Override
+                                public void onClose(ConfirmDialog dialog) {
+                                    if (dialog.isConfirmed()) {
+                                        removeTask(taskWrapper);
+                                    }
+                                }
+                            });
+                }
+            });
+        }
+
+        private void removeTask(GanttItemWrapper task) {
+//            EventBusFactory.getInstance().post(new GanttEvent
+//                    .DeleteGanttItemUpdateToQueue(GanttTreeTable.this, task.getTask()));
+            GanttTreeTable.this.removeItem(task);
+            if (task.getParent() != null) {
+                task.getParent().removeSubTask(task);
+            }
+
+            if (task.hasSubTasks()) {
+                Iterator<GanttItemWrapper> iter = task.subTasks().iterator();
+                while (iter.hasNext()) {
+                    GanttItemWrapper subTask = iter.next();
+                    iter.remove();
+                    removeTask(subTask);
+                }
+            }
+            calculateWholeGanttIndexes();
         }
     }
 }

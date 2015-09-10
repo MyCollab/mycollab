@@ -64,7 +64,7 @@ public abstract class AbstractBeanFieldGroupEditFieldFactory<B> implements IBean
 
         if (isValidateForm) {
             this.fieldGroup.addCommitHandler(this);
-            validation = ApplicationContextUtil.getSpringBean(LocalValidatorFactoryBean.class);
+            validation = ApplicationContextUtil.getSpringBean("validator", LocalValidatorFactoryBean.class);
         }
     }
 

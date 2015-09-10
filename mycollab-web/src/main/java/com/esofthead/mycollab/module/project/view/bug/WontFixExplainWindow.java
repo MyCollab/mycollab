@@ -49,12 +49,12 @@ import java.util.GregorianCalendar;
  * @since 1.0
  */
 @SuppressWarnings("serial")
-class WontFixExplainWindow extends Window {
+public class WontFixExplainWindow extends Window {
     private final SimpleBug bug;
     private VersionMultiSelectField fixedVersionSelect;
     private final IBugCallbackStatusComp callbackForm;
 
-    WontFixExplainWindow(IBugCallbackStatusComp callbackForm, SimpleBug bug) {
+    public WontFixExplainWindow(IBugCallbackStatusComp callbackForm, SimpleBug bug) {
         super("Won't fix bug '" + bug.getSummary() + "'");
         this.bug = bug;
         this.callbackForm = callbackForm;
@@ -138,7 +138,6 @@ class WontFixExplainWindow extends Window {
                 });
                 wonFixBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
                 wonFixBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
-                controlsBtn.with(wonFixBtn).withAlign(wonFixBtn, Alignment.MIDDLE_RIGHT);
 
                 Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
                     @Override
@@ -147,7 +146,7 @@ class WontFixExplainWindow extends Window {
                     }
                 });
                 cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-                controlsBtn.with(cancelBtn).withAlign(cancelBtn, Alignment.MIDDLE_RIGHT);
+                controlsBtn.with(cancelBtn, wonFixBtn);
 
                 layout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
 

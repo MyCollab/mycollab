@@ -35,10 +35,12 @@ public class StepExt extends Step {
         this.ganttItemWrapper = ganttItemWrapper;
     }
 
+    @Override
     public int hashCode() {
         return new HashCodeBuilder(1, 31).append(getUid()).build();
     }
 
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;

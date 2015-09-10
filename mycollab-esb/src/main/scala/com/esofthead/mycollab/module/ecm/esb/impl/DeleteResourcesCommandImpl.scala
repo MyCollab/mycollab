@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.ecm.esb.impl
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.locks.Lock
 
+import com.esofthead.mycollab.core.utils.StringUtils
 import com.esofthead.mycollab.lock.DistributionLockUtil
 import com.esofthead.mycollab.module.GenericCommand
 import com.esofthead.mycollab.module.ecm.domain.DriveInfo
@@ -26,7 +27,6 @@ import com.esofthead.mycollab.module.ecm.esb.DeleteResourcesEvent
 import com.esofthead.mycollab.module.ecm.service.DriveInfoService
 import com.esofthead.mycollab.module.file.service.RawContentService
 import com.google.common.eventbus.{AllowConcurrentEvents, Subscribe}
-import org.apache.commons.lang3.StringUtils
 import org.slf4j.{Logger, LoggerFactory}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -48,10 +48,10 @@ object DeleteResourcesCommandImpl {
     @AllowConcurrentEvents
     @Subscribe
     def removeResource(event: DeleteResourcesEvent): Unit = {
-        val lock: Lock = DistributionLockUtil.getLock("ecm-" + event.sAccountId)
         if (event.sAccountId == null) {
             return
         }
+        val lock: Lock = DistributionLockUtil.getLock("ecm-" + event.sAccountId)
         try {
             if (lock.tryLock(1, TimeUnit.HOURS)) {
                 var totalSize: Long = 0

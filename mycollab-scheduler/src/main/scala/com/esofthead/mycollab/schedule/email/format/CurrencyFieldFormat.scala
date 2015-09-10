@@ -18,11 +18,11 @@ package com.esofthead.mycollab.schedule.email.format
 
 import com.esofthead.mycollab.common.domain.Currency
 import com.esofthead.mycollab.common.service.CurrencyService
+import com.esofthead.mycollab.core.utils.StringUtils
 import com.esofthead.mycollab.schedule.email.MailContext
 import com.esofthead.mycollab.spring.ApplicationContextUtil
 import com.hp.gagawa.java.elements.Span
 import org.apache.commons.beanutils.PropertyUtils
-import org.apache.commons.lang3.StringUtils
 import org.slf4j.LoggerFactory
 
 /**

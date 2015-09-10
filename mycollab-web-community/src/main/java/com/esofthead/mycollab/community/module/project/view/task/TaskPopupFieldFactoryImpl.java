@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.community.module.project.view.task;
 
+import com.esofthead.mycollab.configuration.Storage;
+import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
@@ -23,6 +25,7 @@ import com.esofthead.mycollab.module.project.view.task.TaskPopupFieldFactory;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.form.field.PopupBeanField;
+import com.hp.gagawa.java.elements.Img;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.PopupView;
 import org.vaadin.teemu.VaadinIcons;
@@ -33,6 +36,26 @@ import org.vaadin.teemu.VaadinIcons;
  */
 @ViewComponent
 public class TaskPopupFieldFactoryImpl implements TaskPopupFieldFactory {
+
+    @Override
+    public PopupView createTaskPriorityPopupField(SimpleTask task) {
+        String taskPriority = task.getPriority();
+        Img img = new Img(task.getPriority(), ProjectResources.getIconResourceLink12ByTaskPriority(taskPriority));
+        return new PopupBeanField(img.write());
+    }
+
+    @Override
+    public PopupView createTaskAssigneePopupField(SimpleTask task) {
+        String avatarLink = Storage.getAvatarPath(task.getAssignUserAvatarId(), 16);
+        Img img = new Img(task.getAssignUserFullName(), avatarLink).setTitle(task.getAssignUserFullName());
+        return new PopupBeanField(img.write());
+    }
+
+    @Override
+    public PopupView createTaskCommentsPopupField(SimpleTask task) {
+        return new PopupBeanField(FontAwesome.COMMENT_O.getHtml() + " " + task.getNumComments());
+    }
+
     @Override
     public PopupView createTaskStatusPopupField(SimpleTask task) {
         return new PopupBeanField(FontAwesome.INFO_CIRCLE.getHtml() + " " + task.getStatus());

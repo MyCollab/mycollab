@@ -49,7 +49,8 @@ public class ProjectAssetsManager {
     }
 
     public static FontAwesome getAsset(String resId) {
-        return resources.get(resId);
+        FontAwesome font = resources.get(resId);
+        return (font != null) ? font : FontAwesome.DASHBOARD;
     }
 
     public static String toHexString(String resId) {

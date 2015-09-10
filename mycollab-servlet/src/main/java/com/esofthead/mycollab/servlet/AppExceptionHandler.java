@@ -17,12 +17,15 @@
 package com.esofthead.mycollab.servlet;
 
 import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.template.velocity.TemplateContext;
-import com.esofthead.mycollab.template.velocity.TemplateEngine;
+import com.esofthead.mycollab.template.velocity.service.TemplateEngine;
+import org.eclipse.jetty.server.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -32,88 +35,120 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.StringWriter;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @WebServlet(urlPatterns = "/error", name = "appExceptionHandlerServlet")
 public class AppExceptionHandler extends GenericHttpServlet {
-	private static final Logger LOG = LoggerFactory.getLogger(AppExceptionHandler.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AppExceptionHandler.class);
 
-	@Autowired
-	private TemplateEngine templateEngine;
+    @Autowired
+    private TemplateEngine templateEngine;
 
-	@Override
-	protected void onHandleRequest(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		Integer status_code = (Integer) request
-				.getAttribute("javax.servlet.error.status_code");
-		String requestUri = (String) request
-				.getAttribute("javax.servlet.error.request_uri");
-		if (requestUri == null) {
-			requestUri = "Unknown";
-		}
+    @Override
+    protected void onHandleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Integer status_code = (Integer) request.getAttribute("javax.servlet.error.status_code");
 
-		try {
-			if ((status_code != null && status_code == 404) || ("404".equals(request.getParameter("param")))) {
-				responsePage404(response);
-			} else {
-				responsePage500(response);
-			}
+        if (request.getHeader("User-Agent") == null) {
+            return;
+        }
 
-			// Analyze the servlet exception
-			Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");
-			if (throwable != null) {
-				LOG.error("Error in servlet " + requestUri, throwable);
-			}
+        try {
+            if ((status_code != null && status_code == 404) || ("404".equals(request.getParameter("param")))) {
+                LOG.error("Page 404: " + printRequest(request));
+                responsePage404(response);
+            } else {
+                // Analyze the servlet exception
+                Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");
+                responsePage500(response, throwable);
+            }
 
-		} catch (Exception e) {
-			LOG.error("Error in servlet", e);
-		}
-	}
+        } catch (Exception e) {
+            LOG.error("Error in servlet", e);
+        }
+    }
 
-	private void responsePage404(HttpServletResponse response) throws IOException {
-		String pageNotFoundTemplate = "templates/page/404Page.mt";
-		TemplateContext context = new TemplateContext();
+    private void responsePage404(HttpServletResponse response) throws IOException {
+        String pageNotFoundTemplate = "templates/page/404Page.mt";
+        TemplateContext context = new TemplateContext();
 
-		Reader reader = LocalizationHelper.templateReader(pageNotFoundTemplate, response.getLocale());
+        Reader reader = LocalizationHelper.templateReader(pageNotFoundTemplate, response.getLocale());
 
-		Map<String, String> defaultUrls = new HashMap<>();
+        Map<String, String> defaultUrls = new HashMap<>();
 
-		defaultUrls.put("cdn_url", SiteConfiguration.getCdnUrl());
-		defaultUrls.put("app_url", SiteConfiguration.getAppUrl());
-		context.put("defaultUrls", defaultUrls);
+        defaultUrls.put("cdn_url", SiteConfiguration.getCdnUrl());
+        defaultUrls.put("app_url", SiteConfiguration.getAppUrl());
+        context.put("defaultUrls", defaultUrls);
 
-		StringWriter writer = new StringWriter();
-		templateEngine.evaluate(context, writer, "log task", reader);
+        StringWriter writer = new StringWriter();
+        templateEngine.evaluate(context, writer, "log task", reader);
 
-		String html = writer.toString();
-		PrintWriter out = response.getWriter();
-		out.println(html);
-	}
+        String html = writer.toString();
+        PrintWriter out = response.getWriter();
+        out.println(html);
+    }
 
-	private void responsePage500(HttpServletResponse response) throws IOException {
-		String errorPage = "templates/page/500Page.mt";
-		TemplateContext context = new TemplateContext();
+    private void responsePage500(HttpServletResponse response, Throwable throwable) throws IOException {
+        if (throwable != null) {
+            DataAccessException exception = getExceptionType(throwable, DataAccessException.class);
+            if (exception != null) {
+                response.getWriter().println("<h1>Error establishing a database connection</h1>");
+                return;
+            }
+            LOG.error("Exception in mycollab", throwable);
+        }
 
-		Reader reader = LocalizationHelper.templateReader(errorPage,
-				response.getLocale());
-		Map<String, String> defaultUrls = new HashMap<>();
+        String errorPage = "templates/page/500Page.mt";
+        TemplateContext context = new TemplateContext();
 
-		defaultUrls.put("cdn_url", SiteConfiguration.getCdnUrl());
-		defaultUrls.put("app_url", SiteConfiguration.getAppUrl());
-		context.put("defaultUrls", defaultUrls);
+        Reader reader = LocalizationHelper.templateReader(errorPage,
+                response.getLocale());
+        Map<String, String> defaultUrls = new HashMap<>();
 
-		StringWriter writer = new StringWriter();
-		templateEngine.evaluate(context, writer, "log task", reader);
+        defaultUrls.put("cdn_url", SiteConfiguration.getCdnUrl());
+        defaultUrls.put("app_url", SiteConfiguration.getAppUrl());
+        context.put("defaultUrls", defaultUrls);
 
-		String html = writer.toString();
-		PrintWriter out = response.getWriter();
-		out.println(html);
-	}
+
+        StringWriter writer = new StringWriter();
+        templateEngine.evaluate(context, writer, "log task", reader);
+
+        String html = writer.toString();
+        PrintWriter out = response.getWriter();
+        out.println(html);
+    }
+
+    private String printRequest(HttpServletRequest request) {
+        StringBuilder builder = new StringBuilder();
+        String subDomain;
+        if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
+            subDomain = request.getServerName().split("\\.")[0];
+        } else {
+            subDomain = request.getServerName();
+        }
+        builder.append("Request: " + ((Request) request).getUri() + "--- Agent: " + request.getHeader("User-Agent") +
+                "-- Sub domain: " + subDomain);
+        builder.append("\n Parameters: ");
+        Enumeration<String> params = request.getParameterNames();
+        while (params.hasMoreElements()) {
+            String param = params.nextElement();
+            builder.append("\n    param: " + param + "----" + request.getParameter(param));
+        }
+        return builder.toString();
+    }
+
+    private static <T> T getExceptionType(Throwable e, Class<T> exceptionType) {
+        if (exceptionType.isAssignableFrom(e.getClass())) {
+            return (T) e;
+        } else if (e.getCause() != null) {
+            return getExceptionType(e.getCause(), exceptionType);
+        } else {
+            return null;
+        }
+    }
 }

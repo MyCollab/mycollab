@@ -68,10 +68,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.dialogs.ConfirmDialog;
+import org.vaadin.peter.buttongroup.ButtonGroup;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
-import org.vaadin.peter.buttongroup.ButtonGroup;
 
 import java.util.List;
 import java.util.UUID;
@@ -246,8 +246,8 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
 
     @Override
     protected void initRelatedComponents() {
-        commentList = new CommentDisplay(ProjectTypeConstants.BUG,
-                CurrentProjectVariables.getProjectId(), BugRelayEmailNotificationAction.class);
+        commentList = new CommentDisplay(ProjectTypeConstants.BUG, CurrentProjectVariables.getProjectId(),
+                BugRelayEmailNotificationAction.class);
 
         historyList = new BugHistoryList();
         dateInfoComp = new DateInfoComp();
