@@ -22,10 +22,7 @@ import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.utils.BusinessDayTimeUtils;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.project.domain.AssignWithPredecessors;
-import com.esofthead.mycollab.module.project.domain.MilestoneGanttItem;
-import com.esofthead.mycollab.module.project.domain.TaskGanttItem;
-import com.esofthead.mycollab.module.project.domain.TaskPredecessor;
+import com.esofthead.mycollab.module.project.domain.*;
 import com.esofthead.mycollab.module.project.events.GanttEvent;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -49,7 +46,8 @@ import static com.esofthead.mycollab.common.TooltipBuilder.TdUtil.buildCellValue
 public class GanttItemWrapper {
     private AssignWithPredecessors task;
     private LocalDate startDate, endDate;
-    private LocalDate boundStartDate = new LocalDate(1970, 1, 1), boundEndDate = new LocalDate(2100, 1, 1);
+    private LocalDate fixedStartDateByChilds = new LocalDate(1970, 1, 1), fixedEndDatebyChilds = new LocalDate(2100, 1,
+            1);
 
     private GanttExt gantt;
     private GanttItemWrapper parent;
@@ -59,6 +57,12 @@ public class GanttItemWrapper {
     public GanttItemWrapper(GanttExt gantt, AssignWithPredecessors task) {
         this.gantt = gantt;
         setTask(task);
+
+        if (task instanceof MilestoneGanttItem) {
+            subItems = buildSubTasks(gantt, this, (MilestoneGanttItem) task);
+        } else if (task instanceof TaskGanttItem) {
+            subItems = buildSubTasks(gantt, this, (TaskGanttItem) task);
+        }
     }
 
     public void removeSubTask(GanttItemWrapper subTask) {
@@ -112,11 +116,11 @@ public class GanttItemWrapper {
             }
 
             if (isMilestone()) {
-                ownStep.setBackgroundColor("f7f4f0");
+                ownStep.setBackgroundColor("C2DFFF");
             } else if (isTask() && task.hasSubAssignments()) {
-                ownStep.setBackgroundColor("d1e3f7");
+                ownStep.setBackgroundColor("E4F1FF");
             } else {
-                ownStep.setBackgroundColor("d1e3f7");
+                ownStep.setBackgroundColor("E4F1FF");
             }
 
             ownStep.setShowProgress(false);
@@ -133,7 +137,7 @@ public class GanttItemWrapper {
     }
 
     public boolean hasSubTasks() {
-        return task.hasSubAssignments();
+        return subItems.size() > 0;
     }
 
     public String getName() {
@@ -147,16 +151,6 @@ public class GanttItemWrapper {
     }
 
     public List<GanttItemWrapper> subTasks() {
-        if (subItems == null) {
-            if (task instanceof MilestoneGanttItem) {
-                subItems = buildSubTasks(gantt, this, (MilestoneGanttItem) task);
-            } else if (task instanceof TaskGanttItem) {
-                subItems = buildSubTasks(gantt, this, (TaskGanttItem) task);
-            } else {
-                throw new MyCollabException("Do not support type except milestone and task");
-            }
-        }
-
         return subItems;
     }
 
@@ -171,13 +165,17 @@ public class GanttItemWrapper {
     }
 
     private static List<GanttItemWrapper> buildSubTasks(GanttExt gantt, GanttItemWrapper parent, List<TaskGanttItem> items) {
-        List<GanttItemWrapper> tmpList = new ArrayList<>(items.size());
-        for (TaskGanttItem item : items) {
-            GanttItemWrapper ganttItemWrapper = new GanttItemWrapper(gantt, item);
-            tmpList.add(ganttItemWrapper);
-            ganttItemWrapper.setParent(parent);
+        if (CollectionUtils.isNotEmpty(items)) {
+            List<GanttItemWrapper> tmpList = new ArrayList<>(items.size());
+            for (TaskGanttItem item : items) {
+                GanttItemWrapper ganttItemWrapper = new GanttItemWrapper(gantt, item);
+                tmpList.add(ganttItemWrapper);
+                ganttItemWrapper.setParent(parent);
+            }
+            return tmpList;
+        } else {
+            return new ArrayList<>();
         }
-        return tmpList;
     }
 
     private void calculateDatesByChildTasks() {
@@ -188,12 +186,18 @@ public class GanttItemWrapper {
                 calStartDate = DateTimeUtils.min(calStartDate, item.getStartDate());
                 calEndDate = DateTimeUtils.max(calEndDate, item.getEndDate());
             }
+            fixedStartDateByChilds = calStartDate;
+            fixedEndDatebyChilds = calEndDate;
             setStartAndEndDate(calStartDate, calEndDate, true, true);
         }
     }
 
     public Integer getId() {
         return task.getId();
+    }
+
+    public void setId(Integer id) {
+        task.setId(id);
     }
 
     public Double getDuration() {
@@ -259,14 +263,15 @@ public class GanttItemWrapper {
 
     public void setPercentageComplete(Double percentageComplete) {
         task.setProgress(percentageComplete);
-        if (parent != null) {
+        while (parent != null) {
             parent.setPercentageComplete(parent.getPercentageComplete());
+            parent = parent.getParent();
         }
     }
 
     public boolean setStartAndEndDate(LocalDate newStartDate, LocalDate newEndDate, boolean askToCheckPredecessors,
                                       boolean requestToCheckDependents) {
-        if (newStartDate.isBefore(boundStartDate) || newEndDate.isAfter(boundEndDate)) {
+        if (newStartDate.isBefore(fixedStartDateByChilds) || newEndDate.isAfter(fixedEndDatebyChilds)) {
             throw new UserInvalidInputException("Invalid constraints");
         }
         boolean hasChange = false;
@@ -372,8 +377,8 @@ public class GanttItemWrapper {
         if (CollectionUtils.isNotEmpty(predecessors)) {
             LocalDate currentStartDate = new LocalDate(getStartDate());
             LocalDate currentEndDate = new LocalDate(getEndDate());
-            boundStartDate = new LocalDate(1970, 1, 1);
-            boundEndDate = new LocalDate(2100, 1, 1);
+            LocalDate boundStartDate = new LocalDate(1970, 1, 1);
+            LocalDate boundEndDate = new LocalDate(2100, 1, 1);
 
             for (TaskPredecessor predecessor : predecessors) {
                 int ganttIndex = predecessor.getGanttIndex();
@@ -444,19 +449,6 @@ public class GanttItemWrapper {
         }
     }
 
-    public void resetBoundDates() {
-        boundStartDate = new LocalDate(1970, 1, 1);
-        boundEndDate = new LocalDate(2100, 1, 1);
-    }
-
-    public LocalDate getBoundEndDate() {
-        return boundEndDate;
-    }
-
-    public LocalDate getBoundStartDate() {
-        return boundStartDate;
-    }
-
     private void adjustDependentTasksDates() {
         List<TaskPredecessor> dependents = task.getDependents();
         if (CollectionUtils.isNotEmpty(dependents)) {
@@ -471,7 +463,7 @@ public class GanttItemWrapper {
 
     private void onDateChanges(boolean askToCheckPredecessors, boolean requestToCheckDependents) {
         ownStep.setDescription(buildTooltip());
-        EventBusFactory.getInstance().post(new GanttEvent.AddGanttItemUpdateToQueue(GanttItemWrapper.this, task));
+        EventBusFactory.getInstance().post(new GanttEvent.AddGanttItemUpdateToQueue(GanttItemWrapper.this, this));
 
         if (askToCheckPredecessors) {
             adjustTaskDatesByPredecessors(getPredecessors());
@@ -480,7 +472,6 @@ public class GanttItemWrapper {
         if (requestToCheckDependents) {
             adjustDependentTasksDates();
         }
-
         updateParentDates();
         gantt.markStepDirty(ownStep);
     }
@@ -503,5 +494,23 @@ public class GanttItemWrapper {
 
     boolean isOutdentable() {
         return (this.getParent() != null);
+    }
+
+    public Task buildNewTask() {
+        if (task instanceof TaskGanttItem) {
+            return ((TaskGanttItem) task).buildNewTask();
+        } else {
+            throw new MyCollabException("Invalid method call");
+        }
+    }
+
+    public boolean isAncestor(GanttItemWrapper item) {
+        if (item != null) {
+            if (this == item) {
+                return true;
+            }
+            return isAncestor(item.getParent());
+        }
+        return false;
     }
 }

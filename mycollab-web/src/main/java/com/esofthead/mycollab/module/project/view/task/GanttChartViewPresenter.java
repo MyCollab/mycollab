@@ -22,6 +22,7 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.AssignWithPredecessors;
+import com.esofthead.mycollab.module.project.domain.Task;
 import com.esofthead.mycollab.module.project.domain.TaskPredecessor;
 import com.esofthead.mycollab.module.project.events.GanttEvent;
 import com.esofthead.mycollab.module.project.service.GanttAssignmentService;
@@ -38,6 +39,8 @@ import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.ui.ComponentContainer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -51,6 +54,8 @@ import java.util.Set;
 @LoadPolicy(scope = ViewScope.PROTOTYPE)
 public class GanttChartViewPresenter extends AbstractPresenter<GanttChartView> {
     private static final long serialVersionUID = 1L;
+
+    private static Logger LOG = LoggerFactory.getLogger(GanttChartViewPresenter.class);
 
     private GanttAssignmentService ganttAssignmentService = ApplicationContextUtil.getSpringBean(GanttAssignmentService.class);
 
@@ -70,9 +75,20 @@ public class GanttChartViewPresenter extends AbstractPresenter<GanttChartView> {
                 @Override
                 @Subscribe
                 public void handle(GanttEvent.AddGanttItemUpdateToQueue event) {
-                    AssignWithPredecessors item = (AssignWithPredecessors) event.getData();
-                    if (!queueSetTasksDelete.contains(item)) {
-                        queueSetTasksUpdate.add(item);
+                    GanttItemWrapper item = (GanttItemWrapper) event.getData();
+                    if (item.getId() == null) {
+                        if (item.isTask()) {
+                            Task newTask = item.buildNewTask();
+                            ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                            taskService.saveWithSession(newTask, AppContext.getUsername());
+                            item.setId(newTask.getId());
+                        } else {
+                            LOG.error("Milestone with id is null");
+                        }
+                        return;
+                    }
+                    if (!queueSetTasksDelete.contains(item.getTask())) {
+                        queueSetTasksUpdate.add(item.getTask());
                     }
                 }
             };
@@ -82,11 +98,11 @@ public class GanttChartViewPresenter extends AbstractPresenter<GanttChartView> {
                 @Subscribe
                 @Override
                 public void handle(GanttEvent.DeleteGanttItemUpdateToQueue event) {
-                    AssignWithPredecessors item = (AssignWithPredecessors) event.getData();
-                    if (queueSetTasksUpdate.contains(item)) {
-                        queueSetTasksUpdate.remove(item);
+                    GanttItemWrapper item = (GanttItemWrapper) event.getData();
+                    if (queueSetTasksUpdate.contains(item.getTask())) {
+                        queueSetTasksUpdate.remove(item.getTask());
                     }
-                    queueSetTasksDelete.add(item);
+                    queueSetTasksDelete.add(item.getTask());
                 }
             };
 
@@ -131,15 +147,21 @@ public class GanttChartViewPresenter extends AbstractPresenter<GanttChartView> {
 
     private void massUpdateTasksInfoInQueue() {
         if (queueSetTasksUpdate.size() > 0) {
-            ganttAssignmentService.massUpdateGanttItems(new ArrayList<>(queueSetTasksUpdate), AppContext.getAccountId());
-            queueSetTasksUpdate.clear();
+            try {
+                ganttAssignmentService.massUpdateGanttItems(new ArrayList<>(queueSetTasksUpdate), AppContext.getAccountId());
+            } finally {
+                queueSetTasksUpdate.clear();
+            }
         }
     }
 
     private void massDeleteTasksInQueue() {
         if (queueSetTasksDelete.size() > 0) {
-            ganttAssignmentService.massDeleteGanttItems(new ArrayList<>(queueSetTasksDelete), AppContext.getAccountId());
-            queueSetTasksDelete.clear();
+            try {
+                ganttAssignmentService.massDeleteGanttItems(new ArrayList<>(queueSetTasksDelete), AppContext.getAccountId());
+            } finally {
+                queueSetTasksDelete.clear();
+            }
         }
     }
 

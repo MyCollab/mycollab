@@ -16,10 +16,14 @@
  */
 package com.esofthead.mycollab.module.project.view;
 
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.CssLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -28,6 +32,8 @@ import com.vaadin.ui.Component;
 public class ProjectVerticalTabsheet extends VerticalTabsheet {
     private static final long serialVersionUID = 1L;
 
+    private Button toogleBtn;
+
     @Override
     protected void setDefaulButtonIcon(Component btn, Boolean selected) {
         ButtonTabImpl btnTabImpl = (ButtonTabImpl) btn;
@@ -35,5 +41,42 @@ public class ProjectVerticalTabsheet extends VerticalTabsheet {
 
         Resource resource = ProjectAssetsManager.getAsset(tabId);
         btn.setIcon(resource);
+    }
+
+    @Override
+    public void setNavigatorVisibility(boolean visibility) {
+        if (!visibility) {
+            CssLayout navigatorWrapper = this.getNavigatorWrapper();
+            navigatorWrapper.setWidth("70px");
+            this.hideTabsCaption();
+
+            toogleBtn.setIcon(FontAwesome.CARET_SQUARE_O_RIGHT);
+            toogleBtn.setDescription("Expand menu");
+            toogleBtn.setCaption("");
+        } else {
+            CssLayout navigatorWrapper = this.getNavigatorWrapper();
+            navigatorWrapper.setWidth("250px");
+            this.showTabsCaption();
+
+            toogleBtn.setIcon(FontAwesome.CARET_SQUARE_O_LEFT);
+            toogleBtn.setDescription("");
+            toogleBtn.setCaption("Collapse menu");
+        }
+
+        CurrentProjectVariables.setProjectToogleMenu(visibility);
+    }
+
+    public void addToogleNavigatorControl() {
+        toogleBtn = this.addButtonOnNavigatorContainer("button", "Collapse menu", FontAwesome.CARET_SQUARE_O_LEFT);
+        toogleBtn.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                boolean visibility = CurrentProjectVariables.getProjectToogleMenu();
+                setNavigatorVisibility(!visibility);
+            }
+        });
+
+        boolean visibility = CurrentProjectVariables.getProjectToogleMenu();
+        setNavigatorVisibility(visibility);
     }
 }

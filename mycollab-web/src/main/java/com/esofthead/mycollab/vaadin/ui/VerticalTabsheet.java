@@ -87,6 +87,22 @@ public class VerticalTabsheet extends CustomComponent {
         this.setStyleName(TABSHEET_STYLENAME);
     }
 
+    public void hideTabsCaption() {
+        Iterator<Component> iter = navigatorContainer.iterator();
+        while (iter.hasNext()) {
+            ButtonTabImpl comp = (ButtonTabImpl) iter.next();
+            comp.hideCaption();
+        }
+    }
+
+    public void showTabsCaption() {
+        Iterator<Component> iter = navigatorContainer.iterator();
+        while (iter.hasNext()) {
+            ButtonTabImpl comp = (ButtonTabImpl) iter.next();
+            comp.showCaption();
+        }
+    }
+
     public void setNavigatorVisibility(boolean visibility) {
         navigatorContainer.setVisible(visibility);
         navigatorWrapper.setVisible(visibility);
@@ -120,8 +136,7 @@ public class VerticalTabsheet extends CustomComponent {
                             selectedButton.addStyleName(TAB_SELECTED_STYLENAME);
                             selectedComp = compMap.get(button.getTabId());
                         }
-                        fireTabChangeEvent(new SelectedTabChangeEvent(
-                                VerticalTabsheet.this));
+                        fireTabChangeEvent(new SelectedTabChangeEvent(VerticalTabsheet.this));
                     } else {
                         Page.getCurrent().open(button.link, "_blank", false);
                     }
@@ -155,7 +170,15 @@ public class VerticalTabsheet extends CustomComponent {
             TabImpl tabImpl = new TabImpl(id, caption, component);
             compMap.put(id, tabImpl);
         }
+    }
 
+    public Button addButtonOnNavigatorContainer(String id, String caption, Resource icon) {
+        final ButtonTabImpl button = new ButtonTabImpl(id, 0, caption, "");
+        navigatorContainer.addComponent(button);
+        button.setStyleName(TAB_STYLENAME);
+        button.setWidth("100%");
+        button.setIcon(icon);
+        return button;
     }
 
     public boolean hasTab(String viewId) {
@@ -298,12 +321,24 @@ public class VerticalTabsheet extends CustomComponent {
         private String tabId;
         private int level;
         String link;
+        private String caption;
 
         public ButtonTabImpl(String id, int level, String caption, String link) {
             super(caption);
             this.tabId = id;
             this.link = link;
             this.level = level;
+            this.caption = caption;
+        }
+
+        public void hideCaption() {
+            this.setCaption("");
+            this.setDescription(caption);
+        }
+
+        public void showCaption() {
+            this.setCaption(caption);
+            this.setDescription("");
         }
 
         public String getTabId() {

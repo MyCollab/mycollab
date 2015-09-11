@@ -17,19 +17,19 @@
 package com.esofthead.mycollab.module.project.view;
 
 import com.esofthead.mycollab.common.GenericLinkUtils;
-import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.core.arguments.*;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.project.*;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
+import com.esofthead.mycollab.module.project.ProjectMemberStatusConstants;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.*;
-import com.esofthead.mycollab.module.project.events.*;
-import com.esofthead.mycollab.module.project.i18n.*;
+import com.esofthead.mycollab.module.project.events.ProjectMemberEvent;
+import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
-import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.view.bug.TrackerPresenter;
 import com.esofthead.mycollab.module.project.view.file.FilePresenter;
 import com.esofthead.mycollab.module.project.view.message.MessagePresenter;
@@ -44,13 +44,9 @@ import com.esofthead.mycollab.module.project.view.task.TaskPresenter;
 import com.esofthead.mycollab.module.project.view.time.ITimeTrackingPresenter;
 import com.esofthead.mycollab.module.project.view.user.ProjectDashboardPresenter;
 import com.esofthead.mycollab.module.project.view.user.ProjectInfoComponent;
-import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.*;
-import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
-import com.esofthead.mycollab.vaadin.ui.OptionPopupContent;
-import com.esofthead.mycollab.vaadin.ui.SearchTextField;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet.TabImpl;
 import com.vaadin.server.FontAwesome;
@@ -60,8 +56,6 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
 import com.vaadin.ui.TabSheet.Tab;
-import org.vaadin.dialogs.ConfirmDialog;
-import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -127,8 +121,6 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
             myProjectTab.setNavigatorWidth("100%");
             myProjectTab.setNavigatorStyleName("sidebar-menu");
             myProjectTab.setContainerStyleName("tab-content");
-
-            buildComponents();
 
             myProjectTab.addSelectedTabChangeListener(new SelectedTabChangeListener() {
                 @Override
@@ -308,6 +300,8 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
             myProjectTab.addTab(constructProjectUsers(), ProjectTypeConstants.MEMBER, 12,
                     AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MEMBER),
                     GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateUsersLink(prjId));
+
+            myProjectTab.addToogleNavigatorControl();
         }
 
         private Component constructProjectDashboardComponent() {

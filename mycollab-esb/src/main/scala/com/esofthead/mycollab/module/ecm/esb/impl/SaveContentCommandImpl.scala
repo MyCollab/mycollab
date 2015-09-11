@@ -74,6 +74,7 @@ object SaveContentCommandImpl {
             case e: Exception => SaveContentCommandImpl.LOG.error(String.format("Error while save content %s",
                 BeanUtility.printBeanObj(event.content)), e)
         } finally {
+            DistributionLockUtil.removeLock("ecm-" + event.sAccountId)
             lock.unlock
         }
     }

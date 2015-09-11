@@ -54,7 +54,7 @@
 
     <resultMap id="ProjectGanttItem" type="com.esofthead.mycollab.module.project.domain.ProjectGanttItem"
                extends="AssignWithPredecessors">
-        <collection property="subTasks" ofType="com.esofthead.mycollab.module.project.domain.MilestoneGanttItem"
+        <collection property="milestones" ofType="com.esofthead.mycollab.module.project.domain.MilestoneGanttItem"
                     select="selectMilestones" column="prjId"/>
         <collection property="tasksWithNoMilestones" ofType="com.esofthead.mycollab.module.project.domain.TaskGanttItem"
                     select="selectTasksWithoutMilestone" column="prjId"/>

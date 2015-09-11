@@ -69,10 +69,20 @@ public class CurrentProjectVariables {
             }
 
             setProjectMember(prjMember);
-            MyCollabSession.putVariable(TOOGLE_MENU_FLAG, new Boolean(true));
+            if (getProjectToogleMenu() == null) {
+                setProjectToogleMenu(true);
+            }
         } else if (!AppContext.isAdmin()) {
             throw new MyCollabException("You are not belong to this project");
         }
+    }
+
+    public static Boolean getProjectToogleMenu() {
+        return (Boolean) MyCollabSession.getVariable(TOOGLE_MENU_FLAG);
+    }
+
+    public static void setProjectToogleMenu(boolean visibility) {
+        MyCollabSession.putVariable(TOOGLE_MENU_FLAG, new Boolean(visibility));
     }
 
     private static void setProjectMember(SimpleProjectMember prjMember) {

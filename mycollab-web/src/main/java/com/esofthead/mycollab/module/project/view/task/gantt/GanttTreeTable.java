@@ -23,10 +23,15 @@ import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.domain.Task;
+import com.esofthead.mycollab.module.project.domain.TaskGanttItem;
 import com.esofthead.mycollab.module.project.domain.TaskPredecessor;
 import com.esofthead.mycollab.module.project.events.GanttEvent;
 import com.esofthead.mycollab.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
+import com.esofthead.mycollab.module.project.service.ProjectTaskService;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
@@ -160,7 +165,7 @@ public class GanttTreeTable extends TreeTable {
                     field = new TextField();
                     ((TextField) field).setNullRepresentation("0");
                     ((TextField) field).setImmediate(true);
-                    if (ganttItem.hasSubTasks()) {
+                    if (ganttItem.hasSubTasks() || ganttItem.isMilestone()) {
                         field.setEnabled(false);
                         ((TextField) field).setDescription("Because this row has sub-tasks, this cell " +
                                 "is a summary value and can not be edited directly. You can edit cells " +
@@ -208,7 +213,7 @@ public class GanttTreeTable extends TreeTable {
                                     if (f.isModified()) {
                                         f.commit();
                                         EventBusFactory.getInstance().post(new GanttEvent.AddGanttItemUpdateToQueue
-                                                (GanttTreeTable.this, ganttItem.getTask()));
+                                                (GanttTreeTable.this, ganttItem));
                                         GanttTreeTable.this.refreshRowCache();
                                     }
                                 }
@@ -244,6 +249,8 @@ public class GanttTreeTable extends TreeTable {
                 GanttItemWrapper item = (GanttItemWrapper) itemId;
                 if (item.isMilestone()) {
                     return "milestone";
+                } else if (item.isTask()) {
+                    return "task";
                 }
                 return null;
             }
@@ -254,7 +261,6 @@ public class GanttTreeTable extends TreeTable {
         contextMenu.setOpenAutomatically(false);
 
         ContextMenu.ContextMenuOpenedListener.TableListener tableListener = new ContextMenu.ContextMenuOpenedListener.TableListener() {
-
             public void onContextMenuOpenFromRow(ContextMenu.ContextMenuOpenedOnTableRowEvent event) {
                 GanttItemWrapper item = (GanttItemWrapper) event.getItemId();
                 contextMenu.displayContextMenu(item);
@@ -294,10 +300,13 @@ public class GanttTreeTable extends TreeTable {
 
     public void addTask(GanttItemWrapper itemWrapper) {
         int ganttIndex = beanContainer.size() + 1;
-        itemWrapper.setGanttIndex(ganttIndex);
+        if (itemWrapper.getGanttIndex() == null || ganttIndex != itemWrapper.getGanttIndex()) {
+            itemWrapper.setGanttIndex(ganttIndex);
+            ganttIndexIsChanged = true;
+        }
+
         beanContainer.addBean(itemWrapper);
         gantt.addTask(itemWrapper);
-        ganttIndexIsChanged = true;
 
         if (itemWrapper.hasSubTasks()) {
             this.setChildrenAllowed(itemWrapper, true);
@@ -353,7 +362,7 @@ public class GanttTreeTable extends TreeTable {
         if (ganttIndexIsChanged) {
             Collection<GanttItemWrapper> items = beanContainer.getItemIds();
             for (GanttItemWrapper item : items) {
-                EventBusFactory.getInstance().post(new GanttEvent.AddGanttItemUpdateToQueue(GanttTreeTable.this, item.getTask()));
+                EventBusFactory.getInstance().post(new GanttEvent.AddGanttItemUpdateToQueue(GanttTreeTable.this, item));
             }
         }
     }
@@ -362,8 +371,11 @@ public class GanttTreeTable extends TreeTable {
         GanttItemWrapper item = beanContainer.firstItemId();
         int index = 1;
         while (item != null) {
-            System.out.println("Item: " + index + "---" + item.getName());
-            item.setGanttIndex(index);
+            if (item.getGanttIndex() != index) {
+                item.setGanttIndex(index);
+                ganttIndexIsChanged = true;
+            }
+
             item = beanContainer.nextItemId(item);
             index++;
         }
@@ -372,9 +384,6 @@ public class GanttTreeTable extends TreeTable {
 
     private class GanttContextMenu extends ContextMenu {
 
-        GanttContextMenu() {
-        }
-
         void displayContextMenu(final GanttItemWrapper taskWrapper) {
             this.removeAllItems();
             ContextMenuItem detailMenuItem = this.addItem("Detail", FontAwesome.BARS);
@@ -382,7 +391,16 @@ public class GanttTreeTable extends TreeTable {
                 @Override
                 public void contextMenuItemClicked(ContextMenuItemClickEvent event) {
                     if (taskWrapper.isTask()) {
-                        EventBusFactory.getInstance().post(new TaskEvent.GotoRead(GanttTreeTable.this, taskWrapper.getId()));
+                        if (taskWrapper.getId() == null) {
+                            //New task, save then go to the task detail view
+                            Task newTask = taskWrapper.buildNewTask();
+                            ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                            taskService.saveWithSession(newTask, AppContext.getUsername());
+                            taskWrapper.setId(newTask.getId());
+                            EventBusFactory.getInstance().post(new TaskEvent.GotoRead(GanttTreeTable.this, newTask.getId()));
+                        } else {
+                            EventBusFactory.getInstance().post(new TaskEvent.GotoRead(GanttTreeTable.this, taskWrapper.getId()));
+                        }
                     } else if (taskWrapper.isMilestone()) {
                         EventBusFactory.getInstance().post(new MilestoneEvent.GotoRead(GanttTreeTable.this, taskWrapper.getId()));
                     }
@@ -414,7 +432,7 @@ public class GanttTreeTable extends TreeTable {
                         GanttTreeTable.this.setCollapsed(preItemWrapper, false);
                         GanttTreeTable.this.refreshRowCache();
                         EventBusFactory.getInstance().post(new GanttEvent.AddGanttItemUpdateToQueue
-                                (GanttTreeTable.this, taskWrapper.getTask()));
+                                (GanttTreeTable.this, taskWrapper));
                     }
                 }
             });
@@ -426,40 +444,83 @@ public class GanttTreeTable extends TreeTable {
                 public void contextMenuItemClicked(ContextMenuItemClickEvent contextMenuItemClickEvent) {
                     GanttItemWrapper parent = taskWrapper.getParent();
                     if (parent != null) {
-                        GanttItemWrapper nextItem = beanContainer.nextItemId(taskWrapper);
-
+                        GanttTreeTable.this.setParent(taskWrapper, parent.getParent());
+                        taskWrapper.updateParentRelationship(parent.getParent());
+                        GanttTreeTable.this.setCollapsed(taskWrapper, false);
                         // Set all below tasks of taskWrapper have parent is taskWrapper
+                        GanttItemWrapper nextItem = beanContainer.nextItemId(taskWrapper);
                         while (nextItem != null && nextItem.getParent() == parent) {
+                            GanttTreeTable.this.setChildrenAllowed(taskWrapper, true);
                             nextItem.updateParentRelationship(taskWrapper);
                             GanttTreeTable.this.setParent(nextItem, taskWrapper);
                             EventBusFactory.getInstance().post(new GanttEvent.AddGanttItemUpdateToQueue
-                                    (GanttTreeTable.this, nextItem.getTask()));
+                                    (GanttTreeTable.this, nextItem));
                         }
                         GanttTreeTable.this.setChildrenAllowed(taskWrapper, taskWrapper.hasSubTasks());
-
-                        taskWrapper.updateParentRelationship(parent.getParent());
-                        GanttTreeTable.this.setParent(taskWrapper, parent.getParent());
                         GanttTreeTable.this.setChildrenAllowed(parent, parent.hasSubTasks());
                         GanttTreeTable.this.refreshRowCache();
                         EventBusFactory.getInstance().post(new GanttEvent.AddGanttItemUpdateToQueue
-                                (GanttTreeTable.this, taskWrapper.getTask()));
+                                (GanttTreeTable.this, taskWrapper));
                     }
                 }
             });
 
-            ContextMenuItem inserRowBeforeMenuItem = this.addItem("Insert row before", FontAwesome.PLUS_CIRCLE);
-            inserRowBeforeMenuItem.addItemClickListener(new ContextMenuItemClickListener() {
-                @Override
-                public void contextMenuItemClicked(ContextMenuItemClickEvent contextMenuItemClickEvent) {
-                    beanContainer.prevItemId(taskWrapper);
-                }
-            });
+            if (beanContainer.indexOfId(taskWrapper) > 0) {
+                ContextMenuItem inserRowBeforeMenuItem = this.addItem("Insert row before", FontAwesome.PLUS_CIRCLE);
+                inserRowBeforeMenuItem.addItemClickListener(new ContextMenuItemClickListener() {
+                    @Override
+                    public void contextMenuItemClicked(ContextMenuItemClickEvent contextMenuItemClickEvent) {
+                        int index = beanContainer.indexOfId(taskWrapper);
+                        if (index > 0) {
+                            TaskGanttItem newTask = new TaskGanttItem();
+                            newTask.setType(ProjectTypeConstants.TASK);
+                            newTask.setPrjId(taskWrapper.getTask().getPrjId());
+                            newTask.setName("New Task");
+                            newTask.setProgress(0d);
+                            newTask.setsAccountId(AppContext.getAccountId());
+                            GanttItemWrapper newGanttItem = new GanttItemWrapper(gantt, newTask);
+                            newGanttItem.setGanttIndex(index + 1);
+                            GanttItemWrapper prevItem = beanContainer.prevItemId(taskWrapper);
+                            beanContainer.addItemAfter(prevItem, newGanttItem);
+                            gantt.addTask(index, newGanttItem);
+                            GanttTreeTable.this.setChildrenAllowed(newGanttItem, newGanttItem.hasSubTasks());
+
+                            if (taskWrapper.getParent() != null) {
+                                GanttTreeTable.this.setParent(newGanttItem, taskWrapper.getParent());
+                                newGanttItem.updateParentRelationship(taskWrapper.getParent());
+                            }
+                        }
+
+                        calculateWholeGanttIndexes();
+                        GanttTreeTable.this.refreshRowCache();
+                    }
+                });
+            }
 
             ContextMenuItem insertRowAfterMenuItem = this.addItem("Insert row after", FontAwesome.PLUS_CIRCLE);
             insertRowAfterMenuItem.addItemClickListener(new ContextMenuItemClickListener() {
                 @Override
                 public void contextMenuItemClicked(ContextMenuItemClickEvent contextMenuItemClickEvent) {
+                    int index = beanContainer.indexOfId(taskWrapper) + 1;
+                    TaskGanttItem newTask = new TaskGanttItem();
+                    newTask.setType(ProjectTypeConstants.TASK);
+                    newTask.setPrjId(taskWrapper.getTask().getPrjId());
+                    newTask.setName("New Task");
+                    newTask.setProgress(0d);
+                    newTask.setsAccountId(AppContext.getAccountId());
+                    GanttItemWrapper newGanttItem = new GanttItemWrapper(gantt, newTask);
+                    newGanttItem.setGanttIndex(index);
+                    beanContainer.addItemAfter(taskWrapper, newGanttItem);
+                    gantt.addTask(index, newGanttItem);
 
+                    if (taskWrapper.hasSubTasks()) {
+                        GanttTreeTable.this.setParent(newGanttItem, taskWrapper);
+                        newGanttItem.updateParentRelationship(taskWrapper);
+                    }
+                    GanttTreeTable.this.setChildrenAllowed(newGanttItem, newGanttItem.hasSubTasks());
+                    ganttIndexIsChanged = true;
+                    calculateWholeGanttIndexes();
+                    GanttTreeTable.this.refreshRowCache();
                 }
             });
 
@@ -488,9 +549,9 @@ public class GanttTreeTable extends TreeTable {
         }
 
         private void removeTask(GanttItemWrapper task) {
-//            EventBusFactory.getInstance().post(new GanttEvent
-//                    .DeleteGanttItemUpdateToQueue(GanttTreeTable.this, task.getTask()));
-            GanttTreeTable.this.removeItem(task);
+            EventBusFactory.getInstance().post(new GanttEvent.DeleteGanttItemUpdateToQueue(GanttTreeTable.this, task));
+            beanContainer.removeItem(task);
+            gantt.removeStep(task.getStep());
             if (task.getParent() != null) {
                 task.getParent().removeSubTask(task);
             }

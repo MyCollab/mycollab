@@ -156,9 +156,8 @@ public class GanttExt extends Gantt {
             LocalDate suggestedStartDate = new LocalDate(startDate);
             LocalDate suggestedEndDate = new LocalDate(endDate);
             ganttItemWrapper.setStartAndEndDate(suggestedStartDate, suggestedEndDate, true, true);
-            AssignWithPredecessors task = ganttItemWrapper.getTask();
             EventBusFactory.getInstance().post(new GanttEvent.UpdateGanttItemDates(GanttExt.this, ganttItemWrapper));
-            EventBusFactory.getInstance().post(new GanttEvent.AddGanttItemUpdateToQueue(GanttExt.this, task));
+            EventBusFactory.getInstance().post(new GanttEvent.AddGanttItemUpdateToQueue(GanttExt.this, ganttItemWrapper));
             this.calculateMaxMinDates(ganttItemWrapper);
         }
     }

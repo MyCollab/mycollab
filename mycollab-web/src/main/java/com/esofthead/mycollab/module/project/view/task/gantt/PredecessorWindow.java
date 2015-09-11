@@ -17,12 +17,11 @@
 package com.esofthead.mycollab.module.project.view.task.gantt;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.domain.TaskPredecessor;
 import com.esofthead.mycollab.module.project.events.GanttEvent;
-import com.esofthead.mycollab.module.project.service.ProjectTaskService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
@@ -167,17 +166,21 @@ class PredecessorWindow extends Window {
                             int rowValue = Integer.parseInt(value);
                             GanttItemWrapper item = taskTreeTable.getRawContainer().getItemByGanttIndex(rowValue);
                             if (item != null) {
-                                if (item.isTask()) {
-                                    taskComboBox.setValue(item);
-                                    if (predecessorComboBox.getValue() == null) {
-                                        predecessorComboBox.setValue(TaskPredecessor.FS);
-                                    }
-
-                                    if (!PredecessorsLayout.this.hasEmptyRow()) {
-                                        PredecessorsLayout.this.addComponent(new PredecessorInputLayout());
-                                    }
+                                if (item.isAncestor(ganttItemWrapper) || ganttItemWrapper.isAncestor(item)) {
+                                    NotificationUtil.showErrorNotification("Circular dependency");
                                 } else {
-                                    NotificationUtil.showWarningNotification("The predecessor must be a task");
+                                    if (item.isTask()) {
+                                        taskComboBox.setValue(item);
+                                        if (predecessorComboBox.getValue() == null) {
+                                            predecessorComboBox.setValue(TaskPredecessor.FS);
+                                        }
+
+                                        if (!PredecessorsLayout.this.hasEmptyRow()) {
+                                            PredecessorsLayout.this.addComponent(new PredecessorInputLayout());
+                                        }
+                                    } else {
+                                        NotificationUtil.showWarningNotification("The predecessor must be a task");
+                                    }
                                 }
                             } else {
                                 rowField.setValue("");
@@ -200,7 +203,12 @@ class PredecessorWindow extends Window {
                             rowField.setValue("");
                             predecessorComboBox.setValue(null);
                         } else {
-                            rowField.setValue(item.getGanttIndex() + "");
+                            if (item.isAncestor(ganttItemWrapper) || ganttItemWrapper.isAncestor(item)) {
+                                NotificationUtil.showErrorNotification("Circular dependency");
+                                taskComboBox.setValue(null);
+                            } else {
+                                rowField.setValue(item.getGanttIndex() + "");
+                            }
                         }
                     }
                 });
@@ -255,14 +263,18 @@ class PredecessorWindow extends Window {
 
             TaskPredecessor buildPredecessor() {
                 GanttItemWrapper item = (GanttItemWrapper) taskComboBox.getValue();
-                if (item != null && item.getTask().getId() != ganttItemWrapper.getTask().getId()) {
-                    TaskPredecessor predecessor = new TaskPredecessor();
-                    predecessor.setGanttIndex(item.getGanttIndex());
-                    predecessor.setLagday(getLagDay());
-                    predecessor.setPredestype(getPreDesType());
-                    predecessor.setSourceid(ganttItemWrapper.getTask().getId());
-                    predecessor.setDescid(item.getTask().getId());
-                    return predecessor;
+                if (item != null) {
+                    if (item.isAncestor(ganttItemWrapper) || ganttItemWrapper.isAncestor(item)) {
+                        throw new UserInvalidInputException("Circular dependency");
+                    } else {
+                        TaskPredecessor predecessor = new TaskPredecessor();
+                        predecessor.setGanttIndex(item.getGanttIndex());
+                        predecessor.setLagday(getLagDay());
+                        predecessor.setPredestype(getPreDesType());
+                        predecessor.setSourceid(ganttItemWrapper.getTask().getId());
+                        predecessor.setDescid(item.getTask().getId());
+                        return predecessor;
+                    }
                 }
                 return null;
             }

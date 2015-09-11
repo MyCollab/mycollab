@@ -75,10 +75,13 @@ public class GanttAssignmentServiceImpl implements GanttAssignmentService {
 
     private void massUpdateMilestoneGanttItems(final List<MilestoneGanttItem> milestoneGanttItems, Integer sAccountId) {
         if (CollectionUtils.isNotEmpty(milestoneGanttItems)) {
-            Lock lock = DistributionLockUtil.getLock("gantt-task-service" + sAccountId);
+            Lock lock = DistributionLockUtil.getLock("gantt-milestone-service" + sAccountId);
             try {
                 final long now = new GregorianCalendar().getTimeInMillis();
                 if (lock.tryLock(30, TimeUnit.SECONDS)) {
+                    if (CollectionUtils.isEmpty(milestoneGanttItems)) {
+                        return;
+                    }
                     try (Connection connection = dataSource.getConnection()) {
                         connection.setAutoCommit(false);
                         PreparedStatement preparedStatement = connection.prepareStatement("UPDATE `m_prj_milestone` SET " +
@@ -103,6 +106,9 @@ public class GanttAssignmentServiceImpl implements GanttAssignmentService {
                 }
             } catch (Exception e) {
                 throw new MyCollabException(e);
+            } finally {
+                DistributionLockUtil.removeLock("gantt-milestone-service" + sAccountId);
+                lock.unlock();
             }
         }
     }
@@ -113,6 +119,9 @@ public class GanttAssignmentServiceImpl implements GanttAssignmentService {
             try {
                 final long now = new GregorianCalendar().getTimeInMillis();
                 if (lock.tryLock(30, TimeUnit.SECONDS)) {
+                    if (CollectionUtils.isEmpty(taskGanttItems)) {
+                        return;
+                    }
                     try (Connection connection = dataSource.getConnection()) {
                         connection.setAutoCommit(false);
                         PreparedStatement preparedStatement = connection.prepareStatement("UPDATE `m_prj_task` SET " +
@@ -140,6 +149,9 @@ public class GanttAssignmentServiceImpl implements GanttAssignmentService {
                 }
             } catch (Exception e) {
                 throw new MyCollabException(e);
+            } finally {
+                DistributionLockUtil.removeLock("gantt-task-service" + sAccountId);
+                lock.unlock();
             }
         }
     }

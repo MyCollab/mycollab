@@ -109,7 +109,8 @@ public class QuickEditGanttItemWindow extends Window {
                             ganttItem.setTask(bean);
                             gantt.markStepDirty(ganttItem.getStep());
                             gantt.calculateMaxMinDates(ganttItem);
-                            EventBusFactory.getInstance().post(new GanttEvent.AddGanttItemUpdateToQueue(QuickEditGanttItemWindow.this, bean));
+                            EventBusFactory.getInstance().post(new GanttEvent.AddGanttItemUpdateToQueue
+                                    (QuickEditGanttItemWindow.this, ganttItem));
                             close();
                         }
                     }

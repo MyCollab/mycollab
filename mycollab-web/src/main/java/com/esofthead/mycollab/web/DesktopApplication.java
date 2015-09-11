@@ -48,7 +48,6 @@ import com.vaadin.shared.communication.PushMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
-import org.mybatis.spring.MyBatisSystemException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.dialogs.ConfirmDialog;
@@ -183,12 +182,6 @@ public class DesktopApplication extends MyCollabUI {
         if (resourceNotFoundException != null) {
             NotificationUtil.showWarningNotification("Can not found resource.");
             LOG.error("404", resourceNotFoundException);
-            return;
-        }
-
-        MyBatisSystemException dataAccessException = getExceptionType(e, MyBatisSystemException.class);
-        if (dataAccessException != null) {
-            NotificationUtil.showErrorNotification(AppContext.getMessage(GenericI18Enum.ERROR_DATABASE_ESTABLISH));
             return;
         }
 

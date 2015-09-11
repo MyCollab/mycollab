@@ -114,6 +114,10 @@ public class ProjectTaskServiceImpl extends DefaultService<Integer, Task, TaskSe
     @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     @Override
     public Integer saveWithSession(Task record, String username) {
+        if (record.getPercentagecomplete() == null) {
+            record.setStatus(StatusI18nEnum.Open.name());
+            record.setPercentagecomplete(0d);
+        }
         if (record.getPercentagecomplete() == 100d) {
             record.setStatus(StatusI18nEnum.Closed.name());
         }
@@ -139,6 +143,7 @@ public class ProjectTaskServiceImpl extends DefaultService<Integer, Task, TaskSe
         } catch (InterruptedException e) {
             throw new MyCollabException(e);
         } finally {
+            DistributionLockUtil.removeLock("task-" + record.getSaccountid());
             lock.unlock();
         }
     }
@@ -233,8 +238,8 @@ public class ProjectTaskServiceImpl extends DefaultService<Integer, Task, TaskSe
             JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
             final long now = new GregorianCalendar().getTimeInMillis();
             if (lock.tryLock(30, TimeUnit.SECONDS)) {
-                jdbcTemplate.batchUpdate("INSERT INTO `m_prj_predecessor`(`type`, `predestype`, `lagDay`, `sourceId`," +
-                                "`descId`, `createdTime`) VALUES ('Project-Task', ?, ?, ?, ?, ?)",
+                jdbcTemplate.batchUpdate("INSERT INTO `m_prj_predecessor`(`sourceType`, `descType`, `predestype`,`lagDay`, " +
+                                "`sourceId`,`descId`, `createdTime`) VALUES ('Project-Task', 'Project-Task', ?, ?, ?, ?, ?)",
                         new BatchPreparedStatementSetter() {
                             @Override
                             public void setValues(PreparedStatement preparedStatement, int i) throws SQLException {
@@ -253,6 +258,9 @@ public class ProjectTaskServiceImpl extends DefaultService<Integer, Task, TaskSe
             }
         } catch (Exception e) {
             throw new MyCollabException(e);
+        } finally {
+            DistributionLockUtil.removeLock("task-service" + sAccountId);
+            lock.unlock();
         }
 
     }

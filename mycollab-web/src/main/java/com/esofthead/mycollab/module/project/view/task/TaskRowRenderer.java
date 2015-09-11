@@ -183,6 +183,7 @@ class TaskRowRenderer extends MHorizontalLayout {
         editButton.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
         editButton.setIcon(FontAwesome.EDIT);
         filterBtnLayout.addOption(editButton);
+        filterBtnLayout.addSeparator();
 
         if (!task.isCompleted()) {
             Button closeBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE), new Button.ClickListener() {
@@ -265,6 +266,7 @@ class TaskRowRenderer extends MHorizontalLayout {
             filterBtnLayout.addOption(reOpenBtn);
         }
 
+        filterBtnLayout.addSeparator();
         Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 

@@ -73,4 +73,21 @@ public class TaskGanttItem extends AssignWithPredecessors {
             return super.getProgress();
         }
     }
+
+    public Task buildNewTask() {
+        Task newTask = new Task();
+        newTask.setTaskname(getName());
+        newTask.setStartdate(getStartDate());
+        newTask.setEnddate(getEndDate());
+        newTask.setActualstartdate(getActualStartDate());
+        newTask.setActualenddate(getActualEndDate());
+        newTask.setPercentagecomplete(getProgress());
+        newTask.setGanttindex(getGanttIndex());
+        newTask.setParenttaskid(getParentTaskId());
+        newTask.setMilestoneid(getMilestoneId());
+        newTask.setProjectid(getPrjId());
+        newTask.setSaccountid(getsAccountId());
+        return newTask;
+
+    }
 }

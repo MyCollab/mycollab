@@ -9601,7 +9601,9 @@ div.v-button.token-field:hover {
 	background: none;
 }
 
-.gantt_container .v-treetable-node-open::before {
+.gantt_container .v-treetable-node-open::after {
+	float: right;
+	vertical-align: middle;
 	content: "\f147";
 	color: black;
 	font-family: FontAwesome;
@@ -9611,14 +9613,20 @@ div.v-button.token-field:hover {
 	background: none;
 }
 
-.gantt_container .v-treetable-node-closed::before {
+.gantt_container .v-treetable-node-closed::after {
+	float: right;
+	vertical-align: middle;
 	content: "\f196";
 	color: black;
 	font-family: FontAwesome;
 }
 
 .gantt_container .v-table-table .v-table-row-milestone {
-	background-color: #f7f4f0;
+	background-color: #C2DFFF;
+}
+
+.gantt_container .v-table-table .v-table-row-task {
+	background-color: #E4F1FF;
 }
 
 .gantt_container .v-table-table tr td.v-table-cell-content {
@@ -9640,6 +9648,9 @@ div.v-button.token-field:hover {
 .gantt_container .v-table-table tr td.v-table-cell-content input.v-widget.v-textfield[type="text"] {
 	border: none;
 	background-color: transparent;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
 }
 
 .gantt_container .v-table-table tr td.v-table-cell-content input.v-widget.v-textfield.v-textfield-focus[type="text"], .gantt_container .v-table-table tr td.v-table-cell-content input.v-widget.v-textfield[type="text"]:hover {

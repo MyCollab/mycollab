@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         xmlns="http://java.sun.com/xml/ns/javaee"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
          id="WebApp_ID" version="3.0">
     <display-name>mycollab-web</display-name>
@@ -10,14 +10,6 @@
 
     <listener>
         <listener-class>com.esofthead.mycollab.servlet.MyCollabHttpSessionListener</listener-class>
-    </listener>
-
-    <listener>
-        <listener-class>com.esofthead.mycollab.servlet.MetricsServletContextListener</listener-class>
-    </listener>
-
-    <listener>
-        <listener-class>com.esofthead.mycollab.servlet.HealthcheckServletContextListener</listener-class>
     </listener>
 
     <listener>
@@ -70,7 +62,8 @@
     <!-- VAADIN PARAMS -->
     <context-param>
         <description>
-        Vaadin production mode</description>
+            Vaadin production mode
+        </description>
         <param-name>productionMode</param-name>
         <param-value>false</param-value>
     </context-param>

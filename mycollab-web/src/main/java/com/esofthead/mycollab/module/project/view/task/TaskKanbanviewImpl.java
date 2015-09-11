@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.view.task;
 
-import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.domain.OptionVal;
 import com.esofthead.mycollab.common.domain.SaveSearchResultWithBLOBs;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -37,7 +36,6 @@ import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.view.ProjectView;
 import com.esofthead.mycollab.module.project.view.kanban.AddNewColumnWindow;
-import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
@@ -90,7 +88,6 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
 
     private DDHorizontalLayout kanbanLayout;
     private Map<String, KanbanBlock> kanbanBlocks;
-    private Button toogleMenuShowBtn;
     private ComponentContainer newTaskComp = null;
 
     private ApplicationEventListener<TaskEvent.SearchRequest> searchHandler = new
@@ -118,20 +115,6 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
         headerText.setStyleName(UIConstants.HEADER_TEXT);
         CssLayout headerWrapper = new CssLayout();
         headerWrapper.addComponent(headerText);
-
-        toogleMenuShowBtn = new Button("", new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                projectNavigatorVisibility = !projectNavigatorVisibility;
-                setProjectNavigatorVisibility(projectNavigatorVisibility);
-                if (projectNavigatorVisibility) {
-                    toogleMenuShowBtn.setCaption("Hide menu");
-                } else {
-                    toogleMenuShowBtn.setCaption("Show menu");
-                }
-            }
-        });
-        toogleMenuShowBtn.addStyleName(UIConstants.THEME_LINK);
 
         final SavedFilterComboBox savedFilterComboBox = new SavedFilterComboBox(ProjectTypeConstants.TASK);
         savedFilterComboBox.addValueChangeListener(new Property.ValueChangeListener() {
@@ -165,18 +148,8 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
         });
         addNewColumnBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
-        Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, new String[]{
-                        "task", "dashboard", UrlEncodeDecoder.encode(CurrentProjectVariables.getProjectId())}));
-            }
-        });
-        cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-
-        header.with(headerWrapper, savedFilterComboBox, toogleMenuShowBtn, addNewColumnBtn, cancelBtn)
+        header.with(headerWrapper, savedFilterComboBox, addNewColumnBtn)
                 .withAlign(headerWrapper, Alignment.MIDDLE_LEFT)
-                .withAlign(toogleMenuShowBtn, Alignment.MIDDLE_RIGHT).withAlign(cancelBtn, Alignment.MIDDLE_RIGHT)
                 .withAlign(addNewColumnBtn, Alignment.MIDDLE_RIGHT).expand(headerWrapper);
 
         kanbanLayout = new DDHorizontalLayout();
@@ -261,7 +234,6 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
         kanbanLayout.removeAllComponents();
         kanbanBlocks = new ConcurrentHashMap<>();
 
-        toogleMenuShowBtn.setCaption("Show menu");
         setProjectNavigatorVisibility(false);
         UI.getCurrent().access(new Runnable() {
             @Override

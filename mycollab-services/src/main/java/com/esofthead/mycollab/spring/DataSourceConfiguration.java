@@ -16,11 +16,7 @@
  */
 package com.esofthead.mycollab.spring;
 
-import com.codahale.metrics.MetricRegistry;
-import com.codahale.metrics.health.HealthCheckRegistry;
-import com.zaxxer.hikari.HikariDataSource;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -40,25 +36,11 @@ import javax.sql.DataSource;
 @EnableTransactionManagement
 public class DataSourceConfiguration {
 
-    @Autowired
-    private MetricRegistry metricRegistry;
-
-    @Autowired
-    private HealthCheckRegistry healthCheckRegistry;
-
     @Bean(name = "dataSource")
     public DataSource dataSource() {
         JndiDataSourceLookup ds = new JndiDataSourceLookup();
         ds.setResourceRef(true);
-        HikariDataSource dataSource = (HikariDataSource) ds.getDataSource("java:comp/env/jdbc/mycollabdatasource");
-        if (metricRegistry != null) {
-            dataSource.setMetricRegistry(metricRegistry);
-        }
-
-        if (healthCheckRegistry != null) {
-            dataSource.setHealthCheckRegistry(healthCheckRegistry);
-        }
-        return dataSource;
+        return ds.getDataSource("java:comp/env/jdbc/mycollabdatasource");
     }
 
     @Bean

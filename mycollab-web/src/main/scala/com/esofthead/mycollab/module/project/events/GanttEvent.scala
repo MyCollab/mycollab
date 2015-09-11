@@ -30,9 +30,9 @@ object GanttEvent {
 
     class UpdateGanttItemDates(source: AnyRef, data: GanttItemWrapper) extends ApplicationEvent(source, data) {}
 
-    class DeleteGanttItemUpdateToQueue(source: AnyRef, data: AssignWithPredecessors) extends ApplicationEvent(source, data) {}
+    class DeleteGanttItemUpdateToQueue(source: AnyRef, data: GanttItemWrapper) extends ApplicationEvent(source, data) {}
 
-    class AddGanttItemUpdateToQueue(source: AnyRef, data: AssignWithPredecessors) extends ApplicationEvent(source, data) {}
+    class AddGanttItemUpdateToQueue(source: AnyRef, data: GanttItemWrapper) extends ApplicationEvent(source, data) {}
 
     class ModifyPredecessors(source: GanttItemWrapper, predecessors: java.util.List[TaskPredecessor]) extends ApplicationEvent(source, predecessors) {}
 

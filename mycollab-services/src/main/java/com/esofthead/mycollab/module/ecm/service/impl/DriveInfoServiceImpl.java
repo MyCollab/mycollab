@@ -64,6 +64,9 @@ public class DriveInfoServiceImpl extends DefaultCrudService<Integer, DriveInfo>
             }
         } catch (Exception e) {
             LOG.error("Error while save drive info", e);
+        } finally {
+            DistributionLockUtil.removeLock("ecm-service" + sAccountId);
+            lock.unlock();
         }
     }
 

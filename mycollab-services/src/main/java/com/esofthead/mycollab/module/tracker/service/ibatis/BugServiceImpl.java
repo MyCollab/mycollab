@@ -104,6 +104,7 @@ public class BugServiceImpl extends DefaultService<Integer, BugWithBLOBs, BugSea
         } catch (InterruptedException e) {
             throw new MyCollabException(e);
         } finally {
+            DistributionLockUtil.removeLock("bug-" + record.getSaccountid());
             lock.unlock();
         }
     }

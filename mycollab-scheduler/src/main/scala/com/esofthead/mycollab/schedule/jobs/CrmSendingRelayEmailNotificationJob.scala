@@ -74,7 +74,7 @@ class CrmSendingRelayEmailNotificationJob extends GenericQuartzJobBean {
                 }
             }
             catch {
-                case ex: Exception => LOG.error("Error while send the schedule command", ex)
+                case ex: Exception => LOG.error("Error while send the schedule command " + notification.getEmailhandlerbean, ex)
             } finally {
                 relayEmailNotificationMapper.deleteByPrimaryKey(notification.getId)
             }

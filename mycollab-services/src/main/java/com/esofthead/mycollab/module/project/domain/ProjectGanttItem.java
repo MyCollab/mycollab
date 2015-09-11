@@ -22,16 +22,16 @@ import org.apache.commons.collections.CollectionUtils;
 import java.util.List;
 
 public class ProjectGanttItem extends AssignWithPredecessors {
-    private List<MilestoneGanttItem> subTasks;
+    private List<MilestoneGanttItem> milestones;
 
     private List<TaskGanttItem> tasksWithNoMilestones;
 
-    public List<MilestoneGanttItem> getSubTasks() {
-        return subTasks;
+    public List<MilestoneGanttItem> getMilestones() {
+        return milestones;
     }
 
-    public void setSubTasks(List<MilestoneGanttItem> subTasks) {
-        this.subTasks = subTasks;
+    public void setMilestones(List<MilestoneGanttItem> milestones) {
+        this.milestones = milestones;
     }
 
     public List<TaskGanttItem> getTasksWithNoMilestones() {
@@ -44,6 +44,6 @@ public class ProjectGanttItem extends AssignWithPredecessors {
 
     @Override
     public boolean hasSubAssignments() {
-        return CollectionUtils.isNotEmpty(subTasks) || CollectionUtils.isNotEmpty(tasksWithNoMilestones);
+        return CollectionUtils.isNotEmpty(milestones) || CollectionUtils.isNotEmpty(tasksWithNoMilestones);
     }
 }
