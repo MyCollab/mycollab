@@ -22,11 +22,11 @@ import com.esofthead.mycollab.core.utils.ClassUtils;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.validator.constraints.DateComparision;
+import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitHandler;
 import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.ui.*;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
@@ -38,11 +38,9 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- *
+ * @param <B>
  * @author MyCollab Ltd
  * @since 3.0
- *
- * @param <B>
  */
 public abstract class AbstractBeanFieldGroupEditFieldFactory<B> implements IBeanFieldGroupFieldFactory<B>, CommitHandler {
     private static final long serialVersionUID = 1L;
@@ -98,7 +96,7 @@ public abstract class AbstractBeanFieldGroupEditFieldFactory<B> implements IBean
                 ((DateField) formField).setTimeZone(AppContext.getTimezone());
                 ((DateField) formField).setDateFormat(AppContext.getUserDateFormat().getShortDateFormat());
             }
-
+            postCreateField(field.getName(), formField);
             attachForm.attachField(field.getName(), formField);
         }
     }
@@ -152,10 +150,8 @@ public abstract class AbstractBeanFieldGroupEditFieldFactory<B> implements IBean
     }
 
     @Override
-    public void postCommit(FieldGroup.CommitEvent commitEvent)
-            throws CommitException {
-        Set<ConstraintViolation<B>> violations = validation.validate(attachForm
-                .getBean());
+    public void postCommit(FieldGroup.CommitEvent commitEvent) throws CommitException {
+        Set<ConstraintViolation<B>> violations = validation.validate(attachForm.getBean());
         if (violations.size() > 0) {
             StringBuilder errorMsg = new StringBuilder();
 
@@ -182,4 +178,7 @@ public abstract class AbstractBeanFieldGroupEditFieldFactory<B> implements IBean
     }
 
     abstract protected Field<?> onCreateField(Object propertyId);
+
+    protected void postCreateField(Object propertyId, Field<?> field) {
+    }
 }

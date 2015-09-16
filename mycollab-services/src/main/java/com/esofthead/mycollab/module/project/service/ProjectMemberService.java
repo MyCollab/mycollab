@@ -17,8 +17,6 @@
 
 package com.esofthead.mycollab.module.project.service;
 
-import java.util.List;
-
 import com.esofthead.mycollab.core.cache.CacheEvict;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.cache.Cacheable;
@@ -27,6 +25,8 @@ import com.esofthead.mycollab.module.project.domain.ProjectMember;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
+
+import java.util.List;
 
 /**
  * @author MyCollab Ltd.
@@ -59,6 +59,6 @@ public interface ProjectMemberService extends IDefaultService<Integer, ProjectMe
                               String inviteUser, String inviteMessage, Integer sAccountId);
 
     @CacheEvict
-    void acceptProjectInvitationByNewUser(String email, String password,
-                                          Integer projectId, Integer projectRoleId, Integer sAccountId);
+    void acceptProjectInvitationByNewUser(String email, String password, Integer projectId,
+                                          Integer projectRoleId, @CacheKey Integer sAccountId);
 }

@@ -114,8 +114,7 @@ public class GanttChartViewPresenter extends AbstractPresenter<GanttChartView> {
                     GanttItemWrapper ganttItemWrapper = (GanttItemWrapper) event.getSource();
                     List<TaskPredecessor> predecessors = (List<TaskPredecessor>) event.getData();
                     ganttItemWrapper.adjustTaskDatesByPredecessors(predecessors);
-                    ProjectTaskService projectTaskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
-                    projectTaskService.massUpdatePredecessors(ganttItemWrapper.getId(), predecessors, AppContext.getAccountId());
+                    ganttAssignmentService.massUpdatePredecessors(ganttItemWrapper.getId(), predecessors, AppContext.getAccountId());
                     ganttItemWrapper.getTask().setPredecessors(predecessors);
                     view.getTaskTable().refreshRowCache();
                 }
@@ -172,7 +171,7 @@ public class GanttChartViewPresenter extends AbstractPresenter<GanttChartView> {
             taskContainer.navigateToContainer(ProjectTypeConstants.TASK);
             taskContainer.removeAllComponents();
             taskContainer.addComponent(view.getWidget());
-            view.displayGanttChart();
+            view.lazyLoadView();
 
             ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
             breadCrumb.gotoGanttView();

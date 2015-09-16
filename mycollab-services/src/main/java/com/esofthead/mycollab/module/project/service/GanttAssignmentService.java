@@ -22,6 +22,7 @@ import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.cache.Cacheable;
 import com.esofthead.mycollab.core.persistence.service.IService;
 import com.esofthead.mycollab.module.project.domain.AssignWithPredecessors;
+import com.esofthead.mycollab.module.project.domain.TaskPredecessor;
 
 import java.util.List;
 
@@ -33,4 +34,10 @@ public interface GanttAssignmentService extends IService {
     void massUpdateGanttItems(List<AssignWithPredecessors> ganttItems, @CacheKey Integer sAccountId);
 
     @CacheEvict void massDeleteGanttItems(List<AssignWithPredecessors> ganttItems, @CacheKey Integer sAccountId);
+
+    @CacheEvict
+    void massUpdatePredecessors(Integer taskSourceId, List<TaskPredecessor> predecessors, @CacheKey Integer sAccountId);
+
+    @CacheEvict
+    void massDeletePredecessors(List<TaskPredecessor> predecessors, @CacheKey Integer sAccountId);
 }

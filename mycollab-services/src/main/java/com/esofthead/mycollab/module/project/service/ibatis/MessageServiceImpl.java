@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.service.ibatis;
 
-import com.esofthead.mycollab.cache.CacheUtils;
+import com.esofthead.mycollab.cache.CleanCacheEvent;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.interceptor.aspect.ClassInfo;
 import com.esofthead.mycollab.common.interceptor.aspect.ClassInfoMap;
@@ -71,20 +71,21 @@ public class MessageServiceImpl extends DefaultService<Integer, Message, Message
     @Override
     public Integer saveWithSession(Message record, String username) {
         Integer recordId = super.saveWithSession(record, username);
-        CacheUtils.cleanCaches(record.getSaccountid(), ProjectActivityStreamService.class);
+        asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectActivityStreamService.class}));
         return recordId;
     }
 
     @Override
     public Integer updateWithSession(Message record, String username) {
-        CacheUtils.cleanCaches(record.getSaccountid(), ProjectActivityStreamService.class);
-        return super.updateWithSession(record, username);
+        int result = super.updateWithSession(record, username);
+        asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectActivityStreamService.class}));
+        return result;
     }
 
     @Override
     public void massRemoveWithSession(List<Message> items, String username, Integer accountId) {
         super.massRemoveWithSession(items, username, accountId);
-        CacheUtils.cleanCaches(accountId, ProjectActivityStreamService.class);
+        asyncEventBus.post(new CleanCacheEvent(accountId, new Class[]{ProjectActivityStreamService.class}));
         DeleteProjectMessageEvent event = new DeleteProjectMessageEvent(items.toArray(new Message[items.size()]),
                 username, accountId);
         asyncEventBus.post(event);

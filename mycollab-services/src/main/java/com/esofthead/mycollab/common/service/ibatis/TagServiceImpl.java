@@ -54,7 +54,6 @@ public class TagServiceImpl extends DefaultCrudService<Integer, Tag> implements 
             return 0;
         }
         tagMapper.insertAndReturnKey(record);
-        CacheUtils.cleanCaches(record.getSaccountid(), TagService.class);
         return record.getId();
     }
 

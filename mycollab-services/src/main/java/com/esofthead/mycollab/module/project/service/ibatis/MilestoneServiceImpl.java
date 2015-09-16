@@ -17,7 +17,7 @@
 
 package com.esofthead.mycollab.module.project.service.ibatis;
 
-import com.esofthead.mycollab.cache.CacheUtils;
+import com.esofthead.mycollab.cache.CleanCacheEvent;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.interceptor.aspect.ClassInfo;
 import com.esofthead.mycollab.common.interceptor.aspect.ClassInfoMap;
@@ -34,6 +34,7 @@ import com.esofthead.mycollab.module.project.domain.criteria.MilestoneSearchCrit
 import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.schedule.email.project.ProjectMilestoneRelayEmailNotificationAction;
+import com.google.common.eventbus.AsyncEventBus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,6 +62,9 @@ public class MilestoneServiceImpl extends DefaultService<Integer, Milestone, Mil
     @Autowired
     private DataSource dataSource;
 
+    @Autowired
+    private AsyncEventBus asyncEventBus;
+
     @Override
     public ICrudGenericDAO<Integer, Milestone> getCrudMapper() {
         return milestoneMapper;
@@ -79,13 +83,14 @@ public class MilestoneServiceImpl extends DefaultService<Integer, Milestone, Mil
     @Override
     public Integer saveWithSession(Milestone record, String username) {
         Integer recordId = super.saveWithSession(record, username);
-        CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class);
+        asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectService.class}));
         return recordId;
     }
 
     @Override
     public Integer updateWithSession(Milestone record, String username) {
-        CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class);
-        return super.updateWithSession(record, username);
+        int result = super.updateWithSession(record, username);
+        asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectService.class}));
+        return result;
     }
 }

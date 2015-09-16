@@ -30,7 +30,6 @@ import java.io.*;
  * @since 1.0
  */
 public class FileRawContentServiceImpl implements RawContentService {
-
     private static final int BUFFER_SIZE = 1024;
 
     private static final Logger LOG = LoggerFactory.getLogger(FileRawContentServiceImpl.class);

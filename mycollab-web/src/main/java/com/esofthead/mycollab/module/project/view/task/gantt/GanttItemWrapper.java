@@ -22,6 +22,7 @@ import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.utils.BusinessDayTimeUtils;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.*;
 import com.esofthead.mycollab.module.project.events.GanttEvent;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
@@ -46,8 +47,7 @@ import static com.esofthead.mycollab.common.TooltipBuilder.TdUtil.buildCellValue
 public class GanttItemWrapper {
     private AssignWithPredecessors task;
     private LocalDate startDate, endDate;
-    private LocalDate fixedStartDateByChilds = new LocalDate(1970, 1, 1), fixedEndDatebyChilds = new LocalDate(2100, 1,
-            1);
+    private LocalDate fixedStartDateByChilds = new LocalDate(1970, 1, 1), fixedEndDatebyChilds = new LocalDate(2100, 1, 1);
 
     private GanttExt gantt;
     private GanttItemWrapper parent;
@@ -178,7 +178,7 @@ public class GanttItemWrapper {
         }
     }
 
-    private void calculateDatesByChildTasks() {
+    void calculateDatesByChildTasks() {
         if (CollectionUtils.isNotEmpty(subItems)) {
             LocalDate calStartDate = new LocalDate(2100, 1, 1);
             LocalDate calEndDate = new LocalDate(1970, 1, 1);
@@ -200,11 +200,31 @@ public class GanttItemWrapper {
         task.setId(id);
     }
 
+    public String getType() {
+        if (task instanceof TaskGanttItem) {
+            return ProjectTypeConstants.TASK;
+        } else if (task instanceof MilestoneGanttItem) {
+            return ProjectTypeConstants.MILESTONE;
+        } else {
+            throw new MyCollabException("Do not support assignment type " + this);
+        }
+    }
+
+    private static final long SECONDS_IN_DAYS = 1000 * 60 * 60 * 24;
+
     public Double getDuration() {
         if (task.getDuration() != null) {
             return task.getDuration();
         } else {
-            return BusinessDayTimeUtils.duration(startDate, endDate) * 1d;
+            return BusinessDayTimeUtils.duration(startDate, endDate) * SECONDS_IN_DAYS * 1d;
+        }
+    }
+
+    public void setDuration(Double duration) {
+        task.setDuration(duration);
+        if (startDate != null) {
+            LocalDate expectedEndDate = BusinessDayTimeUtils.plusDays(startDate, (int) (duration.longValue() / SECONDS_IN_DAYS));
+            setStartAndEndDate(startDate, expectedEndDate, true, true);
         }
     }
 
@@ -212,12 +232,22 @@ public class GanttItemWrapper {
         return task.getPredecessors();
     }
 
+    public void setPredecessors(List<TaskPredecessor> predecessors) {
+        task.setPredecessors(predecessors);
+    }
+
+    public List<TaskPredecessor> getDependents() {
+        return task.getDependents();
+    }
+
     public LocalDate getStartDate() {
         return startDate;
     }
 
     public void setStartDate(LocalDate date) {
-        setStartAndEndDate(date, endDate, true, true);
+        Double duration = getDuration();
+        LocalDate expectedEndDate = BusinessDayTimeUtils.plusDays(date, (int) (duration.longValue() / SECONDS_IN_DAYS));
+        setStartAndEndDate(date, expectedEndDate, true, true);
     }
 
     public LocalDate getEndDate() {

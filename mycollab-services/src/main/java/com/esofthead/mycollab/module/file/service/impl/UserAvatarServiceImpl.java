@@ -57,15 +57,13 @@ public class UserAvatarServiceImpl implements UserAvatarService {
     @Override
     public String uploadDefaultAvatar(String username) {
         // Save default user avatar
-        InputStream imageResourceStream = this.getClass().getClassLoader()
-                .getResourceAsStream("assets/icons/default_user_avatar_100.png");
+        InputStream imageResourceStream = this.getClass().getClassLoader().getResourceAsStream("assets/icons/default_user_avatar_100.png");
         BufferedImage imageBuff;
         try {
             imageBuff = ImageIO.read(imageResourceStream);
             return uploadAvatar(imageBuff, username, null);
         } catch (IOException e) {
-            throw new MyCollabException(
-                    "Error while set default avatar to user", e);
+            throw new MyCollabException("Error while set default avatar to user", e);
         }
     }
 
@@ -97,8 +95,7 @@ public class UserAvatarServiceImpl implements UserAvatarService {
         }
 
         LOG.debug("Notify user avatar change");
-        EventBusFactory.getInstance().post(new SessionEvent.UserProfileChangeEvent(
-                UserAvatarServiceImpl.this, "avatarid", newAvatarId));
+        EventBusFactory.getInstance().post(new SessionEvent.UserProfileChangeEvent(UserAvatarServiceImpl.this, "avatarid", newAvatarId));
 
         return newAvatarId;
     }

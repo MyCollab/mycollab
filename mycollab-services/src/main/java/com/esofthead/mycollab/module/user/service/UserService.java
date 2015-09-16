@@ -34,19 +34,16 @@ import com.esofthead.mycollab.module.user.domain.criteria.UserSearchCriteria;
 @IgnoreCacheClass
 public interface UserService extends IDefaultService<String, User, UserSearchCriteria> {
 
-	SimpleUser authentication(String username, String password,
-			String subdomain, boolean isPasswordEncrypt);
+	SimpleUser authentication(String username, String password, String subdomain, boolean isPasswordEncrypt);
 
 	@CacheEvict
-	void saveUserAccount(SimpleUser user, @CacheKey Integer sAccountId,
-			String inviteUser);
+	void saveUserAccount(SimpleUser user, @CacheKey Integer sAccountId, String inviteUser);
 
 	@CacheEvict
 	void updateUserAccount(SimpleUser user, @CacheKey Integer sAccountId);
 
 	@CacheEvict
-	void updateUserAccountStatus(String username, @CacheKey Integer sAccountId,
-			String registerStatus);
+	void updateUserAccountStatus(String username, @CacheKey Integer sAccountId, String registerStatus);
 
 	@CacheEvict
 	void pendingUserAccount(String username, @CacheKey Integer accountId);
@@ -55,8 +52,7 @@ public interface UserService extends IDefaultService<String, User, UserSearchCri
 	void pendingUserAccounts(List<String> usernames, @CacheKey Integer accountId);
 
 	@Cacheable
-	SimpleUser findUserByUserNameInAccount(String username,
-			@CacheKey Integer accountId);
+	SimpleUser findUserByUserNameInAccount(String username, @CacheKey Integer accountId);
 
 	@Cacheable
 	int getTotalActiveUsersInAccount(@CacheKey Integer accountId);

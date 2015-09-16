@@ -19,7 +19,6 @@ package com.esofthead.mycollab.module.project.view.task.gantt;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
-import com.esofthead.mycollab.module.project.domain.AssignWithPredecessors;
 import com.esofthead.mycollab.module.project.events.GanttEvent;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.server.Page;
@@ -125,6 +124,14 @@ public class GanttExt extends Gantt {
 
         updateGanttDates();
     }
+
+    @Override
+    public boolean removeStep(Step step) {
+        StepComponent sc = stepComponents.remove(step);
+        sc.setParent(null);
+        return getState().steps.remove(sc);
+    }
+
 
     @Override
     public AbstractStep getStep(String uid) {

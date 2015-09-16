@@ -85,8 +85,7 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
     private MilestoneTimeLogComp milestoneTimeLogComp;
 
     public MilestoneReadViewImpl() {
-        super(AppContext.getMessage(MilestoneI18nEnum.VIEW_DETAIL_TITLE),
-                ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE));
+        super(AppContext.getMessage(MilestoneI18nEnum.VIEW_DETAIL_TITLE), ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE));
     }
 
     @Override
@@ -96,10 +95,8 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
 
     @Override
     protected ComponentContainer createButtonControls() {
-        ProjectPreviewFormControlsGenerator<SimpleMilestone> controlsGenerator = new ProjectPreviewFormControlsGenerator<>(
-                previewForm);
-        return controlsGenerator
-                .createButtonControls(ProjectRolePermissionCollections.MILESTONES);
+        ProjectPreviewFormControlsGenerator<SimpleMilestone> controlsGenerator = new ProjectPreviewFormControlsGenerator<>(previewForm);
+        return controlsGenerator.createButtonControls(ProjectRolePermissionCollections.MILESTONES);
     }
 
     @Override
@@ -112,11 +109,9 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
 
     @Override
     protected void initRelatedComponents() {
-        historyListComp = new MilestoneHistoryLogList(
-                ModuleNameConstants.PRJ, ProjectTypeConstants.MILESTONE);
+        historyListComp = new MilestoneHistoryLogList(ModuleNameConstants.PRJ, ProjectTypeConstants.MILESTONE);
         commentListComp = new CommentDisplay(ProjectTypeConstants.MILESTONE,
-                CurrentProjectVariables.getProjectId(),
-                ProjectMilestoneRelayEmailNotificationAction.class);
+                CurrentProjectVariables.getProjectId(), ProjectMilestoneRelayEmailNotificationAction.class);
         dateInfoComp = new DateInfoComp();
         peopleInfoComp = new PeopleInfoComp();
         milestoneTimeLogComp = new MilestoneTimeLogComp();
@@ -152,9 +147,7 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
 
     @Override
     protected IFormLayoutFactory initFormLayoutFactory() {
-        return new DynaFormLayout(ProjectTypeConstants.RISK,
-                MilestoneDefaultFormLayoutFactory.getForm(),
-                Milestone.Field.name.name());
+        return new DynaFormLayout(ProjectTypeConstants.MILESTONE, MilestoneDefaultFormLayoutFactory.getForm(), Milestone.Field.name.name());
     }
 
     @Override
@@ -167,8 +160,7 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
         return ProjectTypeConstants.MILESTONE;
     }
 
-    private class MilestoneFormFieldFactory extends
-            AbstractBeanFieldGroupViewFieldFactory<SimpleMilestone> {
+    private class MilestoneFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<SimpleMilestone> {
         private static final long serialVersionUID = 1L;
 
         public MilestoneFormFieldFactory(GenericBeanForm<SimpleMilestone> form) {
@@ -184,13 +176,15 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
                 return new DateViewField(milestone.getEnddate());
             } else if (Milestone.Field.owner.equalTo(propertyId)) {
                 return new ProjectUserFormLinkField(milestone.getOwner(),
-                        milestone.getOwnerAvatarId(),
-                        milestone.getOwnerFullName());
+                        milestone.getOwnerAvatarId(), milestone.getOwnerFullName());
+            } else if (Milestone.Field.actualstartdate.equalTo(propertyId)) {
+                return new DateViewField(milestone.getActualstartdate());
+            } else if (Milestone.Field.actualenddate.equalTo(propertyId)) {
+                return new DateViewField(milestone.getActualenddate());
             } else if (Milestone.Field.description.equalTo(propertyId)) {
                 return new RichTextViewField(milestone.getDescription());
             } else if (Milestone.Field.status.equalTo(propertyId)) {
-                String milestoneStatus = AppContext.getMessage(
-                        MilestoneStatus.class, beanItem.getStatus());
+                String milestoneStatus = AppContext.getMessage(MilestoneStatus.class, beanItem.getStatus());
                 FontAwesome statusIcon = ProjectAssetsUtil.getPhaseIcon(beanItem.getStatus());
                 return new DefaultViewField(statusIcon.getHtml() + " " + milestoneStatus, ContentMode.HTML);
             } else if (Milestone.Field.id.equalTo(propertyId)) {

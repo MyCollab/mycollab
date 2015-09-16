@@ -220,7 +220,7 @@
         <dependency>
             <groupId>com.googlecode.ez-vcard</groupId>
             <artifactId>ez-vcard</artifactId>
-            <version>0.9.6</version>
+            <version>0.9.7</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.freemarker</groupId>

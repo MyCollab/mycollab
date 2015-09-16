@@ -66,7 +66,7 @@ public class InstallationServlet extends HttpServlet {
         String tls = request.getParameter("tls");
         String ssl = request.getParameter("ssl");
 
-        String dbUrl = String.format("jdbc:mysql://%s/%s?useUnicode=true&characterEncoding=utf-8&autoReconnect=true",
+        String dbUrl = String.format("jdbc:mysql://%s/%s?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&rewriteBatchedStatements=true&useCompression=true&useServerPrepStmts=false",
                 databaseServer, databaseName);
 
         try {

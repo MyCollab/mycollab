@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.service.ibatis;
 
-import com.esofthead.mycollab.cache.CacheUtils;
+import com.esofthead.mycollab.cache.CleanCacheEvent;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.common.interceptor.aspect.ClassInfo;
@@ -39,6 +39,7 @@ import com.esofthead.mycollab.module.project.service.ProjectActivityStreamServic
 import com.esofthead.mycollab.module.project.service.StandupReportService;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.schedule.email.project.StandupRelayEmailNotificationAction;
+import com.google.common.eventbus.AsyncEventBus;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +68,9 @@ public class StandupReportServiceImpl extends DefaultService<Integer, StandupRep
     @Autowired
     private StandupReportMapperExt standupReportMapperExt;
 
+    @Autowired
+    private AsyncEventBus asyncEventBus;
+
     @Override
     public SimpleStandupReport findById(Integer standupId, Integer sAccountId) {
         return standupReportMapperExt.findReportById(standupId);
@@ -83,14 +87,12 @@ public class StandupReportServiceImpl extends DefaultService<Integer, StandupRep
     }
 
     @Override
-    public SimpleStandupReport findStandupReportByDateUser(Integer projectId,
-                                                           String username, Date onDate, Integer sAccountId) {
+    public SimpleStandupReport findStandupReportByDateUser(Integer projectId, String username, Date onDate, Integer sAccountId) {
         StandupReportSearchCriteria criteria = new StandupReportSearchCriteria();
         criteria.setProjectId(new NumberSearchField(projectId));
         criteria.setLogBy(new StringSearchField(username));
         criteria.setOnDate(new DateSearchField(onDate));
-        List reports = standupReportMapperExt.findPagableListByCriteria(
-                criteria, new RowBounds(0, Integer.MAX_VALUE));
+        List reports = standupReportMapperExt.findPagableListByCriteria(criteria, new RowBounds(0, Integer.MAX_VALUE));
 
         if (CollectionUtils.isNotEmpty(reports)) {
             return (SimpleStandupReport) reports.get(0);
@@ -101,22 +103,21 @@ public class StandupReportServiceImpl extends DefaultService<Integer, StandupRep
 
     @Override
     public Integer saveWithSession(StandupReportWithBLOBs record, String username) {
-        CacheUtils.cleanCaches(record.getSaccountid(),
-                ProjectActivityStreamService.class);
-        return super.saveWithSession(record, username);
+        int result = super.saveWithSession(record, username);
+        asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectActivityStreamService.class}));
+        return result;
     }
 
     @Override
     public Integer updateWithSession(StandupReportWithBLOBs record, String username) {
-        CacheUtils.cleanCaches(record.getSaccountid(),
-                ProjectActivityStreamService.class);
+        asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectActivityStreamService.class}));
         return super.updateWithSession(record, username);
     }
 
     @Override
     public void massRemoveWithSession(List<StandupReportWithBLOBs> reports, String username, Integer accountId) {
         super.massRemoveWithSession(reports, username, accountId);
-        CacheUtils.cleanCaches(accountId, ProjectActivityStreamService.class);
+        asyncEventBus.post(new CleanCacheEvent(accountId, new Class[]{ProjectActivityStreamService.class}));
     }
 
     @Override

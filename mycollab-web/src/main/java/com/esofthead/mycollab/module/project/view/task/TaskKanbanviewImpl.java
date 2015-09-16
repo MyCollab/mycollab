@@ -32,13 +32,14 @@ import com.esofthead.mycollab.module.project.*;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
+import com.esofthead.mycollab.module.project.i18n.TaskGroupI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.view.ProjectView;
 import com.esofthead.mycollab.module.project.view.kanban.AddNewColumnWindow;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
+import com.esofthead.mycollab.vaadin.mvp.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.*;
@@ -49,6 +50,7 @@ import com.vaadin.event.dd.DropHandler;
 import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
 import com.vaadin.event.dd.acceptcriteria.Not;
 import com.vaadin.server.ExternalResource;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.dd.HorizontalDropLocation;
@@ -78,7 +80,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @since 5.1.1
  */
 @ViewComponent
-public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanview {
+public class TaskKanbanviewImpl extends AbstractLazyPageView implements TaskKanbanview {
     private static Logger LOG = LoggerFactory.getLogger(TaskKanbanviewImpl.class);
 
     private ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
@@ -107,7 +109,9 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
     public TaskKanbanviewImpl() {
         this.setSizeFull();
         this.withMargin(new MarginInfo(false, true, true, true));
+    }
 
+    private void initContent() {
         MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
                 .withStyleName("hdr-view").withWidth("100%");
         header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
@@ -135,7 +139,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
                     criteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
                     EventBusFactory.getInstance().post(new TaskEvent.SearchRequest(TaskKanbanviewImpl.this, criteria));
                 } else {
-                    display();
+                    queryTask();
                 }
             }
         });
@@ -148,9 +152,36 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
         });
         addNewColumnBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
-        header.with(headerWrapper, savedFilterComboBox, addNewColumnBtn)
-                .withAlign(headerWrapper, Alignment.MIDDLE_LEFT)
-                .withAlign(addNewColumnBtn, Alignment.MIDDLE_RIGHT).expand(headerWrapper);
+        Button advanceDisplayBtn = new Button(null, new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                EventBusFactory.getInstance().post(new TaskEvent.GotoDashboard(TaskKanbanviewImpl.this, null));
+            }
+        });
+        advanceDisplayBtn.setIcon(FontAwesome.SITEMAP);
+        advanceDisplayBtn.setDescription(AppContext.getMessage(TaskGroupI18nEnum.ADVANCED_VIEW_TOOLTIP));
+
+        Button chartDisplayBtn = new Button(null, new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                EventBusFactory.getInstance().post(new TaskEvent.GotoGanttChart(this, null));
+            }
+        });
+        chartDisplayBtn.setDescription("Display Gantt chart");
+        chartDisplayBtn.setIcon(FontAwesome.BAR_CHART_O);
+
+        Button kanbanBtn = new Button();
+        kanbanBtn.setDescription("Kanban View");
+        kanbanBtn.setIcon(FontAwesome.TH);
+
+        ToggleButtonGroup viewButtons = new ToggleButtonGroup();
+        viewButtons.addButton(advanceDisplayBtn);
+        viewButtons.addButton(kanbanBtn);
+        viewButtons.addButton(chartDisplayBtn);
+        viewButtons.setDefaultButton(kanbanBtn);
+
+        header.with(headerWrapper, savedFilterComboBox, addNewColumnBtn, viewButtons).withAlign(headerWrapper, Alignment.MIDDLE_LEFT)
+                .withAlign(addNewColumnBtn, Alignment.MIDDLE_RIGHT).withAlign(viewButtons, Alignment.MIDDLE_RIGHT).expand(headerWrapper);
 
         kanbanLayout = new DDHorizontalLayout();
         kanbanLayout.setHeight("100%");
@@ -203,6 +234,19 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
     }
 
     @Override
+    protected void displayView() {
+        initContent();
+        queryTask();
+    }
+
+    private void queryTask() {
+        TaskSearchCriteria searchCriteria = new TaskSearchCriteria();
+        searchCriteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+        searchCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("taskindex", SearchCriteria.ASC)));
+        queryTask(searchCriteria);
+    }
+
+    @Override
     public void attach() {
         EventBusFactory.getInstance().register(searchHandler);
         super.attach();
@@ -220,14 +264,6 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
         if (view != null) {
             view.setNavigatorVisibility(visibility);
         }
-    }
-
-    @Override
-    public void display() {
-        TaskSearchCriteria searchCriteria = new TaskSearchCriteria();
-        searchCriteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-        searchCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("taskindex", SearchCriteria.ASC)));
-        queryTask(searchCriteria);
     }
 
     private void queryTask(final TaskSearchCriteria searchCriteria) {

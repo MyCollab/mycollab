@@ -15,7 +15,7 @@
     <!-- The info section. The meaning of the tags should be natural ... -->
     <info>
         <appname>MyCollab, the professional open source of Project Management tool</appname>
-        <appversion>5.1.0</appversion>
+        <appversion>5.1.3</appversion>
         <appsubpath>mycollab</appsubpath>
         <authors>
             <author name="MyCollab Ltd" email="support@mycollab.com" />

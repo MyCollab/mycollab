@@ -56,8 +56,7 @@ class AccountEditFormFieldFactory<B extends Account> extends AbstractBeanFieldGr
             return userBox;
         } else if (Account.Field.description.equalTo(propertyId)) {
             return new RichTextEditField();
-        } else if (Account.Field.billingcountry.equalTo(propertyId)
-                || Account.Field.shippingcountry.equalTo(propertyId)) {
+        } else if (Account.Field.billingcountry.equalTo(propertyId) || Account.Field.shippingcountry.equalTo(propertyId)) {
             return new CountryComboBox();
         } else if (Account.Field.accountname.equalTo(propertyId)) {
             TextField tf = new TextField();

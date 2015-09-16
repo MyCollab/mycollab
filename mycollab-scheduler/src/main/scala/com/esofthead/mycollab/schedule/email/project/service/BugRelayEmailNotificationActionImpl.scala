@@ -124,6 +124,7 @@ class BugRelayEmailNotificationActionImpl extends SendMailToFollowersAction[Simp
                             }
                         }
                     }
+                    case Some(user) => {}
                 }
             }
             else if (NotificationType.Full.name == notificationSetting.getLevel) {

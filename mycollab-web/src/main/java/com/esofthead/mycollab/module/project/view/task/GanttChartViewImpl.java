@@ -16,92 +16,43 @@
  */
 package com.esofthead.mycollab.module.project.view.task;
 
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.domain.AssignWithPredecessors;
-import com.esofthead.mycollab.module.project.domain.MilestoneGanttItem;
-import com.esofthead.mycollab.module.project.domain.ProjectGanttItem;
-import com.esofthead.mycollab.module.project.domain.TaskGanttItem;
-import com.esofthead.mycollab.module.project.service.GanttAssignmentService;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.module.project.events.TaskEvent;
+import com.esofthead.mycollab.module.project.i18n.TaskGroupI18nEnum;
 import com.esofthead.mycollab.module.project.view.ProjectView;
 import com.esofthead.mycollab.module.project.view.task.gantt.GanttExt;
-import com.esofthead.mycollab.module.project.view.task.gantt.GanttItemWrapper;
 import com.esofthead.mycollab.module.project.view.task.gantt.GanttTreeTable;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
+import com.esofthead.mycollab.vaadin.mvp.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.ui.ToggleButtonGroup;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UIUtils;
 import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
 import com.vaadin.data.Property;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.tltv.gantt.client.shared.Resolution;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.0
  */
 @ViewComponent
-public class GanttChartViewImpl extends AbstractPageView implements GanttChartView {
+public class GanttChartViewImpl extends AbstractLazyPageView implements GanttChartView {
     private static final long serialVersionUID = 1L;
-    private static Logger LOG = LoggerFactory.getLogger(GanttChartViewImpl.class);
-
-    private boolean projectNavigatorVisibility = false;
 
     private MHorizontalLayout mainLayout;
     private GanttExt gantt;
     private GanttTreeTable taskTable;
-    private GanttAssignmentService ganttAssignmentService;
 
     public GanttChartViewImpl() {
         this.setSizeFull();
         this.withMargin(true);
-
-        MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(false, false, true, false))
-                .withStyleName("hdr-view").withWidth("100%");
-        header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-        Label headerText = new Label("Gantt chart", ContentMode.HTML);
-        headerText.setStyleName(UIConstants.HEADER_TEXT);
-        CssLayout headerWrapper = new CssLayout();
-        headerWrapper.addComponent(headerText);
-
-        HorizontalLayout resWrapper = new HorizontalLayout();
-        Label resLbl = new Label("Resolution: ");
-        final ComboBox resValue = new ValueComboBox(false, "Day", "Week");
-        resValue.addValueChangeListener(new Property.ValueChangeListener() {
-            @Override
-            public void valueChange(Property.ValueChangeEvent event) {
-                String val = (String) resValue.getValue();
-                if ("Day".equals(val)) {
-                    gantt.setResolution(Resolution.Day);
-                } else if ("Week".equals(val)) {
-                    gantt.setResolution(Resolution.Week);
-                }
-            }
-        });
-        resWrapper.setSpacing(true);
-        resWrapper.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-        resWrapper.addComponent(resLbl);
-        resWrapper.addComponent(resValue);
-
-        header.with(headerWrapper, resWrapper).withAlign(headerWrapper, Alignment.MIDDLE_LEFT).expand(headerWrapper);
-
-        ganttAssignmentService = ApplicationContextUtil.getSpringBean(GanttAssignmentService.class);
-
-        mainLayout = new MHorizontalLayout().withSpacing(false);
-        mainLayout.addStyleName("gantt_container");
-        mainLayout.setSizeFull();
-        this.with(header, mainLayout).expand(mainLayout);
     }
-
 
     @Override
     public void detach() {
@@ -116,16 +67,80 @@ public class GanttChartViewImpl extends AbstractPageView implements GanttChartVi
         }
     }
 
-    public void displayGanttChart() {
+    private void constructUI() {
+        MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(false, false, true, false))
+                .withStyleName("hdr-view").withWidth("100%");
+        header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+        Label headerText = new Label("Gantt chart", ContentMode.HTML);
+        headerText.setStyleName(UIConstants.HEADER_TEXT);
+        CssLayout headerWrapper = new CssLayout();
+        headerWrapper.addComponent(headerText);
+
+        MHorizontalLayout resWrapper = new MHorizontalLayout();
+        Label resLbl = new Label("Resolution: ");
+        final ComboBox resValue = new ValueComboBox(false, "Day", "Week");
+        resValue.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
+            public void valueChange(Property.ValueChangeEvent event) {
+                String val = (String) resValue.getValue();
+                if ("Day".equals(val)) {
+                    gantt.setResolution(Resolution.Day);
+                } else if ("Week".equals(val)) {
+                    gantt.setResolution(Resolution.Week);
+                }
+            }
+        });
+        resWrapper.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+        resWrapper.with(resLbl, resValue);
+
+        Button advanceDisplayBtn = new Button(null, new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                EventBusFactory.getInstance().post(new TaskEvent.GotoDashboard(GanttChartViewImpl.this, null));
+            }
+        });
+        advanceDisplayBtn.setIcon(FontAwesome.SITEMAP);
+        advanceDisplayBtn.setDescription(AppContext.getMessage(TaskGroupI18nEnum.ADVANCED_VIEW_TOOLTIP));
+
+        Button chartDisplayBtn = new Button();
+        chartDisplayBtn.setDescription("Display Gantt chart");
+        chartDisplayBtn.setIcon(FontAwesome.BAR_CHART_O);
+
+        Button kanbanBtn = new Button(null, new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                EventBusFactory.getInstance().post(new TaskEvent.GotoKanbanView(this, null));
+            }
+        });
+        kanbanBtn.setDescription("Kanban View");
+        kanbanBtn.setIcon(FontAwesome.TH);
+
+        ToggleButtonGroup viewButtons = new ToggleButtonGroup();
+        viewButtons.addButton(advanceDisplayBtn);
+        viewButtons.addButton(kanbanBtn);
+        viewButtons.addButton(chartDisplayBtn);
+        viewButtons.setDefaultButton(chartDisplayBtn);
+        resWrapper.addComponent(viewButtons);
+
+        header.with(headerWrapper, resWrapper).withAlign(headerWrapper, Alignment.MIDDLE_LEFT).expand(headerWrapper);
+
+        mainLayout = new MHorizontalLayout().withSpacing(false);
+        mainLayout.addStyleName("gantt_container");
+        mainLayout.setSizeFull();
+        this.with(header, mainLayout).expand(mainLayout);
+    }
+
+    @Override
+    protected void displayView() {
         setProjectNavigatorVisibility(false);
-        mainLayout.removeAllComponents();
+        constructUI();
 
         gantt = new GanttExt();
         taskTable = new GanttTreeTable(gantt);
 
         mainLayout.with(taskTable, gantt).expand(gantt);
 
-        showSteps();
+        taskTable.loadAssignments();
     }
 
     @Override
@@ -136,34 +151,5 @@ public class GanttChartViewImpl extends AbstractPageView implements GanttChartVi
     @Override
     public GanttTreeTable getTaskTable() {
         return taskTable;
-    }
-
-    @SuppressWarnings("unchecked")
-    private void showSteps() {
-        UI.getCurrent().access(new Runnable() {
-            @Override
-            public void run() {
-                List<AssignWithPredecessors> assignments = ganttAssignmentService.getTaskWithPredecessors(Arrays.asList
-                        (CurrentProjectVariables.getProjectId()), AppContext.getAccountId());
-                if (assignments.size() == 1) {
-                    ProjectGanttItem projectGanttItem = (ProjectGanttItem) assignments.get(0);
-                    List<MilestoneGanttItem> milestoneGanttItems = projectGanttItem.getMilestones();
-                    for (MilestoneGanttItem milestoneGanttItem : milestoneGanttItems) {
-                        GanttItemWrapper itemWrapper = new GanttItemWrapper(gantt, milestoneGanttItem);
-                        taskTable.addTask(itemWrapper);
-                    }
-
-                    List<TaskGanttItem> taskGanttItems = projectGanttItem.getTasksWithNoMilestones();
-                    for (TaskGanttItem taskGanttItem : taskGanttItems) {
-                        GanttItemWrapper itemWrapper = new GanttItemWrapper(gantt, taskGanttItem);
-                        taskTable.addTask(itemWrapper);
-                    }
-                    taskTable.updateWholeGanttIndexes();
-                    UI.getCurrent().push();
-                } else {
-                    LOG.error("Error to query multiple value " + CurrentProjectVariables.getProjectId());
-                }
-            }
-        });
     }
 }

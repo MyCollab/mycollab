@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.project.service.ibatis;
 
 import com.esofthead.mycollab.cache.CacheUtils;
+import com.esofthead.mycollab.cache.CleanCacheEvent;
 import com.esofthead.mycollab.common.service.ActivityStreamService;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
@@ -27,11 +28,14 @@ import com.esofthead.mycollab.module.project.dao.ItemTimeLoggingMapperExt;
 import com.esofthead.mycollab.module.project.dao.MilestoneMapperExt;
 import com.esofthead.mycollab.module.project.domain.ItemTimeLogging;
 import com.esofthead.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria;
-import com.esofthead.mycollab.module.project.service.ItemTimeLoggingService;
-import com.esofthead.mycollab.module.project.service.ProjectService;
+import com.esofthead.mycollab.module.project.service.*;
 import com.esofthead.mycollab.module.tracker.dao.ComponentMapperExt;
 import com.esofthead.mycollab.module.tracker.dao.VersionMapperExt;
+import com.esofthead.mycollab.module.tracker.service.BugService;
+import com.esofthead.mycollab.module.tracker.service.ComponentService;
+import com.esofthead.mycollab.module.tracker.service.VersionService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.google.common.eventbus.AsyncEventBus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -71,6 +75,9 @@ public class ItemTimeLoggingServiceImpl extends DefaultService<Integer, ItemTime
     @Autowired
     private VersionMapperExt versionMapperExt;
 
+    @Autowired
+    private AsyncEventBus asyncEventBus;
+
     @Override
     public ICrudGenericDAO getCrudMapper() {
         return itemTimeLoggingMapper;
@@ -83,20 +90,22 @@ public class ItemTimeLoggingServiceImpl extends DefaultService<Integer, ItemTime
 
     @Override
     public Integer saveWithSession(ItemTimeLogging record, String username) {
-        CacheUtils.cleanCaches(record.getSaccountid(), ItemTimeLoggingService.class, ProjectService.class);
-        return super.saveWithSession(record, username);
+        int result = super.saveWithSession(record, username);
+        cleanCache(record.getSaccountid());
+        return result;
     }
 
     @Override
     public Integer updateWithSession(ItemTimeLogging record, String username) {
-        CacheUtils.cleanCaches(record.getSaccountid(), ItemTimeLoggingService.class, ProjectService.class);
-        return super.updateWithSession(record, username);
+        int result = super.updateWithSession(record, username);
+        cleanCache(record.getSaccountid());
+        return result;
     }
 
     @Override
     public void massRemoveWithSession(List<ItemTimeLogging> items, String username, Integer accountId) {
         super.massRemoveWithSession(items, username, accountId);
-        CacheUtils.cleanCaches(accountId, ItemTimeLoggingService.class, ProjectService.class);
+        cleanCache(accountId);
     }
 
     @Override
@@ -142,7 +151,14 @@ public class ItemTimeLoggingServiceImpl extends DefaultService<Integer, ItemTime
                         return timeLoggings.size();
                     }
                 });
-        CacheUtils.cleanCaches(sAccountId, ItemTimeLoggingService.class, ProjectService.class);
+        cleanCache(sAccountId);
+    }
+
+    private void cleanCache(Integer sAccountId) {
+        asyncEventBus.post(new CleanCacheEvent(sAccountId, new Class[]{ProjectService.class, MilestoneService.class,
+                ProjectTaskService.class, BugService.class, ComponentService.class, VersionService.class, RiskService
+                .class, ProblemService.class
+        }));
     }
 
     @Override

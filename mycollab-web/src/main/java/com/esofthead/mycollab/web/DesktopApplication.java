@@ -50,6 +50,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.UncategorizedSQLException;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.viritin.util.BrowserCookie;
 
@@ -72,7 +73,7 @@ public class DesktopApplication extends MyCollabUI {
     private MainWindowContainer mainWindowContainer;
 
     @Override
-    protected void init(VaadinRequest request) {
+    protected void init(final VaadinRequest request) {
         GoogleAnalyticsService googleAnalyticsService = ApplicationContextUtil.getSpringBean(GoogleAnalyticsService.class);
         googleAnalyticsService.registerUI(this);
 
@@ -84,7 +85,7 @@ public class DesktopApplication extends MyCollabUI {
             @Override
             public void error(com.vaadin.server.ErrorEvent event) {
                 Throwable e = event.getThrowable();
-                handleException(e);
+                handleException(request.getHeader("user-agent"), e);
             }
         });
 
@@ -124,7 +125,9 @@ public class DesktopApplication extends MyCollabUI {
                 || userAgent.indexOf("msie 7.0") != -1 || userAgent.indexOf("msie 8.0") != -1 || userAgent.indexOf("msie 9.0") != -1;
     }
 
-    private void handleException(Throwable e) {
+    private static Class[] systemExceptions = new Class[]{UncategorizedSQLException.class};
+
+    private void handleException(String userAgent, Throwable e) {
         IgnoreException ignoreException = getExceptionType(e, IgnoreException.class);
         if (ignoreException != null) {
             return;
@@ -185,7 +188,30 @@ public class DesktopApplication extends MyCollabUI {
             return;
         }
 
-        LOG.error("Error", e);
+        for (Class systemEx : systemExceptions) {
+            Exception ex = (Exception) getExceptionType(e, systemEx);
+            if (ex != null) {
+                ConfirmDialog dialog = ConfirmDialogExt.show(UI.getCurrent(),
+                        AppContext.getMessage(GenericI18Enum.WINDOW_ERROR_TITLE, AppContext.getSiteName()),
+                        AppContext.getMessage(GenericI18Enum.ERROR_USER_SYSTEM_ERROR, ex.getMessage()),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        new ConfirmDialog.Listener() {
+                            private static final long serialVersionUID = 1L;
+
+                            @Override
+                            public void onClose(ConfirmDialog dialog) {
+
+                            }
+                        });
+                Button okBtn = dialog.getOkButton();
+                BrowserWindowOpener opener = new BrowserWindowOpener("http://support.mycollab.com");
+                opener.extend(okBtn);
+                return;
+            }
+        }
+
+        LOG.error("Error " + userAgent, e);
         ConfirmDialog dialog = ConfirmDialogExt.show(UI.getCurrent(),
                 AppContext.getMessage(GenericI18Enum.WINDOW_ERROR_TITLE, AppContext.getSiteName()),
                 AppContext.getMessage(GenericI18Enum.ERROR_USER_NOTICE_INFORMATION_MESSAGE),
@@ -259,7 +285,7 @@ public class DesktopApplication extends MyCollabUI {
         @Subscribe
         public void handle(ShellEvent.NotifyErrorEvent event) {
             Throwable e = (Throwable) event.getData();
-            handleException(e);
+            handleException("", e);
         }
     }
 }

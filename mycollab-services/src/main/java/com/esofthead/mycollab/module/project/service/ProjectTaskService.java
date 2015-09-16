@@ -24,12 +24,10 @@ import com.esofthead.mycollab.core.cache.Cacheable;
 import com.esofthead.mycollab.core.persistence.service.IDefaultService;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.Task;
-import com.esofthead.mycollab.module.project.domain.TaskPredecessor;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * @author MyCollab Ltd.
@@ -54,7 +52,4 @@ public interface ProjectTaskService extends IDefaultService<Integer, Task, TaskS
 
     @CacheEvict
     void massUpdateTaskIndexes(List<Map<String, Integer>> mapIndexes, @CacheKey Integer sAccountId);
-
-    @CacheEvict
-    void massUpdatePredecessors(Integer taskSourceId, List<TaskPredecessor> predecessors, @CacheKey Integer sAccountId);
 }

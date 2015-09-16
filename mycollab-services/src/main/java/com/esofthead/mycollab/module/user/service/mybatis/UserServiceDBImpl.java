@@ -315,9 +315,6 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
     @Override
     public void pendingUserAccount(String username, Integer accountId) {
         pendingUserAccounts(Arrays.asList(username), accountId);
-
-        // clean cache of related items
-        CacheUtils.cleanCaches(accountId, UserService.class);
     }
 
     private void internalPendingUserAccount(String username, Integer accountId) {
@@ -355,9 +352,6 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
         for (String username : usernames) {
             internalPendingUserAccount(username, accountId);
         }
-
-        // clean cache of related items
-        CacheUtils.cleanCaches(accountId, UserService.class);
     }
 
     @Override

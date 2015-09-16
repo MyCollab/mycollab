@@ -42,7 +42,7 @@ public class TaskKanbanPresenter extends AbstractPresenter<TaskKanbanview> {
             taskContainer.navigateToContainer(ProjectTypeConstants.TASK);
             taskContainer.removeAllComponents();
             taskContainer.addComponent(view.getWidget());
-            view.display();
+            view.lazyLoadView();
 
             ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
             breadCrumb.gotoTaskKanbanView();

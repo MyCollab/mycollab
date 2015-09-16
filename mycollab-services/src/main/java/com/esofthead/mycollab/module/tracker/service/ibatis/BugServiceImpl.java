@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.tracker.service.ibatis;
 
 import com.esofthead.mycollab.cache.CacheUtils;
+import com.esofthead.mycollab.cache.CleanCacheEvent;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.common.interceptor.aspect.ClassInfo;
@@ -95,8 +96,8 @@ public class BugServiceImpl extends DefaultService<Integer, BugWithBLOBs, BugSea
             if (lock.tryLock(120, TimeUnit.SECONDS)) {
                 Integer maxKey = bugMapperExt.getMaxKey(record.getProjectid());
                 record.setBugkey((maxKey == null) ? 1 : (maxKey + 1));
-                CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class, ProjectGenericTaskService.class,
-                        ProjectMemberService.class, ProjectActivityStreamService.class);
+                asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectService.class,
+                        ProjectGenericTaskService.class, ProjectMemberService.class, ProjectActivityStreamService.class}));
                 return super.saveWithSession(record, username);
             } else {
                 throw new MyCollabException("Timeout operation");
@@ -111,22 +112,24 @@ public class BugServiceImpl extends DefaultService<Integer, BugWithBLOBs, BugSea
 
     @Override
     public Integer updateWithSession(BugWithBLOBs record, String username) {
-        CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class,
-                ProjectActivityStreamService.class, ItemTimeLoggingService.class);
+        asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectService.class,
+                ProjectGenericTaskService.class, ProjectMemberService.class, ProjectActivityStreamService.class,
+                ItemTimeLoggingService.class}));
         return super.updateWithSession(record, username);
     }
 
     @Override
     public Integer updateSelectiveWithSession(BugWithBLOBs record, String username) {
-        CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class,
-                ProjectActivityStreamService.class, ItemTimeLoggingService.class);
+        asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectService.class,
+                ProjectGenericTaskService.class, ProjectMemberService.class, ProjectActivityStreamService.class,
+                ItemTimeLoggingService.class}));
         return super.updateSelectiveWithSession(record, username);
     }
 
     @Override
     public void massRemoveWithSession(List<BugWithBLOBs> items, String username, Integer accountId) {
         super.massRemoveWithSession(items, username, accountId);
-        CacheUtils.cleanCaches(accountId, ProjectService.class, ItemTimeLoggingService.class);
+        asyncEventBus.post(new CleanCacheEvent(accountId, new Class[]{ProjectService.class, ItemTimeLoggingService.class}));
         DeleteProjectBugEvent event = new DeleteProjectBugEvent(items.toArray(new BugWithBLOBs[items.size()]),
                 username, accountId);
         asyncEventBus.post(event);

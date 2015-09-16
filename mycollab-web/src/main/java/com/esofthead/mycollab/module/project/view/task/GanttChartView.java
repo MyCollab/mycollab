@@ -18,14 +18,13 @@ package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.module.project.view.task.gantt.GanttExt;
 import com.esofthead.mycollab.module.project.view.task.gantt.GanttTreeTable;
-import com.esofthead.mycollab.vaadin.mvp.PageView;
+import com.esofthead.mycollab.vaadin.mvp.LazyPageView;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.0
  */
-public interface GanttChartView extends PageView {
-    void displayGanttChart();
+public interface GanttChartView extends LazyPageView {
 
     GanttExt getGantt();
 

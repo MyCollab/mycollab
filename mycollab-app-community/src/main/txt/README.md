@@ -48,7 +48,9 @@ Version 5.1.3
 
 **Library Upgrades**
 
-* Vaadin 7.5.4
+* Vaadin 7.5.5
+* Spring framework 4.2.1.RELEASE
+* Scala 2.11.7, Jackson 2.6.2
 
 **Improvements & New Features**
 
@@ -56,11 +58,15 @@ Version 5.1.3
 * Several minor UI improvements
 * Support task predecessors
 * Edit inline on Gantt chart
+* Many Gantt chart improvements
+* Site response is faster by using the proper server push
 
 **Bug Fixes**
 
 * Has redundant scrollbar on internet explorer
 * Navigate folder by clicking file breadcrumb throws exception in several cases
+* Notification setting minimal may cause can not send email
+* Better diagnosis error message to the end users
 
 
 Version 5.1.2

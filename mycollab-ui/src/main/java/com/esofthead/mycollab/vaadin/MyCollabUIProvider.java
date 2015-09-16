@@ -39,7 +39,6 @@ public class MyCollabUIProvider extends UIProvider {
             userAgent = request.getHeader("user-agent").toLowerCase();
         } catch (Exception e) {
             return null;
-
         }
 
         uiClass = userAgent.contains("mobile") ? "com.esofthead.mycollab.mobile.MobileApplication"

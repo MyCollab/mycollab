@@ -17,12 +17,11 @@
 package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.module.project.view.IKanbanView;
-import com.esofthead.mycollab.vaadin.mvp.PageView;
+import com.esofthead.mycollab.vaadin.mvp.LazyPageView;
 
 /**
  * @author MyCollab Ltd
  * @since 5.1.1
  */
-public interface TaskKanbanview extends PageView, IKanbanView {
-    void display();
+public interface TaskKanbanview extends LazyPageView, IKanbanView {
 }

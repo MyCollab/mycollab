@@ -120,6 +120,7 @@ class ProjectTaskRelayEmailNotificationActionImpl extends SendMailToFollowersAct
                                 }
                             }
                         }
+                        case Some(user) => {}
                     }
                 }
                 else if (NotificationType.Full.name == notificationSetting.getLevel) {

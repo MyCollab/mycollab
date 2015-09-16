@@ -61,6 +61,9 @@ public class BusinessDayTimeUtils {
 
     public static int duration(LocalDate start, LocalDate end) {
         int candidateDuration = 1;
+        if (start.isAfter(end)) {
+            return -1;
+        }
         try {
             DateCalculator<LocalDate> calc1 = LocalDateKitCalculatorsFactory.forwardCalculator("MyCollab");
             calc1.setStartDate(start);

@@ -108,6 +108,11 @@ class PredecessorWindow extends Window {
         buttonControls.with(cancelBtn, saveBtn);
     }
 
+    private boolean hasRelationship(GanttItemWrapper item1, GanttItemWrapper item2) {
+        GanttItemContainer container = taskTreeTable.getRawContainer();
+        return container.hasCircularRelationship(item1, item2);
+    }
+
     private class PredecessorsLayout extends VerticalLayout {
         PredecessorsLayout() {
             this.setSpacing(true);
@@ -147,7 +152,7 @@ class PredecessorWindow extends Window {
 
         private class PredecessorInputLayout extends MHorizontalLayout {
             private TextField rowField;
-            private TaskComboBox taskComboBox;
+            private AssignmentComboBox assignmentComboBox;
             private PredecessorComboBox predecessorComboBox;
             private TextField lagField;
 
@@ -166,11 +171,11 @@ class PredecessorWindow extends Window {
                             int rowValue = Integer.parseInt(value);
                             GanttItemWrapper item = taskTreeTable.getRawContainer().getItemByGanttIndex(rowValue);
                             if (item != null) {
-                                if (item.isAncestor(ganttItemWrapper) || ganttItemWrapper.isAncestor(item)) {
+                                if (hasRelationship(item, ganttItemWrapper)) {
                                     NotificationUtil.showErrorNotification("Circular dependency");
                                 } else {
                                     if (item.isTask()) {
-                                        taskComboBox.setValue(item);
+                                        assignmentComboBox.setValue(item);
                                         if (predecessorComboBox.getValue() == null) {
                                             predecessorComboBox.setValue(TaskPredecessor.FS);
                                         }
@@ -193,35 +198,35 @@ class PredecessorWindow extends Window {
                 });
                 this.addComponent(rowField);
 
-                taskComboBox = new TaskComboBox();
-                taskComboBox.setWidth(TASK_WIDTH);
-                taskComboBox.addValueChangeListener(new Property.ValueChangeListener() {
+                assignmentComboBox = new AssignmentComboBox();
+                assignmentComboBox.setWidth(TASK_WIDTH);
+                assignmentComboBox.addValueChangeListener(new Property.ValueChangeListener() {
                     @Override
                     public void valueChange(Property.ValueChangeEvent event) {
-                        GanttItemWrapper item = (GanttItemWrapper) taskComboBox.getValue();
+                        GanttItemWrapper item = (GanttItemWrapper) assignmentComboBox.getValue();
                         if (item == null) {
                             rowField.setValue("");
                             predecessorComboBox.setValue(null);
                         } else {
-                            if (item.isAncestor(ganttItemWrapper) || ganttItemWrapper.isAncestor(item)) {
+                            if (hasRelationship(item, ganttItemWrapper)) {
                                 NotificationUtil.showErrorNotification("Circular dependency");
-                                taskComboBox.setValue(null);
+                                assignmentComboBox.setValue(null);
                             } else {
                                 rowField.setValue(item.getGanttIndex() + "");
                             }
                         }
                     }
                 });
-                taskComboBox.addBlurListener(new FieldEvents.BlurListener() {
+                assignmentComboBox.addBlurListener(new FieldEvents.BlurListener() {
                     @Override
                     public void blur(FieldEvents.BlurEvent event) {
-                        GanttItemWrapper item = (GanttItemWrapper) taskComboBox.getValue();
+                        GanttItemWrapper item = (GanttItemWrapper) assignmentComboBox.getValue();
                         if (item != null) {
                             PredecessorsLayout.this.addComponent(new PredecessorInputLayout());
                         }
                     }
                 });
-                this.addComponent(taskComboBox);
+                this.addComponent(assignmentComboBox);
 
                 predecessorComboBox = new PredecessorComboBox();
                 predecessorComboBox.setWidth(PRE_TYPE_WIDTH);
@@ -251,7 +256,7 @@ class PredecessorWindow extends Window {
                     predecessorComboBox.setValue(taskPredecessor.getPredestype());
                     GanttItemWrapper item = taskTreeTable.getRawContainer().getItemByGanttIndex(taskPredecessor.getGanttIndex());
                     if (item != null) {
-                        taskComboBox.setValue(item);
+                        assignmentComboBox.setValue(item);
                     }
                     if (taskPredecessor.getLagday() == null) {
                         lagField.setValue("");
@@ -262,9 +267,9 @@ class PredecessorWindow extends Window {
             }
 
             TaskPredecessor buildPredecessor() {
-                GanttItemWrapper item = (GanttItemWrapper) taskComboBox.getValue();
+                GanttItemWrapper item = (GanttItemWrapper) assignmentComboBox.getValue();
                 if (item != null) {
-                    if (item.isAncestor(ganttItemWrapper) || ganttItemWrapper.isAncestor(item)) {
+                    if (hasRelationship(item, ganttItemWrapper)) {
                         throw new UserInvalidInputException("Circular dependency");
                     } else {
                         TaskPredecessor predecessor = new TaskPredecessor();
@@ -273,6 +278,8 @@ class PredecessorWindow extends Window {
                         predecessor.setPredestype(getPreDesType());
                         predecessor.setSourceid(ganttItemWrapper.getTask().getId());
                         predecessor.setDescid(item.getTask().getId());
+                        predecessor.setSourcetype(item.getType());
+                        predecessor.setDesctype(ganttItemWrapper.getType());
                         return predecessor;
                     }
                 }
@@ -297,8 +304,8 @@ class PredecessorWindow extends Window {
             }
         }
 
-        private class TaskComboBox extends ComboBox {
-            TaskComboBox() {
+        private class AssignmentComboBox extends ComboBox {
+            AssignmentComboBox() {
                 this.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
                 this.setFilteringMode(FilteringMode.CONTAINS);
                 GanttItemContainer beanItemContainer = taskTreeTable.getRawContainer();
@@ -306,8 +313,8 @@ class PredecessorWindow extends Window {
                 for (GanttItemWrapper item : itemIds) {
                     if (item.isTask()) {
                         this.addItem(item);
-                        this.setItemCaption(item, String.format("[Row %d]: %s", item.getGanttIndex(), StringUtils.trim(item
-                                .getName(), 50, true)));
+                        this.setItemCaption(item, String.format("[Row %d]: %s", item.getGanttIndex(),
+                                StringUtils.trim(item.getName(), 50, true)));
                     }
                 }
             }
@@ -316,6 +323,7 @@ class PredecessorWindow extends Window {
 
     private static class PredecessorComboBox extends ComboBox {
         PredecessorComboBox() {
+            this.setNullSelectionAllowed(false);
             this.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
             this.addItem(TaskPredecessor.FS);
             this.setItemCaption(TaskPredecessor.FS, "Finish to Start (FS)");
@@ -328,6 +336,7 @@ class PredecessorWindow extends Window {
 
             this.addItem(TaskPredecessor.FF);
             this.setItemCaption(TaskPredecessor.FF, "Finish to Finish (FF)");
+            this.setValue(TaskPredecessor.FS);
         }
     }
 }

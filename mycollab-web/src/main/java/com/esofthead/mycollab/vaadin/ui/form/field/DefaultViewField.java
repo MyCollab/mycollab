@@ -16,51 +16,51 @@
  */
 package com.esofthead.mycollab.vaadin.ui.form.field;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.Label;
+import org.apache.commons.lang3.StringUtils;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.5.3
- *
  */
 public class DefaultViewField extends CustomField<String> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String value;
-	private ContentMode contentMode;
+    private Label label;
 
-	public DefaultViewField(final String value) {
-		this(value, ContentMode.TEXT);
-	}
+    public DefaultViewField(final String value) {
+        this(value, ContentMode.TEXT);
+    }
 
-	public DefaultViewField(final String value, final ContentMode contentMode) {
-		this.value = value;
-		this.contentMode = contentMode;
-	}
+    public DefaultViewField(final String value, final ContentMode contentMode) {
+        label = new Label();
+        label.setWidth("100%");
+        label.setContentMode(contentMode);
 
-	@Override
-	public Class<String> getType() {
-		return String.class;
-	}
+        if (StringUtils.isNotBlank(value)) {
+            label.setValue(value);
+            label.setDescription(value);
+        } else {
+            label.setValue("");
+        }
+    }
 
-	@Override
-	protected Component initContent() {
-		final Label label = new Label();
-		label.setWidth("100%");
-		label.setContentMode(contentMode);
+    @Override
+    public Class<String> getType() {
+        return String.class;
+    }
 
-		if (StringUtils.isNotBlank(value)) {
-			label.setValue(value);
-		} else {
-			label.setValue("");
-		}
+    @Override
+    protected Component initContent() {
+        return label;
+    }
 
-		return label;
-	}
+    @Override
+    protected void setInternalValue(String newValue) {
+        label.setValue(newValue);
+        label.setDescription(newValue);
+    }
 }

@@ -16,47 +16,43 @@
  */
 package com.esofthead.mycollab.cache;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.esofthead.mycollab.core.persistence.service.IService;
 import com.esofthead.mycollab.core.utils.ClassUtils;
 import com.esofthead.mycollab.core.utils.JsonDeSerializer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class CacheUtils {
-	private static final Logger LOG = LoggerFactory.getLogger(CacheUtils.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CacheUtils.class);
 
-	public static String constructParamsKey(Object[] args) {
-		return JsonDeSerializer.toJson(args);
-	}
+    public static String constructParamsKey(Object[] args) {
+        return JsonDeSerializer.toJson(args);
+    }
 
-	public static Class<?> getEnclosingServiceInterface(Class<?> serviceClass) {
-		Class<?> cls = ClassUtils.getInterfaceInstanceOf(serviceClass, IService.class);
-		return cls;
-	}
+    public static Class<?> getEnclosingServiceInterface(Class<?> serviceClass) {
+        return ClassUtils.getInterfaceInstanceOf(serviceClass, IService.class);
+    }
 
-	public static String getEnclosingServiceInterfaceName(Class<?> serviceClass) {
-		return getEnclosingServiceInterface(serviceClass).getName();
-	}
+    public static String getEnclosingServiceInterfaceName(Class<?> serviceClass) {
+        return getEnclosingServiceInterface(serviceClass).getName();
+    }
 
-	public static void cleanCache(Integer accountId, String prefixKey) {
-		LOG.debug("Remove cache account {}  and key {}", accountId, prefixKey);
-		LocalCacheManager.removeCacheItems(accountId.toString(), prefixKey);
-	}
+    public static void cleanCache(Integer accountId, String prefixKey) {
+        LOG.debug("Remove cache account {}  and key {}", accountId, prefixKey);
+        LocalCacheManager.removeCacheItems(accountId.toString(), prefixKey);
+    }
 
-	public static void cleanCaches(Integer accountId, Class<?>... classes) {
-		for (Class<?> prefKey : classes) {
-			cleanCache(accountId, prefKey.getName());
-		}
-	}
+    public static void cleanCaches(Integer accountId, Class<?>... classes) {
+        for (Class<?> prefKey : classes) {
+            cleanCache(accountId, prefKey.getName());
+        }
+    }
 
-	public static boolean isInBlackList(Class<?> cls) {
-		return (cls != null) && (cls.getAnnotation(IgnoreCacheClass.class) != null);
-	}
+    public static boolean isInBlackList(Class<?> cls) {
+        return (cls != null) && (cls.getAnnotation(IgnoreCacheClass.class) != null);
+    }
 }

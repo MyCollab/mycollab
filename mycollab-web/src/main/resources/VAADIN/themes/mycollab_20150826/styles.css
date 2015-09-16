@@ -9603,10 +9603,11 @@ div.v-button.token-field:hover {
 
 .gantt_container .v-treetable-node-open::after {
 	float: right;
-	vertical-align: middle;
 	content: "\f147";
 	color: black;
 	font-family: FontAwesome;
+	padding-right: 5px;
+	padding-top: 3px;
 }
 
 .gantt_container .v-treetable-node-closed {
@@ -9615,10 +9616,11 @@ div.v-button.token-field:hover {
 
 .gantt_container .v-treetable-node-closed::after {
 	float: right;
-	vertical-align: middle;
 	content: "\f196";
 	color: black;
 	font-family: FontAwesome;
+	padding-right: 5px;
+	padding-top: 3px;
 }
 
 .gantt_container .v-table-table .v-table-row-milestone {

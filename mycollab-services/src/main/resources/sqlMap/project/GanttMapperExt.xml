@@ -99,12 +99,12 @@
         assignUserFullName, s_user.avatarId AS assignUserAvatarId, 'Project-Task' AS type, m_prj_task.ganttindex,
         m_prj_task.duration, m_prj_task.parentTaskId, m_prj_task.percentagecomplete AS progress,
         m_prj_task.milestoneId,
-        pre_predecessor.id AS pre_id, pre_predecessor.sourceType AS pre_type, pre_predecessor.sourceId AS pre_sourceId,
-        pre_predecessor.descId AS pre_descId, pre_predecessor.predestype AS pre_predestype, pre_predecessor.lagDay AS pre_lagDay,
-        pre_task.ganttindex AS pre_ganttindex,
+        pre_predecessor.id AS pre_id, pre_predecessor.sourceType AS pre_sourceType, pre_predecessor.sourceId AS pre_sourceId,
+        pre_predecessor.descType AS pre_descType, pre_predecessor.descId AS pre_descId, pre_predecessor.predestype AS
+        pre_predestype, pre_predecessor.lagDay AS pre_lagDay, pre_task.ganttindex AS pre_ganttindex,
         dep_predecessor.id AS dep_id, dep_predecessor.descType AS dep_type, dep_predecessor.sourceId AS dep_sourceId,
         dep_predecessor.descId AS dep_descId, dep_predecessor.predestype AS dep_predestype, dep_predecessor.lagDay AS
-        dep_lagDay,dep_task.ganttindex AS dep_ganttindex
+        dep_lagDay, dep_task.ganttindex AS dep_ganttindex
         FROM m_prj_task
         LEFT OUTER JOIN s_user ON (m_prj_task.assignUser = s_user.username)
         LEFT OUTER JOIN m_prj_predecessor AS pre_predecessor ON (m_prj_task.id=pre_predecessor.sourceId AND
@@ -125,10 +125,9 @@
         assignUserFullName, s_user.avatarId AS assignUserAvatarId, 'Project-Task' AS type, m_prj_task.ganttindex,
         m_prj_task.duration, m_prj_task.parentTaskId, m_prj_task.percentagecomplete AS progress,
         m_prj_task.milestoneId,
-        pre_predecessor.id AS pre_id, pre_predecessor.sourceType AS pre_type, pre_predecessor.sourceId AS pre_sourceId,
-        pre_predecessor.descId AS pre_descId, pre_predecessor.sourceType AS pre_predestype, pre_predecessor.lagDay AS
-        pre_lagDay,
-        pre_task.ganttindex AS pre_ganttindex,
+        pre_predecessor.id AS pre_id, pre_predecessor.sourceType AS pre_sourceType, pre_predecessor.sourceId AS pre_sourceId,
+        pre_predecessor.descId AS pre_descId, pre_predecessor.descType AS pre_descType, pre_predecessor.lagDay AS
+        pre_lagDay,pre_task.ganttindex AS pre_ganttindex,
         dep_predecessor.id AS dep_id, dep_predecessor.descType AS dep_type, dep_predecessor.sourceId AS dep_sourceId,
         dep_predecessor.descId AS dep_descId, dep_predecessor.predestype AS dep_predestype, dep_predecessor.lagDay AS
         dep_lagDay,dep_task.ganttindex AS dep_ganttindex
@@ -153,8 +152,9 @@
         assignUserFullName, s_user.avatarId AS assignUserAvatarId, 'Project-Task' AS type, m_prj_task.ganttindex,
         m_prj_task.duration, m_prj_task.parentTaskId, m_prj_task.percentagecomplete AS progress,
         m_prj_task.milestoneId,
-        pre_predecessor.id AS pre_id, pre_predecessor.sourceType AS pre_type, pre_predecessor.sourceId AS pre_sourceId,
-        pre_predecessor.descId AS pre_descId, pre_predecessor.predestype AS pre_predestype, pre_predecessor.lagDay AS pre_lagDay,
+        pre_predecessor.id AS pre_id, pre_predecessor.sourceType AS pre_sourceType, pre_predecessor.sourceId AS pre_sourceId,
+        pre_predecessor.descType AS pre_descType, pre_predecessor.descId AS pre_descId, pre_predecessor.predestype AS
+        pre_predestype, pre_predecessor.lagDay AS pre_lagDay,
         pre_task.ganttindex AS pre_ganttindex,
         dep_predecessor.id AS dep_id, dep_predecessor.descType AS dep_type, dep_predecessor.sourceId AS dep_sourceId,
         dep_predecessor.descId AS dep_descId, dep_predecessor.predestype AS dep_predestype, dep_predecessor.lagDay AS

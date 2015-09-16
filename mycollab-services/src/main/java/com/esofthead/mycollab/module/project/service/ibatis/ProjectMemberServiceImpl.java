@@ -183,12 +183,10 @@ public class ProjectMemberServiceImpl extends DefaultService<Integer, ProjectMem
         LOG.debug("Start save project member {}", BeanUtility.printBeanObj(member));
 
         saveWithSession(member, "");
-        CacheUtils.cleanCache(sAccountId, ProjectMemberService.class.getName());
     }
 
     @Override
-    public boolean isUserBelongToProject(String username, Integer projectId,
-                                         Integer sAccountId) {
+    public boolean isUserBelongToProject(String username, Integer projectId, Integer sAccountId) {
         ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
         criteria.setProjectId(new NumberSearchField(projectId));
         criteria.setSaccountid(new NumberSearchField(sAccountId));

@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.service.ibatis;
 
-import com.esofthead.mycollab.cache.CacheUtils;
+import com.esofthead.mycollab.cache.CleanCacheEvent;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.interceptor.aspect.ClassInfo;
 import com.esofthead.mycollab.common.interceptor.aspect.ClassInfoMap;
@@ -32,10 +32,7 @@ import com.esofthead.mycollab.module.project.domain.Problem;
 import com.esofthead.mycollab.module.project.domain.SimpleProblem;
 import com.esofthead.mycollab.module.project.domain.criteria.ProblemSearchCriteria;
 import com.esofthead.mycollab.module.project.esb.DeleteProjectProblemEvent;
-import com.esofthead.mycollab.module.project.service.ProblemService;
-import com.esofthead.mycollab.module.project.service.ProjectActivityStreamService;
-import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
-import com.esofthead.mycollab.module.project.service.ProjectService;
+import com.esofthead.mycollab.module.project.service.*;
 import com.esofthead.mycollab.schedule.email.project.ProjectProblemRelayEmailNotificationAction;
 import com.google.common.eventbus.AsyncEventBus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,32 +82,31 @@ public class ProblemServiceImpl extends DefaultService<Integer, Problem, Problem
     @Override
     public Integer saveWithSession(Problem record, String username) {
         Integer recordId = super.saveWithSession(record, username);
-        CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class,
-                ProjectGenericTaskService.class,
-                ProjectActivityStreamService.class);
+        asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectService.class,
+                ProjectGenericTaskService.class, ProjectActivityStreamService.class}));
         return recordId;
     }
 
     @Override
     public Integer updateWithSession(Problem record, String username) {
-        CacheUtils.cleanCaches(record.getSaccountid(),
-                ProjectActivityStreamService.class);
-        return super.updateWithSession(record, username);
+        int result = super.updateWithSession(record, username);
+        asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectService.class,
+                ProjectGenericTaskService.class, ProjectActivityStreamService.class}));
+        return result;
     }
 
     @Override
     public void removeByCriteria(ProblemSearchCriteria criteria, Integer accountId) {
-        CacheUtils.cleanCaches(accountId, ProjectService.class,
-                ProjectGenericTaskService.class,
-                ProjectActivityStreamService.class);
         super.removeByCriteria(criteria, accountId);
+        asyncEventBus.post(new CleanCacheEvent(accountId, new Class[]{ProjectService.class,
+                ProjectGenericTaskService.class, ProjectActivityStreamService.class, ItemTimeLoggingService.class}));
     }
 
     @Override
     public void massRemoveWithSession(List<Problem> problems, String username, Integer accountId) {
-        CacheUtils.cleanCaches(accountId, ProjectService.class,
-                ProjectGenericTaskService.class, ProjectActivityStreamService.class);
         super.massRemoveWithSession(problems, username, accountId);
+        asyncEventBus.post(new CleanCacheEvent(accountId, new Class[]{ProjectService.class,
+                ProjectGenericTaskService.class, ProjectActivityStreamService.class, ItemTimeLoggingService.class}));
         DeleteProjectProblemEvent event = new DeleteProjectProblemEvent(problems.toArray(new Problem[problems.size()]),
                 username, accountId);
         asyncEventBus.post(event);
@@ -118,7 +114,8 @@ public class ProblemServiceImpl extends DefaultService<Integer, Problem, Problem
 
     @Override
     public void massUpdateWithSession(Problem record, List<Integer> primaryKeys, Integer accountId) {
-        CacheUtils.cleanCaches(accountId, ProjectActivityStreamService.class);
         super.massUpdateWithSession(record, primaryKeys, accountId);
+        asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectGenericTaskService.class,
+                ProjectActivityStreamService.class}));
     }
 }

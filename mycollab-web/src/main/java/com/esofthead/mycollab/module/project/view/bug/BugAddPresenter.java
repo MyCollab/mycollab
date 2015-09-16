@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.bug;
 
-import com.esofthead.mycollab.cache.CacheUtils;
+import com.esofthead.mycollab.cache.CleanCacheEvent;
 import com.esofthead.mycollab.common.domain.MonitorItem;
 import com.esofthead.mycollab.common.service.MonitorItemService;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -38,6 +38,7 @@ import com.esofthead.mycollab.vaadin.events.EditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.*;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
+import com.google.common.eventbus.AsyncEventBus;
 import com.vaadin.ui.ComponentContainer;
 
 import java.util.ArrayList;
@@ -58,32 +59,29 @@ public class BugAddPresenter extends AbstractPresenter<BugAddView> {
 
     @Override
     protected void postInitView() {
-        view.getEditFormHandlers().addFormHandler(
-                new EditFormHandler<SimpleBug>() {
-                    private static final long serialVersionUID = 1L;
+        view.getEditFormHandlers().addFormHandler(new EditFormHandler<SimpleBug>() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void onSave(SimpleBug bug) {
-                        int bugId = saveBug(bug);
-                        EventBusFactory.getInstance().post(new BugEvent.GotoRead(this, bugId));
-                    }
+            @Override
+            public void onSave(SimpleBug bug) {
+                int bugId = saveBug(bug);
+                EventBusFactory.getInstance().post(new BugEvent.GotoRead(this, bugId));
+            }
 
-                    @Override
-                    public void onCancel() {
-                        ViewState viewState = HistoryViewManager.back();
-                        if (viewState.hasPresenters(NullViewState.EmptyPresenter.class, ProjectViewPresenter.class)) {
-                            EventBusFactory.getInstance().post(
-                                    new BugEvent.GotoDashboard(this, null));
-                        }
-                    }
+            @Override
+            public void onCancel() {
+                ViewState viewState = HistoryViewManager.back();
+                if (viewState.hasPresenters(NullViewState.EmptyPresenter.class, ProjectViewPresenter.class)) {
+                    EventBusFactory.getInstance().post(new BugEvent.GotoDashboard(this, null));
+                }
+            }
 
-                    @Override
-                    public void onSaveAndNew(SimpleBug bug) {
-                        saveBug(bug);
-                        EventBusFactory.getInstance().post(
-                                new BugEvent.GotoAdd(this, null));
-                    }
-                });
+            @Override
+            public void onSaveAndNew(SimpleBug bug) {
+                saveBug(bug);
+                EventBusFactory.getInstance().post(new BugEvent.GotoAdd(this, null));
+            }
+        });
     }
 
     @Override
@@ -96,8 +94,7 @@ public class BugAddPresenter extends AbstractPresenter<BugAddView> {
             SimpleBug bug = (SimpleBug) data.getParams();
             view.editItem(bug);
 
-            ProjectBreadcrumb breadcrumb = ViewManager
-                    .getCacheComponent(ProjectBreadcrumb.class);
+            ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
             if (bug.getId() == null) {
                 breadcrumb.gotoBugAdd();
             } else {
@@ -109,33 +106,25 @@ public class BugAddPresenter extends AbstractPresenter<BugAddView> {
     }
 
     private int saveBug(SimpleBug bug) {
-        BugService bugService = ApplicationContextUtil
-                .getSpringBean(BugService.class);
+        BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
         bug.setProjectid(CurrentProjectVariables.getProjectId());
         bug.setSaccountid(AppContext.getAccountId());
+        AsyncEventBus asyncEventBus = ApplicationContextUtil.getSpringBean(AsyncEventBus.class);
         if (bug.getId() == null) {
             bug.setStatus(BugStatus.Open.name());
             bug.setResolution(BugResolution.Newissue.name());
             bug.setLogby(AppContext.getUsername());
             bug.setSaccountid(AppContext.getAccountId());
-            int bugId = bugService.saveWithSession(bug,
-                    AppContext.getUsername());
-            ProjectFormAttachmentUploadField uploadField = view
-                    .getAttachUploadField();
-            uploadField.saveContentsToRepo(bug.getProjectid(),
-                    ProjectTypeConstants.BUG, bugId);
+            int bugId = bugService.saveWithSession(bug, AppContext.getUsername());
+            ProjectFormAttachmentUploadField uploadField = view.getAttachUploadField();
+            uploadField.saveContentsToRepo(bug.getProjectid(), ProjectTypeConstants.BUG, bugId);
 
             // save component
-            BugRelatedItemService bugRelatedItemService = ApplicationContextUtil
-                    .getSpringBean(BugRelatedItemService.class);
-            bugRelatedItemService.saveAffectedVersionsOfBug(bugId,
-                    view.getAffectedVersions());
-            bugRelatedItemService.saveFixedVersionsOfBug(bugId,
-                    view.getFixedVersion());
-            bugRelatedItemService.saveComponentsOfBug(bugId,
-                    view.getComponents());
-            CacheUtils.cleanCache(AppContext.getAccountId(),
-                    BugService.class.getName());
+            BugRelatedItemService bugRelatedItemService = ApplicationContextUtil.getSpringBean(BugRelatedItemService.class);
+            bugRelatedItemService.saveAffectedVersionsOfBug(bugId, view.getAffectedVersions());
+            bugRelatedItemService.saveFixedVersionsOfBug(bugId, view.getFixedVersion());
+            bugRelatedItemService.saveComponentsOfBug(bugId, view.getComponents());
+            asyncEventBus.post(new CleanCacheEvent(AppContext.getAccountId(), new Class[]{BugService.class}));
 
             List<String> followers = view.getFollowers();
             if (followers.size() > 0) {
@@ -155,22 +144,15 @@ public class BugAddPresenter extends AbstractPresenter<BugAddView> {
             }
         } else {
             bugService.updateWithSession(bug, AppContext.getUsername());
-            ProjectFormAttachmentUploadField uploadField = view
-                    .getAttachUploadField();
-            uploadField.saveContentsToRepo(bug.getProjectid(),
-                    ProjectTypeConstants.BUG, bug.getId());
+            ProjectFormAttachmentUploadField uploadField = view.getAttachUploadField();
+            uploadField.saveContentsToRepo(bug.getProjectid(), ProjectTypeConstants.BUG, bug.getId());
 
             int bugId = bug.getId();
-            BugRelatedItemService bugRelatedItemService = ApplicationContextUtil
-                    .getSpringBean(BugRelatedItemService.class);
-            bugRelatedItemService.updateAfftedVersionsOfBug(bugId,
-                    view.getAffectedVersions());
-            bugRelatedItemService.updateFixedVersionsOfBug(bugId,
-                    view.getFixedVersion());
-            bugRelatedItemService.updateComponentsOfBug(bugId,
-                    view.getComponents());
-            CacheUtils.cleanCache(AppContext.getAccountId(),
-                    BugService.class.getName());
+            BugRelatedItemService bugRelatedItemService = ApplicationContextUtil.getSpringBean(BugRelatedItemService.class);
+            bugRelatedItemService.updateAfftedVersionsOfBug(bugId, view.getAffectedVersions());
+            bugRelatedItemService.updateFixedVersionsOfBug(bugId, view.getFixedVersion());
+            bugRelatedItemService.updateComponentsOfBug(bugId, view.getComponents());
+            asyncEventBus.post(new CleanCacheEvent(AppContext.getAccountId(), new Class[]{BugService.class}));
         }
 
         return bug.getId();

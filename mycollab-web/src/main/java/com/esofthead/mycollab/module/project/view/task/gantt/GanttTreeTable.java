@@ -18,50 +18,55 @@ package com.esofthead.mycollab.module.project.view.task.gantt;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
+import com.esofthead.mycollab.core.utils.HumanTime;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
-import com.esofthead.mycollab.module.project.domain.Task;
-import com.esofthead.mycollab.module.project.domain.TaskGanttItem;
-import com.esofthead.mycollab.module.project.domain.TaskPredecessor;
+import com.esofthead.mycollab.module.project.domain.*;
 import com.esofthead.mycollab.module.project.events.GanttEvent;
 import com.esofthead.mycollab.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
+import com.esofthead.mycollab.module.project.service.GanttAssignmentService;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
+import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.converter.LocalDateConverter;
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.data.Container;
+import com.vaadin.data.util.converter.Converter;
 import com.vaadin.event.FieldEvents;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.LocalDate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.tltv.gantt.client.shared.Step;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.peter.contextmenu.ContextMenu;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author MyCollab Ltd
  * @since 5.1.1
  */
 public class GanttTreeTable extends TreeTable {
+    private static Logger LOG = LoggerFactory.getLogger(GanttTreeTable.class);
+
     private GanttExt gantt;
     private GanttItemContainer beanContainer;
 
     private boolean ganttIndexIsChanged = false;
-
     protected List<Field> fields = new ArrayList<>();
+    private boolean isStartedGanttChart = false;
 
     private ApplicationEventListener<GanttEvent.UpdateGanttItemDates> updateTaskInfoHandler = new
             ApplicationEventListener<GanttEvent.UpdateGanttItemDates>() {
@@ -117,40 +122,10 @@ public class GanttTreeTable extends TreeTable {
             }
         });
 
-        this.addGeneratedColumn("predecessors", new ColumnGenerator() {
-            @Override
-            public Object generateCell(Table table, Object itemId, Object columnId) {
-                GanttItemWrapper item = (GanttItemWrapper) itemId;
-                List<TaskPredecessor> predecessors = item.getPredecessors();
-                if (CollectionUtils.isNotEmpty(predecessors)) {
-                    StringBuilder builder = new StringBuilder();
-                    for (TaskPredecessor predecessor : predecessors) {
-                        builder.append(predecessor.getGanttIndex());
-                        builder.append(",");
-                    }
-                    if (builder.charAt(builder.length() - 1) == ',') {
-                        builder.deleteCharAt(builder.length() - 1);
-                    }
-                    return new Label(builder.toString());
-                } else {
-                    return new Label();
-                }
-            }
-        });
-
-        this.addGeneratedColumn("duration", new ColumnGenerator() {
-            @Override
-            public Object generateCell(Table table, Object itemId, Object columnId) {
-                GanttItemWrapper item = (GanttItemWrapper) itemId;
-                double dur = item.getDuration();
-                return new Label(dur + " d");
-            }
-        });
-
 
         this.setTableFieldFactory(new TableFieldFactory() {
             @Override
-            public Field<?> createField(Container container, Object itemId, Object propertyId, Component uiContext) {
+            public Field<?> createField(Container container, Object itemId, final Object propertyId, Component uiContext) {
                 Field field = null;
                 final GanttItemWrapper ganttItem = (GanttItemWrapper) itemId;
                 if ("name".equals(propertyId)) {
@@ -184,6 +159,19 @@ public class GanttTreeTable extends TreeTable {
                     }
                 } else if ("assignUser".equals(propertyId)) {
                     field = new ProjectMemberSelectionField();
+                } else if ("predecessors".equals(propertyId)) {
+                    field = new DefaultViewField("");
+                    ((DefaultViewField) field).setConverter(new PredecessorConverter());
+                    return field;
+                } else if ("duration".equals(propertyId)) {
+                    field = new TextField();
+                    ((TextField) field).setConverter(new HumanTimeConverter());
+                    if (ganttItem.hasSubTasks()) {
+                        field.setEnabled(false);
+                        ((TextField) field).setDescription("Because this row has sub-tasks, this cell " +
+                                "is a summary value and can not be edited directly. You can edit cells " +
+                                "beneath this row to change its value");
+                    }
                 }
 
                 if (field != null) {
@@ -294,6 +282,31 @@ public class GanttTreeTable extends TreeTable {
         super.detach();
     }
 
+    public void loadAssignments() {
+        GanttAssignmentService ganttAssignmentService = ApplicationContextUtil.getSpringBean(GanttAssignmentService.class);
+        final List<AssignWithPredecessors> assignments = ganttAssignmentService.getTaskWithPredecessors(Arrays.asList
+                (CurrentProjectVariables.getProjectId()), AppContext.getAccountId());
+        if (assignments.size() == 1) {
+            ProjectGanttItem projectGanttItem = (ProjectGanttItem) assignments.get(0);
+            List<MilestoneGanttItem> milestoneGanttItems = projectGanttItem.getMilestones();
+            for (MilestoneGanttItem milestoneGanttItem : milestoneGanttItems) {
+                GanttItemWrapper itemWrapper = new GanttItemWrapper(gantt, milestoneGanttItem);
+                this.addTask(itemWrapper);
+            }
+
+            List<TaskGanttItem> taskGanttItems = projectGanttItem.getTasksWithNoMilestones();
+            for (TaskGanttItem taskGanttItem : taskGanttItems) {
+                GanttItemWrapper itemWrapper = new GanttItemWrapper(gantt, taskGanttItem);
+                this.addTask(itemWrapper);
+            }
+            this.updateWholeGanttIndexes();
+            gantt.addStep(new Step());
+        } else {
+            LOG.error("Error to query multiple value " + CurrentProjectVariables.getProjectId());
+        }
+        isStartedGanttChart = true;
+    }
+
     private void updateTaskTree(GanttItemWrapper ganttItemWrapper) {
         this.markAsDirtyRecursive();
     }
@@ -322,26 +335,35 @@ public class GanttTreeTable extends TreeTable {
         if (stepIndex != -1) {
             LocalDate startDate = parent.getStartDate();
             LocalDate endDate = parent.getEndDate();
-            int ganttStartIndex = (parent.getGanttIndex() != null) ? parent.getGanttIndex() : beanContainer.indexOfId(parent) + 1;
 
             for (GanttItemWrapper child : children) {
-                this.addItem(child);
+                if (!beanContainer.containsId(child)) {
+                    beanContainer.addBean(child);
 
-                int ganttIndex = ++ganttStartIndex;
-                child.setGanttIndex(ganttIndex);
-                ganttIndexIsChanged = true;
+                    int ganttIndex = beanContainer.indexOfId(child) + 1;
+                    if (child.getGanttIndex() == null || (child.getGanttIndex() != ganttIndex && !isStartedGanttChart)) {
+                        child.setGanttIndex(ganttIndex);
+                        ganttIndexIsChanged = true;
+                    }
 
-                this.setParent(child, parent);
-                gantt.addTask(stepIndex + count + 1, child);
-                if (child.hasSubTasks()) {
-                    this.setChildrenAllowed(child, true);
-                    this.setCollapsed(child, false);
-                } else {
-                    this.setChildrenAllowed(child, false);
+                    this.setParent(child, parent);
+                    if (!isStartedGanttChart) {
+                        gantt.addTask(child);
+                    } else {
+                        gantt.addTask(stepIndex + count + 1, child);
+                    }
+
+                    if (child.hasSubTasks()) {
+                        this.setChildrenAllowed(child, true);
+                        this.setCollapsed(child, false);
+                    } else {
+                        this.setChildrenAllowed(child, false);
+                    }
+                    count++;
+                    startDate = DateTimeUtils.min(startDate, child.getStartDate());
+                    endDate = DateTimeUtils.max(endDate, child.getEndDate());
                 }
-                count++;
-                startDate = DateTimeUtils.min(startDate, child.getStartDate());
-                endDate = DateTimeUtils.max(endDate, child.getEndDate());
+
             }
             parent.setStartAndEndDate(startDate, endDate, false, false);
             gantt.markStepDirty(parent.getStep());
@@ -352,6 +374,9 @@ public class GanttTreeTable extends TreeTable {
         final int stepIndex = gantt.getStepIndex(parent.getStep());
         if (stepIndex != -1) {
             for (GanttItemWrapper child : childs) {
+                if (child.hasSubTasks()) {
+                    removeSubSteps(child, child.subTasks());
+                }
                 this.removeItem(child);
                 gantt.removeStep(child.getStep());
             }
@@ -379,7 +404,38 @@ public class GanttTreeTable extends TreeTable {
             item = beanContainer.nextItemId(item);
             index++;
         }
+
+        if (ganttIndexIsChanged) {
+            calculateGanttIndexOfPredecessors();
+        }
         this.refreshRowCache();
+    }
+
+    private void calculateGanttIndexOfPredecessors() {
+        List<GanttItemWrapper> items = beanContainer.getItemIds();
+        for (GanttItemWrapper item : items) {
+            List<TaskPredecessor> predecessors = item.getPredecessors();
+            if (CollectionUtils.isNotEmpty(predecessors)) {
+                for (TaskPredecessor predecessor : predecessors) {
+                    Integer descId = predecessor.getDescid();
+                    String descType = predecessor.getDesctype();
+                    GanttItemWrapper predecessorGanttItem = findGanttItem(descId, descType);
+                    if (predecessorGanttItem != null) {
+                        predecessor.setGanttIndex(predecessorGanttItem.getGanttIndex());
+                    }
+                }
+            }
+        }
+    }
+
+    private GanttItemWrapper findGanttItem(Integer assignmentId, String assignmentType) {
+        List<GanttItemWrapper> items = beanContainer.getItemIds();
+        for (GanttItemWrapper item : items) {
+            if (assignmentId.intValue() == item.getId().intValue() && assignmentType.equals(item.getType())) {
+                return item;
+            }
+        }
+        return null;
     }
 
     private class GanttContextMenu extends ContextMenu {
@@ -429,6 +485,7 @@ public class GanttTreeTable extends TreeTable {
                         taskWrapper.updateParentRelationship(preItemWrapper);
                         GanttTreeTable.this.setChildrenAllowed(preItemWrapper, true);
                         GanttTreeTable.this.setParent(taskWrapper, preItemWrapper);
+                        preItemWrapper.calculateDatesByChildTasks();
                         GanttTreeTable.this.setCollapsed(preItemWrapper, false);
                         GanttTreeTable.this.refreshRowCache();
                         EventBusFactory.getInstance().post(new GanttEvent.AddGanttItemUpdateToQueue
@@ -456,8 +513,17 @@ public class GanttTreeTable extends TreeTable {
                             EventBusFactory.getInstance().post(new GanttEvent.AddGanttItemUpdateToQueue
                                     (GanttTreeTable.this, nextItem));
                         }
+
+                        if (taskWrapper.hasSubTasks()) {
+                            taskWrapper.calculateDatesByChildTasks();
+                        }
                         GanttTreeTable.this.setChildrenAllowed(taskWrapper, taskWrapper.hasSubTasks());
+                        parent.calculateDatesByChildTasks();
                         GanttTreeTable.this.setChildrenAllowed(parent, parent.hasSubTasks());
+
+                        if (parent.getParent() != null) {
+                            parent.getParent().calculateDatesByChildTasks();
+                        }
                         GanttTreeTable.this.refreshRowCache();
                         EventBusFactory.getInstance().post(new GanttEvent.AddGanttItemUpdateToQueue
                                 (GanttTreeTable.this, taskWrapper));
@@ -486,8 +552,10 @@ public class GanttTreeTable extends TreeTable {
                             GanttTreeTable.this.setChildrenAllowed(newGanttItem, newGanttItem.hasSubTasks());
 
                             if (taskWrapper.getParent() != null) {
-                                GanttTreeTable.this.setParent(newGanttItem, taskWrapper.getParent());
-                                newGanttItem.updateParentRelationship(taskWrapper.getParent());
+                                GanttItemWrapper parentTask = taskWrapper.getParent();
+                                GanttTreeTable.this.setParent(newGanttItem, parentTask);
+                                newGanttItem.updateParentRelationship(parentTask);
+                                parentTask.calculateDatesByChildTasks();
                             }
                         }
 
@@ -516,9 +584,14 @@ public class GanttTreeTable extends TreeTable {
                     if (taskWrapper.hasSubTasks()) {
                         GanttTreeTable.this.setParent(newGanttItem, taskWrapper);
                         newGanttItem.updateParentRelationship(taskWrapper);
+                        taskWrapper.calculateDatesByChildTasks();
+                    } else if (taskWrapper.getParent() != null) {
+                        GanttItemWrapper parentTask = taskWrapper.getParent();
+                        GanttTreeTable.this.setParent(newGanttItem, parentTask);
+                        newGanttItem.updateParentRelationship(parentTask);
+                        parentTask.calculateDatesByChildTasks();
                     }
                     GanttTreeTable.this.setChildrenAllowed(newGanttItem, newGanttItem.hasSubTasks());
-                    ganttIndexIsChanged = true;
                     calculateWholeGanttIndexes();
                     GanttTreeTable.this.refreshRowCache();
                 }
@@ -552,8 +625,12 @@ public class GanttTreeTable extends TreeTable {
             EventBusFactory.getInstance().post(new GanttEvent.DeleteGanttItemUpdateToQueue(GanttTreeTable.this, task));
             beanContainer.removeItem(task);
             gantt.removeStep(task.getStep());
-            if (task.getParent() != null) {
-                task.getParent().removeSubTask(task);
+            gantt.markAsDirtyRecursive();
+
+            GanttItemWrapper parentTask = task.getParent();
+            if (parentTask != null) {
+                parentTask.removeSubTask(task);
+                GanttTreeTable.this.setChildrenAllowed(parentTask, parentTask.hasSubTasks());
             }
 
             if (task.hasSubTasks()) {
@@ -564,7 +641,89 @@ public class GanttTreeTable extends TreeTable {
                     removeTask(subTask);
                 }
             }
+
+            if (parentTask != null) {
+                parentTask.calculateDatesByChildTasks();
+            }
             calculateWholeGanttIndexes();
+        }
+    }
+
+    private static class HumanTimeConverter implements Converter<String, Double> {
+        @Override
+        public Double convertToModel(String value, Class<? extends Double> targetType, Locale locale) throws ConversionException {
+            HumanTime humanTime = HumanTime.eval(value);
+            Double duration = new Double(humanTime.getDelta());
+            if (duration.intValue() == 0) {
+                throw new UserInvalidInputException("Invalid value. The format of duration must be [number] y " +
+                        "[number] d [number] h [number] m [number] s");
+            }
+            return duration;
+        }
+
+        @Override
+        public String convertToPresentation(Double value, Class<? extends String> targetType, Locale locale) throws ConversionException {
+            HumanTime humanTime = new HumanTime(value.longValue());
+            return humanTime.getExactly();
+        }
+
+        @Override
+        public Class<Double> getModelType() {
+            return Double.class;
+        }
+
+        @Override
+        public Class<String> getPresentationType() {
+            return String.class;
+        }
+    }
+
+    private static class PredecessorConverter implements Converter<String, List> {
+        @Override
+        public List convertToModel(String value, Class<? extends List> targetType, Locale locale) throws ConversionException {
+            return null;
+        }
+
+        @Override
+        public String convertToPresentation(List predecessors, Class<? extends String> targetType, Locale locale) throws ConversionException {
+            if (CollectionUtils.isNotEmpty(predecessors)) {
+                StringBuilder builder = new StringBuilder();
+                for (Object item : predecessors) {
+                    TaskPredecessor predecessor = (TaskPredecessor) item;
+                    if (predecessor.getLagday() == 0) {
+                        if (TaskPredecessor.FS.equals(predecessor.getPredestype())) {
+                            builder.append(predecessor.getGanttIndex());
+                        } else {
+                            builder.append(predecessor.getGanttIndex() + predecessor.getPredestype());
+                        }
+                    } else {
+                        builder.append(predecessor.getGanttIndex() + predecessor.getPredestype());
+                        if (predecessor.getLagday() > 0) {
+                            builder.append("+" + predecessor.getLagday() + "d");
+                        } else {
+                            builder.append(predecessor.getLagday() + "d");
+                        }
+                    }
+
+                    builder.append(",");
+                }
+                if (builder.charAt(builder.length() - 1) == ',') {
+                    builder.deleteCharAt(builder.length() - 1);
+                }
+                return builder.toString();
+            } else {
+                return "";
+            }
+        }
+
+        @Override
+        public Class<List> getModelType() {
+            return List.class;
+        }
+
+        @Override
+        public Class<String> getPresentationType() {
+            return String.class;
         }
     }
 }

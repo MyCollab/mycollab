@@ -161,6 +161,18 @@ public class QuickEditGanttItemWindow extends Window {
                 }
                 return null;
             }
+
+            @Override
+            protected void postCreateField(Object propertyId, Field<?> field) {
+                if ("startDate".equals(propertyId) || "endDate".equals(propertyId)) {
+                    if (bean.hasSubAssignments()) {
+                        field.setEnabled(false);
+                        ((AbstractComponent) field).setDescription("Because this row has sub-tasks, this cell " +
+                                "is a summary value and can not be edited directly. You can edit cells " +
+                                "beneath this row to change its value");
+                    }
+                }
+            }
         }
     }
 }

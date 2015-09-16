@@ -21,18 +21,22 @@ import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.lock.DistributionLockUtil;
 import com.esofthead.mycollab.module.project.dao.GanttMapperExt;
 import com.esofthead.mycollab.module.project.dao.MilestoneMapper;
+import com.esofthead.mycollab.module.project.dao.PredecessorMapper;
 import com.esofthead.mycollab.module.project.dao.TaskMapper;
 import com.esofthead.mycollab.module.project.domain.*;
 import com.esofthead.mycollab.module.project.service.GanttAssignmentService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -73,15 +77,81 @@ public class GanttAssignmentServiceImpl implements GanttAssignmentService {
 
     }
 
+    @Override
+    public void massUpdatePredecessors(Integer taskSourceId, final List<TaskPredecessor> predecessors, Integer sAccountId) {
+        Lock lock = DistributionLockUtil.getLock("task-service" + sAccountId);
+        try {
+            PredecessorMapper predecessorMapper = ApplicationContextUtil.getSpringBean(PredecessorMapper.class);
+            PredecessorExample ex = new PredecessorExample();
+            ex.createCriteria().andSourceidEqualTo(taskSourceId);
+            predecessorMapper.deleteByExample(ex);
+
+            JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+            final long now = new GregorianCalendar().getTimeInMillis();
+            if (lock.tryLock(30, TimeUnit.SECONDS)) {
+                jdbcTemplate.batchUpdate("INSERT INTO `m_prj_predecessor`(`sourceType`, `descType`, `predestype`,`lagDay`, " +
+                                "`sourceId`,`descId`, `createdTime`) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                        new BatchPreparedStatementSetter() {
+                            @Override
+                            public void setValues(PreparedStatement preparedStatement, int i) throws SQLException {
+                                preparedStatement.setString(1, predecessors.get(i).getSourcetype());
+                                preparedStatement.setString(2, predecessors.get(i).getDesctype());
+                                preparedStatement.setString(3, predecessors.get(i).getPredestype());
+                                preparedStatement.setInt(4, predecessors.get(i).getLagday());
+                                preparedStatement.setInt(5, predecessors.get(i).getSourceid());
+                                preparedStatement.setInt(6, predecessors.get(i).getDescid());
+                                preparedStatement.setDate(7, new Date(now));
+                            }
+
+                            @Override
+                            public int getBatchSize() {
+                                return predecessors.size();
+                            }
+                        });
+            }
+        } catch (Exception e) {
+            throw new MyCollabException(e);
+        } finally {
+            DistributionLockUtil.removeLock("task-service" + sAccountId);
+            lock.unlock();
+        }
+    }
+
+    @Override
+    public void massDeletePredecessors(List<TaskPredecessor> predecessors, @CacheKey Integer sAccountId) {
+        Lock lock = DistributionLockUtil.getLock("gantt-predecessor-service" + sAccountId);
+        try {
+            if (lock.tryLock(30, TimeUnit.SECONDS)) {
+                try (Connection connection = dataSource.getConnection()) {
+                    connection.setAutoCommit(false);
+                    PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM " +
+                            "`m_prj_predecessor` WHERE sourceType=? AND predestype=? AND sourceId=? AND descId=? AND descType=?");
+                    for (int i = 0; i < predecessors.size(); i++) {
+                        preparedStatement.setString(1, predecessors.get(i).getSourcetype());
+                        preparedStatement.setString(2, predecessors.get(i).getPredestype());
+                        preparedStatement.setInt(3, predecessors.get(i).getSourceid());
+                        preparedStatement.setInt(4, predecessors.get(i).getDescid());
+                        preparedStatement.setString(5, predecessors.get(i).getDesctype());
+                        preparedStatement.addBatch();
+                    }
+                    preparedStatement.executeBatch();
+                    connection.commit();
+                }
+            }
+        } catch (Exception e) {
+            throw new MyCollabException(e);
+        } finally {
+            DistributionLockUtil.removeLock("gantt-predecessor-service" + sAccountId);
+            lock.unlock();
+        }
+    }
+
     private void massUpdateMilestoneGanttItems(final List<MilestoneGanttItem> milestoneGanttItems, Integer sAccountId) {
         if (CollectionUtils.isNotEmpty(milestoneGanttItems)) {
             Lock lock = DistributionLockUtil.getLock("gantt-milestone-service" + sAccountId);
             try {
                 final long now = new GregorianCalendar().getTimeInMillis();
                 if (lock.tryLock(30, TimeUnit.SECONDS)) {
-                    if (CollectionUtils.isEmpty(milestoneGanttItems)) {
-                        return;
-                    }
                     try (Connection connection = dataSource.getConnection()) {
                         connection.setAutoCommit(false);
                         PreparedStatement preparedStatement = connection.prepareStatement("UPDATE `m_prj_milestone` SET " +
@@ -119,9 +189,6 @@ public class GanttAssignmentServiceImpl implements GanttAssignmentService {
             try {
                 final long now = new GregorianCalendar().getTimeInMillis();
                 if (lock.tryLock(30, TimeUnit.SECONDS)) {
-                    if (CollectionUtils.isEmpty(taskGanttItems)) {
-                        return;
-                    }
                     try (Connection connection = dataSource.getConnection()) {
                         connection.setAutoCommit(false);
                         PreparedStatement preparedStatement = connection.prepareStatement("UPDATE `m_prj_task` SET " +

@@ -38,8 +38,7 @@ import com.vaadin.ui.Layout;
  * @since 1.0
  */
 @ViewComponent
-public class MilestoneAddViewImpl extends AbstractEditItemComp<Milestone>
-        implements MilestoneAddView {
+public class MilestoneAddViewImpl extends AbstractEditItemComp<Milestone> implements MilestoneAddView {
     private static final long serialVersionUID = 1L;
 
     @Override
@@ -49,9 +48,8 @@ public class MilestoneAddViewImpl extends AbstractEditItemComp<Milestone>
 
     @Override
     protected String initFormHeader() {
-        return (beanItem.getId() == null) ? AppContext
-                .getMessage(MilestoneI18nEnum.FORM_NEW_TITLE) : AppContext
-                .getMessage(MilestoneI18nEnum.FORM_EDIT_TITLE);
+        return (beanItem.getId() == null) ? AppContext.getMessage(MilestoneI18nEnum.FORM_NEW_TITLE) :
+                AppContext.getMessage(MilestoneI18nEnum.FORM_EDIT_TITLE);
     }
 
     @Override
@@ -61,8 +59,7 @@ public class MilestoneAddViewImpl extends AbstractEditItemComp<Milestone>
 
     @Override
     protected ComponentContainer createButtonControls() {
-        final Layout controlButtons = (new EditFormControlsGenerator<>(
-                editForm)).createButtonControls();
+        final Layout controlButtons = (new EditFormControlsGenerator<>(editForm)).createButtonControls();
         controlButtons.setSizeUndefined();
         return controlButtons;
     }
