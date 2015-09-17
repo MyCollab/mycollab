@@ -39,6 +39,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.Task;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.esb.DeleteProjectTaskEvent;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.service.*;
 import com.esofthead.mycollab.schedule.email.project.ProjectTaskRelayEmailNotificationAction;
 import com.google.common.eventbus.AsyncEventBus;
@@ -114,6 +115,10 @@ public class ProjectTaskServiceImpl extends DefaultService<Integer, Task, TaskSe
 
         if (record.getStatus() == null) {
             record.setStatus(StatusI18nEnum.Open.name());
+        }
+
+        if (record.getPriority() == null) {
+            record.setPriority(OptionI18nEnum.TaskPriority.Medium.name());
         }
         record.setLogby(username);
         Lock lock = DistributionLockUtil.getLock("task-" + record.getSaccountid());

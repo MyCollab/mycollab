@@ -20,13 +20,14 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.Storage;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.html.DivLessFormatter;
-import com.esofthead.mycollab.module.project.*;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
+import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
-import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.view.bug.BugPopupFieldFactory;
-import com.esofthead.mycollab.module.project.view.task.TaskPopupFieldFactory;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -34,19 +35,18 @@ import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
-import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.OptionPopupContent;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Span;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
-import org.vaadin.teemu.VaadinIcons;
 
 import java.util.UUID;
 
@@ -85,7 +85,7 @@ public class BugRowRenderer extends MHorizontalLayout {
         MHorizontalLayout footer = new MHorizontalLayout();
         footer.addStyleName(UIConstants.FOOTER_NOTE);
 
-        PopupView commentsField =  popupFieldFactory.createBugCommentsPopupField(bug);
+        PopupView commentsField = popupFieldFactory.createBugCommentsPopupField(bug);
         footer.addComponent(commentsField);
 
         if (bug.getStatus() != null) {
@@ -112,8 +112,7 @@ public class BugRowRenderer extends MHorizontalLayout {
     private String buildBugLink() {
         String uid = UUID.randomUUID().toString();
         String priority = bug.getPriority();
-        Img priorityLink = new Img(priority, ProjectResources.getIconResourceLink12ByBugPriority(
-                (priority))).setTitle(priority);
+        Span priorityLink = new Span().appendText(ProjectAssetsManager.getBugPriorityHtml(priority)).setTitle(priority);
 
         String linkName = String.format("[#%d] - %s", bug.getBugkey(), bug.getSummary());
         A taskLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateBugPreviewFullLink(bug.getBugkey(),

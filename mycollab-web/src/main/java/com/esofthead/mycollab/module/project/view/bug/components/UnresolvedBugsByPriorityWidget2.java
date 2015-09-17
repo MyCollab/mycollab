@@ -19,11 +19,11 @@ package com.esofthead.mycollab.module.project.view.bug.components;
 import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -32,8 +32,6 @@ import com.esofthead.mycollab.vaadin.ui.ButtonI18nComp;
 import com.esofthead.mycollab.vaadin.ui.Depot;
 import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.vaadin.server.ExternalResource;
-import com.vaadin.server.Resource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -71,16 +69,16 @@ public class UnresolvedBugsByPriorityWidget2 extends Depot {
                     if (priority.name().equals(item.getGroupid())) {
                         isFound = true;
                         MHorizontalLayout priorityLayout = new MHorizontalLayout().withWidth("100%");
-                        ButtonI18nComp userLbl = new ButtonI18nComp(priority.name(), priority, listener);
-                        Resource iconPriority = new ExternalResource(ProjectResources.getIconResourceLink12ByBugPriority(priority.name()));
-                        userLbl.setIcon(iconPriority);
-                        userLbl.setWidth("110px");
-                        userLbl.setStyleName(UIConstants.THEME_LINK);
+                        ButtonI18nComp priorityLink = new ButtonI18nComp(priority.name(), priority, listener);
+                        priorityLink.setIcon(ProjectAssetsManager.getBugPriority(priority.name()));
+                        priorityLink.setWidth("110px");
+                        priorityLink.setStyleName(UIConstants.THEME_LINK);
+                        priorityLink.addStyleName("bug-" + priority.name().toLowerCase());
 
                         ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount, totalCount - item.getValue(), false);
                         indicator.setWidth("100%");
 
-                        priorityLayout.with(userLbl, indicator).expand(indicator);
+                        priorityLayout.with(priorityLink, indicator).expand(indicator);
 
                         this.bodyContent.addComponent(priorityLayout);
                     }
@@ -88,15 +86,14 @@ public class UnresolvedBugsByPriorityWidget2 extends Depot {
 
                 if (!isFound) {
                     MHorizontalLayout priorityLayout = new MHorizontalLayout().withWidth("100%");
-                    Button userLbl = new ButtonI18nComp(priority.name(), priority, listener);
-                    Resource iconPriority = new ExternalResource(
-                            ProjectResources.getIconResourceLink12ByBugPriority(priority.name()));
-                    userLbl.setIcon(iconPriority);
-                    userLbl.setWidth("110px");
-                    userLbl.setStyleName(UIConstants.THEME_LINK);
+                    Button priorityLink = new ButtonI18nComp(priority.name(), priority, listener);
+                    priorityLink.setIcon(ProjectAssetsManager.getBugPriority(priority.name()));
+                    priorityLink.setWidth("110px");
+                    priorityLink.setStyleName(UIConstants.THEME_LINK);
+                    priorityLink.addStyleName("bug-" + priority.name().toLowerCase());
                     ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount, totalCount, false);
                     indicator.setWidth("100%");
-                    priorityLayout.with(userLbl, indicator).expand(indicator);
+                    priorityLayout.with(priorityLink, indicator).expand(indicator);
                     this.bodyContent.addComponent(priorityLayout);
                 }
             }

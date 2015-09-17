@@ -27,6 +27,7 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
@@ -40,12 +41,10 @@ import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.server.Resource;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.apache.commons.lang3.StringUtils;
 import org.vaadin.dialogs.ConfirmDialog;
-import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.peter.contextmenu.ContextMenu;
 import org.vaadin.peter.contextmenu.ContextMenu.ContextMenuItem;
 import org.vaadin.peter.contextmenu.ContextMenu.ContextMenuItemClickEvent;
@@ -194,7 +193,8 @@ public class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearch
                         .generateBugPreviewFullLink(bug.getBugkey(), bug.getProjectShortName()));
 
                 if (StringUtils.isNotBlank(bug.getPriority())) {
-                    b.setIconLink(ProjectResources.getIconResourceLink12ByBugPriority(bug.getPriority()));
+                    b.setIconLink(ProjectAssetsManager.getBugPriority(bug.getPriority()));
+                    b.addStyleName("bug-" + bug.getPriority().toLowerCase());
                 }
 
                 b.setDescription(ProjectTooltipGenerator.generateToolTipBug(
@@ -217,12 +217,12 @@ public class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearch
             public com.vaadin.ui.Component generateCell(Table source,
                                                         Object itemId, Object columnId) {
                 SimpleBug bug = getBeanByIndex(itemId);
-                Resource iconPriority = new ExternalResource(ProjectResources.getIconResourceLink12ByBugSeverity(bug.getPriority()));
-                Embedded iconEmbedded = new Embedded(null, iconPriority);
                 Label lbPriority = new Label(AppContext.getMessage(BugSeverity.class, bug.getSeverity()));
-                MHorizontalLayout containerField = new MHorizontalLayout();
-                containerField.with(iconEmbedded, lbPriority).expand(lbPriority);
-                return containerField;
+                lbPriority.setIcon(FontAwesome.STAR);
+                if (bug.getSeverity() != null) {
+                    lbPriority.addStyleName("bug-severity-" + bug.getSeverity().toLowerCase());
+                }
+                return lbPriority;
 
             }
         });

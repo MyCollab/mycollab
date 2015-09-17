@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.community.module.project.view.task;
 
 import com.esofthead.mycollab.configuration.Storage;
-import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
@@ -39,9 +38,7 @@ public class TaskPopupFieldFactoryImpl implements TaskPopupFieldFactory {
 
     @Override
     public PopupView createTaskPriorityPopupField(SimpleTask task) {
-        String taskPriority = task.getPriority();
-        Img img = new Img(task.getPriority(), ProjectResources.getIconResourceLink12ByTaskPriority(taskPriority));
-        return new PopupBeanField(img.write());
+        return new PopupBeanField(ProjectAssetsManager.getTaskPriorityHtml(task.getPriority()));
     }
 
     @Override

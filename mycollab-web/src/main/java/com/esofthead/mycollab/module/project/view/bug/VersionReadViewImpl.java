@@ -23,7 +23,10 @@ import com.esofthead.mycollab.configuration.Storage;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.html.DivLessFormatter;
-import com.esofthead.mycollab.module.project.*;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
+import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.VersionI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
@@ -45,19 +48,19 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.ContainerViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.DateViewField;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Div;
-import com.hp.gagawa.java.elements.Img;
-import com.hp.gagawa.java.elements.Text;
+import com.hp.gagawa.java.elements.*;
 import com.vaadin.data.Property;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.Label;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
+import java.lang.Object;
 import java.util.UUID;
 
 /**
@@ -299,8 +302,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version> implem
             Text image = new Text(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG).getHtml());
 
             String bugPriority = bug.getPriority();
-            Img priorityLink = new Img(bugPriority, ProjectResources.getIconResourceLink12ByBugPriority(bugPriority))
-                    .setTitle(bugPriority);
+            Span priorityLink = new Span().appendText(ProjectAssetsManager.getBugPriorityHtml(bugPriority)).setTitle(bugPriority);
 
             A itemLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectItemLink(
                     bug.getProjectShortName(), bug.getProjectid(), ProjectTypeConstants.BUG, bug.getBugkey() + ""));

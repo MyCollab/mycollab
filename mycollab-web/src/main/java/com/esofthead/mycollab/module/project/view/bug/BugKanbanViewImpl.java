@@ -29,10 +29,14 @@ import com.esofthead.mycollab.core.utils.XStreamJsonDeSerializer;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.html.DivLessFormatter;
-import com.esofthead.mycollab.module.project.*;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTooltipGenerator;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.view.ProjectView;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
@@ -50,7 +54,6 @@ import com.vaadin.event.dd.DragAndDropEvent;
 import com.vaadin.event.dd.DropHandler;
 import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
 import com.vaadin.event.dd.acceptcriteria.Not;
-import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.shared.ui.MarginInfo;
@@ -235,7 +238,10 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
                     EventBusFactory.getInstance().post(new BugEvent.GotoRead(KanbanBugBlockItem.this, bug.getId()));
                 }
             });
-            bugBtn.setIcon(new ExternalResource(ProjectResources.getIconResourceLink12ByBugPriority(bug.getPriority())));
+            bugBtn.setIcon(ProjectAssetsManager.getBugPriority(bug.getPriority()));
+            if (bug.getPriority() != null) {
+                bugBtn.addStyleName("bug-" + bug.getPriority().toLowerCase());
+            }
             bugBtn.setDescription(ProjectTooltipGenerator.generateToolTipBug(AppContext.getUserLocale(), bug,
                     AppContext.getSiteUrl(), AppContext.getTimezone()));
             root.with(bugBtn);

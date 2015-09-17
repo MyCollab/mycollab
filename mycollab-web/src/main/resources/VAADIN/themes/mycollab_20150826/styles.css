@@ -29,7 +29,7 @@
 	}
 
 .v-vaadin-version:after {
-	content: "7.5.5";
+	content: "7.5.6";
 }
 
 .v-generated-body {
@@ -2851,6 +2851,10 @@ div.v-csslayout {
 	padding: 0 4px;
 	text-align: right;
 	line-height: 1;
+}
+
+.v-grid-sidebar.v-contextmenu .v-grid-sidebar-button[disabled] {
+	cursor: default;
 }
 
 .v-grid-sidebar.v-contextmenu .v-grid-sidebar-button::-moz-focus-inner {
@@ -9679,6 +9683,118 @@ div.v-button.token-field:hover {
 .project-info .desc .v-label, .project-info .desc .v-label a {
 	font-size: 12px;
 	color: white;
+}
+
+.task-urgent .v-icon, .v-filterselect-item-task-urgent .v-icon {
+	color: #d32d1a;
+}
+
+.task-urgent.v-icon {
+	color: #d32d1a;
+}
+
+.task-high .v-icon, .v-filterselect-item-task-high .v-icon {
+	color: #e95948;
+}
+
+.task-high.v-icon {
+	color: #e95948;
+}
+
+.task-medium .v-icon, .v-filterselect-item-task-medium .v-icon {
+	color: #f09085;
+}
+
+.task-medium.v-icon {
+	color: #f09085;
+}
+
+.task-low .v-icon, .v-filterselect-item-task-low .v-icon {
+	color: #f7c7c1;
+}
+
+.task-low.v-icon {
+	color: #f7c7c1;
+}
+
+.task-none .v-icon, .v-filterselect-item-task-none .v-icon {
+	color: #b7b9b0;
+}
+
+.task-none.v-icon {
+	color: #b7b9b0;
+}
+
+.bug-blocker .v-icon, .v-filterselect-item-bug-blocker .v-icon {
+	color: #d32d1a;
+}
+
+.bug-blocker.v-icon {
+	color: #d32d1a;
+}
+
+.bug-critical .v-icon, .v-filterselect-item-bug-critical .v-icon {
+	color: #e95948;
+}
+
+.bug-critical.v-icon {
+	color: #e95948;
+}
+
+.bug-major .v-icon, .v-filterselect-item-bug-major .v-icon {
+	color: #f09085;
+}
+
+.bug-major.v-icon {
+	color: #f09085;
+}
+
+.bug-minor .v-icon, .v-filterselect-item-bug-minor .v-icon {
+	color: #f7c7c1;
+}
+
+.bug-minor.v-icon {
+	color: #f7c7c1;
+}
+
+.bug-trivial .v-icon, .v-filterselect-item-bug-trivial .v-icon {
+	color: #b7b9b0;
+}
+
+.bug-trivial.v-icon {
+	color: #b7b9b0;
+}
+
+.bug-severity-critical .v-icon, .v-filterselect-item-bug-severity-critical .v-icon {
+	color: #d32d1a;
+}
+
+.bug-severity-critical.v-icon {
+	color: #d32d1a;
+}
+
+.bug-severity-major .v-icon, .v-filterselect-item-bug-severity-major .v-icon {
+	color: #e95948;
+}
+
+.bug-severity-major.v-icon {
+	color: #e95948;
+}
+
+.bug-severity-minor .v-icon, .v-filterselect-item-bug-severity-minor .v-icon {
+	color: #f09085;
+}
+
+.bug-severity-minor.v-icon {
+	color: #f09085;
+}
+
+.bug-severity-trivial .v-icon, .v-filterselect-item-bug-severity-trivial .v-icon {
+	color: #f7c7c1;
+}
+
+.bug-severity-trivial.v-icon {
+	color: #f7c7c1;
 }
 
 .gantt {

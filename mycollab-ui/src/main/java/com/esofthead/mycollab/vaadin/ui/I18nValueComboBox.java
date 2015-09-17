@@ -16,42 +16,39 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
+import com.esofthead.mycollab.vaadin.AppContext;
+
 import java.util.Arrays;
 import java.util.List;
 
-import com.esofthead.mycollab.vaadin.AppContext;
-import com.vaadin.ui.ComboBox;
-
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.3.0
- * 
  */
-public class I18nValueComboBox extends ComboBox {
-	private static final long serialVersionUID = 1L;
+public class I18nValueComboBox extends StyleComboBox {
+    private static final long serialVersionUID = 1L;
 
-	public I18nValueComboBox() {
-		super();
-		this.setPageLength(20);
-	}
+    public I18nValueComboBox() {
+        super();
+        this.setPageLength(20);
+    }
 
-	public I18nValueComboBox(boolean nullIsAllowable, Enum<?>... keys) {
-		this();
-		setNullSelectionAllowed(nullIsAllowable);
-		loadData(Arrays.asList(keys));
-	}
+    public I18nValueComboBox(boolean nullIsAllowable, Enum<?>... keys) {
+        this();
+        setNullSelectionAllowed(nullIsAllowable);
+        loadData(Arrays.asList(keys));
+    }
 
-	public final void loadData(List<? extends Enum<?>> values) {
-		this.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
+    public final void loadData(List<? extends Enum<?>> values) {
+        this.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
 
-		for (Enum<?> entry : values) {
-			this.addItem(entry.name());
-			this.setItemCaption(entry.name(), AppContext.getMessage(entry));
-		}
+        for (Enum<?> entry : values) {
+            this.addItem(entry.name());
+            this.setItemCaption(entry.name(), AppContext.getMessage(entry));
+        }
 
-		if (!this.isNullSelectionAllowed()) {
-			this.select(this.getItemIds().iterator().next());
-		}
-	}
+        if (!this.isNullSelectionAllowed()) {
+            this.select(this.getItemIds().iterator().next());
+        }
+    }
 }

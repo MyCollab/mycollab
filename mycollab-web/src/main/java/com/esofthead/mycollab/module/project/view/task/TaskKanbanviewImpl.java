@@ -28,13 +28,18 @@ import com.esofthead.mycollab.core.db.query.SearchFieldInfo;
 import com.esofthead.mycollab.core.utils.XStreamJsonDeSerializer;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.project.*;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTooltipGenerator;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TaskGroupI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.view.ProjectView;
 import com.esofthead.mycollab.module.project.view.kanban.AddNewColumnWindow;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -49,7 +54,6 @@ import com.vaadin.event.dd.DragAndDropEvent;
 import com.vaadin.event.dd.DropHandler;
 import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
 import com.vaadin.event.dd.acceptcriteria.Not;
-import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.shared.ui.MarginInfo;
@@ -333,7 +337,9 @@ public class TaskKanbanviewImpl extends AbstractLazyPageView implements TaskKanb
                     EventBusFactory.getInstance().post(new TaskEvent.GotoRead(KanbanTaskBlockItem.this, task.getId()));
                 }
             });
-            taskBtn.setIcon(new ExternalResource(ProjectResources.getIconResourceLink12ByTaskPriority(task.getPriority())));
+            String taskPriority = (task.getPriority() != null) ? task.getPriority() : OptionI18nEnum.TaskPriority.Medium.name();
+            taskBtn.setIcon(ProjectAssetsManager.getTaskPriority(taskPriority));
+            taskBtn.addStyleName("task-" + taskPriority.toLowerCase());
             taskBtn.setDescription(ProjectTooltipGenerator.generateToolTipTask(AppContext.getUserLocale(), task,
                     AppContext.getSiteUrl(), AppContext.getTimezone()));
             root.with(taskBtn);

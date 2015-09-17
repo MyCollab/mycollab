@@ -20,13 +20,13 @@ import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ButtonI18nComp;
@@ -35,8 +35,6 @@ import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.google.common.eventbus.Subscribe;
 import com.rits.cloning.Cloner;
-import com.vaadin.server.ExternalResource;
-import com.vaadin.server.Resource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.UI;
@@ -102,13 +100,13 @@ public class UnresolvedTaskByPriorityWidget extends Depot {
                     if (priority.name().equals(item.getGroupid())) {
                         isFound = true;
                         MHorizontalLayout priorityLayout = new MHorizontalLayout().withWidth("100%");
-                        ButtonI18nComp userLbl = new ButtonI18nComp(priority.name(), priority, listener);
-                        Resource iconPriority = new ExternalResource(ProjectResources.getIconResourceLink12ByTaskPriority(priority.name()));
-                        userLbl.setIcon(iconPriority);
-                        userLbl.setWidth("110px");
-                        userLbl.setStyleName(UIConstants.THEME_LINK);
+                        ButtonI18nComp priorityLink = new ButtonI18nComp(priority.name(), priority, listener);
+                        priorityLink.setIcon(ProjectAssetsManager.getTaskPriority(priority.name()));
+                        priorityLink.setWidth("110px");
+                        priorityLink.setStyleName(UIConstants.THEME_LINK);
+                        priorityLink.addStyleName("task-" + priority.name().toLowerCase());
 
-                        priorityLayout.addComponent(userLbl);
+                        priorityLayout.addComponent(priorityLink);
                         ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount, totalCount - item.getValue(), false);
                         indicator.setWidth("100%");
                         priorityLayout.with(indicator).expand(indicator);
@@ -119,12 +117,12 @@ public class UnresolvedTaskByPriorityWidget extends Depot {
 
                 if (!isFound) {
                     MHorizontalLayout priorityLayout = new MHorizontalLayout().withWidth("100%");
-                    ButtonI18nComp userLbl = new ButtonI18nComp(priority.name(), priority, listener);
-                    Resource iconPriority = new ExternalResource(ProjectResources.getIconResourceLink12ByTaskPriority(priority.name()));
-                    userLbl.setIcon(iconPriority);
-                    userLbl.setWidth("110px");
-                    userLbl.setStyleName(UIConstants.THEME_LINK);
-                    priorityLayout.addComponent(userLbl);
+                    ButtonI18nComp priorityLink = new ButtonI18nComp(priority.name(), priority, listener);
+                    priorityLink.setIcon(ProjectAssetsManager.getTaskPriority(priority.name()));
+                    priorityLink.setWidth("110px");
+                    priorityLink.setStyleName(UIConstants.THEME_LINK);
+                    priorityLink.addStyleName("task-" + priority.name().toLowerCase());
+                    priorityLayout.addComponent(priorityLink);
                     ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount, totalCount, false);
                     indicator.setWidth("100%");
                     priorityLayout.with(indicator).expand(indicator);

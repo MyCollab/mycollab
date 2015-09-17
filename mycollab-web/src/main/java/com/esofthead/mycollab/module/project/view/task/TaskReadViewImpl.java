@@ -24,7 +24,10 @@ import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.html.DivLessFormatter;
-import com.esofthead.mycollab.module.project.*;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
+import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.Task;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
@@ -47,16 +50,15 @@ import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.DateViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Div;
-import com.hp.gagawa.java.elements.Img;
-import com.hp.gagawa.java.elements.Text;
+import com.hp.gagawa.java.elements.*;
 import com.vaadin.data.Property;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Label;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -65,6 +67,7 @@ import org.slf4j.LoggerFactory;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
+import java.lang.Object;
 import java.util.List;
 import java.util.UUID;
 
@@ -335,11 +338,12 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
                         ProjectTypeConstants.TASK, beanItem.getId());
             } else if (Task.Field.priority.equalTo(propertyId)) {
                 if (StringUtils.isNotBlank(beanItem.getPriority())) {
-                    String priorityLink = ProjectResources.getIconResourceLink12ByTaskPriority(beanItem.getPriority());
-                    String priorityVal = AppContext.getMessage(TaskPriority.class, beanItem.getPriority());
-                    Div div = new Div().appendChild(new Img("", priorityLink), new DivLessFormatter().EMPTY_SPACE(),
-                            new Text(priorityVal));
-                    return new DefaultViewField(div.write(), ContentMode.HTML);
+                    FontAwesome fontPriority = ProjectAssetsManager.getTaskPriority(beanItem.getPriority());
+                    String priorityLbl = fontPriority.getHtml() + " " + AppContext.getMessage(TaskPriority.class,
+                            beanItem.getPriority());
+                    DefaultViewField field = new DefaultViewField(priorityLbl, ContentMode.HTML);
+                    field.addStyleName("task-" + beanItem.getPriority().toLowerCase());
+                    return field;
                 }
             } else if (Task.Field.notes.equalTo(propertyId)) {
                 return new RichTextViewField(beanItem.getNotes());
@@ -443,8 +447,10 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
             String linkName = String.format("[#%d] - %s", subTask.getTaskkey(), subTask.getTaskname());
             String uid = UUID.randomUUID().toString();
             String taskPriority = subTask.getPriority();
-            Img priorityLink = new Img(taskPriority, ProjectResources.getIconResourceLink12ByTaskPriority
-                    (taskPriority)).setTitle(taskPriority);
+            Span priorityLink = new Span().appendText(ProjectAssetsManager.getTaskPriorityHtml(taskPriority))
+                    .setTitle(taskPriority);
+//            Img priorityLink = new Img(taskPriority, ProjectResources.getIconResourceLink12ByTaskPriority
+//                    (taskPriority)).setTitle(taskPriority);
             A taskLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateTaskPreviewFullLink(subTask.getTaskkey(),
                     CurrentProjectVariables.getShortName())).appendText(linkName).setStyle("display:inline");
             taskLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, ProjectTypeConstants.TASK, subTask.getId() + ""));

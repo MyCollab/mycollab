@@ -15,15 +15,15 @@ MyCollab is the free and open source collaboration tools, it has three existing 
       <em>Project Dashboard</em>
     </td>
     <td align="center">
-      <a href="https://farm1.staticflickr.com/598/20541153148_200f406971_o.png" target="_blank" title="Bug Dashboard">
-        <img src="https://farm1.staticflickr.com/598/20541153148_7c1059668c_n.jpg" alt="Bug Dashboard">
+      <a href="https://farm1.staticflickr.com/749/21486233685_fcdde31eb0_o.png" target="_blank" title="Bug Dashboard">
+        <img src="https://farm1.staticflickr.com/749/21486233685_3ec541083b.jpg" alt="Bug Dashboard">
       </a>
       <br />
       <em>Bug Dashboard</em>
     </td>
     <td align="center">
-    <a href="https://farm1.staticflickr.com/578/20106566554_56871ac66a_o.png" target="_blank" title="Task Dashboard">
-      <img src="https://farm1.staticflickr.com/578/20106566554_47bbb68d89_n.jpg" alt="Task Dashboard">
+    <a href="https://farm6.staticflickr.com/5661/21494843431_cc56d7294b_o.png" target="_blank" title="Task Dashboard">
+      <img src="https://farm6.staticflickr.com/5661/21494843431_f5a89d0014.jpg" alt="Task Dashboard">
     </a>
       <br />
       <em>Task Dashboard</em>
@@ -31,8 +31,8 @@ MyCollab is the free and open source collaboration tools, it has three existing 
   </tr>
   <tr>
     <td align="center">
-    <a href="https://farm6.staticflickr.com/5712/20106564264_f97568814b_o.png" target="_blank" title="Kanban Board">
-        <img src="https://farm6.staticflickr.com/5712/20106564264_420cabc72b.jpg" alt="Kanban Board">
+    <a href="https://farm1.staticflickr.com/622/21299318409_21f4935479_o.png" target="_blank" title="Kanban Board">
+        <img src="https://farm1.staticflickr.com/622/21299318409_6334f1c008.jpg" alt="Kanban Board">
       </a>
       <br />
       <em>Kanban Board</em>
@@ -58,7 +58,7 @@ New features, enhancements, and updates appear on a regular basis.
 
 Pull requests and bug reports are always welcome!
 
-Visit our website at https://www.mycollab.com/
+Visit our website https://www.mycollab.com/ to get a free trial of the premium service.
 
 ## Features
 MyCollab provides the rich set features of Project Management, Customer Management module and online collaboration methods.
@@ -87,7 +87,7 @@ Please take a look at MyCollab requirements:
 
 ## Installation
 
-The current MyCollab version is 5.1.2 released on 20th August, 2015. This branch will focus in mobile devices, reporting and customize options for on-demand edition.
+The current MyCollab version is 5.1.3 released on 17th September, 2015. This branch will focus in mobile devices, reporting and customize options for on-demand edition.
 
 1. Download MyCollab binary - https://community.mycollab.com/download/
 2. Follow installation guideline at https://community.mycollab.com/installation-guideline/

@@ -126,14 +126,6 @@ public class GanttExt extends Gantt {
     }
 
     @Override
-    public boolean removeStep(Step step) {
-        StepComponent sc = stepComponents.remove(step);
-        sc.setParent(null);
-        return getState().steps.remove(sc);
-    }
-
-
-    @Override
     public AbstractStep getStep(String uid) {
         if (uid == null) {
             return null;

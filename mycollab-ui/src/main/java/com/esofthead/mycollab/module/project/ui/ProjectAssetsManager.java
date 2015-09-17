@@ -16,7 +16,9 @@
  */
 package com.esofthead.mycollab.module.project.ui;
 
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.vaadin.server.FontAwesome;
 
 import java.util.HashMap;
@@ -55,5 +57,42 @@ public class ProjectAssetsManager {
 
     public static String toHexString(String resId) {
         return "&#x" + Integer.toHexString(resources.get(resId).getCodepoint());
+    }
+
+    public static FontAwesome getBugPriority(String bugPriority) {
+        if (OptionI18nEnum.BugPriority.Blocker.name().equals(bugPriority) || OptionI18nEnum.TaskPriority.High.name()
+                .equals(bugPriority) || OptionI18nEnum.BugPriority.Major.name().equals(bugPriority)) {
+            return FontAwesome.ARROW_UP;
+        } else {
+            return FontAwesome.ARROW_DOWN;
+        }
+    }
+
+    public static String getBugPriorityHtml(String bugPriority) {
+        if (StringUtils.isBlank(bugPriority)) {
+            bugPriority = OptionI18nEnum.BugPriority.Major.name();
+        }
+
+        FontAwesome fontAwesome = getBugPriority(bugPriority);
+        return String.format("<span class=\"bug-%s v-icon\" style=\"font-family: FontAwesome;\">&#x%s;</span>",
+                bugPriority.toLowerCase(), Integer.toHexString(fontAwesome.getCodepoint()));
+    }
+
+    public static FontAwesome getTaskPriority(String taskPriority) {
+        if (OptionI18nEnum.TaskPriority.Urgent.name().equals(taskPriority) || OptionI18nEnum.TaskPriority.High.name()
+                .equals(taskPriority) || OptionI18nEnum.TaskPriority.Medium.name().equals(taskPriority) || taskPriority == null) {
+            return FontAwesome.ARROW_UP;
+        } else {
+            return FontAwesome.ARROW_DOWN;
+        }
+    }
+
+    public static String getTaskPriorityHtml(String taskPriority) {
+        if (StringUtils.isBlank(taskPriority)) {
+            taskPriority = OptionI18nEnum.TaskPriority.Medium.name();
+        }
+        FontAwesome fontAwesome = getTaskPriority(taskPriority);
+        return String.format("<span class=\"task-%s v-icon\" style=\"font-family: FontAwesome;\">&#x%s;</span>",
+                taskPriority.toLowerCase(), Integer.toHexString(fontAwesome.getCodepoint()));
     }
 }

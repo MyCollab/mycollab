@@ -21,13 +21,15 @@ import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.html.DivLessFormatter;
-import com.esofthead.mycollab.module.project.*;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
+import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.events.BugComponentEvent;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.events.BugVersionEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
-import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
@@ -54,9 +56,7 @@ import com.esofthead.mycollab.vaadin.ui.form.field.*;
 import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
-import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
@@ -589,29 +589,19 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                 return new I18nFormViewField(beanItem.getStatus(), BugStatus.class);
             } else if (BugWithBLOBs.Field.priority.equalTo(propertyId)) {
                 if (StringUtils.isNotBlank(beanItem.getPriority())) {
-                    Resource iconPriority = new ExternalResource(ProjectResources.getIconResourceLink12ByBugPriority(beanItem.getPriority()));
-                    Image iconEmbedded = new Image(null, iconPriority);
-                    Label lbPriority = new Label(AppContext.getMessage(BugPriority.class, beanItem.getPriority()));
-
-                    ContainerHorizontalViewField containerField = new ContainerHorizontalViewField();
-                    containerField.addComponentField(iconEmbedded);
-                    containerField.addComponentField(lbPriority);
-                    containerField.getLayout().setExpandRatio(lbPriority, 1.0f);
-                    return containerField;
+                    String priorityLink = ProjectAssetsManager.getBugPriority(beanItem.getPriority()).getHtml() + " "
+                            + beanItem.getPriority();
+                    DefaultViewField field = new DefaultViewField(priorityLink, ContentMode.HTML);
+                    field.addStyleName("bug-" + beanItem.getPriority().toLowerCase());
+                    return field;
                 }
             } else if (BugWithBLOBs.Field.severity.equalTo(propertyId)) {
                 if (StringUtils.isNotBlank(beanItem.getSeverity())) {
-                    Resource iconPriority = new ExternalResource(ProjectResources.
-                            getIconResourceLink12ByBugSeverity(beanItem.getSeverity()));
-                    Image iconEmbedded = new Image();
-                    iconEmbedded.setSource(iconPriority);
-                    Label lbPriority = new Label(AppContext.getMessage(BugSeverity.class, beanItem.getSeverity()));
-
-                    ContainerHorizontalViewField containerField = new ContainerHorizontalViewField();
-                    containerField.addComponentField(iconEmbedded);
-                    containerField.addComponentField(lbPriority);
-                    containerField.getLayout().setExpandRatio(lbPriority, 1.0f);
-                    return containerField;
+                    String severityLink = FontAwesome.STAR.getHtml() + " " +
+                            AppContext.getMessage(BugSeverity.class, beanItem.getSeverity());
+                    DefaultViewField lbPriority = new DefaultViewField(severityLink, ContentMode.HTML);
+                    lbPriority.addStyleName("bug-severity-" + beanItem.getSeverity().toLowerCase());
+                    return lbPriority;
                 }
             } else if (BugWithBLOBs.Field.resolution.equalTo(propertyId)) {
                 return new I18nFormViewField(beanItem.getResolution(), BugResolution.class);

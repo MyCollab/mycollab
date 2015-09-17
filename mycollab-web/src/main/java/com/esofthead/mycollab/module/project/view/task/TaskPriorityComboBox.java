@@ -16,10 +16,10 @@
  */
 package com.esofthead.mycollab.module.project.view.task;
 
-import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
-import com.esofthead.mycollab.vaadin.ui.AssetResource;
 import com.esofthead.mycollab.vaadin.ui.I18nValueComboBox;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.ComboBox;
 
 import java.util.Arrays;
 
@@ -37,11 +37,21 @@ public class TaskPriorityComboBox extends I18nValueComboBox {
         this.loadData(Arrays.asList(TaskPriority.Urgent, TaskPriority.High,
                 TaskPriority.Medium, TaskPriority.Low, TaskPriority.None));
 
-        this.setItemIcon(TaskPriority.High.name(), new AssetResource(ProjectResources.T_PRIORITY_HIGHT_IMG));
-        this.setItemIcon(TaskPriority.Low.name(), new AssetResource(ProjectResources.T_PRIORITY_LOW_IMG));
-        this.setItemIcon(TaskPriority.Medium.name(), new AssetResource(ProjectResources.T_PRIORITY_MEDIUM_IMG));
-        this.setItemIcon(TaskPriority.None.name(), new AssetResource(ProjectResources.T_PRIORITY_NONE_IMG));
-        this.setItemIcon(TaskPriority.Urgent.name(), new AssetResource(ProjectResources.T_PRIORITY_URGENT_IMG));
+        this.setItemIcon(TaskPriority.Urgent.name(), FontAwesome.ARROW_UP);
+        this.setItemIcon(TaskPriority.High.name(), FontAwesome.ARROW_UP);
+        this.setItemIcon(TaskPriority.Medium.name(), FontAwesome.ARROW_UP);
+        this.setItemIcon(TaskPriority.Low.name(), FontAwesome.ARROW_DOWN);
+        this.setItemIcon(TaskPriority.None.name(), FontAwesome.ARROW_DOWN);
+
+        this.setItemStyleGenerator(new ItemStyleGenerator() {
+            @Override
+            public String getStyle(ComboBox source, Object itemId) {
+                if (itemId != null) {
+                    return String.format("task-%s", itemId.toString().toLowerCase());
+                }
+                return null;
+            }
+        });
 
         this.setValue(this.getItemIds().iterator().next());
     }

@@ -18,7 +18,10 @@ package com.esofthead.mycollab.module.project.view.bug.components;
 
 import com.esofthead.mycollab.configuration.Storage;
 import com.esofthead.mycollab.html.DivLessFormatter;
-import com.esofthead.mycollab.module.project.*;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
+import com.esofthead.mycollab.module.project.ProjectTooltipGenerator;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
@@ -32,12 +35,13 @@ import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Span;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
-import org.vaadin.viritin.layouts.MVerticalLayout;
 import org.vaadin.teemu.VaadinIcons;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.UUID;
 
@@ -104,8 +108,7 @@ public class DueBugWidget extends BugDisplayWidget {
         private String buildBugLink(SimpleBug bug) {
             String uid = UUID.randomUUID().toString();
             String priority = bug.getPriority();
-            Img priorityLink = new Img(priority, ProjectResources.getIconResourceLink12ByBugPriority(
-                    (priority))).setTitle(priority);
+            Span priorityLink = new Span().appendText(ProjectAssetsManager.getBugPriorityHtml(priority)).setTitle(priority);
 
             String linkName = String.format("[#%d] - %s", bug.getBugkey(), bug.getSummary());
             A taskLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateBugPreviewFullLink(bug.getBugkey(),
