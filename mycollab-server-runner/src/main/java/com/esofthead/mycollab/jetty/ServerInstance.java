@@ -31,7 +31,8 @@ public class ServerInstance {
     private boolean isFirstTimeRunner = false;
     private boolean isUpgrading = false;
 
-    private ServerInstance() {}
+    private ServerInstance() {
+    }
 
     public void registerInstance(GenericServerRunner serverProcess) {
         if (server != null) {

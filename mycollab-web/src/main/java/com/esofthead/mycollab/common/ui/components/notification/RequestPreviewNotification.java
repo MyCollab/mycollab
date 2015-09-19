@@ -14,29 +14,16 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.common.ui.components;
+package com.esofthead.mycollab.common.ui.components.notification;
 
-import com.vaadin.ui.Component;
+import com.esofthead.mycollab.core.AbstractNotification;
 
 /**
- * 
- * @author MyCollab Ltd.
- * @since 4.1
- * 
+ * @author MyCollab Ltd
+ * @since 5.1.3
  */
-public abstract class AbstractNotification {
-	private String type;
-
-	public static final String WARNING = "warning";
-	public static final String NEWS = "news";
-
-	public AbstractNotification(String type) {
-		this.type = type;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	abstract public Component renderContent();
+public class RequestPreviewNotification extends AbstractNotification {
+    public RequestPreviewNotification() {
+        super(SCOPE_USER, NEWS);
+    }
 }

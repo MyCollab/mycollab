@@ -134,7 +134,7 @@ h3 {
                                         <tr><td><h4>Your database user name</h4></td></tr>
 
                                         <tr>
-                                            <td><label for="dbPassword">User password:</label></td>
+                                            <td><label for="dbPassword">Password:</label></td>
                                         </tr>
                                         <tr>
                                             <td><input id="dbPassword" type="password"/></td>

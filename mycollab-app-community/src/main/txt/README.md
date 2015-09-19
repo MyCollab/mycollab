@@ -60,6 +60,7 @@ Version 5.1.3
 * Edit inline on Gantt chart
 * Many Gantt chart improvements
 * Site response is faster by using the proper server push
+* More reliable upgrade process
 
 **Bug Fixes**
 

@@ -36,6 +36,10 @@ public class OptionPopupContent extends CustomComponent {
         return this;
     }
 
+    public void removeOptions() {
+        ((ComponentContainer) this.getCompositionRoot()).removeAllComponents();
+    }
+
     public void addOption(Component btn) {
         CssLayout wrap = new CssLayout();
         btn.setWidth("100%");

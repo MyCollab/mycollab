@@ -87,7 +87,8 @@ public abstract class AbstractPresenter<V extends PageView> implements IPresente
     protected void viewAttached() {
     }
 
-    protected void viewDetached() {}
+    protected void viewDetached() {
+    }
 
     @Override
     public void go(ComponentContainer container, ScreenData<?> data) {
@@ -97,7 +98,7 @@ public abstract class AbstractPresenter<V extends PageView> implements IPresente
     @Override
     public void go(ComponentContainer container, ScreenData<?> data, boolean isHistoryTrack) {
         initView();
-        LOG.debug("Go to view: " + view);
+
         if (isHistoryTrack) {
             ViewState state = new ViewState(container, this, data);
             HistoryViewManager.addHistory(state);

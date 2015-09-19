@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.schedule.spring;
 
+import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.schedule.AutowiringSpringBeanJobFactory;
 import com.esofthead.mycollab.schedule.QuartzScheduleProperties;
 import com.esofthead.mycollab.schedule.email.user.service.SendUserInvitationEmailJob;
@@ -23,6 +25,7 @@ import com.esofthead.mycollab.schedule.email.user.service.UserSignUpEmailNotific
 import com.esofthead.mycollab.schedule.jobs.CrmSendingRelayEmailNotificationJob;
 import com.esofthead.mycollab.schedule.jobs.ProjectSendingRelayEmailNotificationJob;
 import com.esofthead.mycollab.schedule.jobs.SendingRelayEmailJob;
+import com.esofthead.mycollab.spring.DataSourceConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -115,12 +118,13 @@ public class DefaultScheduleConfiguration {
     @Autowired
     private ApplicationContext applicationContext;
 
-    @Bean public SchedulerFactoryBean quartzScheduler() {
+    @Bean
+    public SchedulerFactoryBean quartzScheduler() {
         SchedulerFactoryBean bean = new SchedulerFactoryBean();
 
-//        if (DeploymentMode.site == SiteConfiguration.getDeploymentMode()) {
-//            bean.setDataSource(new DataSourceConfiguration().dataSource());
-//        }
+        if (DeploymentMode.site == SiteConfiguration.getDeploymentMode()) {
+            bean.setDataSource(new DataSourceConfiguration().dataSource());
+        }
 
         bean.setQuartzProperties(new QuartzScheduleProperties());
         bean.setOverwriteExistingJobs(true);
@@ -129,9 +133,8 @@ public class DefaultScheduleConfiguration {
         bean.setJobFactory(factory);
         bean.setApplicationContextSchedulerContextKey("applicationContextSchedulerContextKey");
 
-        bean.setTriggers(sendingRelayEmailTrigger().getObject(), projectSendRelayNotificationEmailTrigger().getObject
-                (), crmSendRelayNotificationEmailTrigger().getObject(),
-                sendInviteUserEmailTrigger().getObject(), userSignUpNotificationEmailTrigger().getObject());
+        bean.setTriggers(sendingRelayEmailTrigger().getObject(), projectSendRelayNotificationEmailTrigger().getObject(),
+                crmSendRelayNotificationEmailTrigger().getObject(), sendInviteUserEmailTrigger().getObject(), userSignUpNotificationEmailTrigger().getObject());
         return bean;
     }
 }

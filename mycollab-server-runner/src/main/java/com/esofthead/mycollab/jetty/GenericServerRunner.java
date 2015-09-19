@@ -19,8 +19,8 @@ package com.esofthead.mycollab.jetty;
 import ch.qos.logback.classic.Level;
 import com.esofthead.mycollab.configuration.ApplicationProperties;
 import com.esofthead.mycollab.configuration.DatabaseConfiguration;
-import com.esofthead.mycollab.configuration.logging.LogConfig;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.configuration.logging.LogConfig;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.FileUtils;
 import com.esofthead.mycollab.servlet.*;
@@ -100,6 +100,7 @@ public abstract class GenericServerRunner {
                 port = Integer.parseInt(args[++i]);
             } else if ("--cport".equals(args[i])) {
                 final int listenPort = Integer.parseInt(args[++i]);
+                LOG.info("Detect client port " + listenPort);
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -266,7 +267,7 @@ public abstract class GenericServerRunner {
                     if (file.getName().matches("mycollab-\\S+.jar$")) {
                         LOG.info("Load jar file to classpath " + file.getAbsolutePath());
 
-                            appContext.getMetaData().getWebInfClassesDirs().add(new FileResource(file.toURI()));
+                        appContext.getMetaData().getWebInfClassesDirs().add(new FileResource(file.toURI()));
 
 
                     }

@@ -24,6 +24,7 @@
                 <include>${project.groupId}:mycollab-esb</include>
                 <include>${project.groupId}:mycollab-reporting</include>
                 <include>${project.groupId}:mycollab-scheduler</include>
+                <include>${project.groupId}:mycollab-scheduler-community</include>
                 <include>${project.groupId}:mycollab-servlet</include>
                 <include>${project.groupId}:mycollab-simple-monitoring</include>
                 <include>${project.groupId}:mycollab-ui</include>

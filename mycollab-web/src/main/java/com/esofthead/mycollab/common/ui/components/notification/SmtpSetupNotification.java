@@ -16,41 +16,15 @@
  */
 package com.esofthead.mycollab.common.ui.components.notification;
 
-import com.esofthead.mycollab.common.ui.components.AbstractNotification;
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.shell.events.ShellEvent;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Label;
-import org.vaadin.viritin.layouts.MHorizontalLayout;
+import com.esofthead.mycollab.core.AbstractNotification;
 
 /**
  * @author MyCollab Ltd
  * @since 5.0.4
  */
-public class SmtpSetupNotification  extends AbstractNotification {
+public class SmtpSetupNotification extends AbstractNotification {
 
     public SmtpSetupNotification() {
-        super(AbstractNotification.WARNING);
-    }
-
-    @Override
-    public Component renderContent() {
-        MHorizontalLayout layout = new MHorizontalLayout();
-        layout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-        Button smtpBtn = new Button("Setup", new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                EventBusFactory.getInstance().post(
-                        new ShellEvent.GotoUserAccountModule(this, new String[]{"setup"}));
-            }
-        });
-        smtpBtn.setStyleName(UIConstants.THEME_LINK);
-        layout.with(new Label(FontAwesome.EXCLAMATION.getHtml() + " Your members can not receive any mail notification without a proper SMTP setting", ContentMode.HTML), smtpBtn);
-        return layout;
+        super(SCOPE_GLOBAL, WARNING);
     }
 }

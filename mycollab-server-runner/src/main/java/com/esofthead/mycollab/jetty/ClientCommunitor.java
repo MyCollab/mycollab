@@ -53,9 +53,9 @@ public class ClientCommunitor {
         try (Socket socket = new Socket("localhost", 53631);
              OutputStream outputStream = socket.getOutputStream();
              DataOutputStream dataOutputStream = new DataOutputStream(outputStream)) {
-             dataOutputStream.writeUTF("RELOAD:" + "AAA");
+            dataOutputStream.writeUTF("RELOAD MYCOLLAB");
         } catch (Exception e) {
-            LOG.error("Error while send RELOAD request to the host process", e);
+            LOG.error("Error while send reload request to the host process", e);
         }
     }
 }

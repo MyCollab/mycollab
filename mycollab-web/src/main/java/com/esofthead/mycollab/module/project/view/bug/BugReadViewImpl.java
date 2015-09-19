@@ -102,7 +102,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
 
     private void displayWorkflowControl() {
         if (BugStatus.Open.name().equals(beanItem.getStatus()) || BugStatus.ReOpened.name().equals(beanItem.getStatus())) {
-            this.bugWorkflowControl.removeAllComponents();
+            bugWorkflowControl.removeAllComponents();
             ButtonGroup navButton = new ButtonGroup();
             Button startProgressBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_START_PROGRESS), new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;
@@ -139,9 +139,9 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
             });
             wontFixBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
             navButton.addButton(wontFixBtn);
-            this.bugWorkflowControl.addComponent(navButton);
+            bugWorkflowControl.addComponent(navButton);
         } else if (BugStatus.InProgress.name().equals(beanItem.getStatus())) {
-            this.bugWorkflowControl.removeAllComponents();
+            bugWorkflowControl.removeAllComponents();
             ButtonGroup navButton = new ButtonGroup();
             Button stopProgressBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_STOP_PROGRESS), new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;
@@ -167,9 +167,9 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
             });
             resolveBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
             navButton.addButton(resolveBtn);
-            this.bugWorkflowControl.addComponent(navButton);
+            bugWorkflowControl.addComponent(navButton);
         } else if (BugStatus.Verified.name().equals(beanItem.getStatus())) {
-            this.bugWorkflowControl.removeAllComponents();
+            bugWorkflowControl.removeAllComponents();
             ButtonGroup navButton = new ButtonGroup();
             Button reopenBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN), new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;
@@ -182,9 +182,9 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
             reopenBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
             navButton.addButton(reopenBtn);
 
-            this.bugWorkflowControl.addComponent(navButton);
+            bugWorkflowControl.addComponent(navButton);
         } else if (BugStatus.Resolved.name().equals(beanItem.getStatus())) {
-            this.bugWorkflowControl.removeAllComponents();
+            bugWorkflowControl.removeAllComponents();
             ButtonGroup navButton = new ButtonGroup();
             Button reopenBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN), new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;
@@ -207,9 +207,9 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
             });
             approveNCloseBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
             navButton.addButton(approveNCloseBtn);
-            this.bugWorkflowControl.addComponent(navButton);
+            bugWorkflowControl.addComponent(navButton);
         } else if (BugStatus.Resolved.name().equals(beanItem.getStatus())) {
-            this.bugWorkflowControl.removeAllComponents();
+            bugWorkflowControl.removeAllComponents();
             ButtonGroup navButton = new ButtonGroup();
             Button reopenBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN), new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;
@@ -222,9 +222,9 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
             reopenBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
             navButton.addButton(reopenBtn);
 
-            this.bugWorkflowControl.addComponent(navButton);
+            bugWorkflowControl.addComponent(navButton);
         }
-        this.bugWorkflowControl.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS));
+        bugWorkflowControl.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS));
     }
 
     @Override
@@ -339,22 +339,22 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
 
         @Override
         public void clearTitleStyleName() {
-            this.titleLbl.setStyleName("headerName");
+            titleLbl.setStyleName("headerName");
         }
 
         @Override
         public void addTitleStyleName(String styleName) {
-            this.titleLbl.addStyleName(styleName);
+            titleLbl.addStyleName(styleName);
         }
 
         @Override
         public void setTitleStyleName(String styleName) {
-            this.titleLbl.setStyleName(styleName);
+            titleLbl.setStyleName(styleName);
         }
 
         @Override
         public void removeTitleStyleName(String styleName) {
-            this.titleLbl.removeStyleName(styleName);
+            titleLbl.removeStyleName(styleName);
         }
 
         @Override
@@ -421,7 +421,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
 
         assignBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
-        this.bugWorkflowControl = new CssLayout();
+        bugWorkflowControl = new CssLayout();
 
         bugPreviewFormControls.insertToControlBlock(bugWorkflowControl);
         bugPreviewFormControls.insertToControlBlock(assignBtn);
@@ -589,8 +589,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                 return new I18nFormViewField(beanItem.getStatus(), BugStatus.class);
             } else if (BugWithBLOBs.Field.priority.equalTo(propertyId)) {
                 if (StringUtils.isNotBlank(beanItem.getPriority())) {
-                    String priorityLink = ProjectAssetsManager.getBugPriority(beanItem.getPriority()).getHtml() + " "
-                            + beanItem.getPriority();
+                    String priorityLink = ProjectAssetsManager.getBugPriority(beanItem.getPriority()).getHtml() + " " + beanItem.getPriority();
                     DefaultViewField field = new DefaultViewField(priorityLink, ContentMode.HTML);
                     field.addStyleName("bug-" + beanItem.getPriority().toLowerCase());
                     return field;
