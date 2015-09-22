@@ -57,7 +57,7 @@ public class BusinessDayTimeUtils {
         return calc1.getCurrentBusinessDate();
     }
 
-    private static final long DAY_IN_MILIS = 1000 * 60 * 60 * 24;
+    public static final int DAY_IN_MILIS = 1000 * 60 * 60 * 24;
 
     public static int duration(LocalDate start, LocalDate end) {
         int candidateDuration = 1;

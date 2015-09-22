@@ -21,6 +21,7 @@ import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.Task;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
@@ -48,7 +49,7 @@ class TaskAddWindow extends Window {
         this.setResizable(false);
 
         EditForm editForm = new EditForm();
-        Task task = new Task();
+        SimpleTask task = new SimpleTask();
         task.setLogby(AppContext.getUsername());
         task.setSaccountid(AppContext.getAccountId());
         task.setProjectid(CurrentProjectVariables.getProjectId());
@@ -56,10 +57,10 @@ class TaskAddWindow extends Window {
         this.setContent(editForm);
     }
 
-    private class EditForm extends AdvancedEditBeanForm<Task> {
+    private class EditForm extends AdvancedEditBeanForm<SimpleTask> {
 
         @Override
-        public void setBean(final Task item) {
+        public void setBean(final SimpleTask item) {
             this.setFormLayoutFactory(new FormLayoutFactory());
             this.setBeanFormFieldFactory(new TaskEditFormFieldFactory(EditForm.this));
             super.setBean(item);
@@ -72,7 +73,7 @@ class TaskAddWindow extends Window {
             @Override
             public ComponentContainer getLayout() {
                 VerticalLayout layout = new VerticalLayout();
-                informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 5);
+                informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
                 informationLayout.getLayout().setMargin(false);
                 informationLayout.getLayout().setSpacing(false);
                 layout.addComponent(informationLayout.getLayout());
@@ -134,10 +135,14 @@ class TaskAddWindow extends Window {
                     informationLayout.addComponent(field, AppContext.getMessage(TaskI18nEnum.FORM_DEADLINE), 0, 2);
                 } else if (Task.Field.assignuser.equalTo(propertyId)) {
                     informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 1, 2);
+                } else if (Task.Field.duration.equalTo(propertyId)) {
+                    informationLayout.addComponent(field, AppContext.getMessage(TaskI18nEnum.FORM_DURATION), 0, 3);
+                } else if (Task.Field.isestimated.equalTo(propertyId)) {
+                    informationLayout.addComponent(field, AppContext.getMessage(TaskI18nEnum.FORM_IS_ESTIMATED), 1, 3);
                 } else if (Task.Field.notes.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 3, 2, "100%");
+                    informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 4, 2, "100%");
                 } else if (Task.Field.id.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, AppContext.getMessage(TaskI18nEnum.FORM_ATTACHMENT), 0, 4, 2, "100%");
+                    informationLayout.addComponent(field, AppContext.getMessage(TaskI18nEnum.FORM_ATTACHMENT), 0, 5, 2, "100%");
                 }
             }
         }

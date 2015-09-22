@@ -18,9 +18,7 @@ package com.esofthead.mycollab.module.project.view.task.gantt;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
-import com.esofthead.mycollab.core.utils.HumanTime;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -32,6 +30,7 @@ import com.esofthead.mycollab.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.service.GanttAssignmentService;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
+import com.esofthead.mycollab.module.project.ui.components.HumanTimeConverter;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
@@ -646,35 +645,6 @@ public class GanttTreeTable extends TreeTable {
                 parentTask.calculateDatesByChildTasks();
             }
             calculateWholeGanttIndexes();
-        }
-    }
-
-    private static class HumanTimeConverter implements Converter<String, Double> {
-        @Override
-        public Double convertToModel(String value, Class<? extends Double> targetType, Locale locale) throws ConversionException {
-            HumanTime humanTime = HumanTime.eval(value);
-            Double duration = new Double(humanTime.getDelta());
-            if (duration.intValue() == 0) {
-                throw new UserInvalidInputException("Invalid value. The format of duration must be [number] y " +
-                        "[number] d [number] h [number] m [number] s");
-            }
-            return duration;
-        }
-
-        @Override
-        public String convertToPresentation(Double value, Class<? extends String> targetType, Locale locale) throws ConversionException {
-            HumanTime humanTime = new HumanTime(value.longValue());
-            return humanTime.getExactly();
-        }
-
-        @Override
-        public Class<Double> getModelType() {
-            return Double.class;
-        }
-
-        @Override
-        public Class<String> getPresentationType() {
-            return String.class;
         }
     }
 

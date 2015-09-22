@@ -55,20 +55,15 @@ public class DateInfoComp extends MVerticalLayout {
         try {
             Date createdDate = (Date) PropertyUtils.getProperty(bean,
                     "createdtime");
-            ELabel createdDateLbl = new ELabel(AppContext.getMessage(
-                    ProjectCommonI18nEnum.ITEM_CREATED_DATE,
-                    DateTimeUtils.getPrettyDateValue(createdDate,
-                            AppContext.getUserLocale()))).withDescription(AppContext
-                    .formatDateTime(createdDate));
+            ELabel createdDateLbl = new ELabel(AppContext.getMessage(ProjectCommonI18nEnum.ITEM_CREATED_DATE,
+                    DateTimeUtils.getPrettyDateValue(createdDate, AppContext.getUserLocale()))).withDescription(
+                    AppContext.formatDateTime(createdDate));
 
             layout.addComponent(createdDateLbl);
 
-            Date updatedDate = (Date) PropertyUtils.getProperty(bean,
-                    "lastupdatedtime");
-            ELabel updatedDateLbl = new ELabel(AppContext.getMessage(
-                    ProjectCommonI18nEnum.ITEM_UPDATED_DATE,
-                    AppContext.formatPrettyTime(updatedDate))).withDescription(AppContext
-                    .formatDateTime(updatedDate));
+            Date updatedDate = (Date) PropertyUtils.getProperty(bean, "lastupdatedtime");
+            ELabel updatedDateLbl = new ELabel(AppContext.getMessage(ProjectCommonI18nEnum.ITEM_UPDATED_DATE,
+                    AppContext.formatPrettyTime(updatedDate))).withDescription(AppContext.formatDateTime(updatedDate));
             layout.addComponent(updatedDateLbl);
 
             this.addComponent(layout);

@@ -143,8 +143,7 @@ public class FollowingTicketViewImpl extends AbstractPageView implements Followi
 		contentWrapper.addComponent(this.ticketTable);
 	}
 
-	private StreamResource constructStreamResource(
-			final ReportExportType exportType) {
+	private StreamResource constructStreamResource(final ReportExportType exportType) {
 
 		LazyStreamSource streamSource = new LazyStreamSource() {
 			private static final long serialVersionUID = 1L;

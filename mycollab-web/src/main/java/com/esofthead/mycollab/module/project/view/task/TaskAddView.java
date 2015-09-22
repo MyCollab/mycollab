@@ -17,19 +17,18 @@
 
 package com.esofthead.mycollab.module.project.view.task;
 
-import com.esofthead.mycollab.module.project.domain.Task;
+import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.IFormAddView;
 import com.esofthead.mycollab.vaadin.ui.form.field.AttachmentUploadField;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public interface TaskAddView extends IFormAddView<Task> {
+public interface TaskAddView extends IFormAddView<SimpleTask> {
 
-	HasEditFormHandlers<Task> getEditFormHandlers();
+    HasEditFormHandlers<SimpleTask> getEditFormHandlers();
 
-	AttachmentUploadField getAttachUploadField();
+    AttachmentUploadField getAttachUploadField();
 }

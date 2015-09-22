@@ -43,6 +43,13 @@ understanding in a matter of minutes.
 Last changelog
 ==============
 
+Version 5.1.4
+-----------------------------
+
+**Improvements & New Features**
+
+* Calculating end date by start date and duration
+
 Version 5.1.3
 -----------------------------
 

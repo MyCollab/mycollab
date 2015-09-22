@@ -29,22 +29,18 @@ import org.apache.commons.collections.CollectionUtils;
 import java.util.List;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 public class ProjectAttachmentDisplayComponentFactory {
-	public static Component getAttachmentDisplayComponent(int projectId,
-			String type, int typeId) {
-		ResourceService resourceService = ApplicationContextUtil.getSpringBean(ResourceService.class);
-		List<Content> attachments = resourceService.getContents(AttachmentUtils
-				.getProjectEntityAttachmentPath(AppContext.getAccountId(),
-						projectId, type, "" + typeId));
-		if (CollectionUtils.isNotEmpty(attachments)) {
-			return new AttachmentDisplayComponent(attachments);
-		} else {
-			return new VerticalLayout();
-		}
-	}
+    public static Component getAttachmentDisplayComponent(int projectId, String type, int typeId) {
+        ResourceService resourceService = ApplicationContextUtil.getSpringBean(ResourceService.class);
+        List<Content> attachments = resourceService.getContents(AttachmentUtils
+                .getProjectEntityAttachmentPath(AppContext.getAccountId(), projectId, type, "" + typeId));
+        if (CollectionUtils.isNotEmpty(attachments)) {
+            return new AttachmentDisplayComponent(attachments);
+        } else {
+            return new VerticalLayout();
+        }
+    }
 }

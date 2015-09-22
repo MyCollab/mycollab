@@ -37,8 +37,7 @@ import org.slf4j.LoggerFactory;
  * @since 4.0
  */
 public class MilestoneHistoryFieldFormat implements HistoryFieldFormat {
-    private static final Logger LOG = LoggerFactory
-            .getLogger(MilestoneHistoryFieldFormat.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MilestoneHistoryFieldFormat.class);
 
     @Override
     public Component toVaadinComponent(String value) {

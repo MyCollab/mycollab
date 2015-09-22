@@ -56,11 +56,11 @@ public class TaskAddPresenter extends AbstractPresenter<TaskAddView> {
 
     @Override
     protected void postInitView() {
-        view.getEditFormHandlers().addFormHandler(new EditFormHandler<Task>() {
+        view.getEditFormHandlers().addFormHandler(new EditFormHandler<SimpleTask>() {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void onSave(Task item) {
+            public void onSave(SimpleTask item) {
                 int taskId = save(item);
                 EventBusFactory.getInstance().post(new TaskEvent.GotoRead(this, taskId));
             }
@@ -76,7 +76,7 @@ public class TaskAddPresenter extends AbstractPresenter<TaskAddView> {
             }
 
             @Override
-            public void onSaveAndNew(final Task item) {
+            public void onSaveAndNew(final SimpleTask item) {
                 save(item);
                 EventBusFactory.getInstance().post(new TaskEvent.GotoAdd(this, null));
             }

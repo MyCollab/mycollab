@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.crm.service.ibatis;
 
-import com.esofthead.mycollab.cache.CacheUtils;
+import com.esofthead.mycollab.cache.CleanCacheEvent;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.interceptor.aspect.ClassInfo;
 import com.esofthead.mycollab.common.interceptor.aspect.ClassInfoMap;
@@ -34,6 +34,7 @@ import com.esofthead.mycollab.module.crm.domain.criteria.TodoSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.EventService;
 import com.esofthead.mycollab.module.crm.service.TaskService;
 import com.esofthead.mycollab.schedule.email.crm.TaskRelayEmailNotificationAction;
+import com.google.common.eventbus.AsyncEventBus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,6 +61,9 @@ public class TaskServiceImpl extends DefaultService<Integer, Task, TodoSearchCri
     @Autowired
     private CrmTaskMapperExt taskMapperExt;
 
+    @Autowired
+    private AsyncEventBus asyncEventBus;
+
     @Override
     public ICrudGenericDAO<Integer, Task> getCrudMapper() {
         return taskMapper;
@@ -78,39 +82,40 @@ public class TaskServiceImpl extends DefaultService<Integer, Task, TodoSearchCri
     @Override
     public Integer saveWithSession(Task record, String username) {
         Integer result = super.saveWithSession(record, username);
-        CacheUtils.cleanCaches(record.getSaccountid(), EventService.class);
+        asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{EventService.class}));
         return result;
     }
 
     @Override
     public Integer updateWithSession(Task record, String username) {
         Integer result = super.updateWithSession(record, username);
-        CacheUtils.cleanCaches(record.getSaccountid(), EventService.class);
+        asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{EventService.class}));
         return result;
     }
 
     @Override
     public void removeByCriteria(TodoSearchCriteria criteria, Integer accountId) {
         super.removeByCriteria(criteria, accountId);
-        CacheUtils.cleanCaches(accountId, EventService.class);
+        asyncEventBus.post(new CleanCacheEvent(accountId, new Class[]{EventService.class}));
     }
 
     @Override
     public void massRemoveWithSession(List<Task> tasks, String username, Integer accountId) {
         super.massRemoveWithSession(tasks, username, accountId);
-        CacheUtils.cleanCaches(accountId, EventService.class);
+        asyncEventBus.post(new CleanCacheEvent(accountId, new Class[]{EventService.class}));
     }
 
     @Override
     public void massUpdateWithSession(Task record, List<Integer> primaryKeys, Integer accountId) {
         super.massUpdateWithSession(record, primaryKeys, accountId);
-        CacheUtils.cleanCaches(accountId, EventService.class);
+        asyncEventBus.post(new CleanCacheEvent(accountId, new Class[]{EventService.class}));
     }
 
     @Override
     public void updateBySearchCriteria(Task record, TodoSearchCriteria searchCriteria) {
         super.updateBySearchCriteria(record, searchCriteria);
-        CacheUtils.cleanCaches((Integer) searchCriteria.getAccountId().getValue(), EventService.class);
+        asyncEventBus.post(new CleanCacheEvent((Integer) searchCriteria.getAccountId().getValue(),
+                new Class[]{EventService.class}));
     }
 
 }

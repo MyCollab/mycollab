@@ -212,15 +212,15 @@ public class GanttItemWrapper {
 
     private static final long SECONDS_IN_DAYS = 1000 * 60 * 60 * 24;
 
-    public Double getDuration() {
+    public Long getDuration() {
         if (task.getDuration() != null) {
             return task.getDuration();
         } else {
-            return BusinessDayTimeUtils.duration(startDate, endDate) * SECONDS_IN_DAYS * 1d;
+            return BusinessDayTimeUtils.duration(startDate, endDate) * SECONDS_IN_DAYS;
         }
     }
 
-    public void setDuration(Double duration) {
+    public void setDuration(Long duration) {
         task.setDuration(duration);
         if (startDate != null) {
             LocalDate expectedEndDate = BusinessDayTimeUtils.plusDays(startDate, (int) (duration.longValue() / SECONDS_IN_DAYS));
@@ -245,8 +245,8 @@ public class GanttItemWrapper {
     }
 
     public void setStartDate(LocalDate date) {
-        Double duration = getDuration();
-        LocalDate expectedEndDate = BusinessDayTimeUtils.plusDays(date, (int) (duration.longValue() / SECONDS_IN_DAYS));
+        long duration = getDuration();
+        LocalDate expectedEndDate = BusinessDayTimeUtils.plusDays(date, (int) (duration / SECONDS_IN_DAYS));
         setStartAndEndDate(date, expectedEndDate, true, true);
     }
 

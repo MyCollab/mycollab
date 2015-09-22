@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.common.service.ibatis;
 
-import com.esofthead.mycollab.cache.CacheUtils;
+import com.esofthead.mycollab.cache.CleanCacheEvent;
 import com.esofthead.mycollab.common.ActivityStreamConstants;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.MonitorTypeConstants;
@@ -48,7 +48,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class CommentServiceImpl extends DefaultService<Integer, CommentWithBLOBs, CommentSearchCriteria> implements CommentService {
-
     private static final Logger LOG = LoggerFactory.getLogger(CommentServiceImpl.class);
 
     @Autowired
@@ -87,7 +86,7 @@ public class CommentServiceImpl extends DefaultService<Integer, CommentWithBLOBs
         Integer saveId = super.saveWithSession(record, username);
 
         if (ProjectTypeConstants.MESSAGE.equals(record.getType())) {
-            CacheUtils.cleanCaches(record.getSaccountid(), MessageService.class);
+            asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{MessageService.class}));
         }
 
         relayEmailNotificationService.saveWithSession(getRelayEmailNotification(record, username, emailHandler), username);

@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.ui.components;
 
-import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
@@ -44,8 +43,7 @@ public abstract class ProjectListNoItemView extends MVerticalLayout implements P
         title.addStyleName("h2");
         title.setSizeUndefined();
 
-        Label body = new Label(String.format("<div style=\"text-align:center\">%s</div>",
-                viewHint()), ContentMode.HTML);
+        Label body = new Label(String.format("<div style=\"text-align:center\">%s</div>", viewHint()), ContentMode.HTML);
         body.setWidth("500px");
 
         MHorizontalLayout links = createControlButtons();

@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.user.esb.impl
 
 import java.util.Arrays
 
-import com.esofthead.mycollab.cache.CacheUtils
+import com.esofthead.mycollab.cache.CleanCacheEvent
 import com.esofthead.mycollab.module.GenericCommand
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants
 import com.esofthead.mycollab.module.project.dao.ProjectMemberMapper
@@ -53,6 +53,6 @@ object DeleteUserCommand {
         val projectMember: ProjectMember = new ProjectMember
         projectMember.setStatus(RegisterStatusConstants.DELETE)
         projectMemberMapper.updateByExampleSelective(projectMember, ex)
-        CacheUtils.cleanCaches(event.accountid, classOf[ProjectMemberService])
+        asyncEventBus.post(new CleanCacheEvent(event.accountid, Array(classOf[ProjectMemberService])))
     }
 }

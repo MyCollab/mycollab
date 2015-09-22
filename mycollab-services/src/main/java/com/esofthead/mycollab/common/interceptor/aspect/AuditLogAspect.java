@@ -17,7 +17,7 @@
 
 package com.esofthead.mycollab.common.interceptor.aspect;
 
-import com.esofthead.mycollab.cache.LocalCacheManager;
+import com.esofthead.mycollab.cache.service.CacheService;
 import com.esofthead.mycollab.common.ActivityStreamConstants;
 import com.esofthead.mycollab.common.MonitorTypeConstants;
 import com.esofthead.mycollab.common.domain.ActivityStreamWithBLOBs;
@@ -34,7 +34,6 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.infinispan.commons.api.BasicCache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.Advised;
@@ -56,7 +55,10 @@ import java.util.List;
 public class AuditLogAspect {
     private static final Logger LOG = LoggerFactory.getLogger(AuditLogAspect.class);
 
-    private static BasicCache<Object, Object> caches = LocalCacheManager.getCache();
+    private static final String AUDIT_TEMP_CACHE = "AUDIT_TEMP_CACHE";
+
+    @Autowired
+    private CacheService cacheService;
 
     @Autowired
     protected AuditLogService auditLogService;
@@ -79,8 +81,7 @@ public class AuditLogAspect {
         if (auditAnnotation != null) {
             try {
                 int typeid = (Integer) PropertyUtils.getProperty(bean, "id");
-                int sAccountId = (Integer) PropertyUtils.getProperty(bean,
-                        "saccountid");
+                int sAccountId = (Integer) PropertyUtils.getProperty(bean, "saccountid");
                 // store old value to map, wait until the update process
                 // successfully then add to log item
 
@@ -96,10 +97,9 @@ public class AuditLogAspect {
                 oldValue = findMethod.invoke(service, typeid, sAccountId);
                 String key = bean.toString() + ClassInfoMap.getType(cls) + typeid;
 
-                caches.put(key, oldValue);
+                cacheService.putValue(AUDIT_TEMP_CACHE, key, oldValue);
             } catch (Exception e) {
-                LOG.error("Error when save audit for save action of service "
-                        + cls.getName(), e);
+                LOG.error("Error when save audit for save action of service " + cls.getName(), e);
             }
         }
     }
@@ -185,7 +185,7 @@ public class AuditLogAspect {
             Integer typeid = (Integer) PropertyUtils.getProperty(bean, "id");
             String key = bean.toString() + ClassInfoMap.getType(targetCls) + typeid;
 
-            Object oldValue = caches.get(key);
+            Object oldValue = cacheService.getValue(AUDIT_TEMP_CACHE, key);
             if (oldValue != null) {
                 return AuditLogUtil.getChangeSet(oldValue, bean, excludeHistoryFields);
             }

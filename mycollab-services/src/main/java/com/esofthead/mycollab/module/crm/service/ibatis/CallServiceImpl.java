@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.crm.service.ibatis;
 
-import com.esofthead.mycollab.cache.CacheUtils;
+import com.esofthead.mycollab.cache.CleanCacheEvent;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.interceptor.aspect.ClassInfo;
 import com.esofthead.mycollab.common.interceptor.aspect.ClassInfoMap;
@@ -34,6 +34,7 @@ import com.esofthead.mycollab.module.crm.domain.criteria.CallSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.CallService;
 import com.esofthead.mycollab.module.crm.service.EventService;
 import com.esofthead.mycollab.schedule.email.crm.CallRelayEmailNotificationAction;
+import com.google.common.eventbus.AsyncEventBus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,8 +56,12 @@ public class CallServiceImpl extends DefaultService<Integer, CallWithBLOBs, Call
 
     @Autowired
     private CallMapper callMapper;
+
     @Autowired
     private CallMapperExt callMapperExt;
+
+    @Autowired
+    private AsyncEventBus asyncEventBus;
 
     @SuppressWarnings("unchecked")
     @Override
@@ -77,38 +82,39 @@ public class CallServiceImpl extends DefaultService<Integer, CallWithBLOBs, Call
     @Override
     public Integer saveWithSession(CallWithBLOBs record, String username) {
         Integer result = super.saveWithSession(record, username);
-        CacheUtils.cleanCaches(record.getSaccountid(), EventService.class);
+        asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{EventService.class}));
         return result;
     }
 
     @Override
     public Integer updateWithSession(CallWithBLOBs record, String username) {
         Integer result = super.updateWithSession(record, username);
-        CacheUtils.cleanCaches(record.getSaccountid(), EventService.class);
+        asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{EventService.class}));
         return result;
     }
 
     @Override
     public void removeByCriteria(CallSearchCriteria criteria, Integer accountId) {
         super.removeByCriteria(criteria, accountId);
-        CacheUtils.cleanCaches(accountId, EventService.class);
+        asyncEventBus.post(new CleanCacheEvent(accountId, new Class[]{EventService.class}));
     }
 
     @Override
     public void massRemoveWithSession(List<CallWithBLOBs> items, String username, Integer accountId) {
         super.massRemoveWithSession(items, username, accountId);
-        CacheUtils.cleanCaches(accountId, EventService.class);
+        asyncEventBus.post(new CleanCacheEvent(accountId, new Class[]{EventService.class}));
     }
 
     @Override
     public void massUpdateWithSession(CallWithBLOBs record, List<Integer> primaryKeys, Integer accountId) {
         super.massUpdateWithSession(record, primaryKeys, accountId);
-        CacheUtils.cleanCaches(accountId, EventService.class);
+        asyncEventBus.post(new CleanCacheEvent(accountId, new Class[]{EventService.class}));
     }
 
     @Override
     public void updateBySearchCriteria(CallWithBLOBs record, CallSearchCriteria searchCriteria) {
         super.updateBySearchCriteria(record, searchCriteria);
-        CacheUtils.cleanCaches((Integer) searchCriteria.getSaccountid().getValue(), EventService.class);
+        asyncEventBus.post(new CleanCacheEvent((Integer) searchCriteria.getSaccountid().getValue(),
+                new Class[]{EventService.class}));
     }
 }

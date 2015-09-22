@@ -22,6 +22,7 @@ import com.esofthead.mycollab.configuration.Storage;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.core.utils.BeanUtility;
+import com.esofthead.mycollab.core.utils.HumanTime;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -55,9 +56,9 @@ import com.vaadin.data.Property;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.*;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Label;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
@@ -344,6 +345,20 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
                     DefaultViewField field = new DefaultViewField(priorityLbl, ContentMode.HTML);
                     field.addStyleName("task-" + beanItem.getPriority().toLowerCase());
                     return field;
+                }
+            } else if (Task.Field.isestimated.equalTo(propertyId)) {
+                CheckBox field;
+                if (beanItem.getIsestimated() != null) {
+                    field = new CheckBox("", beanItem.getIsestimated());
+                } else {
+                    field = new CheckBox("", false);
+                }
+                field.setReadOnly(true);
+                return field;
+            } else if (Task.Field.duration.equalTo(propertyId)) {
+                if (beanItem.getDuration() != null) {
+                    HumanTime humanTime = new HumanTime(beanItem.getDuration().longValue());
+                    return new DefaultViewField(humanTime.getExactly());
                 }
             } else if (Task.Field.notes.equalTo(propertyId)) {
                 return new RichTextViewField(beanItem.getNotes());

@@ -101,23 +101,18 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
                 new TableViewField(null, "id",
                         UIConstants.TABLE_CONTROL_WIDTH)));
 
-        tableItem.addGeneratedColumn("logUserFullName",
-                new Table.ColumnGenerator() {
-                    private static final long serialVersionUID = 1L;
+        tableItem.addGeneratedColumn("logUserFullName", new Table.ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public com.vaadin.ui.Component generateCell(
-                            final Table source, final Object itemId,
-                            final Object columnId) {
-                        final SimpleItemTimeLogging timeLoggingItem = tableItem.getBeanByIndex(itemId);
+            @Override
+            public com.vaadin.ui.Component generateCell(final Table source, final Object itemId, final Object columnId) {
+                final SimpleItemTimeLogging timeLoggingItem = tableItem.getBeanByIndex(itemId);
 
-                        return new ProjectUserLink(
-                                timeLoggingItem.getLoguser(), timeLoggingItem
-                                .getLogUserAvatarId(), timeLoggingItem
-                                .getLogUserFullName());
+                return new ProjectUserLink(timeLoggingItem.getLoguser(), timeLoggingItem.getLogUserAvatarId(),
+                        timeLoggingItem.getLogUserFullName());
 
-                    }
-                });
+            }
+        });
 
         tableItem.addGeneratedColumn("logforday", new ColumnGenerator() {
             private static final long serialVersionUID = 1L;
@@ -210,31 +205,28 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
         forDateField = new DateFieldExt();
         forDateField.setValue(new GregorianCalendar().getTime());
 
-        isBillableField = new CheckBox(
-                AppContext.getMessage(TimeTrackingI18nEnum.FORM_IS_BILLABLE),
-                true);
+        isBillableField = new CheckBox(AppContext.getMessage(TimeTrackingI18nEnum.FORM_IS_BILLABLE), true);
 
-        btnAdd = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADD),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        btnAdd = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADD), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        double d = 0;
-                        try {
-                            d = Double.parseDouble(newTimeInputField.getValue());
-                        } catch (NumberFormatException e) {
-                            NotificationUtil
-                                    .showWarningNotification("You must enter a positive number value");
-                        }
-                        if (d > 0) {
-                            saveTimeInvest();
-                            loadTimeValue();
-                            newTimeInputField.setValue("0.0");
-                        }
-                    }
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                double d = 0;
+                try {
+                    d = Double.parseDouble(newTimeInputField.getValue());
+                } catch (NumberFormatException e) {
+                    NotificationUtil
+                            .showWarningNotification("You must enter a positive number value");
+                }
+                if (d > 0) {
+                    saveTimeInvest();
+                    loadTimeValue();
+                    newTimeInputField.setValue("0.0");
+                }
+            }
 
-                });
+        });
 
         btnAdd.setEnabled(isEnableAdd());
         btnAdd.setStyleName(UIConstants.THEME_GREEN_LINK);
@@ -308,9 +300,8 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
     private double getTotalInvest() {
         double total = 0;
         ItemTimeLoggingSearchCriteria searchCriteria = getItemSearchCriteria();
-        List<SimpleItemTimeLogging> listTime = itemTimeLoggingService
-                .findPagableListByCriteria(new SearchRequest<>(
-                        searchCriteria, 0, Integer.MAX_VALUE));
+        List<SimpleItemTimeLogging> listTime = itemTimeLoggingService.findPagableListByCriteria(
+                new SearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
         for (SimpleItemTimeLogging simpleItemTimeLogging : listTime) {
             total += simpleItemTimeLogging.getLogvalue();
         }

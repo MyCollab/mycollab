@@ -20,7 +20,7 @@
         <result column="actualStartDate" property="actualStartDate" jdbcType="TIMESTAMP"/>
         <result column="actualEndDate" property="actualEndDate" jdbcType="TIMESTAMP"/>
         <result column="deadline" property="deadline" jdbcType="TIMESTAMP"/>
-        <result column="duration" property="duration" jdbcType="DOUBLE"/>
+        <result column="duration" property="duration" jdbcType="BIGINT"/>
         <result column="progress" property="progress" jdbcType="DOUBLE"/>
         <result column="assignUser" property="assignUser" jdbcType="VARCHAR"/>
         <result column="assignUserFullName" property="assignUserFullName" jdbcType="VARCHAR"/>

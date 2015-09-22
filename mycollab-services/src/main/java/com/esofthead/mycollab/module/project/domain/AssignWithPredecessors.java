@@ -33,7 +33,7 @@ public abstract class AssignWithPredecessors {
     private Date deadline;
     private String projectName;
     private String name;
-    private Double duration;
+    private Long duration;
     private Integer ganttIndex;
     private String prjKey;
     private Integer prjId;
@@ -108,11 +108,11 @@ public abstract class AssignWithPredecessors {
         this.name = name;
     }
 
-    public Double getDuration() {
+    public Long getDuration() {
         return duration;
     }
 
-    public void setDuration(Double duration) {
+    public void setDuration(Long duration) {
         this.duration = duration;
     }
 

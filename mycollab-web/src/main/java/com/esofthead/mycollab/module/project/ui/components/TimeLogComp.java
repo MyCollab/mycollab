@@ -43,8 +43,7 @@ public abstract class TimeLogComp<V extends ValuedBean> extends MVerticalLayout 
     protected ItemTimeLoggingService itemTimeLoggingService;
 
     protected TimeLogComp() {
-        this.itemTimeLoggingService = ApplicationContextUtil
-                .getSpringBean(ItemTimeLoggingService.class);
+        this.itemTimeLoggingService = ApplicationContextUtil.getSpringBean(ItemTimeLoggingService.class);
     }
 
     public void displayTime(final V bean) {
@@ -59,15 +58,14 @@ public abstract class TimeLogComp<V extends ValuedBean> extends MVerticalLayout 
         header.addComponent(dateInfoHeader);
 
         if (hasEditPermission()) {
-            Button editBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            Button editBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(ClickEvent event) {
-                            showEditTimeWindow(bean);
-                        }
-                    });
+                @Override
+                public void buttonClick(ClickEvent event) {
+                    showEditTimeWindow(bean);
+                }
+            });
             editBtn.setStyleName(UIConstants.THEME_LINK);
             editBtn.addStyleName("info-hdr");
             header.addComponent(editBtn);
@@ -80,15 +78,9 @@ public abstract class TimeLogComp<V extends ValuedBean> extends MVerticalLayout 
         double billableHours = getTotalBillableHours(bean);
         double nonBillableHours = getTotalNonBillableHours(bean);
         double remainHours = getRemainedHours(bean);
-        layout.addComponent(new Label(String.format(
-                AppContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS),
-                billableHours)));
-        layout.addComponent(new Label(String.format(AppContext
-                        .getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS),
-                nonBillableHours)));
-        layout.addComponent(new Label(String.format(
-                AppContext.getMessage(TimeTrackingI18nEnum.OPT_REMAIN_HOURS),
-                remainHours)));
+        layout.addComponent(new Label(String.format(AppContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS), billableHours)));
+        layout.addComponent(new Label(String.format(AppContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS), nonBillableHours)));
+        layout.addComponent(new Label(String.format(AppContext.getMessage(TimeTrackingI18nEnum.OPT_REMAIN_HOURS), remainHours)));
         this.addComponent(layout);
     }
 

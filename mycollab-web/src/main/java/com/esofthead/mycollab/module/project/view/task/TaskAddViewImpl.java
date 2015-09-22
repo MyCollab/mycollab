@@ -18,6 +18,7 @@
 package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.Task;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
@@ -40,7 +41,7 @@ import com.vaadin.ui.Layout;
  * @since 1.0
  */
 @ViewComponent
-public class TaskAddViewImpl extends AbstractEditItemComp<Task> implements TaskAddView {
+public class TaskAddViewImpl extends AbstractEditItemComp<SimpleTask> implements TaskAddView {
     private static final long serialVersionUID = 1L;
 
     @Override
@@ -49,7 +50,7 @@ public class TaskAddViewImpl extends AbstractEditItemComp<Task> implements TaskA
     }
 
     @Override
-    public HasEditFormHandlers<Task> getEditFormHandlers() {
+    public HasEditFormHandlers<SimpleTask> getEditFormHandlers() {
         return this.editForm;
     }
 
@@ -77,7 +78,7 @@ public class TaskAddViewImpl extends AbstractEditItemComp<Task> implements TaskA
     }
 
     @Override
-    protected AdvancedEditBeanForm<Task> initPreviewForm() {
+    protected AdvancedEditBeanForm<SimpleTask> initPreviewForm() {
         return new AdvancedEditBeanForm<>();
     }
 
@@ -88,7 +89,7 @@ public class TaskAddViewImpl extends AbstractEditItemComp<Task> implements TaskA
     }
 
     @Override
-    protected AbstractBeanFieldGroupEditFieldFactory<Task> initBeanFormFieldFactory() {
+    protected AbstractBeanFieldGroupEditFieldFactory<SimpleTask> initBeanFormFieldFactory() {
         return new TaskEditFormFieldFactory(editForm);
     }
 }

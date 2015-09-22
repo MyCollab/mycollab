@@ -145,25 +145,23 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
         this.addComponent(layout);
 
         int totalFollowers = getTotalFollowers(bean);
-        followersBtn = new Button(AppContext.getMessage(FollowerI18nEnum.OPT_NUM_FOLLOWERS, totalFollowers),
-                new ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        followersBtn = new Button(AppContext.getMessage(FollowerI18nEnum.OPT_NUM_FOLLOWERS, totalFollowers), new ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(ClickEvent event) {
-                        if (hasReadPermission()) {
-                            showEditWatchersWindow(bean);
-                        }
-                    }
-                });
+            @Override
+            public void buttonClick(ClickEvent event) {
+                if (hasReadPermission()) {
+                    showEditWatchersWindow(bean);
+                }
+            }
+        });
         followersBtn.setStyleName(UIConstants.THEME_LINK);
         layout.addComponent(followersBtn);
     }
 
     private void updateTotalFollowers(V bean) {
         int totalFollowers = getTotalFollowers(bean);
-        followersBtn.setCaption(AppContext.getMessage(
-                FollowerI18nEnum.OPT_NUM_FOLLOWERS, totalFollowers));
+        followersBtn.setCaption(AppContext.getMessage(FollowerI18nEnum.OPT_NUM_FOLLOWERS, totalFollowers));
     }
 
     private boolean hasReadPermission() {
