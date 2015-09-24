@@ -139,7 +139,7 @@ public class ProjectAssignmentsWidget extends MVerticalLayout {
             layout.addComponent(taskLbl);
 
             Label descLbl;
-            if (org.apache.commons.lang3.StringUtils.isBlank(genericTask.getDescription())) {
+            if (StringUtils.isBlank(genericTask.getDescription())) {
                 descLbl = new Label("<<No Description>>");
             } else {
                 descLbl = new SafeHtmlLabel(StringUtils.trim(genericTask.getDescription(), 250, true));

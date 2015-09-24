@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.project;
 
-import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.core.SecureAccessException;
 import com.esofthead.mycollab.module.project.dao.ProjectRolePermissionMapper;
 import com.esofthead.mycollab.module.project.domain.*;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
@@ -54,6 +54,9 @@ public class CurrentProjectVariables {
         SimpleProjectMember prjMember = prjMemberService.findMemberByUsername(AppContext.getUsername(), project.getId(), AppContext.getAccountId());
         if (prjMember != null) {
             if (!prjMember.isAdmin()) {
+                if (prjMember.getProjectRoleId() == null) {
+                    throw new SecureAccessException("You are not belong to this project");
+                }
                 ProjectRolePermissionExample ex = new ProjectRolePermissionExample();
                 ex.createCriteria().andRoleidEqualTo(prjMember.getProjectroleid())
                         .andProjectidEqualTo(CurrentProjectVariables.getProjectId());
@@ -73,7 +76,7 @@ public class CurrentProjectVariables {
                 setProjectToogleMenu(true);
             }
         } else if (!AppContext.isAdmin()) {
-            throw new MyCollabException("You are not belong to this project");
+            throw new SecureAccessException("You are not belong to this project");
         }
     }
 

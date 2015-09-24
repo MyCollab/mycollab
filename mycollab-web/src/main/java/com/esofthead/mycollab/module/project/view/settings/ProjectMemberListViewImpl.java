@@ -49,8 +49,7 @@ import java.util.List;
  * @since 1.0
  */
 @ViewComponent
-public class ProjectMemberListViewImpl extends AbstractPageView implements
-        ProjectMemberListView {
+public class ProjectMemberListViewImpl extends AbstractPageView implements ProjectMemberListView {
     private static final long serialVersionUID = 1L;
     private CssLayout contentLayout;
 
@@ -77,7 +76,7 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
         });
         createBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS));
         createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-        createBtn.setIcon(FontAwesome.PLUS);
+        createBtn.setIcon(FontAwesome.SEND);
 
         viewHeader.addComponent(createBtn);
 
@@ -108,7 +107,7 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
         memberBlock.addStyleName("member-block");
 
         VerticalLayout blockContent = new VerticalLayout();
-        MHorizontalLayout blockTop = new MHorizontalLayout();
+        MHorizontalLayout blockTop = new MHorizontalLayout().withWidth("100%");
         Image memberAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(member.getMemberAvatarId(), 100);
         blockTop.addComponent(memberAvatar);
 
@@ -232,7 +231,6 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
 
         blockTop.addComponent(memberInfo);
         blockTop.setExpandRatio(memberInfo, 1.0f);
-        blockTop.setWidth("100%");
         blockContent.addComponent(blockTop);
 
         blockContent.setWidth("100%");

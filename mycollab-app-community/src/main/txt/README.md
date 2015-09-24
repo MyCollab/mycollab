@@ -49,6 +49,11 @@ Version 5.1.4
 **Improvements & New Features**
 
 * Calculating end date by start date and duration
+* Other minor improvements
+
+**Bug Fixes**
+
+* Can not change the role of project member
 
 Version 5.1.3
 -----------------------------

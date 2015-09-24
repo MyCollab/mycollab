@@ -17,18 +17,17 @@
 package com.esofthead.mycollab.module.project.ui.components;
 
 import com.esofthead.mycollab.common.TableViewField;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 4.0
- *
  */
 public class GenericTaskTableFieldDef {
-    public static final TableViewField name = new TableViewField(null, "name",
+    public static final TableViewField name = new TableViewField(GenericI18Enum.FORM_DESCRIPTION, "name",
             UIConstants.TABLE_EX_LABEL_WIDTH);
 
-    public static final TableViewField assignUser = new TableViewField(null,
+    public static final TableViewField assignUser = new TableViewField(GenericI18Enum.FORM_ASSIGNEE,
             "assignUser", UIConstants.TABLE_EX_LABEL_WIDTH);
 }

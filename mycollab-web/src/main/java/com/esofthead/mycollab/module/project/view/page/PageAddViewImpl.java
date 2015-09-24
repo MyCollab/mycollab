@@ -35,15 +35,12 @@ import com.vaadin.ui.ComponentContainer;
  * @since 4.4.0
  */
 @ViewComponent
-public class PageAddViewImpl extends AbstractEditItemComp<Page> implements
-        PageAddView {
+public class PageAddViewImpl extends AbstractEditItemComp<Page> implements PageAddView {
     private static final long serialVersionUID = 1L;
 
     @Override
     protected String initFormHeader() {
-        return (beanItem.isNew()) ? AppContext
-                .getMessage(Page18InEnum.VIEW_NEW_TITLE) : AppContext
-                .getMessage(Page18InEnum.VIEW_EDIT_TITLE);
+        return (beanItem.isNew()) ? AppContext.getMessage(Page18InEnum.VIEW_NEW_TITLE) : AppContext.getMessage(Page18InEnum.VIEW_EDIT_TITLE);
     }
 
     @Override

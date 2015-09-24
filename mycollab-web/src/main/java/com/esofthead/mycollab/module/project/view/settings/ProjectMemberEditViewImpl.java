@@ -19,7 +19,6 @@ package com.esofthead.mycollab.module.project.view.settings;
 import com.esofthead.mycollab.common.i18n.SecurityI18nEnum;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
-import com.esofthead.mycollab.module.project.domain.ProjectMember;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectRole;
 import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
@@ -46,7 +45,7 @@ import com.vaadin.ui.*;
  * @since 1.0
  */
 @ViewComponent
-public class ProjectMemberEditViewImpl extends AbstractEditItemComp<ProjectMember> implements ProjectMemberEditView {
+public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjectMember> implements ProjectMemberEditView {
     private static final long serialVersionUID = 1L;
 
     private VerticalLayout permissionsPanel;
@@ -60,7 +59,7 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<ProjectMembe
 
     @Override
     protected String initFormTitle() {
-        return (beanItem.getId() == null) ? null : ((SimpleProjectMember) beanItem).getDisplayName();
+        return (beanItem.getId() == null) ? null : beanItem.getDisplayName();
     }
 
     @Override
@@ -74,7 +73,7 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<ProjectMembe
     }
 
     @Override
-    protected AdvancedEditBeanForm<ProjectMember> initPreviewForm() {
+    protected AdvancedEditBeanForm<SimpleProjectMember> initPreviewForm() {
         return new AdvancedEditBeanForm<>();
     }
 
@@ -84,22 +83,22 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<ProjectMembe
     }
 
     @Override
-    protected AbstractBeanFieldGroupEditFieldFactory<ProjectMember> initBeanFormFieldFactory() {
+    protected AbstractBeanFieldGroupEditFieldFactory<SimpleProjectMember> initBeanFormFieldFactory() {
         return new EditFormFieldFactory(editForm);
     }
 
-    private class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<ProjectMember> {
+    private class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<SimpleProjectMember> {
         private static final long serialVersionUID = 1L;
 
-        public EditFormFieldFactory(GenericBeanForm<ProjectMember> form) {
+        public EditFormFieldFactory(GenericBeanForm<SimpleProjectMember> form) {
             super(form);
         }
 
         @Override
         protected Field<?> onCreateField(final Object propertyId) {
 
-            if (propertyId.equals("username")) {
-                return new DefaultViewField(((SimpleProjectMember) beanItem).getMemberFullName());
+            if (propertyId.equals("memberFullName")) {
+                return new DefaultViewField(beanItem.getMemberFullName());
             } else if (propertyId.equals("projectroleid")) {
                 return new AdminRoleSelectionField();
             } else if (propertyId.equals("isadmin")) {
@@ -127,8 +126,7 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<ProjectMembe
             organizationHeader.setStyleName("h2");
             permissionsPanel.addComponent(organizationHeader);
 
-            projectFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2,
-                    ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length);
+            projectFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length);
 
             permissionsPanel.addComponent(projectFormHelper.getLayout());
             layout.addComponent(permissionsPanel);

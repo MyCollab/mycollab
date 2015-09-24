@@ -37,7 +37,7 @@ public class SimpleProjectMember extends ProjectMember {
 
 	private String roleName;
 
-	private int projectRoleId;
+	private Integer projectRoleId;
 
 	@NotBindable
 	private PermissionMap permissionMaps;
@@ -124,11 +124,11 @@ public class SimpleProjectMember extends ProjectMember {
 		this.lastAccessTime = lastAccessTime;
 	}
 
-	public int getProjectRoleId() {
+	public Integer getProjectRoleId() {
 		return projectRoleId;
 	}
 
-	public void setProjectRoleId(int projectRoleId) {
+	public void setProjectRoleId(Integer projectRoleId) {
 		this.projectRoleId = projectRoleId;
 	}
 

@@ -91,26 +91,20 @@ class TaskRowRenderer extends MHorizontalLayout {
         PopupView commentField = popupFieldFactory.createTaskCommentsPopupField(task);
         footer.addComponent(commentField);
 
-        if (task.getStatus() != null) {
-            PopupView field = popupFieldFactory.createTaskStatusPopupField(task);
-            footer.addComponent(field);
-        }
-        if (task.getMilestoneid() != null) {
-            PopupView field = popupFieldFactory.createTaskMilestonePopupField(task);
-            footer.addComponent(field);
-        }
-        if (task.getPercentagecomplete() >= 0) {
-            PopupView field = popupFieldFactory.createTaskPercentagePopupField(task);
-            footer.addComponent(field);
-        }
+        PopupView statusField = popupFieldFactory.createTaskStatusPopupField(task);
+        footer.addComponent(statusField);
 
-        if (task.getDeadline() != null) {
-            String deadlineTooltip = String.format("%s: %s", AppContext.getMessage(TaskI18nEnum.FORM_DEADLINE),
-                    AppContext.formatDate(task.getDeadline()));
-            PopupView field = popupFieldFactory.createTaskDeadlinePopupField(task);
-            field.setDescription(deadlineTooltip);
-            footer.addComponent(field);
-        }
+        PopupView milestoneField = popupFieldFactory.createTaskMilestonePopupField(task);
+        footer.addComponent(milestoneField);
+
+        PopupView percentageField = popupFieldFactory.createTaskPercentagePopupField(task);
+        footer.addComponent(percentageField);
+
+        String deadlineTooltip = String.format("%s: %s", AppContext.getMessage(TaskI18nEnum.FORM_DEADLINE),
+                AppContext.formatDate(task.getDeadline()));
+        PopupView deadlineField = popupFieldFactory.createTaskDeadlinePopupField(task);
+        deadlineField.setDescription(deadlineTooltip);
+        footer.addComponent(deadlineField);
 
         wrapTaskInfoLayout.addComponent(footer);
         this.with(wrapTaskInfoLayout).expand(wrapTaskInfoLayout);

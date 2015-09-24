@@ -39,6 +39,7 @@ import com.vaadin.ui.Table.ColumnGenerator;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.*;
 
@@ -56,7 +57,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
     protected int displayNumItems = SearchRequest.DEFAULT_NUMBER_SEARCH_ITEMS;
     protected Collection<B> currentListData;
 
-    protected HorizontalLayout pageManagement;
+    protected MHorizontalLayout pageManagement;
 
     protected boolean isAscending = true;
     protected Object sortColumnId;
@@ -263,7 +264,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
         controlBar.setWidth("100%");
         this.controlBarWrapper.addComponent(controlBar);
 
-        pageManagement = new HorizontalLayout();
+        pageManagement = new MHorizontalLayout();
 
         // defined layout here ---------------------------
 
@@ -366,7 +367,6 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
         }
 
         pageManagement.setWidth(null);
-        pageManagement.setSpacing(true);
         controlBar.addComponent(pageManagement);
         controlBar.setComponentAlignment(pageManagement, Alignment.MIDDLE_RIGHT);
 

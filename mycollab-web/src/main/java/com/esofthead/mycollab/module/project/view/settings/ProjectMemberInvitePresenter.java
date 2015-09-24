@@ -183,8 +183,7 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
                 public void buttonClick(Button.ClickEvent event) {
                     ViewState viewState = HistoryViewManager.back();
                     if (viewState instanceof NullViewState) {
-                        EventBusFactory.getInstance().post(
-                                new UserEvent.GotoList(this, null));
+                        EventBusFactory.getInstance().post(new UserEvent.GotoList(this, null));
                     }
                     GetStartedInstructionWindow.this.close();
                 }

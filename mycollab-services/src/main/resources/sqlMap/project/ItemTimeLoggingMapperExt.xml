@@ -156,8 +156,7 @@
         logForDay ASC , createdTime ASC
     </sql>
 
-    <select id="getTotalCount" parameterType="ItemTimeLoggingSearchCriteria"
-        resultType="int" lang="velocity">
+    <select id="getTotalCount" parameterType="ItemTimeLoggingSearchCriteria" resultType="int" lang="velocity">
         SELECT count(*) as totalCount FROM m_prj_time_logging
 
         #ifnotnull($_parameter.searchCriteria)

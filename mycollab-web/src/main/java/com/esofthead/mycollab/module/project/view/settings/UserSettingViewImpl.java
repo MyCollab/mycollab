@@ -35,7 +35,6 @@ import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
 import com.vaadin.ui.TabSheet.Tab;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 1.0
  */
@@ -60,68 +59,44 @@ public class UserSettingViewImpl extends AbstractPageView implements UserSetting
     }
 
     private void buildComponents() {
-        this.userPresenter = PresenterResolver
-                .getPresenter(ProjectUserPresenter.class);
-        this.myProjectTab.addTab(this.userPresenter.getView(),
-                AppContext.getMessage(ProjectCommonI18nEnum.VIEW_USERS));
+        this.userPresenter = PresenterResolver.getPresenter(ProjectUserPresenter.class);
+        this.myProjectTab.addTab(this.userPresenter.getView(), AppContext.getMessage(ProjectCommonI18nEnum.VIEW_USERS));
 
-        this.rolePresenter = PresenterResolver
-                .getPresenter(ProjectRolePresenter.class);
-        this.myProjectTab.addTab(this.rolePresenter.getView(),
-                AppContext.getMessage(ProjectCommonI18nEnum.VIEW_ROLES));
+        this.rolePresenter = PresenterResolver.getPresenter(ProjectRolePresenter.class);
+        this.myProjectTab.addTab(this.rolePresenter.getView(), AppContext.getMessage(ProjectCommonI18nEnum.VIEW_ROLES));
 
-        this.settingPresenter = PresenterResolver
-                .getPresenter(ProjectSettingPresenter.class);
-        this.myProjectTab.addTab(this.settingPresenter.getView(),
-                AppContext.getMessage(ProjectCommonI18nEnum.VIEW_SETTINGS));
+        this.settingPresenter = PresenterResolver.getPresenter(ProjectSettingPresenter.class);
+        this.myProjectTab.addTab(this.settingPresenter.getView(), AppContext.getMessage(ProjectCommonI18nEnum.VIEW_SETTINGS));
 
-        this.myProjectTab
-                .addSelectedTabChangeListener(new SelectedTabChangeListener() {
-                    private static final long serialVersionUID = 1L;
+        this.myProjectTab.addSelectedTabChangeListener(new SelectedTabChangeListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void selectedTabChange(SelectedTabChangeEvent event) {
-                        Tab tab = ((TabSheetDecorator) event.getTabSheet())
-                                .getSelectedTabInfo();
-                        String caption = tab.getCaption();
-                        SimpleProject project = CurrentProjectVariables.getProject();
+            @Override
+            public void selectedTabChange(SelectedTabChangeEvent event) {
+                Tab tab = ((TabSheetDecorator) event.getTabSheet()).getSelectedTabInfo();
+                String caption = tab.getCaption();
+                SimpleProject project = CurrentProjectVariables.getProject();
 
-                        if (AppContext.getMessage(
-                                ProjectCommonI18nEnum.VIEW_USERS).equals(
-                                caption)) {
-                            ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
-                            criteria.setProjectId(new NumberSearchField(project
-                                    .getId()));
-                            criteria.setStatus(new StringSearchField(
-                                    ProjectMemberStatusConstants.ACTIVE));
-                            UserSettingViewImpl.this.userPresenter
-                                    .go(UserSettingViewImpl.this,
-                                            new ScreenData.Search<>(
-                                                    criteria));
-                        } else if (AppContext.getMessage(
-                                ProjectCommonI18nEnum.VIEW_ROLES).equals(
-                                caption)) {
-                            ProjectRoleSearchCriteria criteria = new ProjectRoleSearchCriteria();
-                            criteria.setProjectId(new NumberSearchField(project
-                                    .getId()));
-                            UserSettingViewImpl.this.rolePresenter.go(
-                                    UserSettingViewImpl.this,
-                                    new ProjectRoleScreenData.Search(criteria));
-                        } else if (AppContext.getMessage(
-                                ProjectCommonI18nEnum.VIEW_SETTINGS).equals(
-                                caption)) {
-                            settingPresenter.go(UserSettingViewImpl.this, null);
-                        }
-
-                    }
-                });
+                if (AppContext.getMessage(ProjectCommonI18nEnum.VIEW_USERS).equals(caption)) {
+                    ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
+                    criteria.setProjectId(new NumberSearchField(project.getId()));
+                    criteria.setStatus(new StringSearchField(ProjectMemberStatusConstants.ACTIVE));
+                    UserSettingViewImpl.this.userPresenter.go(UserSettingViewImpl.this, new ScreenData.Search<>(criteria));
+                } else if (AppContext.getMessage(ProjectCommonI18nEnum.VIEW_ROLES).equals(caption)) {
+                    ProjectRoleSearchCriteria criteria = new ProjectRoleSearchCriteria();
+                    criteria.setProjectId(new NumberSearchField(project.getId()));
+                    UserSettingViewImpl.this.rolePresenter.go(UserSettingViewImpl.this, new ProjectRoleScreenData.Search(criteria));
+                } else if (AppContext.getMessage(ProjectCommonI18nEnum.VIEW_SETTINGS).equals(caption)) {
+                    settingPresenter.go(UserSettingViewImpl.this, null);
+                }
+            }
+        });
 
     }
 
     @Override
     public Component gotoSubView(final String name) {
-        final PageView component = (PageView) this.myProjectTab.selectTab(name)
-                .getComponent();
+        final PageView component = (PageView) this.myProjectTab.selectTab(name).getComponent();
         return component;
     }
 }

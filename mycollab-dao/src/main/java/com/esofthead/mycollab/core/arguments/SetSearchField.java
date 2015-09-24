@@ -20,6 +20,7 @@ import com.esofthead.mycollab.core.IgnoreException;
 import com.esofthead.mycollab.core.utils.ArrayUtils;
 import org.apache.commons.collections.CollectionUtils;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -40,6 +41,13 @@ public class SetSearchField<T> extends SearchField {
             CollectionUtils.addAll(values, vals);
         }
 
+        this.operation = SearchField.AND;
+    }
+
+    public SetSearchField(Collection<T> items) {
+        if (CollectionUtils.isNotEmpty(items)) {
+            values.addAll(items);
+        }
         this.operation = SearchField.AND;
     }
 

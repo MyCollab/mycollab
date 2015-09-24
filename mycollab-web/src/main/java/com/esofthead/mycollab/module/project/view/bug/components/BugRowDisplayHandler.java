@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.project.view.bug.components;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.Storage;
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
@@ -81,9 +82,8 @@ public class BugRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleBug> 
         }
 
         if (bug.getMilestoneid() != null) {
-            Div milestoneDiv = new Div().appendText(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE)
-                    .getHtml() +
-                    " " + bug.getMilestoneName());
+            Div milestoneDiv = new Div().appendText(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE).getHtml() +
+                    " " + StringUtils.trim(bug.getMilestoneName(), 20, true)).setTitle(bug.getMilestoneName());
             footer.appendChild(milestoneDiv).appendChild(DivLessFormatter.EMPTY_SPACE());
         }
 

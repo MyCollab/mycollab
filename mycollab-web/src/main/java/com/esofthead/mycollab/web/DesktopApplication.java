@@ -19,6 +19,7 @@ package com.esofthead.mycollab.web;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
 import com.esofthead.mycollab.core.*;
+import com.esofthead.mycollab.core.SecureAccessException;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.billing.SubDomainNotExistException;
 import com.esofthead.mycollab.module.billing.UsageExceedBillingPlanException;
@@ -185,6 +186,13 @@ public class DesktopApplication extends MyCollabUI {
         if (resourceNotFoundException != null) {
             NotificationUtil.showWarningNotification("Can not found resource.");
             LOG.error("404", resourceNotFoundException);
+            return;
+        }
+
+        SecureAccessException secureAccessException = getExceptionType(e, SecureAccessException.class);
+        if (secureAccessException != null) {
+            NotificationUtil.showWarningNotification("You can not access the specific resource");
+            EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"preview"}));
             return;
         }
 

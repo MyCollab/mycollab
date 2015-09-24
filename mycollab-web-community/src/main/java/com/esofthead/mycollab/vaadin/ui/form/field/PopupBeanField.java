@@ -17,7 +17,9 @@
 package com.esofthead.mycollab.vaadin.ui.form.field;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.vaadin.server.FontIcon;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.PopupView;
@@ -27,6 +29,10 @@ import com.vaadin.ui.PopupView;
  * @since 5.1.2
  */
 public class PopupBeanField extends PopupView {
+    public PopupBeanField(final FontIcon icon, final String valueAsHtml) {
+        this(icon.getHtml() + " " + StringUtils.trim(valueAsHtml, 20, true));
+    }
+
     public PopupBeanField(final String valueAsHtml) {
         super(new Content() {
             @Override

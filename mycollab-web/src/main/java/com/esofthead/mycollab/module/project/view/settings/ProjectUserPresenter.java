@@ -48,20 +48,15 @@ public class ProjectUserPresenter extends
 		AbstractPresenter<?> presenter;
 
 		if (data instanceof ProjectMemberScreenData.Add) {
-			presenter = PresenterResolver
-					.getPresenter(ProjectMemberEditPresenter.class);
+			presenter = PresenterResolver.getPresenter(ProjectMemberEditPresenter.class);
 		} else if (data instanceof ProjectMemberScreenData.InviteProjectMembers) {
-			presenter = PresenterResolver
-					.getPresenter(ProjectMemberInvitePresenter.class);
+			presenter = PresenterResolver.getPresenter(ProjectMemberInvitePresenter.class);
 		} else if (data instanceof ProjectMemberScreenData.InviteProjectMembers) {
-			presenter = PresenterResolver
-					.getPresenter(ProjectMemberInvitePresenter.class);
+			presenter = PresenterResolver.getPresenter(ProjectMemberInvitePresenter.class);
 		} else if (data instanceof ProjectMemberScreenData.Read) {
-			presenter = PresenterResolver
-					.getPresenter(ProjectMemberReadPresenter.class);
+			presenter = PresenterResolver.getPresenter(ProjectMemberReadPresenter.class);
 		} else {
-			presenter = PresenterResolver
-					.getPresenter(ProjectMemberListPresenter.class);
+			presenter = PresenterResolver.getPresenter(ProjectMemberListPresenter.class);
 		}
 
 		presenter.go(view, data);

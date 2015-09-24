@@ -220,7 +220,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
         super.detach();
     }
 
-    private void displayBugStastitic() {
+    private void displayBugStatistic() {
         rightColumn.removeAllComponents();
         // Unresolved by assignee
         UnresolvedBugsByAssigneeWidget2 unresolvedByAssigneeWidget = new UnresolvedBugsByAssigneeWidget2();
@@ -289,7 +289,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
         }
         List<SimpleBug> bugs = bugService.findPagableListByCriteria(new SearchRequest<>(searchCriteria, currentPage + 1, 20));
         bugGroupOrderComponent.insertBugs(bugs);
-        displayBugStastitic();
+        displayBugStatistic();
     }
 
     @Override

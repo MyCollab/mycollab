@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.vaadin.mvp
 
 import com.esofthead.mycollab.core.MyCollabException
-import com.esofthead.mycollab.core.utils.BeanUtility
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil
 import org.slf4j.{Logger, LoggerFactory}
 
@@ -39,14 +38,14 @@ abstract class UrlResolver {
         subResolvers += key -> subResolver
     }
 
-    def getSubResolver(key:String): UrlResolver = subResolvers(key)
+    def getSubResolver(key: String): UrlResolver = subResolvers(key)
 
     @varargs def handle(params: String*): Unit = {
         try {
             if (params.length > 0) {
                 val key: String = params(0)
                 if (subResolvers == null) {
-                    handlePage(params:_*)
+                    handlePage(params: _*)
                 }
                 else {
                     var urlResolver: UrlResolver = subResolvers(key)
@@ -59,8 +58,7 @@ abstract class UrlResolver {
                         }
                     }
 
-                    UrlResolver.LOG.debug("Handle url in resolver: " + urlResolver)
-                    urlResolver.handle(params.tail:_*)
+                    urlResolver.handle(params.tail: _*)
                 }
             }
             else {
@@ -82,9 +80,7 @@ abstract class UrlResolver {
     /**
      * @param params
      */
-    @varargs protected def handlePage(params: String*): Unit = {
-        UrlResolver.LOG.debug(String.format("Handle page: %s with params: %s", this, BeanUtility.printBeanObj(params)));
-    }
+    @varargs protected def handlePage(params: String*): Unit = {}
 }
 
 object UrlResolver {

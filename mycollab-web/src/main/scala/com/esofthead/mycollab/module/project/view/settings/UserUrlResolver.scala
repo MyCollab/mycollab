@@ -22,8 +22,11 @@ import com.esofthead.mycollab.eventmanager.EventBusFactory
 import com.esofthead.mycollab.module.project.ProjectMemberStatusConstants
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria
 import com.esofthead.mycollab.module.project.events.ProjectEvent
+import com.esofthead.mycollab.module.project.service.ProjectMemberService
 import com.esofthead.mycollab.module.project.view.ProjectUrlResolver
 import com.esofthead.mycollab.module.project.view.parameters.{ProjectMemberScreenData, ProjectScreenData}
+import com.esofthead.mycollab.spring.ApplicationContextUtil
+import com.esofthead.mycollab.vaadin.AppContext
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain
 
 /**
@@ -34,6 +37,7 @@ class UserUrlResolver extends ProjectUrlResolver {
     this.addSubResolver("list", new ListUrlResolver)
     this.addSubResolver("preview", new PreviewUrlResolver)
     this.addSubResolver("add", new AddUrlResolver)
+    this.addSubResolver("edit", new EditUrlResolver)
 
     private class ListUrlResolver extends ProjectUrlResolver {
         protected override def handlePage(params: String*) {
@@ -63,6 +67,19 @@ class UserUrlResolver extends ProjectUrlResolver {
             val projectId: Integer = token.getInt
             val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId),
                 new ProjectMemberScreenData.InviteProjectMembers)
+            EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+        }
+    }
+
+    private class EditUrlResolver extends ProjectUrlResolver {
+        protected override def handlePage(params: String*) {
+            val token: UrlTokenizer = new UrlTokenizer(params(0))
+            val projectId: Integer = token.getInt
+            val memberId: Integer = token.getInt
+            val projectMemberService = ApplicationContextUtil.getSpringBean(classOf[ProjectMemberService])
+            val member = projectMemberService.findById(memberId, AppContext.getAccountId)
+            val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId),
+                new ProjectMemberScreenData.Add(member))
             EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
         }
     }

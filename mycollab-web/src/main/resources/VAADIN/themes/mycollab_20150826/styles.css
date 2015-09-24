@@ -693,11 +693,24 @@ div.v-tree-node-caption div {
 	border-radius: 5px;
 	background: none;
 	padding: 0px 3px;
-	color: #808080;
+	color: #919191;
 }
 
 .v-popupview.block-popupedit .v-icon {
 	padding: 0px;
+}
+
+.v-popupview.block-popupedit:hover {
+	background-color: #5ca9ff;
+	color: white;
+}
+
+.v-popupview.block-popupedit .nonValue .hide {
+	display: none;
+}
+
+.v-popupview.block-popupedit .nonValue:hover .hide {
+	display: inline;
 }
 
 .v-popupview-popup.v-popupview-popup-block-popupedit .popupContent {
@@ -8421,11 +8434,24 @@ div.v-tree-node-caption div {
 	border-radius: 5px;
 	background: none;
 	padding: 0px 3px;
-	color: #808080;
+	color: #919191;
 }
 
 .v-popupview.block-popupedit .v-icon {
 	padding: 0px;
+}
+
+.v-popupview.block-popupedit:hover {
+	background-color: #5ca9ff;
+	color: white;
+}
+
+.v-popupview.block-popupedit .nonValue .hide {
+	display: none;
+}
+
+.v-popupview.block-popupedit .nonValue:hover .hide {
+	display: inline;
 }
 
 .v-popupview-popup.v-popupview-popup-block-popupedit .popupContent {
@@ -13142,10 +13168,6 @@ div.v-ratingstars-bar {
 	border: none;
 }
 
-.time-tracking-logging .advSearchFooterContainer {
-	display: none;
-}
-
 img.icon-btn {
 	cursor: pointer;
 	display: block;
@@ -13583,10 +13605,6 @@ div.v-csslayout.bean-block.olive-block {
 	vertical-align: middle;
 }
 
-.layout-log {
-	margin-top: 30px;
-}
-
 .text-log-hours {
 	text-align: right;
 	color: gray;
@@ -13597,17 +13615,6 @@ div.v-csslayout.bean-block.olive-block {
 	text-align: right;
 	font-weight: bold;
 	color: gray;
-}
-
-.text-log-date {
-	font-size: 16px;
-	font-weight: bold;
-	color: gray;
-}
-
-.text-log-date-full {
-	font-size: 14px;
-	font-weight: bold;
 }
 
 .v-window.lazyload-progress {

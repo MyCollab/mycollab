@@ -30,47 +30,44 @@ import java.util.Collection;
 import java.util.EventListener;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
 public interface IPagedBeanTable<S extends SearchCriteria, T> extends
-		HasSelectableItemHandlers<T>, HasPagableHandlers, Component, IBeanTable {
+        HasSelectableItemHandlers<T>, HasPagableHandlers, Component {
 
-	int setSearchCriteria(S searchCriteria);
+    int setSearchCriteria(S searchCriteria);
 
-	Collection<T> getCurrentDataList();
+    Collection<T> getCurrentDataList();
 
-	void addTableListener(TableClickListener listener);
+    void addTableListener(TableClickListener listener);
 
-	void addGeneratedColumn(Object id, Table.ColumnGenerator generatedColumn);
+    void addGeneratedColumn(Object id, Table.ColumnGenerator generatedColumn);
 
-	T getBeanByIndex(Object itemId);
+    T getBeanByIndex(Object itemId);
 
-	void refresh();
+    void refresh();
 
-	public static interface TableClickListener extends EventListener,
-			Serializable {
-		public static final Method itemClickMethod = ReflectTools.findMethod(
-				TableClickListener.class, "itemClick", TableClickEvent.class);
+    interface TableClickListener extends EventListener, Serializable {
+        Method itemClickMethod = ReflectTools.findMethod(
+                TableClickListener.class, "itemClick", TableClickEvent.class);
 
-		void itemClick(TableClickEvent event);
-	}
+        void itemClick(TableClickEvent event);
+    }
 
-	public static class TableClickEvent extends ApplicationEvent {
-		public static final String TABLE_CLICK_IDENTIFIER = "tableClickEvent";
+    class TableClickEvent extends ApplicationEvent {
+        public static final String TABLE_CLICK_IDENTIFIER = "tableClickEvent";
 
-		private static final long serialVersionUID = 1L;
-		private String fieldName;
+        private static final long serialVersionUID = 1L;
+        private String fieldName;
 
-		public TableClickEvent(IBeanTable source, Object data, String fieldName) {
-			super(source, data);
-			this.fieldName = fieldName;
-		}
+        public TableClickEvent(IPagedBeanTable source, Object data, String fieldName) {
+            super(source, data);
+            this.fieldName = fieldName;
+        }
 
-		public String getFieldName() {
-			return fieldName;
-		}
-	}
+        public String getFieldName() {
+            return fieldName;
+        }
+    }
 }

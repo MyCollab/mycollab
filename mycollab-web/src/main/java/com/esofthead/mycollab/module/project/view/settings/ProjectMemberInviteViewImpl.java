@@ -49,10 +49,10 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.themes.ValoTheme;
-import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.suggestfield.BeanSuggestionConverter;
 import org.vaadin.suggestfield.SuggestField;
 import org.vaadin.suggestfield.client.SuggestFieldSuggestion;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -93,8 +93,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements Pro
             }
         });
 
-        AddViewLayout userAddLayout = new AddViewLayout(AppContext
-                .getMessage(ProjectMemberI18nEnum.FORM_INVITE_MEMBERS),
+        AddViewLayout userAddLayout = new AddViewLayout(AppContext.getMessage(ProjectMemberI18nEnum.FORM_INVITE_MEMBERS),
                 FontAwesome.USER);
 
         userAddLayout.addHeaderRight(createButtonControls());
@@ -108,10 +107,8 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements Pro
                 AppContext.getMessage(ProjectMemberI18nEnum.FORM_ROLE), 0, 1);
 
         messageArea = new TextArea();
-        messageArea.setValue(AppContext
-                .getMessage(ProjectMemberI18nEnum.MSG_DEFAULT_INVITATION_COMMENT));
-        informationLayout.addComponent(messageArea, AppContext
-                .getMessage(ProjectMemberI18nEnum.FORM_MESSAGE), 0, 2);
+        messageArea.setValue(AppContext.getMessage(ProjectMemberI18nEnum.MSG_DEFAULT_INVITATION_COMMENT));
+        informationLayout.addComponent(messageArea, AppContext.getMessage(ProjectMemberI18nEnum.FORM_MESSAGE), 0, 2);
 
         userAddLayout.addBody(informationLayout.getLayout());
         userAddLayout.addBottomControls(createBottomPanel());
@@ -121,40 +118,36 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements Pro
     private Layout createButtonControls() {
         MHorizontalLayout controlButtons = new MHorizontalLayout();
 
-        Button inviteBtn = new Button(AppContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEE),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        Button inviteBtn = new Button(AppContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEE), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(ClickEvent event) {
-                        roleId = (Integer) roleComboBox.getValue();
-                        BeanItem<SimpleProjectRole> item = (BeanItem<SimpleProjectRole>) roleComboBox.getItem(roleId);
-                        String roleName = (item != null) ? item.getBean().getRolename() : "";
-                        ProjectMemberInviteViewImpl.this.fireEvent(new ViewEvent<>(
-                                ProjectMemberInviteViewImpl.this,
-                                new InviteProjectMembers(inviteEmails, roleId, roleName,
-                                        messageArea.getValue())));
+            @Override
+            public void buttonClick(ClickEvent event) {
+                roleId = (Integer) roleComboBox.getValue();
+                BeanItem<SimpleProjectRole> item = (BeanItem<SimpleProjectRole>) roleComboBox.getItem(roleId);
+                String roleName = (item != null) ? item.getBean().getRolename() : "";
+                ProjectMemberInviteViewImpl.this.fireEvent(new ViewEvent<>(
+                        ProjectMemberInviteViewImpl.this,
+                        new InviteProjectMembers(inviteEmails, roleId, roleName, messageArea.getValue())));
 
-                    }
-                });
+            }
+        });
         inviteBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         inviteBtn.setIcon(FontAwesome.SEND);
-        controlButtons.addComponent(inviteBtn);
 
-        Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(ClickEvent event) {
-                        ViewState viewState = HistoryViewManager.back();
-                        if (viewState instanceof NullViewState) {
-                            EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null));
-                        }
-                    }
-                });
+            @Override
+            public void buttonClick(ClickEvent event) {
+                ViewState viewState = HistoryViewManager.back();
+                if (viewState instanceof NullViewState) {
+                    EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null));
+                }
+            }
+        });
         cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-        controlButtons.addComponent(cancelBtn);
+        controlButtons.with(cancelBtn, inviteBtn);
 
         controlButtons.setSizeUndefined();
         return controlButtons;
@@ -214,8 +207,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements Pro
             suggestField = new SuggestField();
             suggestField.setWidth("100%");
             suggestField.setHeight("32px");
-            suggestField.setInputPrompt(AppContext
-                    .getMessage(ProjectMemberI18nEnum.USER_TOKEN_INVITE_HINT));
+            suggestField.setInputPrompt(AppContext.getMessage(ProjectMemberI18nEnum.USER_TOKEN_INVITE_HINT));
             suggestField.setNewItemsAllowed(true);
             suggestField.setNewItemsHandler(this);
             suggestField.setImmediate(true);
@@ -227,12 +219,8 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements Pro
             suggestField.setPopupWidth(400);
 
             addComponent(suggestField);
-            ProjectMemberService prjMemberService = ApplicationContextUtil
-                    .getSpringBean(ProjectMemberService.class);
-            candidateUsers = prjMemberService
-                    .getUsersNotInProject(
-                            CurrentProjectVariables.getProjectId(),
-                            AppContext.getAccountId());
+            ProjectMemberService prjMemberService = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
+            candidateUsers = prjMemberService.getUsersNotInProject(CurrentProjectVariables.getProjectId(), AppContext.getAccountId());
         }
 
         @Override
@@ -297,8 +285,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements Pro
         private Component generateToken(final SimpleUser user) {
             final Button btn = new Button("", FontAwesome.TIMES);
             btn.setCaptionAsHtml(true);
-            btn.setCaption((new Img("", Storage.getAvatarPath(user.getAvatarid(), 16))).write() + " " + user
-                    .getDisplayName());
+            btn.setCaption((new Img("", Storage.getAvatarPath(user.getAvatarid(), 16))).write() + " " + user.getDisplayName());
             btn.addClickListener(new Button.ClickListener() {
                 @Override
                 public void buttonClick(ClickEvent event) {

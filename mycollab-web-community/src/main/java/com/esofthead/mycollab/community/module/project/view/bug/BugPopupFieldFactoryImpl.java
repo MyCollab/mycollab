@@ -23,6 +23,8 @@ import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.form.field.PopupBeanField;
+import com.hp.gagawa.java.elements.Div;
+import com.hp.gagawa.java.elements.Span;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.PopupView;
 
@@ -36,26 +38,39 @@ public class BugPopupFieldFactoryImpl implements BugPopupFieldFactory {
     @Override
     public PopupView createBugCommentsPopupField(SimpleBug bug) {
         if (bug.getNumComments() != null) {
-            return new PopupBeanField(FontAwesome.COMMENT_O.getHtml() + " " + bug.getNumComments());
+            return new PopupBeanField(FontAwesome.COMMENT_O, "" + bug.getNumComments());
         } else {
-            return new PopupBeanField(FontAwesome.COMMENT_O.getHtml() + " 0");
+            return new PopupBeanField(FontAwesome.COMMENT_O, " 0");
         }
     }
 
     @Override
     public PopupView createBugMilestonePopupField(SimpleBug bug) {
-        return new PopupBeanField(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE).getHtml() +
-                " " + bug.getMilestoneName());
+        if (bug.getMilestoneid() == null) {
+            Div divHint = new Div().setCSSClass("nonValue");
+            divHint.appendText(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE).getHtml());
+            divHint.appendChild(new Span().appendText(" Click to edit").setCSSClass("hide"));
+            return new PopupBeanField(divHint.write());
+        } else {
+            return new PopupBeanField(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE), bug.getMilestoneName());
+        }
     }
 
     @Override
     public PopupView createBugStatusPopupField(SimpleBug bug) {
-        return new PopupBeanField(FontAwesome.INFO_CIRCLE.getHtml() + " " + bug.getStatus());
+        return new PopupBeanField(FontAwesome.INFO_CIRCLE, bug.getStatus());
     }
 
     @Override
     public PopupView createBugDeadlinePopupField(SimpleBug bug) {
-        return new PopupBeanField(String.format(" %s %s", FontAwesome.CLOCK_O.getHtml(),
-                AppContext.formatPrettyTime(bug.getDueDateRoundPlusOne())));
+        if (bug.getDueDateRoundPlusOne() == null) {
+            Div divHint = new Div().setCSSClass("nonValue");
+            divHint.appendText(FontAwesome.CLOCK_O.getHtml());
+            divHint.appendChild(new Span().appendText(" Click to edit").setCSSClass("hide"));
+            return new PopupBeanField(divHint.write());
+        } else {
+            return new PopupBeanField(String.format("%s %s", FontAwesome.CLOCK_O.getHtml(),
+                    AppContext.formatPrettyTime(bug.getDueDateRoundPlusOne())));
+        }
     }
 }

@@ -233,8 +233,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
                 lastAccessTimeLbl.addStyleName("member-email");
                 memberInfo.addComponent(lastAccessTimeLbl);
             } else if (RegisterStatusConstants.VERIFICATING.equals(beanItem.getStatus())) {
-                Label infoStatus = new Label(AppContext
-                        .getMessage(ProjectMemberI18nEnum.WAITING_ACCEPT_INVITATION));
+                Label infoStatus = new Label(AppContext.getMessage(ProjectMemberI18nEnum.WAITING_ACCEPT_INVITATION));
                 infoStatus.addStyleName("member-email");
                 memberInfo.addComponent(infoStatus);
             }
@@ -267,8 +266,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
 
     }
 
-    private static class ProjectMemberFormFieldFactory extends
-            AbstractBeanFieldGroupViewFieldFactory<SimpleProjectMember> {
+    private static class ProjectMemberFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<SimpleProjectMember> {
 
         private static final long serialVersionUID = 1L;
 
@@ -280,17 +278,14 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
         protected Field<?> onCreateField(final Object propertyId) {
             if (propertyId.equals("projectroleid")) {
                 if (Boolean.FALSE.equals(attachForm.getBean().getIsadmin())) {
-                    return new LinkViewField(attachForm.getBean().getRoleName(),
-                            ProjectLinkBuilder.generateRolePreviewFullLink(
-                                    attachForm.getBean().getProjectid(),
-                                    attachForm.getBean().getProjectroleid()), null);
+                    return new LinkViewField(attachForm.getBean().getRoleName(), ProjectLinkBuilder.generateRolePreviewFullLink(
+                            attachForm.getBean().getProjectid(), attachForm.getBean().getProjectroleid()), null);
                 } else {
                     return new DefaultViewField("Project Admin");
                 }
             } else if (propertyId.equals("username")) {
                 return new UserLinkViewField(attachForm.getBean().getUsername(),
-                        attachForm.getBean().getMemberAvatarId(),
-                        attachForm.getBean().getMemberFullName());
+                        attachForm.getBean().getMemberAvatarId(), attachForm.getBean().getMemberFullName());
             }
             return null;
         }
@@ -342,8 +337,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
                     withAlign(isOpenSelection, Alignment.MIDDLE_RIGHT).expand(titleLbl);
             header.addStyleName("panel-header");
 
-            taskList = new DefaultBeanPagedList<>(
-                    ApplicationContextUtil.getSpringBean(ProjectGenericTaskService.class),
+            taskList = new DefaultBeanPagedList<>(ApplicationContextUtil.getSpringBean(ProjectGenericTaskService.class),
                     new TaskRowDisplayHandler(), 10);
             this.with(header, taskList);
         }

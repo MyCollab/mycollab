@@ -40,7 +40,10 @@ import com.hp.gagawa.java.elements.A;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.UI;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -73,7 +76,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
         }
 
         if (project.getNumActiveMembers() > 0) {
-            Label activeMembersLbl =  new Label(FontAwesome.USERS.getHtml() + " " + project.getNumActiveMembers(),
+            Label activeMembersLbl = new Label(FontAwesome.USERS.getHtml() + " " + project.getNumActiveMembers(),
                     ContentMode.HTML);
             activeMembersLbl.setDescription("Active members");
             footer.addComponent(activeMembersLbl);
@@ -120,38 +123,35 @@ public class ProjectInfoComponent extends MHorizontalLayout {
 
             OptionPopupContent popupButtonsControl = new OptionPopupContent().withWidth("150px");
 
-            Button createPhaseBtn = new Button(AppContext.getMessage(MilestoneI18nEnum.BUTTON_NEW_PHASE),
-                    new Button.ClickListener() {
-                        @Override
-                        public void buttonClick(Button.ClickEvent event) {
-                            controlsBtn.setPopupVisible(false);
-                            EventBusFactory.getInstance().post(new MilestoneEvent.GotoAdd(ProjectInfoComponent.this, null));
-                        }
-                    });
+            Button createPhaseBtn = new Button(AppContext.getMessage(MilestoneI18nEnum.BUTTON_NEW_PHASE), new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent event) {
+                    controlsBtn.setPopupVisible(false);
+                    EventBusFactory.getInstance().post(new MilestoneEvent.GotoAdd(ProjectInfoComponent.this, null));
+                }
+            });
             createPhaseBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
             createPhaseBtn.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE));
             popupButtonsControl.addOption(createPhaseBtn);
 
-            Button createTaskBtn = new Button(AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASK),
-                    new Button.ClickListener() {
-                        @Override
-                        public void buttonClick(Button.ClickEvent event) {
-                            controlsBtn.setPopupVisible(false);
-                            EventBusFactory.getInstance().post(new TaskEvent.GotoAdd(ProjectInfoComponent.this, null));
-                        }
-                    });
+            Button createTaskBtn = new Button(AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASK), new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent event) {
+                    controlsBtn.setPopupVisible(false);
+                    EventBusFactory.getInstance().post(new TaskEvent.GotoAdd(ProjectInfoComponent.this, null));
+                }
+            });
             createTaskBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
             createTaskBtn.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK));
             popupButtonsControl.addOption(createTaskBtn);
 
-            Button createBugBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_NEW_BUG),
-                    new Button.ClickListener() {
-                        @Override
-                        public void buttonClick(Button.ClickEvent event) {
-                            controlsBtn.setPopupVisible(false);
-                            EventBusFactory.getInstance().post(new BugEvent.GotoAdd(this, null));
-                        }
-                    });
+            Button createBugBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_NEW_BUG), new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent event) {
+                    controlsBtn.setPopupVisible(false);
+                    EventBusFactory.getInstance().post(new BugEvent.GotoAdd(this, null));
+                }
+            });
             createBugBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS));
             createBugBtn.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG));
             popupButtonsControl.addOption(createBugBtn);
@@ -168,29 +168,50 @@ public class ProjectInfoComponent extends MHorizontalLayout {
             createRiskBtn.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.RISK));
             popupButtonsControl.addOption(createRiskBtn);
 
-            Button createProblemBtn = new Button(
-                    AppContext.getMessage(ProblemI18nEnum.BUTTON_NEW_PROBLEM),
-                    new Button.ClickListener() {
-                        @Override
-                        public void buttonClick(Button.ClickEvent event) {
-                            controlsBtn.setPopupVisible(false);
-                            EventBusFactory.getInstance().post(new ProblemEvent.GotoAdd(this, null));
-                        }
-                    });
+            Button createProblemBtn = new Button(AppContext.getMessage(ProblemI18nEnum.BUTTON_NEW_PROBLEM), new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent event) {
+                    controlsBtn.setPopupVisible(false);
+                    EventBusFactory.getInstance().post(new ProblemEvent.GotoAdd(this, null));
+                }
+            });
             createProblemBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.PROBLEMS));
             createProblemBtn.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.PROBLEM));
             popupButtonsControl.addOption(createProblemBtn);
 
             popupButtonsControl.addSeparator();
-            Button editProjectBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.BUTTON_EDIT_PROJECT),
-                    new Button.ClickListener() {
+            Button inviteMemberBtn = new Button(AppContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEES), new
+                    Button.ClickListener() {
                         @Override
                         public void buttonClick(Button.ClickEvent event) {
                             controlsBtn.setPopupVisible(false);
-                            EventBusFactory.getInstance().post(new ProjectEvent.GotoEdit(ProjectInfoComponent.this,
-                                    project));
+                            EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(this, null));
                         }
                     });
+            inviteMemberBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS));
+            inviteMemberBtn.setIcon(FontAwesome.SEND);
+            popupButtonsControl.addOption(inviteMemberBtn);
+
+            Button settingBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_SETTINGS), new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent event) {
+                    controlsBtn.setPopupVisible(false);
+                    EventBusFactory.getInstance().post(new ProjectNotificationEvent.GotoList(this, null));
+                }
+            });
+            settingBtn.setIcon(FontAwesome.COG);
+            popupButtonsControl.addOption(settingBtn);
+
+            popupButtonsControl.addSeparator();
+
+            Button editProjectBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.BUTTON_EDIT_PROJECT), new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent event) {
+                    controlsBtn.setPopupVisible(false);
+                    EventBusFactory.getInstance().post(new ProjectEvent.GotoEdit(ProjectInfoComponent.this,
+                            project));
+                }
+            });
             editProjectBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.PROJECT));
             editProjectBtn.setIcon(FontAwesome.EDIT);
             popupButtonsControl.addOption(editProjectBtn);

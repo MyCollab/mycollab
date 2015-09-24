@@ -16,18 +16,16 @@
  */
 package com.esofthead.mycollab.module.project.view.settings;
 
-import com.esofthead.mycollab.module.project.domain.ProjectMember;
+import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.IFormAddView;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
-public interface ProjectMemberEditView extends IFormAddView<ProjectMember> {
+public interface ProjectMemberEditView extends IFormAddView<SimpleProjectMember> {
 
-	HasEditFormHandlers<ProjectMember> getEditFormHandlers();
+    HasEditFormHandlers<SimpleProjectMember> getEditFormHandlers();
 
 }

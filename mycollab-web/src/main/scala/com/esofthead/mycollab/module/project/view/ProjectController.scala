@@ -467,6 +467,15 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
                 presenter.go(projectView, data)
             }
         })
+
+        this.register(new ApplicationEventListener[ProjectNotificationEvent.GotoList] {
+            @Subscribe def handle(event: ProjectNotificationEvent.GotoList) {
+                val data: ProjectSettingScreenData.ViewSettings = new ProjectSettingScreenData.ViewSettings()
+                val presenter = PresenterResolver.getPresenter(classOf[UserSettingPresenter])
+                presenter.go(projectView, data)
+            }
+        })
+
         this.register(new ApplicationEventListener[CustomizeUIEvent.UpdateFeaturesList] {
             @Subscribe def handle(event: CustomizeUIEvent.UpdateFeaturesList) {
                 projectView.updateProjectFeatures()

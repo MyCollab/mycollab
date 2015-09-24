@@ -88,22 +88,17 @@ public class BugRowRenderer extends MHorizontalLayout {
         PopupView commentsField = popupFieldFactory.createBugCommentsPopupField(bug);
         footer.addComponent(commentsField);
 
-        if (bug.getStatus() != null) {
-            PopupView field = popupFieldFactory.createBugStatusPopupField(bug);
-            footer.addComponent(field);
-        }
-        if (bug.getMilestoneid() != null) {
-            PopupView field = popupFieldFactory.createBugMilestonePopupField(bug);
-            footer.addComponent(field);
-        }
+        PopupView statusField = popupFieldFactory.createBugStatusPopupField(bug);
+        footer.addComponent(statusField);
 
-        if (bug.getDuedate() != null) {
-            String deadlineTooltip = String.format("%s: %s", AppContext.getMessage(BugI18nEnum.FORM_DUE_DATE),
-                    AppContext.formatDate(bug.getDuedate()));
-            PopupView field = popupFieldFactory.createBugDeadlinePopupField(bug);
-            field.setDescription(deadlineTooltip);
-            footer.addComponent(field);
-        }
+        PopupView milestoneField = popupFieldFactory.createBugMilestonePopupField(bug);
+        footer.addComponent(milestoneField);
+
+        String deadlineTooltip = String.format("%s: %s", AppContext.getMessage(BugI18nEnum.FORM_DUE_DATE),
+                AppContext.formatDate(bug.getDuedate()));
+        PopupView deadlineField = popupFieldFactory.createBugDeadlinePopupField(bug);
+        deadlineField.setDescription(deadlineTooltip);
+        footer.addComponent(deadlineField);
 
         wrapBugInfoLayout.addComponent(footer);
         this.with(wrapBugInfoLayout).expand(wrapBugInfoLayout);
