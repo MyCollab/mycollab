@@ -27,7 +27,7 @@ import net.sf.dynamicreports.jasper.builder.export.JasperXlsxExporterBuilder;
 import net.sf.dynamicreports.jasper.constant.JasperProperty;
 import net.sf.dynamicreports.report.builder.HyperLinkBuilder;
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
-import net.sf.dynamicreports.report.constant.HorizontalAlignment;
+import net.sf.dynamicreports.report.constant.HorizontalTextAlignment;
 import net.sf.dynamicreports.report.constant.PageOrientation;
 import net.sf.dynamicreports.report.constant.PageType;
 import org.slf4j.Logger;
@@ -39,6 +39,7 @@ import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 
 import static net.sf.dynamicreports.report.builder.DynamicReports.*;
@@ -58,26 +59,16 @@ public abstract class ExportItemsStreamResource implements StreamResource.Stream
     private ReportExportType outputForm;
     protected Locale locale;
     protected TimeZone timeZone;
+    protected Map<String, Object> parameters;
 
-    public ExportItemsStreamResource(TimeZone timezone, Locale languageSupport,
-                                     String reportTitle, ReportExportType outputForm) {
+    public ExportItemsStreamResource(TimeZone timezone, Locale languageSupport, String reportTitle, ReportExportType
+            outputForm, Map<String, Object> parameters) {
         this.locale = languageSupport;
         this.timeZone = timezone;
         this.reportTemplate = ReportTemplateFactory.getTemplate(languageSupport);
         this.reportTitle = reportTitle;
         this.outputForm = outputForm;
-    }
-
-    public static String getDefaultExportFileName(ReportExportType type) {
-        if (type == ReportExportType.PDF) {
-            return "export.pdf";
-        } else if (type == ReportExportType.CSV) {
-            return "export.csv";
-        } else if (type == ReportExportType.EXCEL) {
-            return "export.xlsx";
-        } else {
-            throw new MyCollabException("Do not support report output " + type);
-        }
+        this.parameters = parameters;
     }
 
     @Override
@@ -133,27 +124,24 @@ public abstract class ExportItemsStreamResource implements StreamResource.Stream
 
     protected JasperReportBuilder createReport() {
         JasperReportBuilder reportBuilder = report();
+        reportBuilder.setParameters(parameters);
         if (outputForm == ReportExportType.PDF) {
             reportBuilder
                     .title(createTitleComponent(reportTitle))
                     .noData(createTitleComponent(reportTitle), cmp.text("There is no data"))
                     .setPageFormat(PageType.A3, PageOrientation.LANDSCAPE)
                     .setColumnTitleStyle(reportTemplate.getColumnTitleStyle())
-                    .highlightDetailEvenRows().pageFooter(
-                    cmp.pageXofY().setStyle(reportTemplate.getBoldCenteredStyle()))
+                    .highlightDetailEvenRows().pageFooter(cmp.pageXofY().setStyle(reportTemplate.getBoldCenteredStyle()))
                     .setLocale(locale);
 
         } else if (outputForm == ReportExportType.CSV) {
             reportBuilder.setIgnorePagination(true);
         } else if (outputForm == ReportExportType.EXCEL) {
-            reportBuilder.title(createTitleComponent(reportTitle))
-                    .setColumnTitleStyle(reportTemplate.getColumnTitleStyle())
-                    .addProperty(JasperProperty.EXPORT_XLS_FREEZE_ROW, "2")
-                    .ignorePageWidth().ignorePagination();
+            reportBuilder.title(createTitleComponent(reportTitle)).setColumnTitleStyle(reportTemplate.getColumnTitleStyle())
+                    .addProperty(JasperProperty.EXPORT_XLS_FREEZE_ROW, "2").ignorePageWidth().ignorePagination();
 
         } else {
-            throw new IllegalArgumentException("Do not support output type "
-                    + outputForm);
+            throw new IllegalArgumentException("Do not support output type " + outputForm);
         }
 
         return reportBuilder;
@@ -167,18 +155,15 @@ public abstract class ExportItemsStreamResource implements StreamResource.Stream
         HyperLinkBuilder link = hyperLink("https://www.mycollab.com");
         ComponentBuilder<?, ?> dynamicReportsComponent = cmp.horizontalList(
                 cmp.image(
-                        ReportTemplateFactory.class.getClassLoader()
-                                .getResourceAsStream("images/logo.png"))
+                        ReportTemplateFactory.class.getClassLoader().getResourceAsStream("images/logo.png"))
                         .setFixedDimension(150, 28), cmp.horizontalGap(10), cmp.verticalList(
                         cmp.text(label).setStyle(reportTemplate.bold22CenteredStyle)
-                                .setHorizontalAlignment(HorizontalAlignment.LEFT),
-                        cmp.text("https://www.mycollab.com")
-                                .setStyle(reportTemplate.italicStyle).setHyperLink(link)),
+                                .setHorizontalTextAlignment(HorizontalTextAlignment.LEFT),
+                        cmp.text("https://www.mycollab.com").setStyle(reportTemplate.italicStyle).setHyperLink(link)),
                 cmp.horizontalGap(20),
                 cmp.text(String.format("Generated at: %s",
                         DateTimeUtils.formatDate(new GregorianCalendar().getTime(), "yyyy-MM-dd'T'HH:mm:ss", timeZone))));
 
-        return cmp.horizontalList().add(dynamicReportsComponent).newRow()
-                .add(cmp.line()).newRow().add(cmp.verticalGap(10));
+        return cmp.horizontalList().add(dynamicReportsComponent).newRow().add(cmp.line()).newRow().add(cmp.verticalGap(10));
     }
 }

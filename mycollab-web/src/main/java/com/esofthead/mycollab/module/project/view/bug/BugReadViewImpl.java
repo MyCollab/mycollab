@@ -51,6 +51,7 @@ import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.*;
 import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
@@ -253,7 +254,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
         dateInfoComp = new DateInfoComp();
         peopleInfoComp = new PeopleInfoComp();
         bugFollowersList = new ProjectFollowersComp<>(ProjectTypeConstants.BUG, ProjectRolePermissionCollections.BUGS);
-        bugTimeLogList = new BugTimeLogSheet();
+        bugTimeLogList = ViewManager.getCacheComponent(BugTimeLogSheet.class);
         addToSideBar(dateInfoComp, peopleInfoComp, bugFollowersList, bugTimeLogList);
     }
 

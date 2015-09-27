@@ -14,15 +14,24 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.project.view.task;
+package com.esofthead.mycollab.vaadin.ui;
 
-import com.esofthead.mycollab.module.project.domain.SimpleTask;
-import com.esofthead.mycollab.module.project.ui.components.TimeLogComp;
-import com.esofthead.mycollab.vaadin.mvp.CacheableComponent;
+import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.Window;
 
 /**
  * @author MyCollab Ltd
  * @since 5.1.4
  */
-public abstract class TaskTimeLogSheet extends TimeLogComp<SimpleTask> implements CacheableComponent {
+@ViewComponent
+public class NotPresentWindow extends Window {
+    public NotPresentWindow() {
+        super("We are sorry");
+        this.setModal(true);
+        this.setResizable(false);
+
+        Component content = new NotPresentedView().withMargin(true);
+        this.setContent(content);
+    }
 }

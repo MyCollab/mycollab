@@ -85,13 +85,13 @@ public class BugDashboardViewImpl extends AbstractLazyPageView implements BugDas
     }
 
     private void initUI() {
-        this.setMargin(new MarginInfo(false, true, false, true));
+        this.withMargin(new MarginInfo(false, true, false, true));
         header = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false)).withWidth("100%");
         header.addStyleName("hdr-view");
         header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
         addComponent(header);
 
-        MHorizontalLayout body = new MHorizontalLayout().withWidth("100%");
+        MHorizontalLayout body = new MHorizontalLayout().withWidth("100%").withMargin(false);
 
         leftColumn = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, false));
         rightColumn = new MVerticalLayout().withMargin(false);
@@ -104,8 +104,7 @@ public class BugDashboardViewImpl extends AbstractLazyPageView implements BugDas
     }
 
     private void initHeader() {
-        ProjectViewHeader title = new ProjectViewHeader(ProjectTypeConstants.BUG,
-                AppContext.getMessage(BugI18nEnum.VIEW_BUG_DASHBOARD_TITLE));
+        ProjectViewHeader title = new ProjectViewHeader(ProjectTypeConstants.BUG, AppContext.getMessage(BugI18nEnum.VIEW_BUG_DASHBOARD_TITLE));
         header.with(title).withAlign(title, Alignment.MIDDLE_LEFT).expand(title);
 
         Button createBugBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_NEW_BUG), new Button.ClickListener() {

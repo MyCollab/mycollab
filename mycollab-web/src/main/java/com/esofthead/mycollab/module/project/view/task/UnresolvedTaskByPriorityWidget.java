@@ -35,6 +35,7 @@ import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.google.common.eventbus.Subscribe;
 import com.rits.cloning.Cloner;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.UI;
@@ -69,6 +70,7 @@ public class UnresolvedTaskByPriorityWidget extends Depot {
 
     public UnresolvedTaskByPriorityWidget() {
         super(AppContext.getMessage(TaskI18nEnum.WIDGET_UNRESOLVED_BY_PRIORITY_TITLE), new MVerticalLayout());
+        this.setMargin(new MarginInfo(false, false, true, false));
         this.setContentBorder(true);
     }
 

@@ -27,10 +27,10 @@ import com.esofthead.mycollab.common.TableViewField;
  * @since 1.0
  * 
  */
-public class RpParameterBuilder {
+public class RpFieldsBuilder {
 	private List<TableViewFieldDecorator> viewFields;
 
-	public RpParameterBuilder(List<TableViewField> fields) {
+	public RpFieldsBuilder(List<TableViewField> fields) {
 		viewFields = new ArrayList<>();
 
 		for (TableViewField field : fields) {

@@ -93,8 +93,7 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements B
 
         public EditFormFieldFactory(GenericBeanForm<SimpleBug> form) {
             super(form);
-            subcribersComp = new ProjectSubscribersComp(false, CurrentProjectVariables.getProjectId(), AppContext
-                    .getUsername());
+            subcribersComp = new ProjectSubscribersComp(false, CurrentProjectVariables.getProjectId(), AppContext.getUsername());
         }
 
         @Override

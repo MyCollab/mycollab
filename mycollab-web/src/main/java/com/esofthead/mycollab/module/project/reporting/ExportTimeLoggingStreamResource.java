@@ -37,10 +37,9 @@ public class ExportTimeLoggingStreamResource extends ExportItemsStreamResource {
     private ItemTimeLoggingService searchService;
     private ItemTimeLoggingSearchCriteria searchCriteria;
 
-    public ExportTimeLoggingStreamResource(String title,
-                                           ReportExportType outputForm, ItemTimeLoggingService searchService,
+    public ExportTimeLoggingStreamResource(String title, ReportExportType outputForm, ItemTimeLoggingService searchService,
                                            ItemTimeLoggingSearchCriteria searchCriteria) {
-        super(AppContext.getTimezone(), AppContext.getUserLocale(), title, outputForm);
+        super(AppContext.getTimezone(), AppContext.getUserLocale(), title, outputForm, null);
 
         this.searchService = searchService;
         this.searchCriteria = searchCriteria;
@@ -48,17 +47,10 @@ public class ExportTimeLoggingStreamResource extends ExportItemsStreamResource {
 
     @Override
     protected void initReport() throws Exception {
-        TextColumnBuilder<String> summaryColumn = col.column("Summary",
-                "summary", type.stringType()).setWidth(400);
-
-        TextColumnBuilder<String> logUserColumn = col.column("Logged User",
-                "logUserFullName", type.stringType());
-
-        TextColumnBuilder<Double> logValueColumn = col.column("Hours",
-                "logvalue", type.doubleType()).setWidth(150);
-
-        TextColumnBuilder<Date> createdTimeColumn = col.column("Created Time",
-                "createdtime", type.dateType()).setWidth(100);
+        TextColumnBuilder<String> summaryColumn = col.column("Summary", "summary", type.stringType()).setWidth(400);
+        TextColumnBuilder<String> logUserColumn = col.column("Logged User", "logUserFullName", type.stringType());
+        TextColumnBuilder<Double> logValueColumn = col.column("Hours", "logvalue", type.doubleType()).setWidth(150);
+        TextColumnBuilder<Date> createdTimeColumn = col.column("Created Time", "createdtime", type.dateType()).setWidth(100);
 
         reportBuilder.columns(summaryColumn, logUserColumn, logValueColumn, createdTimeColumn).groupBy(logUserColumn)
                 .subtotalsAtSummary(sbt.sum(logValueColumn));
@@ -68,7 +60,6 @@ public class ExportTimeLoggingStreamResource extends ExportItemsStreamResource {
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     protected void fillReport() throws Exception {
-        reportBuilder.setDataSource(new GroupIteratorDataSource(searchService,
-                searchCriteria));
+        reportBuilder.setDataSource(new GroupIteratorDataSource(searchService, searchCriteria));
     }
 }

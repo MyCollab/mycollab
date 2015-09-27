@@ -21,9 +21,8 @@ import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.domain.FollowingTicket;
 import com.esofthead.mycollab.module.project.domain.criteria.FollowingTicketSearchCriteria;
 import com.esofthead.mycollab.module.project.service.ProjectFollowingTicketService;
-import com.esofthead.mycollab.reporting.ExportItemsStreamResource;
 import com.esofthead.mycollab.reporting.ReportExportType;
-import com.esofthead.mycollab.reporting.RpParameterBuilder;
+import com.esofthead.mycollab.reporting.RpFieldsBuilder;
 import com.esofthead.mycollab.reporting.SimpleGridExportItemsStreamResource;
 import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -46,132 +45,129 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @ViewComponent
 public class FollowingTicketViewImpl extends AbstractPageView implements FollowingTicketView {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private SplitButton exportButtonControl;
-	private FollowingTicketTableDisplay ticketTable;
+    private SplitButton exportButtonControl;
+    private FollowingTicketTableDisplay ticketTable;
 
-	private FollowingTicketSearchPanel searchPanel;
+    private FollowingTicketSearchPanel searchPanel;
 
-	public FollowingTicketViewImpl() {
-		this.setWidth("100%");
+    public FollowingTicketViewImpl() {
+        this.setWidth("100%");
 
-		MVerticalLayout headerWrapper = new MVerticalLayout().withSpacing(false).withMargin(false).withWidth
-				("100%").withStyleName("projectfeed-hdr-wrapper");
+        MVerticalLayout headerWrapper = new MVerticalLayout().withSpacing(false).withMargin(false).withWidth
+                ("100%").withStyleName("projectfeed-hdr-wrapper");
 
-		MHorizontalLayout header = new MHorizontalLayout().withWidth("100%");
+        MHorizontalLayout header = new MHorizontalLayout().withWidth("100%");
 
-		Label layoutHeader = new Label(FontAwesome.EYE.getHtml() +  " My Following Tickets", ContentMode.HTML);
-		layoutHeader.addStyleName("h2");
-		header.with(layoutHeader).withAlign(layoutHeader, Alignment.MIDDLE_LEFT).expand(layoutHeader);
+        Label layoutHeader = new Label(FontAwesome.EYE.getHtml() + " My Following Tickets", ContentMode.HTML);
+        layoutHeader.addStyleName("h2");
+        header.with(layoutHeader).withAlign(layoutHeader, Alignment.MIDDLE_LEFT).expand(layoutHeader);
 
-		headerWrapper.addComponent(header);
-		this.addComponent(headerWrapper);
+        headerWrapper.addComponent(header);
+        this.addComponent(headerWrapper);
 
-		MHorizontalLayout controlBtns = new MHorizontalLayout().withSpacing(false).withMargin(new MarginInfo(true,
-				false, true, false)).withWidth("100%");
+        MHorizontalLayout controlBtns = new MHorizontalLayout().withSpacing(false).withMargin(new MarginInfo(true,
+                false, true, false)).withWidth("100%");
 
-		MVerticalLayout contentWrapper = new MVerticalLayout().withSpacing(false).withMargin(false).withWidth("100%");
-		contentWrapper.addStyleName("content-wrapper");
+        MVerticalLayout contentWrapper = new MVerticalLayout().withSpacing(false).withMargin(false).withWidth("100%");
+        contentWrapper.addStyleName("content-wrapper");
 
-		contentWrapper.addComponent(controlBtns);
-		this.addComponent(contentWrapper);
+        contentWrapper.addComponent(controlBtns);
+        this.addComponent(contentWrapper);
 
-		Button backBtn = new Button(AppContext.getMessage(FollowerI18nEnum.BUTTON_BACK_TO_WORKBOARD));
-		backBtn.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+        Button backBtn = new Button(AppContext.getMessage(FollowerI18nEnum.BUTTON_BACK_TO_WORKBOARD));
+        backBtn.addClickListener(new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(FollowingTicketViewImpl.this, null));
-			}
-		});
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(FollowingTicketViewImpl.this, null));
+            }
+        });
 
-		backBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
-		backBtn.setIcon(FontAwesome.ARROW_LEFT);
+        backBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+        backBtn.setIcon(FontAwesome.ARROW_LEFT);
 
-		controlBtns.with(backBtn).withAlign(backBtn, Alignment.MIDDLE_LEFT);
+        controlBtns.with(backBtn).withAlign(backBtn, Alignment.MIDDLE_LEFT);
 
-		Button exportBtn = new Button("Export", new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+        Button exportBtn = new Button("Export", new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(ClickEvent event) {
-				exportButtonControl.setPopupVisible(true);
-			}
-		});
-		exportButtonControl = new SplitButton(exportBtn);
-		exportButtonControl.setWidthUndefined();
-		exportButtonControl.addStyleName(UIConstants.THEME_GRAY_LINK);
-		exportButtonControl.setIcon(FontAwesome.EXTERNAL_LINK);
+            @Override
+            public void buttonClick(ClickEvent event) {
+                exportButtonControl.setPopupVisible(true);
+            }
+        });
+        exportButtonControl = new SplitButton(exportBtn);
+        exportButtonControl.setWidthUndefined();
+        exportButtonControl.addStyleName(UIConstants.THEME_GRAY_LINK);
+        exportButtonControl.setIcon(FontAwesome.EXTERNAL_LINK);
 
-		OptionPopupContent popupButtonsControl = new OptionPopupContent();
-		exportButtonControl.setContent(popupButtonsControl);
+        OptionPopupContent popupButtonsControl = new OptionPopupContent();
+        exportButtonControl.setContent(popupButtonsControl);
 
-		Button exportPdfBtn = new Button("Pdf");
-		FileDownloader pdfDownloader = new FileDownloader(constructStreamResource(ReportExportType.PDF));
-		pdfDownloader.extend(exportPdfBtn);
-		exportPdfBtn.setIcon(FontAwesome.FILE_PDF_O);
-		popupButtonsControl.addOption(exportPdfBtn);
+        Button exportPdfBtn = new Button("Pdf");
+        FileDownloader pdfDownloader = new FileDownloader(constructStreamResource(ReportExportType.PDF));
+        pdfDownloader.extend(exportPdfBtn);
+        exportPdfBtn.setIcon(FontAwesome.FILE_PDF_O);
+        popupButtonsControl.addOption(exportPdfBtn);
 
-		Button exportExcelBtn = new Button("Excel");
-		FileDownloader excelDownloader = new FileDownloader(constructStreamResource(ReportExportType.EXCEL));
-		excelDownloader.extend(exportExcelBtn);
-		exportExcelBtn.setIcon(FontAwesome.FILE_EXCEL_O);
-		popupButtonsControl.addOption(exportExcelBtn);
+        Button exportExcelBtn = new Button("Excel");
+        FileDownloader excelDownloader = new FileDownloader(constructStreamResource(ReportExportType.EXCEL));
+        excelDownloader.extend(exportExcelBtn);
+        exportExcelBtn.setIcon(FontAwesome.FILE_EXCEL_O);
+        popupButtonsControl.addOption(exportExcelBtn);
 
-		controlBtns.with(exportButtonControl).withAlign(exportButtonControl, Alignment.MIDDLE_RIGHT);
+        controlBtns.with(exportButtonControl).withAlign(exportButtonControl, Alignment.MIDDLE_RIGHT);
 
-		searchPanel = new FollowingTicketSearchPanel();
-		contentWrapper.addComponent(searchPanel);
+        searchPanel = new FollowingTicketSearchPanel();
+        contentWrapper.addComponent(searchPanel);
 
-		this.ticketTable = new FollowingTicketTableDisplay();
-		this.ticketTable.addStyleName("full-border-table");
-		this.ticketTable.setMargin(new MarginInfo(true, false, false, false));
-		contentWrapper.addComponent(this.ticketTable);
-	}
+        this.ticketTable = new FollowingTicketTableDisplay();
+        this.ticketTable.addStyleName("full-border-table");
+        this.ticketTable.setMargin(new MarginInfo(true, false, false, false));
+        contentWrapper.addComponent(this.ticketTable);
+    }
 
-	private StreamResource constructStreamResource(final ReportExportType exportType) {
+    private StreamResource constructStreamResource(final ReportExportType exportType) {
 
-		LazyStreamSource streamSource = new LazyStreamSource() {
-			private static final long serialVersionUID = 1L;
+        LazyStreamSource streamSource = new LazyStreamSource() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			protected StreamSource buildStreamSource() {
-				return new SimpleGridExportItemsStreamResource.AllItems<>(
-						"Following Tickets Report", new RpParameterBuilder(ticketTable.getDisplayColumns()),
-						exportType, ApplicationContextUtil.getSpringBean(ProjectFollowingTicketService.class),
-						new FollowingTicketSearchCriteria(), FollowingTicket.class);
-			}
-		};
+            @Override
+            protected StreamSource buildStreamSource() {
+                return new SimpleGridExportItemsStreamResource.AllItems<>(
+                        "Following Tickets Report", new RpFieldsBuilder(ticketTable.getDisplayColumns()),
+                        exportType, ApplicationContextUtil.getSpringBean(ProjectFollowingTicketService.class),
+                        new FollowingTicketSearchCriteria(), FollowingTicket.class, null);
+            }
+        };
 
-		return new StreamResource(streamSource, ExportItemsStreamResource.getDefaultExportFileName(exportType));
-	}
+        return new StreamResource(streamSource, exportType.getDefaultFileName());
+    }
 
-	@Override
-	public void displayTickets() {
-		searchPanel.doSearch();
-	}
+    @Override
+    public void displayTickets() {
+        searchPanel.doSearch();
+    }
 
-	@Override
-	public HasSearchHandlers<FollowingTicketSearchCriteria> getSearchHandlers() {
-		return searchPanel;
-	}
+    @Override
+    public HasSearchHandlers<FollowingTicketSearchCriteria> getSearchHandlers() {
+        return searchPanel;
+    }
 
-	@Override
-	public AbstractPagedBeanTable<FollowingTicketSearchCriteria, FollowingTicket> getPagedBeanTable() {
-		return this.ticketTable;
-	}
+    @Override
+    public AbstractPagedBeanTable<FollowingTicketSearchCriteria, FollowingTicket> getPagedBeanTable() {
+        return this.ticketTable;
+    }
 }

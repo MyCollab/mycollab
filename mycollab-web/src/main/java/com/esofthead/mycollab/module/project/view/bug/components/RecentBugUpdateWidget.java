@@ -20,6 +20,7 @@ package com.esofthead.mycollab.module.project.view.bug.components;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.view.bug.BugDisplayWidget;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.vaadin.shared.ui.MarginInfo;
 
 /**
  * @author MyCollab Ltd.
@@ -30,5 +31,6 @@ public class RecentBugUpdateWidget extends BugDisplayWidget {
 
     public RecentBugUpdateWidget() {
         super(AppContext.getMessage(BugI18nEnum.WIDGET_UPDATED_RECENTLY_TITLE), false, BugRowDisplayHandler.class);
+        this.setMargin(new MarginInfo(false, false, true, false));
     }
 }

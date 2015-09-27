@@ -47,14 +47,12 @@ import java.util.List;
  * @since 1.0
  */
 @LoadPolicy(scope = ViewScope.PROTOTYPE)
-public class ComponentListPresenter extends
-        ProjectGenericListPresenter<ComponentListView, ComponentSearchCriteria, SimpleComponent> {
+public class ComponentListPresenter extends ProjectGenericListPresenter<ComponentListView, ComponentSearchCriteria, SimpleComponent> {
     private static final long serialVersionUID = 1L;
     private ComponentService componentService;
 
     public ComponentListPresenter() {
         super(ComponentListView.class, ComponentListNoItemView.class);
-
         componentService = ApplicationContextUtil.getSpringBean(ComponentService.class);
     }
 
@@ -63,7 +61,6 @@ public class ComponentListPresenter extends
         super.postInitView();
 
         view.getPopupActionHandlers().setMassActionHandler(new DefaultMassEditActionHandler(this) {
-
             @Override
             protected void onSelectExtra(String id) {
                 if (ViewItemAction.MAIL_ACTION().equals(id)) {

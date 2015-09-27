@@ -20,9 +20,11 @@ import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.SimpleItemTimeLogging;
 import com.esofthead.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria;
+import com.esofthead.mycollab.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.esofthead.mycollab.module.project.service.ItemTimeLoggingService;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
@@ -61,7 +63,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
     private MVerticalLayout content;
     private HorizontalLayout headerPanel;
 
-    private Button btnAdd;
+    private Button addBtn;
     private Label totalSpentTimeLbl;
     private NumericTextField newTimeInputField;
     private CheckBox isBillableField;
@@ -98,8 +100,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
                 TimeTableFieldDef.logUser,
                 TimeTableFieldDef.logForDate,
                 TimeTableFieldDef.logValue, TimeTableFieldDef.billable,
-                new TableViewField(null, "id",
-                        UIConstants.TABLE_CONTROL_WIDTH)));
+                new TableViewField(null, "id", UIConstants.TABLE_CONTROL_WIDTH)));
 
         tableItem.addGeneratedColumn("logUserFullName", new Table.ColumnGenerator() {
             private static final long serialVersionUID = 1L;
@@ -207,7 +208,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 
         isBillableField = new CheckBox(AppContext.getMessage(TimeTrackingI18nEnum.FORM_IS_BILLABLE), true);
 
-        btnAdd = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADD), new Button.ClickListener() {
+        addBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADD), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -223,15 +224,16 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
                     saveTimeInvest();
                     loadTimeValue();
                     newTimeInputField.setValue("0.0");
+                    EventBusFactory.getInstance().post(new ProjectEvent.TimeLoggingChangedEvent(TimeLogEditWindow.this));
                 }
             }
 
         });
 
-        btnAdd.setEnabled(isEnableAdd());
-        btnAdd.setStyleName(UIConstants.THEME_GREEN_LINK);
-        btnAdd.setIcon(FontAwesome.PLUS);
-        addLayout.with(newTimeInputField, forDateField, isBillableField, btnAdd);
+        addBtn.setEnabled(isEnableAdd());
+        addBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        addBtn.setIcon(FontAwesome.PLUS);
+        addLayout.with(newTimeInputField, forDateField, isBillableField, addBtn);
     }
 
     private void constructRemainTimeEntryPanel() {
@@ -261,7 +263,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
         addLayout.setComponentAlignment(remainTimeInputField,
                 Alignment.MIDDLE_LEFT);
 
-        btnAdd = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL), new Button.ClickListener() {
+        addBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -284,9 +286,9 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
             }
         });
 
-        btnAdd.setEnabled(isEnableAdd());
-        btnAdd.setStyleName(UIConstants.THEME_GREEN_LINK);
-        addLayout.with(btnAdd).withAlign(btnAdd, Alignment.MIDDLE_LEFT);
+        addBtn.setEnabled(isEnableAdd());
+        addBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        addLayout.with(addBtn).withAlign(addBtn, Alignment.MIDDLE_LEFT);
     }
 
     public void loadTimeValue() {

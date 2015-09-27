@@ -28,6 +28,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.Depot;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.VerticalLayout;
@@ -35,47 +36,46 @@ import com.vaadin.ui.VerticalLayout;
 import java.util.Arrays;
 
 /**
- * 
  * @author MyCollab Ltd.
  */
 @SuppressWarnings("serial")
 public class MeetingListDashlet extends Depot {
 
-	private MeetingTableDisplay tableItem;
+    private MeetingTableDisplay tableItem;
 
-	public MeetingListDashlet() {
-		super("My Meetings", new VerticalLayout());
+    public MeetingListDashlet() {
+        super("My Meetings", new VerticalLayout());
+        this.setMargin(new MarginInfo(true, false, false, false));
 
-		tableItem = new MeetingTableDisplay(Arrays.asList(new TableViewField(
-				MeetingI18nEnum.FORM_SUBJECT, "subject",
-				UIConstants.TABLE_X_LABEL_WIDTH), new TableViewField(
-				TaskI18nEnum.FORM_START_DATE, "startdate",
-				UIConstants.TABLE_DATE_TIME_WIDTH), new TableViewField(
-				ActivityI18nEnum.FORM_STATUS, "status",
-				UIConstants.TABLE_S_LABEL_WIDTH)));
+        tableItem = new MeetingTableDisplay(Arrays.asList(new TableViewField(
+                MeetingI18nEnum.FORM_SUBJECT, "subject",
+                UIConstants.TABLE_X_LABEL_WIDTH), new TableViewField(
+                TaskI18nEnum.FORM_START_DATE, "startdate",
+                UIConstants.TABLE_DATE_TIME_WIDTH), new TableViewField(
+                ActivityI18nEnum.FORM_STATUS, "status",
+                UIConstants.TABLE_S_LABEL_WIDTH)));
 
-		bodyContent.addComponent(tableItem);
+        bodyContent.addComponent(tableItem);
 
-		Button customizeViewBtn = new Button("", new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+        Button customizeViewBtn = new Button("", new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(ClickEvent event) {
+            @Override
+            public void buttonClick(ClickEvent event) {
 
-			}
-		});
-		customizeViewBtn.setIcon(FontAwesome.ADJUST);
-		customizeViewBtn.setDescription("Layout Options");
-		customizeViewBtn.setStyleName(UIConstants.BUTTON_ICON_ONLY);
+            }
+        });
+        customizeViewBtn.setIcon(FontAwesome.ADJUST);
+        customizeViewBtn.setDescription("Layout Options");
+        customizeViewBtn.setStyleName(UIConstants.BUTTON_ICON_ONLY);
 
-		this.addHeaderElement(customizeViewBtn);
-	}
+        this.addHeaderElement(customizeViewBtn);
+    }
 
-	public void display() {
-		final MeetingSearchCriteria criteria = new MeetingSearchCriteria();
-		criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-		criteria.setAssignUsers(new SetSearchField<>(
-				new String[] { AppContext.getUsername() }));
-		tableItem.setSearchCriteria(criteria);
-	}
+    public void display() {
+        final MeetingSearchCriteria criteria = new MeetingSearchCriteria();
+        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+        criteria.setAssignUsers(new SetSearchField<>(new String[]{AppContext.getUsername()}));
+        tableItem.setSearchCriteria(criteria);
+    }
 }

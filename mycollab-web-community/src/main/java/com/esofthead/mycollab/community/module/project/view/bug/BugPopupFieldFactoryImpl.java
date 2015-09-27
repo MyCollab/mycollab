@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.community.module.project.view.bug;
 
+import com.esofthead.mycollab.configuration.Storage;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.view.bug.BugPopupFieldFactory;
@@ -24,6 +25,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.form.field.PopupBeanField;
 import com.hp.gagawa.java.elements.Div;
+import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Span;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.PopupView;
@@ -34,6 +36,18 @@ import com.vaadin.ui.PopupView;
  */
 @ViewComponent
 public class BugPopupFieldFactoryImpl implements BugPopupFieldFactory {
+
+    @Override
+    public PopupView createBugPriorityPopupField(SimpleBug bug) {
+        return new PopupBeanField(ProjectAssetsManager.getTaskPriorityHtml(bug.getPriority()));
+    }
+
+    @Override
+    public PopupView createBugAssigneePopupField(SimpleBug bug) {
+        String avatarLink = Storage.getAvatarPath(bug.getAssignUserAvatarId(), 16);
+        Img img = new Img(bug.getAssignuserFullName(), avatarLink).setTitle(bug.getAssignuserFullName());
+        return new PopupBeanField(img.write());
+    }
 
     @Override
     public PopupView createBugCommentsPopupField(SimpleBug bug) {

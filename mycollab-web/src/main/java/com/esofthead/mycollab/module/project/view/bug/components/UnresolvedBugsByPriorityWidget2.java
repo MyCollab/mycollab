@@ -32,6 +32,7 @@ import com.esofthead.mycollab.vaadin.ui.ButtonI18nComp;
 import com.esofthead.mycollab.vaadin.ui.Depot;
 import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -51,6 +52,7 @@ public class UnresolvedBugsByPriorityWidget2 extends Depot {
     public UnresolvedBugsByPriorityWidget2() {
         super("", new MVerticalLayout());
         this.setContentBorder(true);
+        this.setMargin(new MarginInfo(false, false, true, false));
     }
 
     public void setSearchCriteria(final BugSearchCriteria searchCriteria) {

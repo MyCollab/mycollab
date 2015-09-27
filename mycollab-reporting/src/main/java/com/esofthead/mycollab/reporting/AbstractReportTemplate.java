@@ -16,22 +16,19 @@
  */
 package com.esofthead.mycollab.reporting;
 
-import static net.sf.dynamicreports.report.builder.DynamicReports.cmp;
-import static net.sf.dynamicreports.report.builder.DynamicReports.hyperLink;
-
+import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.reporting.expression.*;
 import net.sf.dynamicreports.report.builder.ReportTemplateBuilder;
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
 import net.sf.dynamicreports.report.builder.style.StyleBuilder;
 import net.sf.dynamicreports.report.definition.expression.DRIExpression;
 
-import com.esofthead.mycollab.core.MyCollabException;
+import static net.sf.dynamicreports.report.builder.DynamicReports.cmp;
+import static net.sf.dynamicreports.report.builder.DynamicReports.hyperLink;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 4.1.2
- *
  */
 public abstract class AbstractReportTemplate {
     protected StyleBuilder rootStyle;
@@ -140,9 +137,7 @@ public abstract class AbstractReportTemplate {
     private ComponentBuilder buildHyperLink(HyperlinkValue hyperlink) {
         ComponentBuilder compBuilder;
 
-        compBuilder = cmp.text(hyperlink.getTitle())
-                .setHyperLink(hyperLink(hyperlink.getHref()))
-                .setStyle(underlineStyle);
+        compBuilder = cmp.text(hyperlink.getTitle()).setHyperLink(hyperLink(hyperlink.getHref())).setStyle(underlineStyle);
 
         if (hyperlink.getStyle() != null) {
             compBuilder.setStyle(hyperlink.getStyle());

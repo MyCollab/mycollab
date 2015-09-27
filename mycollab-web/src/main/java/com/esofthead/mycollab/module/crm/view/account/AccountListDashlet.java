@@ -29,6 +29,7 @@ import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.UI;
@@ -48,8 +49,8 @@ public class AccountListDashlet extends Depot {
 
     public AccountListDashlet() {
         super("My Accounts", new VerticalLayout());
-        tableItem = new AccountTableDisplay(Arrays.asList(
-                AccountTableFieldDef.accountname(),
+        this.setMargin(new MarginInfo(true, false, false, false));
+        tableItem = new AccountTableDisplay(Arrays.asList(AccountTableFieldDef.accountname(),
                 AccountTableFieldDef.phoneoffice(), AccountTableFieldDef.email()));
 
         tableItem.addTableListener(new TableClickListener() {
@@ -59,9 +60,7 @@ public class AccountListDashlet extends Depot {
             public void itemClick(final TableClickEvent event) {
                 final SimpleAccount account = (SimpleAccount) event.getData();
                 if ("accountname".equals(event.getFieldName())) {
-                    EventBusFactory.getInstance().post(
-                            new AccountEvent.GotoRead(AccountListDashlet.this,
-                                    account.getId()));
+                    EventBusFactory.getInstance().post(new AccountEvent.GotoRead(AccountListDashlet.this, account.getId()));
                 }
             }
         });
@@ -72,9 +71,7 @@ public class AccountListDashlet extends Depot {
 
             @Override
             public void buttonClick(ClickEvent event) {
-                UI.getCurrent().addWindow(
-                        new AccountListCustomizeWindow(
-                                AccountListDashlet.VIEW_DEF_ID, tableItem));
+                UI.getCurrent().addWindow(new AccountListCustomizeWindow(AccountListDashlet.VIEW_DEF_ID, tableItem));
 
             }
         });

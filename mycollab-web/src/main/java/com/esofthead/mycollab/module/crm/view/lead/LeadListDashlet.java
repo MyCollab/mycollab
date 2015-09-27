@@ -29,6 +29,7 @@ import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.UI;
@@ -37,58 +38,55 @@ import com.vaadin.ui.VerticalLayout;
 import java.util.Arrays;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @SuppressWarnings("serial")
 public class LeadListDashlet extends Depot {
-	public static final String VIEW_DEF_ID = "crm-lead-dashlet";
+    public static final String VIEW_DEF_ID = "crm-lead-dashlet";
 
-	private LeadTableDisplay tableItem;
+    private LeadTableDisplay tableItem;
 
-	public LeadListDashlet() {
-		super("My Leads", new VerticalLayout());
+    public LeadListDashlet() {
+        super("My Leads", new VerticalLayout());
 
-		tableItem = new LeadTableDisplay(Arrays.asList(LeadTableFieldDef.name(),
-				LeadTableFieldDef.email(), LeadTableFieldDef.phoneoffice()));
+        this.setMargin(new MarginInfo(true, false, false, false));
 
-		tableItem.addTableListener(new TableClickListener() {
+        tableItem = new LeadTableDisplay(Arrays.asList(LeadTableFieldDef.name(),
+                LeadTableFieldDef.email(), LeadTableFieldDef.phoneoffice()));
 
-					@Override
-					public void itemClick(final TableClickEvent event) {
-						final SimpleLead lead = (SimpleLead) event.getData();
-						if ("leadName".equals(event.getFieldName())) {
-							EventBusFactory.getInstance()
-									.post(new LeadEvent.GotoRead(LeadListDashlet.this, lead.getId()));
-						}
-					}
-				});
-		bodyContent.addComponent(tableItem);
+        tableItem.addTableListener(new TableClickListener() {
 
-		Button customizeViewBtn = new Button("", new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+            @Override
+            public void itemClick(final TableClickEvent event) {
+                final SimpleLead lead = (SimpleLead) event.getData();
+                if ("leadName".equals(event.getFieldName())) {
+                    EventBusFactory.getInstance().post(new LeadEvent.GotoRead(LeadListDashlet.this, lead.getId()));
+                }
+            }
+        });
+        bodyContent.addComponent(tableItem);
 
-			@Override
-			public void buttonClick(ClickEvent event) {
-				UI.getCurrent().addWindow(
-						new LeadListCustomizeWindow(
-								LeadListDashlet.VIEW_DEF_ID, tableItem));
+        Button customizeViewBtn = new Button("", new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-			}
-		});
-		customizeViewBtn.setIcon(FontAwesome.ADJUST);
-		customizeViewBtn.setDescription("Layout Options");
-		customizeViewBtn.setStyleName(UIConstants.BUTTON_ICON_ONLY);
+            @Override
+            public void buttonClick(ClickEvent event) {
+                UI.getCurrent().addWindow(new LeadListCustomizeWindow(LeadListDashlet.VIEW_DEF_ID, tableItem));
 
-		this.addHeaderElement(customizeViewBtn);
-	}
+            }
+        });
+        customizeViewBtn.setIcon(FontAwesome.ADJUST);
+        customizeViewBtn.setDescription("Layout Options");
+        customizeViewBtn.setStyleName(UIConstants.BUTTON_ICON_ONLY);
 
-	public void display() {
-		final LeadSearchCriteria criteria = new LeadSearchCriteria();
-		criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-		criteria.setAssignUsers(new SetSearchField<>(
-				new String[] { AppContext.getUsername() }));
-		tableItem.setSearchCriteria(criteria);
-	}
+        this.addHeaderElement(customizeViewBtn);
+    }
+
+    public void display() {
+        final LeadSearchCriteria criteria = new LeadSearchCriteria();
+        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+        criteria.setAssignUsers(new SetSearchField<>(new String[]{AppContext.getUsername()}));
+        tableItem.setSearchCriteria(criteria);
+    }
 }

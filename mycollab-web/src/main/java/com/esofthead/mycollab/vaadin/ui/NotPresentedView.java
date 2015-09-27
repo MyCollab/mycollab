@@ -19,11 +19,12 @@ package com.esofthead.mycollab.vaadin.ui;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
+import com.vaadin.server.BrowserWindowOpener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -33,26 +34,22 @@ public class NotPresentedView extends AbstractPageView {
     private static final long serialVersionUID = 1L;
 
     public NotPresentedView() {
-        this.setHeight("370px");
-        this.setWidth("100%");
-        VerticalLayout layoutWapper = new VerticalLayout();
-        layoutWapper.setWidth("100%");
+        this.withSpacing(true).withWidth("100%");
+        this.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 
-        VerticalLayout layout = new VerticalLayout();
         final Label titleIcon = new Label(FontAwesome.EXCLAMATION_CIRCLE.getHtml(), ContentMode.HTML);
         titleIcon.setStyleName("warning-icon");
         titleIcon.setSizeUndefined();
-        layout.addComponent(titleIcon);
-        layout.setComponentAlignment(titleIcon, Alignment.MIDDLE_CENTER);
+        this.addComponent(titleIcon);
 
         Label label = new Label(AppContext.getMessage(GenericI18Enum.NOTIFICATION_FEATURE_NOT_AVAILABLE_IN_VERSION));
         label.setStyleName("h2_community");
-        layout.addComponent(label);
-        layout.setComponentAlignment(label, Alignment.MIDDLE_CENTER);
+        this.addComponent(label);
 
-        layoutWapper.addComponent(layout);
-        layoutWapper.setComponentAlignment(layout, Alignment.MIDDLE_CENTER);
-        this.addComponent(layoutWapper);
-        this.setComponentAlignment(layoutWapper, Alignment.MIDDLE_CENTER);
+        Button requestFeatureBtn = new Button("Request the professional software");
+        requestFeatureBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        BrowserWindowOpener opener = new BrowserWindowOpener("mailto:support@mycollab.com");
+        opener.extend(requestFeatureBtn);
+        this.addComponent(requestFeatureBtn);
     }
 }

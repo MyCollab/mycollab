@@ -160,8 +160,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
                         | ProjectPreviewFormControlsGenerator.DELETE_BTN_PRESENTED,
                 ProjectRolePermissionCollections.PAGES);
 
-        Button exportPdfBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_PDF),
-                FontAwesome.EXTERNAL_LINK);
+        Button exportPdfBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_PDF), FontAwesome.EXTERNAL_LINK);
         exportPdfBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
         FileDownloader fileDownloader = new FileDownloader(getPDFStream());
@@ -189,10 +188,8 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
 
     private File writePdf() throws IOException, DocumentException {
         ITextRenderer renderer = new ITextRenderer();
-        renderer.setDocumentFromString(String.format(XHTML_PAGE,
-                beanItem.getSubject(), beanItem.getSubject(), beanItem.getContent()));
+        renderer.setDocumentFromString(String.format(XHTML_PAGE, beanItem.getSubject(), beanItem.getSubject(), beanItem.getContent()));
         renderer.layout();
-
         File file = File.createTempFile(beanItem.getSubject(), "pdf");
         file.deleteOnExit();
         try (OutputStream os = new FileOutputStream(file)) {

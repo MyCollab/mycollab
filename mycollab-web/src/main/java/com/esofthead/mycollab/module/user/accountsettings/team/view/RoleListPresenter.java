@@ -71,7 +71,7 @@ public class RoleListPresenter extends ListSelectionPresenter<RoleListView, Role
 
                     @Override
                     protected String getReportTitle() {
-                        return "Role List";
+                        return "Roles";
                     }
 
                     @Override

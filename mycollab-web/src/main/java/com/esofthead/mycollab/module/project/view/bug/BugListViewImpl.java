@@ -33,10 +33,12 @@ import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
+import com.esofthead.mycollab.module.project.reporting.BugStreamResource;
 import com.esofthead.mycollab.module.project.view.bug.components.*;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
+import com.esofthead.mycollab.reporting.ReportExportType;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasMassItemActionHandler;
@@ -45,15 +47,14 @@ import com.esofthead.mycollab.vaadin.events.HasSelectableItemHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSelectionOptionHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.SavedFilterComboBox;
-import com.esofthead.mycollab.vaadin.ui.ToggleButtonGroup;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.esofthead.vaadin.floatingcomponent.FloatingComponent;
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.data.Property;
+import com.vaadin.server.FileDownloader;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.StreamResource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
@@ -86,7 +87,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
     private BugSearchCriteria baseCriteria;
 
     private BugSearchPanel searchPanel;
-    private VerticalLayout wrapBody;
+    private MVerticalLayout wrapBody;
     private VerticalLayout rightColumn;
     private MHorizontalLayout mainLayout;
     private BugGroupOrderComponent bugGroupOrderComponent;
@@ -162,7 +163,32 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 
         searchPanel.addHeaderRight(groupWrapLayout);
 
-        Button newTaskBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_NEW_BUG), new Button.ClickListener() {
+        Button exportBtn = new Button("Export");
+        final SplitButton exportSplitBtn = new SplitButton(exportBtn);
+        exportBtn.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent event) {
+                exportSplitBtn.setPopupVisible(true);
+            }
+        });
+        exportSplitBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+        OptionPopupContent popupButtonsControl = new OptionPopupContent();
+
+        Button exportPdfBtn = new Button("PDF");
+        FileDownloader pdfFileDownloder = new FileDownloader(buildStreamSource(ReportExportType.PDF));
+        pdfFileDownloder.extend(exportPdfBtn);
+
+        popupButtonsControl.addOption(exportPdfBtn);
+
+        Button exportExcelBtn = new Button("Excel");
+        FileDownloader excelFileDownloader = new FileDownloader(buildStreamSource(ReportExportType.EXCEL));
+        excelFileDownloader.extend(exportExcelBtn);
+        popupButtonsControl.addOption(exportExcelBtn);
+
+        exportSplitBtn.setContent(popupButtonsControl);
+        groupWrapLayout.with(exportSplitBtn);
+
+        Button newBugBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_NEW_BUG), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -170,11 +196,11 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
                 EventBusFactory.getInstance().post(new BugEvent.GotoAdd(BugListViewImpl.this, null));
             }
         });
-        newTaskBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
-        newTaskBtn.setIcon(FontAwesome.PLUS);
-        newTaskBtn.setDescription(AppContext.getMessage(BugI18nEnum.BUTTON_NEW_BUG));
-        newTaskBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-        groupWrapLayout.addComponent(newTaskBtn);
+        newBugBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
+        newBugBtn.setIcon(FontAwesome.PLUS);
+        newBugBtn.setDescription(AppContext.getMessage(BugI18nEnum.BUTTON_NEW_BUG));
+        newBugBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        groupWrapLayout.addComponent(newBugBtn);
 
         Button advanceDisplayBtn = new Button();
         advanceDisplayBtn.setIcon(FontAwesome.SITEMAP);
@@ -196,16 +222,19 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
         groupWrapLayout.addComponent(viewButtons);
 
         mainLayout = new MHorizontalLayout().withFullHeight().withFullWidth();
-        this.wrapBody = new VerticalLayout();
-        wrapBody.setSpacing(true);
+        wrapBody = new MVerticalLayout().withMargin(new MarginInfo(false, true, true, false));
 
-        this.rightColumn = new MVerticalLayout().withWidth("300px").withMargin(false);
+        this.rightColumn = new MVerticalLayout().withWidth("300px").withMargin(new MarginInfo(true, false, true, false));
 
         mainLayout.with(wrapBody, rightColumn).expand(wrapBody);
         this.with(searchPanel, mainLayout);
 
         FloatingComponent floatSidebar = FloatingComponent.floatThis(this.rightColumn);
         floatSidebar.setContainerId("main-body");
+    }
+
+    private StreamResource buildStreamSource(ReportExportType type) {
+        return new StreamResource(new BugStreamResource("Bugs", type), type.getDefaultFileName());
     }
 
     @Override

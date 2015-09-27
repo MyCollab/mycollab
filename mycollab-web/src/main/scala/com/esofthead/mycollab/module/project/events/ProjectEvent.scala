@@ -24,11 +24,14 @@ import com.esofthead.mycollab.eventmanager.ApplicationEvent
  */
 object ProjectEvent {
 
-  class GotoEdit(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+    class GotoEdit(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
-  class GotoMyProject(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+    class GotoMyProject(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
-  class GotoTagListView(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+    class GotoTagListView(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
-  class GotoProjectSearchItemsView(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+    class GotoProjectSearchItemsView(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+
+    class TimeLoggingChangedEvent(source: AnyRef) extends ApplicationEvent(source, null) {}
+
 }

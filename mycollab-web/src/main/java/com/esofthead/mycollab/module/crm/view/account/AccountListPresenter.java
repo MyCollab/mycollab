@@ -78,13 +78,10 @@ public class AccountListPresenter extends CrmGenericListPresenter<AccountListVie
             protected void onSelectExtra(String id) {
                 if (ViewItemAction.MAIL_ACTION().equals(id)) {
                     if (isSelectAll) {
-                        NotificationUtil.showWarningNotification(AppContext
-                                .getMessage(ErrorI18nEnum.NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS));
+                        NotificationUtil.showWarningNotification(AppContext.getMessage(ErrorI18nEnum.NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS));
                     } else {
                         List<String> lstMail = new ArrayList<>();
-                        Collection<SimpleAccount> tableData = view
-                                .getPagedBeanTable()
-                                .getCurrentDataList();
+                        Collection<SimpleAccount> tableData = view.getPagedBeanTable().getCurrentDataList();
                         for (SimpleAccount item : tableData) {
                             if (item.isSelected()) {
                                 lstMail.add(String.format("%s <%s>", item.getAccountname(), item.getEmail()));

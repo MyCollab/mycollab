@@ -225,7 +225,7 @@ public class TaskDashboardViewImpl extends AbstractLazyPageView implements TaskD
         mainLayout = new MHorizontalLayout().withFullHeight().withFullWidth();
         wrapBody = new MVerticalLayout().withMargin(new MarginInfo(false, true, true, false));
 
-        rightColumn = new MVerticalLayout().withWidth("300px").withMargin(false);
+        rightColumn = new MVerticalLayout().withWidth("300px").withMargin(new MarginInfo(true, false, false, false));
 
         mainLayout.with(wrapBody, rightColumn).expand(wrapBody);
 
@@ -272,13 +272,12 @@ public class TaskDashboardViewImpl extends AbstractLazyPageView implements TaskD
     private void displayTaskStatistic() {
         rightColumn.removeAllComponents();
         UnresolvedTaskByAssigneeWidget unresolvedTaskByAssigneeWidget = new UnresolvedTaskByAssigneeWidget();
+        unresolvedTaskByAssigneeWidget.setSearchCriteria(baseCriteria);
         rightColumn.addComponent(unresolvedTaskByAssigneeWidget);
 
-        unresolvedTaskByAssigneeWidget.setSearchCriteria(baseCriteria);
-
         UnresolvedTaskByPriorityWidget unresolvedTaskByPriorityWidget = new UnresolvedTaskByPriorityWidget();
-        rightColumn.addComponent(unresolvedTaskByPriorityWidget);
         unresolvedTaskByPriorityWidget.setSearchCriteria(baseCriteria);
+        rightColumn.addComponent(unresolvedTaskByPriorityWidget);
     }
 
     @Override

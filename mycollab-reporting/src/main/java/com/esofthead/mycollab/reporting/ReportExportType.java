@@ -16,12 +16,25 @@
  */
 package com.esofthead.mycollab.reporting;
 
+import com.esofthead.mycollab.core.MyCollabException;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public enum ReportExportType {
-	CSV, EXCEL, PDF
+    CSV, EXCEL, PDF;
+
+    public String getDefaultFileName() {
+        switch (this) {
+            case CSV:
+                return "export.csv";
+            case PDF:
+                return "export.pdf";
+            case EXCEL:
+                return "export.xlsx";
+            default:
+                throw new MyCollabException("Do not support export type " + this);
+        }
+    }
 }

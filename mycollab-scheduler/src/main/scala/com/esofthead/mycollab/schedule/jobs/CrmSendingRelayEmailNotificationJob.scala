@@ -23,7 +23,7 @@ import com.esofthead.mycollab.common.domain.criteria.RelayEmailNotificationSearc
 import com.esofthead.mycollab.common.service.RelayEmailNotificationService
 import com.esofthead.mycollab.core.arguments.{SearchRequest, SetSearchField}
 import com.esofthead.mycollab.module.crm.CrmTypeConstants
-import com.esofthead.mycollab.schedule.email.crm.service.CrmDefaultSendingRelayEmailAction
+import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction
 import com.esofthead.mycollab.spring.ApplicationContextUtil
 import org.quartz.JobExecutionContext
 import org.slf4j.{Logger, LoggerFactory}
@@ -41,7 +41,6 @@ import org.springframework.stereotype.Component
 class CrmSendingRelayEmailNotificationJob extends GenericQuartzJobBean {
     private val LOG: Logger = LoggerFactory.getLogger(classOf[CrmSendingRelayEmailNotificationJob])
 
-    @Autowired private val relayEmailService: RelayEmailNotificationService = null
     @Autowired private val relayEmailNotificationMapper: RelayEmailNotificationMapper = null
 
     @SuppressWarnings(Array("unchecked"))
@@ -56,13 +55,13 @@ class CrmSendingRelayEmailNotificationJob extends GenericQuartzJobBean {
         val relayEmaiNotifications: List[SimpleRelayEmailNotification] = relayEmailService.findPagableListByCriteria(
             new SearchRequest[RelayEmailNotificationSearchCriteria](criteria, 0,
                 Integer.MAX_VALUE)).asScala.toList.asInstanceOf[List[SimpleRelayEmailNotification]]
-        var emailNotificationAction: CrmDefaultSendingRelayEmailAction[_] = null
+        var emailNotificationAction: SendingRelayEmailNotificationAction = null
 
         for (notification <- relayEmaiNotifications) {
             try {
                 if (notification.getEmailhandlerbean != null) {
                     emailNotificationAction = ApplicationContextUtil.getSpringBean(Class.forName(notification.getEmailhandlerbean)).
-                        asInstanceOf[CrmDefaultSendingRelayEmailAction[_]]
+                        asInstanceOf[SendingRelayEmailNotificationAction]
 
                     if (emailNotificationAction != null) {
                         notification.getAction match {

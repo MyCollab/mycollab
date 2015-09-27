@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.project.view.bug.components;
 
 import com.esofthead.mycollab.module.project.view.bug.BugDisplayWidget;
+import com.vaadin.shared.ui.MarginInfo;
 
 /**
  * @author MyCollab Ltd.
@@ -27,5 +28,6 @@ public class WaitingApprovalBugsWidget extends BugDisplayWidget {
 
     public WaitingApprovalBugsWidget() {
         super("Waiting Approval", false, BugRowDisplayHandler.class);
+        this.setMargin(new MarginInfo(false, false, true, false));
     }
 }

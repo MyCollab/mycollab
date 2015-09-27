@@ -26,125 +26,110 @@ import com.esofthead.mycollab.vaadin.ui.OptionPopupContent;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.rits.cloning.Cloner;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CssLayout;
 import org.vaadin.hene.popupbutton.PopupButton;
-import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class BugChartComponent extends Depot {
-	private static final long serialVersionUID = 1L;
-	private final String[] reportDashboard = { "BugsByPriority", "BugsByStatus", "BugByResolution" };
-	private int currentReportIndex = 0;
+    private static final long serialVersionUID = 1L;
+    private final String[] reportDashboard = {"BugsByPriority", "BugsByStatus", "BugByResolution"};
+    private int currentReportIndex = 0;
 
-	private final BugSearchCriteria baseSearchCriteria;
+    private final BugSearchCriteria baseSearchCriteria;
 
-	public BugChartComponent(final BugSearchCriteria baseSearchCriteria,
-			final int headerWidth, final int titleWidth) {
-		super(AppContext.getMessage(BugI18nEnum.WIDGET_CHARTS_TITLE), null,
-				new CssLayout(), headerWidth + "px", titleWidth + "px");
-		this.setSizeFull();
-		this.baseSearchCriteria = baseSearchCriteria;
-		this.setContentBorder(true);
-		this.bodyContent.setSizeFull();
-		initUI();
-	}
+    public BugChartComponent(BugSearchCriteria baseSearchCriteria, int headerWidth, int titleWidth) {
+        super(AppContext.getMessage(BugI18nEnum.WIDGET_CHARTS_TITLE), null, new CssLayout(), headerWidth + "px", titleWidth + "px");
+        this.setSizeFull();
+        this.setMargin(new MarginInfo(false, false, true, false));
+        this.baseSearchCriteria = baseSearchCriteria;
+        this.setContentBorder(true);
+        this.bodyContent.setSizeFull();
+        initUI();
+    }
 
-	private void displayReport() {
-		final String reportName = reportDashboard[currentReportIndex];
+    private void displayReport() {
+        final String reportName = reportDashboard[currentReportIndex];
 
-		final CssLayout bodyContent = (CssLayout) this.bodyContent;
-		bodyContent.removeAllComponents();
+        final CssLayout bodyContent = (CssLayout) this.bodyContent;
+        bodyContent.removeAllComponents();
 
-		if ("BugsByPriority".equals(reportName)) {
-			this.setTitle(AppContext
-					.getMessage(BugI18nEnum.WIDGET_CHART_PRIORIY_TITLE));
-			IPrioritySummaryChartWidget prioritySummaryChartWidget = ViewManager
-					.getCacheComponent(IPrioritySummaryChartWidget.class);
-			bodyContent.addComponent(prioritySummaryChartWidget);
+        if ("BugsByPriority".equals(reportName)) {
+            this.setTitle(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_PRIORIY_TITLE));
+            IPrioritySummaryChartWidget prioritySummaryChartWidget = ViewManager.getCacheComponent(IPrioritySummaryChartWidget.class);
+            bodyContent.addComponent(prioritySummaryChartWidget);
 
-			final BugSearchCriteria prioritySearchCriteria = new Cloner()
-					.deepClone(baseSearchCriteria);
-			prioritySummaryChartWidget
-					.setSearchCriteria(prioritySearchCriteria);
-		} else if ("BugsByStatus".equals(reportName)) {
-			this.setTitle(AppContext
-					.getMessage(BugI18nEnum.WIDGET_CHART_STATUS_TITLE));
-			IStatusSummaryChartWidget statusSummaryChartWidget = ViewManager
-					.getCacheComponent(IStatusSummaryChartWidget.class);
-			bodyContent.addComponent(statusSummaryChartWidget);
+            final BugSearchCriteria prioritySearchCriteria = new Cloner().deepClone(baseSearchCriteria);
+            prioritySummaryChartWidget.setSearchCriteria(prioritySearchCriteria);
+        } else if ("BugsByStatus".equals(reportName)) {
+            this.setTitle(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_STATUS_TITLE));
+            IStatusSummaryChartWidget statusSummaryChartWidget = ViewManager.getCacheComponent(IStatusSummaryChartWidget.class);
+            bodyContent.addComponent(statusSummaryChartWidget);
 
-			final BugSearchCriteria statusSearchCriteria = new Cloner()
-					.deepClone(baseSearchCriteria);
-			statusSummaryChartWidget.setSearchCriteria(statusSearchCriteria);
-		} else if ("BugByResolution".equals(reportName)) {
-			this.setTitle(AppContext
-					.getMessage(BugI18nEnum.WIDGET_CHART_RESOLUTION_TITLE));
-			IBugResolutionSummaryChartWidget resolutionSummaryWdiget = ViewManager
-					.getCacheComponent(IBugResolutionSummaryChartWidget.class);
-			bodyContent.addComponent(resolutionSummaryWdiget);
+            final BugSearchCriteria statusSearchCriteria = new Cloner().deepClone(baseSearchCriteria);
+            statusSummaryChartWidget.setSearchCriteria(statusSearchCriteria);
+        } else if ("BugByResolution".equals(reportName)) {
+            this.setTitle(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_RESOLUTION_TITLE));
+            IBugResolutionSummaryChartWidget resolutionSummaryWdiget = ViewManager.getCacheComponent(IBugResolutionSummaryChartWidget.class);
+            bodyContent.addComponent(resolutionSummaryWdiget);
 
-			final BugSearchCriteria statusSearchCriteria = new Cloner()
-					.deepClone(baseSearchCriteria);
-			resolutionSummaryWdiget.setSearchCriteria(statusSearchCriteria);
-		}
-	}
+            final BugSearchCriteria statusSearchCriteria = new Cloner().deepClone(baseSearchCriteria);
+            resolutionSummaryWdiget.setSearchCriteria(statusSearchCriteria);
+        }
+    }
 
-	private void initUI() {
-		final PopupButton bugChartPopup = new PopupButton("");
-		bugChartPopup.setIcon(FontAwesome.CARET_SQUARE_O_DOWN);
-		bugChartPopup.setStyleName(UIConstants.BUTTON_ICON_ONLY);
+    private void initUI() {
+        final PopupButton bugChartPopup = new PopupButton("");
+        bugChartPopup.setIcon(FontAwesome.CARET_SQUARE_O_DOWN);
+        bugChartPopup.setStyleName(UIConstants.BUTTON_ICON_ONLY);
 
-		final OptionPopupContent filterBtnLayout = new OptionPopupContent().withWidth("200px");
+        final OptionPopupContent filterBtnLayout = new OptionPopupContent().withWidth("200px");
 
-		final Button btnBugByPriority = new Button("Bugs By Priority",
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+        final Button btnBugByPriority = new Button("Bugs By Priority", new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						bugChartPopup.setPopupVisible(false);
-						currentReportIndex = 0;
-						displayReport();
-					}
-				});
-		filterBtnLayout.addOption(btnBugByPriority);
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                bugChartPopup.setPopupVisible(false);
+                currentReportIndex = 0;
+                displayReport();
+            }
+        });
+        filterBtnLayout.addOption(btnBugByPriority);
 
-		final Button btnBugByStatus = new Button("Bugs By Status",
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+        final Button btnBugByStatus = new Button("Bugs By Status", new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						bugChartPopup.setPopupVisible(false);
-						currentReportIndex = 1;
-						displayReport();
-					}
-				});
-		filterBtnLayout.addOption(btnBugByStatus);
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                bugChartPopup.setPopupVisible(false);
+                currentReportIndex = 1;
+                displayReport();
+            }
+        });
+        filterBtnLayout.addOption(btnBugByStatus);
 
-		final Button btnBugByResolution = new Button("Bugs By Resolution",
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+        final Button btnBugByResolution = new Button("Bugs By Resolution", new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						bugChartPopup.setPopupVisible(false);
-						currentReportIndex = 2;
-						displayReport();
-					}
-				});
-		filterBtnLayout.addOption(btnBugByResolution);
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                bugChartPopup.setPopupVisible(false);
+                currentReportIndex = 2;
+                displayReport();
+            }
+        });
+        filterBtnLayout.addOption(btnBugByResolution);
 
-		displayReport();
+        displayReport();
 
-		bugChartPopup.setContent(filterBtnLayout);
-		this.addHeaderElement(bugChartPopup);
-		this.setHeaderColor(true);
-	}
+        bugChartPopup.setContent(filterBtnLayout);
+        this.addHeaderElement(bugChartPopup);
+        this.setHeaderColor(true);
+    }
 }

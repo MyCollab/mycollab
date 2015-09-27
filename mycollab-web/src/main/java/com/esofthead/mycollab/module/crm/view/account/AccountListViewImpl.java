@@ -42,18 +42,15 @@ import java.util.Arrays;
  * @since 1.0
  */
 @ViewComponent
-public class AccountListViewImpl extends AbstractListItemComp<AccountSearchCriteria, SimpleAccount>
-        implements AccountListView {
+public class AccountListViewImpl extends AbstractListItemComp<AccountSearchCriteria, SimpleAccount> implements AccountListView {
     private static final long serialVersionUID = 1L;
 
     @Override
     protected AbstractPagedBeanTable<AccountSearchCriteria, SimpleAccount> createBeanTable() {
         AccountTableDisplay accountTableDisplay = new AccountTableDisplay(
                 AccountListView.VIEW_DEF_ID, AccountTableFieldDef.selected(),
-                Arrays.asList(AccountTableFieldDef.accountname(),
-                        AccountTableFieldDef.city(),
-                        AccountTableFieldDef.phoneoffice(),
-                        AccountTableFieldDef.email(),
+                Arrays.asList(AccountTableFieldDef.accountname(), AccountTableFieldDef.city(),
+                        AccountTableFieldDef.phoneoffice(), AccountTableFieldDef.email(),
                         AccountTableFieldDef.assignUser()));
 
         accountTableDisplay.addTableListener(new TableClickListener() {
@@ -63,9 +60,7 @@ public class AccountListViewImpl extends AbstractListItemComp<AccountSearchCrite
             public void itemClick(final TableClickEvent event) {
                 final SimpleAccount account = (SimpleAccount) event.getData();
                 if ("accountname".equals(event.getFieldName())) {
-                    EventBusFactory.getInstance().post(
-                            new AccountEvent.GotoRead(AccountListViewImpl.this,
-                                    account.getId()));
+                    EventBusFactory.getInstance().post(new AccountEvent.GotoRead(AccountListViewImpl.this, account.getId()));
                 }
             }
         });

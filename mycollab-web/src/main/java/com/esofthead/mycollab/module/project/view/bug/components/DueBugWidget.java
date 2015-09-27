@@ -38,6 +38,7 @@ import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Span;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
@@ -55,6 +56,7 @@ public class DueBugWidget extends BugDisplayWidget {
 
     public DueBugWidget() {
         super(AppContext.getMessage(BugI18nEnum.WIDGET_DUE_BUGS_TITLE), true, DueBugRowDisplayHandler.class);
+        this.setMargin(new MarginInfo(false, false, true, false));
     }
 
     public static class DueBugRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleBug> {

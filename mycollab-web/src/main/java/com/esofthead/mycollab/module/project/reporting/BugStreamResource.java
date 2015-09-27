@@ -14,15 +14,30 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.project.view.task;
+package com.esofthead.mycollab.module.project.reporting;
 
-import com.esofthead.mycollab.module.project.domain.SimpleTask;
-import com.esofthead.mycollab.module.project.ui.components.TimeLogComp;
-import com.esofthead.mycollab.vaadin.mvp.CacheableComponent;
+import com.esofthead.mycollab.reporting.ExportItemsStreamResource;
+import com.esofthead.mycollab.reporting.ReportExportType;
+import com.esofthead.mycollab.vaadin.AppContext;
 
 /**
  * @author MyCollab Ltd
  * @since 5.1.4
  */
-public abstract class TaskTimeLogSheet extends TimeLogComp<SimpleTask> implements CacheableComponent {
+public class BugStreamResource extends ExportItemsStreamResource {
+
+
+    public BugStreamResource(String reportTitle, ReportExportType reportExportType) {
+        super(AppContext.getTimezone(), AppContext.getUserLocale(), reportTitle, reportExportType, null);
+    }
+
+    @Override
+    protected void initReport() throws Exception {
+
+    }
+
+    @Override
+    protected void fillReport() throws Exception {
+
+    }
 }

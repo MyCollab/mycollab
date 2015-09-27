@@ -213,7 +213,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
         MHorizontalLayout milestoneHeader = new MHorizontalLayout().withWidth("100%").with(milestoneLink).expand(milestoneLink);
 
         PopupButton taskSettingPopupBtn = new PopupButton();
-        taskSettingPopupBtn.setWidth("20px");
+        taskSettingPopupBtn.setWidth("15px");
         OptionPopupContent filterBtnLayout = new OptionPopupContent().withWidth("100px");
 
         Button editButton = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), new Button.ClickListener() {
@@ -279,12 +279,12 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
         linkWrapper.addComponent(new ProjectUserLink(milestone.getOwner(), milestone.getOwnerAvatarId(), milestone.getOwnerFullName()));
         layoutHelper.addComponent(linkWrapper, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 2);
 
-        ProgressBarIndicator progressTask = new ProgressBarIndicator(milestone.getNumTasks(), milestone.getNumOpenTasks());
+        ProgressBarIndicator progressTask = new ProgressBarIndicator(milestone.getNumTasks(), milestone.getNumOpenTasks(), false);
         progressTask.setWidth("100%");
 
         layoutHelper.addComponent(progressTask, AppContext.getMessage(MilestoneI18nEnum.FORM_TASK_FIELD), 0, 3);
 
-        ProgressBarIndicator progressBug = new ProgressBarIndicator(milestone.getNumBugs(), milestone.getNumOpenBugs());
+        ProgressBarIndicator progressBug = new ProgressBarIndicator(milestone.getNumBugs(), milestone.getNumOpenBugs(), false);
         progressBug.setWidth("100%");
 
         layoutHelper.addComponent(progressBug, AppContext.getMessage(MilestoneI18nEnum.FORM_BUG_FIELD), 0, 4);
@@ -299,43 +299,36 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
 
     @Override
     public void enableActionControls(int numOfSelectedItem) {
-        throw new UnsupportedOperationException(
-                "This view doesn't support this operation");
+        throw new UnsupportedOperationException("This view doesn't support this operation");
     }
 
     @Override
     public void disableActionControls() {
-        throw new UnsupportedOperationException(
-                "This view doesn't support this operation");
+        throw new UnsupportedOperationException("This view doesn't support this operation");
     }
 
     @Override
     public HasSearchHandlers<MilestoneSearchCriteria> getSearchHandlers() {
-        throw new UnsupportedOperationException(
-                "This view doesn't support this operation");
+        throw new UnsupportedOperationException("This view doesn't support this operation");
     }
 
     @Override
     public HasSelectionOptionHandlers getOptionSelectionHandlers() {
-        throw new UnsupportedOperationException(
-                "This view doesn't support this operation");
+        throw new UnsupportedOperationException("This view doesn't support this operation");
     }
 
     @Override
     public HasMassItemActionHandler getPopupActionHandlers() {
-        throw new UnsupportedOperationException(
-                "This view doesn't support this operation");
+        throw new UnsupportedOperationException("This view doesn't support this operation");
     }
 
     @Override
     public HasSelectableItemHandlers<SimpleMilestone> getSelectableItemHandlers() {
-        throw new UnsupportedOperationException(
-                "This view doesn't support this operation");
+        throw new UnsupportedOperationException("This view doesn't support this operation");
     }
 
     @Override
     public AbstractPagedBeanTable<MilestoneSearchCriteria, SimpleMilestone> getPagedBeanTable() {
-        throw new UnsupportedOperationException(
-                "This view doesn't support this operation");
+        throw new UnsupportedOperationException("This view doesn't support this operation");
     }
 }

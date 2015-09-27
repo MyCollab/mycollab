@@ -35,6 +35,7 @@ import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.google.common.eventbus.Subscribe;
 import com.rits.cloning.Cloner;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.UI;
 import org.apache.commons.lang3.StringUtils;
@@ -70,6 +71,7 @@ public class UnresolvedTaskByAssigneeWidget extends Depot {
 
     public UnresolvedTaskByAssigneeWidget() {
         super(AppContext.getMessage(TaskI18nEnum.WIDGET_UNRESOLVED_BY_ASSIGNEE_TITLE), new MVerticalLayout());
+        this.setMargin(new MarginInfo(false, false, true, false));
         this.setContentBorder(true);
     }
 

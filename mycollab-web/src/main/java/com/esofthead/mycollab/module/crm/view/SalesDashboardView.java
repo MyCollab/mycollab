@@ -34,90 +34,82 @@ import com.vaadin.ui.VerticalLayout;
 import org.vaadin.hene.popupbutton.PopupButton;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class SalesDashboardView extends Depot {
-	private static final long serialVersionUID = 1L;
-	private final String[] reportDashboard = { "OpportunitySalesStage",
-			"OpportunityLeadSource" };
-	private int currentReportIndex = 0;
+    private static final long serialVersionUID = 1L;
+    private final String[] reportDashboard = {"OpportunitySalesStage", "OpportunityLeadSource"};
+    private int currentReportIndex = 0;
 
-	public SalesDashboardView() {
-		super("Sales Dashboard", null, new VerticalLayout(), "100%", "200px");
-		this.bodyContent.setSizeFull();
-		this.initUI();
-		this.setHeaderColor(true);
-		this.setContentBorder(true);
-	}
+    public SalesDashboardView() {
+        super("Sales Dashboard", null, new VerticalLayout(), "100%", "200px");
+        this.bodyContent.setSizeFull();
+        this.initUI();
+        this.setHeaderColor(true);
+        this.setContentBorder(true);
+    }
 
-	public void displayReport() {
-		final String reportName = this.reportDashboard[this.currentReportIndex];
+    public void displayReport() {
+        final String reportName = this.reportDashboard[this.currentReportIndex];
 
-		final VerticalLayout bodyContent = (VerticalLayout) this.bodyContent;
-		bodyContent.removeAllComponents();
-		bodyContent.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+        final VerticalLayout bodyContent = (VerticalLayout) this.bodyContent;
+        bodyContent.removeAllComponents();
+        bodyContent.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 
-		if ("OpportunitySalesStage".equals(reportName)) {
-			this.setTitle("Opportunity Sales Stage");
-			final IOpportunitySalesStageDashboard salesStageDashboard = ViewManager
-					.getCacheComponent(IOpportunitySalesStageDashboard.class);
-			bodyContent.addComponent(salesStageDashboard);
+        if ("OpportunitySalesStage".equals(reportName)) {
+            this.setTitle("Opportunity Sales Stage");
+            IOpportunitySalesStageDashboard salesStageDashboard = ViewManager.getCacheComponent(IOpportunitySalesStageDashboard.class);
+            bodyContent.addComponent(salesStageDashboard);
 
-			final OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
-			criteria.setSaccountid(new NumberSearchField(AppContext
-					.getAccountId()));
-			salesStageDashboard.setSearchCriteria(criteria);
-		} else if ("OpportunityLeadSource".equals(reportName)) {
-			this.setTitle("Opportunity Lead Source");
-			final IOpportunityLeadSourceDashboard leadSourceDashboard = ViewManager
-					.getCacheComponent(IOpportunityLeadSourceDashboard.class);
-			bodyContent.addComponent(leadSourceDashboard);
+            final OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
+            criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+            salesStageDashboard.setSearchCriteria(criteria);
+        } else if ("OpportunityLeadSource".equals(reportName)) {
+            this.setTitle("Opportunity Lead Source");
+            IOpportunityLeadSourceDashboard leadSourceDashboard = ViewManager.getCacheComponent(IOpportunityLeadSourceDashboard.class);
+            bodyContent.addComponent(leadSourceDashboard);
 
-			final OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
-			criteria.setSaccountid(new NumberSearchField(AppContext
-					.getAccountId()));
-			leadSourceDashboard.setSearchCriteria(criteria);
-		}
-	}
+            final OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
+            criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+            leadSourceDashboard.setSearchCriteria(criteria);
+        }
+    }
 
-	private void initUI() {
-		final PopupButton saleChartPopup = new PopupButton("");
-		saleChartPopup.setIcon(FontAwesome.CARET_SQUARE_O_DOWN);
-		saleChartPopup.setStyleName(UIConstants.BUTTON_ICON_ONLY);
+    private void initUI() {
+        final PopupButton saleChartPopup = new PopupButton("");
+        saleChartPopup.setIcon(FontAwesome.CARET_SQUARE_O_DOWN);
+        saleChartPopup.setStyleName(UIConstants.BUTTON_ICON_ONLY);
 
-		final OptionPopupContent filterBtnLayout = new OptionPopupContent().withWidth("200px");
+        final OptionPopupContent filterBtnLayout = new OptionPopupContent().withWidth("200px");
 
-		final Button btnOpportunitySales = new Button(
-				"Opportunity Sales Stage", new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+        final Button btnOpportunitySales = new Button("Opportunity Sales Stage", new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						saleChartPopup.setPopupVisible(false);
-						SalesDashboardView.this.currentReportIndex = 0;
-						SalesDashboardView.this.displayReport();
-					}
-				});
-		filterBtnLayout.addOption(btnOpportunitySales);
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                saleChartPopup.setPopupVisible(false);
+                SalesDashboardView.this.currentReportIndex = 0;
+                SalesDashboardView.this.displayReport();
+            }
+        });
+        filterBtnLayout.addOption(btnOpportunitySales);
 
-		final Button btnOpportunityLead = new Button("Opportunity Lead Source",
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+        final Button btnOpportunityLead = new Button("Opportunity Lead Source", new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						saleChartPopup.setPopupVisible(false);
-						SalesDashboardView.this.currentReportIndex = 1;
-						SalesDashboardView.this.displayReport();
-					}
-				});
-		filterBtnLayout.addOption(btnOpportunityLead);
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                saleChartPopup.setPopupVisible(false);
+                SalesDashboardView.this.currentReportIndex = 1;
+                SalesDashboardView.this.displayReport();
+            }
+        });
+        filterBtnLayout.addOption(btnOpportunityLead);
 
-		this.displayReport();
+        this.displayReport();
 
-		saleChartPopup.setContent(filterBtnLayout);
-		this.addHeaderElement(saleChartPopup);
-	}
+        saleChartPopup.setContent(filterBtnLayout);
+        this.addHeaderElement(saleChartPopup);
+    }
 }

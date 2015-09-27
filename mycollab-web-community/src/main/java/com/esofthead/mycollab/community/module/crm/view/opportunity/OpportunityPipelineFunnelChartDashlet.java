@@ -27,8 +27,7 @@ import com.vaadin.ui.CssLayout;
  * @since 2.0
  */
 @ViewComponent
-public class OpportunityPipelineFunnelChartDashlet extends CssLayout implements
-		IOpportunityPipelineFunnelChartDashlet {
+public class OpportunityPipelineFunnelChartDashlet extends CssLayout implements IOpportunityPipelineFunnelChartDashlet {
 	private static final long serialVersionUID = 1L;
 
 	@Override

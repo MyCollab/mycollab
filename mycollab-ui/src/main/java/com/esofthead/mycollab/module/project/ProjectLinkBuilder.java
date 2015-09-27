@@ -56,16 +56,14 @@ public class ProjectLinkBuilder {
         if (projectId == null || componentId == null) {
             return "";
         }
-        return ProjectLinkGenerator.generateBugComponentPreviewFullLink(
-                AppContext.getSiteUrl(), projectId, componentId);
+        return ProjectLinkGenerator.generateBugComponentPreviewFullLink(AppContext.getSiteUrl(), projectId, componentId);
     }
 
     public static String generateBugVersionPreviewFullLink(Integer projectId, Integer versionId) {
         if (projectId == null || versionId == null) {
             return "";
         }
-        return ProjectLinkGenerator.generateBugVersionPreviewFullLink(
-                AppContext.getSiteUrl(), projectId, versionId);
+        return ProjectLinkGenerator.generateBugVersionPreviewFullLink(AppContext.getSiteUrl(), projectId, versionId);
     }
 
     public static String generateRolePreviewFullLink(Integer projectId, Integer roleId) {
@@ -79,13 +77,11 @@ public class ProjectLinkBuilder {
         if (projectId == null || problemId == null) {
             return "";
         }
-        return ProjectLinkGenerator.generateProblemPreviewFullLink(
-                AppContext.getSiteUrl(), projectId, problemId);
+        return ProjectLinkGenerator.generateProblemPreviewFullLink(AppContext.getSiteUrl(), projectId, problemId);
     }
 
-    public static String generateProjectMemberFullLink(int projectId, String memberName) {
-        return ProjectLinkGenerator.generateProjectMemberFullLink(
-                AppContext.getSiteUrl(), projectId, memberName);
+    public static String generateProjectMemberFullLink(Integer projectId, String memberName) {
+        return ProjectLinkGenerator.generateProjectMemberFullLink(AppContext.getSiteUrl(), projectId, memberName);
     }
 
     public static String generateProjectMemberHtmlLink(int projectId, String username) {

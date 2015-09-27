@@ -25,6 +25,10 @@ import com.vaadin.ui.PopupView;
  * @since 5.1.3
  */
 public interface BugPopupFieldFactory extends CacheableComponent {
+    PopupView createBugPriorityPopupField(SimpleBug bug);
+
+    PopupView createBugAssigneePopupField(SimpleBug bug);
+
     PopupView createBugCommentsPopupField(SimpleBug bug);
 
     PopupView createBugStatusPopupField(SimpleBug bug);

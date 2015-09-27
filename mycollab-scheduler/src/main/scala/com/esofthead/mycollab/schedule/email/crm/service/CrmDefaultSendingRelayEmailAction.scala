@@ -20,11 +20,10 @@ import com.esofthead.mycollab.common.MonitorTypeConstants
 import com.esofthead.mycollab.common.domain.{MailRecipientField, SimpleAuditLog, SimpleRelayEmailNotification}
 import com.esofthead.mycollab.common.service.AuditLogService
 import com.esofthead.mycollab.configuration.SiteConfiguration
-import com.esofthead.mycollab.core.arguments.ValuedBean
-import com.esofthead.mycollab.core.utils.{StringUtils, BeanUtility}
+import com.esofthead.mycollab.core.utils.{BeanUtility, StringUtils}
 import com.esofthead.mycollab.module.crm.service.CrmNotificationSettingService
-import com.esofthead.mycollab.module.mail.service.{IContentGenerator, ExtMailService}
 import com.esofthead.mycollab.module.mail.MailUtils
+import com.esofthead.mycollab.module.mail.service.{ExtMailService, IContentGenerator}
 import com.esofthead.mycollab.module.user.domain.SimpleUser
 import com.esofthead.mycollab.module.user.service.UserService
 import com.esofthead.mycollab.schedule.email.{ItemFieldMapper, MailContext, SendingRelayEmailNotificationAction}
@@ -38,7 +37,7 @@ import scala.util.control.Breaks._
  * @since 4.6.0
  * @tparam B
  */
-abstract class CrmDefaultSendingRelayEmailAction[B <: ValuedBean] extends SendingRelayEmailNotificationAction {
+abstract class CrmDefaultSendingRelayEmailAction[B] extends SendingRelayEmailNotificationAction {
     private val LOG = LoggerFactory.getLogger(classOf[CrmDefaultSendingRelayEmailAction[_]])
 
     @Autowired protected val extMailService: ExtMailService = null

@@ -19,10 +19,11 @@ package com.esofthead.mycollab.vaadin.ui.form.field;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.vaadin.server.BrowserWindowOpener;
 import com.vaadin.server.FontIcon;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.PopupView;
+import com.vaadin.ui.*;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd
@@ -42,7 +43,17 @@ public class PopupBeanField extends PopupView {
 
             @Override
             public Component getPopupComponent() {
-                return new Label(AppContext.getMessage(GenericI18Enum.NOTIFICATION_FEATURE_NOT_AVAILABLE_IN_VERSION));
+                MVerticalLayout layout = new MVerticalLayout();
+                layout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+                Label infoLbl =  new Label(AppContext.getMessage(GenericI18Enum.NOTIFICATION_FEATURE_NOT_AVAILABLE_IN_VERSION));
+
+                Button requestFeatureBtn = new Button("Request the premium edition");
+                requestFeatureBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+                BrowserWindowOpener opener = new BrowserWindowOpener("mailto:support@mycollab.com");
+                opener.extend(requestFeatureBtn);
+
+                layout.with(infoLbl, requestFeatureBtn);
+                return layout;
             }
         });
         this.setStyleName("block-popupedit");

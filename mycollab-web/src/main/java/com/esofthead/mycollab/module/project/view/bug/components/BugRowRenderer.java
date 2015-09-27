@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.module.project.view.bug.components;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.configuration.Storage;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -26,7 +25,6 @@ import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
-import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.view.bug.BugPopupFieldFactory;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.service.BugService;
@@ -39,8 +37,6 @@ import com.esofthead.mycollab.vaadin.ui.OptionPopupContent;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
-import com.hp.gagawa.java.elements.Img;
-import com.hp.gagawa.java.elements.Span;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
@@ -78,9 +74,14 @@ public class BugRowRenderer extends MHorizontalLayout {
         }
 
         bugLinkLbl.addStyleName("wordWrap");
-        wrapBugInfoLayout.addComponent(bugLinkLbl);
-
         BugPopupFieldFactory popupFieldFactory = ViewManager.getCacheComponent(BugPopupFieldFactory.class);
+        HorizontalLayout headerLayout = new HorizontalLayout();
+        PopupView priorityField = popupFieldFactory.createBugPriorityPopupField(bug);
+        PopupView assigneeField = popupFieldFactory.createBugAssigneePopupField(bug);
+        headerLayout.addComponent(priorityField);
+        headerLayout.addComponent(assigneeField);
+        headerLayout.addComponent(bugLinkLbl);
+        wrapBugInfoLayout.addComponent(headerLayout);
 
         MHorizontalLayout footer = new MHorizontalLayout();
         footer.addStyleName(UIConstants.FOOTER_NOTE);
@@ -106,23 +107,15 @@ public class BugRowRenderer extends MHorizontalLayout {
 
     private String buildBugLink() {
         String uid = UUID.randomUUID().toString();
-        String priority = bug.getPriority();
-        Span priorityLink = new Span().appendText(ProjectAssetsManager.getBugPriorityHtml(priority)).setTitle(priority);
 
         String linkName = String.format("[#%d] - %s", bug.getBugkey(), bug.getSummary());
         A taskLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateBugPreviewFullLink(bug.getBugkey(),
                 CurrentProjectVariables.getShortName())).appendText(linkName).setStyle("display:inline");
 
-        taskLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, ProjectTypeConstants.BUG,
-                bug.getId() + ""));
+        taskLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, ProjectTypeConstants.BUG, bug.getId() + ""));
         taskLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
 
-        String avatarLink = Storage.getAvatarPath(bug.getAssignUserAvatarId(), 16);
-        Img avatarImg = new Img(bug.getAssignuserFullName(), avatarLink).setTitle(bug.getAssignuserFullName());
-
-        Div resultDiv = new DivLessFormatter().appendChild(priorityLink, DivLessFormatter.EMPTY_SPACE(),
-                avatarImg, DivLessFormatter.EMPTY_SPACE(), taskLink, DivLessFormatter.EMPTY_SPACE(),
-                TooltipHelper.buildDivTooltipEnable(uid));
+        Div resultDiv = new DivLessFormatter().appendChild(taskLink, DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));
         return resultDiv.write();
     }
 

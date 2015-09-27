@@ -74,9 +74,9 @@ public class DueDateOrderComponent extends BugGroupOrderComponent {
         GroupComponent(DateTime startDate) {
             initComponent();
             DateTime maxValue = startDate.dayOfWeek().withMaximumValue();
-            DateTimeFormatter fomatter = DateTimeFormat.forPattern("E, dd MMM yyyy");
-            String monDayStr = fomatter.print(startDate);
-            String sundayStr = fomatter.print(maxValue);
+            DateTimeFormatter formatter = DateTimeFormat.forPattern("E, dd MMM yyyy");
+            String monDayStr = formatter.print(startDate);
+            String sundayStr = formatter.print(maxValue);
             durationLbl = String.format("%s - %s", monDayStr, sundayStr);
             headerLbl.setValue(String.format("%s - %s", monDayStr, sundayStr));
             updateHeader();

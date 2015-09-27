@@ -50,10 +50,12 @@ Version 5.1.4
 
 * Calculating end date by start date and duration
 * Other minor improvements
+* A lot of reporting enhancements: better layout, more detail information, font awesome and more
 
 **Bug Fixes**
 
 * Can not change the role of project member
+* Several minor bug fixes of reporting
 
 Version 5.1.3
 -----------------------------
@@ -718,7 +720,7 @@ Version 4.2.0
 * Upgrade Vaadin to 7.2.2
 * Upgrade Apache Camel to 2.13.1
 * Refactor reporting engine and improve the output of report
-* Adjust JVM parameters to avoid the PerGem error
+* Adjust JVM fieldBuilder to avoid the PerGem error
 * Update icons to make UI more intuitive
 * Add welcome message for view that has empty retrieved items.
 * Add push service in Vaadin to lazy load heavy bug on UI
@@ -780,7 +782,7 @@ Version 4.0.0
 
 * Redesign application user interface
 * Redesign email template
-* Dynamic query builder and let user can save query parameters for next search
+* Dynamic query builder and let user can save query fieldBuilder for next search
 * Upgrade MyCollab libraries to higher version
 * Revise standup report and time logging feature
 * Improve code structure and simplify email processing procedure

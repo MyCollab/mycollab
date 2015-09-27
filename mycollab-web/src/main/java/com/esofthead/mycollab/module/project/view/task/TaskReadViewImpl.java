@@ -47,6 +47,7 @@ import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.DateViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
@@ -118,7 +119,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
         dateInfoComp = new DateInfoComp();
         peopleInfoComp = new PeopleInfoComp();
         followerSheet = new ProjectFollowersComp<>(ProjectTypeConstants.TASK, ProjectRolePermissionCollections.TASKS);
-        timesheetComp = new TaskTimeLogSheet();
+        timesheetComp = ViewManager.getCacheComponent(TaskTimeLogSheet.class);
 
         addToSideBar(dateInfoComp, peopleInfoComp, followerSheet, timesheetComp);
     }
@@ -464,8 +465,6 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
             String taskPriority = subTask.getPriority();
             Span priorityLink = new Span().appendText(ProjectAssetsManager.getTaskPriorityHtml(taskPriority))
                     .setTitle(taskPriority);
-//            Img priorityLink = new Img(taskPriority, ProjectResources.getIconResourceLink12ByTaskPriority
-//                    (taskPriority)).setTitle(taskPriority);
             A taskLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateTaskPreviewFullLink(subTask.getTaskkey(),
                     CurrentProjectVariables.getShortName())).appendText(linkName).setStyle("display:inline");
             taskLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, ProjectTypeConstants.TASK, subTask.getId() + ""));

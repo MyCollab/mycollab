@@ -21,71 +21,77 @@ import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 public class SimpleProblem extends Problem {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String raisedByUserAvatarId;
+    private String raisedByUserAvatarId;
 
-	private String raisedByUserFullName;
+    private String raisedByUserFullName;
 
-	private String assignUserAvatarId;
+    private String assignUserAvatarId;
 
-	private String assignedUserFullName;
+    private String assignedUserFullName;
 
-	private String projectName;
+    private String projectName;
 
-	public String getProjectName() {
-		return projectName;
-	}
+    public String getProjectName() {
+        return projectName;
+    }
 
-	public void setProjectName(String projectName) {
-		this.projectName = projectName;
-	}
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
 
-	public String getRaisedByUserAvatarId() {
-		return raisedByUserAvatarId;
-	}
+    public String getRaisedByUserAvatarId() {
+        return raisedByUserAvatarId;
+    }
 
-	public void setRaisedByUserAvatarId(String raisedByUserAvatarId) {
-		this.raisedByUserAvatarId = raisedByUserAvatarId;
-	}
+    public void setRaisedByUserAvatarId(String raisedByUserAvatarId) {
+        this.raisedByUserAvatarId = raisedByUserAvatarId;
+    }
 
-	public String getAssignUserAvatarId() {
-		return assignUserAvatarId;
-	}
+    public String getAssignUserAvatarId() {
+        return assignUserAvatarId;
+    }
 
-	public void setAssignUserAvatarId(String assignUserAvatarId) {
-		this.assignUserAvatarId = assignUserAvatarId;
-	}
+    public void setAssignUserAvatarId(String assignUserAvatarId) {
+        this.assignUserAvatarId = assignUserAvatarId;
+    }
 
-	public String getRaisedByUserFullName() {
-		if (StringUtils.isBlank(raisedByUserFullName)) {
-			return com.esofthead.mycollab.core.utils.StringUtils.extractNameFromEmail(getRaisedbyuser());
-		}
-		return raisedByUserFullName;
-	}
+    public String getRaisedByUserFullName() {
+        if (StringUtils.isBlank(raisedByUserFullName)) {
+            return com.esofthead.mycollab.core.utils.StringUtils.extractNameFromEmail(getRaisedbyuser());
+        }
+        return raisedByUserFullName;
+    }
 
-	public void setRaisedByUserFullName(String raisedByUserFullName) {
-		this.raisedByUserFullName = raisedByUserFullName;
-	}
+    public void setRaisedByUserFullName(String raisedByUserFullName) {
+        this.raisedByUserFullName = raisedByUserFullName;
+    }
 
-	public String getAssignedUserFullName() {
-		if (StringUtils.isBlank(assignedUserFullName)) {
-			return com.esofthead.mycollab.core.utils.StringUtils.extractNameFromEmail(getAssigntouser());
-		}
-		return assignedUserFullName;
-	}
+    public String getAssignedUserFullName() {
+        if (StringUtils.isBlank(assignedUserFullName)) {
+            return com.esofthead.mycollab.core.utils.StringUtils.extractNameFromEmail(getAssigntouser());
+        }
+        return assignedUserFullName;
+    }
 
-	public void setAssignedUserFullName(String assignedUserFullName) {
-		this.assignedUserFullName = assignedUserFullName;
-	}
+    public void setAssignedUserFullName(String assignedUserFullName) {
+        this.assignedUserFullName = assignedUserFullName;
+    }
 
-	public boolean isOverdue() {
-		Date now = DateTimeUtils.getCurrentDateWithoutMS();
-		return (OptionI18nEnum.StatusI18nEnum.Open.name().equals(getStatus())
-				&& (getDatedue() != null) && getDatedue().before(
-				now));
-	}
+    public boolean isOverdue() {
+        Date now = DateTimeUtils.getCurrentDateWithoutMS();
+        return (OptionI18nEnum.StatusI18nEnum.Open.name().equals(getStatus())
+                && (getDatedue() != null) && getDatedue().before(
+                now));
+    }
+
+    public enum Field {
+        assignedUserFullName;
+        public boolean equalTo(Object value) {
+            return name().equals(value);
+        }
+    }
 }

@@ -201,7 +201,7 @@
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
-            <version>3.12</version>
+            <version>3.13</version>
             <exclusions>
                 <exclusion>
                     <groupId>commons-codec</groupId>

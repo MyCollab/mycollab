@@ -19,144 +19,121 @@ package com.esofthead.mycollab.vaadin.ui;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.AbstractOrderedLayout;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class Depot extends VerticalLayout {
-	private static final long serialVersionUID = 1L;
-	private boolean isOpened = true;
-	protected HorizontalLayout header;
-	protected Label headerLbl;
-	protected AbstractOrderedLayout headerContent;
-	protected ComponentContainer bodyContent;
+    private static final long serialVersionUID = 1L;
 
-	public Depot(final String title, final ComponentContainer component) {
-		this(title, null, component);
-	}
+    private boolean isOpened = true;
+    protected HorizontalLayout header;
+    protected Label headerLbl;
+    protected AbstractOrderedLayout headerContent;
+    protected ComponentContainer bodyContent;
 
-	public Depot(final String title, final AbstractOrderedLayout headerElement,
-			final ComponentContainer component) {
-		this(new Label(title), headerElement, component, "100%", "100%");
-	}
+    public Depot(final String title, final ComponentContainer component) {
+        this(title, null, component, "100%", "100%");
+    }
 
-	public Depot(final String title, final AbstractOrderedLayout headerElement,
-			final ComponentContainer component, final String headerWidth,
-			final String headerLeftWidth) {
-		this(new Label(title), headerElement, component, headerWidth,
-				headerLeftWidth);
-	}
+    public Depot(final String title, final AbstractOrderedLayout headerElement, final ComponentContainer component,
+                 final String headerWidth, final String headerLeftWidth) {
+        this(new Label(title), headerElement, component, headerWidth, headerLeftWidth);
+    }
 
-	public Depot(final Label titleLbl,
-			final AbstractOrderedLayout headerElement,
-			final ComponentContainer component, final String headerWidth,
-			final String headerLeftWidth) {
-		this.setStyleName("depotComp");
-		this.setMargin(new MarginInfo(true, false, false, false));
-		this.header = new HorizontalLayout();
-		this.header.setStyleName("depotHeader");
-		this.header.setWidth(headerWidth);
-		this.bodyContent = component;
-		if (headerElement != null) {
-			this.headerContent = headerElement;
-		} else {
-			this.headerContent = new MHorizontalLayout().withMargin(true);
-			this.headerContent
-					.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-			this.headerContent.setVisible(false);
-		}
+    public Depot(final Label titleLbl, final AbstractOrderedLayout headerElement, final ComponentContainer component,
+                 final String headerWidth, final String headerLeftWidth) {
+        this.setStyleName("depotComp");
+        this.setMargin(false);
+        this.header = new HorizontalLayout();
+        this.header.setStyleName("depotHeader");
+        this.header.setWidth(headerWidth);
+        this.bodyContent = component;
+        if (headerElement != null) {
+            this.headerContent = headerElement;
+        } else {
+            this.headerContent = new MHorizontalLayout().withMargin(true);
+            this.headerContent.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+            this.headerContent.setVisible(false);
+        }
 
-		this.headerContent.setStyleName("header-elements");
-		this.headerContent.setWidthUndefined();
-		this.headerContent.setSizeUndefined();
+        this.headerContent.setStyleName("header-elements");
+        this.headerContent.setWidthUndefined();
+        this.headerContent.setSizeUndefined();
 
-		this.addComponent(this.header);
+        this.addComponent(this.header);
 
-		final HorizontalLayout headerLeft = new HorizontalLayout();
-        headerLeft.setMargin(false);
-		this.headerLbl = titleLbl;
-		this.headerLbl.setStyleName("h2");
-		this.headerLbl.setWidth("100%");
-		headerLeft.addComponent(this.headerLbl);
-		headerLeft.setStyleName("depot-title");
-		headerLeft.addLayoutClickListener(new LayoutClickListener() {
-			private static final long serialVersionUID = 1L;
+        final HorizontalLayout headerLeft = new HorizontalLayout();
+        this.headerLbl = titleLbl;
+        this.headerLbl.setStyleName("h2");
+        this.headerLbl.setWidth("100%");
+        headerLeft.addComponent(this.headerLbl);
+        headerLeft.setStyleName("depot-title");
+        headerLeft.addLayoutClickListener(new LayoutClickListener() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public void layoutClick(final LayoutClickEvent event) {
-				Depot.this.isOpened = !Depot.this.isOpened;
-				if (Depot.this.isOpened) {
-					Depot.this.bodyContent.setVisible(true);
-					Depot.this.removeStyleName("collapsed");
-				} else {
-					Depot.this.bodyContent.setVisible(false);
-					Depot.this.addStyleName("collapsed");
-				}
-			}
-		});
-		final CssLayout headerWrapper = new CssLayout();
-		headerWrapper.addComponent(headerLeft);
-		headerWrapper.setStyleName("header-wrapper");
-		headerWrapper.setWidth(headerLeftWidth);
-		this.header.addComponent(headerWrapper);
-		this.header.setComponentAlignment(headerWrapper, Alignment.MIDDLE_LEFT);
-		this.header.addComponent(this.headerContent);
-		this.header.setComponentAlignment(this.headerContent,
-				Alignment.TOP_RIGHT);
-		this.header.setExpandRatio(headerWrapper, 1.0f);
+            @Override
+            public void layoutClick(final LayoutClickEvent event) {
+                Depot.this.isOpened = !Depot.this.isOpened;
+                if (Depot.this.isOpened) {
+                    Depot.this.bodyContent.setVisible(true);
+                    Depot.this.removeStyleName("collapsed");
+                } else {
+                    Depot.this.bodyContent.setVisible(false);
+                    Depot.this.addStyleName("collapsed");
+                }
+            }
+        });
+        final CssLayout headerWrapper = new CssLayout();
+        headerWrapper.addComponent(headerLeft);
+        headerWrapper.setStyleName("header-wrapper");
+        headerWrapper.setWidth(headerLeftWidth);
+        this.header.addComponent(headerWrapper);
+        this.header.setComponentAlignment(headerWrapper, Alignment.MIDDLE_LEFT);
+        this.header.addComponent(this.headerContent);
+        this.header.setComponentAlignment(this.headerContent, Alignment.TOP_RIGHT);
+        this.header.setExpandRatio(headerWrapper, 1.0f);
 
-		final CustomComponent customComp = new CustomComponent(this.bodyContent);
-		customComp.setWidth("100%");
-		this.bodyContent.addStyleName("depotContent");
+        final CustomComponent customComp = new CustomComponent(this.bodyContent);
+        customComp.setWidth("100%");
+        this.bodyContent.addStyleName("depotContent");
 
-		this.addComponent(customComp);
-		this.setComponentAlignment(customComp, Alignment.TOP_CENTER);
-	}
+        this.addComponent(customComp);
+        this.setComponentAlignment(customComp, Alignment.TOP_CENTER);
+    }
 
-	public Depot(final String title, final ComponentContainer component,
-			final String headerWidth) {
-		this(new Label(title), null, component, headerWidth, "250px");
-	}
+    public Depot(final String title, final ComponentContainer component, final String headerWidth) {
+        this(new Label(title), null, component, headerWidth, "250px");
+    }
 
-	public void addHeaderElement(final Component component) {
-		if (component != null) {
-			this.headerContent.addComponent(component);
-			this.headerContent.setComponentAlignment(component,
-					Alignment.MIDDLE_RIGHT);
-			this.headerContent.setVisible(true);
-		}
-	}
+    public void addHeaderElement(final Component component) {
+        if (component != null) {
+            this.headerContent.addComponent(component);
+            this.headerContent.setComponentAlignment(component, Alignment.MIDDLE_RIGHT);
+            this.headerContent.setVisible(true);
+        }
+    }
 
-	public void setContentBorder(final boolean hasBorder) {
-		if (hasBorder) {
-			this.bodyContent.addStyleName("bordered");
-		} else {
-			this.bodyContent.removeStyleName("bordered");
-		}
-	}
+    public void setContentBorder(final boolean hasBorder) {
+        if (hasBorder) {
+            this.bodyContent.addStyleName("bordered");
+        } else {
+            this.bodyContent.removeStyleName("bordered");
+        }
+    }
 
-	public void setTitle(final String title) {
-		this.headerLbl.setValue(title);
-	}
+    public void setTitle(final String title) {
+        this.headerLbl.setValue(title);
+    }
 
-	public void setHeaderColor(final boolean hasColor) {
-		if (hasColor) {
-			this.headerContent.addStyleName("colored-header");
-		} else {
-			this.headerContent.removeStyleName("colored-header");
-		}
-	}
+    public void setHeaderColor(final boolean hasColor) {
+        if (hasColor) {
+            this.headerContent.addStyleName("colored-header");
+        } else {
+            this.headerContent.removeStyleName("colored-header");
+        }
+    }
 }

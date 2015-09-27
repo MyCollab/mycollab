@@ -34,8 +34,7 @@ import org.vaadin.peter.buttongroup.ButtonGroup
  */
 class DefaultMassItemActionHandlerContainer extends MHorizontalLayout with HasMassItemActionHandler {
     private var actionHandler: MassItemActionHandler = null
-    private val groupMap: scala.collection.mutable.Map[String, ButtonGroup] = scala.collection.mutable.Map()
-        .withDefaultValue(null)
+    private val groupMap: scala.collection.mutable.Map[String, ButtonGroup] = scala.collection.mutable.Map().withDefaultValue(null)
 
     /**
      *

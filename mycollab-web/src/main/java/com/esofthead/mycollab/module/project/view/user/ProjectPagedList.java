@@ -16,22 +16,23 @@
  */
 package com.esofthead.mycollab.module.project.view.user;
 
+import com.esofthead.mycollab.core.utils.NumberUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
-import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.MilestoneScreenData;
-import com.esofthead.mycollab.module.project.view.parameters.ProjectMemberScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 import com.esofthead.mycollab.vaadin.ui.*;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -75,26 +76,25 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
             linkIconFix.addComponent(projectLink);
             linkIconFix.setExpandRatio(projectLink, 1.0f);
 
-            ButtonLink projectMember = new ButtonLink(project.getNumActiveMembers() + " member"
-                    + (project.getNumActiveMembers() > 1 ? "s" : ""), new Button.ClickListener() {
-                private static final long serialVersionUID = -7865685578305013464L;
-
-                @Override
-                public void buttonClick(Button.ClickEvent event) {
-                    EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, new PageActionChain(
-                            new ProjectScreenData.Goto(project.getId()), new ProjectMemberScreenData.Search(null))));
-                }
-            }, false);
-            projectMember.setStyleName(UIConstants.THEME_LINK);
-            MHorizontalLayout metaInfo = new MHorizontalLayout().withWidth("100%");
+            Label projectMemberBtn = new ELabel(FontAwesome.USERS.getHtml() + " " + project.getNumActiveMembers(),
+                    ContentMode.HTML).withDescription("Active members");
+            MHorizontalLayout metaInfo = new MHorizontalLayout();
             metaInfo.setDefaultComponentAlignment(Alignment.TOP_LEFT);
-            metaInfo.addComponent(projectMember);
-            Label createdTimeLbl = new ELabel(" - " + AppContext.getMessage(ProjectI18nEnum.OPT_CREATED_ON,
-                    AppContext.formatPrettyTime(project.getCreatedtime()))).withDescription(AppContext.formatDateTime
-                    (project.getCreatedtime()));
+            metaInfo.addComponent(projectMemberBtn);
+            Label createdTimeLbl = new ELabel(FontAwesome.CLOCK_O.getHtml() + " " + AppContext.formatPrettyTime(project.getCreatedtime()),
+                    ContentMode.HTML).withDescription("Created time");
             createdTimeLbl.setStyleName("createdtime-lbl");
-            createdTimeLbl.setSizeUndefined();
-            metaInfo.with(createdTimeLbl).expand(createdTimeLbl);
+            metaInfo.addComponent(createdTimeLbl);
+
+            Label billableHoursLbl = new ELabel(FontAwesome.MONEY.getHtml() + " " + NumberUtils.roundDouble(2, project.getTotalBillableHours()),
+                    ContentMode.HTML).withDescription("Billable hours");
+            metaInfo.addComponent(billableHoursLbl);
+
+            Label nonBillableHoursLbl = new ELabel(FontAwesome.GIFT.getHtml() + " " + NumberUtils.roundDouble(2,
+                    project.getTotalNonBillableHours()), ContentMode.HTML)
+                    .withDescription("Non billable hours");
+            metaInfo.addComponent(nonBillableHoursLbl);
+
             linkIconFix.addComponent(metaInfo);
 
             projectLink.setWidth("100%");
@@ -125,14 +125,12 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
             taskLblWrap.addComponent(taskStatusBtn);
             taskLblWrap.setComponentAlignment(taskStatusBtn, Alignment.TOP_RIGHT);
             taskStatus.addComponent(taskLblWrap);
-            float taskValue = (project.getNumTasks() != 0) ? ((float) (project
-                    .getNumTasks() - project.getNumOpenTasks()) / project
+            float taskValue = (project.getNumTasks() != 0) ? ((float) (project.getNumTasks() - project.getNumOpenTasks()) / project
                     .getNumTasks()) : 1;
             ProgressBar taskProgressBar = new ProgressBar(taskValue);
             taskProgressBar.setStyleName("medium");
             taskStatus.addComponent(taskProgressBar);
-            taskStatus.setComponentAlignment(taskProgressBar,
-                    Alignment.TOP_LEFT);
+            taskStatus.setComponentAlignment(taskProgressBar, Alignment.TOP_LEFT);
             projectStatusLayout.addComponent(taskStatus);
 
             final VerticalLayout bugStatus = new VerticalLayout();

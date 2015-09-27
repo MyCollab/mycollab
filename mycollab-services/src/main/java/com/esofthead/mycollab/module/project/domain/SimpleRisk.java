@@ -21,80 +21,87 @@ import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 public class SimpleRisk extends Risk {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String risksource;
+    private String risksource;
 
-	private String raisedByUserAvatarId;
+    private String raisedByUserAvatarId;
 
-	private String raisedByUserFullName;
+    private String raisedByUserFullName;
 
-	private String assignToUserAvatarId;
+    private String assignToUserAvatarId;
 
-	private String assignedToUserFullName;
+    private String assignedToUserFullName;
 
-	private String projectName;
+    private String projectName;
 
-	public String getProjectName() {
-		return projectName;
-	}
+    public String getProjectName() {
+        return projectName;
+    }
 
-	public void setProjectName(String projectName) {
-		this.projectName = projectName;
-	}
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
 
-	public String getRaisedByUserFullName() {
-		if (StringUtils.isBlank(raisedByUserFullName)) {
-			return com.esofthead.mycollab.core.utils.StringUtils.extractNameFromEmail(getRaisedbyuser());
-		}
-		return raisedByUserFullName;
-	}
+    public String getRaisedByUserFullName() {
+        if (StringUtils.isBlank(raisedByUserFullName)) {
+            return com.esofthead.mycollab.core.utils.StringUtils.extractNameFromEmail(getRaisedbyuser());
+        }
+        return raisedByUserFullName;
+    }
 
-	public void setRaisedByUserFullName(String raisedByUserFullName) {
-		this.raisedByUserFullName = raisedByUserFullName;
-	}
+    public void setRaisedByUserFullName(String raisedByUserFullName) {
+        this.raisedByUserFullName = raisedByUserFullName;
+    }
 
-	public String getAssignedToUserFullName() {
-		if (StringUtils.isBlank(assignedToUserFullName)) {
-			return com.esofthead.mycollab.core.utils.StringUtils.extractNameFromEmail(getAssigntouser());
-		}
-		return assignedToUserFullName;
-	}
+    public String getAssignedToUserFullName() {
+        if (StringUtils.isBlank(assignedToUserFullName)) {
+            return com.esofthead.mycollab.core.utils.StringUtils.extractNameFromEmail(getAssigntouser());
+        }
+        return assignedToUserFullName;
+    }
 
-	public void setAssignedToUserFullName(String assignedToUserFullName) {
-		this.assignedToUserFullName = assignedToUserFullName;
-	}
+    public void setAssignedToUserFullName(String assignedToUserFullName) {
+        this.assignedToUserFullName = assignedToUserFullName;
+    }
 
-	public String getRisksource() {
-		return risksource;
-	}
+    public String getRisksource() {
+        return risksource;
+    }
 
-	public void setRisksource(String risksource) {
-		this.risksource = risksource;
-	}
+    public void setRisksource(String risksource) {
+        this.risksource = risksource;
+    }
 
-	public String getRaisedByUserAvatarId() {
-		return raisedByUserAvatarId;
-	}
+    public String getRaisedByUserAvatarId() {
+        return raisedByUserAvatarId;
+    }
 
-	public void setRaisedByUserAvatarId(String raisedByUserAvatarId) {
-		this.raisedByUserAvatarId = raisedByUserAvatarId;
-	}
+    public void setRaisedByUserAvatarId(String raisedByUserAvatarId) {
+        this.raisedByUserAvatarId = raisedByUserAvatarId;
+    }
 
-	public String getAssignToUserAvatarId() {
-		return assignToUserAvatarId;
-	}
+    public String getAssignToUserAvatarId() {
+        return assignToUserAvatarId;
+    }
 
-	public void setAssignToUserAvatarId(String assignToUserAvatarId) {
-		this.assignToUserAvatarId = assignToUserAvatarId;
-	}
+    public void setAssignToUserAvatarId(String assignToUserAvatarId) {
+        this.assignToUserAvatarId = assignToUserAvatarId;
+    }
 
-	public boolean isOverdue() {
-		Date now = DateTimeUtils.getCurrentDateWithoutMS();
-		return OptionI18nEnum.StatusI18nEnum.Open.name().equals(getStatus()) && (getDatedue() != null) &&
-				getDatedue().before(now);
-	}
+    public boolean isOverdue() {
+        Date now = DateTimeUtils.getCurrentDateWithoutMS();
+        return OptionI18nEnum.StatusI18nEnum.Open.name().equals(getStatus()) && (getDatedue() != null) &&
+                getDatedue().before(now);
+    }
+
+    public enum Field {
+        assignedToUserFullName;
+
+        public boolean equalTo(Object value) {
+            return name().equals(value);
+        }
+    }
 }

@@ -17,18 +17,21 @@
 package com.esofthead.mycollab.vaadin.desktop.ui;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.reporting.ReportExportType;
-import com.esofthead.mycollab.reporting.RpParameterBuilder;
+import com.esofthead.mycollab.reporting.RpFieldsBuilder;
 import com.esofthead.mycollab.reporting.SimpleGridExportItemsStreamResource;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.MassItemActionHandler;
 import com.esofthead.mycollab.vaadin.events.ViewItemAction;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
+import com.google.common.collect.HashBiMap;
 import com.vaadin.server.StreamResource;
 import com.vaadin.ui.UI;
 import org.vaadin.dialogs.ConfirmDialog;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author MyCollab Ltd.
@@ -45,8 +48,7 @@ public abstract class DefaultMassEditActionHandler implements MassItemActionHand
     @Override
     public void onSelect(String id) {
         if (ViewItemAction.DELETE_ACTION().equals(id)) {
-            ConfirmDialogExt.show(UI.getCurrent(),
-                    AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
+            ConfirmDialogExt.show(UI.getCurrent(), AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
                             AppContext.getSiteName()),
                     AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_MULTIPLE_ITEMS_MESSAGE),
                     AppContext.getMessage(GenericI18Enum.BUTTON_YES),
@@ -70,34 +72,21 @@ public abstract class DefaultMassEditActionHandler implements MassItemActionHand
     @SuppressWarnings("unchecked")
     @Override
     public StreamResource buildStreamResource(ReportExportType exportType) {
-        String exportFileName;
-        switch (exportType) {
-            case CSV:
-                exportFileName = "export.csv";
-                break;
-            case PDF:
-                exportFileName = "export.pdf";
-                break;
-            case EXCEL:
-                exportFileName = "export.xlsx";
-                break;
-            default:
-                throw new MyCollabException("Do not support export type " + exportType);
-        }
-
+        String exportFileName = exportType.getDefaultFileName();
         AbstractPagedBeanTable pagedBeanTable = ((ListView) presenter.getView()).getPagedBeanTable();
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("siteUrl", AppContext.getSiteUrl());
         if (presenter.isSelectAll) {
-            return new StreamResource(new SimpleGridExportItemsStreamResource.AllItems(
-                    getReportTitle(), new RpParameterBuilder(
-                    pagedBeanTable.getDisplayColumns()), exportType,
+            return new StreamResource(new SimpleGridExportItemsStreamResource.AllItems(getReportTitle(),
+                    new RpFieldsBuilder(pagedBeanTable.getDisplayColumns()), exportType,
                     presenter.getSearchService(),
-                    presenter.searchCriteria, getReportModelClassType()), exportFileName);
+                    presenter.searchCriteria, getReportModelClassType(), parameters), exportFileName);
         } else {
             return new StreamResource(new SimpleGridExportItemsStreamResource.ListData(
-                    getReportTitle(), new RpParameterBuilder(
+                    getReportTitle(), new RpFieldsBuilder(
                     pagedBeanTable.getDisplayColumns()),
                     exportType, presenter.getSelectedItems(),
-                    getReportModelClassType()), exportFileName);
+                    getReportModelClassType(), parameters), exportFileName);
         }
     }
 
