@@ -16,11 +16,9 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.vaadin.data.Container;
 import com.vaadin.ui.ComboBox;
-
-import java.util.List;
 
 /**
  * @author MyCollab Ltd
@@ -41,7 +39,7 @@ public class MixValueComboBox extends ComboBox {
         try {
             Enum anEnum = Enum.valueOf(enumCls, value);
             this.addItem(value);
-            this.setItemCaption(value, AppContext.getMessage(anEnum));
+            this.setItemCaption(value, StringUtils.trim(AppContext.getMessage(anEnum), 25, true));
         } catch (Exception e) {
             this.addItem(value);
             this.setItemCaption(value, value);

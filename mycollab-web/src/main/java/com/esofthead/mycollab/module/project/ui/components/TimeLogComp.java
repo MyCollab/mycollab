@@ -37,17 +37,15 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  * @author MyCollab Ltd.
  * @since 4.3.3
  */
-public abstract class TimeLogComp<V extends ValuedBean> extends MVerticalLayout {
+public abstract class TimeLogComp<B extends ValuedBean> extends MVerticalLayout {
     private static final long serialVersionUID = 1L;
 
     protected ItemTimeLoggingService itemTimeLoggingService;
+    protected B beanItem;
+    private Label billableHoursLbl, nonBillableHoursLbl, remainHoursLbl;
 
     protected TimeLogComp() {
         this.itemTimeLoggingService = ApplicationContextUtil.getSpringBean(ItemTimeLoggingService.class);
-    }
-
-    public void displayTime(final V bean) {
-        this.removeAllComponents();
         this.withMargin(new MarginInfo(false, false, false, true));
 
         HorizontalLayout header = new MHorizontalLayout();
@@ -63,7 +61,7 @@ public abstract class TimeLogComp<V extends ValuedBean> extends MVerticalLayout 
 
                 @Override
                 public void buttonClick(ClickEvent event) {
-                    showEditTimeWindow(bean);
+                    showEditTimeWindow(beanItem);
                 }
             });
             editBtn.setStyleName(UIConstants.THEME_LINK);
@@ -75,22 +73,32 @@ public abstract class TimeLogComp<V extends ValuedBean> extends MVerticalLayout 
 
         MVerticalLayout layout = new MVerticalLayout().withWidth("100%").withMargin(new MarginInfo(false, false, false, true));
 
-        double billableHours = getTotalBillableHours(bean);
-        double nonBillableHours = getTotalNonBillableHours(bean);
-        double remainHours = getRemainedHours(bean);
-        layout.addComponent(new Label(String.format(AppContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS), billableHours)));
-        layout.addComponent(new Label(String.format(AppContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS), nonBillableHours)));
-        layout.addComponent(new Label(String.format(AppContext.getMessage(TimeTrackingI18nEnum.OPT_REMAIN_HOURS), remainHours)));
+        billableHoursLbl = new Label();
+        nonBillableHoursLbl = new Label();
+        remainHoursLbl = new Label();
+        layout.addComponent(billableHoursLbl);
+        layout.addComponent(nonBillableHoursLbl);
+        layout.addComponent(remainHoursLbl);
         this.addComponent(layout);
     }
 
-    protected abstract Double getTotalBillableHours(V bean);
+    public void displayTime(final B bean) {
+        this.beanItem = bean;
+        Double billableHours = getTotalBillableHours(beanItem);
+        Double nonBillableHours = getTotalNonBillableHours(beanItem);
+        Double remainHours = getRemainedHours(beanItem);
+        billableHoursLbl.setValue(String.format(AppContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS), billableHours));
+        nonBillableHoursLbl.setValue(String.format(AppContext.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS), nonBillableHours));
+        remainHoursLbl.setValue(String.format(AppContext.getMessage(TimeTrackingI18nEnum.OPT_REMAIN_HOURS), remainHours));
+    }
 
-    protected abstract Double getTotalNonBillableHours(V bean);
+    protected abstract Double getTotalBillableHours(B bean);
 
-    protected abstract Double getRemainedHours(V bean);
+    protected abstract Double getTotalNonBillableHours(B bean);
+
+    protected abstract Double getRemainedHours(B bean);
 
     protected abstract boolean hasEditPermission();
 
-    protected abstract void showEditTimeWindow(V bean);
+    protected abstract void showEditTimeWindow(B bean);
 }

@@ -63,9 +63,7 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
     }
 
     @Override
-    protected void buildExtraControls() {
-
-    }
+    protected void buildExtraControls() {}
 
     @Override
     protected SearchLayout<BugSearchCriteria> createBasicSearchLayout() {
@@ -147,8 +145,8 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
         protected BugSearchCriteria fillUpSearchCriteria() {
             searchCriteria = new BugSearchCriteria();
             searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-            searchCriteria.setSummary(new StringSearchField(this.nameField.getValue().trim()));
-            if (this.myItemCheckbox.getValue()) {
+            searchCriteria.setSummary(new StringSearchField(nameField.getValue().trim()));
+            if (myItemCheckbox.getValue()) {
                 searchCriteria.setAssignuser(new StringSearchField(AppContext.getUsername()));
             } else {
                 searchCriteria.setAssignuser(null);

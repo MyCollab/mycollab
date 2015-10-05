@@ -23,6 +23,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.Storage;
 import com.esofthead.mycollab.core.arguments.*;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
+import com.esofthead.mycollab.core.utils.NumberUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
@@ -47,19 +48,19 @@ import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.LinkViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.UserLinkViewField;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Div;
-import com.hp.gagawa.java.elements.Img;
-import com.hp.gagawa.java.elements.Text;
+import com.hp.gagawa.java.elements.*;
 import com.vaadin.data.Property;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Label;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
+import java.lang.Object;
 import java.util.UUID;
 
 /**
@@ -238,17 +239,16 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
                 memberInfo.addComponent(infoStatus);
             }
 
-            String bugStatus = beanItem.getNumOpenBugs() + " open bug";
-            if (beanItem.getNumOpenBugs() > 1) {
-                bugStatus += "s";
-            }
+            String memberWorksInfo = ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK).getHtml() + " " + new Span
+                    ().appendText("" + beanItem.getNumOpenTasks()).setTitle("Open tasks") + "  " + ProjectAssetsManager
+                    .getAsset(ProjectTypeConstants.BUG).getHtml() + " " + new Span().appendText("" + beanItem
+                    .getNumOpenBugs()).setTitle("Open bugs") + " " +
+                    " " + FontAwesome.MONEY.getHtml() + " " + new Span().appendText("" + NumberUtils.roundDouble(2,
+                    beanItem.getTotalBillableLogTime())).setTitle("Billable hours") + "  " + FontAwesome.GIFT.getHtml() +
+                    " " + new Span().appendText("" + NumberUtils.roundDouble(2, beanItem.getTotalNonBillableLogTime())).setTitle("Non billable hours");
 
-            String taskStatus = beanItem.getNumOpenTasks() + " open task";
-            if (beanItem.getNumOpenTasks() > 1) {
-                taskStatus += "s";
-            }
-
-            Label memberWorkStatus = new Label(bugStatus + " - " + taskStatus);
+            Label memberWorkStatus = new Label(memberWorksInfo, ContentMode.HTML);
+            memberWorkStatus.addStyleName("member-email");
             memberInfo.addComponent(memberWorkStatus);
             memberInfo.setWidth("100%");
 

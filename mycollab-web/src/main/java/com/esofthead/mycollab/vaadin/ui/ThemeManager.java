@@ -217,6 +217,10 @@ public class ThemeManager {
 
             extraStyles.append("div.v-tree-node-selected span {background-color:#" + accountTheme
                     .getActionbtn() + ";}");
+
+            // Button group default button
+            extraStyles.append(".v-buttongroup.toggle-btn-group .v-button.btn-group-default {background-color:#" + accountTheme
+                    .getActionbtn() + ";}");
         }
 
         if (accountTheme.getActionbtntext() != null) {

@@ -29,6 +29,7 @@ import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.*;
+import com.esofthead.mycollab.module.crm.ui.format.AccountFieldFormatter;
 import com.esofthead.mycollab.module.crm.view.activity.ActivityRelatedItemListComp;
 import com.esofthead.mycollab.schedule.email.crm.AccountRelayEmailNotificationAction;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -55,8 +56,7 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount> 
     private AccountLeadListComp associateLeadList;
     private AccountCaseListComp associateCaseList;
     private ActivityRelatedItemListComp associateActivityList;
-    private AccountHistoryLogList historyLogList;
-    private CrmCommentDisplay commentList;
+    private CrmActivityComponent activityComponent;
 
     private DateInfoComp dateInfoComp;
     private PeopleInfoComp peopleInfoComp;
@@ -68,10 +68,7 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount> 
 
     @Override
     protected ComponentContainer createBottomPanel() {
-        TabSheetLazyLoadComponent tabTaskDetail = new TabSheetLazyLoadComponent();
-        tabTaskDetail.addTab(commentList, AppContext.getMessage(GenericI18Enum.TAB_COMMENT, 0), FontAwesome.COMMENTS);
-        tabTaskDetail.addTab(historyLogList, AppContext.getMessage(GenericI18Enum.TAB_HISTORY), FontAwesome.HISTORY);
-        return tabTaskDetail;
+        return activityComponent;
     }
 
     @Override
@@ -130,8 +127,8 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount> 
         associateOpportunityList = new AccountOpportunityListComp();
         associateLeadList = new AccountLeadListComp();
         associateCaseList = new AccountCaseListComp();
-        historyLogList = new AccountHistoryLogList();
-        commentList = new CrmCommentDisplay(CrmTypeConstants.ACCOUNT, AccountRelayEmailNotificationAction.class);
+        activityComponent = new CrmActivityComponent(CrmTypeConstants.ACCOUNT,
+                AccountFieldFormatter.instance(), AccountRelayEmailNotificationAction.class);
 
         CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
         MVerticalLayout basicInfo = new MVerticalLayout().withWidth("100%").withStyleName("basic-info");
@@ -175,8 +172,7 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount> 
 
     @Override
     protected void onPreviewItem() {
-        commentList.loadComments("" + beanItem.getId());
-        historyLogList.loadHistory(beanItem.getId());
+        activityComponent.loadActivities("" + beanItem.getId());
         displayActivities();
         associateContactList.displayContacts(beanItem);
         displayAssociateCaseList();

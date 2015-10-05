@@ -40,6 +40,7 @@ import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.*;
 import com.esofthead.mycollab.module.project.ui.form.ProjectFormAttachmentDisplayField;
 import com.esofthead.mycollab.module.project.ui.form.ProjectItemViewField;
+import com.esofthead.mycollab.module.project.ui.format.TaskFieldFormatter;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.esofthead.mycollab.schedule.email.project.ProjectTaskRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -82,9 +83,8 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = LoggerFactory.getLogger(TaskReadViewImpl.class);
 
+    private ProjectActivityComponent activityComponent;
     private TagViewComponent tagViewComponent;
-    private CommentDisplay commentList;
-    private TaskHistoryList historyList;
     private ProjectFollowersComp<SimpleTask> followerSheet;
     private DateInfoComp dateInfoComp;
     private TaskTimeLogSheet timesheetComp;
@@ -113,9 +113,8 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
 
     @Override
     protected void initRelatedComponents() {
-        commentList = new CommentDisplay(ProjectTypeConstants.TASK, CurrentProjectVariables.getProjectId(),
-                ProjectTaskRelayEmailNotificationAction.class);
-        historyList = new TaskHistoryList();
+        activityComponent = new ProjectActivityComponent(ProjectTypeConstants.TASK, CurrentProjectVariables.getProjectId(),
+                TaskFieldFormatter.instance(), ProjectTaskRelayEmailNotificationAction.class);
         dateInfoComp = new DateInfoComp();
         peopleInfoComp = new PeopleInfoComp();
         followerSheet = new ProjectFollowersComp<>(ProjectTypeConstants.TASK, ProjectRolePermissionCollections.TASKS);
@@ -145,8 +144,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
         }
 
         tagViewComponent.display(ProjectTypeConstants.TASK, beanItem.getId());
-        commentList.loadComments("" + beanItem.getId());
-        historyList.loadHistory(beanItem.getId());
+        activityComponent.loadActivities("" + beanItem.getId());
         followerSheet.displayFollowers(beanItem);
         peopleInfoComp.displayEntryPeople(beanItem);
         dateInfoComp.displayEntryDateTime(beanItem);
@@ -229,10 +227,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
 
     @Override
     protected ComponentContainer createBottomPanel() {
-        TabSheetLazyLoadComponent tabTaskDetail = new TabSheetLazyLoadComponent();
-        tabTaskDetail.addTab(commentList, AppContext.getMessage(GenericI18Enum.TAB_COMMENT, 0), FontAwesome.COMMENTS);
-        tabTaskDetail.addTab(historyList, AppContext.getMessage(GenericI18Enum.TAB_HISTORY), FontAwesome.HISTORY);
-        return tabTaskDetail;
+        return activityComponent;
     }
 
     @Override
@@ -341,8 +336,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
             } else if (Task.Field.priority.equalTo(propertyId)) {
                 if (StringUtils.isNotBlank(beanItem.getPriority())) {
                     FontAwesome fontPriority = ProjectAssetsManager.getTaskPriority(beanItem.getPriority());
-                    String priorityLbl = fontPriority.getHtml() + " " + AppContext.getMessage(TaskPriority.class,
-                            beanItem.getPriority());
+                    String priorityLbl = fontPriority.getHtml() + " " + AppContext.getMessage(TaskPriority.class, beanItem.getPriority());
                     DefaultViewField field = new DefaultViewField(priorityLbl, ContentMode.HTML);
                     field.addStyleName("task-" + beanItem.getPriority().toLowerCase());
                     return field;

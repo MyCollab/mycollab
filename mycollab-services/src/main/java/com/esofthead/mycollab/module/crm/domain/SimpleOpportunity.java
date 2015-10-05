@@ -56,7 +56,7 @@ public class SimpleOpportunity extends Opportunity {
 	}
 
 	public String getCreatedUserFullName() {
-		if (org.apache.commons.lang3.StringUtils.isBlank(createdUserFullName)) {
+		if (StringUtils.isBlank(createdUserFullName)) {
 			return StringUtils.extractNameFromEmail(getCreateduser());
 		}
 		return createdUserFullName;
@@ -83,7 +83,7 @@ public class SimpleOpportunity extends Opportunity {
 	}
 
 	public String getAssignUserFullName() {
-		if (org.apache.commons.lang3.StringUtils.isBlank(assignUserFullName)) {
+		if (StringUtils.isBlank(assignUserFullName)) {
 			return StringUtils.extractNameFromEmail(getAssignuser());
 		}
 		return assignUserFullName;

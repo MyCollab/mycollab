@@ -5,39 +5,24 @@
     <resultMap id="SimpleBugResult"
         extends="com.esofthead.mycollab.module.tracker.dao.BugMapper.ResultMapWithBLOBs"
         type="com.esofthead.mycollab.module.tracker.domain.SimpleBug">
-
-        <result column="loguserFullName" jdbcType="VARCHAR"
-            property="loguserFullName" />
-
-        <result column="loguserAvatarId" jdbcType="VARCHAR"
-            property="loguserAvatarId" />
-
-        <result column="assignuserFullName" jdbcType="VARCHAR"
-            property="assignuserFullName" />
-
-        <result column="assignUserAvatarId" jdbcType="VARCHAR"
-            property="assignUserAvatarId" />
-
+        <result column="loguserFullName" jdbcType="VARCHAR" property="loguserFullName" />
+        <result column="loguserAvatarId" jdbcType="VARCHAR" property="loguserAvatarId" />
+        <result column="assignuserFullName" jdbcType="VARCHAR" property="assignuserFullName" />
+        <result column="assignUserAvatarId" jdbcType="VARCHAR" property="assignUserAvatarId" />
         <result column="projectname" jdbcType="VARCHAR" property="projectname" />
-        
         <result column="projectShortName" jdbcType="VARCHAR" property="projectShortName" />
-
-        <result column="milestoneName" jdbcType="VARCHAR"
-            property="milestoneName" />
-
-        <result column="numComments" property="numComments"
-                jdbcType="INTEGER" />
-
+        <result column="milestoneName" jdbcType="VARCHAR" property="milestoneName" />
+        <result column="numComments" property="numComments" jdbcType="INTEGER" />
+        <result column="billableHours" property="billableHours" jdbcType="DOUBLE" />
+        <result column="nonBillableHours" property="nonBillableHours" jdbcType="DOUBLE" />
         <collection columnPrefix="affectedversion_" notNullColumn="id"
             ofType="com.esofthead.mycollab.module.tracker.domain.Version"
             property="affectedVersions"
             resultMap="com.esofthead.mycollab.module.tracker.dao.VersionMapper.BaseResultMap" />
-
         <collection columnPrefix="fixedversion_" notNullColumn="id"
             ofType="com.esofthead.mycollab.module.tracker.domain.Version"
             property="fixedVersions"
             resultMap="com.esofthead.mycollab.module.tracker.dao.VersionMapper.BaseResultMap" />
-
         <collection columnPrefix="component_" notNullColumn="id"
             ofType="com.esofthead.mycollab.module.tracker.domain.Component"
             property="components"
@@ -408,7 +393,11 @@
                  fixedversion.createdTime as fixedversion_createdTime, fixedversion.lastUpdatedTime as fixedversion_lastUpdatedTime,
                  component.id as component_id, component.projectid as component_projectid, component.componentname as component_componentname, 
                  component.userlead as component_userlead, component.description as component_description, component.createdUser as component_createdUser, 
-                 component.createdTime as component_createdTime, component.lastUpdatedTime as component_lastUpdatedTime
+                 component.createdTime as component_createdTime, component.lastUpdatedTime as component_lastUpdatedTime,
+                 (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = m_tracker_bug.projectid
+                     AND m_prj_time_logging.type='Project-Bug' AND m_prj_time_logging.typeid=m_tracker_bug.id AND m_prj_time_logging.isBillable = 1) AS billableHours,
+                 (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = m_tracker_bug.projectid
+                     AND m_prj_time_logging.type='Project-Bug' AND m_prj_time_logging.typeid=m_tracker_bug.id AND m_prj_time_logging.isBillable = 0) AS nonBillableHours
            FROM m_tracker_bug
                LEFT OUTER JOIN m_prj_project ON (m_tracker_bug.projectid = m_prj_project.id)
                LEFT OUTER JOIN s_user AS assignuserTbl ON (m_tracker_bug.assignuser=assignuserTbl.username)

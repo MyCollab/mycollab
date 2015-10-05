@@ -30,7 +30,7 @@ import com.esofthead.mycollab.core.utils.DateTimeUtils;
  * @since 4.1.2
  * 
  */
-public class DateExpression extends AbstractFieldExpression implements MValue {
+public class DateExpression extends SimpleFieldExpression implements MValue {
 	private static final long serialVersionUID = 1L;
 
 	public DateExpression(String field) {

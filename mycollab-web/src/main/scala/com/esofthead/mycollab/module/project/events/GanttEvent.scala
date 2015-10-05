@@ -28,7 +28,7 @@ object GanttEvent {
 
     class ClearGanttItemsNeedUpdate(source: AnyRef) extends ApplicationEvent(source, null) {}
 
-    class UpdateGanttItemDates(source: AnyRef, data: GanttItemWrapper) extends ApplicationEvent(source, data) {}
+    class UpdateGanttItem(source: AnyRef, data: GanttItemWrapper) extends ApplicationEvent(source, data) {}
 
     class DeleteGanttItemUpdateToQueue(source: AnyRef, data: GanttItemWrapper) extends ApplicationEvent(source, data) {}
 

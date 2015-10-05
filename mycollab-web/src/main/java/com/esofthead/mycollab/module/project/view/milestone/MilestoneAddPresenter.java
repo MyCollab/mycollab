@@ -21,6 +21,7 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.Milestone;
+import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
@@ -47,11 +48,11 @@ public class MilestoneAddPresenter extends AbstractPresenter<MilestoneAddView> {
 
     @Override
     protected void postInitView() {
-        view.getEditFormHandlers().addFormHandler(new EditFormHandler<Milestone>() {
+        view.getEditFormHandlers().addFormHandler(new EditFormHandler<SimpleMilestone>() {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void onSave(Milestone milestone) {
+            public void onSave(SimpleMilestone milestone) {
                 int milestoneId = saveMilestone(milestone);
                 EventBusFactory.getInstance().post(new MilestoneEvent.GotoRead(this, milestoneId));
             }
@@ -65,7 +66,7 @@ public class MilestoneAddPresenter extends AbstractPresenter<MilestoneAddView> {
             }
 
             @Override
-            public void onSaveAndNew(Milestone milestone) {
+            public void onSaveAndNew(SimpleMilestone milestone) {
                 saveMilestone(milestone);
                 EventBusFactory.getInstance().post(new MilestoneEvent.GotoAdd(this, null));
             }
@@ -80,7 +81,7 @@ public class MilestoneAddPresenter extends AbstractPresenter<MilestoneAddView> {
             milestoneContainer.removeAllComponents();
             milestoneContainer.addComponent(view.getWidget());
 
-            Milestone milestone = (Milestone) data.getParams();
+            SimpleMilestone milestone = (SimpleMilestone) data.getParams();
             view.editItem(milestone);
 
             ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);

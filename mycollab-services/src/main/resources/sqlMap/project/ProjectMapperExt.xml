@@ -9,27 +9,18 @@
         <result column="accountName" jdbcType="VARCHAR" property="accountName" />
         <result column="numOpenBugs" jdbcType="INTEGER" property="numOpenBugs" />
         <result column="numBugs" jdbcType="INTEGER" property="numBugs" />
-        <result column="numOpenTasks" jdbcType="INTEGER"
-            property="numOpenTasks" />
+        <result column="numOpenTasks" jdbcType="INTEGER" property="numOpenTasks" />
         <result column="numTasks" jdbcType="INTEGER" property="numTasks" />
-        <result column="numOpenProblems" jdbcType="INTEGER"
-            property="numOpenProblems" />
+        <result column="numOpenProblems" jdbcType="INTEGER" property="numOpenProblems" />
         <result column="numProblems" jdbcType="INTEGER" property="numProblems" />
-        <result column="numOpenRisks" jdbcType="INTEGER"
-            property="numOpenRisks" />
+        <result column="numOpenRisks" jdbcType="INTEGER" property="numOpenRisks" />
         <result column="numRisks" jdbcType="INTEGER" property="numRisks" />
-        <result column="numActiveMembers" jdbcType="INTEGER"
-            property="numActiveMembers" />
-        <result column="numClosedPhase" jdbcType="INTEGER"
-            property="numClosedPhase" />
-        <result column="numInProgressPhase" jdbcType="INTEGER"
-            property="numInProgressPhase" />
-        <result column="numFuturePhase" jdbcType="INTEGER"
-            property="numFuturePhase" />
-        <result column="totalBillableHours" jdbcType="DOUBLE"
-            property="totalBillableHours" />
-        <result column="totalNonBillableHours" jdbcType="DOUBLE"
-            property="totalNonBillableHours" />
+        <result column="numActiveMembers" jdbcType="INTEGER" property="numActiveMembers" />
+        <result column="numClosedPhase" jdbcType="INTEGER" property="numClosedPhase" />
+        <result column="numInProgressPhase" jdbcType="INTEGER" property="numInProgressPhase" />
+        <result column="numFuturePhase" jdbcType="INTEGER" property="numFuturePhase" />
+        <result column="totalBillableHours" jdbcType="DOUBLE" property="totalBillableHours" />
+        <result column="totalNonBillableHours" jdbcType="DOUBLE" property="totalNonBillableHours" />
         <association property="currency"
             resultMap="com.esofthead.mycollab.common.dao.CurrencyMapper.BaseResultMap"
             columnPrefix="curr_"/>

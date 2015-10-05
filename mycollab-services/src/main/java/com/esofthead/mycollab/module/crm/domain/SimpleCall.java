@@ -31,7 +31,7 @@ public class SimpleCall extends CallWithBLOBs {
 	private String assignUserAvatarId;
 
 	public String getAssignUserFullName() {
-		if (org.apache.commons.lang3.StringUtils.isBlank(assignUserFullName)) {
+		if (StringUtils.isBlank(assignUserFullName)) {
 			return StringUtils.extractNameFromEmail(getAssignuser());
 		}
 		return assignUserFullName;

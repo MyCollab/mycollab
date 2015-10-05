@@ -22,6 +22,8 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.Label;
 
+import static com.esofthead.mycollab.core.utils.StringUtils.isBlank;
+
 /**
  * @author MyCollab Ltd.
  * @since 4.5.3
@@ -43,7 +45,7 @@ public class RichTextViewField extends CustomField {
 
     @Override
     protected Component initContent() {
-        if (org.apache.commons.lang3.StringUtils.isBlank(value)) {
+        if (isBlank(value)) {
             Label lbl = new Label("&nbsp;");
             lbl.setContentMode(ContentMode.HTML);
             lbl.setWidth("100%");

@@ -82,6 +82,11 @@ public class DueBugWidget extends BugDisplayWidget {
 
             Div footer = new Div().setStyle("width:100%").setCSSClass("footer2");
 
+            if (bug.getNumComments() != null && bug.getNumComments() > 0) {
+                Div commetDiv = new Div().appendText(FontAwesome.COMMENT_O.getHtml() + " " + bug.getNumComments()).setTitle("Comments");
+                footer.appendChild(commetDiv, DivLessFormatter.EMPTY_SPACE());
+            }
+
             if (bug.getStatus() != null) {
                 Div statusDiv = new Div().appendText(FontAwesome.INFO_CIRCLE.getHtml() + " " + AppContext.getMessage(OptionI18nEnum.BugStatus
                         .class, bug.getStatus())).setTitle(AppContext.getMessage(BugI18nEnum.FORM_STATUS));

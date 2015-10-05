@@ -140,7 +140,7 @@ public class CampaignAccountListComp extends
             MHorizontalLayout blockTop = new MHorizontalLayout().withWidth("100%");
             CssLayout iconWrap = new CssLayout();
             iconWrap.setStyleName("icon-wrap");
-            FontIconLabel accountAvatar = new FontIconLabel(CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT));
+            ELabel accountAvatar = new ELabel(CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT));
             iconWrap.addComponent(accountAvatar);
             blockTop.addComponent(iconWrap);
 

@@ -3,21 +3,15 @@
 <mapper
     namespace="com.esofthead.mycollab.module.project.dao.ItemTimeLoggingMapperExt">
     
-    <resultMap
-        extends="com.esofthead.mycollab.module.project.dao.ItemTimeLoggingMapper.ResultMapWithBLOBs"
-        id="TimeLoggingResult"
-        type="com.esofthead.mycollab.module.project.domain.SimpleItemTimeLogging">
-        <result column="logUserAvatarId" jdbcType="VARCHAR"
-            property="logUserAvatarId" />
-        <result column="logUserFullName" jdbcType="VARCHAR"
-            property="logUserFullName" />
+    <resultMap extends="com.esofthead.mycollab.module.project.dao.ItemTimeLoggingMapper.ResultMapWithBLOBs"
+        id="TimeLoggingResult" type="com.esofthead.mycollab.module.project.domain.SimpleItemTimeLogging">
+        <result column="logUserAvatarId" jdbcType="VARCHAR" property="logUserAvatarId" />
+        <result column="logUserFullName" jdbcType="VARCHAR" property="logUserFullName" />
         <result column="summary" jdbcType="VARCHAR" property="summary" />
         <result column="status" jdbcType="VARCHAR" property="status" />
         <result column="projectName" jdbcType="VARCHAR" property="projectName" />
-        <result column="projectShortName" jdbcType="VARCHAR"
-            property="projectShortName" />
-        <result column="percentageComplete" jdbcType="DOUBLE"
-            property="percentageComplete" />
+        <result column="projectShortName" jdbcType="VARCHAR" property="projectShortName" />
+        <result column="percentageComplete" jdbcType="DOUBLE" property="percentageComplete" />
         <result column="status" jdbcType="VARCHAR" property="status" />
         <result column="dueDate" jdbcType="TIMESTAMP" property="dueDate" />
         <result column="extraTypeId" jdbcType="INTEGER" property="extraTypeId" />

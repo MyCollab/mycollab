@@ -113,8 +113,7 @@ public class BugDashboardViewImpl extends AbstractLazyPageView implements BugDas
                 EventBusFactory.getInstance().post(new BugEvent.GotoAdd(this, null));
             }
         });
-        createBugBtn.setEnabled(CurrentProjectVariables
-                .canWrite(ProjectRolePermissionCollections.BUGS));
+        createBugBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS));
         createBugBtn.setIcon(FontAwesome.PLUS);
         final SplitButton controlsBtn = new SplitButton(createBugBtn);
         controlsBtn.addStyleName(UIConstants.THEME_GREEN_LINK);

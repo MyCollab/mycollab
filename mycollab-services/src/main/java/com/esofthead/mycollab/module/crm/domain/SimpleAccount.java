@@ -16,72 +16,69 @@
  */
 package com.esofthead.mycollab.module.crm.domain;
 
-import org.apache.commons.lang3.StringUtils;
+import com.esofthead.mycollab.core.utils.StringUtils;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class SimpleAccount extends Account {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String createdUserAvatarId;
+    private String createdUserAvatarId;
 
-	private String createdUserFullName;
+    private String createdUserFullName;
 
-	private String assignUserAvatarId;
+    private String assignUserAvatarId;
 
-	private String assignUserFullName;
+    private String assignUserFullName;
 
-	public String getCreatedUserAvatarId() {
-		return createdUserAvatarId;
-	}
+    public String getCreatedUserAvatarId() {
+        return createdUserAvatarId;
+    }
 
-	public void setCreatedUserAvatarId(String createdUserAvatarId) {
-		this.createdUserAvatarId = createdUserAvatarId;
-	}
+    public void setCreatedUserAvatarId(String createdUserAvatarId) {
+        this.createdUserAvatarId = createdUserAvatarId;
+    }
 
-	public String getCreatedUserFullName() {
-		if (StringUtils.isBlank(createdUserFullName)) {
-			return com.esofthead.mycollab.core.utils.StringUtils.extractNameFromEmail(getCreateduser());
-		}
+    public String getCreatedUserFullName() {
+        if (StringUtils.isBlank(createdUserFullName)) {
+            return StringUtils.extractNameFromEmail(getCreateduser());
+        }
 
-		return createdUserFullName;
-	}
+        return createdUserFullName;
+    }
 
-	public void setCreatedUserFullName(String createdUserFullName) {
-		this.createdUserFullName = createdUserFullName;
-	}
+    public void setCreatedUserFullName(String createdUserFullName) {
+        this.createdUserFullName = createdUserFullName;
+    }
 
-	public String getAssignUserAvatarId() {
-		return assignUserAvatarId;
-	}
+    public String getAssignUserAvatarId() {
+        return assignUserAvatarId;
+    }
 
-	public void setAssignUserAvatarId(String assignUserAvatarId) {
-		this.assignUserAvatarId = assignUserAvatarId;
-	}
+    public void setAssignUserAvatarId(String assignUserAvatarId) {
+        this.assignUserAvatarId = assignUserAvatarId;
+    }
 
-	public String getAssignUserFullName() {
-		if (StringUtils.isBlank(assignUserFullName)) {
-			return com.esofthead.mycollab.core.utils.StringUtils
-					.extractNameFromEmail(getAssignuser());
-		}
+    public String getAssignUserFullName() {
+        if (StringUtils.isBlank(assignUserFullName)) {
+            return StringUtils.extractNameFromEmail(getAssignuser());
+        }
 
-		return assignUserFullName;
-	}
+        return assignUserFullName;
+    }
 
-	public void setAssignUserFullName(String assignUserFullName) {
-		this.assignUserFullName = assignUserFullName;
-	}
+    public void setAssignUserFullName(String assignUserFullName) {
+        this.assignUserFullName = assignUserFullName;
+    }
 
-	public enum Field {
-		assignUserFullName;
+    public enum Field {
+        assignUserFullName;
 
-		public boolean equalTo(Object value) {
-			return name().equals(value);
-		}
-	}
+        public boolean equalTo(Object value) {
+            return name().equals(value);
+        }
+    }
 
 }

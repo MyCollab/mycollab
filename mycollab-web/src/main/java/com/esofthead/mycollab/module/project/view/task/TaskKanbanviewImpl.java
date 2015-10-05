@@ -44,9 +44,8 @@ import com.esofthead.mycollab.module.project.view.ProjectView;
 import com.esofthead.mycollab.module.project.view.kanban.AddNewColumnWindow;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.mvp.AbstractLazyPageView;
-import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.mvp.ViewManager;
+import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
+import com.esofthead.mycollab.vaadin.mvp.*;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.data.Property;
@@ -84,14 +83,13 @@ import java.util.concurrent.ConcurrentHashMap;
  * @since 5.1.1
  */
 @ViewComponent
-public class TaskKanbanviewImpl extends AbstractLazyPageView implements TaskKanbanview {
+public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanview {
     private static Logger LOG = LoggerFactory.getLogger(TaskKanbanviewImpl.class);
 
     private ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
     private OptionValService optionValService = ApplicationContextUtil.getSpringBean(OptionValService.class);
 
-    private boolean projectNavigatorVisibility = false;
-
+    private TaskSearchPanel searchPanel;
     private DDHorizontalLayout kanbanLayout;
     private Map<String, KanbanBlock> kanbanBlocks;
     private ComponentContainer newTaskComp = null;
@@ -112,26 +110,20 @@ public class TaskKanbanviewImpl extends AbstractLazyPageView implements TaskKanb
 
     public TaskKanbanviewImpl() {
         this.setSizeFull();
-        this.withMargin(new MarginInfo(false, true, true, true));
-    }
+        this.withSpacing(true).withMargin(new MarginInfo(false, true, true, true));
+        searchPanel = new TaskSearchPanel();
+        MHorizontalLayout groupWrapLayout = new MHorizontalLayout();
+        groupWrapLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+        searchPanel.addHeaderRight(groupWrapLayout);
 
-    private void initContent() {
-        MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
-                .withStyleName("hdr-view").withWidth("100%");
-        header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-        Label headerText = new Label("Kanban Board", ContentMode.HTML);
-        headerText.setStyleName(UIConstants.HEADER_TEXT);
-        CssLayout headerWrapper = new CssLayout();
-        headerWrapper.addComponent(headerText);
-
+        groupWrapLayout.addComponent(new Label("Filter:"));
         final SavedFilterComboBox savedFilterComboBox = new SavedFilterComboBox(ProjectTypeConstants.TASK);
         savedFilterComboBox.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
-            public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
+            public void valueChange(Property.ValueChangeEvent event) {
                 SaveSearchResultWithBLOBs item = (SaveSearchResultWithBLOBs) savedFilterComboBox.getValue();
                 if (item != null) {
-                    List<SearchFieldInfo> fieldInfos = (List<SearchFieldInfo>) XStreamJsonDeSerializer.fromJson(item
-                            .getQuerytext());
+                    List<SearchFieldInfo> fieldInfos = (List<SearchFieldInfo>) XStreamJsonDeSerializer.fromJson(item.getQuerytext());
                     // @HACK: === the library serialize with extra list
                     // wrapper
                     if (CollectionUtils.isEmpty(fieldInfos)) {
@@ -142,11 +134,10 @@ public class TaskKanbanviewImpl extends AbstractLazyPageView implements TaskKanb
                             fieldInfos);
                     criteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
                     EventBusFactory.getInstance().post(new TaskEvent.SearchRequest(TaskKanbanviewImpl.this, criteria));
-                } else {
-                    queryTask();
                 }
             }
         });
+        groupWrapLayout.addComponent(savedFilterComboBox);
 
         Button addNewColumnBtn = new Button("Add a new column", new Button.ClickListener() {
             @Override
@@ -155,6 +146,7 @@ public class TaskKanbanviewImpl extends AbstractLazyPageView implements TaskKanb
             }
         });
         addNewColumnBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        groupWrapLayout.addComponent(addNewColumnBtn);
 
         Button advanceDisplayBtn = new Button(null, new Button.ClickListener() {
             @Override
@@ -183,14 +175,13 @@ public class TaskKanbanviewImpl extends AbstractLazyPageView implements TaskKanb
         viewButtons.addButton(kanbanBtn);
         viewButtons.addButton(chartDisplayBtn);
         viewButtons.setDefaultButton(kanbanBtn);
-
-        header.with(headerWrapper, savedFilterComboBox, addNewColumnBtn, viewButtons).withAlign(headerWrapper, Alignment.MIDDLE_LEFT)
-                .withAlign(addNewColumnBtn, Alignment.MIDDLE_RIGHT).withAlign(viewButtons, Alignment.MIDDLE_RIGHT).expand(headerWrapper);
+        groupWrapLayout.addComponent(viewButtons);
 
         kanbanLayout = new DDHorizontalLayout();
         kanbanLayout.setHeight("100%");
         kanbanLayout.addStyleName("kanban-layout");
         kanbanLayout.setSpacing(true);
+        kanbanLayout.setMargin(new MarginInfo(true, false, true, false));
         kanbanLayout.setComponentHorizontalDropRatio(0.3f);
         kanbanLayout.setDragMode(LayoutDragMode.CLONE_OTHER);
 
@@ -234,20 +225,13 @@ public class TaskKanbanviewImpl extends AbstractLazyPageView implements TaskKanb
                 return new Not(VerticalLocationIs.MIDDLE);
             }
         });
-        this.with(header, kanbanLayout).expand(kanbanLayout);
+        this.setWidth("100%");
+        this.with(searchPanel, kanbanLayout).expand(kanbanLayout);
     }
 
     @Override
-    protected void displayView() {
-        initContent();
-        queryTask();
-    }
-
-    private void queryTask() {
-        TaskSearchCriteria searchCriteria = new TaskSearchCriteria();
-        searchCriteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-        searchCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("taskindex", SearchCriteria.ASC)));
-        queryTask(searchCriteria);
+    public HasSearchHandlers<TaskSearchCriteria> getSearchHandlers() {
+        return searchPanel;
     }
 
     @Override
@@ -270,42 +254,49 @@ public class TaskKanbanviewImpl extends AbstractLazyPageView implements TaskKanb
         }
     }
 
-    private void queryTask(final TaskSearchCriteria searchCriteria) {
+    @Override
+    public void queryTask(final TaskSearchCriteria searchCriteria) {
         kanbanLayout.removeAllComponents();
         kanbanBlocks = new ConcurrentHashMap<>();
 
         setProjectNavigatorVisibility(false);
-        UI.getCurrent().access(new Runnable() {
+        new Thread() {
             @Override
             public void run() {
-                List<OptionVal> optionVals = optionValService.findOptionVals(ProjectTypeConstants.TASK,
-                        CurrentProjectVariables.getProjectId(), AppContext.getAccountId());
-                for (OptionVal optionVal : optionVals) {
-                    KanbanBlock kanbanBlock = new KanbanBlock(optionVal);
-                    kanbanBlocks.put(optionVal.getTypeval(), kanbanBlock);
-                    kanbanLayout.addComponent(kanbanBlock);
-                }
-                UI.getCurrent().push();
-
-                int totalTasks = taskService.getTotalCount(searchCriteria);
-                int pages = totalTasks / 20;
-                for (int page = 0; page < pages + 1; page++) {
-                    List<SimpleTask> tasks = taskService.findPagableListByCriteria(new SearchRequest<>(searchCriteria, page + 1, 20));
-
-                    for (SimpleTask task : tasks) {
-                        String status = task.getStatus();
-                        KanbanBlock kanbanBlock = kanbanBlocks.get(status);
-                        if (kanbanBlock == null) {
-                            LOG.error("Can not find a kanban block for status: " + status);
-                        } else {
-                            kanbanBlock.addBlockItem(new KanbanTaskBlockItem(task));
+                UI.getCurrent().access(new Runnable() {
+                    @Override
+                    public void run() {
+                        List<OptionVal> optionVals = optionValService.findOptionVals(ProjectTypeConstants.TASK,
+                                CurrentProjectVariables.getProjectId(), AppContext.getAccountId());
+                        for (OptionVal optionVal : optionVals) {
+                            KanbanBlock kanbanBlock = new KanbanBlock(optionVal);
+                            kanbanBlocks.put(optionVal.getTypeval(), kanbanBlock);
+                            kanbanLayout.addComponent(kanbanBlock);
                         }
-                    }
-                    UI.getCurrent().push();
-                }
+                        UI.getCurrent().push();
 
+                        int totalTasks = taskService.getTotalCount(searchCriteria);
+                        searchPanel.setTotalCountNumber(totalTasks);
+                        int pages = totalTasks / 20;
+                        for (int page = 0; page < pages + 1; page++) {
+                            List<SimpleTask> tasks = taskService.findPagableListByCriteria(new SearchRequest<>(searchCriteria, page + 1, 20));
+
+                            for (SimpleTask task : tasks) {
+                                String status = task.getStatus();
+                                KanbanBlock kanbanBlock = kanbanBlocks.get(status);
+                                if (kanbanBlock == null) {
+                                    LOG.error("Can not find a kanban block for status: " + status);
+                                } else {
+                                    kanbanBlock.addBlockItem(new KanbanTaskBlockItem(task));
+                                }
+                            }
+                            UI.getCurrent().push();
+                        }
+
+                    }
+                });
             }
-        });
+        }.start();
     }
 
     @Override

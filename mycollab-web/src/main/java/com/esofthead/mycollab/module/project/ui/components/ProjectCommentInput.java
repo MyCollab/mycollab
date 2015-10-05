@@ -58,7 +58,7 @@ public class ProjectCommentInput extends MHorizontalLayout {
     ProjectCommentInput(final ReloadableComponent component, final String typeVal, Integer extraTypeIdVal,
                         final Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
         super();
-        this.withMargin(new MarginInfo(false, true, false, false)).withWidth("100%").withStyleName("message");
+        this.withMargin(new MarginInfo(true, true, false, true)).withWidth("100%").withStyleName("message");
 
         SimpleUser currentUser = AppContext.getUser();
         ProjectMemberBlock userBlock = new ProjectMemberBlock(currentUser.getUsername(), currentUser.getAvatarid(),

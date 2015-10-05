@@ -180,7 +180,7 @@ public class OpportunityContactListComp extends
             MHorizontalLayout blockTop = new MHorizontalLayout().withWidth("100%");
             CssLayout iconWrap = new CssLayout();
             iconWrap.setStyleName("icon-wrap");
-            FontIconLabel contactAvatar = new FontIconLabel(CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT));
+            ELabel contactAvatar = new ELabel(CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT));
             iconWrap.addComponent(contactAvatar);
             blockTop.addComponent(iconWrap);
 

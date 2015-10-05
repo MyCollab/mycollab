@@ -16,49 +16,41 @@
  */
 package com.esofthead.mycollab.module.project.ui.components;
 
+import com.esofthead.mycollab.common.domain.SimpleActivityStream;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.ui.format.*;
+import com.esofthead.mycollab.utils.AuditLogPrinter;
+
 import java.util.HashMap;
 import java.util.Map;
 
-import com.esofthead.mycollab.common.domain.SimpleActivityStream;
-import com.esofthead.mycollab.module.project.ProjectTypeConstants;
-import com.esofthead.mycollab.module.project.view.problem.ProblemFormatter;
-import com.esofthead.mycollab.module.project.view.risk.RiskFormatter;
-import com.esofthead.mycollab.utils.AuditLogPrinter;
-
-import static com.esofthead.mycollab.module.project.view.bug.BugHistoryList.bugFomatter;
-import static com.esofthead.mycollab.module.project.view.bug.ComponentHistoryLogList.componentFormatter;
-import static com.esofthead.mycollab.module.project.view.bug.VersionHistoryLogList.versionFormatter;
-import static com.esofthead.mycollab.module.project.view.task.TaskHistoryList.taskFormatter;
-import static com.esofthead.mycollab.module.project.view.milestone.MilestoneHistoryLogList.milestoneFormatter;
-
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class ProjectAuditLogStreamGenerator {
-	private static final Map<String, AuditLogPrinter> auditPrinters;
-	static {
-		auditPrinters = new HashMap<>();
-		auditPrinters.put(ProjectTypeConstants.BUG, new AuditLogPrinter(bugFomatter));
-		auditPrinters.put(ProjectTypeConstants.TASK, new AuditLogPrinter(taskFormatter));
-		auditPrinters.put(ProjectTypeConstants.MILESTONE, new AuditLogPrinter(milestoneFormatter));
-		auditPrinters.put(ProjectTypeConstants.RISK, new AuditLogPrinter(RiskFormatter.instance));
-		auditPrinters.put(ProjectTypeConstants.PROBLEM, new AuditLogPrinter(ProblemFormatter.instance));
-		auditPrinters.put(ProjectTypeConstants.BUG_COMPONENT, new AuditLogPrinter(componentFormatter));
-		auditPrinters.put(ProjectTypeConstants.BUG_VERSION, new AuditLogPrinter(versionFormatter));
-	}
+    private static final Map<String, AuditLogPrinter> auditPrinters;
 
-	public static String generatorDetailChangeOfActivity(SimpleActivityStream activityStream) {
+    static {
+        auditPrinters = new HashMap<>();
+        auditPrinters.put(ProjectTypeConstants.BUG, new AuditLogPrinter(BugFieldFormatter.instance()));
+        auditPrinters.put(ProjectTypeConstants.TASK, new AuditLogPrinter(TaskFieldFormatter.instance()));
+        auditPrinters.put(ProjectTypeConstants.MILESTONE, new AuditLogPrinter(MilestoneFieldFormatter.instance()));
+        auditPrinters.put(ProjectTypeConstants.RISK, new AuditLogPrinter(RiskFieldFormatter.instance()));
+        auditPrinters.put(ProjectTypeConstants.PROBLEM, new AuditLogPrinter(ProblemFieldFormatter.instance()));
+        auditPrinters.put(ProjectTypeConstants.BUG_COMPONENT, new AuditLogPrinter(ComponentFieldFormatter.instance()));
+        auditPrinters.put(ProjectTypeConstants.BUG_VERSION, new AuditLogPrinter(VersionFieldFormatter.instance()));
+    }
 
-		if (activityStream.getAssoAuditLog() != null) {
-			AuditLogPrinter auditLogHandler = auditPrinters.get(activityStream.getType());
-			if (auditLogHandler != null) {
-				return auditLogHandler.generateChangeSet(activityStream.getAssoAuditLog());
-			}
+    public static String generatorDetailChangeOfActivity(SimpleActivityStream activityStream) {
 
-		}
-		return "";
-	}
+        if (activityStream.getAssoAuditLog() != null) {
+            AuditLogPrinter auditLogHandler = auditPrinters.get(activityStream.getType());
+            if (auditLogHandler != null) {
+                return auditLogHandler.generateChangeSet(activityStream.getAssoAuditLog());
+            }
+
+        }
+        return "";
+    }
 }

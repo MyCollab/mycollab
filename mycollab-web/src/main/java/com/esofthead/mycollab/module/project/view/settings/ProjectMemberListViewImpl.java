@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.project.view.settings;
 import com.esofthead.mycollab.common.GenericLinkUtils;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.utils.NumberUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.project.*;
@@ -28,12 +29,14 @@ import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearch
 import com.esofthead.mycollab.module.project.events.ProjectMemberEvent;
 import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.ProjectViewHeader;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.*;
+import com.hp.gagawa.java.elements.Span;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -215,17 +218,16 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
             memberInfo.addComponent(infoStatus);
         }
 
-        String bugStatus = member.getNumOpenBugs() + " open bug";
-        if (member.getNumOpenBugs() > 1) {
-            bugStatus += "s";
-        }
+        String memberWorksInfo = ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK).getHtml() + " " + new Span
+                ().appendText("" + member.getNumOpenTasks()).setTitle("Open tasks") + "  " + ProjectAssetsManager.getAsset
+                (ProjectTypeConstants.BUG).getHtml() + " " + new Span().appendText("" + member.getNumOpenBugs())
+                .setTitle("Open bugs") + " " +
+                " " + FontAwesome.MONEY.getHtml() + " " + new Span().appendText("" + NumberUtils.roundDouble(2,
+                member.getTotalBillableLogTime())).setTitle("Billable hours") + "  " + FontAwesome.GIFT.getHtml() +
+                " " + new Span().appendText("" + NumberUtils.roundDouble(2, member.getTotalNonBillableLogTime())).setTitle("Non billable hours");
 
-        String taskStatus = member.getNumOpenTasks() + " open task";
-        if (member.getNumOpenTasks() > 1) {
-            taskStatus += "s";
-        }
-
-        Label memberWorkStatus = new Label(bugStatus + " - " + taskStatus);
+        Label memberWorkStatus = new Label(memberWorksInfo, ContentMode.HTML);
+        memberWorkStatus.addStyleName("member-email");
         memberInfo.addComponent(memberWorkStatus);
         memberInfo.setWidth("100%");
 

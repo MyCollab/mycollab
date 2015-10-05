@@ -351,7 +351,7 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
     private def bindMilestoneEvents(): Unit = {
         this.register(new ApplicationEventListener[MilestoneEvent.GotoAdd] {
             @Subscribe def handle(event: MilestoneEvent.GotoAdd) {
-                val data: MilestoneScreenData.Add = new MilestoneScreenData.Add(new Milestone)
+                val data: MilestoneScreenData.Add = new MilestoneScreenData.Add(new SimpleMilestone)
                 val presenter = PresenterResolver.getPresenter(classOf[MilestonePresenter])
                 presenter.go(projectView, data)
             }

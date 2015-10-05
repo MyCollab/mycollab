@@ -39,6 +39,10 @@ public class MilestoneGanttItem extends AssignWithPredecessors {
         return CollectionUtils.isNotEmpty(subTasks);
     }
 
+    public void removeSubTask(TaskGanttItem subTask) {
+        subTasks.remove(subTask);
+    }
+
     @Override
     public Double getProgress() {
         if (hasSubAssignments()) {

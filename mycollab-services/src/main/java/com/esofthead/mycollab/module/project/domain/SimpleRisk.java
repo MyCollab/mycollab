@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.project.domain;
 
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
-import org.apache.commons.lang3.StringUtils;
+import com.esofthead.mycollab.core.utils.StringUtils;
 
 import java.util.Date;
 
@@ -47,7 +47,7 @@ public class SimpleRisk extends Risk {
 
     public String getRaisedByUserFullName() {
         if (StringUtils.isBlank(raisedByUserFullName)) {
-            return com.esofthead.mycollab.core.utils.StringUtils.extractNameFromEmail(getRaisedbyuser());
+            return StringUtils.extractNameFromEmail(getRaisedbyuser());
         }
         return raisedByUserFullName;
     }
@@ -58,7 +58,7 @@ public class SimpleRisk extends Risk {
 
     public String getAssignedToUserFullName() {
         if (StringUtils.isBlank(assignedToUserFullName)) {
-            return com.esofthead.mycollab.core.utils.StringUtils.extractNameFromEmail(getAssigntouser());
+            return StringUtils.extractNameFromEmail(getAssigntouser());
         }
         return assignedToUserFullName;
     }

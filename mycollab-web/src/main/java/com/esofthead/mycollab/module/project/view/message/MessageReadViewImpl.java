@@ -160,7 +160,6 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
             });
 
             ProjectViewHeader headerText = new ProjectViewHeader(ProjectTypeConstants.MESSAGE, message.getTitle());
-
             header.with(headerText, stickyCheck, deleteBtn).withAlign(headerText, Alignment.MIDDLE_LEFT)
                     .withAlign(stickyCheck, Alignment.MIDDLE_RIGHT).withAlign(deleteBtn, Alignment.MIDDLE_RIGHT).expand(headerText);
 
@@ -175,12 +174,9 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
 
             messageLayout.addComponent(userBlock);
 
-            CssLayout rowLayout = new CssLayout();
-            rowLayout.setStyleName("message-container");
-            rowLayout.setWidth("100%");
+            MVerticalLayout rowLayout = new MVerticalLayout().withMargin(true).withWidth("100%").withStyleName("message-container");
 
-            MHorizontalLayout messageHeader = new MHorizontalLayout().withStyleName("message-header")
-                    .withMargin(new MarginInfo(true, false, false, true)).withWidth("100%");
+            MHorizontalLayout messageHeader = new MHorizontalLayout().withStyleName("message-header").withWidth("100%");
             messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
             ELabel timePostLbl = new ELabel(AppContext.getMessage(
@@ -214,8 +210,7 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
                         .getAttachmentDisplayComponent(message.getProjectid(),
                                 ProjectTypeConstants.MESSAGE, message.getId());
 
-                MVerticalLayout messageFooter = new MVerticalLayout()
-                        .withWidth("100%").withStyleName("message-footer")
+                MVerticalLayout messageFooter = new MVerticalLayout().withWidth("100%").withStyleName("message-footer")
                         .with(attachmentField, attachmentDisplayComp);
 
                 rowLayout.addComponent(messageFooter);

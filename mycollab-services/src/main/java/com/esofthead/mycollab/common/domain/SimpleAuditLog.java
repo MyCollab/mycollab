@@ -17,61 +17,64 @@
 package com.esofthead.mycollab.common.domain;
 
 import com.esofthead.mycollab.core.utils.JsonDeSerializer;
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.google.gson.reflect.TypeToken;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class SimpleAuditLog extends AuditLog {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private List<AuditChangeItem> changeItems;
+    private List<AuditChangeItem> changeItems;
 
-	private String postedUserFullName;
+    private String postedUserFullName;
 
-	private String postedUserAvatarId;
+    private String postedUserAvatarId;
 
-	public List<AuditChangeItem> getChangeItems() {
-		if (changeItems == null) {
-			changeItems = parseChangeItems();
-		}
-		if (changeItems == null) {
-			changeItems = new ArrayList<>();
-		}
-		return changeItems;
-	}
+    public List<AuditChangeItem> getChangeItems() {
+        if (changeItems == null) {
+            changeItems = parseChangeItems();
+        }
+        if (changeItems == null) {
+            changeItems = new ArrayList<>();
+        }
+        return changeItems;
+    }
 
-	public String getPostedUserFullName() {
-		if (StringUtils.isBlank(postedUserFullName)) {
-			return com.esofthead.mycollab.core.utils.StringUtils.extractNameFromEmail(getPosteduser());
-		}
-		return postedUserFullName;
-	}
+    public Date getCreatedtime() {
+        return getPosteddate();
+    }
 
-	public void setPostedUserFullName(String postedUserFullName) {
-		this.postedUserFullName = postedUserFullName;
-	}
+    public String getPostedUserFullName() {
+        if (StringUtils.isBlank(postedUserFullName)) {
+            return StringUtils.extractNameFromEmail(getPosteduser());
+        }
+        return postedUserFullName;
+    }
 
-	public String getPostedUserAvatarId() {
-		return postedUserAvatarId;
-	}
+    public void setPostedUserFullName(String postedUserFullName) {
+        this.postedUserFullName = postedUserFullName;
+    }
 
-	public void setPostedUserAvatarId(String postedUserAvatarId) {
-		this.postedUserAvatarId = postedUserAvatarId;
-	}
+    public String getPostedUserAvatarId() {
+        return postedUserAvatarId;
+    }
 
-	private List<AuditChangeItem> parseChangeItems() {
-		List<AuditChangeItem> items = JsonDeSerializer.fromJson(
-				this.getChangeset(), new TypeToken<List<AuditChangeItem>>() {
-				}.getType());
+    public void setPostedUserAvatarId(String postedUserAvatarId) {
+        this.postedUserAvatarId = postedUserAvatarId;
+    }
 
-		return items;
-	}
+    private List<AuditChangeItem> parseChangeItems() {
+        List<AuditChangeItem> items = JsonDeSerializer.fromJson(
+                this.getChangeset(), new TypeToken<List<AuditChangeItem>>() {
+                }.getType());
+
+        return items;
+    }
 }

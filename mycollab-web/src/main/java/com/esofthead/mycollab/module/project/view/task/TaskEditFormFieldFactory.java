@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.common.i18n.ErrorI18nEnum;
 import com.esofthead.mycollab.core.utils.BusinessDayTimeUtils;
+import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.HumanTime;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -97,7 +98,7 @@ class TaskEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Si
                     DateField startDateField = (DateField) fieldGroup.getField(Task.Field.startdate.name());
                     Date startDateVal = startDateField.getValue();
                     if (duration.intValue() > 0 && startDateVal != null) {
-                        int durationIndays = duration.intValue() / BusinessDayTimeUtils.DAY_IN_MILIS;
+                        int durationIndays = duration.intValue() / (int) DateTimeUtils.MILISECONDS_IN_A_DAY;
                         if (durationIndays > 0) {
                             LocalDate startDateJoda = new LocalDate(startDateVal);
                             LocalDate endDateJoda = BusinessDayTimeUtils.plusDays(startDateJoda, durationIndays);
@@ -142,10 +143,16 @@ class TaskEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Si
     private void calculateDurationBaseOnStartAndEndDates() {
         DateField startDateField = (DateField) fieldGroup.getField(Task.Field.startdate.name());
         DateField endDateField = (DateField) fieldGroup.getField(Task.Field.enddate.name());
-        Date startDate = startDateField.getValue();
-        Date endDate = endDateField.getValue();
-        if (startDate != null && endDate != null && startDate.before(endDate)) {
-            TextField durationField = (TextField) fieldGroup.getField(Task.Field.duration.name());
+        TextField durationField = (TextField) fieldGroup.getField(Task.Field.duration.name());
+        Date startDate = null;
+        Date endDate = null;
+        if (startDateField != null) {
+            startDate = startDateField.getValue();
+        }
+        if (endDateField != null) {
+            endDate = endDateField.getValue();
+        }
+        if (startDate != null && endDate != null && startDate.before(endDate) && durationField != null) {
             LocalDate startDateJoda = new LocalDate(startDate);
             LocalDate endDateJoda = new LocalDate(endDate);
             int durationInDays = BusinessDayTimeUtils.duration(startDateJoda, endDateJoda);

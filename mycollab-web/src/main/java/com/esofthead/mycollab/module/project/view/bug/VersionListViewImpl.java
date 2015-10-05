@@ -51,185 +51,158 @@ import java.util.Arrays;
 import java.util.GregorianCalendar;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @ViewComponent
 public class VersionListViewImpl extends AbstractPageView implements
-		VersionListView {
-	private static final long serialVersionUID = 1L;
+        VersionListView {
+    private static final long serialVersionUID = 1L;
 
-	private final VersionSearchPanel versionSearchPanel;
-	private SelectionOptionButton selectOptionButton;
-	private DefaultPagedBeanTable<VersionService, VersionSearchCriteria, SimpleVersion> tableItem;
-	private VerticalLayout versionListLayout;
-	private DefaultMassItemActionHandlerContainer tableActionControls;
-	private Label selectedItemsNumberLabel = new Label();
+    private final VersionSearchPanel versionSearchPanel;
+    private SelectionOptionButton selectOptionButton;
+    private DefaultPagedBeanTable<VersionService, VersionSearchCriteria, SimpleVersion> tableItem;
+    private VerticalLayout versionListLayout;
+    private DefaultMassItemActionHandlerContainer tableActionControls;
+    private Label selectedItemsNumberLabel = new Label();
 
-	public VersionListViewImpl() {
-		this.setMargin(new MarginInfo(false, true, false, true));
-		this.versionSearchPanel = new VersionSearchPanel();
-		this.versionListLayout = new VerticalLayout();
-		this.with(versionSearchPanel, versionListLayout);
-		this.generateDisplayTable();
-	}
+    public VersionListViewImpl() {
+        this.setMargin(new MarginInfo(false, true, false, true));
+        this.versionSearchPanel = new VersionSearchPanel();
+        this.versionListLayout = new VerticalLayout();
+        this.with(versionSearchPanel, versionListLayout);
+        this.generateDisplayTable();
+    }
 
-	private void generateDisplayTable() {
-		tableItem = new DefaultPagedBeanTable<>(
-				ApplicationContextUtil.getSpringBean(VersionService.class),
-				SimpleVersion.class,
-				new TableViewField(null, "selected",
-						UIConstants.TABLE_CONTROL_WIDTH),
-				Arrays.asList(
-						new TableViewField(VersionI18nEnum.FORM_NAME,
-								"versionname", UIConstants.TABLE_EX_LABEL_WIDTH),
-						new TableViewField(GenericI18Enum.FORM_DESCRIPTION,
-								"description", UIConstants.TABLE_EX_LABEL_WIDTH),
-						new TableViewField(VersionI18nEnum.FORM_DUE_DATE,
-								"duedate", UIConstants.TABLE_DATE_TIME_WIDTH)));
+    private void generateDisplayTable() {
+        tableItem = new DefaultPagedBeanTable<>(ApplicationContextUtil.getSpringBean(VersionService.class),
+                SimpleVersion.class,
+                new TableViewField(null, "selected", UIConstants.TABLE_CONTROL_WIDTH),
+                Arrays.asList(new TableViewField(VersionI18nEnum.FORM_NAME, "versionname", UIConstants.TABLE_EX_LABEL_WIDTH),
+                        new TableViewField(GenericI18Enum.FORM_DESCRIPTION, "description", 500),
+                        new TableViewField(VersionI18nEnum.FORM_DUE_DATE, "duedate", UIConstants.TABLE_DATE_TIME_WIDTH)));
 
-		tableItem.addGeneratedColumn("selected",
-				new Table.ColumnGenerator() {
-					private static final long serialVersionUID = 1L;
+        tableItem.addGeneratedColumn("selected", new Table.ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
 
-					@Override
-					public Object generateCell(final Table source,
-							final Object itemId, final Object columnId) {
-						final SimpleVersion version = tableItem
-								.getBeanByIndex(itemId);
-						final CheckBoxDecor cb = new CheckBoxDecor("", version
-								.isSelected());
-						cb.setImmediate(true);
-						cb.addValueChangeListener(new ValueChangeListener() {
-							private static final long serialVersionUID = 1L;
+            @Override
+            public Object generateCell(final Table source, final Object itemId, final Object columnId) {
+                final SimpleVersion version = tableItem.getBeanByIndex(itemId);
+                final CheckBoxDecor cb = new CheckBoxDecor("", version.isSelected());
+                cb.setImmediate(true);
+                cb.addValueChangeListener(new ValueChangeListener() {
+                    private static final long serialVersionUID = 1L;
 
-							@Override
-							public void valueChange(ValueChangeEvent event) {
-								VersionListViewImpl.this.tableItem
-										.fireSelectItemEvent(version);
+                    @Override
+                    public void valueChange(ValueChangeEvent event) {
+                        VersionListViewImpl.this.tableItem.fireSelectItemEvent(version);
 
-							}
-						});
+                    }
+                });
 
-						version.setExtraData(cb);
-						return cb;
-					}
-				});
+                version.setExtraData(cb);
+                return cb;
+            }
+        });
 
-		tableItem.addGeneratedColumn("versionname",
-				new Table.ColumnGenerator() {
-					private static final long serialVersionUID = 1L;
+        tableItem.addGeneratedColumn("versionname", new Table.ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
 
-					@Override
-					public Component generateCell(final Table source,
-							final Object itemId, final Object columnId) {
-						final Version bugVersion = tableItem
-								.getBeanByIndex(itemId);
-						final LabelLink b = new LabelLink(bugVersion
-								.getVersionname(), ProjectLinkBuilder
-								.generateBugVersionPreviewFullLink(
-										bugVersion.getProjectid(),
-										bugVersion.getId()));
-						if (bugVersion.getStatus() != null
-								&& bugVersion.getStatus().equals(
-										StatusI18nEnum.Closed.name())) {
-							b.addStyleName(UIConstants.LINK_COMPLETED);
-						} else if (bugVersion.getDuedate() != null
-								&& (bugVersion.getDuedate()
-										.before(new GregorianCalendar()
-												.getTime()))) {
-							b.addStyleName(UIConstants.LINK_OVERDUE);
-						}
-						b.setDescription(ProjectTooltipGenerator
-								.generateToolTipVersion(
-										AppContext.getUserLocale(), bugVersion,
-										AppContext.getSiteUrl(),
-										AppContext.getTimezone()));
-						return b;
+            @Override
+            public Component generateCell(final Table source, final Object itemId, final Object columnId) {
+                final Version bugVersion = tableItem.getBeanByIndex(itemId);
+                final LabelLink b = new LabelLink(bugVersion.getVersionname(), ProjectLinkBuilder
+                        .generateBugVersionPreviewFullLink(bugVersion.getProjectid(), bugVersion.getId()));
+                if (bugVersion.getStatus() != null && bugVersion.getStatus().equals(StatusI18nEnum.Closed.name())) {
+                    b.addStyleName(UIConstants.LINK_COMPLETED);
+                } else if (bugVersion.getDuedate() != null && (bugVersion.getDuedate().before(new GregorianCalendar().getTime()))) {
+                    b.addStyleName(UIConstants.LINK_OVERDUE);
+                }
+                b.setDescription(ProjectTooltipGenerator.generateToolTipVersion(
+                        AppContext.getUserLocale(), bugVersion, AppContext.getSiteUrl(),
+                        AppContext.getTimezone()));
+                return b;
 
-					}
-				});
+            }
+        });
 
-		tableItem.addGeneratedColumn("duedate",
-				new Table.ColumnGenerator() {
-					private static final long serialVersionUID = 1L;
+        tableItem.addGeneratedColumn("duedate", new Table.ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
 
-					@Override
-					public Component generateCell(final Table source,
-							final Object itemId, final Object columnId) {
-						final Version bugVersion = tableItem.getBeanByIndex(itemId);
-						return new ELabel().prettyDate(bugVersion.getDuedate());
-					}
-				});
+            @Override
+            public Component generateCell(final Table source, final Object itemId, final Object columnId) {
+                final Version bugVersion = tableItem.getBeanByIndex(itemId);
+                return new ELabel().prettyDate(bugVersion.getDuedate());
+            }
+        });
 
-		tableItem.setWidth("100%");
+        tableItem.setWidth("100%");
 
-		versionListLayout.addComponent(constructTableActionControls());
-		versionListLayout.addComponent(tableItem);
-	}
+        versionListLayout.addComponent(constructTableActionControls());
+        versionListLayout.addComponent(tableItem);
+    }
 
-	@Override
-	public HasSearchHandlers<VersionSearchCriteria> getSearchHandlers() {
-		return this.versionSearchPanel;
-	}
+    @Override
+    public HasSearchHandlers<VersionSearchCriteria> getSearchHandlers() {
+        return this.versionSearchPanel;
+    }
 
-	private ComponentContainer constructTableActionControls() {
-		final CssLayout layoutWrapper = new CssLayout();
-		layoutWrapper.setWidth("100%");
-		MHorizontalLayout layout = new MHorizontalLayout();
-		layoutWrapper.addStyleName(UIConstants.TABLE_ACTION_CONTROLS);
-		layoutWrapper.addComponent(layout);
+    private ComponentContainer constructTableActionControls() {
+        final CssLayout layoutWrapper = new CssLayout();
+        layoutWrapper.setWidth("100%");
+        MHorizontalLayout layout = new MHorizontalLayout();
+        layoutWrapper.addStyleName(UIConstants.TABLE_ACTION_CONTROLS);
+        layoutWrapper.addComponent(layout);
 
-		this.selectOptionButton = new SelectionOptionButton(this.tableItem);
-		layout.addComponent(this.selectOptionButton);
+        this.selectOptionButton = new SelectionOptionButton(this.tableItem);
+        layout.addComponent(this.selectOptionButton);
 
-		tableActionControls = new DefaultMassItemActionHandlerContainer();
+        tableActionControls = new DefaultMassItemActionHandlerContainer();
 
-		if (CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.VERSIONS)) {
-			tableActionControls.addDeleteActionItem();
-		}
+        if (CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.VERSIONS)) {
+            tableActionControls.addDeleteActionItem();
+        }
 
-		tableActionControls.addMailActionItem();
-		tableActionControls.addDownloadPdfActionItem();
-		tableActionControls.addDownloadExcelActionItem();
-		tableActionControls.addDownloadCsvActionItem();
+        tableActionControls.addMailActionItem();
+        tableActionControls.addDownloadPdfActionItem();
+        tableActionControls.addDownloadExcelActionItem();
+        tableActionControls.addDownloadCsvActionItem();
 
-		layout.with(tableActionControls, selectedItemsNumberLabel).withAlign(selectedItemsNumberLabel, Alignment.MIDDLE_CENTER);
-		return layoutWrapper;
-	}
+        layout.with(tableActionControls, selectedItemsNumberLabel).withAlign(selectedItemsNumberLabel, Alignment.MIDDLE_CENTER);
+        return layoutWrapper;
+    }
 
-	@Override
-	public void enableActionControls(final int numOfSelectedItems) {
-		this.tableActionControls.setVisible(true);
-		this.selectedItemsNumberLabel.setValue(AppContext.getMessage(
-				GenericI18Enum.TABLE_SELECTED_ITEM_TITLE, numOfSelectedItems));
-	}
+    @Override
+    public void enableActionControls(final int numOfSelectedItems) {
+        this.tableActionControls.setVisible(true);
+        this.selectedItemsNumberLabel.setValue(AppContext.getMessage(
+                GenericI18Enum.TABLE_SELECTED_ITEM_TITLE, numOfSelectedItems));
+    }
 
-	@Override
-	public void disableActionControls() {
-		this.tableActionControls.setVisible(false);
-		this.selectOptionButton.setSelectedCheckbox(false);
-		this.selectedItemsNumberLabel.setValue("");
-	}
+    @Override
+    public void disableActionControls() {
+        this.tableActionControls.setVisible(false);
+        this.selectOptionButton.setSelectedCheckbox(false);
+        this.selectedItemsNumberLabel.setValue("");
+    }
 
-	@Override
-	public HasSelectionOptionHandlers getOptionSelectionHandlers() {
-		return this.selectOptionButton;
-	}
+    @Override
+    public HasSelectionOptionHandlers getOptionSelectionHandlers() {
+        return this.selectOptionButton;
+    }
 
-	@Override
-	public HasMassItemActionHandler getPopupActionHandlers() {
-		return this.tableActionControls;
-	}
+    @Override
+    public HasMassItemActionHandler getPopupActionHandlers() {
+        return this.tableActionControls;
+    }
 
-	@Override
-	public HasSelectableItemHandlers<SimpleVersion> getSelectableItemHandlers() {
-		return this.tableItem;
-	}
+    @Override
+    public HasSelectableItemHandlers<SimpleVersion> getSelectableItemHandlers() {
+        return this.tableItem;
+    }
 
-	@Override
-	public AbstractPagedBeanTable<VersionSearchCriteria, SimpleVersion> getPagedBeanTable() {
-		return this.tableItem;
-	}
+    @Override
+    public AbstractPagedBeanTable<VersionSearchCriteria, SimpleVersion> getPagedBeanTable() {
+        return this.tableItem;
+    }
 }

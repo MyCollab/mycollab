@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.vaadin.ui;
 
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Label;
 
@@ -33,6 +34,10 @@ public class ELabel extends Label {
 
     public ELabel(String content) {
         super(content);
+    }
+
+    public ELabel(FontAwesome icon) {
+        this(icon.getHtml(), ContentMode.HTML);
     }
 
     public ELabel(String content, ContentMode mode) {

@@ -49,7 +49,7 @@ public class SimpleMilestone extends Milestone {
 	}
 
 	public String getOwnerFullName() {
-		if (org.apache.commons.lang3.StringUtils.isBlank(ownerFullName)) {
+		if (StringUtils.isBlank(ownerFullName)) {
 			return StringUtils.extractNameFromEmail(getOwner());
 		}
 		return ownerFullName;
@@ -108,7 +108,7 @@ public class SimpleMilestone extends Milestone {
 	}
 
 	public String getCreatedUserFullName() {
-		if (org.apache.commons.lang3.StringUtils.isBlank(createdUserFullName)) {
+		if (StringUtils.isBlank(createdUserFullName)) {
 			return StringUtils.extractNameFromEmail(getCreateduser());
 		}
 		return createdUserFullName;

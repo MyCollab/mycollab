@@ -17,129 +17,148 @@
 
 package com.esofthead.mycollab.module.project.domain;
 
-import java.util.Date;
-
 import com.esofthead.mycollab.core.arguments.NotBindable;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.security.PermissionMap;
 
+import java.util.Date;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class SimpleProjectMember extends ProjectMember {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String memberAvatarId;
+    private String memberAvatarId;
 
-	private String memberFullName;
+    private String memberFullName;
 
-	private String roleName;
+    private String roleName;
 
-	private Integer projectRoleId;
+    private Integer projectRoleId;
 
-	@NotBindable
-	private PermissionMap permissionMaps;
+    @NotBindable
+    private PermissionMap permissionMaps;
 
-	private int numOpenTasks;
+    private int numOpenTasks;
 
-	private int numOpenBugs;
+    private int numOpenBugs;
 
-	private String projectName;
+    private String projectName;
 
-	private String email;
+    private String email;
 
-	private Date lastAccessTime;
+    private Date lastAccessTime;
 
-	public String getMemberFullName() {
-		return getDisplayName();
-	}
+    private Double totalBillableLogTime;
 
-	public void setMemberFullName(String memberFullName) {
-		this.memberFullName = memberFullName;
-	}
+    private Double totalNonBillableLogTime;
 
-	public String getRoleName() {
-		return roleName;
-	}
+    public String getMemberFullName() {
+        return getDisplayName();
+    }
 
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
-	}
+    public void setMemberFullName(String memberFullName) {
+        this.memberFullName = memberFullName;
+    }
 
-	public PermissionMap getPermissionMaps() {
-		return permissionMaps;
-	}
+    public String getRoleName() {
+        return roleName;
+    }
 
-	public void setPermissionMaps(PermissionMap permissionMaps) {
-		this.permissionMaps = permissionMaps;
-	}
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
 
-	public int getNumOpenTasks() {
-		return numOpenTasks;
-	}
+    public PermissionMap getPermissionMaps() {
+        return permissionMaps;
+    }
 
-	public void setNumOpenTasks(int numOpenTasks) {
-		this.numOpenTasks = numOpenTasks;
-	}
+    public void setPermissionMaps(PermissionMap permissionMaps) {
+        this.permissionMaps = permissionMaps;
+    }
 
-	public int getNumOpenBugs() {
-		return numOpenBugs;
-	}
+    public int getNumOpenTasks() {
+        return numOpenTasks;
+    }
 
-	public void setNumOpenBugs(int numOpenBugs) {
-		this.numOpenBugs = numOpenBugs;
-	}
+    public void setNumOpenTasks(int numOpenTasks) {
+        this.numOpenTasks = numOpenTasks;
+    }
 
-	public void setProjectName(String projectName) {
-		this.projectName = projectName;
-	}
+    public int getNumOpenBugs() {
+        return numOpenBugs;
+    }
 
-	public String getProjectName() {
-		return projectName;
-	}
+    public void setNumOpenBugs(int numOpenBugs) {
+        this.numOpenBugs = numOpenBugs;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public String getProjectName() {
+        return projectName;
+    }
 
-	public String getMemberAvatarId() {
-		return memberAvatarId;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public void setMemberAvatarId(String memberAvatarId) {
-		this.memberAvatarId = memberAvatarId;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public Date getLastAccessTime() {
-		return lastAccessTime;
-	}
+    public String getMemberAvatarId() {
+        return memberAvatarId;
+    }
 
-	public void setLastAccessTime(Date lastAccessTime) {
-		this.lastAccessTime = lastAccessTime;
-	}
+    public void setMemberAvatarId(String memberAvatarId) {
+        this.memberAvatarId = memberAvatarId;
+    }
 
-	public Integer getProjectRoleId() {
-		return projectRoleId;
-	}
+    public Date getLastAccessTime() {
+        return lastAccessTime;
+    }
 
-	public void setProjectRoleId(Integer projectRoleId) {
-		this.projectRoleId = projectRoleId;
-	}
+    public void setLastAccessTime(Date lastAccessTime) {
+        this.lastAccessTime = lastAccessTime;
+    }
 
-	public String getDisplayName() {
-		if (org.apache.commons.lang3.StringUtils.isBlank(memberFullName)) {
-			return StringUtils.extractNameFromEmail(getUsername());
-		}
-		return memberFullName;
-	}
+    public Integer getProjectRoleId() {
+        return projectRoleId;
+    }
 
-	public boolean isAdmin() {
-		return Boolean.TRUE.equals(getIsadmin());
-	}
+    public void setProjectRoleId(Integer projectRoleId) {
+        this.projectRoleId = projectRoleId;
+    }
+
+    public String getDisplayName() {
+        if (StringUtils.isBlank(memberFullName)) {
+            return StringUtils.extractNameFromEmail(getUsername());
+        }
+        return memberFullName;
+    }
+
+    public boolean isAdmin() {
+        return Boolean.TRUE.equals(getIsadmin());
+    }
+
+    public Double getTotalBillableLogTime() {
+        return totalBillableLogTime;
+    }
+
+    public void setTotalBillableLogTime(Double totalBillableLogTime) {
+        this.totalBillableLogTime = totalBillableLogTime;
+    }
+
+    public Double getTotalNonBillableLogTime() {
+        return totalNonBillableLogTime;
+    }
+
+    public void setTotalNonBillableLogTime(Double totalNonBillableLogTime) {
+        this.totalNonBillableLogTime = totalNonBillableLogTime;
+    }
 }

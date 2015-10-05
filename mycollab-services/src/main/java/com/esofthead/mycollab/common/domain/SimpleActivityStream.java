@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.common.domain;
 
-import org.apache.commons.lang3.StringUtils;
+import com.esofthead.mycollab.core.utils.StringUtils;
 
 /**
  * @author MyCollab Ltd.
@@ -39,7 +39,7 @@ public class SimpleActivityStream extends ActivityStreamWithBLOBs {
 
     public String getCreatedUserFullName() {
         if (StringUtils.isBlank(createdUserFullName)) {
-            return com.esofthead.mycollab.core.utils.StringUtils.extractNameFromEmail(getCreateduser());
+            return StringUtils.extractNameFromEmail(getCreateduser());
         }
         return createdUserFullName;
     }

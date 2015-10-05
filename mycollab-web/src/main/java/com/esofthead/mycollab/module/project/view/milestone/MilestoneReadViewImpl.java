@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.view.milestone;
 
-import com.esofthead.mycollab.common.ModuleNameConstants;
-import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.configuration.Storage;
 import com.esofthead.mycollab.core.MyCollabException;
@@ -40,6 +38,7 @@ import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsUtil;
 import com.esofthead.mycollab.module.project.ui.components.*;
+import com.esofthead.mycollab.module.project.ui.format.MilestoneFieldFormatter;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.esofthead.mycollab.schedule.email.project.ProjectMilestoneRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -78,8 +77,7 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = LoggerFactory.getLogger(MilestoneReadViewImpl.class);
 
-    private CommentDisplay commentListComp;
-    private MilestoneHistoryLogList historyListComp;
+    private ProjectActivityComponent activityComponent;
     private DateInfoComp dateInfoComp;
     private PeopleInfoComp peopleInfoComp;
     private MilestoneTimeLogComp milestoneTimeLogComp;
@@ -101,17 +99,14 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
 
     @Override
     protected ComponentContainer createBottomPanel() {
-        final TabSheetLazyLoadComponent tabContainer = new TabSheetLazyLoadComponent();
-        tabContainer.addTab(commentListComp, AppContext.getMessage(GenericI18Enum.TAB_COMMENT), FontAwesome.COMMENTS);
-        tabContainer.addTab(historyListComp, AppContext.getMessage(GenericI18Enum.TAB_HISTORY), FontAwesome.HISTORY);
-        return tabContainer;
+        return activityComponent;
     }
 
     @Override
     protected void initRelatedComponents() {
-        historyListComp = new MilestoneHistoryLogList(ModuleNameConstants.PRJ, ProjectTypeConstants.MILESTONE);
-        commentListComp = new CommentDisplay(ProjectTypeConstants.MILESTONE,
-                CurrentProjectVariables.getProjectId(), ProjectMilestoneRelayEmailNotificationAction.class);
+        activityComponent = new ProjectActivityComponent(ProjectTypeConstants.MILESTONE,
+                CurrentProjectVariables.getProjectId(), MilestoneFieldFormatter.instance(),
+                ProjectMilestoneRelayEmailNotificationAction.class);
         dateInfoComp = new DateInfoComp();
         peopleInfoComp = new PeopleInfoComp();
         milestoneTimeLogComp = new MilestoneTimeLogComp();
@@ -130,8 +125,7 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
 
     @Override
     protected void onPreviewItem() {
-        commentListComp.loadComments("" + beanItem.getId());
-        historyListComp.loadHistory(beanItem.getId());
+        activityComponent.loadActivities("" + beanItem.getId());
         dateInfoComp.displayEntryDateTime(beanItem);
         peopleInfoComp.displayEntryPeople(beanItem);
         milestoneTimeLogComp.displayTime(beanItem);

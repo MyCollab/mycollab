@@ -43,6 +43,7 @@ import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.*;
@@ -87,9 +88,8 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
 
     private BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
 
-    private boolean projectNavigatorVisibility = false;
-
-    private HorizontalLayout kanbanLayout;
+    private BugSearchPanel searchPanel;
+    private MHorizontalLayout kanbanLayout;
     private Map<String, KanbanBlock> kanbanBlocks;
     private com.vaadin.ui.ComponentContainer newBugComp = null;
 
@@ -109,24 +109,20 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
 
     public BugKanbanViewImpl() {
         this.setSizeFull();
-        this.withMargin(new MarginInfo(false, true, true, true));
+        this.withSpacing(true).withMargin(new MarginInfo(false, true, true, true));
 
-        MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
-                .withStyleName("hdr-view").withWidth("100%");
-        header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-        Label headerText = new Label("Kanban Board", ContentMode.HTML);
-        headerText.setStyleName(UIConstants.HEADER_TEXT);
-        CssLayout headerWrapper = new CssLayout();
-        headerWrapper.addComponent(headerText);
+        searchPanel = new BugSearchPanel();
+        MHorizontalLayout groupWrapLayout = new MHorizontalLayout();
+        groupWrapLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
+        groupWrapLayout.addComponent(new Label("Filter:"));
         final SavedFilterComboBox savedFilterComboBox = new SavedFilterComboBox(ProjectTypeConstants.BUG);
         savedFilterComboBox.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
-            public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
+            public void valueChange(Property.ValueChangeEvent event) {
                 SaveSearchResultWithBLOBs item = (SaveSearchResultWithBLOBs) savedFilterComboBox.getValue();
                 if (item != null) {
-                    List<SearchFieldInfo> fieldInfos = (List<SearchFieldInfo>) XStreamJsonDeSerializer.fromJson(item
-                            .getQuerytext());
+                    List<SearchFieldInfo> fieldInfos = (List<SearchFieldInfo>) XStreamJsonDeSerializer.fromJson(item.getQuerytext());
                     // @HACK: === the library serialize with extra list
                     // wrapper
                     if (CollectionUtils.isEmpty(fieldInfos)) {
@@ -136,19 +132,34 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
                     BugSearchCriteria criteria = SearchFieldInfo.buildSearchCriteria(BugSearchCriteria.class, fieldInfos);
                     criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
                     EventBusFactory.getInstance().post(new BugEvent.SearchRequest(BugKanbanViewImpl.this, criteria));
-                } else {
-                    display();
                 }
             }
         });
+        groupWrapLayout.addComponent(savedFilterComboBox);
+        searchPanel.addHeaderRight(groupWrapLayout);
 
-        header.with(headerWrapper, savedFilterComboBox).withAlign(headerWrapper, Alignment.MIDDLE_LEFT).expand(headerWrapper);
+        Button advanceDisplayBtn = new Button(null, new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                EventBusFactory.getInstance().post(new BugEvent.GotoList(BugKanbanViewImpl.this, null));
+            }
+        });
+        advanceDisplayBtn.setIcon(FontAwesome.SITEMAP);
+        advanceDisplayBtn.setDescription("Detail");
 
-        kanbanLayout = new HorizontalLayout();
-        kanbanLayout.setHeight("100%");
+        Button kanbanBtn = new Button();
+        kanbanBtn.setDescription("Kanban View");
+        kanbanBtn.setIcon(FontAwesome.TH);
+
+        ToggleButtonGroup viewButtons = new ToggleButtonGroup();
+        viewButtons.addButton(advanceDisplayBtn);
+        viewButtons.addButton(kanbanBtn);
+        viewButtons.setDefaultButton(kanbanBtn);
+        groupWrapLayout.addComponent(viewButtons);
+
+        kanbanLayout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false)).withHeight("100%");
         kanbanLayout.addStyleName("kanban-layout");
-        kanbanLayout.setSpacing(true);
-        this.with(header, kanbanLayout).expand(kanbanLayout);
+        this.with(searchPanel, kanbanLayout).expand(kanbanLayout);
     }
 
     @Override
@@ -164,6 +175,11 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
         super.detach();
     }
 
+    @Override
+    public HasSearchHandlers<BugSearchCriteria> getSearchHandlers() {
+        return searchPanel;
+    }
+
     private void setProjectNavigatorVisibility(boolean visibility) {
         ProjectView view = UIUtils.getRoot(this, ProjectView.class);
         if (view != null) {
@@ -172,54 +188,52 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
     }
 
     @Override
-    public void display() {
-        BugSearchCriteria searchCriteria = new BugSearchCriteria();
-        searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-        searchCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("bugIndex", SearchCriteria.ASC)));
-        queryBug(searchCriteria);
-    }
-
-    private void queryBug(final BugSearchCriteria searchCriteria) {
+    public void queryBug(final BugSearchCriteria searchCriteria) {
         kanbanLayout.removeAllComponents();
         kanbanBlocks = new ConcurrentHashMap<>();
 
         setProjectNavigatorVisibility(false);
-        UI.getCurrent().access(new Runnable() {
+        new Thread() {
             @Override
             public void run() {
-                List<OptionVal> optionVals = new ArrayList();
-                for (OptionI18nEnum.BugStatus bugStatus : OptionI18nEnum.bug_statuses) {
-                    OptionVal option = new OptionVal();
-                    option.setTypeval(bugStatus.name());
-                    option.setType(ProjectTypeConstants.BUG);
-                    optionVals.add(option);
-                }
-                for (OptionVal optionVal : optionVals) {
-                    KanbanBlock kanbanBlock = new KanbanBlock(optionVal);
-                    kanbanBlocks.put(optionVal.getTypeval(), kanbanBlock);
-                    kanbanLayout.addComponent(kanbanBlock);
-                }
-                UI.getCurrent().push();
-
-                int totalTasks = bugService.getTotalCount(searchCriteria);
-                int pages = totalTasks / 20;
-                for (int page = 0; page < pages + 1; page++) {
-                    List<SimpleBug> bugs = bugService.findPagableListByCriteria(new SearchRequest<>(searchCriteria, page + 1, 20));
-
-                    for (SimpleBug bug : bugs) {
-                        String status = bug.getStatus();
-                        KanbanBlock kanbanBlock = kanbanBlocks.get(status);
-                        if (kanbanBlock == null) {
-                            LOG.error("Can not find a kanban block for status: " + status);
-                        } else {
-                            kanbanBlock.addBlockItem(new KanbanBugBlockItem(bug));
+                UI.getCurrent().access(new Runnable() {
+                    @Override
+                    public void run() {
+                        List<OptionVal> optionVals = new ArrayList();
+                        for (OptionI18nEnum.BugStatus bugStatus : OptionI18nEnum.bug_statuses) {
+                            OptionVal option = new OptionVal();
+                            option.setTypeval(bugStatus.name());
+                            option.setType(ProjectTypeConstants.BUG);
+                            optionVals.add(option);
                         }
-                    }
-                    UI.getCurrent().push();
-                }
+                        for (OptionVal optionVal : optionVals) {
+                            KanbanBlock kanbanBlock = new KanbanBlock(optionVal);
+                            kanbanBlocks.put(optionVal.getTypeval(), kanbanBlock);
+                            kanbanLayout.addComponent(kanbanBlock);
+                        }
+                        UI.getCurrent().push();
 
+                        int totalTasks = bugService.getTotalCount(searchCriteria);
+                        int pages = totalTasks / 20;
+                        for (int page = 0; page < pages + 1; page++) {
+                            List<SimpleBug> bugs = bugService.findPagableListByCriteria(new SearchRequest<>(searchCriteria, page + 1, 20));
+
+                            for (SimpleBug bug : bugs) {
+                                String status = bug.getStatus();
+                                KanbanBlock kanbanBlock = kanbanBlocks.get(status);
+                                if (kanbanBlock == null) {
+                                    LOG.error("Can not find a kanban block for status: " + status);
+                                } else {
+                                    kanbanBlock.addBlockItem(new KanbanBugBlockItem(bug));
+                                }
+                            }
+                            UI.getCurrent().push();
+                        }
+
+                    }
+                });
             }
-        });
+        }.start();
     }
 
     private class KanbanBugBlockItem extends CustomComponent {
@@ -352,7 +366,7 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
 
             HorizontalLayout headerLayout = new HorizontalLayout();
             headerLayout.setWidth("100%");
-            header = new Label(optionVal.getTypeval());
+            header = new Label(AppContext.getMessage(OptionI18nEnum.BugStatus.class, optionVal.getTypeval()));
             header.addStyleName("header");
             headerLayout.addComponent(header);
             headerLayout.setComponentAlignment(header, Alignment.MIDDLE_LEFT);
@@ -392,7 +406,8 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
         }
 
         private void updateComponentCount() {
-            header.setValue(String.format("%s (%d)", optionVal.getTypeval(), dragLayoutContainer.getComponentCount()));
+            header.setValue(String.format("%s (%d)", AppContext.getMessage(OptionI18nEnum.BugStatus.class, optionVal.getTypeval()),
+                    dragLayoutContainer.getComponentCount()));
         }
 
         void addNewBugComp() {
@@ -439,7 +454,9 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
                 controlsBtn.with(saveBtn, cancelBtn);
                 layout.with(controlsBtn).withAlign(controlsBtn, Alignment.MIDDLE_RIGHT);
                 if (newBugComp != null) {
-                    ((ComponentContainer) newBugComp.getParent()).removeComponent(newBugComp);
+                    if (newBugComp.getParent() != null) {
+                        ((ComponentContainer) newBugComp.getParent()).removeComponent(newBugComp);
+                    }
                 }
                 newBugComp = layout;
                 dragLayoutContainer.addComponent(layout, 0);

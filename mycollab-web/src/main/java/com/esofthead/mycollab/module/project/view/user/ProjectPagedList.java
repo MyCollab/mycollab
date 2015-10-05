@@ -77,22 +77,21 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
             linkIconFix.setExpandRatio(projectLink, 1.0f);
 
             Label projectMemberBtn = new ELabel(FontAwesome.USERS.getHtml() + " " + project.getNumActiveMembers(),
-                    ContentMode.HTML).withDescription("Active members");
+                    ContentMode.HTML).withDescription("Active members").withStyleName("meta-info");
             MHorizontalLayout metaInfo = new MHorizontalLayout();
             metaInfo.setDefaultComponentAlignment(Alignment.TOP_LEFT);
             metaInfo.addComponent(projectMemberBtn);
             Label createdTimeLbl = new ELabel(FontAwesome.CLOCK_O.getHtml() + " " + AppContext.formatPrettyTime(project.getCreatedtime()),
-                    ContentMode.HTML).withDescription("Created time");
-            createdTimeLbl.setStyleName("createdtime-lbl");
+                    ContentMode.HTML).withDescription("Created time").withStyleName("meta-info");
             metaInfo.addComponent(createdTimeLbl);
 
             Label billableHoursLbl = new ELabel(FontAwesome.MONEY.getHtml() + " " + NumberUtils.roundDouble(2, project.getTotalBillableHours()),
-                    ContentMode.HTML).withDescription("Billable hours");
+                    ContentMode.HTML).withDescription("Billable hours").withStyleName("meta-info");
             metaInfo.addComponent(billableHoursLbl);
 
             Label nonBillableHoursLbl = new ELabel(FontAwesome.GIFT.getHtml() + " " + NumberUtils.roundDouble(2,
                     project.getTotalNonBillableHours()), ContentMode.HTML)
-                    .withDescription("Non billable hours");
+                    .withDescription("Non billable hours").withStyleName("meta-info");
             metaInfo.addComponent(nonBillableHoursLbl);
 
             linkIconFix.addComponent(metaInfo);
@@ -113,7 +112,7 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
             taskStatusLbl.setStyleName("status-lbl");
             taskLblWrap.addComponent(taskStatusLbl);
 
-            final ButtonLink taskStatusBtn = new ButtonLink(project.getNumOpenTasks() + "/" + project.getNumTasks(),
+            final ButtonLink taskStatusBtn = new ButtonLink((project.getNumTasks() - project.getNumOpenTasks()) + "/" + project.getNumTasks(),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
@@ -126,7 +125,7 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
             taskLblWrap.setComponentAlignment(taskStatusBtn, Alignment.TOP_RIGHT);
             taskStatus.addComponent(taskLblWrap);
             float taskValue = (project.getNumTasks() != 0) ? ((float) (project.getNumTasks() - project.getNumOpenTasks()) / project
-                    .getNumTasks()) : 1;
+                    .getNumTasks()) : 0;
             ProgressBar taskProgressBar = new ProgressBar(taskValue);
             taskProgressBar.setStyleName("medium");
             taskStatus.addComponent(taskProgressBar);
@@ -141,7 +140,7 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
             Label bugLbl = new Label("Bugs");
             bugLbl.setStyleName("status-lbl");
             bugLblWrap.addComponent(bugLbl);
-            ButtonLink bugStatusBtn = new ButtonLink(project.getNumOpenBugs() + "/" + project.getNumBugs(), new Button.ClickListener() {
+            ButtonLink bugStatusBtn = new ButtonLink((project.getNumBugs() - project.getNumOpenBugs()) + "/" + project.getNumBugs(), new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;
 
                 @Override
@@ -154,8 +153,7 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
             bugLblWrap.addComponent(bugStatusBtn);
             bugLblWrap.setComponentAlignment(bugStatusBtn, Alignment.TOP_RIGHT);
             bugStatus.addComponent(bugLblWrap);
-            float bugValue = (project.getNumBugs() != 0) ? ((float) (project
-                    .getNumBugs() - project.getNumOpenBugs()) / project.getNumBugs()) : 1;
+            float bugValue = (project.getNumBugs() != 0) ? ((float) (project.getNumBugs() - project.getNumOpenBugs()) / project.getNumBugs()) : 0;
             ProgressBar bugProgressBar = new ProgressBar(bugValue);
             bugProgressBar.setStyleName("medium");
             bugStatus.addComponent(bugProgressBar);

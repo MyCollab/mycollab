@@ -27,7 +27,7 @@
         #end
         
         #ifnotnull($searchCriteria.typeid)
-            ${searchCriteria.typeid.operation} m_audit_log.typeid = @{searchCriteria.typeid.value,jdbcType=NUMERIC}
+            ${searchCriteria.typeid.operation} m_audit_log.typeid = @{searchCriteria.typeid.value}
         #end
         
         #ifnotnull($searchCriteria.saccountid)
@@ -47,10 +47,8 @@
         ]]>
     </sql>
 
-    <select id="findPagableListByCriteria" parameterType="AuditLogSearchCriteria"
-        resultMap="SimpleAuditLogResult"  lang="velocity">
-        <include
-            refid="selectSimpleAuditLog" />
+    <select id="findPagableListByCriteria" parameterType="AuditLogSearchCriteria" resultMap="SimpleAuditLogResult"  lang="velocity">
+        <include refid="selectSimpleAuditLog" />
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
                 <include refid="querySearchCriteria" />
@@ -59,10 +57,8 @@
         <include refid="orderStatement" />
     </select>
 
-    <select id="findLatestLog" parameterType="java.lang.Integer"
-        resultMap="SimpleAuditLogResult" lang="velocity">
-        <include
-            refid="selectSimpleAuditLog" />
+    <select id="findLatestLog" parameterType="java.lang.Integer" resultMap="SimpleAuditLogResult" lang="velocity">
+        <include refid="selectSimpleAuditLog" />
 
         WHERE m_audit_log.typeid=@{auditLogId, jdbcType=NUMERIC}
         ORDER BY m_audit_log.id DESC
@@ -80,9 +76,8 @@
         m_audit_log.posteddate DESC
     </sql>
 
-    <select id="getTotalCount" parameterType="AuditLogSearchCriteria"
-        resultType="java.lang.Integer" lang="velocity">
-        SELECT count(*) as totalCount FROM s_activitystream
+    <select id="getTotalCount" parameterType="AuditLogSearchCriteria" resultType="java.lang.Integer" lang="velocity">
+        SELECT count(*) as totalCount FROM m_audit_log
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
                 <include refid="querySearchCriteria" />

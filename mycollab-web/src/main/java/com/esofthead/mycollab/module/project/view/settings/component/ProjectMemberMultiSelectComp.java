@@ -16,12 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.view.settings.component;
 
-import java.util.List;
-
-import org.apache.commons.beanutils.PropertyUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
@@ -33,63 +27,56 @@ import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.ui.MultiSelectComp;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class ProjectMemberMultiSelectComp extends MultiSelectComp<SimpleProjectMember> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(ProjectMemberMultiSelectComp.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ProjectMemberMultiSelectComp.class);
 
-	public ProjectMemberMultiSelectComp() {
-		super("memberFullName");
-	}
+    public ProjectMemberMultiSelectComp() {
+        super("memberFullName");
+    }
 
-	@Override
-	protected List<SimpleProjectMember> createData() {
-		ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
-		criteria.setProjectId(new NumberSearchField(CurrentProjectVariables
-				.getProjectId()));
-		criteria.setStatus(new StringSearchField(
-				ProjectMemberStatusConstants.ACTIVE));
+    @Override
+    protected List<SimpleProjectMember> createData() {
+        ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
+        criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+        criteria.setStatus(new StringSearchField(ProjectMemberStatusConstants.ACTIVE));
 
-		ProjectMemberService projectMemberService = ApplicationContextUtil
-				.getSpringBean(ProjectMemberService.class);
-		List<SimpleProjectMember> items = projectMemberService
-				.findPagableListByCriteria(new SearchRequest<ProjectMemberSearchCriteria>(
-						criteria, 0, Integer.MAX_VALUE));
-		return items;
-	}
+        ProjectMemberService projectMemberService = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
+        List<SimpleProjectMember> items = projectMemberService.findPagableListByCriteria(new SearchRequest<>(
+                criteria, 0, Integer.MAX_VALUE));
+        return items;
+    }
 
-	@Override
-	public Class<? extends SimpleProjectMember> getType() {
-		return SimpleProjectMember.class;
-	}
+    @Override
+    public Class<? extends SimpleProjectMember> getType() {
+        return SimpleProjectMember.class;
+    }
 
 
+    @Override
+    protected ItemSelectionComp<SimpleProjectMember> buildItem(final SimpleProjectMember item) {
+        ItemSelectionComp<SimpleProjectMember> buildItem = super.buildItem(item);
+        String userAvatarId = "";
 
-	@Override
-	protected ItemSelectionComp<SimpleProjectMember> buildItem(
-			final SimpleProjectMember item) {
-		ItemSelectionComp<SimpleProjectMember> buildItem = super
-				.buildItem(item);
-		String userAvatarId = "";
+        try {
+            userAvatarId = (String) PropertyUtils.getProperty(item, "memberAvatarId");
+        } catch (Exception e) {
+            LOG.error("Error while getting project member avatar", e);
+        }
 
-		try {
-			userAvatarId = (String) PropertyUtils.getProperty(item,
-					"memberAvatarId");
-		} catch (Exception e) {
-			LOG.error("Error while getting project member avatar", e);
-		}
-
-		buildItem.setIcon(UserAvatarControlFactory
-				.createAvatarResource(userAvatarId, 16));
-		return buildItem;
-	}
+        buildItem.setIcon(UserAvatarControlFactory.createAvatarResource(userAvatarId, 16));
+        return buildItem;
+    }
 
 }

@@ -16,87 +16,51 @@
  */
 package com.esofthead.mycollab.module.user.ui.components;
 
-import com.esofthead.mycollab.configuration.Storage;
-import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.html.FormatUtils;
 import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.user.AccountLinkGenerator;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
-import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.HistoryFieldFormat;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Span;
-import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Label;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.UUID;
+import static com.esofthead.mycollab.core.utils.StringUtils.isBlank;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.0
- * 
  */
 public class UserHistoryFieldFormat implements HistoryFieldFormat {
+    private static final Logger LOG = LoggerFactory.getLogger(UserHistoryFieldFormat.class);
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(UserHistoryFieldFormat.class);
+    @Override
+    public String toString(String value) {
+        if (isBlank(value)) {
+            return new Span().write();
+        }
 
-	@Override
-	public Component toVaadinComponent(String value) {
-		UserService userService = ApplicationContextUtil
-				.getSpringBean(UserService.class);
-		SimpleUser user = userService.findUserByUserNameInAccount(value,
-				AppContext.getAccountId());
-		if (user != null) {
-			String uid = UUID.randomUUID().toString();
-			DivLessFormatter div = new DivLessFormatter();
-			Img userAvatar = new Img("", Storage.getAvatarPath(user.getAvatarid(), 16));
-			A userLink = new A().setId("tag" + uid).setHref(AccountLinkGenerator.generatePreviewFullUserLink(AppContext.getSiteUrl(), user.getUsername()))
-					.appendText(user.getDisplayName());
-			userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(uid, user.getUsername()));
-			userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
-			div.appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink, DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));
-			return new Label(div.write(), ContentMode.HTML);
-		} else {
-			return new Label("");
-		}
-	}
+        try {
+            UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
+            SimpleUser user = userService.findUserByUserNameInAccount(value, AppContext.getAccountId());
+            if (user != null) {
+                String userAvatarLink = MailUtils.getAvatarLink(user.getAvatarid(), 16);
+                Img img = FormatUtils.newImg("avatar", userAvatarLink);
 
-	@Override
-	public String toString(String value) {
-		if (org.apache.commons.lang3.StringUtils.isBlank(value)) {
-			return new Span().write();
-		}
+                String userLink = AccountLinkGenerator.generatePreviewFullUserLink(
+                        MailUtils.getSiteUrl(AppContext.getAccountId()), user.getUsername());
 
-		try {
-			UserService userService = ApplicationContextUtil
-					.getSpringBean(UserService.class);
-			SimpleUser user = userService.findUserByUserNameInAccount(value,
-					AppContext.getAccountId());
-			if (user != null) {
-				String userAvatarLink = MailUtils.getAvatarLink(
-						user.getAvatarid(), 16);
-				Img img = FormatUtils.newImg("avatar", userAvatarLink);
-
-				String userLink = AccountLinkGenerator
-						.generatePreviewFullUserLink(
-								MailUtils.getSiteUrl(AppContext.getAccountId()),
-								user.getUsername());
-
-				A link = FormatUtils.newA(userLink, user.getDisplayName());
-				return FormatUtils.newLink(img, link).write();
-			}
-		} catch (Exception e) {
-			LOG.error("Error", e);
-		}
-		return value;
-	}
+                A link = FormatUtils.newA(userLink, user.getDisplayName());
+                return FormatUtils.newLink(img, link).write();
+            }
+        } catch (Exception e) {
+            LOG.error("Error", e);
+        }
+        return value;
+    }
 }

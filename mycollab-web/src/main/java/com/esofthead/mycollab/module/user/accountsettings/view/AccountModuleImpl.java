@@ -82,7 +82,7 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
 
         this.accountTab = new UserVerticalTabsheet();
         this.accountTab.setSizeFull();
-        this.accountTab.setNavigatorWidth("250px");
+        this.accountTab.setNavigatorWidth("220px");
         this.accountTab.setNavigatorStyleName("sidebar-menu");
         this.accountTab.setContainerStyleName("tab-content");
 
@@ -96,7 +96,7 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
         introTextWrap.setWidth("100%");
         introTextWrap.addComponent(generateIntroText());
 
-        this.accountTab.getNavigatorWrapper().setWidth("250px");
+        this.accountTab.getNavigatorWrapper().setWidth("220px");
         this.accountTab.getNavigatorWrapper().addComponentAsFirst(introTextWrap);
 
         this.buildComponents();

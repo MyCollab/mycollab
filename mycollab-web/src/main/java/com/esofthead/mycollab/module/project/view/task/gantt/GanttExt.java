@@ -145,17 +145,17 @@ public class GanttExt extends Gantt {
     }
 
     private void updateTasksInfoByResizeOrMove(StepExt step, long startDate, long endDate) {
-        GanttItemWrapper ganttItemWrapper = step.getGanttItemWrapper();
+        final GanttItemWrapper ganttItemWrapper = step.getGanttItemWrapper();
         if (ganttItemWrapper.hasSubTasks()) {
             step.setStartDate(ganttItemWrapper.getStartDate().toDate());
             step.setEndDate(ganttItemWrapper.getEndDate().plusDays(1).toDate());
-            this.markStepDirty(step);
+            EventBusFactory.getInstance().post(new GanttEvent.UpdateGanttItem(GanttExt.this, ganttItemWrapper));
             NotificationUtil.showWarningNotification("Can not adjust dates of parent task");
         } else {
             LocalDate suggestedStartDate = new LocalDate(startDate);
             LocalDate suggestedEndDate = new LocalDate(endDate);
             ganttItemWrapper.setStartAndEndDate(suggestedStartDate, suggestedEndDate, true, true);
-            EventBusFactory.getInstance().post(new GanttEvent.UpdateGanttItemDates(GanttExt.this, ganttItemWrapper));
+            EventBusFactory.getInstance().post(new GanttEvent.UpdateGanttItem(GanttExt.this, ganttItemWrapper));
             EventBusFactory.getInstance().post(new GanttEvent.AddGanttItemUpdateToQueue(GanttExt.this, ganttItemWrapper));
             this.calculateMaxMinDates(ganttItemWrapper);
         }

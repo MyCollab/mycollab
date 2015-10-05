@@ -46,7 +46,7 @@ import java.util.GregorianCalendar;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class CrmCommentInput extends MHorizontalLayout {
+class CrmCommentInput extends MHorizontalLayout {
     private static final long serialVersionUID = 1L;
 
     private final RichTextArea commentArea;
@@ -56,7 +56,7 @@ public class CrmCommentInput extends MHorizontalLayout {
     CrmCommentInput(final ReloadableComponent component, final String typeVal,
                     final Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
         super();
-        this.withMargin(new MarginInfo(false, true, false, false)).withWidth("100%").withStyleName("message");
+        this.withMargin(new MarginInfo(true, true, false, true)).withWidth("100%").withStyleName("message");
 
         SimpleUser currentUser = AppContext.getUser();
         UserBlock userBlock = new UserBlock(currentUser.getUsername(), currentUser.getAvatarid(), currentUser.getDisplayName());

@@ -33,12 +33,14 @@ import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
-import com.esofthead.mycollab.module.project.reporting.BugStreamResource;
 import com.esofthead.mycollab.module.project.view.bug.components.*;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.reporting.ReportExportType;
+import com.esofthead.mycollab.reporting.ReportStreamSource;
+import com.esofthead.mycollab.reporting.RpFieldsBuilder;
+import com.esofthead.mycollab.reporting.SimpleReportTemplateExecutor;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasMassItemActionHandler;
@@ -63,7 +65,9 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author MyCollab Ltd.
@@ -75,10 +79,6 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 
     static final String DESCENDING = "Descending";
     static final String ASCENDING = "Ascending";
-
-    static final String GROUP_DUE_DATE = "Due Date";
-    static final String GROUP_START_DATE = "Start Date";
-    static final String PLAIN_LIST = "Plain";
 
     private int currentPage = 0;
 
@@ -134,6 +134,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 
         groupWrapLayout.addComponent(new Label("Sort:"));
         final ComboBox sortCombo = new ValueComboBox(false, DESCENDING, ASCENDING);
+        sortCombo.setWidth("100px");
         sortCombo.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
@@ -151,6 +152,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 
         groupWrapLayout.addComponent(new Label("Group by:"));
         final ComboBox groupCombo = new ValueComboBox(false, GROUP_DUE_DATE, GROUP_START_DATE, PLAIN_LIST);
+        groupCombo.setWidth("100px");
         groupCombo.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
@@ -175,12 +177,13 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
         OptionPopupContent popupButtonsControl = new OptionPopupContent();
 
         Button exportPdfBtn = new Button("PDF");
+        exportPdfBtn.setIcon(FontAwesome.FILE_PDF_O);
         FileDownloader pdfFileDownloder = new FileDownloader(buildStreamSource(ReportExportType.PDF));
         pdfFileDownloder.extend(exportPdfBtn);
-
         popupButtonsControl.addOption(exportPdfBtn);
 
         Button exportExcelBtn = new Button("Excel");
+        exportExcelBtn.setIcon(FontAwesome.FILE_EXCEL_O);
         FileDownloader excelFileDownloader = new FileDownloader(buildStreamSource(ReportExportType.EXCEL));
         excelFileDownloader.extend(exportExcelBtn);
         popupButtonsControl.addOption(exportExcelBtn);
@@ -233,8 +236,23 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
         floatSidebar.setContainerId("main-body");
     }
 
-    private StreamResource buildStreamSource(ReportExportType type) {
-        return new StreamResource(new BugStreamResource("Bugs", type), type.getDefaultFileName());
+    private StreamResource buildStreamSource(ReportExportType exportType) {
+        List fields = Arrays.asList(BugTableFieldDef.summary(), BugTableFieldDef.environment(), BugTableFieldDef.priority(),
+                BugTableFieldDef.severity(), BugTableFieldDef.status(), BugTableFieldDef.resolution(),
+                BugTableFieldDef.logBy(), BugTableFieldDef.duedate(), BugTableFieldDef.assignUser(),
+                BugTableFieldDef.billableHours(), BugTableFieldDef.nonBillableHours());
+        SimpleReportTemplateExecutor reportTemplateExecutor = new SimpleReportTemplateExecutor.AllItems<>("Bugs", new
+                RpFieldsBuilder(fields), exportType, SimpleBug.class, ApplicationContextUtil.getSpringBean(BugService.class));
+        ReportStreamSource streamSource = new ReportStreamSource(reportTemplateExecutor) {
+            @Override
+            protected Map<String, Object> initReportParameters() {
+                Map<String, Object> parameters = new HashMap<>();
+                parameters.put("siteUrl", AppContext.getSiteUrl());
+                parameters.put(SimpleReportTemplateExecutor.CRITERIA, baseCriteria);
+                return parameters;
+            }
+        };
+        return new StreamResource(streamSource, exportType.getDefaultFileName());
     }
 
     @Override
@@ -295,9 +313,9 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
         }
         wrapBody.addComponent(bugGroupOrderComponent);
         final BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
-        int totalTasks = bugService.getTotalCount(searchCriteria);
+        int totalBugs = bugService.getTotalCount(searchCriteria);
         currentPage = 0;
-        int pages = totalTasks / 20;
+        int pages = totalBugs / 20;
         if (currentPage < pages) {
             Button moreBtn = new Button("More", new Button.ClickListener() {
                 @Override

@@ -38,6 +38,10 @@ import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.i18n.TaskGroupI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
+import com.esofthead.mycollab.reporting.ReportExportType;
+import com.esofthead.mycollab.reporting.ReportStreamSource;
+import com.esofthead.mycollab.reporting.RpFieldsBuilder;
+import com.esofthead.mycollab.reporting.SimpleReportTemplateExecutor;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasMassItemActionHandler;
@@ -46,15 +50,14 @@ import com.esofthead.mycollab.vaadin.events.HasSelectableItemHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSelectionOptionHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.SavedFilterComboBox;
-import com.esofthead.mycollab.vaadin.ui.ToggleButtonGroup;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.esofthead.vaadin.floatingcomponent.FloatingComponent;
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.data.Property;
+import com.vaadin.server.FileDownloader;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.StreamResource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
@@ -63,7 +66,9 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author MyCollab Ltd.
@@ -148,6 +153,7 @@ public class TaskDashboardViewImpl extends AbstractLazyPageView implements TaskD
 
         groupWrapLayout.addComponent(new Label("Sort:"));
         final ComboBox sortCombo = new ValueComboBox(false, DESCENDING, ASCENDING);
+        sortCombo.setWidth("100px");
         sortCombo.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
@@ -165,6 +171,7 @@ public class TaskDashboardViewImpl extends AbstractLazyPageView implements TaskD
 
         groupWrapLayout.addComponent(new Label("Group by:"));
         final ComboBox groupCombo = new ValueComboBox(false, GROUP_DUE_DATE, GROUP_START_DATE, PLAIN_LIST);
+        groupCombo.setWidth("100px");
         groupCombo.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
@@ -176,6 +183,32 @@ public class TaskDashboardViewImpl extends AbstractLazyPageView implements TaskD
         groupWrapLayout.addComponent(groupCombo);
 
         taskSearchPanel.addHeaderRight(groupWrapLayout);
+
+        Button exportBtn = new Button("Export");
+        final SplitButton exportSplitBtn = new SplitButton(exportBtn);
+        exportBtn.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent event) {
+                exportSplitBtn.setPopupVisible(true);
+            }
+        });
+        exportSplitBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+        OptionPopupContent popupButtonsControl = new OptionPopupContent();
+
+        Button exportPdfBtn = new Button("PDF");
+        exportPdfBtn.setIcon(FontAwesome.FILE_PDF_O);
+        FileDownloader pdfFileDownloder = new FileDownloader(buildStreamSource(ReportExportType.PDF));
+        pdfFileDownloder.extend(exportPdfBtn);
+        popupButtonsControl.addOption(exportPdfBtn);
+
+        Button exportExcelBtn = new Button("Excel");
+        exportExcelBtn.setIcon(FontAwesome.FILE_EXCEL_O);
+        FileDownloader excelFileDownloader = new FileDownloader(buildStreamSource(ReportExportType.EXCEL));
+        excelFileDownloader.extend(exportExcelBtn);
+        popupButtonsControl.addOption(exportExcelBtn);
+
+        exportSplitBtn.setContent(popupButtonsControl);
+        groupWrapLayout.with(exportSplitBtn);
 
         Button newTaskBtn = new Button(AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASK), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
@@ -300,6 +333,7 @@ public class TaskDashboardViewImpl extends AbstractLazyPageView implements TaskD
         wrapBody.addComponent(taskGroupOrderComponent);
         final ProjectTaskService projectTaskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
         int totalTasks = projectTaskService.getTotalCount(searchCriteria);
+        taskSearchPanel.setTotalCountNumber(totalTasks);
         currentPage = 0;
         int pages = totalTasks / 20;
         if (currentPage < pages) {
@@ -334,6 +368,24 @@ public class TaskDashboardViewImpl extends AbstractLazyPageView implements TaskD
 
     private void displayKanbanView() {
         EventBusFactory.getInstance().post(new TaskEvent.GotoKanbanView(this, null));
+    }
+
+    private StreamResource buildStreamSource(ReportExportType exportType) {
+        List fields = Arrays.asList(TaskTableFieldDef.taskname(), TaskTableFieldDef.status(), TaskTableFieldDef.duedate(),
+                TaskTableFieldDef.percentagecomplete(), TaskTableFieldDef.startdate(), TaskTableFieldDef.assignee(),
+                TaskTableFieldDef.billableHours(), TaskTableFieldDef.nonBillableHours());
+        SimpleReportTemplateExecutor reportTemplateExecutor = new SimpleReportTemplateExecutor.AllItems<>("Tasks",
+                new RpFieldsBuilder(fields), exportType, SimpleTask.class, ApplicationContextUtil.getSpringBean(ProjectTaskService.class));
+        ReportStreamSource streamSource = new ReportStreamSource(reportTemplateExecutor) {
+            @Override
+            protected Map<String, Object> initReportParameters() {
+                Map<String, Object> parameters = new HashMap<>();
+                parameters.put("siteUrl", AppContext.getSiteUrl());
+                parameters.put(SimpleReportTemplateExecutor.CRITERIA, baseCriteria);
+                return parameters;
+            }
+        };
+        return new StreamResource(streamSource, exportType.getDefaultFileName());
     }
 
     @Override

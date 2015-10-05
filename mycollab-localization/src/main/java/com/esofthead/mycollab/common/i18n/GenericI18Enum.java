@@ -125,6 +125,7 @@ public enum GenericI18Enum {
     TAB_HISTORY,
 
     EXT_ADDED_COMMENT,
+    EXT_MODIFIED_ITEM,
     EXT_NO_ITEM,
 
     HISTORY_FIELD,

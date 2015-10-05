@@ -69,8 +69,7 @@ import java.util.Set;
  * @since 1.0
  */
 @ViewComponent
-public class MessageListViewImpl extends AbstractPageView implements
-        MessageListView, HasEditFormHandlers<Message> {
+public class MessageListViewImpl extends AbstractPageView implements MessageListView, HasEditFormHandlers<Message> {
     private static final long serialVersionUID = 8433776359091397422L;
 
     private DefaultBeanPagedList<MessageService, MessageSearchCriteria, SimpleMessage> tableItem;
@@ -84,15 +83,13 @@ public class MessageListViewImpl extends AbstractPageView implements
         this.withSpacing(true).withMargin(true).withWidth("100%");
 
         topMessagePanel = new TopMessagePanel();
-        topMessagePanel.getSearchHandlers().addSearchHandler(
-                new SearchHandler<MessageSearchCriteria>() {
-                    @Override
-                    public void onSearch(final MessageSearchCriteria criteria) {
-                        tableItem.setSearchCriteria(criteria);
-                    }
-                });
-        tableItem = new DefaultBeanPagedList<>(
-                ApplicationContextUtil.getSpringBean(MessageService.class),
+        topMessagePanel.getSearchHandlers().addSearchHandler(new SearchHandler<MessageSearchCriteria>() {
+            @Override
+            public void onSearch(final MessageSearchCriteria criteria) {
+                tableItem.setSearchCriteria(criteria);
+            }
+        });
+        tableItem = new DefaultBeanPagedList<>(ApplicationContextUtil.getSpringBean(MessageService.class),
                 new MessageRowDisplayHandler());
         tableItem.setStyleName("message-list");
         tableItem.setControlStyle("borderlessControl");
@@ -123,8 +120,7 @@ public class MessageListViewImpl extends AbstractPageView implements
     public void setCriteria(final MessageSearchCriteria criteria) {
         this.removeAllComponents();
         this.searchCriteria = criteria;
-        MessageService messageService = ApplicationContextUtil
-                .getSpringBean(MessageService.class);
+        MessageService messageService = ApplicationContextUtil.getSpringBean(MessageService.class);
         int totalCount = messageService.getTotalCount(searchCriteria);
 
         this.isEmpty = !(totalCount > 0);
@@ -142,7 +138,6 @@ public class MessageListViewImpl extends AbstractPageView implements
     }
 
     private class MessageRowDisplayHandler implements RowDisplayHandler<SimpleMessage> {
-
         @Override
         public Component generateRow(AbstractBeanPagedList host, final SimpleMessage message, int rowIndex) {
             final MHorizontalLayout messageLayout = new MHorizontalLayout().withMargin(new MarginInfo(true, false,
@@ -155,15 +150,13 @@ public class MessageListViewImpl extends AbstractPageView implements
                     message.getFullPostedUserName());
             messageLayout.addComponent(userBlock);
 
-            CssLayout rowLayout = new CssLayout();
-            rowLayout.setStyleName("message-container");
-            rowLayout.setWidth("100%");
+            MVerticalLayout rowLayout = new MVerticalLayout().withWidth("100%").withStyleName("message-container");
 
             A labelLink = new A(ProjectLinkBuilder.generateMessagePreviewFullLink(message.getProjectid(), message
                     .getId()), new Text(message.getTitle()));
 
-            MHorizontalLayout messageHeader = new MHorizontalLayout().withMargin(new MarginInfo(true, true,
-                    false, true)).withStyleName("message-header");
+            MHorizontalLayout messageHeader = new MHorizontalLayout().withMargin(new MarginInfo(false, true,
+                    false, false)).withStyleName("message-header");
             VerticalLayout leftHeader = new VerticalLayout();
             leftHeader.addComponent(new ELabel(labelLink.write(), ContentMode.HTML).withStyleName("h2"));
             ELabel timePostLbl = new ELabel().prettyDateTime(message.getPosteddate());
@@ -176,8 +169,7 @@ public class MessageListViewImpl extends AbstractPageView implements
                 @Override
                 public void buttonClick(ClickEvent event) {
                     ConfirmDialogExt.show(UI.getCurrent(),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
-                                    AppContext.getSiteName()),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
                             AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                             AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                             AppContext.getMessage(GenericI18Enum.BUTTON_NO),
@@ -224,11 +216,9 @@ public class MessageListViewImpl extends AbstractPageView implements
                 final Button commentIcon = new Button(FontAwesome.COMMENTS);
                 commentIcon.addStyleName(UIConstants.BUTTON_ICON_ONLY);
                 commentNotification.addComponent(commentIcon);
-
                 notification.addComponent(commentNotification);
             }
-            ResourceService attachmentService = ApplicationContextUtil
-                    .getSpringBean(ResourceService.class);
+            ResourceService attachmentService = ApplicationContextUtil.getSpringBean(ResourceService.class);
             List<Content> attachments = attachmentService.getContents(AttachmentUtils
                     .getProjectEntityAttachmentPath(AppContext.getAccountId(),
                             message.getProjectid(), ProjectTypeConstants.MESSAGE, "" + message.getId()));
@@ -314,8 +304,8 @@ public class MessageListViewImpl extends AbstractPageView implements
 
         public TopMessagePanel() {
             this.withWidth("100%").withStyleName("message-toppanel");
-            this.messagePanelBody = new MHorizontalLayout().withSpacing(false)
-                    .withStyleName("message-toppanel-body").withWidth("100%");
+            this.messagePanelBody = new MHorizontalLayout().withSpacing(false).withStyleName("message-toppanel-body")
+                    .withWidth("100%");
             this.messagePanelBody.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
             this.messageSearchPanel = new MessageSearchPanel();
@@ -359,47 +349,44 @@ public class MessageListViewImpl extends AbstractPageView implements
                     AppContext.getMessage(MessageI18nEnum.FORM_IS_STICK));
             controls.with(chkIsStick).withAlign(chkIsStick, Alignment.TOP_RIGHT);
 
-            Button cancelBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(final ClickEvent event) {
-                            MessageListViewImpl.this.setCriteria(searchCriteria);
-                        }
-                    });
+                @Override
+                public void buttonClick(final ClickEvent event) {
+                    MessageListViewImpl.this.setCriteria(searchCriteria);
+                }
+            });
             cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
             controls.with(cancelBtn).withAlign(cancelBtn, Alignment.TOP_RIGHT);
 
-            Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_POST),
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_POST), new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(final ClickEvent event) {
-                            Message message = new Message();
-                            message.setProjectid(CurrentProjectVariables.getProjectId());
-                            message.setPosteddate(new GregorianCalendar().getTime());
-                            if (!titleField.getValue().trim().equals("")) {
-                                message.setTitle(titleField.getValue());
-                                message.setMessage(ckEditorTextField.getValue());
-                                message.setPosteduser(AppContext.getUsername());
-                                message.setSaccountid(AppContext.getAccountId());
-                                message.setIsstick(chkIsStick.getValue());
-                                MessageListViewImpl.this.fireSaveItem(message);
+                @Override
+                public void buttonClick(final ClickEvent event) {
+                    Message message = new Message();
+                    message.setProjectid(CurrentProjectVariables.getProjectId());
+                    message.setPosteddate(new GregorianCalendar().getTime());
+                    if (!titleField.getValue().trim().equals("")) {
+                        message.setTitle(titleField.getValue());
+                        message.setMessage(ckEditorTextField.getValue());
+                        message.setPosteduser(AppContext.getUsername());
+                        message.setSaccountid(AppContext.getAccountId());
+                        message.setIsstick(chkIsStick.getValue());
+                        MessageListViewImpl.this.fireSaveItem(message);
 
-                                String attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(
-                                        AppContext.getAccountId(), message.getProjectid(),
-                                        ProjectTypeConstants.MESSAGE, "" + message.getId());
-                                attachments.saveContentsToRepo(attachmentPath);
-                            } else {
-                                titleField.addStyleName("errorField");
-                                NotificationUtil.showErrorNotification(AppContext
-                                        .getMessage(MessageI18nEnum.FORM_TITLE_REQUIRED_ERROR));
-                            }
-                        }
-                    });
+                        String attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(
+                                AppContext.getAccountId(), message.getProjectid(),
+                                ProjectTypeConstants.MESSAGE, "" + message.getId());
+                        attachments.saveContentsToRepo(attachmentPath);
+                    } else {
+                        titleField.addStyleName("errorField");
+                        NotificationUtil.showErrorNotification(AppContext
+                                .getMessage(MessageI18nEnum.FORM_TITLE_REQUIRED_ERROR));
+                    }
+                }
+            });
             saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
             saveBtn.setIcon(FontAwesome.SAVE);
 

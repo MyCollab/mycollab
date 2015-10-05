@@ -49,7 +49,6 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 import java.util.Arrays;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 1.0
  */
@@ -77,42 +76,39 @@ public class ComponentListViewImpl extends AbstractPageView implements Component
     }
 
     private void generateDisplayTable() {
-        this.tableItem = new DefaultPagedBeanTable<>(
-                ApplicationContextUtil.getSpringBean(ComponentService.class),
+        this.tableItem = new DefaultPagedBeanTable<>(ApplicationContextUtil.getSpringBean(ComponentService.class),
                 SimpleComponent.class, new TableViewField(null, "selected", UIConstants.TABLE_CONTROL_WIDTH),
                 Arrays.asList(
-                        new TableViewField(ComponentI18nEnum.FORM_NAME,
-                                "componentname",
+                        new TableViewField(ComponentI18nEnum.FORM_NAME, "componentname",
                                 UIConstants.TABLE_EX_LABEL_WIDTH),
-                        new TableViewField(ComponentI18nEnum.FORM_LEAD,
-                                "userLeadFullName",
+                        new TableViewField(ComponentI18nEnum.FORM_LEAD, "userLeadFullName",
                                 UIConstants.TABLE_X_LABEL_WIDTH),
                         new TableViewField(GenericI18Enum.FORM_DESCRIPTION,
-                                "description", UIConstants.TABLE_EX_LABEL_WIDTH)));
+                                "description", 500)));
 
         this.tableItem.addGeneratedColumn("selected", new Table.ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public Object generateCell(Table source, Object itemId, Object columnId) {
+                final SimpleComponent component = tableItem.getBeanByIndex(itemId);
+                CheckBoxDecor cb = new CheckBoxDecor("", component.isSelected());
+                cb.setImmediate(true);
+                cb.addValueChangeListener(new Property.ValueChangeListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
-                    public Object generateCell(Table source, Object itemId, Object columnId) {
-                        final SimpleComponent component = tableItem.getBeanByIndex(itemId);
-                        CheckBoxDecor cb = new CheckBoxDecor("", component.isSelected());
-                        cb.setImmediate(true);
-                        cb.addValueChangeListener(new Property.ValueChangeListener() {
-                            private static final long serialVersionUID = 1L;
+                    public void valueChange(ValueChangeEvent event) {
+                        ComponentListViewImpl.this.tableItem
+                                .fireSelectItemEvent(component);
 
-                            @Override
-                            public void valueChange(ValueChangeEvent event) {
-                                ComponentListViewImpl.this.tableItem
-                                        .fireSelectItemEvent(component);
-
-                            }
-                        });
-
-                        component.setExtraData(cb);
-                        return cb;
                     }
                 });
+
+                component.setExtraData(cb);
+                return cb;
+            }
+        });
 
         this.tableItem.addGeneratedColumn("componentname", new Table.ColumnGenerator() {
             private static final long serialVersionUID = 1L;
@@ -120,21 +116,13 @@ public class ComponentListViewImpl extends AbstractPageView implements Component
             @Override
             public com.vaadin.ui.Component generateCell(Table source, Object itemId, Object columnId) {
                 SimpleComponent bugComponent = tableItem.getBeanByIndex(itemId);
-                LabelLink b = new LabelLink(bugComponent
-                        .getComponentname(), ProjectLinkBuilder
-                        .generateComponentPreviewFullLink(
-                                bugComponent.getProjectid(),
-                                bugComponent.getId()));
-                if (bugComponent.getStatus() != null
-                        && bugComponent.getStatus().equals(
-                        StatusI18nEnum.Closed.name())) {
+                LabelLink b = new LabelLink(bugComponent.getComponentname(), ProjectLinkBuilder
+                        .generateComponentPreviewFullLink(bugComponent.getProjectid(), bugComponent.getId()));
+                if (bugComponent.getStatus() != null && bugComponent.getStatus().equals(StatusI18nEnum.Closed.name())) {
                     b.addStyleName(UIConstants.LINK_COMPLETED);
                 }
-                b.setDescription(ProjectTooltipGenerator
-                        .generateToolTipComponent(
-                                AppContext.getUserLocale(),
-                                bugComponent, AppContext.getSiteUrl(),
-                                AppContext.getTimezone()));
+                b.setDescription(ProjectTooltipGenerator.generateToolTipComponent(AppContext.getUserLocale(),
+                        bugComponent, AppContext.getSiteUrl(), AppContext.getTimezone()));
                 return b;
 
             }
@@ -150,16 +138,13 @@ public class ComponentListViewImpl extends AbstractPageView implements Component
                             final Object columnId) {
                         SimpleComponent bugComponent = tableItem.getBeanByIndex(itemId);
                         return new ProjectUserLink(bugComponent.getUserlead(),
-                                bugComponent.getUserLeadAvatarId(),
-                                bugComponent.getUserLeadFullName());
+                                bugComponent.getUserLeadAvatarId(), bugComponent.getUserLeadFullName());
 
                     }
                 });
 
         this.tableItem.setWidth("100%");
-
-        this.componentListLayout.addComponent(this
-                .constructTableActionControls());
+        this.componentListLayout.addComponent(this.constructTableActionControls());
         this.componentListLayout.addComponent(this.tableItem);
     }
 

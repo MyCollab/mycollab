@@ -96,7 +96,6 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
 
         @Override
         protected Field<?> onCreateField(final Object propertyId) {
-
             if (propertyId.equals("memberFullName")) {
                 return new DefaultViewField(beanItem.getMemberFullName());
             } else if (propertyId.equals("projectroleid")) {

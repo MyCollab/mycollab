@@ -43,7 +43,7 @@ public class CommentDisplay extends MVerticalLayout implements ReloadableCompone
     private ProjectCommentInput commentBox;
 
     public CommentDisplay(String type, Integer extraTypeId, Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
-        withMargin(new MarginInfo(true, false, true, true)).withStyleName("comment-display");
+        withMargin(new MarginInfo(true, false, true, false));
         this.type = type;
         commentBox = new ProjectCommentInput(this, type, extraTypeId, emailHandler);
         this.addComponent(commentBox);

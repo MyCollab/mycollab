@@ -21,21 +21,22 @@ import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.TextField;
-import org.apache.commons.lang3.StringUtils;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
+
+import static com.esofthead.mycollab.core.utils.StringUtils.isNotBlank;
 
 /**
  * @author MyCollab Ltd.
  * @since 5.0.3
  */
 public abstract class SearchTextField extends MHorizontalLayout {
-    private FontIconLabel icon;
+    private ELabel icon;
     private TextField innerField;
     private ShortcutListener shortcutListener = new ShortcutListener("searchfield", ShortcutAction.KeyCode.ENTER, null) {
         @Override
         public void handleAction(Object sender, Object target) {
             String value = ((TextField) target).getValue();
-            if (StringUtils.isNotBlank(value)) {
+            if (isNotBlank(value)) {
                 doSearch(value);
             }
         }
@@ -43,7 +44,7 @@ public abstract class SearchTextField extends MHorizontalLayout {
 
     public SearchTextField() {
         this.setDefaultComponentAlignment(Alignment.MIDDLE_RIGHT);
-        icon = new FontIconLabel(FontAwesome.SEARCH);
+        icon = new ELabel(FontAwesome.SEARCH);
         innerField = new TextField();
         innerField.setImmediate(true);
         innerField.setInputPrompt("Search");

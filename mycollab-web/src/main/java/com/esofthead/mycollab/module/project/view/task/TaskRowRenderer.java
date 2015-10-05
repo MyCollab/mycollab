@@ -106,6 +106,12 @@ class TaskRowRenderer extends MHorizontalLayout {
         deadlineField.setDescription(deadlineTooltip);
         footer.addComponent(deadlineField);
 
+        PopupView billableHoursField = popupFieldFactory.createTaskBillableHoursPopupField(task);
+        footer.addComponent(billableHoursField);
+
+        PopupView nonBillableHours = popupFieldFactory.createTaskNonBillableHoursPopupField(task);
+        footer.addComponent(nonBillableHours);
+
         wrapTaskInfoLayout.addComponent(footer);
         this.with(wrapTaskInfoLayout).expand(wrapTaskInfoLayout);
     }

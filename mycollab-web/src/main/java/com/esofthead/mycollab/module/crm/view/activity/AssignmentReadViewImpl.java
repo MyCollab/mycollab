@@ -16,12 +16,12 @@
  */
 package com.esofthead.mycollab.module.crm.view.activity;
 
-import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleTask;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.*;
+import com.esofthead.mycollab.module.crm.ui.format.AssignmentFieldFormatter;
 import com.esofthead.mycollab.schedule.email.crm.TaskRelayEmailNotificationAction;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -30,25 +30,19 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.TabSheetLazyLoadComponent;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 2.0
- *
  */
 @ViewComponent
-public class AssignmentReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
-        implements AssignmentReadView {
+public class AssignmentReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implements AssignmentReadView {
     private static final long serialVersionUID = 1L;
 
-    private CrmCommentDisplay commentList;
-    private AssignmentHistoryLogList historyLogList;
+    private CrmActivityComponent activityComponent;
 
     private DateInfoComp dateInfoComp;
     private CrmFollowersComp<SimpleTask> followersComp;
@@ -64,22 +58,17 @@ public class AssignmentReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 
     @Override
     protected ComponentContainer createButtonControls() {
-        return new CrmPreviewFormControlsGenerator<>(previewForm)
-                .createButtonControls(RolePermissionCollections.CRM_TASK);
+        return new CrmPreviewFormControlsGenerator<>(previewForm).createButtonControls(RolePermissionCollections.CRM_TASK);
     }
 
     @Override
     protected ComponentContainer createBottomPanel() {
-        TabSheetLazyLoadComponent tabTaskDetail = new TabSheetLazyLoadComponent();
-        tabTaskDetail.addTab(commentList, AppContext.getMessage(GenericI18Enum.TAB_COMMENT, 0), FontAwesome.COMMENTS);
-        tabTaskDetail.addTab(historyLogList, AppContext.getMessage(GenericI18Enum.TAB_HISTORY), FontAwesome.HISTORY);
-        return tabTaskDetail;
+        return activityComponent;
     }
 
     @Override
     protected void onPreviewItem() {
-        commentList.loadComments("" + beanItem.getId());
-        historyLogList.loadHistory(beanItem.getId());
+        activityComponent.loadActivities("" + beanItem.getId());
         dateInfoComp.displayEntryDateTime(beanItem);
         followersComp.displayFollowers(beanItem);
     }
@@ -91,18 +80,14 @@ public class AssignmentReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 
     @Override
     protected void initRelatedComponents() {
-        commentList = new CrmCommentDisplay(CrmTypeConstants.TASK, TaskRelayEmailNotificationAction.class);
-        historyLogList = new AssignmentHistoryLogList();
+        activityComponent = new CrmActivityComponent(CrmTypeConstants.TASK, AssignmentFieldFormatter.instance(),
+                TaskRelayEmailNotificationAction.class);
 
         MVerticalLayout basicInfo = new MVerticalLayout().withWidth("100%").withStyleName("basic-info");
-
         CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
-
         dateInfoComp = new DateInfoComp();
         basicInfo.addComponent(dateInfoComp);
-
-        followersComp = new CrmFollowersComp<>(CrmTypeConstants.TASK,
-                RolePermissionCollections.CRM_TASK);
+        followersComp = new CrmFollowersComp<>(CrmTypeConstants.TASK, RolePermissionCollections.CRM_TASK);
         basicInfo.addComponent(followersComp);
 
         navigatorWrapper.addComponentAsFirst(basicInfo);

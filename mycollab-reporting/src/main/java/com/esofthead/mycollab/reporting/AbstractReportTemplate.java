@@ -17,7 +17,10 @@
 package com.esofthead.mycollab.reporting;
 
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.reporting.expression.*;
+import com.esofthead.mycollab.reporting.expression.SimpleFieldExpression;
+import com.esofthead.mycollab.reporting.expression.CompBuilderValue;
+import com.esofthead.mycollab.reporting.expression.HyperlinkValue;
+import com.esofthead.mycollab.reporting.expression.MValue;
 import net.sf.dynamicreports.report.builder.ReportTemplateBuilder;
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
 import net.sf.dynamicreports.report.builder.style.StyleBuilder;
@@ -118,16 +121,8 @@ public abstract class AbstractReportTemplate {
             return buildHyperLink((HyperlinkValue) value);
         } else if (value instanceof CompBuilderValue) {
             return buildComp((CompBuilderValue) value);
-        } else if (value instanceof DateTimeExpression) {
-            return buildText((DateTimeExpression) value);
-        } else if (value instanceof DateExpression) {
-            return buildText((DateExpression) value);
-        } else if (value instanceof StringExpression) {
-            return buildText((StringExpression) value);
-        } else if (value instanceof I18nExpression) {
-            return buildText((I18nExpression) value);
-        } else if (value instanceof MailExpression) {
-            return buildText((MailExpression) value);
+        } else if (value instanceof SimpleFieldExpression) {
+            return buildText((SimpleFieldExpression) value);
         } else {
             throw new MyCollabException("Do not support mvalue type " + value);
         }

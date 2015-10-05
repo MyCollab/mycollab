@@ -16,12 +16,12 @@
  */
 package com.esofthead.mycollab.module.crm.view.activity;
 
-import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleCall;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.*;
+import com.esofthead.mycollab.module.crm.ui.format.CallFieldFormatter;
 import com.esofthead.mycollab.schedule.email.crm.CallRelayEmailNotificationAction;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -30,105 +30,92 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.TabSheetLazyLoadComponent;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
 @ViewComponent
-public class CallReadViewImpl extends AbstractPreviewItemComp<SimpleCall>
-		implements CallReadView {
+public class CallReadViewImpl extends AbstractPreviewItemComp<SimpleCall> implements CallReadView {
+    private static final long serialVersionUID = 1L;
 
-	private static final long serialVersionUID = 1L;
+    private CrmActivityComponent activityComponent;
+    private DateInfoComp dateInfoComp;
+    private CrmFollowersComp<SimpleCall> followersComp;
 
-	private CrmCommentDisplay commentList;
-	private CallHistoryLogList historyLogList;
-	private DateInfoComp dateInfoComp;
-	private CrmFollowersComp<SimpleCall> followersComp;
+    public CallReadViewImpl() {
+        super(CrmAssetsManager.getAsset(CrmTypeConstants.CALL));
+    }
 
-	public CallReadViewImpl() {
-		super(CrmAssetsManager.getAsset(CrmTypeConstants.CALL));
-	}
+    @Override
+    protected AdvancedPreviewBeanForm<SimpleCall> initPreviewForm() {
+        return new AdvancedPreviewBeanForm<>();
+    }
 
-	@Override
-	protected AdvancedPreviewBeanForm<SimpleCall> initPreviewForm() {
-		return new AdvancedPreviewBeanForm<>();
-	}
+    @Override
+    protected ComponentContainer createButtonControls() {
+        return new CrmPreviewFormControlsGenerator<>(previewForm)
+                .createButtonControls(RolePermissionCollections.CRM_CALL);
+    }
 
-	@Override
-	protected ComponentContainer createButtonControls() {
-		return new CrmPreviewFormControlsGenerator<>(previewForm)
-				.createButtonControls(RolePermissionCollections.CRM_CALL);
-	}
+    @Override
+    protected ComponentContainer createBottomPanel() {
+        return activityComponent;
+    }
 
-	@Override
-	protected ComponentContainer createBottomPanel() {
-		TabSheetLazyLoadComponent tabTaskDetail = new TabSheetLazyLoadComponent();
-		tabTaskDetail.addTab(commentList, AppContext.getMessage(GenericI18Enum.TAB_COMMENT, 0), FontAwesome.COMMENTS);
-		tabTaskDetail.addTab(historyLogList, AppContext.getMessage(GenericI18Enum.TAB_HISTORY), FontAwesome.HISTORY);
-		return tabTaskDetail;
-	}
+    @Override
+    protected void onPreviewItem() {
+        activityComponent.loadActivities("" + beanItem.getId());
+        dateInfoComp.displayEntryDateTime(beanItem);
+        followersComp.displayFollowers(beanItem);
+    }
 
-	@Override
-	protected void onPreviewItem() {
-		commentList.loadComments("" + beanItem.getId());
-		historyLogList.loadHistory(beanItem.getId());
-		dateInfoComp.displayEntryDateTime(beanItem);
-		followersComp.displayFollowers(beanItem);
-	}
+    @Override
+    protected String initFormTitle() {
+        return beanItem.getSubject();
+    }
 
-	@Override
-	protected String initFormTitle() {
-		return beanItem.getSubject();
-	}
+    @Override
+    protected void initRelatedComponents() {
+        activityComponent = new CrmActivityComponent(CrmTypeConstants.CALL, CallFieldFormatter.instance(),
+                CallRelayEmailNotificationAction.class);
 
-	@Override
-	protected void initRelatedComponents() {
-commentList = new CrmCommentDisplay(CrmTypeConstants.CALL, CallRelayEmailNotificationAction.class);
-		historyLogList = new CallHistoryLogList();
+        MVerticalLayout basicInfo = new MVerticalLayout().withWidth("100%").withStyleName("basic-info");
+        CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
 
-		MVerticalLayout basicInfo = new MVerticalLayout().withWidth("100%").withStyleName("basic-info");
-		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
+        dateInfoComp = new DateInfoComp();
+        basicInfo.addComponent(dateInfoComp);
 
-		dateInfoComp = new DateInfoComp();
-		basicInfo.addComponent(dateInfoComp);
+        followersComp = new CrmFollowersComp<>(CrmTypeConstants.CALL, RolePermissionCollections.CRM_CALL);
+        basicInfo.addComponent(followersComp);
 
-		followersComp = new CrmFollowersComp<>(CrmTypeConstants.CALL,
-				RolePermissionCollections.CRM_CALL);
-		basicInfo.addComponent(followersComp);
+        navigatorWrapper.addComponentAsFirst(basicInfo);
 
-		navigatorWrapper.addComponentAsFirst(basicInfo);
+        previewItemContainer.addTab(previewContent, CrmTypeConstants.DETAIL,
+                AppContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
+        previewItemContainer.selectTab(CrmTypeConstants.DETAIL);
+    }
 
-		previewItemContainer.addTab(previewContent, CrmTypeConstants.DETAIL,
-				AppContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
-		previewItemContainer.selectTab(CrmTypeConstants.DETAIL);
-	}
+    @Override
+    protected IFormLayoutFactory initFormLayoutFactory() {
+        return new DynaFormLayout(CrmTypeConstants.CALL, CallDefaultFormLayoutFactory.getForm());
+    }
 
-	@Override
-	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new DynaFormLayout(CrmTypeConstants.CALL,
-				CallDefaultFormLayoutFactory.getForm());
-	}
+    @Override
+    protected AbstractBeanFieldGroupViewFieldFactory<SimpleCall> initBeanFormFieldFactory() {
+        return new CallReadFormFieldFactory(previewForm);
+    }
 
-	@Override
-	protected AbstractBeanFieldGroupViewFieldFactory<SimpleCall> initBeanFormFieldFactory() {
-		return new CallReadFormFieldFactory(previewForm);
-	}
+    @Override
+    public SimpleCall getItem() {
+        return beanItem;
+    }
 
-	@Override
-	public SimpleCall getItem() {
-		return beanItem;
-	}
-
-	@Override
-	public HasPreviewFormHandlers<SimpleCall> getPreviewFormHandlers() {
-		return previewForm;
-	}
+    @Override
+    public HasPreviewFormHandlers<SimpleCall> getPreviewFormHandlers() {
+        return previewForm;
+    }
 }

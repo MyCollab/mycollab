@@ -17,8 +17,6 @@
 
 package com.esofthead.mycollab.module.project.view.bug.components;
 
-import java.util.List;
-
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
@@ -31,46 +29,44 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.ui.MultiSelectComp;
 import com.vaadin.data.Property;
 
+import java.util.List;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class ComponentMultiSelectField extends MultiSelectComp {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public ComponentMultiSelectField() {
-		super("componentname");
-	}
+    public ComponentMultiSelectField() {
+        super("componentname");
+    }
 
-	@Override
-	protected List<Component> createData() {
-		ComponentSearchCriteria searchCriteria = new ComponentSearchCriteria();
-		searchCriteria.setStatus(new StringSearchField("Open"));
+    @Override
+    protected List<Component> createData() {
+        ComponentSearchCriteria searchCriteria = new ComponentSearchCriteria();
+        searchCriteria.setStatus(new StringSearchField("Open"));
 
-		searchCriteria.setProjectid(new NumberSearchField(SearchField.AND,
-				CurrentProjectVariables.getProjectId()));
+        searchCriteria.setProjectid(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
 
-		ComponentService componentService = ApplicationContextUtil
-				.getSpringBean(ComponentService.class);
+        ComponentService componentService = ApplicationContextUtil.getSpringBean(ComponentService.class);
 
-		List<Component> components = componentService
-				.findPagableListByCriteria(new SearchRequest<>(
-						searchCriteria, 0, Integer.MAX_VALUE));
-		return components;
-	}
+        List<Component> components = componentService.findPagableListByCriteria(new SearchRequest<>(
+                searchCriteria, 0, Integer.MAX_VALUE));
+        return components;
+    }
 
-	@Override
-	public void setPropertyDataSource(Property newDataSource) {
-		List<Component> components = (List<Component>) newDataSource.getValue();
-		if (components != null) {
-			this.setSelectedItems(components);
-		}
-		super.setPropertyDataSource(newDataSource);
-	}
+    @Override
+    public void setPropertyDataSource(Property newDataSource) {
+        List<Component> components = (List<Component>) newDataSource.getValue();
+        if (components != null) {
+            this.setSelectedItems(components);
+        }
+        super.setPropertyDataSource(newDataSource);
+    }
 
-	@Override
-	public Class<?> getType() {
-		return Object.class;
-	}
+    @Override
+    public Class<?> getType() {
+        return Object.class;
+    }
 }

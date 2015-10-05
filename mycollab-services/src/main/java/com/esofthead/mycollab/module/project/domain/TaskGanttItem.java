@@ -38,6 +38,10 @@ public class TaskGanttItem extends AssignWithPredecessors {
         this.subTasks = subTasks;
     }
 
+    public void removeSubTask(TaskGanttItem subTask) {
+        subTasks.remove(subTask);
+    }
+
     public Integer getParentTaskId() {
         return parentTaskId;
     }

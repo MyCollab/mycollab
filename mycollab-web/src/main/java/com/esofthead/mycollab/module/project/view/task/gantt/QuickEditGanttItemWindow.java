@@ -31,7 +31,6 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
-import com.rits.cloning.Cloner;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -55,8 +54,7 @@ public class QuickEditGanttItemWindow extends Window {
         this.center();
 
         EditForm editForm = new EditForm();
-        Cloner cloner = new Cloner();
-        editForm.setBean(cloner.deepClone(ganttItem.getTask()));
+        editForm.setBean(ganttItem.getTask());
         this.setContent(editForm);
     }
 
@@ -109,8 +107,8 @@ public class QuickEditGanttItemWindow extends Window {
                             ganttItem.setTask(bean);
                             gantt.markStepDirty(ganttItem.getStep());
                             gantt.calculateMaxMinDates(ganttItem);
-                            EventBusFactory.getInstance().post(new GanttEvent.AddGanttItemUpdateToQueue
-                                    (QuickEditGanttItemWindow.this, ganttItem));
+                            EventBusFactory.getInstance().post(new GanttEvent.AddGanttItemUpdateToQueue(QuickEditGanttItemWindow.this, ganttItem));
+                            EventBusFactory.getInstance().post(new GanttEvent.UpdateGanttItem(QuickEditGanttItemWindow.this, ganttItem));
                             close();
                         }
                     }

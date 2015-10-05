@@ -5,25 +5,19 @@
     <resultMap
             extends="com.esofthead.mycollab.module.project.dao.TaskMapper.ResultMapWithBLOBs"
             id="TaskResult" type="com.esofthead.mycollab.module.project.domain.SimpleTask">
-        <result column="projectName" property="projectName"
-                jdbcType="VARCHAR"/>
-        <result column="projectShortname" property="projectShortname"
-                jdbcType="VARCHAR"/>
-        <result column="numComments" property="numComments"
-                jdbcType="INTEGER"/>
-        <result column="milestoneName" property="milestoneName"
-                jdbcType="VARCHAR"/>
-        <result column="assignUserAvatarId" property="assignUserAvatarId"
-                jdbcType="VARCHAR"/>
-        <result column="assignUserFullName" property="assignUserFullName"
-                jdbcType="VARCHAR"/>
-        <result column="logByAvatarId" property="logByAvatarId"
-                jdbcType="VARCHAR"/>
-        <result column="logByFullName" property="logByFullName"
-                jdbcType="VARCHAR"/>
+        <result column="projectName" property="projectName" jdbcType="VARCHAR"/>
+        <result column="projectShortname" property="projectShortname" jdbcType="VARCHAR"/>
+        <result column="numComments" property="numComments" jdbcType="INTEGER"/>
+        <result column="milestoneName" property="milestoneName" jdbcType="VARCHAR"/>
+        <result column="assignUserAvatarId" property="assignUserAvatarId" jdbcType="VARCHAR"/>
+        <result column="assignUserFullName" property="assignUserFullName" jdbcType="VARCHAR"/>
+        <result column="logByAvatarId" property="logByAvatarId" jdbcType="VARCHAR"/>
+        <result column="logByFullName" property="logByFullName" jdbcType="VARCHAR"/>
         <result column="numSubTasks" property="numSubTasks" jdbcType="INTEGER"/>
         <result column="parentTaskKey" property="parentTaskKey" jdbcType="INTEGER"/>
         <result column="parentTaskName" property="parentTaskName" jdbcType="VARCHAR"/>
+        <result column="billableHours" property="billableHours" jdbcType="DOUBLE"/>
+        <result column="nonBillableHours" property="nonBillableHours" jdbcType="DOUBLE"/>
     </resultMap>
 
     <sql id="querySearchCriteria">
@@ -168,7 +162,11 @@
                  (SELECT count(*)
                     FROM m_prj_task AS subtask_tbl
                     WHERE subtask_tbl.parentTaskId = m_prj_task.id
-                 ) AS numSubTasks
+                 ) AS numSubTasks,
+                 (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = m_prj_task.projectid
+                     AND m_prj_time_logging.type='Project-Task' AND m_prj_time_logging.typeid=m_prj_task.id AND m_prj_time_logging.isBillable = 1) AS billableHours,
+                 (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = m_prj_task.projectid
+                     AND m_prj_time_logging.type='Project-Task' AND m_prj_time_logging.typeid=m_prj_task.id AND m_prj_time_logging.isBillable = 0) AS nonBillableHours
           FROM m_prj_task
               LEFT OUTER JOIN m_prj_project ON (m_prj_task.projectid = m_prj_project.id) 
               LEFT OUTER JOIN m_prj_milestone ON (m_prj_milestone.id = m_prj_task.milestoneId)

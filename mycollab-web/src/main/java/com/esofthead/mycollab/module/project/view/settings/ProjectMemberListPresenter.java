@@ -32,46 +32,38 @@ import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class ProjectMemberListPresenter extends
-		AbstractPresenter<ProjectMemberListView> {
+public class ProjectMemberListPresenter extends AbstractPresenter<ProjectMemberListView> {
+    private static final long serialVersionUID = 1L;
 
-	private static final long serialVersionUID = 1L;
+    public ProjectMemberListPresenter() {
+        super(ProjectMemberListView.class);
+    }
 
-	public ProjectMemberListPresenter() {
-		super(ProjectMemberListView.class);
-	}
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.USERS)) {
+            ProjectUserContainer userGroupContainer = (ProjectUserContainer) container;
+            userGroupContainer.removeAllComponents();
+            userGroupContainer.addComponent(view.getWidget());
+            ProjectMemberSearchCriteria criteria = null;
+            if (data.getParams() == null) {
+                criteria = new ProjectMemberSearchCriteria();
+                criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+                criteria.setStatus(new StringSearchField(ProjectMemberStatusConstants.ACTIVE));
+                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+            } else {
+                criteria = (ProjectMemberSearchCriteria) data.getParams();
+            }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		if (CurrentProjectVariables
-				.canRead(ProjectRolePermissionCollections.USERS)) {
-			ProjectUserContainer userGroupContainer = (ProjectUserContainer) container;
-			userGroupContainer.removeAllComponents();
-			userGroupContainer.addComponent(view.getWidget());
-			ProjectMemberSearchCriteria criteria = null;
-			if (data.getParams() == null) {
-				criteria = new ProjectMemberSearchCriteria();
-				criteria.setProjectId(new NumberSearchField(
-						CurrentProjectVariables.getProjectId()));
-				criteria.setStatus(new StringSearchField(
-						ProjectMemberStatusConstants.ACTIVE));
-				criteria.setSaccountid(new NumberSearchField(AppContext
-						.getAccountId()));
-			} else {
-				criteria = (ProjectMemberSearchCriteria) data.getParams();
-			}
+            view.setSearchCriteria(criteria);
 
-			view.setSearchCriteria(criteria);
-
-			ProjectBreadcrumb breadCrumb = ViewManager
-					.getCacheComponent(ProjectBreadcrumb.class);
-			breadCrumb.gotoUserList();
-		} else {
-			NotificationUtil.showMessagePermissionAlert();
-		}
-	}
+            ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
+            breadCrumb.gotoUserList();
+        } else {
+            NotificationUtil.showMessagePermissionAlert();
+        }
+    }
 }

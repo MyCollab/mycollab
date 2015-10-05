@@ -141,7 +141,7 @@ public class OpportunityLeadListComp extends
             MHorizontalLayout blockTop = new MHorizontalLayout().withWidth("100%");
             CssLayout iconWrap = new CssLayout();
             iconWrap.setStyleName("icon-wrap");
-            FontIconLabel leadAvatar = new FontIconLabel(CrmAssetsManager.getAsset(CrmTypeConstants.LEAD));
+            ELabel leadAvatar = new ELabel(CrmAssetsManager.getAsset(CrmTypeConstants.LEAD));
             leadAvatar.addStyleName("icon-48px");
             iconWrap.addComponent(leadAvatar);
             blockTop.addComponent(iconWrap);

@@ -18,7 +18,6 @@ package com.esofthead.mycollab.module.crm.view.opportunity;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
@@ -137,8 +136,7 @@ public class OpportunitySimpleSearchPanel extends GenericSearchPanel<Opportunity
             }
         });
         layoutSearchPanel.addComponent(textValueField, 0, 0);
-        layoutSearchPanel.setComponentAlignment(textValueField,
-                Alignment.MIDDLE_CENTER);
+        layoutSearchPanel.setComponentAlignment(textValueField, Alignment.MIDDLE_CENTER);
     }
 
     private void addUserListSelectField() {

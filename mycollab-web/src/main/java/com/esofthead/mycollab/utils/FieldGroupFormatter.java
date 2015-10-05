@@ -23,13 +23,10 @@ import com.esofthead.mycollab.common.service.CurrencyService;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.HistoryFieldFormat;
-import com.esofthead.mycollab.vaadin.ui.LabelHTMLDisplayWidget;
+import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.I;
 import com.hp.gagawa.java.elements.Li;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Label;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -118,33 +115,21 @@ public class FieldGroupFormatter {
     }
 
     public static class DefaultHistoryFieldFormat implements HistoryFieldFormat {
-        @Override
-        public Component toVaadinComponent(String value) {
-            LabelHTMLDisplayWidget lbHtml = new LabelHTMLDisplayWidget(value);
-            lbHtml.setWidth("90%");
-            return lbHtml;
-        }
 
         @Override
         public String toString(String value) {
             String content;
             if (StringUtils.isNoneBlank(value)) {
-                content =  (value.length() > 200) ? (value.substring(0, 150) + "...") : value;
+                content = (value.length() > 200) ? (value.substring(0, 150) + "...") : value;
             } else {
                 content = AppContext.getMessage(GenericI18Enum.FORM_EMPTY);
             }
 
-            return new I().appendText(content).write();
+            return content;
         }
     }
 
     public static class PrettyDateHistoryFieldFormat implements HistoryFieldFormat {
-
-        @Override
-        public Component toVaadinComponent(String value) {
-            Date formatDate = DateTimeUtils.convertDateByFormatW3C(value);
-            return new ELabel().prettyDate(formatDate);
-        }
 
         @Override
         public String toString(String value) {
@@ -154,18 +139,12 @@ public class FieldGroupFormatter {
                 lbl.setTitle(AppContext.formatDate(formatDate));
                 return lbl.write();
             } else {
-                return new I().appendText(AppContext.getMessage(GenericI18Enum.FORM_EMPTY)).write();
+                return AppContext.getMessage(GenericI18Enum.FORM_EMPTY);
             }
         }
     }
 
     public static class PrettyDateTimeHistoryFieldFormat implements HistoryFieldFormat {
-
-        @Override
-        public Component toVaadinComponent(String value) {
-            Date formatDate = DateTimeUtils.convertDateByFormatW3C(value);
-            return new ELabel().prettyDateTime(formatDate);
-        }
 
         @Override
         public String toString(String value) {
@@ -175,18 +154,12 @@ public class FieldGroupFormatter {
                 lbl.setTitle(AppContext.formatDateTime(formatDate));
                 return lbl.write();
             } else {
-                return new I().appendText(AppContext.getMessage(GenericI18Enum.FORM_EMPTY)).write();
+                return AppContext.getMessage(GenericI18Enum.FORM_EMPTY);
             }
         }
     }
 
     public static class DateHistoryFieldFormat implements HistoryFieldFormat {
-
-        @Override
-        public Component toVaadinComponent(String value) {
-            Date formatDate = DateTimeUtils.convertDateByFormatW3C(value);
-            return new Label(AppContext.formatDate(formatDate));
-        }
 
         @Override
         public String toString(String value) {
@@ -197,21 +170,11 @@ public class FieldGroupFormatter {
             } else {
                 content = AppContext.getMessage(GenericI18Enum.FORM_EMPTY);
             }
-            return new I().appendText(content).write();
+            return content;
         }
     }
 
     public static class DateTimeHistoryFieldFormat implements HistoryFieldFormat {
-
-        @Override
-        public Component toVaadinComponent(String value) {
-            if (StringUtils.isNotBlank(value)) {
-                Date formatDate = DateTimeUtils.convertDateByFormatW3C(value);
-                return new Label(AppContext.formatDateTime(formatDate));
-            } else {
-                return new Label();
-            }
-        }
 
         @Override
         public String toString(String value) {
@@ -222,28 +185,11 @@ public class FieldGroupFormatter {
             } else {
                 content = AppContext.getMessage(GenericI18Enum.FORM_EMPTY);
             }
-            return new I().appendText(content).write();
+            return content;
         }
     }
 
     public static class CurrencyHistoryFieldFormat implements HistoryFieldFormat {
-
-        @Override
-        public Component toVaadinComponent(String value) {
-            if (StringUtils.isNotBlank(value)) {
-                try {
-                    Integer currencyId = Integer.parseInt(value);
-                    CurrencyService currencyService = ApplicationContextUtil.getSpringBean(CurrencyService.class);
-                    Currency currency = currencyService.getCurrency(currencyId);
-                    return new Label(currency.getSymbol());
-                } catch (Exception e) {
-                    LOG.error("Error while get currency id" + value, e);
-                    return new Label("");
-                }
-            }
-
-            return new Label("");
-        }
 
         @Override
         public String toString(String value) {
@@ -251,8 +197,7 @@ public class FieldGroupFormatter {
             if (StringUtils.isNotBlank(value)) {
                 try {
                     Integer currencyId = Integer.parseInt(value);
-                    CurrencyService currencyService = ApplicationContextUtil
-                            .getSpringBean(CurrencyService.class);
+                    CurrencyService currencyService = ApplicationContextUtil.getSpringBean(CurrencyService.class);
                     Currency currency = currencyService.getCurrency(currencyId);
                     content = currency.getSymbol();
                 } catch (Exception e) {
@@ -263,7 +208,7 @@ public class FieldGroupFormatter {
                 content = AppContext.getMessage(GenericI18Enum.FORM_EMPTY);
             }
 
-            return new I().appendText(content).write();
+            return content;
         }
     }
 
@@ -276,22 +221,9 @@ public class FieldGroupFormatter {
         }
 
         @Override
-        public Component toVaadinComponent(String value) {
-            try {
-                if (StringUtils.isNotBlank(value)) {
-                    return new Label(AppContext.getMessage(enumCls, value));
-                }
-
-                return new Label("");
-            } catch (Exception e) {
-                return new Label(value);
-            }
-        }
-
-        @Override
         public String toString(String value) {
             String content = (StringUtils.isNotBlank(value)) ? AppContext.getMessage(enumCls, value) : "";
-            return new I().appendText(content).write();
+            return content;
         }
     }
 }

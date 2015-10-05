@@ -25,7 +25,7 @@ import java.util.Locale;
  * @author MyCollab Ltd.
  * @since 5.0.5
  */
-public class I18nExpression  extends AbstractFieldExpression implements MValue {
+public class I18nExpression extends SimpleFieldExpression {
     private Class keyCls;
 
     public I18nExpression(String field, Class keyCls) {
@@ -37,6 +37,10 @@ public class I18nExpression  extends AbstractFieldExpression implements MValue {
     public String evaluate(ReportParameters reportParameters) {
         Locale locale = reportParameters.getLocale();
         String stringValue = reportParameters.getFieldValue(field).toString();
-        return LocalizationHelper.getMessage(locale, keyCls, stringValue);
+        try {
+            return LocalizationHelper.getMessage(locale, keyCls, stringValue);
+        } catch (Exception e) {
+            return stringValue;
+        }
     }
 }

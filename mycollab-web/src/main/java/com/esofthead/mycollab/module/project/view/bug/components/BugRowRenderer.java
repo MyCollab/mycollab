@@ -101,6 +101,12 @@ public class BugRowRenderer extends MHorizontalLayout {
         deadlineField.setDescription(deadlineTooltip);
         footer.addComponent(deadlineField);
 
+        PopupView billableHoursView = popupFieldFactory.createBugBillableHoursPopupField(bug);
+        footer.addComponent(billableHoursView);
+
+        PopupView nonBillableHoursView = popupFieldFactory.createBugNonbillableHoursPopupField(bug);
+        footer.addComponent(nonBillableHoursView);
+
         wrapBugInfoLayout.addComponent(footer);
         this.with(wrapBugInfoLayout).expand(wrapBugInfoLayout);
     }

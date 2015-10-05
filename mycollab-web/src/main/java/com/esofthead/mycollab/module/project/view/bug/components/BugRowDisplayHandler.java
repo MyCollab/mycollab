@@ -75,6 +75,11 @@ public class BugRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleBug> 
             footer.appendChild(lastUpdatedDiv).appendChild(DivLessFormatter.EMPTY_SPACE());
         }
 
+        if (bug.getNumComments() != null && bug.getNumComments() > 0) {
+            Div commetDiv = new Div().appendText(FontAwesome.COMMENT_O.getHtml() + " " + bug.getNumComments()).setTitle("Comments");
+            footer.appendChild(commetDiv, DivLessFormatter.EMPTY_SPACE());
+        }
+
         if (bug.getStatus() != null) {
             Div statusDiv = new Div().appendText(FontAwesome.INFO_CIRCLE.getHtml() + " " + AppContext.getMessage(OptionI18nEnum.BugStatus
                     .class, bug.getStatus())).setTitle(AppContext.getMessage(BugI18nEnum.FORM_STATUS));

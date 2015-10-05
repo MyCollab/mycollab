@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static org.apache.commons.lang3.StringUtils.isBlank;
+import static com.esofthead.mycollab.core.utils.StringUtils.isBlank;
 
 /**
  *

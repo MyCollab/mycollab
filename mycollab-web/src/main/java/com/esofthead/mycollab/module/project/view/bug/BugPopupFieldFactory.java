@@ -36,4 +36,8 @@ public interface BugPopupFieldFactory extends CacheableComponent {
     PopupView createBugMilestonePopupField(SimpleBug bug);
 
     PopupView createBugDeadlinePopupField(SimpleBug bug);
+
+    PopupView createBugBillableHoursPopupField(SimpleBug bug);
+
+    PopupView createBugNonbillableHoursPopupField(SimpleBug bug);
 }

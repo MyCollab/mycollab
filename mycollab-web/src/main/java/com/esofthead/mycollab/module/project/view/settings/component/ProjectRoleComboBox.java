@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.module.project.view.settings.component;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectRole;
@@ -49,10 +48,8 @@ public class ProjectRoleComboBox extends ComboBox {
         criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
         criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
 
-        ProjectRoleService roleService = ApplicationContextUtil
-                .getSpringBean(ProjectRoleService.class);
-        roleList = roleService.findPagableListByCriteria(new SearchRequest<>(
-                criteria, 0, Integer.MAX_VALUE));
+        ProjectRoleService roleService = ApplicationContextUtil.getSpringBean(ProjectRoleService.class);
+        roleList = roleService.findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 
         BeanContainer<String, SimpleProjectRole> beanItem = new BeanContainer<>(SimpleProjectRole.class);
         beanItem.setBeanIdProperty("id");

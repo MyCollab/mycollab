@@ -25,9 +25,6 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.HistoryFieldFormat;
 import com.hp.gagawa.java.elements.Span;
-import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Label;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,19 +33,8 @@ import org.slf4j.LoggerFactory;
  * @author MyCollab Ltd.
  * @since 4.0
  */
-public class MilestoneHistoryFieldFormat implements HistoryFieldFormat {
+public final class MilestoneHistoryFieldFormat implements HistoryFieldFormat {
     private static final Logger LOG = LoggerFactory.getLogger(MilestoneHistoryFieldFormat.class);
-
-    @Override
-    public Component toVaadinComponent(String value) {
-        try {
-            int milestoneId = Integer.parseInt(value);
-            String html = ProjectLinkBuilder.generateMilestoneHtmlLink(milestoneId);
-            return new Label(html, ContentMode.HTML);
-        } catch (NumberFormatException e) {
-            return new Label("");
-        }
-    }
 
     @Override
     public String toString(String value) {

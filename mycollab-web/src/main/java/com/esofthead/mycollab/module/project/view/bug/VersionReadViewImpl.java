@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.view.bug;
 
-import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.configuration.Storage;
@@ -31,9 +30,10 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.VersionI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
-import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
 import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
 import com.esofthead.mycollab.module.project.ui.components.DynaFormLayout;
+import com.esofthead.mycollab.module.project.ui.components.ProjectActivityComponent;
+import com.esofthead.mycollab.module.project.ui.format.VersionFieldFormatter;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
@@ -72,9 +72,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version> implem
     private static final long serialVersionUID = 1L;
 
     private Button quickActionStatusBtn;
-    private CommentDisplay commentDisplay;
-
-    private VersionHistoryLogList historyLogList;
+    private ProjectActivityComponent activityComponent;
     private DateInfoComp dateInfoComp;
     private VersionTimeLogComp versionTimeLogComp;
 
@@ -90,11 +88,9 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version> implem
 
     @Override
     protected void initRelatedComponents() {
-        commentDisplay = new CommentDisplay(ProjectTypeConstants.BUG_VERSION,
-                CurrentProjectVariables.getProjectId(), VersionRelayEmailNotificationAction.class);
-        commentDisplay.setWidth("100%");
-
-        historyLogList = new VersionHistoryLogList(ModuleNameConstants.PRJ, ProjectTypeConstants.BUG_VERSION);
+        activityComponent = new ProjectActivityComponent(ProjectTypeConstants.BUG_VERSION,
+                CurrentProjectVariables.getProjectId(), VersionFieldFormatter.instance(),
+                VersionRelayEmailNotificationAction.class);
 
         dateInfoComp = new DateInfoComp();
         versionTimeLogComp = new VersionTimeLogComp();
@@ -103,8 +99,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version> implem
 
     @Override
     protected void onPreviewItem() {
-        commentDisplay.loadComments("" + beanItem.getId());
-        historyLogList.loadHistory(beanItem.getId());
+        activityComponent.loadActivities("" + beanItem.getId());
         dateInfoComp.displayEntryDateTime(beanItem);
         versionTimeLogComp.displayTime(beanItem);
 
@@ -196,10 +191,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version> implem
 
     @Override
     protected ComponentContainer createBottomPanel() {
-        TabSheetLazyLoadComponent tabContainer = new TabSheetLazyLoadComponent();
-        tabContainer.addTab(commentDisplay, AppContext.getMessage(GenericI18Enum.TAB_COMMENT), FontAwesome.COMMENTS);
-        tabContainer.addTab(historyLogList, AppContext.getMessage(GenericI18Enum.TAB_HISTORY), FontAwesome.HISTORY);
-        return tabContainer;
+        return activityComponent;
     }
 
     @Override

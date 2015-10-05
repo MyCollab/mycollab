@@ -37,8 +37,9 @@ public class DateTimeUtils {
     private static final Logger LOG = LoggerFactory.getLogger(DateTimeUtils.class);
 
     private static DateTimeZone utcZone = DateTimeZone.UTC;
-
     private static Map<String, SimpleDateFormat> dateFormats = new HashMap<>();
+
+    public static final long MILISECONDS_IN_A_DAY = 1000*60*60*24;
 
     /**
      * Trim hour-minute-second of date instance value to zero.

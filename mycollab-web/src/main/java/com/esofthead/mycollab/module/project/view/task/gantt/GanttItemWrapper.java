@@ -68,6 +68,11 @@ public class GanttItemWrapper {
     public void removeSubTask(GanttItemWrapper subTask) {
         if (CollectionUtils.isNotEmpty(subItems)) {
             subItems.remove(subTask);
+            if (task instanceof MilestoneGanttItem) {
+                ((MilestoneGanttItem) task).removeSubTask((TaskGanttItem) subTask.task);
+            } else if (task instanceof TaskGanttItem) {
+                ((TaskGanttItem) task).removeSubTask((TaskGanttItem) subTask.task);
+            }
         }
     }
 
@@ -104,27 +109,27 @@ public class GanttItemWrapper {
     private void buildAssociateStepIfNotExisted() {
         if (ownStep == null) {
             ownStep = new StepExt();
-            ownStep.setCaption(task.getName());
             ownStep.setCaptionMode(Step.CaptionMode.HTML);
-            ownStep.setDescription(buildTooltip());
-            ownStep.setStartDate(startDate.toDate());
-            ownStep.setEndDate(endDate.plusDays(1).toDate());
-            if (task.getProgress() == null) {
-                ownStep.setProgress(0);
-            } else {
-                ownStep.setProgress(task.getProgress());
-            }
-
-            if (isMilestone()) {
-                ownStep.setBackgroundColor("C2DFFF");
-            } else if (isTask() && task.hasSubAssignments()) {
-                ownStep.setBackgroundColor("E4F1FF");
-            } else {
-                ownStep.setBackgroundColor("E4F1FF");
-            }
-
             ownStep.setShowProgress(false);
             ownStep.setGanttItemWrapper(this);
+        }
+
+        ownStep.setCaption(task.getName());
+        ownStep.setDescription(buildTooltip());
+        ownStep.setStartDate(startDate.toDate());
+        ownStep.setEndDate(endDate.plusDays(1).toDate());
+        if (task.getProgress() == null) {
+            ownStep.setProgress(0);
+        } else {
+            ownStep.setProgress(task.getProgress());
+        }
+
+        if (isMilestone()) {
+            ownStep.setBackgroundColor("C2DFFF");
+        } else if (isTask() && task.hasSubAssignments()) {
+            ownStep.setBackgroundColor("E4F1FF");
+        } else {
+            ownStep.setBackgroundColor("E4F1FF");
         }
     }
 
@@ -210,20 +215,18 @@ public class GanttItemWrapper {
         }
     }
 
-    private static final long SECONDS_IN_DAYS = 1000 * 60 * 60 * 24;
-
     public Long getDuration() {
         if (task.getDuration() != null) {
             return task.getDuration();
         } else {
-            return BusinessDayTimeUtils.duration(startDate, endDate) * SECONDS_IN_DAYS;
+            return BusinessDayTimeUtils.duration(startDate, endDate) * DateTimeUtils.MILISECONDS_IN_A_DAY;
         }
     }
 
     public void setDuration(Long duration) {
         task.setDuration(duration);
         if (startDate != null) {
-            LocalDate expectedEndDate = BusinessDayTimeUtils.plusDays(startDate, (int) (duration.longValue() / SECONDS_IN_DAYS));
+            LocalDate expectedEndDate = BusinessDayTimeUtils.plusDays(startDate, (int) (duration.longValue() / DateTimeUtils.MILISECONDS_IN_A_DAY));
             setStartAndEndDate(startDate, expectedEndDate, true, true);
         }
     }
@@ -246,7 +249,7 @@ public class GanttItemWrapper {
 
     public void setStartDate(LocalDate date) {
         long duration = getDuration();
-        LocalDate expectedEndDate = BusinessDayTimeUtils.plusDays(date, (int) (duration / SECONDS_IN_DAYS));
+        LocalDate expectedEndDate = BusinessDayTimeUtils.plusDays(date, (int) (duration / DateTimeUtils.MILISECONDS_IN_A_DAY));
         setStartAndEndDate(date, expectedEndDate, true, true);
     }
 
@@ -320,6 +323,8 @@ public class GanttItemWrapper {
         }
 
         if (hasChange) {
+            int duration = BusinessDayTimeUtils.duration(newStartDate, newEndDate);
+            setDuration(duration * DateTimeUtils.MILISECONDS_IN_A_DAY);
             onDateChanges(askToCheckPredecessors, requestToCheckDependents);
         }
 
@@ -506,7 +511,7 @@ public class GanttItemWrapper {
         gantt.markStepDirty(ownStep);
     }
 
-    private void updateParentDates() {
+    void updateParentDates() {
         GanttItemWrapper parentTask = this.getParent();
         if (parentTask != null) {
             parentTask.calculateDatesByChildTasks();

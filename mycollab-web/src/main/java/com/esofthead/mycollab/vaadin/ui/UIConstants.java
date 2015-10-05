@@ -54,7 +54,7 @@ public class UIConstants {
     public static final String TEXT_ELLIPSIS = "text-ellipsis";
     public static final String TEXT_BLUE = "bluetxt";
     public static final String LABEL_CHECKED = "has-checkmark";
-    public static final String BTN_ACTIVE = "active";
+    public static final String BTN_ACTIVE = "btn-group-default";
     public static final String TEXT_LOG_HOURS = "text-log-hours";
     public static final String TEXT_LOG_HOURS_TOTAL = "text-log-hours-total";
     public static final String FULL_BORDER_TABLE = "full-border-table";

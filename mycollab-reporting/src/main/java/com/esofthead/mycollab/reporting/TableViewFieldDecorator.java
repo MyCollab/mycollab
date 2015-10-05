@@ -16,17 +16,15 @@
  */
 package com.esofthead.mycollab.reporting;
 
-import static net.sf.dynamicreports.report.builder.DynamicReports.cmp;
+import com.esofthead.mycollab.common.TableViewField;
+import com.esofthead.mycollab.reporting.expression.PrimityTypeFieldExpression;
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
 
-import com.esofthead.mycollab.common.TableViewField;
-import com.esofthead.mycollab.reporting.expression.StringExpression;
+import static net.sf.dynamicreports.report.builder.DynamicReports.cmp;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @SuppressWarnings("serial")
 public class TableViewFieldDecorator extends TableViewField {
@@ -71,8 +69,7 @@ public class TableViewFieldDecorator extends TableViewField {
     @SuppressWarnings("rawtypes")
     public ComponentBuilder getComponentBuilder() {
         if (componentBuilder == null) {
-            componentBuilder = cmp.text(
-                    new StringExpression(tableField.getField())).setWidth(
+            componentBuilder = cmp.text(new PrimityTypeFieldExpression(tableField.getField())).setWidth(
                     tableField.getDefaultWidth());
         }
         return componentBuilder;

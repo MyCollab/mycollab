@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.project.domain;
 
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
-import org.apache.commons.lang3.StringUtils;
+import com.esofthead.mycollab.core.utils.StringUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -77,7 +77,7 @@ public class ProjectGenericTask implements Serializable {
 
     public String getAssignUserFullName() {
         if (StringUtils.isBlank(assignUserFullName)) {
-            return com.esofthead.mycollab.core.utils.StringUtils.extractNameFromEmail(getAssignUser());
+            return StringUtils.extractNameFromEmail(getAssignUser());
         }
         return assignUserFullName;
     }
@@ -189,6 +189,6 @@ public class ProjectGenericTask implements Serializable {
 
     public Date getDueDatePlusOne() {
         Date value = getDueDate();
-        return (value !=  null) ?  DateTimeUtils.subtractOrAddDayDuration(value, 1) : null;
+        return (value != null) ? DateTimeUtils.subtractOrAddDayDuration(value, 1) : null;
     }
 }

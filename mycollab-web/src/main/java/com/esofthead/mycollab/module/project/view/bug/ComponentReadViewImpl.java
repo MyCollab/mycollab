@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.view.bug;
 
-import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.configuration.Storage;
@@ -34,6 +33,7 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.*;
+import com.esofthead.mycollab.module.project.ui.format.ComponentFieldFormatter;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.esofthead.mycollab.module.tracker.domain.Component;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
@@ -73,14 +73,12 @@ import java.util.UUID;
  * @since 1.0
  */
 @ViewComponent
-public class ComponentReadViewImpl extends
-        AbstractPreviewItemComp<SimpleComponent> implements ComponentReadView {
+public class ComponentReadViewImpl extends AbstractPreviewItemComp<SimpleComponent> implements ComponentReadView {
     private static final long serialVersionUID = 1L;
 
     private static final Logger LOG = LoggerFactory.getLogger(ComponentReadViewImpl.class);
 
-    private CommentDisplay commentDisplay;
-    private ComponentHistoryLogList historyLogList;
+    private ProjectActivityComponent activityComponent;
     private Button quickActionStatusBtn;
 
     private DateInfoComp dateInfoComp;
@@ -116,11 +114,8 @@ public class ComponentReadViewImpl extends
 
     @Override
     protected void initRelatedComponents() {
-        commentDisplay = new CommentDisplay(ProjectTypeConstants.BUG_COMPONENT,
-                CurrentProjectVariables.getProjectId(),
-                ComponentRelayEmailNotificationAction.class);
-        commentDisplay.setWidth("100%");
-        historyLogList = new ComponentHistoryLogList(ModuleNameConstants.PRJ, ProjectTypeConstants.BUG_COMPONENT);
+        activityComponent = new ProjectActivityComponent(ProjectTypeConstants.BUG_COMPONENT, CurrentProjectVariables
+                .getProjectId(), ComponentFieldFormatter.instance(), ComponentRelayEmailNotificationAction.class);
         dateInfoComp = new DateInfoComp();
         peopleInfoComp = new PeopleInfoComp();
         componentTimeLogComp = new ComponentTimeLogComp();
@@ -129,9 +124,7 @@ public class ComponentReadViewImpl extends
 
     @Override
     protected void onPreviewItem() {
-        commentDisplay.loadComments("" + beanItem.getId());
-        historyLogList.loadHistory(beanItem.getId());
-
+        activityComponent.loadActivities("" + beanItem.getId());
         dateInfoComp.displayEntryDateTime(beanItem);
         peopleInfoComp.displayEntryPeople(beanItem);
         componentTimeLogComp.displayTime(beanItem);
@@ -213,10 +206,7 @@ public class ComponentReadViewImpl extends
 
     @Override
     protected ComponentContainer createBottomPanel() {
-        final TabSheetLazyLoadComponent tabContainer = new TabSheetLazyLoadComponent();
-        tabContainer.addTab(commentDisplay, AppContext.getMessage(GenericI18Enum.TAB_COMMENT), FontAwesome.COMMENTS);
-        tabContainer.addTab(historyLogList, AppContext.getMessage(GenericI18Enum.TAB_HISTORY), FontAwesome.HISTORY);
-        return tabContainer;
+        return activityComponent;
     }
 
     @Override

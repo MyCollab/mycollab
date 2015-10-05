@@ -20,6 +20,7 @@ package com.esofthead.mycollab.module.project.view.milestone;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.Milestone;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
@@ -61,7 +62,7 @@ public class MilestoneComboBox extends ComboBox {
 
             for (SimpleMilestone milestone : milestoneList) {
                 this.addItem(milestone.getId());
-                this.setItemCaption(milestone.getId(), milestone.getName());
+                this.setItemCaption(milestone.getId(), StringUtils.trim(milestone.getName(), 25, true));
                 Resource iconRes = ProjectAssetsUtil.getPhaseIcon(milestone.getStatus());
                 this.setItemIcon(milestone.getId(), iconRes);
             }

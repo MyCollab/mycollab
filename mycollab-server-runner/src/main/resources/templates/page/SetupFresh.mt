@@ -100,7 +100,9 @@ h3 {
                                         <tr>
                                             <td><input id="serverAddress"/></td>
                                         </tr>
-                                        <tr><td><h4>You can get this info from your web host. It could be an IP address or server name</h4></td></tr>
+                                        <tr><td><h4>You can get this info from your web host. It could be an IP
+                                        address or server name. You must not include the server port in
+                                        this value</h4></td></tr>
 
                                     </tbody>
                                 </table>
@@ -131,7 +133,7 @@ h3 {
                                         <tr>
                                             <td><input id="dbUserName"/></td>
                                         </tr>
-                                        <tr><td><h4>Your database user name</h4></td></tr>
+                                        <tr><td><h4>Database user name</h4></td></tr>
 
                                         <tr>
                                             <td><label for="dbPassword">Password:</label></td>
@@ -139,7 +141,7 @@ h3 {
                                         <tr>
                                             <td><input id="dbPassword" type="password"/></td>
                                         </tr>
-                                        <tr><td><h4>Your database password</h4></td></tr>
+                                        <tr><td><h4>Database password</h4></td></tr>
 
                                         <tr>
                                             <td><label for="databaseServer">Database server address:</label></td>
@@ -385,7 +387,9 @@ function updateInfoAction(){
         return;
     }
     $('#setupBtn').html('<img src="${defaultUrls.cdn_url}icons/lazy-load-icon.gif" alt="Pulpit rock" style="height:18px;"><span style="font-size: 15px">&nbsp;&nbsp;Setting up...</span>');
-    $('#setupBtn').after('<p><h3 style=\"color:orange\">Please be patient! It may takes several minutes to set up MyCollab depends on your servers performance.</h3></p>');
+    $('#setupBtn').after('<p><h3 style=\"color:orange\">Please be patient! It may takes several minutes to set up
+    MyCollab depends on your servers performance. Whenever the install process is completed, the browser is
+    redirected automatically to the application home page</h3></p>');
     var urlPost = "/install";
 
     var tlsStatus = "";

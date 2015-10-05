@@ -140,7 +140,7 @@ public class CampaignLeadListComp extends
             MHorizontalLayout blockTop = new MHorizontalLayout();
             CssLayout iconWrap = new CssLayout();
             iconWrap.setStyleName("icon-wrap");
-            FontIconLabel leadAvatar = new FontIconLabel(CrmAssetsManager.getAsset(CrmTypeConstants.LEAD));
+            ELabel leadAvatar = new ELabel(CrmAssetsManager.getAsset(CrmTypeConstants.LEAD));
             leadAvatar.addStyleName("icon-48px");
             iconWrap.addComponent(leadAvatar);
             blockTop.addComponent(iconWrap);

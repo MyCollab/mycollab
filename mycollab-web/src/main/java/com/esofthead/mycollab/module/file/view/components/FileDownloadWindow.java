@@ -27,7 +27,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.resources.StreamDownloadResourceUtil;
 import com.esofthead.mycollab.vaadin.resources.file.FileAssetsUtil;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
-import com.esofthead.mycollab.vaadin.ui.FontIconLabel;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserLink;
 import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
@@ -67,7 +67,7 @@ public class FileDownloadWindow extends Window {
     private void constructBody() {
         final MVerticalLayout layout = new MVerticalLayout().withWidth("100%");
         CssLayout iconWrapper = new CssLayout();
-        final FontIconLabel iconEmbed = new FontIconLabel(FileAssetsUtil.getFileIconResource(content.getName()));
+        final ELabel iconEmbed = new ELabel(FileAssetsUtil.getFileIconResource(content.getName()));
         iconEmbed.addStyleName("icon-48px");
         iconWrapper.addComponent(iconEmbed);
         layout.with(iconWrapper).withAlign(iconWrapper, Alignment.MIDDLE_CENTER);

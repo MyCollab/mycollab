@@ -67,8 +67,7 @@ public class ComponentListNoItemView extends ProjectListNoItemView {
         return new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
-                EventBusFactory.getInstance().post(
-                        new BugComponentEvent.GotoAdd(this, null));
+                EventBusFactory.getInstance().post(new BugComponentEvent.GotoAdd(this, null));
             }
         };
     }

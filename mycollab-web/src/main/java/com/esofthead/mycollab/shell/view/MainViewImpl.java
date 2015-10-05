@@ -20,6 +20,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.ui.components.notification.*;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.DeploymentMode;
+import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.jetty.ServerInstance;
 import com.esofthead.mycollab.module.billing.AccountStatusConstants;
@@ -212,7 +213,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
             // display trial box if user in trial mode
             SimpleBillingAccount billingAccount = AppContext.getBillingAccount();
             if (AccountStatusConstants.TRIAL.equals(billingAccount.getStatus())) {
-                if ("Free".equals(billingAccount.getBillingPlan().getBillingtype())) {
+                if ("Free" .equals(billingAccount.getBillingPlan().getBillingtype())) {
                     Label informLbl = new Label("<div class='informBlock'>FREE CHARGE<br>UPGRADE</div><div class='informBlock'>&gt;&gt;</div>", ContentMode.HTML);
                     informLbl.addStyleName("trialEndingNotification");
                     informLbl.setHeight("100%");
@@ -251,7 +252,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
 
                     Date createdTime = billingAccount.getCreatedtime();
                     long timeDeviation = System.currentTimeMillis() - createdTime.getTime();
-                    int daysLeft = (int) Math.floor(timeDeviation / (double) (1000 * 60 * 60 * 24));
+                    int daysLeft = (int) Math.floor(timeDeviation / (double) (DateTimeUtils.MILISECONDS_IN_A_DAY));
                     if (daysLeft > 30) {
                         BillingService billingService = ApplicationContextUtil.getSpringBean(BillingService.class);
                         BillingPlan freeBillingPlan = billingService.getFreeBillingPlan();
@@ -269,8 +270,8 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         accountNameLabel.addStyleName("subdomain");
         accountLayout.addComponent(accountNameLabel);
 
-        NotificationButton notificationButton = new NotificationButton();
-        accountLayout.addComponent(notificationButton);
+        NotificationComponent notificationComponent = new NotificationComponent();
+        accountLayout.addComponent(notificationComponent);
         if (AppContext.getUser().getTimezone() == null) {
             EventBusFactory.getInstance().post(new ShellEvent.NewNotification(this, new TimezoneNotification()));
         }
@@ -280,7 +281,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
                     new RequestUploadAvatarNotification()));
         }
 
-        if ("admin@mycollab.com".equals(AppContext.getUsername())) {
+        if ("admin@mycollab.com" .equals(AppContext.getUsername())) {
             EventBusFactory.getInstance().post(new ShellEvent.NewNotification(this,
                     new ChangeDefaultUsernameNotification()));
         }

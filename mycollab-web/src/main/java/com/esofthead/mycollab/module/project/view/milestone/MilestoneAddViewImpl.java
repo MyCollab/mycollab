@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.project.view.milestone;
 
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.Milestone;
+import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.AbstractEditItemComp;
@@ -38,7 +39,7 @@ import com.vaadin.ui.Layout;
  * @since 1.0
  */
 @ViewComponent
-public class MilestoneAddViewImpl extends AbstractEditItemComp<Milestone> implements MilestoneAddView {
+public class MilestoneAddViewImpl extends AbstractEditItemComp<SimpleMilestone> implements MilestoneAddView {
     private static final long serialVersionUID = 1L;
 
     @Override
@@ -65,7 +66,7 @@ public class MilestoneAddViewImpl extends AbstractEditItemComp<Milestone> implem
     }
 
     @Override
-    protected AdvancedEditBeanForm<Milestone> initPreviewForm() {
+    protected AdvancedEditBeanForm<SimpleMilestone> initPreviewForm() {
         return new AdvancedEditBeanForm<>();
     }
 
@@ -76,7 +77,7 @@ public class MilestoneAddViewImpl extends AbstractEditItemComp<Milestone> implem
     }
 
     @Override
-    protected AbstractBeanFieldGroupEditFieldFactory<Milestone> initBeanFormFieldFactory() {
-        return new MilestoneEditFormFieldFactory<>(editForm);
+    protected AbstractBeanFieldGroupEditFieldFactory<SimpleMilestone> initBeanFormFieldFactory() {
+        return new MilestoneEditFormFieldFactory(editForm);
     }
 }

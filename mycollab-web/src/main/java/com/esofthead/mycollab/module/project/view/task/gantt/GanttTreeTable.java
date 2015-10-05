@@ -67,15 +67,18 @@ public class GanttTreeTable extends TreeTable {
     protected List<Field> fields = new ArrayList<>();
     private boolean isStartedGanttChart = false;
 
-    private ApplicationEventListener<GanttEvent.UpdateGanttItemDates> updateTaskInfoHandler = new
-            ApplicationEventListener<GanttEvent.UpdateGanttItemDates>() {
+    private ApplicationEventListener<GanttEvent.UpdateGanttItem> updateTaskInfoHandler = new
+            ApplicationEventListener<GanttEvent.UpdateGanttItem>() {
                 @Subscribe
                 @Override
-                public void handle(GanttEvent.UpdateGanttItemDates event) {
+                public void handle(GanttEvent.UpdateGanttItem event) {
                     GanttItemWrapper item = (GanttItemWrapper) event.getData();
                     updateTaskTree(item);
                 }
             };
+
+    //The limit sub tasks should be less than 50, need to be calculated in the future when the project has many tasks
+    private int currentPageLength = 50;
 
     public GanttTreeTable(final GanttExt gantt) {
         super();
@@ -263,6 +266,7 @@ public class GanttTreeTable extends TreeTable {
 
         contextMenu.addContextMenuTableListener(tableListener);
         gantt.setVerticalScrollDelegateTarget(this);
+        this.setPageLength(currentPageLength);
     }
 
     GanttItemContainer getRawContainer() {
@@ -299,7 +303,6 @@ public class GanttTreeTable extends TreeTable {
                 this.addTask(itemWrapper);
             }
             this.updateWholeGanttIndexes();
-            gantt.addStep(new Step());
         } else {
             LOG.error("Error to query multiple value " + CurrentProjectVariables.getProjectId());
         }
@@ -307,6 +310,11 @@ public class GanttTreeTable extends TreeTable {
     }
 
     private void updateTaskTree(GanttItemWrapper ganttItemWrapper) {
+        if (ganttItemWrapper.hasSubTasks()) {
+            boolean collapsed = this.isCollapsed(ganttItemWrapper);
+            this.setCollapsed(ganttItemWrapper, !collapsed);
+            this.setCollapsed(ganttItemWrapper, collapsed);
+        }
         this.markAsDirtyRecursive();
     }
 
@@ -509,8 +517,7 @@ public class GanttTreeTable extends TreeTable {
                             GanttTreeTable.this.setChildrenAllowed(taskWrapper, true);
                             nextItem.updateParentRelationship(taskWrapper);
                             GanttTreeTable.this.setParent(nextItem, taskWrapper);
-                            EventBusFactory.getInstance().post(new GanttEvent.AddGanttItemUpdateToQueue
-                                    (GanttTreeTable.this, nextItem));
+                            EventBusFactory.getInstance().post(new GanttEvent.AddGanttItemUpdateToQueue(GanttTreeTable.this, nextItem));
                         }
 
                         if (taskWrapper.hasSubTasks()) {

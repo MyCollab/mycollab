@@ -16,64 +16,45 @@
  */
 package com.esofthead.mycollab.module.crm.view;
 
-import static com.esofthead.mycollab.module.crm.view.account.AccountHistoryLogList.accountFormatter;
-import static com.esofthead.mycollab.module.crm.view.activity.AssignmentHistoryLogList.assignmentFormatter;
-import static com.esofthead.mycollab.module.crm.view.activity.CallHistoryLogList.callFormatter;
-import static com.esofthead.mycollab.module.crm.view.activity.MeetingHistoryLogList.meetingFormatter;
-import static com.esofthead.mycollab.module.crm.view.campaign.CampaignHistoryLogList.campaignFormatter;
-import static com.esofthead.mycollab.module.crm.view.cases.CaseHistoryLogList.caseFormatter;
-import static com.esofthead.mycollab.module.crm.view.contact.ContactHistoryLogList.contactFormatter;
-import static com.esofthead.mycollab.module.crm.view.lead.LeadHistoryLogList.leadFormatter;
-import static com.esofthead.mycollab.module.crm.view.opportunity.OpportunityHistoryLogList.opportunityFormatter;
+import com.esofthead.mycollab.common.domain.SimpleActivityStream;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
+import com.esofthead.mycollab.module.crm.ui.format.*;
+import com.esofthead.mycollab.utils.AuditLogPrinter;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import com.esofthead.mycollab.common.domain.SimpleActivityStream;
-import com.esofthead.mycollab.module.crm.CrmTypeConstants;
-import com.esofthead.mycollab.utils.AuditLogPrinter;
-
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class CrmActivityStreamGenerator {
 
-	private static final Map<String, AuditLogPrinter> auditPrinters;
-	static {
-		auditPrinters = new HashMap<>();
-		auditPrinters.put(CrmTypeConstants.ACCOUNT, new AuditLogPrinter(
-				accountFormatter));
-		auditPrinters.put(CrmTypeConstants.CONTACT, new AuditLogPrinter(
-				contactFormatter));
-		auditPrinters.put(CrmTypeConstants.CAMPAIGN, new AuditLogPrinter(
-				campaignFormatter));
-		auditPrinters.put(CrmTypeConstants.LEAD, new AuditLogPrinter(
-				leadFormatter));
-		auditPrinters.put(CrmTypeConstants.OPPORTUNITY, new AuditLogPrinter(
-				opportunityFormatter));
-		auditPrinters.put(CrmTypeConstants.CASE, new AuditLogPrinter(
-				caseFormatter));
-		auditPrinters.put(CrmTypeConstants.MEETING, new AuditLogPrinter(
-				meetingFormatter));
-		auditPrinters.put(CrmTypeConstants.TASK, new AuditLogPrinter(
-				assignmentFormatter));
-		auditPrinters.put(CrmTypeConstants.CALL, new AuditLogPrinter(
-				callFormatter));
-	}
+    private static final Map<String, AuditLogPrinter> auditPrinters;
 
-	public static String generatorDetailChangeOfActivity(
-			SimpleActivityStream activityStream) {
+    static {
+        auditPrinters = new HashMap<>();
+        auditPrinters.put(CrmTypeConstants.ACCOUNT, new AuditLogPrinter(AccountFieldFormatter.instance()));
+        auditPrinters.put(CrmTypeConstants.CONTACT, new AuditLogPrinter(ContactFieldFormatter.instance()));
+        auditPrinters.put(CrmTypeConstants.CAMPAIGN, new AuditLogPrinter(CampaignFieldFormatter.instance()));
+        auditPrinters.put(CrmTypeConstants.LEAD, new AuditLogPrinter(LeadFieldFormatter.instance()));
+        auditPrinters.put(CrmTypeConstants.OPPORTUNITY, new AuditLogPrinter(OpportunityFieldFormatter.instance()));
+        auditPrinters.put(CrmTypeConstants.CASE, new AuditLogPrinter(CaseFieldFormatter.instance()));
+        auditPrinters.put(CrmTypeConstants.MEETING, new AuditLogPrinter(MeetingFieldFormatter.instance()));
+        auditPrinters.put(CrmTypeConstants.TASK, new AuditLogPrinter(AssignmentFieldFormatter.instance()));
+        auditPrinters.put(CrmTypeConstants.CALL, new AuditLogPrinter(CallFieldFormatter.instance()));
+    }
 
-		if (activityStream.getAssoAuditLog() != null) {
-			AuditLogPrinter auditLogHandler = auditPrinters.get(activityStream.getType());
-			if (auditLogHandler != null) {
-				return auditLogHandler.generateChangeSet(activityStream.getAssoAuditLog());
-			}
-		}
+    public static String generatorDetailChangeOfActivity(
+            SimpleActivityStream activityStream) {
 
-		return "";
-	}
+        if (activityStream.getAssoAuditLog() != null) {
+            AuditLogPrinter auditLogHandler = auditPrinters.get(activityStream.getType());
+            if (auditLogHandler != null) {
+                return auditLogHandler.generateChangeSet(activityStream.getAssoAuditLog());
+            }
+        }
+
+        return "";
+    }
 }

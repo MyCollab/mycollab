@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.module.project.view.bug;
 
+import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
+import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 
 /**
@@ -23,5 +25,7 @@ import com.esofthead.mycollab.vaadin.mvp.PageView;
  * @since 5.1.1
  */
 public interface BugKanbanView extends PageView {
-    void display();
+    HasSearchHandlers<BugSearchCriteria> getSearchHandlers();
+
+    void queryBug(BugSearchCriteria searchCriteria);
 }

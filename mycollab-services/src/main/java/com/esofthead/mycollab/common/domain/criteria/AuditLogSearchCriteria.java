@@ -17,46 +17,43 @@
 
 package com.esofthead.mycollab.common.domain.criteria;
 
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 public class AuditLogSearchCriteria extends SearchCriteria {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private StringSearchField module;
+    private StringSearchField module;
 
-	private StringSearchField type;
+    private StringSearchField type;
 
-	private NumberSearchField typeid;
+    private StringSearchField typeid;
 
-	public StringSearchField getType() {
-		return type;
-	}
+    public StringSearchField getType() {
+        return type;
+    }
 
-	public void setType(StringSearchField type) {
-		this.type = type;
-	}
+    public void setType(StringSearchField type) {
+        this.type = type;
+    }
 
-	public NumberSearchField getTypeid() {
-		return typeid;
-	}
+    public StringSearchField getTypeid() {
+        return typeid;
+    }
 
-	public void setTypeid(NumberSearchField typeid) {
-		this.typeid = typeid;
-	}
+    public void setTypeid(StringSearchField typeid) {
+        this.typeid = typeid;
+    }
 
-	public StringSearchField getModule() {
-		return module;
-	}
+    public StringSearchField getModule() {
+        return module;
+    }
 
-	public void setModule(StringSearchField module) {
-		this.module = module;
-	}
+    public void setModule(StringSearchField module) {
+        this.module = module;
+    }
 }

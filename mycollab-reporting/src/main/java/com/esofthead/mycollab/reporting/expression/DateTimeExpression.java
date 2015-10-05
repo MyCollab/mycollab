@@ -16,34 +16,30 @@
  */
 package com.esofthead.mycollab.reporting.expression;
 
+import com.esofthead.mycollab.configuration.LocaleHelper;
+import com.esofthead.mycollab.core.utils.DateTimeUtils;
+import net.sf.dynamicreports.report.definition.ReportParameters;
+
 import java.util.Date;
 import java.util.Locale;
 
-import net.sf.dynamicreports.report.definition.ReportParameters;
-
-import com.esofthead.mycollab.configuration.LocaleHelper;
-import com.esofthead.mycollab.core.utils.DateTimeUtils;
-
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1.2
- * 
  */
-public class DateTimeExpression extends AbstractFieldExpression implements
-		MValue {
-	private static final long serialVersionUID = 1L;
+public class DateTimeExpression extends SimpleFieldExpression {
+    private static final long serialVersionUID = 1L;
 
-	public DateTimeExpression(String field) {
-		super(field);
-	}
+    public DateTimeExpression(String field) {
+        super(field);
+    }
 
-	@Override
-	public String evaluate(ReportParameters reportParameters) {
-		Locale locale = reportParameters.getLocale();
-		Date date = reportParameters.getFieldValue(field);
-		return DateTimeUtils.formatDate(date,
-				LocaleHelper.getDateFormatInstance(locale).getDateTimeFormat());
-	}
+    @Override
+    public String evaluate(ReportParameters reportParameters) {
+        Locale locale = reportParameters.getLocale();
+        Date date = reportParameters.getFieldValue(field);
+        return DateTimeUtils.formatDate(date,
+                LocaleHelper.getDateFormatInstance(locale).getDateTimeFormat());
+    }
 
 }

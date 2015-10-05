@@ -17,15 +17,12 @@
 package com.esofthead.mycollab.vaadin.desktop.ui;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.reporting.ReportExportType;
-import com.esofthead.mycollab.reporting.RpFieldsBuilder;
-import com.esofthead.mycollab.reporting.SimpleGridExportItemsStreamResource;
+import com.esofthead.mycollab.reporting.*;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.MassItemActionHandler;
 import com.esofthead.mycollab.vaadin.events.ViewItemAction;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
-import com.google.common.collect.HashBiMap;
 import com.vaadin.server.StreamResource;
 import com.vaadin.ui.UI;
 import org.vaadin.dialogs.ConfirmDialog;
@@ -72,22 +69,26 @@ public abstract class DefaultMassEditActionHandler implements MassItemActionHand
     @SuppressWarnings("unchecked")
     @Override
     public StreamResource buildStreamResource(ReportExportType exportType) {
-        String exportFileName = exportType.getDefaultFileName();
         AbstractPagedBeanTable pagedBeanTable = ((ListView) presenter.getView()).getPagedBeanTable();
-        Map<String, Object> parameters = new HashMap<>();
+        final Map<String, Object> parameters = new HashMap<>();
         parameters.put("siteUrl", AppContext.getSiteUrl());
+        parameters.put(SimpleReportTemplateExecutor.CRITERIA, presenter.searchCriteria);
+        ReportTemplateExecutor reportTemplateExecutor;
         if (presenter.isSelectAll) {
-            return new StreamResource(new SimpleGridExportItemsStreamResource.AllItems(getReportTitle(),
-                    new RpFieldsBuilder(pagedBeanTable.getDisplayColumns()), exportType,
-                    presenter.getSearchService(),
-                    presenter.searchCriteria, getReportModelClassType(), parameters), exportFileName);
+            reportTemplateExecutor = new SimpleReportTemplateExecutor.AllItems(getReportTitle(),
+                    new RpFieldsBuilder(pagedBeanTable.getDisplayColumns()), exportType, getReportModelClassType(),
+                    presenter.getSearchService());
         } else {
-            return new StreamResource(new SimpleGridExportItemsStreamResource.ListData(
-                    getReportTitle(), new RpFieldsBuilder(
-                    pagedBeanTable.getDisplayColumns()),
-                    exportType, presenter.getSelectedItems(),
-                    getReportModelClassType(), parameters), exportFileName);
+            reportTemplateExecutor = new SimpleReportTemplateExecutor.ListData(getReportTitle(),
+                    new RpFieldsBuilder(pagedBeanTable.getDisplayColumns()), exportType, presenter.getSelectedItems(),
+                    getReportModelClassType());
         }
+        return new StreamResource(new ReportStreamSource(reportTemplateExecutor) {
+            @Override
+            protected Map<String, Object> initReportParameters() {
+                return parameters;
+            }
+        }, exportType.getDefaultFileName());
     }
 
     protected abstract void onSelectExtra(String id);

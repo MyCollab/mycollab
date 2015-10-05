@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.project.view.bug
 
 import com.esofthead.mycollab.common.TableViewField
 import com.esofthead.mycollab.common.i18n.GenericI18Enum
-import com.esofthead.mycollab.module.project.i18n.BugI18nEnum
+import com.esofthead.mycollab.module.project.i18n.{BugI18nEnum, TimeTrackingI18nEnum}
 import com.esofthead.mycollab.vaadin.ui.UIConstants
 
 /**
@@ -38,4 +38,8 @@ object BugTableFieldDef {
     val resolution: TableViewField = new TableViewField(BugI18nEnum.FORM_RESOLUTION, "resolution", UIConstants.TABLE_S_LABEL_WIDTH)
     val createdTime: TableViewField = new TableViewField(BugI18nEnum.FORM_CREATED_TIME, "createdtime", UIConstants.TABLE_DATE_TIME_WIDTH)
     val assignUser: TableViewField = new TableViewField(GenericI18Enum.FORM_ASSIGNEE, "assignuserFullName", UIConstants.TABLE_X_LABEL_WIDTH)
+    val billableHours: TableViewField = new TableViewField(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS, "billableHours",
+        UIConstants.TABLE_M_LABEL_WIDTH)
+    val nonBillableHours: TableViewField = new TableViewField(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS, "nonBillableHours",
+        UIConstants.TABLE_M_LABEL_WIDTH)
 }

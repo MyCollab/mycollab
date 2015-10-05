@@ -39,14 +39,14 @@ public class NotPresentedView extends AbstractPageView {
 
         final Label titleIcon = new Label(FontAwesome.EXCLAMATION_CIRCLE.getHtml(), ContentMode.HTML);
         titleIcon.setStyleName("warning-icon");
-        titleIcon.setSizeUndefined();
+        titleIcon.setWidth("60px");
         this.addComponent(titleIcon);
 
         Label label = new Label(AppContext.getMessage(GenericI18Enum.NOTIFICATION_FEATURE_NOT_AVAILABLE_IN_VERSION));
         label.setStyleName("h2_community");
         this.addComponent(label);
 
-        Button requestFeatureBtn = new Button("Request the professional software");
+        Button requestFeatureBtn = new Button("Request the premium edition");
         requestFeatureBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         BrowserWindowOpener opener = new BrowserWindowOpener("mailto:support@mycollab.com");
         opener.extend(requestFeatureBtn);

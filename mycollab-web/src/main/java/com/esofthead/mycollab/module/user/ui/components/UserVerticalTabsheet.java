@@ -34,7 +34,6 @@ public class UserVerticalTabsheet extends VerticalTabsheet {
 	protected void setDefaulButtonIcon(Component btn, Boolean selected) {
         ButtonTabImpl btnTabImpl = (ButtonTabImpl) btn;
         String tabId = btnTabImpl.getTabId();
-
         Resource resource = SettingAssetsManager.getAsset(tabId);
         btn.setIcon(resource);
     }

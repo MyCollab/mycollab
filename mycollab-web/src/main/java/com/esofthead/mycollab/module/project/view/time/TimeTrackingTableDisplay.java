@@ -32,7 +32,7 @@ import com.esofthead.mycollab.module.project.view.settings.component.ProjectUser
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.FontIconLabel;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.LabelLink;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
@@ -170,11 +170,11 @@ public class TimeTrackingTableDisplay extends DefaultPagedBeanTable<ItemTimeLogg
                     public Object generateCell(Table source, Object itemId,
                                                Object columnId) {
                         SimpleItemTimeLogging timeLogging = getBeanByIndex(itemId);
-                        FontIconLabel icon;
+                        ELabel icon;
                         if (timeLogging.getIsbillable()) {
-                            icon = new FontIconLabel(FontAwesome.CHECK);
+                            icon = new ELabel(FontAwesome.CHECK);
                         } else {
-                            icon = new FontIconLabel(FontAwesome.TIMES);
+                            icon = new ELabel(FontAwesome.TIMES);
                         }
                         return icon;
                     }

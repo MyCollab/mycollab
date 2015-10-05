@@ -19,7 +19,6 @@ package com.esofthead.mycollab.web;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
 import com.esofthead.mycollab.core.*;
-import com.esofthead.mycollab.core.SecureAccessException;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.billing.SubDomainNotExistException;
 import com.esofthead.mycollab.module.billing.UsageExceedBillingPlanException;
@@ -292,8 +291,14 @@ public class DesktopApplication extends MyCollabUI {
     private class ShellErrorHandler {
         @Subscribe
         public void handle(ShellEvent.NotifyErrorEvent event) {
-            Throwable e = (Throwable) event.getData();
-            handleException("", e);
+            final Throwable e = (Throwable) event.getData();
+            new Thread() {
+                @Override
+                public void run() {
+                    handleException("", e);
+                    UI.getCurrent().push();
+                }
+            }.start();
         }
     }
 }

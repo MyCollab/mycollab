@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.view.contact;
 
-import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
@@ -33,6 +32,7 @@ import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.*;
+import com.esofthead.mycollab.module.crm.ui.format.ContactFieldFormatter;
 import com.esofthead.mycollab.module.crm.view.activity.ActivityRelatedItemListComp;
 import com.esofthead.mycollab.schedule.email.crm.ContactRelayEmailNotificationAction;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -40,8 +40,10 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.*;
-import com.vaadin.server.FontAwesome;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -51,14 +53,12 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  * @since 2.0
  */
 @ViewComponent
-public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
-        implements ContactReadView {
+public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact> implements ContactReadView {
     private static final long serialVersionUID = 1L;
 
     private ContactOpportunityListComp associateOpportunityList;
     private ActivityRelatedItemListComp associateActivityList;
-    private CrmCommentDisplay commentList;
-    private ContactHistoryLogList historyLogList;
+    private CrmActivityComponent activityComponent;
 
     private DateInfoComp dateInfoComp;
     private PeopleInfoComp peopleInfoComp;
@@ -70,10 +70,7 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 
     @Override
     protected ComponentContainer createBottomPanel() {
-        TabSheetLazyLoadComponent tabTaskDetail = new TabSheetLazyLoadComponent();
-        tabTaskDetail.addTab(commentList, AppContext.getMessage(GenericI18Enum.TAB_COMMENT, 0), FontAwesome.COMMENTS);
-        tabTaskDetail.addTab(historyLogList, AppContext.getMessage(GenericI18Enum.TAB_HISTORY), FontAwesome.HISTORY);
-        return tabTaskDetail;
+        return activityComponent;
     }
 
     @Override
@@ -83,8 +80,7 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 
     @Override
     protected ComponentContainer createButtonControls() {
-        return new CrmPreviewFormControlsGenerator<>(previewForm)
-                .createButtonControls(RolePermissionCollections.CRM_CONTACT);
+        return new CrmPreviewFormControlsGenerator<>(previewForm).createButtonControls(RolePermissionCollections.CRM_CONTACT);
     }
 
     @Override
@@ -95,8 +91,7 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
     protected void displayActivities() {
         final ActivitySearchCriteria criteria = new ActivitySearchCriteria();
         criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-        criteria.setType(new StringSearchField(SearchField.AND,
-                CrmTypeConstants.CONTACT));
+        criteria.setType(new StringSearchField(SearchField.AND, CrmTypeConstants.CONTACT));
         criteria.setTypeid(new NumberSearchField(this.beanItem.getId()));
         this.associateActivityList.setSearchCriteria(criteria);
     }
@@ -110,8 +105,7 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 
     @Override
     protected void onPreviewItem() {
-        commentList.loadComments("" + beanItem.getId());
-        historyLogList.loadHistory(beanItem.getId());
+        activityComponent.loadActivities("" + beanItem.getId());
         this.displayActivities();
         this.displayAssociateOpportunityList();
 
@@ -126,15 +120,12 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
     protected String initFormTitle() {
         // check if there is converted lead associates with this contact
         LeadService leadService = ApplicationContextUtil.getSpringBean(LeadService.class);
-        SimpleLead lead = leadService.findConvertedLeadOfContact(
-                beanItem.getId(), AppContext.getAccountId());
+        SimpleLead lead = leadService.findConvertedLeadOfContact(beanItem.getId(), AppContext.getAccountId());
         if (lead != null) {
-            return beanItem.getContactName() + "&nbsp;"
-                    + AppContext.getMessage(
+            return beanItem.getContactName() + "&nbsp;" + AppContext.getMessage(
                     LeadI18nEnum.CONVERT_FROM_LEAD_TITLE,
                     CrmAssetsManager.getAsset(CrmTypeConstants.LEAD).getHtml(),
-                    CrmLinkGenerator.generateCrmItemLink(
-                            CrmTypeConstants.LEAD, lead.getId()),
+                    CrmLinkGenerator.generateCrmItemLink(CrmTypeConstants.LEAD, lead.getId()),
                     lead.getLeadName());
         } else {
             return beanItem.getContactName();
@@ -145,8 +136,8 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
     protected void initRelatedComponents() {
         this.associateOpportunityList = new ContactOpportunityListComp();
         this.associateActivityList = new ActivityRelatedItemListComp(true);
-        historyLogList = new ContactHistoryLogList();
-        commentList = new CrmCommentDisplay(CrmTypeConstants.CONTACT, ContactRelayEmailNotificationAction.class);
+        activityComponent = new CrmActivityComponent(CrmTypeConstants.CONTACT, ContactFieldFormatter.instance(),
+                ContactRelayEmailNotificationAction.class);
 
         CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
         MVerticalLayout basicInfo = new MVerticalLayout().withWidth("100%").withStyleName("basic-info");
@@ -157,8 +148,7 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
         peopleInfoComp = new PeopleInfoComp();
         basicInfo.addComponent(peopleInfoComp);
 
-        compFollowers = new CrmFollowersComp<>(
-                CrmTypeConstants.CONTACT, RolePermissionCollections.CRM_CONTACT);
+        compFollowers = new CrmFollowersComp<>(CrmTypeConstants.CONTACT, RolePermissionCollections.CRM_CONTACT);
         basicInfo.addComponent(compFollowers);
 
         navigatorWrapper.addComponentAsFirst(basicInfo);
@@ -173,8 +163,7 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 
     @Override
     protected IFormLayoutFactory initFormLayoutFactory() {
-        return new DynaFormLayout(CrmTypeConstants.CONTACT,
-                ContactDefaultDynaFormLayoutFactory.getForm());
+        return new DynaFormLayout(CrmTypeConstants.CONTACT, ContactDefaultDynaFormLayoutFactory.getForm());
     }
 
     @Override

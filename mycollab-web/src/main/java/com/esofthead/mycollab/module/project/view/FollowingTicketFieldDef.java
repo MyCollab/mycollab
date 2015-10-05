@@ -22,25 +22,19 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class FollowingTicketFieldDef {
-	public static final TableViewField summary = new TableViewField(
-			FollowerI18nEnum.FORM_SUMMARY, "summary",
-			UIConstants.TABLE_EX_LABEL_WIDTH);
+    public static final TableViewField summary = new TableViewField(FollowerI18nEnum.FORM_SUMMARY, "summary",
+            UIConstants.TABLE_EX_LABEL_WIDTH);
 
-	public static final TableViewField project = new TableViewField(
-			FollowerI18nEnum.FORM_PROJECT_NAME, "projectName",
-			UIConstants.TABLE_X_LABEL_WIDTH);
+    public static final TableViewField project = new TableViewField(FollowerI18nEnum.FORM_PROJECT_NAME, "projectName",
+            UIConstants.TABLE_X_LABEL_WIDTH);
 
-	public static final TableViewField assignee = new TableViewField(
-			GenericI18Enum.FORM_ASSIGNEE, "assignUser",
-			UIConstants.TABLE_X_LABEL_WIDTH);
+    public static final TableViewField assignee = new TableViewField(GenericI18Enum.FORM_ASSIGNEE, "assignUser",
+            UIConstants.TABLE_X_LABEL_WIDTH);
 
-	public static final TableViewField createdDate = new TableViewField(
-			FollowerI18nEnum.OPT_FOLLOWER_CREATE_DATE, "monitorDate",
-			UIConstants.TABLE_DATE_WIDTH);
+    public static final TableViewField createdDate = new TableViewField(FollowerI18nEnum.OPT_FOLLOWER_CREATE_DATE,
+            "monitorDate", UIConstants.TABLE_DATE_WIDTH);
 }

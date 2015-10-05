@@ -46,16 +46,16 @@ public class ProjectVerticalTabsheet extends VerticalTabsheet {
     @Override
     public void setNavigatorVisibility(boolean visibility) {
         if (!visibility) {
-            CssLayout navigatorWrapper = this.getNavigatorWrapper();
             navigatorWrapper.setWidth("70px");
+            navigatorContainer.setWidth("70px");
             this.hideTabsCaption();
 
             toogleBtn.setIcon(FontAwesome.CARET_SQUARE_O_RIGHT);
             toogleBtn.setDescription("Expand menu");
             toogleBtn.setCaption("");
         } else {
-            CssLayout navigatorWrapper = this.getNavigatorWrapper();
-            navigatorWrapper.setWidth("250px");
+            navigatorWrapper.setWidth("220px");
+            navigatorContainer.setWidth("220px");
             this.showTabsCaption();
 
             toogleBtn.setIcon(FontAwesome.CARET_SQUARE_O_LEFT);

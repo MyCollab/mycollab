@@ -24,7 +24,6 @@ import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.module.project.view.ProjectGenericListPresenter;
-import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.events.SearchHandler;
 import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
@@ -61,8 +60,6 @@ public class TaskDashboardPresenter extends ProjectGenericListPresenter<TaskDash
 
     @Override
     public void doSearch(TaskSearchCriteria searchCriteria) {
-        int totalCountItems = getSearchService().getTotalCount(searchCriteria);
-        view.getSearchHandlers().setTotalCountNumber(totalCountItems);
         view.queryTask(searchCriteria);
     }
 

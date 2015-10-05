@@ -50,7 +50,7 @@ public class FileRawContentServiceImpl implements RawContentService {
             String folderPath = objectPath.substring(0, startFileNameIndex);
             File file = new File(baseFolder, folderPath);
             if (!file.exists() && !file.mkdirs()) {
-                throw new MyCollabException("Create directory fail");
+                throw new MyCollabException("Create directory failed");
             }
         }
 

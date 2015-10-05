@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.vaadin.ui;
 
 import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.hp.gagawa.java.elements.Li;
 import com.hp.gagawa.java.elements.Ul;
 import com.vaadin.ui.*;
@@ -140,7 +141,7 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
             itemName = item.toString();
         }
 
-        final ItemSelectionComp<T> chkItem = new ItemSelectionComp<T>(item, itemName);
+        final ItemSelectionComp<T> chkItem = new ItemSelectionComp<>(item, itemName);
         chkItem.setImmediate(true);
 
         chkItem.addValueChangeListener(new ValueChangeListener() {
@@ -243,7 +244,7 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
         public ItemSelectionComp(T item, String caption) {
             super();
             this.item = item;
-            this.setCaption(caption);
+            this.setCaption(StringUtils.trim(caption, 25, true));
         }
 
         void setInternalVal(Boolean val) {

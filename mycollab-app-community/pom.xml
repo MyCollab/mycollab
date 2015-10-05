@@ -7,20 +7,24 @@
     <parent>
         <groupId>com.esofthead.mycollab</groupId>
         <artifactId>mycollab-parent-community</artifactId>
-        <version>5.1.3</version>
+        <version>5.1.4</version>
         <relativePath>../mycollab-parent-community/pom.xml</relativePath>
     </parent>
     <packaging>jar</packaging>
     <properties>
-        <izpackVersion>4.3.5</izpackVersion>
+        <izpackVersion>5.0.5</izpackVersion>
         <staging.dir>${project.build.directory}/staging</staging.dir>
+        <info.appName>MyCollab</info.appName>
+        <info.appsubpath>mycollab</info.appsubpath>
+        <izpack.dir.app>${basedir}/src/main/izpack</izpack.dir.app>
+        <staging.dir.app>${staging.dir}</staging.dir.app>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-server-runner</artifactId>
-            <version>5.1.3</version>
+            <version>5.1.4</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.esofthead.mycollab</groupId>
@@ -32,50 +36,43 @@
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-servlet</artifactId>
-            <version>5.1.3</version>
+            <version>5.1.4</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-services-community</artifactId>
-            <version>5.1.3</version>
+            <version>5.1.4</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-caching-community</artifactId>
-            <version>5.1.3</version>
+            <version>5.1.4</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-scheduler-community</artifactId>
-            <version>5.1.3</version>
+            <version>5.1.4</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-mobile</artifactId>
-            <version>5.1.3</version>
+            <version>5.1.4</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-web-community</artifactId>
-            <version>5.1.3</version>
+            <version>5.1.4</version>
         </dependency>
 
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-servlets</artifactId>
             <version>${jettyVersion}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.codehaus.izpack</groupId>
-            <artifactId>izpack-standalone-compiler</artifactId>
-            <version>${izpackVersion}</version>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -169,8 +166,7 @@
                         </configuration>
                         <executions>
                             <execution>
-                                <!-- copy *application* jars to izpack staging 
-                                    lib -->
+                                <!-- copy *application* jars to izpack staging lib -->
                                 <id>copy-product-dependencies</id>
                                 <phase>prepare-package</phase>
                                 <goals>
@@ -208,7 +204,7 @@
                     <plugin>
                         <groupId>org.codehaus.izpack</groupId>
                         <artifactId>izpack-maven-plugin</artifactId>
-                        <version>1.0-alpha-5</version>
+                        <version>5.0.5</version>
                         <executions>
                             <execution>
                                 <phase>package</phase>
@@ -216,25 +212,20 @@
                                     <goal>izpack</goal>
                                 </goals>
                                 <configuration>
-                                    <izpackBasedir>${staging.dir}</izpackBasedir>
-                                    <descriptor>${basedir}/src/izpack/install.xml</descriptor>
-                                    <installerFile>target/MyCollab-Generic-${project.version}.jar</installerFile>
+                                    <!-- base for relative paths in izpack descriptor -->
+                                    <baseDir>${staging.dir}</baseDir>
+                                    <mkdirs>true</mkdirs>
+                                    <installFile>${staging.dir}/install.xml</installFile>
+                                    <finalName>MyCollab-Generic-${project.version}</finalName>
                                 </configuration>
                             </execution>
                         </executions>
-                        <dependencies>
-                            <dependency>
-                                <groupId>org.codehaus.izpack</groupId>
-                                <artifactId>izpack-standalone-compiler</artifactId>
-                                <version>${izpackVersion}</version>
-                            </dependency>
-                        </dependencies>
                     </plugin>
 
                     <plugin>
                         <groupId>com.akathist.maven.plugins.launch4j</groupId>
                         <artifactId>launch4j-maven-plugin</artifactId>
-                        <version>1.7.6</version>
+                        <version>1.7.8</version>
                         <executions>
                             <execution>
                                 <id>l4j-clui</id>
@@ -244,8 +235,8 @@
                                 </goals>
                                 <configuration>
                                     <headerType>gui</headerType>
-                                    <jar>target/MyCollab-Generic-${project.version}.jar</jar>
-                                    <outfile>target/MyCollab-Installer-${project.version}.exe</outfile>
+                                    <jar>${project.build.directory}/MyCollab-Generic-${project.version}.jar</jar>
+                                    <outfile>${project.build.directory}/MyCollab-Installer-${project.version}.exe</outfile>
                                     <downloadUrl>http://java.com/download</downloadUrl>
                                     <classPath>
                                         <mainClass>com.izforge.izpack.installer.Installer</mainClass>
@@ -287,7 +278,7 @@
                                 <configuration>
                                     <tasks>
                                         <copy todir="${staging.dir}">
-                                            <fileset dir="${basedir}/src/izpack"/>
+                                            <fileset dir="${izpack.dir.app}"/>
                                         </copy>
                                         <copy todir="${staging.dir}/conf">
                                             <fileset dir="${basedir}/src/main/conf">
@@ -312,14 +303,15 @@
                                     </tasks>
                                 </configuration>
                             </execution>
+
                             <execution>
                                 <id>create-macos-bundle</id>
-                                <phase>package</phase>
+                                <phase>install</phase>
                                 <goals>
                                     <goal>run</goal>
                                 </goals>
                                 <configuration>
-                                    <tasks>
+                                    <target>
                                         <taskdef name="jarbundler"
                                                  classname="net.sourceforge.jarbundler.JarBundler"
                                                  classpathref="maven.plugin.classpath"/>
@@ -331,7 +323,7 @@
                                                     icon="src/main/macos-resources/mycollab.icns"
                                                     version="${project.version}" build="GA"
                                                     infostring="MyCollab - the stable, rich features, and high performance platform of Project Management and CRM tools"/>
-                                    </tasks>
+                                    </target>
                                 </configuration>
                             </execution>
                         </executions>

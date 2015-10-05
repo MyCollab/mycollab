@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
@@ -38,7 +39,6 @@ import com.rits.cloning.Cloner;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.UI;
-import org.apache.commons.lang3.StringUtils;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -105,8 +105,7 @@ public class UnresolvedTaskByAssigneeWidget extends Depot {
                 String assignUserFullName = item.getGroupid() == null ? "" : item.getGroupname();
 
                 if (StringUtils.isBlank(assignUserFullName)) {
-                    assignUserFullName = com.esofthead.mycollab.core.utils.StringUtils.extractNameFromEmail(item
-                            .getGroupid());
+                    assignUserFullName = StringUtils.extractNameFromEmail(item.getGroupid());
                 }
 
                 TaskAssigneeLink userLbl = new TaskAssigneeLink(assignUser, item.getExtraValue(), assignUserFullName);

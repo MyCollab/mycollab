@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.view.campaign;
 
-import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
@@ -26,14 +25,17 @@ import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.*;
+import com.esofthead.mycollab.module.crm.ui.format.CampaignFieldFormatter;
 import com.esofthead.mycollab.module.crm.view.activity.ActivityRelatedItemListComp;
 import com.esofthead.mycollab.schedule.email.crm.CampaignRelayEmailNotificationAction;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.*;
-import com.vaadin.server.FontAwesome;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -42,181 +44,172 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @ViewComponent
 public class CampaignReadViewImpl extends AbstractPreviewItemComp<SimpleCampaign> implements CampaignReadView {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private CampaignAccountListComp associateAccountList;
-	private CampaignContactListComp associateContactList;
-	private CampaignLeadListComp associateLeadList;
-	private ActivityRelatedItemListComp associateActivityList;
-	private CrmCommentDisplay commentList;
-    private CampaignHistoryLogList historyLogList;
+    private CampaignAccountListComp associateAccountList;
+    private CampaignContactListComp associateContactList;
+    private CampaignLeadListComp associateLeadList;
+    private ActivityRelatedItemListComp associateActivityList;
+    private CrmActivityComponent activityComponent;
 
-	private PeopleInfoComp peopleInfoComp;
-	private DateInfoComp dateInfoComp;
-	private CrmFollowersComp<SimpleCampaign> compFollowers;
+    private PeopleInfoComp peopleInfoComp;
+    private DateInfoComp dateInfoComp;
+    private CrmFollowersComp<SimpleCampaign> compFollowers;
 
-	public CampaignReadViewImpl() {
-		super(CrmAssetsManager.getAsset(CrmTypeConstants.CAMPAIGN));
-	}
+    public CampaignReadViewImpl() {
+        super(CrmAssetsManager.getAsset(CrmTypeConstants.CAMPAIGN));
+    }
 
-	@Override
-	protected AdvancedPreviewBeanForm<SimpleCampaign> initPreviewForm() {
-		return new AdvancedPreviewBeanForm<>();
-	}
+    @Override
+    protected AdvancedPreviewBeanForm<SimpleCampaign> initPreviewForm() {
+        return new AdvancedPreviewBeanForm<>();
+    }
 
-	@Override
-	protected ComponentContainer createButtonControls() {
-		return new CrmPreviewFormControlsGenerator<>(previewForm)
-				.createButtonControls(RolePermissionCollections.CRM_CAMPAIGN);
-	}
+    @Override
+    protected ComponentContainer createButtonControls() {
+        return new CrmPreviewFormControlsGenerator<>(previewForm)
+                .createButtonControls(RolePermissionCollections.CRM_CAMPAIGN);
+    }
 
-	@Override
-	protected ComponentContainer createBottomPanel() {
-		TabSheetLazyLoadComponent tabTaskDetail = new TabSheetLazyLoadComponent();
-		tabTaskDetail.addTab(commentList, AppContext.getMessage(GenericI18Enum.TAB_COMMENT, 0), FontAwesome.COMMENTS);
-		tabTaskDetail.addTab(historyLogList, AppContext.getMessage(GenericI18Enum.TAB_HISTORY), FontAwesome.HISTORY);
-		return tabTaskDetail;
-	}
+    @Override
+    protected ComponentContainer createBottomPanel() {
+        return activityComponent;
+    }
 
-	@Override
-	protected void initRelatedComponents() {
-		associateAccountList = new CampaignAccountListComp();
-		associateContactList = new CampaignContactListComp();
-		associateLeadList = new CampaignLeadListComp();
-		associateActivityList = new ActivityRelatedItemListComp(true);
-		commentList = new CrmCommentDisplay(CrmTypeConstants.CAMPAIGN, CampaignRelayEmailNotificationAction.class);
-		historyLogList = new CampaignHistoryLogList();
+    @Override
+    protected void initRelatedComponents() {
+        associateAccountList = new CampaignAccountListComp();
+        associateContactList = new CampaignContactListComp();
+        associateLeadList = new CampaignLeadListComp();
+        associateActivityList = new ActivityRelatedItemListComp(true);
+        activityComponent = new CrmActivityComponent(CrmTypeConstants.CAMPAIGN, CampaignFieldFormatter.instance(),
+                CampaignRelayEmailNotificationAction.class);
 
-		MVerticalLayout basicInfo = new MVerticalLayout().withWidth("100%").withStyleName("basic-info");
+        MVerticalLayout basicInfo = new MVerticalLayout().withWidth("100%").withStyleName("basic-info");
 
-		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
+        CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
 
-		dateInfoComp = new DateInfoComp();
-		basicInfo.addComponent(dateInfoComp);
+        dateInfoComp = new DateInfoComp();
+        basicInfo.addComponent(dateInfoComp);
 
-		peopleInfoComp = new PeopleInfoComp();
-		basicInfo.addComponent(peopleInfoComp);
+        peopleInfoComp = new PeopleInfoComp();
+        basicInfo.addComponent(peopleInfoComp);
 
-		compFollowers = new CrmFollowersComp<>(CrmTypeConstants.CAMPAIGN,
-				RolePermissionCollections.CRM_CAMPAIGN);
-		basicInfo.addComponent(compFollowers);
+        compFollowers = new CrmFollowersComp<>(CrmTypeConstants.CAMPAIGN, RolePermissionCollections.CRM_CAMPAIGN);
+        basicInfo.addComponent(compFollowers);
 
-		navigatorWrapper.addComponentAsFirst(basicInfo);
+        navigatorWrapper.addComponentAsFirst(basicInfo);
 
-		previewItemContainer.addTab(previewContent, CrmTypeConstants.DETAIL,
-				AppContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
-		previewItemContainer.addTab(associateAccountList, CrmTypeConstants.ACCOUNT,
-				AppContext.getMessage(CrmCommonI18nEnum.TAB_ACCOUNT));
-		previewItemContainer.addTab(associateContactList, CrmTypeConstants.CONTACT,
-				AppContext.getMessage(CrmCommonI18nEnum.TAB_CONTACT));
-		previewItemContainer.addTab(associateLeadList, CrmTypeConstants.LEAD,
-				AppContext.getMessage(CrmCommonI18nEnum.TAB_LEAD));
-		previewItemContainer.addTab(associateActivityList, CrmTypeConstants.ACTIVITY,
-				AppContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY));
-	}
+        previewItemContainer.addTab(previewContent, CrmTypeConstants.DETAIL,
+                AppContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
+        previewItemContainer.addTab(associateAccountList, CrmTypeConstants.ACCOUNT,
+                AppContext.getMessage(CrmCommonI18nEnum.TAB_ACCOUNT));
+        previewItemContainer.addTab(associateContactList, CrmTypeConstants.CONTACT,
+                AppContext.getMessage(CrmCommonI18nEnum.TAB_CONTACT));
+        previewItemContainer.addTab(associateLeadList, CrmTypeConstants.LEAD,
+                AppContext.getMessage(CrmCommonI18nEnum.TAB_LEAD));
+        previewItemContainer.addTab(associateActivityList, CrmTypeConstants.ACTIVITY,
+                AppContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY));
+    }
 
-	protected void displayActivities() {
-		ActivitySearchCriteria criteria = new ActivitySearchCriteria();
-		criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-		criteria.setType(new StringSearchField(SearchField.AND,
-				CrmTypeConstants.CAMPAIGN));
-		criteria.setTypeid(new NumberSearchField(beanItem.getId()));
-		associateActivityList.setSearchCriteria(criteria);
-	}
+    protected void displayActivities() {
+        ActivitySearchCriteria criteria = new ActivitySearchCriteria();
+        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+        criteria.setType(new StringSearchField(SearchField.AND, CrmTypeConstants.CAMPAIGN));
+        criteria.setTypeid(new NumberSearchField(beanItem.getId()));
+        associateActivityList.setSearchCriteria(criteria);
+    }
 
-	protected void displayAccounts() {
-		associateAccountList.displayAccounts(beanItem);
-	}
+    protected void displayAccounts() {
+        associateAccountList.displayAccounts(beanItem);
+    }
 
-	protected void displayContacts() {
-		associateContactList.displayContacts(beanItem);
-	}
+    protected void displayContacts() {
+        associateContactList.displayContacts(beanItem);
+    }
 
-	protected void displayLeads() {
-		associateLeadList.displayLeads(beanItem);
-	}
+    protected void displayLeads() {
+        associateLeadList.displayLeads(beanItem);
+    }
 
-	@Override
-	public AdvancedPreviewBeanForm<SimpleCampaign> getPreviewForm() {
-		return previewForm;
-	}
+    @Override
+    public AdvancedPreviewBeanForm<SimpleCampaign> getPreviewForm() {
+        return previewForm;
+    }
 
-	@Override
-	protected void onPreviewItem() {
-		displayActivities();
-		displayAccounts();
-		displayContacts();
-		displayLeads();
-		commentList.loadComments("" + beanItem.getId());
-		historyLogList.loadHistory(beanItem.getId());
+    @Override
+    protected void onPreviewItem() {
+        displayActivities();
+        displayAccounts();
+        displayContacts();
+        displayLeads();
+        activityComponent.loadActivities("" + beanItem.getId());
 
-		dateInfoComp.displayEntryDateTime(beanItem);
-		peopleInfoComp.displayEntryPeople(beanItem);
-		compFollowers.displayFollowers(beanItem);
+        dateInfoComp.displayEntryDateTime(beanItem);
+        peopleInfoComp.displayEntryPeople(beanItem);
+        compFollowers.displayFollowers(beanItem);
 
-		previewItemContainer.selectTab(CrmTypeConstants.DETAIL);
+        previewItemContainer.selectTab(CrmTypeConstants.DETAIL);
 
-		previewLayout.resetTitleStyle();
+        previewLayout.resetTitleStyle();
 
-		Date now = new GregorianCalendar().getTime();
-		String status = this.beanItem.getStatus();
-		if (!"Complete".equals(status)
-				&& (this.beanItem.getEnddate() != null && this.beanItem
-						.getEnddate().before(now))) {
-			previewLayout.setTitleStyleName("hdr-text-overdue");
-		}
-	}
+        Date now = new GregorianCalendar().getTime();
+        String status = this.beanItem.getStatus();
+        if (!"Complete".equals(status)
+                && (this.beanItem.getEnddate() != null && this.beanItem
+                .getEnddate().before(now))) {
+            previewLayout.setTitleStyleName("hdr-text-overdue");
+        }
+    }
 
-	@Override
-	protected String initFormTitle() {
-		return beanItem.getCampaignname();
-	}
+    @Override
+    protected String initFormTitle() {
+        return beanItem.getCampaignname();
+    }
 
-	@Override
-	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new DynaFormLayout(CrmTypeConstants.CAMPAIGN,
-				CampaignDefaultDynaFormLayoutFactory.getForm());
-	}
+    @Override
+    protected IFormLayoutFactory initFormLayoutFactory() {
+        return new DynaFormLayout(CrmTypeConstants.CAMPAIGN,
+                CampaignDefaultDynaFormLayoutFactory.getForm());
+    }
 
-	@Override
-	protected AbstractBeanFieldGroupViewFieldFactory<SimpleCampaign> initBeanFormFieldFactory() {
-		return new CampaignReadFormFieldFactory(previewForm);
-	}
+    @Override
+    protected AbstractBeanFieldGroupViewFieldFactory<SimpleCampaign> initBeanFormFieldFactory() {
+        return new CampaignReadFormFieldFactory(previewForm);
+    }
 
-	@Override
-	public SimpleCampaign getItem() {
-		return beanItem;
-	}
+    @Override
+    public SimpleCampaign getItem() {
+        return beanItem;
+    }
 
-	@Override
-	public HasPreviewFormHandlers<SimpleCampaign> getPreviewFormHandlers() {
-		return previewForm;
-	}
+    @Override
+    public HasPreviewFormHandlers<SimpleCampaign> getPreviewFormHandlers() {
+        return previewForm;
+    }
 
-	@Override
-	public IRelatedListHandlers<SimpleActivity> getRelatedActivityHandlers() {
-		return associateActivityList;
-	}
+    @Override
+    public IRelatedListHandlers<SimpleActivity> getRelatedActivityHandlers() {
+        return associateActivityList;
+    }
 
-	@Override
-	public IRelatedListHandlers<SimpleAccount> getRelatedAccountHandlers() {
-		return associateAccountList;
-	}
+    @Override
+    public IRelatedListHandlers<SimpleAccount> getRelatedAccountHandlers() {
+        return associateAccountList;
+    }
 
-	@Override
-	public IRelatedListHandlers<SimpleContact> getRelatedContactHandlers() {
-		return associateContactList;
-	}
+    @Override
+    public IRelatedListHandlers<SimpleContact> getRelatedContactHandlers() {
+        return associateContactList;
+    }
 
-	@Override
-	public IRelatedListHandlers<SimpleLead> getRelatedLeadHandlers() {
-		return associateLeadList;
-	}
+    @Override
+    public IRelatedListHandlers<SimpleLead> getRelatedLeadHandlers() {
+        return associateLeadList;
+    }
 }

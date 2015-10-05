@@ -42,6 +42,8 @@ public class SimpleTask extends Task {
     private String parentTaskName;
     private Integer parentTaskKey;
     private Integer numSubTasks;
+    private Double billableHours;
+    private Double nonBillableHours;
 
     public Integer getNumComments() {
         return numComments;
@@ -84,7 +86,7 @@ public class SimpleTask extends Task {
     }
 
     public String getAssignUserFullName() {
-        if (org.apache.commons.lang3.StringUtils.isBlank(assignUserFullName)) {
+        if (StringUtils.isBlank(assignUserFullName)) {
             return StringUtils.extractNameFromEmail(getAssignuser());
         }
         return assignUserFullName;
@@ -95,7 +97,7 @@ public class SimpleTask extends Task {
     }
 
     public String getLogByFullName() {
-        if (org.apache.commons.lang3.StringUtils.isBlank(logByFullName)) {
+        if (StringUtils.isBlank(logByFullName)) {
             return StringUtils.extractNameFromEmail(getLogby());
         }
         return logByFullName;
@@ -159,6 +161,22 @@ public class SimpleTask extends Task {
 
     public void setParentTaskName(String parentTaskName) {
         this.parentTaskName = parentTaskName;
+    }
+
+    public Double getBillableHours() {
+        return billableHours;
+    }
+
+    public void setBillableHours(Double billableHours) {
+        this.billableHours = billableHours;
+    }
+
+    public Double getNonBillableHours() {
+        return nonBillableHours;
+    }
+
+    public void setNonBillableHours(Double nonBillableHours) {
+        this.nonBillableHours = nonBillableHours;
     }
 
     public boolean isCompleted() {

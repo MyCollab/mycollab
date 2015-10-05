@@ -24,34 +24,31 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class FollowingTicketPresenter extends AbstractPresenter<FollowingTicketView> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public FollowingTicketPresenter() {
-		super(FollowingTicketView.class);
-	}
+    public FollowingTicketPresenter() {
+        super(FollowingTicketView.class);
+    }
 
-	@Override
-	protected void postInitView() {
-		view.getSearchHandlers().addSearchHandler(
-				new SearchHandler<FollowingTicketSearchCriteria>() {
-					@Override
-					public void onSearch(FollowingTicketSearchCriteria criteria) {
-						view.getPagedBeanTable().setSearchCriteria(criteria);
-					}
-				});
-	}
+    @Override
+    protected void postInitView() {
+        view.getSearchHandlers().addSearchHandler(new SearchHandler<FollowingTicketSearchCriteria>() {
+            @Override
+            public void onSearch(FollowingTicketSearchCriteria criteria) {
+                view.getPagedBeanTable().setSearchCriteria(criteria);
+            }
+        });
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		ProjectModule prjContainer = (ProjectModule) container;
-		prjContainer.removeAllComponents();
-		prjContainer.with(view).withAlign(view, Alignment.TOP_CENTER);
-		view.displayTickets();
-	}
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        ProjectModule prjContainer = (ProjectModule) container;
+        prjContainer.removeAllComponents();
+        prjContainer.with(view).withAlign(view, Alignment.TOP_CENTER);
+        view.displayTickets();
+    }
 }

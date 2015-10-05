@@ -16,21 +16,46 @@
  */
 package com.esofthead.mycollab.module.project.view.bug;
 
+import com.esofthead.mycollab.core.arguments.NumberSearchField;
+import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
+import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
+import com.esofthead.mycollab.module.tracker.service.BugService;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.events.SearchHandler;
+import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
+import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
+
+import java.util.Arrays;
 
 /**
  * @author MyCollab Ltd
  * @since 5.1.1
  */
-public class BugKanbanPresenter  extends AbstractPresenter<BugKanbanView> {
+@LoadPolicy(scope = ViewScope.PROTOTYPE)
+public class BugKanbanPresenter extends AbstractPresenter<BugKanbanView> {
+
+    private BugService bugService;
+
     public BugKanbanPresenter() {
         super(BugKanbanView.class);
+        bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+    }
+
+    @Override
+    protected void postInitView() {
+        view.getSearchHandlers().addSearchHandler(new SearchHandler<BugSearchCriteria>() {
+            @Override
+            public void onSearch(BugSearchCriteria criteria) {
+                doSearch(criteria);
+            }
+        });
     }
 
     @Override
@@ -39,12 +64,22 @@ public class BugKanbanPresenter  extends AbstractPresenter<BugKanbanView> {
             BugContainer bugContainer = (BugContainer) container;
             bugContainer.removeAllComponents();
             bugContainer.addComponent(view.getWidget());
-            view.display();
+
+            BugSearchCriteria searchCriteria = new BugSearchCriteria();
+            searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+            searchCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("bugIndex", SearchCriteria.ASC)));
+            doSearch(searchCriteria);
 
             ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
             breadCrumb.gotoBugKanbanView();
         } else {
             NotificationUtil.showMessagePermissionAlert();
         }
+    }
+
+    private void doSearch(BugSearchCriteria searchCriteria) {
+        int totalCountItems = bugService.getTotalCount(searchCriteria);
+        view.getSearchHandlers().setTotalCountNumber(totalCountItems);
+        view.queryBug(searchCriteria);
     }
 }

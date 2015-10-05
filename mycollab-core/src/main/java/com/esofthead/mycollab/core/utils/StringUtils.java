@@ -36,7 +36,7 @@ import java.util.regex.Pattern;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class StringUtils {
+public final class StringUtils {
 
     public static String trim(String input, int length) {
         return trim(input, length, true);

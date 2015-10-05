@@ -435,8 +435,8 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             CssLayout resIconWrapper = new CssLayout();
             Component resourceIcon = null;
             if (resource instanceof Folder) {
-                resourceIcon = (resource instanceof ExternalFolder) ? new FontIconLabel(FontAwesome.DROPBOX) : new
-                        FontIconLabel(FontAwesome.FOLDER);
+                resourceIcon = (resource instanceof ExternalFolder) ? new ELabel(FontAwesome.DROPBOX) : new
+                        ELabel(FontAwesome.FOLDER);
                 resourceIcon.addStyleName("icon-38px");
             } else if (resource instanceof Content) {
                 Content content = (Content) resource;
@@ -463,7 +463,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 throw new MyCollabException("Do not support resource file " + resource.getClass());
             }
             if (resourceIcon == null) {
-                resourceIcon = new FontIconLabel(FileAssetsUtil.getFileIconResource(resource.getName()));
+                resourceIcon = new ELabel(FileAssetsUtil.getFileIconResource(resource.getName()));
                 resourceIcon.addStyleName("icon-38px");
             }
 

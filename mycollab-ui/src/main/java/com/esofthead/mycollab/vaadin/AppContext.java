@@ -239,7 +239,7 @@ public class AppContext implements Serializable {
             throw new SubDomainNotExistException(AppContext.getMessage(
                     ErrorI18nEnum.SUB_DOMAIN_IS_NOT_EXISTED, domain));
         } else {
-            if (org.apache.commons.lang3.StringUtils.isBlank(account.getSitename())) {
+            if (StringUtils.isBlank(account.getSitename())) {
                 siteName = SiteConfiguration.getDefaultSiteName();
             } else {
                 siteName = account.getSitename();

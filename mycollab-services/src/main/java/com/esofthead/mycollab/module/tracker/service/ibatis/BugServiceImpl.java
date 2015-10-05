@@ -31,6 +31,7 @@ import com.esofthead.mycollab.core.persistence.service.DefaultService;
 import com.esofthead.mycollab.lock.DistributionLockUtil;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.esb.DeleteProjectBugEvent;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.service.*;
 import com.esofthead.mycollab.module.tracker.dao.BugMapper;
 import com.esofthead.mycollab.module.tracker.dao.BugMapperExt;
@@ -96,9 +97,13 @@ public class BugServiceImpl extends DefaultService<Integer, BugWithBLOBs, BugSea
             if (lock.tryLock(120, TimeUnit.SECONDS)) {
                 Integer maxKey = bugMapperExt.getMaxKey(record.getProjectid());
                 record.setBugkey((maxKey == null) ? 1 : (maxKey + 1));
+                if (record.getPriority() == null) {
+                    record.setPriority(OptionI18nEnum.BugPriority.Major.name());
+                }
+                int result = super.saveWithSession(record, username);
                 asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectService.class,
                         ProjectGenericTaskService.class, ProjectMemberService.class, ProjectActivityStreamService.class}));
-                return super.saveWithSession(record, username);
+                return result;
             } else {
                 throw new MyCollabException("Timeout operation");
             }

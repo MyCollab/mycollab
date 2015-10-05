@@ -16,15 +16,12 @@
  */
 package com.esofthead.mycollab.module.project.view.milestone;
 
-import com.esofthead.mycollab.module.project.domain.Milestone;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.I18nValueComboBox;
-import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
-import com.esofthead.mycollab.vaadin.ui.form.field.ContainerHorizontalViewField;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.RichTextArea;
@@ -33,72 +30,59 @@ import com.vaadin.ui.TextField;
 import java.util.Arrays;
 
 /**
- * 
+ * @param
  * @author MyCollab Ltd.
  * @since 3.0
- * 
- * @param <B>
  */
-public class MilestoneEditFormFieldFactory<B extends Milestone> extends AbstractBeanFieldGroupEditFieldFactory<B> {
-	private static final long serialVersionUID = 1L;
+public class MilestoneEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<SimpleMilestone> {
+    private static final long serialVersionUID = 1L;
 
-	MilestoneEditFormFieldFactory(GenericBeanForm<B> form) {
-		super(form);
-	}
+    MilestoneEditFormFieldFactory(GenericBeanForm<SimpleMilestone> form) {
+        super(form);
+    }
 
-	@Override
-	protected Field<?> onCreateField(Object propertyId) {
-		if (propertyId.equals("owner")) {
+    @Override
+    protected Field<?> onCreateField(Object propertyId) {
+        if (propertyId.equals("owner")) {
             ProjectMemberSelectionField userbox = new ProjectMemberSelectionField();
-			userbox.setRequired(true);
-			userbox.setRequiredError("Please select an assignee");
-			return userbox;
-		} else if (propertyId.equals("status")) {
-			if (attachForm.getBean().getStatus() == null) {
-				attachForm.getBean().setStatus(MilestoneStatus.InProgress.toString());
-			}
-			return new ProgressStatusComboBox();
-		} else if (propertyId.equals("name")) {
-			final TextField tf = new TextField();
-			if (isValidateForm) {
-				tf.setNullRepresentation("");
-				tf.setRequired(true);
-				tf.setRequiredError("Please enter name");
-			}
-			return tf;
-		} else if (propertyId.equals("description")) {
-			RichTextArea descArea = new RichTextArea();
-			descArea.setNullRepresentation("");
-			return descArea;
-		} else if (propertyId.equals("numOpenTasks")) {
-			ContainerHorizontalViewField taskComp = new ContainerHorizontalViewField();
-			int numOpenTask = (attachForm.getBean() instanceof SimpleMilestone) ? ((SimpleMilestone) attachForm
-					.getBean()).getNumOpenTasks() : 0;
-			int numTasks = (attachForm.getBean() instanceof SimpleMilestone) ? ((SimpleMilestone) attachForm
-					.getBean()).getNumTasks() : 0;
+            userbox.setRequired(true);
+            userbox.setRequiredError("Please select an assignee");
+            return userbox;
+        } else if (propertyId.equals("status")) {
+            if (attachForm.getBean().getStatus() == null) {
+                attachForm.getBean().setStatus(MilestoneStatus.InProgress.toString());
+            }
+            return new ProgressStatusComboBox();
+        } else if (propertyId.equals("name")) {
+            final TextField tf = new TextField();
+            if (isValidateForm) {
+                tf.setNullRepresentation("");
+                tf.setRequired(true);
+                tf.setRequiredError("Please enter name");
+            }
+            return tf;
+        } else if (propertyId.equals("description")) {
+            RichTextArea descArea = new RichTextArea();
+            descArea.setNullRepresentation("");
+            return descArea;
+        }
 
-			ProgressBarIndicator progressTask = new ProgressBarIndicator(numTasks, numOpenTask);
-			progressTask.setWidth("100%");
-			taskComp.addComponentField(progressTask);
-			return taskComp;
-		}
+        return null;
+    }
 
-		return null;
-	}
+    private static class ProgressStatusComboBox extends I18nValueComboBox {
+        private static final long serialVersionUID = 1L;
 
-	private static class ProgressStatusComboBox extends I18nValueComboBox {
-		private static final long serialVersionUID = 1L;
+        public ProgressStatusComboBox() {
+            super();
+            setCaption(null);
+            this.setNullSelectionAllowed(false);
+            this.loadData(Arrays.asList(MilestoneStatus.InProgress, MilestoneStatus.Future, MilestoneStatus.Closed));
 
-		public ProgressStatusComboBox() {
-			super();
-			setCaption(null);
-			this.setNullSelectionAllowed(false);
-			this.loadData(Arrays.asList(MilestoneStatus.InProgress, MilestoneStatus.Future, MilestoneStatus.Closed));
-
-			this.setItemIcon(MilestoneStatus.InProgress.name(), FontAwesome.SPINNER);
-			this.setItemIcon(MilestoneStatus.Future.name(), FontAwesome.CLOCK_O);
-			this.setItemIcon(MilestoneStatus.Closed.name(), FontAwesome.MINUS);
-		}
-	}
+            this.setItemIcon(MilestoneStatus.InProgress.name(), FontAwesome.SPINNER);
+            this.setItemIcon(MilestoneStatus.Future.name(), FontAwesome.CLOCK_O);
+            this.setItemIcon(MilestoneStatus.Closed.name(), FontAwesome.MINUS);
+        }
+    }
 
 }

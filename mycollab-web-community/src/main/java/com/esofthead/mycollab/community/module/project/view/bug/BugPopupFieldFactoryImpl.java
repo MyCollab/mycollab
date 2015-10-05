@@ -16,14 +16,17 @@
  */
 package com.esofthead.mycollab.community.module.project.view.bug;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.Storage;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.view.bug.BugPopupFieldFactory;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.form.field.PopupBeanField;
+import com.esofthead.mycollab.vaadin.ui.form.field.PopupFieldBuilder;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Span;
@@ -39,22 +42,26 @@ public class BugPopupFieldFactoryImpl implements BugPopupFieldFactory {
 
     @Override
     public PopupView createBugPriorityPopupField(SimpleBug bug) {
-        return new PopupBeanField(ProjectAssetsManager.getTaskPriorityHtml(bug.getPriority()));
+        return new PopupFieldBuilder().withCaption(ProjectAssetsManager.getTaskPriorityHtml(bug.getPriority()))
+                .withDescription("Priority").build();
     }
 
     @Override
     public PopupView createBugAssigneePopupField(SimpleBug bug) {
         String avatarLink = Storage.getAvatarPath(bug.getAssignUserAvatarId(), 16);
         Img img = new Img(bug.getAssignuserFullName(), avatarLink).setTitle(bug.getAssignuserFullName());
-        return new PopupBeanField(img.write());
+        return new PopupFieldBuilder().withCaption(img.write()).withDescription(AppContext.getMessage(GenericI18Enum
+                .FORM_ASSIGNEE)).build();
     }
 
     @Override
     public PopupView createBugCommentsPopupField(SimpleBug bug) {
         if (bug.getNumComments() != null) {
-            return new PopupBeanField(FontAwesome.COMMENT_O, "" + bug.getNumComments());
+            return new PopupFieldBuilder().withCaptionAndIcon(FontAwesome.COMMENT_O, "" + bug.getNumComments())
+                    .withDescription("Comments").build();
         } else {
-            return new PopupBeanField(FontAwesome.COMMENT_O, " 0");
+            return new PopupFieldBuilder().withCaptionAndIcon(FontAwesome.COMMENT_O, " 0").withDescription
+                    ("Comments").build();
         }
     }
 
@@ -64,15 +71,19 @@ public class BugPopupFieldFactoryImpl implements BugPopupFieldFactory {
             Div divHint = new Div().setCSSClass("nonValue");
             divHint.appendText(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE).getHtml());
             divHint.appendChild(new Span().appendText(" Click to edit").setCSSClass("hide"));
-            return new PopupBeanField(divHint.write());
+            return new PopupFieldBuilder().withCaption(divHint.write()).withDescription(AppContext.getMessage
+                    (BugI18nEnum.FORM_PHASE)).build();
         } else {
-            return new PopupBeanField(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE), bug.getMilestoneName());
+            return new PopupFieldBuilder().withCaptionAndIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE), bug
+                    .getMilestoneName()).withDescription(AppContext.getMessage
+                    (BugI18nEnum.FORM_PHASE)).build();
         }
     }
 
     @Override
     public PopupView createBugStatusPopupField(SimpleBug bug) {
-        return new PopupBeanField(FontAwesome.INFO_CIRCLE, bug.getStatus());
+        return new PopupFieldBuilder().withCaptionAndIcon(FontAwesome.INFO_CIRCLE, AppContext.getMessage(OptionI18nEnum.BugStatus
+                .class, bug.getStatus())).withDescription(AppContext.getMessage(BugI18nEnum.FORM_STATUS)).build();
     }
 
     @Override
@@ -81,10 +92,24 @@ public class BugPopupFieldFactoryImpl implements BugPopupFieldFactory {
             Div divHint = new Div().setCSSClass("nonValue");
             divHint.appendText(FontAwesome.CLOCK_O.getHtml());
             divHint.appendChild(new Span().appendText(" Click to edit").setCSSClass("hide"));
-            return new PopupBeanField(divHint.write());
+            return new PopupFieldBuilder().withCaption(divHint.write()).withDescription(AppContext.getMessage
+                    (BugI18nEnum.FORM_DUE_DATE)).build();
         } else {
-            return new PopupBeanField(String.format("%s %s", FontAwesome.CLOCK_O.getHtml(),
-                    AppContext.formatPrettyTime(bug.getDueDateRoundPlusOne())));
+            return new PopupFieldBuilder().withCaption(String.format("%s %s", FontAwesome.CLOCK_O.getHtml(),
+                    AppContext.formatPrettyTime(bug.getDueDateRoundPlusOne()))).withDescription(AppContext.getMessage
+                    (BugI18nEnum.FORM_DUE_DATE)).build();
         }
+    }
+
+    @Override
+    public PopupView createBugBillableHoursPopupField(SimpleBug bug) {
+        return new PopupFieldBuilder().withCaptionAndIcon(FontAwesome.MONEY, "" + bug.getBillableHours())
+                .withDescription("Billable hours").build();
+    }
+
+    @Override
+    public PopupView createBugNonbillableHoursPopupField(SimpleBug bug) {
+        return new PopupFieldBuilder().withCaptionAndIcon(FontAwesome.GIFT, "" + bug.getNonBillableHours())
+                .withDescription("Non billable hours").build();
     }
 }

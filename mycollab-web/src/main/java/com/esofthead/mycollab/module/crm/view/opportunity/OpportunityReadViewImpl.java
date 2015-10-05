@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.view.opportunity;
 
-import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
@@ -32,6 +31,7 @@ import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.*;
+import com.esofthead.mycollab.module.crm.ui.format.OpportunityFieldFormatter;
 import com.esofthead.mycollab.module.crm.view.activity.ActivityRelatedItemListComp;
 import com.esofthead.mycollab.schedule.email.crm.OpportunityRelayEmailNotificationAction;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -39,8 +39,10 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.*;
-import com.vaadin.server.FontAwesome;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -49,184 +51,166 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
 @ViewComponent
-public class OpportunityReadViewImpl extends AbstractPreviewItemComp<SimpleOpportunity>
-		implements OpportunityReadView {
-	private static final long serialVersionUID = 1L;
+public class OpportunityReadViewImpl extends AbstractPreviewItemComp<SimpleOpportunity> implements OpportunityReadView {
+    private static final long serialVersionUID = 1L;
 
-	private OpportunityContactListComp associateContactList;
-	private OpportunityLeadListComp associateLeadList;
-	private CrmCommentDisplay commentList;
-	private OpportunityHistoryLogList historyLogList;
-	private ActivityRelatedItemListComp associateActivityList;
+    private OpportunityContactListComp associateContactList;
+    private OpportunityLeadListComp associateLeadList;
+    private ActivityRelatedItemListComp associateActivityList;
+    private CrmActivityComponent activityComponent;
 
-	private PeopleInfoComp peopleInfoComp;
-	private DateInfoComp dateInfoComp;
-	private CrmFollowersComp<SimpleOpportunity> followersComp;
+    private PeopleInfoComp peopleInfoComp;
+    private DateInfoComp dateInfoComp;
+    private CrmFollowersComp<SimpleOpportunity> followersComp;
 
-	public OpportunityReadViewImpl() {
-		super(CrmAssetsManager.getAsset(CrmTypeConstants.OPPORTUNITY));
-	}
+    public OpportunityReadViewImpl() {
+        super(CrmAssetsManager.getAsset(CrmTypeConstants.OPPORTUNITY));
+    }
 
-	@Override
-	protected AdvancedPreviewBeanForm<SimpleOpportunity> initPreviewForm() {
-		return new AdvancedPreviewBeanForm<>();
-	}
+    @Override
+    protected AdvancedPreviewBeanForm<SimpleOpportunity> initPreviewForm() {
+        return new AdvancedPreviewBeanForm<>();
+    }
 
-	@Override
-	protected ComponentContainer createButtonControls() {
-		return new CrmPreviewFormControlsGenerator<>(previewForm)
-				.createButtonControls(RolePermissionCollections.CRM_OPPORTUNITY);
-	}
+    @Override
+    protected ComponentContainer createButtonControls() {
+        return new CrmPreviewFormControlsGenerator<>(previewForm)
+                .createButtonControls(RolePermissionCollections.CRM_OPPORTUNITY);
+    }
 
-	@Override
-	protected ComponentContainer createBottomPanel() {
-		TabSheetLazyLoadComponent tabTaskDetail = new TabSheetLazyLoadComponent();
-		tabTaskDetail.addTab(commentList, AppContext.getMessage(GenericI18Enum.TAB_COMMENT, 0), FontAwesome.COMMENTS);
-		tabTaskDetail.addTab(historyLogList, AppContext.getMessage(GenericI18Enum.TAB_HISTORY), FontAwesome.HISTORY);
-		return tabTaskDetail;
-	}
+    @Override
+    protected ComponentContainer createBottomPanel() {
+        return activityComponent;
+    }
 
-	@Override
-	protected void onPreviewItem() {
-		historyLogList.loadHistory(beanItem.getId());
-		commentList.loadComments("" + beanItem.getId());
+    @Override
+    protected void onPreviewItem() {
+        activityComponent.loadActivities("" + beanItem.getId());
 
-		displayActivities();
-		displayContacts();
-		displayLeads();
+        displayActivities();
+        displayContacts();
+        displayLeads();
 
-		dateInfoComp.displayEntryDateTime(beanItem);
-		peopleInfoComp.displayEntryPeople(beanItem);
-		followersComp.displayFollowers(beanItem);
+        dateInfoComp.displayEntryDateTime(beanItem);
+        peopleInfoComp.displayEntryPeople(beanItem);
+        followersComp.displayFollowers(beanItem);
 
-		previewItemContainer.selectTab(CrmTypeConstants.DETAIL);
-		
-		previewLayout.resetTitleStyle();
+        previewItemContainer.selectTab(CrmTypeConstants.DETAIL);
 
-		String saleState = this.beanItem.getSalesstage();
-		Date closeDate = this.beanItem.getExpectedcloseddate();
-		if ((!"Closed Won".equals(saleState) && !"Closed Lost"
-				.equals(saleState))
-				&& closeDate != null
-				&& (closeDate.before(new GregorianCalendar().getTime()))) {
-			previewLayout.setTitleStyleName("hdr-text-overdue");
-		}
-	}
+        previewLayout.resetTitleStyle();
 
-	@Override
-	protected String initFormTitle() {
-		// check if there is converted lead associates with this account
-		LeadService leadService = ApplicationContextUtil
-				.getSpringBean(LeadService.class);
-		SimpleLead lead = leadService.findConvertedLeadOfOpportunity(
-				beanItem.getId(), AppContext.getAccountId());
-		if (lead != null) {
-			return String.format("<h2>%s%s</h2>", beanItem.getOpportunityname(), AppContext
-					.getMessage(LeadI18nEnum.CONVERT_FROM_LEAD_TITLE,
-							CrmAssetsManager.getAsset(CrmTypeConstants.LEAD),
-							CrmLinkGenerator.generateCrmItemLink(
-									CrmTypeConstants.LEAD, lead.getId()),
-							lead.getLeadName()));
-		} else {
-			return beanItem.getOpportunityname();
-		}
-	}
+        String saleState = this.beanItem.getSalesstage();
+        Date closeDate = this.beanItem.getExpectedcloseddate();
+        if ((!"Closed Won".equals(saleState) && !"Closed Lost".equals(saleState))
+                && closeDate != null && (closeDate.before(new GregorianCalendar().getTime()))) {
+            previewLayout.setTitleStyleName("hdr-text-overdue");
+        }
+    }
 
-	@Override
-	protected void initRelatedComponents() {
-		associateContactList = new OpportunityContactListComp();
-		associateLeadList = new OpportunityLeadListComp();
-		associateActivityList = new ActivityRelatedItemListComp(true);
+    @Override
+    protected String initFormTitle() {
+        // check if there is converted lead associates with this account
+        LeadService leadService = ApplicationContextUtil.getSpringBean(LeadService.class);
+        SimpleLead lead = leadService.findConvertedLeadOfOpportunity(beanItem.getId(), AppContext.getAccountId());
+        if (lead != null) {
+            return String.format("<h2>%s%s</h2>", beanItem.getOpportunityname(), AppContext
+                    .getMessage(LeadI18nEnum.CONVERT_FROM_LEAD_TITLE, CrmAssetsManager.getAsset(CrmTypeConstants.LEAD),
+                            CrmLinkGenerator.generateCrmItemLink(CrmTypeConstants.LEAD, lead.getId()), lead.getLeadName()));
+        } else {
+            return beanItem.getOpportunityname();
+        }
+    }
 
-		commentList = new CrmCommentDisplay(CrmTypeConstants.OPPORTUNITY, OpportunityRelayEmailNotificationAction.class);
-		historyLogList = new OpportunityHistoryLogList();
+    @Override
+    protected void initRelatedComponents() {
+        associateContactList = new OpportunityContactListComp();
+        associateLeadList = new OpportunityLeadListComp();
+        associateActivityList = new ActivityRelatedItemListComp(true);
 
-		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
-		MVerticalLayout basicInfo = new MVerticalLayout().withWidth("100%").withStyleName("basic-info");
+        activityComponent = new CrmActivityComponent(CrmTypeConstants.OPPORTUNITY, OpportunityFieldFormatter.instance(),
+                OpportunityRelayEmailNotificationAction.class);
 
-		dateInfoComp = new DateInfoComp();
-		basicInfo.addComponent(dateInfoComp);
+        CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
+        MVerticalLayout basicInfo = new MVerticalLayout().withWidth("100%").withStyleName("basic-info");
 
-		peopleInfoComp = new PeopleInfoComp();
-		basicInfo.addComponent(peopleInfoComp);
+        dateInfoComp = new DateInfoComp();
+        basicInfo.addComponent(dateInfoComp);
 
-		followersComp = new CrmFollowersComp<>(
-				CrmTypeConstants.OPPORTUNITY,
-				RolePermissionCollections.CRM_OPPORTUNITY);
-		basicInfo.addComponent(followersComp);
+        peopleInfoComp = new PeopleInfoComp();
+        basicInfo.addComponent(peopleInfoComp);
 
-		navigatorWrapper.addComponentAsFirst(basicInfo);
+        followersComp = new CrmFollowersComp<>(CrmTypeConstants.OPPORTUNITY,
+                RolePermissionCollections.CRM_OPPORTUNITY);
+        basicInfo.addComponent(followersComp);
 
-		previewItemContainer.addTab(previewContent, CrmTypeConstants.DETAIL,
-				AppContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
-		previewItemContainer.addTab(associateContactList, CrmTypeConstants.CONTACT,
-				AppContext.getMessage(CrmCommonI18nEnum.TAB_CONTACT));
-		previewItemContainer.addTab(associateLeadList, CrmTypeConstants.LEAD,
-				AppContext.getMessage(CrmCommonI18nEnum.TAB_LEAD));
-		previewItemContainer.addTab(associateActivityList, CrmTypeConstants.ACTIVITY,
-				AppContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY));
-	}
+        navigatorWrapper.addComponentAsFirst(basicInfo);
 
-	@Override
-	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new DynaFormLayout(CrmTypeConstants.OPPORTUNITY,
-				OpportunityDefaultDynaFormLayoutFactory.getForm());
-	}
+        previewItemContainer.addTab(previewContent, CrmTypeConstants.DETAIL,
+                AppContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
+        previewItemContainer.addTab(associateContactList, CrmTypeConstants.CONTACT,
+                AppContext.getMessage(CrmCommonI18nEnum.TAB_CONTACT));
+        previewItemContainer.addTab(associateLeadList, CrmTypeConstants.LEAD,
+                AppContext.getMessage(CrmCommonI18nEnum.TAB_LEAD));
+        previewItemContainer.addTab(associateActivityList, CrmTypeConstants.ACTIVITY,
+                AppContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY));
+    }
 
-	@Override
-	protected AbstractBeanFieldGroupViewFieldFactory<SimpleOpportunity> initBeanFormFieldFactory() {
-		return new OpportunityReadFormFieldFactory(previewForm);
-	}
+    @Override
+    protected IFormLayoutFactory initFormLayoutFactory() {
+        return new DynaFormLayout(CrmTypeConstants.OPPORTUNITY, OpportunityDefaultDynaFormLayoutFactory.getForm());
+    }
 
-	public SimpleOpportunity getOpportunity() {
-		return beanItem;
-	}
+    @Override
+    protected AbstractBeanFieldGroupViewFieldFactory<SimpleOpportunity> initBeanFormFieldFactory() {
+        return new OpportunityReadFormFieldFactory(previewForm);
+    }
 
-	protected void displayActivities() {
-		ActivitySearchCriteria criteria = new ActivitySearchCriteria();
-		criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-		criteria.setType(new StringSearchField(SearchField.AND,
-				CrmTypeConstants.OPPORTUNITY));
-		criteria.setTypeid(new NumberSearchField(beanItem.getId()));
-		associateActivityList.setSearchCriteria(criteria);
-	}
+    public SimpleOpportunity getOpportunity() {
+        return beanItem;
+    }
 
-	protected void displayContacts() {
-		associateContactList.displayContacts(beanItem);
-	}
+    protected void displayActivities() {
+        ActivitySearchCriteria criteria = new ActivitySearchCriteria();
+        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+        criteria.setType(new StringSearchField(SearchField.AND, CrmTypeConstants.OPPORTUNITY));
+        criteria.setTypeid(new NumberSearchField(beanItem.getId()));
+        associateActivityList.setSearchCriteria(criteria);
+    }
 
-	protected void displayLeads() {
-		associateLeadList.displayLeads(beanItem);
-	}
+    protected void displayContacts() {
+        associateContactList.displayContacts(beanItem);
+    }
 
-	@Override
-	public SimpleOpportunity getItem() {
-		return beanItem;
-	}
+    protected void displayLeads() {
+        associateLeadList.displayLeads(beanItem);
+    }
 
-	@Override
-	public HasPreviewFormHandlers<SimpleOpportunity> getPreviewFormHandlers() {
-		return previewForm;
-	}
+    @Override
+    public SimpleOpportunity getItem() {
+        return beanItem;
+    }
 
-	@Override
-	public IRelatedListHandlers<SimpleActivity> getRelatedActivityHandlers() {
-		return associateActivityList;
-	}
+    @Override
+    public HasPreviewFormHandlers<SimpleOpportunity> getPreviewFormHandlers() {
+        return previewForm;
+    }
 
-	@Override
-	public IRelatedListHandlers<SimpleContactOpportunityRel> getRelatedContactHandlers() {
-		return associateContactList;
-	}
+    @Override
+    public IRelatedListHandlers<SimpleActivity> getRelatedActivityHandlers() {
+        return associateActivityList;
+    }
 
-	@Override
-	public IRelatedListHandlers<SimpleLead> getRelatedLeadHandlers() {
-		return associateLeadList;
-	}
+    @Override
+    public IRelatedListHandlers<SimpleContactOpportunityRel> getRelatedContactHandlers() {
+        return associateContactList;
+    }
+
+    @Override
+    public IRelatedListHandlers<SimpleLead> getRelatedLeadHandlers() {
+        return associateLeadList;
+    }
 }

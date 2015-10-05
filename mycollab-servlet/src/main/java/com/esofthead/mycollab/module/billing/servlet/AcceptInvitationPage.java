@@ -31,7 +31,6 @@ import com.esofthead.mycollab.module.user.domain.UserAccount;
 import com.esofthead.mycollab.module.user.domain.UserAccountExample;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.servlet.VelocityWebServletRequestHandler;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +44,8 @@ import java.io.PrintWriter;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.esofthead.mycollab.core.utils.StringUtils.isBlank;
 
 /**
  * @author MyCollab Ltd.
@@ -107,7 +108,7 @@ public class AcceptInvitationPage extends VelocityWebServletRequestHandler {
                             userAccountExample.createCriteria().andAccountidEqualTo(accountId).andUsernameEqualTo(username);
                             userAccountMapper.updateByExampleSelective(userAccount, userAccountExample);
 
-                            if (StringUtils.isBlank(user.getPassword())) {
+                            if (isBlank(user.getPassword())) {
                                 LOG.debug(
                                         "User {} has null password. It seems he is the new user join to mycollab. Redirect him to page let him update his password {}",
                                         user.getUsername(), BeanUtility.printBeanObj(user));

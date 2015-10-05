@@ -17,13 +17,12 @@
 
 package com.esofthead.mycollab.module.project.view.milestone;
 
-import com.esofthead.mycollab.module.project.domain.Milestone;
+import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.vaadin.mvp.IFormAddView;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public interface MilestoneAddView extends IFormAddView<Milestone> {
+public interface MilestoneAddView extends IFormAddView<SimpleMilestone> {
 }

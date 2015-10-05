@@ -50,12 +50,10 @@ public class CommentRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleC
         ProjectMemberBlock memberBlock = new ProjectMemberBlock(comment.getCreateduser(), comment.getOwnerAvatarId(), comment.getOwnerFullName());
         layout.addComponent(memberBlock);
 
-        CssLayout rowLayout = new CssLayout();
-        rowLayout.setStyleName("message-container");
-        rowLayout.setWidth("100%");
+        MVerticalLayout rowLayout = new MVerticalLayout().withWidth("100%").withStyleName("message-container");
 
-        MHorizontalLayout messageHeader = new MHorizontalLayout().withMargin(new MarginInfo(true,
-                true, false, true)).withWidth("100%").withStyleName("message-header");
+        MHorizontalLayout messageHeader = new MHorizontalLayout().withMargin(false).withWidth("100%").withStyleName
+                ("message-header");
         messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         ELabel timePostLbl = new ELabel(AppContext.getMessage(

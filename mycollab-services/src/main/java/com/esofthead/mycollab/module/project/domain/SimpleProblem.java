@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.project.domain;
 
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
-import org.apache.commons.lang3.StringUtils;
+import com.esofthead.mycollab.core.utils.StringUtils;
 
 import java.util.Date;
 
@@ -61,7 +61,7 @@ public class SimpleProblem extends Problem {
 
     public String getRaisedByUserFullName() {
         if (StringUtils.isBlank(raisedByUserFullName)) {
-            return com.esofthead.mycollab.core.utils.StringUtils.extractNameFromEmail(getRaisedbyuser());
+            return StringUtils.extractNameFromEmail(getRaisedbyuser());
         }
         return raisedByUserFullName;
     }
@@ -72,7 +72,7 @@ public class SimpleProblem extends Problem {
 
     public String getAssignedUserFullName() {
         if (StringUtils.isBlank(assignedUserFullName)) {
-            return com.esofthead.mycollab.core.utils.StringUtils.extractNameFromEmail(getAssigntouser());
+            return StringUtils.extractNameFromEmail(getAssigntouser());
         }
         return assignedUserFullName;
     }
@@ -84,12 +84,12 @@ public class SimpleProblem extends Problem {
     public boolean isOverdue() {
         Date now = DateTimeUtils.getCurrentDateWithoutMS();
         return (OptionI18nEnum.StatusI18nEnum.Open.name().equals(getStatus())
-                && (getDatedue() != null) && getDatedue().before(
-                now));
+                && (getDatedue() != null) && getDatedue().before(now));
     }
 
     public enum Field {
         assignedUserFullName;
+
         public boolean equalTo(Object value) {
             return name().equals(value);
         }

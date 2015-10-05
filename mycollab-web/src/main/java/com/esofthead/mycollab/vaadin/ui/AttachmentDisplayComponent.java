@@ -17,8 +17,6 @@
 package com.esofthead.mycollab.vaadin.ui;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.configuration.MyCollabAssets;
-import com.esofthead.mycollab.configuration.Storage;
 import com.esofthead.mycollab.core.utils.FileUtils;
 import com.esofthead.mycollab.core.utils.MimeTypesUtil;
 import com.esofthead.mycollab.core.utils.StringUtils;
@@ -32,11 +30,8 @@ import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Li;
 import com.hp.gagawa.java.elements.Span;
 import com.hp.gagawa.java.elements.Ul;
-import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FileDownloader;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.server.Resource;
-import com.vaadin.shared.communication.SharedState;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.addons.fancybox.Fancybox;
@@ -74,7 +69,7 @@ public class AttachmentDisplayComponent extends CssLayout {
         thumbnailWrap.setStyleName("thumbnail-wrap");
 
         Link thumbnail = new Link();
-        if (org.apache.commons.lang3.StringUtils.isBlank(attachment.getThumbnail())) {
+        if (StringUtils.isBlank(attachment.getThumbnail())) {
             thumbnail.setIcon(FileAssetsUtil.getFileIconResource(attachment.getName()));
         } else {
             thumbnail.setIcon(VaadinResource.getInstance().getResource(attachment.getThumbnail()));
@@ -120,12 +115,10 @@ public class AttachmentDisplayComponent extends CssLayout {
                             @Override
                             public void onClose(ConfirmDialog dialog) {
                                 if (dialog.isConfirmed()) {
-                                    ResourceService attachmentService = ApplicationContextUtil
-                                            .getSpringBean(ResourceService.class);
+                                    ResourceService attachmentService = ApplicationContextUtil.getSpringBean(ResourceService.class);
                                     attachmentService.removeResource(attachment.getPath(),
                                             AppContext.getUsername(), AppContext.getAccountId());
-                                    ((ComponentContainer) attachmentLayout.getParent())
-                                            .removeComponent(attachmentLayout);
+                                    ((ComponentContainer) attachmentLayout.getParent()).removeComponent(attachmentLayout);
                                 }
                             }
                         });
