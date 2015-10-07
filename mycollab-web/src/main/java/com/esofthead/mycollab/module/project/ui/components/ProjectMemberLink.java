@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.project.ui.components;
 
 import com.esofthead.mycollab.configuration.Storage;
+import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
@@ -41,7 +42,7 @@ public class ProjectMemberLink extends Label {
         this.setContentMode(ContentMode.HTML);
         String uid = UUID.randomUUID().toString();
         DivLessFormatter div = new DivLessFormatter();
-        Img userAvatar = new Img("", Storage.getAvatarPath(userAvatarId, 16));
+        Img userAvatar = new Img("", StorageFactory.getInstance().getAvatarPath(userAvatarId, 16));
         A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(CurrentProjectVariables.getProjectId(), username))
                 .appendText(com.esofthead.mycollab.core.utils.StringUtils.trim(displayName, 30, true));
         userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(uid, username));

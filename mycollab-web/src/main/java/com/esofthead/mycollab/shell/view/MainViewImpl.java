@@ -55,8 +55,6 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.teemu.VaadinIcons;
 import org.vaadin.viritin.button.MButton;
@@ -73,8 +71,6 @@ import java.util.GregorianCalendar;
 @ViewComponent
 public final class MainViewImpl extends AbstractPageView implements MainView {
     private static final long serialVersionUID = 1L;
-
-    private static Logger LOG = LoggerFactory.getLogger(MainViewImpl.class);
 
     private CustomLayout headerLayout;
     private CssLayout bodyLayout;
@@ -143,10 +139,14 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
             footerRight.with(rateUsLink);
         }
 
+        Link fbPage = new Link("FB Page", new ExternalResource("https://www.facebook.com/mycollab2"));
+        fbPage.setTargetName("_blank");
+        fbPage.setIcon(FontAwesome.FACEBOOK);
+
         Link tweetUs = new Link("Tweet", new ExternalResource("https://twitter.com/intent/tweet?text=I am using MyCollab to manage all project activities, accounts and it works great @mycollabdotcom &source=webclient"));
         tweetUs.setTargetName("_blank");
         tweetUs.setIcon(FontAwesome.TWITTER);
-        footerRight.with(tweetUs, blogLink, sendFeedback);
+        footerRight.with(fbPage, tweetUs, blogLink, sendFeedback);
         footer.addComponent(footerRight, "footer-right");
         return footer;
     }
@@ -213,7 +213,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
             // display trial box if user in trial mode
             SimpleBillingAccount billingAccount = AppContext.getBillingAccount();
             if (AccountStatusConstants.TRIAL.equals(billingAccount.getStatus())) {
-                if ("Free" .equals(billingAccount.getBillingPlan().getBillingtype())) {
+                if ("Free".equals(billingAccount.getBillingPlan().getBillingtype())) {
                     Label informLbl = new Label("<div class='informBlock'>FREE CHARGE<br>UPGRADE</div><div class='informBlock'>&gt;&gt;</div>", ContentMode.HTML);
                     informLbl.addStyleName("trialEndingNotification");
                     informLbl.setHeight("100%");
@@ -281,7 +281,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
                     new RequestUploadAvatarNotification()));
         }
 
-        if ("admin@mycollab.com" .equals(AppContext.getUsername())) {
+        if ("admin@mycollab.com".equals(AppContext.getUsername())) {
             EventBusFactory.getInstance().post(new ShellEvent.NewNotification(this,
                     new ChangeDefaultUsernameNotification()));
         }

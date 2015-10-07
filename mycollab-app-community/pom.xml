@@ -236,12 +236,9 @@
                                 <configuration>
                                     <headerType>gui</headerType>
                                     <jar>${project.build.directory}/MyCollab-Generic-${project.version}.jar</jar>
-                                    <outfile>${project.build.directory}/MyCollab-Installer-${project.version}.exe</outfile>
+                                    <outfile>${project.build.directory}/MyCollab-Installer-${project.version}.exe
+                                    </outfile>
                                     <downloadUrl>http://java.com/download</downloadUrl>
-                                    <classPath>
-                                        <mainClass>com.izforge.izpack.installer.Installer</mainClass>
-                                        <preCp>anything</preCp>
-                                    </classPath>
                                     <icon>src/main/windows-resources/MyCollab.ico</icon>
                                     <jre>
                                         <minVersion>1.7.0</minVersion>
@@ -263,7 +260,6 @@
                             </execution>
                         </executions>
                     </plugin>
-
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-antrun-plugin</artifactId>
@@ -276,7 +272,7 @@
                                     <goal>run</goal>
                                 </goals>
                                 <configuration>
-                                    <tasks>
+                                    <target>
                                         <copy todir="${staging.dir}">
                                             <fileset dir="${izpack.dir.app}"/>
                                         </copy>
@@ -300,7 +296,7 @@
                                         <copy todir="${staging.dir}/lib">
                                             <fileset dir="${basedir}/src/main/lib"/>
                                         </copy>
-                                    </tasks>
+                                    </target>
                                 </configuration>
                             </execution>
 
@@ -316,13 +312,16 @@
                                                  classname="net.sourceforge.jarbundler.JarBundler"
                                                  classpathref="maven.plugin.classpath"/>
                                         <jarbundler dir="target"
-                                                    name="MyCollab-MacOS-${project.version}"
-                                                    mainclass="com.izforge.izpack.installer.Installer"
+                                                    name="MyCollab-MacOS2-${project.version}"
+                                                    mainclass="com.izforge.izpack.installer.bootstrap.Installer"
                                                     jar="target/MyCollab-Generic-${project.version}.jar"
                                                     copyright="©2015, MyCollab"
+                                                    bundleid="com.esofthead.mycollab"
+                                                    jvmversion="1.7+"
                                                     icon="src/main/macos-resources/mycollab.icns"
-                                                    version="${project.version}" build="GA"
-                                                    infostring="MyCollab - the stable, rich features, and high performance platform of Project Management and CRM tools"/>
+                                                    stubfile="src/main/macos-resources/universalJavaApplicationStub"
+                                                    version="${project.version}" build="${project.version} - GA"
+                                                    useJavaXKey="true" showplist="true" verbose="true"/>
                                     </target>
                                 </configuration>
                             </execution>
@@ -331,7 +330,7 @@
                             <dependency>
                                 <groupId>com.esofthead.mycollab</groupId>
                                 <artifactId>jarbundler</artifactId>
-                                <version>2.3.1</version>
+                                <version>2.4.0</version>
                             </dependency>
                         </dependencies>
                     </plugin>

@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.file.view.components;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.configuration.Storage;
+import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.FileUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -441,7 +441,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             } else if (resource instanceof Content) {
                 Content content = (Content) resource;
                 if (StringUtils.isNotBlank(content.getThumbnail())) {
-                    resourceIcon = new Embedded(null, new ExternalResource(Storage.getResourcePath(content.getThumbnail())));
+                    resourceIcon = new Embedded(null, new ExternalResource(StorageFactory.getInstance().getResourcePath(content.getThumbnail())));
                     resourceIcon.setWidth("38px");
                     resourceIcon.setHeight("38px");
                 } else {

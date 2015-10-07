@@ -16,10 +16,8 @@
  */
 package com.esofthead.mycollab.vaadin.resources;
 
-import com.esofthead.mycollab.configuration.Storage;
-import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.resources.file.VaadinFileResource;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Resource;
 
@@ -28,40 +26,19 @@ import com.vaadin.server.Resource;
  * @since 4.5.1
  */
 public abstract class VaadinResource {
-    private static final String S3_CLS = "com.esofthead.mycollab.vaadin.resources.s3.VaadinS3Resource";
 
-    private static VaadinResource instance;
-
-    static {
-        if (Storage.isFileStorage()) {
-            instance = new VaadinFileResource();
-        } else if (Storage.isS3Storage()) {
-            try {
-                Class<VaadinResource> cls = (Class<VaadinResource>) Class.forName(S3_CLS);
-                instance = cls.newInstance();
-            } catch (Exception e) {
-                throw new MyCollabException("Exception when load s3 resource file", e);
-            }
-        } else {
-            throw new MyCollabException("Do not support storage system setting. Accept file or s3 only");
-        }
-    }
-
-    public static VaadinResource getInstance() {
-        return instance;
-    }
 
     public abstract Resource getStreamResource(String documentPath);
 
     public Resource getResource(String documentPath) {
-        return new ExternalResource(Storage.getResourcePath(documentPath));
+        return new ExternalResource(StorageFactory.getInstance().getResourcePath(documentPath));
     }
 
     public Resource getLogoResource(String logoId, int size) {
-        return new ExternalResource(Storage.getLogoPath(AppContext.getAccountId(), logoId, size));
+        return new ExternalResource(StorageFactory.getInstance().getLogoPath(AppContext.getAccountId(), logoId, size));
     }
 
     public Resource getAvatarResource(String avatarId, int size) {
-        return new ExternalResource(Storage.getAvatarPath(avatarId, size));
+        return new ExternalResource(StorageFactory.getInstance().getAvatarPath(avatarId, size));
     }
 }

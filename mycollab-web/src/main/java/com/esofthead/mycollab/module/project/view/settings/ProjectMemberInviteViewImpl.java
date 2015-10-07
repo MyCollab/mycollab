@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.SecurityI18nEnum;
-import com.esofthead.mycollab.configuration.Storage;
+import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -285,7 +285,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements Pro
         private Component generateToken(final SimpleUser user) {
             final Button btn = new Button("", FontAwesome.TIMES);
             btn.setCaptionAsHtml(true);
-            btn.setCaption((new Img("", Storage.getAvatarPath(user.getAvatarid(), 16))).write() + " " + user.getDisplayName());
+            btn.setCaption((new Img("", StorageFactory.getInstance().getAvatarPath(user.getAvatarid(), 16))).write() + " " + user.getDisplayName());
             btn.addClickListener(new Button.ClickListener() {
                 @Override
                 public void buttonClick(ClickEvent event) {

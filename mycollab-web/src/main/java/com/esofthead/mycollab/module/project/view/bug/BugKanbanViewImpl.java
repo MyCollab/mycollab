@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.project.view.bug;
 import com.esofthead.mycollab.common.domain.OptionVal;
 import com.esofthead.mycollab.common.domain.SaveSearchResultWithBLOBs;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.configuration.Storage;
+import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
@@ -277,7 +277,7 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
             }
 
             if (bug.getAssignuser() != null) {
-                Img userAvatar = new Img("", Storage.getAvatarPath(bug.getAssignUserAvatarId(), 16))
+                Img userAvatar = new Img("", StorageFactory.getInstance().getAvatarPath(bug.getAssignUserAvatarId(), 16))
                         .setTitle(bug.getAssignuserFullName());
                 footerDiv.appendChild(userAvatar);
             }

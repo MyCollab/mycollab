@@ -18,6 +18,7 @@ package com.esofthead.mycollab.vaadin;
 
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.configuration.Storage;
+import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.MyCollabVersion;
 import com.esofthead.mycollab.module.user.domain.BillingAccount;
 import com.esofthead.mycollab.module.user.service.BillingAccountService;
@@ -44,7 +45,7 @@ public class MyCollabBootstrapListener implements BootstrapListener {
 
         BillingAccount account = billingService.getAccountByDomain(domain);
         if (account != null) {
-            String favIconPath = Storage.getFavIconPath(account.getId(), account.getFaviconpath());
+            String favIconPath = StorageFactory.getInstance().getFavIconPath(account.getId(), account.getFaviconpath());
             response.getDocument().head().getElementsByAttributeValue("rel", "shortcut icon").attr("href", favIconPath);
             response.getDocument().head().getElementsByAttributeValue("rel", "icon").attr("href", favIconPath);
         }

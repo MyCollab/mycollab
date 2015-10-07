@@ -22,40 +22,44 @@ import java.io.File;
 
 /**
  * Configuration of file system storage mode
- * 
+ *
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public final class FileStorage extends Storage {
-	public static final File baseContentFolder;
+    private static final FileStorage _instance = new FileStorage();
 
-	static {
-		String userFolder = System.getProperty("user.home");
-		baseContentFolder = new File(userFolder + "/.mycollab");
-		FileUtils.mkdirs(baseContentFolder);
-	}
+    private File baseContentFolder;
 
-	FileStorage() {
-		File avatarFolder = new File(baseContentFolder, "avatar");
-		File logoFolder = new File(baseContentFolder, "logo");
-		FileUtils.mkdirs(avatarFolder);
-		FileUtils.mkdirs(logoFolder);
-	}
+    private FileStorage() {
+        String userFolder = System.getProperty("user.home");
+        baseContentFolder = new File(userFolder + "/.mycollab");
+        FileUtils.mkdirs(baseContentFolder);
+        File avatarFolder = new File(baseContentFolder, "avatar");
+        File logoFolder = new File(baseContentFolder, "logo");
+        FileUtils.mkdirs(avatarFolder);
+        FileUtils.mkdirs(logoFolder);
+    }
 
-	/**
-	 * 
-	 * @param username
-	 * @param size
-	 * @return null if user avatar is not existed
-	 */
-	public File getAvatarFile(String username, int size) {
-		File userAvatarFile = new File(baseContentFolder, String.format("/avatar/%s_%d.png", username, size));
-		if (userAvatarFile.exists()) {
-			return userAvatarFile;
-		} else {
-			return null;
-		}
-	}
+    public static final FileStorage getInstance() {
+        return _instance;
+    }
 
+    /**
+     * @param username
+     * @param size
+     * @return null if user avatar is not existed
+     */
+    public File getAvatarFile(String username, int size) {
+        File userAvatarFile = new File(baseContentFolder, String.format("/avatar/%s_%d.png", username, size));
+        if (userAvatarFile.exists()) {
+            return userAvatarFile;
+        } else {
+            return null;
+        }
+    }
+
+    public File getBaseContentFolder() {
+        return baseContentFolder;
+    }
 }

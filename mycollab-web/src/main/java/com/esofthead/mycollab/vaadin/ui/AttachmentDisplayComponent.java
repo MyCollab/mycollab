@@ -24,7 +24,7 @@ import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.resources.VaadinResource;
+import com.esofthead.mycollab.vaadin.resources.VaadinResourceFactory;
 import com.esofthead.mycollab.vaadin.resources.file.FileAssetsUtil;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Li;
@@ -72,11 +72,11 @@ public class AttachmentDisplayComponent extends CssLayout {
         if (StringUtils.isBlank(attachment.getThumbnail())) {
             thumbnail.setIcon(FileAssetsUtil.getFileIconResource(attachment.getName()));
         } else {
-            thumbnail.setIcon(VaadinResource.getInstance().getResource(attachment.getThumbnail()));
+            thumbnail.setIcon(VaadinResourceFactory.getInstance().getResource(attachment.getThumbnail()));
         }
 
         if (MimeTypesUtil.isImageType(docName)) {
-            thumbnail.setResource(VaadinResource.getInstance().getResource(attachment.getPath()));
+            thumbnail.setResource(VaadinResourceFactory.getInstance().getResource(attachment.getPath()));
             new Fancybox(thumbnail).setPadding(0).setVersion("2.1.5").setEnabled(true).setDebug(true);
         }
 
@@ -130,7 +130,7 @@ public class AttachmentDisplayComponent extends CssLayout {
         attachmentLayout.addComponent(trashBtn, "top: 9px; left: 9px; z-index: 1;");
 
         Button downloadBtn = new Button();
-        FileDownloader fileDownloader = new FileDownloader(VaadinResource.getInstance()
+        FileDownloader fileDownloader = new FileDownloader(VaadinResourceFactory.getInstance()
                 .getStreamResource(attachment.getPath()));
         fileDownloader.extend(downloadBtn);
 

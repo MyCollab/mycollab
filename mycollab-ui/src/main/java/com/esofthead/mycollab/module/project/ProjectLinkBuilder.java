@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.project;
 
 import com.esofthead.mycollab.common.GenericLinkUtils;
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
-import com.esofthead.mycollab.configuration.Storage;
+import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
@@ -89,7 +89,7 @@ public class ProjectLinkBuilder {
         SimpleProjectMember member = projectMemberService.findMemberByUsername(username, projectId, AppContext.getAccountId());
         if (member != null) {
             String uid = UUID.randomUUID().toString();
-            Img userAvatar = new Img("", Storage.getAvatarPath(member.getMemberAvatarId(), 16));
+            Img userAvatar = new Img("", StorageFactory.getInstance().getAvatarPath(member.getMemberAvatarId(), 16));
             A link = new A().setId("tag" + uid).setHref(generateProjectMemberFullLink(projectId,
                     member.getUsername())).appendText(StringUtils.trim(member.getDisplayName(), 30, true));
             link.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(uid, username));

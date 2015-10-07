@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import com.esofthead.mycollab.vaadin.resources.VaadinResource;
+import com.esofthead.mycollab.vaadin.resources.VaadinResourceFactory;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.themes.BaseTheme;
@@ -38,6 +38,6 @@ public class AccountAssetsResolver {
             return new AssetResource("icons/logo.png");
         }
 
-        return VaadinResource.getInstance().getLogoResource(logoId, size);
+        return VaadinResourceFactory.getInstance().getLogoResource(logoId, size);
     }
 }

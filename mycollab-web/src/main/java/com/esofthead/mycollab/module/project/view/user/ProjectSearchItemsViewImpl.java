@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.user;
 
-import com.esofthead.mycollab.configuration.Storage;
+import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.html.DivLessFormatter;
@@ -105,7 +105,7 @@ public class ProjectSearchItemsViewImpl extends AbstractPageView implements Proj
                 div.appendChild(createdByTxt, DivLessFormatter.EMPTY_SPACE(), new Text("None"), lastUpdatedOn);
             } else {
                 String uid = UUID.randomUUID().toString();
-                Img userAvatar = new Img("", Storage.getAvatarPath(item.getCreatedUserAvatarId(), 16));
+                Img userAvatar = new Img("", StorageFactory.getInstance().getAvatarPath(item.getCreatedUserAvatarId(), 16));
                 A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(item.getProjectId(), item
                         .getCreatedUser())).appendText(item.getCreatedUserDisplayName());
                 userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(uid, item.getCreatedUser()));

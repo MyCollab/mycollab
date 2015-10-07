@@ -20,7 +20,7 @@ import com.esofthead.mycollab.common.GenericLinkUtils;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.configuration.Storage;
+import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.arguments.*;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.NumberUtils;
@@ -419,7 +419,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
         private Div buildAssigneeValue(ProjectGenericTask task) {
             String uid = UUID.randomUUID().toString();
             Div div = new DivLessFormatter();
-            Img userAvatar = new Img("", Storage.getAvatarPath(task.getAssignUserAvatarId(), 16));
+            Img userAvatar = new Img("", StorageFactory.getInstance().getAvatarPath(task.getAssignUserAvatarId(), 16));
             A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
                     task.getProjectId(), task.getAssignUser()));
 

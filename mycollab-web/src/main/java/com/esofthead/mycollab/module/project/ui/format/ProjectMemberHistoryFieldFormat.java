@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.ui.format;
 
-import com.esofthead.mycollab.configuration.Storage;
+import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -53,7 +53,7 @@ public final class ProjectMemberHistoryFieldFormat implements HistoryFieldFormat
             SimpleUser user = userService.findUserByUserNameInAccount(value, AppContext.getAccountId());
             if (user != null) {
                 String uid = UUID.randomUUID().toString();
-                Img userAvatar = new Img("", Storage.getAvatarPath(user.getAvatarid(), 16));
+                Img userAvatar = new Img("", StorageFactory.getInstance().getAvatarPath(user.getAvatarid(), 16));
                 A link = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink
                         (CurrentProjectVariables.getProjectId(),
                                 user.getUsername())).appendText(StringUtils.trim(user.getDisplayName(), 30, true));

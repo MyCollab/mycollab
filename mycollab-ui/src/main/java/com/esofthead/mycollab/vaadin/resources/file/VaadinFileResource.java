@@ -33,7 +33,6 @@ import java.io.IOException;
  * @since 4.5.1
  */
 public class VaadinFileResource extends VaadinResource {
-
     private static final Logger LOG = LoggerFactory.getLogger(VaadinFileResource.class);
 
     @Override
@@ -45,7 +44,7 @@ public class VaadinFileResource extends VaadinResource {
         private static final long serialVersionUID = 1L;
 
         FileStreamDownloadResource(String documentPath) {
-            super(new File(FileStorage.baseContentFolder, documentPath));
+            super(new File(FileStorage.getInstance().getBaseContentFolder(), documentPath));
         }
 
         @Override

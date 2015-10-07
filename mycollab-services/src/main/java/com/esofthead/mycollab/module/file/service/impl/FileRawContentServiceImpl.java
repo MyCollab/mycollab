@@ -37,7 +37,7 @@ public class FileRawContentServiceImpl implements RawContentService {
     private File baseFolder;
 
     public FileRawContentServiceImpl() {
-        baseFolder = FileStorage.baseContentFolder;
+        baseFolder = FileStorage.getInstance().getBaseContentFolder();
     }
 
     @Override

@@ -39,6 +39,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.jouni.restrain.Restrain;
+import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.ArrayList;
@@ -154,9 +155,11 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
         wrapper.setDefaultComponentAlignment(Alignment.TOP_LEFT);
 
         if (item instanceof ChangeDefaultUsernameNotification) {
-            wrapper.addComponent(new Label(FontAwesome.EXCLAMATION_TRIANGLE.getHtml() + " You are using the default username " +
+            MCssLayout cssWrapper = new MCssLayout(new Label(FontAwesome.EXCLAMATION_TRIANGLE.getHtml() + " You are " +
+                    "using the default email " +
                     "'admin@mycollab.com'. You can not receive the site notifications without using your right email",
                     ContentMode.HTML));
+
             Button actionBtn = new Button("Change it", new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent event) {
@@ -166,7 +169,7 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
             });
             actionBtn.setStyleName(UIConstants.THEME_LINK);
             actionBtn.addStyleName("block");
-            wrapper.addComponent(actionBtn);
+            wrapper.with(cssWrapper, actionBtn).expand(cssWrapper);
         } else if (item instanceof NewUpdateAvailableNotification) {
             final NewUpdateAvailableNotification notification = (NewUpdateAvailableNotification) item;
             Span spanEl = new Span();
@@ -215,8 +218,7 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
             smtpBtn.addStyleName("block");
             Label lbl = new Label(FontAwesome.EXCLAMATION_TRIANGLE.getHtml() + " Your members can not receive any mail " +
                     "notification without a proper SMTP setting", ContentMode.HTML);
-            CssLayout lblWrapper = new CssLayout();
-            lblWrapper.addComponent(lbl);
+            MCssLayout lblWrapper = new MCssLayout(lbl);
             wrapper.with(lblWrapper, smtpBtn).expand(lblWrapper);
         } else if (item instanceof TimezoneNotification) {
             wrapper.addComponent(new Label(FontAwesome.EXCLAMATION_TRIANGLE.getHtml() + " The correct your timezone will help you get " +

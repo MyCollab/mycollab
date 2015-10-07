@@ -20,6 +20,7 @@ import com.esofthead.mycollab.common.domain.criteria.MonitorSearchCriteria;
 import com.esofthead.mycollab.common.i18n.FollowerI18nEnum;
 import com.esofthead.mycollab.common.service.MonitorItemService;
 import com.esofthead.mycollab.configuration.Storage;
+import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.html.DivLessFormatter;
@@ -246,7 +247,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
                 div.appendChild(createdByTxt, new Text("None"), lastUpdatedOn);
             } else {
                 String uid = UUID.randomUUID().toString();
-                Img userAvatar = new Img("", Storage.getAvatarPath(projectItem.getCreatedUserAvatarId(), 16));
+                Img userAvatar = new Img("", StorageFactory.getInstance().getAvatarPath(projectItem.getCreatedUserAvatarId(), 16));
                 A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(projectItem.getProjectId(), projectItem
                         .getCreatedUser())).appendText(projectItem.getCreatedUserDisplayName());
                 userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(uid, projectItem.getCreatedUser()));

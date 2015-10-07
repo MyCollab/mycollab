@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.settings.component;
 
-import com.esofthead.mycollab.configuration.Storage;
+import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
@@ -30,10 +30,8 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.UUID;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 public class ProjectUserLink extends Label {
     private static final long serialVersionUID = 1L;
@@ -45,7 +43,7 @@ public class ProjectUserLink extends Label {
         this.setContentMode(ContentMode.HTML);
         DivLessFormatter div = new DivLessFormatter();
         String uid = UUID.randomUUID().toString();
-        Img avatarLink = new Img("", Storage.getAvatarPath(userAvatarId, 16));
+        Img avatarLink = new Img("", StorageFactory.getInstance().getAvatarPath(userAvatarId, 16));
         A memberLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
                 CurrentProjectVariables.getProjectId(), username)).appendText(com.esofthead.mycollab.core.utils
                 .StringUtils.trim(displayName, 30, true));

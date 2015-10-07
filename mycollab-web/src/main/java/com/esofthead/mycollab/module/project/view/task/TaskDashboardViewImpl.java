@@ -119,6 +119,10 @@ public class TaskDashboardViewImpl extends AbstractLazyPageView implements TaskD
                     if (task != null && taskGroupOrderComponent != null) {
                         taskGroupOrderComponent.insertTasks(Arrays.asList(task));
                     }
+                    displayTaskStatistic();
+
+                    int totalTasks = projectTaskService.getTotalCount(baseCriteria);
+                    taskSearchPanel.setTotalCountNumber(totalTasks);
                 }
             };
 
@@ -316,23 +320,28 @@ public class TaskDashboardViewImpl extends AbstractLazyPageView implements TaskD
     @Override
     public void queryTask(final TaskSearchCriteria searchCriteria) {
         baseCriteria = searchCriteria;
+        queryAndDisplayTasks();
+        displayTaskStatistic();
+    }
+
+    private void queryAndDisplayTasks() {
         wrapBody.removeAllComponents();
 
         if (GROUP_DUE_DATE.equals(groupByState)) {
-            searchCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("deadline", sortDirection)));
+            baseCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("deadline", sortDirection)));
             taskGroupOrderComponent = new DueDateOrderComponent();
         } else if (GROUP_START_DATE.equals(groupByState)) {
-            searchCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("startdate", sortDirection)));
+            baseCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("startdate", sortDirection)));
             taskGroupOrderComponent = new StartDateOrderComponent();
         } else if (PLAIN_LIST.equals(groupByState)) {
-            searchCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("lastupdatedtime", sortDirection)));
+            baseCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("lastupdatedtime", sortDirection)));
             taskGroupOrderComponent = new SimpleListOrderComponent();
         } else {
             throw new MyCollabException("Do not support group view by " + groupByState);
         }
         wrapBody.addComponent(taskGroupOrderComponent);
         final ProjectTaskService projectTaskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
-        int totalTasks = projectTaskService.getTotalCount(searchCriteria);
+        int totalTasks = projectTaskService.getTotalCount(baseCriteria);
         taskSearchPanel.setTotalCountNumber(totalTasks);
         currentPage = 0;
         int pages = totalTasks / 20;
@@ -340,11 +349,10 @@ public class TaskDashboardViewImpl extends AbstractLazyPageView implements TaskD
             Button moreBtn = new Button("More", new Button.ClickListener() {
                 @Override
                 public void buttonClick(ClickEvent clickEvent) {
-                    int totalTasks = projectTaskService.getTotalCount(searchCriteria);
+                    int totalTasks = projectTaskService.getTotalCount(baseCriteria);
                     int pages = totalTasks / 20;
                     currentPage++;
-                    List<SimpleTask> otherTasks = projectTaskService.findPagableListByCriteria(new SearchRequest<>
-                            (searchCriteria, currentPage + 1, 20));
+                    List<SimpleTask> otherTasks = projectTaskService.findPagableListByCriteria(new SearchRequest<>(baseCriteria, currentPage + 1, 20));
                     taskGroupOrderComponent.insertTasks(otherTasks);
                     if (currentPage == pages) {
                         wrapBody.removeComponent(wrapBody.getComponent(1));
@@ -354,12 +362,8 @@ public class TaskDashboardViewImpl extends AbstractLazyPageView implements TaskD
             moreBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
             wrapBody.addComponent(moreBtn);
         }
-        List<SimpleTask> tasks = projectTaskService.findPagableListByCriteria(new SearchRequest<>(searchCriteria, currentPage + 1, 20));
+        List<SimpleTask> tasks = projectTaskService.findPagableListByCriteria(new SearchRequest<>(baseCriteria, currentPage + 1, 20));
         taskGroupOrderComponent.insertTasks(tasks);
-    }
-
-    private void queryAndDisplayTasks() {
-        queryTask(baseCriteria);
     }
 
     private void displayGanttChartView() {

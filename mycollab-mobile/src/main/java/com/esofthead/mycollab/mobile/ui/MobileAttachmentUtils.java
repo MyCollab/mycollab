@@ -26,7 +26,7 @@ import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.resources.VaadinResource;
+import com.esofthead.mycollab.vaadin.resources.VaadinResourceFactory;
 import com.esofthead.mycollab.vaadin.ui.AssetResource;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.*;
@@ -67,7 +67,7 @@ public class MobileAttachmentUtils {
         if (StringUtils.isBlank(attachment.getThumbnail())) {
             thumbnail.setSource(DEFAULT_SOURCE);
         } else {
-            thumbnail.setSource(VaadinResource.getInstance().getResource(attachment.getThumbnail()));
+            thumbnail.setSource(VaadinResourceFactory.getInstance().getResource(attachment.getThumbnail()));
         }
         thumbnail.setWidth("100%");
         thumbnailWrap.addComponent(thumbnail);
@@ -83,7 +83,7 @@ public class MobileAttachmentUtils {
 
                 @Override
                 public void buttonClick(Button.ClickEvent event) {
-                    AttachmentPreviewView previewView = new AttachmentPreviewView(VaadinResource.getInstance()
+                    AttachmentPreviewView previewView = new AttachmentPreviewView(VaadinResourceFactory.getInstance()
                             .getResource(attachment.getPath()));
                     EventBusFactory.getInstance().post(new ShellEvent.PushView(this, previewView));
                 }
@@ -122,7 +122,7 @@ public class MobileAttachmentUtils {
         if (StringUtils.isBlank(attachment.getThumbnail())) {
             thumbnail.setSource(DEFAULT_SOURCE);
         } else {
-            thumbnail.setSource(VaadinResource.getInstance().getResource(attachment.getThumbnail()));
+            thumbnail.setSource(VaadinResourceFactory.getInstance().getResource(attachment.getThumbnail()));
         }
         thumbnail.setWidth("100%");
         thumbnailWrap.addComponent(thumbnail);

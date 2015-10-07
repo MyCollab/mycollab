@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.user;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.configuration.Storage;
+import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.core.utils.TimezoneMapper;
@@ -51,55 +51,25 @@ public class CommonTooltipGenerator {
 
             Table table = new Table();
             table.setStyle("padding-left:10px; width :380px; color: #5a5a5a; font-size:11px;");
-            Tr trRow1 = new Tr().appendChild(
-                    new Td().setStyle(
-                            "width: 110px; vertical-align: top; text-align: right;")
-                            .appendText(
-                                    LocalizationHelper.getMessage(locale,
-                                            UserI18nEnum.FORM_EMAIL)))
-                    .appendChild(
-                            new Td().setStyle("vertical-align: top;")
-                                    .appendChild(
-                                            new A().setHref(
-                                                    "mailto:" + user.getEmail())
-                                                    .appendText(
-                                                            StringUtils
-                                                                    .trimHtmlTags(user
-                                                                            .getEmail()))));
+            Tr trRow1 = new Tr().appendChild(new Td().setStyle("width: 110px; vertical-align: top; text-align: right;")
+                    .appendText(LocalizationHelper.getMessage(locale, UserI18nEnum.FORM_EMAIL)))
+                    .appendChild(new Td().setStyle("vertical-align: top;").appendChild(
+                            new A().setHref("mailto:" + user.getEmail())
+                                    .appendText(StringUtils.trimHtmlTags(user.getEmail()))));
 
-            Td trRow1_value = new Td().setStyle(
-                    "width:150px;text-align: right; vertical-align: top;")
-                    .appendChild(
-                            new Img("", Storage.getAvatarPath(
-                                    user.getAvatarid(), 100)));
+            Td trRow1_value = new Td().setStyle("width:150px;text-align: right; vertical-align: top;")
+                    .appendChild(new Img("", StorageFactory.getInstance().getAvatarPath(user.getAvatarid(), 100)));
             trRow1_value.setAttribute("rowspan", "5");
-            trRow1.appendChild(new Td().setStyle(
-                    "width: 0px; vertical-align: top; text-align: right;")
-                    .appendChild(trRow1_value));
+            trRow1.appendChild(new Td().setStyle("width: 0px; vertical-align: top; text-align: right;").appendChild(trRow1_value));
 
-            Tr trRow2 = new Tr().appendChild(
-                    new Td().setStyle(
-                            "width: 110px; vertical-align: top; text-align: right;")
-                            .appendText(
-                                    LocalizationHelper.getMessage(locale,
-                                            UserI18nEnum.FORM_TIMEZONE)))
-                    .appendChild(
-                            new Td().setStyle("vertical-align: top;")
-                                    .appendText(
-                                            TimezoneMapper.getTimezoneExt(
-                                                    user.getTimezone())
-                                                    .getDisplayName()));
-            Tr trRow3 = new Tr().appendChild(
-                    new Td().setStyle(
-                            "width: 110px; vertical-align: top; text-align: right;")
-                            .appendText(
-                                    LocalizationHelper.getMessage(locale,
-                                            UserI18nEnum.FORM_COUNTRY)))
-                    .appendChild(
-                            new Td().setStyle("vertical-align: top;")
-                                    .appendText(
-                                            StringUtils.trimHtmlTags(user
-                                                    .getCountry())));
+            Tr trRow2 = new Tr().appendChild(new Td().setStyle("width: 110px; vertical-align: top; text-align: right;")
+                    .appendText(LocalizationHelper.getMessage(locale, UserI18nEnum.FORM_TIMEZONE)))
+                    .appendChild(new Td().setStyle("vertical-align: top;").appendText(
+                            TimezoneMapper.getTimezoneExt(user.getTimezone()).getDisplayName()));
+            Tr trRow3 = new Tr().appendChild(new Td().setStyle("width: 110px; vertical-align: top; text-align: right;")
+                    .appendText(LocalizationHelper.getMessage(locale, UserI18nEnum.FORM_COUNTRY)))
+                    .appendChild(new Td().setStyle("vertical-align: top;").appendText(
+                            StringUtils.trimHtmlTags(user.getCountry())));
 
             Tr trRow4 = new Tr().appendChild(
                     new Td().setStyle(
@@ -144,10 +114,8 @@ public class CommonTooltipGenerator {
         Table table = new Table();
         table.setStyle("padding-left:10px;  color: #5a5a5a; font-size:11px;");
 
-        Tr trRow1 = new Tr().appendChild(new Td().setStyle(
-                "vertical-align: top; text-align: left;").appendText(
-                LocalizationHelper.getMessage(locale,
-                        GenericI18Enum.TOOLTIP_NO_ITEM_EXISTED)));
+        Tr trRow1 = new Tr().appendChild(new Td().setStyle("vertical-align: top; text-align: left;").appendText(
+                LocalizationHelper.getMessage(locale, GenericI18Enum.TOOLTIP_NO_ITEM_EXISTED)));
 
         table.appendChild(trRow1);
         div.appendChild(table);

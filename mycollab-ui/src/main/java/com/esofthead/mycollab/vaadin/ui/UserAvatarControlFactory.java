@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import com.esofthead.mycollab.vaadin.resources.VaadinResource;
+import com.esofthead.mycollab.vaadin.resources.VaadinResourceFactory;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Image;
@@ -49,7 +49,7 @@ public class UserAvatarControlFactory {
         if (avatarId == null) {
             return new AssetResource(String.format("icons/default_user_avatar_%d.png", size));
         }
-        return VaadinResource.getInstance().getAvatarResource(avatarId, size);
+        return VaadinResourceFactory.getInstance().getAvatarResource(avatarId, size);
     }
 
     public static Button createUserAvatarButtonLink(String userAvatarId, String fullName) {

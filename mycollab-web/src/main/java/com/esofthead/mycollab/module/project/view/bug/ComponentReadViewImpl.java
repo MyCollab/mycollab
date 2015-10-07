@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.project.view.bug;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
-import com.esofthead.mycollab.configuration.Storage;
+import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
@@ -328,8 +328,7 @@ public class ComponentReadViewImpl extends AbstractPreviewItemComp<SimpleCompone
             }
             String uid = UUID.randomUUID().toString();
             Div div = new Div();
-            Img userAvatar = new Img("", Storage.getAvatarPath(
-                    bug.getAssignUserAvatarId(), 16));
+            Img userAvatar = new Img("", StorageFactory.getInstance().getAvatarPath(bug.getAssignUserAvatarId(), 16));
             A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
                     bug.getProjectid(), bug.getAssignuser()));
 
@@ -368,26 +367,20 @@ public class ComponentReadViewImpl extends AbstractPreviewItemComp<SimpleCompone
             layout.setWidth("100%");
             layout.setMargin(new MarginInfo(false, false, false, true));
             try {
-                Label createdLbl = new Label(
-                        AppContext.getMessage(ProjectCommonI18nEnum.ITEM_CREATED_PEOPLE));
+                Label createdLbl = new Label(AppContext.getMessage(ProjectCommonI18nEnum.ITEM_CREATED_PEOPLE));
                 createdLbl.setSizeUndefined();
                 layout.addComponent(createdLbl, 0, 0);
 
-                String createdUserName = (String) PropertyUtils.getProperty(
-                        bean, "createduser");
-                String createdUserAvatarId = (String) PropertyUtils
-                        .getProperty(bean, "createdUserAvatarId");
-                String createdUserDisplayName = (String) PropertyUtils
-                        .getProperty(bean, "createdUserFullName");
+                String createdUserName = (String) PropertyUtils.getProperty(bean, "createduser");
+                String createdUserAvatarId = (String) PropertyUtils.getProperty(bean, "createdUserAvatarId");
+                String createdUserDisplayName = (String) PropertyUtils.getProperty(bean, "createdUserFullName");
 
                 ProjectMemberLink createdUserLink = new ProjectMemberLink(createdUserName,
                         createdUserAvatarId, createdUserDisplayName);
                 layout.addComponent(createdUserLink, 1, 0);
                 layout.setColumnExpandRatio(1, 1.0f);
 
-                Label assigneeLbl = new Label(
-                        AppContext
-                                .getMessage(ProjectCommonI18nEnum.ITEM_ASSIGN_PEOPLE));
+                Label assigneeLbl = new Label(AppContext.getMessage(ProjectCommonI18nEnum.ITEM_ASSIGN_PEOPLE));
                 assigneeLbl.setSizeUndefined();
                 layout.addComponent(assigneeLbl, 0, 1);
                 String assignUserName = (String) PropertyUtils.getProperty(

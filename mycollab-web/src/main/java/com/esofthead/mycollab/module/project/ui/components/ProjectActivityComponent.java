@@ -14,6 +14,22 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
+/**
+ * This file is part of mycollab-web.
+ * <p/>
+ * mycollab-web is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * <p/>
+ * mycollab-web is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * <p/>
+ * You should have received a copy of the GNU General Public License
+ * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.esofthead.mycollab.module.project.ui.components;
 
 import com.esofthead.mycollab.common.ModuleNameConstants;
@@ -35,6 +51,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.utils.FieldGroupFormatter;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
+import com.google.common.collect.Ordering;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Span;
 import com.vaadin.data.Property;
@@ -65,7 +82,7 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
     private AuditLogService auditLogService;
     private FieldGroupFormatter groupFormatter;
     private boolean isAscending = true;
-    private Comparator dateComparator = new Comparator() {
+    private Ordering dateComparator = new Ordering() {
         @Override
         public int compare(Object o1, Object o2) {
             try {
@@ -144,7 +161,7 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
         activities.addAll(comments);
         activities.addAll(auditLogs);
         if (isAscending) {
-            Collections.sort(activities, dateComparator.reversed());
+            Collections.sort(activities, dateComparator.reverse());
         } else {
             Collections.sort(activities, dateComparator);
         }

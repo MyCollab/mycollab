@@ -18,7 +18,7 @@
 package com.esofthead.mycollab.module.crm.view.activity;
 
 import com.esofthead.mycollab.common.TableViewField;
-import com.esofthead.mycollab.configuration.Storage;
+import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
@@ -353,87 +353,38 @@ public class ActivityTableDisplay extends
                                                     .getStatus())));
 
             Tr trRow2 = new Tr();
-            trRow2.appendChild(
-                    new Td().setStyle(
-                            "width: 100px; vertical-align: top; text-align: right;")
-                            .appendText("Due Date:"))
-                    .appendChild(
-                            new Td().setStyle(
-                                    "word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-                                    .appendText(
-                                            AppContext.formatDateTime(event
-                                                    .getEndDate())));
-            trRow2.appendChild(
-                    new Td().setStyle(
-                            "width: 90px; vertical-align: top; text-align: right;")
-                            .appendText("Contact:"))
-                    .appendChild(
-                            new Td().setStyle(
-                                    "width:110px; vertical-align: top; text-align: left;")
-                                    .appendChild(
-                                            new A().setHref(
-                                                    (event.getContactId() != null) ? AppContext
-                                                            .getSiteUrl()
-                                                            + "#"
-                                                            + CrmLinkGenerator
-                                                            .generateContactPreviewLink(event
-                                                                    .getContactId())
-                                                            : "")
-                                                    .appendText(
-                                                            StringUtils
-                                                                    .trimHtmlTags(event
-                                                                            .getContactFullName()))));
+            trRow2.appendChild(new Td().setStyle("width: 100px; vertical-align: top; text-align: right;")
+                    .appendText("Due Date:")).appendChild(
+                    new Td().setStyle("word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+                            .appendText(AppContext.formatDateTime(event.getEndDate())));
+            trRow2.appendChild(new Td().setStyle("width: 90px; vertical-align: top; text-align: right;")
+                    .appendText("Contact:"))
+                    .appendChild(new Td().setStyle("width:110px; vertical-align: top; text-align: left;")
+                            .appendChild(new A().setHref((event.getContactId() != null) ? AppContext.getSiteUrl() + "#"
+                                    + CrmLinkGenerator.generateContactPreviewLink(event.getContactId()) : "")
+                                    .appendText(StringUtils.trimHtmlTags(event.getContactFullName()))));
 
             Tr trRow3 = new Tr();
             trRow3.appendChild(
-                    new Td().setStyle(
-                            "width: 100px; vertical-align: top; text-align: right;")
-                            .appendText("Priority:"))
+                    new Td().setStyle("width: 100px; vertical-align: top; text-align: right;").appendText("Priority:"))
+                    .appendChild(new Td().setStyle("word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+                            .appendText(StringUtils.trimHtmlTags(event.getPriority())));
+            trRow3.appendChild(new Td().setStyle("width: 90px; vertical-align: top; text-align: right;")
+                    .appendText("Assignee:"))
                     .appendChild(
-                            new Td().setStyle(
-                                    "word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-                                    .appendText(
-                                            StringUtils.trimHtmlTags(event
-                                                    .getPriority())));
-            trRow3.appendChild(
-                    new Td().setStyle(
-                            "width: 90px; vertical-align: top; text-align: right;")
-                            .appendText("Assignee:"))
-                    .appendChild(
-                            new Td().setStyle(
-                                    "width: 150px;word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-                                    .appendChild(
-                                            new A().setHref(
-                                                    (event.getAssignUser() != null) ? AccountLinkGenerator
-                                                            .generatePreviewFullUserLink(
-                                                                    AppContext
-                                                                            .getSiteUrl(),
-                                                                    event.getAssignUser())
-                                                            : "")
-                                                    .appendChild(
-                                                            new Img(
-                                                                    "",
-                                                                    Storage.getAvatarPath(
-                                                                            event.getAssignUserAvatarId(),
-                                                                            16)))
-                                                    .appendText(
-                                                            StringUtils
-                                                                    .trimHtmlTags(event
-                                                                            .getAssignUserFullName()))));
+                            new Td().setStyle("width: 150px;word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+                                    .appendChild(new A().setHref((event.getAssignUser() != null) ? AccountLinkGenerator.generatePreviewFullUserLink(
+                                            AppContext.getSiteUrl(), event.getAssignUser()) : "")
+                                            .appendChild(new Img("", StorageFactory.getInstance().getAvatarPath(event.getAssignUserAvatarId(), 16)))
+                                            .appendText(StringUtils.trimHtmlTags(event.getAssignUserFullName()))));
 
             Tr trRow4 = new Tr();
-            Td trRow4_value = new Td()
-                    .setStyle(
-                            "word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-                    .appendText(
-                            StringUtils.trimHtmlTags(event.getDescription()));
+            Td trRow4_value = new Td().setStyle("word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+                    .appendText(StringUtils.trimHtmlTags(event.getDescription()));
             trRow4_value.setAttribute("colspan", "3");
 
-            trRow4.appendChild(
-                    new Td().setStyle(
-                            "width: 70px; vertical-align: top; text-align: right;")
-                            .appendText("Description:")).appendChild(
-                    trRow4_value);
+            trRow4.appendChild(new Td().setStyle("width: 70px; vertical-align: top; text-align: right;")
+                    .appendText("Description:")).appendChild(trRow4_value);
 
             table.appendChild(trRow1);
             table.appendChild(trRow2);

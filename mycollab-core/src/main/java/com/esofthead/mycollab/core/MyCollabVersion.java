@@ -33,8 +33,7 @@ public class MyCollabVersion {
 	}
 
     static int[] getVersionNumbers(String ver) {
-        Matcher m = Pattern.compile("(\\d+)\\.(\\d+)\\.(\\d+)(beta(\\d*))?")
-                .matcher(ver);
+        Matcher m = Pattern.compile("(\\d+)\\.(\\d+)\\.(\\d+)(beta(\\d*))?").matcher(ver);
         if (!m.matches())
             throw new IllegalArgumentException("Malformed FW version");
 

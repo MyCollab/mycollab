@@ -32,6 +32,7 @@
             <author name="MyCollab Ltd" email="support@mycollab.com"/>
         </authors>
         <url>https://www.mycollab.com/</url>
+        <javaversion>1.7</javaversion>
         <run-privileged condition="izpack.windowsinstall"/>
     </info>
 
