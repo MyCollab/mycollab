@@ -1,5 +1,6 @@
 # Free, open source CRM, Document and Project Management software
-[![License](http://img.shields.io/badge/License-GPL-orange.svg)](http://www.gnu.org/copyleft/gpl.html) [![Project Stats](https://www.openhub.net/p/mycollab/widgets/project_thin_badge.gif)](https://www.openhub.net/p/mycollab)
+[![License](http://img.shields.io/badge/License-GPL-orange.svg)](http://www.gnu.org/copyleft/gpl.html) [![Project Stats](https://www.openhub.net/p/mycollab/widgets/project_thin_badge.gif)](https://www.openhub.net/p/mycollab)[![Build](https://travis-ci.org/MyCollab/mycollab.svg)](https://travis-ci.org/MyCollab/mycollab)
+[![Download](https://img.shields.io/badge/Download-5.1.4-brightgreen.svg)](https://community.mycollab.com/)
 
 ## Introduction
 
@@ -70,14 +71,16 @@ MyCollab provides the rich set features of Project Management, Customer Manageme
   * Kanban board
   * Gantt chart
   * Issues Management
-  * Tasks and its dependencies management
+  * Tasks and dependencies management
   * Milestones
   * Time tracking (for premium users only)
   * Risk/Problem Management (For premium users only)
   * People and Permission management
   * Support English and Japanese, more languages will be added in future
+  * Reporting
 
-We use MyCollab in our daily jobs to manage our customers information, projects. It is deployed in the production environment of our premium users, and we also support several organizations to deploy this community version on their servers. We take care of our open source edition similar than we do for our premium product, in fact both of them use the same code base structure. So feel free to use it in your business jobs!
+We use MyCollab in our daily jobs to manage our customers information, projects. It is deployed in the production environment of our premium users, and we supported several organizations to deploy this community version on their servers as well. We take care of our open source edition similar than we do for our premium product, in fact both of them use the same code base structure. So feel free to use it in your business jobs!
+
 
 ## System Requirements
 MyCollab requires a running Java Runtime Environment (7 or greater), Java command should be presented in PATH environment and MySQL (InnoDB support recommended).
@@ -87,7 +90,7 @@ Please take a look at MyCollab requirements:
 
 ## Installation
 
-The current MyCollab version is 5.1.3 released on 17th September, 2015. This branch will focus in mobile devices, reporting and customize options for on-demand edition.
+The current MyCollab version is 5.1.4 released on 7th October, 2015. This branch focuses in mobile devices, reporting and customize options for on-demand edition.
 
 1. Download MyCollab binary - https://community.mycollab.com/download/
 2. Follow installation guideline at https://community.mycollab.com/installation-guideline/

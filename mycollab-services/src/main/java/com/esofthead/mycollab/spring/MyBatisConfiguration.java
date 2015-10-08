@@ -50,7 +50,13 @@ public class MyBatisConfiguration {
     public SqlSessionFactory sqlSessionFactory() throws Exception {
         SqlSessionFactoryBean sqlSessionFactory = new SqlSessionFactoryBean();
         sqlSessionFactory.setDataSource(dbConfig.dataSource());
-        sqlSessionFactory.setTypeAliasesPackage("com.esofthead.mycollab.common.domain.criteria;com.esofthead.mycollab.module.crm.domain.criteria;com.esofthead.mycollab.module.ecm.domain.criteria;com.esofthead.mycollab.module.file.domain.criteria;com.esofthead.mycollab.module.project.domain.criteria;com.esofthead.mycollab.module.tracker.domain.criteria;com.esofthead.mycollab.module.user.domain.criteria");
+        sqlSessionFactory.setTypeAliasesPackage("com.esofthead.mycollab.common.domain.criteria;" +
+                "com.esofthead.mycollab.module.crm.domain.criteria;" +
+                "com.esofthead.mycollab.module.ecm.domain.criteria;" +
+                "com.esofthead.mycollab.module.file.domain.criteria;" +
+                "com.esofthead.mycollab.module.project.domain.criteria;" +
+                "com.esofthead.mycollab.module.tracker.domain.criteria;" +
+                "com.esofthead.mycollab.module.user.domain.criteria");
         sqlSessionFactory.setTypeAliasesSuperType(SearchCriteria.class);
         sqlSessionFactory.setTypeAliases(new Class[]{VelocityDriverDeclare.class});
         sqlSessionFactory.setTypeHandlersPackage("com.esofthead.mybatis.plugin.ext");

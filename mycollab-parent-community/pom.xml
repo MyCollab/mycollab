@@ -264,8 +264,8 @@
 
         <dependency>
             <groupId>com.zaxxer</groupId>
-            <artifactId>HikariCP-java6</artifactId>
-            <version>2.3.11</version>
+            <artifactId>HikariCP</artifactId>
+            <version>2.4.1</version>
         </dependency>
 
         <dependency>
@@ -427,6 +427,10 @@
 
     <repositories>
         <repository>
+            <id>mycollab-repo</id>
+            <url>https://raw.githubusercontent.com/MyCollab/mycollab-maven-repo/master/</url>
+        </repository>
+        <repository>
             <id>vaadin-addons</id>
             <url>http://maven.vaadin.com/vaadin-addons</url>
         </repository>
@@ -438,10 +442,6 @@
             <id>repository.springsource.milestone</id>
             <name>SpringSource Milestone Repository</name>
             <url>http://repo.springsource.org/milestone</url>
-        </repository>
-        <repository>
-            <id>mycollab-repo</id>
-            <url>https://raw.githubusercontent.com/MyCollab/mycollab-maven-repo/master/</url>
         </repository>
     </repositories>
     <pluginRepositories>

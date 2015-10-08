@@ -972,6 +972,7 @@
     actualstartdate CDATA #IMPLIED
     actualenddate CDATA #IMPLIED
     deadline CDATA #IMPLIED
+    ganttIndex CDATA #IMPLIED
 >
 
 <!ELEMENT m_prj_notifications EMPTY>
@@ -986,13 +987,14 @@
 <!ELEMENT m_prj_predecessor EMPTY>
 <!ATTLIST m_prj_predecessor
     id CDATA #REQUIRED
-    type CDATA #REQUIRED
+    sourceType CDATA #REQUIRED
     predestype CDATA #REQUIRED
     createdTime CDATA #REQUIRED
     createdUser CDATA #IMPLIED
     lagDay CDATA #IMPLIED
     sourceId CDATA #REQUIRED
     descId CDATA #REQUIRED
+    descType CDATA #REQUIRED
 >
 
 <!ELEMENT m_prj_problem EMPTY>

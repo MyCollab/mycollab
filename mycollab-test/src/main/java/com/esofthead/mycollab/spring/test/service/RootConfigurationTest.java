@@ -16,8 +16,12 @@
  */
 package com.esofthead.mycollab.spring.test.service;
 
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
+import org.springframework.stereotype.Controller;
 
 /**
  * @author MyCollab Ltd.
@@ -26,11 +30,9 @@ import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
 @Configuration
 @EnableSpringConfigured
 @EnableAspectJAutoProxy
-@ComponentScan(basePackages = {"com.esofthead.mycollab"}, includeFilters = {@ComponentScan.Filter(type = FilterType
-        .ASPECTJ, pattern = "com.esofthead.mycollab..service.*"), @ComponentScan.Filter(type = FilterType.ASPECTJ,
-        pattern = "com.esofthead.mycollab..dao.*"), @ComponentScan.Filter(type = FilterType.ASPECTJ,
-        pattern = "com.esofthead.mycollab..service.*Test"), @ComponentScan.Filter(type = FilterType.ASPECTJ,
-        pattern = "com.esofthead.mycollab.schedule.email.*"), @ComponentScan.Filter(type = FilterType.REGEX, pattern = "test.com.esofthead.mycollab.service.*")})
+@ComponentScan(basePackages = {"com.esofthead.mycollab.**.service", "com.esofthead.mycollab.**.spring",
+        "com.esofthead.mycollab.**.jobs", "com.esofthead.mycollab.**.aspect", "com.esofthead.mycollab.**.esb"},
+        excludeFilters = {@ComponentScan.Filter(classes = {Controller.class})})
 @Profile("test")
 public class RootConfigurationTest {
 

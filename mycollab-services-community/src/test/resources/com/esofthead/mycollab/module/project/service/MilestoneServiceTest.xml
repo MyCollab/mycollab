@@ -37,58 +37,18 @@
 		lastUpdatedTime="2014-10-04 00:40:00" startdate="2014-10-04 00:00:00"
 		enddate="2014-10-14 00:00:00" owner="nghiemle" flag="aaaa" />
 
-	<m_prj_task_list name="list 1" id="1" status="Open"
-		milestoneId="1" projectid="1" sAccountId="1" />
+	<m_prj_task sAccountId="1" projectid="1" id="1" percentagecomplete="10" taskname="bug 1" milestoneId="2"/>
+	<m_prj_task sAccountId="1" projectid="1" id="2" percentagecomplete="20" taskname="bug 2"  milestoneId="2"/>
+	<m_prj_task sAccountId="1" projectid="1" id="3" percentagecomplete="30" taskname="bug 3"  milestoneId="1"/>
+	<m_prj_task sAccountId="1" projectid="1" id="4" percentagecomplete="40" taskname="bug 4"  />
+	<m_prj_task sAccountId="1" projectid="1" id="5" percentagecomplete="50" taskname="bug 5" />
+	<m_prj_task sAccountId="1" projectid="1" id="6" percentagecomplete="60" taskname="bug 6"  />
 
-	<m_prj_task_list name="list 2" id="2" status="Open"
-		milestoneId="2" projectid="1" sAccountId="1" />
-
-	<m_prj_task_list name="list 3" id="3" status="Closed"
-		milestoneId="2" projectid="1" sAccountId="1" />
-
-	<m_prj_task_list name="list 4" id="4" status="Closed"
-		milestoneId="3" projectid="1" sAccountId="1" />
-
-	<m_prj_task_list name="list 5" id="5" status="Open"
-		milestoneId="3" projectid="1" sAccountId="1" />
-
-	<m_prj_task_list name="list 6" id="6" status="Open"
-		milestoneId="3" projectid="1" sAccountId="1" />
-
-	<m_prj_task sAccountId="1" projectid="1" id="1"
-		percentagecomplete="10" taskname="bug 1" tasklistid="1" />
-
-	<m_prj_task sAccountId="1" projectid="1" id="2"
-		percentagecomplete="20" taskname="bug 2" tasklistid="2" />
-
-	<m_prj_task sAccountId="1" projectid="1" id="3"
-		percentagecomplete="30" taskname="bug 3" tasklistid="2" />
-
-	<m_prj_task sAccountId="1" projectid="1" id="4"
-		percentagecomplete="40" taskname="bug 4" tasklistid="3" />
-
-	<m_prj_task sAccountId="1" projectid="1" id="5"
-		percentagecomplete="50" taskname="bug 5" tasklistid="3" />
-
-	<m_prj_task sAccountId="1" projectid="1" id="6"
-		percentagecomplete="60" taskname="bug 6" tasklistid="3" />
-
-	<m_tracker_bug status="Open" sAccountId="1" id="1"
-		milestoneId="4" projectid="1" summary="sum 1" />
-
-	<m_tracker_bug status="Open" sAccountId="1" id="2"
-		milestoneId="4" projectid="1" summary="sum 2" />
-
-	<m_tracker_bug status="Open" sAccountId="1" id="3"
-		milestoneId="4" projectid="1" summary="sum 3" />
-
-	<m_tracker_bug status="Open" sAccountId="1" id="4"
-		milestoneId="1" projectid="1" summary="sum 4" />
-
-	<m_tracker_bug status="Open" sAccountId="1" id="5"
-		milestoneId="1" projectid="1" summary="sum 5" />
-
-	<m_tracker_bug status="Open" sAccountId="1" id="6"
-		milestoneId="3" projectid="1" summary="sum 6" />
+	<m_tracker_bug status="Open" sAccountId="1" id="1" milestoneId="4" projectid="1" summary="sum 1" />
+	<m_tracker_bug status="Open" sAccountId="1" id="2" milestoneId="4" projectid="1" summary="sum 2" />
+	<m_tracker_bug status="Open" sAccountId="1" id="3" milestoneId="4" projectid="1" summary="sum 3" />
+	<m_tracker_bug status="Open" sAccountId="1" id="4" milestoneId="1" projectid="1" summary="sum 4" />
+	<m_tracker_bug status="Open" sAccountId="1" id="5" milestoneId="1" projectid="1" summary="sum 5" />
+	<m_tracker_bug status="Open" sAccountId="1" id="6" milestoneId="3" projectid="1" summary="sum 6" />
 
 </dataset>

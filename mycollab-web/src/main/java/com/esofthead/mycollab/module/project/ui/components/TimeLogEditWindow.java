@@ -103,13 +103,9 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
         constructSpentTimeEntryPanel();
         constructRemainTimeEntryPanel();
 
-        tableItem = new DefaultPagedBeanTable<>(
-                ApplicationContextUtil.getSpringBean(ItemTimeLoggingService.class),
-                SimpleItemTimeLogging.class, Arrays.asList(
-                TimeTableFieldDef.logUser,
-                TimeTableFieldDef.logForDate,
-                TimeTableFieldDef.logValue, TimeTableFieldDef.billable,
-                new TableViewField(null, "id", UIConstants.TABLE_CONTROL_WIDTH)));
+        tableItem = new DefaultPagedBeanTable<>(ApplicationContextUtil.getSpringBean(ItemTimeLoggingService.class), SimpleItemTimeLogging.class,
+                Arrays.asList(TimeTableFieldDef.logUser, TimeTableFieldDef.logForDate, TimeTableFieldDef.logValue,
+                        TimeTableFieldDef.billable, new TableViewField(null, "id", UIConstants.TABLE_CONTROL_WIDTH)));
 
         tableItem.addGeneratedColumn("logUserFullName", new Table.ColumnGenerator() {
             private static final long serialVersionUID = 1L;
@@ -173,6 +169,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
                     public void buttonClick(final ClickEvent event) {
                         itemTimeLoggingService.removeWithSession(itemTimeLogging, AppContext.getUsername(), AppContext.getAccountId());
                         TimeLogEditWindow.this.loadTimeValue();
+                        hasTimeChange = true;
                     }
                 });
                 deleteBtn.setIcon(FontAwesome.TRASH_O);
@@ -226,8 +223,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
                 try {
                     d = Double.parseDouble(newTimeInputField.getValue());
                 } catch (NumberFormatException e) {
-                    NotificationUtil
-                            .showWarningNotification("You must enter a positive number value");
+                    NotificationUtil.showWarningNotification("You must enter a positive number value");
                 }
                 if (d > 0) {
                     hasTimeChange = true;

@@ -361,16 +361,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <repositories>
-        <repository>
-            <id>vaadin-addons</id>
-            <url>http://maven.vaadin.com/vaadin-addons</url>
-        </repository>
-        <repository>
-            <id>mycollab-repo</id>
-            <url>https://raw.githubusercontent.com/esofthead/mycollab-maven-repo/master</url>
-        </repository>
-    </repositories>
-
 </project>

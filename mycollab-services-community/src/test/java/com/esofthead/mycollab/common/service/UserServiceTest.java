@@ -49,8 +49,7 @@ public class UserServiceTest extends IntergrationServiceTest {
 		UserSearchCriteria criteria = new UserSearchCriteria();
 		criteria.setSaccountid(new NumberSearchField(1));
 		List<SimpleUser> users = userService
-				.findPagableListByCriteria(new SearchRequest<>(
-						criteria, 0, Integer.MAX_VALUE));
+				.findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 		assertThat(users.size()).isEqualTo(4);
 		assertThat(users).extracting("username").contains(
 				"hainguyen@esofthead.com", "linhduong@esofthead.com",

@@ -1,6 +1,6 @@
 <!DOCTYPE dataset PUBLIC "-//MyCollab/MyCollab Database Schema//EN" "http://www.mycollab.com/mycollab.dtd">
 <dataset>
-    <s_account id="1" createdTime="2013-04-10 13:29:23" paymentMethod="Credit Card" status="Active" />
+    <s_account id="1" createdTime="2013-04-10 13:29:23" paymentMethod="Credit Card" status="Active"/>
     <m_prj_project id="1" name="Project A" shortname="A" projectStatus="Open" sAccountId="1"/>
     <m_prj_project id="2" name="Project B" shortname="B" projectStatus="Open" sAccountId="1"/>
     <m_prj_milestone id="1" name="Milestone 1" projectid="1" sAccountId="1" status="Open"/>
@@ -11,6 +11,6 @@
     <m_prj_task id="4" taskname="Task 4" percentagecomplete="0" projectid="1" sAccountId="1" milestoneId="2"/>
     <m_prj_task id="5" taskname="Task 5" percentagecomplete="10" projectid="1" sAccountId="1" parentTaskId="4"/>
     <m_prj_task id="6" taskname="Task 6" percentagecomplete="0" projectid="1" sAccountId="1"/>
-    <m_prj_predecessor id="1" type="Project-Task" predestype="FS" createdTime="2013-04-10 13:29:23" sourceId="5"
-                       descId="2" lagDay="0"/>
+    <m_prj_predecessor id="1" sourceType="Project-Task" descType="Project-Task" predestype="FS"
+                       createdTime="2013-04-10 13:29:23" sourceId="5" descId="2" lagDay="0"/>
 </dataset>

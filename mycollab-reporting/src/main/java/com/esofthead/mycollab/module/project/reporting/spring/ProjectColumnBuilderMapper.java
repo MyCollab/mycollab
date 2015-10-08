@@ -176,7 +176,7 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
             @Override
             public String evaluate(ReportParameters reportParameters) {
                 Integer componentId = reportParameters.getFieldValue("id");
-                Integer projectId = reportParameters.getFieldValue("projectId");
+                Integer projectId = reportParameters.getFieldValue("projectid");
                 String siteUrl = reportParameters.getParameterValue("siteUrl");
                 return ProjectLinkGenerator.generateBugComponentPreviewFullLink(siteUrl, projectId, componentId);
             }
@@ -214,7 +214,7 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
             @Override
             public String evaluate(ReportParameters reportParameters) {
                 Integer versionid = reportParameters.getFieldValue("id");
-                Integer projectId = reportParameters.getFieldValue("projectId");
+                Integer projectId = reportParameters.getFieldValue("projectid");
                 String siteUrl = reportParameters.getParameterValue("siteUrl");
                 return ProjectLinkGenerator.generateBugVersionPreviewFullLink(siteUrl, projectId, versionid);
             }
