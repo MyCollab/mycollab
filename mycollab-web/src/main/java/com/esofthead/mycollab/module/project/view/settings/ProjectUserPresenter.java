@@ -28,8 +28,7 @@ import com.vaadin.ui.ComponentContainer;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class ProjectUserPresenter extends
-		AbstractPresenter<ProjectUserContainer> {
+public class ProjectUserPresenter extends AbstractPresenter<ProjectUserContainer> {
 	private static final long serialVersionUID = 1L;
 
 	public ProjectUserPresenter() {

@@ -51,7 +51,6 @@ import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
-import com.esofthead.vaadin.floatingcomponent.FloatingComponent;
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.data.Property;
 import com.vaadin.server.FileDownloader;
@@ -227,13 +226,11 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
         mainLayout = new MHorizontalLayout().withFullHeight().withFullWidth();
         wrapBody = new MVerticalLayout().withMargin(new MarginInfo(false, true, true, false));
 
-        this.rightColumn = new MVerticalLayout().withWidth("300px").withMargin(new MarginInfo(true, false, true, false));
+        this.rightColumn = new MVerticalLayout().withWidth("400px").withMargin(new MarginInfo(true, false, true,
+                false));
 
         mainLayout.with(wrapBody, rightColumn).expand(wrapBody);
         this.with(searchPanel, mainLayout);
-
-        FloatingComponent floatSidebar = FloatingComponent.floatThis(this.rightColumn);
-        floatSidebar.setContainerId("main-body");
     }
 
     private StreamResource buildStreamSource(ReportExportType exportType) {

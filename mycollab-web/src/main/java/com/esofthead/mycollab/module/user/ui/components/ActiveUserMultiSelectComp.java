@@ -44,7 +44,7 @@ public class ActiveUserMultiSelectComp extends MultiSelectComp<SimpleUser> {
     private static final Logger LOG = LoggerFactory.getLogger(ActiveUserMultiSelectComp.class);
 
     public ActiveUserMultiSelectComp() {
-        super("displayName");
+        super("displayName", false);
     }
 
     @Override
@@ -57,6 +57,11 @@ public class ActiveUserMultiSelectComp extends MultiSelectComp<SimpleUser> {
         List<SimpleUser> userList = userService.findPagableListByCriteria(new SearchRequest<>(
                 criteria, 0, Integer.MAX_VALUE));
         return userList;
+    }
+
+    @Override
+    protected void requestAddNewComp() {
+
     }
 
     @Override

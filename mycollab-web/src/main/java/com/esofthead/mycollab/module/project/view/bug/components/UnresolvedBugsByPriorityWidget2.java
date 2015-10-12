@@ -24,19 +24,19 @@ import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
+import com.esofthead.mycollab.module.project.view.bug.IPrioritySummaryChartWidget;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.ButtonI18nComp;
-import com.esofthead.mycollab.vaadin.ui.Depot;
+import com.esofthead.mycollab.vaadin.ui.DepotWithChart;
 import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
-import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.List;
 
@@ -44,26 +44,35 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class UnresolvedBugsByPriorityWidget2 extends Depot {
+public class UnresolvedBugsByPriorityWidget2 extends DepotWithChart {
     private static final long serialVersionUID = 1L;
 
-    private BugSearchCriteria bugSearchCriteria;
-
-    public UnresolvedBugsByPriorityWidget2() {
-        super("", new MVerticalLayout());
-        this.setContentBorder(true);
-        this.setMargin(new MarginInfo(false, false, true, false));
-    }
+    private BugSearchCriteria searchCriteria;
+    private int totalCount;
+    private List<GroupItem> groupItems;
 
     public void setSearchCriteria(final BugSearchCriteria searchCriteria) {
-        this.bugSearchCriteria = searchCriteria;
-        this.bodyContent.removeAllComponents();
-        BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
-        int totalCount = bugService.getTotalCount(searchCriteria);
-        this.setTitle(AppContext.getMessage(BugI18nEnum.WIDGET_UNRESOLVED_BY_PRIORITY_TITLE) + " (" + totalCount + ")");
-        List<GroupItem> groupItems = bugService.getPrioritySummary(searchCriteria);
-        BugPriorityClickListener listener = new BugPriorityClickListener();
+        this.searchCriteria = searchCriteria;
 
+        BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+        totalCount = bugService.getTotalCount(searchCriteria);
+        this.setTitle(AppContext.getMessage(BugI18nEnum.WIDGET_UNRESOLVED_BY_PRIORITY_TITLE) + " (" + totalCount + ")");
+        groupItems = bugService.getPrioritySummary(searchCriteria);
+        displayPlainMode();
+    }
+
+    @Override
+    protected void displayChartMode() {
+        this.bodyContent.removeAllComponents();
+        IPrioritySummaryChartWidget prioritySummaryChartWidget = ViewManager.getCacheComponent(IPrioritySummaryChartWidget.class);
+        prioritySummaryChartWidget.displayChart(searchCriteria);
+        bodyContent.addComponent(prioritySummaryChartWidget);
+    }
+
+    @Override
+    protected void displayPlainMode() {
+        this.bodyContent.removeAllComponents();
+        BugPriorityClickListener listener = new BugPriorityClickListener();
         if (!groupItems.isEmpty()) {
             for (BugPriority priority : OptionI18nEnum.bug_priorities) {
                 boolean isFound = false;
@@ -99,7 +108,6 @@ public class UnresolvedBugsByPriorityWidget2 extends Depot {
                     this.bodyContent.addComponent(priorityLayout);
                 }
             }
-
         }
     }
 
@@ -109,8 +117,8 @@ public class UnresolvedBugsByPriorityWidget2 extends Depot {
         @Override
         public void buttonClick(final ClickEvent event) {
             String key = ((ButtonI18nComp) event.getButton()).getKey();
-            bugSearchCriteria.setPriorities(new SetSearchField<>(new String[]{key}));
-            EventBusFactory.getInstance().post(new BugEvent.SearchRequest(this, bugSearchCriteria));
+            searchCriteria.setPriorities(new SetSearchField<>(new String[]{key}));
+            EventBusFactory.getInstance().post(new BugEvent.SearchRequest(this, searchCriteria));
         }
     }
 }

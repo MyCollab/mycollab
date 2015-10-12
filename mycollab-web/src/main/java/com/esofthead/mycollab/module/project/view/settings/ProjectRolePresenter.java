@@ -25,40 +25,35 @@ import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class ProjectRolePresenter extends
-		AbstractPresenter<ProjectRoleContainer> {
-	private static final long serialVersionUID = 1L;
+public class ProjectRolePresenter extends AbstractPresenter<ProjectRoleContainer> {
+    private static final long serialVersionUID = 1L;
 
-	public ProjectRolePresenter() {
-		super(ProjectRoleContainer.class);
-	}
+    public ProjectRolePresenter() {
+        super(ProjectRoleContainer.class);
+    }
 
-	@Override
-	public void go(ComponentContainer container, ScreenData<?> data) {
-		super.go(container, data, false);
-	}
+    @Override
+    public void go(ComponentContainer container, ScreenData<?> data) {
+        super.go(container, data, false);
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		AbstractPresenter<?> presenter = null;
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        AbstractPresenter<?> presenter;
 
-		if (data instanceof ProjectRoleScreenData.Search) {
-			presenter = PresenterResolver
-					.getPresenter(ProjectRoleListPresenter.class);
-		} else if (data instanceof ProjectRoleScreenData.Add) {
-			presenter = PresenterResolver
-					.getPresenter(ProjectRoleAddPresenter.class);
-		} else if (data instanceof ProjectRoleScreenData.Read) {
-			presenter = PresenterResolver
-					.getPresenter(ProjectRoleReadPresenter.class);
-		} else {
-			throw new MyCollabException("Can not handle data " + data);
-		}
+        if (data instanceof ProjectRoleScreenData.Search) {
+            presenter = PresenterResolver.getPresenter(ProjectRoleListPresenter.class);
+        } else if (data instanceof ProjectRoleScreenData.Add) {
+            presenter = PresenterResolver.getPresenter(ProjectRoleAddPresenter.class);
+        } else if (data instanceof ProjectRoleScreenData.Read) {
+            presenter = PresenterResolver.getPresenter(ProjectRoleReadPresenter.class);
+        } else {
+            throw new MyCollabException("Can not handle data " + data);
+        }
 
-		presenter.go(view, data);
-	}
+        presenter.go(view, data);
+    }
 }

@@ -19,7 +19,6 @@ package com.esofthead.mycollab.module.project.view.settings;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -64,15 +63,14 @@ public class ProjectRoleSearchPanel extends DefaultGenericSearchPanel<ProjectRol
 
     @Override
     protected void buildExtraControls() {
-        Button createBtn = new Button(AppContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_ROLE),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        Button createBtn = new Button(AppContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_ROLE), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        EventBusFactory.getInstance().post(new ProjectRoleEvent.GotoAdd(this, null));
-                    }
-                });
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                EventBusFactory.getInstance().post(new ProjectRoleEvent.GotoAdd(this, null));
+            }
+        });
         createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         createBtn.setIcon(FontAwesome.PLUS);
         createBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.ROLES));
@@ -111,28 +109,26 @@ public class ProjectRoleSearchPanel extends DefaultGenericSearchPanel<ProjectRol
             nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
             basicSearchBody.addComponent(nameField);
 
-            Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH),
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH), new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(final Button.ClickEvent event) {
-                            callSearchAction();
-                        }
-                    });
+                @Override
+                public void buttonClick(final Button.ClickEvent event) {
+                    callSearchAction();
+                }
+            });
             searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
             searchBtn.setIcon(FontAwesome.SEARCH);
             basicSearchBody.addComponent(searchBtn);
 
-            Button clearBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR),
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            Button clearBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(final Button.ClickEvent event) {
-                            ProjectRoleBasicSearchLayout.this.nameField.setValue("");
-                        }
-                    });
+                @Override
+                public void buttonClick(final Button.ClickEvent event) {
+                    ProjectRoleBasicSearchLayout.this.nameField.setValue("");
+                }
+            });
             clearBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
             basicSearchBody.addComponent(clearBtn);
             return basicSearchBody;

@@ -219,7 +219,7 @@ public class TaskDashboardViewImpl extends AbstractLazyPageView implements TaskD
 
             @Override
             public void buttonClick(final ClickEvent event) {
-                UI.getCurrent().addWindow(new TaskAddWindow());
+                UI.getCurrent().addWindow(new TaskAddWindow(new SimpleTask()));
             }
         });
         newTaskBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
@@ -231,6 +231,15 @@ public class TaskDashboardViewImpl extends AbstractLazyPageView implements TaskD
         Button advanceDisplayBtn = new Button();
         advanceDisplayBtn.setIcon(FontAwesome.SITEMAP);
         advanceDisplayBtn.setDescription(AppContext.getMessage(TaskGroupI18nEnum.ADVANCED_VIEW_TOOLTIP));
+
+        Button calendarBtn = new Button(null, new Button.ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent clickEvent) {
+                EventBusFactory.getInstance().post(new TaskEvent.GotoCalendarView(TaskDashboardViewImpl.this));
+            }
+        });
+        calendarBtn.setDescription("Calendar View");
+        calendarBtn.setIcon(FontAwesome.CALENDAR);
 
         Button chartDisplayBtn = new Button(null, new Button.ClickListener() {
             private static final long serialVersionUID = -5707546605789537298L;
@@ -254,6 +263,7 @@ public class TaskDashboardViewImpl extends AbstractLazyPageView implements TaskD
 
         ToggleButtonGroup viewButtons = new ToggleButtonGroup();
         viewButtons.addButton(advanceDisplayBtn);
+        viewButtons.addButton(calendarBtn);
         viewButtons.addButton(kanbanBtn);
         viewButtons.addButton(chartDisplayBtn);
         viewButtons.setDefaultButton(advanceDisplayBtn);
@@ -261,13 +271,8 @@ public class TaskDashboardViewImpl extends AbstractLazyPageView implements TaskD
 
         mainLayout = new MHorizontalLayout().withFullHeight().withFullWidth();
         wrapBody = new MVerticalLayout().withMargin(new MarginInfo(false, true, true, false));
-
-        rightColumn = new MVerticalLayout().withWidth("300px").withMargin(new MarginInfo(true, false, false, false));
-
+        rightColumn = new MVerticalLayout().withWidth("400px").withMargin(new MarginInfo(true, false, false, false));
         mainLayout.with(wrapBody, rightColumn).expand(wrapBody);
-
-        FloatingComponent floatSidebar = FloatingComponent.floatThis(this.rightColumn);
-        floatSidebar.setContainerId("main-body");
     }
 
     @Override

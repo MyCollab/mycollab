@@ -102,6 +102,15 @@ public class GanttChartViewImpl extends AbstractLazyPageView implements GanttCha
         advanceDisplayBtn.setIcon(FontAwesome.SITEMAP);
         advanceDisplayBtn.setDescription(AppContext.getMessage(TaskGroupI18nEnum.ADVANCED_VIEW_TOOLTIP));
 
+        Button calendarBtn = new Button(null, new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                EventBusFactory.getInstance().post(new TaskEvent.GotoCalendarView(GanttChartViewImpl.this));
+            }
+        });
+        calendarBtn.setDescription("Calendar View");
+        calendarBtn.setIcon(FontAwesome.CALENDAR);
+
         Button chartDisplayBtn = new Button();
         chartDisplayBtn.setDescription("Display Gantt chart");
         chartDisplayBtn.setIcon(FontAwesome.BAR_CHART_O);
@@ -117,6 +126,7 @@ public class GanttChartViewImpl extends AbstractLazyPageView implements GanttCha
 
         ToggleButtonGroup viewButtons = new ToggleButtonGroup();
         viewButtons.addButton(advanceDisplayBtn);
+        viewButtons.addButton(calendarBtn);
         viewButtons.addButton(kanbanBtn);
         viewButtons.addButton(chartDisplayBtn);
         viewButtons.setDefaultButton(chartDisplayBtn);

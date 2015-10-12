@@ -26,7 +26,7 @@ import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.view.bug.components.BugResolutionComboBox;
-import com.esofthead.mycollab.module.project.view.bug.components.VersionMultiSelectField;
+import com.esofthead.mycollab.module.project.view.settings.component.VersionMultiSelectField;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
 import com.esofthead.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;

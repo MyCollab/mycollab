@@ -19,10 +19,12 @@ package com.esofthead.mycollab.module.project.view.settings.component;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectMemberStatusConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
+import com.esofthead.mycollab.module.project.events.ProjectMemberEvent;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.ui.MultiSelectComp;
@@ -43,7 +45,7 @@ public class ProjectMemberMultiSelectComp extends MultiSelectComp<SimpleProjectM
     private static final Logger LOG = LoggerFactory.getLogger(ProjectMemberMultiSelectComp.class);
 
     public ProjectMemberMultiSelectComp() {
-        super("memberFullName");
+        super("memberFullName", false);
     }
 
     @Override
@@ -56,6 +58,11 @@ public class ProjectMemberMultiSelectComp extends MultiSelectComp<SimpleProjectM
         List<SimpleProjectMember> items = projectMemberService.findPagableListByCriteria(new SearchRequest<>(
                 criteria, 0, Integer.MAX_VALUE));
         return items;
+    }
+
+    @Override
+    protected void requestAddNewComp() {
+        EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(this, null));
     }
 
     @Override

@@ -64,7 +64,7 @@ public class SalesDashboardView extends Depot {
 
             final OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
             criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-            salesStageDashboard.setSearchCriteria(criteria);
+            salesStageDashboard.displayChart(criteria);
         } else if ("OpportunityLeadSource".equals(reportName)) {
             this.setTitle("Opportunity Lead Source");
             IOpportunityLeadSourceDashboard leadSourceDashboard = ViewManager.getCacheComponent(IOpportunityLeadSourceDashboard.class);
@@ -72,7 +72,7 @@ public class SalesDashboardView extends Depot {
 
             final OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
             criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-            leadSourceDashboard.setSearchCriteria(criteria);
+            leadSourceDashboard.displayChart(criteria);
         }
     }
 

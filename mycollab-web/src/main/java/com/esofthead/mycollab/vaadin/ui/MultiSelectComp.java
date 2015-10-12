@@ -40,6 +40,7 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
 
     private static final Logger log = LoggerFactory.getLogger(MultiSelectComp.class);
 
+    private boolean canAddNew;
     protected TextField componentsText;
     protected PopupButton componentPopupSelection;
     private VerticalLayout popupContent;
@@ -50,7 +51,8 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
     protected List<T> selectedItems = new ArrayList<>();
     protected List<T> items = new ArrayList<>();
 
-    public MultiSelectComp(final String displayName) {
+    public MultiSelectComp(final String displayName, boolean canAddNew) {
+        this.canAddNew = canAddNew;
         propertyDisplayField = displayName;
         items = createData();
 
@@ -80,20 +82,33 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
 
     @Override
     protected Component initContent() {
-        MHorizontalLayout content = new MHorizontalLayout().withSpacing(false).withWidth(widthVal).with
-                (componentsText).withAlign(componentsText, Alignment.MIDDLE_LEFT);
+        MHorizontalLayout content = new MHorizontalLayout().withSpacing(true).withWidth(widthVal).with(componentsText)
+                .withAlign(componentsText, Alignment.MIDDLE_LEFT);
 
         componentPopupSelection.addStyleName(UIConstants.MULTI_SELECT_BG);
         componentPopupSelection.setWidth("25px");
         componentPopupSelection.setDirection(Alignment.TOP_LEFT);
 
-        CssLayout btnWrapper = new CssLayout();
-        btnWrapper.setWidthUndefined();
-        btnWrapper.addStyleName(UIConstants.MULTI_SELECT_BG);
-        btnWrapper.addComponent(componentPopupSelection);
-        content.with(btnWrapper).expand(componentsText);
+        MHorizontalLayout multiSelectComp = new MHorizontalLayout().withSpacing(false).with(componentsText, componentPopupSelection)
+                .expand(componentsText);
+        content.with(multiSelectComp);
+
+        if (canAddNew) {
+            Button newBtn = new Button("New", new Button.ClickListener() {
+                @Override
+                public void buttonClick(ClickEvent clickEvent) {
+                    requestAddNewComp();
+                }
+            });
+            newBtn.setStyleName(UIConstants.THEME_LINK);
+            newBtn.setWidthUndefined();
+            content.with(newBtn);
+        }
+        content.expand(multiSelectComp);
         return content;
     }
+
+    abstract protected void requestAddNewComp();
 
     @Override
     public void setWidth(String width) {

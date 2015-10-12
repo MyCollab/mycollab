@@ -23,7 +23,6 @@ package com.esofthead.mycollab.core.db.query;
  * 
  */
 public class ColumnParam extends Param {
-
 	protected String table;
 	protected String column;
 

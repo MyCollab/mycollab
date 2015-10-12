@@ -18,21 +18,17 @@ package com.esofthead.mycollab.community.module.project.view.bug;
 
 import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.community.ui.chart.PieChartWrapper;
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
+import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.events.BugEvent;
-import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
 import com.esofthead.mycollab.module.project.view.bug.IBugResolutionSummaryChartWidget;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
-import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.vaadin.ui.ComponentContainer;
 import org.jfree.data.general.DefaultPieDataset;
 
 import java.util.List;
@@ -45,31 +41,20 @@ import java.util.List;
 public class ResolutionSummaryChartWidget extends PieChartWrapper<BugSearchCriteria> implements IBugResolutionSummaryChartWidget {
     private static final long serialVersionUID = 1L;
 
-    public ResolutionSummaryChartWidget(int width, int height) {
-        super(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_RESOLUTION_TITLE), BugResolution.class, width, height);
-    }
-
     public ResolutionSummaryChartWidget() {
-        super(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_RESOLUTION_TITLE), BugResolution.class, 400, 280);
+        super(BugResolution.class, 400, 280);
     }
 
     @Override
-    public ComponentContainer getWidget() {
-        return this;
-    }
-
-    @Override
-    public void addViewListener(ViewListener listener) {
+    protected List<GroupItem> loadGroupItems() {
+        BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+        return bugService.getResolutionDefectsSummary(searchCriteria);
     }
 
     @Override
     protected DefaultPieDataset createDataset() {
         // create the dataset...
         final DefaultPieDataset dataset = new DefaultPieDataset();
-
-        BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
-
-        List<GroupItem> groupItems = bugService.getResolutionDefectsSummary(searchCriteria);
 
         BugResolution[] bugResolutions = OptionI18nEnum.bug_resolutions;
         for (BugResolution resolution : bugResolutions) {
@@ -91,10 +76,9 @@ public class ResolutionSummaryChartWidget extends PieChartWrapper<BugSearchCrite
     }
 
     @Override
-    protected void onClickedDescription(String key) {
-        BugSearchCriteria searchCriteria = new BugSearchCriteria();
-        searchCriteria.setResolutions(new SetSearchField<>(key));
-        searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-        EventBusFactory.getInstance().post(new BugEvent.GotoList(this, searchCriteria));
+    public void clickLegendItem(String key) {
+        BugSearchCriteria cloneSearchCriteria = BeanUtility.deepClone(searchCriteria);
+        cloneSearchCriteria.setResolutions(new SetSearchField<>(key));
+        EventBusFactory.getInstance().post(new BugEvent.GotoList(this, cloneSearchCriteria));
     }
 }

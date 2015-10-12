@@ -16,52 +16,45 @@
  */
 package com.esofthead.mycollab.core.db.query;
 
+import com.esofthead.mycollab.core.arguments.CollectionValueSearchField;
+
 import java.util.Collection;
 import java.util.List;
 
-import com.esofthead.mycollab.core.arguments.CollectionValueSearchField;
-
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.0
- * 
  */
 public class StringListParam extends ColumnParam {
-	public static final String IN = "in";
-	public static final String NOT_IN = "not in";
+    public static final String IN = "in";
+    public static final String NOT_IN = "not in";
 
-	private static String IN_EXPR = "%s.%s in ";
-	private static String NOT_IN_EXPR = "%s.%s not in ";
+    private static String IN_EXPR = "%s.%s in ";
+    private static String NOT_IN_EXPR = "%s.%s not in ";
 
-	public static String[] OPTIONS = { IN, NOT_IN };
+    public static String[] OPTIONS = {IN, NOT_IN};
 
-	private List<String> values;
+    private List<String> values;
 
-	@SuppressWarnings("rawtypes")
-	public StringListParam(String id, Enum displayName, String table,
-			String column, List<String> values) {
-		super(id, displayName, table, column);
-		this.values = values;
-	}
+    @SuppressWarnings("rawtypes")
+    public StringListParam(String id, Enum displayName, String table, String column, List<String> values) {
+        super(id, displayName, table, column);
+        this.values = values;
+    }
 
-	public List<String> getValues() {
-		return values;
-	}
+    public List<String> getValues() {
+        return values;
+    }
 
-	public void setValues(List<String> values) {
-		this.values = values;
-	}
+    public void setValues(List<String> values) {
+        this.values = values;
+    }
 
-	public CollectionValueSearchField buildStringParamInList(String oper,
-			Collection<?> value) {
-		return new CollectionValueSearchField(oper, String.format(IN_EXPR,
-				this.getTable(), this.getColumn()), value);
-	}
+    public CollectionValueSearchField buildStringParamInList(String oper, Collection<?> value) {
+        return new CollectionValueSearchField(oper, String.format(IN_EXPR, this.getTable(), this.getColumn()), value);
+    }
 
-	public CollectionValueSearchField buildStringParamNotInList(String oper,
-			Collection<?> value) {
-		return new CollectionValueSearchField(oper, String.format(NOT_IN_EXPR,
-				this.getTable(), this.getColumn()), value);
-	}
+    public CollectionValueSearchField buildStringParamNotInList(String oper, Collection<?> value) {
+        return new CollectionValueSearchField(oper, String.format(NOT_IN_EXPR, this.getTable(), this.getColumn()), value);
+    }
 }

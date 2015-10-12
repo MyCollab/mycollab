@@ -18,21 +18,17 @@ package com.esofthead.mycollab.community.module.project.view.bug;
 
 import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.community.ui.chart.PieChartWrapper;
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
+import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.events.BugEvent;
-import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.view.bug.IStatusSummaryChartWidget;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
-import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.vaadin.ui.ComponentContainer;
 import org.jfree.data.general.DefaultPieDataset;
 
 import java.util.List;
@@ -45,31 +41,20 @@ import java.util.List;
 public class StatusSummaryChartWidget extends PieChartWrapper<BugSearchCriteria> implements IStatusSummaryChartWidget {
     private static final long serialVersionUID = 1L;
 
-    public StatusSummaryChartWidget(int width, int height) {
-        super(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_STATUS_TITLE), BugStatus.class, width, height);
-    }
-
     public StatusSummaryChartWidget() {
-        super(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_STATUS_TITLE), BugStatus.class, 400, 280);
+        super(BugStatus.class, 400, 280);
     }
 
     @Override
-    public ComponentContainer getWidget() {
-        return this;
-    }
-
-    @Override
-    public void addViewListener(ViewListener listener) {
-
+    protected List<GroupItem> loadGroupItems() {
+        BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+        return bugService.getStatusSummary(searchCriteria);
     }
 
     @Override
     protected DefaultPieDataset createDataset() {
         // create the dataset...
         final DefaultPieDataset dataset = new DefaultPieDataset();
-
-        BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
-        List<GroupItem> groupItems = bugService.getStatusSummary(searchCriteria);
 
         BugStatus[] bugStatuses = OptionI18nEnum.bug_statuses;
         for (BugStatus status : bugStatuses) {
@@ -91,10 +76,9 @@ public class StatusSummaryChartWidget extends PieChartWrapper<BugSearchCriteria>
     }
 
     @Override
-    protected void onClickedDescription(String key) {
-        BugSearchCriteria searchCriteria = new BugSearchCriteria();
-        searchCriteria.setStatuses(new SetSearchField<>(key));
-        searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-        EventBusFactory.getInstance().post(new BugEvent.GotoList(this, searchCriteria));
+    public void clickLegendItem(String key) {
+        BugSearchCriteria cloneSearchCriteria = BeanUtility.deepClone(searchCriteria);
+        cloneSearchCriteria.setStatuses(new SetSearchField<>(key));
+        EventBusFactory.getInstance().post(new BugEvent.GotoList(this, cloneSearchCriteria));
     }
 }

@@ -20,26 +20,25 @@ package com.esofthead.mycollab.module.project.domain.criteria;
 import com.esofthead.mycollab.core.arguments.*;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class ProjectGenericTaskSearchCriteria extends SearchCriteria {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private SetSearchField<Integer> projectIds;
+    private SetSearchField<Integer> projectIds;
 
-	private StringSearchField assignUser;
+    private StringSearchField assignUser;
 
-	private SearchField isOpenned;
+    private SearchField isOpenned;
 
-	private StringSearchField name;
-	
-	private DateSearchField dueDate;
+    private StringSearchField name;
 
-	private NumberSearchField milestoneId;
+    private DateSearchField dueDate;
 
-	private SetSearchField<String> types;
+    private NumberSearchField milestoneId;
+
+    private SetSearchField<String> types;
 
     private SetSearchField<String> tagNames;
 
@@ -52,58 +51,58 @@ public class ProjectGenericTaskSearchCriteria extends SearchCriteria {
     }
 
     public DateSearchField getDueDate() {
-		return dueDate;
-	}
+        return dueDate;
+    }
 
-	public void setDueDate(DateSearchField dueDate) {
-		this.dueDate = dueDate;
-	}
+    public void setDueDate(DateSearchField dueDate) {
+        this.dueDate = dueDate;
+    }
 
-	public StringSearchField getAssignUser() {
-		return assignUser;
-	}
+    public StringSearchField getAssignUser() {
+        return assignUser;
+    }
 
-	public void setAssignUser(StringSearchField assignUser) {
-		this.assignUser = assignUser;
-	}
+    public void setAssignUser(StringSearchField assignUser) {
+        this.assignUser = assignUser;
+    }
 
-	public SearchField getIsOpenned() {
-		return isOpenned;
-	}
+    public SearchField getIsOpenned() {
+        return isOpenned;
+    }
 
-	public void setIsOpenned(SearchField isOpenned) {
-		this.isOpenned = isOpenned;
-	}
+    public void setIsOpenned(SearchField isOpenned) {
+        this.isOpenned = isOpenned;
+    }
 
-	public StringSearchField getName() {
-		return name;
-	}
+    public StringSearchField getName() {
+        return name;
+    }
 
-	public void setName(StringSearchField name) {
-		this.name = name;
-	}
+    public void setName(StringSearchField name) {
+        this.name = name;
+    }
 
-	public SetSearchField<Integer> getProjectIds() {
-		return projectIds;
-	}
+    public SetSearchField<Integer> getProjectIds() {
+        return projectIds;
+    }
 
-	public void setProjectIds(SetSearchField<Integer> projectIds) {
-		this.projectIds = projectIds;
-	}
+    public void setProjectIds(SetSearchField<Integer> projectIds) {
+        this.projectIds = projectIds;
+    }
 
-	public NumberSearchField getMilestoneId() {
-		return milestoneId;
-	}
+    public NumberSearchField getMilestoneId() {
+        return milestoneId;
+    }
 
-	public void setMilestoneId(NumberSearchField milestoneId) {
-		this.milestoneId = milestoneId;
-	}
+    public void setMilestoneId(NumberSearchField milestoneId) {
+        this.milestoneId = milestoneId;
+    }
 
-	public SetSearchField<String> getTypes() {
-		return types;
-	}
+    public SetSearchField<String> getTypes() {
+        return types;
+    }
 
-	public void setTypes(SetSearchField<String> types) {
-		this.types = types;
-	}
+    public void setTypes(SetSearchField<String> types) {
+        this.types = types;
+    }
 }

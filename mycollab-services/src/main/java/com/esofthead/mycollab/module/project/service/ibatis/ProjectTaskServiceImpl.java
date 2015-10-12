@@ -189,7 +189,7 @@ public class ProjectTaskServiceImpl extends DefaultService<Integer, Task, TaskSe
     }
 
     @Override
-    public List<GroupItem> getAssignedDefectsSummary(TaskSearchCriteria criteria) {
+    public List<GroupItem> getAssignedTasksSummary(TaskSearchCriteria criteria) {
         return taskMapperExt.getAssignedDefectsSummary(criteria);
     }
 

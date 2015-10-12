@@ -45,7 +45,9 @@ import com.esofthead.mycollab.module.project.view.kanban.AddNewColumnWindow;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
-import com.esofthead.mycollab.vaadin.mvp.*;
+import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
+import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.data.Property;
@@ -58,7 +60,6 @@ import com.vaadin.server.Page;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.dd.HorizontalDropLocation;
 import com.vaadin.shared.ui.dd.VerticalDropLocation;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import fi.jasoft.dragdroplayouts.DDHorizontalLayout;
 import fi.jasoft.dragdroplayouts.DDVerticalLayout;
@@ -157,6 +158,15 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
         advanceDisplayBtn.setIcon(FontAwesome.SITEMAP);
         advanceDisplayBtn.setDescription(AppContext.getMessage(TaskGroupI18nEnum.ADVANCED_VIEW_TOOLTIP));
 
+        Button calendarBtn = new Button(null, new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                EventBusFactory.getInstance().post(new TaskEvent.GotoCalendarView(TaskKanbanviewImpl.this));
+            }
+        });
+        calendarBtn.setDescription("Calendar View");
+        calendarBtn.setIcon(FontAwesome.CALENDAR);
+
         Button chartDisplayBtn = new Button(null, new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
@@ -172,6 +182,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
 
         ToggleButtonGroup viewButtons = new ToggleButtonGroup();
         viewButtons.addButton(advanceDisplayBtn);
+        viewButtons.addButton(calendarBtn);
         viewButtons.addButton(kanbanBtn);
         viewButtons.addButton(chartDisplayBtn);
         viewButtons.setDefaultButton(kanbanBtn);

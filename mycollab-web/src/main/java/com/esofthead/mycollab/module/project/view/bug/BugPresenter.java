@@ -20,8 +20,10 @@ import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
+import com.esofthead.mycollab.module.project.view.ProjectView;
 import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -48,8 +50,8 @@ public class BugPresenter extends AbstractPresenter<BugContainer> {
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        TrackerContainer trackerContainer = (TrackerContainer) container;
-        trackerContainer.gotoSubView(AppContext.getMessage(BugI18nEnum.TAB_BUG));
+        ProjectView projectViewContainer = (ProjectView) container;
+        projectViewContainer.gotoSubView(ProjectTypeConstants.BUG);
 
         view.removeAllComponents();
 

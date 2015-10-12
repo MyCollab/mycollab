@@ -142,13 +142,10 @@ public class AccountServiceTest extends IntergrationServiceTest {
         criteria = new AccountSearchCriteria();
         criteria.setSaccountid(new NumberSearchField(1));
 
-        List<SimpleAccount> accounts = accountService
-                .findPagableListByCriteria(new SearchRequest<>(
-                        criteria, 0, Integer.MAX_VALUE));
+        List<SimpleAccount> accounts = accountService.findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 
         assertThat(accounts.size()).isEqualTo(2);
-        assertThat(accounts).extracting("id", "accountname", "industry")
-                .contains(tuple(2, "xyz1", "b"), tuple(3, "xyz2", "c"));
+        assertThat(accounts).extracting("id", "accountname", "industry").contains(tuple(2, "xyz1", "b"), tuple(3, "xyz2", "c"));
     }
 
     @Test
@@ -174,14 +171,11 @@ public class AccountServiceTest extends IntergrationServiceTest {
                 "http://www.esofthead.com"));
         criteria.setSaccountid(new NumberSearchField(1));
 
-        List<SimpleAccount> accounts = accountService
-                .findPagableListByCriteria(new SearchRequest<>(
-                        criteria, 0, Integer.MAX_VALUE));
+        List<SimpleAccount> accounts = accountService.findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 
         assertThat(accounts.size()).isEqualTo(3);
         assertThat(accounts).extracting("id", "accountname", "industry")
-                .contains(tuple(1, "xyz", "a"), tuple(2, "xyz1", "b"),
-                        tuple(3, "xyz2", "c"));
+                .contains(tuple(1, "xyz", "a"), tuple(2, "xyz1", "b"), tuple(3, "xyz2", "c"));
     }
 
     @SuppressWarnings("unchecked")
@@ -192,13 +186,10 @@ public class AccountServiceTest extends IntergrationServiceTest {
         criteria.setAnyAddress(new StringSearchField(SearchField.AND, "123"));
         criteria.setSaccountid(new NumberSearchField(1));
 
-        List<SimpleAccount> accounts = accountService
-                .findPagableListByCriteria(new SearchRequest<>(
-                        criteria, 0, Integer.MAX_VALUE));
+        List<SimpleAccount> accounts = accountService.findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 
         assertThat(accounts.size()).isEqualTo(2);
-        assertThat(accounts).extracting("id", "accountname", "industry")
-                .contains(tuple(1, "xyz", "a"), tuple(2, "xyz1", "b"));
+        assertThat(accounts).extracting("id", "accountname", "industry").contains(tuple(1, "xyz", "a"), tuple(2, "xyz1", "b"));
     }
 
     @SuppressWarnings("unchecked")
@@ -209,13 +200,10 @@ public class AccountServiceTest extends IntergrationServiceTest {
         criteria.setAnyCity(new StringSearchField(SearchField.AND, "ha noi"));
         criteria.setSaccountid(new NumberSearchField(1));
 
-        List<SimpleAccount> accounts = accountService
-                .findPagableListByCriteria(new SearchRequest<>(
-                        criteria, 0, Integer.MAX_VALUE));
+        List<SimpleAccount> accounts = accountService.findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 
         assertThat(accounts.size()).isEqualTo(2);
-        assertThat(accounts).extracting("id", "accountname", "industry")
-                .contains(tuple(1, "xyz", "a"), tuple(2, "xyz1", "b"));
+        assertThat(accounts).extracting("id", "accountname", "industry").contains(tuple(1, "xyz", "a"), tuple(2, "xyz1", "b"));
     }
 
     @SuppressWarnings("unchecked")
@@ -226,13 +214,10 @@ public class AccountServiceTest extends IntergrationServiceTest {
         criteria.setAssignUser(new StringSearchField(SearchField.AND, "hai79"));
         criteria.setSaccountid(new NumberSearchField(1));
 
-        List<SimpleAccount> accounts = accountService
-                .findPagableListByCriteria(new SearchRequest<>(
-                        criteria, 0, Integer.MAX_VALUE));
+        List<SimpleAccount> accounts = accountService.findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 
         assertThat(accounts.size()).isEqualTo(1);
-        assertThat(accounts).extracting("id", "accountname", "industry")
-                .contains(tuple(1, "xyz", "a"));
+        assertThat(accounts).extracting("id", "accountname", "industry").contains(tuple(1, "xyz", "a"));
     }
 
     @SuppressWarnings("unchecked")
@@ -282,17 +267,13 @@ public class AccountServiceTest extends IntergrationServiceTest {
     public void testQueryAccountWithExtNoValueSearchField() {
         AccountSearchCriteria criteria = new AccountSearchCriteria();
         criteria.setSaccountid(new NumberSearchField(1));
-        criteria.addExtraField(new NoValueSearchField(SearchField.AND,
-                "m_crm_account.accountName is not null"));
+        criteria.addExtraField(new NoValueSearchField(SearchField.AND, "m_crm_account.accountName is not null"));
 
-        List<SimpleAccount> accounts = accountService
-                .findPagableListByCriteria(new SearchRequest<>(
-                        criteria, 0, Integer.MAX_VALUE));
+        List<SimpleAccount> accounts = accountService.findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 
         assertThat(accounts.size()).isEqualTo(3);
         assertThat(accounts).extracting("id", "accountname", "industry")
-                .contains(tuple(1, "xyz", "a"), tuple(2, "xyz1", "b"),
-                        tuple(3, "xyz2", "c"));
+                .contains(tuple(1, "xyz", "a"), tuple(2, "xyz1", "b"), tuple(3, "xyz2", "c"));
     }
 
     @SuppressWarnings("unchecked")
@@ -301,16 +282,11 @@ public class AccountServiceTest extends IntergrationServiceTest {
     public void testQueryAccountWithExtOneValueSearchField() {
         AccountSearchCriteria criteria = new AccountSearchCriteria();
         criteria.setSaccountid(new NumberSearchField(1));
-        criteria.addExtraField(new OneValueSearchField(SearchField.AND,
-                "m_crm_account.accountName = ", "xyz"));
+        criteria.addExtraField(new OneValueSearchField(SearchField.AND, "m_crm_account.accountName = ", "xyz"));
 
-        List<SimpleAccount> accounts = accountService
-                .findPagableListByCriteria(new SearchRequest<>(
-                        criteria, 0, Integer.MAX_VALUE));
-
+        List<SimpleAccount> accounts = accountService.findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
         assertThat(accounts.size()).isEqualTo(1);
-        assertThat(accounts).extracting("id", "accountname", "industry")
-                .contains(tuple(1, "xyz", "a"));
+        assertThat(accounts).extracting("id", "accountname", "industry").contains(tuple(1, "xyz", "a"));
     }
 
     @SuppressWarnings("unchecked")
@@ -319,17 +295,11 @@ public class AccountServiceTest extends IntergrationServiceTest {
     public void testQueryAccountWithExtCollectionValueSearchField() {
         AccountSearchCriteria criteria = new AccountSearchCriteria();
         criteria.setSaccountid(new NumberSearchField(1));
-        criteria.addExtraField(new CollectionValueSearchField(SearchField.AND,
-                "m_crm_account.industry in ", Arrays.asList("a", "b")));
-
-
-        List<SimpleAccount> accounts = accountService
-                .findPagableListByCriteria(new SearchRequest<>(
-                        criteria, 0, Integer.MAX_VALUE));
+        criteria.addExtraField(new CollectionValueSearchField(SearchField.AND, "m_crm_account.industry in ", Arrays.asList("a", "b")));
+        List<SimpleAccount> accounts = accountService.findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 
         assertThat(accounts.size()).isEqualTo(2);
-        assertThat(accounts).extracting("id", "accountname", "industry")
-                .contains(tuple(1, "xyz", "a"), tuple(2, "xyz1", "b"));
+        assertThat(accounts).extracting("id", "accountname", "industry").contains(tuple(1, "xyz", "a"), tuple(2, "xyz1", "b"));
     }
 
     @SuppressWarnings("unchecked")
@@ -339,20 +309,14 @@ public class AccountServiceTest extends IntergrationServiceTest {
         AccountSearchCriteria criteria = new AccountSearchCriteria();
         criteria.setSaccountid(new NumberSearchField(1));
 
-        CompositionSearchField compoField = new CompositionSearchField(
-                SearchField.AND);
-        compoField.addField(new OneValueSearchField("",
-                "m_crm_account.city = ", "ha noi"));
-        compoField.addField(new OneValueSearchField("",
-                "m_crm_account.shippingCity = ", "ha noi"));
+        CompositionSearchField compoField = new CompositionSearchField(SearchField.AND);
+        compoField.addField(new OneValueSearchField("", "m_crm_account.city = ", "ha noi"));
+        compoField.addField(new OneValueSearchField("", "m_crm_account.shippingCity = ", "ha noi"));
         criteria.addExtraField(compoField);
 
-        List<SimpleAccount> accounts = accountService
-                .findPagableListByCriteria(new SearchRequest<>(
-                        criteria, 0, Integer.MAX_VALUE));
+        List<SimpleAccount> accounts = accountService.findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 
         assertThat(accounts.size()).isEqualTo(1);
-        assertThat(accounts).extracting("id", "accountname", "industry")
-                .contains(tuple(1, "xyz", "a"));
+        assertThat(accounts).extracting("id", "accountname", "industry").contains(tuple(1, "xyz", "a"));
     }
 }

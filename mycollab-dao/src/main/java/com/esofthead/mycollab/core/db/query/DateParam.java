@@ -44,8 +44,7 @@ public class DateParam extends ColumnParam {
 		super(id, displayName, table, column);
 	}
 
-	public SearchField buildSearchField(String prefixOper, String compareOper,
-			Date dateValue1, Date dateValue2) {
+	public SearchField buildSearchField(String prefixOper, String compareOper, Date dateValue1, Date dateValue2) {
 		switch (compareOper) {
 		case DateParam.BETWEEN:
 			return buildDateValBetween(prefixOper, dateValue1, dateValue2);

@@ -29,35 +29,30 @@ import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
-public class ProjectSettingPresenter extends
-		AbstractPresenter<ProjectSettingView> {
-	private static final long serialVersionUID = 1L;
+public class ProjectSettingPresenter extends AbstractPresenter<ProjectSettingView> {
+    private static final long serialVersionUID = 1L;
 
-	public ProjectSettingPresenter() {
-		super(ProjectSettingView.class);
-	}
+    public ProjectSettingPresenter() {
+        super(ProjectSettingView.class);
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		UserSettingView userSettingView = (UserSettingView) container;
-		userSettingView.gotoSubView(AppContext
-				.getMessage(ProjectCommonI18nEnum.VIEW_SETTINGS));
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        UserSettingView userSettingView = (UserSettingView) container;
+        userSettingView.gotoSubView(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_SETTINGS));
 
-		ProjectNotificationSettingService projectNotificationSettingService = ApplicationContextUtil
-				.getSpringBean(ProjectNotificationSettingService.class);
-		ProjectNotificationSetting notification = projectNotificationSettingService
-				.findNotification(AppContext.getUsername(),
-						CurrentProjectVariables.getProjectId(),
-						AppContext.getAccountId());
+        ProjectNotificationSettingService projectNotificationSettingService = ApplicationContextUtil
+                .getSpringBean(ProjectNotificationSettingService.class);
+        ProjectNotificationSetting notification = projectNotificationSettingService
+                .findNotification(AppContext.getUsername(),
+                        CurrentProjectVariables.getProjectId(),
+                        AppContext.getAccountId());
 
-		ProjectBreadcrumb breadCrumb = ViewManager
-				.getCacheComponent(ProjectBreadcrumb.class);
-		breadCrumb.gotoProjectSetting();
-		view.showNotificationSettings(notification);
-	}
+        ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
+        breadCrumb.gotoProjectSetting();
+        view.showNotificationSettings(notification);
+    }
 }

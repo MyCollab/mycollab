@@ -18,7 +18,6 @@ package com.esofthead.mycollab.vaadin.ui;
 
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
@@ -35,17 +34,17 @@ public class Depot extends VerticalLayout {
     protected AbstractOrderedLayout headerContent;
     protected ComponentContainer bodyContent;
 
-    public Depot(final String title, final ComponentContainer component) {
+    public Depot(String title, ComponentContainer component) {
         this(title, null, component, "100%", "100%");
     }
 
-    public Depot(final String title, final AbstractOrderedLayout headerElement, final ComponentContainer component,
-                 final String headerWidth, final String headerLeftWidth) {
+    public Depot(String title, AbstractOrderedLayout headerElement, ComponentContainer component,
+                 String headerWidth, String headerLeftWidth) {
         this(new Label(title), headerElement, component, headerWidth, headerLeftWidth);
     }
 
-    public Depot(final Label titleLbl, final AbstractOrderedLayout headerElement, final ComponentContainer component,
-                 final String headerWidth, final String headerLeftWidth) {
+    public Depot(Label titleLbl, AbstractOrderedLayout headerElement, ComponentContainer component,
+                 String headerWidth, String headerLeftWidth) {
         this.setStyleName("depotComp");
         this.setMargin(false);
         this.header = new HorizontalLayout();

@@ -22,6 +22,7 @@ import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
+import com.esofthead.mycollab.module.project.view.bug.IBugAssigneeChartWidget;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.module.user.CommonTooltipGenerator;
@@ -29,14 +30,13 @@ import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.Depot;
+import com.esofthead.mycollab.vaadin.mvp.ViewManager;
+import com.esofthead.mycollab.vaadin.ui.DepotWithChart;
 import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Button;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
-import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.List;
 
@@ -44,25 +44,25 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class UnresolvedBugsByAssigneeWidget2 extends Depot {
+public class UnresolvedBugsByAssigneeWidget2 extends DepotWithChart {
     private static final long serialVersionUID = 1L;
 
-    private BugSearchCriteria bugSearchCriteria;
-
-    public UnresolvedBugsByAssigneeWidget2() {
-        super("", new MVerticalLayout());
-        setContentBorder(true);
-        this.setMargin(new MarginInfo(false, false, true, false));
-    }
+    private BugSearchCriteria searchCriteria;
+    private List<GroupItem> groupItems;
+    private int totalCount;
 
     public void setSearchCriteria(final BugSearchCriteria searchCriteria) {
-        bugSearchCriteria = searchCriteria;
-        bodyContent.removeAllComponents();
+        this.searchCriteria = searchCriteria;
         BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
-        int totalCount = bugService.getTotalCount(searchCriteria);
+        totalCount = bugService.getTotalCount(searchCriteria);
         setTitle(AppContext.getMessage(BugI18nEnum.WIDGET_UNRESOLVED_BY_ASSIGNEE_TITLE) + " (" + totalCount + ")");
+        groupItems = bugService.getAssignedDefectsSummary(searchCriteria);
+        displayPlainMode();
+    }
 
-        final List<GroupItem> groupItems = bugService.getAssignedDefectsSummary(searchCriteria);
+    @Override
+    protected void displayPlainMode() {
+        bodyContent.removeAllComponents();
         if (!groupItems.isEmpty()) {
             for (GroupItem item : groupItems) {
                 MHorizontalLayout assigneeLayout = new MHorizontalLayout().withWidth("100%");
@@ -84,6 +84,14 @@ public class UnresolvedBugsByAssigneeWidget2 extends Depot {
         }
     }
 
+    @Override
+    protected void displayChartMode() {
+        bodyContent.removeAllComponents();
+        IBugAssigneeChartWidget bugAssigneeChartWidget = ViewManager.getCacheComponent(IBugAssigneeChartWidget.class);
+        bugAssigneeChartWidget.displayChart(searchCriteria);
+        bodyContent.addComponent(bugAssigneeChartWidget);
+    }
+
     class BugAssigneeLink extends Button {
         private static final long serialVersionUID = 1L;
 
@@ -93,8 +101,8 @@ public class UnresolvedBugsByAssigneeWidget2 extends Depot {
 
                 @Override
                 public void buttonClick(final ClickEvent event) {
-                    bugSearchCriteria.setAssignuser(new StringSearchField(assignee));
-                    EventBusFactory.getInstance().post(new BugEvent.SearchRequest(this, bugSearchCriteria));
+                    searchCriteria.setAssignuser(new StringSearchField(assignee));
+                    EventBusFactory.getInstance().post(new BugEvent.SearchRequest(this, searchCriteria));
                 }
             });
 

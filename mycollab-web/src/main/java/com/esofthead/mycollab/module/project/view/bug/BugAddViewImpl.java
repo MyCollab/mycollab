@@ -29,8 +29,8 @@ import com.esofthead.mycollab.module.project.ui.components.ProjectSubscribersCom
 import com.esofthead.mycollab.module.project.ui.form.ProjectFormAttachmentUploadField;
 import com.esofthead.mycollab.module.project.view.bug.components.BugPriorityComboBox;
 import com.esofthead.mycollab.module.project.view.bug.components.BugSeverityComboBox;
-import com.esofthead.mycollab.module.project.view.bug.components.ComponentMultiSelectField;
-import com.esofthead.mycollab.module.project.view.bug.components.VersionMultiSelectField;
+import com.esofthead.mycollab.module.project.view.settings.component.ComponentMultiSelectField;
+import com.esofthead.mycollab.module.project.view.settings.component.VersionMultiSelectField;
 import com.esofthead.mycollab.module.project.view.milestone.MilestoneComboBox;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
 import com.esofthead.mycollab.module.tracker.domain.Component;

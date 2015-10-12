@@ -19,7 +19,6 @@ package com.esofthead.mycollab.community.module.crm.view.opportunity;
 import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.community.ui.chart.PieChartWrapper;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
@@ -40,9 +39,7 @@ import java.util.List;
  * @since 2.0
  */
 @ViewComponent
-public class OpportunitySalesStageDashboard extends
-        PieChartWrapper<OpportunitySearchCriteria> implements
-        IOpportunitySalesStageDashboard {
+public class OpportunitySalesStageDashboard extends PieChartWrapper<OpportunitySearchCriteria> implements IOpportunitySalesStageDashboard {
     private static final long serialVersionUID = 1L;
 
     public OpportunitySalesStageDashboard() {
@@ -50,7 +47,7 @@ public class OpportunitySalesStageDashboard extends
     }
 
     public OpportunitySalesStageDashboard(final int width, final int height) {
-        super("Deals By Stages", width, height);
+        super(width, height);
     }
 
     @Override
@@ -64,18 +61,17 @@ public class OpportunitySalesStageDashboard extends
     }
 
     @Override
+    protected List<GroupItem> loadGroupItems() {
+        final OpportunityService opportunityService = ApplicationContextUtil.getSpringBean(OpportunityService.class);
+        return opportunityService.getSalesStageSummary(searchCriteria);
+    }
+
+    @Override
     protected DefaultPieDataset createDataset() {
         // create the dataset...
         final DefaultPieDataset dataset = new DefaultPieDataset();
 
-        final OpportunityService opportunityService = ApplicationContextUtil
-                .getSpringBean(OpportunityService.class);
-
-        final List<GroupItem> groupItems = opportunityService
-                .getSalesStageSummary(searchCriteria);
-
-        final String[] salesStages = CrmDataTypeFactory
-                .getOpportunitySalesStageList();
+        final String[] salesStages = CrmDataTypeFactory.getOpportunitySalesStageList();
         for (final String status : salesStages) {
             boolean isFound = false;
             for (final GroupItem item : groupItems) {
@@ -95,7 +91,7 @@ public class OpportunitySalesStageDashboard extends
     }
 
     @Override
-    protected void onClickedDescription(String key) {
+    public void clickLegendItem(String key) {
         OpportunitySearchCriteria searchCriteria = new OpportunitySearchCriteria();
         searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
         searchCriteria.setSalesStages(new SetSearchField<>(key));

@@ -48,7 +48,7 @@ public interface ProjectTaskService extends IDefaultService<Integer, Task, TaskS
     List<GroupItem> getPrioritySummary(@CacheKey TaskSearchCriteria criteria);
 
     @Cacheable
-    List<GroupItem> getAssignedDefectsSummary(@CacheKey TaskSearchCriteria criteria);
+    List<GroupItem> getAssignedTasksSummary(@CacheKey TaskSearchCriteria criteria);
 
     @CacheEvict
     void massUpdateTaskIndexes(List<Map<String, Integer>> mapIndexes, @CacheKey Integer sAccountId);

@@ -187,12 +187,6 @@
         </dependency>
 
         <dependency>
-            <groupId>uk.com.robust-it</groupId>
-            <artifactId>cloning</artifactId>
-            <version>1.9.2</version>
-        </dependency>
-
-        <dependency>
             <groupId>commons-validator</groupId>
             <artifactId>commons-validator</artifactId>
             <version>1.4.1</version>

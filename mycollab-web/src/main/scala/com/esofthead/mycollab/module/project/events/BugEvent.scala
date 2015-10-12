@@ -25,8 +25,6 @@ import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria
  */
 object BugEvent {
 
-    class GotoDashboard(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
-
     class GotoAdd(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
     class GotoEdit(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}

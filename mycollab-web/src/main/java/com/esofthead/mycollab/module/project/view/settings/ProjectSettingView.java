@@ -26,6 +26,5 @@ import com.esofthead.mycollab.vaadin.mvp.PageView;
  * 
  */
 public interface ProjectSettingView extends PageView {
-
 	void showNotificationSettings(ProjectNotificationSetting notification);
 }

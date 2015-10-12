@@ -72,7 +72,7 @@ public class BugAddPresenter extends AbstractPresenter<BugAddView> {
             public void onCancel() {
                 ViewState viewState = HistoryViewManager.back();
                 if (viewState.hasPresenters(NullViewState.EmptyPresenter.class, ProjectViewPresenter.class)) {
-                    EventBusFactory.getInstance().post(new BugEvent.GotoDashboard(this, null));
+                    EventBusFactory.getInstance().post(new BugEvent.GotoList(this, null));
                 }
             }
 

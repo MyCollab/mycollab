@@ -136,7 +136,7 @@ public class ProjectLinkGenerator {
     }
 
     public static String generateBugComponentPreviewLink(Integer projectId, Integer componentId) {
-        return "project/bug/component/preview/" + GenericLinkUtils.encodeParam(projectId, componentId);
+        return "project/component/preview/" + GenericLinkUtils.encodeParam(projectId, componentId);
     }
 
     public static String generateBugComponentPreviewFullLink(String siteUrl, Integer projectId, Integer componentId) {
@@ -144,15 +144,11 @@ public class ProjectLinkGenerator {
     }
 
     public static String generateBugVersionPreviewLink(Integer projectId, Integer versionId) {
-        return "project/bug/version/preview/" + GenericLinkUtils.encodeParam(projectId, versionId);
+        return "project/version/preview/" + GenericLinkUtils.encodeParam(projectId, versionId);
     }
 
     public static String generateBugVersionPreviewFullLink(String siteUrl, Integer projectId, Integer versionId) {
         return siteUrl + GenericLinkUtils.URL_PREFIX_PARAM + generateBugVersionPreviewLink(projectId, versionId);
-    }
-
-    public static String generateBugDashboardLink(Integer projectId) {
-        return "project/bug/dashboard/" + UrlEncodeDecoder.encode(projectId);
     }
 
     public static String generateBugPreviewLink(Integer bugKey, String prjShortname) {
@@ -195,17 +191,22 @@ public class ProjectLinkGenerator {
         return "project/standup/list/" + UrlEncodeDecoder.encode(projectId);
     }
 
+    public static String generateProjectCalendarLink(Integer projectId) {
+        return "project/calendar/" + UrlEncodeDecoder.encode(projectId);
+    }
+
     public static String generateUsersLink(Integer projectId) {
         return "project/user/list/" + UrlEncodeDecoder.encode(projectId);
     }
 
-    public static String generateDenyInvitationParams(String inviteeEmail, Integer sAccountId, Integer projectId, String inviteUserEmail,
-                                                      String inviteUsername) {
+    public static String generateDenyInvitationParams(String inviteeEmail, Integer sAccountId, Integer projectId,
+                                                      String inviteUserEmail, String inviteUsername) {
         return UrlEncodeDecoder.encode(inviteeEmail + "/" + sAccountId + "/" + projectId + "/" + inviteUserEmail + "/" + inviteUsername);
     }
 
-    public static String generateAcceptInvitationParams(String inviteeEmail, Integer sAccountId, Integer projectId, Integer projectRoleId,
-                                                        String inviteUserEmail, String inviteUsername, Date currentDate) {
+    public static String generateAcceptInvitationParams(String inviteeEmail, Integer sAccountId, Integer projectId,
+                                                        Integer projectRoleId, String inviteUserEmail, String inviteUsername,
+                                                        Date currentDate) {
         SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy");
         String formatDate = format.format(currentDate);
         return UrlEncodeDecoder.encode(inviteeEmail + "/" + sAccountId + "/"

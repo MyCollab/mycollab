@@ -20,11 +20,10 @@ package com.esofthead.mycollab.module.project.view.settings;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.ClassUtils;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.view.ProjectView;
-import com.esofthead.mycollab.module.project.view.parameters.ProjectMemberScreenData;
-import com.esofthead.mycollab.module.project.view.parameters.ProjectRoleScreenData;
-import com.esofthead.mycollab.module.project.view.parameters.ProjectSettingScreenData;
+import com.esofthead.mycollab.module.project.view.parameters.*;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -65,6 +64,14 @@ public class UserSettingPresenter extends AbstractPresenter<UserSettingView> {
         } else if (ClassUtils.instanceOf(data, ProjectSettingScreenData.ViewSettings.class)) {
             view.gotoSubView(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_SETTINGS));
             presenter = PresenterResolver.getPresenter(ProjectSettingPresenter.class);
+        } else if (ClassUtils.instanceOf(data, ComponentScreenData.Add.class, ComponentScreenData.Edit.class,
+                ComponentScreenData.Read.class, ComponentScreenData.Search.class)) {
+            view.gotoSubView(AppContext.getMessage(BugI18nEnum.TAB_COMPONENT));
+            presenter = PresenterResolver.getPresenter(ComponentPresenter.class);
+        } else if (ClassUtils.instanceOf(data, VersionScreenData.Add.class, VersionScreenData.Edit.class,
+                VersionScreenData.Read.class, VersionScreenData.Search.class)) {
+            view.gotoSubView(AppContext.getMessage(BugI18nEnum.TAB_VERSION));
+            presenter = PresenterResolver.getPresenter(VersionPresenter.class);
         } else {
             throw new MyCollabException("No support screen data: " + data);
         }

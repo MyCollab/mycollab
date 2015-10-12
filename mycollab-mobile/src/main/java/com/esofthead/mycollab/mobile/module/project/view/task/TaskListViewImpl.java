@@ -16,9 +16,6 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.task;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -44,184 +41,161 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * @author MyCollab Ltd.
- *
  * @since 4.5.0
- *
  */
 
 @ViewComponent
-public class TaskListViewImpl extends
-		AbstractListViewComp<TaskSearchCriteria, SimpleTask> implements
-		TaskListView {
+public class TaskListViewImpl extends AbstractListViewComp<TaskSearchCriteria, SimpleTask> implements TaskListView {
+    private static final long serialVersionUID = -3705209608075399509L;
 
-	private static final long serialVersionUID = -3705209608075399509L;
+    private SimpleTaskList currentTaskList;
+    private Set<PreviewFormHandler<SimpleTaskList>> handlers;
 
-	private SimpleTaskList currentTaskList;
+    public TaskListViewImpl() {
+        this.addStyleName("task-list-view");
+        this.setToggleButton(false);
+    }
 
-	private Set<PreviewFormHandler<SimpleTaskList>> handlers;
+    @Override
+    protected AbstractPagedBeanList<TaskSearchCriteria, SimpleTask> createBeanTable() {
+        return new TaskListDisplay();
+    }
 
-	public TaskListViewImpl() {
-		this.addStyleName("task-list-view");
-		this.setToggleButton(false);
-	}
+    @Override
+    protected Component createRightComponent() {
+        NavigationBarQuickMenu editBtn = new NavigationBarQuickMenu();
+        editBtn.setButtonCaption(null);
+        editBtn.setStyleName("edit-btn");
 
-	@Override
-	protected AbstractPagedBeanList<TaskSearchCriteria, SimpleTask> createBeanTable() {
-		return new TaskListDisplay();
-	}
+        ProjectPreviewFormControlsGenerator<SimpleTaskList> controlsGenerator = new ProjectPreviewFormControlsGenerator<>(this);
+        VerticalLayout menuContent = controlsGenerator.createButtonControls(ProjectRolePermissionCollections.TASKS);
+        Button viewTaskList = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_VIEW), new Button.ClickListener() {
+            private static final long serialVersionUID = 150675475815367481L;
 
-	@Override
-	protected Component createRightComponent() {
-		NavigationBarQuickMenu editBtn = new NavigationBarQuickMenu();
-		editBtn.setButtonCaption(null);
-		editBtn.setStyleName("edit-btn");
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                EventBusFactory.getInstance().post(new TaskEvent.GotoListView(this, currentTaskList.getId()));
+            }
+        });
+        viewTaskList.setWidth("100%");
 
-		ProjectPreviewFormControlsGenerator<SimpleTaskList> controlsGenerator = new ProjectPreviewFormControlsGenerator<>(
-				this);
-		VerticalLayout menuContent = controlsGenerator
-				.createButtonControls(ProjectRolePermissionCollections.TASKS);
-		Button viewTaskList = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_VIEW),
-				new Button.ClickListener() {
+        viewTaskList.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
 
-					private static final long serialVersionUID = 150675475815367481L;
+        Button addNewTask = new Button(AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASK), new Button.ClickListener() {
+            private static final long serialVersionUID = -8074297964143853121L;
 
-					@Override
-					public void buttonClick(Button.ClickEvent event) {
-						EventBusFactory.getInstance().post(
-								new TaskEvent.GotoListView(this,
-										currentTaskList.getId()));
-					}
-				});
-		viewTaskList.setWidth("100%");
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                EventBusFactory.getInstance().post(new TaskEvent.GotoAdd(this, currentTaskList.getId()));
+            }
+        });
+        addNewTask.setWidth("100%");
+        addNewTask.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
 
-		viewTaskList.setEnabled(CurrentProjectVariables
-				.canWrite(ProjectRolePermissionCollections.TASKS));
+        Button closeBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-		Button addNewTask = new Button(
-				AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASK),
-				new Button.ClickListener() {
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                currentTaskList.setStatus(StatusI18nEnum.Closed.name());
+                final ProjectTaskListService taskListService = ApplicationContextUtil.getSpringBean(ProjectTaskListService.class);
+                taskListService.updateWithSession(currentTaskList, AppContext.getUsername());
+                EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
+            }
+        });
+        closeBtn.setWidth("100%");
+        closeBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
 
-					private static final long serialVersionUID = -8074297964143853121L;
+        controlsGenerator.insertToControlBlock(closeBtn);
+        controlsGenerator.insertToControlBlock(viewTaskList);
+        controlsGenerator.insertToControlBlock(addNewTask);
+        editBtn.setContent(menuContent);
 
-					@Override
-					public void buttonClick(Button.ClickEvent event) {
-						EventBusFactory.getInstance().post(
-								new TaskEvent.GotoAdd(this, currentTaskList
-										.getId()));
-					}
-				});
-		addNewTask.setWidth("100%");
-		addNewTask.setEnabled(CurrentProjectVariables
-				.canWrite(ProjectRolePermissionCollections.TASKS));
+        return editBtn;
+    }
 
-		Button closeBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+    @Override
+    public void addFormHandler(PreviewFormHandler<SimpleTaskList> handler) {
+        if (handlers == null) {
+            handlers = new HashSet<>();
+        }
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						currentTaskList.setStatus(StatusI18nEnum.Closed.name());
-						final ProjectTaskListService taskListService = ApplicationContextUtil
-								.getSpringBean(ProjectTaskListService.class);
-						taskListService.updateWithSession(currentTaskList,
-								AppContext.getUsername());
-						EventBusFactory.getInstance().post(
-								new ShellEvent.NavigateBack(this, null));
-					}
-				});
-		closeBtn.setWidth("100%");
-		closeBtn.setEnabled(CurrentProjectVariables
-				.canWrite(ProjectRolePermissionCollections.TASKS));
+        handlers.add(handler);
+    }
 
-		controlsGenerator.insertToControlBlock(closeBtn);
-		controlsGenerator.insertToControlBlock(viewTaskList);
-		controlsGenerator.insertToControlBlock(addNewTask);
-		editBtn.setContent(menuContent);
+    @Override
+    public SimpleTaskList getBean() {
+        return this.currentTaskList;
+    }
 
-		return editBtn;
-	}
+    @Override
+    public void setBean(SimpleTaskList bean) {
+        this.currentTaskList = bean;
+    }
 
-	@Override
-	public void addFormHandler(PreviewFormHandler<SimpleTaskList> handler) {
-		if (handlers == null) {
-			handlers = new HashSet<>();
-		}
+    @Override
+    public void fireAssignForm(SimpleTaskList bean) {
+        if (handlers != null) {
+            for (PreviewFormHandler<SimpleTaskList> handler : handlers) {
+                handler.onAssign(bean);
+            }
+        }
+    }
 
-		handlers.add(handler);
-	}
+    @Override
+    public void fireEditForm(SimpleTaskList bean) {
+        if (handlers != null) {
+            for (PreviewFormHandler<SimpleTaskList> handler : handlers) {
+                handler.onEdit(bean);
+            }
+        }
+    }
 
-	@Override
-	public SimpleTaskList getBean() {
-		return this.currentTaskList;
-	}
+    @Override
+    public void showHistory() {
+        // TODO Auto-generated method stub
 
-	@Override
-	public void setBean(SimpleTaskList bean) {
-		this.currentTaskList = bean;
-	}
+    }
 
-	@Override
-	public void fireAssignForm(SimpleTaskList bean) {
-		if (handlers != null) {
-			for (PreviewFormHandler<SimpleTaskList> handler : handlers) {
-				handler.onAssign(bean);
-			}
-		}
-	}
+    @Override
+    public void fireCancelForm(SimpleTaskList bean) {
+        if (handlers != null) {
+            for (PreviewFormHandler<SimpleTaskList> handler : handlers) {
+                handler.onCancel();
+            }
+        }
+    }
 
-	@Override
-	public void fireEditForm(SimpleTaskList bean) {
-		if (handlers != null) {
-			for (PreviewFormHandler<SimpleTaskList> handler : handlers) {
-				handler.onEdit(bean);
-			}
-		}
-	}
+    @Override
+    public void fireDeleteForm(SimpleTaskList bean) {
+        if (handlers != null) {
+            for (PreviewFormHandler<SimpleTaskList> handler : handlers) {
+                handler.onDelete(bean);
+            }
+        }
+    }
 
-	@Override
-	public void showHistory() {
-		// TODO Auto-generated method stub
+    @Override
+    public void fireCloneForm(SimpleTaskList bean) {
+        if (handlers != null) {
+            for (PreviewFormHandler<SimpleTaskList> handler : handlers) {
+                handler.onClone(bean);
+            }
+        }
+    }
 
-	}
-
-	@Override
-	public void fireCancelForm(SimpleTaskList bean) {
-		if (handlers != null) {
-			for (PreviewFormHandler<SimpleTaskList> handler : handlers) {
-				handler.onCancel();
-			}
-		}
-	}
-
-	@Override
-	public void fireDeleteForm(SimpleTaskList bean) {
-		if (handlers != null) {
-			for (PreviewFormHandler<SimpleTaskList> handler : handlers) {
-				handler.onDelete(bean);
-			}
-		}
-	}
-
-	@Override
-	public void fireCloneForm(SimpleTaskList bean) {
-		if (handlers != null) {
-			for (PreviewFormHandler<SimpleTaskList> handler : handlers) {
-				handler.onClone(bean);
-			}
-		}
-	}
-
-	@Override
-	public void fireExtraAction(String action, SimpleTaskList bean) {
-		if (handlers != null) {
-			for (PreviewFormHandler<SimpleTaskList> handler : handlers) {
-				handler.onExtraAction(action, bean);
-			}
-		}
-	}
+    @Override
+    public void fireExtraAction(String action, SimpleTaskList bean) {
+        if (handlers != null) {
+            for (PreviewFormHandler<SimpleTaskList> handler : handlers) {
+                handler.onExtraAction(action, bean);
+            }
+        }
+    }
 
 }

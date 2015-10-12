@@ -29,7 +29,7 @@ import com.esofthead.mycollab.module.project.domain.criteria._
 import com.esofthead.mycollab.module.project.events._
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus
 import com.esofthead.mycollab.module.project.service.StandupReportService
-import com.esofthead.mycollab.module.project.view.bug.TrackerPresenter
+import com.esofthead.mycollab.module.project.view.bug.BugPresenter
 import com.esofthead.mycollab.module.project.view.file.FilePresenter
 import com.esofthead.mycollab.module.project.view.message.MessagePresenter
 import com.esofthead.mycollab.module.project.view.milestone.MilestonePresenter
@@ -124,6 +124,15 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
                 presenter.go(projectView, data)
             }
         })
+
+        this.register(new ApplicationEventListener[TaskEvent.GotoCalendarView] {
+            @Subscribe override def handle(event: TaskEvent.GotoCalendarView): Unit = {
+                val data: TaskScreenData.GotoCalendarView = new TaskScreenData.GotoCalendarView
+                val presenter = PresenterResolver.getPresenter(classOf[TaskPresenter])
+                presenter.go(projectView, data)
+            }
+        })
+
         this.register(new ApplicationEventListener[TaskEvent.GotoGanttChart] {
             @Subscribe def handle(event: TaskEvent.GotoGanttChart) {
                 val data: TaskScreenData.GotoGanttChart = new TaskScreenData.GotoGanttChart
@@ -214,30 +223,24 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
     }
 
     private def bindBugEvents(): Unit = {
-        this.register(new ApplicationEventListener[BugEvent.GotoDashboard] {
-            @Subscribe def handle(event: BugEvent.GotoDashboard) {
-                val presenter = PresenterResolver.getPresenter(classOf[TrackerPresenter])
-                presenter.go(projectView, null)
-            }
-        })
         this.register(new ApplicationEventListener[BugEvent.GotoAdd] {
             @Subscribe def handle(event: BugEvent.GotoAdd) {
                 val data: BugScreenData.Add = new BugScreenData.Add(new SimpleBug)
-                val presenter = PresenterResolver.getPresenter(classOf[TrackerPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[BugPresenter])
                 presenter.go(projectView, data)
             }
         })
         this.register(new ApplicationEventListener[BugEvent.GotoEdit] {
             @Subscribe def handle(event: BugEvent.GotoEdit) {
                 val data: BugScreenData.Edit = new BugScreenData.Edit(event.getData.asInstanceOf[SimpleBug])
-                val presenter = PresenterResolver.getPresenter(classOf[TrackerPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[BugPresenter])
                 presenter.go(projectView, data)
             }
         })
         this.register(new ApplicationEventListener[BugEvent.GotoRead] {
             @Subscribe def handle(event: BugEvent.GotoRead) {
                 val data: BugScreenData.Read = new BugScreenData.Read(event.getData.asInstanceOf[Integer])
-                val presenter = PresenterResolver.getPresenter(classOf[TrackerPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[BugPresenter])
                 presenter.go(projectView, data)
             }
         })
@@ -245,7 +248,7 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
         this.register(new ApplicationEventListener[BugEvent.GotoKanbanView] {
             @Subscribe override def handle(event: BugEvent.GotoKanbanView): Unit = {
                 val data: BugScreenData.GotoKanbanView = new BugScreenData.GotoKanbanView
-                val presenter = PresenterResolver.getPresenter(classOf[TrackerPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[BugPresenter])
                 presenter.go(projectView, data)
             }
         })
@@ -253,7 +256,7 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
         this.register(new ApplicationEventListener[BugEvent.GotoList] {
             @Subscribe def handle(event: BugEvent.GotoList) {
                 val params: Any = event.getData
-                val presenter = PresenterResolver.getPresenter(classOf[TrackerPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[BugPresenter])
                 if (params == null) {
                     val criteria: BugSearchCriteria = new BugSearchCriteria
                     criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId))
@@ -272,21 +275,21 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
         this.register(new ApplicationEventListener[BugComponentEvent.GotoAdd] {
             @Subscribe def handle(event: BugComponentEvent.GotoAdd) {
                 val data = new ComponentScreenData.Add(new Component)
-                val presenter = PresenterResolver.getPresenter(classOf[TrackerPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[UserSettingPresenter])
                 presenter.go(projectView, data)
             }
         })
         this.register(new ApplicationEventListener[BugComponentEvent.GotoEdit] {
             @Subscribe def handle(event: BugComponentEvent.GotoEdit) {
                 val data = new ComponentScreenData.Edit(event.getData.asInstanceOf[Component])
-                val presenter = PresenterResolver.getPresenter(classOf[TrackerPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[UserSettingPresenter])
                 presenter.go(projectView, data)
             }
         })
         this.register(new ApplicationEventListener[BugComponentEvent.GotoRead] {
             @Subscribe def handle(event: BugComponentEvent.GotoRead) {
                 val data = new ComponentScreenData.Read(event.getData.asInstanceOf[Integer])
-                val presenter = PresenterResolver.getPresenter(classOf[TrackerPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[UserSettingPresenter])
                 presenter.go(projectView, data)
             }
         })
@@ -294,28 +297,28 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
             @Subscribe def handle(event: BugComponentEvent.GotoList) {
                 val criteria: ComponentSearchCriteria = new ComponentSearchCriteria
                 criteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId))
-                val presenter = PresenterResolver.getPresenter(classOf[TrackerPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[UserSettingPresenter])
                 presenter.go(projectView, new ComponentScreenData.Search(criteria))
             }
         })
         this.register(new ApplicationEventListener[BugVersionEvent.GotoAdd] {
             @Subscribe def handle(event: BugVersionEvent.GotoAdd) {
                 val data: VersionScreenData.Add = new VersionScreenData.Add(new Version)
-                val presenter = PresenterResolver.getPresenter(classOf[TrackerPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[UserSettingPresenter])
                 presenter.go(projectView, data)
             }
         })
         this.register(new ApplicationEventListener[BugVersionEvent.GotoEdit] {
             @Subscribe def handle(event: BugVersionEvent.GotoEdit) {
                 val data: VersionScreenData.Edit = new VersionScreenData.Edit(event.getData.asInstanceOf[Version])
-                val presenter = PresenterResolver.getPresenter(classOf[TrackerPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[UserSettingPresenter])
                 presenter.go(projectView, data)
             }
         })
         this.register(new ApplicationEventListener[BugVersionEvent.GotoRead] {
             @Subscribe def handle(event: BugVersionEvent.GotoRead) {
                 val data: VersionScreenData.Read = new VersionScreenData.Read(event.getData.asInstanceOf[Integer])
-                val presenter = PresenterResolver.getPresenter(classOf[TrackerPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[UserSettingPresenter])
                 presenter.go(projectView, data)
             }
         })
@@ -323,7 +326,7 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
             @Subscribe def handle(event: BugVersionEvent.GotoList) {
                 val criteria: VersionSearchCriteria = new VersionSearchCriteria
                 criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId))
-                val presenter = PresenterResolver.getPresenter(classOf[TrackerPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[UserSettingPresenter])
                 presenter.go(projectView, new VersionScreenData.Search(criteria))
             }
         })

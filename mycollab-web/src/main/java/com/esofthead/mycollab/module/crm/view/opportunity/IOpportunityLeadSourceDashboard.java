@@ -20,11 +20,9 @@ import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriter
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 public interface IOpportunityLeadSourceDashboard extends PageView {
-	void setSearchCriteria(OpportunitySearchCriteria searchCriteria);
+    void displayChart(OpportunitySearchCriteria searchCriteria);
 }

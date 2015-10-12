@@ -47,4 +47,6 @@ object TaskEvent {
 
     class GotoKanbanView(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
+    class GotoCalendarView(source: AnyRef) extends ApplicationEvent(source, null) {}
+
 }

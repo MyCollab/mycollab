@@ -23,6 +23,7 @@ import com.esofthead.mycollab.module.project.ProjectMemberStatusConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectRoleSearchCriteria;
+import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectRoleScreenData;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -45,6 +46,8 @@ public class UserSettingViewImpl extends AbstractPageView implements UserSetting
     private ProjectUserPresenter userPresenter;
     private ProjectRolePresenter rolePresenter;
     private ProjectSettingPresenter settingPresenter;
+    private ComponentPresenter componentPresenter;
+    private VersionPresenter versionPresenter;
 
     private final TabSheetDecorator myProjectTab;
 
@@ -68,6 +71,12 @@ public class UserSettingViewImpl extends AbstractPageView implements UserSetting
         this.settingPresenter = PresenterResolver.getPresenter(ProjectSettingPresenter.class);
         this.myProjectTab.addTab(this.settingPresenter.getView(), AppContext.getMessage(ProjectCommonI18nEnum.VIEW_SETTINGS));
 
+        this.componentPresenter = PresenterResolver.getPresenter(ComponentPresenter.class);
+        this.myProjectTab.addTab(this.componentPresenter.getView(), AppContext.getMessage(BugI18nEnum.TAB_COMPONENT));
+
+        this.versionPresenter = PresenterResolver.getPresenter(VersionPresenter.class);
+        this.myProjectTab.addTab(this.versionPresenter.getView(), AppContext.getMessage(BugI18nEnum.TAB_VERSION));
+
         this.myProjectTab.addSelectedTabChangeListener(new SelectedTabChangeListener() {
             private static final long serialVersionUID = 1L;
 
@@ -88,6 +97,10 @@ public class UserSettingViewImpl extends AbstractPageView implements UserSetting
                     UserSettingViewImpl.this.rolePresenter.go(UserSettingViewImpl.this, new ProjectRoleScreenData.Search(criteria));
                 } else if (AppContext.getMessage(ProjectCommonI18nEnum.VIEW_SETTINGS).equals(caption)) {
                     settingPresenter.go(UserSettingViewImpl.this, null);
+                } else if (AppContext.getMessage(BugI18nEnum.TAB_COMPONENT).equals(caption)) {
+                    componentPresenter.go(UserSettingViewImpl.this, null);
+                } else if (AppContext.getMessage(BugI18nEnum.TAB_VERSION).equals(caption)) {
+                    versionPresenter.go(UserSettingViewImpl.this, null);
                 }
             }
         });

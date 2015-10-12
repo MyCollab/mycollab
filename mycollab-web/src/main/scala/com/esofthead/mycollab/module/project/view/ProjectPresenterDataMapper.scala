@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view
 
-import com.esofthead.mycollab.module.project.view.bug.TrackerPresenter
+import com.esofthead.mycollab.module.project.view.bug.BugPresenter
 import com.esofthead.mycollab.module.project.view.file.FilePresenter
 import com.esofthead.mycollab.module.project.view.message.MessagePresenter
 import com.esofthead.mycollab.module.project.view.milestone.MilestonePresenter
@@ -70,23 +70,15 @@ object ProjectPresenterDataMapper {
         classOf[TaskScreenData.Read] -> classOf[TaskPresenter],
         classOf[TaskScreenData.GotoDashboard] -> classOf[TaskPresenter],
         classOf[TaskScreenData.GotoGanttChart] -> classOf[TaskPresenter],
-        classOf[TaskScreenData.GotoKanbanView] -> classOf[TaskPresenter])
+        classOf[TaskScreenData.GotoKanbanView] -> classOf[TaskPresenter],
+        classOf[TaskScreenData.GotoCalendarView] -> classOf[TaskPresenter])
 
     val trackerMapper = Map[Class[_ <: ScreenData[_]], Class[_ <: IPresenter[_]]](
-        classOf[BugScreenData.Read] -> classOf[TrackerPresenter],
-        classOf[BugScreenData.GotoDashboard] -> classOf[TrackerPresenter],
-        classOf[BugScreenData.Add] -> classOf[TrackerPresenter],
-        classOf[BugScreenData.Edit] -> classOf[TrackerPresenter],
-        classOf[BugScreenData.Search] -> classOf[TrackerPresenter],
-        classOf[BugScreenData.GotoKanbanView] -> classOf[TrackerPresenter],
-        classOf[ComponentScreenData.Add] -> classOf[TrackerPresenter],
-        classOf[ComponentScreenData.Edit] -> classOf[TrackerPresenter],
-        classOf[ComponentScreenData.Read] -> classOf[TrackerPresenter],
-        classOf[ComponentScreenData.Search] -> classOf[TrackerPresenter],
-        classOf[VersionScreenData.Add] -> classOf[TrackerPresenter],
-        classOf[VersionScreenData.Edit] -> classOf[TrackerPresenter],
-        classOf[VersionScreenData.Read] -> classOf[TrackerPresenter],
-        classOf[VersionScreenData.Search] -> classOf[TrackerPresenter])
+        classOf[BugScreenData.Read] -> classOf[BugPresenter],
+        classOf[BugScreenData.Add] -> classOf[BugPresenter],
+        classOf[BugScreenData.Edit] -> classOf[BugPresenter],
+        classOf[BugScreenData.Search] -> classOf[BugPresenter],
+        classOf[BugScreenData.GotoKanbanView] -> classOf[BugPresenter])
 
     val standupMapper = Map[Class[_ <: ScreenData[_]], Class[_ <: IPresenter[_]]](
         classOf[StandupScreenData.Search] -> classOf[IStandupPresenter],
@@ -100,7 +92,15 @@ object ProjectPresenterDataMapper {
         classOf[ProjectRoleScreenData.Add] -> classOf[UserSettingPresenter],
         classOf[ProjectRoleScreenData.Read] -> classOf[UserSettingPresenter],
         classOf[ProjectRoleScreenData.Search] -> classOf[UserSettingPresenter],
-        classOf[ProjectSettingScreenData.ViewSettings] -> classOf[UserSettingPresenter])
+        classOf[ProjectSettingScreenData.ViewSettings] -> classOf[UserSettingPresenter],
+        classOf[ComponentScreenData.Add] -> classOf[UserSettingPresenter],
+        classOf[ComponentScreenData.Edit] -> classOf[UserSettingPresenter],
+        classOf[ComponentScreenData.Read] -> classOf[UserSettingPresenter],
+        classOf[ComponentScreenData.Search] -> classOf[UserSettingPresenter],
+        classOf[VersionScreenData.Add] -> classOf[UserSettingPresenter],
+        classOf[VersionScreenData.Edit] -> classOf[UserSettingPresenter],
+        classOf[VersionScreenData.Read] -> classOf[UserSettingPresenter],
+        classOf[VersionScreenData.Search] -> classOf[UserSettingPresenter])
 
     val timeMapper = Map[Class[_ <: ScreenData[_]], Class[_ <: IPresenter[_]]](
         classOf[TimeTrackingScreenData.Search] -> classOf[ITimeTrackingPresenter])

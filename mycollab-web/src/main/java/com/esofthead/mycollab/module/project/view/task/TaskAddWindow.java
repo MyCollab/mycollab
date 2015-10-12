@@ -42,14 +42,17 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @since 5.1.1
  */
 class TaskAddWindow extends Window {
-    TaskAddWindow() {
-        super("New Task");
+    TaskAddWindow(SimpleTask task) {
+        if (task.getId() == null) {
+            setCaption("New task");
+        } else {
+            setCaption("Edit task");
+        }
         this.setWidth("800px");
         this.setModal(true);
         this.setResizable(false);
 
         EditForm editForm = new EditForm();
-        SimpleTask task = new SimpleTask();
         task.setLogby(AppContext.getUsername());
         task.setSaccountid(AppContext.getAccountId());
         task.setProjectid(CurrentProjectVariables.getProjectId());
@@ -95,7 +98,14 @@ class TaskAddWindow extends Window {
                     public void buttonClick(Button.ClickEvent clickEvent) {
                         if (EditForm.this.validateForm()) {
                             ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
-                            Integer taskId = taskService.saveWithSession(bean, AppContext.getUsername());
+                            Integer taskId;
+                            if (bean.getId() == null) {
+                                taskId = taskService.saveWithSession(bean, AppContext.getUsername());
+                            } else {
+                                taskService.updateWithSession(bean, AppContext.getUsername());
+                                taskId = bean.getId();
+                            }
+
                             AttachmentUploadField uploadField = ((TaskEditFormFieldFactory) EditForm.this
                                     .getFieldFactory()).getAttachmentUploadField();
                             String attachPath = AttachmentUtils.getProjectEntityAttachmentPath(

@@ -16,50 +16,50 @@
  */
 package com.esofthead.mycollab.vaadin.ui.form.field;
 
-import org.apache.commons.lang3.StringUtils;
-
-import com.esofthead.mycollab.vaadin.ui.SocialNetworkLink;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.vaadin.server.ExternalResource;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Link;
+import org.apache.commons.lang3.StringUtils;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.5.3
- *
  */
 public class UrlSocialNetworkLinkViewField extends CustomField<String> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String caption;
-	private String linkAccount;
+    private String caption;
+    private String linkAccount;
 
-	public UrlSocialNetworkLinkViewField(String caption, String linkAccount) {
-		this.caption = caption;
-		this.linkAccount = linkAccount;
-	}
+    public UrlSocialNetworkLinkViewField(String caption, String linkAccount) {
+        this.caption = caption;
+        this.linkAccount = linkAccount;
+    }
 
-	@Override
-	public Class<String> getType() {
-		return String.class;
-	}
+    @Override
+    public Class<String> getType() {
+        return String.class;
+    }
 
-	@Override
-	protected Component initContent() {
-		if (StringUtils.isBlank(caption)) {
-			Label lbl = new Label("&nbsp;");
-			lbl.setContentMode(ContentMode.HTML);
-			lbl.setWidth("100%");
-			return lbl;
-		} else {
-			linkAccount = (linkAccount == null) ? "" : linkAccount;
-			final Link link = new SocialNetworkLink(caption, linkAccount);
-			link.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
-			return link;
-		}
-	}
+    @Override
+    protected Component initContent() {
+        if (StringUtils.isBlank(caption)) {
+            Label lbl = new Label("&nbsp;");
+            lbl.setContentMode(ContentMode.HTML);
+            lbl.setWidth("100%");
+            return lbl;
+        } else {
+            linkAccount = (linkAccount == null) ? "" : linkAccount;
+            final Link link = new Link();
+            link.setResource(new ExternalResource(linkAccount));
+            link.setCaption(caption);
+            link.setTargetName("_blank");
+            link.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
+            return link;
+        }
+    }
 }

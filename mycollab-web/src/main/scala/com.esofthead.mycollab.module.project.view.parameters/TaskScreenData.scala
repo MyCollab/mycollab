@@ -36,5 +36,7 @@ object TaskScreenData {
     class GotoGanttChart extends ScreenData {}
     
     class GotoKanbanView extends ScreenData {}
+
+    class GotoCalendarView extends ScreenData {}
     
 }

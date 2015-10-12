@@ -19,7 +19,6 @@ package com.esofthead.mycollab.core.db.query;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.core.utils.BeanUtility;
 
 import java.io.Serializable;
 import java.util.List;
@@ -104,12 +103,12 @@ public class SearchFieldInfo implements Serializable {
                     obj.addExtraField(searchField);
                 } else if (param instanceof NumberParam) {
                     NumberParam wrapParam = (NumberParam) param;
-                    SearchField searchField =  wrapParam.buildSearchField(info.getPrefixOper(), info.getCompareOper(),
-                            Double.parseDouble((String)info.getValue()));
+                    SearchField searchField = wrapParam.buildSearchField(info.getPrefixOper(), info.getCompareOper(),
+                            Double.parseDouble((String) info.getValue()));
                     obj.addExtraField(searchField);
                 } else if (param instanceof CompositionStringParam) {
                     CompositionStringParam wrapParam = (CompositionStringParam) param;
-                    SearchField searchField =  wrapParam.buildSearchField(info.getPrefixOper(), info.getCompareOper(), (String)info.getValue());
+                    SearchField searchField = wrapParam.buildSearchField(info.getPrefixOper(), info.getCompareOper(), (String) info.getValue());
                     obj.addExtraField(searchField);
                 }
             }

@@ -37,24 +37,12 @@ import com.esofthead.mycollab.vaadin.mvp.PageActionChain
  * @since 5.0.9
  */
 class BugUrlResolver extends ProjectUrlResolver {
-    this.defaultUrlResolver = new DefaultUrlResolver
-    this.addSubResolver("dashboard", new DefaultUrlResolver)
+    this.defaultUrlResolver = new ListUrlResolver
     this.addSubResolver("add", new AddUrlResolver)
     this.addSubResolver("list", new ListUrlResolver)
     this.addSubResolver("kanban", new KanbanUrlResolver)
     this.addSubResolver("edit", new EditUrlResolver)
     this.addSubResolver("preview", new PreviewUrlResolver)
-    this.addSubResolver("component", new ComponentUrlResolver)
-    this.addSubResolver("version", new VersionUrlResolver)
-
-    private class DefaultUrlResolver extends ProjectUrlResolver {
-        protected override def handlePage(params: String*) {
-            val projectId = new UrlTokenizer(params(0)).getInt
-            val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
-                new BugScreenData.GotoDashboard)
-            EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
-        }
-    }
 
     private class ListUrlResolver extends ProjectUrlResolver {
         protected override def handlePage(params: String*) {

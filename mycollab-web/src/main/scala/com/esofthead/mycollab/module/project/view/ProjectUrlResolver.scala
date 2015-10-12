@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.project.view.page.PageUrlResolver
 import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData
 import com.esofthead.mycollab.module.project.view.problem.ProblemUrlResolver
 import com.esofthead.mycollab.module.project.view.risk.RiskUrlResolver
-import com.esofthead.mycollab.module.project.view.settings.{RoleUrlResolver, SettingUrlResolver, UserUrlResolver}
+import com.esofthead.mycollab.module.project.view.settings._
 import com.esofthead.mycollab.module.project.view.standup.StandupUrlResolver
 import com.esofthead.mycollab.module.project.view.task.ScheduleUrlResolver
 import com.esofthead.mycollab.module.project.view.time.TimeUrlResolver
@@ -61,6 +61,8 @@ class ProjectUrlResolver extends UrlResolver {
         this.addSubResolver("file", new ProjectFileUrlResolver)
         this.addSubResolver("following", new FollowingTicketsResolver)
         this.addSubResolver("timetracking", new TimeTrackingResolver)
+        this.addSubResolver("component", new ComponentUrlResolver)
+        this.addSubResolver("version", new VersionUrlResolver)
         return this
     }
 

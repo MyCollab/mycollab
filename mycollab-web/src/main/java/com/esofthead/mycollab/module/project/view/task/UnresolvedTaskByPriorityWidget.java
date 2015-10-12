@@ -29,10 +29,8 @@ import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.ButtonI18nComp;
-import com.esofthead.mycollab.vaadin.ui.Depot;
-import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.mvp.ViewManager;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.google.common.eventbus.Subscribe;
 import com.rits.cloning.Cloner;
 import com.vaadin.shared.ui.MarginInfo;
@@ -48,10 +46,13 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 4.0
  */
-public class UnresolvedTaskByPriorityWidget extends Depot {
+public class UnresolvedTaskByPriorityWidget extends DepotWithChart {
     private static final long serialVersionUID = 1L;
 
     private TaskSearchCriteria searchCriteria;
+    private int totalCount;
+    private List<GroupItem> groupItems;
+
     private ApplicationEventListener<TaskEvent.HasTaskChange> taskChangeHandler = new
             ApplicationEventListener<TaskEvent.HasTaskChange>() {
                 @Override
@@ -68,12 +69,6 @@ public class UnresolvedTaskByPriorityWidget extends Depot {
                 }
             };
 
-    public UnresolvedTaskByPriorityWidget() {
-        super(AppContext.getMessage(TaskI18nEnum.WIDGET_UNRESOLVED_BY_PRIORITY_TITLE), new MVerticalLayout());
-        this.setMargin(new MarginInfo(false, false, true, false));
-        this.setContentBorder(true);
-    }
-
     @Override
     public void attach() {
         EventBusFactory.getInstance().register(taskChangeHandler);
@@ -88,10 +83,16 @@ public class UnresolvedTaskByPriorityWidget extends Depot {
 
     public void setSearchCriteria(TaskSearchCriteria searchCriteria) {
         this.searchCriteria = searchCriteria;
-        this.bodyContent.removeAllComponents();
+
         ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
-        int totalCount = taskService.getTotalCount(searchCriteria);
-        List<GroupItem> groupItems = taskService.getPrioritySummary(searchCriteria);
+        totalCount = taskService.getTotalCount(searchCriteria);
+        groupItems = taskService.getPrioritySummary(searchCriteria);
+        displayPlainMode();
+    }
+
+    @Override
+    protected void displayPlainMode() {
+        this.bodyContent.removeAllComponents();
         TaskPriorityClickListener listener = new TaskPriorityClickListener();
         this.setTitle(AppContext.getMessage(TaskI18nEnum.WIDGET_UNRESOLVED_BY_PRIORITY_TITLE) + " (" + totalCount + ")");
 
@@ -132,6 +133,14 @@ public class UnresolvedTaskByPriorityWidget extends Depot {
                 }
             }
         }
+    }
+
+    @Override
+    protected void displayChartMode() {
+        this.bodyContent.removeAllComponents();
+        ITaskPriorityChartWidget taskPriorityChartWidget = ViewManager.getCacheComponent(ITaskPriorityChartWidget.class);
+        taskPriorityChartWidget.displayChart(searchCriteria);
+        bodyContent.addComponent(taskPriorityChartWidget);
     }
 
     private class TaskPriorityClickListener implements Button.ClickListener {

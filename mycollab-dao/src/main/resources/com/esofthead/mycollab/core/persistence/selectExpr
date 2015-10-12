@@ -25,8 +25,8 @@
                     #onevalexpr($subItem) 
                         ${subItem.operation} ${subItem.querySelect} @{subItem.value} 
                     #end 
-                    #betweenvalexpr($extraField)
-                        ${extraField.operation} ${extraField.querySelect} @{extraField.value} AND @{extraField.secondValue} 
+                    #betweenvalexpr($subItem)
+                        (${subItem.operation} ${subItem.querySelect} @{subItem.value} AND @{subItem.secondValue})
                     #end
                     #collectionvalexpr($subItem) 
                         ${subItem.operation} ${subItem.querySelect} 

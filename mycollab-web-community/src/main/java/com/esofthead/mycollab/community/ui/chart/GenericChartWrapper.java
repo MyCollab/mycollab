@@ -16,71 +16,75 @@
  */
 package com.esofthead.mycollab.community.ui.chart;
 
-import org.jfree.chart.JFreeChart;
-
+import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.vaadin.ui.Alignment;
+import com.esofthead.mycollab.vaadin.ui.IInteractiveChartComponent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.VerticalLayout;
+import org.jfree.chart.JFreeChart;
+
+import java.util.List;
 
 /**
- * 
+ * @param <S>
  * @author MyCollab Ltd.
  * @since 1.0
- * 
- * @param <S>
  */
-public abstract class GenericChartWrapper<S extends SearchCriteria> extends VerticalLayout {
-	private static final long serialVersionUID = 1L;
+public abstract class GenericChartWrapper<S extends SearchCriteria> extends CssLayout implements
+        IInteractiveChartComponent {
+    private static final long serialVersionUID = 1L;
 
-	protected static final String[] CHART_COLOR_STR = { ColorConstants.BLUE,
-		ColorConstants.GREEN, ColorConstants.ORANGE, ColorConstants.BLACK,
-		ColorConstants.DARK_ORANGE, ColorConstants.LIGHT_BLUE,
-		ColorConstants.GRAY, ColorConstants.BRIGHT_TURQUOISE,
-		ColorConstants.LIGHT_GRAY, ColorConstants.CHERRY,
-		ColorConstants.CONGO_PINK, ColorConstants.COFFFE,
-		ColorConstants.COPPER, ColorConstants.RED,
-		ColorConstants.LIGHTER_GREEN, ColorConstants.INDIAN_RED,
-		ColorConstants.LAVENDER, ColorConstants.LEMON,
-		ColorConstants.BROWN, ColorConstants.LIVER, ColorConstants.LION };
+    protected static final String[] CHART_COLOR_STR = {ColorConstants.BLUE,
+            ColorConstants.GREEN, ColorConstants.ORANGE, ColorConstants.BLACK,
+            ColorConstants.DARK_ORANGE, ColorConstants.LIGHT_BLUE,
+            ColorConstants.GRAY, ColorConstants.BRIGHT_TURQUOISE,
+            ColorConstants.LIGHT_GRAY, ColorConstants.CHERRY,
+            ColorConstants.CONGO_PINK, ColorConstants.COFFFE,
+            ColorConstants.COPPER, ColorConstants.RED,
+            ColorConstants.LIGHTER_GREEN, ColorConstants.INDIAN_RED,
+            ColorConstants.LAVENDER, ColorConstants.LEMON,
+            ColorConstants.BROWN, ColorConstants.LIVER, ColorConstants.LION};
 
-	protected String title;
-	protected int height;
-	protected int width;
-	protected S searchCriteria;
+    protected int height;
+    protected int width;
+    protected S searchCriteria;
+    protected List<GroupItem> groupItems;
 
-	public GenericChartWrapper(final String title, final int width, final int height) {
-		this.width = width;
-		this.height = height;
-		this.title = title;
-	}
+    public GenericChartWrapper(final int width, final int height) {
+        this.width = width;
+        this.height = height;
+    }
 
-	abstract protected JFreeChart createChart();
+    abstract protected List<GroupItem> loadGroupItems();
 
-	protected abstract ComponentContainer createLegendBox();
+    abstract protected JFreeChart createChart();
 
-	public void setSearchCriteria(final S criteria) {
-		this.searchCriteria = criteria;
+    protected abstract ComponentContainer createLegendBox();
 
-		final JFreeChart chart = createChart();
-		final JFreeChartWrapper chartWrapper = new JFreeChartWrapper(chart);
+    public void displayChart(final S criteria) {
+        removeAllComponents();
+        this.searchCriteria = criteria;
+        this.groupItems = loadGroupItems();
+        displayChart();
+    }
 
-		removeAllComponents();
-		final CssLayout borderWrap = new CssLayout();
-		borderWrap.addComponent(chartWrapper);
-		borderWrap.setStyleName("chart-wrapper");
-		borderWrap.setHeight(height + "px");
-		borderWrap.setWidth(width + "px");
-		chartWrapper.setHeight(height + "px");
-		chartWrapper.setWidth(width + "px");
-		chartWrapper.setGraphHeight(height);
-		chartWrapper.setGraphWidth(width);
-		this.addComponent(borderWrap);
-		this.setComponentAlignment(borderWrap, Alignment.MIDDLE_CENTER);
-		final Component legendBox = createLegendBox();
-		this.addComponent(legendBox);
-		this.setComponentAlignment(legendBox, Alignment.MIDDLE_CENTER);
-	}
+    private void displayChart() {
+        final JFreeChart chart = createChart();
+        final JFreeChartWrapper chartWrapper = new JFreeChartWrapper(chart);
+
+        final CssLayout borderWrap = new CssLayout();
+        borderWrap.addComponent(chartWrapper);
+        borderWrap.setStyleName("chart-wrapper");
+        borderWrap.setHeight(height + "px");
+        borderWrap.setWidth(width + "px");
+        chartWrapper.setHeight(height + "px");
+        chartWrapper.setWidth(width + "px");
+        chartWrapper.setGraphHeight(height);
+        chartWrapper.setGraphWidth(width);
+        this.addComponent(borderWrap);
+        final Component legendBox = createLegendBox();
+        this.addComponent(legendBox);
+    }
 }

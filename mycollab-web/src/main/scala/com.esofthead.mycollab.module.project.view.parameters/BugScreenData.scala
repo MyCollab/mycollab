@@ -26,8 +26,6 @@ import com.esofthead.mycollab.vaadin.mvp.ScreenData
  */
 object BugScreenData {
 
-    class GotoDashboard extends ScreenData {}
-
     class Search(params: BugSearchCriteria) extends ScreenData[BugSearchCriteria](params) {}
 
     class Read(params: Integer) extends ScreenData[Integer](params) {}

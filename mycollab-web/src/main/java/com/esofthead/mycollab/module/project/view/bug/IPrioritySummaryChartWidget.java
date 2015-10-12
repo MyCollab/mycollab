@@ -20,11 +20,9 @@ import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public interface IPrioritySummaryChartWidget extends PageView {
-	void setSearchCriteria(BugSearchCriteria searchCriteria);
+    void displayChart(BugSearchCriteria searchCriteria);
 }
