@@ -25,7 +25,7 @@ import com.esofthead.mycollab.module.project.view.file.ProjectFileUrlResolver
 import com.esofthead.mycollab.module.project.view.message.MessageUrlResolver
 import com.esofthead.mycollab.module.project.view.milestone.MilestoneUrlResolver
 import com.esofthead.mycollab.module.project.view.page.PageUrlResolver
-import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData
+import com.esofthead.mycollab.module.project.view.parameters.{MilestoneScreenData, ProjectScreenData}
 import com.esofthead.mycollab.module.project.view.problem.ProblemUrlResolver
 import com.esofthead.mycollab.module.project.view.risk.RiskUrlResolver
 import com.esofthead.mycollab.module.project.view.settings._
@@ -63,6 +63,7 @@ class ProjectUrlResolver extends UrlResolver {
         this.addSubResolver("timetracking", new TimeTrackingResolver)
         this.addSubResolver("component", new ComponentUrlResolver)
         this.addSubResolver("version", new VersionUrlResolver)
+        this.addSubResolver("roadmap", new RoadmapUrlResolver)
         return this
     }
 
@@ -95,6 +96,18 @@ class ProjectUrlResolver extends UrlResolver {
             } else {
                 val projectId = new UrlTokenizer(params(0)).getInt
                 val chain = new PageActionChain(new ProjectScreenData.Goto(projectId))
+                EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+            }
+        }
+    }
+
+    class RoadmapUrlResolver extends ProjectUrlResolver {
+        protected override def handlePage(params: String*) {
+            if (params.length == 0) {
+                EventBusFactory.getInstance.post(new ShellEvent.GotoProjectModule(this, null))
+            } else {
+                val projectId = new UrlTokenizer(params(0)).getInt
+                val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new MilestoneScreenData.Roadmap())
                 EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
             }
         }

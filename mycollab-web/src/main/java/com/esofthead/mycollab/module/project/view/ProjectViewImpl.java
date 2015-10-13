@@ -129,10 +129,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
                     if (ProjectTypeConstants.MESSAGE.equals(caption)) {
                         messagePresenter.go(ProjectViewImpl.this, null);
                     } else if (ProjectTypeConstants.MILESTONE.equals(caption)) {
-                        MilestoneSearchCriteria searchCriteria = new MilestoneSearchCriteria();
-                        searchCriteria.setProjectId(new NumberSearchField(
-                                SearchField.AND, CurrentProjectVariables.getProjectId()));
-                        milestonesPresenter.go(ProjectViewImpl.this, new MilestoneScreenData.Search(searchCriteria));
+                        milestonesPresenter.go(ProjectViewImpl.this, new MilestoneScreenData.Roadmap());
                     } else if (ProjectTypeConstants.TASK.equals(caption)) {
                         taskPresenter.go(ProjectViewImpl.this, null);
                     } else if (ProjectTypeConstants.BUG.equals(caption)) {

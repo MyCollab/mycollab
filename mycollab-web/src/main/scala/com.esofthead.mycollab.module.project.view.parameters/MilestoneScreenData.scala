@@ -26,11 +26,14 @@ import com.esofthead.mycollab.vaadin.mvp.ScreenData
  */
 object MilestoneScreenData {
 
-  class Read(params:Integer) extends ScreenData[Integer](params) {}
+    class Read(params: Integer) extends ScreenData[Integer](params) {}
 
-  class Edit(params:Milestone) extends ScreenData[Milestone](params) {}
+    class Edit(params: Milestone) extends ScreenData[Milestone](params) {}
 
-  class Add(params:Milestone) extends ScreenData[Milestone](params) {}
+    class Add(params: Milestone) extends ScreenData[Milestone](params) {}
 
-  class Search(params:MilestoneSearchCriteria) extends ScreenData[MilestoneSearchCriteria](params) {}
+    class Search(params: MilestoneSearchCriteria) extends ScreenData[MilestoneSearchCriteria](params) {}
+
+    class Roadmap() extends ScreenData() {}
+
 }

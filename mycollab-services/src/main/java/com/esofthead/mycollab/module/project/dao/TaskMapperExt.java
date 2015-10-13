@@ -16,34 +16,30 @@
  */
 package com.esofthead.mycollab.module.project.dao;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
-
 import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public interface TaskMapperExt extends ISearchableDAO<TaskSearchCriteria> {
 
-	SimpleTask findTaskById(int taskId);
+    SimpleTask findTaskById(int taskId);
 
-	Integer getMaxKey(int projectId);
+    Integer getMaxKey(int projectId);
 
-	List<GroupItem> getPrioritySummary(
-			@Param("searchCriteria") TaskSearchCriteria criteria);
+    List<GroupItem> getPrioritySummary(@Param("searchCriteria") TaskSearchCriteria criteria);
 
-	List<GroupItem> getAssignedDefectsSummary(
-			@Param("searchCriteria") TaskSearchCriteria criteria);
+    List<GroupItem> getStatusSummary(@Param("searchCriteria") TaskSearchCriteria criteria);
 
-	SimpleTask findByProjectAndTaskKey(@Param("taskkey") int taskkey,
-			@Param("prjShortName") String projectShortName,
-			@Param("sAccountId") int sAccountId);
+    List<GroupItem> getAssignedDefectsSummary(@Param("searchCriteria") TaskSearchCriteria criteria);
+
+    SimpleTask findByProjectAndTaskKey(@Param("taskkey") int taskkey, @Param("prjShortName") String projectShortName,
+                                       @Param("sAccountId") int sAccountId);
 }

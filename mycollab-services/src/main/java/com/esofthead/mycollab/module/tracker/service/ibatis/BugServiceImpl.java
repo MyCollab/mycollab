@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.module.tracker.service.ibatis;
 
-import com.esofthead.mycollab.cache.CacheUtils;
 import com.esofthead.mycollab.cache.CleanCacheEvent;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.domain.GroupItem;
@@ -99,6 +98,9 @@ public class BugServiceImpl extends DefaultService<Integer, BugWithBLOBs, BugSea
                 record.setBugkey((maxKey == null) ? 1 : (maxKey + 1));
                 if (record.getPriority() == null) {
                     record.setPriority(OptionI18nEnum.BugPriority.Major.name());
+                }
+                if (record.getStatus() == null) {
+                    record.setStatus(OptionI18nEnum.BugStatus.Open.name());
                 }
                 int result = super.saveWithSession(record, username);
                 asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectService.class,

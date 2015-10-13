@@ -16,36 +16,24 @@
  */
 package com.esofthead.mycollab.module.project.view.bug;
 
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
-import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
-import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
-import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.module.project.ui.components.DynaFormLayout;
-import com.esofthead.mycollab.module.project.ui.components.ProjectSubscribersComp;
 import com.esofthead.mycollab.module.project.ui.form.ProjectFormAttachmentUploadField;
-import com.esofthead.mycollab.module.project.view.bug.components.BugPriorityComboBox;
-import com.esofthead.mycollab.module.project.view.bug.components.BugSeverityComboBox;
-import com.esofthead.mycollab.module.project.view.settings.component.ComponentMultiSelectField;
-import com.esofthead.mycollab.module.project.view.settings.component.VersionMultiSelectField;
-import com.esofthead.mycollab.module.project.view.milestone.MilestoneComboBox;
-import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
 import com.esofthead.mycollab.module.tracker.domain.Component;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.*;
-import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
-import com.vaadin.data.Property;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
+import com.esofthead.mycollab.vaadin.ui.EditFormControlsGenerator;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.TextField;
 
 import java.util.List;
 
@@ -57,118 +45,30 @@ import java.util.List;
 public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements BugAddView {
     private static final long serialVersionUID = 1L;
 
-    private ProjectFormAttachmentUploadField attachmentUploadField;
 
-    private ComponentMultiSelectField componentSelect;
-    private VersionMultiSelectField affectedVersionSelect;
-    private VersionMultiSelectField fixedVersionSelect;
-    private ProjectSubscribersComp subcribersComp;
+    private BugEditFormFieldFactory editFormFieldFactory;
 
     @Override
     public ProjectFormAttachmentUploadField getAttachUploadField() {
-        return this.attachmentUploadField;
+        return editFormFieldFactory.getAttachmentUploadField();
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public List<Component> getComponents() {
-        return this.componentSelect.getSelectedItems();
+        return editFormFieldFactory.getComponentSelect().getSelectedItems();
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public List<Version> getAffectedVersions() {
-        return this.affectedVersionSelect.getSelectedItems();
+        return editFormFieldFactory.getAffectedVersionSelect().getSelectedItems();
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public List<Version> getFixedVersion() {
-        return this.fixedVersionSelect.getSelectedItems();
-    }
-
-    private class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<SimpleBug> {
-
-        private static final long serialVersionUID = 1L;
-
-        public EditFormFieldFactory(GenericBeanForm<SimpleBug> form) {
-            super(form);
-            subcribersComp = new ProjectSubscribersComp(false, CurrentProjectVariables.getProjectId(), AppContext.getUsername());
-        }
-
-        @Override
-        protected Field<?> onCreateField(final Object propertyId) {
-            if (propertyId.equals("environment")) {
-                return new RichTextEditField();
-            } else if (propertyId.equals("description")) {
-                return new RichTextEditField();
-            } else if (propertyId.equals("priority")) {
-                if (beanItem.getPriority() == null) {
-                    beanItem.setPriority(BugPriority.Major.name());
-                }
-                return new BugPriorityComboBox();
-            } else if (propertyId.equals("assignuser")) {
-                ProjectMemberSelectionField field = new ProjectMemberSelectionField();
-                field.addValueChangeListener(new Property.ValueChangeListener() {
-                    @Override
-                    public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-                        Property property = valueChangeEvent.getProperty();
-                        SimpleProjectMember member = (SimpleProjectMember) property.getValue();
-                        if (member != null) {
-                            subcribersComp.addFollower(member.getUsername());
-                        }
-                    }
-                });
-                return field;
-            } else if (propertyId.equals("id")) {
-                attachmentUploadField = new ProjectFormAttachmentUploadField();
-                if (beanItem.getId() != null) {
-                    attachmentUploadField.getAttachments(beanItem.getProjectid(), ProjectTypeConstants.BUG, beanItem.getId());
-                }
-                return attachmentUploadField;
-            } else if (propertyId.equals("severity")) {
-                if (beanItem.getSeverity() == null) {
-                    beanItem.setSeverity(BugSeverity.Major.name());
-                }
-                return new BugSeverityComboBox();
-            } else if (propertyId.equals("components")) {
-                componentSelect = new ComponentMultiSelectField();
-                return componentSelect;
-            } else if (propertyId.equals("affectedVersions")) {
-                affectedVersionSelect = new VersionMultiSelectField();
-                return affectedVersionSelect;
-            } else if (propertyId.equals("fixedVersions")) {
-                fixedVersionSelect = new VersionMultiSelectField();
-                return fixedVersionSelect;
-            } else if (propertyId.equals("summary")) {
-                final TextField tf = new TextField();
-                if (isValidateForm) {
-                    tf.setNullRepresentation("");
-                    tf.setRequired(true);
-                    tf.setRequiredError("Summary must be not null");
-                }
-
-                return tf;
-            } else if (propertyId.equals("milestoneid")) {
-                final MilestoneComboBox milestoneBox = new MilestoneComboBox();
-                milestoneBox.addValueChangeListener(new Property.ValueChangeListener() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void valueChange(Property.ValueChangeEvent event) {
-                        String milestoneName = milestoneBox.getItemCaption(milestoneBox.getValue());
-                        beanItem.setMilestoneName(milestoneName);
-                    }
-                });
-                return milestoneBox;
-            } else if (propertyId.equals("estimatetime") || (propertyId.equals("estimateremaintime"))) {
-                return new NumberField();
-            } else if (propertyId.equals("selected")) {
-                return subcribersComp;
-            }
-
-            return null;
-        }
+        return editFormFieldFactory.getFixedVersionSelect().getSelectedItems();
     }
 
     @Override
@@ -213,11 +113,12 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements B
 
     @Override
     protected AbstractBeanFieldGroupEditFieldFactory<SimpleBug> initBeanFormFieldFactory() {
-        return new EditFormFieldFactory(editForm);
+        editFormFieldFactory = new BugEditFormFieldFactory(editForm);
+        return editFormFieldFactory;
     }
 
     @Override
     public List<String> getFollowers() {
-        return subcribersComp.getFollowers();
+        return editFormFieldFactory.getSubcribersComp().getFollowers();
     }
 }

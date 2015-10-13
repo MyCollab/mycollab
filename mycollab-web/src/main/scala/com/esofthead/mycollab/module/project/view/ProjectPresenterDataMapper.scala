@@ -40,7 +40,8 @@ object ProjectPresenterDataMapper {
         classOf[MilestoneScreenData.Read] -> classOf[MilestonePresenter],
         classOf[MilestoneScreenData.Search] -> classOf[MilestonePresenter],
         classOf[MilestoneScreenData.Add] -> classOf[MilestonePresenter],
-        classOf[MilestoneScreenData.Edit] -> classOf[MilestonePresenter])
+        classOf[MilestoneScreenData.Edit] -> classOf[MilestonePresenter],
+        classOf[MilestoneScreenData.Roadmap] -> classOf[MilestonePresenter])
 
     val messageMapper = Map[Class[_ <: ScreenData[_]], Class[_ <: IPresenter[_]]](
         classOf[MessageScreenData.Read] -> classOf[MessagePresenter],

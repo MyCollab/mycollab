@@ -19,6 +19,10 @@
         <result column="numOpenBugs" jdbcType="INTEGER" property="numOpenBugs" />
         <result column="numBugs" jdbcType="INTEGER" property="numBugs" />
         <result column="projectName" property="projectName" jdbcType="VARCHAR" />
+        <result column="totalTaskBillableHours" property="totalTaskBillableHours" jdbcType="DOUBLE"/>
+        <result column="totalTaskNonBillableHours" property="totalTaskNonBillableHours" jdbcType="DOUBLE"/>
+        <result column="totalBugBillableHours" property="totalBugBillableHours" jdbcType="DOUBLE"/>
+        <result column="totalBugNonBillableHours" property="totalBugNonBillableHours" jdbcType="DOUBLE"/>
     </resultMap>
     
     <sql id="queryTotalCountSearchCriteria">
@@ -97,8 +101,20 @@
                    (SELECT COUNT(*) FROM m_prj_task WHERE m_prj_task.milestoneId=m_prj_milestone.id) AS numTasks,
                    (SELECT COUNT(*) FROM m_prj_task WHERE m_prj_task.milestoneId=m_prj_milestone.id AND m_prj_task.status='Open') AS numOpenTasks,
                    (SELECT COUNT(*) FROM m_tracker_bug WHERE m_tracker_bug.milestoneId=m_prj_milestone.id) AS numBugs,
-                    (SELECT COUNT(*) FROM m_tracker_bug WHERE m_tracker_bug.milestoneId=m_prj_milestone.id AND m_tracker_bug.status IN ('Open', 'InProgress', 'Reopenned')) AS numOpenBugs,
-                   m_prj_project.name as projectName
+                   (SELECT COUNT(*) FROM m_tracker_bug WHERE m_tracker_bug.milestoneId=m_prj_milestone.id AND m_tracker_bug.status IN ('Open', 'InProgress', 'Reopenned')) AS numOpenBugs,
+                   m_prj_project.name as projectName,
+                   (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging, m_prj_task WHERE m_prj_time_logging.projectId = m_prj_milestone.projectid
+                     AND m_prj_task.milestoneId=m_prj_milestone.id
+                     AND m_prj_time_logging.type='Project-Task' AND m_prj_time_logging.typeid=m_prj_task.id AND m_prj_time_logging.isBillable = 1) AS totalTaskBillableHours,
+                   (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging, m_prj_task WHERE m_prj_time_logging.projectId = m_prj_milestone.projectid
+                     AND m_prj_task.milestoneId=m_prj_milestone.id
+                     AND m_prj_time_logging.type='Project-Task' AND m_prj_time_logging.typeid=m_prj_task.id AND m_prj_time_logging.isBillable = 0) AS totalTaskNonBillableHours,
+                   (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging, m_tracker_bug WHERE m_prj_time_logging.projectId = m_prj_milestone.projectid
+                     AND m_tracker_bug.milestoneId=m_prj_milestone.id
+                     AND m_prj_time_logging.type='Project-Bug' AND m_prj_time_logging.typeid=m_tracker_bug.id AND m_prj_time_logging.isBillable = 1) AS totalBugBillableHours,
+                   (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging, m_tracker_bug WHERE m_prj_time_logging.projectId = m_prj_milestone.projectid
+                     AND m_tracker_bug.milestoneId=m_prj_milestone.id
+                     AND m_prj_time_logging.type='Project-Bug' AND m_prj_time_logging.typeid=m_tracker_bug.id AND m_prj_time_logging.isBillable = 0) AS totalBugNonBillableHours
                 FROM m_prj_milestone
                     INNER JOIN m_prj_project ON (m_prj_milestone.projectid = m_prj_project.id)
                     LEFT OUTER JOIN s_user ON (m_prj_milestone.owner = s_user.username)

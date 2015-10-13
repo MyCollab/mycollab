@@ -135,22 +135,6 @@ public class ProjectLinkBuilder {
                 + ProjectLinkGenerator.generateMilestonePreviewLink(projectId, milestoneId);
     }
 
-    public static String generateMilestoneHtmlLink(int milestoneId) {
-        MilestoneService milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
-        SimpleMilestone milestone = milestoneService.findById(milestoneId, AppContext.getAccountId());
-        if (milestone != null) {
-            DivLessFormatter div = new DivLessFormatter();
-            A link = new A();
-            link.setHref(generateMilestonePreviewFullLink(milestone.getProjectid(), milestone.getId()));
-            Text text = new Text(milestone.getName());
-            link.appendChild(text);
-            return div.appendChild(new Text(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE).getHtml()),
-                    DivLessFormatter.EMPTY_SPACE(), link).write();
-        } else {
-            return null;
-        }
-    }
-
     public static String generateProjectItemHtmlLink(String prjShortName, Integer projectId, String summary, String type, String typeId) {
         String uid = UUID.randomUUID().toString();
         Text image = new Text(ProjectAssetsManager.getAsset(type).getHtml());

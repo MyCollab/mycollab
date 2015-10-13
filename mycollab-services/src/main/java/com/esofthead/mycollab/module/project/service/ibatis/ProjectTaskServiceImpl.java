@@ -189,6 +189,11 @@ public class ProjectTaskServiceImpl extends DefaultService<Integer, Task, TaskSe
     }
 
     @Override
+    public List<GroupItem> getStatusSummary(@CacheKey TaskSearchCriteria criteria) {
+        return taskMapperExt.getStatusSummary(criteria);
+    }
+
+    @Override
     public List<GroupItem> getAssignedTasksSummary(TaskSearchCriteria criteria) {
         return taskMapperExt.getAssignedDefectsSummary(criteria);
     }

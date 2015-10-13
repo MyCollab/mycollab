@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.project.view.milestone
 import com.esofthead.mycollab.common.UrlTokenizer
 import com.esofthead.mycollab.core.arguments.NumberSearchField
 import com.esofthead.mycollab.eventmanager.EventBusFactory
-import com.esofthead.mycollab.module.project.domain.Milestone
+import com.esofthead.mycollab.module.project.domain.SimpleMilestone
 import com.esofthead.mycollab.module.project.domain.criteria.MilestoneSearchCriteria
 import com.esofthead.mycollab.module.project.events.ProjectEvent
 import com.esofthead.mycollab.module.project.service.MilestoneService
@@ -54,7 +54,7 @@ class MilestoneUrlResolver extends ProjectUrlResolver {
         protected override def handlePage(params: String*) {
             val projectId = new UrlTokenizer(params(0)).getInt
             val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
-                new MilestoneScreenData.Add(new Milestone))
+                new MilestoneScreenData.Add(new SimpleMilestone))
             EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
         }
     }

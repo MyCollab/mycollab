@@ -25,7 +25,7 @@ import java.util.Date;
 
 /**
  * @author MyCollab Ltd
- * @since 5.1.5
+ * @since 5.2.0
  */
 public class GenericTaskEvent extends BasicEvent {
     private SimpleTask assignment;

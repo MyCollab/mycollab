@@ -265,6 +265,23 @@
         GROUP BY m_prj_task.priority
     </select>
 
+    <select id="getStatusSummary" parameterType="TaskSearchCriteria"
+            resultMap="com.esofthead.mycollab.common.dao.GroupItemMapper.BaseResultMap"
+            lang="velocity">
+
+        <![CDATA[
+        SELECT m_prj_task.status AS groupid,
+            COUNT(m_prj_task.status) AS value, '' as groupname
+        FROM m_prj_task
+        ]]>
+        #ifnotnull($_parameter.searchCriteria)
+        #trimext("WHERE" "AND|OR")
+        <include refid="querySearchCriteria"/>
+        #end
+        #end
+        GROUP BY m_prj_task.status
+    </select>
+
     <select id="getAssignedDefectsSummary" parameterType="TaskSearchCriteria"
             resultMap="com.esofthead.mycollab.common.dao.GroupItemMapper.BaseResultMap"
             lang="velocity">

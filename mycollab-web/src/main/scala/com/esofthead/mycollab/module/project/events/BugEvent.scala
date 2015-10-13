@@ -36,4 +36,6 @@ object BugEvent {
     class GotoKanbanView(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
     class SearchRequest(source: AnyRef, data: BugSearchCriteria) extends ApplicationEvent(source, data) {};
+
+    class NewBugAdded(source: AnyRef, data: Integer) extends ApplicationEvent(source, data) {}
 }

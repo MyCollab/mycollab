@@ -34,6 +34,7 @@ import com.esofthead.mycollab.module.project.view.file.FilePresenter
 import com.esofthead.mycollab.module.project.view.message.MessagePresenter
 import com.esofthead.mycollab.module.project.view.milestone.MilestonePresenter
 import com.esofthead.mycollab.module.project.view.page.PagePresenter
+import com.esofthead.mycollab.module.project.view.parameters.MilestoneScreenData.Roadmap
 import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData.SearchItem
 import com.esofthead.mycollab.module.project.view.parameters.TaskScreenData.GotoDashboard
 import com.esofthead.mycollab.module.project.view.parameters._
@@ -359,6 +360,7 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
                 presenter.go(projectView, data)
             }
         })
+
         this.register(new ApplicationEventListener[MilestoneEvent.GotoRead] {
             @Subscribe def handle(event: MilestoneEvent.GotoRead) {
                 val data: MilestoneScreenData.Read = new MilestoneScreenData.Read(event.getData.asInstanceOf[Integer])
@@ -366,6 +368,7 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
                 presenter.go(projectView, data)
             }
         })
+
         this.register(new ApplicationEventListener[MilestoneEvent.GotoList] {
             @Subscribe def handle(event: MilestoneEvent.GotoList) {
                 val criteria = new MilestoneSearchCriteria
@@ -374,6 +377,14 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
                 presenter.go(projectView, new MilestoneScreenData.Search(criteria))
             }
         })
+
+        this.register(new ApplicationEventListener[MilestoneEvent.GotoRoadmap] {
+            @Subscribe def handle(event: MilestoneEvent.GotoRoadmap) {
+                val presenter = PresenterResolver.getPresenter(classOf[MilestonePresenter])
+                presenter.go(projectView, new Roadmap())
+            }
+        })
+
         this.register(new ApplicationEventListener[MilestoneEvent.GotoEdit] {
             @Subscribe def handle(event: MilestoneEvent.GotoEdit) {
                 val data: MilestoneScreenData.Edit = new MilestoneScreenData.Edit(event.getData.asInstanceOf[Milestone])

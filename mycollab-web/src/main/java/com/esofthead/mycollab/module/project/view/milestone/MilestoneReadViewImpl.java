@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.module.project.view.milestone;
 
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
-import com.esofthead.mycollab.configuration.Storage;
 import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.*;
@@ -244,16 +243,6 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
                 }
             });
 
-//            ButtonGroup navButton = new ButtonGroup();
-//            Button listBtn = new Button("", FontAwesome.LIST);
-//            listBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
-//            navButton.addButton(listBtn);
-//
-//            Button chartBtn = new Button("", FontAwesome.TH_LARGE);
-//            chartBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-//
-//            navButton.addButton(chartBtn);
-
             header.with(openSelection, overdueSelection, spacingLbl1, taskSelection, bugSelection, spacingLbl2)
                     .withAlign(openSelection, Alignment.MIDDLE_LEFT).withAlign(overdueSelection, Alignment.MIDDLE_LEFT)
                     .withAlign(taskSelection, Alignment.MIDDLE_LEFT).withAlign(bugSelection, Alignment.MIDDLE_LEFT)
@@ -315,12 +304,9 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
             Text image = new Text(ProjectAssetsManager.getAsset(task.getType()).getHtml());
 
             A itemLink = new A().setId("tag" + uid);
-            if (ProjectTypeConstants.TASK.equals(task.getType())
-                    || ProjectTypeConstants.BUG.equals(task.getType())) {
-                itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
-                        task.getProjectShortName(),
-                        task.getProjectId(), task.getType(),
-                        task.getExtraTypeId() + ""));
+            if (ProjectTypeConstants.TASK.equals(task.getType()) || ProjectTypeConstants.BUG.equals(task.getType())) {
+                itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(task.getProjectShortName(),
+                        task.getProjectId(), task.getType(), task.getExtraTypeId() + ""));
             } else {
                 throw new MyCollabException("Only support bug and task only");
             }
@@ -341,8 +327,7 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
             }
             String uid = UUID.randomUUID().toString();
             Div div = new Div();
-            Img userAvatar = new Img("", StorageFactory.getInstance().getAvatarPath(
-                    task.getAssignUserAvatarId(), 16));
+            Img userAvatar = new Img("", StorageFactory.getInstance().getAvatarPath(task.getAssignUserAvatarId(), 16));
             A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
                     task.getProjectId(), task.getAssignUser()));
 
@@ -372,8 +357,7 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
             this.withMargin(new MarginInfo(false, false, false, true));
 
             Label peopleInfoHeader = new Label(FontAwesome.USER.getHtml() + " " +
-                    AppContext
-                            .getMessage(ProjectCommonI18nEnum.SUB_INFO_PEOPLE), ContentMode.HTML);
+                    AppContext.getMessage(ProjectCommonI18nEnum.SUB_INFO_PEOPLE), ContentMode.HTML);
             peopleInfoHeader.setStyleName("info-hdr");
             this.addComponent(peopleInfoHeader);
 
@@ -382,41 +366,30 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
             layout.setWidth("100%");
             layout.setMargin(new MarginInfo(false, false, false, true));
             try {
-                Label createdLbl = new Label(
-                        AppContext
-                                .getMessage(ProjectCommonI18nEnum.ITEM_CREATED_PEOPLE));
+                Label createdLbl = new Label(AppContext.getMessage(ProjectCommonI18nEnum.ITEM_CREATED_PEOPLE));
                 createdLbl.setSizeUndefined();
                 layout.addComponent(createdLbl, 0, 0);
 
-                String createdUserName = (String) PropertyUtils.getProperty(
-                        bean, "createduser");
-                String createdUserAvatarId = (String) PropertyUtils
-                        .getProperty(bean, "createdUserAvatarId");
-                String createdUserDisplayName = (String) PropertyUtils
-                        .getProperty(bean, "createdUserFullName");
+                String createdUserName = (String) PropertyUtils.getProperty(bean, "createduser");
+                String createdUserAvatarId = (String) PropertyUtils.getProperty(bean, "createdUserAvatarId");
+                String createdUserDisplayName = (String) PropertyUtils.getProperty(bean, "createdUserFullName");
 
                 ProjectMemberLink createdUserLink = new ProjectMemberLink(createdUserName,
                         createdUserAvatarId, createdUserDisplayName);
                 layout.addComponent(createdUserLink, 1, 0);
                 layout.setColumnExpandRatio(1, 1.0f);
 
-                Label assigneeLbl = new Label(AppContext
-                        .getMessage(ProjectCommonI18nEnum.ITEM_ASSIGN_PEOPLE));
+                Label assigneeLbl = new Label(AppContext.getMessage(ProjectCommonI18nEnum.ITEM_ASSIGN_PEOPLE));
                 assigneeLbl.setSizeUndefined();
                 layout.addComponent(assigneeLbl, 0, 1);
-                String assignUserName = (String) PropertyUtils.getProperty(
-                        bean, "owner");
-                String assignUserAvatarId = (String) PropertyUtils.getProperty(
-                        bean, "ownerAvatarId");
-                String assignUserDisplayName = (String) PropertyUtils
-                        .getProperty(bean, "ownerFullName");
+                String assignUserName = (String) PropertyUtils.getProperty(bean, "owner");
+                String assignUserAvatarId = (String) PropertyUtils.getProperty(bean, "ownerAvatarId");
+                String assignUserDisplayName = (String) PropertyUtils.getProperty(bean, "ownerFullName");
 
-                ProjectMemberLink assignUserLink = new ProjectMemberLink(assignUserName,
-                        assignUserAvatarId, assignUserDisplayName);
+                ProjectMemberLink assignUserLink = new ProjectMemberLink(assignUserName, assignUserAvatarId, assignUserDisplayName);
                 layout.addComponent(assignUserLink, 1, 1);
             } catch (Exception e) {
-                LOG.error("Can not build user link {} ",
-                        BeanUtility.printBeanObj(bean));
+                LOG.error("Can not build user link {} ", BeanUtility.printBeanObj(bean));
             }
 
             this.addComponent(layout);

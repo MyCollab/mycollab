@@ -31,6 +31,7 @@ import com.esofthead.mycollab.module.project.dao.MilestoneMapperExt;
 import com.esofthead.mycollab.module.project.domain.Milestone;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.schedule.email.project.ProjectMilestoneRelayEmailNotificationAction;
@@ -82,6 +83,9 @@ public class MilestoneServiceImpl extends DefaultService<Integer, Milestone, Mil
 
     @Override
     public Integer saveWithSession(Milestone record, String username) {
+        if (record.getStatus() == null) {
+            record.setStatus(OptionI18nEnum.MilestoneStatus.InProgress.name());
+        }
         Integer recordId = super.saveWithSession(record, username);
         asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectService.class}));
         return recordId;

@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.project.view.task;
+package com.esofthead.mycollab.module.project.view.milestone;
 
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -30,23 +30,22 @@ import com.vaadin.ui.ComponentContainer;
  * @author MyCollab Ltd
  * @since 5.2.0
  */
-public class CalendarPresenter extends AbstractPresenter<CalendarView> {
-    public CalendarPresenter() {
-        super(CalendarView.class);
+public class MilestoneRoadmapPresenter extends AbstractPresenter<MilestoneRoadmapView> {
+    public MilestoneRoadmapPresenter() {
+        super(MilestoneRoadmapView.class);
     }
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.TASKS)) {
-            TaskContainer taskContainer = (TaskContainer) container;
-            taskContainer.navigateToContainer(ProjectTypeConstants.TASK);
-            taskContainer.removeAllComponents();
-            taskContainer.addComponent(view.getWidget());
-            view.removeAllComponents();
-            view.display();
+        if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.MILESTONES)) {
+            MilestoneContainer milestoneContainer = (MilestoneContainer) container;
+            milestoneContainer.navigateToContainer(ProjectTypeConstants.MILESTONE);
+            milestoneContainer.removeAllComponents();
+            milestoneContainer.addComponent(view.getWidget());
 
-            ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
-            breadCrumb.gotoCalendar();
+            view.lazyLoadView();
+            ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
+            breadcrumb.gotoRoadmap();
         } else {
             NotificationUtil.showMessagePermissionAlert();
         }

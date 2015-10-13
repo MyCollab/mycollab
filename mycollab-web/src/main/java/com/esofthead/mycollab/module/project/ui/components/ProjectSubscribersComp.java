@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.ui.components;
 
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -110,8 +111,9 @@ public class ProjectSubscribersComp extends CustomField {
 
         FollowerCheckbox(SimpleUser user) {
             this.user = user;
-            this.setCaption(user.getDisplayName());
+            this.setCaption(StringUtils.trim(user.getDisplayName(), 20, true));
             this.setIcon(UserAvatarControlFactory.createAvatarResource(user.getAvatarid(), 16));
+            this.setDescription(user.getDisplayName());
         }
     }
 }

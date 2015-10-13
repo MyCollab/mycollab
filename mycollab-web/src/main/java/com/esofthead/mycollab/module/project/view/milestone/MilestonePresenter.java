@@ -28,45 +28,46 @@ import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@SuppressWarnings({ "rawtypes", "unchecked" })
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class MilestonePresenter extends AbstractPresenter<MilestoneContainer> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public MilestonePresenter() {
-		super(MilestoneContainer.class);
-	}
+    public MilestonePresenter() {
+        super(MilestoneContainer.class);
+    }
 
-	@Override
-	public void go(ComponentContainer container, ScreenData<?> data) {
-		super.go(container, data, false);
-	}
+    @Override
+    public void go(ComponentContainer container, ScreenData<?> data) {
+        super.go(container, data, false);
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		ProjectView projectViewContainer = (ProjectView) container;
-		projectViewContainer.gotoSubView(ProjectTypeConstants.MILESTONE);
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        ProjectView projectViewContainer = (ProjectView) container;
+        projectViewContainer.gotoSubView(ProjectTypeConstants.MILESTONE);
 
-		AbstractPresenter presenter;
-		if (data instanceof MilestoneScreenData.Search) {
-			presenter = PresenterResolver.getPresenter(MilestoneListPresenter.class);
-		} else if (data instanceof MilestoneScreenData.Add || data instanceof MilestoneScreenData.Edit) {
-			presenter = PresenterResolver.getPresenter(MilestoneAddPresenter.class);
-		} else if (data instanceof MilestoneScreenData.Read) {
-			presenter = PresenterResolver.getPresenter(MilestoneReadPresenter.class);
-		} else {
-			throw new MyCollabException("Do not support screen data " + data);
-		}
+        AbstractPresenter presenter;
+        if (data instanceof MilestoneScreenData.Search) {
+            presenter = PresenterResolver.getPresenter(MilestoneListPresenter.class);
+        } else if (data instanceof MilestoneScreenData.Add || data instanceof MilestoneScreenData.Edit) {
+            presenter = PresenterResolver.getPresenter(MilestoneAddPresenter.class);
+        } else if (data instanceof MilestoneScreenData.Read) {
+            presenter = PresenterResolver.getPresenter(MilestoneReadPresenter.class);
+        } else if (data instanceof MilestoneScreenData.Roadmap) {
+            presenter = PresenterResolver.getPresenter(MilestoneRoadmapPresenter.class);
+        } else {
+            throw new MyCollabException("Do not support screen data " + data);
+        }
 
-		presenter.go(view, data);
-	}
+        presenter.go(view, data);
+    }
 
-	@Override
-	public void handleChain(ComponentContainer container, PageActionChain pageActionChain) {
-		ScreenData pageAction = pageActionChain.peek();
-		onGo(container, pageAction);
-	}
+    @Override
+    public void handleChain(ComponentContainer container, PageActionChain pageActionChain) {
+        ScreenData pageAction = pageActionChain.peek();
+        onGo(container, pageAction);
+    }
 }

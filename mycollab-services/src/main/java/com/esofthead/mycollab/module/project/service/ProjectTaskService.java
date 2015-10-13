@@ -48,6 +48,9 @@ public interface ProjectTaskService extends IDefaultService<Integer, Task, TaskS
     List<GroupItem> getPrioritySummary(@CacheKey TaskSearchCriteria criteria);
 
     @Cacheable
+    List<GroupItem> getStatusSummary(@CacheKey TaskSearchCriteria criteria);
+
+    @Cacheable
     List<GroupItem> getAssignedTasksSummary(@CacheKey TaskSearchCriteria criteria);
 
     @CacheEvict

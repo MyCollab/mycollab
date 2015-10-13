@@ -25,48 +25,42 @@ import com.vaadin.ui.VerticalLayout;
 import org.vaadin.easyuploads.MultiFileUploadExt;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.5.3
- *
  */
 @SuppressWarnings("rawtypes")
 public class ProjectFormAttachmentUploadField extends CustomField {
-	private static final long serialVersionUID = 1L;
-	private MultiFileUploadExt uploadExt;
-	private AttachmentPanel attachmentPanel;
+    private static final long serialVersionUID = 1L;
+    private MultiFileUploadExt uploadExt;
+    private AttachmentPanel attachmentPanel;
 
-	public ProjectFormAttachmentUploadField() {
-		attachmentPanel = new AttachmentPanel();
-	}
+    public ProjectFormAttachmentUploadField() {
+        attachmentPanel = new AttachmentPanel();
+    }
 
-	public void getAttachments(int projectId, String type,
-			int typeid) {
-		String attachmentPath = AttachmentUtils
-				.getProjectEntityAttachmentPath(AppContext.getAccountId(),
-						projectId, type, "" + typeid);
-		attachmentPanel.getAttachments(attachmentPath);
-	}
+    public void getAttachments(int projectId, String type, int typeid) {
+        String attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(AppContext.getAccountId(),
+                projectId, type, "" + typeid);
+        attachmentPanel.getAttachments(attachmentPath);
+    }
 
-	@Override
-	public Class<?> getType() {
-		return Object.class;
-	}
+    @Override
+    public Class<?> getType() {
+        return Object.class;
+    }
 
-	public void saveContentsToRepo(int projectid, String type,
-			int typeId) {
-		String attachmentPath = AttachmentUtils
-				.getProjectEntityAttachmentPath(AppContext.getAccountId(),
-						projectid, type, "" + typeId);
-		attachmentPanel.saveContentsToRepo(attachmentPath);
-	}
+    public void saveContentsToRepo(int projectid, String type, int typeId) {
+        String attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(AppContext.getAccountId(),
+                projectid, type, "" + typeId);
+        attachmentPanel.saveContentsToRepo(attachmentPath);
+    }
 
-	@Override
-	protected Component initContent() {
-		final VerticalLayout layout = new VerticalLayout();
-		uploadExt = new MultiFileUploadExt(attachmentPanel);
-		uploadExt.addComponent(attachmentPanel);
-		layout.addComponent(uploadExt);
-		return layout;
-	}
+    @Override
+    protected Component initContent() {
+        final VerticalLayout layout = new VerticalLayout();
+        uploadExt = new MultiFileUploadExt(attachmentPanel);
+        uploadExt.addComponent(attachmentPanel);
+        layout.addComponent(uploadExt);
+        return layout;
+    }
 }

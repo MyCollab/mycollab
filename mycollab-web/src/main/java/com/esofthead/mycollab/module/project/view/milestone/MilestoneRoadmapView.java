@@ -14,14 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.project.view.task;
+package com.esofthead.mycollab.module.project.view.milestone;
 
-import com.esofthead.mycollab.vaadin.mvp.PageView;
+import com.esofthead.mycollab.vaadin.mvp.LazyPageView;
 
 /**
  * @author MyCollab Ltd
  * @since 5.2.0
  */
-public interface CalendarView extends PageView {
-    void display();
+public interface MilestoneRoadmapView extends LazyPageView {
 }

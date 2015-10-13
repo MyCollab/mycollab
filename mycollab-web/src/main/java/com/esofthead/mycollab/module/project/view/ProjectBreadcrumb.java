@@ -189,6 +189,12 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
                 AppContext.getMessage(MilestoneI18nEnum.VIEW_LIST_TITLE));
     }
 
+    public void gotoRoadmap() {
+        this.select(0);
+        this.addLink(new Button("Roadmap"));
+        AppContext.addFragment("project/roadmap/" + UrlEncodeDecoder.encode(project.getId()), "Roadmap");
+    }
+
     public void gotoMilestoneRead(Milestone milestone) {
         this.select(0);
         this.addLink(new Button(AppContext.getMessage(BreadcrumbI18nEnum.PHASES), new GotoMilestoneListListener()));

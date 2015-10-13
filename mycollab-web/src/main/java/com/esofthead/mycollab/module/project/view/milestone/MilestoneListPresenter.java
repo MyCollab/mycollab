@@ -17,10 +17,7 @@
 
 package com.esofthead.mycollab.module.project.view.milestone;
 
-import java.util.List;
-
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -36,77 +33,77 @@ import com.esofthead.mycollab.vaadin.mvp.*;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 
+import java.util.List;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @LoadPolicy(scope = ViewScope.PROTOTYPE)
-public class MilestoneListPresenter extends
-		ProjectGenericListPresenter<MilestoneListView, MilestoneSearchCriteria, SimpleMilestone>
-		implements ListCommand<MilestoneSearchCriteria> {
-	private static final long serialVersionUID = 1L;
+public class MilestoneListPresenter extends ProjectGenericListPresenter<MilestoneListView, MilestoneSearchCriteria, SimpleMilestone>
+        implements ListCommand<MilestoneSearchCriteria> {
+    private static final long serialVersionUID = 1L;
 
-	private final MilestoneService milestoneService;
+    private final MilestoneService milestoneService;
 
-	public MilestoneListPresenter() {
-		super(MilestoneListView.class, MilestoneListNoItemView.class);
-		milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
-	}
+    public MilestoneListPresenter() {
+        super(MilestoneListView.class, MilestoneListNoItemView.class);
+        milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
+    }
 
-	@Override
-	protected void postInitView() {
-		// Override to prevent setting up search handlers
-	}
+    @Override
+    protected void postInitView() {
+        // Override to prevent setting up search handlers
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.MILESTONES)) {
-			MilestoneContainer milestoneContainer = (MilestoneContainer) container;
-			milestoneContainer.navigateToContainer(ProjectTypeConstants.MILESTONE);
-			milestoneContainer.removeAllComponents();
-			milestoneContainer.addComponent(view.getWidget());
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.MILESTONES)) {
+            MilestoneContainer milestoneContainer = (MilestoneContainer) container;
+            milestoneContainer.navigateToContainer(ProjectTypeConstants.MILESTONE);
+            milestoneContainer.removeAllComponents();
+            milestoneContainer.addComponent(view.getWidget());
 
-			MilestoneSearchCriteria searchCriteria;
+            MilestoneSearchCriteria searchCriteria;
 
-			if (data.getParams() == null || !(data.getParams() instanceof MilestoneSearchCriteria)) {
-				searchCriteria = new MilestoneSearchCriteria();
-				searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-			} else {
-				searchCriteria = (MilestoneSearchCriteria) data.getParams();
-			}
+            if (data.getParams() == null || !(data.getParams() instanceof MilestoneSearchCriteria)) {
+                searchCriteria = new MilestoneSearchCriteria();
+                searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+            } else {
+                searchCriteria = (MilestoneSearchCriteria) data.getParams();
+            }
 
-			int totalCount = milestoneService.getTotalCount(searchCriteria);
+            int totalCount = milestoneService.getTotalCount(searchCriteria);
 
-			if (totalCount > 0) {
-				displayListView(container, data);
-				doSearch(searchCriteria);
-			} else {
-				displayNoExistItems(container, data);
-			}
+            if (totalCount > 0) {
+                displayListView(container, data);
+                doSearch(searchCriteria);
+            } else {
+                displayNoExistItems(container, data);
+            }
 
-			ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
-			breadcrumb.gotoMilestoneList();
-		} else {
-			NotificationUtil.showMessagePermissionAlert();
-		}
-	}
+            ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
+            breadcrumb.gotoMilestoneList();
+        } else {
+            NotificationUtil.showMessagePermissionAlert();
+        }
+    }
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public void doSearch(MilestoneSearchCriteria searchCriteria) {
-		List<SimpleMilestone> milestones = milestoneService.findPagableListByCriteria(new SearchRequest<>(
-				searchCriteria, 0, Integer.MAX_VALUE));
-		view.displayMilestones(milestones);
-	}
+    @SuppressWarnings("unchecked")
+    @Override
+    public void doSearch(MilestoneSearchCriteria searchCriteria) {
+        List<SimpleMilestone> milestones = milestoneService.findPagableListByCriteria(new SearchRequest<>(
+                searchCriteria, 0, Integer.MAX_VALUE));
+        view.displayMilestones(milestones);
+    }
 
-	@Override
-	public ISearchableService<MilestoneSearchCriteria> getSearchService() {
-		return milestoneService;
-	}
+    @Override
+    public ISearchableService<MilestoneSearchCriteria> getSearchService() {
+        return milestoneService;
+    }
 
-	@Override
-	protected void deleteSelectedItems() {
-		throw new UnsupportedOperationException("This presenter doesn't support this operation");
-	}
+    @Override
+    protected void deleteSelectedItems() {
+        throw new UnsupportedOperationException("This presenter doesn't support this operation");
+    }
 }

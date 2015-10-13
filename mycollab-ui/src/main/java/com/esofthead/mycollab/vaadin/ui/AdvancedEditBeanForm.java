@@ -31,8 +31,7 @@ import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
  * @author MyCollab Ltd.
  * @since 2.0
  */
-public class AdvancedEditBeanForm<B> extends GenericBeanForm<B> implements
-		HasEditFormHandlers<B> {
+public class AdvancedEditBeanForm<B> extends GenericBeanForm<B> implements HasEditFormHandlers<B> {
 	private static final long serialVersionUID = 1L;
 
 	private List<EditFormHandler<B>> editFormHandlers;

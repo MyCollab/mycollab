@@ -20,101 +20,137 @@ package com.esofthead.mycollab.module.project.domain;
 import com.esofthead.mycollab.core.utils.StringUtils;
 
 /**
- * 
  * @author MyCollab Ltd.
  */
 public class SimpleMilestone extends Milestone {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String ownerAvatarId;
-	private String ownerFullName;
+    private String ownerAvatarId;
+    private String ownerFullName;
 
-	private String createdUserAvatarId;
-	private String createdUserFullName;
+    private String createdUserAvatarId;
+    private String createdUserFullName;
 
-	private int numOpenTasks;
-	private int numTasks;
+    private int numOpenTasks;
+    private int numTasks;
 
-	private int numOpenBugs;
-	private int numBugs;
+    private int numOpenBugs;
+    private int numBugs;
 
-	private String projectName;
+    private Double totalTaskBillableHours;
+    private Double totalTaskNonBillableHours;
+    private Double totalBugBillableHours;
+    private Double totalBugNonBillableHours;
 
-	public String getProjectName() {
-		return projectName;
-	}
+    private String projectName;
 
-	public void setProjectName(String projectName) {
-		this.projectName = projectName;
-	}
+    public String getProjectName() {
+        return projectName;
+    }
 
-	public String getOwnerFullName() {
-		if (StringUtils.isBlank(ownerFullName)) {
-			return StringUtils.extractNameFromEmail(getOwner());
-		}
-		return ownerFullName;
-	}
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
 
-	public void setOwnerFullName(String ownerFullName) {
-		this.ownerFullName = ownerFullName;
-	}
+    public String getOwnerFullName() {
+        if (StringUtils.isBlank(ownerFullName)) {
+            return StringUtils.extractNameFromEmail(getOwner());
+        }
+        return ownerFullName;
+    }
 
-	public int getNumOpenTasks() {
-		return numOpenTasks;
-	}
+    public void setOwnerFullName(String ownerFullName) {
+        this.ownerFullName = ownerFullName;
+    }
 
-	public void setNumOpenTasks(int numOpenTasks) {
-		this.numOpenTasks = numOpenTasks;
-	}
+    public int getNumOpenTasks() {
+        return numOpenTasks;
+    }
 
-	public int getNumTasks() {
-		return numTasks;
-	}
+    public void setNumOpenTasks(int numOpenTasks) {
+        this.numOpenTasks = numOpenTasks;
+    }
 
-	public void setNumTasks(int numTasks) {
-		this.numTasks = numTasks;
-	}
+    public int getNumTasks() {
+        return numTasks;
+    }
 
-	public int getNumOpenBugs() {
-		return numOpenBugs;
-	}
+    public void setNumTasks(int numTasks) {
+        this.numTasks = numTasks;
+    }
 
-	public void setNumOpenBugs(int numOpenBugs) {
-		this.numOpenBugs = numOpenBugs;
-	}
+    public int getNumOpenBugs() {
+        return numOpenBugs;
+    }
 
-	public int getNumBugs() {
-		return numBugs;
-	}
+    public void setNumOpenBugs(int numOpenBugs) {
+        this.numOpenBugs = numOpenBugs;
+    }
 
-	public void setNumBugs(int numBugs) {
-		this.numBugs = numBugs;
-	}
+    public int getNumBugs() {
+        return numBugs;
+    }
 
-	public String getOwnerAvatarId() {
-		return ownerAvatarId;
-	}
+    public void setNumBugs(int numBugs) {
+        this.numBugs = numBugs;
+    }
 
-	public void setOwnerAvatarId(String ownerAvatarId) {
-		this.ownerAvatarId = ownerAvatarId;
-	}
+    public String getOwnerAvatarId() {
+        return ownerAvatarId;
+    }
 
-	public String getCreatedUserAvatarId() {
-		return createdUserAvatarId;
-	}
+    public void setOwnerAvatarId(String ownerAvatarId) {
+        this.ownerAvatarId = ownerAvatarId;
+    }
 
-	public void setCreatedUserAvatarId(String createdUserAvatarId) {
-		this.createdUserAvatarId = createdUserAvatarId;
-	}
+    public String getCreatedUserAvatarId() {
+        return createdUserAvatarId;
+    }
 
-	public String getCreatedUserFullName() {
-		if (StringUtils.isBlank(createdUserFullName)) {
-			return StringUtils.extractNameFromEmail(getCreateduser());
-		}
-		return createdUserFullName;
-	}
+    public void setCreatedUserAvatarId(String createdUserAvatarId) {
+        this.createdUserAvatarId = createdUserAvatarId;
+    }
 
-	public void setCreatedUserFullName(String createdUserFullName) {
-		this.createdUserFullName = createdUserFullName;
-	}
+    public String getCreatedUserFullName() {
+        if (StringUtils.isBlank(createdUserFullName)) {
+            return StringUtils.extractNameFromEmail(getCreateduser());
+        }
+        return createdUserFullName;
+    }
+
+    public void setCreatedUserFullName(String createdUserFullName) {
+        this.createdUserFullName = createdUserFullName;
+    }
+
+    public Double getTotalTaskBillableHours() {
+        return totalTaskBillableHours;
+    }
+
+    public void setTotalTaskBillableHours(Double totalTaskBillableHours) {
+        this.totalTaskBillableHours = totalTaskBillableHours;
+    }
+
+    public Double getTotalTaskNonBillableHours() {
+        return totalTaskNonBillableHours;
+    }
+
+    public void setTotalTaskNonBillableHours(Double totalTaskNonBillableHours) {
+        this.totalTaskNonBillableHours = totalTaskNonBillableHours;
+    }
+
+    public Double getTotalBugBillableHours() {
+        return totalBugBillableHours;
+    }
+
+    public void setTotalBugBillableHours(Double totalBugBillableHours) {
+        this.totalBugBillableHours = totalBugBillableHours;
+    }
+
+    public Double getTotalBugNonBillableHours() {
+        return totalBugNonBillableHours;
+    }
+
+    public void setTotalBugNonBillableHours(Double totalBugNonBillableHours) {
+        this.totalBugNonBillableHours = totalBugNonBillableHours;
+    }
 }

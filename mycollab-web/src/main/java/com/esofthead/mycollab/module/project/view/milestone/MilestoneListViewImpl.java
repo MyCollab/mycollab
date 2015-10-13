@@ -17,6 +17,9 @@
 package com.esofthead.mycollab.module.project.view.milestone;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.core.arguments.NumberSearchField;
+import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
@@ -42,12 +45,14 @@ import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.esofthead.mycollab.web.CustomLayoutExt;
+import com.google.common.eventbus.Subscribe;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.hene.popupbutton.PopupButton;
+import org.vaadin.teemu.VaadinIcons;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.List;
@@ -72,6 +77,33 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
     private Button createBtn;
 
     private List<SimpleMilestone> milestones;
+
+    private ApplicationEventListener<MilestoneEvent.NewMilestoneAdded> newMilestoneHandler = new
+            ApplicationEventListener<MilestoneEvent.NewMilestoneAdded>() {
+                @Override
+                @Subscribe
+                public void handle(MilestoneEvent.NewMilestoneAdded event) {
+                    MilestoneListViewImpl.this.removeAllComponents();
+                    MilestoneSearchCriteria searchCriteria = new MilestoneSearchCriteria();
+                    searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+                    MilestoneService milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
+                    List<SimpleMilestone> milestoneList = milestoneService.findPagableListByCriteria(new
+                            SearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
+                    displayMilestones(milestoneList);
+                }
+            };
+
+    @Override
+    public void attach() {
+        EventBusFactory.getInstance().register(newMilestoneHandler);
+        super.attach();
+    }
+
+    @Override
+    public void detach() {
+        EventBusFactory.getInstance().unregister(newMilestoneHandler);
+        super.detach();
+    }
 
     @Override
     protected void displayView() {
@@ -119,21 +151,39 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
     }
 
     private HorizontalLayout createHeaderRight() {
-        HorizontalLayout layout = new HorizontalLayout();
+        MHorizontalLayout layout = new MHorizontalLayout();
 
         createBtn = new Button(AppContext.getMessage(MilestoneI18nEnum.BUTTON_NEW_PHASE), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
             @Override
             public void buttonClick(final ClickEvent event) {
-                EventBusFactory.getInstance().post(new MilestoneEvent.GotoAdd(MilestoneListViewImpl.this, null));
+                UI.getCurrent().addWindow(new MilestoneAddWindow(new SimpleMilestone()));
             }
         });
         createBtn.setIcon(FontAwesome.PLUS);
         createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         createBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
-        layout.addComponent(createBtn);
-        layout.setComponentAlignment(createBtn, Alignment.MIDDLE_RIGHT);
+        layout.with(createBtn);
+
+        Button kanbanBtn = new Button();
+        kanbanBtn.setDescription("Kanban View");
+        kanbanBtn.setIcon(FontAwesome.TH);
+
+        Button roadmapBtn = new Button(null, new Button.ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent clickEvent) {
+                EventBusFactory.getInstance().post(new MilestoneEvent.GotoRoadmap(MilestoneListViewImpl.this));
+            }
+        });
+        roadmapBtn.setDescription("Roadmap");
+        roadmapBtn.setIcon(VaadinIcons.CUBE);
+
+        ToggleButtonGroup viewButtons = new ToggleButtonGroup();
+        viewButtons.addButton(roadmapBtn);
+        viewButtons.addButton(kanbanBtn);
+        viewButtons.setDefaultButton(kanbanBtn);
+        layout.with(viewButtons);
 
         return layout;
     }

@@ -44,7 +44,7 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class UnresolvedBugsByAssigneeWidget2 extends DepotWithChart {
+public class UnresolvedBugsByAssigneeWidget extends DepotWithChart {
     private static final long serialVersionUID = 1L;
 
     private BugSearchCriteria searchCriteria;

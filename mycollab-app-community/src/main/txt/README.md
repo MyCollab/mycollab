@@ -43,6 +43,20 @@ understanding in a matter of minutes.
 Last changelog
 ==============
 
+Version 5.2.0
+-----------------------------
+
+* Upgrade Gson 2.4, HirakiCP 2.4.1
+
+**Improvements & New Features**
+
+* Make bug management is easier
+* Introduce the new roadmap view
+* Introduce the calendar of tasks management
+* Predefined saved query
+
+**Bug Fixes**
+
 Version 5.1.4
 -----------------------------
 

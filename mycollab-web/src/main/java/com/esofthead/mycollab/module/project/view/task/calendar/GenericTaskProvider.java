@@ -30,7 +30,7 @@ import java.util.List;
 
 /**
  * @author MyCollab Ltd
- * @since 5.1.5
+ * @since 5.2.0
  */
 public class GenericTaskProvider extends BasicEventProvider {
     private Double totalBillableHours = 0d;

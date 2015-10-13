@@ -9511,6 +9511,24 @@ div.v-button.token-field:hover {
 	padding-bottom: 8px;
 }
 
+.v-slot-roadmap-block {
+	padding-left: 20px;
+	border-top: 1px solid #CFCFCF;
+}
+
+.v-slot-roadmap-block .meta {
+	font-size: 12px;
+	color: #888;
+}
+
+.v-slot-roadmap-block .v-label.block {
+	font-size: 11px;
+	line-height: 22px;
+	border-radius: 5px;
+	background-color: #cbf4bd;
+	padding: 0px 5px;
+}
+
 .tasklist {
 	margin-top: 10px;
 	border: solid #CFCFCF 1px;

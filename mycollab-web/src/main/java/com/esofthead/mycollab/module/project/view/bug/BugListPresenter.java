@@ -81,8 +81,6 @@ public class BugListPresenter extends ProjectGenericListPresenter<BugListView, B
 
     @Override
     public void doSearch(BugSearchCriteria searchCriteria) {
-        int totalCountItems = getSearchService().getTotalCount(searchCriteria);
-        view.getSearchHandlers().setTotalCountNumber(totalCountItems);
         view.queryBug(searchCriteria);
     }
 
