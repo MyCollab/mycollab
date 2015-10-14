@@ -36,6 +36,7 @@ import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.vaadin.ui.Alignment;
@@ -52,8 +53,7 @@ import com.vaadin.ui.HorizontalLayout;
  */
 
 @ViewComponent
-public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
-		implements LeadReadView {
+public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead> implements LeadReadView {
 	private static final long serialVersionUID = 5288751461504873888L;
 	private NotesList associateNotes;
 	private ActivityRelatedItemView associateActivities;
@@ -92,8 +92,7 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 
 	@Override
 	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new DynaFormLayout(CrmTypeConstants.LEAD,
-				LeadDefaultDynaFormLayoutFactory.getForm());
+		return new DynaFormLayout(CrmTypeConstants.LEAD, LeadDefaultDynaFormLayoutFactory.getForm());
 	}
 
 	@Override
@@ -103,7 +102,7 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		return new CrmPreviewFormControlsGenerator<SimpleLead>(this.previewForm)
+		return new CrmPreviewFormControlsGenerator<>(this.previewForm)
 				.createButtonControls(RolePermissionCollections.CRM_LEAD);
 	}
 

@@ -24,34 +24,33 @@ import com.esofthead.mycollab.module.crm.i18n.CampaignI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 
 /**
- * 
+ *
  * @author MyCollab Ltd.
  * @since 4.1
  */
 
 @ViewComponent
-public class CampaignAddViewImpl extends AbstractEditItemComp<SimpleCampaign>
-		implements CampaignAddview {
-	private static final long serialVersionUID = -345238804067938727L;
+public class CampaignAddViewImpl extends AbstractEditItemComp<SimpleCampaign> implements CampaignAddview {
+    private static final long serialVersionUID = -345238804067938727L;
 
-	@Override
-	protected String initFormTitle() {
-		return beanItem.getCampaignname() != null ? beanItem.getCampaignname()
-				: AppContext.getMessage(CampaignI18nEnum.VIEW_NEW_TITLE);
-	}
+    @Override
+    protected String initFormTitle() {
+        return beanItem.getCampaignname() != null ? beanItem.getCampaignname()
+                : AppContext.getMessage(CampaignI18nEnum.VIEW_NEW_TITLE);
+    }
 
-	@Override
-	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new DynaFormLayout(CrmTypeConstants.CAMPAIGN,
-				CampaignDefaultDynaFormLayoutFactory.getForm());
-	}
+    @Override
+    protected IFormLayoutFactory initFormLayoutFactory() {
+        return new DynaFormLayout(CrmTypeConstants.CAMPAIGN, CampaignDefaultDynaFormLayoutFactory.getForm());
+    }
 
-	@Override
-	protected AbstractBeanFieldGroupEditFieldFactory<SimpleCampaign> initBeanFormFieldFactory() {
-		return new CampaignEditFormFieldFactory<SimpleCampaign>(editForm);
-	}
+    @Override
+    protected AbstractBeanFieldGroupEditFieldFactory<SimpleCampaign> initBeanFormFieldFactory() {
+        return new CampaignEditFormFieldFactory<>(editForm);
+    }
 
 }

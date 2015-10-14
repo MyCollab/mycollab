@@ -107,7 +107,7 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
         }
     }
 
-    private class DecorFormLayourFactory implements IFormLayoutFactory {
+    private class DecorFormLayourFactory extends AbstractFormLayoutFactory {
         private static final long serialVersionUID = 1L;
         private IFormLayoutFactory formLayoutFactory;
 
@@ -134,7 +134,7 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
         }
 
         @Override
-        public void attachField(Object propertyId, Field<?> field) {
+        protected void onAttachField(Object propertyId, Field<?> field) {
             formLayoutFactory.attachField(propertyId, field);
         }
     }

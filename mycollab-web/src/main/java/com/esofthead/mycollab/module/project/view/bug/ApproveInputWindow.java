@@ -79,7 +79,7 @@ public class ApproveInputWindow extends Window {
             super.setBean(newDataSource);
         }
 
-        class FormLayoutFactory implements IFormLayoutFactory {
+        class FormLayoutFactory extends AbstractFormLayoutFactory {
             private static final long serialVersionUID = 1L;
             private GridFormLayoutHelper informationLayout;
 
@@ -146,7 +146,7 @@ public class ApproveInputWindow extends Window {
             }
 
             @Override
-            public void attachField(Object propertyId, Field<?> field) {
+            protected void onAttachField(Object propertyId, Field<?> field) {
                 if (propertyId.equals("assignuser")) {
                     this.informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 0);
                 } else if (propertyId.equals("comment")) {

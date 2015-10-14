@@ -24,35 +24,34 @@ import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 
 /**
- * 
+ *
  * @author MyCollab Ltd.
  * @since 4.1
- * 
+ *
  */
 
 @ViewComponent
-public class LeadAddViewImpl extends AbstractEditItemComp<SimpleLead> implements
-		LeadAddView {
-	private static final long serialVersionUID = -1152988648403103949L;
+public class LeadAddViewImpl extends AbstractEditItemComp<SimpleLead> implements LeadAddView {
+    private static final long serialVersionUID = -1152988648403103949L;
 
-	@Override
-	protected String initFormTitle() {
-		return beanItem.getLeadName() != null ? beanItem.getLeadName()
-				: AppContext.getMessage(LeadI18nEnum.VIEW_NEW_TITLE);
-	}
+    @Override
+    protected String initFormTitle() {
+        return beanItem.getLeadName() != null ? beanItem.getLeadName()
+                : AppContext.getMessage(LeadI18nEnum.VIEW_NEW_TITLE);
+    }
 
-	@Override
-	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new DynaFormLayout(CrmTypeConstants.LEAD,
-				LeadDefaultDynaFormLayoutFactory.getForm());
-	}
+    @Override
+    protected IFormLayoutFactory initFormLayoutFactory() {
+        return new DynaFormLayout(CrmTypeConstants.LEAD, LeadDefaultDynaFormLayoutFactory.getForm());
+    }
 
-	@Override
-	protected AbstractBeanFieldGroupEditFieldFactory<SimpleLead> initBeanFormFieldFactory() {
-		return new LeadEditFormFieldFactory<SimpleLead>(this.editForm);
-	}
+    @Override
+    protected AbstractBeanFieldGroupEditFieldFactory<SimpleLead> initBeanFormFieldFactory() {
+        return new LeadEditFormFieldFactory<>(this.editForm);
+    }
 
 }

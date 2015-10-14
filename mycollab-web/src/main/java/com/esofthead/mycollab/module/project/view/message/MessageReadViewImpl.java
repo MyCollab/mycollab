@@ -104,7 +104,7 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
         return message;
     }
 
-    class FormLayoutFactory implements IFormLayoutFactory {
+    class FormLayoutFactory extends AbstractFormLayoutFactory {
         private static final long serialVersionUID = 1L;
 
         @Override
@@ -207,8 +207,7 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
                 attachmentField.addComponent(lbAttachment);
 
                 Component attachmentDisplayComp = ProjectAttachmentDisplayComponentFactory
-                        .getAttachmentDisplayComponent(message.getProjectid(),
-                                ProjectTypeConstants.MESSAGE, message.getId());
+                        .getAttachmentDisplayComponent(message.getProjectid(), ProjectTypeConstants.MESSAGE, message.getId());
 
                 MVerticalLayout messageFooter = new MVerticalLayout().withWidth("100%").withStyleName("message-footer")
                         .with(attachmentField, attachmentDisplayComp);
@@ -236,7 +235,7 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
         }
 
         @Override
-        public void attachField(Object propertyId, Field<?> field) {
+        protected void onAttachField(Object propertyId, Field<?> field) {
 
         }
     }

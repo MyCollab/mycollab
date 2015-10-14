@@ -21,7 +21,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
@@ -31,12 +31,12 @@ import com.vaadin.ui.Field;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-class ProjectInformationLayout implements IFormLayoutFactory {
+class ProjectInformationLayout extends AbstractFormLayoutFactory {
 	private static final long serialVersionUID = 1L;
 	private GridFormLayoutHelper moreInfoLayout;
 
 	@Override
-	public void attachField(final Object propertyId, final Field<?> field) {
+	protected void onAttachField(final Object propertyId, final Field<?> field) {
 		if (propertyId.equals("homepage")) {
 			moreInfoLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_HOME_PAGE), 0, 0);
 		} else if (propertyId.equals("projectstatus")) {

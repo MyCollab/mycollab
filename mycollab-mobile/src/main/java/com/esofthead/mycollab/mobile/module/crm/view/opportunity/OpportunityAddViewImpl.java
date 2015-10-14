@@ -27,27 +27,23 @@ import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 
 @ViewComponent
-public class OpportunityAddViewImpl extends
-		AbstractEditItemComp<SimpleOpportunity> implements OpportunityAddView {
-	private static final long serialVersionUID = -7666059081043542816L;
+public class OpportunityAddViewImpl extends AbstractEditItemComp<SimpleOpportunity> implements OpportunityAddView {
+    private static final long serialVersionUID = -7666059081043542816L;
 
-	@Override
-	protected String initFormTitle() {
-		return beanItem.getOpportunityname() != null ? beanItem
-				.getOpportunityname() : AppContext
-				.getMessage(OpportunityI18nEnum.VIEW_NEW_TITLE);
-	}
+    @Override
+    protected String initFormTitle() {
+        return beanItem.getOpportunityname() != null ? beanItem.getOpportunityname() :
+                AppContext.getMessage(OpportunityI18nEnum.VIEW_NEW_TITLE);
+    }
 
-	@Override
-	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new DynaFormLayout(CrmTypeConstants.OPPORTUNITY,
-				OpportunityDefaultDynaFormLayoutFactory.getForm());
-	}
+    @Override
+    protected IFormLayoutFactory initFormLayoutFactory() {
+        return new DynaFormLayout(CrmTypeConstants.OPPORTUNITY, OpportunityDefaultDynaFormLayoutFactory.getForm());
+    }
 
-	@Override
-	protected AbstractBeanFieldGroupEditFieldFactory<SimpleOpportunity> initBeanFormFieldFactory() {
-		return new OpportunityEditFormFieldFactory<SimpleOpportunity>(
-				this.editForm);
-	}
+    @Override
+    protected AbstractBeanFieldGroupEditFieldFactory<SimpleOpportunity> initBeanFormFieldFactory() {
+        return new OpportunityEditFormFieldFactory<>(this.editForm);
+    }
 
 }

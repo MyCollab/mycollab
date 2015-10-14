@@ -139,7 +139,7 @@ class WontFixExplainView extends AbstractMobilePageView {
             super.setBean(newDataSource);
         }
 
-        static class FormLayoutFactory implements IFormLayoutFactory {
+        static class FormLayoutFactory extends AbstractFormLayoutFactory {
 
             private static final long serialVersionUID = 1L;
             private GridFormLayoutHelper informationLayout;
@@ -155,7 +155,7 @@ class WontFixExplainView extends AbstractMobilePageView {
             }
 
             @Override
-            public void attachField(Object propertyId, Field<?> field) {
+            protected void onAttachField(Object propertyId, Field<?> field) {
                 if (propertyId.equals("resolution")) {
                     this.informationLayout.addComponent(field,
                             AppContext.getMessage(BugI18nEnum.FORM_RESOLUTION),

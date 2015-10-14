@@ -35,7 +35,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.vaadin.ui.*;
 
 import java.util.GregorianCalendar;
@@ -131,7 +131,7 @@ class ApproveInputView extends AbstractMobilePageView {
 			super.setBean(newDataSource);
 		}
 
-		static class FormLayoutFactory implements IFormLayoutFactory {
+		static class FormLayoutFactory extends AbstractFormLayoutFactory {
 			private static final long serialVersionUID = 1L;
 			private GridFormLayoutHelper informationLayout;
 
@@ -148,7 +148,7 @@ class ApproveInputView extends AbstractMobilePageView {
 			}
 
 			@Override
-			public void attachField(final Object propertyId,
+			protected void onAttachField(final Object propertyId,
 					final Field<?> field) {
 				if (propertyId.equals("assignuser")) {
 					this.informationLayout

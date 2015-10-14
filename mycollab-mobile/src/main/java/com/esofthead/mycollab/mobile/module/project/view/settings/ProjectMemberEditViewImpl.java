@@ -31,6 +31,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
+import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.data.Property;
@@ -48,8 +49,7 @@ import com.vaadin.ui.VerticalLayout;
  * @since 4.5.2
  */
 @ViewComponent
-public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjectMember> implements
-        ProjectMemberEditView {
+public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjectMember> implements ProjectMemberEditView {
     private static final long serialVersionUID = 1483479851089277052L;
 
     private VerticalComponentGroup permissionGroup;
@@ -78,27 +78,21 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
     private void displayRolePermission(Integer roleId) {
         permissionGroup.removeAllComponents();
         if (roleId != null && roleId > 0) {
-            ProjectRoleService roleService = ApplicationContextUtil
-                    .getSpringBean(ProjectRoleService.class);
+            ProjectRoleService roleService = ApplicationContextUtil.getSpringBean(ProjectRoleService.class);
             SimpleProjectRole role = roleService.findById(roleId, AppContext.getAccountId());
             if (role != null) {
                 final PermissionMap permissionMap = role.getPermissionMap();
                 for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
                     final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
-                    Label permissionLbl = new Label(
-                            AppContext.getPermissionCaptionValue(permissionMap,
-                                    permissionPath));
-                    permissionLbl.setCaption(AppContext
-                            .getMessage(RolePermissionI18nEnum
-                                    .valueOf(permissionPath)));
+                    Label permissionLbl = new Label(AppContext.getPermissionCaptionValue(permissionMap, permissionPath));
+                    permissionLbl.setCaption(AppContext.getMessage(RolePermissionI18nEnum.valueOf(permissionPath)));
                     permissionGroup.addComponent(permissionLbl);
                 }
             }
         } else {
             for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
                 final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
-                Label permissionLbl = new Label(
-                        AppContext.getMessage(SecurityI18nEnum.ACCESS));
+                Label permissionLbl = new Label(AppContext.getMessage(SecurityI18nEnum.ACCESS));
                 permissionLbl.setCaption(permissionPath);
                 permissionGroup.addComponent(permissionLbl);
             }
@@ -106,9 +100,7 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
 
     }
 
-    private class ProjectMemberEditFormLayoutFactory implements
-            IFormLayoutFactory {
-
+    private class ProjectMemberEditFormLayoutFactory extends AbstractFormLayoutFactory {
         private static final long serialVersionUID = -6204799792781581979L;
         VerticalComponentGroup fieldGroup;
 
@@ -116,8 +108,7 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
         public ComponentContainer getLayout() {
             final VerticalLayout layout = new VerticalLayout();
             layout.setMargin(false);
-            Label header = new Label(AppContext
-                    .getMessage(ProjectMemberI18nEnum.FORM_INFORMATION_SECTION));
+            Label header = new Label(AppContext.getMessage(ProjectMemberI18nEnum.FORM_INFORMATION_SECTION));
             header.setStyleName("h2");
             layout.addComponent(header);
 
@@ -126,9 +117,7 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
 
             layout.addComponent(fieldGroup);
 
-            Label permissionSectionHdr = new Label(
-                    AppContext
-                            .getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS));
+            Label permissionSectionHdr = new Label(AppContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS));
             permissionSectionHdr.setStyleName("h2");
             layout.addComponent(permissionSectionHdr);
             layout.addComponent(permissionGroup);
@@ -137,19 +126,15 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
         }
 
         @Override
-        public void attachField(Object propertyId, Field<?> field) {
+        protected void onAttachField(Object propertyId, Field<?> field) {
             if (propertyId.equals("projectroleid")) {
-                field.setCaption(AppContext
-                        .getMessage(ProjectMemberI18nEnum.FORM_ROLE));
+                field.setCaption(AppContext.getMessage(ProjectMemberI18nEnum.FORM_ROLE));
                 fieldGroup.addComponent(field);
             }
         }
-
     }
 
-    private class ProjectMemberEditFieldGroupFactory extends
-            AbstractBeanFieldGroupEditFieldFactory<SimpleProjectMember> {
-
+    private class ProjectMemberEditFieldGroupFactory extends AbstractBeanFieldGroupEditFieldFactory<SimpleProjectMember> {
         private static final long serialVersionUID = 1490026787891513129L;
 
         public ProjectMemberEditFieldGroupFactory(GenericBeanForm<SimpleProjectMember> form) {
@@ -173,15 +158,15 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
         public ProjectRoleSelectionField() {
             this.roleComboBox = new ProjectRoleComboBox();
             this.roleComboBox.addValueChangeListener(new Property.ValueChangeListener() {
-                        private static final long serialVersionUID = 1L;
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void valueChange(
-                                final Property.ValueChangeEvent event) {
-                            displayRolePermission((Integer) roleComboBox.getValue());
+                @Override
+                public void valueChange(
+                        final Property.ValueChangeEvent event) {
+                    displayRolePermission((Integer) roleComboBox.getValue());
 
-                        }
-                    });
+                }
+            });
             this.roleComboBox.setWidth("100%");
         }
 
@@ -200,8 +185,7 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
         }
 
         @Override
-        public void setPropertyDataSource(
-                @SuppressWarnings("rawtypes") Property newDataSource) {
+        public void setPropertyDataSource(@SuppressWarnings("rawtypes") Property newDataSource) {
             Object value = newDataSource.getValue();
             if (value instanceof Integer) {
                 roleComboBox.setValue(value);

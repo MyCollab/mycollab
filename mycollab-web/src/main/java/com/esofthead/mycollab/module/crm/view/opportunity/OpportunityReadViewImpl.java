@@ -78,8 +78,7 @@ public class OpportunityReadViewImpl extends AbstractPreviewItemComp<SimpleOppor
 
     @Override
     protected ComponentContainer createButtonControls() {
-        return new CrmPreviewFormControlsGenerator<>(previewForm)
-                .createButtonControls(RolePermissionCollections.CRM_OPPORTUNITY);
+        return new CrmPreviewFormControlsGenerator<>(previewForm).createButtonControls(RolePermissionCollections.CRM_OPPORTUNITY);
     }
 
     @Override
@@ -143,8 +142,7 @@ public class OpportunityReadViewImpl extends AbstractPreviewItemComp<SimpleOppor
         peopleInfoComp = new PeopleInfoComp();
         basicInfo.addComponent(peopleInfoComp);
 
-        followersComp = new CrmFollowersComp<>(CrmTypeConstants.OPPORTUNITY,
-                RolePermissionCollections.CRM_OPPORTUNITY);
+        followersComp = new CrmFollowersComp<>(CrmTypeConstants.OPPORTUNITY, RolePermissionCollections.CRM_OPPORTUNITY);
         basicInfo.addComponent(followersComp);
 
         navigatorWrapper.addComponentAsFirst(basicInfo);

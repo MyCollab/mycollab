@@ -46,177 +46,157 @@ import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.HorizontalLayout;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
 
 @ViewComponent
-public class OpportunityReadViewImpl extends
-		AbstractPreviewItemComp<SimpleOpportunity> implements
-		OpportunityReadView {
-	private static final long serialVersionUID = 1588189344759887006L;
-	private NotesList associateNotes;
-	private ActivityRelatedItemView associateActivities;
-	private OpportunityRelatedContactView associateContacts;
-	private OpportunityRelatedLeadView associateLeads;
+public class OpportunityReadViewImpl extends AbstractPreviewItemComp<SimpleOpportunity> implements
+        OpportunityReadView {
+    private static final long serialVersionUID = 1588189344759887006L;
+    private NotesList associateNotes;
+    private ActivityRelatedItemView associateActivities;
+    private OpportunityRelatedContactView associateContacts;
+    private OpportunityRelatedLeadView associateLeads;
 
-	@Override
-	public HasPreviewFormHandlers<SimpleOpportunity> getPreviewFormHandlers() {
-		return this.previewForm;
-	}
+    @Override
+    public HasPreviewFormHandlers<SimpleOpportunity> getPreviewFormHandlers() {
+        return this.previewForm;
+    }
 
-	@Override
-	protected void initRelatedComponents() {
-		associateActivities = new ActivityRelatedItemView(
-				CrmTypeConstants.OPPORTUNITY);
+    @Override
+    protected void initRelatedComponents() {
+        associateActivities = new ActivityRelatedItemView(CrmTypeConstants.OPPORTUNITY);
 
-		associateNotes = new NotesList(
-				AppContext.getMessage(CrmCommonI18nEnum.M_TITLE_RELATED_NOTES));
+        associateNotes = new NotesList(AppContext.getMessage(CrmCommonI18nEnum.M_TITLE_RELATED_NOTES));
+        associateLeads = new OpportunityRelatedLeadView();
+        associateContacts = new OpportunityRelatedContactView();
+    }
 
-		associateLeads = new OpportunityRelatedLeadView();
+    @Override
+    protected void afterPreviewItem() {
+        associateActivities.displayActivity(beanItem.getId());
+        associateNotes.showNotes(CrmTypeConstants.OPPORTUNITY, beanItem.getId());
+        associateLeads.displayLeads(beanItem);
+        associateContacts.displayContacts(beanItem);
+    }
 
-		associateContacts = new OpportunityRelatedContactView();
+    @Override
+    protected String initFormTitle() {
+        return this.beanItem.getOpportunityname();
+    }
 
-	}
+    @Override
+    protected AdvancedPreviewBeanForm<SimpleOpportunity> initPreviewForm() {
+        return new AdvancedPreviewBeanForm<>();
+    }
 
-	@Override
-	protected void afterPreviewItem() {
-		associateActivities.displayActivity(beanItem.getId());
-		associateNotes
-				.showNotes(CrmTypeConstants.OPPORTUNITY, beanItem.getId());
-		associateLeads.displayLeads(beanItem);
-		associateContacts.displayContacts(beanItem);
-	}
+    @Override
+    protected IFormLayoutFactory initFormLayoutFactory() {
+        return new DynaFormLayout(CrmTypeConstants.OPPORTUNITY, OpportunityDefaultDynaFormLayoutFactory.getForm());
+    }
 
-	@Override
-	protected String initFormTitle() {
-		return this.beanItem.getOpportunityname();
-	}
+    @Override
+    protected AbstractBeanFieldGroupViewFieldFactory<SimpleOpportunity> initBeanFormFieldFactory() {
+        return new OpportunityReadFormFieldFactory(previewForm);
+    }
 
-	@Override
-	protected AdvancedPreviewBeanForm<SimpleOpportunity> initPreviewForm() {
-		return new AdvancedPreviewBeanForm<SimpleOpportunity>();
-	}
+    @Override
+    protected ComponentContainer createButtonControls() {
+        return new CrmPreviewFormControlsGenerator<>(previewForm).createButtonControls(RolePermissionCollections.CRM_OPPORTUNITY);
+    }
 
-	@Override
-	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new DynaFormLayout(CrmTypeConstants.OPPORTUNITY,
-				OpportunityDefaultDynaFormLayoutFactory.getForm());
-	}
+    @Override
+    protected ComponentContainer createBottomPanel() {
+        HorizontalLayout toolbarLayout = new HorizontalLayout();
+        toolbarLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+        toolbarLayout.setSpacing(true);
 
-	@Override
-	protected AbstractBeanFieldGroupViewFieldFactory<SimpleOpportunity> initBeanFormFieldFactory() {
-		return new OpportunityReadFormFieldFactory(previewForm);
-	}
+        Button relatedContacts = new Button();
+        relatedContacts.setCaption("<span aria-hidden=\"true\" data-icon=\""
+                + IconConstants.CRM_CONTACT
+                + "\"></span><div class=\"screen-reader-text\">"
+                + AppContext.getMessage(CrmCommonI18nEnum.TAB_CONTACT)
+                + "</div>");
+        relatedContacts.setHtmlContentAllowed(true);
+        relatedContacts.addClickListener(new Button.ClickListener() {
+            private static final long serialVersionUID = 7589415773039335559L;
 
-	@Override
-	protected ComponentContainer createButtonControls() {
-		return new CrmPreviewFormControlsGenerator<SimpleOpportunity>(
-				previewForm)
-				.createButtonControls(RolePermissionCollections.CRM_OPPORTUNITY);
-	}
+            @Override
+            public void buttonClick(ClickEvent arg0) {
+                EventBusFactory.getInstance()
+                        .post(new OpportunityEvent.GoToRelatedItems(this, new CrmRelatedItemsScreenData(associateContacts)));
+            }
+        });
+        toolbarLayout.addComponent(relatedContacts);
 
-	@Override
-	protected ComponentContainer createBottomPanel() {
-		HorizontalLayout toolbarLayout = new HorizontalLayout();
-		toolbarLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-		toolbarLayout.setSpacing(true);
+        Button relatedLeads = new Button();
+        relatedLeads.setCaption("<span aria-hidden=\"true\" data-icon=\""
+                + IconConstants.CRM_LEAD
+                + "\"></span><div class=\"screen-reader-text\">"
+                + AppContext.getMessage(CrmCommonI18nEnum.TAB_LEAD) + "</div>");
+        relatedLeads.setHtmlContentAllowed(true);
+        relatedLeads.addClickListener(new Button.ClickListener() {
+            private static final long serialVersionUID = 7589415773039335559L;
 
-		Button relatedContacts = new Button();
-		relatedContacts.setCaption("<span aria-hidden=\"true\" data-icon=\""
-				+ IconConstants.CRM_CONTACT
-				+ "\"></span><div class=\"screen-reader-text\">"
-				+ AppContext.getMessage(CrmCommonI18nEnum.TAB_CONTACT)
-				+ "</div>");
-		relatedContacts.setHtmlContentAllowed(true);
-		relatedContacts.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = 7589415773039335559L;
+            @Override
+            public void buttonClick(ClickEvent arg0) {
+                EventBusFactory.getInstance().post(new OpportunityEvent.GoToRelatedItems(this, new CrmRelatedItemsScreenData(associateLeads)));
+            }
+        });
+        toolbarLayout.addComponent(relatedLeads);
 
-			@Override
-			public void buttonClick(ClickEvent arg0) {
-				EventBusFactory
-						.getInstance()
-						.post(new OpportunityEvent.GoToRelatedItems(
-								this,
-								new CrmRelatedItemsScreenData(associateContacts)));
-			}
-		});
-		toolbarLayout.addComponent(relatedContacts);
+        Button relatedNotes = new Button();
+        relatedNotes.setCaption("<span aria-hidden=\"true\" data-icon=\""
+                + IconConstants.CRM_DOCUMENT
+                + "\"></span><div class=\"screen-reader-text\">"
+                + "Notes" + "</div>");
+        relatedNotes.setHtmlContentAllowed(true);
+        relatedNotes.addClickListener(new Button.ClickListener() {
+            private static final long serialVersionUID = 7589415773039335559L;
 
-		Button relatedLeads = new Button();
-		relatedLeads.setCaption("<span aria-hidden=\"true\" data-icon=\""
-				+ IconConstants.CRM_LEAD
-				+ "\"></span><div class=\"screen-reader-text\">"
-				+ AppContext.getMessage(CrmCommonI18nEnum.TAB_LEAD) + "</div>");
-		relatedLeads.setHtmlContentAllowed(true);
-		relatedLeads.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = 7589415773039335559L;
+            @Override
+            public void buttonClick(ClickEvent arg0) {
+                EventBusFactory.getInstance().post(new OpportunityEvent.GoToRelatedItems(this,
+                        new CrmRelatedItemsScreenData(associateNotes)));
+            }
+        });
+        toolbarLayout.addComponent(relatedNotes);
 
-			@Override
-			public void buttonClick(ClickEvent arg0) {
-				EventBusFactory.getInstance().post(
-						new OpportunityEvent.GoToRelatedItems(this,
-								new CrmRelatedItemsScreenData(associateLeads)));
-			}
-		});
-		toolbarLayout.addComponent(relatedLeads);
+        Button relatedActivities = new Button();
+        relatedActivities.setCaption("<span aria-hidden=\"true\" data-icon=\""
+                + IconConstants.CRM_ACTIVITY
+                + "\"></span><div class=\"screen-reader-text\">"
+                + AppContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY)
+                + "</div>");
+        relatedActivities.setHtmlContentAllowed(true);
+        relatedActivities.addClickListener(new Button.ClickListener() {
+            private static final long serialVersionUID = 7589415773039335559L;
 
-		Button relatedNotes = new Button();
-		relatedNotes.setCaption("<span aria-hidden=\"true\" data-icon=\""
-				+ IconConstants.CRM_DOCUMENT
-				+ "\"></span><div class=\"screen-reader-text\">"
-				+ "Notes" + "</div>");
-		relatedNotes.setHtmlContentAllowed(true);
-		relatedNotes.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = 7589415773039335559L;
+            @Override
+            public void buttonClick(ClickEvent arg0) {
+                EventBusFactory.getInstance().post(new OpportunityEvent.GoToRelatedItems(this,
+                        new CrmRelatedItemsScreenData(associateActivities)));
+            }
+        });
+        toolbarLayout.addComponent(relatedActivities);
 
-			@Override
-			public void buttonClick(ClickEvent arg0) {
-				EventBusFactory.getInstance().post(
-						new OpportunityEvent.GoToRelatedItems(this,
-								new CrmRelatedItemsScreenData(associateNotes)));
-			}
-		});
-		toolbarLayout.addComponent(relatedNotes);
+        return toolbarLayout;
+    }
 
-		Button relatedActivities = new Button();
-		relatedActivities.setCaption("<span aria-hidden=\"true\" data-icon=\""
-				+ IconConstants.CRM_ACTIVITY
-				+ "\"></span><div class=\"screen-reader-text\">"
-				+ AppContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY)
-				+ "</div>");
-		relatedActivities.setHtmlContentAllowed(true);
-		relatedActivities.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = 7589415773039335559L;
+    @Override
+    public IRelatedListHandlers<SimpleActivity> getRelatedActivityHandlers() {
+        return associateActivities;
+    }
 
-			@Override
-			public void buttonClick(ClickEvent arg0) {
-				EventBusFactory.getInstance().post(
-						new OpportunityEvent.GoToRelatedItems(this,
-								new CrmRelatedItemsScreenData(
-										associateActivities)));
-			}
-		});
-		toolbarLayout.addComponent(relatedActivities);
+    @Override
+    public IRelatedListHandlers<SimpleContact> getRelatedContactHandlers() {
+        return associateContacts;
+    }
 
-		return toolbarLayout;
-	}
-
-	@Override
-	public IRelatedListHandlers<SimpleActivity> getRelatedActivityHandlers() {
-		return associateActivities;
-	}
-
-	@Override
-	public IRelatedListHandlers<SimpleContact> getRelatedContactHandlers() {
-		return associateContacts;
-	}
-
-	@Override
-	public IRelatedListHandlers<SimpleLead> getRelatedLeadHandlers() {
-		return associateLeads;
-	}
+    @Override
+    public IRelatedListHandlers<SimpleLead> getRelatedLeadHandlers() {
+        return associateLeads;
+    }
 
 }

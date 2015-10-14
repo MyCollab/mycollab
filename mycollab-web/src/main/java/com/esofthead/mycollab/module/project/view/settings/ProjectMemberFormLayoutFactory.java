@@ -20,7 +20,7 @@ package com.esofthead.mycollab.module.project.view.settings;
 import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Label;
@@ -31,7 +31,7 @@ import com.vaadin.ui.VerticalLayout;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class ProjectMemberFormLayoutFactory implements IFormLayoutFactory {
+public class ProjectMemberFormLayoutFactory extends AbstractFormLayoutFactory {
 	private static final long serialVersionUID = 1L;
 	private GridFormLayoutHelper informationLayout;
 
@@ -47,7 +47,7 @@ public class ProjectMemberFormLayoutFactory implements IFormLayoutFactory {
 	}
 
 	@Override
-	public void attachField(final Object propertyId, final Field<?> field) {
+	protected void onAttachField(final Object propertyId, final Field<?> field) {
 		if (propertyId.equals("memberFullName")) {
 			this.informationLayout.addComponent(field, AppContext.getMessage(ProjectMemberI18nEnum.FORM_USER), 0, 0);
 		} else if (propertyId.equals("projectroleid")) {

@@ -43,6 +43,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
+import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Resource;
@@ -158,41 +159,32 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 
     @Override
     protected ComponentContainer createButtonControls() {
-        ProjectPreviewFormControlsGenerator<SimpleTask> taskPreviewForm = new ProjectPreviewFormControlsGenerator<SimpleTask>(
-                previewForm);
-        final VerticalLayout topPanel = taskPreviewForm
-                .createButtonControls(
-                        ProjectPreviewFormControlsGenerator.ASSIGN_BTN_PRESENTED
-                                | ProjectPreviewFormControlsGenerator.CLONE_BTN_PRESENTED
-                                | ProjectPreviewFormControlsGenerator.DELETE_BTN_PRESENTED
-                                | ProjectPreviewFormControlsGenerator.EDIT_BTN_PRESENTED,
-                        ProjectRolePermissionCollections.TASKS);
+        ProjectPreviewFormControlsGenerator<SimpleTask> taskPreviewForm = new ProjectPreviewFormControlsGenerator<>(previewForm);
+        final VerticalLayout topPanel = taskPreviewForm.createButtonControls(
+                ProjectPreviewFormControlsGenerator.ASSIGN_BTN_PRESENTED
+                        | ProjectPreviewFormControlsGenerator.CLONE_BTN_PRESENTED
+                        | ProjectPreviewFormControlsGenerator.DELETE_BTN_PRESENTED
+                        | ProjectPreviewFormControlsGenerator.EDIT_BTN_PRESENTED,
+                ProjectRolePermissionCollections.TASKS);
 
         quickActionStatusBtn = new Button("", new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
             @Override
             public void buttonClick(ClickEvent event) {
-                if (beanItem.getStatus() != null
-                        && beanItem.getStatus().equals(
-                        StatusI18nEnum.Closed.name())) {
+                if (beanItem.getStatus() != null && beanItem.getStatus().equals(StatusI18nEnum.Closed.name())) {
                     beanItem.setStatus(StatusI18nEnum.Open.name());
                     beanItem.setPercentagecomplete(0d);
-                    TaskReadViewImpl.this
-                            .removeStyleName(UIConstants.STATUS_DISABLED);
-                    quickActionStatusBtn.setCaption(AppContext
-                            .getMessage(GenericI18Enum.BUTTON_CLOSE));
+                    TaskReadViewImpl.this.removeStyleName(UIConstants.STATUS_DISABLED);
+                    quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE));
                 } else {
                     beanItem.setStatus(StatusI18nEnum.Closed.name());
                     beanItem.setPercentagecomplete(100d);
-                    TaskReadViewImpl.this
-                            .addStyleName(UIConstants.STATUS_DISABLED);
-                    quickActionStatusBtn.setCaption(AppContext
-                            .getMessage(GenericI18Enum.BUTTON_REOPEN));
+                    TaskReadViewImpl.this.addStyleName(UIConstants.STATUS_DISABLED);
+                    quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN));
                 }
 
-                ProjectTaskService service = ApplicationContextUtil
-                        .getSpringBean(ProjectTaskService.class);
+                ProjectTaskService service = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
                 service.updateWithSession(beanItem, AppContext.getUsername());
 
             }
@@ -201,8 +193,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 
         taskPreviewForm.insertToControlBlock(quickActionStatusBtn);
 
-        if (!CurrentProjectVariables
-                .canWrite(ProjectRolePermissionCollections.TASKS)) {
+        if (!CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) {
             quickActionStatusBtn.setEnabled(false);
         }
 
@@ -228,8 +219,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 
             @Override
             public void buttonClick(ClickEvent arg0) {
-                EventBusFactory.getInstance().post(
-                        new ShellEvent.PushView(this, associateComments));
+                EventBusFactory.getInstance().post(new ShellEvent.PushView(this, associateComments));
             }
         });
         toolbarLayout.addComponent(relatedComments);
@@ -237,8 +227,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
         return toolbarLayout;
     }
 
-    private class ReadFormFieldFactory extends
-            AbstractBeanFieldGroupViewFieldFactory<SimpleTask> {
+    private class ReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<SimpleTask> {
         private static final long serialVersionUID = 1L;
 
         public ReadFormFieldFactory(GenericBeanForm<SimpleTask> form) {

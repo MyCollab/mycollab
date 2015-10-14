@@ -362,17 +362,6 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
             });
             setupBtn.setIcon(FontAwesome.WRENCH);
             accountPopupContent.addOption(setupBtn);
-
-            Button aboutBtn = new Button("About", new ClickListener() {
-                @Override
-                public void buttonClick(ClickEvent clickEvent) {
-                    accountMenu.setPopupVisible(false);
-                    ServerInstance.getInstance().preUpgrade();
-                    UI.getCurrent().addWindow(new AboutWindow());
-                }
-            });
-            aboutBtn.setIcon(FontAwesome.INFO_CIRCLE);
-            accountPopupContent.addOption(aboutBtn);
         }
 
         accountPopupContent.addSeparator();
@@ -394,6 +383,28 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         });
         myAccountBtn.setIcon(SettingAssetsManager.getAsset(SettingUIConstants.BILLING));
         accountPopupContent.addOption(myAccountBtn);
+
+        if (SiteConfiguration.getDeploymentMode() == DeploymentMode.standalone) {
+            accountPopupContent.addSeparator();
+            Button aboutBtn = new Button("About MyCollab", new ClickListener() {
+                @Override
+                public void buttonClick(ClickEvent clickEvent) {
+                    accountMenu.setPopupVisible(false);
+                    ServerInstance.getInstance().preUpgrade();
+                    UI.getCurrent().addWindow(new AboutWindow());
+                }
+            });
+            aboutBtn.setIcon(FontAwesome.INFO_CIRCLE);
+            accountPopupContent.addOption(aboutBtn);
+
+            Button releaseNotesBtn = new Button("Release Notes");
+            ExternalResource releaseNotesRes = new ExternalResource("https://community.mycollab.com/release-notes/");
+            BrowserWindowOpener releaseNotesOpener = new BrowserWindowOpener(releaseNotesRes);
+            releaseNotesOpener.extend(releaseNotesBtn);
+
+            releaseNotesBtn.setIcon(FontAwesome.BULLHORN);
+            accountPopupContent.addOption(releaseNotesBtn);
+        }
 
         Button signoutBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SIGNOUT), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;

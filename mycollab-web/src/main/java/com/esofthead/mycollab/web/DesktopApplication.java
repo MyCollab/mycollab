@@ -56,6 +56,8 @@ import org.vaadin.viritin.util.BrowserCookie;
 
 import java.util.Collection;
 
+import static com.esofthead.mycollab.core.utils.ExceptionUtils.getExceptionType;
+
 /**
  * @author MyCollab Ltd.
  * @since 1.0
@@ -76,6 +78,8 @@ public class DesktopApplication extends MyCollabUI {
     protected void init(final VaadinRequest request) {
         GoogleAnalyticsService googleAnalyticsService = ApplicationContextUtil.getSpringBean(GoogleAnalyticsService.class);
         googleAnalyticsService.registerUI(this);
+
+        getPushConfiguration().setParameter("timeout", "-1");
 
         LOG.debug("Register default error handler");
 
@@ -276,16 +280,6 @@ public class DesktopApplication extends MyCollabUI {
 
     public void unsetRememberPassword() {
         BrowserCookie.setCookie(DesktopApplication.NAME_COOKIE, "");
-    }
-
-    private static <T> T getExceptionType(Throwable e, Class<T> exceptionType) {
-        if (exceptionType.isAssignableFrom(e.getClass())) {
-            return (T) e;
-        } else if (e.getCause() != null) {
-            return getExceptionType(e.getCause(), exceptionType);
-        } else {
-            return null;
-        }
     }
 
     private class ShellErrorHandler {

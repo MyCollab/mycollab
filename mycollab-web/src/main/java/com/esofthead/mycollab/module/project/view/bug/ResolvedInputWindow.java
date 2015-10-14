@@ -84,7 +84,7 @@ public class ResolvedInputWindow extends Window {
             super.setBean(newDataSource);
         }
 
-        class FormLayoutFactory implements IFormLayoutFactory {
+        class FormLayoutFactory extends AbstractFormLayoutFactory {
             private static final long serialVersionUID = 1L;
             private GridFormLayoutHelper informationLayout;
 
@@ -155,7 +155,7 @@ public class ResolvedInputWindow extends Window {
             }
 
             @Override
-            public void attachField(Object propertyId, Field<?> field) {
+            protected void onAttachField(Object propertyId, Field<?> field) {
                 if (propertyId.equals("resolution")) {
                     this.informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_RESOLUTION), 0, 0);
                 } else if (propertyId.equals("assignuser")) {

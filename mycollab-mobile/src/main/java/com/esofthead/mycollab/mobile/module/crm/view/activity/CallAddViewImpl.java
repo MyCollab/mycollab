@@ -25,11 +25,7 @@ import com.esofthead.mycollab.module.crm.domain.CallWithBLOBs;
 import com.esofthead.mycollab.module.crm.i18n.CallI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.CompoundCustomField;
-import com.esofthead.mycollab.vaadin.ui.DummyCustomField;
-import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.vaadin.addon.touchkit.ui.DatePicker;
 import com.vaadin.data.Property;
 import com.vaadin.ui.Component;
@@ -42,267 +38,254 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
 
 @ViewComponent
-public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs>
-		implements CallAddView {
-	private static final long serialVersionUID = -7038760697823160315L;
+public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs> implements CallAddView {
+    private static final long serialVersionUID = -7038760697823160315L;
 
-	@Override
-	protected String initFormTitle() {
-		return beanItem.getSubject() != null ? beanItem.getSubject()
-				: AppContext.getMessage(CallI18nEnum.VIEW_NEW_TITLE);
-	}
+    @Override
+    protected String initFormTitle() {
+        return beanItem.getSubject() != null ? beanItem.getSubject()
+                : AppContext.getMessage(CallI18nEnum.VIEW_NEW_TITLE);
+    }
 
-	@Override
-	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new DynaFormLayout(CrmTypeConstants.CALL,
-				CallDefaultFormLayoutFactory.getForm());
-	}
+    @Override
+    protected IFormLayoutFactory initFormLayoutFactory() {
+        return new DynaFormLayout(CrmTypeConstants.CALL, CallDefaultFormLayoutFactory.getForm());
+    }
 
-	@Override
-	protected AbstractBeanFieldGroupEditFieldFactory<CallWithBLOBs> initBeanFormFieldFactory() {
-		return new CallEditFormFieldFactory(this.editForm);
-	}
+    @Override
+    protected AbstractBeanFieldGroupEditFieldFactory<CallWithBLOBs> initBeanFormFieldFactory() {
+        return new CallEditFormFieldFactory(this.editForm);
+    }
 
-	private class CallEditFormFieldFactory extends
-			AbstractBeanFieldGroupEditFieldFactory<CallWithBLOBs> {
+    private class CallEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<CallWithBLOBs> {
+        private static final long serialVersionUID = 1L;
 
-		private static final long serialVersionUID = 1L;
+        private CallStatusTypeField callStatusField;
 
-		private CallStatusTypeField callStatusField;
+        public CallEditFormFieldFactory(GenericBeanForm<CallWithBLOBs> form) {
+            super(form);
+            callStatusField = new CallStatusTypeField();
+        }
 
-		public CallEditFormFieldFactory(GenericBeanForm<CallWithBLOBs> form) {
-			super(form);
+        @Override
+        protected Field<?> onCreateField(Object propertyId) {
+            if (propertyId.equals("subject")) {
+                TextField tf = new TextField();
+                if (isValidateForm) {
+                    tf.setNullRepresentation("");
+                    tf.setRequired(true);
+                    tf.setRequiredError("Subject must not be null");
+                }
 
-			callStatusField = new CallStatusTypeField();
-		}
+                return tf;
+            } else if (propertyId.equals("assignuser")) {
+                ActiveUserComboBox userBox = new ActiveUserComboBox();
+                return userBox;
+            } else if (propertyId.equals("description")) {
+                TextArea descArea = new TextArea();
+                descArea.setNullRepresentation("");
+                return descArea;
+            } else if (propertyId.equals("result")) {
+                TextArea resultArea = new TextArea();
+                resultArea.setNullRepresentation("");
+                return resultArea;
+            } else if (propertyId.equals("durationinseconds")) {
+                CallDurationField durationField = new CallDurationField();
+                return durationField;
+            } else if (propertyId.equals("purpose")) {
+                CallPurposeComboBox purposeField = new CallPurposeComboBox();
+                return purposeField;
+            } else if (propertyId.equals("status")
+                    || propertyId.equals("calltype")) {
+                return callStatusField;
+            } else if (propertyId.equals("typeid")) {
+                return new RelatedItemSelectionField(attachForm.getBean());
+            } else if (propertyId.equals("type")) {
+                return new DummyCustomField<String>();
+            } else if (propertyId.equals("startdate")) {
+                return new DatePicker();
+            }
+            return null;
+        }
 
-		@Override
-		protected Field<?> onCreateField(Object propertyId) {
-			if (propertyId.equals("subject")) {
-				TextField tf = new TextField();
-				if (isValidateForm) {
-					tf.setNullRepresentation("");
-					tf.setRequired(true);
-					tf.setRequiredError("Subject must not be null");
-				}
+        @SuppressWarnings({"rawtypes"})
+        private class CallStatusTypeField extends CompoundCustomField {
+            private static final long serialVersionUID = 1L;
 
-				return tf;
-			} else if (propertyId.equals("assignuser")) {
-				ActiveUserComboBox userBox = new ActiveUserComboBox();
-				return userBox;
-			} else if (propertyId.equals("description")) {
-				TextArea descArea = new TextArea();
-				descArea.setNullRepresentation("");
-				return descArea;
-			} else if (propertyId.equals("result")) {
-				TextArea resultArea = new TextArea();
-				resultArea.setNullRepresentation("");
-				return resultArea;
-			} else if (propertyId.equals("durationinseconds")) {
-				CallDurationField durationField = new CallDurationField();
-				return durationField;
-			} else if (propertyId.equals("purpose")) {
-				CallPurposeComboBox purposeField = new CallPurposeComboBox();
-				return purposeField;
-			} else if (propertyId.equals("status")
-					|| propertyId.equals("calltype")) {
-				return callStatusField;
-			} else if (propertyId.equals("typeid")) {
-				return new RelatedItemSelectionField(attachForm.getBean());
-			} else if (propertyId.equals("type")) {
-				return new DummyCustomField<String>();
-			} else if (propertyId.equals("startdate")) {
-				return new DatePicker();
-			}
-			return null;
-		}
+            @Override
+            public Class<?> getType() {
+                return Object.class;
+            }
 
-		@SuppressWarnings({ "rawtypes" })
-		private class CallStatusTypeField extends CompoundCustomField {
+            @Override
+            protected Component initContent() {
+                VerticalLayout layout = new VerticalLayout();
+                layout.setSpacing(true);
+                layout.setWidth("100%");
 
-			private static final long serialVersionUID = 1L;
+                CallTypeComboBox typeField = new CallTypeComboBox();
+                typeField.setWidth("100%");
+                layout.addComponent(typeField);
+                typeField.select(beanItem.getCalltype());
 
-			@Override
-			public Class<?> getType() {
-				return Object.class;
-			}
+                CallStatusComboBox statusField = new CallStatusComboBox();
+                statusField.setWidth("100%");
+                layout.addComponent(statusField);
+                statusField.select(beanItem.getStatus());
 
-			@Override
-			protected Component initContent() {
-				VerticalLayout layout = new VerticalLayout();
-				layout.setSpacing(true);
-				layout.setWidth("100%");
+                // binding field group
+                fieldGroup.bind(typeField, "calltype");
+                fieldGroup.bind(statusField, "status");
+                return layout;
+            }
+        }
+    }
 
-				CallTypeComboBox typeField = new CallTypeComboBox();
-				typeField.setWidth("100%");
-				layout.addComponent(typeField);
-				typeField.select(beanItem.getCalltype());
+    private static class CallPurposeComboBox extends ValueComboBox {
+        private static final long serialVersionUID = 1L;
 
-				CallStatusComboBox statusField = new CallStatusComboBox();
-				statusField.setWidth("100%");
-				layout.addComponent(statusField);
-				statusField.select(beanItem.getStatus());
+        public CallPurposeComboBox() {
+            super();
+            setCaption(null);
+            this.loadData("Prospecting", "Administrative", "Negotiation", "Project", "Support");
+        }
+    }
 
-				// binding field group
-				fieldGroup.bind(typeField, "calltype");
-				fieldGroup.bind(statusField, "status");
-				return layout;
-			}
-		}
-	}
+    private static class CallDurationField extends CustomField<Integer> {
 
-	private static class CallPurposeComboBox extends ValueComboBox {
+        private static final long serialVersionUID = 1L;
+        private TextField hourField;
+        private ValueComboBox minutesField;
 
-		private static final long serialVersionUID = 1L;
+        public CallDurationField() {
+            hourField = new TextField();
+            hourField.setWidth("30px");
 
-		public CallPurposeComboBox() {
-			super();
-			setCaption(null);
-			this.loadData("Prospecting", "Administrative",
-					"Negotiation", "Project", "Support");
-		}
-	}
+            minutesField = new ValueComboBox();
+            minutesField.setWidth("100%");
+            minutesField.loadData("0", "15", "30", "45");
+        }
 
-	private static class CallDurationField extends CustomField<Integer> {
+        @Override
+        public void commit() {
+            Integer durationInSeconds = calculateDurationInSeconds();
+            this.setInternalValue(durationInSeconds);
+            super.commit();
+        }
 
-		private static final long serialVersionUID = 1L;
-		private TextField hourField;
-		private ValueComboBox minutesField;
+        private Integer calculateDurationInSeconds() {
+            String hourValue = hourField.getValue();
+            String minuteValue = (String) minutesField.getValue();
+            int hourVal = 0, minutesVal = 0;
+            try {
+                hourVal = Integer.parseInt(hourValue);
+            } catch (NumberFormatException e) {
+                hourField.setValue("");
+                hourVal = 0;
+            }
 
-		public CallDurationField() {
-			hourField = new TextField();
-			hourField.setWidth("30px");
+            try {
+                minutesVal = Integer.parseInt(minuteValue);
+            } catch (NumberFormatException e) {
+                minutesField.select(null);
+                minutesVal = 0;
+            }
 
-			minutesField = new ValueComboBox();
-			minutesField.setWidth("100%");
-			minutesField.loadData("0", "15", "30", "45");
-		}
+            if (hourVal != 0 || minutesVal != 0) {
+                int seconds = minutesVal * 60 + hourVal * 3600;
+                return seconds;
+            }
 
-		@Override
-		public void commit() {
-			Integer durationInSeconds = calculateDurationInSeconds();
-			this.setInternalValue(durationInSeconds);
-			super.commit();
-		}
+            return 0;
+        }
 
-		private Integer calculateDurationInSeconds() {
-			String hourValue = hourField.getValue();
-			String minuteValue = (String) minutesField.getValue();
-			int hourVal = 0, minutesVal = 0;
-			try {
-				hourVal = Integer.parseInt(hourValue);
-			} catch (NumberFormatException e) {
-				hourField.setValue("");
-				hourVal = 0;
-			}
+        @SuppressWarnings("rawtypes")
+        @Override
+        public void setPropertyDataSource(Property newDataSource) {
+            Object value = newDataSource.getValue();
+            if (value instanceof Integer) {
+                Integer duration = (Integer) value;
+                if (duration != 0) {
+                    int hours = duration / 3600;
+                    int minutes = duration % 3600 / 60;
+                    hourField.setValue("" + hours);
+                    minutesField.select("" + minutes);
+                }
+            }
+            super.setPropertyDataSource(newDataSource);
+        }
 
-			try {
-				minutesVal = Integer.parseInt(minuteValue);
-			} catch (NumberFormatException e) {
-				minutesField.select(null);
-				minutesVal = 0;
-			}
+        @Override
+        protected Component initContent() {
+            VerticalLayout layout = new VerticalLayout();
+            layout.setSpacing(true);
+            layout.setWidth("100%");
 
-			if (hourVal != 0 || minutesVal != 0) {
-				int seconds = minutesVal * 60 + hourVal * 3600;
-				return seconds;
-			}
+            HorizontalLayout fieldLayout = new HorizontalLayout();
+            fieldLayout.setWidth("100%");
+            fieldLayout.setSpacing(true);
 
-			return 0;
-		}
+            fieldLayout.addComponent(hourField);
 
-		@SuppressWarnings("rawtypes")
-		@Override
-		public void setPropertyDataSource(Property newDataSource) {
-			Object value = newDataSource.getValue();
-			if (value instanceof Integer) {
-				Integer duration = (Integer) value;
-				if (duration != 0) {
-					int hours = duration / 3600;
-					int minutes = duration % 3600 / 60;
-					hourField.setValue("" + hours);
-					minutesField.select("" + minutes);
-				}
-			}
-			super.setPropertyDataSource(newDataSource);
-		}
+            fieldLayout.addComponent(minutesField);
+            fieldLayout.setExpandRatio(minutesField, 1.0f);
+            layout.addComponent(fieldLayout);
 
-		@Override
-		protected Component initContent() {
-			VerticalLayout layout = new VerticalLayout();
-			layout.setSpacing(true);
-			layout.setWidth("100%");
+            layout.addComponent(new Label("(hours/minutes)"));
 
-			HorizontalLayout fieldLayout = new HorizontalLayout();
-			fieldLayout.setWidth("100%");
-			fieldLayout.setSpacing(true);
+            return layout;
+        }
 
-			fieldLayout.addComponent(hourField);
+        @Override
+        public Class<Integer> getType() {
+            return Integer.class;
+        }
+    }
 
-			fieldLayout.addComponent(minutesField);
-			fieldLayout.setExpandRatio(minutesField, 1.0f);
-			layout.addComponent(fieldLayout);
+    private class CallTypeComboBox extends ValueComboBox {
 
-			layout.addComponent(new Label("(hours/minutes)"));
+        private static final long serialVersionUID = 1L;
 
-			return layout;
-		}
+        public CallTypeComboBox() {
+            super();
+            setCaption(null);
+            this.setWidth("80px");
+            this.loadData("Inbound", "Outbound");
+            this.addValueChangeListener(new Property.ValueChangeListener() {
+                private static final long serialVersionUID = 1L;
 
-		@Override
-		public Class<Integer> getType() {
-			return Integer.class;
-		}
-	}
+                @Override
+                public void valueChange(
+                        com.vaadin.data.Property.ValueChangeEvent event) {
+                    beanItem.setCalltype((String) CallTypeComboBox.this.getValue());
+                }
+            });
+        }
+    }
 
-	private class CallTypeComboBox extends ValueComboBox {
+    private class CallStatusComboBox extends ValueComboBox {
+        private static final long serialVersionUID = 1L;
 
-		private static final long serialVersionUID = 1L;
+        public CallStatusComboBox() {
+            super();
+            setCaption(null);
+            this.setWidth("100px");
+            this.loadData("Planned", "Held", "Not Held");
+            this.addValueChangeListener(new Property.ValueChangeListener() {
+                private static final long serialVersionUID = 1L;
 
-		public CallTypeComboBox() {
-			super();
-			setCaption(null);
-			this.setWidth("80px");
-			this.loadData("Inbound", "Outbound");
-			this.addValueChangeListener(new Property.ValueChangeListener() {
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void valueChange(
-						com.vaadin.data.Property.ValueChangeEvent event) {
-					beanItem.setCalltype((String) CallTypeComboBox.this
-							.getValue());
-				}
-			});
-		}
-	}
-
-	private class CallStatusComboBox extends ValueComboBox {
-
-		private static final long serialVersionUID = 1L;
-
-		public CallStatusComboBox() {
-			super();
-			setCaption(null);
-			this.setWidth("100px");
-			this.loadData("Planned", "Held", "Not Held");
-			this.addValueChangeListener(new Property.ValueChangeListener() {
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void valueChange(
-						com.vaadin.data.Property.ValueChangeEvent event) {
-					beanItem.setStatus((String) CallStatusComboBox.this
-							.getValue());
-				}
-			});
-		}
-	}
+                @Override
+                public void valueChange(
+                        com.vaadin.data.Property.ValueChangeEvent event) {
+                    beanItem.setStatus((String) CallStatusComboBox.this.getValue());
+                }
+            });
+        }
+    }
 
 }

@@ -24,7 +24,7 @@ import com.esofthead.mycollab.form.view.builder.type.DynaSection;
 import com.esofthead.mycollab.form.view.builder.type.DynaSection.LayoutType;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.vaadin.ui.*;
 import org.slf4j.Logger;
@@ -37,7 +37,7 @@ import java.util.Map;
  * @author MyCollab Ltd.
  * @since 2.0
  */
-public class DynaFormLayout implements IFormLayoutFactory {
+public class DynaFormLayout extends AbstractFormLayoutFactory {
     private static final long serialVersionUID = 1L;
 
     private static final Logger LOG = LoggerFactory.getLogger(DynaFormLayout.class);
@@ -113,7 +113,7 @@ public class DynaFormLayout implements IFormLayoutFactory {
     }
 
     @Override
-    public void attachField(Object propertyId, Field<?> field) {
+    protected void onAttachField(Object propertyId, Field<?> field) {
         AbstractDynaField dynaField = fieldMappings.get(propertyId);
         if (dynaField != null) {
             DynaSection section = dynaField.getOwnSection();

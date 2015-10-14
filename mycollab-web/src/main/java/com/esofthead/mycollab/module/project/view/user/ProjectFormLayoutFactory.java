@@ -24,7 +24,7 @@ import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AddViewLayout;
 import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.vaadin.ui.*;
 
 /**
@@ -32,7 +32,7 @@ import com.vaadin.ui.*;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public abstract class ProjectFormLayoutFactory implements IFormLayoutFactory {
+public abstract class ProjectFormLayoutFactory extends AbstractFormLayoutFactory {
 	private static final long serialVersionUID = 1L;
 
 	private final String title;
@@ -66,7 +66,7 @@ public abstract class ProjectFormLayoutFactory implements IFormLayoutFactory {
 	}
 
 	@Override
-	public void attachField(final Object propertyId, final Field<?> field) {
+	protected void onAttachField(final Object propertyId, final Field<?> field) {
 		this.projectInformationLayout.attachField(propertyId, field);
 	}
 
@@ -74,7 +74,7 @@ public abstract class ProjectFormLayoutFactory implements IFormLayoutFactory {
 
 	protected abstract Layout createBottomPanel();
 
-	public static class ProjectInformationLayout implements IFormLayoutFactory {
+	public static class ProjectInformationLayout extends AbstractFormLayoutFactory {
 		private static final long serialVersionUID = 1L;
 		private GridFormLayoutHelper informationLayout;
 		private GridFormLayoutHelper financialLayout;
@@ -118,7 +118,7 @@ public abstract class ProjectFormLayoutFactory implements IFormLayoutFactory {
 		}
 
 		@Override
-		public void attachField(final Object propertyId, final Field<?> field) {
+		protected void onAttachField(final Object propertyId, final Field<?> field) {
 			if (propertyId.equals("name")) {
 				this.informationLayout.addComponent(field,
 						AppContext.getMessage(ProjectI18nEnum.FORM_NAME), 0, 0);

@@ -18,9 +18,11 @@ package com.esofthead.mycollab.module.user.view;
 
 import com.esofthead.mycollab.common.i18n.ShellI18nEnum;
 import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.core.UserInvalidInputException;
+import com.esofthead.mycollab.core.utils.ExceptionUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.jetty.ServerInstance;
-import com.esofthead.mycollab.module.user.events.UserEvent.PlainLogin;
+import com.esofthead.mycollab.module.user.events.UserEvent;
 import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
@@ -33,7 +35,6 @@ import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.UserError;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
 
 /**
  * @author MyCollab Ltd.
@@ -44,6 +45,7 @@ public class LoginViewImpl extends AbstractPageView implements LoginView {
     private static final long serialVersionUID = 1L;
 
     public LoginViewImpl() {
+        this.withSpacing(true);
         this.setSizeFull();
         this.addComponent(new LoginForm());
     }
@@ -51,12 +53,13 @@ public class LoginViewImpl extends AbstractPageView implements LoginView {
     class LoginForm extends CustomComponent {
         private static final long serialVersionUID = 1L;
 
+        private CustomLayout custom;
         private final TextField usernameField;
         private final PasswordField passwordField;
         private final CheckBox rememberMe;
 
         public LoginForm() {
-            final CustomLayout custom = CustomLayoutExt.createLayout("loginForm");
+            custom = CustomLayoutExt.createLayout("loginForm");
             custom.addStyleName("customLoginForm");
             usernameField = new TextField(AppContext.getMessage(ShellI18nEnum.FORM_EMAIL));
 
@@ -66,26 +69,6 @@ public class LoginViewImpl extends AbstractPageView implements LoginView {
             StringLengthValidator passwordValidator = new StringLengthValidator(
                     "Password length must be greater than 6", 6, Integer.MAX_VALUE, false);
             passwordField.addValidator(passwordValidator);
-            passwordField.addShortcutListener(new ShortcutListener("Signin", ShortcutAction.KeyCode.ENTER, null) {
-                private static final long serialVersionUID = 5094514575531426118L;
-
-                @Override
-                public void handleAction(Object sender, Object target) {
-                    if (target == passwordField) {
-                        try {
-                            custom.removeComponent("customErrorMsg");
-                            LoginViewImpl.this.fireEvent(new ViewEvent<>(LoginViewImpl.this,
-                                    new PlainLogin(usernameField.getValue(),
-                                    passwordField.getValue(), rememberMe.getValue())));
-                        } catch (MyCollabException e) {
-                            custom.addComponent(new Label(e.getMessage()), "customErrorMsg");
-
-                        } catch (Exception e) {
-                            throw new MyCollabException(e);
-                        }
-                    }
-                }
-            });
 
             custom.addComponent(passwordField, "passwordField");
 
@@ -96,21 +79,13 @@ public class LoginViewImpl extends AbstractPageView implements LoginView {
                 private static final long serialVersionUID = 1L;
 
                 @Override
-                public void buttonClick(ClickEvent event) {
-                    try {
-                        custom.removeComponent("customErrorMsg");
-
-                        LoginViewImpl.this.fireEvent(new ViewEvent<>(LoginViewImpl.this, new PlainLogin(
-                                usernameField.getValue(), passwordField.getValue(), rememberMe.getValue())));
-                    } catch (MyCollabException e) {
-                        custom.addComponent(new Label(e.getMessage()), "customErrorMsg");
-                    } catch (Exception e) {
-                        throw new MyCollabException(e);
-                    }
+                public void buttonClick(Button.ClickEvent event) {
+                    doLogin();
                 }
             });
 
             loginBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+            loginBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
             custom.addComponent(loginBtn, "loginButton");
 
             Button forgotPasswordBtn = new Button(AppContext.getMessage(ShellI18nEnum.BUTTON_FORGOT_PASSWORD),
@@ -118,7 +93,7 @@ public class LoginViewImpl extends AbstractPageView implements LoginView {
                         private static final long serialVersionUID = 1L;
 
                         @Override
-                        public void buttonClick(ClickEvent event) {
+                        public void buttonClick(Button.ClickEvent event) {
                             EventBusFactory.getInstance().post(new ShellEvent.GotoForgotPasswordPage(this, null));
                         }
                     });
@@ -133,6 +108,23 @@ public class LoginViewImpl extends AbstractPageView implements LoginView {
 
             this.setCompositionRoot(custom);
             this.setHeight("100%");
+        }
+
+        private void doLogin() {
+            try {
+                custom.removeComponent("customErrorMsg");
+                LoginViewImpl.this.fireEvent(new ViewEvent<>(LoginViewImpl.this, new UserEvent.PlainLogin(
+                        usernameField.getValue(), passwordField.getValue(), rememberMe.getValue())));
+            } catch (MyCollabException e) {
+                custom.addComponent(new Label(e.getMessage()), "customErrorMsg");
+            } catch (Exception e) {
+                UserInvalidInputException userInvalidException = ExceptionUtils.getExceptionType(e, UserInvalidInputException.class);
+                if (userInvalidException != null) {
+                    custom.addComponent(new Label(userInvalidException.getMessage()), "customErrorMsg");
+                } else {
+                    throw new MyCollabException(e);
+                }
+            }
         }
     }
 }

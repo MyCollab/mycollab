@@ -24,6 +24,7 @@ import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 
 /**
@@ -33,8 +34,7 @@ import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
  * 
  */
 @ViewComponent
-public class AccountAddViewImpl extends AbstractEditItemComp<SimpleAccount>
-		implements AccountAddView {
+public class AccountAddViewImpl extends AbstractEditItemComp<SimpleAccount> implements AccountAddView {
 	private static final long serialVersionUID = -6760402062110610122L;
 
 	@Override
@@ -51,7 +51,7 @@ public class AccountAddViewImpl extends AbstractEditItemComp<SimpleAccount>
 
 	@Override
 	protected AbstractBeanFieldGroupEditFieldFactory<SimpleAccount> initBeanFormFieldFactory() {
-		return new AccountEditFormFieldFactory<SimpleAccount>(editForm);
+		return new AccountEditFormFieldFactory<>(editForm);
 	}
 
 }

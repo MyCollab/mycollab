@@ -49,7 +49,7 @@ public class MassUpdateCaseWindow extends MassUpdateWindow<CaseWithBLOBs> {
 		return new CaseEditFormFieldFactory<>(updateForm, false);
 	}
 
-	private class MassUpdateContactFormLayoutFactory implements IFormLayoutFactory {
+	private class MassUpdateContactFormLayoutFactory extends AbstractFormLayoutFactory {
 		private static final long serialVersionUID = 1L;
 
 		private GridFormLayoutHelper informationLayout;
@@ -73,7 +73,7 @@ public class MassUpdateCaseWindow extends MassUpdateWindow<CaseWithBLOBs> {
 
 		// priority, status, account name, origin, type, reason, assignuser
 		@Override
-		public void attachField(final Object propertyId, final Field<?> field) {
+		protected void onAttachField(final Object propertyId, final Field<?> field) {
 			if (propertyId.equals("priority")) {
 				this.informationLayout.addComponent(field, "Priority", 0, 0);
 			} else if (propertyId.equals("status")) {

@@ -32,46 +32,45 @@ import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
+ *
  * @author MyCollab Ltd.
  * @since 2.0
- * 
+ *
  */
 @ViewComponent
 public class CampaignAddViewImpl extends AbstractEditItemComp<SimpleCampaign>
-		implements CampaignAddView {
-	private static final long serialVersionUID = 1L;
+        implements CampaignAddView {
+    private static final long serialVersionUID = 1L;
 
-	@Override
-	protected String initFormTitle() {
-		return (beanItem.getId() == null) ? AppContext
-				.getMessage(CampaignI18nEnum.VIEW_NEW_TITLE) : beanItem
-				.getCampaignname();
-	}
+    @Override
+    protected String initFormTitle() {
+        return (beanItem.getId() == null) ? AppContext
+                .getMessage(CampaignI18nEnum.VIEW_NEW_TITLE) : beanItem
+                .getCampaignname();
+    }
 
-	@Override
-	protected Resource initFormIconResource() {
-		return CrmAssetsManager.getAsset(CrmTypeConstants.CAMPAIGN);
-	}
+    @Override
+    protected Resource initFormIconResource() {
+        return CrmAssetsManager.getAsset(CrmTypeConstants.CAMPAIGN);
+    }
 
-	@Override
-	protected ComponentContainer createButtonControls() {
-		return new EditFormControlsGenerator<>(editForm).createButtonControls();
-	}
+    @Override
+    protected ComponentContainer createButtonControls() {
+        return new EditFormControlsGenerator<>(editForm).createButtonControls();
+    }
 
-	@Override
-	protected AdvancedEditBeanForm<SimpleCampaign> initPreviewForm() {
-		return new AdvancedEditBeanForm<>();
-	}
+    @Override
+    protected AdvancedEditBeanForm<SimpleCampaign> initPreviewForm() {
+        return new AdvancedEditBeanForm<>();
+    }
 
-	@Override
-	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new DynaFormLayout(CrmTypeConstants.CAMPAIGN,
-				CampaignDefaultDynaFormLayoutFactory.getForm());
-	}
+    @Override
+    protected IFormLayoutFactory initFormLayoutFactory() {
+        return new DynaFormLayout(CrmTypeConstants.CAMPAIGN, CampaignDefaultDynaFormLayoutFactory.getForm());
+    }
 
-	@Override
-	protected AbstractBeanFieldGroupEditFieldFactory<SimpleCampaign> initBeanFormFieldFactory() {
-		return new CampaignEditFormFieldFactory<>(editForm);
-	}
+    @Override
+    protected AbstractBeanFieldGroupEditFieldFactory<SimpleCampaign> initBeanFormFieldFactory() {
+        return new CampaignEditFormFieldFactory<>(editForm);
+    }
 }

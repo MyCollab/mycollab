@@ -51,7 +51,7 @@ public class MassUpdateLeadWindow extends MassUpdateWindow<Lead> {
 		return new LeadEditFormFieldFactory<>(updateForm, false);
 	}
 
-	private class MassUpdateLeadFormLayoutFactory implements IFormLayoutFactory {
+	private class MassUpdateLeadFormLayoutFactory extends AbstractFormLayoutFactory {
 		private static final long serialVersionUID = 1L;
 
 		private GridFormLayoutHelper informationLayout;
@@ -87,7 +87,7 @@ public class MassUpdateLeadWindow extends MassUpdateWindow<Lead> {
 		// primary/other city, primary/other state, primary/other postal
 		// code, primary/other country
 		@Override
-		public void attachField(final Object propertyId, final Field<?> field) {
+		protected void onAttachField(final Object propertyId, final Field<?> field) {
 
 			if (propertyId.equals("title")) {
 				this.informationLayout.addComponent(field,

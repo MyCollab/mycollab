@@ -11000,18 +11000,6 @@ input.v-textfield-errorField {
 	background: url('icons/ico-lock.png') no-repeat center center transparent;
 }
 
-.customSignUpForm #loginForm {
-	margin-top: 0px;
-	height: 405px;
-}
-
-.customSignUpForm #policy {
-	text-align: left;
-	font-size: 12px;
-	display: block;
-	padding: 0px 20px;
-}
-
 #loginForm {
 	width: 100%;
 	float: left;
@@ -11022,10 +11010,6 @@ input.v-textfield-errorField {
 	height: 200px;
 	width: 422px;
 	float: left;
-}
-
-.customSignUpForm #loginForm .v-captionwrapper {
-	margin: 10px auto;
 }
 
 #loginForm .v-captionwrapper {
@@ -11046,11 +11030,6 @@ input.v-textfield-errorField {
 #loginForm .v-captionwrapper .v-caption .v-captiontext {
 	font-size: 16px;
 	color: #777;
-}
-
-.customSignUpForm #loginForm input.v-textfield {
-	font-size: 15px !important;
-	height: 20px;
 }
 
 .customLoginForm #loginForm input.v-textfield, .forgotPwdForm #loginForm input.v-textfield {
@@ -11087,10 +11066,6 @@ input.v-textfield-errorField {
 .forgotPwdForm #loginForm #submitLogin {
 	margin-top: 0px;
 	text-align: left;
-}
-
-.customSignUpForm #loginForm #submitLogin {
-	margin-top: 10px;
 }
 
 #loginForm .rememberMe .v-checkbox {
@@ -11156,10 +11131,6 @@ input.v-textfield-errorField {
 	margin-left: 8px;
 }
 
-.customSignUpForm #loginFormContainer #newToUs {
-	padding: 20px 0px 0px;
-}
-
 #loginFormContainer #newToUs {
 	float: left;
 	display: block;
@@ -11167,31 +11138,6 @@ input.v-textfield-errorField {
 	padding: 0px 0px 10px;
 	text-align: center;
 	color: #54707c;
-}
-
-#loginFormContainer #newToUs #signupLink .v-button {
-	background: none;
-	border: none;
-	float: right;
-	margin-right: 10px;
-	margin-bottom: 20px;
-}
-
-#loginFormContainer #newToUs #signupLink span {
-	float: right;
-	padding-right: 15px;
-	text-decoration: none;
-}
-
-#loginFormContainer #newToUs #signupLink .v-button-wrap {
-	color: #287ECE;
-	background: none;
-	border: none;
-	padding: 0px;
-}
-
-#loginFormContainer #newToUs #signupLink .v-button-wrap .v-button-caption {
-	text-decoration: none;
 }
 
 #loginForm .customErrorMsg {

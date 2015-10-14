@@ -20,7 +20,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.project.i18n.Page18InEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
@@ -32,7 +32,7 @@ import com.vaadin.ui.VerticalLayout;
  * @since 4.4.0
  *
  */
-public class PageFormLayoutFactory implements IFormLayoutFactory {
+public class PageFormLayoutFactory extends AbstractFormLayoutFactory {
 	private static final long serialVersionUID = 1L;
 
 	private GridFormLayoutHelper informationLayout;
@@ -49,7 +49,7 @@ public class PageFormLayoutFactory implements IFormLayoutFactory {
 	}
 
 	@Override
-	public void attachField(Object propertyId, Field<?> field) {
+	protected void onAttachField(Object propertyId, Field<?> field) {
 		if (propertyId.equals("subject")) {
 			this.informationLayout.addComponent(field,
 					AppContext.getMessage(Page18InEnum.FORM_SUBJECT), 0, 0, 2,

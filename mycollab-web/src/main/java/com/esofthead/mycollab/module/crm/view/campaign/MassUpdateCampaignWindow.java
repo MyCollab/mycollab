@@ -27,87 +27,70 @@ import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.vaadin.ui.*;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
-public class MassUpdateCampaignWindow extends
-		MassUpdateWindow<CampaignWithBLOBs> {
-	private static final long serialVersionUID = 1L;
+public class MassUpdateCampaignWindow extends MassUpdateWindow<CampaignWithBLOBs> {
+    private static final long serialVersionUID = 1L;
 
-	public MassUpdateCampaignWindow(final String title,
-			final CampaignListPresenter presenter) {
-		super(title, CrmAssetsManager.getAsset(CrmTypeConstants.CAMPAIGN),
-				new CampaignWithBLOBs(), presenter);
-	}
+    public MassUpdateCampaignWindow(final String title, final CampaignListPresenter presenter) {
+        super(title, CrmAssetsManager.getAsset(CrmTypeConstants.CAMPAIGN),
+                new CampaignWithBLOBs(), presenter);
+    }
 
-	@Override
-	protected IFormLayoutFactory buildFormLayoutFactory() {
-		return new MassUpdateContactFormLayoutFactory();
-	}
+    @Override
+    protected IFormLayoutFactory buildFormLayoutFactory() {
+        return new MassUpdateContactFormLayoutFactory();
+    }
 
-	@Override
-	protected AbstractBeanFieldGroupEditFieldFactory<CampaignWithBLOBs> buildBeanFormFieldFactory() {
-		return new CampaignEditFormFieldFactory<>(updateForm,
-				false);
-	}
+    @Override
+    protected AbstractBeanFieldGroupEditFieldFactory<CampaignWithBLOBs> buildBeanFormFieldFactory() {
+        return new CampaignEditFormFieldFactory<>(updateForm,
+                false);
+    }
 
-	private class MassUpdateContactFormLayoutFactory implements
-			IFormLayoutFactory {
-		private static final long serialVersionUID = 1L;
+    private class MassUpdateContactFormLayoutFactory extends AbstractFormLayoutFactory {
+        private static final long serialVersionUID = 1L;
 
-		private GridFormLayoutHelper informationLayout;
-		private GridFormLayoutHelper campaignGoal;
+        private GridFormLayoutHelper informationLayout;
+        private GridFormLayoutHelper campaignGoal;
 
-		@Override
-		public ComponentContainer getLayout() {
-			final VerticalLayout formLayout = new VerticalLayout();
-			formLayout.setDefaultComponentAlignment(Alignment.TOP_CENTER);
+        @Override
+        public ComponentContainer getLayout() {
+            final VerticalLayout formLayout = new VerticalLayout();
+            formLayout.setDefaultComponentAlignment(Alignment.TOP_CENTER);
 
-			final Label organizationHeader = new Label(
-					AppContext
-							.getMessage(CampaignI18nEnum.SECTION_CAMPAIGN_INFORMATION));
-			organizationHeader.setStyleName(UIConstants.H2_STYLE2);
-			formLayout.addComponent(organizationHeader);
+            final Label organizationHeader = new Label(AppContext.getMessage(CampaignI18nEnum.SECTION_CAMPAIGN_INFORMATION));
+            organizationHeader.setStyleName(UIConstants.H2_STYLE2);
+            formLayout.addComponent(organizationHeader);
 
-			this.informationLayout =  GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
-			formLayout.addComponent(this.informationLayout.getLayout());
+            this.informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
+            formLayout.addComponent(this.informationLayout.getLayout());
 
-			this.campaignGoal =  GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
-			final Label campaignMoreInfo = new Label(
-					AppContext.getMessage(CampaignI18nEnum.SECTION_GOAL));
-			campaignMoreInfo.setStyleName(UIConstants.H2_STYLE2);
-			formLayout.addComponent(campaignMoreInfo);
-			formLayout.addComponent(this.campaignGoal.getLayout());
+            this.campaignGoal = GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
+            final Label campaignMoreInfo = new Label(AppContext.getMessage(CampaignI18nEnum.SECTION_GOAL));
+            campaignMoreInfo.setStyleName(UIConstants.H2_STYLE2);
+            formLayout.addComponent(campaignMoreInfo);
+            formLayout.addComponent(this.campaignGoal.getLayout());
 
-			formLayout.addComponent(buildButtonControls());
+            formLayout.addComponent(buildButtonControls());
 
-			return formLayout;
-		}
+            return formLayout;
+        }
 
-		@Override
-		public void attachField(final Object propertyId, final Field<?> field) {
+        @Override
+        protected void onAttachField(final Object propertyId, final Field<?> field) {
 
-			if (propertyId.equals("assignuser")) {
-				this.informationLayout.addComponent(field,
-						AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0,
-						0);
-			}
-			if (propertyId.equals("status")) {
-				this.informationLayout.addComponent(field,
-						AppContext.getMessage(CampaignI18nEnum.FORM_STATUS), 1,
-						0);
-			} else if (propertyId.equals("type")) {
-				this.informationLayout
-						.addComponent(field, AppContext
-								.getMessage(CampaignI18nEnum.FORM_TYPE), 0, 1);
-			} else if (propertyId.equals("currencyid")) {
-				this.campaignGoal.addComponent(field,
-						AppContext.getMessage(CampaignI18nEnum.FORM_CURRENCY),
-						0, 0);
-			}
-
-		}
-	}
+            if (propertyId.equals("assignuser")) {
+                this.informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 0);
+            }
+            if (propertyId.equals("status")) {
+                this.informationLayout.addComponent(field, AppContext.getMessage(CampaignI18nEnum.FORM_STATUS), 1, 0);
+            } else if (propertyId.equals("type")) {
+                this.informationLayout.addComponent(field, AppContext.getMessage(CampaignI18nEnum.FORM_TYPE), 0, 1);
+            } else if (propertyId.equals("currencyid")) {
+                this.campaignGoal.addComponent(field, AppContext.getMessage(CampaignI18nEnum.FORM_CURRENCY), 0, 0);
+            }
+        }
+    }
 }

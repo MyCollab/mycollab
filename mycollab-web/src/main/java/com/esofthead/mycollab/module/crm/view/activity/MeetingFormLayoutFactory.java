@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.crm.view.activity;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.DynaFormLayout;
+import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.AddViewLayout2;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
@@ -28,45 +29,43 @@ import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
 
 /**
- * 
+ *
  * @author MyCollab Ltd.
  * @since 1.0
- * 
+ *
  */
-public abstract class MeetingFormLayoutFactory implements IFormLayoutFactory {
-	private static final long serialVersionUID = 1L;
-	private String title;
-	private IFormLayoutFactory informationLayout;
+public abstract class MeetingFormLayoutFactory extends AbstractFormLayoutFactory {
+    private static final long serialVersionUID = 1L;
+    private String title;
+    private IFormLayoutFactory informationLayout;
 
-	public MeetingFormLayoutFactory(String title) {
-		this.title = title;
-	}
+    public MeetingFormLayoutFactory(String title) {
+        this.title = title;
+    }
 
-	@Override
-	public ComponentContainer getLayout() {
-		AddViewLayout2 meetingLayout = new AddViewLayout2(title,
-                CrmAssetsManager.getAsset(CrmTypeConstants.MEETING));
+    @Override
+    public ComponentContainer getLayout() {
+        AddViewLayout2 meetingLayout = new AddViewLayout2(title, CrmAssetsManager.getAsset(CrmTypeConstants.MEETING));
 
-		Layout topPanel = createTopPanel();
-		if (topPanel != null) {
-			meetingLayout.addControlButtons(topPanel);
-		}
-		informationLayout = new DynaFormLayout(CrmTypeConstants.MEETING,
-				MeetingDefaultFormLayoutFactory.getForm());
-		VerticalLayout body = new VerticalLayout();
-		body.setStyleName(UIConstants.BORDER_BOX_2);
-		body.addComponent(informationLayout.getLayout());
-		meetingLayout.addBody(body);
+        Layout topPanel = createTopPanel();
+        if (topPanel != null) {
+            meetingLayout.addControlButtons(topPanel);
+        }
+        informationLayout = new DynaFormLayout(CrmTypeConstants.MEETING, MeetingDefaultFormLayoutFactory.getForm());
+        VerticalLayout body = new VerticalLayout();
+        body.setStyleName(UIConstants.BORDER_BOX_2);
+        body.addComponent(informationLayout.getLayout());
+        meetingLayout.addBody(body);
 
-		return meetingLayout;
-	}
+        return meetingLayout;
+    }
 
-	@Override
-	public void attachField(Object propertyId, Field<?> field) {
-		informationLayout.attachField(propertyId, field);
-	}
+    @Override
+    protected void onAttachField(Object propertyId, Field<?> field) {
+        informationLayout.attachField(propertyId, field);
+    }
 
-	protected abstract Layout createTopPanel();
+    protected abstract Layout createTopPanel();
 
-	protected abstract Layout createBottomPanel();
+    protected abstract Layout createBottomPanel();
 }

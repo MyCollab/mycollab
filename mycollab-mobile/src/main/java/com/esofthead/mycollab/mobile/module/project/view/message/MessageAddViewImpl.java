@@ -46,128 +46,127 @@ import com.vaadin.ui.VerticalLayout;
  *
  */
 @ViewComponent
-public class MessageAddViewImpl extends AbstractMobilePageView implements
-		MessageAddView, HasEditFormHandlers<SimpleMessage> {
+public class MessageAddViewImpl extends AbstractMobilePageView implements MessageAddView, HasEditFormHandlers<SimpleMessage> {
+    private static final long serialVersionUID = -5665807255892654312L;
 
-	private static final long serialVersionUID = -5665807255892654312L;
-	private CssLayout content;
-	private Button saveBtn;
+    private CssLayout content;
+    private Button saveBtn;
 
-	private final TextField subjectField;
-	private final TextArea contentField;
-	private final Switch isStickField;
+    private final TextField subjectField;
+    private final TextArea contentField;
+    private final Switch isStickField;
 
-	private MessageAttachmentField attachment;
+    private MessageAttachmentField attachment;
 
-	private Set<EditFormHandler<SimpleMessage>> handlers = new HashSet<EditFormHandler<SimpleMessage>>();
+    private Set<EditFormHandler<SimpleMessage>> handlers = new HashSet<>();
 
-	public MessageAddViewImpl() {
-		this.addStyleName("message-add-view");
-		this.setCaption(AppContext.getMessage(MessageI18nEnum.M_VIEW_ADD_TITLE));
+    public MessageAddViewImpl() {
+        this.addStyleName("message-add-view");
+        this.setCaption(AppContext.getMessage(MessageI18nEnum.M_VIEW_ADD_TITLE));
 
-		this.content = new CssLayout();
-		this.content.setStyleName("content-layout");
-		this.content.setSizeFull();
-		this.setContent(this.content);
+        this.content = new CssLayout();
+        this.content.setStyleName("content-layout");
+        this.content.setSizeFull();
+        this.setContent(this.content);
 
-		VerticalLayout addFormLayout = new VerticalLayout();
-		addFormLayout.setStyleName("addform-layout");
-		addFormLayout.setWidth("100%");
+        VerticalLayout addFormLayout = new VerticalLayout();
+        addFormLayout.setStyleName("addform-layout");
+        addFormLayout.setWidth("100%");
 
-		subjectField = new TextField();
-		subjectField.setStyleName("title-field");
-		subjectField.setWidth("100%");
-		subjectField.setInputPrompt(AppContext
-				.getMessage(MessageI18nEnum.FORM_TITLE));
-		addFormLayout.addComponent(subjectField);
+        subjectField = new TextField();
+        subjectField.setStyleName("title-field");
+        subjectField.setWidth("100%");
+        subjectField.setInputPrompt(AppContext
+                .getMessage(MessageI18nEnum.FORM_TITLE));
+        addFormLayout.addComponent(subjectField);
 
-		contentField = new TextArea();
-		contentField.setStyleName("content-field");
-		contentField.setWidth("100%");
-		contentField.setInputPrompt(AppContext
-				.getMessage(MessageI18nEnum.M_FORM_CONTENT_FIELD_PROMPT));
-		addFormLayout.addComponent(contentField);
+        contentField = new TextArea();
+        contentField.setStyleName("content-field");
+        contentField.setWidth("100%");
+        contentField.setInputPrompt(AppContext
+                .getMessage(MessageI18nEnum.M_FORM_CONTENT_FIELD_PROMPT));
+        addFormLayout.addComponent(contentField);
 
-		VerticalComponentGroup bottomRow = new VerticalComponentGroup();
-		bottomRow.setStyleName("bottom-row");
-		bottomRow.setWidth("100%");
-		isStickField = new Switch(
-				AppContext.getMessage(MessageI18nEnum.FORM_IS_STICK), false);
-		bottomRow.addComponent(isStickField);
+        VerticalComponentGroup bottomRow = new VerticalComponentGroup();
+        bottomRow.setStyleName("bottom-row");
+        bottomRow.setWidth("100%");
+        isStickField = new Switch(
+                AppContext.getMessage(MessageI18nEnum.FORM_IS_STICK), false);
+        bottomRow.addComponent(isStickField);
 
-		attachment = new MessageAttachmentField();
+        attachment = new MessageAttachmentField();
 
-		attachment.setCaption(null);
-		bottomRow.addComponent(attachment);
+        attachment.setCaption(null);
+        bottomRow.addComponent(attachment);
 
-		this.content.addComponent(addFormLayout);
+        this.content.addComponent(addFormLayout);
 
-		this.content.addComponent(bottomRow);
+        this.content.addComponent(bottomRow);
 
-		this.saveBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.M_BUTTON_DONE));
-		this.saveBtn.addStyleName("save-btn");
-		this.saveBtn.addClickListener(new Button.ClickListener() {
+        this.saveBtn = new Button(
+                AppContext.getMessage(GenericI18Enum.M_BUTTON_DONE));
+        this.saveBtn.addStyleName("save-btn");
+        this.saveBtn.addClickListener(new Button.ClickListener() {
 
-			private static final long serialVersionUID = -2038682412445718948L;
+            private static final long serialVersionUID = -2038682412445718948L;
 
-			@Override
-			public void buttonClick(Button.ClickEvent event) {
-				final SimpleMessage message = new SimpleMessage();
-				message.setProjectid(CurrentProjectVariables.getProjectId());
-				message.setPosteddate(new GregorianCalendar().getTime());
-				if (!subjectField.getValue().toString().trim().equals("")) {
-					message.setTitle(subjectField.getValue());
-					message.setMessage(contentField.getValue());
-					message.setPosteduser(AppContext.getUsername());
-					message.setSaccountid(AppContext.getAccountId());
-					message.setIsstick(isStickField.getValue());
-					MessageAddViewImpl.this.fireSaveItem(message);
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                final SimpleMessage message = new SimpleMessage();
+                message.setProjectid(CurrentProjectVariables.getProjectId());
+                message.setPosteddate(new GregorianCalendar().getTime());
+                if (!subjectField.getValue().toString().trim().equals("")) {
+                    message.setTitle(subjectField.getValue());
+                    message.setMessage(contentField.getValue());
+                    message.setPosteduser(AppContext.getUsername());
+                    message.setSaccountid(AppContext.getAccountId());
+                    message.setIsstick(isStickField.getValue());
+                    MessageAddViewImpl.this.fireSaveItem(message);
 
-				} else {
-					subjectField.addStyleName("errorField");
-					NotificationUtil.showErrorNotification(AppContext
-							.getMessage(MessageI18nEnum.FORM_TITLE_REQUIRED_ERROR));
-				}
-			}
-		});
-		this.setRightComponent(saveBtn);
-	}
+                } else {
+                    subjectField.addStyleName("errorField");
+                    NotificationUtil.showErrorNotification(AppContext
+                            .getMessage(MessageI18nEnum.FORM_TITLE_REQUIRED_ERROR));
+                }
+            }
+        });
+        this.setRightComponent(saveBtn);
+    }
 
-	@Override
-	public void addFormHandler(EditFormHandler<SimpleMessage> handler) {
-		handlers.add(handler);
-	}
+    @Override
+    public void addFormHandler(EditFormHandler<SimpleMessage> handler) {
+        handlers.add(handler);
+    }
 
-	@Override
-	public HasEditFormHandlers<SimpleMessage> getEditFormHandlers() {
-		return this;
-	}
+    @Override
+    public HasEditFormHandlers<SimpleMessage> getEditFormHandlers() {
+        return this;
+    }
 
-	private void fireSaveItem(final SimpleMessage message) {
-		if (this.handlers != null) {
-			for (final EditFormHandler<SimpleMessage> handler : this.handlers) {
-				handler.onSave(message);
-			}
-		}
-	}
+    private void fireSaveItem(final SimpleMessage message) {
+        if (this.handlers != null) {
+            for (final EditFormHandler<SimpleMessage> handler : this.handlers) {
+                handler.onSave(message);
+            }
+        }
+    }
 
-	@Override
-	public void initView() {
-		subjectField.setValue("");
-		contentField.setValue("");
-		isStickField.setValue(false);
-	}
+    @Override
+    public void initView() {
+        subjectField.setValue("");
+        contentField.setValue("");
+        isStickField.setValue(false);
+    }
 
-	@Override
-	protected void onBecomingVisible() {
-		super.onBecomingVisible();
-		initView();
-	}
+    @Override
+    protected void onBecomingVisible() {
+        super.onBecomingVisible();
+        initView();
+    }
 
-	@Override
-	public ProjectFormAttachmentUploadField getUploadField() {
-		return attachment;
-	}
+    @Override
+    public ProjectFormAttachmentUploadField getUploadField() {
+        return attachment;
+    }
 
 }

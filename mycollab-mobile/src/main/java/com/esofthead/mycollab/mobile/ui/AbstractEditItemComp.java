@@ -20,9 +20,8 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.IFormAddView;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
@@ -79,7 +78,7 @@ public abstract class AbstractEditItemComp<B> extends AbstractMobilePageView imp
 		return this.editForm;
 	}
 
-	class FormLayoutFactory implements IFormLayoutFactory {
+	class FormLayoutFactory extends AbstractFormLayoutFactory {
 		private static final long serialVersionUID = 1L;
 
 		private IFormLayoutFactory informationLayout;
@@ -88,14 +87,12 @@ public abstract class AbstractEditItemComp<B> extends AbstractMobilePageView imp
 		public ComponentContainer getLayout() {
 			VerticalLayout formAddLayout = new VerticalLayout();
 			informationLayout = initFormLayoutFactory();
-
 			formAddLayout.addComponent(informationLayout.getLayout());
-
 			return formAddLayout;
 		}
 
 		@Override
-		public void attachField(Object propertyId, Field<?> field) {
+		protected void onAttachField(Object propertyId, Field<?> field) {
 			informationLayout.attachField(propertyId, field);
 		}
 	}

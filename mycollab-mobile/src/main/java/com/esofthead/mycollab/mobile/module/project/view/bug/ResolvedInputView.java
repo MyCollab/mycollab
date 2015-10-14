@@ -37,13 +37,13 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.vaadin.ui.*;
 
 import java.util.GregorianCalendar;
 
 /**
- * 
+ *
  * @author MyCollab Ltd.
  * @since 4.5.2
  */
@@ -52,154 +52,140 @@ import java.util.GregorianCalendar;
  * TODO: Add support BugVersion when it's ready in the next version
  */
 class ResolvedInputView extends AbstractMobilePageView {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private final SimpleBug bug;
-	private final EditForm editForm;
-	private final BugReadView callbackForm;
+    private final SimpleBug bug;
+    private final EditForm editForm;
+    private final BugReadView callbackForm;
 
-	ResolvedInputView(final BugReadView callbackForm, final SimpleBug bug) {
-		this.setCaption("Resolve ["
-				+ CurrentProjectVariables.getProject().getShortname() + "-"
-				+ bug.getBugkey() + "]");
-		this.bug = bug;
-		this.callbackForm = callbackForm;
+    ResolvedInputView(final BugReadView callbackForm, final SimpleBug bug) {
+        this.setCaption("Resolve ["
+                + CurrentProjectVariables.getProject().getShortname() + "-"
+                + bug.getBugkey() + "]");
+        this.bug = bug;
+        this.callbackForm = callbackForm;
 
-		this.editForm = new EditForm();
-		this.editForm.setBean(bug);
-		constructUI();
-	}
+        this.editForm = new EditForm();
+        this.editForm.setBean(bug);
+        constructUI();
+    }
 
-	private void constructUI() {
-		final Button resolvedBtn = new Button(
-				AppContext.getMessage(BugI18nEnum.BUTTON_RESOLVED),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+    private void constructUI() {
+        final Button resolvedBtn = new Button(
+                AppContext.getMessage(BugI18nEnum.BUTTON_RESOLVED),
+                new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(final Button.ClickEvent event) {
-						if (editForm.validateForm()) {
-							ResolvedInputView.this.bug
-									.setStatus(BugStatus.Resolved.name());
+                    @Override
+                    public void buttonClick(final Button.ClickEvent event) {
+                        if (editForm.validateForm()) {
+                            ResolvedInputView.this.bug
+                                    .setStatus(BugStatus.Resolved.name());
 
-							// Save bug status and assignee
-							final BugService bugService = ApplicationContextUtil
-									.getSpringBean(BugService.class);
-							bugService.updateSelectiveWithSession(
-									ResolvedInputView.this.bug,
-									AppContext.getUsername());
+                            // Save bug status and assignee
+                            final BugService bugService = ApplicationContextUtil
+                                    .getSpringBean(BugService.class);
+                            bugService.updateSelectiveWithSession(
+                                    ResolvedInputView.this.bug,
+                                    AppContext.getUsername());
 
-							// Save comment
-							final String commentValue = editForm.commentArea
-									.getValue();
-							if (commentValue != null
-									&& !commentValue.trim().equals("")) {
-								final CommentWithBLOBs comment = new CommentWithBLOBs();
-								comment.setComment(commentValue);
-								comment.setCreatedtime(new GregorianCalendar()
-										.getTime());
-								comment.setCreateduser(AppContext.getUsername());
-								comment.setSaccountid(AppContext.getAccountId());
-								comment.setType(ProjectTypeConstants.BUG);
-								comment.setTypeid("" + bug.getId());
-								comment.setExtratypeid(CurrentProjectVariables
-										.getProjectId());
+                            // Save comment
+                            final String commentValue = editForm.commentArea
+                                    .getValue();
+                            if (commentValue != null
+                                    && !commentValue.trim().equals("")) {
+                                final CommentWithBLOBs comment = new CommentWithBLOBs();
+                                comment.setComment(commentValue);
+                                comment.setCreatedtime(new GregorianCalendar()
+                                        .getTime());
+                                comment.setCreateduser(AppContext.getUsername());
+                                comment.setSaccountid(AppContext.getAccountId());
+                                comment.setType(ProjectTypeConstants.BUG);
+                                comment.setTypeid("" + bug.getId());
+                                comment.setExtratypeid(CurrentProjectVariables
+                                        .getProjectId());
 
-								final CommentService commentService = ApplicationContextUtil
-										.getSpringBean(CommentService.class);
-								commentService.saveWithSession(comment,
-										AppContext.getUsername());
-							}
-							ResolvedInputView.this.callbackForm
-									.previewItem(bug);
-							EventBusFactory.getInstance().post(
-									new ShellEvent.NavigateBack(this, null));
-						}
+                                final CommentService commentService = ApplicationContextUtil
+                                        .getSpringBean(CommentService.class);
+                                commentService.saveWithSession(comment,
+                                        AppContext.getUsername());
+                            }
+                            ResolvedInputView.this.callbackForm
+                                    .previewItem(bug);
+                            EventBusFactory.getInstance().post(
+                                    new ShellEvent.NavigateBack(this, null));
+                        }
 
-					}
-				});
-		resolvedBtn.setStyleName("save-btn");
-		this.setRightComponent(resolvedBtn);
-		this.setContent(this.editForm);
-	}
+                    }
+                });
+        resolvedBtn.setStyleName("save-btn");
+        this.setRightComponent(resolvedBtn);
+        this.setContent(this.editForm);
+    }
 
-	private class EditForm extends AdvancedEditBeanForm<BugWithBLOBs> {
-		private static final long serialVersionUID = 1L;
-		private TextArea commentArea;
+    private class EditForm extends AdvancedEditBeanForm<BugWithBLOBs> {
+        private static final long serialVersionUID = 1L;
+        private TextArea commentArea;
 
-		public EditForm() {
-			this.addStyleName("editview-layout");
-		}
+        public EditForm() {
+            this.addStyleName("editview-layout");
+        }
 
-		@Override
-		public void setBean(final BugWithBLOBs newDataSource) {
-			this.setFormLayoutFactory(new FormLayoutFactory());
-			this.setBeanFormFieldFactory(new EditFormFieldFactory(EditForm.this));
-			super.setBean(newDataSource);
-		}
+        @Override
+        public void setBean(final BugWithBLOBs newDataSource) {
+            this.setFormLayoutFactory(new FormLayoutFactory());
+            this.setBeanFormFieldFactory(new EditFormFieldFactory(EditForm.this));
+            super.setBean(newDataSource);
+        }
 
-		class FormLayoutFactory implements IFormLayoutFactory {
-			private static final long serialVersionUID = 1L;
-			private GridFormLayoutHelper informationLayout;
+        class FormLayoutFactory extends AbstractFormLayoutFactory {
+            private static final long serialVersionUID = 1L;
+            private GridFormLayoutHelper informationLayout;
 
-			@Override
-			public ComponentContainer getLayout() {
-				informationLayout = new GridFormLayoutHelper(1, 3, "100%",
-						"140px", Alignment.TOP_LEFT);
-				this.informationLayout.getLayout().setWidth("100%");
-				this.informationLayout.getLayout().setMargin(false);
+            @Override
+            public ComponentContainer getLayout() {
+                informationLayout = new GridFormLayoutHelper(1, 3, "100%", "140px", Alignment.TOP_LEFT);
+                this.informationLayout.getLayout().setWidth("100%");
+                this.informationLayout.getLayout().setMargin(false);
 
-				return informationLayout.getLayout();
-			}
+                return informationLayout.getLayout();
+            }
 
-			@Override
-			public void attachField(final Object propertyId,
-					final Field<?> field) {
-				if (propertyId.equals("resolution")) {
-					this.informationLayout.addComponent(field,
-							AppContext.getMessage(BugI18nEnum.FORM_RESOLUTION),
-							0, 0);
-				} else if (propertyId.equals("assignuser")) {
-					this.informationLayout
-							.addComponent(field, AppContext
-									.getMessage(GenericI18Enum.FORM_ASSIGNEE),
-									0, 1);
-				} else if (propertyId.equals("comment")) {
-					this.informationLayout.addComponent(field,
-							AppContext.getMessage(BugI18nEnum.FORM_COMMENT), 0,
-							2);
-				}
-			}
-		}
+            @Override
+            protected void onAttachField(final Object propertyId, final Field<?> field) {
+                if (propertyId.equals("resolution")) {
+                    this.informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_RESOLUTION), 0, 0);
+                } else if (propertyId.equals("assignuser")) {
+                    this.informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 1);
+                } else if (propertyId.equals("comment")) {
+                    this.informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_COMMENT), 0, 2);
+                }
+            }
+        }
 
-		private class EditFormFieldFactory extends
-				AbstractBeanFieldGroupEditFieldFactory<BugWithBLOBs> {
-			private static final long serialVersionUID = 1L;
+        private class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<BugWithBLOBs> {
+            private static final long serialVersionUID = 1L;
 
-			public EditFormFieldFactory(GenericBeanForm<BugWithBLOBs> form) {
-				super(form);
-			}
+            public EditFormFieldFactory(GenericBeanForm<BugWithBLOBs> form) {
+                super(form);
+            }
 
-			@Override
-			protected Field<?> onCreateField(final Object propertyId) {
-				if (propertyId.equals("resolution")) {
-					ResolvedInputView.this.bug
-							.setResolution(BugResolution.Fixed.name());
-					return BugResolutionComboBox
-							.getInstanceForResolvedBugWindow();
-				} else if (propertyId.equals("assignuser")) {
-					ResolvedInputView.this.bug
-							.setAssignuser(ResolvedInputView.this.bug
-									.getLogby());
-					return new ProjectMemberSelectionField();
-				} else if (propertyId.equals("comment")) {
-					EditForm.this.commentArea = new TextArea();
-					EditForm.this.commentArea.setNullRepresentation("");
-					return EditForm.this.commentArea;
-				}
+            @Override
+            protected Field<?> onCreateField(final Object propertyId) {
+                if (propertyId.equals("resolution")) {
+                    ResolvedInputView.this.bug.setResolution(BugResolution.Fixed.name());
+                    return BugResolutionComboBox.getInstanceForResolvedBugWindow();
+                } else if (propertyId.equals("assignuser")) {
+                    ResolvedInputView.this.bug.setAssignuser(bug.getLogby());
+                    return new ProjectMemberSelectionField();
+                } else if (propertyId.equals("comment")) {
+                    EditForm.this.commentArea = new TextArea();
+                    EditForm.this.commentArea.setNullRepresentation("");
+                    return EditForm.this.commentArea;
+                }
 
-				return null;
-			}
-		}
-	}
+                return null;
+            }
+        }
+    }
 }

@@ -20,6 +20,7 @@ import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.DynaFormLayout;
 import com.esofthead.mycollab.vaadin.ui.AddViewLayout2;
+import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
@@ -31,8 +32,7 @@ import com.vaadin.ui.Layout;
  * @since 2.0
  * 
  */
-public abstract class AssignmentFormLayoutFactory implements IFormLayoutFactory {
-
+public abstract class AssignmentFormLayoutFactory extends AbstractFormLayoutFactory {
 	private static final long serialVersionUID = 1L;
 	private IFormLayoutFactory informationLayout;
 	private String title;
@@ -43,23 +43,20 @@ public abstract class AssignmentFormLayoutFactory implements IFormLayoutFactory 
 
 	@Override
 	public ComponentContainer getLayout() {
-		AddViewLayout2 taskAddLayout = new AddViewLayout2(title,
-                CrmAssetsManager.getAsset(CrmTypeConstants.TASK));
+		AddViewLayout2 taskAddLayout = new AddViewLayout2(title, CrmAssetsManager.getAsset(CrmTypeConstants.TASK));
 
 		Layout topPanel = createTopPanel();
 		if (topPanel != null) {
 			taskAddLayout.addControlButtons(topPanel);
 		}
 
-		informationLayout = new DynaFormLayout(CrmTypeConstants.TASK,
-				AssignmentDefaultFormLayoutFactory.getForm());
+		informationLayout = new DynaFormLayout(CrmTypeConstants.TASK, AssignmentDefaultFormLayoutFactory.getForm());
 		taskAddLayout.addBody(informationLayout.getLayout());
-
 		return taskAddLayout;
 	}
 
 	@Override
-	public void attachField(Object propertyId, Field<?> field) {
+	protected void onAttachField(Object propertyId, Field<?> field) {
 		informationLayout.attachField(propertyId, field);
 	}
 

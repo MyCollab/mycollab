@@ -27,7 +27,7 @@ import com.vaadin.ui.*;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public abstract class RoleFormLayoutFactory implements IFormLayoutFactory {
+public abstract class RoleFormLayoutFactory extends AbstractFormLayoutFactory {
     private static final long serialVersionUID = 1L;
     private String title;
     protected RoleInformationLayout userInformationLayout;
@@ -55,11 +55,11 @@ public abstract class RoleFormLayoutFactory implements IFormLayoutFactory {
     protected abstract Layout createBottomPanel();
 
     @Override
-    public void attachField(Object propertyId, Field<?> field) {
+    protected void onAttachField(Object propertyId, Field<?> field) {
         this.userInformationLayout.attachField(propertyId, field);
     }
 
-    public static class RoleInformationLayout implements IFormLayoutFactory {
+    public static class RoleInformationLayout extends AbstractFormLayoutFactory {
         private static final long serialVersionUID = 1L;
         private GridFormLayoutHelper informationLayout;
 
@@ -76,7 +76,7 @@ public abstract class RoleFormLayoutFactory implements IFormLayoutFactory {
         }
 
         @Override
-        public void attachField(final Object propertyId, final Field<?> field) {
+        protected void onAttachField(final Object propertyId, final Field<?> field) {
             if (propertyId.equals("rolename")) {
                 this.informationLayout.addComponent(field,
                         AppContext.getMessage(RoleI18nEnum.FORM_NAME), 0, 0, 2, "100%");

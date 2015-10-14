@@ -47,140 +47,137 @@ import com.vaadin.ui.Button.ClickEvent;
  */
 
 @ViewComponent
-public class TaskGroupReadViewImpl extends
-		AbstractPreviewItemComp<SimpleTaskList> implements TaskGroupReadView {
+public class TaskGroupReadViewImpl extends AbstractPreviewItemComp<SimpleTaskList> implements TaskGroupReadView {
+    private static final long serialVersionUID = 8303226753169728418L;
 
-	private static final long serialVersionUID = 8303226753169728418L;
+    private ProjectCommentListDisplay associateComments;
+    private Button relatedComments;
 
-	private ProjectCommentListDisplay associateComments;
-	private Button relatedComments;
+    @Override
+    protected void afterPreviewItem() {
+        associateComments.loadComments("" + beanItem.getId());
+    }
 
-	@Override
-	protected void afterPreviewItem() {
-		associateComments.loadComments("" + beanItem.getId());
-	}
+    @Override
+    protected String initFormTitle() {
+        return this.beanItem.getName();
+    }
 
-	@Override
-	protected String initFormTitle() {
-		return this.beanItem.getName();
-	}
+    @Override
+    protected AdvancedPreviewBeanForm<SimpleTaskList> initPreviewForm() {
+        return new AdvancedPreviewBeanForm<>();
+    }
 
-	@Override
-	protected AdvancedPreviewBeanForm<SimpleTaskList> initPreviewForm() {
-		return new AdvancedPreviewBeanForm<>();
-	}
+    @Override
+    protected void initRelatedComponents() {
+        associateComments = new ProjectCommentListDisplay(
+                ProjectTypeConstants.TASK,
+                CurrentProjectVariables.getProjectId(), true,
+                ProjectTaskGroupRelayEmailNotificationAction.class);
+        if (associateComments.getNumComments() > 0) {
+            relatedComments
+                    .setCaption("<span aria-hidden=\"true\" data-icon=\""
+                            + IconConstants.PROJECT_MESSAGE
+                            + "\" data-count=\""
+                            + associateComments.getNumComments()
+                            + "\"></span><div class=\"screen-reader-text\">"
+                            + AppContext
+                            .getMessage(GenericI18Enum.TAB_COMMENT)
+                            + "</div>");
+        } else {
+            relatedComments
+                    .setCaption("<span aria-hidden=\"true\" data-icon=\""
+                            + IconConstants.PROJECT_MESSAGE
+                            + "\"></span><div class=\"screen-reader-text\">"
+                            + AppContext
+                            .getMessage(GenericI18Enum.TAB_COMMENT)
+                            + "</div>");
+        }
+    }
 
-	@Override
-	protected void initRelatedComponents() {
-		associateComments = new ProjectCommentListDisplay(
-				ProjectTypeConstants.TASK,
-				CurrentProjectVariables.getProjectId(), true,
-				ProjectTaskGroupRelayEmailNotificationAction.class);
-		if (associateComments.getNumComments() > 0) {
-			relatedComments
-					.setCaption("<span aria-hidden=\"true\" data-icon=\""
-							+ IconConstants.PROJECT_MESSAGE
-							+ "\" data-count=\""
-							+ associateComments.getNumComments()
-							+ "\"></span><div class=\"screen-reader-text\">"
-							+ AppContext
-									.getMessage(GenericI18Enum.TAB_COMMENT)
-							+ "</div>");
-		} else {
-			relatedComments
-					.setCaption("<span aria-hidden=\"true\" data-icon=\""
-							+ IconConstants.PROJECT_MESSAGE
-							+ "\"></span><div class=\"screen-reader-text\">"
-							+ AppContext
-									.getMessage(GenericI18Enum.TAB_COMMENT)
-							+ "</div>");
-		}
-	}
+    @Override
+    protected IFormLayoutFactory initFormLayoutFactory() {
+        return new TaskGroupFormLayoutFactory();
+    }
 
-	@Override
-	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new TaskGroupFormLayoutFactory();
-	}
+    @Override
+    protected AbstractBeanFieldGroupViewFieldFactory<SimpleTaskList> initBeanFormFieldFactory() {
+        return new TaskGroupBeanFieldGroupFactory(this.previewForm);
+    }
 
-	@Override
-	protected AbstractBeanFieldGroupViewFieldFactory<SimpleTaskList> initBeanFormFieldFactory() {
-		return new TaskGroupBeanFieldGroupFactory(this.previewForm);
-	}
+    @Override
+    protected ComponentContainer createButtonControls() {
+        return new ProjectPreviewFormControlsGenerator<>(this.previewForm)
+                .createButtonControls(ProjectRolePermissionCollections.TASKS);
+    }
 
-	@Override
-	protected ComponentContainer createButtonControls() {
-		return new ProjectPreviewFormControlsGenerator<SimpleTaskList>(
-				this.previewForm)
-				.createButtonControls(ProjectRolePermissionCollections.TASKS);
-	}
+    @Override
+    protected ComponentContainer createBottomPanel() {
+        HorizontalLayout toolbarLayout = new HorizontalLayout();
+        toolbarLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+        toolbarLayout.setSpacing(true);
 
-	@Override
-	protected ComponentContainer createBottomPanel() {
-		HorizontalLayout toolbarLayout = new HorizontalLayout();
-		toolbarLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-		toolbarLayout.setSpacing(true);
+        relatedComments = new Button();
+        relatedComments.setCaption("<span aria-hidden=\"true\" data-icon=\""
+                + IconConstants.PROJECT_MESSAGE
+                + "\"></span><div class=\"screen-reader-text\">"
+                + AppContext.getMessage(GenericI18Enum.TAB_COMMENT)
+                + "</div>");
+        relatedComments.setHtmlContentAllowed(true);
+        relatedComments.addClickListener(new Button.ClickListener() {
 
-		relatedComments = new Button();
-		relatedComments.setCaption("<span aria-hidden=\"true\" data-icon=\""
-				+ IconConstants.PROJECT_MESSAGE
-				+ "\"></span><div class=\"screen-reader-text\">"
-				+ AppContext.getMessage(GenericI18Enum.TAB_COMMENT)
-				+ "</div>");
-		relatedComments.setHtmlContentAllowed(true);
-		relatedComments.addClickListener(new Button.ClickListener() {
+            private static final long serialVersionUID = 2276465280812964681L;
 
-			private static final long serialVersionUID = 2276465280812964681L;
+            @Override
+            public void buttonClick(ClickEvent arg0) {
+                EventBusFactory.getInstance().post(
+                        new ShellEvent.PushView(this, associateComments));
+            }
+        });
+        toolbarLayout.addComponent(relatedComments);
 
-			@Override
-			public void buttonClick(ClickEvent arg0) {
-				EventBusFactory.getInstance().post(
-						new ShellEvent.PushView(this, associateComments));
-			}
-		});
-		toolbarLayout.addComponent(relatedComments);
+        return toolbarLayout;
+    }
 
-		return toolbarLayout;
-	}
+    private class TaskGroupBeanFieldGroupFactory extends
+            AbstractBeanFieldGroupViewFieldFactory<SimpleTaskList> {
 
-	private class TaskGroupBeanFieldGroupFactory extends
-			AbstractBeanFieldGroupViewFieldFactory<SimpleTaskList> {
+        private static final long serialVersionUID = 4554258685587024348L;
 
-		private static final long serialVersionUID = 4554258685587024348L;
+        public TaskGroupBeanFieldGroupFactory(
+                GenericBeanForm<SimpleTaskList> form) {
+            super(form);
+        }
 
-		public TaskGroupBeanFieldGroupFactory(
-				GenericBeanForm<SimpleTaskList> form) {
-			super(form);
-		}
+        @Override
+        protected Field<?> onCreateField(Object propertyId) {
+            if (propertyId.equals("milestoneid")) {
+                return new FormViewField(beanItem.getMilestoneName());
+            } else if (propertyId.equals("owner")) {
+                return new FormViewField(beanItem.getOwnerFullName());
+            } else if (propertyId.equals("percentageComplete")) {
+                final FormViewField progressField = new FormViewField(
+                        ((int) (beanItem.getPercentageComplete() * 100)) / 100
+                                + "%");
+                return progressField;
+            } else if (propertyId.equals("description")) {
+                return new FormViewField(beanItem.getDescription(),
+                        ContentMode.HTML);
+            } else if (propertyId.equals("numOpenTasks")) {
+                final FormViewField fieldContainer = new FormViewField("("
+                        + beanItem.getNumOpenTasks() + "/"
+                        + beanItem.getNumAllTasks() + ")");
+                return fieldContainer;
+            }
 
-		@Override
-		protected Field<?> onCreateField(Object propertyId) {
-			if (propertyId.equals("milestoneid")) {
-				return new FormViewField(beanItem.getMilestoneName());
-			} else if (propertyId.equals("owner")) {
-				return new FormViewField(beanItem.getOwnerFullName());
-			} else if (propertyId.equals("percentageComplete")) {
-				final FormViewField progressField = new FormViewField(
-						((int) (beanItem.getPercentageComplete() * 100)) / 100
-								+ "%");
-				return progressField;
-			} else if (propertyId.equals("description")) {
-				return new FormViewField(beanItem.getDescription(),
-						ContentMode.HTML);
-			} else if (propertyId.equals("numOpenTasks")) {
-				final FormViewField fieldContainer = new FormViewField("("
-						+ beanItem.getNumOpenTasks() + "/"
-						+ beanItem.getNumAllTasks() + ")");
-				return fieldContainer;
-			}
+            return null;
+        }
 
-			return null;
-		}
+    }
 
-	}
-
-	@Override
-	public HasPreviewFormHandlers<SimpleTaskList> getPreviewFormHandlers() {
-		return this.previewForm;
-	}
+    @Override
+    public HasPreviewFormHandlers<SimpleTaskList> getPreviewFormHandlers() {
+        return this.previewForm;
+    }
 
 }

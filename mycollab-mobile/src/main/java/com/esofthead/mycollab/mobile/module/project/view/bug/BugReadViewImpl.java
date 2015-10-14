@@ -47,6 +47,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
+import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Resource;
@@ -315,7 +316,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 
     @Override
     protected ComponentContainer createButtonControls() {
-        ProjectPreviewFormControlsGenerator<SimpleBug> formControlsGenerator = new ProjectPreviewFormControlsGenerator<SimpleBug>(
+        ProjectPreviewFormControlsGenerator<SimpleBug> formControlsGenerator = new ProjectPreviewFormControlsGenerator<>(
                 this.previewForm);
         VerticalLayout controlsLayout = formControlsGenerator
                 .createButtonControls(ProjectRolePermissionCollections.BUGS);
@@ -324,7 +325,6 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
         bugWorkFlowControl.setSpacing(true);
         formControlsGenerator.insertToControlBlock(bugWorkFlowControl);
         return controlsLayout;
-
     }
 
     @Override

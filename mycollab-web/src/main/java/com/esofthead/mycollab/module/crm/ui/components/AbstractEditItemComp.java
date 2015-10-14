@@ -19,10 +19,7 @@ package com.esofthead.mycollab.module.crm.ui.components;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.IFormAddView;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AddViewLayout2;
-import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.ComponentContainer;
@@ -35,8 +32,7 @@ import com.vaadin.ui.Field;
  * 
  * @param <B>
  */
-public abstract class AbstractEditItemComp<B> extends AbstractPageView
-		implements IFormAddView<B> {
+public abstract class AbstractEditItemComp<B> extends AbstractPageView implements IFormAddView<B> {
 	private static final long serialVersionUID = 1L;
 
 	protected B beanItem;
@@ -62,15 +58,14 @@ public abstract class AbstractEditItemComp<B> extends AbstractPageView
 		return editForm;
 	}
 
-	class FormLayoutFactory implements IFormLayoutFactory {
+	class FormLayoutFactory extends AbstractFormLayoutFactory {
 		private static final long serialVersionUID = 1L;
 
 		private IFormLayoutFactory informationLayout;
 
 		@Override
 		public ComponentContainer getLayout() {
-			AddViewLayout2 formAddLayout = new AddViewLayout2(initFormTitle(),
-					initFormIconResource());
+			AddViewLayout2 formAddLayout = new AddViewLayout2(initFormTitle(), initFormIconResource());
 
 			ComponentContainer buttonControls = createButtonControls();
 			if (buttonControls != null) {
@@ -83,7 +78,7 @@ public abstract class AbstractEditItemComp<B> extends AbstractPageView
 		}
 
 		@Override
-		public void attachField(Object propertyId, Field<?> field) {
+		protected void onAttachField(Object propertyId, Field<?> field) {
 			informationLayout.attachField(propertyId, field);
 		}
 	}

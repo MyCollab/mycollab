@@ -36,8 +36,7 @@ import com.vaadin.ui.ComponentContainer;
  * @since 2.0
  */
 @ViewComponent
-public class ContactAddViewImpl extends AbstractEditItemComp<SimpleContact>
-        implements ContactAddView {
+public class ContactAddViewImpl extends AbstractEditItemComp<SimpleContact> implements ContactAddView {
     private static final long serialVersionUID = 1L;
 
     @Override

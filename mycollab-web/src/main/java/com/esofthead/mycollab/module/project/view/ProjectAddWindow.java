@@ -104,7 +104,7 @@ public class ProjectAddWindow extends Window {
         }
     }
 
-    class FormLayoutFactory implements IFormLayoutFactory {
+    class FormLayoutFactory extends AbstractFormLayoutFactory {
         private static final long serialVersionUID = 1L;
 
         private GridFormLayoutHelper informationLayout;
@@ -159,7 +159,7 @@ public class ProjectAddWindow extends Window {
         }
 
         @Override
-        public void attachField(Object propertyId, Field<?> field) {
+        protected void onAttachField(Object propertyId, Field<?> field) {
             if (propertyId.equals("name")) {
                 informationLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_NAME), 0, 0);
             } else if (propertyId.equals("homepage")) {

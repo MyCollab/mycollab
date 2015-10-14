@@ -27,110 +27,73 @@ import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.vaadin.ui.*;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
 public class MassUpdateOpportunityWindow extends MassUpdateWindow<Opportunity> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public MassUpdateOpportunityWindow(final String title,
-			final OpportunityListPresenter presenter) {
-		super(title, CrmAssetsManager.getAsset(CrmTypeConstants.OPPORTUNITY),
-				new Opportunity(), presenter);
-	}
+    public MassUpdateOpportunityWindow(final String title, final OpportunityListPresenter presenter) {
+        super(title, CrmAssetsManager.getAsset(CrmTypeConstants.OPPORTUNITY), new Opportunity(), presenter);
+    }
 
-	@Override
-	protected IFormLayoutFactory buildFormLayoutFactory() {
-		return new MassUpdateOpportunityFormLayoutFactory();
-	}
+    @Override
+    protected IFormLayoutFactory buildFormLayoutFactory() {
+        return new MassUpdateOpportunityFormLayoutFactory();
+    }
 
-	@Override
-	protected AbstractBeanFieldGroupEditFieldFactory<Opportunity> buildBeanFormFieldFactory() {
-		return new OpportunityEditFormFieldFactory<>(updateForm,
-				false);
-	}
+    @Override
+    protected AbstractBeanFieldGroupEditFieldFactory<Opportunity> buildBeanFormFieldFactory() {
+        return new OpportunityEditFormFieldFactory<>(updateForm, false);
+    }
 
-	private class MassUpdateOpportunityFormLayoutFactory implements
-			IFormLayoutFactory {
-		private static final long serialVersionUID = 1L;
+    private class MassUpdateOpportunityFormLayoutFactory extends AbstractFormLayoutFactory {
+        private static final long serialVersionUID = 1L;
 
-		private GridFormLayoutHelper informationLayout;
+        private GridFormLayoutHelper informationLayout;
 
-		@Override
-		public ComponentContainer getLayout() {
-			final VerticalLayout formLayout = new VerticalLayout();
-			formLayout.setDefaultComponentAlignment(Alignment.TOP_CENTER);
+        @Override
+        public ComponentContainer getLayout() {
+            final VerticalLayout formLayout = new VerticalLayout();
+            formLayout.setDefaultComponentAlignment(Alignment.TOP_CENTER);
 
-			final Label organizationHeader = new Label(
-					AppContext
-							.getMessage(OpportunityI18nEnum.SECTION_OPPORTUNITY_INFORMATION));
-			organizationHeader.setStyleName(UIConstants.H2_STYLE2);
-			formLayout.addComponent(organizationHeader);
+            final Label organizationHeader = new Label(AppContext.getMessage(OpportunityI18nEnum.SECTION_OPPORTUNITY_INFORMATION));
+            organizationHeader.setStyleName(UIConstants.H2_STYLE2);
+            formLayout.addComponent(organizationHeader);
 
-			this.informationLayout =  GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
-			formLayout.addComponent(this.informationLayout.getLayout());
-			formLayout.addComponent(buildButtonControls());
-			return formLayout;
-		}
+            this.informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
+            formLayout.addComponent(this.informationLayout.getLayout());
+            formLayout.addComponent(buildButtonControls());
+            return formLayout;
+        }
 
-		@Override
-		public void attachField(final Object propertyId, final Field<?> field) {
-			if (propertyId.equals("opportunityname")) {
-				this.informationLayout.addComponent(field,
-						AppContext.getMessage(OpportunityI18nEnum.FORM_NAME),
-						0, 0);
-			} else if (propertyId.equals("currencyid")) {
-				this.informationLayout.addComponent(field, AppContext
-						.getMessage(OpportunityI18nEnum.FORM_CURRENCY), 0, 1);
-			} else if (propertyId.equals("amount")) {
-				this.informationLayout.addComponent(field,
-						AppContext.getMessage(OpportunityI18nEnum.FORM_AMOUNT),
-						0, 2);
-			} else if (propertyId.equals("salesstage")) {
-				this.informationLayout.addComponent(field, AppContext
-						.getMessage(OpportunityI18nEnum.FORM_SALE_STAGE), 0, 3);
-			} else if (propertyId.equals("probability")) {
-				this.informationLayout
-						.addComponent(
-								field,
-								AppContext
-										.getMessage(OpportunityI18nEnum.FORM_PROBABILITY),
-								0, 4);
-			} else if (propertyId.equals("nextstep")) {
-				this.informationLayout.addComponent(field, AppContext
-						.getMessage(OpportunityI18nEnum.FORM_NEXT_STEP), 0, 5);
-			} else if (propertyId.equals("accountid")) {
-				this.informationLayout.addComponent(field, AppContext
-						.getMessage(OpportunityI18nEnum.FORM_ACCOUNT_NAME), 1,
-						0);
-			} else if (propertyId.equals("expectedcloseddate")) {
-				this.informationLayout
-						.addComponent(
-								field,
-								AppContext
-										.getMessage(OpportunityI18nEnum.FORM_EXPECTED_CLOSE_DATE),
-								1, 1);
-			} else if (propertyId.equals("opportunitytype")) {
-				this.informationLayout.addComponent(field,
-						AppContext.getMessage(OpportunityI18nEnum.FORM_TYPE),
-						1, 2);
-			} else if (propertyId.equals("source")) {
-				this.informationLayout
-						.addComponent(
-								field,
-								AppContext
-										.getMessage(OpportunityI18nEnum.FORM_LEAD_SOURCE),
-								1, 3);
-			} else if (propertyId.equals("campaignid")) {
-				this.informationLayout.addComponent(field, AppContext
-						.getMessage(OpportunityI18nEnum.FORM_CAMPAIGN_NAME), 1,
-						4);
-			} else if (propertyId.equals("assignuser")) {
-				this.informationLayout.addComponent(field, AppContext
-						.getMessage(GenericI18Enum.FORM_ASSIGNEE), 1, 5);
-			}
-		}
-	}
+        @Override
+        protected void onAttachField(final Object propertyId, final Field<?> field) {
+            if (propertyId.equals("opportunityname")) {
+                this.informationLayout.addComponent(field, AppContext.getMessage(OpportunityI18nEnum.FORM_NAME), 0, 0);
+            } else if (propertyId.equals("currencyid")) {
+                this.informationLayout.addComponent(field, AppContext.getMessage(OpportunityI18nEnum.FORM_CURRENCY), 0, 1);
+            } else if (propertyId.equals("amount")) {
+                this.informationLayout.addComponent(field, AppContext.getMessage(OpportunityI18nEnum.FORM_AMOUNT), 0, 2);
+            } else if (propertyId.equals("salesstage")) {
+                this.informationLayout.addComponent(field, AppContext.getMessage(OpportunityI18nEnum.FORM_SALE_STAGE), 0, 3);
+            } else if (propertyId.equals("probability")) {
+                this.informationLayout.addComponent(field, AppContext.getMessage(OpportunityI18nEnum.FORM_PROBABILITY), 0, 4);
+            } else if (propertyId.equals("nextstep")) {
+                this.informationLayout.addComponent(field, AppContext.getMessage(OpportunityI18nEnum.FORM_NEXT_STEP), 0, 5);
+            } else if (propertyId.equals("accountid")) {
+                this.informationLayout.addComponent(field, AppContext.getMessage(OpportunityI18nEnum.FORM_ACCOUNT_NAME), 1, 0);
+            } else if (propertyId.equals("expectedcloseddate")) {
+                this.informationLayout.addComponent(field, AppContext.getMessage(OpportunityI18nEnum.FORM_EXPECTED_CLOSE_DATE), 1, 1);
+            } else if (propertyId.equals("opportunitytype")) {
+                this.informationLayout.addComponent(field, AppContext.getMessage(OpportunityI18nEnum.FORM_TYPE), 1, 2);
+            } else if (propertyId.equals("source")) {
+                this.informationLayout.addComponent(field, AppContext.getMessage(OpportunityI18nEnum.FORM_LEAD_SOURCE), 1, 3);
+            } else if (propertyId.equals("campaignid")) {
+                this.informationLayout.addComponent(field, AppContext.getMessage(OpportunityI18nEnum.FORM_CAMPAIGN_NAME), 1, 4);
+            } else if (propertyId.equals("assignuser")) {
+                this.informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 1, 5);
+            }
+        }
+    }
 }

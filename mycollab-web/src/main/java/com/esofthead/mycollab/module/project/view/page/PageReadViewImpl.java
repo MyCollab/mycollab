@@ -229,7 +229,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
         }
     }
 
-    private static class PageReadFormLayout implements IFormLayoutFactory {
+    private static class PageReadFormLayout extends AbstractFormLayoutFactory {
         private static final long serialVersionUID = 1L;
 
         private MVerticalLayout layout;
@@ -241,7 +241,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
         }
 
         @Override
-        public void attachField(java.lang.Object propertyId, Field<?> field) {
+        protected void onAttachField(java.lang.Object propertyId, Field<?> field) {
             if (propertyId.equals("content")) {
                 layout.addComponent(field);
             }

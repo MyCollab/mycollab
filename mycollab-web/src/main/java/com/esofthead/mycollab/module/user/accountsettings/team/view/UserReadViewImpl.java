@@ -201,7 +201,7 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
             super.setBean(newDataSource);
         }
 
-        private class FormLayoutFactory implements IFormLayoutFactory {
+        private class FormLayoutFactory extends AbstractFormLayoutFactory {
             private static final long serialVersionUID = 1L;
 
             private GridFormLayoutHelper contactLayout = new GridFormLayoutHelper(1, 5, "100%", "120px");
@@ -235,7 +235,7 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
             }
 
             @Override
-            public void attachField(Object propertyId, Field<?> field) {
+            protected void onAttachField(Object propertyId, Field<?> field) {
                 if (propertyId.equals("website")) {
                     advancedInfoLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_WEBSITE), 0, 0);
                 } else if (propertyId.equals("company")) {

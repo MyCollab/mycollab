@@ -24,34 +24,33 @@ import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 
 /**
- * 
+ *
  * @author MyCollab Ltd.
  * @since 4.0
- * 
+ *
  */
 @ViewComponent
-public class ContactAddViewImpl extends AbstractEditItemComp<SimpleContact>
-		implements ContactAddView {
-	private static final long serialVersionUID = 1560876283170769148L;
+public class ContactAddViewImpl extends AbstractEditItemComp<SimpleContact> implements ContactAddView {
+    private static final long serialVersionUID = 1560876283170769148L;
 
-	@Override
-	protected String initFormTitle() {
-		return (beanItem.getContactName() != null ? beanItem.getContactName()
-				: AppContext.getMessage(ContactI18nEnum.VIEW_NEW_TITLE));
-	}
+    @Override
+    protected String initFormTitle() {
+        return (beanItem.getContactName() != null ? beanItem.getContactName()
+                : AppContext.getMessage(ContactI18nEnum.VIEW_NEW_TITLE));
+    }
 
-	@Override
-	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new DynaFormLayout(CrmTypeConstants.CONTACT,
-				ContactDefaultDynaFormLayoutFactory.getForm());
-	}
+    @Override
+    protected IFormLayoutFactory initFormLayoutFactory() {
+        return new DynaFormLayout(CrmTypeConstants.CONTACT, ContactDefaultDynaFormLayoutFactory.getForm());
+    }
 
-	@Override
-	protected AbstractBeanFieldGroupEditFieldFactory<SimpleContact> initBeanFormFieldFactory() {
-		return new ContactEditFormFieldFactory<SimpleContact>(this.editForm);
-	}
+    @Override
+    protected AbstractBeanFieldGroupEditFieldFactory<SimpleContact> initBeanFormFieldFactory() {
+        return new ContactEditFormFieldFactory<>(this.editForm);
+    }
 
 }

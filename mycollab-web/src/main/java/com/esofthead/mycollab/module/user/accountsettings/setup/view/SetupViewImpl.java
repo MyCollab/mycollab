@@ -75,7 +75,7 @@ public class SetupViewImpl extends AbstractPageView implements SetupView {
         }
     }
 
-    private class BasicFormLayoutFactory implements IFormLayoutFactory {
+    private class BasicFormLayoutFactory extends AbstractFormLayoutFactory {
         private GridFormLayoutHelper informationLayout;
 
         @Override
@@ -171,7 +171,7 @@ public class SetupViewImpl extends AbstractPageView implements SetupView {
         }
 
         @Override
-        public void attachField(Object propertyId, Field<?> field) {
+        protected void onAttachField(Object propertyId, Field<?> field) {
             if (propertyId.equals("host")) {
                 this.informationLayout.addComponent(field, "Host", 0, 0);
             } else if (propertyId.equals("user")) {

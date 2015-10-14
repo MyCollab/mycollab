@@ -39,17 +39,14 @@ import com.vaadin.ui.TextField;
  */
 
 @ViewComponent
-public class TaskAddViewImpl extends AbstractEditItemComp<SimpleTask> implements
-		TaskAddView {
-
+public class TaskAddViewImpl extends AbstractEditItemComp<SimpleTask> implements TaskAddView {
 	private static final long serialVersionUID = 6835605062072536907L;
 
 	private ProjectFormAttachmentUploadField attachmentUploadField;
 
 	@Override
 	protected String initFormTitle() {
-		return (beanItem.getId() == null) ? AppContext
-				.getMessage(TaskI18nEnum.FORM_NEW_TASK_TITLE) : beanItem
+		return (beanItem.getId() == null) ? AppContext.getMessage(TaskI18nEnum.FORM_NEW_TASK_TITLE) : beanItem
 				.getTaskname();
 	}
 
@@ -57,8 +54,7 @@ public class TaskAddViewImpl extends AbstractEditItemComp<SimpleTask> implements
 	public void editItem(SimpleTask item) {
 		attachmentUploadField = new ProjectFormAttachmentUploadField();
 		if (item.getId() != null) {
-			attachmentUploadField.getAttachments(item.getProjectid(),
-					ProjectTypeConstants.TASK, item.getId());
+			attachmentUploadField.getAttachments(item.getProjectid(), ProjectTypeConstants.TASK, item.getId());
 		}
 		super.editItem(item);
 		this.editForm.addComponent(attachmentUploadField);
@@ -74,8 +70,7 @@ public class TaskAddViewImpl extends AbstractEditItemComp<SimpleTask> implements
 		return new TaskEditFormFieldFactory(this.editForm);
 	}
 
-	static class TaskEditFormFieldFactory extends
-			AbstractBeanFieldGroupEditFieldFactory<SimpleTask> {
+	static class TaskEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<SimpleTask> {
 		private static final long serialVersionUID = -1508613237858970400L;
 
 		TaskEditFormFieldFactory(GenericBeanForm<SimpleTask> form) {

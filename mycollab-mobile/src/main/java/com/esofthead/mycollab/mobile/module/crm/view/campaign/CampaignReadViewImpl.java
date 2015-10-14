@@ -38,6 +38,7 @@ import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.vaadin.ui.Alignment;
@@ -96,13 +97,12 @@ public class CampaignReadViewImpl extends
 
 	@Override
 	protected AdvancedPreviewBeanForm<SimpleCampaign> initPreviewForm() {
-		return new AdvancedPreviewBeanForm<SimpleCampaign>();
+		return new AdvancedPreviewBeanForm<>();
 	}
 
 	@Override
 	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new DynaFormLayout(CrmTypeConstants.CAMPAIGN,
-				CampaignDefaultDynaFormLayoutFactory.getForm());
+		return new DynaFormLayout(CrmTypeConstants.CAMPAIGN, CampaignDefaultDynaFormLayoutFactory.getForm());
 	}
 
 	@Override
@@ -112,8 +112,7 @@ public class CampaignReadViewImpl extends
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		return new CrmPreviewFormControlsGenerator<SimpleCampaign>(previewForm)
-				.createButtonControls(RolePermissionCollections.CRM_CAMPAIGN);
+		return new CrmPreviewFormControlsGenerator<>(previewForm).createButtonControls(RolePermissionCollections.CRM_CAMPAIGN);
 	}
 
 	@Override

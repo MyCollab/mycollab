@@ -65,7 +65,7 @@
             Vaadin production mode
         </description>
         <param-name>productionMode</param-name>
-        <param-value>true</param-value>
+        <param-value>false</param-value>
     </context-param>
 
     <welcome-file-list>

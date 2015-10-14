@@ -26,6 +26,7 @@ import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
+import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.TextArea;
@@ -63,8 +64,7 @@ public class TaskGroupAddViewImpl extends AbstractEditItemComp<SimpleTaskList>
 		return new EditFormFieldFactory(editForm);
 	}
 
-	private static class EditFormFieldFactory extends
-			AbstractBeanFieldGroupEditFieldFactory<SimpleTaskList> {
+	private static class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<SimpleTaskList> {
 		private static final long serialVersionUID = 1L;
 
 		EditFormFieldFactory(GenericBeanForm<SimpleTaskList> form) {
