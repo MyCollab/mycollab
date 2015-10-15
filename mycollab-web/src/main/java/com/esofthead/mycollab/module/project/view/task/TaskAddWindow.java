@@ -28,11 +28,12 @@ import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.form.field.AttachmentUploadField;
 import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -93,7 +94,7 @@ class TaskAddWindow extends Window {
                 });
                 updateAllBtn.addStyleName(UIConstants.THEME_LINK);
 
-                Button updateBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
+                Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
                     @Override
                     public void buttonClick(Button.ClickEvent clickEvent) {
                         if (EditForm.this.validateForm()) {
@@ -117,7 +118,8 @@ class TaskAddWindow extends Window {
                         }
                     }
                 });
-                updateBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+                saveBtn.setIcon(FontAwesome.SAVE);
+                saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
                 Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
                     @Override
@@ -126,7 +128,7 @@ class TaskAddWindow extends Window {
                     }
                 });
                 cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-                buttonControls.with(updateAllBtn, cancelBtn, updateBtn);
+                buttonControls.with(updateAllBtn, cancelBtn, saveBtn);
 
                 layout.addComponent(buttonControls);
                 layout.setComponentAlignment(buttonControls, Alignment.MIDDLE_RIGHT);

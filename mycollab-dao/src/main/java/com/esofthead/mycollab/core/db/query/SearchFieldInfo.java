@@ -21,6 +21,7 @@ import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchField;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -31,13 +32,9 @@ public class SearchFieldInfo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String prefixOper;
-
     private Param param;
-
     private String compareOper;
-
     private Object value;
-
     private String paramClsName;
 
     public SearchFieldInfo() {
@@ -110,6 +107,17 @@ public class SearchFieldInfo implements Serializable {
                     CompositionStringParam wrapParam = (CompositionStringParam) param;
                     SearchField searchField = wrapParam.buildSearchField(info.getPrefixOper(), info.getCompareOper(), (String) info.getValue());
                     obj.addExtraField(searchField);
+                } else if (param instanceof StringListParam) {
+                    StringListParam listParam = (StringListParam) param;
+                    SearchField searchField;
+                    if (info.getCompareOper().equals(StringListParam.IN)) {
+                        searchField = listParam.buildStringParamInList(info.getPrefixOper(), (Collection<String>) info.getValue());
+                    } else {
+                        searchField = listParam.buildStringParamNotInList(info.getPrefixOper(), (Collection<String>) info.getValue());
+                    }
+                    obj.addExtraField(searchField);
+                } else {
+                    throw new IllegalArgumentException("Not support field: " + param);
                 }
             }
             return obj;

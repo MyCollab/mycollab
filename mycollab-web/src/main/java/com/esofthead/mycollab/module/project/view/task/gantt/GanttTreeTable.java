@@ -471,6 +471,7 @@ public class GanttTreeTable extends TreeTable {
             });
 
             ContextMenuItem predecessorMenuItem = this.addItem("Predecessors", FontAwesome.MAP_MARKER);
+            predecessorMenuItem.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
             predecessorMenuItem.addItemClickListener(new ContextMenuItemClickListener() {
                 @Override
                 public void contextMenuItemClicked(ContextMenuItemClickEvent contextMenuItemClickEvent) {
@@ -483,7 +484,7 @@ public class GanttTreeTable extends TreeTable {
             });
 
             ContextMenuItem indentMenuItem = this.addItem("Indent", FontAwesome.INDENT);
-            indentMenuItem.setEnabled(taskWrapper.isIndentable());
+            indentMenuItem.setEnabled(taskWrapper.isIndentable() && CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
             indentMenuItem.addItemClickListener(new ContextMenuItemClickListener() {
                 @Override
                 public void contextMenuItemClicked(ContextMenuItemClickEvent contextMenuItemClickEvent) {
@@ -502,7 +503,7 @@ public class GanttTreeTable extends TreeTable {
             });
 
             ContextMenuItem outdentMenuItem = this.addItem("Outdent", FontAwesome.OUTDENT);
-            outdentMenuItem.setEnabled(taskWrapper.isOutdentable());
+            outdentMenuItem.setEnabled(taskWrapper.isOutdentable() && CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
             outdentMenuItem.addItemClickListener(new ContextMenuItemClickListener() {
                 @Override
                 public void contextMenuItemClicked(ContextMenuItemClickEvent contextMenuItemClickEvent) {
@@ -539,6 +540,7 @@ public class GanttTreeTable extends TreeTable {
 
             if (beanContainer.indexOfId(taskWrapper) > 0) {
                 ContextMenuItem inserRowBeforeMenuItem = this.addItem("Insert row before", FontAwesome.PLUS_CIRCLE);
+                inserRowBeforeMenuItem.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
                 inserRowBeforeMenuItem.addItemClickListener(new ContextMenuItemClickListener() {
                     @Override
                     public void contextMenuItemClicked(ContextMenuItemClickEvent contextMenuItemClickEvent) {
@@ -572,6 +574,7 @@ public class GanttTreeTable extends TreeTable {
             }
 
             ContextMenuItem insertRowAfterMenuItem = this.addItem("Insert row after", FontAwesome.PLUS_CIRCLE);
+            insertRowAfterMenuItem.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
             insertRowAfterMenuItem.addItemClickListener(new ContextMenuItemClickListener() {
                 @Override
                 public void contextMenuItemClicked(ContextMenuItemClickEvent contextMenuItemClickEvent) {
@@ -604,6 +607,7 @@ public class GanttTreeTable extends TreeTable {
             });
 
             ContextMenuItem deleteRowMenuItem = this.addItem("Delete row", FontAwesome.TRASH_O);
+            deleteRowMenuItem.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS));
             deleteRowMenuItem.addItemClickListener(new ContextMenuItemClickListener() {
                 @Override
                 public void contextMenuItemClicked(ContextMenuItemClickEvent contextMenuItemClickEvent) {

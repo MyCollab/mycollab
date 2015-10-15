@@ -44,7 +44,7 @@ import com.esofthead.mycollab.vaadin.mvp.{PageActionChain, UrlResolver}
  */
 class ProjectUrlResolver extends UrlResolver {
     def build: UrlResolver = {
-        this.addSubResolver("dashboard", new ProjectPageUrlResolver)
+        this.addSubResolver("dashboard", new ProjectDashboardUrlResolver)
         this.addSubResolver("tag", new ProjectTagUrlResolver)
         this.addSubResolver("message", new MessageUrlResolver)
         this.addSubResolver("milestone", new MilestoneUrlResolver)
@@ -89,7 +89,7 @@ class ProjectUrlResolver extends UrlResolver {
         }
     }
 
-    class ProjectPageUrlResolver extends ProjectUrlResolver {
+    class ProjectDashboardUrlResolver extends ProjectUrlResolver {
         protected override def handlePage(params: String*) {
             if (params.length == 0) {
                 EventBusFactory.getInstance.post(new ShellEvent.GotoProjectModule(this, null))

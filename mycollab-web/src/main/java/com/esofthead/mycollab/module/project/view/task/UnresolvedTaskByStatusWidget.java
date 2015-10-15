@@ -21,6 +21,7 @@ import com.esofthead.mycollab.common.domain.OptionVal;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.common.service.OptionValService;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
+import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -37,7 +38,6 @@ import com.esofthead.mycollab.vaadin.ui.DepotWithChart;
 import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.google.common.eventbus.Subscribe;
-import com.rits.cloning.Cloner;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.UI;
@@ -159,8 +159,7 @@ public class UnresolvedTaskByStatusWidget extends DepotWithChart {
         @Override
         public void buttonClick(final Button.ClickEvent event) {
             String key = ((ButtonI18nComp) event.getButton()).getKey();
-            Cloner cloner = new Cloner();
-            TaskSearchCriteria criteria = cloner.deepClone(searchCriteria);
+            TaskSearchCriteria criteria = BeanUtility.deepClone(searchCriteria);
             criteria.setStatuses(new SetSearchField<>(key));
             EventBusFactory.getInstance().post(new TaskEvent.SearchRequest(this, criteria));
         }

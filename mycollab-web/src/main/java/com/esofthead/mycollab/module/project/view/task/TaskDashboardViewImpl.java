@@ -17,17 +17,14 @@
 package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.common.domain.OptionVal;
-import com.esofthead.mycollab.common.domain.SaveSearchResultWithBLOBs;
 import com.esofthead.mycollab.common.service.OptionValService;
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.db.query.SearchFieldInfo;
 import com.esofthead.mycollab.core.utils.BeanUtility;
-import com.esofthead.mycollab.core.utils.XStreamJsonDeSerializer;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -61,7 +58,6 @@ import com.vaadin.server.StreamResource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -136,23 +132,14 @@ public class TaskDashboardViewImpl extends AbstractLazyPageView implements TaskD
 
         groupWrapLayout.addComponent(new Label("Filter:"));
         final SavedFilterComboBox savedFilterComboBox = new SavedFilterComboBox(ProjectTypeConstants.TASK);
-        savedFilterComboBox.addValueChangeListener(new Property.ValueChangeListener() {
+        savedFilterComboBox.addQuerySelectListener(new SavedFilterComboBox.QuerySelectListener() {
             @Override
-            public void valueChange(Property.ValueChangeEvent event) {
-                SaveSearchResultWithBLOBs item = (SaveSearchResultWithBLOBs) savedFilterComboBox.getValue();
-                if (item != null) {
-                    List<SearchFieldInfo> fieldInfos = (List<SearchFieldInfo>) XStreamJsonDeSerializer.fromJson(item.getQuerytext());
-                    // @HACK: === the library serialize with extra list
-                    // wrapper
-                    if (CollectionUtils.isEmpty(fieldInfos)) {
-                        throw new UserInvalidInputException("There is no field in search criterion");
-                    }
-                    fieldInfos = (List<SearchFieldInfo>) fieldInfos.get(0);
-                    TaskSearchCriteria criteria = SearchFieldInfo.buildSearchCriteria(TaskSearchCriteria.class,
-                            fieldInfos);
-                    criteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-                    EventBusFactory.getInstance().post(new TaskEvent.SearchRequest(TaskDashboardViewImpl.this, criteria));
-                }
+            public void querySelect(SavedFilterComboBox.QuerySelectEvent querySelectEvent) {
+                List<SearchFieldInfo> fieldInfos = querySelectEvent.getSearchFieldInfos();
+                TaskSearchCriteria criteria = SearchFieldInfo.buildSearchCriteria(TaskSearchCriteria.class,
+                        fieldInfos);
+                criteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+                EventBusFactory.getInstance().post(new TaskEvent.SearchRequest(TaskDashboardViewImpl.this, criteria));
             }
         });
         groupWrapLayout.addComponent(savedFilterComboBox);

@@ -38,6 +38,7 @@ import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.vaadin.dialogs.ConfirmDialog;
@@ -75,12 +76,11 @@ public class BugRowRenderer extends MHorizontalLayout {
 
         bugLinkLbl.addStyleName("wordWrap");
         BugPopupFieldFactory popupFieldFactory = ViewManager.getCacheComponent(BugPopupFieldFactory.class);
-        HorizontalLayout headerLayout = new HorizontalLayout();
+        MHorizontalLayout headerLayout = new MHorizontalLayout().withWidth("100%").withMargin(new MarginInfo(false,
+                true, false, false));
         PopupView priorityField = popupFieldFactory.createBugPriorityPopupField(bug);
         PopupView assigneeField = popupFieldFactory.createBugAssigneePopupField(bug);
-        headerLayout.addComponent(priorityField);
-        headerLayout.addComponent(assigneeField);
-        headerLayout.addComponent(bugLinkLbl);
+        headerLayout.with(priorityField, assigneeField, bugLinkLbl).expand(bugLinkLbl);
         wrapBugInfoLayout.addComponent(headerLayout);
 
         MHorizontalLayout footer = new MHorizontalLayout();

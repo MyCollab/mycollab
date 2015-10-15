@@ -39,8 +39,7 @@ public class JsonDeSerializer {
 	private static final Gson gson;
 
 	static {
-		gson = new GsonBuilder().setExclusionStrategies(
-				new MyExclusionStrategy()).create();
+		gson = new GsonBuilder().setExclusionStrategies(new MyExclusionStrategy()).create();
 	}
 
 	/**

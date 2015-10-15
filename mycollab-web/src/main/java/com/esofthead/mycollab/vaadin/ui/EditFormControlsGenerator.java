@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import java.io.Serializable;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.server.FontAwesome;
@@ -27,11 +25,11 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.HorizontalLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
+import java.io.Serializable;
+
 /**
- *
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 public class EditFormControlsGenerator<T> implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -53,52 +51,46 @@ public class EditFormControlsGenerator<T> implements Serializable {
         layout.setSizeUndefined();
 
         if (isSaveBtnVisible) {
-            final Button saveBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            final Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(final ClickEvent event) {
-                            if (editForm.validateForm()) {
-                                editForm.fireSaveForm();
-                            }
-                        }
-                    });
+                @Override
+                public void buttonClick(final ClickEvent event) {
+                    if (editForm.validateForm()) {
+                        editForm.fireSaveForm();
+                    }
+                }
+            });
             saveBtn.setIcon(FontAwesome.SAVE);
             saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
             layout.addComponent(saveBtn);
         }
 
         if (isSaveAndNewBtnVisible) {
-            Button saveAndNewBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_NEW),
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            Button saveAndNewBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_NEW), new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(final ClickEvent event) {
-                            if (editForm.validateForm()) {
-                                editForm.fireSaveAndNewForm();
-                            }
-                        }
-                    });
+                @Override
+                public void buttonClick(final ClickEvent event) {
+                    if (editForm.validateForm()) {
+                        editForm.fireSaveAndNewForm();
+                    }
+                }
+            });
             saveAndNewBtn.setIcon(FontAwesome.SHARE_ALT);
             saveAndNewBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
             layout.addComponent(saveAndNewBtn);
         }
 
         if (isCancelBtnVisible) {
-             Button cancelBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(final ClickEvent event) {
-                            editForm.fireCancelForm();
-                        }
-                    });
+                @Override
+                public void buttonClick(final ClickEvent event) {
+                    editForm.fireCancelForm();
+                }
+            });
             cancelBtn.setIcon(FontAwesome.MINUS);
             cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
             layout.addComponent(cancelBtn);

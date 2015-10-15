@@ -53,9 +53,11 @@ Version 5.2.0
 * Make bug management is easier
 * Introduce the new roadmap view
 * Introduce the calendar of tasks management
-* Predefined saved query
 
 **Bug Fixes**
+
+* Word-wrap title for long text of several views
+* Task duration calculating with timezone
 
 Version 5.1.4
 -----------------------------

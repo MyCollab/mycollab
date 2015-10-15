@@ -16,44 +16,34 @@
  */
 package com.esofthead.mycollab.validator.constraints;
 
-import java.util.Date;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.joda.time.LocalDate;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import org.apache.commons.beanutils.PropertyUtils;
-
-import com.esofthead.mycollab.core.utils.DateTimeUtils;
-
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class DateComparisionValidator implements
-		ConstraintValidator<DateComparision, Object> {
+public class DateComparisionValidator implements ConstraintValidator<DateComparision, Object> {
+    private String firstDateField;
+    private String lastDateField;
 
-	private String firstDateField;
-	private String lastDateField;
+    @Override
+    public void initialize(DateComparision constraintAnnotation) {
+        this.firstDateField = constraintAnnotation.firstDateField();
+        this.lastDateField = constraintAnnotation.lastDateField();
+    }
 
-	@Override
-	public void initialize(DateComparision constraintAnnotation) {
-		this.firstDateField = constraintAnnotation.firstDateField();
-		this.lastDateField = constraintAnnotation.lastDateField();
-	}
-
-	@Override
-	public boolean isValid(Object value, ConstraintValidatorContext context) {
-		try {
-			Date firstDate = (Date) PropertyUtils.getProperty(value,
-					firstDateField);
-			Date lastDate = (Date) PropertyUtils.getProperty(value,
-					lastDateField);
-
-			return (DateTimeUtils.compareByDate(firstDate, lastDate) > 0) ? false
-					: true;
-		} catch (Exception ex) {
-			return true;
-		}
-	}
+    @Override
+    public boolean isValid(Object value, ConstraintValidatorContext context) {
+        try {
+            LocalDate firstDate = new LocalDate(PropertyUtils.getProperty(value, firstDateField));
+            LocalDate lastDate = new LocalDate(PropertyUtils.getProperty(value, lastDateField));
+            return firstDate.compareTo(lastDate) <= 0;
+        } catch (Exception ex) {
+            return true;
+        }
+    }
 }

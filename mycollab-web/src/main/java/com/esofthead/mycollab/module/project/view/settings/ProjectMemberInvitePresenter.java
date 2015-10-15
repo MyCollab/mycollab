@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.settings;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.mail.service.ExtMailService;
@@ -73,20 +74,16 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
                 ProjectMemberService projectMemberService = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
                 List<String> inviteEmails = inviteMembers.getEmails();
                 if (CollectionUtils.isNotEmpty(inviteEmails)) {
-                    projectMemberService.inviteProjectMembers(
-                            inviteEmails.toArray(new String[inviteEmails.size()]),
-                            CurrentProjectVariables.getProjectId(),
-                            inviteMembers.getRoleId(),
-                            AppContext.getUsername(),
-                            inviteMembers.getInviteMessage(),
-                            AppContext.getAccountId());
+                    projectMemberService.inviteProjectMembers(inviteEmails.toArray(new String[inviteEmails.size()]),
+                            CurrentProjectVariables.getProjectId(), inviteMembers.getRoleId(),
+                            AppContext.getUsername(), inviteMembers.getInviteMessage(), AppContext.getAccountId());
 
                     ExtMailService mailService = ApplicationContextUtil.getSpringBean(ExtMailService.class);
                     if (mailService.isMailSetupValid()) {
-                        NotificationUtil.showNotification("Success", "Invitation is sent successfully", Notification.Type
-                                .HUMANIZED_MESSAGE);
-                        EventBusFactory.getInstance().post(
-                                new ProjectMemberEvent.GotoList(this, null));
+                        NotificationUtil.showNotification("Invitation is sent success",
+                                AppContext.getMessage(GenericI18Enum.HELP_SPAM_FILTER_PREVENT_MESSAGE),
+                                Notification.Type.HUMANIZED_MESSAGE);
+                        EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null));
                     } else {
                         UI.getCurrent().addWindow(new GetStartedInstructionWindow(inviteMembers));
                     }

@@ -53,6 +53,12 @@ public class OptionPopupContent extends CustomComponent {
         ((ComponentContainer) this.getCompositionRoot()).addComponent(new Hr());
     }
 
+    public void addSection(String title) {
+        Label sectionLbl = new Label(title);
+        sectionLbl.setStyleName("section-header");
+        ((ComponentContainer) this.getCompositionRoot()).addComponent(sectionLbl);
+    }
+
     @Override
     public int getComponentCount() {
         Component root = getCompositionRoot();

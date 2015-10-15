@@ -37,7 +37,6 @@ import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.google.common.eventbus.Subscribe;
-import com.rits.cloning.Cloner;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.UI;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -54,7 +53,6 @@ public class UnresolvedTaskByAssigneeWidget extends DepotWithChart {
     private TaskSearchCriteria searchCriteria;
     private int totalCountItems;
     private List<GroupItem> groupItems;
-
 
     private ApplicationEventListener<TaskEvent.HasTaskChange> taskChangeHandler = new
             ApplicationEventListener<TaskEvent.HasTaskChange>() {

@@ -28,6 +28,7 @@ import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitHandler;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.*;
+import org.joda.time.DateTimeZone;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import javax.validation.ConstraintViolation;
@@ -93,7 +94,7 @@ public abstract class AbstractBeanFieldGroupEditFieldFactory<B> implements IBean
             } else if (formField instanceof RichTextArea) {
                 ((RichTextArea) formField).setNullRepresentation("");
             } else if (formField instanceof DateField) {
-                ((DateField) formField).setTimeZone(AppContext.getTimezone());
+                ((DateField) formField).setTimeZone(DateTimeZone.UTC.toTimeZone());
                 ((DateField) formField).setDateFormat(AppContext.getUserDateFormat().getShortDateFormat());
             }
             postCreateField(field.getName(), formField);

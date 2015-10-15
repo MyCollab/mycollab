@@ -29,7 +29,7 @@
 	}
 
 .v-vaadin-version:after {
-	content: "7.5.7";
+	content: "7.5.6";
 }
 
 .v-generated-body {
@@ -443,6 +443,11 @@ div.v-button-link.current, div.v-button-link.buttonPaging:hover {
 	border: none;
 }
 
+.optionPopupContent .v-label.section-header {
+	padding: 5px 0px 5px 10px;
+	font-weight: bold;
+}
+
 .v-checkbox input[type="checkbox"]:focus {
 	border: none;
 	box-shadow: none;
@@ -697,8 +702,9 @@ div.v-tree-node-caption div {
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
-	background: none;
-	padding: 0px 3px;
+	background-color: #e4f1ff;
+	line-height: 22px;
+	padding: 0px 5px;
 	color: #888;
 }
 
@@ -8239,6 +8245,11 @@ div.v-button-link.current, div.v-button-link.buttonPaging:hover {
 	border: none;
 }
 
+.optionPopupContent .v-label.section-header {
+	padding: 5px 0px 5px 10px;
+	font-weight: bold;
+}
+
 .v-checkbox input[type="checkbox"]:focus {
 	border: none;
 	box-shadow: none;
@@ -8493,8 +8504,9 @@ div.v-tree-node-caption div {
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
-	background: none;
-	padding: 0px 3px;
+	background-color: #e4f1ff;
+	line-height: 22px;
+	padding: 0px 5px;
 	color: #888;
 }
 
@@ -9519,14 +9531,6 @@ div.v-button.token-field:hover {
 .v-slot-roadmap-block .meta {
 	font-size: 12px;
 	color: #888;
-}
-
-.v-slot-roadmap-block .v-label.block {
-	font-size: 11px;
-	line-height: 22px;
-	border-radius: 5px;
-	background-color: #cbf4bd;
-	padding: 0px 5px;
 }
 
 .tasklist {

@@ -16,11 +16,13 @@
  */
 package com.esofthead.mycollab.module.project.view;
 
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.view.user.ProjectDashboardPresenter;
+import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.IPresenter;
@@ -57,12 +59,13 @@ public class ProjectViewPresenter extends AbstractPresenter<ProjectView> {
             } else {
                 ProjectMemberService projectMemberService = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
                 boolean userBelongToProject = projectMemberService.isUserBelongToProject(AppContext.getUsername(),
-                                project.getId(), AppContext.getAccountId());
+                        project.getId(), AppContext.getAccountId());
                 if (userBelongToProject) {
                     CurrentProjectVariables.setProject(project);
                     view.initView(project);
                 } else {
                     NotificationUtil.showMessagePermissionAlert();
+                    EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, new String[]{}));
                 }
             }
         }

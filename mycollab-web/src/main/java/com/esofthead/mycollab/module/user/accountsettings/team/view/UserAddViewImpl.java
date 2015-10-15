@@ -142,17 +142,13 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
         @Override
         protected void onAttachField(Object propertyId, Field<?> field) {
             if (User.Field.email.equalTo(propertyId)) {
-                basicInformationLayout.addComponent(field,
-                        AppContext.getMessage(UserI18nEnum.FORM_EMAIL), 1, 0);
+                basicInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_EMAIL), 1, 0);
             } else if (SimpleUser.Field.roleid.equalTo(propertyId)) {
-                basicInformationLayout.addComponent(field,
-                        AppContext.getMessage(UserI18nEnum.FORM_ROLE), 1, 1);
+                basicInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_ROLE), 1, 1);
             } else if (User.Field.firstname.equalTo(propertyId)) {
-                basicInformationLayout.addComponent(field,
-                        AppContext.getMessage(UserI18nEnum.FORM_FIRST_NAME), 0, 0);
+                basicInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_FIRST_NAME), 0, 0);
             } else if (User.Field.lastname.equalTo(propertyId)) {
-                basicInformationLayout.addComponent(field,
-                        AppContext.getMessage(UserI18nEnum.FORM_LAST_NAME), 0, 1);
+                basicInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_LAST_NAME), 0, 1);
             }
         }
 
@@ -169,7 +165,8 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
         protected Field<?> onCreateField(Object propertyId) {
             if (SimpleUser.Field.roleid.equalTo(propertyId)) {
                 return new AdminRoleSelectionField();
-            } else if (User.Field.email.equalTo(propertyId) || User.Field.firstname.equalTo(propertyId) || User.Field.lastname.equalTo(propertyId)) {
+            } else if (User.Field.email.equalTo(propertyId) || User.Field.firstname.equalTo(propertyId) ||
+                    User.Field.lastname.equalTo(propertyId)) {
                 TextField tf = new TextField();
                 tf.setNullRepresentation("");
                 tf.setRequired(true);
@@ -233,8 +230,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
                     cboTimezone.setTimeZone(TimezoneMapper.getTimezoneExt(user.getTimezone()));
                 } else {
                     if (AppContext.getUser().getTimezone() != null) {
-                        cboTimezone.setTimeZone(TimezoneMapper
-                                .getTimezoneExt(AppContext.getUser().getTimezone()));
+                        cboTimezone.setTimeZone(TimezoneMapper.getTimezoneExt(AppContext.getUser().getTimezone()));
                     }
                 }
                 return cboTimezone;

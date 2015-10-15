@@ -17,15 +17,12 @@
 package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.common.domain.OptionVal;
-import com.esofthead.mycollab.common.domain.SaveSearchResultWithBLOBs;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.OptionValService;
-import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.db.query.SearchFieldInfo;
-import com.esofthead.mycollab.core.utils.XStreamJsonDeSerializer;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -50,7 +47,6 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.google.common.eventbus.Subscribe;
-import com.vaadin.data.Property;
 import com.vaadin.event.dd.DragAndDropEvent;
 import com.vaadin.event.dd.DropHandler;
 import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
@@ -66,7 +62,6 @@ import fi.jasoft.dragdroplayouts.DDVerticalLayout;
 import fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode;
 import fi.jasoft.dragdroplayouts.events.LayoutBoundTransferable;
 import fi.jasoft.dragdroplayouts.events.VerticalLocationIs;
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -119,23 +114,14 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
 
         groupWrapLayout.addComponent(new Label("Filter:"));
         final SavedFilterComboBox savedFilterComboBox = new SavedFilterComboBox(ProjectTypeConstants.TASK);
-        savedFilterComboBox.addValueChangeListener(new Property.ValueChangeListener() {
+        savedFilterComboBox.addQuerySelectListener(new SavedFilterComboBox.QuerySelectListener() {
             @Override
-            public void valueChange(Property.ValueChangeEvent event) {
-                SaveSearchResultWithBLOBs item = (SaveSearchResultWithBLOBs) savedFilterComboBox.getValue();
-                if (item != null) {
-                    List<SearchFieldInfo> fieldInfos = (List<SearchFieldInfo>) XStreamJsonDeSerializer.fromJson(item.getQuerytext());
-                    // @HACK: === the library serialize with extra list
-                    // wrapper
-                    if (CollectionUtils.isEmpty(fieldInfos)) {
-                        throw new UserInvalidInputException("There is no field in search criterion");
-                    }
-                    fieldInfos = (List<SearchFieldInfo>) fieldInfos.get(0);
-                    TaskSearchCriteria criteria = SearchFieldInfo.buildSearchCriteria(TaskSearchCriteria.class,
-                            fieldInfos);
-                    criteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-                    EventBusFactory.getInstance().post(new TaskEvent.SearchRequest(TaskKanbanviewImpl.this, criteria));
-                }
+            public void querySelect(SavedFilterComboBox.QuerySelectEvent querySelectEvent) {
+                List<SearchFieldInfo> fieldInfos = querySelectEvent.getSearchFieldInfos();
+                TaskSearchCriteria criteria = SearchFieldInfo.buildSearchCriteria(TaskSearchCriteria.class,
+                        fieldInfos);
+                criteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+                EventBusFactory.getInstance().post(new TaskEvent.SearchRequest(TaskKanbanviewImpl.this, criteria));
             }
         });
         groupWrapLayout.addComponent(savedFilterComboBox);
@@ -146,6 +132,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
                 UI.getCurrent().addWindow(new AddNewColumnWindow(TaskKanbanviewImpl.this, ProjectTypeConstants.TASK));
             }
         });
+        addNewColumnBtn.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS));
         addNewColumnBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         groupWrapLayout.addComponent(addNewColumnBtn);
 
@@ -346,7 +333,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
                     AppContext.getSiteUrl(), AppContext.getTimezone()));
             root.with(taskBtn);
 
-            MHorizontalLayout footer = new MHorizontalLayout().withStyleName("footer2").withSpacing(false);
+            MHorizontalLayout footer = new MHorizontalLayout().withStyleName("footer2");
             TaskPopupFieldFactory popupFieldFactory = ViewManager.getCacheComponent(TaskPopupFieldFactory.class);
 
             PopupView commentField = popupFieldFactory.createTaskCommentsPopupField(task);

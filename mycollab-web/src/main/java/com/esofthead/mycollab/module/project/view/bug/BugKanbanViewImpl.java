@@ -17,15 +17,12 @@
 package com.esofthead.mycollab.module.project.view.bug;
 
 import com.esofthead.mycollab.common.domain.OptionVal;
-import com.esofthead.mycollab.common.domain.SaveSearchResultWithBLOBs;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.StorageFactory;
-import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.db.query.SearchFieldInfo;
-import com.esofthead.mycollab.core.utils.XStreamJsonDeSerializer;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.html.DivLessFormatter;
@@ -50,7 +47,6 @@ import com.esofthead.mycollab.vaadin.ui.*;
 import com.google.common.eventbus.Subscribe;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
-import com.vaadin.data.Property;
 import com.vaadin.event.dd.DragAndDropEvent;
 import com.vaadin.event.dd.DropHandler;
 import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
@@ -61,12 +57,10 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.dd.VerticalDropLocation;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
-import com.vaadin.ui.ComponentContainer;
 import fi.jasoft.dragdroplayouts.DDVerticalLayout;
 import fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode;
 import fi.jasoft.dragdroplayouts.events.LayoutBoundTransferable;
 import fi.jasoft.dragdroplayouts.events.VerticalLocationIs;
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -117,22 +111,13 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
 
         groupWrapLayout.addComponent(new Label("Filter:"));
         final SavedFilterComboBox savedFilterComboBox = new SavedFilterComboBox(ProjectTypeConstants.BUG);
-        savedFilterComboBox.addValueChangeListener(new Property.ValueChangeListener() {
+        savedFilterComboBox.addQuerySelectListener(new SavedFilterComboBox.QuerySelectListener() {
             @Override
-            public void valueChange(Property.ValueChangeEvent event) {
-                SaveSearchResultWithBLOBs item = (SaveSearchResultWithBLOBs) savedFilterComboBox.getValue();
-                if (item != null) {
-                    List<SearchFieldInfo> fieldInfos = (List<SearchFieldInfo>) XStreamJsonDeSerializer.fromJson(item.getQuerytext());
-                    // @HACK: === the library serialize with extra list
-                    // wrapper
-                    if (CollectionUtils.isEmpty(fieldInfos)) {
-                        throw new UserInvalidInputException("There is no field in search criterion");
-                    }
-                    fieldInfos = (List<SearchFieldInfo>) fieldInfos.get(0);
-                    BugSearchCriteria criteria = SearchFieldInfo.buildSearchCriteria(BugSearchCriteria.class, fieldInfos);
-                    criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-                    EventBusFactory.getInstance().post(new BugEvent.SearchRequest(BugKanbanViewImpl.this, criteria));
-                }
+            public void querySelect(SavedFilterComboBox.QuerySelectEvent querySelectEvent) {
+                List<SearchFieldInfo> fieldInfos = querySelectEvent.getSearchFieldInfos();
+                BugSearchCriteria criteria = SearchFieldInfo.buildSearchCriteria(BugSearchCriteria.class, fieldInfos);
+                criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+                EventBusFactory.getInstance().post(new BugEvent.SearchRequest(BugKanbanViewImpl.this, criteria));
             }
         });
         groupWrapLayout.addComponent(savedFilterComboBox);

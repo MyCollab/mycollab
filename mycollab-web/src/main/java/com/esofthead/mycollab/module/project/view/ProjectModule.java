@@ -70,16 +70,14 @@ public class ProjectModule extends AbstractPageView implements IDesktopModule {
             serviceMenu.addService("Projects", new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
-                    EventBusFactory.getInstance().post(
-                            new ShellEvent.GotoProjectModule(this, new String[]{"dashboard"}));
+                    EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, new String[]{"dashboard"}));
                     serviceMenu.selectService(0);
                 }
             });
             serviceMenu.addService("Timesheet", new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
-                    EventBusFactory.getInstance().post(
-                            new ShellEvent.GotoProjectModule(this, new String[]{"timetracking"}));
+                    EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, new String[]{"timetracking"}));
                     serviceMenu.selectService(1);
                 }
             });

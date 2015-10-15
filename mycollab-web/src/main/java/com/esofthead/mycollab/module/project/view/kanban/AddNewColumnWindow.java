@@ -25,6 +25,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -89,6 +90,7 @@ public class AddNewColumnWindow extends Window {
                 AddNewColumnWindow.this.close();
             }
         });
+        saveBtn.setIcon(FontAwesome.SAVE);
         saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
         Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
@@ -99,7 +101,7 @@ public class AddNewColumnWindow extends Window {
         });
         cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 
-        MHorizontalLayout controls = new MHorizontalLayout().with(saveBtn, cancelBtn).withMargin(
+        MHorizontalLayout controls = new MHorizontalLayout().with(cancelBtn, saveBtn).withMargin(
                 new MarginInfo(false, true, false, false));
         layout.with(gridFormLayoutHelper.getLayout(), controls).withAlign(controls, Alignment.BOTTOM_RIGHT);
     }

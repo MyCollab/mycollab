@@ -624,8 +624,8 @@ public class ProjectTooltipGenerator {
         }
     }
 
-    public static String generateToolTipStandUp(Locale locale,
-                                                SimpleStandupReport standup, String siteURL, TimeZone timeZone) {
+    public static String generateToolTipStandUp(Locale locale, SimpleStandupReport standup,
+                                                String siteURL, TimeZone timeZone) {
         if (standup == null)
             return generateTolltipNull(locale);
 

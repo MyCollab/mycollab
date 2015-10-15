@@ -6,7 +6,7 @@
     <name>mycollab-parent-community</name>
     <groupId>com.esofthead.mycollab</groupId>
     <artifactId>mycollab-parent-community</artifactId>
-    <version>5.1.4</version>
+    <version>5.2.0</version>
     <packaging>pom</packaging>
     <prerequisites>
         <maven>3.0.4</maven>

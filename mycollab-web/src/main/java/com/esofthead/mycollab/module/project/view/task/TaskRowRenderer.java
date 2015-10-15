@@ -38,10 +38,12 @@ import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.hene.popupbutton.PopupButton;
+import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.UUID;
@@ -77,16 +79,16 @@ class TaskRowRenderer extends MHorizontalLayout {
             taskLinkLbl.removeStyleName("completed overdue");
         }
         taskLinkLbl.addStyleName("wordWrap");
-        HorizontalLayout headerLayout = new HorizontalLayout();
+        MHorizontalLayout headerLayout = new MHorizontalLayout().withWidth("100%").withMargin(new MarginInfo(false,
+                true, false, false));
         PopupView priorityField = popupFieldFactory.createTaskPriorityPopupField(task);
         PopupView assigneeField = popupFieldFactory.createTaskAssigneePopupField(task);
         headerLayout.addComponent(priorityField);
         headerLayout.addComponent(assigneeField);
-        headerLayout.addComponent(taskLinkLbl);
+        headerLayout.with(taskLinkLbl).expand(taskLinkLbl);
         wrapTaskInfoLayout.addComponent(headerLayout);
 
-        MHorizontalLayout footer = new MHorizontalLayout().withSpacing(false);
-        footer.addStyleName(UIConstants.FOOTER_NOTE);
+        MHorizontalLayout footer = new MHorizontalLayout();
 
         PopupView commentField = popupFieldFactory.createTaskCommentsPopupField(task);
         footer.addComponent(commentField);

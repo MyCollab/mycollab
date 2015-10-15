@@ -31,8 +31,7 @@ public class ViewState {
 	private IPresenter presenter;
 	private ScreenData<?> params;
 
-	public ViewState(ComponentContainer container, IPresenter presenter,
-			ScreenData<?> data) {
+	public ViewState(ComponentContainer container, IPresenter presenter, ScreenData<?> data) {
 		this.container = container;
 		this.presenter = presenter;
 		this.params = data;

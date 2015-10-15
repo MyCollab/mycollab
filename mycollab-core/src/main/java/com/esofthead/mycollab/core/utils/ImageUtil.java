@@ -57,8 +57,7 @@ public class ImageUtil {
      * @param scaleHeight
      * @return
      */
-    public static BufferedImage scaleImage(BufferedImage buffImage,
-                                           int scaleWidth, int scaleHeight) {
+    public static BufferedImage scaleImage(BufferedImage buffImage, int scaleWidth, int scaleHeight) {
         int imgHeight = buffImage.getHeight();
         int imgWidth = buffImage.getWidth();
 
@@ -106,8 +105,7 @@ public class ImageUtil {
         }
     }
 
-    public static BufferedImage generateImageThumbnail(InputStream imageStream)
-            throws IOException {
+    public static BufferedImage generateImageThumbnail(InputStream imageStream) throws IOException {
         try {
             int idealWidth = 256;
             BufferedImage source = ImageIO.read(imageStream);
