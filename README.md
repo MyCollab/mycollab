@@ -1,6 +1,6 @@
 # Free, open source CRM, Document and Project Management software
 [![License](http://img.shields.io/badge/License-GPL-orange.svg)](http://www.gnu.org/copyleft/gpl.html) [![Project Stats](https://www.openhub.net/p/mycollab/widgets/project_thin_badge.gif)](https://www.openhub.net/p/mycollab) [![Build](https://travis-ci.org/MyCollab/mycollab.svg)](https://travis-ci.org/MyCollab/mycollab)
-[![Download](https://img.shields.io/badge/Download-5.1.4-brightgreen.svg)](https://community.mycollab.com/)
+[![Download](https://img.shields.io/badge/Download-5.2.0-brightgreen.svg)](https://community.mycollab.com/)
 
 ## Introduction
 
@@ -9,22 +9,22 @@ MyCollab is the free and open source collaboration tools, it has three existing 
 <table>
   <tr>
     <td align="center">
-      <a href="https://farm6.staticflickr.com/5738/20729139805_9d3801736f_o.png" target="_blank" title="Project Dashboard">
-        <img src="https://farm6.staticflickr.com/5738/20729139805_76106de29d_n.jpg" alt="Project Dashboard">
+      <a href="https://c1.staticflickr.com/1/577/22021324390_6728f52095_o.png" target="_blank" title="Project Dashboard">
+        <img src="https://c1.staticflickr.com/1/577/22021324390_94264b6923.jpg" alt="Project Dashboard">
       </a>
       <br />
       <em>Project Dashboard</em>
     </td>
     <td align="center">
-      <a href="https://farm1.staticflickr.com/749/21486233685_fcdde31eb0_o.png" target="_blank" title="Bug Dashboard">
-        <img src="https://farm1.staticflickr.com/749/21486233685_3ec541083b.jpg" alt="Bug Dashboard">
+      <a href="https://c1.staticflickr.com/1/740/22219734101_20b676c293_o.png" target="_blank" title="Bug Dashboard">
+        <img src="https://c1.staticflickr.com/1/740/22219734101_fc7a887ae5.jpg" alt="Bug Dashboard">
       </a>
       <br />
       <em>Bug Dashboard</em>
     </td>
     <td align="center">
-    <a href="https://farm6.staticflickr.com/5661/21494843431_cc56d7294b_o.png" target="_blank" title="Task Dashboard">
-      <img src="https://farm6.staticflickr.com/5661/21494843431_f5a89d0014.jpg" alt="Task Dashboard">
+    <a href="https://c2.staticflickr.com/6/5785/22196663942_585d55e155_o.png" target="_blank" title="Task Dashboard">
+      <img src="https://c2.staticflickr.com/6/5785/22196663942_81330c3452.jpg" alt="Task Dashboard">
     </a>
       <br />
       <em>Task Dashboard</em>
@@ -32,22 +32,22 @@ MyCollab is the free and open source collaboration tools, it has three existing 
   </tr>
   <tr>
     <td align="center">
-    <a href="https://farm1.staticflickr.com/622/21299318409_21f4935479_o.png" target="_blank" title="Kanban Board">
-        <img src="https://farm1.staticflickr.com/622/21299318409_6334f1c008.jpg" alt="Kanban Board">
+    <a href="https://c1.staticflickr.com/1/683/22021628348_49c584238a_o.png" target="_blank" title="Kanban Board">
+        <img src="https://c1.staticflickr.com/1/683/22021628348_965cd7da3d.jpg" alt="Kanban Board">
       </a>
       <br />
       <em>Kanban Board</em>
     </td>
     <td align="center">
-      <a href="https://farm6.staticflickr.com/5641/20541155648_b8fa40086f_o.png" target="_blank" title="File Management">
-        <img src="https://farm6.staticflickr.com/5641/20541155648_7c164b4b0d.jpg" alt="File Management">
+      <a href="https://c2.staticflickr.com/6/5725/22219735751_0df884fc84_o.png" target="_blank" title="File Management">
+        <img src="https://c2.staticflickr.com/6/5725/22219735751_4fce463c3a.jpg" alt="File Management">
       </a>
       <br />
-      <em>Project File Management</em>
+      <em>Calendar</em>
     </td>
     <td align="center">
-      <a href="https://farm6.staticflickr.com/5783/20719834632_85e8ee39f0_o.png" target="_blank" title="Customer Account">
-        <img src="https://farm6.staticflickr.com/5783/20719834632_5e5200d5ec.jpg" alt="Customer Account">
+      <a href="https://c2.staticflickr.com/6/5804/21588380983_afee6dcf78_o.png" target="_blank" title="Customer Account">
+        <img src="https://c2.staticflickr.com/6/5804/21588380983_40ec4a56f0.jpg" alt="Customer Account">
       </a>
       <br />
       <em>Customer Account</em>
@@ -70,13 +70,13 @@ MyCollab provides the rich set features of Project Management, Customer Manageme
   * Activity stream and audit logging
   * Kanban board
   * Gantt chart
+  * Roadmap and Calendar view
   * Issues Management
   * Tasks and dependencies management
   * Milestones
   * Time tracking (for premium users only)
   * Risk/Problem Management (For premium users only)
   * People and Permission management
-  * Support English and Japanese, more languages will be added in future
   * Reporting
 
 We use MyCollab in our daily jobs to manage our customers information, projects. It is deployed in the production environment of our premium users, and we supported several organizations to deploy this community version on their servers as well. We take care of our open source edition similar than we do for our premium product, in fact both of them use the same code base structure. So feel free to use it in your business jobs!
