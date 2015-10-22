@@ -43,10 +43,33 @@ understanding in a matter of minutes.
 Last changelog
 ==============
 
+Version 5.2.1
+-----------------------------
+
+**Library Upgrades**
+
+* Spring framework 4.2.2.RELEASE and others
+
+**Improvements & New Features**
+
+* Predefined query for tasks, bugs
+* Allow user rename or delete column in the task kanban board
+* Do minor UI improvements
+* Validate the file permission in the installation script
+* Add shutdown script to allow admin can shutdown MyCollab properly
+
+**Bug Fixes**
+
+* Wrong user avatar of assignments in project roadmap view
+* Validate date constraints of entity is wrong in several cases
+* Calendar information is not refresh if the new set is empty
+
 Version 5.2.0
 -----------------------------
 
-* Upgrade Gson 2.4, HirakiCP 2.4.1
+**Library Upgrades**
+
+* Upgrade Gson 2.4, HirakiCP 2.4.1 and more
 
 **Improvements & New Features**
 

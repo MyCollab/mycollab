@@ -18,11 +18,9 @@ package com.esofthead.mycollab.module.project.view.milestone;
 
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.configuration.StorageFactory;
-import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.*;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
-import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -54,18 +52,20 @@ import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
-import com.hp.gagawa.java.elements.Text;
 import com.vaadin.data.Property;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -192,7 +192,7 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
 
     private class AssignmentsComp extends MVerticalLayout {
         private ProjectGenericTaskSearchCriteria searchCriteria;
-        private DefaultBeanPagedList<ProjectGenericTaskService, ProjectGenericTaskSearchCriteria, ProjectGenericTask> assignmentsList;
+        private MVerticalLayout assignmentsLayout;
 
         AssignmentsComp() {
             withMargin(false).withWidth("100%");
@@ -248,11 +248,8 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
                     .withAlign(taskSelection, Alignment.MIDDLE_LEFT).withAlign(bugSelection, Alignment.MIDDLE_LEFT)
                     .expand(spacingLbl1, spacingLbl2);
 
-            assignmentsList = new DefaultBeanPagedList<>(ApplicationContextUtil.getSpringBean(ProjectGenericTaskService.class), new
-                    AssignmentRowDisplay(), 10);
-            assignmentsList.setControlStyle("borderlessControl");
-
-            this.with(header, assignmentsList);
+            assignmentsLayout = new MVerticalLayout();
+            this.with(header, assignmentsLayout);
             searchCriteria = new ProjectGenericTaskSearchCriteria();
             searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
             searchCriteria.setIsOpenned(new SearchField());
@@ -276,76 +273,52 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
         }
 
         private void updateSearchStatus() {
-            assignmentsList.setSearchCriteria(searchCriteria);
-        }
-    }
+            assignmentsLayout.removeAllComponents();
+            new Thread() {
+                public void run() {
+                    UI.getCurrent().access(new Runnable() {
+                        @Override
+                        public void run() {
+                            final ProjectGenericTaskService genericTaskService = ApplicationContextUtil.getSpringBean(ProjectGenericTaskService.class);
+                            int totalCount = genericTaskService.getTotalCount(searchCriteria);
+                            for (int i = 0; i < (totalCount / 20) + 1; i++) {
+                                List<ProjectGenericTask> genericTasks = genericTaskService.findPagableListByCriteria(new SearchRequest<>(searchCriteria, i + 1, 20));
+                                if (CollectionUtils.isNotEmpty(genericTasks)) {
+                                    for (ProjectGenericTask genericTask : genericTasks) {
+                                        Div issueDiv = new Div();
+                                        String uid = UUID.randomUUID().toString();
+                                        A taskLink = new A().setId("tag" + uid);
+                                        taskLink.setHref(ProjectLinkBuilder.generateProjectItemLink(genericTask.getProjectShortName(),
+                                                genericTask.getProjectId(), genericTask.getType(), genericTask.getExtraTypeId() + ""));
+                                        taskLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, genericTask.getType(), genericTask.getTypeId() + ""));
+                                        taskLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
+                                        taskLink.appendText(String.format("[#%d] - %s", genericTask.getExtraTypeId(), genericTask.getName()));
+                                        issueDiv.appendChild(taskLink, TooltipHelper.buildDivTooltipEnable(uid));
+                                        Label issueLbl = new Label(issueDiv.write(), ContentMode.HTML);
+                                        if (genericTask.isClosed()) {
+                                            issueLbl.addStyleName("completed");
+                                        } else if (genericTask.isOverdue()) {
+                                            issueLbl.addStyleName("overdue");
+                                        }
+                                        MHorizontalLayout rowComp = new MHorizontalLayout();
+                                        rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
+                                        rowComp.with(new ELabel(ProjectAssetsManager.getAsset(genericTask.getType()).getHtml(), ContentMode.HTML));
+                                        String avatarLink = StorageFactory.getInstance().getAvatarPath(genericTask.getAssignUserAvatarId(), 16);
+                                        Img img = new Img(genericTask.getAssignUserFullName(), avatarLink).setTitle(genericTask
+                                                .getAssignUserFullName());
+                                        rowComp.with(new ELabel(img.write(), ContentMode.HTML));
 
-    private static class AssignmentRowDisplay implements AbstractBeanPagedList.RowDisplayHandler<ProjectGenericTask> {
-        @Override
-        public Component generateRow(AbstractBeanPagedList host, ProjectGenericTask task, int rowIndex) {
-            Label lbl = new Label(buildDivLine(task).write(), ContentMode.HTML);
-            if (task.isClosed()) {
-                lbl.addStyleName("completed");
-            } else if (task.isOverdue()) {
-                lbl.addStyleName("overdue");
-            }
-            return lbl;
-        }
-
-        private Div buildDivLine(ProjectGenericTask task) {
-            Div div = new Div().setCSSClass("project-tableless");
-            div.appendChild(buildItemValue(task), buildAssigneeValue(task), buildLastUpdateTime(task));
-            return div;
-        }
-
-        private Div buildItemValue(ProjectGenericTask task) {
-            String uid = UUID.randomUUID().toString();
-            Div div = new Div();
-            Text image = new Text(ProjectAssetsManager.getAsset(task.getType()).getHtml());
-
-            A itemLink = new A().setId("tag" + uid);
-            if (ProjectTypeConstants.TASK.equals(task.getType()) || ProjectTypeConstants.BUG.equals(task.getType())) {
-                itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(task.getProjectShortName(),
-                        task.getProjectId(), task.getType(), task.getExtraTypeId() + ""));
-            } else {
-                throw new MyCollabException("Only support bug and task only");
-            }
-
-            itemLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, task.getType(), task.getTypeId() + ""));
-            itemLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
-            itemLink.appendText(String.format("[#%d] - %s", task.getExtraTypeId(), task
-                    .getName()));
-
-            div.appendChild(image, DivLessFormatter.EMPTY_SPACE(), itemLink, DivLessFormatter.EMPTY_SPACE(),
-                    TooltipHelper.buildDivTooltipEnable(uid));
-            return div.setCSSClass("columnExpand");
-        }
-
-        private Div buildAssigneeValue(ProjectGenericTask task) {
-            if (task.getAssignUser() == null) {
-                return new Div().setCSSClass("column200");
-            }
-            String uid = UUID.randomUUID().toString();
-            Div div = new Div();
-            Img userAvatar = new Img("", StorageFactory.getInstance().getAvatarPath(task.getAssignUserAvatarId(), 16));
-            A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
-                    task.getProjectId(), task.getAssignUser()));
-
-            userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(uid, task.getAssignUser()));
-            userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
-            userLink.appendText(task.getAssignUserFullName());
-
-            div.appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink, DivLessFormatter.EMPTY_SPACE(),
-                    TooltipHelper.buildDivTooltipEnable(uid));
-
-            return div.setCSSClass("column200");
-        }
-
-        private Div buildLastUpdateTime(ProjectGenericTask task) {
-            Div div = new Div();
-            div.appendChild(new Text(AppContext.formatPrettyTime(task.getLastUpdatedTime()))).setTitle(AppContext
-                    .formatDateTime(task.getLastUpdatedTime()));
-            return div.setCSSClass("column100");
+                                        MCssLayout issueWrapper = new MCssLayout(issueLbl);
+                                        rowComp.with(issueWrapper);
+                                        assignmentsLayout.add(rowComp);
+                                    }
+                                    UI.getCurrent().push();
+                                }
+                            }
+                        }
+                    });
+                }
+            }.start();
         }
     }
 

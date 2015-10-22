@@ -16,22 +16,18 @@
  */
 package com.esofthead.mycollab.module.project.view.user;
 
-import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.arguments.DateSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
-import com.esofthead.mycollab.core.utils.StringUtils;
-import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ProjectGenericTask;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
-import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -39,16 +35,18 @@ import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanPagedList;
 import com.esofthead.mycollab.vaadin.ui.DefaultBeanPagedList;
-import com.esofthead.mycollab.vaadin.ui.SafeHtmlLabel;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
-import com.hp.gagawa.java.elements.Text;
 import com.vaadin.data.Property;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.CheckBox;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.Label;
+import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -125,85 +123,41 @@ public class ProjectAssignmentsWidget extends MVerticalLayout {
 
         @Override
         public Component generateRow(AbstractBeanPagedList host, ProjectGenericTask genericTask, int rowIndex) {
-            CssLayout layout = new CssLayout();
-            layout.setWidth("100%");
-            layout.setStyleName("list-row");
-
-            Div itemDiv = buildItemValue(genericTask);
-
-            Label taskLbl = new Label(itemDiv.write(), ContentMode.HTML);
-            if (genericTask.isOverdue()) {
-                taskLbl.addStyleName("overdue");
-            }
-
-            layout.addComponent(taskLbl);
-
-            Label descLbl;
-            if (StringUtils.isBlank(genericTask.getDescription())) {
-                descLbl = new Label("<<No Description>>");
-            } else {
-                descLbl = new SafeHtmlLabel(StringUtils.trim(genericTask.getDescription(), 250, true));
-            }
-            layout.addComponent(descLbl);
-
-            Div footerDiv = new Div().setCSSClass(UIConstants.FOOTER_NOTE);
-
-            if (genericTask.getDueDate() != null) {
-                footerDiv.appendChild(new Text(AppContext.getMessage(TaskI18nEnum.OPT_DUE_DATE,
-                        AppContext.formatPrettyTime(genericTask.getDueDatePlusOne())))).
-                        setTitle(AppContext.formatDate(genericTask.getDueDate()));
-            } else {
-                footerDiv.appendChild(new Text(AppContext.getMessage(TaskI18nEnum.OPT_DUE_DATE, "Undefined")));
-            }
-
-
-            if (genericTask.getAssignUser() != null) {
-                footerDiv.appendChild(buildAssigneeValue(genericTask));
-            }
-
-            layout.addComponent(new Label(footerDiv.write(), ContentMode.HTML));
-            return layout;
-        }
-
-        private Div buildItemValue(ProjectGenericTask task) {
+            MHorizontalLayout rowComp = new MHorizontalLayout().withStyleName("list-row").withWidth("100%");
+            rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
+            Div issueDiv = new Div();
             String uid = UUID.randomUUID().toString();
-            Div div = new DivLessFormatter();
-            Text image = new Text(ProjectAssetsManager.getAsset(task.getType()).getHtml());
-            A itemLink = new A().setId("tag" + uid);
-            if (ProjectTypeConstants.TASK.equals(task.getType()) || ProjectTypeConstants.BUG.equals(task.getType())) {
-                itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(task.getProjectShortName(),
-                        task.getProjectId(), task.getType(), task.getExtraTypeId() + ""));
+            A taskLink = new A().setId("tag" + uid);
+
+            taskLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, genericTask.getType(), genericTask.getTypeId() + ""));
+            taskLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
+            if (ProjectTypeConstants.BUG.equals(genericTask.getType()) || ProjectTypeConstants.TASK.equals(genericTask.getType())) {
+                taskLink.appendText(String.format("[#%d] - %s", genericTask.getExtraTypeId(), genericTask.getName()));
+                taskLink.setHref(ProjectLinkBuilder.generateProjectItemLink(genericTask.getProjectShortName(),
+                        genericTask.getProjectId(), genericTask.getType(), genericTask.getExtraTypeId() + ""));
             } else {
-                itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(task.getProjectShortName(),
-                        task.getProjectId(), task.getType(), task.getTypeId() + ""));
+                taskLink.appendText(genericTask.getName());
+                taskLink.setHref(ProjectLinkBuilder.generateProjectItemLink(genericTask.getProjectShortName(),
+                        genericTask.getProjectId(), genericTask.getType(), genericTask.getTypeId() + ""));
             }
 
-            itemLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, task.getType(), task.getTypeId() + ""));
-            itemLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
-            itemLink.appendText(task.getName());
+            issueDiv.appendChild(taskLink, TooltipHelper.buildDivTooltipEnable(uid));
+            Label issueLbl = new Label(issueDiv.write(), ContentMode.HTML);
+            if (genericTask.isClosed()) {
+                issueLbl.addStyleName("completed");
+            } else if (genericTask.isOverdue()) {
+                issueLbl.addStyleName("overdue");
+            }
 
-            div.appendChild(image, DivLessFormatter.EMPTY_SPACE(), itemLink, DivLessFormatter.EMPTY_SPACE(),
-                    TooltipHelper.buildDivTooltipEnable(uid));
-            return div;
-        }
+            String avatarLink = StorageFactory.getInstance().getAvatarPath(genericTask.getAssignUserAvatarId(), 16);
+            Img img = new Img(genericTask.getAssignUserFullName(), avatarLink).setTitle(genericTask
+                    .getAssignUserFullName());
 
-        private Div buildAssigneeValue(ProjectGenericTask task) {
-            String uid = UUID.randomUUID().toString();
-            Div div = new DivLessFormatter();
-            Img userAvatar = new Img("", StorageFactory.getInstance().getAvatarPath(task.getAssignUserAvatarId(), 16));
-            A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
-                    task.getProjectId(), task.getAssignUser()));
-
-            userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(uid, task.getAssignUser()));
-            userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
-            userLink.appendText(StringUtils.trim(task.getAssignUserFullName(), 30, true));
-
-            String assigneeTxt = AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE) + ": ";
-
-            div.appendChild(DivLessFormatter.EMPTY_SPACE(), DivLessFormatter.EMPTY_SPACE(), DivLessFormatter.EMPTY_SPACE(),
-                    DivLessFormatter.EMPTY_SPACE(), new Text(assigneeTxt), userAvatar, DivLessFormatter.EMPTY_SPACE(),
-                    userLink, DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));
-            return div;
+            MHorizontalLayout iconsLayout = new MHorizontalLayout().with(new ELabel(ProjectAssetsManager.getAsset
+                    (genericTask.getType()).getHtml(), ContentMode.HTML), new ELabel(img.write(), ContentMode.HTML));
+            MCssLayout issueWrapper = new MCssLayout(issueLbl);
+            rowComp.with(iconsLayout, issueWrapper).expand(issueWrapper);
+            return rowComp;
         }
     }
 }

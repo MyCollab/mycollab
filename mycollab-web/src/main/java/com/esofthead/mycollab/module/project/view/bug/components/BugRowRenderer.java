@@ -44,6 +44,7 @@ import com.vaadin.ui.*;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.UUID;
 
@@ -51,19 +52,22 @@ import java.util.UUID;
  * @author MyCollab Ltd
  * @since 5.1.1
  */
-public class BugRowRenderer extends MHorizontalLayout {
+public class BugRowRenderer extends MVerticalLayout {
     private Label bugLinkLbl;
     private SimpleBug bug;
 
-    private PopupButton taskSettingPopupBtn;
+    private PopupButton bugSettingPopupBtn;
 
     BugRowRenderer(SimpleBug bug) {
         this.bug = bug;
-        withSpacing(false).withMargin(false).withWidth("100%").addStyleName("taskrow");
-        this.with(createTaskActionControl());
+        withSpacing(true).withMargin(false).withWidth("100%").addStyleName("taskrow");
 
-        VerticalLayout wrapBugInfoLayout = new VerticalLayout();
-        wrapBugInfoLayout.setSpacing(true);
+        bugSettingPopupBtn = new PopupButton();
+        bugSettingPopupBtn.setIcon(FontAwesome.COGS);
+        bugSettingPopupBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
+        OptionPopupContent filterBtnLayout = createPopupContent();
+        bugSettingPopupBtn.setContent(filterBtnLayout);
+
         bugLinkLbl = new Label(buildBugLink(), ContentMode.HTML);
 
         if (bug.isCompleted()) {
@@ -80,8 +84,7 @@ public class BugRowRenderer extends MHorizontalLayout {
                 true, false, false));
         PopupView priorityField = popupFieldFactory.createBugPriorityPopupField(bug);
         PopupView assigneeField = popupFieldFactory.createBugAssigneePopupField(bug);
-        headerLayout.with(priorityField, assigneeField, bugLinkLbl).expand(bugLinkLbl);
-        wrapBugInfoLayout.addComponent(headerLayout);
+        headerLayout.with(bugSettingPopupBtn, priorityField, assigneeField, bugLinkLbl).expand(bugLinkLbl);
 
         MHorizontalLayout footer = new MHorizontalLayout();
         footer.addStyleName(UIConstants.FOOTER_NOTE);
@@ -107,8 +110,7 @@ public class BugRowRenderer extends MHorizontalLayout {
         PopupView nonBillableHoursView = popupFieldFactory.createBugNonbillableHoursPopupField(bug);
         footer.addComponent(nonBillableHoursView);
 
-        wrapBugInfoLayout.addComponent(footer);
-        this.with(wrapBugInfoLayout).expand(wrapBugInfoLayout);
+        this.with(headerLayout, footer);
     }
 
     private String buildBugLink() {
@@ -132,17 +134,6 @@ public class BugRowRenderer extends MHorizontalLayout {
         }
     }
 
-    private PopupButton createTaskActionControl() {
-        taskSettingPopupBtn = new PopupButton();
-        taskSettingPopupBtn.setIcon(FontAwesome.COGS);
-
-        taskSettingPopupBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
-
-        OptionPopupContent filterBtnLayout = createPopupContent();
-        taskSettingPopupBtn.setContent(filterBtnLayout);
-        return taskSettingPopupBtn;
-    }
-
     private OptionPopupContent createPopupContent() {
         OptionPopupContent filterBtnLayout = new OptionPopupContent().withWidth("100px");
 
@@ -151,7 +142,7 @@ public class BugRowRenderer extends MHorizontalLayout {
 
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                taskSettingPopupBtn.setPopupVisible(false);
+                bugSettingPopupBtn.setPopupVisible(false);
                 EventBusFactory.getInstance().post(new BugEvent.GotoEdit(BugRowRenderer.this, bug));
             }
         });
@@ -163,7 +154,7 @@ public class BugRowRenderer extends MHorizontalLayout {
 
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                taskSettingPopupBtn.setPopupVisible(false);
+                bugSettingPopupBtn.setPopupVisible(false);
                 ConfirmDialogExt.show(UI.getCurrent(),
                         AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
                         AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),

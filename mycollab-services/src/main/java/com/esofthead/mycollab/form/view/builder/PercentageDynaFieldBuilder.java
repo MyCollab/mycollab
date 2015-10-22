@@ -23,8 +23,7 @@ import com.esofthead.mycollab.form.view.builder.type.PercentageDynaField;
  * @author MyCollab Ltd.
  *
  */
-public class PercentageDynaFieldBuilder extends
-		AbstractDynaFieldBuilder<PercentageDynaField> {
+public class PercentageDynaFieldBuilder extends AbstractDynaFieldBuilder<PercentageDynaField> {
 
 	public PercentageDynaFieldBuilder() {
 		field = new PercentageDynaField();

@@ -26,10 +26,10 @@ import com.esofthead.mycollab.form.service.MasterFormService;
 import com.esofthead.mycollab.form.view.builder.type.AbstractDynaField;
 import com.esofthead.mycollab.form.view.builder.type.DynaForm;
 import com.esofthead.mycollab.form.view.builder.type.DynaSection;
-import com.esofthead.mycollab.mobile.ui.GridFormLayoutHelper;
+import com.esofthead.mycollab.mobile.ui.MobileGridFormLayoutHelper;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
@@ -42,7 +42,7 @@ import com.vaadin.ui.VerticalLayout;
  * @since 2.0
  * 
  */
-public class DynaFormLayout extends AbstractFormLayoutFactory {
+public class DynaFormLayout implements IFormLayoutFactory {
 	private static final long serialVersionUID = 1L;
 
 	private static final Logger LOG = LoggerFactory.getLogger(DynaFormLayout.class);
@@ -52,7 +52,7 @@ public class DynaFormLayout extends AbstractFormLayoutFactory {
 	private VerticalLayout layout;
 
 	private final Map<String, AbstractDynaField> fieldMappings = new HashMap<>();
-	private Map<DynaSection, GridFormLayoutHelper> sectionMappings;
+	private Map<DynaSection, MobileGridFormLayoutHelper> sectionMappings;
 
 	public DynaFormLayout(String moduleName, DynaForm defaultForm) {
 		MasterFormService formService = ApplicationContextUtil.getSpringBean(MasterFormService.class);
@@ -104,13 +104,13 @@ public class DynaFormLayout extends AbstractFormLayoutFactory {
 			header.setStyleName("h2");
 			layout.addComponent(header);
 
-			GridFormLayoutHelper gridLayout;
+			MobileGridFormLayoutHelper gridLayout;
 
 			if (section.isDeletedSection() || section.getFieldCount() == 0) {
 				continue;
 			}
 
-			gridLayout = new GridFormLayoutHelper(1, section.getFieldCount(), "100%", "150px", Alignment.TOP_RIGHT);
+			gridLayout = new MobileGridFormLayoutHelper(1, section.getFieldCount(), "100%", "150px", Alignment.TOP_RIGHT);
 
 			gridLayout.getLayout().setWidth("100%");
 			gridLayout.getLayout().setMargin(false);
@@ -124,11 +124,11 @@ public class DynaFormLayout extends AbstractFormLayoutFactory {
 	}
 
 	@Override
-	protected void onAttachField(Object propertyId, Field<?> field) {
+	public void attachField(Object propertyId, Field<?> field) {
 		AbstractDynaField dynaField = fieldMappings.get(propertyId);
 		if (dynaField != null) {
 			DynaSection section = dynaField.getOwnSection();
-			GridFormLayoutHelper gridLayout = sectionMappings.get(section);
+			MobileGridFormLayoutHelper gridLayout = sectionMappings.get(section);
 			gridLayout.addComponent(field, dynaField.getDisplayName(), 0,
 					dynaField.getFieldIndex(), Alignment.TOP_RIGHT);
 

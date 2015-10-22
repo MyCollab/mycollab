@@ -16,9 +16,10 @@
  */
 package com.esofthead.mycollab.vaadin.mvp;
 
-import com.esofthead.mycollab.vaadin.ui.AssetResource;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
-import com.vaadin.ui.Image;
+import com.esofthead.mycollab.web.DesktopApplication;
+import com.hp.gagawa.java.elements.Div;
+import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 
@@ -40,7 +41,7 @@ public abstract class AbstractLazyPageView extends AbstractPageView implements L
             new Thread() {
                 @Override
                 public void run() {
-                    final UI currentUI = UI.getCurrent();
+                    final DesktopApplication currentUI = (DesktopApplication) UI.getCurrent();
                     currentUI.access(new Runnable() {
                         @Override
                         public void run() {
@@ -76,7 +77,17 @@ public abstract class AbstractLazyPageView extends AbstractPageView implements L
             this.center();
             this.setModal(true);
 
-            Image loadingIcon = new Image(null, new AssetResource(WebResourceIds._lazy_load_icon));
+            Div div = new Div().appendChild(new Div().setCSSClass("sk-cube sk-cube1"))
+                    .appendChild(new Div().setCSSClass("sk-cube sk-cube2"))
+                    .appendChild(new Div().setCSSClass("sk-cube sk-cube3"))
+                    .appendChild(new Div().setCSSClass("sk-cube sk-cube4"))
+                    .appendChild(new Div().setCSSClass("sk-cube sk-cube5"))
+                    .appendChild(new Div().setCSSClass("sk-cube sk-cube6"))
+                    .appendChild(new Div().setCSSClass("sk-cube sk-cube7"))
+                    .appendChild(new Div().setCSSClass("sk-cube sk-cube8"))
+                    .appendChild(new Div().setCSSClass("sk-cube sk-cube9"));
+            Label loadingIcon = new Label(div.write(), ContentMode.HTML);
+            loadingIcon.addStyleName("sk-cube-grid");
             this.setContent(loadingIcon);
         }
     }

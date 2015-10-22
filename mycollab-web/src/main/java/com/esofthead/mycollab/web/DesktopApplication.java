@@ -79,8 +79,6 @@ public class DesktopApplication extends MyCollabUI {
         GoogleAnalyticsService googleAnalyticsService = ApplicationContextUtil.getSpringBean(GoogleAnalyticsService.class);
         googleAnalyticsService.registerUI(this);
 
-        getPushConfiguration().setParameter("timeout", "-1");
-
         LOG.debug("Register default error handler");
 
         VaadinSession.getCurrent().setErrorHandler(new DefaultErrorHandler() {

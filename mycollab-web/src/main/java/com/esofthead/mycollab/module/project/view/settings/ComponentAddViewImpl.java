@@ -21,7 +21,6 @@ import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.ComponentI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.AbstractEditItemComp;
-import com.esofthead.mycollab.module.project.ui.components.DynaFormLayout;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
 import com.esofthead.mycollab.module.tracker.domain.Component;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -35,85 +34,80 @@ import com.vaadin.ui.Field;
 import com.vaadin.ui.TextField;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @ViewComponent
-public class ComponentAddViewImpl extends AbstractEditItemComp<Component>
-		implements ComponentAddView {
-	private static final long serialVersionUID = 1L;
+public class ComponentAddViewImpl extends AbstractEditItemComp<Component> implements ComponentAddView {
+    private static final long serialVersionUID = 1L;
 
-	@Override
-	protected String initFormHeader() {
-		return (beanItem.getId() == null) ? AppContext
-				.getMessage(ComponentI18nEnum.FORM_NEW_TITLE) : AppContext
-				.getMessage(ComponentI18nEnum.FORM_EDIT_TITLE);
-	}
+    @Override
+    protected String initFormHeader() {
+        return (beanItem.getId() == null) ? AppContext
+                .getMessage(ComponentI18nEnum.FORM_NEW_TITLE) : AppContext
+                .getMessage(ComponentI18nEnum.FORM_EDIT_TITLE);
+    }
 
-	@Override
-	protected String initFormTitle() {
-		return (beanItem.getId() == null) ? null : beanItem.getComponentname();
-	}
+    @Override
+    protected String initFormTitle() {
+        return (beanItem.getId() == null) ? null : beanItem.getComponentname();
+    }
 
-	@Override
-	protected Resource initFormIconResource() {
-		return ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG_COMPONENT);
-	}
+    @Override
+    protected Resource initFormIconResource() {
+        return ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG_COMPONENT);
+    }
 
-	@Override
-	protected ComponentContainer createButtonControls() {
-		return (new EditFormControlsGenerator<>(editForm)).createButtonControls();
-	}
+    @Override
+    protected ComponentContainer createButtonControls() {
+        return (new EditFormControlsGenerator<>(editForm)).createButtonControls();
+    }
 
-	@Override
-	protected AdvancedEditBeanForm<Component> initPreviewForm() {
-		return new AdvancedEditBeanForm<>();
-	}
+    @Override
+    protected AdvancedEditBeanForm<Component> initPreviewForm() {
+        return new AdvancedEditBeanForm<>();
+    }
 
-	@Override
-	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new DynaFormLayout(ProjectTypeConstants.BUG_COMPONENT,
-				ComponentDefaultFormLayoutFactory.getForm(), "id");
-	}
+    @Override
+    protected IFormLayoutFactory initFormLayoutFactory() {
+        return new DynaFormLayout(ProjectTypeConstants.BUG_COMPONENT, ComponentDefaultFormLayoutFactory.getForm(), "id");
+    }
 
-	@Override
-	protected AbstractBeanFieldGroupEditFieldFactory<Component> initBeanFormFieldFactory() {
-		return new EditFormFieldFactory(editForm);
-	}
+    @Override
+    protected AbstractBeanFieldGroupEditFieldFactory<Component> initBeanFormFieldFactory() {
+        return new EditFormFieldFactory(editForm);
+    }
 
-	@Override
-	public HasEditFormHandlers<Component> getEditFormHandlers() {
-		return this.editForm;
-	}
+    @Override
+    public HasEditFormHandlers<Component> getEditFormHandlers() {
+        return this.editForm;
+    }
 
-	private static class EditFormFieldFactory extends
-			AbstractBeanFieldGroupEditFieldFactory<Component> {
-		private static final long serialVersionUID = 1L;
+    private static class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Component> {
+        private static final long serialVersionUID = 1L;
 
-		public EditFormFieldFactory(GenericBeanForm<Component> form) {
-			super(form);
-		}
+        public EditFormFieldFactory(GenericBeanForm<Component> form) {
+            super(form);
+        }
 
-		@Override
-		protected Field<?> onCreateField(final Object propertyId) {
-			if (Component.Field.componentname.equalTo(propertyId)) {
-				final TextField tf = new TextField();
-				if (isValidateForm) {
-					tf.setNullRepresentation("");
-					tf.setRequired(true);
-					tf.setRequiredError(AppContext
-							.getMessage(ComponentI18nEnum.FORM_COMPONENT_ERROR));
-				}
-				return tf;
-			} else if (Component.Field.description.equalTo(propertyId)) {
-				return new RichTextEditField();
-			} else if (Component.Field.userlead.equalTo(propertyId)) {
-				return new ProjectMemberSelectionField();
-			}
+        @Override
+        protected Field<?> onCreateField(final Object propertyId) {
+            if (Component.Field.componentname.equalTo(propertyId)) {
+                final TextField tf = new TextField();
+                if (isValidateForm) {
+                    tf.setNullRepresentation("");
+                    tf.setRequired(true);
+                    tf.setRequiredError(AppContext.getMessage(ComponentI18nEnum.FORM_COMPONENT_ERROR));
+                }
+                return tf;
+            } else if (Component.Field.description.equalTo(propertyId)) {
+                return new RichTextEditField();
+            } else if (Component.Field.userlead.equalTo(propertyId)) {
+                return new ProjectMemberSelectionField();
+            }
 
-			return null;
-		}
-	}
+            return null;
+        }
+    }
 
 }

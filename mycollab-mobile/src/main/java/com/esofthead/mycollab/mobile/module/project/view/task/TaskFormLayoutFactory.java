@@ -17,10 +17,10 @@
 package com.esofthead.mycollab.mobile.module.project.view.task;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.mobile.ui.GridFormLayoutHelper;
+import com.esofthead.mycollab.mobile.ui.MobileGridFormLayoutHelper;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
@@ -33,10 +33,10 @@ import com.vaadin.ui.VerticalLayout;
  * @author MyCollab Ltd.
  * @since 4.5.0
  */
-public class TaskFormLayoutFactory extends AbstractFormLayoutFactory {
+public class TaskFormLayoutFactory implements IFormLayoutFactory {
 	private static final long serialVersionUID = 1L;
 
-	private GridFormLayoutHelper informationLayout;
+	private MobileGridFormLayoutHelper informationLayout;
 
 	@Override
 	public ComponentContainer getLayout() {
@@ -46,7 +46,7 @@ public class TaskFormLayoutFactory extends AbstractFormLayoutFactory {
 		header.setStyleName("h2");
 		layout.addComponent(header);
 
-		this.informationLayout = new GridFormLayoutHelper(1, 11, "100%", "150px", Alignment.TOP_LEFT);
+		this.informationLayout = new MobileGridFormLayoutHelper(1, 11, "100%", "150px", Alignment.TOP_LEFT);
 
 		this.informationLayout.getLayout().setMargin(false);
 		this.informationLayout.getLayout().setWidth("100%");
@@ -57,7 +57,7 @@ public class TaskFormLayoutFactory extends AbstractFormLayoutFactory {
 	}
 
 	@Override
-	protected void onAttachField(final Object propertyId, final Field<?> field) {
+	public void attachField(Object propertyId, final Field<?> field) {
 		if (propertyId.equals("taskname")) {
 			this.informationLayout.addComponent(field, AppContext.getMessage(TaskI18nEnum.FORM_TASK_NAME), 0, 0);
 		} else if (propertyId.equals("startdate")) {

@@ -37,6 +37,7 @@ public class AddViewLayout2 extends VerticalLayout {
     private MVerticalLayout body;
 
     public AddViewLayout2(String title, Resource icon) {
+        this.setMargin(new MarginInfo(false, false, true, false));
         setStyleName("addview-layout");
 
         this.viewIcon = icon;

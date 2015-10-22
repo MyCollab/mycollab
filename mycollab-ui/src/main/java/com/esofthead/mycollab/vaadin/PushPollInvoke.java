@@ -14,30 +14,24 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-ui.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.vaadin.ui;
+package com.esofthead.mycollab.vaadin;
 
-import com.vaadin.ui.Field;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.vaadin.ui.UI;
+import org.atmosphere.cpr.AtmosphereResourceImpl;
 
 /**
  * @author MyCollab Ltd
- * @since 5.2.0
+ * @since 5.2.1
  */
-public abstract class AbstractFormLayoutFactory implements IFormLayoutFactory {
-    private List<Object> bindProperties = new ArrayList<>();
+public abstract class PushPollInvoke {
+    private boolean isUsingPush;
+    AtmosphereResourceImpl a;
+    private UI currentUI;
 
-    @Override
-    public boolean hasFieldAttached(Object propertyId) {
-        return bindProperties.contains(propertyId);
+    public void start() {
+        currentUI = UI.getCurrent();
+
     }
 
-    @Override
-    public final void attachField(Object propertyId, Field<?> field) {
-        bindProperties.add(propertyId);
-        onAttachField(propertyId, field);
-    }
-
-    abstract protected void onAttachField(Object propertyId, Field<?> field);
+    abstract void run();
 }

@@ -18,13 +18,12 @@ package com.esofthead.mycollab.mobile.module.project.view.milestone;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.mobile.ui.AbstractEditItemComp;
-import com.esofthead.mycollab.mobile.ui.GridFormLayoutHelper;
+import com.esofthead.mycollab.mobile.ui.MobileGridFormLayoutHelper;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComponentContainer;
@@ -57,10 +56,10 @@ public class MilestoneAddViewImpl extends AbstractEditItemComp<SimpleMilestone> 
         return new MilestoneEditFormFieldFactory<>(this.editForm);
     }
 
-    private static class MilestoneFormLayoutFactory extends AbstractFormLayoutFactory {
+    private static class MilestoneFormLayoutFactory implements IFormLayoutFactory {
         private static final long serialVersionUID = 7126369624045401332L;
 
-        private GridFormLayoutHelper informationLayout;
+        private MobileGridFormLayoutHelper informationLayout;
 
         @Override
         public ComponentContainer getLayout() {
@@ -70,7 +69,7 @@ public class MilestoneAddViewImpl extends AbstractEditItemComp<SimpleMilestone> 
             header.setStyleName("h2");
             layout.addComponent(header);
 
-            this.informationLayout = new GridFormLayoutHelper(1, 6, "100%", "150px", Alignment.TOP_LEFT);
+            this.informationLayout = new MobileGridFormLayoutHelper(1, 6, "100%", "150px", Alignment.TOP_LEFT);
             this.informationLayout.getLayout().setWidth("100%");
             this.informationLayout.getLayout().addStyleName("colored-gridlayout");
             this.informationLayout.getLayout().setMargin(false);
@@ -80,7 +79,7 @@ public class MilestoneAddViewImpl extends AbstractEditItemComp<SimpleMilestone> 
         }
 
         @Override
-        protected void onAttachField(Object propertyId, Field<?> field) {
+        public void attachField(Object propertyId, Field<?> field) {
             if (propertyId.equals("name")) {
                 this.informationLayout.addComponent(field, AppContext.getMessage(MilestoneI18nEnum.FORM_NAME_FIELD), 0, 0);
             } else if (propertyId.equals("status")) {

@@ -180,8 +180,8 @@ public class SimpleTask extends Task {
     }
 
     public boolean isCompleted() {
-        return OptionI18nEnum.StatusI18nEnum.Closed.name().equals(getStatus()) && (getPercentagecomplete() != null)
-                && (100d == getPercentagecomplete());
+        return OptionI18nEnum.StatusI18nEnum.Closed.name().equals(getStatus()) || ((getPercentagecomplete() != null)
+                && (100d == getPercentagecomplete()));
     }
 
     public boolean isPending() {

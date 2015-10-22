@@ -21,6 +21,7 @@ import org.joda.time.LocalDate;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import java.util.Date;
 
 /**
  * @author MyCollab Ltd.
@@ -39,9 +40,14 @@ public class DateComparisionValidator implements ConstraintValidator<DateCompari
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
         try {
-            LocalDate firstDate = new LocalDate(PropertyUtils.getProperty(value, firstDateField));
-            LocalDate lastDate = new LocalDate(PropertyUtils.getProperty(value, lastDateField));
-            return firstDate.compareTo(lastDate) <= 0;
+            Date firstValue = (Date) PropertyUtils.getProperty(value, firstDateField);
+            Date lastValue = (Date) PropertyUtils.getProperty(value, lastDateField);
+            if (firstValue != null && lastValue != null) {
+                LocalDate firstDate = new LocalDate(PropertyUtils.getProperty(value, firstDateField));
+                LocalDate lastDate = new LocalDate(PropertyUtils.getProperty(value, lastDateField));
+                return firstDate.compareTo(lastDate) <= 0;
+            }
+            return true;
         } catch (Exception ex) {
             return true;
         }

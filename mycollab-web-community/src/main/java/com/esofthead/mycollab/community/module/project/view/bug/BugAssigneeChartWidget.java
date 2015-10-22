@@ -42,7 +42,7 @@ import java.util.List;
 @ViewComponent
 public class BugAssigneeChartWidget extends PieChartWrapper<BugSearchCriteria> implements IBugAssigneeChartWidget {
     public BugAssigneeChartWidget() {
-        super(400, 280);
+        super(350, 280);
     }
 
     @Override

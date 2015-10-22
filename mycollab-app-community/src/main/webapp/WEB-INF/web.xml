@@ -65,7 +65,12 @@
             Vaadin production mode
         </description>
         <param-name>productionMode</param-name>
-        <param-value>true</param-value>
+        <param-value>false</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>heartbeatInterval</param-name>
+        <param-value>3000</param-value>
     </context-param>
 
     <welcome-file-list>

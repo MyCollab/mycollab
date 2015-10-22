@@ -438,12 +438,12 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
         return activityComponent;
     }
 
-    private static class FormLayoutFactory extends AbstractFormLayoutFactory {
+    private static class FormLayoutFactory implements IFormLayoutFactory {
         private static final long serialVersionUID = 1L;
         private GridFormLayoutHelper informationLayout;
 
         @Override
-        protected void onAttachField(final Object propertyId, final Field<?> field) {
+        public void attachField(Object propertyId, final Field<?> field) {
             if (BugWithBLOBs.Field.description.equalTo(propertyId)) {
                 this.informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 0, 2, "100%");
             } else if (BugWithBLOBs.Field.environment.equalTo(propertyId)) {

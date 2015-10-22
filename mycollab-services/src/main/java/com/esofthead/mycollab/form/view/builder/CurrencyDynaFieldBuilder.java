@@ -23,8 +23,7 @@ import com.esofthead.mycollab.form.view.builder.type.CurrencyDynaField;
  * @author MyCollab Ltd.
  *
  */
-public class CurrencyDynaFieldBuilder extends
-		AbstractDynaFieldBuilder<CurrencyDynaField> {
+public class CurrencyDynaFieldBuilder extends AbstractDynaFieldBuilder<CurrencyDynaField> {
 
 	public CurrencyDynaFieldBuilder() {
 		field = new CurrencyDynaField();

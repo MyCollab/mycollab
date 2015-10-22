@@ -32,6 +32,7 @@ import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -69,7 +70,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
     protected int totalCount;
 
     protected Table tableItem;
-    protected CssLayout controlBarWrapper;
+    protected HorizontalLayout controlBarWrapper;
 
     protected Set<SelectableItemHandler<B>> selectableHandlers;
     protected Set<PagableHandler> pagableHandlers;
@@ -117,8 +118,6 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
         this.defaultSelectedColumns = displayColumns;
         this.requiredColumn = requiredColumn;
         this.type = type;
-
-        this.setStyleName("list-view");
     }
 
     public void setDisplayColumns(List<TableViewField> viewFields) {
@@ -158,10 +157,10 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
 
     @Override
     public void addSelectableItemHandler(final SelectableItemHandler<B> handler) {
-        if (this.selectableHandlers == null) {
-            this.selectableHandlers = new HashSet<>();
+        if (selectableHandlers == null) {
+            selectableHandlers = new HashSet<>();
         }
-        this.selectableHandlers.add(handler);
+        selectableHandlers.add(handler);
     }
 
     @Override
@@ -172,15 +171,15 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
 
     @Override
     public int totalItemsCount() {
-        return this.totalCount;
+        return totalCount;
     }
 
     @Override
     public void addPagableHandler(final PagableHandler handler) {
-        if (this.pagableHandlers == null) {
-            this.pagableHandlers = new HashSet<>();
+        if (pagableHandlers == null) {
+            pagableHandlers = new HashSet<>();
         }
-        this.pagableHandlers.add(handler);
+        pagableHandlers.add(handler);
 
     }
 
@@ -190,8 +189,8 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
     }
 
     public void setCurrentDataList(Collection<B> list) {
-        this.currentListData = list;
-        this.currentViewCount = list.size();
+        currentListData = list;
+        currentViewCount = list.size();
         createTable();
     }
 
@@ -211,9 +210,9 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
 
     @Override
     public int setSearchCriteria(final S searchCriteria) {
-        this.searchRequest = new SearchRequest<>(searchCriteria, currentPage, displayNumItems);
-        this.doSearch();
-        return this.totalCount;
+        searchRequest = new SearchRequest<>(searchCriteria, currentPage, displayNumItems);
+        doSearch();
+        return totalCount;
     }
 
     public void setDisplayNumItems(int displayNumItems) {
@@ -230,17 +229,17 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
 
     @Override
     public void refresh() {
-        this.doSearch();
+        doSearch();
     }
 
     protected void pageChange(final int currentPage) {
-        if (this.searchRequest != null) {
+        if (searchRequest != null) {
             this.currentPage = currentPage;
-            this.searchRequest.setCurrentPage(currentPage);
-            this.doSearch();
+            searchRequest.setCurrentPage(currentPage);
+            doSearch();
 
-            if (this.pagableHandlers != null) {
-                for (final PagableHandler handler : this.pagableHandlers) {
+            if (pagableHandlers != null) {
+                for (final PagableHandler handler : pagableHandlers) {
                     handler.move(currentPage);
                 }
             }
@@ -255,20 +254,16 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
         }
     }
 
-    private CssLayout createControls() {
-        this.controlBarWrapper = new CssLayout();
-        this.controlBarWrapper.setStyleName("listControl");
-        this.controlBarWrapper.setWidth("100%");
-
-        final HorizontalLayout controlBar = new HorizontalLayout();
-        controlBar.setWidth("100%");
-        this.controlBarWrapper.addComponent(controlBar);
+    private ComponentContainer createPagingControls() {
+        controlBarWrapper = new HorizontalLayout();
+        controlBarWrapper.setWidth("100%");
+        controlBarWrapper.setStyleName("listControl");
 
         pageManagement = new MHorizontalLayout();
 
         // defined layout here ---------------------------
 
-        if (this.currentPage > 1) {
+        if (currentPage > 1) {
             Button firstLink = new ButtonLink("1", new ClickListener() {
                 private static final long serialVersionUID = 1L;
 
@@ -280,69 +275,69 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
             firstLink.addStyleName("buttonPaging");
             pageManagement.addComponent(firstLink);
         }
-        if (this.currentPage >= 5) {
+        if (currentPage >= 5) {
             Label ss1 = new Label("...");
             ss1.addStyleName("buttonPaging");
             pageManagement.addComponent(ss1);
         }
 
-        if (this.currentPage > 3) {
-            Button previous2 = new ButtonLink("" + (this.currentPage - 2), new ClickListener() {
+        if (currentPage > 3) {
+            Button previous2 = new ButtonLink("" + (currentPage - 2), new ClickListener() {
                 private static final long serialVersionUID = 1L;
 
                 @Override
                 public void buttonClick(final ClickEvent event) {
-                    pageChange(AbstractPagedBeanTable.this.currentPage - 2);
+                    pageChange(currentPage - 2);
                 }
             }, false);
             previous2.addStyleName("buttonPaging");
             pageManagement.addComponent(previous2);
         }
-        if (this.currentPage > 2) {
-            Button previous1 = new ButtonLink("" + (this.currentPage - 1), new ClickListener() {
+        if (currentPage > 2) {
+            Button previous1 = new ButtonLink("" + (currentPage - 1), new ClickListener() {
                 private static final long serialVersionUID = 1L;
 
                 @Override
                 public void buttonClick(ClickEvent event) {
-                    pageChange(AbstractPagedBeanTable.this.currentPage - 1);
+                    pageChange(currentPage - 1);
                 }
             }, false);
             previous1.addStyleName("buttonPaging");
             pageManagement.addComponent(previous1);
         }
         // Here add current ButtonLinkLegacy
-        Button current = new ButtonLink("" + this.currentPage, new ClickListener() {
+        Button current = new ButtonLink("" + currentPage, new ClickListener() {
             private static final long serialVersionUID = 1L;
 
             @Override
             public void buttonClick(final ClickEvent event) {
-                pageChange(AbstractPagedBeanTable.this.currentPage);
+                pageChange(currentPage);
             }
         }, false);
         current.addStyleName("buttonPaging");
         current.addStyleName("current");
 
         pageManagement.addComponent(current);
-        final int range = this.totalPage - this.currentPage;
+        final int range = this.totalPage - currentPage;
         if (range >= 1) {
-            Button next1 = new ButtonLink("" + (this.currentPage + 1), new ClickListener() {
+            Button next1 = new ButtonLink("" + (currentPage + 1), new ClickListener() {
                 private static final long serialVersionUID = 1L;
 
                 @Override
                 public void buttonClick(final ClickEvent event) {
-                    pageChange(AbstractPagedBeanTable.this.currentPage + 1);
+                    pageChange(currentPage + 1);
                 }
             }, false);
             next1.addStyleName("buttonPaging");
             pageManagement.addComponent(next1);
         }
         if (range >= 2) {
-            Button next2 = new ButtonLink("" + (this.currentPage + 2), new ClickListener() {
+            Button next2 = new ButtonLink("" + (currentPage + 2), new ClickListener() {
                 private static final long serialVersionUID = 1L;
 
                 @Override
                 public void buttonClick(final ClickEvent event) {
-                    pageChange(AbstractPagedBeanTable.this.currentPage + 2);
+                    pageChange(currentPage + 2);
                 }
             }, false);
             next2.addStyleName("buttonPaging");
@@ -367,10 +362,10 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
         }
 
         pageManagement.setWidth(null);
-        controlBar.addComponent(pageManagement);
-        controlBar.setComponentAlignment(pageManagement, Alignment.MIDDLE_RIGHT);
+        controlBarWrapper.addComponent(pageManagement);
+        controlBarWrapper.setComponentAlignment(pageManagement, Alignment.MIDDLE_RIGHT);
 
-        return this.controlBarWrapper;
+        return controlBarWrapper;
     }
 
     abstract protected int queryTotalCount();
@@ -378,26 +373,26 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
     abstract protected List<B> queryCurrentData();
 
     protected void doSearch() {
-        this.totalCount = this.queryTotalCount();
-        this.totalPage = (this.totalCount - 1) / this.searchRequest.getNumberOfItems() + 1;
-        if (this.searchRequest.getCurrentPage() > this.totalPage) {
-            this.searchRequest.setCurrentPage(this.totalPage);
+        totalCount = this.queryTotalCount();
+        this.totalPage = (totalCount - 1) / searchRequest.getNumberOfItems() + 1;
+        if (searchRequest.getCurrentPage() > this.totalPage) {
+            searchRequest.setCurrentPage(this.totalPage);
         }
 
         if (this.totalPage > 1) {
             // Define button layout
-            if (this.controlBarWrapper != null) {
-                this.removeComponent(this.controlBarWrapper);
+            if (controlBarWrapper != null) {
+                removeComponent(this.controlBarWrapper);
             }
-            this.addComponent(this.createControls());
+            this.addComponent(this.createPagingControls());
         } else {
-            if (this.getComponentCount() == 2) {
-                this.removeComponent(this.getComponent(1));
+            if (getComponentCount() == 2) {
+                removeComponent(getComponent(1));
             }
         }
 
-        this.currentListData = this.queryCurrentData();
-        this.currentViewCount = this.currentListData.size();
+        currentListData = queryCurrentData();
+        currentViewCount = currentListData.size();
 
         createTable();
     }
@@ -465,7 +460,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
         } else {
             this.addComponent(tableItem, 0);
         }
-
+        this.setExpandRatio(tableItem, 1);
     }
 
     public Table getTable() {

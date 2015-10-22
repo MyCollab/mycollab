@@ -244,8 +244,9 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
                             MHorizontalLayout rowComp = new MHorizontalLayout();
                             rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
                             rowComp.with(new ELabel(ProjectAssetsManager.getAsset(genericTask.getType()).getHtml(), ContentMode.HTML));
-                            String avatarLink = StorageFactory.getInstance().getAvatarPath(milestone.getOwnerAvatarId(), 16);
-                            Img img = new Img(milestone.getOwnerFullName(), avatarLink).setTitle(milestone.getOwnerFullName());
+                            String avatarLink = StorageFactory.getInstance().getAvatarPath(genericTask.getAssignUserAvatarId(), 16);
+                            Img img = new Img(genericTask.getAssignUserFullName(), avatarLink).setTitle(genericTask
+                                    .getAssignUserFullName());
                             rowComp.with(new ELabel(img.write(), ContentMode.HTML));
 
                             MCssLayout issueWrapper = new MCssLayout(issueLbl);

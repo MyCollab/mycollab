@@ -35,7 +35,6 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.Window;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -63,7 +62,7 @@ class ContactInfoChangeWindow extends Window {
         this.setWidth("450px");
         this.setResizable(false);
         this.setModal(true);
-        this.validation = ApplicationContextUtil.getSpringBean("validator", LocalValidatorFactoryBean.class);
+        this.validation = ApplicationContextUtil.getValidator();
         this.initUI();
         this.center();
         this.setCaption(AppContext.getMessage(UserI18nEnum.WINDOW_CHANGE_CONTACT_INFO_TITLE));

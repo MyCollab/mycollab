@@ -27,84 +27,79 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
  * Mass update
- * 
+ *
+ * @param <B>
  * @author MyCollab Ltd.
  * @since 1.0
- * 
- * @param <B>
  */
 public abstract class MassUpdateWindow<B> extends Window {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected B beanItem;
-	protected AdvancedEditBeanForm<B> updateForm;
-	protected MassUpdateLayout contentLayout;
+    protected B beanItem;
+    protected AdvancedEditBeanForm<B> updateForm;
+    protected MassUpdateLayout contentLayout;
 
-	protected MassUpdateCommand<B> massUpdateCommand;
+    protected MassUpdateCommand<B> massUpdateCommand;
 
-	protected Button updateBtn, closeBtn;
+    protected Button updateBtn, closeBtn;
 
-	public MassUpdateWindow(String title, Resource iconResource,
-			B initialValue, MassUpdateCommand<B> massUpdatePresenter) {
-		super(title);
-		this.setWidth("1000px");
-		this.setResizable(false);
-		this.massUpdateCommand = massUpdatePresenter;
-		this.beanItem = initialValue;
-		this.setIcon(iconResource);
+    public MassUpdateWindow(String title, Resource iconResource, B initialValue, MassUpdateCommand<B> massUpdatePresenter) {
+        super(title);
+        this.setWidth("1000px");
+        this.setResizable(false);
+        this.setModal(true);
+        this.massUpdateCommand = massUpdatePresenter;
+        this.beanItem = initialValue;
+        this.setIcon(iconResource);
 
-		this.contentLayout = new MassUpdateLayout();
-		this.updateForm = new AdvancedEditBeanForm<>();
+        this.contentLayout = new MassUpdateLayout();
+        this.updateForm = new AdvancedEditBeanForm<>();
 
-		this.contentLayout.addBody(this.updateForm);
+        this.contentLayout.addBody(this.updateForm);
 
-		this.setContent(this.contentLayout);
+        this.setContent(this.contentLayout);
 
-		updateForm.setFormLayoutFactory(buildFormLayoutFactory());
-		updateForm.setBeanFormFieldFactory(buildBeanFormFieldFactory());
-		updateForm.setBean(beanItem);
+        updateForm.setFormLayoutFactory(buildFormLayoutFactory());
+        updateForm.setBeanFormFieldFactory(buildBeanFormFieldFactory());
+        updateForm.setBean(beanItem);
 
-		center();
-	}
+        center();
+    }
 
-	abstract protected IFormLayoutFactory buildFormLayoutFactory();
+    abstract protected IFormLayoutFactory buildFormLayoutFactory();
 
-	abstract protected AbstractBeanFieldGroupEditFieldFactory<B> buildBeanFormFieldFactory();
+    abstract protected AbstractBeanFieldGroupEditFieldFactory<B> buildBeanFormFieldFactory();
 
-	protected ComponentContainer buildButtonControls() {
-		MHorizontalLayout controlsLayout = new MHorizontalLayout().withMargin(true).withStyleName("addNewControl")
+    protected ComponentContainer buildButtonControls() {
+        MHorizontalLayout controlsLayout = new MHorizontalLayout().withMargin(true).withStyleName("addNewControl")
                 .withWidth("100%");
 
-		updateBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+        updateBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(ClickEvent event) {
-						updateForm.commit();
-						massUpdateCommand.massUpdate(beanItem);
-						MassUpdateWindow.this.close();
-					}
-				});
-		updateBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		updateBtn.setIcon(FontAwesome.SAVE);
+            @Override
+            public void buttonClick(ClickEvent event) {
+                updateForm.commit();
+                massUpdateCommand.massUpdate(beanItem);
+                MassUpdateWindow.this.close();
+            }
+        });
+        updateBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        updateBtn.setIcon(FontAwesome.SAVE);
 
-		closeBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+        closeBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(ClickEvent event) {
-						MassUpdateWindow.this.close();
-					}
-				});
-		closeBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+            @Override
+            public void buttonClick(ClickEvent event) {
+                MassUpdateWindow.this.close();
+            }
+        });
+        closeBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 
         Label spacing = new Label();
-        controlsLayout.with(spacing, updateBtn, closeBtn).alignAll(Alignment.MIDDLE_RIGHT).expand(spacing);
-		return controlsLayout;
-	}
+        controlsLayout.with(spacing, closeBtn, updateBtn).alignAll(Alignment.MIDDLE_RIGHT).expand(spacing);
+        return controlsLayout;
+    }
 
 }

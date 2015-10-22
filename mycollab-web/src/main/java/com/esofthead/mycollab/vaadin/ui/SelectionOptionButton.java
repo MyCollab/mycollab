@@ -45,7 +45,7 @@ public class SelectionOptionButton extends SplitButton implements HasSelectionOp
     private final Button selectThisPageBtn;
 
     @SuppressWarnings("serial")
-    public SelectionOptionButton(HasSelectableItemHandlers selectableItemHandlers) {
+    public SelectionOptionButton(final HasSelectableItemHandlers selectableItemHandlers) {
         super();
         this.selectableItemHandlers = selectableItemHandlers;
         addStyleName(UIConstants.THEME_GREEN_LINK);
@@ -64,11 +64,9 @@ public class SelectionOptionButton extends SplitButton implements HasSelectionOp
             public void splitButtonPopupVisibilityChange(
                     final SplitButtonPopupVisibilityEvent event) {
                 if (event.isPopupVisible()) {
-                    selectAllBtn.setCaption("Select All (" + SelectionOptionButton.this.selectableItemHandlers
-                            .totalItemsCount() + ")");
+                    selectAllBtn.setCaption("Select All (" + selectableItemHandlers.totalItemsCount() + ")");
 
-                    selectThisPageBtn.setCaption("Select This Page (" + SelectionOptionButton.this.selectableItemHandlers
-                            .currentViewCount() + ")");
+                    selectThisPageBtn.setCaption("Select This Page (" + selectableItemHandlers.currentViewCount() + ")");
                 }
             }
         });

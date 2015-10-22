@@ -49,7 +49,7 @@ public class MassUpdateContactWindow extends MassUpdateWindow<Contact> {
 		return new ContactEditFormFieldFactory<>(updateForm, false);
 	}
 
-	private class MassUpdateContactFormLayoutFactory extends AbstractFormLayoutFactory {
+	private class MassUpdateContactFormLayoutFactory implements IFormLayoutFactory {
 		private static final long serialVersionUID = 1L;
 
 		private GridFormLayoutHelper informationLayout;
@@ -77,7 +77,7 @@ public class MassUpdateContactWindow extends MassUpdateWindow<Contact> {
 		}
 
 		@Override
-		protected void onAttachField(final Object propertyId, final Field<?> field) {
+		public void attachField(Object propertyId, final Field<?> field) {
 			if (propertyId.equals("accountid")) {
 				informationLayout.addComponent(field, AppContext.getMessage(ContactI18nEnum.FORM_ACCOUNTS), 0, 0);
 			} else if (propertyId.equals("title")) {

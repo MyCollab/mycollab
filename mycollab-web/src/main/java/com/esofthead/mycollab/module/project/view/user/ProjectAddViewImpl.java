@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.project.view.user;
 
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
+import com.esofthead.mycollab.module.crm.view.account.AccountSelectionField;
 import com.esofthead.mycollab.module.project.domain.Project;
 import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -32,8 +33,7 @@ import com.vaadin.ui.*;
  */
 @SuppressWarnings("serial")
 @ViewComponent
-public class ProjectAddViewImpl extends AbstractPageView implements
-        ProjectAddView {
+public class ProjectAddViewImpl extends AbstractPageView implements ProjectAddView {
 
     private Project project;
     private final AdvancedEditBeanForm<Project> editForm;
@@ -60,8 +60,7 @@ public class ProjectAddViewImpl extends AbstractPageView implements
         private static final long serialVersionUID = 1L;
 
         public FormLayoutFactory() {
-            super((project.getId() == null) ? AppContext
-                    .getMessage(ProjectI18nEnum.VIEW_NEW_TITLE) : project.getName());
+            super((project.getId() == null) ? AppContext.getMessage(ProjectI18nEnum.VIEW_NEW_TITLE) : project.getName());
         }
 
         private Layout createButtonControls() {
@@ -69,17 +68,14 @@ public class ProjectAddViewImpl extends AbstractPageView implements
             final Layout controlButtons;
 
             if (project.getId() == null) {
-                controlButtons = (new EditFormControlsGenerator<>(
-                        editForm)).createButtonControls();
+                controlButtons = (new EditFormControlsGenerator<>(editForm)).createButtonControls();
             } else {
-                controlButtons = (new EditFormControlsGenerator<>(
-                        editForm)).createButtonControls(true, false, true);
+                controlButtons = (new EditFormControlsGenerator<>(editForm)).createButtonControls(true, false, true);
             }
             controlButtons.setSizeUndefined();
             controlPanel.addComponent(controlButtons);
             controlPanel.setWidthUndefined();
-            controlPanel.setComponentAlignment(controlButtons,
-                    Alignment.MIDDLE_CENTER);
+            controlPanel.setComponentAlignment(controlButtons, Alignment.MIDDLE_CENTER);
 
             return controlPanel;
         }
@@ -95,8 +91,7 @@ public class ProjectAddViewImpl extends AbstractPageView implements
         }
     }
 
-    private class EditFormFieldFactory extends
-            AbstractBeanFieldGroupEditFieldFactory<Project> {
+    private class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Project> {
         private static final long serialVersionUID = 1L;
 
         public EditFormFieldFactory(GenericBeanForm<Project> form) {
@@ -105,11 +100,11 @@ public class ProjectAddViewImpl extends AbstractPageView implements
 
         @Override
         protected Field<?> onCreateField(final Object propertyId) {
-            if (propertyId.equals("description")) {
+            if (Project.Field.description.equalTo(propertyId)) {
                 final RichTextArea field = new RichTextArea();
                 field.setHeight("350px");
                 return field;
-            } else if (propertyId.equals("projectstatus")) {
+            } else if (Project.Field.projectstatus.equalTo(propertyId)) {
                 final ProjectStatusComboBox projectCombo = new ProjectStatusComboBox();
                 projectCombo.setRequired(true);
                 projectCombo.setRequiredError("Please enter a project status");
@@ -117,20 +112,22 @@ public class ProjectAddViewImpl extends AbstractPageView implements
                     project.setProjectstatus(StatusI18nEnum.Open.name());
                 }
                 return projectCombo;
-            } else if (propertyId.equals("shortname")) {
+            } else if (Project.Field.shortname.equalTo(propertyId)) {
                 final TextField tf = new TextField();
                 tf.setNullRepresentation("");
                 tf.setRequired(true);
                 tf.setRequiredError("Please enter a project short name");
                 return tf;
-            } else if (propertyId.equals("currencyid")) {
+            } else if (Project.Field.currencyid.equalTo(propertyId)) {
                 return new CurrencyComboBoxField();
-            } else if (propertyId.equals("name")) {
+            } else if (Project.Field.name.equalTo(propertyId)) {
                 final TextField tf = new TextField();
                 tf.setNullRepresentation("");
                 tf.setRequired(true);
                 tf.setRequiredError("Please enter a Name");
                 return tf;
+            } else if (Project.Field.account.equalTo(propertyId)) {
+                return new AccountSelectionField();
             }
 
             return null;

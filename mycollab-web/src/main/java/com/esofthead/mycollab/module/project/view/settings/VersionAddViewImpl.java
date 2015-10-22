@@ -21,7 +21,6 @@ import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.VersionI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.AbstractEditItemComp;
-import com.esofthead.mycollab.module.project.ui.components.DynaFormLayout;
 import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
@@ -35,84 +34,83 @@ import com.vaadin.ui.Field;
 import com.vaadin.ui.TextField;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @ViewComponent
 public class VersionAddViewImpl extends AbstractEditItemComp<Version> implements VersionAddView {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Override
-	public HasEditFormHandlers<Version> getEditFormHandlers() {
-		return this.editForm;
-	}
+    @Override
+    public HasEditFormHandlers<Version> getEditFormHandlers() {
+        return this.editForm;
+    }
 
-	@Override
-	protected String initFormTitle() {
-		return (beanItem.getId() == null) ? null : beanItem.getVersionname();
-	}
+    @Override
+    protected String initFormTitle() {
+        return (beanItem.getId() == null) ? null : beanItem.getVersionname();
+    }
 
-	@Override
-	protected String initFormHeader() {
-		return (beanItem.getId() == null) ? AppContext
-				.getMessage(VersionI18nEnum.VIEW_NEW_TITLE) : AppContext
-				.getMessage(VersionI18nEnum.VIEW_EDIT_TITLE);
-	}
+    @Override
+    protected String initFormHeader() {
+        return (beanItem.getId() == null) ? AppContext
+                .getMessage(VersionI18nEnum.VIEW_NEW_TITLE) : AppContext
+                .getMessage(VersionI18nEnum.VIEW_EDIT_TITLE);
+    }
 
-	@Override
-	protected Resource initFormIconResource() {
-		return ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG_VERSION);
-	}
+    @Override
+    protected Resource initFormIconResource() {
+        return ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG_VERSION);
+    }
 
-	@Override
-	protected ComponentContainer createButtonControls() {
-		return (new EditFormControlsGenerator<>(
-				editForm)).createButtonControls();
-	}
+    @Override
+    protected ComponentContainer createButtonControls() {
+        return (new EditFormControlsGenerator<>(
+                editForm)).createButtonControls();
+    }
 
-	@Override
-	protected AdvancedEditBeanForm<Version> initPreviewForm() {
-		return new AdvancedEditBeanForm<>();
-	}
+    @Override
+    protected AdvancedEditBeanForm<Version> initPreviewForm() {
+        return new AdvancedEditBeanForm<>();
+    }
 
-	@Override
-	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new DynaFormLayout(ProjectTypeConstants.BUG_VERSION,
-				VersionDefaultFormLayoutFactory.getForm(), "id");
-	}
+    @Override
+    protected IFormLayoutFactory initFormLayoutFactory() {
+        return new DynaFormLayout(ProjectTypeConstants.BUG_VERSION,
+                VersionDefaultFormLayoutFactory.getForm(), "id");
+    }
 
-	@Override
-	protected AbstractBeanFieldGroupEditFieldFactory<Version> initBeanFormFieldFactory() {
-		return new EditFormFieldFactory(editForm);
-	}
+    @Override
+    protected AbstractBeanFieldGroupEditFieldFactory<Version> initBeanFormFieldFactory() {
+        return new EditFormFieldFactory(editForm);
+    }
 
-	private static class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Version> {
-		private static final long serialVersionUID = 1L;
+    private static class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Version> {
+        private static final long serialVersionUID = 1L;
 
-		public EditFormFieldFactory(GenericBeanForm<Version> form) {
-			super(form);
-		}
+        public EditFormFieldFactory(GenericBeanForm<Version> form) {
+            super(form);
+        }
 
-		@Override
-		protected Field<?> onCreateField(final Object propertyId) {
-			if (Version.Field.versionname.equalTo(propertyId)) {
-				final TextField tf = new TextField();
-				if (isValidateForm) {
-					tf.setNullRepresentation("");
-					tf.setRequired(true);
-					tf.setRequiredError(AppContext.getMessage(VersionI18nEnum.FORM_VERSION_ERROR_MSG));
-				}
-				return tf;
-			} else if (Version.Field.description.equalTo(propertyId)) {
-				return new RichTextEditField();
-			} else if (Version.Field.duedate.equalTo(propertyId)) {
-				final DateFieldExt dateField = new DateFieldExt();
-				dateField.setResolution(Resolution.DAY);
-				return dateField;
-			}
+        @Override
+        protected Field<?> onCreateField(final Object propertyId) {
+            if (Version.Field.versionname.equalTo(propertyId)) {
+                final TextField tf = new TextField();
+                if (isValidateForm) {
+                    tf.setNullRepresentation("");
+                    tf.setRequired(true);
+                    tf.setRequiredError(AppContext.getMessage(VersionI18nEnum.FORM_VERSION_ERROR_MSG));
+                }
+                return tf;
+            } else if (Version.Field.description.equalTo(propertyId)) {
+                return new RichTextEditField();
+            } else if (Version.Field.duedate.equalTo(propertyId)) {
+                final DateFieldExt dateField = new DateFieldExt();
+                dateField.setResolution(Resolution.DAY);
+                return dateField;
+            }
 
-			return null;
-		}
-	}
+            return null;
+        }
+    }
 }

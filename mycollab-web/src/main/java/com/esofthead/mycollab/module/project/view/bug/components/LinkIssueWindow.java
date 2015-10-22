@@ -93,7 +93,7 @@ public class LinkIssueWindow extends Window {
             super.setBean(newDataSource);
         }
 
-        class FormLayoutFactory extends AbstractFormLayoutFactory {
+        class FormLayoutFactory implements IFormLayoutFactory {
             private GridFormLayoutHelper informationLayout;
 
             @Override
@@ -146,7 +146,7 @@ public class LinkIssueWindow extends Window {
             }
 
             @Override
-            protected void onAttachField(Object propertyId, Field<?> field) {
+            public void attachField(Object propertyId, Field<?> field) {
                 if (RelatedBug.Field.relatetype.equalTo(propertyId)) {
                     informationLayout.addComponent(field, "This bug", 0, 0);
                 } else if (RelatedBug.Field.relatedid.equalTo(propertyId)) {

@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view;
 
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
@@ -24,24 +25,24 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @LoadPolicy(scope = ViewScope.PROTOTYPE)
 public class TimeTrackingPresenter extends AbstractPresenter<ITimeTrackingView> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public TimeTrackingPresenter() {
-		super(ITimeTrackingView.class);
-	}
+    public TimeTrackingPresenter() {
+        super(ITimeTrackingView.class);
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		ProjectModule prjContainer = (ProjectModule) container;
-		prjContainer.removeAllComponents();
-		prjContainer.with(view).withAlign(view, Alignment.TOP_CENTER);
-		view.display();
-	}
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        ProjectModule prjContainer = (ProjectModule) container;
+        prjContainer.removeAllComponents();
+        prjContainer.with(view).withAlign(view, Alignment.TOP_CENTER);
+        view.display();
+
+        AppContext.addFragment("project/timetracking", "Calendar");
+    }
 }

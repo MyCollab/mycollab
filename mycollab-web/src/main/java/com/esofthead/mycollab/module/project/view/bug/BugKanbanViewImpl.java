@@ -61,6 +61,7 @@ import fi.jasoft.dragdroplayouts.DDVerticalLayout;
 import fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode;
 import fi.jasoft.dragdroplayouts.events.LayoutBoundTransferable;
 import fi.jasoft.dragdroplayouts.events.VerticalLocationIs;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -129,10 +130,12 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
                 EventBusFactory.getInstance().post(new BugEvent.GotoList(BugKanbanViewImpl.this, null));
             }
         });
+        advanceDisplayBtn.setWidth("50px");
         advanceDisplayBtn.setIcon(FontAwesome.SITEMAP);
         advanceDisplayBtn.setDescription("Detail");
 
         Button kanbanBtn = new Button();
+        kanbanBtn.setWidth("50px");
         kanbanBtn.setDescription("Kanban View");
         kanbanBtn.setIcon(FontAwesome.TH);
 
@@ -202,19 +205,19 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
                         int pages = totalTasks / 20;
                         for (int page = 0; page < pages + 1; page++) {
                             List<SimpleBug> bugs = bugService.findPagableListByCriteria(new SearchRequest<>(searchCriteria, page + 1, 20));
-
-                            for (SimpleBug bug : bugs) {
-                                String status = bug.getStatus();
-                                KanbanBlock kanbanBlock = kanbanBlocks.get(status);
-                                if (kanbanBlock == null) {
-                                    LOG.error("Can not find a kanban block for status: " + status);
-                                } else {
-                                    kanbanBlock.addBlockItem(new KanbanBugBlockItem(bug));
+                            if (CollectionUtils.isNotEmpty(bugs)) {
+                                for (SimpleBug bug : bugs) {
+                                    String status = bug.getStatus();
+                                    KanbanBlock kanbanBlock = kanbanBlocks.get(status);
+                                    if (kanbanBlock == null) {
+                                        LOG.error("Can not find a kanban block for status: " + status);
+                                    } else {
+                                        kanbanBlock.addBlockItem(new KanbanBugBlockItem(bug));
+                                    }
                                 }
+                                UI.getCurrent().push();
                             }
-                            UI.getCurrent().push();
                         }
-
                     }
                 });
             }
@@ -369,6 +372,7 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
                     addNewBugComp();
                 }
             });
+            addBtn.setIcon(FontAwesome.PLUS);
             addBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS));
             popupContent.addOption(addBtn);
             controlsBtn.setContent(popupContent);
@@ -379,6 +383,7 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
                     addNewBugComp();
                 }
             });
+            addNewBtn.setIcon(FontAwesome.PLUS);
             addNewBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS));
             addNewBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
             addNewBtn.addStyleName(UIConstants.THEME_GREEN_LINK);

@@ -14,6 +14,53 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-server-runner.  If not, see <http://www.gnu.org/licenses/>.
  */
+/**
+ * This file is part of mycollab-server-runner.
+ * <p/>
+ * mycollab-server-runner is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * <p/>
+ * mycollab-server-runner is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * <p/>
+ * You should have received a copy of the GNU General Public License
+ * along with mycollab-server-runner.  If not, see <http://www.gnu.org/licenses/>.
+ * <p/>
+ * This file is part of mycollab-server-runner.
+ * <p/>
+ * mycollab-server-runner is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * <p/>
+ * mycollab-server-runner is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * <p/>
+ * You should have received a copy of the GNU General Public License
+ * along with mycollab-server-runner.  If not, see <http://www.gnu.org/licenses/>.
+ */
+/**
+ * This file is part of mycollab-server-runner.
+ * <p/>
+ * mycollab-server-runner is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * <p/>
+ * mycollab-server-runner is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * <p/>
+ * You should have received a copy of the GNU General Public License
+ * along with mycollab-server-runner.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.esofthead.mycollab.jetty;
 
 import ch.qos.logback.classic.Level;
@@ -45,6 +92,7 @@ import javax.sql.DataSource;
 import java.awt.*;
 import java.io.File;
 import java.io.OutputStream;
+import java.net.BindException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.URI;
@@ -98,10 +146,6 @@ public abstract class GenericServerRunner {
         ServerInstance.getInstance().registerInstance(this);
         System.setProperty("org.eclipse.jetty.annotations.maxWait", "300");
 
-        int stopPort = 0;
-        String stopKey = null;
-        boolean isStop = false;
-
         for (int i = 0; i < args.length; i++) {
             LOG.info("Argument: " + args[i]);
             if ("--port".equals(args[i])) {
@@ -119,65 +163,23 @@ public abstract class GenericServerRunner {
                         }
                     }
                 }).start();
-            } else if ("--stop-port".equals(args[i])) {
-                stopPort = Integer.parseInt(args[++i]);
-                LOG.info("Stop port: " + stopPort);
-            } else if ("--stop-key".equals(args[i])) {
-                stopKey = args[++i];
-                LOG.info("Stop key: " + stopKey);
-            } else if ("--stop".equals(args[i])) {
-                isStop = true;
             }
-        }
-
-        switch ((stopPort > 0 ? 1 : 0) + (stopKey != null ? 2 : 0)) {
-            case 1:
-                usage("Must specify --stop-key when --stop-port is specified");
-                break;
-
-            case 2:
-                usage("Must specify --stop-port when --stop-key is specified");
-                break;
-
-            case 3:
-                if (isStop) {
-                    try (Socket s = new Socket(InetAddress.getByName("localhost"), stopPort);
-                         OutputStream out = s.getOutputStream()) {
-                        out.write((stopKey + "\r\nstop\r\n").getBytes());
-                        out.flush();
-                    }
-                    return;
-                } else {
-                    LOG.info("Initiate the shutdown service");
-                    ShutdownMonitor monitor = ShutdownMonitor.getInstance();
-                    monitor.setPort(stopPort);
-                    monitor.setKey(stopKey);
-                    monitor.setExitVm(true);
-                    break;
-                }
         }
 
         System.setProperty(ApplicationProperties.MYCOLLAB_PORT, port + "");
         execute();
     }
 
-    private void usage(String error) {
-        if (error != null)
-            System.err.println("ERROR: " + error);
-        System.err
-                .println("Usage: java -jar runner.jar [--help|--version] [ server opts]");
-        System.err.println("Server Options:");
-        System.err
-                .println(" --version                          - display version and exit");
-        System.err.println(" --port n                      - server port");
-        System.err
-                .println(" --stop-port n                      - port to listen for stop command");
-        System.err
-                .println(" --stop-key n                       - security string for stop command (required if --stop-port is present)");
-        System.exit(1);
-    }
-
     private void execute() throws Exception {
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread t, Throwable e) {
+                if (e instanceof BindException) {
+
+                }
+                LOG.error("There is uncatch exception", e);
+            }
+        });
         server = new Server(port);
         contexts = new ContextHandlerCollection();
 
@@ -224,13 +226,6 @@ public abstract class GenericServerRunner {
         if (!alreadySetup) {
             openDefaultWebBrowserForInstallation();
         }
-
-        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-            @Override
-            public void uncaughtException(Thread t, Throwable e) {
-                LOG.error("There is uncatch exception", e);
-            }
-        });
 
         server.join();
     }

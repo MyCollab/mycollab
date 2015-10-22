@@ -63,6 +63,7 @@ public class GenericTaskProvider extends BasicEventProvider {
             }
             addEvent(new GenericTaskEvent(assignment));
         }
+        fireEventSetChange();
     }
 
     public Double getTotalBillableHours() {

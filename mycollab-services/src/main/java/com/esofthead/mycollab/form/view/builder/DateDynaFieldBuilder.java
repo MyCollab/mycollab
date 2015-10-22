@@ -23,8 +23,7 @@ import com.esofthead.mycollab.form.view.builder.type.DateDynaField;
  * @author MyCollab Ltd.
  *
  */
-public class DateDynaFieldBuilder extends
-		AbstractDynaFieldBuilder<DateDynaField> {
+public class DateDynaFieldBuilder extends AbstractDynaFieldBuilder<DateDynaField> {
 
 	public DateDynaFieldBuilder() {
 		field = new DateDynaField();

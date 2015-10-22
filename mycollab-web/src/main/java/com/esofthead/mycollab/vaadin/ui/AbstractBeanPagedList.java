@@ -50,8 +50,7 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T> extends
     protected MHorizontalLayout pageManagement;
     protected SearchRequest<S> searchRequest;
 
-    public AbstractBeanPagedList(RowDisplayHandler<T> rowDisplayHandler,
-                                 int defaultNumberSearchItems) {
+    public AbstractBeanPagedList(RowDisplayHandler<T> rowDisplayHandler, int defaultNumberSearchItems) {
         this.defaultNumberSearchItems = defaultNumberSearchItems;
         this.rowDisplayHandler = rowDisplayHandler;
         listContainer = new CssLayout();

@@ -94,7 +94,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
         }
     }
 
-    private class BasicFormLayoutFactory extends AbstractFormLayoutFactory {
+    private class BasicFormLayoutFactory implements IFormLayoutFactory {
         private static final long serialVersionUID = 1L;
 
         private GridFormLayoutHelper basicInformationLayout;
@@ -140,7 +140,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
         }
 
         @Override
-        protected void onAttachField(Object propertyId, Field<?> field) {
+        public void attachField(Object propertyId, Field<?> field) {
             if (User.Field.email.equalTo(propertyId)) {
                 basicInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_EMAIL), 1, 0);
             } else if (SimpleUser.Field.roleid.equalTo(propertyId)) {
@@ -179,7 +179,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
 
     }
 
-    private class AdvancedFormLayoutFactory extends AbstractFormLayoutFactory {
+    private class AdvancedFormLayoutFactory implements IFormLayoutFactory {
         private static final long serialVersionUID = 1L;
         private UserInformationLayout userInformationLayout;
 
@@ -199,7 +199,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
         }
 
         @Override
-        protected void onAttachField(Object propertyId, Field<?> field) {
+        public void attachField(Object propertyId, Field<?> field) {
             userInformationLayout.attachField(propertyId, field);
         }
     }

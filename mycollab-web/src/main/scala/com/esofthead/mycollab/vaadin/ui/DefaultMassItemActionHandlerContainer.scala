@@ -21,12 +21,12 @@ import java.io.InputStream
 import com.esofthead.mycollab.common.i18n.GenericI18Enum
 import com.esofthead.mycollab.reporting.ReportExportType
 import com.esofthead.mycollab.vaadin.AppContext
-import com.esofthead.mycollab.vaadin.events.{MassItemActionHandler, ViewItemAction, HasMassItemActionHandler}
+import com.esofthead.mycollab.vaadin.events.{HasMassItemActionHandler, MassItemActionHandler, ViewItemAction}
 import com.vaadin.server.StreamResource.StreamSource
-import com.vaadin.server.{FontAwesome, FileDownloader, Resource, StreamResource}
+import com.vaadin.server.{FileDownloader, FontAwesome, Resource, StreamResource}
 import com.vaadin.ui.Button
-import org.vaadin.viritin.layouts.MHorizontalLayout
 import org.vaadin.peter.buttongroup.ButtonGroup
+import org.vaadin.viritin.layouts.MHorizontalLayout
 
 /**
  * @author MyCollab Ltd
@@ -103,7 +103,8 @@ class DefaultMassItemActionHandlerContainer extends MHorizontalLayout with HasMa
      * @param downloadFileName
      * @param description
      */
-    def addDownloadActionItem(exportType: ReportExportType, resource: Resource, groupId: String, downloadFileName: String, description: String) {
+    def addDownloadActionItem(exportType: ReportExportType, resource: Resource, groupId: String, downloadFileName: String,
+                              description: String) {
         var group: ButtonGroup = groupMap(groupId)
         if (group == null) {
             group = new ButtonGroup
@@ -111,7 +112,8 @@ class DefaultMassItemActionHandlerContainer extends MHorizontalLayout with HasMa
             this.addComponent(group)
         }
         val optionBtn: Button = new Button("")
-        val fileDownloader: FileDownloader = new FileDownloader(new StreamResource(new DownloadStreamSource(exportType), downloadFileName))
+        val fileDownloader: FileDownloader = new FileDownloader(new StreamResource(new DownloadStreamSource(exportType),
+            downloadFileName))
         fileDownloader.extend(optionBtn)
         optionBtn.setIcon(resource)
         optionBtn.addStyleName(UIConstants.THEME_GREEN_LINK)

@@ -28,7 +28,7 @@ import com.vaadin.ui.*;
  * @since 1.0
  */
 @SuppressWarnings("serial")
-public abstract class ProfileFormLayoutFactory extends AbstractFormLayoutFactory {
+public abstract class ProfileFormLayoutFactory implements IFormLayoutFactory {
     private String title;
     private UserInformationLayout userInformationLayout;
     private Resource userAvatarIcon;
@@ -59,11 +59,11 @@ public abstract class ProfileFormLayoutFactory extends AbstractFormLayoutFactory
     protected abstract Layout createBottomPanel();
 
     @Override
-    protected void onAttachField(final Object propertyId, final Field<?> field) {
+    public void attachField(Object propertyId, final Field<?> field) {
         this.userInformationLayout.attachField(propertyId, field);
     }
 
-    public static class UserInformationLayout extends AbstractFormLayoutFactory {
+    public static class UserInformationLayout implements IFormLayoutFactory {
         private GridFormLayoutHelper basicInformationLayout;
         private GridFormLayoutHelper advancedInformationLayout;
         private GridFormLayoutHelper contactInformationLayout;
@@ -98,7 +98,7 @@ public abstract class ProfileFormLayoutFactory extends AbstractFormLayoutFactory
         }
 
         @Override
-        protected void onAttachField(Object propertyId, Field<?> field) {
+        public void attachField(Object propertyId, Field<?> field) {
             if (propertyId.equals("firstname")) {
                 basicInformationLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_FIRST_NAME), 0, 0);
             } else if (propertyId.equals("lastname")) {

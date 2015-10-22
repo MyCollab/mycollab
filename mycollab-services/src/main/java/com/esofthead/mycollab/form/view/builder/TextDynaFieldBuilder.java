@@ -24,8 +24,7 @@ import com.esofthead.mycollab.form.view.builder.type.TextDynaField;
  * @since 1.0
  * 
  */
-public class TextDynaFieldBuilder extends
-		AbstractDynaFieldBuilder<TextDynaField> {
+public class TextDynaFieldBuilder extends AbstractDynaFieldBuilder<TextDynaField> {
 	public TextDynaFieldBuilder() {
 		field = new TextDynaField();
 	}

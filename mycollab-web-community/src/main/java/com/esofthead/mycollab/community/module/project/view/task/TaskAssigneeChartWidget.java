@@ -42,7 +42,7 @@ import java.util.List;
 @ViewComponent
 public class TaskAssigneeChartWidget extends PieChartWrapper<TaskSearchCriteria> implements ITaskAssigneeChartWidget {
     public TaskAssigneeChartWidget() {
-        super(400, 280);
+        super(350, 280);
     }
 
     @Override

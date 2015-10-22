@@ -99,6 +99,7 @@ public class GanttChartViewImpl extends AbstractLazyPageView implements GanttCha
                 EventBusFactory.getInstance().post(new TaskEvent.GotoDashboard(GanttChartViewImpl.this, null));
             }
         });
+        advanceDisplayBtn.setWidth("50px");
         advanceDisplayBtn.setIcon(FontAwesome.SITEMAP);
         advanceDisplayBtn.setDescription(AppContext.getMessage(TaskGroupI18nEnum.ADVANCED_VIEW_TOOLTIP));
 
@@ -108,10 +109,12 @@ public class GanttChartViewImpl extends AbstractLazyPageView implements GanttCha
                 EventBusFactory.getInstance().post(new TaskEvent.GotoCalendarView(GanttChartViewImpl.this));
             }
         });
+        calendarBtn.setWidth("50px");
         calendarBtn.setDescription("Calendar View");
         calendarBtn.setIcon(FontAwesome.CALENDAR);
 
         Button chartDisplayBtn = new Button();
+        chartDisplayBtn.setWidth("50px");
         chartDisplayBtn.setDescription("Display Gantt chart");
         chartDisplayBtn.setIcon(FontAwesome.BAR_CHART_O);
 
@@ -121,6 +124,7 @@ public class GanttChartViewImpl extends AbstractLazyPageView implements GanttCha
                 EventBusFactory.getInstance().post(new TaskEvent.GotoKanbanView(this, null));
             }
         });
+        kanbanBtn.setWidth("50px");
         kanbanBtn.setDescription("Kanban View");
         kanbanBtn.setIcon(FontAwesome.TH);
 

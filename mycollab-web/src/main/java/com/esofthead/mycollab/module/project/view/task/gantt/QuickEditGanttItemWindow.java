@@ -66,7 +66,7 @@ public class QuickEditGanttItemWindow extends Window {
             super.setBean(item);
         }
 
-        class FormLayoutFactory extends AbstractFormLayoutFactory {
+        class FormLayoutFactory implements IFormLayoutFactory {
             private static final long serialVersionUID = 1L;
             private GridFormLayoutHelper informationLayout;
 
@@ -130,7 +130,7 @@ public class QuickEditGanttItemWindow extends Window {
             }
 
             @Override
-            protected void onAttachField(Object propertyId, Field<?> field) {
+            public void attachField(Object propertyId, Field<?> field) {
                 if ("name".equals(propertyId)) {
                     informationLayout.addComponent(field, AppContext.getMessage(TaskI18nEnum.FORM_TASK_NAME), 0, 0, 2, "100%");
                 } else if ("startDate".equals(propertyId)) {

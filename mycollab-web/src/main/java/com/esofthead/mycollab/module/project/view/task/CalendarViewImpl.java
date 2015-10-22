@@ -120,6 +120,7 @@ public class CalendarViewImpl extends AbstractPageView implements CalendarView {
                     SimpleTask task = new SimpleTask();
                     task.setStartdate(dateClickEvent.getDate());
                     task.setEnddate(dateClickEvent.getDate());
+                    task.setProjectid(CurrentProjectVariables.getProjectId());
                     UI.getCurrent().addWindow(new TaskAddWindow(task));
                 }
             }
@@ -181,7 +182,6 @@ public class CalendarViewImpl extends AbstractPageView implements CalendarView {
         });
         todayBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         ButtonGroup navigationBtns = new ButtonGroup();
-        navigationBtns.setStyleName("navigation-btns");
         Button previousBtn = new Button("", new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
@@ -189,6 +189,7 @@ public class CalendarViewImpl extends AbstractPageView implements CalendarView {
                 displayMonthView();
             }
         });
+        previousBtn.setWidth("40px");
         previousBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         previousBtn.setIcon(FontAwesome.CHEVRON_LEFT);
         navigationBtns.addButton(previousBtn);
@@ -200,6 +201,7 @@ public class CalendarViewImpl extends AbstractPageView implements CalendarView {
                 displayMonthView();
             }
         });
+        nextBtn.setWidth("40px");
         nextBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         nextBtn.setIcon(FontAwesome.CHEVRON_RIGHT);
         navigationBtns.addButton(nextBtn);
@@ -211,16 +213,19 @@ public class CalendarViewImpl extends AbstractPageView implements CalendarView {
         headerLbl = new Label();
         headerLbl.setStyleName("h1");
         titleWrapper.addComponent(headerLbl);
+
         Button advanceDisplayBtn = new Button(null, new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 EventBusFactory.getInstance().post(new TaskEvent.GotoDashboard(CalendarViewImpl.this, null));
             }
         });
+        advanceDisplayBtn.setWidth("50px");
         advanceDisplayBtn.setIcon(FontAwesome.SITEMAP);
         advanceDisplayBtn.setDescription(AppContext.getMessage(TaskGroupI18nEnum.ADVANCED_VIEW_TOOLTIP));
 
         Button calendarBtn = new Button();
+        calendarBtn.setWidth("50px");
         calendarBtn.setDescription("Calendar View");
         calendarBtn.setIcon(FontAwesome.CALENDAR);
 
@@ -232,6 +237,7 @@ public class CalendarViewImpl extends AbstractPageView implements CalendarView {
                 EventBusFactory.getInstance().post(new TaskEvent.GotoGanttChart(CalendarViewImpl.this, null));
             }
         });
+        chartDisplayBtn.setWidth("50px");
         chartDisplayBtn.setDescription("Display Gantt chart");
         chartDisplayBtn.setIcon(FontAwesome.BAR_CHART_O);
 
@@ -241,6 +247,7 @@ public class CalendarViewImpl extends AbstractPageView implements CalendarView {
                 EventBusFactory.getInstance().post(new TaskEvent.GotoKanbanView(CalendarViewImpl.this, null));
             }
         });
+        kanbanBtn.setWidth("50px");
         kanbanBtn.setDescription("Kanban View");
         kanbanBtn.setIcon(FontAwesome.TH);
 

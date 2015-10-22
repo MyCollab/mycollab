@@ -35,7 +35,6 @@ public class SearchFieldInfo implements Serializable {
     private Param param;
     private String compareOper;
     private Object value;
-    private String paramClsName;
 
     public SearchFieldInfo() {
     }
@@ -45,47 +44,42 @@ public class SearchFieldInfo implements Serializable {
         this.param = param;
         this.compareOper = compareOper;
         this.value = value;
-        this.paramClsName = param.getClass().getName();
     }
 
     public String getPrefixOper() {
         return prefixOper;
     }
 
-    public void setPrefixOper(String prefixOper) {
+    public SearchFieldInfo setPrefixOper(String prefixOper) {
         this.prefixOper = prefixOper;
+        return this;
     }
 
     public Param getParam() {
         return param;
     }
 
-    public void setParam(Param param) {
+    public SearchFieldInfo setParam(Param param) {
         this.param = param;
+        return this;
     }
 
     public Object getValue() {
         return value;
     }
 
-    public void setValue(Object value) {
+    public SearchFieldInfo setValue(Object value) {
         this.value = value;
+        return this;
     }
 
     public String getCompareOper() {
         return compareOper;
     }
 
-    public void setCompareOper(String compareOper) {
+    public SearchFieldInfo setCompareOper(String compareOper) {
         this.compareOper = compareOper;
-    }
-
-    public String getParamClsName() {
-        return paramClsName;
-    }
-
-    public void setParamClsName(String paramClsName) {
-        this.paramClsName = paramClsName;
+        return this;
     }
 
     public static <S extends SearchCriteria> S buildSearchCriteria(Class<S> cls, List<SearchFieldInfo> fieldInfos) {

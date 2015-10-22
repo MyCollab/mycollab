@@ -42,7 +42,7 @@ public class StatusSummaryChartWidget extends PieChartWrapper<BugSearchCriteria>
     private static final long serialVersionUID = 1L;
 
     public StatusSummaryChartWidget() {
-        super(BugStatus.class, 400, 280);
+        super(BugStatus.class, 350, 280);
     }
 
     @Override

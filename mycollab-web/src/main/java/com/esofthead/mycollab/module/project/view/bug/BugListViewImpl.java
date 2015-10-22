@@ -212,6 +212,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
         groupWrapLayout.addComponent(newBugBtn);
 
         Button advanceDisplayBtn = new Button();
+        advanceDisplayBtn.setWidth("50px");
         advanceDisplayBtn.setIcon(FontAwesome.SITEMAP);
         advanceDisplayBtn.setDescription("Detail");
 
@@ -221,6 +222,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
                 displayKanbanView();
             }
         });
+        kanbanBtn.setWidth("50px");
         kanbanBtn.setDescription("Kanban View");
         kanbanBtn.setIcon(FontAwesome.TH);
 
@@ -233,7 +235,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
         mainLayout = new MHorizontalLayout().withFullHeight().withFullWidth();
         wrapBody = new MVerticalLayout().withMargin(new MarginInfo(false, true, true, false));
 
-        this.rightColumn = new MVerticalLayout().withWidth("400px").withMargin(new MarginInfo(true, false, true,
+        this.rightColumn = new MVerticalLayout().withWidth("350px").withMargin(new MarginInfo(true, false, true,
                 false));
 
         mainLayout.with(wrapBody, rightColumn).expand(wrapBody);

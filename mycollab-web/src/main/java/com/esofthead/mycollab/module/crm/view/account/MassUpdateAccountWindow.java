@@ -22,15 +22,16 @@ import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.MassUpdateWindow;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.vaadin.ui.*;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 2.0
- *
  */
 public class MassUpdateAccountWindow extends MassUpdateWindow<Account> {
     private static final long serialVersionUID = 1L;
@@ -49,7 +50,7 @@ public class MassUpdateAccountWindow extends MassUpdateWindow<Account> {
         return new AccountEditFormFieldFactory<>(updateForm, false);
     }
 
-    private class MassUpdateAccountFormLayoutFactory extends AbstractFormLayoutFactory {
+    private class MassUpdateAccountFormLayoutFactory implements IFormLayoutFactory {
         private static final long serialVersionUID = 1L;
 
         private GridFormLayoutHelper informationLayout;
@@ -60,8 +61,7 @@ public class MassUpdateAccountWindow extends MassUpdateWindow<Account> {
             VerticalLayout formLayout = new VerticalLayout();
             formLayout.setDefaultComponentAlignment(Alignment.TOP_CENTER);
 
-            Label informationHeader = new Label(AppContext
-                    .getMessage(AccountI18nEnum.SECTION_ACCOUNT_INFORMATION));
+            Label informationHeader = new Label(AppContext.getMessage(AccountI18nEnum.SECTION_ACCOUNT_INFORMATION));
             informationHeader.setStyleName(UIConstants.H2_STYLE2);
             formLayout.addComponent(informationHeader);
 
@@ -69,8 +69,7 @@ public class MassUpdateAccountWindow extends MassUpdateWindow<Account> {
             formLayout.addComponent(this.informationLayout.getLayout());
 
             this.addressLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
-            Label addressHeader = new Label(AppContext
-                    .getMessage(AccountI18nEnum.SECTION_ADDRESS_INFORMATION));
+            Label addressHeader = new Label(AppContext.getMessage(AccountI18nEnum.SECTION_ADDRESS_INFORMATION));
             addressHeader.setStyleName(UIConstants.H2_STYLE2);
             formLayout.addComponent(addressHeader);
             formLayout.addComponent(this.addressLayout.getLayout());
@@ -81,7 +80,7 @@ public class MassUpdateAccountWindow extends MassUpdateWindow<Account> {
         }
 
         @Override
-        protected void onAttachField(final Object propertyId, final Field<?> field) {
+        public void attachField(Object propertyId, final Field<?> field) {
             if (propertyId.equals("industry")) {
                 this.informationLayout.addComponent(field, AppContext.getMessage(AccountI18nEnum.FORM_INDUSTRY), 0, 0);
             } else if (propertyId.equals("type")) {

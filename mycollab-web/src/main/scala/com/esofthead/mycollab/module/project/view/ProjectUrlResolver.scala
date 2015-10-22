@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.project.view
 
 import com.esofthead.mycollab.common.UrlTokenizer
 import com.esofthead.mycollab.eventmanager.EventBusFactory
-import com.esofthead.mycollab.module.project.events.{FollowingTicketEvent, ProjectEvent, TimeTrackingEvent}
+import com.esofthead.mycollab.module.project.events.{CalendarEvent, FollowingTicketEvent, ProjectEvent, TimeTrackingEvent}
 import com.esofthead.mycollab.module.project.service.ProjectService
 import com.esofthead.mycollab.module.project.view.bug.BugUrlResolver
 import com.esofthead.mycollab.module.project.view.file.ProjectFileUrlResolver
@@ -45,6 +45,7 @@ import com.esofthead.mycollab.vaadin.mvp.{PageActionChain, UrlResolver}
 class ProjectUrlResolver extends UrlResolver {
     def build: UrlResolver = {
         this.addSubResolver("dashboard", new ProjectDashboardUrlResolver)
+        this.addSubResolver("edit", new ProjectEditUrlResolver)
         this.addSubResolver("tag", new ProjectTagUrlResolver)
         this.addSubResolver("message", new MessageUrlResolver)
         this.addSubResolver("milestone", new MilestoneUrlResolver)
@@ -64,6 +65,7 @@ class ProjectUrlResolver extends UrlResolver {
         this.addSubResolver("component", new ComponentUrlResolver)
         this.addSubResolver("version", new VersionUrlResolver)
         this.addSubResolver("roadmap", new RoadmapUrlResolver)
+        this.addSubResolver("calendar", new CalendarUrlResolver)
         return this
     }
 
@@ -72,7 +74,7 @@ class ProjectUrlResolver extends UrlResolver {
             EventBusFactory.getInstance.post(new ShellEvent.GotoProjectModule(this, params))
         }
         else {
-            super.handle(params:_*)
+            super.handle(params: _*)
         }
     }
 
@@ -97,6 +99,22 @@ class ProjectUrlResolver extends UrlResolver {
                 val projectId = new UrlTokenizer(params(0)).getInt
                 val chain = new PageActionChain(new ProjectScreenData.Goto(projectId))
                 EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+            }
+        }
+    }
+
+    class ProjectEditUrlResolver extends ProjectUrlResolver {
+        protected override def handlePage(params: String*) {
+            if (params.length == 0) {
+                EventBusFactory.getInstance.post(new ShellEvent.GotoProjectModule(this, null))
+            } else {
+                val projectId = new UrlTokenizer(params(0)).getInt
+                val prjService: ProjectService = ApplicationContextUtil.getSpringBean(classOf[ProjectService])
+                val project = prjService.findById(projectId, AppContext.getAccountId)
+                if (project != null) {
+                    val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new ProjectScreenData.Edit(project))
+                    EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+                }
             }
         }
     }
@@ -126,6 +144,14 @@ class ProjectUrlResolver extends UrlResolver {
             val prjService = ApplicationContextUtil.getSpringBean(classOf[ProjectService])
             val prjKeys: java.util.List[Integer] = prjService.getProjectKeysUserInvolved(AppContext.getUsername, AppContext.getAccountId)
             EventBusFactory.getInstance.post(new TimeTrackingEvent.GotoTimeTrackingView(this, prjKeys))
+        }
+    }
+
+    private class CalendarUrlResolver extends ProjectUrlResolver {
+        protected override def handlePage(params: String*) {
+            val prjService = ApplicationContextUtil.getSpringBean(classOf[ProjectService])
+            val prjKeys: java.util.List[Integer] = prjService.getProjectKeysUserInvolved(AppContext.getUsername, AppContext.getAccountId)
+            EventBusFactory.getInstance.post(new CalendarEvent.GotoCalendarView(this, prjKeys))
         }
     }
 

@@ -41,13 +41,13 @@ import org.vaadin.teemu.VaadinIcons;
 public class TaskPopupFieldFactoryImpl implements TaskPopupFieldFactory {
 
     @Override
-    public PopupView createTaskPriorityPopupField(SimpleTask task) {
+    public PopupView createPriorityPopupField(SimpleTask task) {
         return new PopupFieldBuilder().withCaption(ProjectAssetsManager.getTaskPriorityHtml(task.getPriority()))
                 .withDescription(AppContext.getMessage(TaskI18nEnum.FORM_PRIORITY)).build();
     }
 
     @Override
-    public PopupView createTaskAssigneePopupField(SimpleTask task) {
+    public PopupView createAssigneePopupField(SimpleTask task) {
         String avatarLink = StorageFactory.getInstance().getAvatarPath(task.getAssignUserAvatarId(), 16);
         Img img = new Img(task.getAssignUserFullName(), avatarLink).setTitle(task.getAssignUserFullName());
         return new PopupFieldBuilder().withCaption(img.write()).withDescription(AppContext.getMessage(GenericI18Enum
@@ -55,19 +55,19 @@ public class TaskPopupFieldFactoryImpl implements TaskPopupFieldFactory {
     }
 
     @Override
-    public PopupView createTaskCommentsPopupField(SimpleTask task) {
+    public PopupView createCommentsPopupField(SimpleTask task) {
         return new PopupFieldBuilder().withCaption(FontAwesome.COMMENT_O.getHtml() + " " + task.getNumComments())
                 .withDescription("Comments").build();
     }
 
     @Override
-    public PopupView createTaskStatusPopupField(SimpleTask task) {
+    public PopupView createStatusPopupField(SimpleTask task) {
         return new PopupFieldBuilder().withCaptionAndIcon(FontAwesome.INFO_CIRCLE, task.getStatus()).withDescription
                 (AppContext.getMessage(TaskI18nEnum.FORM_STATUS)).build();
     }
 
     @Override
-    public PopupView createTaskPercentagePopupField(SimpleTask task) {
+    public PopupView createPercentagePopupField(SimpleTask task) {
         if (task.getPercentagecomplete() != null && task.getPercentagecomplete() > 0) {
             return new PopupFieldBuilder().withCaptionAndIcon(VaadinIcons.CALENDAR_CLOCK,
                     String.format(" %s%%", task.getPercentagecomplete())).withDescription("Percentage complete").build();
@@ -80,7 +80,7 @@ public class TaskPopupFieldFactoryImpl implements TaskPopupFieldFactory {
     }
 
     @Override
-    public PopupView createTaskMilestonePopupField(SimpleTask task) {
+    public PopupView createMilestonePopupField(SimpleTask task) {
         if (task.getMilestoneid() == null) {
             Div divHint = new Div().setCSSClass("nonValue");
             divHint.appendText(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE).getHtml());
@@ -93,7 +93,7 @@ public class TaskPopupFieldFactoryImpl implements TaskPopupFieldFactory {
     }
 
     @Override
-    public PopupView createTaskDeadlinePopupField(SimpleTask task) {
+    public PopupView createDeadlinePopupField(SimpleTask task) {
         if (task.getDeadlineRoundPlusOne() == null) {
             Div divHint = new Div().setCSSClass("nonValue");
             divHint.appendText(FontAwesome.CLOCK_O.getHtml());
@@ -106,13 +106,39 @@ public class TaskPopupFieldFactoryImpl implements TaskPopupFieldFactory {
     }
 
     @Override
-    public PopupView createTaskBillableHoursPopupField(SimpleTask task) {
+    public PopupView createStartDatePopupField(SimpleTask task) {
+        if (task.getStartdate() == null) {
+            Div divHint = new Div().setCSSClass("nonValue");
+            divHint.appendText(VaadinIcons.TIME_FORWARD.getHtml());
+            divHint.appendChild(new Span().appendText(" Click to edit").setCSSClass("hide"));
+            return new PopupFieldBuilder().withCaption(divHint.write()).withDescription("Start date").build();
+        } else {
+            return new PopupFieldBuilder().withCaption(String.format(" %s %s", VaadinIcons.TIME_FORWARD.getHtml(),
+                    AppContext.formatDate(task.getStartdate()))).withDescription("Start date").build();
+        }
+    }
+
+    @Override
+    public PopupView createEndDatePopupField(SimpleTask task) {
+        if (task.getEnddate() == null) {
+            Div divHint = new Div().setCSSClass("nonValue");
+            divHint.appendText(VaadinIcons.TIME_BACKWARD.getHtml());
+            divHint.appendChild(new Span().appendText(" Click to edit").setCSSClass("hide"));
+            return new PopupFieldBuilder().withCaption(divHint.write()).withDescription("End date").build();
+        } else {
+            return new PopupFieldBuilder().withCaption(String.format(" %s %s", VaadinIcons.TIME_BACKWARD.getHtml(),
+                    AppContext.formatDate(task.getEnddate()))).withDescription("End date").build();
+        }
+    }
+
+    @Override
+    public PopupView createBillableHoursPopupField(SimpleTask task) {
         return new PopupFieldBuilder().withCaptionAndIcon(FontAwesome.MONEY, "" + task.getBillableHours())
                 .withDescription("Billable hours").build();
     }
 
     @Override
-    public PopupView createTaskNonBillableHoursPopupField(SimpleTask task) {
+    public PopupView createNonBillableHoursPopupField(SimpleTask task) {
         return new PopupFieldBuilder().withCaptionAndIcon(FontAwesome.GIFT, "" + task.getNonBillableHours())
                 .withDescription("Non billable hours").build();
     }

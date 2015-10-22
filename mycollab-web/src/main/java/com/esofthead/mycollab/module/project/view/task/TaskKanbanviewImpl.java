@@ -18,35 +18,42 @@ package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.common.domain.OptionVal;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.common.service.OptionValService;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.db.query.SearchFieldInfo;
+import com.esofthead.mycollab.core.utils.BeanUtility;
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
-import com.esofthead.mycollab.module.project.ProjectTooltipGenerator;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
-import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TaskGroupI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
-import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.view.ProjectView;
 import com.esofthead.mycollab.module.project.view.kanban.AddNewColumnWindow;
+import com.esofthead.mycollab.module.project.view.kanban.DeleteColumnWindow;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.google.common.eventbus.Subscribe;
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Div;
 import com.vaadin.event.dd.DragAndDropEvent;
 import com.vaadin.event.dd.DropHandler;
 import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
@@ -56,16 +63,18 @@ import com.vaadin.server.Page;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.dd.HorizontalDropLocation;
 import com.vaadin.shared.ui.dd.VerticalDropLocation;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import fi.jasoft.dragdroplayouts.DDHorizontalLayout;
 import fi.jasoft.dragdroplayouts.DDVerticalLayout;
 import fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode;
 import fi.jasoft.dragdroplayouts.events.LayoutBoundTransferable;
 import fi.jasoft.dragdroplayouts.events.VerticalLocationIs;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.map.HashedMap;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.jouni.restrain.Restrain;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -132,9 +141,21 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
                 UI.getCurrent().addWindow(new AddNewColumnWindow(TaskKanbanviewImpl.this, ProjectTypeConstants.TASK));
             }
         });
+        addNewColumnBtn.setIcon(FontAwesome.PLUS);
         addNewColumnBtn.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS));
         addNewColumnBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         groupWrapLayout.addComponent(addNewColumnBtn);
+
+        Button deleteColumBtn = new Button("Delete columns", new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                UI.getCurrent().addWindow(new DeleteColumnWindow(TaskKanbanviewImpl.this, ProjectTypeConstants.TASK));
+            }
+        });
+        deleteColumBtn.setIcon(FontAwesome.TRASH_O);
+        deleteColumBtn.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS));
+        deleteColumBtn.setStyleName(UIConstants.THEME_RED_LINK);
+//        groupWrapLayout.addComponent(deleteColumBtn);
 
         Button advanceDisplayBtn = new Button(null, new Button.ClickListener() {
             @Override
@@ -142,6 +163,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
                 EventBusFactory.getInstance().post(new TaskEvent.GotoDashboard(TaskKanbanviewImpl.this, null));
             }
         });
+        advanceDisplayBtn.setWidth("50px");
         advanceDisplayBtn.setIcon(FontAwesome.SITEMAP);
         advanceDisplayBtn.setDescription(AppContext.getMessage(TaskGroupI18nEnum.ADVANCED_VIEW_TOOLTIP));
 
@@ -151,6 +173,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
                 EventBusFactory.getInstance().post(new TaskEvent.GotoCalendarView(TaskKanbanviewImpl.this));
             }
         });
+        calendarBtn.setWidth("50px");
         calendarBtn.setDescription("Calendar View");
         calendarBtn.setIcon(FontAwesome.CALENDAR);
 
@@ -160,10 +183,12 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
                 EventBusFactory.getInstance().post(new TaskEvent.GotoGanttChart(this, null));
             }
         });
+        chartDisplayBtn.setWidth("50px");
         chartDisplayBtn.setDescription("Display Gantt chart");
         chartDisplayBtn.setIcon(FontAwesome.BAR_CHART_O);
 
         Button kanbanBtn = new Button();
+        kanbanBtn.setWidth("50px");
         kanbanBtn.setDescription("Kanban View");
         kanbanBtn.setIcon(FontAwesome.TH);
 
@@ -278,17 +303,19 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
                         int pages = totalTasks / 20;
                         for (int page = 0; page < pages + 1; page++) {
                             List<SimpleTask> tasks = taskService.findPagableListByCriteria(new SearchRequest<>(searchCriteria, page + 1, 20));
-
-                            for (SimpleTask task : tasks) {
-                                String status = task.getStatus();
-                                KanbanBlock kanbanBlock = kanbanBlocks.get(status);
-                                if (kanbanBlock == null) {
-                                    LOG.error("Can not find a kanban block for status: " + status);
-                                } else {
-                                    kanbanBlock.addBlockItem(new KanbanTaskBlockItem(task));
+                            if (CollectionUtils.isNotEmpty(tasks)) {
+                                for (SimpleTask task : tasks) {
+                                    String status = task.getStatus();
+                                    KanbanBlock kanbanBlock = kanbanBlocks.get(status);
+                                    if (kanbanBlock == null) {
+                                        LOG.error("Can not find a kanban block for status: " + status + " for task: "
+                                                + BeanUtility.printBeanObj(task));
+                                    } else {
+                                        kanbanBlock.addBlockItem(new KanbanTaskBlockItem(task));
+                                    }
                                 }
+                                UI.getCurrent().push();
                             }
-                            UI.getCurrent().push();
                         }
 
                     }
@@ -319,39 +346,58 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
             root.addStyleName("kanban-item");
             this.setCompositionRoot(root);
 
-            String taskname = String.format("[%s-%s] %s", task.getProjectShortname(), task.getTaskkey(), task.getTaskname());
-            ButtonLink taskBtn = new ButtonLink(taskname, new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent clickEvent) {
-                    EventBusFactory.getInstance().post(new TaskEvent.GotoRead(KanbanTaskBlockItem.this, task.getId()));
-                }
-            });
-            String taskPriority = (task.getPriority() != null) ? task.getPriority() : OptionI18nEnum.TaskPriority.Medium.name();
-            taskBtn.setIcon(ProjectAssetsManager.getTaskPriority(taskPriority));
-            taskBtn.addStyleName("task-" + taskPriority.toLowerCase());
-            taskBtn.setDescription(ProjectTooltipGenerator.generateToolTipTask(AppContext.getUserLocale(), task,
-                    AppContext.getSiteUrl(), AppContext.getTimezone()));
-            root.with(taskBtn);
-
-            MHorizontalLayout footer = new MHorizontalLayout().withStyleName("footer2");
             TaskPopupFieldFactory popupFieldFactory = ViewManager.getCacheComponent(TaskPopupFieldFactory.class);
 
-            PopupView commentField = popupFieldFactory.createTaskCommentsPopupField(task);
+            MHorizontalLayout headerLayout = new MHorizontalLayout();
+
+            Label taskLinkLbl = new Label(buildTaskLink(), ContentMode.HTML);
+            if (task.isCompleted()) {
+                taskLinkLbl.addStyleName("completed");
+                taskLinkLbl.removeStyleName("overdue pending");
+            } else if (task.isOverdue()) {
+                taskLinkLbl.addStyleName("overdue");
+                taskLinkLbl.removeStyleName("completed pending");
+            } else if (task.isPending()) {
+                taskLinkLbl.addStyleName("pending");
+                taskLinkLbl.removeStyleName("completed overdue");
+            }
+            taskLinkLbl.addStyleName("wordWrap");
+            PopupView priorityField = popupFieldFactory.createPriorityPopupField(task);
+            headerLayout.with(priorityField, taskLinkLbl).expand(taskLinkLbl);
+
+            root.with(headerLayout);
+
+            MHorizontalLayout footer = new MHorizontalLayout().withStyleName("footer2");
+
+            PopupView commentField = popupFieldFactory.createCommentsPopupField(task);
             footer.addComponent(commentField);
 
             if (task.getDeadlineRoundPlusOne() != null) {
-                PopupView field = popupFieldFactory.createTaskDeadlinePopupField(task);
+                PopupView field = popupFieldFactory.createDeadlinePopupField(task);
                 String deadline = String.format("%s: %s", AppContext.getMessage(TaskI18nEnum.FORM_DEADLINE),
                         AppContext.formatDate(task.getDeadlineRoundPlusOne()));
                 field.setDescription(deadline);
                 footer.addComponent(field);
             }
 
-            if (task.getAssignuser() != null) {
-                footer.add(UserAvatarControlFactory.createUserAvatarEmbeddedButton(task.getAssignUserAvatarId(), 16));
-            }
+            PopupView assigneeField = popupFieldFactory.createAssigneePopupField(task);
+            footer.addComponent(assigneeField);
 
             root.addComponent(footer);
+        }
+
+        private String buildTaskLink() {
+            String uid = UUID.randomUUID().toString();
+
+            String linkName = String.format("[#%d] - %s", task.getTaskkey(), task.getTaskname());
+            A taskLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateTaskPreviewFullLink(task.getTaskkey(),
+                    CurrentProjectVariables.getShortName())).appendText(linkName).setStyle("display:inline");
+
+            taskLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, ProjectTypeConstants.TASK, task.getId() + ""));
+            taskLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
+
+            Div resultDiv = new DivLessFormatter().appendChild(taskLink, DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));
+            return resultDiv.write();
         }
     }
 
@@ -361,7 +407,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
         private DDVerticalLayout dragLayoutContainer;
         private Label header;
 
-        public KanbanBlock(OptionVal stage) {
+        public KanbanBlock(final OptionVal stage) {
             this.setHeight("100%");
             this.optionVal = stage;
             root = new MVerticalLayout();
@@ -438,18 +484,69 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
             headerLayout.setComponentAlignment(header, Alignment.MIDDLE_LEFT);
             headerLayout.setExpandRatio(header, 1.0f);
 
-            PopupButton controlsBtn = new PopupButton();
+            final PopupButton controlsBtn = new PopupButton();
             controlsBtn.addStyleName(UIConstants.THEME_LINK);
             headerLayout.addComponent(controlsBtn);
             headerLayout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
 
+            String typeval = optionVal.getTypeval();
+            boolean canExecute = !typeval.equals(StatusI18nEnum.Closed.name()) && !typeval.equals(StatusI18nEnum.Archived.name())
+                    && !typeval.equals(StatusI18nEnum.Open.name()) && !typeval.equals(StatusI18nEnum.Pending.name());
+            canExecute = canExecute && CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS);
+
             OptionPopupContent popupContent = new OptionPopupContent();
+            Button renameColumnBtn = new Button("Rename column", new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent event) {
+                    controlsBtn.setPopupVisible(false);
+                    UI.getCurrent().addWindow(new RenameColumnWindow());
+                }
+            });
+            renameColumnBtn.setIcon(FontAwesome.PENCIL);
+            renameColumnBtn.setEnabled(canExecute);
+            popupContent.addOption(renameColumnBtn);
+
+            Button deleteColumnBtn = new Button("Delete column", new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent event) {
+                    if (getTaskComponentCount() > 0) {
+                        NotificationUtil.showErrorNotification("Can not delete column because it has tasks");
+                    } else {
+                        ConfirmDialogExt.show(UI.getCurrent(), AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
+                                        AppContext.getSiteName()),
+                                AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_MULTIPLE_ITEMS_MESSAGE),
+                                AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                                AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                                new ConfirmDialog.Listener() {
+                                    private static final long serialVersionUID = 1L;
+
+                                    @Override
+                                    public void onClose(ConfirmDialog dialog) {
+                                        if (dialog.isConfirmed()) {
+                                            optionValService.removeWithSession(stage, AppContext.getUsername(), AppContext.getAccountId());
+                                            ((ComponentContainer) KanbanBlock.this.getParent()).removeComponent
+                                                    (KanbanBlock.this);
+                                        }
+                                    }
+                                });
+                    }
+                    controlsBtn.setPopupVisible(false);
+                }
+            });
+            deleteColumnBtn.setIcon(FontAwesome.TRASH_O);
+            deleteColumnBtn.setEnabled(canExecute);
+            popupContent.addOption(deleteColumnBtn);
+
+            popupContent.addSeparator();
+
             Button addBtn = new Button("Add a task", new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
+                    controlsBtn.setPopupVisible(false);
                     addNewTaskComp();
                 }
             });
+            addBtn.setIcon(FontAwesome.PLUS);
             addBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
             popupContent.addOption(addBtn);
             controlsBtn.setContent(popupContent);
@@ -460,6 +557,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
                     addNewTaskComp();
                 }
             });
+            addNewBtn.setIcon(FontAwesome.PLUS);
             addNewBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
             addNewBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
             addNewBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
@@ -471,8 +569,17 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
             updateComponentCount();
         }
 
+        private int getTaskComponentCount() {
+            Component testComp = (dragLayoutContainer.getComponentCount() > 0) ? dragLayoutContainer.getComponent(0) : null;
+            if (testComp instanceof KanbanTaskBlockItem || testComp == null) {
+                return dragLayoutContainer.getComponentCount();
+            } else {
+                return (dragLayoutContainer.getComponentCount() - 1);
+            }
+        }
+
         private void updateComponentCount() {
-            header.setValue(String.format("%s (%d)", optionVal.getTypeval(), dragLayoutContainer.getComponentCount()));
+            header.setValue(String.format("%s (%d)", optionVal.getTypeval(), getTaskComponentCount()));
         }
 
         void addNewTaskComp() {
@@ -524,6 +631,65 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
                 newTaskComp = layout;
                 dragLayoutContainer.addComponent(layout, 0);
                 dragLayoutContainer.markAsDirty();
+            }
+        }
+
+        class RenameColumnWindow extends Window {
+            public RenameColumnWindow() {
+                super("Rename column");
+                this.setWidth("500px");
+                this.setModal(true);
+                this.setResizable(false);
+                this.center();
+
+                MVerticalLayout content = new MVerticalLayout().withMargin(false);
+                this.setContent(content);
+
+                final TextField columnNameField = new TextField();
+                columnNameField.setValue(optionVal.getTypeval());
+                GridFormLayoutHelper gridFormLayoutHelper = new GridFormLayoutHelper(1, 1, "100%", "150px", Alignment.TOP_LEFT);
+                gridFormLayoutHelper.getLayout().setWidth("100%");
+                gridFormLayoutHelper.getLayout().addStyleName("colored-gridlayout");
+                gridFormLayoutHelper.getLayout().setMargin(false);
+                gridFormLayoutHelper.addComponent(columnNameField, "Column name", 0, 0);
+
+                Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
+                    @Override
+                    public void buttonClick(Button.ClickEvent event) {
+                        RenameColumnWindow.this.close();
+                    }
+                });
+                cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+
+                Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
+                    @Override
+                    public void buttonClick(Button.ClickEvent event) {
+                        if (StringUtils.isNotBlank(columnNameField.getValue())) {
+                            OptionValService optionValService = ApplicationContextUtil.getSpringBean(OptionValService.class);
+                            if (optionValService.isExistedOptionVal(ProjectTypeConstants.TASK, columnNameField.getValue(),
+                                    optionVal.getExtraid(), AppContext.getAccountId())) {
+                                NotificationUtil.showErrorNotification(String.format("There is already the column " +
+                                        "name '%s' in the board", columnNameField.getValue()));
+                            } else {
+                                taskService.massUpdateStatuses(optionVal.getTypeval(), columnNameField.getValue(), optionVal.getExtraid(),
+                                        AppContext.getAccountId());
+                                optionVal.setTypeval(columnNameField.getValue());
+                                optionValService.updateWithSession(optionVal, AppContext.getUsername());
+                                KanbanBlock.this.updateComponentCount();
+                            }
+                        } else {
+                            NotificationUtil.showErrorNotification("Column name must be not null");
+                        }
+
+                        RenameColumnWindow.this.close();
+                    }
+                });
+                saveBtn.setIcon(FontAwesome.SAVE);
+                saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+
+                MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(new MarginInfo(false, true, true, false))
+                        .with(cancelBtn, saveBtn);
+                content.with(gridFormLayoutHelper.getLayout(), buttonControls).withAlign(buttonControls, Alignment.MIDDLE_RIGHT);
             }
         }
     }

@@ -33,7 +33,7 @@ import com.vaadin.ui.Label;
  * @since 1.0
  * 
  */
-public class GridFormLayoutHelper implements Serializable {
+public class MobileGridFormLayoutHelper implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private final GridLayout layout;
@@ -45,25 +45,25 @@ public class GridFormLayoutHelper implements Serializable {
 	private static final String DEFAULT_CAPTION_FORM_WIDTH = "120px";
 	private static final String DEFAULT_CONTROL_WIDTH = "250px";
 
-	public GridFormLayoutHelper(final int columns, final int rows) {
+	public MobileGridFormLayoutHelper(final int columns, final int rows) {
 		this(columns, rows, DEFAULT_CAPTION_FORM_WIDTH);
 	}
 
-	public GridFormLayoutHelper(final int columns, final int rows,
-			final String defaultCaptionWidth) {
+	public MobileGridFormLayoutHelper(final int columns, final int rows,
+									  final String defaultCaptionWidth) {
 		this(columns, rows, DEFAULT_CONTROL_WIDTH, defaultCaptionWidth,
 				Alignment.TOP_RIGHT);
 	}
 
-	public GridFormLayoutHelper(final int columns, final int rows,
-			final String fieldControlWidth, final String defaultCaptionWidth) {
+	public MobileGridFormLayoutHelper(final int columns, final int rows,
+									  final String fieldControlWidth, final String defaultCaptionWidth) {
 		this(columns, rows, fieldControlWidth, defaultCaptionWidth,
 				Alignment.TOP_RIGHT);
 	}
 
-	public GridFormLayoutHelper(final int columns, final int rows,
-			final String fieldControlWidth, final String defaultCaptionWidth,
-			final Alignment captionAlignment) {
+	public MobileGridFormLayoutHelper(final int columns, final int rows,
+									  final String fieldControlWidth, final String defaultCaptionWidth,
+									  final Alignment captionAlignment) {
 		this.fieldControlWidth = fieldControlWidth;
 		this.defaultCaptionWidth = defaultCaptionWidth;
 		this.captionAlignment = captionAlignment;

@@ -83,7 +83,7 @@ public final class StringUtils {
      */
     public static String formatRichText(String value) {
         if (isBlank(value)) {
-            return "No value";
+            return "";
         }
 
         value = Jsoup.clean(value, Whitelist.relaxed().addTags("img")

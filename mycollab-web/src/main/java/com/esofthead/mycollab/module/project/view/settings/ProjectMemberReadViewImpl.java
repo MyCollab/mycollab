@@ -19,13 +19,10 @@ package com.esofthead.mycollab.module.project.view.settings;
 import com.esofthead.mycollab.common.GenericLinkUtils;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
-import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.arguments.*;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.NumberUtils;
-import com.esofthead.mycollab.core.utils.StringUtils;
-import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.project.*;
 import com.esofthead.mycollab.module.project.dao.ProjectMemberMapper;
@@ -34,7 +31,6 @@ import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
-import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.view.AbstractProjectPageView;
@@ -48,19 +44,20 @@ import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.LinkViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.UserLinkViewField;
-import com.hp.gagawa.java.elements.*;
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Div;
+import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Span;
 import com.vaadin.data.Property;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Label;
+import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
-import java.lang.Object;
 import java.util.UUID;
 
 /**
@@ -159,7 +156,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
         return new ProjectMemberFormFieldFactory(previewForm);
     }
 
-    protected class ProjectMemberReadLayoutFactory extends AbstractFormLayoutFactory {
+    protected class ProjectMemberReadLayoutFactory implements IFormLayoutFactory {
         private static final long serialVersionUID = 8833593761607165873L;
 
         @Override
@@ -260,14 +257,13 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
         }
 
         @Override
-        protected void onAttachField(Object propertyId, Field<?> field) {
+        public void attachField(Object propertyId, Field<?> field) {
 
         }
 
     }
 
     private static class ProjectMemberFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<SimpleProjectMember> {
-
         private static final long serialVersionUID = 1L;
 
         ProjectMemberFormFieldFactory(GenericBeanForm<SimpleProjectMember> form) {
@@ -344,8 +340,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
 
         private void showOpenAssignments() {
             searchCriteria = new ProjectGenericTaskSearchCriteria();
-            searchCriteria.setProjectIds(new SetSearchField<>(
-                    CurrentProjectVariables.getProjectId()));
+            searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
             searchCriteria.setAssignUser(new StringSearchField(beanItem.getUsername()));
             searchCriteria.setIsOpenned(new SearchField());
             updateSearchResult();
@@ -361,79 +356,41 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
 
         @Override
         public Component generateRow(AbstractBeanPagedList host, ProjectGenericTask genericTask, int rowIndex) {
-            CssLayout layout = new CssLayout();
-            layout.setWidth("100%");
-            layout.setStyleName("list-row");
-
-            Div itemDiv = buildItemValue(genericTask);
-
-            Label taskLbl = new Label(itemDiv.write(), ContentMode.HTML);
-            if (genericTask.isOverdue()) {
-                taskLbl.addStyleName("overdue");
-            } else if (genericTask.isClosed()) {
-                taskLbl.addStyleName("completed");
-            }
-
-            layout.addComponent(taskLbl);
-
-            Div footerDiv = new Div().setCSSClass(UIConstants.FOOTER_NOTE);
-
-            if (genericTask.getDueDate() != null) {
-                footerDiv.appendChild(new Text(AppContext.getMessage(TaskI18nEnum.OPT_DUE_DATE,
-                        AppContext.formatPrettyTime(genericTask.getDueDatePlusOne())))).
-                        setTitle(AppContext.formatDate(genericTask.getDueDate()));
-            } else {
-                footerDiv.appendChild(new Text(AppContext.getMessage(TaskI18nEnum.OPT_DUE_DATE, "Undefined")));
-            }
-
-            if (genericTask.getAssignUser() != null) {
-                footerDiv.appendChild(buildAssigneeValue(genericTask));
-            }
-
-            layout.addComponent(new Label(footerDiv.write(), ContentMode.HTML));
-            return layout;
-        }
-
-        private Div buildItemValue(ProjectGenericTask task) {
+            MHorizontalLayout rowComp = new MHorizontalLayout().withStyleName("list-row").withWidth("100%");
+            rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
+            Div issueDiv = new Div();
             String uid = UUID.randomUUID().toString();
-            Div div = new DivLessFormatter();
-            Text image = new Text(ProjectAssetsManager.getAsset(task.getType()).getHtml());
-            A itemLink = new A().setId("tag" + uid);
-            if (ProjectTypeConstants.TASK.equals(task.getType()) || ProjectTypeConstants.BUG.equals(task.getType())) {
-                itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(task.getProjectShortName(),
-                        task.getProjectId(), task.getType(), task.getExtraTypeId() + ""));
+            A taskLink = new A().setId("tag" + uid);
+
+            taskLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, genericTask.getType(), genericTask.getTypeId() + ""));
+            taskLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
+            if (ProjectTypeConstants.BUG.equals(genericTask.getType()) || ProjectTypeConstants.TASK.equals(genericTask.getType())) {
+                taskLink.appendText(String.format("[#%d] - %s", genericTask.getExtraTypeId(), genericTask.getName()));
+                taskLink.setHref(ProjectLinkBuilder.generateProjectItemLink(genericTask.getProjectShortName(),
+                        genericTask.getProjectId(), genericTask.getType(), genericTask.getExtraTypeId() + ""));
             } else {
-                itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
-                        task.getProjectShortName(), task.getProjectId(), task.getType(), task.getTypeId() + ""));
+                taskLink.appendText(genericTask.getName());
+                taskLink.setHref(ProjectLinkBuilder.generateProjectItemLink(genericTask.getProjectShortName(),
+                        genericTask.getProjectId(), genericTask.getType(), genericTask.getTypeId() + ""));
             }
 
-            itemLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, task.getType(), task.getTypeId() + ""));
-            itemLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
-            itemLink.appendText(task.getName());
+            issueDiv.appendChild(taskLink, TooltipHelper.buildDivTooltipEnable(uid));
+            Label issueLbl = new Label(issueDiv.write(), ContentMode.HTML);
+            if (genericTask.isClosed()) {
+                issueLbl.addStyleName("completed");
+            } else if (genericTask.isOverdue()) {
+                issueLbl.addStyleName("overdue");
+            }
 
-            div.appendChild(image, DivLessFormatter.EMPTY_SPACE(), itemLink, DivLessFormatter.EMPTY_SPACE(),
-                    TooltipHelper.buildDivTooltipEnable(uid));
-            return div;
-        }
+            String avatarLink = StorageFactory.getInstance().getAvatarPath(genericTask.getAssignUserAvatarId(), 16);
+            Img img = new Img(genericTask.getAssignUserFullName(), avatarLink).setTitle(genericTask
+                    .getAssignUserFullName());
 
-        private Div buildAssigneeValue(ProjectGenericTask task) {
-            String uid = UUID.randomUUID().toString();
-            Div div = new DivLessFormatter();
-            Img userAvatar = new Img("", StorageFactory.getInstance().getAvatarPath(task.getAssignUserAvatarId(), 16));
-            A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
-                    task.getProjectId(), task.getAssignUser()));
-
-            userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(uid, task.getAssignUser()));
-            userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
-            userLink.appendText(StringUtils.trim(task.getAssignUserFullName(), 30, true));
-
-            String assigneeTxt = AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE) + ": ";
-
-            div.appendChild(DivLessFormatter.EMPTY_SPACE(), DivLessFormatter.EMPTY_SPACE(), DivLessFormatter.EMPTY_SPACE(),
-                    DivLessFormatter.EMPTY_SPACE(), new Text(assigneeTxt), userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink,
-                    DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));
-
-            return div;
+            MHorizontalLayout iconsLayout = new MHorizontalLayout().with(new ELabel(ProjectAssetsManager.getAsset
+                    (genericTask.getType()).getHtml(), ContentMode.HTML), new ELabel(img.write(), ContentMode.HTML));
+            MCssLayout issueWrapper = new MCssLayout(issueLbl);
+            rowComp.with(iconsLayout, issueWrapper).expand(issueWrapper);
+            return rowComp;
         }
     }
 }

@@ -36,6 +36,7 @@ public class ButtonI18nComp extends MButton {
     public ButtonI18nComp(String key, Enum<?> caption, Button.ClickListener listener) {
         this.key = key;
         this.setCaption(AppContext.getMessage(caption));
+        this.setDescription(AppContext.getMessage(caption));
         this.addClickListener(listener);
     }
 

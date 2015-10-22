@@ -22,10 +22,8 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
  * @author MyCollab Ltd.
  * @since 4.0
  */
-public class Param {
-
+public abstract class Param {
     protected String id;
-
     protected Enum<?> displayName;
 
     public Param() {

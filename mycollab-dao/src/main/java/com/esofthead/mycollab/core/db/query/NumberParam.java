@@ -36,8 +36,7 @@ public class NumberParam extends ColumnParam {
     static final String IS_NOT_EMPTY = "is not empty";
 
     public static final String[] OPTIONS = {EQUAL, NOT_EQUAL, LESS_THAN,
-            LESS_THAN_EQUAL, GREATER_THAN, GREATER_THAN_EQUAL, IS_EMPTY,
-            IS_NOT_EMPTY};
+            LESS_THAN_EQUAL, GREATER_THAN, GREATER_THAN_EQUAL, IS_EMPTY, IS_NOT_EMPTY};
 
     private static final String EQUAL_EXPR = "%s.%s = ";
     private static final String NOT_EQUAL_EXPR = "%s.%s <> ";
@@ -76,23 +75,19 @@ public class NumberParam extends ColumnParam {
     }
 
     public OneValueSearchField buildParamIsEqual(String oper, Object value) {
-        return new OneValueSearchField(oper, String.format(EQUAL_EXPR,
-                this.getTable(), this.getColumn()), value);
+        return new OneValueSearchField(oper, String.format(EQUAL_EXPR, this.getTable(), this.getColumn()), value);
     }
 
     public OneValueSearchField buildParamIsNotEqual(String oper, Object value) {
-        return new OneValueSearchField(oper, String.format(NOT_EQUAL_EXPR,
-                this.getTable(), this.getColumn()), value);
+        return new OneValueSearchField(oper, String.format(NOT_EQUAL_EXPR, this.getTable(), this.getColumn()), value);
     }
 
     public NoValueSearchField buildParamIsNull(String oper) {
-        return new NoValueSearchField(oper, String.format(NULL_EXPR,
-                this.getTable(), this.getColumn()));
+        return new NoValueSearchField(oper, String.format(NULL_EXPR, this.getTable(), this.getColumn()));
     }
 
     public NoValueSearchField buildParamIsNotNull(String oper) {
-        return new NoValueSearchField(oper, String.format(NOT_NULL_EXPR,
-                this.getTable(), this.getColumn()));
+        return new NoValueSearchField(oper, String.format(NOT_NULL_EXPR, this.getTable(), this.getColumn()));
     }
 
     public OneValueSearchField buildParamIsGreaterThan(String oper, Object value) {
@@ -101,14 +96,11 @@ public class NumberParam extends ColumnParam {
     }
 
     public OneValueSearchField buildParamIsGreaterThanEqual(String oper, Object value) {
-        return new OneValueSearchField(oper, String.format(
-                GREATER_THAN_EQUAL_EXPR, this.getTable(), this.getColumn()),
-                value);
+        return new OneValueSearchField(oper, String.format(GREATER_THAN_EQUAL_EXPR, this.getTable(), this.getColumn()), value);
     }
 
     public OneValueSearchField buildParamIsLessThan(String oper, Object value) {
-        return new OneValueSearchField(oper, String.format(LESS_THAN_EXPR,
-                this.getTable(), this.getColumn()), value);
+        return new OneValueSearchField(oper, String.format(LESS_THAN_EXPR, this.getTable(), this.getColumn()), value);
     }
 
     public OneValueSearchField buildParamIsLessThanEqual(String oper, Object value) {

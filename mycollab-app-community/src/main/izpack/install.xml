@@ -26,7 +26,7 @@
     <!-- The info section. The meaning of the tags should be natural ... -->
     <info>
         <appname>MyCollab, the professional open source of Project Management tool</appname>
-        <appversion>5.1.4</appversion>
+        <appversion>5.2.1</appversion>
         <appsubpath>mycollab</appsubpath>
         <authors>
             <author name="MyCollab Ltd" email="support@mycollab.com"/>
@@ -79,6 +79,7 @@
             <fileset dir="webapp" includes="**" targetdir="$INSTALL_PATH/webapp"/>
             <executable targetfile="$INSTALL_PATH/bin/mycollab.sh" stage="never" keep="true" condition="NotWindowsPlatform"/>
             <executable targetfile="$INSTALL_PATH/bin/startup.sh" stage="never" keep="true" condition="NotWindowsPlatform"/>
+            <executable targetfile="$INSTALL_PATH/bin/shutdown.sh" stage="never" keep="true" condition="NotWindowsPlatform"/>
         </pack>
     </packs>
 </izpack:installation>

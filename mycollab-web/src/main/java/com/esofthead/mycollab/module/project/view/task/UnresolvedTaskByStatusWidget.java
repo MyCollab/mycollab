@@ -117,6 +117,7 @@ public class UnresolvedTaskByStatusWidget extends DepotWithChart {
                             MHorizontalLayout statusLayout = new MHorizontalLayout().withWidth("100%");
                             MButton statusLink = new ButtonI18nComp(optionVal.getTypeval())
                                     .withCaption(AppContext.getMessage(OptionI18nEnum.StatusI18nEnum.class, optionVal.getTypeval()))
+                                    .withDescription(AppContext.getMessage(OptionI18nEnum.StatusI18nEnum.class, optionVal.getTypeval()))
                                     .withListener(listener).withStyleName(UIConstants.THEME_LINK).withIcon(FontAwesome.FLAG);
                             statusLink.setWidth("110px");
 

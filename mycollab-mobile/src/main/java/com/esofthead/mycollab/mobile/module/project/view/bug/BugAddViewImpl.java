@@ -22,7 +22,7 @@ import com.esofthead.mycollab.mobile.module.project.ui.form.field.ProjectFormAtt
 import com.esofthead.mycollab.mobile.module.project.view.milestone.MilestoneComboBox;
 import com.esofthead.mycollab.mobile.module.project.view.settings.ProjectMemberSelectionField;
 import com.esofthead.mycollab.mobile.ui.AbstractEditItemComp;
-import com.esofthead.mycollab.mobile.ui.GridFormLayoutHelper;
+import com.esofthead.mycollab.mobile.ui.MobileGridFormLayoutHelper;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
@@ -31,7 +31,7 @@ import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.*;
-import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.addon.touchkit.ui.DatePicker;
 import com.vaadin.addon.touchkit.ui.NumberField;
 import com.vaadin.data.Property;
@@ -142,10 +142,10 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements B
         }
     }
 
-    public class EditFormLayoutFactory extends AbstractFormLayoutFactory {
+    public class EditFormLayoutFactory implements IFormLayoutFactory {
         private static final long serialVersionUID = -9159483523170247666L;
 
-        private GridFormLayoutHelper informationLayout;
+        private MobileGridFormLayoutHelper informationLayout;
 
         @Override
         public ComponentContainer getLayout() {
@@ -155,7 +155,7 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements B
             header.setStyleName("h2");
             layout.addComponent(header);
 
-            this.informationLayout = new GridFormLayoutHelper(1, 10, "100%", "150px", Alignment.TOP_LEFT);
+            this.informationLayout = new MobileGridFormLayoutHelper(1, 10, "100%", "150px", Alignment.TOP_LEFT);
             this.informationLayout.getLayout().addStyleName("colored-gridlayout");
             this.informationLayout.getLayout().setMargin(false);
             this.informationLayout.getLayout().setWidth("100%");
@@ -166,7 +166,7 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements B
         }
 
         @Override
-        protected void onAttachField(Object propertyId, Field<?> field) {
+        public void attachField(Object propertyId, Field<?> field) {
             if (propertyId.equals("summary")) {
                 this.informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_SUMMARY), 0, 0);
             } else if (propertyId.equals("milestoneid")) {

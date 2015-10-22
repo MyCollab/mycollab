@@ -17,10 +17,10 @@
 package com.esofthead.mycollab.mobile.module.project.view.milestone;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.mobile.ui.GridFormLayoutHelper;
+import com.esofthead.mycollab.mobile.ui.MobileGridFormLayoutHelper;
 import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
@@ -32,13 +32,13 @@ import com.vaadin.ui.VerticalLayout;
  * @author MyCollab Ltd.
  * @since 4.5.2
  */
-public class MilestoneFormLayoutFactory extends AbstractFormLayoutFactory {
+public class MilestoneFormLayoutFactory implements IFormLayoutFactory {
     private static final long serialVersionUID = 1L;
 
-    private GridFormLayoutHelper informationLayout;
+    private MobileGridFormLayoutHelper informationLayout;
 
     @Override
-    protected void onAttachField(final Object propertyId, final Field<?> field) {
+    public void attachField(Object propertyId, final Field<?> field) {
         if (propertyId.equals("name")) {
             this.informationLayout.addComponent(field, AppContext.getMessage(MilestoneI18nEnum.FORM_NAME_FIELD), 0, 0);
         } else if (propertyId.equals("status")) {
@@ -66,7 +66,7 @@ public class MilestoneFormLayoutFactory extends AbstractFormLayoutFactory {
         header.setStyleName("h2");
         layout.addComponent(header);
 
-        this.informationLayout = new GridFormLayoutHelper(1, 8, "100%",
+        this.informationLayout = new MobileGridFormLayoutHelper(1, 8, "100%",
                 "150px", Alignment.TOP_LEFT);
         this.informationLayout.getLayout().setWidth("100%");
         this.informationLayout.getLayout().addStyleName("colored-gridlayout");

@@ -30,6 +30,4 @@ public interface IFormLayoutFactory extends Serializable {
     ComponentContainer getLayout();
 
     void attachField(Object propertyId, Field<?> field);
-
-    boolean hasFieldAttached(Object propertyId);
 }

@@ -37,6 +37,7 @@ import com.esofthead.mycollab.module.project.dao.TaskMapper;
 import com.esofthead.mycollab.module.project.dao.TaskMapperExt;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.Task;
+import com.esofthead.mycollab.module.project.domain.TaskExample;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.esb.DeleteProjectTaskEvent;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
@@ -229,5 +230,14 @@ public class ProjectTaskServiceImpl extends DefaultService<Integer, Task, TaskSe
                         return mapIndexes.size();
                     }
                 });
+    }
+
+    @Override
+    public void massUpdateStatuses(String oldStatus, String newStatus, Integer projectId, @CacheKey Integer sAccountId) {
+        Task updateTaskStatus = new Task();
+        updateTaskStatus.setStatus(newStatus);
+        TaskExample ex = new TaskExample();
+        ex.createCriteria().andStatusEqualTo(oldStatus).andProjectidEqualTo(projectId).andSaccountidEqualTo(sAccountId);
+        taskMapper.updateByExampleSelective(updateTaskStatus, ex);
     }
 }

@@ -31,7 +31,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.data.Property;
@@ -100,7 +100,7 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
 
     }
 
-    private class ProjectMemberEditFormLayoutFactory extends AbstractFormLayoutFactory {
+    private class ProjectMemberEditFormLayoutFactory implements IFormLayoutFactory {
         private static final long serialVersionUID = -6204799792781581979L;
         VerticalComponentGroup fieldGroup;
 
@@ -126,7 +126,7 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
         }
 
         @Override
-        protected void onAttachField(Object propertyId, Field<?> field) {
+        public void attachField(Object propertyId, Field<?> field) {
             if (propertyId.equals("projectroleid")) {
                 field.setCaption(AppContext.getMessage(ProjectMemberI18nEnum.FORM_ROLE));
                 fieldGroup.addComponent(field);

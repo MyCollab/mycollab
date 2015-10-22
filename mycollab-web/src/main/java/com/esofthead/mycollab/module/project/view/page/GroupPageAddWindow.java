@@ -87,7 +87,7 @@ class GroupPageAddWindow extends Window {
             super.setBean(item);
         }
 
-        class FormLayoutFactory extends AbstractFormLayoutFactory {
+        class FormLayoutFactory implements IFormLayoutFactory {
             private static final long serialVersionUID = 1L;
 
             private GridFormLayoutHelper informationLayout;
@@ -140,7 +140,7 @@ class GroupPageAddWindow extends Window {
             }
 
             @Override
-            protected void onAttachField(Object propertyId, Field<?> field) {
+            public void attachField(Object propertyId, Field<?> field) {
                 if (propertyId.equals("name")) {
                     informationLayout.addComponent(field, AppContext.getMessage(Page18InEnum.FORM_GROUP), 0, 0);
                 } else if (propertyId.equals("description")) {

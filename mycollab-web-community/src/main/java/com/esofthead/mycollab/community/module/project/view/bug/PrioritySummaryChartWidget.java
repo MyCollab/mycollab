@@ -42,7 +42,7 @@ public class PrioritySummaryChartWidget extends PieChartWrapper<BugSearchCriteri
     private static final long serialVersionUID = 1L;
 
     public PrioritySummaryChartWidget() {
-        super(BugPriority.class, 400, 280);
+        super(BugPriority.class, 350, 280);
     }
 
     @Override

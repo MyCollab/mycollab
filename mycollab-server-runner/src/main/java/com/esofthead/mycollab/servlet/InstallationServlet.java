@@ -29,6 +29,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
@@ -96,8 +98,7 @@ public class InstallationServlet extends HttpServlet {
         boolean isStartTls = Boolean.parseBoolean(tls);
         boolean isSsl = Boolean.parseBoolean(ssl);
         try {
-            InstallUtils.checkSMTPConfig(smtpHost, mailServerPort, smtpUserName,
-                    smtpPassword, true, isStartTls, isSsl);
+            InstallUtils.checkSMTPConfig(smtpHost, mailServerPort, smtpUserName, smtpPassword, true, isStartTls, isSsl);
         } catch (UserInvalidInputException e) {
             LOG.warn("Cannot authenticate mail server successfully. Make sure your inputs are correct.");
         }
@@ -117,7 +118,14 @@ public class InstallationServlet extends HttpServlet {
 
         File confFolder = FileUtils.getDesireFile(System.getProperty("user.dir"), "conf", "src/main/conf");
         if (confFolder == null) {
-            throw new MyCollabException("The conf folder is not existed");
+            out.write("Can not write the settings to the file system. You should check our knowledge base system or contact us at support@mycollab.com to solve this issue.");
+            return;
+        }
+
+        if (!Files.isWritable(FileSystems.getDefault().getPath(confFolder.getAbsolutePath()))) {
+            out.write("The folder " + confFolder.getAbsolutePath() + " has no write permission with the current user." +
+                    " You should set the write permission for MyCollab process for this folder.");
+            return;
         }
 
         try {

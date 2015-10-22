@@ -16,63 +16,60 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import org.apache.commons.beanutils.BeanUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.esofthead.mycollab.core.arguments.NotBindable;
 import com.esofthead.mycollab.core.utils.ClassUtils;
 import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
 import com.vaadin.ui.Field;
+import org.apache.commons.beanutils.BeanUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
 public abstract class AbstractBeanFieldGroupViewFieldFactory<B> implements IBeanFieldGroupFieldFactory<B> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private static final Logger LOG = LoggerFactory.getLogger(AbstractBeanFieldGroupViewFieldFactory.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractBeanFieldGroupViewFieldFactory.class);
 
-	protected GenericBeanForm<B> attachForm;
+    protected GenericBeanForm<B> attachForm;
 
-	public AbstractBeanFieldGroupViewFieldFactory(GenericBeanForm<B> form) {
-		this.attachForm = form;
-	}
+    public AbstractBeanFieldGroupViewFieldFactory(GenericBeanForm<B> form) {
+        this.attachForm = form;
+    }
 
-	@Override
-	public void setBean(B bean) {
-		Class<?> beanClass = bean.getClass();
-		java.lang.reflect.Field[] fields = ClassUtils.getAllFields(beanClass);
-		for (java.lang.reflect.Field field : fields) {
-			Field<?> formField = onCreateField(field.getName());
-			if (formField != null) {
-				attachForm.attachField(field.getName(), formField);
-			} else {
-				if (field.getAnnotation(NotBindable.class) != null) {
-					continue;
-				} else {
-					try {
-						String propertyValue = BeanUtils.getProperty(attachForm.getBean(), field.getName());
-						formField = new DefaultViewField(propertyValue);
-					} catch (Exception e) {
-						LOG.error("Error while get field value", e);
-						formField = new DefaultViewField("Error");
-					}
+    @Override
+    public void setBean(B bean) {
+        Class<?> beanClass = bean.getClass();
+        java.lang.reflect.Field[] fields = ClassUtils.getAllFields(beanClass);
+        for (java.lang.reflect.Field field : fields) {
+            Field<?> formField = onCreateField(field.getName());
+            if (formField != null) {
+                attachForm.attachField(field.getName(), formField);
+            } else {
+                if (field.getAnnotation(NotBindable.class) != null) {
+                    continue;
+                } else {
+                    try {
+                        String propertyValue = BeanUtils.getProperty(attachForm.getBean(), field.getName());
+                        formField = new DefaultViewField(propertyValue);
+                    } catch (Exception e) {
+                        LOG.error("Error while get field value", e);
+                        formField = new DefaultViewField("Error");
+                    }
 
-					attachForm.attachField(field.getName(), formField);
-				}
-			}
-		}
-	}
+                    attachForm.attachField(field.getName(), formField);
+                }
+            }
+        }
+    }
 
-	@Override
-	public void commit() {
+    @Override
+    public boolean commit() {
+        return true;
+    }
 
-	}
-
-	abstract protected Field<?> onCreateField(Object propertyId);
+    abstract protected Field<?> onCreateField(Object propertyId);
 
 }

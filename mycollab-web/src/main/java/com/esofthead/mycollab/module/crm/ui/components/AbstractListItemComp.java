@@ -18,7 +18,6 @@ package com.esofthead.mycollab.module.crm.ui.components;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.desktop.ui.ListView;
 import com.esofthead.mycollab.vaadin.events.HasMassItemActionHandler;
@@ -34,18 +33,17 @@ import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Label;
+import org.vaadin.peter.buttongroup.ButtonGroup;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
-import org.vaadin.peter.buttongroup.ButtonGroup;
 
 /**
  * @author MyCollab Ltd.
  * @since 3.0
  */
-public abstract class AbstractListItemComp<S extends SearchCriteria, B> extends
-        AbstractPageView implements ListView<S, B> {
+public abstract class AbstractListItemComp<S extends SearchCriteria, B> extends AbstractPageView implements ListView<S, B> {
     private static final long serialVersionUID = 1L;
 
     protected MVerticalLayout contentLayout;
@@ -60,45 +58,37 @@ public abstract class AbstractListItemComp<S extends SearchCriteria, B> extends
 
     public AbstractListItemComp() {
         super();
-        this.setMargin(new MarginInfo(false, true, true, true));
+        this.withMargin(new MarginInfo(false, true, true, true));
 
         searchPanel = createSearchPanel();
         with(searchPanel);
 
         contentLayout = new MVerticalLayout().withSpacing(false).withMargin(false);
         with(contentLayout).expand(contentLayout);
-
-        this.tableItem = createBeanTable();
-        buildLayout();
+        tableItem = createBeanTable();
+        contentLayout.with(buildControlsLayout(), tableItem).expand(tableItem);
+        tableItem.setHeightUndefined();
     }
 
-    private void buildLayout() {
-        CssLayout layoutWrapper = new CssLayout();
-        layoutWrapper.setWidth("100%");
+    private ComponentContainer buildControlsLayout() {
+        MHorizontalLayout viewControlsLayout = new MHorizontalLayout().withWidth("100%");
 
-        MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%");
-
-        layoutWrapper.addStyleName(UIConstants.TABLE_ACTION_CONTROLS);
-        layoutWrapper.addComponent(layout);
+        viewControlsLayout.addStyleName(UIConstants.TABLE_ACTION_CONTROLS);
 
         selectOptionButton = new SelectionOptionButton(tableItem);
         selectOptionButton.setSizeUndefined();
-        layout.addComponent(selectOptionButton);
-
-        Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE));
-        deleteBtn.setEnabled(AppContext.canAccess(RolePermissionCollections.CRM_ACCOUNT));
-
         tableActionControls = createActionControls();
 
-        layout.with(tableActionControls, selectedItemsNumberLabel).withAlign(selectedItemsNumberLabel,
-                Alignment.MIDDLE_LEFT).expand(selectedItemsNumberLabel);
-
-        contentLayout.with(layoutWrapper, tableItem).expand(tableItem);
+        MHorizontalLayout leftContainer = new MHorizontalLayout().with(selectOptionButton, tableActionControls,
+                selectedItemsNumberLabel);
+        leftContainer.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         extraControlsLayout = new ButtonGroup();
         buildExtraControls();
 
-        layout.with(extraControlsLayout).withAlign(extraControlsLayout, Alignment.MIDDLE_RIGHT);
+        viewControlsLayout.with(leftContainer, extraControlsLayout).withAlign(leftContainer, Alignment.MIDDLE_LEFT)
+                .withAlign(extraControlsLayout, Alignment.MIDDLE_RIGHT);
+        return viewControlsLayout;
     }
 
     @Override

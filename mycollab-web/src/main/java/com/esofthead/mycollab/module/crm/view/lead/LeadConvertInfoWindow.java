@@ -203,7 +203,7 @@ public class LeadConvertInfoWindow extends Window {
 
 		public LeadOpportunityForm() {
 			super();
-			this.setFormLayoutFactory(new AbstractFormLayoutFactory() {
+			this.setFormLayoutFactory(new IFormLayoutFactory() {
 				private static final long serialVersionUID = 1L;
 
 				private GridFormLayoutHelper informationLayout;
@@ -215,7 +215,7 @@ public class LeadConvertInfoWindow extends Window {
 				}
 
 				@Override
-				protected void onAttachField(Object propertyId, Field<?> field) {
+				public void attachField(Object propertyId, Field<?> field) {
 					if (propertyId.equals("opportunityname")) {
 						informationLayout.addComponent(field, "Opportunity", 0,
 								0);

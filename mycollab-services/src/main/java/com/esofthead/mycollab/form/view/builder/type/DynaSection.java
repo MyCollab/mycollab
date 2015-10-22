@@ -28,12 +28,11 @@ import com.esofthead.mycollab.core.MyCollabException;
  * 
  */
 public class DynaSection implements Comparable<DynaSection> {
-
 	private String header;
 	private int orderIndex;
 	private boolean isDeletedSection = false;
 	private LayoutType layoutType;
-	private List<AbstractDynaField> fields = new ArrayList<AbstractDynaField>();
+	private List<AbstractDynaField> fields = new ArrayList<>();
 	private DynaForm parentForm;
 
 	public String getHeader() {
@@ -81,7 +80,7 @@ public class DynaSection implements Comparable<DynaSection> {
 		this.isDeletedSection = isDeletedSection;
 	}
 
-	public static enum LayoutType {
+	public enum LayoutType {
 		ONE_COLUMN, TWO_COLUMN;
 
 		public static LayoutType from(Integer value) {
@@ -90,8 +89,7 @@ public class DynaSection implements Comparable<DynaSection> {
 			} else if (value == 2) {
 				return TWO_COLUMN;
 			} else {
-				throw new MyCollabException(
-						"Do not convert layout type from value " + value);
+				throw new MyCollabException("Do not convert layout type from value " + value);
 			}
 		}
 

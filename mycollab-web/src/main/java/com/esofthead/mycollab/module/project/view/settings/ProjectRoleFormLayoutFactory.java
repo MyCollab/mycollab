@@ -20,7 +20,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.project.i18n.ProjectRoleI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
-import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Label;
@@ -32,7 +32,7 @@ import com.vaadin.ui.VerticalLayout;
  * @since 1.0
  * 
  */
-public class ProjectRoleFormLayoutFactory extends AbstractFormLayoutFactory {
+public class ProjectRoleFormLayoutFactory implements IFormLayoutFactory {
 	private static final long serialVersionUID = 1L;
 	private GridFormLayoutHelper informationLayout;
 
@@ -49,7 +49,7 @@ public class ProjectRoleFormLayoutFactory extends AbstractFormLayoutFactory {
 	}
 
 	@Override
-	protected void onAttachField(final Object propertyId, final Field<?> field) {
+	public void attachField(Object propertyId, final Field<?> field) {
 		if (propertyId.equals("rolename")) {
 			this.informationLayout.addComponent(field, AppContext.getMessage(ProjectRoleI18nEnum.FORM_NAME), 0, 0);
 		} else if (propertyId.equals("description")) {

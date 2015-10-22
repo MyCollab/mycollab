@@ -19,7 +19,6 @@ package com.esofthead.mycollab.module.project.view.page;
 import com.esofthead.mycollab.common.i18n.DayI18nEnum;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.WikiI18nEnum;
-import com.esofthead.mycollab.configuration.Storage;
 import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.html.DivLessFormatter;
@@ -229,7 +228,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
         }
     }
 
-    private static class PageReadFormLayout extends AbstractFormLayoutFactory {
+    private static class PageReadFormLayout implements IFormLayoutFactory {
         private static final long serialVersionUID = 1L;
 
         private MVerticalLayout layout;
@@ -241,7 +240,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
         }
 
         @Override
-        protected void onAttachField(java.lang.Object propertyId, Field<?> field) {
+        public void attachField(java.lang.Object propertyId, Field<?> field) {
             if (propertyId.equals("content")) {
                 layout.addComponent(field);
             }
@@ -255,8 +254,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
             titleLbl.setStyleName("headerName");
             header.with(titleLbl);
             Div footer = new Div().setStyle("width:100%").setCSSClass("footer2");
-            Span lastUpdatedTimeTxt = new Span().appendText(AppContext.getMessage(
-                    DayI18nEnum.LAST_UPDATED_ON,
+            Span lastUpdatedTimeTxt = new Span().appendText(AppContext.getMessage(DayI18nEnum.LAST_UPDATED_ON,
                     AppContext.formatPrettyTime(beanItem.getLastUpdatedTime().getTime())))
                     .setTitle(AppContext.formatDateTime(beanItem.getLastUpdatedTime().getTime()));
             String uid = UUID.randomUUID().toString();

@@ -47,7 +47,7 @@ public class MassUpdateOpportunityWindow extends MassUpdateWindow<Opportunity> {
         return new OpportunityEditFormFieldFactory<>(updateForm, false);
     }
 
-    private class MassUpdateOpportunityFormLayoutFactory extends AbstractFormLayoutFactory {
+    private class MassUpdateOpportunityFormLayoutFactory implements IFormLayoutFactory {
         private static final long serialVersionUID = 1L;
 
         private GridFormLayoutHelper informationLayout;
@@ -68,7 +68,7 @@ public class MassUpdateOpportunityWindow extends MassUpdateWindow<Opportunity> {
         }
 
         @Override
-        protected void onAttachField(final Object propertyId, final Field<?> field) {
+        public void attachField(Object propertyId, final Field<?> field) {
             if (propertyId.equals("opportunityname")) {
                 this.informationLayout.addComponent(field, AppContext.getMessage(OpportunityI18nEnum.FORM_NAME), 0, 0);
             } else if (propertyId.equals("currencyid")) {

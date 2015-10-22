@@ -23,8 +23,7 @@ import com.esofthead.mycollab.form.view.builder.type.NumberDynaField;
  * @author MyCollab Ltd.
  * 
  */
-public class NumberDynaFieldBuilder extends
-		AbstractDynaFieldBuilder<NumberDynaField> {
+public class NumberDynaFieldBuilder extends AbstractDynaFieldBuilder<NumberDynaField> {
 	public NumberDynaFieldBuilder() {
 		field = new NumberDynaField();
 	}

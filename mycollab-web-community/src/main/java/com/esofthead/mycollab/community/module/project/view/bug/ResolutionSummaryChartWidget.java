@@ -42,7 +42,7 @@ public class ResolutionSummaryChartWidget extends PieChartWrapper<BugSearchCrite
     private static final long serialVersionUID = 1L;
 
     public ResolutionSummaryChartWidget() {
-        super(BugResolution.class, 400, 280);
+        super(BugResolution.class, 350, 280);
     }
 
     @Override

@@ -112,4 +112,12 @@ public class OptionValServiceImpl extends DefaultCrudService<Integer, OptionVal>
                     }
                 });
     }
+
+    @Override
+    public boolean isExistedOptionVal(String type, String typeVal, Integer projectId, Integer sAccountId) {
+        OptionValExample ex = new OptionValExample();
+        ex.createCriteria().andTypeEqualTo(type).andTypevalEqualTo(typeVal).andSaccountidEqualTo(sAccountId)
+                .andExtraidEqualTo(projectId);
+        return (optionValMapper.countByExample(ex) > 0);
+    }
 }

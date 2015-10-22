@@ -57,7 +57,7 @@ public class AddNewColumnWindow extends Window {
         final TextArea description = new TextArea();
 
         gridFormLayoutHelper.addComponent(stageField, "Stage name", 0, 0);
-        gridFormLayoutHelper.addComponent(defaultProject, "Default for new Projects", 0, 1);
+        gridFormLayoutHelper.addComponent(defaultProject, "Default for new projects", 0, 1);
         gridFormLayoutHelper.addComponent(description, "Description", 0, 2);
 
         Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {

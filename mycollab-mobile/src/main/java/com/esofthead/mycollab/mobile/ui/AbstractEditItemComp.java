@@ -20,86 +20,91 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.IFormAddView;
-import com.esofthead.mycollab.vaadin.ui.*;
-import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.IWrappedFormLayoutFactory;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.VerticalLayout;
 
 /**
- * 
+ * @param <B>
  * @author MyCollab Ltd.
  * @since 3.0
- * 
- * @param <B>
  */
 public abstract class AbstractEditItemComp<B> extends AbstractMobilePageView implements IFormAddView<B> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected B beanItem;
-	protected AdvancedEditBeanForm<B> editForm;
+    protected B beanItem;
+    protected AdvancedEditBeanForm<B> editForm;
 
-	private Button saveBtn;
+    private Button saveBtn;
 
-	public AbstractEditItemComp() {
-		super();
-		this.editForm = new AdvancedEditBeanForm<B>();
-		this.editForm.setStyleName("editview-layout");
-		this.setContent(this.editForm);
+    public AbstractEditItemComp() {
+        super();
+        this.editForm = new AdvancedEditBeanForm<B>();
+        this.editForm.setStyleName("editview-layout");
+        this.setContent(this.editForm);
 
-		this.saveBtn = new Button(AppContext.getMessage(GenericI18Enum.M_BUTTON_DONE));
-		this.saveBtn.addStyleName("save-btn");
-		this.saveBtn.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = -5504095132334808021L;
+        this.saveBtn = new Button(AppContext.getMessage(GenericI18Enum.M_BUTTON_DONE));
+        this.saveBtn.addStyleName("save-btn");
+        this.saveBtn.addClickListener(new Button.ClickListener() {
+            private static final long serialVersionUID = -5504095132334808021L;
 
-			@Override
-			public void buttonClick(Button.ClickEvent event) {
-				if (editForm.validateForm())
-					editForm.fireSaveForm();
-			}
-		});
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                if (editForm.validateForm())
+                    editForm.fireSaveForm();
+            }
+        });
 
-		this.setRightComponent(this.saveBtn);
-	}
+        this.setRightComponent(this.saveBtn);
+    }
 
-	@Override
-	public void editItem(final B item) {
-		this.beanItem = item;
-		this.editForm.setFormLayoutFactory(new FormLayoutFactory());
-		this.editForm.setBeanFormFieldFactory(initBeanFormFieldFactory());
-		this.editForm.setBean(item);
+    @Override
+    public void editItem(final B item) {
+        this.beanItem = item;
+        this.editForm.setFormLayoutFactory(new FormLayoutFactory());
+        this.editForm.setBeanFormFieldFactory(initBeanFormFieldFactory());
+        this.editForm.setBean(item);
 
-		this.setCaption(initFormTitle());
-	}
+        this.setCaption(initFormTitle());
+    }
 
-	@Override
-	public HasEditFormHandlers<B> getEditFormHandlers() {
-		return this.editForm;
-	}
+    @Override
+    public HasEditFormHandlers<B> getEditFormHandlers() {
+        return this.editForm;
+    }
 
-	class FormLayoutFactory extends AbstractFormLayoutFactory {
-		private static final long serialVersionUID = 1L;
+    class FormLayoutFactory implements IWrappedFormLayoutFactory {
+        private static final long serialVersionUID = 1L;
 
-		private IFormLayoutFactory informationLayout;
+        private IFormLayoutFactory informationLayout;
 
-		@Override
-		public ComponentContainer getLayout() {
-			VerticalLayout formAddLayout = new VerticalLayout();
-			informationLayout = initFormLayoutFactory();
-			formAddLayout.addComponent(informationLayout.getLayout());
-			return formAddLayout;
-		}
+        @Override
+        public ComponentContainer getLayout() {
+            VerticalLayout formAddLayout = new VerticalLayout();
+            informationLayout = initFormLayoutFactory();
+            formAddLayout.addComponent(informationLayout.getLayout());
+            return formAddLayout;
+        }
 
-		@Override
-		protected void onAttachField(Object propertyId, Field<?> field) {
-			informationLayout.attachField(propertyId, field);
-		}
-	}
+        @Override
+        public void attachField(Object propertyId, Field<?> field) {
+            informationLayout.attachField(propertyId, field);
+        }
 
-	abstract protected String initFormTitle();
+        @Override
+        public IFormLayoutFactory getWrappedFactory() {
+            return informationLayout;
+        }
+    }
 
-	abstract protected IFormLayoutFactory initFormLayoutFactory();
+    abstract protected String initFormTitle();
 
-	abstract protected AbstractBeanFieldGroupEditFieldFactory<B> initBeanFormFieldFactory();
+    abstract protected IFormLayoutFactory initFormLayoutFactory();
+
+    abstract protected AbstractBeanFieldGroupEditFieldFactory<B> initBeanFormFieldFactory();
 }

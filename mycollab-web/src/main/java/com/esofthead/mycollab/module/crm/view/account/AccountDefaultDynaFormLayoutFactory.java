@@ -40,189 +40,136 @@ public class AccountDefaultDynaFormLayoutFactory {
                 .header(AppContext.getMessage(AccountI18nEnum.SECTION_ACCOUNT_INFORMATION))
                 .build();
         accountSection.addField(new TextDynaFieldBuilder().fieldName(Account.Field.accountname)
-                .displayName(AppContext.getMessage(AccountI18nEnum.FORM_ACCOUNT_NAME))
-                .customField(false).fieldIndex(0).mandatory(true)
+                .displayName(AppContext.getMessage(AccountI18nEnum.FORM_ACCOUNT_NAME)).fieldIndex(0).mandatory(true)
                 .required(true).build());
+
         accountSection.addField(new TextDynaFieldBuilder()
                 .fieldName(Account.Field.phoneoffice)
-                .displayName(AppContext
-                        .getMessage(AccountI18nEnum.FORM_OFFICE_PHONE))
-                .customField(false).fieldIndex(1).build());
+                .displayName(AppContext.getMessage(AccountI18nEnum.FORM_OFFICE_PHONE)).fieldIndex(1).build());
 
         accountSection.addField(new TextDynaFieldBuilder()
                 .fieldName(Account.Field.website)
                 .fieldIndex(2)
-                .displayName(
-                        AppContext.getMessage(AccountI18nEnum.FORM_WEBSITE))
-                .customField(false).build());
+                .displayName(AppContext.getMessage(AccountI18nEnum.FORM_WEBSITE)).build());
 
         accountSection.addField(new PhoneDynaFieldBuilder()
                 .fieldName(Account.Field.fax).fieldIndex(3)
-                .displayName(AppContext.getMessage(AccountI18nEnum.FORM_FAX))
-                .customField(false).build());
+                .displayName(AppContext.getMessage(AccountI18nEnum.FORM_FAX)).build());
 
         accountSection.addField(new IntDynaFieldBuilder()
                 .fieldName(Account.Field.numemployees)
                 .fieldIndex(4)
-                .displayName(AppContext.getMessage(AccountI18nEnum.FORM_EMPLOYEES))
-                .customField(false).build());
+                .displayName(AppContext.getMessage(AccountI18nEnum.FORM_EMPLOYEES)).build());
 
         accountSection.addField(new PhoneDynaFieldBuilder()
                 .fieldName(Account.Field.alternatephone).fieldIndex(5)
-                .displayName(AppContext.getMessage(AccountI18nEnum.FORM_OTHER_PHONE))
-                .customField(false).build());
+                .displayName(AppContext.getMessage(AccountI18nEnum.FORM_OTHER_PHONE)).build());
 
         accountSection.addField(new PickListDynaFieldBuilder<String>()
                 .fieldName(Account.Field.industry).fieldIndex(6)
-                .displayName(AppContext.getMessage(AccountI18nEnum.FORM_INDUSTRY))
-                .customField(false).build());
+                .displayName(AppContext.getMessage(AccountI18nEnum.FORM_INDUSTRY)).build());
 
         accountSection.addField(new EmailDynaFieldBuilder()
                 .fieldName(Account.Field.email).fieldIndex(7)
-                .displayName(AppContext.getMessage(AccountI18nEnum.FORM_EMAIL))
-                .customField(false).build());
+                .displayName(AppContext.getMessage(AccountI18nEnum.FORM_EMAIL)).build());
 
         accountSection.addField(new PickListDynaFieldBuilder<String>()
                 .fieldName(Account.Field.type).fieldIndex(8)
-                .displayName(AppContext.getMessage(AccountI18nEnum.FORM_TYPE))
-                .customField(false).build());
+                .displayName(AppContext.getMessage(AccountI18nEnum.FORM_TYPE)).build());
 
         accountSection.addField(new TextDynaFieldBuilder()
                 .fieldName(Account.Field.ownership)
                 .fieldIndex(9)
-                .displayName(
-                        AppContext.getMessage(AccountI18nEnum.FORM_OWNERSHIP))
-                .customField(false).build());
+                .displayName(AppContext.getMessage(AccountI18nEnum.FORM_OWNERSHIP)).build());
 
         accountSection.addField(new TextDynaFieldBuilder()
                 .fieldName(Account.Field.assignuser)
                 .fieldIndex(10)
-                .displayName(
-                        AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE))
-                .customField(false).build());
+                .displayName(AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)).build());
 
-        accountSection
-                .addField(new TextDynaFieldBuilder()
-                        .fieldName(Account.Field.annualrevenue)
-                        .fieldIndex(11)
-                        .displayName(
-                                AppContext
-                                        .getMessage(AccountI18nEnum.FORM_ANNUAL_REVENUE))
-                        .customField(false).build());
+        accountSection.addField(new TextDynaFieldBuilder()
+                .fieldName(Account.Field.annualrevenue)
+                .fieldIndex(11)
+                .displayName(AppContext.getMessage(AccountI18nEnum.FORM_ANNUAL_REVENUE)).build());
 
         defaultForm.addSection(accountSection);
 
         // build block address
         DynaSection addressSection = new DynaSectionBuilder()
                 .layoutType(LayoutType.TWO_COLUMN)
-                .header(AppContext
-                        .getMessage(AccountI18nEnum.SECTION_ADDRESS_INFORMATION))
+                .header(AppContext.getMessage(AccountI18nEnum.SECTION_ADDRESS_INFORMATION))
                 .orderIndex(1).build();
-        addressSection
-                .addField(new TextDynaFieldBuilder()
-                        .fieldIndex(0)
-                        .fieldName(Account.Field.billingaddress)
-                        .displayName(
-                                AppContext
-                                        .getMessage(AccountI18nEnum.FORM_BILLING_ADDRESS))
-                        .customField(false).build());
-        addressSection
-                .addField(new TextDynaFieldBuilder()
-                        .fieldIndex(1)
-                        .fieldName(Account.Field.shippingaddress)
-                        .displayName(
-                                AppContext
-                                        .getMessage(AccountI18nEnum.FORM_SHIPPING_ADDRESS))
-                        .customField(false).build());
+        addressSection.addField(new TextDynaFieldBuilder()
+                .fieldIndex(0)
+                .fieldName(Account.Field.billingaddress)
+                .displayName(AppContext.getMessage(AccountI18nEnum.FORM_BILLING_ADDRESS))
+                .customField(false).build());
+        addressSection.addField(new TextDynaFieldBuilder().fieldIndex(1)
+                .fieldName(Account.Field.shippingaddress)
+                .displayName(AppContext.getMessage(AccountI18nEnum.FORM_SHIPPING_ADDRESS))
+                .customField(false).build());
         addressSection.addField(new TextDynaFieldBuilder()
                 .fieldIndex(2)
                 .fieldName(Account.Field.city)
-                .displayName(
-                        AppContext
-                                .getMessage(AccountI18nEnum.FORM_BILLING_CITY))
+                .displayName(AppContext.getMessage(AccountI18nEnum.FORM_BILLING_CITY))
                 .customField(false).build());
 
-        addressSection
-                .addField(new TextDynaFieldBuilder()
-                        .fieldIndex(3)
-                        .fieldName(Account.Field.shippingcity)
-                        .displayName(
-                                AppContext
-                                        .getMessage(AccountI18nEnum.FORM_SHIPPING_CITY))
-                        .customField(false).build());
+        addressSection.addField(new TextDynaFieldBuilder()
+                .fieldIndex(3)
+                .fieldName(Account.Field.shippingcity)
+                .displayName(AppContext.getMessage(AccountI18nEnum.FORM_SHIPPING_CITY))
+                .customField(false).build());
 
-        addressSection
-                .addField(new TextDynaFieldBuilder()
-                        .fieldIndex(4)
-                        .fieldName(Account.Field.state)
-                        .displayName(
-                                AppContext
-                                        .getMessage(AccountI18nEnum.FORM_BILLING_STATE))
-                        .customField(false).build());
+        addressSection.addField(new TextDynaFieldBuilder().fieldIndex(4)
+                .fieldName(Account.Field.state)
+                .displayName(AppContext.getMessage(AccountI18nEnum.FORM_BILLING_STATE))
+                .customField(false).build());
 
-        addressSection
-                .addField(new TextDynaFieldBuilder()
-                        .fieldIndex(5)
-                        .fieldName(Account.Field.shippingstate)
-                        .displayName(
-                                AppContext
-                                        .getMessage(AccountI18nEnum.FORM_SHIPPING_STATE))
-                        .customField(false).build());
+        addressSection.addField(new TextDynaFieldBuilder()
+                .fieldIndex(5)
+                .fieldName(Account.Field.shippingstate)
+                .displayName(AppContext.getMessage(AccountI18nEnum.FORM_SHIPPING_STATE))
+                .customField(false).build());
 
-        addressSection
-                .addField(new TextDynaFieldBuilder()
-                        .fieldIndex(6)
-                        .fieldName(Account.Field.postalcode)
-                        .displayName(
-                                AppContext
-                                        .getMessage(AccountI18nEnum.FORM_BILLING_POSTAL_CODE))
-                        .customField(false).build());
+        addressSection.addField(new TextDynaFieldBuilder()
+                .fieldIndex(6)
+                .fieldName(Account.Field.postalcode)
+                .displayName(AppContext.getMessage(AccountI18nEnum.FORM_BILLING_POSTAL_CODE))
+                .customField(false).build());
 
-        addressSection
-                .addField(new TextDynaFieldBuilder()
-                        .fieldIndex(7)
-                        .fieldName(Account.Field.shippingpostalcode)
-                        .displayName(
-                                AppContext
-                                        .getMessage(AccountI18nEnum.FORM_SHIPPING_POSTAL_CODE))
-                        .customField(false).build());
+        addressSection.addField(new TextDynaFieldBuilder()
+                .fieldIndex(7)
+                .fieldName(Account.Field.shippingpostalcode)
+                .displayName(AppContext.getMessage(AccountI18nEnum.FORM_SHIPPING_POSTAL_CODE))
+                .customField(false).build());
 
-        addressSection
-                .addField(new TextDynaFieldBuilder()
-                        .fieldIndex(8)
-                        .fieldName(Account.Field.billingcountry)
-                        .displayName(
-                                AppContext
-                                        .getMessage(AccountI18nEnum.FORM_BILLING_COUNTRY))
-                        .customField(false).build());
+        addressSection.addField(new TextDynaFieldBuilder()
+                .fieldIndex(8)
+                .fieldName(Account.Field.billingcountry)
+                .displayName(AppContext.getMessage(AccountI18nEnum.FORM_BILLING_COUNTRY))
+                .customField(false).build());
 
-        addressSection
-                .addField(new TextDynaFieldBuilder()
-                        .fieldIndex(9)
-                        .fieldName(Account.Field.shippingcountry)
-                        .displayName(
-                                AppContext
-                                        .getMessage(AccountI18nEnum.FORM_SHIPPING_COUNTRY))
-                        .customField(false).build());
+        addressSection.addField(new TextDynaFieldBuilder()
+                .fieldIndex(9)
+                .fieldName(Account.Field.shippingcountry)
+                .displayName(AppContext.getMessage(AccountI18nEnum.FORM_SHIPPING_COUNTRY))
+                .customField(false).build());
 
         defaultForm.addSection(addressSection);
 
         // build block description
         DynaSection descSection = new DynaSectionBuilder()
                 .layoutType(LayoutType.ONE_COLUMN)
-                .header(AppContext
-                        .getMessage(AccountI18nEnum.SECTION_DESCRIPTION))
+                .header(AppContext.getMessage(AccountI18nEnum.SECTION_DESCRIPTION))
                 .orderIndex(2).build();
 
         descSection.addField(new TextDynaFieldBuilder()
                 .fieldIndex(0)
                 .fieldName(Account.Field.description)
                 .customField(false)
-                .displayName(
-                        AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION))
+                .displayName(AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION))
                 .build());
         defaultForm.addSection(descSection);
-
     }
 
     public static DynaForm getForm() {

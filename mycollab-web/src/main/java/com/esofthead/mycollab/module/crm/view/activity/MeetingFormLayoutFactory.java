@@ -18,23 +18,17 @@ package com.esofthead.mycollab.module.crm.view.activity;
 
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
-import com.esofthead.mycollab.module.crm.ui.components.DynaFormLayout;
-import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.AddViewLayout2;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
-public abstract class MeetingFormLayoutFactory extends AbstractFormLayoutFactory {
+public abstract class MeetingFormLayoutFactory implements IWrappedFormLayoutFactory {
     private static final long serialVersionUID = 1L;
     private String title;
     private IFormLayoutFactory informationLayout;
@@ -61,8 +55,13 @@ public abstract class MeetingFormLayoutFactory extends AbstractFormLayoutFactory
     }
 
     @Override
-    protected void onAttachField(Object propertyId, Field<?> field) {
+    public void attachField(Object propertyId, Field<?> field) {
         informationLayout.attachField(propertyId, field);
+    }
+
+    @Override
+    public IFormLayoutFactory getWrappedFactory() {
+        return informationLayout;
     }
 
     protected abstract Layout createTopPanel();

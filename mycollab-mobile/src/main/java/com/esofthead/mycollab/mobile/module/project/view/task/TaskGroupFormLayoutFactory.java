@@ -17,20 +17,20 @@
 package com.esofthead.mycollab.mobile.module.project.view.task;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.mobile.ui.GridFormLayoutHelper;
+import com.esofthead.mycollab.mobile.ui.MobileGridFormLayoutHelper;
 import com.esofthead.mycollab.module.project.i18n.TaskGroupI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.ui.*;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.5.0
  */
-public class TaskGroupFormLayoutFactory extends AbstractFormLayoutFactory {
+public class TaskGroupFormLayoutFactory implements IFormLayoutFactory {
     private static final long serialVersionUID = 1L;
 
-    private GridFormLayoutHelper informationLayout;
+    private MobileGridFormLayoutHelper informationLayout;
 
     @Override
     public ComponentContainer getLayout() {
@@ -38,7 +38,7 @@ public class TaskGroupFormLayoutFactory extends AbstractFormLayoutFactory {
         Label header = new Label(AppContext.getMessage(TaskGroupI18nEnum.M_FORM_READ_TITLE));
         header.setStyleName("h2");
         layout.addComponent(header);
-        this.informationLayout = new GridFormLayoutHelper(1, 6, "100%", "150px", Alignment.TOP_LEFT);
+        this.informationLayout = new MobileGridFormLayoutHelper(1, 6, "100%", "150px", Alignment.TOP_LEFT);
         this.informationLayout.getLayout().addStyleName("colored-gridlayout");
         this.informationLayout.getLayout().setMargin(false);
         this.informationLayout.getLayout().setWidth("100%");
@@ -49,7 +49,7 @@ public class TaskGroupFormLayoutFactory extends AbstractFormLayoutFactory {
     }
 
     @Override
-    protected void onAttachField(final Object propertyId, final Field<?> field) {
+    public void attachField(Object propertyId, final Field<?> field) {
         if (propertyId.equals("name")) {
             this.informationLayout.addComponent(field, AppContext.getMessage(TaskGroupI18nEnum.FORM_NAME_FIELD), 0, 0);
         } else if (propertyId.equals("description")) {

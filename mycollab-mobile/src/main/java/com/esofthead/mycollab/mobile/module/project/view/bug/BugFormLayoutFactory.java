@@ -17,10 +17,10 @@
 package com.esofthead.mycollab.mobile.module.project.view.bug;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.mobile.ui.GridFormLayoutHelper;
+import com.esofthead.mycollab.mobile.ui.MobileGridFormLayoutHelper;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
@@ -32,11 +32,11 @@ import com.vaadin.ui.VerticalLayout;
  *
  * @since 4.5.2
  */
-public class BugFormLayoutFactory extends AbstractFormLayoutFactory {
+public class BugFormLayoutFactory implements IFormLayoutFactory {
 
 	private static final long serialVersionUID = -9159483523170247666L;
 
-	private GridFormLayoutHelper informationLayout;
+	private MobileGridFormLayoutHelper informationLayout;
 
 	@Override
 	public ComponentContainer getLayout() {
@@ -47,7 +47,7 @@ public class BugFormLayoutFactory extends AbstractFormLayoutFactory {
 		header.setStyleName("h2");
 		layout.addComponent(header);
 
-		this.informationLayout = new GridFormLayoutHelper(1, 12, "100%",
+		this.informationLayout = new MobileGridFormLayoutHelper(1, 12, "100%",
 				"150px", Alignment.TOP_LEFT);
 		this.informationLayout.getLayout().addStyleName("colored-gridlayout");
 		this.informationLayout.getLayout().setMargin(false);
@@ -59,7 +59,7 @@ public class BugFormLayoutFactory extends AbstractFormLayoutFactory {
 	}
 
 	@Override
-	protected void onAttachField(Object propertyId, Field<?> field) {
+	public void attachField(Object propertyId, Field<?> field) {
 		if (propertyId.equals("summary")) {
 			this.informationLayout.addComponent(field,
 					AppContext.getMessage(BugI18nEnum.FORM_SUMMARY), 0, 0);

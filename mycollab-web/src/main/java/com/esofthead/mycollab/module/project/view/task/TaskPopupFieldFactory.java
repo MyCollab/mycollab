@@ -26,21 +26,25 @@ import com.vaadin.ui.PopupView;
  */
 public interface TaskPopupFieldFactory extends CacheableComponent {
 
-    PopupView createTaskAssigneePopupField(SimpleTask task);
+    PopupView createAssigneePopupField(SimpleTask task);
 
-    PopupView createTaskPriorityPopupField(SimpleTask task);
+    PopupView createPriorityPopupField(SimpleTask task);
 
-    PopupView createTaskCommentsPopupField(SimpleTask task);
+    PopupView createCommentsPopupField(SimpleTask task);
 
-    PopupView createTaskStatusPopupField(SimpleTask task);
+    PopupView createStatusPopupField(SimpleTask task);
 
-    PopupView createTaskMilestonePopupField(SimpleTask task);
+    PopupView createMilestonePopupField(SimpleTask task);
 
-    PopupView createTaskPercentagePopupField(SimpleTask task);
+    PopupView createPercentagePopupField(SimpleTask task);
 
-    PopupView createTaskDeadlinePopupField(SimpleTask task);
+    PopupView createDeadlinePopupField(SimpleTask task);
 
-    PopupView createTaskBillableHoursPopupField(SimpleTask task);
+    PopupView createStartDatePopupField(SimpleTask task);
 
-    PopupView createTaskNonBillableHoursPopupField(SimpleTask task);
+    PopupView createEndDatePopupField(SimpleTask task);
+
+    PopupView createBillableHoursPopupField(SimpleTask task);
+
+    PopupView createNonBillableHoursPopupField(SimpleTask task);
 }

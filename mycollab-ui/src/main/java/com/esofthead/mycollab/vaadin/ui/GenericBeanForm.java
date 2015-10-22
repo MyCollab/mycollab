@@ -42,6 +42,10 @@ public class GenericBeanForm<B> extends CssLayout {
         this.layoutFactory = layoutFactory;
     }
 
+    public IFormLayoutFactory getLayoutFactory() {
+        return layoutFactory;
+    }
+
     public void setBeanFormFieldFactory(IBeanFieldGroupFieldFactory<B> fieldFactory) {
         this.fieldFactory = fieldFactory;
     }

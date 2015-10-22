@@ -25,6 +25,8 @@
 #                   used
 # -----------------------------------------------------------------------------
 export MYCOLLAB_PORT=8080
+export PROCESS_PORT=12345
+export STOP_KEY=mycollab
 
 # OS specific support.  $var _must_ be set to either true or false.
 cygwin=false
@@ -97,7 +99,7 @@ if [ -z "$JAVA_HOME" ] ; then
   _RUNJAVA=java
 else
   _RUNJAVA="$JAVA_HOME"/bin/java
-fi  
+fi
 
 # ----- Execute The Requested Command -----------------------------------------
 
@@ -107,15 +109,15 @@ if [ $have_tty -eq 1 ]; then
   if [ "$1" = "debug" ] ; then
     echo "Using JAVA_HOME:       $JAVA_HOME"
   fi
-  
+
   if [ ! -z "$MYCOLLAB_PID" ]; then
     echo "Using MYCOLLAB_PID:    $MYCOLLAB_PID"
   fi
 fi
 
+echo Param "$1"
 
-
-if [ "$1" = "start" ] ; then
+if [ "$1" = "--start" ] ; then
 
   if [ ! -z "$MYCOLLAB_PID" ]; then
     if [ -f "$MYCOLLAB_PID" ]; then
@@ -158,14 +160,14 @@ if [ "$1" = "start" ] ; then
   shift
   touch "$MYCOLLAB_OUT"
   cd ..
-  eval \"$_RUNJAVA\" -jar $MYCOLLAB_HOME/executor.jar --port $MYCOLLAB_PORT
+  eval \"$_RUNJAVA\" -jar $MYCOLLAB_HOME/executor.jar --port $MYCOLLAB_PORT --process-port $PROCESS_PORT --stop-key $STOP_KEY
  ####>> "$MYCOLLAB_OUT" 2>&1 "&"
 
   if [ ! -z "$MYCOLLAB_PID" ]; then
     echo $! > "$MYCOLLAB_PID"
   fi
 
-elif [ "$1" = "stop" ] ; then
+elif [ "$1" = "--stop" ] ; then
 
   shift
 
@@ -202,7 +204,7 @@ elif [ "$1" = "stop" ] ; then
   fi
 
   cd ..
-  eval \"$_RUNJAVA\" -jar $MYCOLLAB_HOME/runner.jar
+  eval \"$_RUNJAVA\" -jar $MYCOLLAB_HOME/executor.jar --port $MYCOLLAB_PORT --process-port $PROCESS_PORT --stop-key $STOP_KEY --stop
 
   if [ ! -z "$MYCOLLAB_PID" ]; then
     if [ -f "$MYCOLLAB_PID" ]; then

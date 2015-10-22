@@ -25,8 +25,8 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
-import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.peter.buttongroup.ButtonGroup;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.io.Serializable;
 
@@ -178,8 +178,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 
             if ((buttonEnableFlags & NAVIGATOR_BTN_PRESENTED) == NAVIGATOR_BTN_PRESENTED) {
                 ButtonGroup navigationBtns = new ButtonGroup();
-                navigationBtns.setStyleName("navigation-btns");
-                Button previousItem = new Button("<", new Button.ClickListener() {
+                Button previousItem = new Button(null, new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
@@ -188,13 +187,15 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
                         previewForm.fireGotoPrevious(item);
                     }
                 });
-
+                previousItem.setIcon(FontAwesome.CHEVRON_LEFT);
+                previousItem.setCaptionAsHtml(true);
+                previousItem.setWidth("40px");
                 previousItem.setStyleName(UIConstants.THEME_GREEN_LINK);
                 previousItem.setDescription(AppContext.getMessage(GenericI18Enum.TOOLTIP_SHOW_PREVIOUS_ITEM));
                 previousItem.setEnabled(canRead);
                 navigationBtns.addButton(previousItem);
 
-                Button nextItemBtn = new Button(">", new Button.ClickListener() {
+                Button nextItemBtn = new Button(null, new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
@@ -203,7 +204,8 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
                         previewForm.fireGotoNextItem(item);
                     }
                 });
-
+                nextItemBtn.setIcon(FontAwesome.CHEVRON_RIGHT);
+                nextItemBtn.setWidth("40px");
                 nextItemBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
                 nextItemBtn.setDescription(AppContext.getMessage(GenericI18Enum.TOOLTIP_SHOW_NEXT_ITEM));
                 nextItemBtn.setEnabled(canRead);

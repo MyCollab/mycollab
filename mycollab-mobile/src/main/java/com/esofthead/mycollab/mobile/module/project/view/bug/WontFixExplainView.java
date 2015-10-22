@@ -24,7 +24,7 @@ import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.view.settings.ProjectMemberSelectionField;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractMobilePageView;
-import com.esofthead.mycollab.mobile.ui.GridFormLayoutHelper;
+import com.esofthead.mycollab.mobile.ui.MobileGridFormLayoutHelper;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
@@ -139,14 +139,14 @@ class WontFixExplainView extends AbstractMobilePageView {
             super.setBean(newDataSource);
         }
 
-        static class FormLayoutFactory extends AbstractFormLayoutFactory {
+        static class FormLayoutFactory implements IFormLayoutFactory {
 
             private static final long serialVersionUID = 1L;
-            private GridFormLayoutHelper informationLayout;
+            private MobileGridFormLayoutHelper informationLayout;
 
             @Override
             public ComponentContainer getLayout() {
-                informationLayout = new GridFormLayoutHelper(1, 3, "100%",
+                informationLayout = new MobileGridFormLayoutHelper(1, 3, "100%",
                         "140px", Alignment.TOP_LEFT);
                 this.informationLayout.getLayout().setWidth("100%");
                 this.informationLayout.getLayout().setMargin(false);
@@ -155,7 +155,7 @@ class WontFixExplainView extends AbstractMobilePageView {
             }
 
             @Override
-            protected void onAttachField(Object propertyId, Field<?> field) {
+            public void attachField(Object propertyId, Field<?> field) {
                 if (propertyId.equals("resolution")) {
                     this.informationLayout.addComponent(field,
                             AppContext.getMessage(BugI18nEnum.FORM_RESOLUTION),

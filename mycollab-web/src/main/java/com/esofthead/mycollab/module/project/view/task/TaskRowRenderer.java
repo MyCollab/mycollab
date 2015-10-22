@@ -43,8 +43,8 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.hene.popupbutton.PopupButton;
-import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.UUID;
 
@@ -52,20 +52,22 @@ import java.util.UUID;
  * @author MyCollab Ltd
  * @since 5.1.1
  */
-class TaskRowRenderer extends MHorizontalLayout {
+class TaskRowRenderer extends MVerticalLayout {
     private Label taskLinkLbl;
     private SimpleTask task;
 
     private PopupButton taskSettingPopupBtn;
 
     TaskRowRenderer(final SimpleTask task) {
-        TaskPopupFieldFactory popupFieldFactory = ViewManager.getCacheComponent(TaskPopupFieldFactory.class);
         this.task = task;
-        withSpacing(false).withMargin(false).withWidth("100%").addStyleName("taskrow");
-        this.with(createTaskActionControl());
+        withSpacing(true).withMargin(false).withWidth("100%").addStyleName("taskrow");
 
-        VerticalLayout wrapTaskInfoLayout = new VerticalLayout();
-        wrapTaskInfoLayout.setSpacing(true);
+        taskSettingPopupBtn = new PopupButton();
+        taskSettingPopupBtn.setIcon(FontAwesome.COGS);
+        taskSettingPopupBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
+        OptionPopupContent filterBtnLayout = createPopupContent();
+        taskSettingPopupBtn.setContent(filterBtnLayout);
+
         taskLinkLbl = new Label(buildTaskLink(), ContentMode.HTML);
 
         if (task.isCompleted()) {
@@ -81,41 +83,45 @@ class TaskRowRenderer extends MHorizontalLayout {
         taskLinkLbl.addStyleName("wordWrap");
         MHorizontalLayout headerLayout = new MHorizontalLayout().withWidth("100%").withMargin(new MarginInfo(false,
                 true, false, false));
-        PopupView priorityField = popupFieldFactory.createTaskPriorityPopupField(task);
-        PopupView assigneeField = popupFieldFactory.createTaskAssigneePopupField(task);
-        headerLayout.addComponent(priorityField);
-        headerLayout.addComponent(assigneeField);
-        headerLayout.with(taskLinkLbl).expand(taskLinkLbl);
-        wrapTaskInfoLayout.addComponent(headerLayout);
+
+        TaskPopupFieldFactory popupFieldFactory = ViewManager.getCacheComponent(TaskPopupFieldFactory.class);
+        PopupView priorityField = popupFieldFactory.createPriorityPopupField(task);
+        PopupView assigneeField = popupFieldFactory.createAssigneePopupField(task);
+        headerLayout.with(taskSettingPopupBtn, priorityField, assigneeField, taskLinkLbl).expand(taskLinkLbl);
 
         MHorizontalLayout footer = new MHorizontalLayout();
 
-        PopupView commentField = popupFieldFactory.createTaskCommentsPopupField(task);
+        PopupView commentField = popupFieldFactory.createCommentsPopupField(task);
         footer.addComponent(commentField);
 
-        PopupView statusField = popupFieldFactory.createTaskStatusPopupField(task);
+        PopupView statusField = popupFieldFactory.createStatusPopupField(task);
         footer.addComponent(statusField);
 
-        PopupView milestoneField = popupFieldFactory.createTaskMilestonePopupField(task);
+        PopupView milestoneField = popupFieldFactory.createMilestonePopupField(task);
         footer.addComponent(milestoneField);
 
-        PopupView percentageField = popupFieldFactory.createTaskPercentagePopupField(task);
+        PopupView percentageField = popupFieldFactory.createPercentagePopupField(task);
         footer.addComponent(percentageField);
 
         String deadlineTooltip = String.format("%s: %s", AppContext.getMessage(TaskI18nEnum.FORM_DEADLINE),
                 AppContext.formatDate(task.getDeadline()));
-        PopupView deadlineField = popupFieldFactory.createTaskDeadlinePopupField(task);
+        PopupView deadlineField = popupFieldFactory.createDeadlinePopupField(task);
         deadlineField.setDescription(deadlineTooltip);
         footer.addComponent(deadlineField);
 
-        PopupView billableHoursField = popupFieldFactory.createTaskBillableHoursPopupField(task);
+        PopupView startdateField = popupFieldFactory.createStartDatePopupField(task);
+        footer.addComponent(startdateField);
+
+        PopupView enddateField = popupFieldFactory.createEndDatePopupField(task);
+        footer.addComponent(enddateField);
+
+        PopupView billableHoursField = popupFieldFactory.createBillableHoursPopupField(task);
         footer.addComponent(billableHoursField);
 
-        PopupView nonBillableHours = popupFieldFactory.createTaskNonBillableHoursPopupField(task);
+        PopupView nonBillableHours = popupFieldFactory.createNonBillableHoursPopupField(task);
         footer.addComponent(nonBillableHours);
 
-        wrapTaskInfoLayout.addComponent(footer);
-        this.with(wrapTaskInfoLayout).expand(wrapTaskInfoLayout);
+        this.with(headerLayout, footer);
     }
 
     private String buildTaskLink() {
@@ -157,17 +163,6 @@ class TaskRowRenderer extends MHorizontalLayout {
         if (parent != null) {
             parent.removeComponent(this);
         }
-    }
-
-    private PopupButton createTaskActionControl() {
-        taskSettingPopupBtn = new PopupButton();
-        taskSettingPopupBtn.setIcon(FontAwesome.COGS);
-
-        taskSettingPopupBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
-
-        OptionPopupContent filterBtnLayout = createPopupContent();
-        taskSettingPopupBtn.setContent(filterBtnLayout);
-        return taskSettingPopupBtn;
     }
 
     private OptionPopupContent createPopupContent() {

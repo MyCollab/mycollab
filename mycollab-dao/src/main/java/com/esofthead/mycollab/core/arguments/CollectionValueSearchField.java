@@ -19,49 +19,44 @@ package com.esofthead.mycollab.core.arguments;
 import java.util.Collection;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.0
- * 
  */
 public class CollectionValueSearchField extends SearchField {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String queryCount;
+    private String queryCount;
+    private String querySelect;
+    private Collection<?> value;
 
-	private String querySelect;
+    public CollectionValueSearchField(String oper, String expression, Collection<?> value) {
+        this.operation = oper;
+        this.queryCount = expression;
+        this.querySelect = expression;
+        this.value = value;
+    }
 
-	private Collection<?> value;
+    public String getQueryCount() {
+        return queryCount;
+    }
 
-	public CollectionValueSearchField(String oper, String expression,
-			Collection<?> value) {
-		this.operation = oper;
-		this.queryCount = expression;
-		this.querySelect = expression;
-		this.value = value;
-	}
+    public void setQueryCount(String queryCount) {
+        this.queryCount = queryCount;
+    }
 
-	public String getQueryCount() {
-		return queryCount;
-	}
+    public String getQuerySelect() {
+        return querySelect;
+    }
 
-	public void setQueryCount(String queryCount) {
-		this.queryCount = queryCount;
-	}
+    public void setQuerySelect(String querySelect) {
+        this.querySelect = querySelect;
+    }
 
-	public String getQuerySelect() {
-		return querySelect;
-	}
+    public Collection<?> getValue() {
+        return value;
+    }
 
-	public void setQuerySelect(String querySelect) {
-		this.querySelect = querySelect;
-	}
-
-	public Collection<?> getValue() {
-		return value;
-	}
-
-	public void setValue(Collection<?> value) {
-		this.value = value;
-	}
+    public void setValue(Collection<?> value) {
+        this.value = value;
+    }
 }

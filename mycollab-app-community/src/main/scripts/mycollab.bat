@@ -23,7 +23,7 @@ rem                   Required to run the with the "debug" argument.
 rem ---------------------------------------------------------------------------
 
 set MYCOLLAB_PORT=8080
-set STOP_PORT=12345
+set PROCESS_PORT=12345
 set STOP_KEY=mycollab
 set _RUNJAVA=java
 
@@ -61,11 +61,11 @@ rem ----- Execute The Requested Command ---------------------------------------
 echo Using MYCOLLAB_HOME:   "%MYCOLLAB_HOME%"
 
 set _EXECJAVA=%_RUNJAVA%
-set ACTION=--port %MYCOLLAB_PORT% --stop-port %STOP_PORT% --stop-key %STOP_KEY%
+set ACTION=--port %MYCOLLAB_PORT% --process-port %PROCESS_PORT% --stop-key %STOP_KEY%
 
 
-if ""%1"" == ""start"" goto doStart
-if ""%1"" == ""stop"" goto doStop
+if ""%1"" == ""--start"" goto doStart
+if ""%1"" == ""--stop"" goto doStop
 
 echo Usage:  mycollab ( commands ... )
 echo commands:

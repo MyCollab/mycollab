@@ -19,160 +19,130 @@ package com.esofthead.mycollab.module.project.view.user;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.domain.Project;
 import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.AddViewLayout;
 import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
-import com.esofthead.mycollab.vaadin.ui.AbstractFormLayoutFactory;
 import com.vaadin.ui.*;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public abstract class ProjectFormLayoutFactory extends AbstractFormLayoutFactory {
-	private static final long serialVersionUID = 1L;
+public abstract class ProjectFormLayoutFactory implements IFormLayoutFactory {
+    private static final long serialVersionUID = 1L;
 
-	private final String title;
+    private final String title;
 
-	private ProjectInformationLayout projectInformationLayout;
+    private ProjectInformationLayout projectInformationLayout;
 
-	public ProjectFormLayoutFactory(final String title) {
-		this.title = title;
-	}
+    public ProjectFormLayoutFactory(final String title) {
+        this.title = title;
+    }
 
-	@Override
-	public ComponentContainer getLayout() {
-		final AddViewLayout projectAddLayout = new AddViewLayout(this.title,
+    @Override
+    public ComponentContainer getLayout() {
+        final AddViewLayout projectAddLayout = new AddViewLayout(this.title,
                 ProjectAssetsManager.getAsset(ProjectTypeConstants.PROJECT));
 
-		this.projectInformationLayout = new ProjectInformationLayout();
+        this.projectInformationLayout = new ProjectInformationLayout();
 
-		final Layout topPanel = this.createTopPanel();
-		if (topPanel != null) {
-			projectAddLayout.addHeaderRight(topPanel);
-		}
+        final Layout topPanel = this.createTopPanel();
+        if (topPanel != null) {
+            projectAddLayout.addHeaderRight(topPanel);
+        }
 
-		projectAddLayout.addBody(this.projectInformationLayout.getLayout());
+        projectAddLayout.addBody(this.projectInformationLayout.getLayout());
 
-		final Layout bottomPanel = this.createBottomPanel();
-		if (bottomPanel != null) {
-			projectAddLayout.addBottomControls(bottomPanel);
-		}
+        final Layout bottomPanel = this.createBottomPanel();
+        if (bottomPanel != null) {
+            projectAddLayout.addBottomControls(bottomPanel);
+        }
 
-		return projectAddLayout;
-	}
+        return projectAddLayout;
+    }
 
-	@Override
-	protected void onAttachField(final Object propertyId, final Field<?> field) {
-		this.projectInformationLayout.attachField(propertyId, field);
-	}
+    @Override
+    public void attachField(Object propertyId, final Field<?> field) {
+        this.projectInformationLayout.attachField(propertyId, field);
+    }
 
-	protected abstract Layout createTopPanel();
+    protected abstract Layout createTopPanel();
 
-	protected abstract Layout createBottomPanel();
+    protected abstract Layout createBottomPanel();
 
-	public static class ProjectInformationLayout extends AbstractFormLayoutFactory {
-		private static final long serialVersionUID = 1L;
-		private GridFormLayoutHelper informationLayout;
-		private GridFormLayoutHelper financialLayout;
-		private GridFormLayoutHelper descriptionLayout;
+    public static class ProjectInformationLayout implements IFormLayoutFactory {
+        private static final long serialVersionUID = 1L;
+        private GridFormLayoutHelper informationLayout;
+        private GridFormLayoutHelper financialLayout;
+        private GridFormLayoutHelper descriptionLayout;
 
-		@Override
-		public ComponentContainer getLayout() {
-			final VerticalLayout layout = new VerticalLayout();
+        @Override
+        public ComponentContainer getLayout() {
+            final VerticalLayout layout = new VerticalLayout();
 
-			final Label organizationHeader = new Label(
-					AppContext.getMessage(ProjectI18nEnum.SECTION_PROJECT_INFO));
-			organizationHeader.setStyleName("h2");
-			layout.addComponent(organizationHeader);
+            final Label organizationHeader = new Label(AppContext.getMessage(ProjectI18nEnum.SECTION_PROJECT_INFO));
+            organizationHeader.setStyleName("h2");
+            layout.addComponent(organizationHeader);
 
-			this.informationLayout =  GridFormLayoutHelper.defaultFormLayoutHelper(2, 2);
-			layout.addComponent(this.informationLayout.getLayout());
-			layout.setComponentAlignment(this.informationLayout.getLayout(),
-					Alignment.BOTTOM_CENTER);
+            informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 2);
+            layout.addComponent(informationLayout.getLayout());
+            layout.setComponentAlignment(informationLayout.getLayout(), Alignment.BOTTOM_CENTER);
 
-			final Label financialHeader = new Label(
-					AppContext
-							.getMessage(ProjectI18nEnum.SECTION_FINANCE_SCHEDULE));
-			financialHeader.setStyleName("h2");
-			layout.addComponent(financialHeader);
+            final Label financialHeader = new Label(AppContext.getMessage(ProjectI18nEnum.SECTION_FINANCE_SCHEDULE));
+            financialHeader.setStyleName("h2");
+            layout.addComponent(financialHeader);
 
-			this.financialLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 4);
-			layout.addComponent(this.financialLayout.getLayout());
-			layout.setComponentAlignment(this.financialLayout.getLayout(),
-					Alignment.BOTTOM_CENTER);
+            financialLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 5);
+            layout.addComponent(financialLayout.getLayout());
+            layout.setComponentAlignment(financialLayout.getLayout(), Alignment.BOTTOM_CENTER);
 
-			final Label descHeader = new Label(
-					AppContext.getMessage(ProjectI18nEnum.SECTION_DESCRIPTION));
-			descHeader.setStyleName("h2");
-			layout.addComponent(descHeader);
+            final Label descHeader = new Label(AppContext.getMessage(ProjectI18nEnum.SECTION_DESCRIPTION));
+            descHeader.setStyleName("h2");
+            layout.addComponent(descHeader);
 
-			this.descriptionLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 1);
-			layout.addComponent(this.descriptionLayout.getLayout());
-			layout.setComponentAlignment(this.descriptionLayout.getLayout(),
-					Alignment.BOTTOM_CENTER);
-			return layout;
-		}
+            descriptionLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 1);
+            layout.addComponent(descriptionLayout.getLayout());
+            layout.setComponentAlignment(descriptionLayout.getLayout(), Alignment.BOTTOM_CENTER);
+            return layout;
+        }
 
-		@Override
-		protected void onAttachField(final Object propertyId, final Field<?> field) {
-			if (propertyId.equals("name")) {
-				this.informationLayout.addComponent(field,
-						AppContext.getMessage(ProjectI18nEnum.FORM_NAME), 0, 0);
-			} else if (propertyId.equals("homepage")) {
-				this.informationLayout.addComponent(field,
-						AppContext.getMessage(ProjectI18nEnum.FORM_HOME_PAGE),
-						1, 0);
-			} else if (propertyId.equals("shortname")) {
-				this.informationLayout.addComponent(field,
-						AppContext.getMessage(ProjectI18nEnum.FORM_SHORT_NAME),
-						0, 1);
-			} else if (propertyId.equals("projectstatus")) {
-				this.informationLayout.addComponent(field,
-						AppContext.getMessage(ProjectI18nEnum.FORM_STATUS), 1,
-						1);
-			} else if (propertyId.equals("planstartdate")) {
-				this.financialLayout
-						.addComponent(
-								field,
-								AppContext
-										.getMessage(ProjectI18nEnum.FORM_PLAN_START_DATE),
-								0, 0);
-			} else if (propertyId.equals("currencyid")) {
-				this.financialLayout.addComponent(field,
-						AppContext.getMessage(ProjectI18nEnum.FORM_CURRENCY),
-						1, 0);
-			} else if (propertyId.equals("planenddate")) {
-				this.financialLayout.addComponent(field, AppContext
-						.getMessage(ProjectI18nEnum.FORM_PLAN_END_DATE), 0, 1);
-			} else if (propertyId.equals("defaultbillingrate")) {
-				this.financialLayout.addComponent(field, AppContext
-						.getMessage(ProjectI18nEnum.FORM_BILLING_RATE), 1, 1);
-			} else if (propertyId.equals("actualstartdate")) {
-				this.financialLayout.addComponent(field, AppContext
-						.getMessage(ProjectI18nEnum.FORM_ACTUAL_START_DATE), 0,
-						2);
-			} else if (propertyId.equals("targetbudget")) {
-				this.financialLayout.addComponent(field, AppContext
-						.getMessage(ProjectI18nEnum.FORM_TARGET_BUDGET), 1, 2);
-			} else if (propertyId.equals("actualenddate")) {
-				this.financialLayout
-						.addComponent(
-								field,
-								AppContext
-										.getMessage(ProjectI18nEnum.FORM_ACTUAL_END_DATE),
-								0, 3);
-			} else if (propertyId.equals("actualbudget")) {
-				this.financialLayout.addComponent(field, AppContext
-						.getMessage(ProjectI18nEnum.FORM_ACTUAL_BUDGET), 1, 3);
-			} else if (propertyId.equals("description")) {
-				this.descriptionLayout.addComponent(field,
-						AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION),
-						0, 0, 2, "100%");
-			}
-		}
-	}
+        @Override
+        public void attachField(Object propertyId, final Field<?> field) {
+            if (propertyId.equals("name")) {
+                informationLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_NAME), 0, 0);
+            } else if (propertyId.equals("homepage")) {
+                informationLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_HOME_PAGE), 1, 0);
+            } else if (propertyId.equals("shortname")) {
+                informationLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_SHORT_NAME), 0, 1);
+            } else if (propertyId.equals("projectstatus")) {
+                informationLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_STATUS), 1, 1);
+            } else if (propertyId.equals("planstartdate")) {
+                financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_PLAN_START_DATE), 0, 0);
+            } else if (Project.Field.account.equalTo(propertyId)) {
+                financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_ACCOUNT_NAME), 1, 0);
+            } else if (propertyId.equals("planenddate")) {
+                financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_PLAN_END_DATE), 0, 1);
+            } else if (propertyId.equals("defaultbillingrate")) {
+                financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_BILLING_RATE), 1, 1);
+            } else if (propertyId.equals("actualstartdate")) {
+                financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_ACTUAL_START_DATE), 0, 2);
+            } else if (Project.Field.defaultovertimebillingrate.equalTo(propertyId)) {
+                financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_OVERTIME_BILLING_RATE), 1, 2);
+            } else if (propertyId.equals("actualenddate")) {
+                financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_ACTUAL_END_DATE), 0, 3);
+            } else if (Project.Field.targetbudget.equalTo(propertyId)) {
+                financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_TARGET_BUDGET), 1, 3);
+            } else if (Project.Field.currencyid.equalTo(propertyId)) {
+                financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_CURRENCY), 0, 4);
+            } else if (Project.Field.actualbudget.equalTo(propertyId)) {
+                financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_ACTUAL_BUDGET), 1, 4);
+            } else if (propertyId.equals("description")) {
+                descriptionLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 0, 2, "100%");
+            }
+        }
+    }
 }

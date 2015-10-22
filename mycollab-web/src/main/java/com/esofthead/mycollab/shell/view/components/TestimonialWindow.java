@@ -49,7 +49,7 @@ public class TestimonialWindow extends Window {
 
         final TestimonialForm entity = new TestimonialForm();
         final AdvancedEditBeanForm<TestimonialForm> editForm = new AdvancedEditBeanForm<>();
-        editForm.setFormLayoutFactory(new AbstractFormLayoutFactory() {
+        editForm.setFormLayoutFactory(new IFormLayoutFactory() {
             GridFormLayoutHelper gridFormLayoutHelper;
 
             @Override
@@ -59,7 +59,7 @@ public class TestimonialWindow extends Window {
             }
 
             @Override
-            protected void onAttachField(Object propertyId, Field<?> field) {
+            public void attachField(Object propertyId, Field<?> field) {
                 if ("displayname".equals(propertyId)) {
                     gridFormLayoutHelper.addComponent(field, "Name", 0, 0, 2, "100%");
                 } else if ("company".equals(propertyId)) {

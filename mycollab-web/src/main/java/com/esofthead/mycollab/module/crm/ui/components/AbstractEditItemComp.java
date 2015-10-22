@@ -26,72 +26,75 @@ import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 
 /**
- * 
+ * @param <B>
  * @author MyCollab Ltd.
  * @since 3.0
- * 
- * @param <B>
  */
 public abstract class AbstractEditItemComp<B> extends AbstractPageView implements IFormAddView<B> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected B beanItem;
-	protected AdvancedEditBeanForm<B> editForm;
+    protected B beanItem;
+    protected AdvancedEditBeanForm<B> editForm;
 
-	public AbstractEditItemComp() {
-		super();
-		setMargin(new MarginInfo(false, true, true, true));
-		editForm = new AdvancedEditBeanForm<>();
-		addComponent(editForm);
-	}
+    public AbstractEditItemComp() {
+        super();
+        setMargin(new MarginInfo(false, true, true, true));
+        editForm = new AdvancedEditBeanForm<>();
+        addComponent(editForm);
+    }
 
-	@Override
-	public void editItem(final B item) {
-		this.beanItem = item;
-		this.editForm.setFormLayoutFactory(new FormLayoutFactory());
-		this.editForm.setBeanFormFieldFactory(initBeanFormFieldFactory());
-		this.editForm.setBean(item);
-	}
+    @Override
+    public void editItem(final B item) {
+        this.beanItem = item;
+        this.editForm.setFormLayoutFactory(new FormLayoutFactory());
+        this.editForm.setBeanFormFieldFactory(initBeanFormFieldFactory());
+        this.editForm.setBean(item);
+    }
 
-	@Override
-	public HasEditFormHandlers<B> getEditFormHandlers() {
-		return editForm;
-	}
+    @Override
+    public HasEditFormHandlers<B> getEditFormHandlers() {
+        return editForm;
+    }
 
-	class FormLayoutFactory extends AbstractFormLayoutFactory {
-		private static final long serialVersionUID = 1L;
+    class FormLayoutFactory implements IWrappedFormLayoutFactory {
+        private static final long serialVersionUID = 1L;
 
-		private IFormLayoutFactory informationLayout;
+        private IFormLayoutFactory informationLayout;
 
-		@Override
-		public ComponentContainer getLayout() {
-			AddViewLayout2 formAddLayout = new AddViewLayout2(initFormTitle(), initFormIconResource());
+        @Override
+        public ComponentContainer getLayout() {
+            AddViewLayout2 formAddLayout = new AddViewLayout2(initFormTitle(), initFormIconResource());
 
-			ComponentContainer buttonControls = createButtonControls();
-			if (buttonControls != null) {
-				formAddLayout.addHeaderRight(buttonControls);
-			}
+            ComponentContainer buttonControls = createButtonControls();
+            if (buttonControls != null) {
+                formAddLayout.addHeaderRight(buttonControls);
+            }
 
-			informationLayout = initFormLayoutFactory();
-			formAddLayout.addBody(informationLayout.getLayout());
-			return formAddLayout;
-		}
+            informationLayout = initFormLayoutFactory();
+            formAddLayout.addBody(informationLayout.getLayout());
+            return formAddLayout;
+        }
 
-		@Override
-		protected void onAttachField(Object propertyId, Field<?> field) {
-			informationLayout.attachField(propertyId, field);
-		}
-	}
+        @Override
+        public void attachField(Object propertyId, Field<?> field) {
+            informationLayout.attachField(propertyId, field);
+        }
 
-	abstract protected String initFormTitle();
+        @Override
+        public IFormLayoutFactory getWrappedFactory() {
+            return informationLayout;
+        }
+    }
 
-	abstract protected Resource initFormIconResource();
+    abstract protected String initFormTitle();
 
-	abstract protected ComponentContainer createButtonControls();
+    abstract protected Resource initFormIconResource();
 
-	abstract protected AdvancedEditBeanForm<B> initPreviewForm();
+    abstract protected ComponentContainer createButtonControls();
 
-	abstract protected IFormLayoutFactory initFormLayoutFactory();
+    abstract protected AdvancedEditBeanForm<B> initPreviewForm();
 
-	abstract protected AbstractBeanFieldGroupEditFieldFactory<B> initBeanFormFieldFactory();
+    abstract protected IFormLayoutFactory initFormLayoutFactory();
+
+    abstract protected AbstractBeanFieldGroupEditFieldFactory<B> initBeanFormFieldFactory();
 }

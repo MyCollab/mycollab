@@ -23,8 +23,7 @@ import com.esofthead.mycollab.form.view.builder.type.EmailDynaField;
  * @author MyCollab Ltd.
  * 
  */
-public class EmailDynaFieldBuilder extends
-		AbstractDynaFieldBuilder<EmailDynaField> {
+public class EmailDynaFieldBuilder extends AbstractDynaFieldBuilder<EmailDynaField> {
 	public EmailDynaFieldBuilder() {
 		field = new EmailDynaField();
 	}

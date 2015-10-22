@@ -25,7 +25,6 @@ import com.esofthead.mycollab.vaadin.desktop.ui.ListView;
  * @since 1.0
  */
 public interface BugListView extends ListView<BugSearchCriteria, SimpleBug> {
-    String VIEW_DEF_ID = "project-bug-list";
 
     String GROUP_DUE_DATE = "Due Date";
     String GROUP_START_DATE = "Start Date";

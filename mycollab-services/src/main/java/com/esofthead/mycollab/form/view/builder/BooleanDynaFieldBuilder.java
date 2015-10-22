@@ -23,8 +23,7 @@ import com.esofthead.mycollab.form.view.builder.type.BooleanDynaField;
  * @author MyCollab Ltd.
  *
  */
-public class BooleanDynaFieldBuilder extends
-		AbstractDynaFieldBuilder<BooleanDynaField> {
+public class BooleanDynaFieldBuilder extends AbstractDynaFieldBuilder<BooleanDynaField> {
 
 	public BooleanDynaFieldBuilder() {
 		field = new BooleanDynaField();

@@ -38,12 +38,10 @@ public class PropertyListParam extends ColumnParam {
     }
 
     public CollectionValueSearchField buildPropertyParamInList(String oper, Collection<?> value) {
-        return new CollectionValueSearchField(oper, String.format(IN_EXPR,
-                this.getTable(), this.getColumn()), value);
+        return new CollectionValueSearchField(oper, String.format(IN_EXPR, this.getTable(), this.getColumn()), value);
     }
 
     public CollectionValueSearchField buildPropertyParamNotInList(String oper, Collection<?> value) {
-        return new CollectionValueSearchField(oper, String.format(NOT_IN_EXPR,
-                this.getTable(), this.getColumn()), value);
+        return new CollectionValueSearchField(oper, String.format(NOT_IN_EXPR, this.getTable(), this.getColumn()), value);
     }
 }

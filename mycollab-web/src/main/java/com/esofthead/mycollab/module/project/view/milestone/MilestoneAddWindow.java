@@ -24,12 +24,13 @@ import com.esofthead.mycollab.module.project.domain.Milestone;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
-import com.esofthead.mycollab.module.project.ui.components.DynaFormLayout;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
+import com.esofthead.mycollab.vaadin.ui.DynaFormLayout;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.event.ShortcutAction;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -72,7 +73,7 @@ class MilestoneAddWindow extends Window {
         });
         updateAllBtn.addStyleName(UIConstants.THEME_LINK);
 
-        Button updateBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
+        Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 if (editBeanForm.validateForm()) {
@@ -92,8 +93,9 @@ class MilestoneAddWindow extends Window {
                 }
             }
         });
-        updateBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-        updateBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
+        saveBtn.setIcon(FontAwesome.SAVE);
+        saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        saveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 
         Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
             @Override
@@ -102,7 +104,7 @@ class MilestoneAddWindow extends Window {
             }
         });
         cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-        buttonControls.with(updateAllBtn, cancelBtn, updateBtn);
+        buttonControls.with(updateAllBtn, cancelBtn, saveBtn);
         content.addComponent(buttonControls);
         content.setComponentAlignment(buttonControls, Alignment.MIDDLE_RIGHT);
     }
