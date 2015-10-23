@@ -22,7 +22,6 @@ import com.esofthead.mycollab.common.interceptor.aspect.ClassInfo;
 import com.esofthead.mycollab.common.interceptor.aspect.ClassInfoMap;
 import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
@@ -230,7 +229,7 @@ public class ProjectServiceImpl extends DefaultService<Integer, Project, Project
 
     @Override
     public String getSubdomainOfProject(Integer projectId) {
-        if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
+        if (SiteConfiguration.getDeploymentMode() == SiteConfiguration.DeploymentMode.site) {
             return projectMapperExt.getSubdomainOfProject(projectId);
         } else {
             return SiteConfiguration.getSiteUrl("");

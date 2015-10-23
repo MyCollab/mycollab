@@ -18,7 +18,7 @@ package com.esofthead.mycollab.mobile.module.project.view.task;
 
 import com.esofthead.mycollab.core.arguments.*;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.ui.TimeLogComp;
 import com.esofthead.mycollab.mobile.module.project.ui.TimeLogEditView;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;

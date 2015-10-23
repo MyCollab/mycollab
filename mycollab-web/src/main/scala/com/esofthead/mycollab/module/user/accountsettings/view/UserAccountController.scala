@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.premium.module.user.accountsettings.view
 
 import com.esofthead.mycollab.configuration.SiteConfiguration
-import com.esofthead.mycollab.core.DeploymentMode
+import com.esofthead.mycollab.configuration.SiteConfiguration.DeploymentMode
 import com.esofthead.mycollab.core.arguments.{NumberSearchField, SetSearchField}
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants

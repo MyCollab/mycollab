@@ -18,7 +18,6 @@ package com.esofthead.mycollab.module.billing.servlet;
 
 import com.esofthead.mycollab.common.UrlTokenizer;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.ResourceNotFoundException;
 import com.esofthead.mycollab.core.utils.BeanUtility;
@@ -75,7 +74,7 @@ public class AcceptInvitationPage extends VelocityWebServletRequestHandler {
 
                 Integer accountId = urlTokenizer.getInt();
                 String username = urlTokenizer.getString();
-                if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
+                if (SiteConfiguration.getDeploymentMode() == SiteConfiguration.DeploymentMode.site) {
                     subDomain = urlTokenizer.getString();
                 }
 

@@ -20,11 +20,11 @@ import com.esofthead.mycollab.common.GenericLinkUtils;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.mobile.module.project.ui.InsideProjectNavigationMenu;
 import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
 import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
@@ -102,20 +102,15 @@ public class MilestoneReadPresenter extends AbstractMobilePresenter<MilestoneRea
                     .getMessage(ProjectCommonI18nEnum.VIEW_MILESTONE));
 
             if (data.getParams() instanceof Integer) {
-                MilestoneService milestoneService = ApplicationContextUtil
-                        .getSpringBean(MilestoneService.class);
+                MilestoneService milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
                 SimpleMilestone milestone = milestoneService.findById(
                         (Integer) data.getParams(), AppContext.getAccountId());
                 if (milestone != null) {
                     this.view.previewItem(milestone);
                     super.onGo(container, data);
 
-                    AppContext.addFragment(
-                            "project/milestone/preview/"
-                                    + GenericLinkUtils
-                                    .encodeParam(CurrentProjectVariables
-                                                    .getProjectId(),
-                                            milestone.getId()),
+                    AppContext.addFragment("project/milestone/preview/"
+                                    + GenericLinkUtils.encodeParam(CurrentProjectVariables.getProjectId(), milestone.getId()),
                             milestone.getName());
                 } else {
                     NotificationUtil.showRecordNotExistNotification();

@@ -17,58 +17,53 @@
 package com.esofthead.mycollab.common;
 
 import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.module.user.domain.BillingAccount;
 import com.esofthead.mycollab.module.user.service.BillingAccountService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public abstract class GenericLinkUtils {
-	public static final String URL_PREFIX_PARAM = "#";
+    public static final String URL_PREFIX_PARAM = "#";
 
-	private GenericLinkUtils() {
-	}
+    private GenericLinkUtils() {
+    }
 
-	/**
-	 * 
-	 * @param params
-	 * @return
-	 */
-	public static String encodeParam(Object... params) {
-		StringBuffer paramStr = new StringBuffer("");
-		for (int i = 0; i < params.length; i++) {
-			if (params[i] == null) {
-				return "";
-			}
-			paramStr.append(params[i].toString());
-			if (i != params.length - 1) {
-				paramStr.append("/");
-			}
-		}
-		return UrlEncodeDecoder.encode(paramStr.toString());
-	}
+    /**
+     * @param params
+     * @return
+     */
+    public static String encodeParam(Object... params) {
+        StringBuffer paramStr = new StringBuffer("");
+        for (int i = 0; i < params.length; i++) {
+            if (params[i] == null) {
+                return "";
+            }
+            paramStr.append(params[i].toString());
+            if (i != params.length - 1) {
+                paramStr.append("/");
+            }
+        }
+        return UrlEncodeDecoder.encode(paramStr.toString());
+    }
 
-	/**
-	 * 
-	 * @param sAccountId
-	 * @return
-	 */
-	public static String generateSiteUrlByAccountId(Integer sAccountId) {
-		String siteUrl = "";
-		if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
-			BillingAccountService billingAccountService = ApplicationContextUtil.getSpringBean(BillingAccountService.class);
-			BillingAccount account = billingAccountService.getAccountById(sAccountId);
-			if (account != null) {
-				siteUrl = SiteConfiguration.getSiteUrl(account.getSubdomain());
-			}
-		} else {
-			siteUrl = SiteConfiguration.getSiteUrl("");
-		}
-		return siteUrl;
-	}
+    /**
+     * @param sAccountId
+     * @return
+     */
+    public static String generateSiteUrlByAccountId(Integer sAccountId) {
+        String siteUrl = "";
+        if (SiteConfiguration.getDeploymentMode() == SiteConfiguration.DeploymentMode.site) {
+            BillingAccountService billingAccountService = ApplicationContextUtil.getSpringBean(BillingAccountService.class);
+            BillingAccount account = billingAccountService.getAccountById(sAccountId);
+            if (account != null) {
+                siteUrl = SiteConfiguration.getSiteUrl(account.getSubdomain());
+            }
+        } else {
+            siteUrl = SiteConfiguration.getSiteUrl("");
+        }
+        return siteUrl;
+    }
 }

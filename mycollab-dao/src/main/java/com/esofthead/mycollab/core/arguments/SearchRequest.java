@@ -42,15 +42,11 @@ import java.io.Serializable;
  */
 public class SearchRequest<S extends SearchCriteria> implements Serializable {
 	private static final long serialVersionUID = 1L;
-
 	public static final int DEFAULT_NUMBER_SEARCH_ITEMS = 25;
 
 	private S searchCriteria;
-
 	private int currentPage = 1;
-
 	private int numberOfItems = 1;
-
     private String requestedUser;
 
 	public SearchRequest() {

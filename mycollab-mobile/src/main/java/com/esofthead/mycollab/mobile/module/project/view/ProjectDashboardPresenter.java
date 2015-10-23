@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view;
 
-import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;

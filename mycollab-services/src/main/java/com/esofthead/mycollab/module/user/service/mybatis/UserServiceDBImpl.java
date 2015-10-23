@@ -16,10 +16,8 @@
  */
 package com.esofthead.mycollab.module.user.service.mybatis;
 
-import com.esofthead.mycollab.cache.CacheUtils;
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
@@ -102,7 +100,7 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
         // check if user email has already in this account yet
         UserAccountExample userAccountEx = new UserAccountExample();
 
-        if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
+        if (SiteConfiguration.getDeploymentMode() == SiteConfiguration.DeploymentMode.site) {
             userAccountEx.createCriteria().andUsernameEqualTo(record.getEmail())
                     .andAccountidEqualTo(sAccountId).andRegisterstatusIn(Arrays.asList(
                     RegisterStatusConstants.ACTIVE,
@@ -166,7 +164,7 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
 
         LOG.debug("Check whether user is already in this account with status different than ACTIVE, then change status of him");
         userAccountEx = new UserAccountExample();
-        if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
+        if (SiteConfiguration.getDeploymentMode() == SiteConfiguration.DeploymentMode.site) {
             userAccountEx.createCriteria().andUsernameEqualTo(record.getEmail()).andAccountidEqualTo(sAccountId);
         } else {
             userAccountEx.createCriteria().andUsernameEqualTo(record.getEmail());
@@ -254,7 +252,7 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
         criteria.setRegisterStatuses(new SetSearchField<>(RegisterStatusConstants.ACTIVE));
         criteria.setSaccountid(null);
 
-        if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
+        if (SiteConfiguration.getDeploymentMode() == SiteConfiguration.DeploymentMode.site) {
             criteria.setSubdomain(new StringSearchField(subDomain));
         }
 

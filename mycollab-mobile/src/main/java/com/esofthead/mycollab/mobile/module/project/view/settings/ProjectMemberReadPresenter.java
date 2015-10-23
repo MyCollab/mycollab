@@ -19,7 +19,7 @@ package com.esofthead.mycollab.mobile.module.project.view.settings;
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.events.ProjectMemberEvent;
 import com.esofthead.mycollab.mobile.module.project.ui.InsideProjectNavigationMenu;
 import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;

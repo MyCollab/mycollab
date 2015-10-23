@@ -17,9 +17,7 @@
 package com.esofthead.mycollab.module.user.service.mybatis;
 
 import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.core.UserInvalidInputException;
-import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultCrudService;
 import com.esofthead.mycollab.module.user.dao.BillingAccountMapper;
@@ -71,7 +69,7 @@ public class BillingAccountServiceImpl extends DefaultCrudService<Integer, Billi
     public BillingAccount getAccountByDomain(String domain) {
         BillingAccountExample ex = new BillingAccountExample();
 
-        if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
+        if (SiteConfiguration.getDeploymentMode() == SiteConfiguration.DeploymentMode.site) {
             ex.createCriteria().andSubdomainEqualTo(domain);
         }
 
@@ -87,7 +85,7 @@ public class BillingAccountServiceImpl extends DefaultCrudService<Integer, Billi
     public BillingAccount getAccountById(Integer accountId) {
         BillingAccountExample ex = new BillingAccountExample();
 
-        if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
+        if (SiteConfiguration.getDeploymentMode() == SiteConfiguration.DeploymentMode.site) {
             ex.createCriteria().andIdEqualTo(accountId);
         }
 

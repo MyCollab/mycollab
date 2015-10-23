@@ -16,46 +16,44 @@
  */
 package com.esofthead.mycollab.configuration;
 
-import com.esofthead.mycollab.core.DeploymentMode;
+
 import com.esofthead.mycollab.core.MyCollabVersion;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.0
- * 
  */
 public abstract class MyCollabAssets {
-	private static MyCollabAssets impl;
+    private static MyCollabAssets impl;
 
-	static {
-		DeploymentMode deploymentMode = SiteConfiguration.getDeploymentMode();
-		if (deploymentMode == DeploymentMode.site) {
-			impl = new S3();
-		} else {
-			impl = new Local();
-		}
-	}
+    static {
+        SiteConfiguration.DeploymentMode deploymentMode = SiteConfiguration.getDeploymentMode();
+        if (deploymentMode == SiteConfiguration.DeploymentMode.site) {
+            impl = new S3();
+        } else {
+            impl = new Local();
+        }
+    }
 
-	protected abstract String generateAssetLink(String resourceId);
+    protected abstract String generateAssetLink(String resourceId);
 
-	public static String newAssetLink(String resourceId) {
-		return impl.generateAssetLink(resourceId);
-	}
+    public static String newAssetLink(String resourceId) {
+        return impl.generateAssetLink(resourceId);
+    }
 
-	public static class S3 extends MyCollabAssets {
+    public static class S3 extends MyCollabAssets {
 
-		@Override
-		protected String generateAssetLink(String resourceId) {
-			return SiteConfiguration.getCdnUrl() + resourceId;
-		}
-	}
+        @Override
+        protected String generateAssetLink(String resourceId) {
+            return SiteConfiguration.getCdnUrl() + resourceId;
+        }
+    }
 
-	public static class Local extends MyCollabAssets {
-		@Override
-		protected String generateAssetLink(String resourceId) {
-			return String.format("%s%s?v=%s", SiteConfiguration.getCdnUrl(), resourceId, MyCollabVersion.getVersion());
-		}
+    public static class Local extends MyCollabAssets {
+        @Override
+        protected String generateAssetLink(String resourceId) {
+            return String.format("%s%s?v=%s", SiteConfiguration.getCdnUrl(), resourceId, MyCollabVersion.getVersion());
+        }
 
-	}
+    }
 }

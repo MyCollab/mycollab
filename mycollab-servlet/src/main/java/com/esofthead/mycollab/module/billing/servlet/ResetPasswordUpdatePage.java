@@ -16,77 +16,68 @@
  */
 package com.esofthead.mycollab.module.billing.servlet;
 
-import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.esofthead.mycollab.common.UrlTokenizer;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.ResourceNotFoundException;
 import com.esofthead.mycollab.module.user.domain.User;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.servlet.VelocityWebServletRequestHandler;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @WebServlet(name = "recoverUserPasswordServlet", urlPatterns = "/user/recoverypassword/*")
 public class ResetPasswordUpdatePage extends VelocityWebServletRequestHandler {
 
-	@Autowired
-	private UserService userService;
+    @Autowired
+    private UserService userService;
 
-	@Override
-	protected void onHandleRequest(HttpServletRequest request,
-			HttpServletResponse response) {
-		String pathInfo = request.getPathInfo();
-		try {
-			if (pathInfo != null) {
-				UrlTokenizer urlTokenizer = new UrlTokenizer(pathInfo);
-				String username = urlTokenizer.getString();
-				User user = userService.findUserByUserName(username);
-				if (user == null) {
-					PageGeneratorUtil.responeUserNotExistPage(response,
-							username, request.getContextPath() + "/");
-					return;
-				} else {
-					String loginURL = (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) ? ("https://www.mycollab.com/sign-in?username=" + username)
-							: (request.getContextPath() + "/");
+    @Override
+    protected void onHandleRequest(HttpServletRequest request, HttpServletResponse response) {
+        String pathInfo = request.getPathInfo();
+        try {
+            if (pathInfo != null) {
+                UrlTokenizer urlTokenizer = new UrlTokenizer(pathInfo);
+                String username = urlTokenizer.getString();
+                User user = userService.findUserByUserName(username);
+                if (user == null) {
+                    PageGeneratorUtil.responeUserNotExistPage(response,
+                            username, request.getContextPath() + "/");
+                    return;
+                } else {
+                    String loginURL = (SiteConfiguration.getDeploymentMode() == SiteConfiguration.DeploymentMode.site)
+                            ? ("https://www.mycollab.com/sign-in?username=" + username) : (request.getContextPath() + "/");
 
-					String redirectURL = request.getContextPath() + "/"
-							+ "user/recoverypassword/action";
+                    String redirectURL = request.getContextPath() + "/"
+                            + "user/recoverypassword/action";
 
-					Map<String, Object> context = new HashMap<String, Object>();
-					context.put("username", username);
-					context.put("loginURL", loginURL);
-					context.put("redirectURL", redirectURL);
+                    Map<String, Object> context = new HashMap<String, Object>();
+                    context.put("username", username);
+                    context.put("loginURL", loginURL);
+                    context.put("redirectURL", redirectURL);
 
-					String html = generatePageByTemplate(response.getLocale(),
-							"templates/page/user/UserRecoveryPasswordPage.mt",
-							context);
-					PrintWriter out = response.getWriter();
-					out.print(html);
-					return;
-				}
-			} else {
-				throw new ResourceNotFoundException(
-						"Can not recover user password with context path is null");
-			}
-		} catch (Exception e) {
-			throw new MyCollabException(e);
-		}
-	}
+                    String html = generatePageByTemplate(response.getLocale(),
+                            "templates/page/user/UserRecoveryPasswordPage.mt", context);
+                    PrintWriter out = response.getWriter();
+                    out.print(html);
+                    return;
+                }
+            } else {
+                throw new ResourceNotFoundException("Can not recover user password with context path is null");
+            }
+        } catch (Exception e) {
+            throw new MyCollabException(e);
+        }
+    }
 
 }

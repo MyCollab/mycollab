@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.schedule.spring;
 
 import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.schedule.AutowiringSpringBeanJobFactory;
 import com.esofthead.mycollab.schedule.QuartzScheduleProperties;
 import com.esofthead.mycollab.schedule.jobs.CheckUpdateJob;
@@ -58,7 +57,7 @@ public class CommunityScheduleConfiguration {
     public SchedulerFactoryBean quartzSchedulerCommunity() {
         SchedulerFactoryBean bean = new SchedulerFactoryBean();
 
-        if (DeploymentMode.site == SiteConfiguration.getDeploymentMode()) {
+        if (SiteConfiguration.DeploymentMode.site == SiteConfiguration.getDeploymentMode()) {
             bean.setDataSource(new DataSourceConfiguration().dataSource());
         }
 

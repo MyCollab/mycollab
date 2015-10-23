@@ -16,9 +16,6 @@
  */
 package com.esofthead.mycollab.schedule;
 
-import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.core.DeploymentMode;
-
 import java.util.Properties;
 
 /**

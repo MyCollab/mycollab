@@ -131,7 +131,7 @@ public class TaskDashboardViewImpl extends AbstractLazyPageView implements TaskD
         groupWrapLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         groupWrapLayout.addComponent(new Label("Filter:"));
-        final SavedFilterComboBox savedFilterComboBox = new SavedFilterComboBox(ProjectTypeConstants.TASK);
+        final TaskSavedFilterComboBox savedFilterComboBox = new TaskSavedFilterComboBox();
         savedFilterComboBox.addQuerySelectListener(new SavedFilterComboBox.QuerySelectListener() {
             @Override
             public void querySelect(SavedFilterComboBox.QuerySelectEvent querySelectEvent) {

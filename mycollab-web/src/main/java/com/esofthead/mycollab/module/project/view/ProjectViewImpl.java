@@ -18,6 +18,8 @@ package com.esofthead.mycollab.module.project.view;
 
 import com.esofthead.mycollab.common.GenericLinkUtils;
 import com.esofthead.mycollab.core.arguments.*;
+import com.esofthead.mycollab.core.db.query.DateParam;
+import com.esofthead.mycollab.core.db.query.VariableInjecter;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -158,7 +160,8 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
                     } else if (ProjectTypeConstants.TIME.equals(caption)) {
                         ItemTimeLoggingSearchCriteria searchCriteria = new ItemTimeLoggingSearchCriteria();
                         searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-                        searchCriteria.setRangeDate(ItemTimeLoggingSearchCriteria.getCurrentRangeDateOfWeekSearchField());
+                        searchCriteria.addExtraField(DateParam.inRangeDate(ItemTimeLoggingSearchCriteria.p_logDates,
+                                VariableInjecter.THIS_WEEK));
                         timePresenter.go(ProjectViewImpl.this, new TimeTrackingScreenData.Search(searchCriteria));
                     } else if (ProjectTypeConstants.STANDUP.equals(caption)) {
                         StandupReportSearchCriteria criteria = new StandupReportSearchCriteria();

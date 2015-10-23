@@ -16,11 +16,10 @@
  */
 package com.esofthead.mycollab.vaadin.mvp;
 
-import com.esofthead.mycollab.web.DesktopApplication;
+import com.esofthead.mycollab.vaadin.AsyncInvoker;
 import com.hp.gagawa.java.elements.Div;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 
 /**
@@ -38,28 +37,24 @@ public abstract class AbstractLazyPageView extends AbstractPageView implements L
         if (!isRunning) {
             this.removeAllComponents();
             isRunning = true;
-            new Thread() {
+            AsyncInvoker.access(new AsyncInvoker.PageCommand() {
                 @Override
                 public void run() {
-                    final DesktopApplication currentUI = (DesktopApplication) UI.getCurrent();
-                    currentUI.access(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                progressIndicator = new ProgressIndicator();
-                                currentUI.addWindow(progressIndicator);
-                                currentUI.push();
-                                displayView();
-                            } finally {
-                                currentUI.removeWindow(progressIndicator);
-                                isRunning = false;
-                                currentUI.push();
-                            }
-                        }
-
-                    });
+                    progressIndicator = new ProgressIndicator();
+                    getUI().addWindow(progressIndicator);
                 }
-            }.start();
+
+                @Override
+                public void postRun() {
+                    displayView();
+                }
+
+                @Override
+                public void cleanUp() {
+                    getUI().removeWindow(progressIndicator);
+                    isRunning = false;
+                }
+            });
         }
     }
 

@@ -102,24 +102,14 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
         initUI();
         createBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
 
-        new Thread() {
-            public void run() {
-                UI.getCurrent().access(new Runnable() {
-                    @Override
-                    public void run() {
-                        baseCriteria = new MilestoneSearchCriteria();
-                        baseCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-                        baseCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("startdate",
-                                SearchCriteria.DESC), new SearchCriteria.OrderField("enddate", SearchCriteria.DESC)));
-                        List<SimpleMilestone> milestones = milestoneService.findPagableListByCriteria(new SearchRequest<>(baseCriteria, 0, Integer.MAX_VALUE));
-                        for (SimpleMilestone milestone : milestones) {
-                            MilestoneRoadmapViewImpl.this.addComponent(new MilestoneBlock(milestone));
-                        }
-                        UI.getCurrent().push();
-                    }
-                });
-            }
-        }.start();
+        baseCriteria = new MilestoneSearchCriteria();
+        baseCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+        baseCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("startdate",
+                SearchCriteria.DESC), new SearchCriteria.OrderField("enddate", SearchCriteria.DESC)));
+        List<SimpleMilestone> milestones = milestoneService.findPagableListByCriteria(new SearchRequest<>(baseCriteria, 0, Integer.MAX_VALUE));
+        for (SimpleMilestone milestone : milestones) {
+            MilestoneRoadmapViewImpl.this.addComponent(new MilestoneBlock(milestone));
+        }
     }
 
     private void initUI() {

@@ -21,7 +21,6 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Layout;
 import com.esofthead.mycollab.configuration.EmailConfiguration;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.core.MyCollabVersion;
 import com.esofthead.mycollab.core.utils.StringUtils;
 
@@ -35,7 +34,7 @@ public class MailAppender extends SMTPAppender {
     protected Layout<ILoggingEvent> makeSubjectLayout(String subjectStr) {
         if (subjectStr == null) {
             String version;
-            if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
+            if (SiteConfiguration.getDeploymentMode() == SiteConfiguration.DeploymentMode.site) {
                 version = "MyCollab Live";
             } else {
                 version = "MyCollab " + MyCollabVersion.getVersion();

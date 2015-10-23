@@ -18,7 +18,7 @@ package com.esofthead.mycollab.mobile.module.project.view.task;
 
 import com.esofthead.mycollab.common.i18n.DayI18nEnum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList.RowDisplayHandler;
 import com.esofthead.mycollab.mobile.ui.AbstractSelectionView;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;

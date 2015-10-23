@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.configuration;
 
-import com.esofthead.mycollab.core.DeploymentMode;
 import org.apache.commons.lang3.LocaleUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,6 +60,7 @@ public class SiteConfiguration {
 
     private Locale defaultLocale;
     private List<Locale> supportedLanguages;
+    private PullMethod pullMethod;
 
     public static void loadConfiguration() {
         TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
@@ -81,6 +81,9 @@ public class SiteConfiguration {
         String runningMode = ApplicationProperties.getString(RUNNING_MODE, "standalone");
         instance.deploymentMode = DeploymentMode.valueOf(runningMode);
         LOG.debug("Site is running under {} mode", instance.deploymentMode);
+
+        String pullMethodValue = ApplicationProperties.getString(ApplicationProperties.PULL_METHOD, "push");
+        instance.pullMethod = PullMethod.valueOf(pullMethodValue);
 
         instance.cdnUrl = String.format(ApplicationProperties.getString(CDN_URL),
                 instance.serverAddress, instance.serverPort);
@@ -192,6 +195,10 @@ public class SiteConfiguration {
         return getInstance().deploymentMode;
     }
 
+    public static PullMethod getPullMethod() {
+        return getInstance().pullMethod;
+    }
+
     public static String getSendErrorEmail() {
         return getInstance().sentErrorEmail;
     }
@@ -256,5 +263,13 @@ public class SiteConfiguration {
             locales.add(locale);
         }
         return locales;
+    }
+
+    public enum DeploymentMode {
+        site, premium, standalone
+    }
+
+    public enum PullMethod {
+        push, pull
     }
 }

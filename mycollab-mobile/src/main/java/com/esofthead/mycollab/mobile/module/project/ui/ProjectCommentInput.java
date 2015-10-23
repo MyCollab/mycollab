@@ -20,12 +20,12 @@ import com.esofthead.mycollab.common.domain.CommentWithBLOBs;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.core.utils.ImageUtil;
-import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.ui.IconConstants;
 import com.esofthead.mycollab.mobile.ui.MobileAttachmentUtils;
 import com.esofthead.mycollab.mobile.ui.TempFileFactory;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -51,9 +51,7 @@ import java.util.*;
  */
 @SuppressWarnings("unused")
 public class ProjectCommentInput extends VerticalLayout {
-    private static final Logger LOG = LoggerFactory
-            .getLogger(ProjectCommentInput.class.getName());
-
+    private static final Logger LOG = LoggerFactory.getLogger(ProjectCommentInput.class.getName());
     private static final long serialVersionUID = 8118887310759503892L;
 
     private TextArea commentInput;
@@ -74,15 +72,11 @@ public class ProjectCommentInput extends VerticalLayout {
 
     private CssLayout statusWrapper;
 
-    public ProjectCommentInput(
-            final ReloadableComponent component,
-            final String typeVal,
-            final Integer extraTypeIdVal,
-            final boolean cancelButtonEnable,
-            final Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
+    public ProjectCommentInput(final ReloadableComponent component, final String typeVal,
+                               final Integer extraTypeIdVal, final boolean cancelButtonEnable,
+                               final Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
 
-        resourceService = ApplicationContextUtil
-                .getSpringBean(ResourceService.class);
+        resourceService = ApplicationContextUtil.getSpringBean(ResourceService.class);
 
         type = typeVal;
         extraTypeId = extraTypeIdVal;
@@ -113,8 +107,7 @@ public class ProjectCommentInput extends VerticalLayout {
                 .getMessage(GenericI18Enum.M_NOTE_INPUT_PROMPT));
         commentInput.setSizeFull();
 
-        Button postBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.M_BUTTON_SEND));
+        Button postBtn = new Button(AppContext.getMessage(GenericI18Enum.M_BUTTON_SEND));
         postBtn.setStyleName("submit-btn");
         postBtn.setWidthUndefined();
         postBtn.addClickListener(new Button.ClickListener() {
@@ -169,8 +162,7 @@ public class ProjectCommentInput extends VerticalLayout {
             private LinkedList<ProgressBar> indicators;
 
             @Override
-            public void streamingStarted(
-                    StreamVariable.StreamingStartEvent event) {
+            public void streamingStarted(StreamVariable.StreamingStartEvent event) {
             }
 
             @Override

@@ -48,37 +48,37 @@ public class OptionI18nEnum {
 
     @BaseName("localization/project-milestone-status")
     @LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
-    public static enum MilestoneStatus {
+    public enum MilestoneStatus {
         Future, Closed, InProgress
     }
 
     @BaseName("localization/project-task-priority")
     @LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
-    public static enum TaskPriority {
+    public enum TaskPriority {
         Urgent, High, Medium, Low, None
     }
 
     @BaseName("localization/project-bug-status")
     @LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
-    public static enum BugStatus {
+    public enum BugStatus {
         Open, InProgress, Verified, Resolved, ReOpened
     }
 
     @BaseName("localization/project-bug-priority")
     @LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
-    public static enum BugPriority {
+    public enum BugPriority {
         Blocker, Critical, Major, Minor, Trivial
     }
 
     @BaseName("localization/project-bug-severity")
     @LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
-    public static enum BugSeverity {
+    public enum BugSeverity {
         Critical, Major, Minor, Trivial
     }
 
     @BaseName("localization/project-bug-resolution")
     @LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
-    public static enum BugResolution {
+    public enum BugResolution {
         Fixed,
         Won_Fix,
         Duplicate,

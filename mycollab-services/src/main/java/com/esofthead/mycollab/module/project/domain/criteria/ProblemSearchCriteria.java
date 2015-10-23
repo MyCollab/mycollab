@@ -37,20 +37,16 @@ import com.esofthead.mycollab.module.project.i18n.ProblemI18nEnum;
 public class ProblemSearchCriteria extends SearchCriteria {
 	private static final long serialVersionUID = 1L;
 
-	public static Param p_assignee = new PropertyListParam(
-			"problem-assignuser", GenericI18Enum.FORM_ASSIGNEE,
+	public static Param p_assignee = new PropertyListParam("problem-assignuser", GenericI18Enum.FORM_ASSIGNEE,
 			"m_prj_problem", "assigntouser");
 
-	public static Param p_raisedUser = new PropertyListParam(
-			"problem-raiseduser", ProblemI18nEnum.FORM_RAISED_BY,
+	public static Param p_raisedUser = new PropertyListParam("problem-raiseduser", ProblemI18nEnum.FORM_RAISED_BY,
 			"m_prj_problem", "raisedbyuser");
 
-	public static Param p_status = new StringListParam("problem-status",
-			ProblemI18nEnum.FORM_STATUS, "m_prj_problem", "status",
+	public static Param p_status = new StringListParam("problem-status", ProblemI18nEnum.FORM_STATUS, "m_prj_problem", "status",
 			Arrays.asList("Open", "Closed"));
 
-	public static Param p_priority = new StringListParam("problem-priority",
-			ProblemI18nEnum.FORM_PRIORITY, "m_prj_problem", "priority",
+	public static Param p_priority = new StringListParam("problem-priority", ProblemI18nEnum.FORM_PRIORITY, "m_prj_problem", "priority",
 			Arrays.asList("High", "Medium", "Low"));
 
 	public static Param p_duedate = new DateParam("problem-duedate",

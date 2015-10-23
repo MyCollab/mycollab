@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.db.migration.service;
 
 import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.core.DeploymentMode;
 import org.flywaydb.core.Flyway;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +46,7 @@ public class DbMigrationRunner {
             flyway.setBaselineOnMigrate(true);
             flyway.setDataSource(dataSource);
             flyway.setValidateOnMigrate(false);
-            if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
+            if (SiteConfiguration.getDeploymentMode() == SiteConfiguration.DeploymentMode.site) {
                 flyway.setLocations("db/migration", "db/migration2");
             } else {
                 flyway.setLocations("db/migration");

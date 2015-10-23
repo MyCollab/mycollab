@@ -18,7 +18,6 @@ package com.esofthead.mycollab.module.user.accountsettings.view;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.user.accountsettings.billing.view.IBillingPresenter;
 import com.esofthead.mycollab.module.user.accountsettings.customize.view.ISettingPresenter;
@@ -121,7 +120,7 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
         accountTab.addTab(constructThemeComponent(), SettingUIConstants.GENERAL_SETTING,
                 AppContext.getMessage(AdminI18nEnum.VIEW_SETTING));
 
-        if (SiteConfiguration.getDeploymentMode() == DeploymentMode.standalone) {
+        if (SiteConfiguration.getDeploymentMode() == SiteConfiguration.DeploymentMode.standalone) {
             accountTab.addTab(constructSetupComponent(), SettingUIConstants.SETUP,
                     AppContext.getMessage(AdminI18nEnum.VIEW_SETUP));
         }

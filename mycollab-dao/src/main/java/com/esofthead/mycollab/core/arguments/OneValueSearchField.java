@@ -26,9 +26,7 @@ public class OneValueSearchField extends SearchField {
 	private static final long serialVersionUID = 1L;
 
 	private String queryCount;
-
 	private String querySelect;
-
 	private Object value;
 
 	public OneValueSearchField(String oper, String expression, Object value) {

@@ -23,13 +23,9 @@ import com.esofthead.mycollab.core.arguments.StringSearchField;
 public class ComponentSearchCriteria extends SearchCriteria {
 
     private NumberSearchField projectid;
-    
     private StringSearchField componentName;
-    
     private NumberSearchField id;
-    
     private StringSearchField status;
-    
     private StringSearchField userlead;
 
     public StringSearchField getUserlead() {

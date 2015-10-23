@@ -32,9 +32,7 @@ public abstract class SearchCriteria implements Serializable {
     public static final String DESC = "DESC";
 
     private List<OrderField> orderFields;
-
     private NumberSearchField saccountid;
-
     private List<SearchField> extraFields;
 
     public SearchCriteria() {
@@ -58,6 +56,9 @@ public abstract class SearchCriteria implements Serializable {
     }
 
     public SearchCriteria addExtraField(SearchField extraField) {
+        if (extraField == null) {
+            return this;
+        }
         if (extraFields == null) {
             extraFields = new ArrayList<>();
         }

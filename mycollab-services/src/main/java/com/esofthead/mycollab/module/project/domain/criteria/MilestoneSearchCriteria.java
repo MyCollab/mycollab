@@ -31,13 +31,9 @@ public class MilestoneSearchCriteria extends SearchCriteria {
 	private static final long serialVersionUID = 1L;
 
 	private StringSearchField assignUser;
-
 	private StringSearchField status;
-
 	private NumberSearchField projectId;
-
 	private NumberSearchField id;
-
 	private StringSearchField milestoneName;
 
 	public StringSearchField getAssignUser() {

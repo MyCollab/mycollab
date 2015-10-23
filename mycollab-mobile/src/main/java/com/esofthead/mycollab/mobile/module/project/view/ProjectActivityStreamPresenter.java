@@ -21,7 +21,7 @@ import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.ui.InsideProjectNavigationMenu;
 import com.esofthead.mycollab.mobile.ui.AbstractListPresenter;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;

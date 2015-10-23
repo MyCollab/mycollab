@@ -80,6 +80,8 @@ public class ApplicationProperties {
 
     public static final String COPYRIGHT_MSG = "copyright";
 
+    public static final String PULL_METHOD = "pull_method";
+
     public static void loadProps() {
         StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
         encryptor.setPassword(DECRYPT_PASS);

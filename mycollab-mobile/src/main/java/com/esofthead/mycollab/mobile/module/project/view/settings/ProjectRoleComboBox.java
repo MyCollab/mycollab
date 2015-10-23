@@ -21,7 +21,7 @@ import java.util.List;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
-import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.ui.ValueComboBox;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectRole;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectRoleSearchCriteria;

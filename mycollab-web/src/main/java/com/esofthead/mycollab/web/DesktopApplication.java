@@ -18,6 +18,7 @@ package com.esofthead.mycollab.web;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.*;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.billing.SubDomainNotExistException;
@@ -38,7 +39,6 @@ import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.service.GoogleAnalyticsService;
 import com.google.common.eventbus.Subscribe;
-import com.vaadin.annotations.Push;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.*;
@@ -64,7 +64,6 @@ import static com.esofthead.mycollab.core.utils.ExceptionUtils.getExceptionType;
  */
 @Theme(MyCollabVersion.THEME_VERSION)
 @Widgetset("com.esofthead.mycollab.widgetset.MyCollabWidgetSet")
-@Push(value = PushMode.MANUAL)
 public class DesktopApplication extends MyCollabUI {
     private static final long serialVersionUID = 1L;
 
@@ -80,6 +79,10 @@ public class DesktopApplication extends MyCollabUI {
         googleAnalyticsService.registerUI(this);
 
         LOG.debug("Register default error handler");
+
+        if (SiteConfiguration.getPullMethod() == SiteConfiguration.PullMethod.push) {
+            getPushConfiguration().setPushMode(PushMode.MANUAL);
+        }
 
         VaadinSession.getCurrent().setErrorHandler(new DefaultErrorHandler() {
             private static final long serialVersionUID = 1L;

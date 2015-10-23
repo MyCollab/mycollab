@@ -39,7 +39,7 @@ public class DateTimeUtils {
     private static DateTimeZone utcZone = DateTimeZone.UTC;
     private static Map<String, SimpleDateFormat> dateFormats = new HashMap<>();
 
-    public static final long MILISECONDS_IN_A_DAY = 1000*60*60*24;
+    public static final long MILISECONDS_IN_A_DAY = 1000 * 60 * 60 * 24;
 
     /**
      * Trim hour-minute-second of date instance value to zero.
@@ -122,10 +122,8 @@ public class DateTimeUtils {
      * @return
      */
     public static Date subtractOrAddDayDuration(Date date, int duration) {
-        Calendar cal = new GregorianCalendar();
-        cal.setTime(date);
-        cal.add(Calendar.DAY_OF_MONTH, duration);
-        return cal.getTime();
+        LocalDate localDate = new LocalDate(date);
+        return localDate.plusDays(duration).toDate();
     }
 
     public static String formatDate(Date date, String dateFormat) {

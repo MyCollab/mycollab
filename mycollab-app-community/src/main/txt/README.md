@@ -57,12 +57,16 @@ Version 5.2.1
 * Do minor UI improvements
 * Validate the file permission in the installation script
 * Add shutdown script to allow admin can shutdown MyCollab properly
+* The new modal window
+* Faster form binding and improve the performance a little bit
+* Allow user can switch from push to poll method if their network proxy prohibit the push method
 
 **Bug Fixes**
 
 * Wrong user avatar of assignments in project roadmap view
 * Validate date constraints of entity is wrong in several cases
 * Calendar information is not refresh if the new set is empty
+* Update search query is not effected
 
 Version 5.2.0
 -----------------------------

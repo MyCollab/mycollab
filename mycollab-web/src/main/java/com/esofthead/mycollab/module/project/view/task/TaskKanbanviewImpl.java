@@ -122,7 +122,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
         searchPanel.addHeaderRight(groupWrapLayout);
 
         groupWrapLayout.addComponent(new Label("Filter:"));
-        final SavedFilterComboBox savedFilterComboBox = new SavedFilterComboBox(ProjectTypeConstants.TASK);
+        final TaskSavedFilterComboBox savedFilterComboBox = new TaskSavedFilterComboBox();
         savedFilterComboBox.addQuerySelectListener(new SavedFilterComboBox.QuerySelectListener() {
             @Override
             public void querySelect(SavedFilterComboBox.QuerySelectEvent querySelectEvent) {

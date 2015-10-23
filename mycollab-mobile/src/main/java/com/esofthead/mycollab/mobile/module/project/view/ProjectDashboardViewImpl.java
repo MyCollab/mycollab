@@ -18,7 +18,7 @@ package com.esofthead.mycollab.mobile.module.project.view;
 
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.events.BugEvent;
 import com.esofthead.mycollab.mobile.module.project.events.MessageEvent;
 import com.esofthead.mycollab.mobile.module.project.events.MilestoneEvent;

@@ -27,7 +27,7 @@ import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.MobileApplication;
-import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.events.*;
 import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent.AllActivities;
 import com.esofthead.mycollab.mobile.module.project.events.TaskEvent.GoInsideList;

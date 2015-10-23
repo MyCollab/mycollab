@@ -18,56 +18,44 @@ package com.esofthead.mycollab.module.project.domain.criteria;
 
 import com.esofthead.mycollab.core.arguments.DateSearchField;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.RangeDateSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.core.db.query.DateParam;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class StandupReportSearchCriteria extends SearchCriteria {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private NumberSearchField projectId;
+    private NumberSearchField projectId;
+    private StringSearchField logBy;
+    private DateSearchField onDate;
 
-	private StringSearchField logBy;
+    public static final DateParam p_fordays = new DateParam("standup-forday", null, "m_prj_standup", "forday");
 
-	private RangeDateSearchField reportDateRange;
+    public NumberSearchField getProjectId() {
+        return projectId;
+    }
 
-	private DateSearchField onDate;
+    public void setProjectId(NumberSearchField projectId) {
+        this.projectId = projectId;
+    }
 
-	public NumberSearchField getProjectId() {
-		return projectId;
-	}
+    public StringSearchField getLogBy() {
+        return logBy;
+    }
 
-	public void setProjectId(NumberSearchField projectId) {
-		this.projectId = projectId;
-	}
+    public void setLogBy(StringSearchField logBy) {
+        this.logBy = logBy;
+    }
 
-	public StringSearchField getLogBy() {
-		return logBy;
-	}
+    public DateSearchField getOnDate() {
+        return onDate;
+    }
 
-	public void setLogBy(StringSearchField logBy) {
-		this.logBy = logBy;
-	}
-
-	public RangeDateSearchField getReportDateRange() {
-		return reportDateRange;
-	}
-
-	public void setReportDateRange(RangeDateSearchField reportDateRange) {
-		this.reportDateRange = reportDateRange;
-	}
-
-	public DateSearchField getOnDate() {
-		return onDate;
-	}
-
-	public void setOnDate(DateSearchField onDate) {
-		this.onDate = onDate;
-	}
+    public void setOnDate(DateSearchField onDate) {
+        this.onDate = onDate;
+    }
 }

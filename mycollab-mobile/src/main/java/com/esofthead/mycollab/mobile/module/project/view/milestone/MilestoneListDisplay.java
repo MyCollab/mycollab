@@ -18,7 +18,7 @@ package com.esofthead.mycollab.mobile.module.project.view.milestone;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.mobile.ui.DefaultPagedBeanList;
 import com.esofthead.mycollab.mobile.ui.IconConstants;

@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.mobile.module.project.view.task;
 
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.events.TaskEvent;
 import com.esofthead.mycollab.mobile.ui.DefaultPagedBeanList;
 import com.esofthead.mycollab.mobile.ui.UIConstants;

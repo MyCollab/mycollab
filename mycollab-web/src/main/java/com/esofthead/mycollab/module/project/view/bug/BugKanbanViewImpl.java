@@ -35,6 +35,7 @@ import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.view.ProjectView;
+import com.esofthead.mycollab.module.project.view.bug.components.BugSavedFilterComboBox;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
@@ -111,7 +112,7 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
         groupWrapLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         groupWrapLayout.addComponent(new Label("Filter:"));
-        final SavedFilterComboBox savedFilterComboBox = new SavedFilterComboBox(ProjectTypeConstants.BUG);
+        final BugSavedFilterComboBox savedFilterComboBox = new BugSavedFilterComboBox();
         savedFilterComboBox.addQuerySelectListener(new SavedFilterComboBox.QuerySelectListener() {
             @Override
             public void querySelect(SavedFilterComboBox.QuerySelectEvent querySelectEvent) {

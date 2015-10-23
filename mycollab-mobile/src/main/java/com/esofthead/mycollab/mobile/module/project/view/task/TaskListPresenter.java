@@ -21,12 +21,12 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.events.TaskEvent;
 import com.esofthead.mycollab.mobile.module.project.ui.InsideProjectNavigationMenu;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractListPresenter;
 import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
@@ -112,9 +112,7 @@ public class TaskListPresenter extends AbstractListPresenter<TaskListView, TaskS
                 view.setBean(taskList);
 
                 TaskSearchCriteria criteria = new TaskSearchCriteria();
-                criteria.setProjectid(new NumberSearchField(
-                        CurrentProjectVariables.getProjectId()));
-//                criteria.setMilestoneId(new NumberSearchField(taskList.getId()));
+                criteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
                 criteria.setStatuses(new SetSearchField<>("Open"));
 
                 super.onGo(container, data);

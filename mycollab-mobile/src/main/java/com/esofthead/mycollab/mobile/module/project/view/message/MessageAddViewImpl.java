@@ -21,7 +21,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.ui.form.field.ProjectFormAttachmentUploadField;
 import com.esofthead.mycollab.mobile.ui.AbstractMobilePageView;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;

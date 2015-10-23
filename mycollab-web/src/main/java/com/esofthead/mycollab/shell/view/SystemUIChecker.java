@@ -19,7 +19,6 @@ package com.esofthead.mycollab.shell.view;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.ShellI18nEnum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.mail.service.ExtMailService;
 import com.esofthead.mycollab.shell.events.ShellEvent;
@@ -36,11 +35,10 @@ import org.vaadin.dialogs.ConfirmDialog;
  */
 public class SystemUIChecker {
     /**
-     *
      * @return true if the system has the valid smtp account, false if otherwise
      */
     public static boolean hasValidSmtpAccount() {
-        if (SiteConfiguration.getDeploymentMode() != DeploymentMode.site) {
+        if (SiteConfiguration.getDeploymentMode() != SiteConfiguration.DeploymentMode.site) {
             ExtMailService extMailService = ApplicationContextUtil.getSpringBean(ExtMailService.class);
             if (!extMailService.isMailSetupValid()) {
                 if (AppContext.isAdmin()) {

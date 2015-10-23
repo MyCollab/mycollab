@@ -19,7 +19,6 @@ package com.esofthead.mycollab.shell.view;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.ui.components.notification.*;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.jetty.ServerInstance;
@@ -132,7 +131,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         sendFeedback.setIcon(FontAwesome.REPLY_ALL);
         sendFeedback.setTargetName("_blank");
 
-        if (SiteConfiguration.getDeploymentMode() == DeploymentMode.standalone) {
+        if (SiteConfiguration.getDeploymentMode() == SiteConfiguration.DeploymentMode.standalone) {
             Link rateUsLink = new Link("Rate us!", new ExternalResource("http://sourceforge.net/projects/mycollab/reviews/new"));
             rateUsLink.setTargetName("_blank");
             rateUsLink.setIcon(FontAwesome.THUMBS_O_UP);
@@ -209,7 +208,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         accountLayout.setHeight("40px");
         accountLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-        if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
+        if (SiteConfiguration.getDeploymentMode() == SiteConfiguration.DeploymentMode.site) {
             // display trial box if user in trial mode
             SimpleBillingAccount billingAccount = AppContext.getBillingAccount();
             if (AccountStatusConstants.TRIAL.equals(billingAccount.getStatus())) {
@@ -286,7 +285,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
                     new ChangeDefaultUsernameNotification()));
         }
 
-        if (SiteConfiguration.getDeploymentMode() == DeploymentMode.standalone) {
+        if (SiteConfiguration.getDeploymentMode() == SiteConfiguration.DeploymentMode.standalone) {
             ExtMailService mailService = ApplicationContextUtil.getSpringBean(ExtMailService.class);
             if (!mailService.isMailSetupValid()) {
                 EventBusFactory.getInstance().post(new ShellEvent.NewNotification(this, new SmtpSetupNotification()));
@@ -352,7 +351,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         accountPopupContent.addOption(themeCustomizeBtn);
 
 
-        if (SiteConfiguration.getDeploymentMode() == DeploymentMode.standalone) {
+        if (SiteConfiguration.getDeploymentMode() == SiteConfiguration.DeploymentMode.standalone) {
             Button setupBtn = new Button(AppContext.getMessage(AdminI18nEnum.VIEW_SETUP), new ClickListener() {
                 @Override
                 public void buttonClick(ClickEvent clickEvent) {
@@ -384,7 +383,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         myAccountBtn.setIcon(SettingAssetsManager.getAsset(SettingUIConstants.BILLING));
         accountPopupContent.addOption(myAccountBtn);
 
-        if (SiteConfiguration.getDeploymentMode() == DeploymentMode.standalone) {
+        if (SiteConfiguration.getDeploymentMode() == SiteConfiguration.DeploymentMode.standalone) {
             accountPopupContent.addSeparator();
             Button aboutBtn = new Button("About MyCollab", new ClickListener() {
                 @Override

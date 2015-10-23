@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.message;
 
-import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.ui.InsideProjectNavigationMenu;
 import com.esofthead.mycollab.mobile.ui.AbstractListPresenter;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;

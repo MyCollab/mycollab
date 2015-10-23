@@ -307,28 +307,28 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
 
             if (param instanceof StringParam || param instanceof ConcatStringParam) {
                 TextField valueField = new TextField();
-                valueField.setValue((String) searchFieldInfo.getValue());
+                valueField.setValue((String) searchFieldInfo.eval());
                 valueField.setWidth(width);
                 valueBox.addComponent(valueField);
             } else if (param instanceof NumberParam) {
                 TextField valueField = new TextField();
-                valueField.setValue(String.valueOf(searchFieldInfo.getValue()));
+                valueField.setValue(String.valueOf(searchFieldInfo.eval()));
                 valueField.setWidth(width);
                 valueBox.addComponent(valueField);
             } else if (param instanceof DateParam) {
                 String compareItem = (String) compareSelectionBox.getValue();
                 if (DateParam.BETWEEN.equals(compareItem) || DateParam.NOT_BETWEEN.equals(compareItem)) {
                     DateFieldExt field1 = new DateFieldExt();
-                    field1.setValue((Date) Array.get(searchFieldInfo.getValue(), 0));
+                    field1.setValue((Date) Array.get(searchFieldInfo.eval(), 0));
                     DateFieldExt field2 = new DateFieldExt();
-                    field2.setValue((Date) Array.get(searchFieldInfo.getValue(), 1));
+                    field2.setValue((Date) Array.get(searchFieldInfo.eval(), 1));
                     field1.setWidth(width);
                     field2.setWidth(width);
                     valueBox.addComponent(field1);
                     valueBox.addComponent(field2);
                 } else {
                     DateFieldExt field = new DateFieldExt();
-                    field.setValue((Date) searchFieldInfo.getValue());
+                    field.setValue((Date) searchFieldInfo.eval());
                     field.setWidth(width);
                     valueBox.addComponent(field);
                 }
@@ -336,9 +336,9 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                 Component comp = buildPropertySearchComp(param.getId());
                 if (comp != null) {
                     if (comp instanceof CustomField<?> && (((CustomField) comp).getType() == Integer.class)) {
-                        ((Field) comp).setValue(Integer.parseInt(searchFieldInfo.getValue() + ""));
+                        ((Field) comp).setValue(Integer.parseInt(searchFieldInfo.eval() + ""));
                     } else {
-                        ((Field) comp).setValue(searchFieldInfo.getValue());
+                        ((Field) comp).setValue(searchFieldInfo.eval());
                     }
                     comp.setWidth(width);
                     valueBox.addComponent(comp);
@@ -347,7 +347,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                 ValueListSelect listSelect = new ValueListSelect();
                 listSelect.setCaption(null);
                 listSelect.loadData(((StringListParam) param).getValues().toArray(new String[0]));
-                listSelect.setValue(searchFieldInfo.getValue());
+                listSelect.setValue(searchFieldInfo.eval());
                 listSelect.setWidth(width);
                 valueBox.addComponent(listSelect);
 
@@ -355,13 +355,13 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                 I18nValueListSelect listSelect = new I18nValueListSelect();
                 listSelect.setCaption(null);
                 listSelect.loadData(((I18nStringListParam) param).getLstValues());
-                listSelect.setValue(searchFieldInfo.getValue());
+                listSelect.setValue(searchFieldInfo.eval());
                 listSelect.setWidth(width);
                 valueBox.addComponent(listSelect);
 
             } else if (param instanceof CompositionStringParam) {
                 TextField tempTextField = new TextField();
-                tempTextField.setValue(String.valueOf(searchFieldInfo.getValue()));
+                tempTextField.setValue(String.valueOf(searchFieldInfo.eval()));
                 tempTextField.setWidth(width);
                 valueBox.addComponent(tempTextField);
             }
@@ -630,7 +630,6 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                     return wrapParam.buildSearchField(prefixOperation, compareOper, value);
                 } else if (param instanceof DateParam) {
                     DateParam wrapParam = (DateParam) param;
-
                     if (DateParam.BETWEEN.equals(compareOper) || DateParam.NOT_BETWEEN.equals(compareOper)) {
                         if (valueBox.getComponentCount() != 2) {
                             return null;
@@ -684,7 +683,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                         fillSearchFieldInfoAndInvokeSearchRequest(fieldInfos);
 
                         if (filterBox.getComponentCount() <= 3) {
-                            Button updateBtn = new Button("Update");
+                            Button updateBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL));
                             updateBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
                             updateBtn.setIcon(FontAwesome.REFRESH);
                             updateBtn.addClickListener(new Button.ClickListener() {

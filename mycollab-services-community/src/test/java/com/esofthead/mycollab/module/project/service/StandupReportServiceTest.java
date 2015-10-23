@@ -16,74 +16,74 @@
  */
 package com.esofthead.mycollab.module.project.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.tuple;
-
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.core.arguments.DateSearchField;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.RangeDateSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.core.db.query.DateParam;
+import com.esofthead.mycollab.core.db.query.DateRangeInjecter;
 import com.esofthead.mycollab.module.project.domain.SimpleStandupReport;
 import com.esofthead.mycollab.module.project.domain.criteria.StandupReportSearchCriteria;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.test.DataSet;
 import com.esofthead.mycollab.test.service.IntergrationServiceTest;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class StandupReportServiceTest extends IntergrationServiceTest {
-	@Autowired
-	protected StandupReportService reportService;
+    @Autowired
+    protected StandupReportService reportService;
 
-	@SuppressWarnings("unchecked")
-	@Test
-	@DataSet
-	public void gatherStandupList() {
-		StandupReportSearchCriteria criteria = new StandupReportSearchCriteria();
-		criteria.setProjectId(new NumberSearchField(1));
-		criteria.setLogBy(new StringSearchField("hainguyen"));
-		Date d = new GregorianCalendar(2013, 2, 13).getTime();
-		criteria.setOnDate(new DateSearchField(d));
-		criteria.setSaccountid(new NumberSearchField(1));
-		List<SimpleStandupReport> reports = reportService
-				.findPagableListByCriteria(new SearchRequest<>(
-						criteria, 0, Integer.MAX_VALUE));
-		assertThat(reports.size()).isEqualTo(1);
-		assertThat(reports).extracting("id", "logby", "whattoday").contains(
-				tuple(1, "hainguyen", "a"));
-	}
+    @SuppressWarnings("unchecked")
+    @Test
+    @DataSet
+    public void gatherStandupList() {
+        StandupReportSearchCriteria criteria = new StandupReportSearchCriteria();
+        criteria.setProjectId(new NumberSearchField(1));
+        criteria.setLogBy(new StringSearchField("hainguyen"));
+        Date d = new GregorianCalendar(2013, 2, 13).getTime();
+        criteria.setOnDate(new DateSearchField(d));
+        criteria.setSaccountid(new NumberSearchField(1));
+        List<SimpleStandupReport> reports = reportService
+                .findPagableListByCriteria(new SearchRequest<>(
+                        criteria, 0, Integer.MAX_VALUE));
+        assertThat(reports.size()).isEqualTo(1);
+        assertThat(reports).extracting("id", "logby", "whattoday").contains(
+                tuple(1, "hainguyen", "a"));
+    }
 
-	@Test
-	@DataSet
-	public void testGetListCount() {
-		StandupReportSearchCriteria criteria = new StandupReportSearchCriteria();
-		criteria.setProjectId(new NumberSearchField(1));
-		criteria.setSaccountid(new NumberSearchField(1));
-		Date from = new GregorianCalendar(2013, 2, 1).getTime();
-		Date to = new GregorianCalendar(2013, 2, 31).getTime();
-		criteria.setReportDateRange(new RangeDateSearchField(from, to));
-		List<GroupItem> reportsCount = reportService.getReportsCount(criteria);
+    @Test
+    @DataSet
+    public void testGetListCount() {
+        StandupReportSearchCriteria criteria = new StandupReportSearchCriteria();
+        criteria.setProjectId(new NumberSearchField(1));
+        criteria.setSaccountid(new NumberSearchField(1));
+        Date from = new GregorianCalendar(2013, 2, 1).getTime();
+        Date to = new GregorianCalendar(2013, 2, 31).getTime();
+        criteria.addExtraField(DateParam.inRangeDate(StandupReportSearchCriteria.p_fordays, new DateRangeInjecter
+                (from, to)));
+        List<GroupItem> reportsCount = reportService.getReportsCount(criteria);
 
-		assertThat(reportsCount.size()).isEqualTo(2);
-	}
+        assertThat(reportsCount.size()).isEqualTo(2);
+    }
 
-	@Test
-	@DataSet
-	public void testFindUsersNotDoReportYet() {
-		Date d = new GregorianCalendar(2013, 2, 13).getTime();
-		List<SimpleUser> users = reportService.findUsersNotDoReportYet(1, d, 1);
-		assertThat(users.size()).isEqualTo(1);
-		assertThat(users.get(0).getUsername()).isEqualTo("linhduong");
-	}
+    @Test
+    @DataSet
+    public void testFindUsersNotDoReportYet() {
+        Date d = new GregorianCalendar(2013, 2, 13).getTime();
+        List<SimpleUser> users = reportService.findUsersNotDoReportYet(1, d, 1);
+        assertThat(users.size()).isEqualTo(1);
+        assertThat(users.get(0).getUsername()).isEqualTo("linhduong");
+    }
 }

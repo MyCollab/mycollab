@@ -17,9 +17,9 @@
 package com.esofthead.mycollab.premium.module.user.accountsettings.view
 
 import com.esofthead.mycollab.configuration.SiteConfiguration
-import com.esofthead.mycollab.core.DeploymentMode
+import com.esofthead.mycollab.configuration.SiteConfiguration.DeploymentMode
 import com.esofthead.mycollab.eventmanager.EventBusFactory
-import com.esofthead.mycollab.module.user.accountsettings.view.events.{AccountBillingEvent, SettingEvent, ProfileEvent, SetupEvent}
+import com.esofthead.mycollab.module.user.accountsettings.view.events.{AccountBillingEvent, ProfileEvent, SetupEvent}
 import com.esofthead.mycollab.shell.events.ShellEvent
 import com.esofthead.mycollab.vaadin.desktop.ui.ModuleHelper
 import com.esofthead.mycollab.vaadin.mvp.UrlResolver

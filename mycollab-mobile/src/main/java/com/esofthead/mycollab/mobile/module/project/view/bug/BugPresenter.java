@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.mobile.module.project.view.bug;
 
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.ui.InsideProjectNavigationMenu;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.BugScreenData;
 import com.esofthead.mycollab.mobile.mvp.AbstractPresenter;

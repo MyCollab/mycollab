@@ -41,11 +41,6 @@
             #end
         #end
         
-        #ifnotnull($searchCriteria.rangeDate)
-            ${searchCriteria.rangeDate.operation}
-            CAST(m_prj_time_logging.logForDay AS DATE ) BETWEEN @{searchCriteria.rangeDate.from} AND @{searchCriteria.rangeDate.to}
-        #end
-        
         #ifnotnull($searchCriteria.logUsers)
             ${searchCriteria.logUsers.operation}
             m_prj_time_logging.loguser IN
@@ -53,6 +48,8 @@
                 @{logUser}
             #end
         #end
+
+        #selectExpr($searchCriteria.extraFields)
         ]]>
     </sql>
 

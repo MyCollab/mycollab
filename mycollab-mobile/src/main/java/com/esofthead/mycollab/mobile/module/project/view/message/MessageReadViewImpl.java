@@ -18,7 +18,7 @@ package com.esofthead.mycollab.mobile.module.project.view.message;
 
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
-import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.ui.AbstractMobilePageView;
 import com.esofthead.mycollab.mobile.ui.MobileAttachmentUtils;
 import com.esofthead.mycollab.module.ecm.domain.Content;

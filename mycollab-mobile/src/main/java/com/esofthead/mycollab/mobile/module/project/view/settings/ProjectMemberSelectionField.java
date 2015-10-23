@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.settings;
 
-import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.ui.AbstractSelectionCustomField;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;

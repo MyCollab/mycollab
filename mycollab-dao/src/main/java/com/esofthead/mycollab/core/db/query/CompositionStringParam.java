@@ -27,7 +27,7 @@ public class CompositionStringParam extends Param {
     private StringParam[] params;
 
     @SuppressWarnings("rawtypes")
-    public CompositionStringParam(String id, Enum displayName, StringParam[] params) {
+    public CompositionStringParam(String id, Enum displayName, StringParam... params) {
         this.id = id;
         this.displayName = displayName;
         this.params = params;

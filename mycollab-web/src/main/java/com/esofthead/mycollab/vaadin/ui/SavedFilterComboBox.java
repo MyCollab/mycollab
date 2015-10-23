@@ -43,7 +43,7 @@ import java.util.List;
  * @author MyCollab Ltd
  * @since 5.1.1
  */
-public class SavedFilterComboBox extends CustomField<String> {
+public abstract class SavedFilterComboBox extends CustomField<String> {
     private static Logger LOG = LoggerFactory.getLogger(SavedFilterComboBox.class);
 
     private TextField componentsText;
@@ -85,6 +85,13 @@ public class SavedFilterComboBox extends CustomField<String> {
         }
     }
 
+    public void addSharedSearchQueryInfo(SearchQueryInfo searchQueryInfo) {
+        if (sharedQueries == null) {
+            sharedQueries = new ArrayList<>();
+        }
+        sharedQueries.add(searchQueryInfo);
+    }
+
     @Override
     protected Component initContent() {
         componentsText = new TextField();
@@ -112,14 +119,20 @@ public class SavedFilterComboBox extends CustomField<String> {
         componentPopupSelection.setWidth("25px");
         componentPopupSelection.setDirection(Alignment.TOP_LEFT);
 
-        MHorizontalLayout multiSelectComp = new MHorizontalLayout().withSpacing(false).with(componentsText, componentPopupSelection)
-                .expand(componentsText);
+        MHorizontalLayout multiSelectComp = new MHorizontalLayout().withSpacing(false).with(componentsText,
+                componentPopupSelection).expand(componentsText);
         content.with(multiSelectComp);
         return content;
     }
 
     private void initContentPopup() {
         popupContent.removeOptions();
+        popupContent.addSection("Created by users");
+        for (final SearchQueryInfo queryInfo : savedQueries) {
+            Button queryOption = new QueryInfoOption(queryInfo);
+            popupContent.addOption(queryOption);
+        }
+
         if (CollectionUtils.isNotEmpty(sharedQueries)) {
             popupContent.addSection("Shared to me");
             for (final SearchQueryInfo queryInfo : sharedQueries) {
@@ -127,12 +140,12 @@ public class SavedFilterComboBox extends CustomField<String> {
                 popupContent.addOption(queryOption);
             }
         }
+    }
 
-        popupContent.addSection("Created by users");
-        for (final SearchQueryInfo queryInfo : savedQueries) {
-            Button queryOption = new QueryInfoOption(queryInfo);
-            popupContent.addOption(queryOption);
-        }
+    private void updateQueryNameField(String value) {
+        componentsText.setReadOnly(false);
+        componentsText.setValue(value);
+        componentsText.setReadOnly(true);
     }
 
     private class QueryInfoOption extends Button {
@@ -142,6 +155,7 @@ public class SavedFilterComboBox extends CustomField<String> {
                 public void buttonClick(ClickEvent event) {
                     SavedFilterComboBox.this.fireEvent(new QuerySelectEvent(SavedFilterComboBox.this, queryInfo
                             .getSearchFieldInfos()));
+                    updateQueryNameField(queryInfo.getQueryName());
                     componentPopupSelection.setPopupVisible(false);
                 }
             });
@@ -163,7 +177,7 @@ public class SavedFilterComboBox extends CustomField<String> {
     static {
         try {
             QUERY_SELECT = QuerySelectListener.class.getDeclaredMethod("querySelect", new Class[]{QuerySelectEvent.class});
-        } catch (final java.lang.NoSuchMethodException e) {
+        } catch (final NoSuchMethodException e) {
             // This should never happen
             throw new java.lang.RuntimeException("Internal error finding methods in AbstractField");
         }

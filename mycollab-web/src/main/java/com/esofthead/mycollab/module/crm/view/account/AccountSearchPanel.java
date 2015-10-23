@@ -46,22 +46,15 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 public class AccountSearchPanel extends DefaultGenericSearchPanel<AccountSearchCriteria> {
 
     private static Param[] paramFields = new Param[]{
-            AccountSearchCriteria.p_accountName,
-            AccountSearchCriteria.p_anyPhone, AccountSearchCriteria.p_website,
-            AccountSearchCriteria.p_numemployees,
-            AccountSearchCriteria.p_assignee,
-            AccountSearchCriteria.p_industries, AccountSearchCriteria.p_types,
-            AccountSearchCriteria.p_assignee,
-            AccountSearchCriteria.p_billingCountry,
-            AccountSearchCriteria.p_shippingCountry,
-            AccountSearchCriteria.p_anyCity,
-            AccountSearchCriteria.p_createdtime,
+            AccountSearchCriteria.p_accountName, AccountSearchCriteria.p_anyPhone, AccountSearchCriteria.p_website,
+            AccountSearchCriteria.p_numemployees, AccountSearchCriteria.p_assignee, AccountSearchCriteria.p_industries,
+            AccountSearchCriteria.p_types, AccountSearchCriteria.p_assignee, AccountSearchCriteria.p_billingCountry,
+            AccountSearchCriteria.p_shippingCountry, AccountSearchCriteria.p_anyCity, AccountSearchCriteria.p_createdtime,
             AccountSearchCriteria.p_lastupdatedtime};
 
     @Override
     protected HeaderWithFontAwesome buildSearchTitle() {
-        return new CrmViewHeader(CrmTypeConstants.ACCOUNT,
-                AppContext.getMessage(AccountI18nEnum.VIEW_LIST_TITLE));
+        return new CrmViewHeader(CrmTypeConstants.ACCOUNT, AppContext.getMessage(AccountI18nEnum.VIEW_LIST_TITLE));
     }
 
     @Override
@@ -96,7 +89,7 @@ public class AccountSearchPanel extends DefaultGenericSearchPanel<AccountSearchC
 
         @Override
         public ComponentContainer constructHeader() {
-            return AccountSearchPanel.this.constructHeader();
+            return constructHeader();
         }
 
         @Override
@@ -169,13 +162,12 @@ public class AccountSearchPanel extends DefaultGenericSearchPanel<AccountSearchC
             });
             basicSearchBody.with(cancelBtn).withAlign(cancelBtn, Alignment.MIDDLE_CENTER);
 
-            Button advancedSearchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
-                    new Button.ClickListener() {
-                        @Override
-                        public void buttonClick(final ClickEvent event) {
-                            AccountSearchPanel.this.moveToAdvancedSearchLayout();
-                        }
-                    });
+            Button advancedSearchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH), new Button.ClickListener() {
+                @Override
+                public void buttonClick(final ClickEvent event) {
+                    AccountSearchPanel.this.moveToAdvancedSearchLayout();
+                }
+            });
             advancedSearchBtn.setStyleName(UIConstants.THEME_LINK);
             basicSearchBody.with(advancedSearchBtn).withAlign(advancedSearchBtn, Alignment.MIDDLE_CENTER);
             return basicSearchBody;

@@ -27,7 +27,6 @@ import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
-import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
@@ -81,7 +80,6 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
     private String groupByState;
     private String sortDirection;
     private BugSearchCriteria baseCriteria;
-    private BugSearchCriteria statisticSearchCriteria;
 
     private BugSearchPanel searchPanel;
     private MVerticalLayout wrapBody;
@@ -126,7 +124,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
         groupWrapLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         groupWrapLayout.addComponent(new Label("Filter:"));
-        final SavedFilterComboBox savedFilterComboBox = new SavedFilterComboBox(ProjectTypeConstants.BUG);
+        final BugSavedFilterComboBox savedFilterComboBox = new BugSavedFilterComboBox();
         savedFilterComboBox.addQuerySelectListener(new SavedFilterComboBox.QuerySelectListener() {
             @Override
             public void querySelect(SavedFilterComboBox.QuerySelectEvent querySelectEvent) {
@@ -347,7 +345,6 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
     @Override
     public void queryBug(final BugSearchCriteria searchCriteria) {
         baseCriteria = searchCriteria;
-        statisticSearchCriteria = BeanUtility.deepClone(baseCriteria);
         queryAndDisplayBugs();
     }
 

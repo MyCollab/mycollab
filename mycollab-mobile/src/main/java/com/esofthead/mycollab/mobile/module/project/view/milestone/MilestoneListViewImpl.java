@@ -20,7 +20,7 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractMobileSwipeView;
 import com.esofthead.mycollab.mobile.ui.AbstractMobileTabPageView;

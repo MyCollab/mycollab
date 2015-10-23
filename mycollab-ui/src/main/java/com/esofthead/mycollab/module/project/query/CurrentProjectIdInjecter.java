@@ -14,24 +14,20 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-ui.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.vaadin;
+package com.esofthead.mycollab.module.project.query;
 
-import com.vaadin.ui.UI;
-import org.atmosphere.cpr.AtmosphereResourceImpl;
+import com.esofthead.mycollab.core.db.query.VariableInjecter;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+
+import java.util.Arrays;
 
 /**
  * @author MyCollab Ltd
  * @since 5.2.1
  */
-public abstract class PushPollInvoke {
-    private boolean isUsingPush;
-    AtmosphereResourceImpl a;
-    private UI currentUI;
-
-    public void start() {
-        currentUI = UI.getCurrent();
-
+public class CurrentProjectIdInjecter implements VariableInjecter {
+    @Override
+    public Object eval() {
+        return Arrays.asList(CurrentProjectVariables.getProjectId());
     }
-
-    abstract void run();
 }
