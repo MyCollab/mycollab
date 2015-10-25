@@ -68,8 +68,7 @@ public class ShellController extends AbstractController {
             @Subscribe
             @Override
             public void handle(ShellEvent.GotoLoginView event) {
-                LoginPresenter presenter = PresenterResolver
-                        .getPresenter(LoginPresenter.class);
+                LoginPresenter presenter = PresenterResolver.getPresenter(LoginPresenter.class);
                 presenter.go(mainNav, null);
             }
 

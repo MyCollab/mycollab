@@ -118,13 +118,14 @@ public class InstallationServlet extends HttpServlet {
 
         File confFolder = FileUtils.getDesireFile(System.getProperty("user.dir"), "conf", "src/main/conf");
         if (confFolder == null) {
-            out.write("Can not write the settings to the file system. You should check our knowledge base system or contact us at support@mycollab.com to solve this issue.");
+            out.write("Can not write the settings to the file system. You should check our knowledge base article at " +
+                    "http://support.mycollab.com/topic/994098-/ to solve this issue.");
             return;
         }
 
         if (!Files.isWritable(FileSystems.getDefault().getPath(confFolder.getAbsolutePath()))) {
             out.write("The folder " + confFolder.getAbsolutePath() + " has no write permission with the current user." +
-                    " You should set the write permission for MyCollab process for this folder.");
+                    " You should set the write permission for MyCollab process for this folder.  You should check our knowledge base article at http://support.mycollab.com/topic/994098-/ to solve this issue.");
             return;
         }
 
@@ -152,7 +153,8 @@ public class InstallationServlet extends HttpServlet {
 
         } catch (Exception e) {
             LOG.error("Error while set up MyCollab", e);
-            out.write("Can not write the settings to the file system. You should check our knowledge base system or contact us at support@mycollab.com to solve this issue.");
+            out.write("Can not write the settings to the file system. You should check our knowledge base article at " +
+                    "http://support.mycollab.com/topic/994098-/ to solve this issue.");
             return;
         }
     }

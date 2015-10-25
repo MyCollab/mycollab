@@ -16,17 +16,22 @@
  */
 package com.esofthead.mycollab.module.project.view.task;
 
-import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
+import com.esofthead.mycollab.common.domain.OptionVal;
+import com.esofthead.mycollab.common.service.OptionValService;
 import com.esofthead.mycollab.core.db.query.SearchFieldInfo;
 import com.esofthead.mycollab.core.db.query.SearchQueryInfo;
 import com.esofthead.mycollab.core.db.query.VariableInjecter;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.query.CurrentProjectIdInjecter;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.SavedFilterComboBox;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author MyCollab Ltd
@@ -43,7 +48,14 @@ public class TaskSavedFilterComboBox extends SavedFilterComboBox {
                 TaskSearchCriteria.p_status, new VariableInjecter() {
                     @Override
                     public Object eval() {
-                        return Arrays.asList(OptionI18nEnum.StatusI18nEnum.Open.name());
+                        OptionValService optionValService = ApplicationContextUtil.getSpringBean(OptionValService.class);
+                        List<OptionVal> options = optionValService.findOptionValsExcludeClosed(ProjectTypeConstants.TASK,
+                                CurrentProjectVariables.getProjectId(), AppContext.getAccountId());
+                        List<String> statuses = new ArrayList<>();
+                        for (OptionVal option : options) {
+                            statuses.add(option.getTypeval());
+                        }
+                        return statuses;
                     }
                 }));
 
