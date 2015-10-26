@@ -46,4 +46,6 @@
     <inherits name="org.vaadin.addons.fancybox.FancyboxWidgetSet" />
 
     <inherits name="org.vaadin.jouni.restrain.RestrainWidgetset" />
+
+    <inherits name="com.ejt.vaadin.loginform.WidgetSet" />
 </module>

@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.user.view;
 
+import com.ejt.vaadin.loginform.LoginForm;
 import com.esofthead.mycollab.common.i18n.ShellI18nEnum;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.UserInvalidInputException;
@@ -32,7 +33,6 @@ import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.web.CustomLayoutExt;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.event.ShortcutAction;
-import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.UserError;
 import com.vaadin.ui.*;
 
@@ -47,42 +47,31 @@ public class LoginViewImpl extends AbstractPageView implements LoginView {
     public LoginViewImpl() {
         this.withSpacing(true);
         this.setSizeFull();
-        this.addComponent(new LoginForm());
+        this.addComponent(new LoginFormContainer());
     }
 
-    class LoginForm extends CustomComponent {
+    class LoginFormContainer extends LoginForm {
         private static final long serialVersionUID = 1L;
 
         private CustomLayout custom;
-        private final TextField usernameField;
-        private final PasswordField passwordField;
-        private final CheckBox rememberMe;
+        private CheckBox rememberMe;
 
-        public LoginForm() {
+        public LoginFormContainer() {
+
+        }
+
+        @Override
+        protected Component createContent(TextField usernameField, PasswordField passwordField, Button loginBtn) {
             custom = CustomLayoutExt.createLayout("loginForm");
             custom.addStyleName("customLoginForm");
-            usernameField = new TextField(AppContext.getMessage(ShellI18nEnum.FORM_EMAIL));
-
             custom.addComponent(usernameField, "usernameField");
-
-            passwordField = new PasswordField(AppContext.getMessage(ShellI18nEnum.FORM_PASSWORD));
             StringLengthValidator passwordValidator = new StringLengthValidator(
                     "Password length must be greater than 6", 6, Integer.MAX_VALUE, false);
             passwordField.addValidator(passwordValidator);
-
             custom.addComponent(passwordField, "passwordField");
 
             rememberMe = new CheckBox(AppContext.getMessage(ShellI18nEnum.OPT_REMEMBER_PASSWORD), false);
             custom.addComponent(rememberMe, "rememberMe");
-
-            Button loginBtn = new Button(AppContext.getMessage(ShellI18nEnum.BUTTON_LOG_IN), new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(Button.ClickEvent event) {
-                    doLogin();
-                }
-            });
 
             loginBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
             loginBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
@@ -101,20 +90,31 @@ public class LoginViewImpl extends AbstractPageView implements LoginView {
             custom.addComponent(forgotPasswordBtn, "forgotLink");
 
             if (ServerInstance.getInstance().isFirstTimeRunner()) {
-                LoginForm.this.setComponentError(new UserError(
+                LoginFormContainer.this.setComponentError(new UserError(
                         "For the first time using MyCollab, the default email/password is admin@mycollab.com/admin123. You should change email/password when you access MyCollab successfully."));
                 ServerInstance.getInstance().setIsFirstTimeRunner(false);
             }
 
-            this.setCompositionRoot(custom);
-            this.setHeight("100%");
+            return custom;
         }
 
-        private void doLogin() {
+        @Override
+        protected String getUserNameFieldCaption() {
+            return AppContext.getMessage(ShellI18nEnum.FORM_EMAIL);
+        }
+
+        @Override
+        protected String getPasswordFieldCaption() {
+            return AppContext.getMessage(ShellI18nEnum.FORM_PASSWORD);
+        }
+
+        // You can also override this method to handle the login directly, instead of using the event mechanism
+        @Override
+        protected void login(String userName, String password) {
             try {
                 custom.removeComponent("customErrorMsg");
                 LoginViewImpl.this.fireEvent(new ViewEvent<>(LoginViewImpl.this, new UserEvent.PlainLogin(
-                        usernameField.getValue(), passwordField.getValue(), rememberMe.getValue())));
+                        userName, password, rememberMe.getValue())));
             } catch (MyCollabException e) {
                 custom.addComponent(new Label(e.getMessage()), "customErrorMsg");
             } catch (Exception e) {

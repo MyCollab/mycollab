@@ -59,6 +59,7 @@ Version 5.2.1
 * Add shutdown script to allow admin can shutdown MyCollab properly
 * The new modal window
 * Faster form binding and improve the performance a little bit
+* Autofill username and password for the login form
 * Allow user can switch from push to poll method if their network proxy prohibit the push method
 
 **Bug Fixes**

@@ -9865,6 +9865,10 @@ div.v-button.token-field:hover {
 	border-color: #CFCFCF;
 }
 
+.gantt_container .v-table-header-wrap {
+	border-bottom: 1px solid #CFCFCF;
+}
+
 .gantt_container  > div > div .v-treetable .v-table-footer-wrap {
 	height: 0px;
 }
@@ -11501,10 +11505,6 @@ input.v-textfield-errorField {
 	border-bottom: 1px solid #CFCFCF;
 }
 
-.depotComp .depotContent .v-table-header-wrap {
-	border-top: none;
-}
-
 .depotContent.bordered {
 	border-color: #CFCFCF;
 	border-style: solid;
@@ -11689,7 +11689,7 @@ td.v-tabsheet-spacertd div {
 	height: 30px;
 	background: none no-repeat 0 0 #EEEEEE;
 	border-radius: 0px;
-	border-width: 0 1px 1px 1px;
+	border-width: 0px 1px 1px 1px;
 }
 
 .v-table-header-wrap .v-table-header > div > table {
