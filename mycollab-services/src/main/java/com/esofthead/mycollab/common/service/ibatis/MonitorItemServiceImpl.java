@@ -25,10 +25,12 @@ import com.esofthead.mycollab.common.service.MonitorItemService;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
+import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @author MyCollab Ltd.
@@ -78,6 +80,11 @@ public class MonitorItemServiceImpl extends DefaultService<Integer, MonitorItem,
         if (monitorItems.size() > 0) {
             monitorItemMapperExt.saveMonitorItems(monitorItems);
         }
+    }
+
+    @Override
+    public List<SimpleUser> getWatchers(String type, int typeId) {
+        return null;
     }
 
     @Override

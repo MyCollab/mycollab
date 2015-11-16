@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.project.view.bug.components;
 
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
@@ -96,8 +97,7 @@ public class DueDateOrderComponent extends BugGroupOrderComponent {
             this.setMargin(new MarginInfo(true, false, true, false));
             wrapBody = new CssLayout();
             wrapBody.setStyleName("tasklist");
-            headerLbl = new Label();
-            headerLbl.addStyleName("h2");
+            headerLbl = ELabel.h3("");
             this.addComponent(headerLbl);
             this.addComponent(wrapBody);
         }

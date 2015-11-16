@@ -60,7 +60,6 @@ import java.util.List;
  */
 public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout {
     private static final long serialVersionUID = 1L;
-
     private static final Logger LOG = LoggerFactory.getLogger(ProjectFollowersComp.class);
 
     protected MonitorItemService monitorItemService;
@@ -74,6 +73,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
 
     public ProjectFollowersComp(String type, String permissionItem) {
         super();
+        this.withMargin(new MarginInfo(false, false, false, true));
         monitorItemService = ApplicationContextUtil.getSpringBean(MonitorItemService.class);
         this.type = type;
         this.permissionItem = permissionItem;
@@ -82,12 +82,11 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
     public void displayFollowers(final V bean) {
         this.bean = bean;
         this.removeAllComponents();
-        this.withMargin(new MarginInfo(false, false, false, true));
 
-        MHorizontalLayout header = new MHorizontalLayout();
+        MHorizontalLayout header = new MHorizontalLayout().withStyleName("info-hdr");
+        header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
         Label followerHeader = new Label(FontAwesome.EYE.getHtml() + " " +
                 AppContext.getMessage(FollowerI18nEnum.OPT_SUB_INFO_WATCHERS), ContentMode.HTML);
-        followerHeader.setStyleName("info-hdr");
         header.addComponent(followerHeader);
 
         if (hasEditPermission()) {
@@ -100,21 +99,18 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
 
                 }
             });
-            editBtn.setStyleName(UIConstants.THEME_LINK);
-            editBtn.addStyleName("info-hdr");
+            editBtn.setStyleName(UIConstants.BUTTON_LINK);
             header.addComponent(editBtn);
         }
 
         this.addComponent(header);
         Label sep = new Label("/");
-        sep.setStyleName("info-hdr");
         header.addComponent(sep);
 
         currentUserFollow = isUserWatching(bean);
 
         final Button toogleWatching = new Button("");
-        toogleWatching.setStyleName(UIConstants.THEME_LINK);
-        toogleWatching.addStyleName("info-hdr");
+        toogleWatching.setStyleName(UIConstants.BUTTON_LINK);
         toogleWatching.addClickListener(new ClickListener() {
             private static final long serialVersionUID = 1L;
 
@@ -155,7 +151,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
                 }
             }
         });
-        followersBtn.setStyleName(UIConstants.THEME_LINK);
+        followersBtn.setStyleName(UIConstants.BUTTON_LINK);
         layout.addComponent(followersBtn);
     }
 
@@ -178,9 +174,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
 
     private boolean isUserWatching(V bean) {
         try {
-            return monitorItemService.isUserWatchingItem(
-                    AppContext.getUsername(), type,
-                    (int) PropertyUtils.getProperty(bean, "id"));
+            return monitorItemService.isUserWatchingItem(AppContext.getUsername(), type, (int) PropertyUtils.getProperty(bean, "id"));
         } catch (IllegalAccessException | InvocationTargetException
                 | NoSuchMethodException e) {
             return false;
@@ -190,8 +184,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
     private int getTotalFollowers(V bean) {
         try {
             MonitorSearchCriteria criteria = new MonitorSearchCriteria();
-            criteria.setTypeId(new NumberSearchField((Number) PropertyUtils
-                    .getProperty(bean, "id")));
+            criteria.setTypeId(new NumberSearchField((Number) PropertyUtils.getProperty(bean, "id")));
             criteria.setType(new StringSearchField(type));
             return monitorItemService.getTotalCount(criteria);
         } catch (IllegalAccessException | InvocationTargetException
@@ -209,8 +202,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
             monitorItem.setTypeid((Integer) PropertyUtils.getProperty(bean, "id"));
             monitorItem.setUser(username);
             monitorItem.setSaccountid(AppContext.getAccountId());
-            monitorItemService.saveWithSession(monitorItem,
-                    AppContext.getUsername());
+            monitorItemService.saveWithSession(monitorItem, AppContext.getUsername());
         } catch (IllegalAccessException | InvocationTargetException
                 | NoSuchMethodException e) {
             LOG.error("Error", e);
@@ -220,14 +212,11 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
     private void unfollowItem(String username, V bean) {
         try {
             MonitorSearchCriteria criteria = new MonitorSearchCriteria();
-            criteria.setTypeId(new NumberSearchField((Integer) PropertyUtils
-                    .getProperty(bean, "id")));
+            criteria.setTypeId(new NumberSearchField((Integer) PropertyUtils.getProperty(bean, "id")));
             criteria.setType(new StringSearchField(type));
             criteria.setUser(new StringSearchField(username));
-            monitorItemService.removeByCriteria(criteria,
-                    AppContext.getAccountId());
-        } catch (IllegalAccessException | InvocationTargetException
-                | NoSuchMethodException e) {
+            monitorItemService.removeByCriteria(criteria, AppContext.getAccountId());
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             LOG.error("Error", e);
         }
     }
@@ -252,24 +241,23 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
 
                 final ProjectMemberMultiSelectComp memberSelection = new ProjectMemberMultiSelectComp();
                 headerPanel.addComponent(memberSelection);
-                Button btnSave = new Button(AppContext.getMessage(FollowerI18nEnum.BUTTON_FOLLOW),
-                        new Button.ClickListener() {
-                            private static final long serialVersionUID = 1L;
+                Button btnSave = new Button(AppContext.getMessage(FollowerI18nEnum.BUTTON_FOLLOW), new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-                            @Override
-                            public void buttonClick(ClickEvent event) {
-                                List<SimpleProjectMember> members = memberSelection.getSelectedItems();
+                    @Override
+                    public void buttonClick(ClickEvent event) {
+                        List<SimpleProjectMember> members = memberSelection.getSelectedItems();
 
-                                for (ProjectMember member : members) {
-                                    followItem(member.getUsername(), bean);
-                                }
+                        for (ProjectMember member : members) {
+                            followItem(member.getUsername(), bean);
+                        }
 
-                                memberSelection.resetComp();
-                                loadMonitorItems();
-                            }
-                        });
+                        memberSelection.resetComp();
+                        loadMonitorItems();
+                    }
+                });
 
-                btnSave.setStyleName(UIConstants.THEME_GREEN_LINK);
+                btnSave.setStyleName(UIConstants.BUTTON_ACTION);
                 btnSave.setIcon(FontAwesome.PLUS);
 
                 headerPanel.addComponent(btnSave);

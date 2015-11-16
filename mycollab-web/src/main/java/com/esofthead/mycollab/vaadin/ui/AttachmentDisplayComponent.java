@@ -47,6 +47,7 @@ public class AttachmentDisplayComponent extends CssLayout {
     private static final long serialVersionUID = 1L;
 
     public AttachmentDisplayComponent(List<Content> attachments) {
+        this.setWidth("100%");
         for (Content attachment : attachments) {
             this.addComponent(constructAttachmentRow(attachment));
         }

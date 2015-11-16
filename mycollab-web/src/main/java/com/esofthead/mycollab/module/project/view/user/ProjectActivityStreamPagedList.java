@@ -20,7 +20,6 @@ import com.esofthead.mycollab.common.ActivityStreamConstants;
 import com.esofthead.mycollab.common.domain.SimpleActivityStream;
 import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.configuration.Storage;
 import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.StringUtils;
@@ -229,7 +228,7 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Activi
         this.controlBarWrapper.setWidth("100%");
         this.controlBarWrapper.setStyleName("page-controls");
         ButtonGroup controlBtns = new ButtonGroup();
-        controlBtns.setStyleName(UIConstants.THEME_GREEN_LINK);
+        controlBtns.setStyleName(UIConstants.BUTTON_ACTION);
         Button prevBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_NAV_NEWER), new Button.ClickListener() {
             private static final long serialVersionUID = -94021599166105307L;
 
@@ -241,7 +240,7 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Activi
         if (currentPage == 1) {
             prevBtn.setEnabled(false);
         }
-        prevBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        prevBtn.setStyleName(UIConstants.BUTTON_ACTION);
         prevBtn.setWidth("64px");
 
         Button nextBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_NAV_OLDER), new Button.ClickListener() {
@@ -255,7 +254,7 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Activi
         if (currentPage == totalPage) {
             nextBtn.setEnabled(false);
         }
-        nextBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        nextBtn.setStyleName(UIConstants.BUTTON_ACTION);
         nextBtn.setWidth("64px");
 
         controlBtns.addButton(prevBtn);

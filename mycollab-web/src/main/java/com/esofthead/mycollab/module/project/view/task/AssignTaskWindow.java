@@ -135,7 +135,7 @@ public class AssignTaskWindow extends Window {
                     }
                 });
                 approveBtn.setIcon(FontAwesome.SHARE);
-                approveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+                approveBtn.setStyleName(UIConstants.BUTTON_ACTION);
                 approveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 
                 controlsBtn.with(cancelBtn, approveBtn).alignAll(Alignment.MIDDLE_RIGHT);

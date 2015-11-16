@@ -84,7 +84,7 @@ public class GenericTaskTableDisplay extends
                     }
                 });
                 assignmentLink.setCaptionAsHtml(true);
-                assignmentLink.setStyleName(UIConstants.THEME_LINK);
+                assignmentLink.setStyleName(UIConstants.BUTTON_LINK);
                 return assignmentLink;
             }
         });

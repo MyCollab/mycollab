@@ -19,10 +19,10 @@ package com.esofthead.mycollab.mobile.module.project.view.bug;
 import com.esofthead.mycollab.common.i18n.DayI18nEnum;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.events.BugEvent;
 import com.esofthead.mycollab.mobile.ui.DefaultPagedBeanList;
 import com.esofthead.mycollab.mobile.ui.IconConstants;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
@@ -33,102 +33,78 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.hp.gagawa.java.elements.A;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 
 /**
  * @author MyCollab Ltd.
- *
  * @since 4.5.2
  */
-public class BugListDisplay extends
-		DefaultPagedBeanList<BugService, BugSearchCriteria, SimpleBug> {
+public class BugListDisplay extends DefaultPagedBeanList<BugService, BugSearchCriteria, SimpleBug> {
+    private static final long serialVersionUID = -8911176517887730007L;
 
-	private static final long serialVersionUID = -8911176517887730007L;
+    public BugListDisplay() {
+        super(ApplicationContextUtil.getSpringBean(BugService.class), new BugRowDisplayHandler());
+        this.addStyleName("bugs-list");
+    }
 
-	public BugListDisplay() {
-		super(ApplicationContextUtil.getSpringBean(BugService.class),
-				new BugRowDisplayHandler());
-		this.addStyleName("bugs-list");
-	}
+    private static class BugRowDisplayHandler implements RowDisplayHandler<SimpleBug> {
 
-	private static class BugRowDisplayHandler implements
-			RowDisplayHandler<SimpleBug> {
+        @Override
+        public Component generateRow(final SimpleBug bug, int rowIndex) {
+            HorizontalLayout bugRowLayout = new HorizontalLayout();
+            bugRowLayout.setWidth("100%");
+            bugRowLayout.setStyleName("list-item");
+            bugRowLayout.setSpacing(true);
 
-		@Override
-		public Component generateRow(final SimpleBug bug, int rowIndex) {
-			HorizontalLayout bugRowLayout = new HorizontalLayout();
-			bugRowLayout.setWidth("100%");
-			bugRowLayout.setStyleName("list-item");
-			bugRowLayout.setSpacing(true);
+            Label bugIconLbl = new Label("<span aria-hidden=\"true\" data-icon=\"" + IconConstants.PROJECT_BUG + "\"></span>");
+            bugIconLbl.setContentMode(ContentMode.HTML);
+            bugIconLbl.setWidthUndefined();
+            bugIconLbl.setStyleName("bug-icon");
+            bugRowLayout.addComponent(bugIconLbl);
 
-			Label bugIconLbl = new Label(
-					"<span aria-hidden=\"true\" data-icon=\""
-							+ IconConstants.PROJECT_BUG + "\"></span>");
-			bugIconLbl.setContentMode(ContentMode.HTML);
-			bugIconLbl.setWidthUndefined();
-			bugIconLbl.setStyleName("bug-icon");
-			bugRowLayout.addComponent(bugIconLbl);
+            VerticalLayout bugInfoLayout = new VerticalLayout();
+            bugInfoLayout.setWidth("100%");
 
-			VerticalLayout bugInfoLayout = new VerticalLayout();
-			bugInfoLayout.setWidth("100%");
+            Button bugName = new Button("[" + CurrentProjectVariables.getProject().getShortname() + "-" + bug.getBugkey() + "]: " + bug.getSummary(),
+                    new Button.ClickListener() {
+                        private static final long serialVersionUID = 2763986609736084480L;
 
-			Button bugName = new Button("["
-					+ CurrentProjectVariables.getProject().getShortname() + "-"
-					+ bug.getBugkey() + "]: " + bug.getSummary(),
-					new Button.ClickListener() {
+                        @Override
+                        public void buttonClick(Button.ClickEvent event) {
+                            EventBusFactory.getInstance().post(new BugEvent.GotoRead(this, bug.getId()));
+                        }
+                    });
+            bugName.setWidth("100%");
+            bugName.setStyleName("bug-name");
+            bugInfoLayout.addComponent(bugName);
 
-						private static final long serialVersionUID = 2763986609736084480L;
+            Label lastUpdatedTimeLbl = new Label(AppContext.getMessage(DayI18nEnum.LAST_UPDATED_ON, AppContext.formatDateTime(bug.getLastupdatedtime())));
+            lastUpdatedTimeLbl.setStyleName("bug-meta-info");
+            bugInfoLayout.addComponent(lastUpdatedTimeLbl);
 
-						@Override
-						public void buttonClick(Button.ClickEvent event) {
-							EventBusFactory.getInstance().post(
-									new BugEvent.GotoRead(this, bug.getId()));
-						}
-					});
-			bugName.setWidth("100%");
-			bugName.setStyleName("bug-name");
-			bugInfoLayout.addComponent(bugName);
+            A assigneeLink = new A();
+            assigneeLink.setHref(ProjectLinkGenerator.generateProjectMemberFullLink(AppContext.getSiteUrl(),
+                    CurrentProjectVariables.getProjectId(), bug.getAssignuser()));
+            assigneeLink.setCSSClass("bug-assignee");
+            assigneeLink.appendText(bug.getAssignuserFullName());
 
-			Label lastUpdatedTimeLbl = new Label(AppContext.getMessage(
-					DayI18nEnum.LAST_UPDATED_ON,
-					AppContext.formatDateTime(bug.getLastupdatedtime())));
-			lastUpdatedTimeLbl.setStyleName("bug-meta-info");
-			bugInfoLayout.addComponent(lastUpdatedTimeLbl);
+            Label assigneeLbl = new Label(AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE) + (bug.getAssignuserFullName() == null ?
+                    ":&nbsp;N/A&nbsp;" : ":&nbsp;" + assigneeLink.write()));
+            assigneeLbl.setStyleName("bug-meta-info");
+            assigneeLbl.setContentMode(ContentMode.HTML);
+            bugInfoLayout.addComponent(assigneeLbl);
 
-			A assigneeLink = new A();
-			assigneeLink.setHref(ProjectLinkGenerator
-					.generateProjectMemberFullLink(AppContext.getSiteUrl(),
-							CurrentProjectVariables.getProjectId(),
-							bug.getAssignuser()));
-			assigneeLink.setCSSClass("bug-assignee");
-			assigneeLink.appendText(bug.getAssignuserFullName());
+            Label statusLbl = new Label(AppContext.getMessage(BugI18nEnum.FORM_STATUS) + ":&nbsp;<span class='bug-status'>"
+                            + AppContext.getMessage(BugStatus.class, bug.getStatus()) + "</span>");
+            statusLbl.setContentMode(ContentMode.HTML);
+            statusLbl.setStyleName("bug-meta-info");
+            bugInfoLayout.addComponent(statusLbl);
 
-			Label assigneeLbl = new Label(
-					AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)
-							+ (bug.getAssignuserFullName() == null ? ":&nbsp;N/A&nbsp;"
-									: ":&nbsp;" + assigneeLink.write()));
-			assigneeLbl.setStyleName("bug-meta-info");
-			assigneeLbl.setContentMode(ContentMode.HTML);
-			bugInfoLayout.addComponent(assigneeLbl);
+            bugRowLayout.addComponent(bugInfoLayout);
+            bugRowLayout.setExpandRatio(bugInfoLayout, 1.0f);
 
-			Label statusLbl = new Label(
-					AppContext.getMessage(BugI18nEnum.FORM_STATUS)
-							+ ":&nbsp;<span class='bug-status'>"
-							+ AppContext.getMessage(BugStatus.class,
-									bug.getStatus()) + "</span>");
-			statusLbl.setContentMode(ContentMode.HTML);
-			statusLbl.setStyleName("bug-meta-info");
-			bugInfoLayout.addComponent(statusLbl);
+            return bugRowLayout;
+        }
 
-			bugRowLayout.addComponent(bugInfoLayout);
-			bugRowLayout.setExpandRatio(bugInfoLayout, 1.0f);
-
-			return bugRowLayout;
-		}
-
-	}
+    }
 }

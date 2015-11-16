@@ -18,6 +18,7 @@ package com.esofthead.mycollab.shell.view.components;
 
 import com.esofthead.mycollab.core.MyCollabVersion;
 import com.esofthead.mycollab.vaadin.ui.AssetResource;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
@@ -29,6 +30,7 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Window;
+import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -53,13 +55,14 @@ public class AboutWindow extends Window {
         Image about = new Image("", new AssetResource(WebResourceIds._about));
         MVerticalLayout rightPanel = new MVerticalLayout();
         Label versionLbl = new Label(String.format("MyCollab Community Edition %s", MyCollabVersion.getVersion()));
-        versionLbl.addStyleName("h2");
+        versionLbl.addStyleName(ValoTheme.LABEL_H2);
+        versionLbl.addStyleName(ValoTheme.LABEL_NO_MARGIN);
         Label javaNameLbl = new Label(String.format("%s, %s", System.getProperty("java.vm.name"),
                 System.getProperty("java.runtime.version")));
         WebBrowser browser = Page.getCurrent().getWebBrowser();
         Label osLbl = new Label(String.format("%s, %s", System.getProperty("os.name"),
                 browser.getBrowserApplication()));
-        osLbl.addStyleName("wordWrap");
+        osLbl.addStyleName(UIConstants.LABEL_WORD_WRAP);
         Div licenseDiv = new Div().appendChild(new Text("Powered by: "))
                 .appendChild(new A("https://www.mycollab.com")
                         .appendText("MyCollab")).appendChild(new Text(". Open source under GPL license"));

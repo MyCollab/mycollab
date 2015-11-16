@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.vaadin.ui;
 
 import com.esofthead.mycollab.core.MyCollabException;
+import com.vaadin.data.Validator;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Field;
 
@@ -36,6 +37,22 @@ public class GenericBeanForm<B> extends CssLayout {
 
     public GenericBeanForm() {
         super();
+        this.setWidth("100%");
+    }
+
+    /**
+     * Disable form validation bean. This is used to switch views of forms and keep the previous values of bean
+     * without validation. You should be careful to use this method
+     *
+     * @param isBuffered
+     */
+    public void setFormBuffered(boolean isBuffered) {
+        if (fieldFactory != null) {
+            try {
+                fieldFactory.setBuffered(isBuffered);
+            } catch (Validator.InvalidValueException e) {
+            }
+        }
     }
 
     public void setFormLayoutFactory(IFormLayoutFactory layoutFactory) {

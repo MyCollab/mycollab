@@ -27,7 +27,7 @@ import com.vaadin.server.VaadinServletRequest;
 public class Utils {
     public static String getSubDomain(VaadinRequest request) {
         VaadinServletRequest servletRequest = (VaadinServletRequest) request;
-        if (SiteConfiguration.getDeploymentMode() == SiteConfiguration.DeploymentMode.site) {
+        if (SiteConfiguration.isDemandEdition()) {
             return servletRequest.getServerName().split("\\.")[0];
         } else {
             return servletRequest.getServerName();

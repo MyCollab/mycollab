@@ -65,8 +65,7 @@ public class VersionAddViewImpl extends AbstractEditItemComp<Version> implements
 
     @Override
     protected ComponentContainer createButtonControls() {
-        return (new EditFormControlsGenerator<>(
-                editForm)).createButtonControls();
+        return (new EditFormControlsGenerator<>(editForm)).createButtonControls();
     }
 
     @Override

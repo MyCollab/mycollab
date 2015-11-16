@@ -396,7 +396,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
                             new ProjectMemberEvent.GotoInviteMembers(this, null));
                 }
             });
-            addNewMembersBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+            addNewMembersBtn.setStyleName(UIConstants.BUTTON_ACTION);
             btnControls.with(skipBtn, addNewMembersBtn);
             content.with(btnControls).withAlign(btnControls, Alignment.MIDDLE_RIGHT);
         }

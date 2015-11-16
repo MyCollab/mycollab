@@ -20,11 +20,11 @@ import com.esofthead.mycollab.common.domain.CommentWithBLOBs;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.view.settings.ProjectMemberSelectionField;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractMobilePageView;
 import com.esofthead.mycollab.mobile.ui.MobileGridFormLayoutHelper;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
@@ -66,59 +66,43 @@ class WontFixExplainView extends AbstractMobilePageView {
     private void constructUI() {
         this.editForm.setBean(bug);
 
-        final Button wonFixBtn = new Button(
-                AppContext.getMessage(BugI18nEnum.BUTTON_WONT_FIX),
-                new Button.ClickListener() {
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
+        final Button wonFixBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_WONT_FIX), new Button.ClickListener() {
+            @Override
+            public void buttonClick(final ClickEvent event) {
 
-                        if (editForm.validateForm()) {
-                            WontFixExplainView.this.bug
-                                    .setStatus(BugStatus.Resolved.name());
+                if (editForm.validateForm()) {
+                    WontFixExplainView.this.bug.setStatus(BugStatus.Resolved.name());
 
-                            final String commentValue = editForm.commentArea
-                                    .getValue();
-                            if (commentValue != null
-                                    && !commentValue.trim().equals("")) {
+                    final String commentValue = editForm.commentArea.getValue();
+                    if (commentValue != null && !commentValue.trim().equals("")) {
 
-                                // Save bug status and assignee
-                                final BugService bugService = ApplicationContextUtil
-                                        .getSpringBean(BugService.class);
-                                bugService.updateSelectiveWithSession(
-                                        WontFixExplainView.this.bug,
-                                        AppContext.getUsername());
+                        // Save bug status and assignee
+                        final BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+                        bugService.updateSelectiveWithSession(WontFixExplainView.this.bug, AppContext.getUsername());
 
-                                // Save comment
+                        // Save comment
 
-                                final CommentWithBLOBs comment = new CommentWithBLOBs();
-                                comment.setComment(commentValue);
-                                comment.setCreatedtime(new GregorianCalendar()
-                                        .getTime());
-                                comment.setCreateduser(AppContext.getUsername());
-                                comment.setSaccountid(AppContext.getAccountId());
-                                comment.setType(ProjectTypeConstants.BUG);
-                                comment.setTypeid("" + bug.getId());
-                                comment.setExtratypeid(CurrentProjectVariables
-                                        .getProjectId());
+                        final CommentWithBLOBs comment = new CommentWithBLOBs();
+                        comment.setComment(commentValue);
+                        comment.setCreatedtime(new GregorianCalendar().getTime());
+                        comment.setCreateduser(AppContext.getUsername());
+                        comment.setSaccountid(AppContext.getAccountId());
+                        comment.setType(ProjectTypeConstants.BUG);
+                        comment.setTypeid("" + bug.getId());
+                        comment.setExtratypeid(CurrentProjectVariables.getProjectId());
+                        final CommentService commentService = ApplicationContextUtil.getSpringBean(CommentService.class);
+                        commentService.saveWithSession(comment, AppContext.getUsername());
 
-                                final CommentService commentService = ApplicationContextUtil
-                                        .getSpringBean(CommentService.class);
-                                commentService.saveWithSession(comment,
-                                        AppContext.getUsername());
-
-                                WontFixExplainView.this.callbackForm
-                                        .previewItem(bug);
-                            } else {
-                                NotificationUtil.showErrorNotification(AppContext
-                                        .getMessage(BugI18nEnum.ERROR_WONT_FIX_EXPLAIN_REQUIRE_MSG));
-                                return;
-                            }
-
-                            EventBusFactory.getInstance().post(
-                                    new ShellEvent.NavigateBack(this, null));
-                        }
+                        callbackForm.previewItem(bug);
+                    } else {
+                        NotificationUtil.showErrorNotification(AppContext.getMessage(BugI18nEnum.ERROR_WONT_FIX_EXPLAIN_REQUIRE_MSG));
+                        return;
                     }
-                });
+
+                    EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
+                }
+            }
+        });
         wonFixBtn.setStyleName("save-btn");
         this.setRightComponent(wonFixBtn);
         this.setContent(this.editForm);
@@ -146,8 +130,7 @@ class WontFixExplainView extends AbstractMobilePageView {
 
             @Override
             public ComponentContainer getLayout() {
-                informationLayout = new MobileGridFormLayoutHelper(1, 3, "100%",
-                        "140px", Alignment.TOP_LEFT);
+                informationLayout = new MobileGridFormLayoutHelper(1, 3, "100%", "140px", Alignment.TOP_LEFT);
                 this.informationLayout.getLayout().setWidth("100%");
                 this.informationLayout.getLayout().setMargin(false);
 
@@ -157,24 +140,16 @@ class WontFixExplainView extends AbstractMobilePageView {
             @Override
             public void attachField(Object propertyId, Field<?> field) {
                 if (propertyId.equals("resolution")) {
-                    this.informationLayout.addComponent(field,
-                            AppContext.getMessage(BugI18nEnum.FORM_RESOLUTION),
-                            0, 0);
+                    this.informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_RESOLUTION), 0, 0);
                 } else if (propertyId.equals("assignuser")) {
-                    this.informationLayout
-                            .addComponent(field, AppContext
-                                            .getMessage(GenericI18Enum.FORM_ASSIGNEE),
-                                    0, 1);
+                    this.informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 1);
                 } else if (propertyId.equals("comment")) {
-                    this.informationLayout.addComponent(field,
-                            AppContext.getMessage(BugI18nEnum.FORM_COMMENT), 0,
-                            2);
+                    this.informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_COMMENT), 0, 2);
                 }
             }
         }
 
-        private class EditFormFieldFactory extends
-                AbstractBeanFieldGroupEditFieldFactory<BugWithBLOBs> {
+        private class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<BugWithBLOBs> {
             private static final long serialVersionUID = 1L;
 
             public EditFormFieldFactory(GenericBeanForm<BugWithBLOBs> form) {

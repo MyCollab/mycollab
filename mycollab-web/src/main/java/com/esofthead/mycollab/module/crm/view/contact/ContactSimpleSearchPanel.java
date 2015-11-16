@@ -18,7 +18,6 @@ package com.esofthead.mycollab.module.crm.view.contact;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
@@ -89,7 +88,7 @@ public class ContactSimpleSearchPanel extends GenericSearchPanel<ContactSearchCr
 
         Button searchBtn = new Button(
                 AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
-        searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        searchBtn.setStyleName(UIConstants.BUTTON_ACTION);
         searchBtn.setIcon(FontAwesome.SEARCH);
         searchBtn.addClickListener(new Button.ClickListener() {
             @Override

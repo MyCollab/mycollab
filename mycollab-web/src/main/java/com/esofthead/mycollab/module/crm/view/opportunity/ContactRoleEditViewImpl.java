@@ -97,7 +97,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements
 						contactRoleList.addRow(row);
 					}
 				});
-		addMoreContactRolesBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+		addMoreContactRolesBtn.setStyleName(UIConstants.BUTTON_ACTION);
 
 		HorizontalLayout buttonControls = new HorizontalLayout();
 		buttonControls.addComponent(addMoreContactRolesBtn);
@@ -124,7 +124,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements
 			}
 		});
 		updateBtn.setIcon(FontAwesome.SAVE);
-		updateBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+		updateBtn.setStyleName(UIConstants.BUTTON_ACTION);
 		buttonWrapper.addComponent(updateBtn);
 
 		Button cancelBtn = new Button(
@@ -307,7 +307,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements
 						}
 					});
 			accountLink.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT));
-			accountLink.setStyleName(UIConstants.THEME_LINK);
+			accountLink.setStyleName(UIConstants.BUTTON_LINK);
 			accountLink.setWidth("250px");
 			this.addComponent(accountLink);
 

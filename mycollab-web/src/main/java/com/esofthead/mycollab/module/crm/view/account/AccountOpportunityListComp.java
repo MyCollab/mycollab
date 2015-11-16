@@ -110,7 +110,7 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
         });
         createBtn.setSizeUndefined();
         createBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY));
-        createBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+        createBtn.addStyleName(UIConstants.BUTTON_ACTION);
         createBtn.setIcon(FontAwesome.PLUS);
 
         controlsBtnWrap.addComponent(createBtn);

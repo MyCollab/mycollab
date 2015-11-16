@@ -21,6 +21,7 @@ import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
+import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -42,19 +43,18 @@ public class AddViewLayout2 extends VerticalLayout {
 
         this.viewIcon = icon;
 
-        this.header = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false)).withWidth("100%")
+        header = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false)).withWidth("100%")
                 .withStyleName(UIConstants.HEADER_VIEW);
-        this.header.setDefaultComponentAlignment(Alignment.TOP_LEFT);
+        header.setDefaultComponentAlignment(Alignment.TOP_LEFT);
 
         if (!(icon instanceof FontAwesome)) {
             Image iconEmbed = new Image();
             iconEmbed.setSource(icon);
-            this.header.with(iconEmbed);
+            header.with(iconEmbed);
         }
 
-        this.titleLbl = new Label("", ContentMode.HTML);
-        this.titleLbl.setStyleName(UIConstants.HEADER_TEXT);
-        this.header.with(this.titleLbl).expand(titleLbl);
+        titleLbl = new Label("", ContentMode.HTML);
+        header.with(titleLbl).expand(titleLbl);
 
         if (title == null) {
             if (icon != null) {
@@ -70,20 +70,21 @@ public class AddViewLayout2 extends VerticalLayout {
         this.addComponent(body);
     }
 
-    public void resetTitleStyle() {
-        this.titleLbl.setStyleName(UIConstants.HEADER_TEXT);
+    public void addTitleStyleName(String style) {
+        titleLbl.addStyleName(style);
     }
 
-    public void setTitleStyleName(String style) {
-        this.titleLbl.setStyleName(style);
+    public void initTitleStyleName() {
+        titleLbl.setStyleName(ValoTheme.LABEL_H2);
+        titleLbl.addStyleName(ValoTheme.LABEL_NO_MARGIN);
     }
 
     public void addBody(ComponentContainer bodyContainer) {
-        this.body.with(bodyContainer).expand(bodyContainer);
+        body.with(bodyContainer).expand(bodyContainer);
     }
 
     public VerticalLayout getBody() {
-        return this.body;
+        return body;
     }
 
     public void addControlButtons(Component controlsBtn) {
@@ -94,13 +95,13 @@ public class AddViewLayout2 extends VerticalLayout {
     public void setTitle(String viewTitle) {
         if (viewIcon instanceof FontAwesome) {
             String title = ((FontAwesome) viewIcon).getHtml() + " " + viewTitle;
-            this.titleLbl.setValue(title);
+            titleLbl.setValue(title);
         } else {
-            this.titleLbl.setValue(viewTitle);
+            titleLbl.setValue(viewTitle);
         }
     }
 
     public void addHeaderRight(Component headerRight) {
-        this.header.addComponent(headerRight);
+        header.addComponent(headerRight);
     }
 }

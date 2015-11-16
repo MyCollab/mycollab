@@ -27,7 +27,6 @@ import com.esofthead.mycollab.vaadin.mvp.IModule;
  * @since 4.4.0
  *
  */
-public interface ProjectListView extends
-		IListView<ProjectSearchCriteria, SimpleProject>, IModule {
+public interface ProjectListView extends IListView<ProjectSearchCriteria, SimpleProject>, IModule {
 
 }

@@ -17,13 +17,11 @@
 package com.esofthead.mycollab.vaadin.ui;
 
 import com.esofthead.mycollab.core.utils.FileUtils;
-import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.resources.file.FileAssetsUtil;
-import com.hp.gagawa.java.elements.Div;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
@@ -87,12 +85,12 @@ public class AttachmentPanel extends VerticalLayout implements AttachmentUploadC
         });
         removeBtn.setIcon(FontAwesome.TRASH_O);
         removeBtn.setStyleName(UIConstants.BUTTON_ICON_ONLY);
-
-        Div fileDiv = new Div().setStyle("display:flex").appendText(FileAssetsUtil.getFileIconResource(fileName).getHtml())
-                .appendChild(DivLessFormatter.EMPTY_SPACE()).appendText(fileName).appendText("&nbsp;-&nbsp;")
-                .appendChild(new Div().appendText(FileUtils.getVolumeDisplay(file.length())).setCSSClass("footer2"));
-        Label fileLbl = new Label(fileDiv.write(), ContentMode.HTML);
-        fileAttachmentLayout.with(fileLbl, removeBtn).expand(fileLbl);
+        removeBtn.setWidthUndefined();
+        Label fileLbl = new Label(fileName, ContentMode.HTML);
+        fileLbl.setWidthUndefined();
+        fileAttachmentLayout.with(new ELabel(FileAssetsUtil.getFileIconResource(fileName).getHtml(), ContentMode
+                .HTML).withWidth("-1px"), fileLbl, new ELabel(" - " + FileUtils.getVolumeDisplay(file.length()))
+                .withStyleName(UIConstants.LABEL_META_INFO).withWidth("-1px"), removeBtn).expand(fileLbl);
         this.addComponent(fileAttachmentLayout);
     }
 

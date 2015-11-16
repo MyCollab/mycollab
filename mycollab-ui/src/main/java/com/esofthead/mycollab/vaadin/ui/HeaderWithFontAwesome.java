@@ -20,6 +20,7 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.themes.ValoTheme;
 
 /**
  * @author MyCollab Ltd.
@@ -30,14 +31,23 @@ public class HeaderWithFontAwesome extends CssLayout {
     private FontAwesome iconFont;
     private String title;
 
-    public HeaderWithFontAwesome(FontAwesome iconFont, String title) {
+    private HeaderWithFontAwesome(FontAwesome iconFont, String title, String primaryStyle) {
         super();
         wrappedLbl = new Label();
         wrappedLbl.setContentMode(ContentMode.HTML);
-        wrappedLbl.setStyleName("hdr-text");
+        wrappedLbl.setStyleName(primaryStyle);
+        wrappedLbl.addStyleName(ValoTheme.LABEL_NO_MARGIN);
         this.iconFont = iconFont;
         updateTitle(title);
         this.addComponent(wrappedLbl);
+    }
+
+    public static final HeaderWithFontAwesome h2(FontAwesome iconFont, String title) {
+        return new HeaderWithFontAwesome(iconFont, title, ValoTheme.LABEL_H2);
+    }
+
+    public static final HeaderWithFontAwesome h3(FontAwesome iconFont, String title) {
+        return new HeaderWithFontAwesome(iconFont, title, ValoTheme.LABEL_H3);
     }
 
     public void updateTitle(String value) {

@@ -39,7 +39,6 @@ import com.vaadin.ui.UI;
  * 
  */
 public class BugPresenter extends AbstractMobilePresenter<BugContainer> {
-
 	private static final long serialVersionUID = -7398666868034973815L;
 
 	public BugPresenter() {
@@ -48,25 +47,19 @@ public class BugPresenter extends AbstractMobilePresenter<BugContainer> {
 
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		if (CurrentProjectVariables
-				.canRead(ProjectRolePermissionCollections.BUGS)) {
+		if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.BUGS)) {
 			InsideProjectNavigationMenu projectModuleMenu = (InsideProjectNavigationMenu) ((MobileNavigationManager) UI
 					.getCurrent().getContent()).getNavigationMenu();
-			projectModuleMenu.selectButton(AppContext
-					.getMessage(ProjectCommonI18nEnum.VIEW_BUG));
+			projectModuleMenu.selectButton(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_BUG));
 
-			AbstractPresenter<?> presenter = null;
+			AbstractPresenter<?> presenter;
 
 			if (data instanceof BugScreenData.Search) {
-				presenter = PresenterResolver
-						.getPresenter(BugListPresenter.class);
-			} else if (data instanceof BugScreenData.Add
-					|| data instanceof BugScreenData.Edit) {
-				presenter = PresenterResolver
-						.getPresenter(BugAddPresenter.class);
+				presenter = PresenterResolver.getPresenter(BugListPresenter.class);
+			} else if (data instanceof BugScreenData.Add || data instanceof BugScreenData.Edit) {
+				presenter = PresenterResolver.getPresenter(BugAddPresenter.class);
 			} else if (data instanceof BugScreenData.Read) {
-				presenter = PresenterResolver
-						.getPresenter(BugReadPresenter.class);
+				presenter = PresenterResolver.getPresenter(BugReadPresenter.class);
 				// } else if (data == null) {
 				// BugSearchCriteria criteria = new BugSearchCriteria();
 				// criteria.setProjectId(new

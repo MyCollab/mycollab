@@ -30,7 +30,6 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class AbstractBeanFieldGroupViewFieldFactory<B> implements IBeanFieldGroupFieldFactory<B> {
     private static final long serialVersionUID = 1L;
-
     private static final Logger LOG = LoggerFactory.getLogger(AbstractBeanFieldGroupViewFieldFactory.class);
 
     protected GenericBeanForm<B> attachForm;
@@ -63,6 +62,11 @@ public abstract class AbstractBeanFieldGroupViewFieldFactory<B> implements IBean
                 }
             }
         }
+    }
+
+    @Override
+    public void setBuffered(boolean isBuffered) {
+
     }
 
     @Override

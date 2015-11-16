@@ -22,22 +22,16 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.KeyCaptionComboBox;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class YesNoPermissionComboBox extends KeyCaptionComboBox {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public YesNoPermissionComboBox() {
-		super(false);
-
-		this.addItem(BooleanPermissionFlag.TRUE,
-				AppContext.getMessage(SecurityI18nEnum.YES));
-		this.addItem(BooleanPermissionFlag.FALSE,
-				AppContext.getMessage(SecurityI18nEnum.NO));
-
-		this.setValue(BooleanPermissionFlag.FALSE);
-	}
+    public YesNoPermissionComboBox() {
+        super(false);
+        this.addItem(BooleanPermissionFlag.TRUE, AppContext.getMessage(SecurityI18nEnum.YES));
+        this.addItem(BooleanPermissionFlag.FALSE, AppContext.getMessage(SecurityI18nEnum.NO));
+        this.setValue(BooleanPermissionFlag.FALSE);
+    }
 }

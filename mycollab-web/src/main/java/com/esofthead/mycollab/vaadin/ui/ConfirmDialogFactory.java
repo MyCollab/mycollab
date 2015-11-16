@@ -42,7 +42,7 @@ public class ConfirmDialogFactory extends DefaultConfirmDialogFactory {
 		d.setHeightUndefined();
 
 		Button ok = d.getOkButton();
-		ok.setStyleName(UIConstants.THEME_GREEN_LINK);
+		ok.setStyleName(UIConstants.BUTTON_ACTION);
 
 		HorizontalLayout buttons = (HorizontalLayout) ok.getParent();
 		buttons.setHeightUndefined();

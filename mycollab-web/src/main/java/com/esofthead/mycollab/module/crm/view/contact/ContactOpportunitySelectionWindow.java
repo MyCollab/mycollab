@@ -59,7 +59,7 @@ public class ContactOpportunitySelectionWindow extends
 				close();
 			}
 		});
-		selectBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+		selectBtn.setStyleName(UIConstants.BUTTON_ACTION);
 
 		OpportunitySimpleSearchPanel opportunitySimpleSearchPanel = new OpportunitySimpleSearchPanel();
 		opportunitySimpleSearchPanel.addSearchHandler(new SearchHandler<OpportunitySearchCriteria>() {

@@ -32,6 +32,7 @@ import com.esofthead.mycollab.shell.view.ShellUrlResolver;
 import com.esofthead.mycollab.shell.view.components.NoSubDomainExistedWindow;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.AsyncInvoker;
 import com.esofthead.mycollab.vaadin.MyCollabUI;
 import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
@@ -97,6 +98,7 @@ public class DesktopApplication extends MyCollabUI {
         initialUrl = this.getPage().getUriFragment();
         currentContext = new AppContext();
         postSetupApp(request);
+
         try {
             currentContext.initDomain(initialSubDomain);
         } catch (SubDomainNotExistException e) {
@@ -287,13 +289,12 @@ public class DesktopApplication extends MyCollabUI {
         @Subscribe
         public void handle(ShellEvent.NotifyErrorEvent event) {
             final Throwable e = (Throwable) event.getData();
-            new Thread() {
+            AsyncInvoker.access(new AsyncInvoker.PageCommand() {
                 @Override
                 public void run() {
                     handleException("", e);
-                    UI.getCurrent().push();
                 }
-            }.start();
+            });
         }
     }
 }

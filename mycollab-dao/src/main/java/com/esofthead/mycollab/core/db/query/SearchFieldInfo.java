@@ -39,6 +39,7 @@ public class SearchFieldInfo implements Serializable {
     private VariableInjecter variableInjecter;
 
     public SearchFieldInfo() {
+        this(SearchField.AND, null, null, null);
     }
 
     public SearchFieldInfo(Param param, String compareOper, Object value) {

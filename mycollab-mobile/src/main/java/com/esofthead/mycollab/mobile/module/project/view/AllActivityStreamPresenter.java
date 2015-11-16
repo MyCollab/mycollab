@@ -39,8 +39,7 @@ import java.util.List;
  *
  * @since 4.5.2
  */
-public class AllActivityStreamPresenter extends
-		AbstractListPresenter<AllActivityView, ActivityStreamSearchCriteria, ProjectActivityStream> {
+public class AllActivityStreamPresenter extends AbstractListPresenter<AllActivityView, ActivityStreamSearchCriteria, ProjectActivityStream> {
 	private static final long serialVersionUID = -2089284900326846089L;
 
 	public AllActivityStreamPresenter() {
@@ -50,10 +49,8 @@ public class AllActivityStreamPresenter extends
 	@Override
 	protected void onGo(ComponentContainer navigator, ScreenData<?> data) {
 		ProjectModuleNavigationMenu projectModuleMenu = new ProjectModuleNavigationMenu();
-		projectModuleMenu.selectButton(AppContext
-				.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES));
-		((MobileNavigationManager) UI.getCurrent().getContent())
-				.setNavigationMenu(projectModuleMenu);
+		projectModuleMenu.selectButton(AppContext.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES));
+		((MobileNavigationManager) UI.getCurrent().getContent()).setNavigationMenu(projectModuleMenu);
 		super.onGo(navigator, data);
 		ProjectService prjService = ApplicationContextUtil.getSpringBean(ProjectService.class);
 		List<Integer> prjKeys = prjService.getProjectKeysUserInvolved(
@@ -64,8 +61,7 @@ public class AllActivityStreamPresenter extends
 
 		searchCriteria.setExtraTypeIds(new SetSearchField<>(prjKeys.toArray(new Integer[0])));
 		doSearch(searchCriteria);
-		AppContext.addFragment("project/activities/", AppContext
-				.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES));
+		AppContext.addFragment("project/activities/", AppContext.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES));
 	}
 
 }

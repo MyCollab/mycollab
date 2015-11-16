@@ -66,8 +66,7 @@ public class MilestoneFormLayoutFactory implements IFormLayoutFactory {
         header.setStyleName("h2");
         layout.addComponent(header);
 
-        this.informationLayout = new MobileGridFormLayoutHelper(1, 8, "100%",
-                "150px", Alignment.TOP_LEFT);
+        this.informationLayout = new MobileGridFormLayoutHelper(1, 8, "100%", "150px", Alignment.TOP_LEFT);
         this.informationLayout.getLayout().setWidth("100%");
         this.informationLayout.getLayout().addStyleName("colored-gridlayout");
         this.informationLayout.getLayout().setMargin(false);

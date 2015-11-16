@@ -57,10 +57,11 @@ public class ApproveInputWindow extends Window {
         super("Approve bug '" + bug.getSummary() + "'");
         this.setResizable(false);
         this.setModal(true);
+        this.setWidth("750px");
         this.bug = bug;
         this.callbackForm = callbackForm;
 
-        MVerticalLayout contentLayout = new MVerticalLayout().withMargin(new MarginInfo(false, false, true, false)).withWidth("750px");
+        MVerticalLayout contentLayout = new MVerticalLayout().withMargin(new MarginInfo(false, false, true, false));
         EditForm editForm = new EditForm();
         editForm.setBean(bug);
         contentLayout.addComponent(editForm);
@@ -98,7 +99,6 @@ public class ApproveInputWindow extends Window {
 
                     @Override
                     public void buttonClick(Button.ClickEvent event) {
-
                         if (EditForm.this.validateForm()) {
                             // Save bug status and assignee
                             bug.setStatus(BugStatus.Verified.name());
@@ -127,7 +127,7 @@ public class ApproveInputWindow extends Window {
                         }
                     }
                 });
-                approveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+                approveBtn.setStyleName(UIConstants.BUTTON_ACTION);
                 approveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 
                 Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {

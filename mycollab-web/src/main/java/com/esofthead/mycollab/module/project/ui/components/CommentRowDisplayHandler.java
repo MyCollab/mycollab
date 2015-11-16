@@ -52,15 +52,14 @@ public class CommentRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleC
 
         MVerticalLayout rowLayout = new MVerticalLayout().withWidth("100%").withStyleName("message-container");
 
-        MHorizontalLayout messageHeader = new MHorizontalLayout().withMargin(false).withWidth("100%").withStyleName
-                ("message-header");
+        MHorizontalLayout messageHeader = new MHorizontalLayout().withMargin(false).withWidth("100%");
         messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         ELabel timePostLbl = new ELabel(AppContext.getMessage(
                 GenericI18Enum.EXT_ADDED_COMMENT, comment.getOwnerFullName(),
                 AppContext.formatPrettyTime(comment.getCreatedtime())), ContentMode.HTML).
                 withDescription(AppContext.formatDateTime(comment.getCreatedtime()));
-        timePostLbl.setStyleName("time-post");
+        timePostLbl.setStyleName(UIConstants.LABEL_META_INFO);
 
         if (hasDeletePermission(comment)) {
             Button msgDeleteBtn = new Button();
@@ -100,7 +99,6 @@ public class CommentRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleC
         rowLayout.addComponent(messageHeader);
 
         Label messageContent = new SafeHtmlLabel(comment.getComment());
-        messageContent.setStyleName("message-body");
         rowLayout.addComponent(messageContent);
 
         List<Content> attachments = comment.getAttachments();

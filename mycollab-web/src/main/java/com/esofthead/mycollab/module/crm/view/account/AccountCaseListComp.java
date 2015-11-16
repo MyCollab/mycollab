@@ -102,7 +102,7 @@ public class AccountCaseListComp extends
         Button createBtn = new Button();
         createBtn.setSizeUndefined();
         createBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CASE));
-        createBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+        createBtn.addStyleName(UIConstants.BUTTON_ACTION);
         createBtn.setCaption(AppContext.getMessage(CaseI18nEnum.BUTTON_NEW_CASE));
         createBtn.setIcon(FontAwesome.PLUS);
         createBtn.addClickListener(new Button.ClickListener() {

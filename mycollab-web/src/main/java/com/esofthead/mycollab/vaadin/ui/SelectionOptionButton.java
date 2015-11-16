@@ -48,7 +48,7 @@ public class SelectionOptionButton extends SplitButton implements HasSelectionOp
     public SelectionOptionButton(final HasSelectableItemHandlers selectableItemHandlers) {
         super();
         this.selectableItemHandlers = selectableItemHandlers;
-        addStyleName(UIConstants.THEME_GREEN_LINK);
+        addStyleName(UIConstants.BUTTON_ACTION);
         addStyleName(UIConstants.BUTTON_SMALL_PADDING);
         setIcon(FontAwesome.SQUARE_O);
 

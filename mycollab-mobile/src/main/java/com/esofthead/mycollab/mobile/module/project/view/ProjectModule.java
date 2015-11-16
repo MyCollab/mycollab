@@ -34,8 +34,7 @@ public class ProjectModule extends AbstractMobileSwipeView implements IModule {
 	private static final long serialVersionUID = -537762284500231520L;
 
 	public ProjectModule() {
-		ControllerRegistry.addController(new ProjectModuleController(
-				(MobileNavigationManager) UI.getCurrent().getContent()));
+		ControllerRegistry.addController(new ProjectModuleController((MobileNavigationManager) UI.getCurrent().getContent()));
 	}
 
 }

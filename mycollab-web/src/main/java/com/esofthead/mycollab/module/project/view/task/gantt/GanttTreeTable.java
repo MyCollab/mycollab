@@ -34,6 +34,7 @@ import com.esofthead.mycollab.module.project.ui.components.HumanTimeConverter;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.converter.LocalDateConverter;
@@ -43,11 +44,11 @@ import com.vaadin.data.util.converter.Converter;
 import com.vaadin.event.FieldEvents;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
+import com.vaadin.ui.themes.ValoTheme;
 import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.tltv.gantt.client.shared.Step;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.peter.contextmenu.ContextMenu;
 
@@ -90,24 +91,24 @@ public class GanttTreeTable extends TreeTable {
         this.setVisibleColumns("ganttIndex", "name", "startDate", "endDate", "duration", "percentageComplete",
                 "predecessors", "assignUser", "actualStartDate", "actualEndDate");
         this.setColumnHeader("ganttIndex", "");
-        this.setColumnWidth("ganttIndex", 35);
+        this.setColumnWidth("ganttIndex", 25);
         this.setColumnHeader("name", "Task");
         this.setColumnExpandRatio("name", 1.0f);
         this.setHierarchyColumn("name");
         this.setColumnHeader("startDate", "Start");
-        this.setColumnWidth("startDate", 80);
+        this.setColumnWidth("startDate", 85);
         this.setColumnHeader("endDate", "End");
-        this.setColumnWidth("endDate", 80);
+        this.setColumnWidth("endDate", 85);
         this.setColumnHeader("duration", "Duration");
-        this.setColumnWidth("duration", 75);
+        this.setColumnWidth("duration", 65);
         this.setColumnHeader("predecessors", "Predecessors");
-        this.setColumnWidth("predecessors", 80);
+        this.setColumnWidth("predecessors", 100);
         this.setColumnHeader("actualStartDate", "Actual Start");
-        this.setColumnWidth("actualStartDate", 80);
+        this.setColumnWidth("actualStartDate", 85);
         this.setColumnHeader("actualEndDate", "Actual End");
-        this.setColumnWidth("actualEndDate", 80);
+        this.setColumnWidth("actualEndDate", 85);
         this.setColumnHeader("percentageComplete", "% Complete");
-        this.setColumnWidth("percentageComplete", 80);
+        this.setColumnWidth("percentageComplete", 75);
         this.setColumnHeader("assignUser", "Assignee");
         this.setColumnWidth("assignUser", 80);
         this.setColumnCollapsingAllowed(true);
@@ -120,7 +121,7 @@ public class GanttTreeTable extends TreeTable {
             @Override
             public Object generateCell(Table table, Object itemId, Object columnId) {
                 GanttItemWrapper item = (GanttItemWrapper) itemId;
-                return new Label("" + item.getGanttIndex());
+                return new ELabel("" + item.getGanttIndex()).withStyleName(ValoTheme.LABEL_SMALL);
             }
         });
 
@@ -130,7 +131,7 @@ public class GanttTreeTable extends TreeTable {
             public Field<?> createField(Container container, Object itemId, final Object propertyId, Component uiContext) {
                 Field field = null;
                 final GanttItemWrapper ganttItem = (GanttItemWrapper) itemId;
-                if ("name".equals(propertyId)) {
+                if ("name" .equals(propertyId)) {
                     if (ganttItem.isMilestone()) {
                         field = new MilestoneNameCellField();
                     } else {
@@ -138,19 +139,21 @@ public class GanttTreeTable extends TreeTable {
                         ((TextField) field).setDescription(ganttItem.getName());
                     }
 
-                } else if ("percentageComplete".equals(propertyId)) {
+                } else if ("percentageComplete" .equals(propertyId)) {
                     field = new TextField();
                     ((TextField) field).setNullRepresentation("0");
                     ((TextField) field).setImmediate(true);
+                    field.addStyleName(ValoTheme.TEXTFIELD_SMALL);
                     if (ganttItem.hasSubTasks() || ganttItem.isMilestone()) {
                         field.setEnabled(false);
                         ((TextField) field).setDescription("Because this row has sub-tasks, this cell " +
                                 "is a summary value and can not be edited directly. You can edit cells " +
                                 "beneath this row to change its value");
                     }
-                } else if ("startDate".equals(propertyId) || "endDate".equals(propertyId) ||
-                        "actualStartDate".equals(propertyId) || "actualEndDate".equals(propertyId)) {
+                } else if ("startDate" .equals(propertyId) || "endDate" .equals(propertyId) ||
+                        "actualStartDate" .equals(propertyId) || "actualEndDate" .equals(propertyId)) {
                     field = new DateField();
+                    field.addStyleName(ValoTheme.DATEFIELD_SMALL);
                     ((DateField) field).setConverter(new LocalDateConverter());
                     ((DateField) field).setImmediate(true);
                     if (ganttItem.hasSubTasks()) {
@@ -159,15 +162,16 @@ public class GanttTreeTable extends TreeTable {
                                 "is a summary value and can not be edited directly. You can edit cells " +
                                 "beneath this row to change its value");
                     }
-                } else if ("assignUser".equals(propertyId)) {
+                } else if ("assignUser" .equals(propertyId)) {
                     field = new ProjectMemberSelectionField();
-                } else if ("predecessors".equals(propertyId)) {
+                } else if ("predecessors" .equals(propertyId)) {
                     field = new DefaultViewField("");
                     ((DefaultViewField) field).setConverter(new PredecessorConverter());
                     return field;
-                } else if ("duration".equals(propertyId)) {
+                } else if ("duration" .equals(propertyId)) {
                     field = new TextField();
                     ((TextField) field).setConverter(new HumanTimeConverter());
+                    field.addStyleName(ValoTheme.TEXTFIELD_SMALL);
                     if (ganttItem.hasSubTasks()) {
                         field.setEnabled(false);
                         ((TextField) field).setDescription("Because this row has sub-tasks, this cell " +
@@ -384,8 +388,10 @@ public class GanttTreeTable extends TreeTable {
                 if (child.hasSubTasks()) {
                     removeSubSteps(child, child.subTasks());
                 }
-                this.removeItem(child);
+
                 gantt.removeStep(child.getStep());
+                beanContainer.removeItem(child);
+                this.setCollapsed(child, true);
             }
         }
     }
@@ -446,7 +452,6 @@ public class GanttTreeTable extends TreeTable {
     }
 
     private class GanttContextMenu extends ContextMenu {
-
         void displayContextMenu(final GanttItemWrapper taskWrapper) {
             this.removeAllItems();
             ContextMenuItem detailMenuItem = this.addItem("Detail", FontAwesome.BARS);

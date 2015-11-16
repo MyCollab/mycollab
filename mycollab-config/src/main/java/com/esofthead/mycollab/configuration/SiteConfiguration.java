@@ -16,7 +16,9 @@
  */
 package com.esofthead.mycollab.configuration;
 
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import org.apache.commons.lang3.LocaleUtils;
+import org.joda.time.DateTimeZone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,7 +40,6 @@ public class SiteConfiguration {
 
     private static SiteConfiguration instance;
 
-    private DeploymentMode deploymentMode;
     private String sentErrorEmail;
     private String siteName;
     private String serverAddress;
@@ -63,7 +64,8 @@ public class SiteConfiguration {
     private PullMethod pullMethod;
 
     public static void loadConfiguration() {
-        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+        TimeZone.setDefault(DateTimeZone.UTC.toTimeZone());
+        DateTimeZone.setDefault(DateTimeZone.UTC);
         int serverPort = Integer.parseInt(System.getProperty(ApplicationProperties.MYCOLLAB_PORT, "8080"));
         ApplicationProperties.loadProps();
         instance = new SiteConfiguration();
@@ -76,11 +78,6 @@ public class SiteConfiguration {
         instance.supportedLanguages = getSupportedLocales(ApplicationProperties.getString(LOCALES, "en_US, ja_JP"));
 
         instance.serverPort = serverPort;
-
-        // load Deployment Mode
-        String runningMode = ApplicationProperties.getString(RUNNING_MODE, "standalone");
-        instance.deploymentMode = DeploymentMode.valueOf(runningMode);
-        LOG.debug("Site is running under {} mode", instance.deploymentMode);
 
         String pullMethodValue = ApplicationProperties.getString(ApplicationProperties.PULL_METHOD, "push");
         instance.pullMethod = PullMethod.valueOf(pullMethodValue);
@@ -101,16 +98,11 @@ public class SiteConfiguration {
         String host = ApplicationProperties.getString(MAIL_SMTPHOST);
         String user = ApplicationProperties.getString(MAIL_USERNAME);
         String password = ApplicationProperties.getString(MAIL_PASSWORD);
-        Integer port = Integer.parseInt(ApplicationProperties.getString(
-                MAIL_PORT, "-1"));
-        Boolean isTls = Boolean.parseBoolean(ApplicationProperties.getString(
-                MAIL_IS_TLS, "false"));
-        Boolean isSsl = Boolean.parseBoolean(ApplicationProperties.getString(
-                MAIL_IS_SSL, "false"));
-        instance.emailConfiguration = new EmailConfiguration(host, user,
-                password, port, isTls, isSsl);
-        instance.noreplyEmail = ApplicationProperties.getString(MAIL_NOREPLY,
-                "noreply@mycollab.com");
+        Integer port = Integer.parseInt(ApplicationProperties.getString(MAIL_PORT, "25"));
+        Boolean isTls = Boolean.parseBoolean(ApplicationProperties.getString(MAIL_IS_TLS, "false"));
+        Boolean isSsl = Boolean.parseBoolean(ApplicationProperties.getString(MAIL_IS_SSL, "false"));
+        instance.emailConfiguration = new EmailConfiguration(host, user, password, port, isTls, isSsl);
+        instance.noreplyEmail = ApplicationProperties.getString(MAIL_NOREPLY, "noreply@mycollab.com");
 
         // load database configuration
         String driverClass = ApplicationProperties.getString(DB_DRIVER_CLASS);
@@ -191,10 +183,6 @@ public class SiteConfiguration {
         return getInstance().siteName;
     }
 
-    public static DeploymentMode getDeploymentMode() {
-        return getInstance().deploymentMode;
-    }
-
     public static PullMethod getPullMethod() {
         return getInstance().pullMethod;
     }
@@ -213,13 +201,24 @@ public class SiteConfiguration {
 
     public static String getSiteUrl(String subDomain) {
         String siteUrl;
-        if (getInstance().deploymentMode == DeploymentMode.site) {
+        IDeploymentMode modeService = ApplicationContextUtil.getSpringBean(IDeploymentMode.class);
+        if (modeService.isDemandEdition()) {
             siteUrl = String.format(ApplicationProperties.getString(ApplicationProperties.APP_URL), subDomain);
         } else {
             siteUrl = String.format(ApplicationProperties.getString(ApplicationProperties.APP_URL),
                     instance.serverAddress, instance.serverPort);
         }
         return siteUrl;
+    }
+
+    public static boolean isDemandEdition() {
+        IDeploymentMode modeService = ApplicationContextUtil.getSpringBean(IDeploymentMode.class);
+        return modeService.isDemandEdition();
+    }
+
+    public static boolean isCommunityEdition() {
+        IDeploymentMode modeService = ApplicationContextUtil.getSpringBean(IDeploymentMode.class);
+        return modeService.isCommunityEdition();
     }
 
     public static String getDropboxCallbackUrl() {
@@ -263,10 +262,6 @@ public class SiteConfiguration {
             locales.add(locale);
         }
         return locales;
-    }
-
-    public enum DeploymentMode {
-        site, premium, standalone
     }
 
     public enum PullMethod {

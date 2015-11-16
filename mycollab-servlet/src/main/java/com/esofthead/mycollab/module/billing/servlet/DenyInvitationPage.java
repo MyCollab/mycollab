@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.billing.servlet;
 
 import com.esofthead.mycollab.common.UrlTokenizer;
+import com.esofthead.mycollab.configuration.IDeploymentMode;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.ResourceNotFoundException;
@@ -30,6 +31,7 @@ import com.esofthead.mycollab.servlet.VelocityWebServletRequestHandler;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -50,6 +52,9 @@ public class DenyInvitationPage extends VelocityWebServletRequestHandler {
     private static String USER_DENY_FEEDBACK_TEMPLATE = "templates/page/user/UserDenyInvitationPage.mt";
     private static String USER_HAS_DENIED_PAGE = "templates/page/user/UserDeniedPage.mt";
 
+    @Autowired
+    private IDeploymentMode deploymentMode;
+
     private static final Logger LOG = LoggerFactory.getLogger(DenyInvitationPage.class);
 
     @Override
@@ -64,7 +69,7 @@ public class DenyInvitationPage extends VelocityWebServletRequestHandler {
                 String inviterEmail = urlTokenizer.getString();
                 String subdomain = "";
 
-                if (SiteConfiguration.getDeploymentMode() == SiteConfiguration.DeploymentMode.site) {
+                if (deploymentMode.isDemandEdition()) {
                     subdomain = urlTokenizer.getString();
                 }
 

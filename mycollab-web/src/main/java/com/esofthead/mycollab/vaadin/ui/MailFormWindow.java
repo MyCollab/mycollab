@@ -80,12 +80,12 @@ public class MailFormWindow extends Window {
 	@SuppressWarnings("serial")
 	private void initButtonLinkCcBcc() {
 		btnLinkCc = new Button("Add Cc");
-		btnLinkCc.setStyleName(UIConstants.THEME_LINK);
+		btnLinkCc.setStyleName(UIConstants.BUTTON_LINK);
 		inputLayout.addComponent(btnLinkCc, 1, 0);
 		inputLayout.setComponentAlignment(btnLinkCc, Alignment.MIDDLE_CENTER);
 
 		btnLinkBcc = new Button("Add Bcc");
-		btnLinkBcc.setStyleName(UIConstants.THEME_LINK);
+		btnLinkBcc.setStyleName(UIConstants.BUTTON_LINK);
 		inputLayout.addComponent(btnLinkBcc, 2, 0);
 		inputLayout.setComponentAlignment(btnLinkBcc, Alignment.MIDDLE_CENTER);
 
@@ -250,7 +250,7 @@ public class MailFormWindow extends Window {
 			}
 		});
         sendBtn.setIcon(FontAwesome.SEND);
-		sendBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+		sendBtn.setStyleName(UIConstants.BUTTON_ACTION);
 		controlsLayout.addComponent(sendBtn);
 		controlsLayout.setComponentAlignment(sendBtn, Alignment.MIDDLE_RIGHT);
 		mainLayout.addComponent(controlsLayout, 0, 2);

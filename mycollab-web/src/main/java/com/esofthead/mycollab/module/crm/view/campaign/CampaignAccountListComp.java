@@ -85,7 +85,7 @@ public class CampaignAccountListComp extends
         controlsBtn.setSizeUndefined();
         controlsBtn.setEnabled(AppContext
                 .canWrite(RolePermissionCollections.CRM_ACCOUNT));
-        controlsBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+        controlsBtn.addStyleName(UIConstants.BUTTON_ACTION);
         controlsBtn.setCaption(AppContext
                 .getMessage(AccountI18nEnum.BUTTON_NEW_ACCOUNT));
         controlsBtn.setIcon(FontAwesome.PLUS);

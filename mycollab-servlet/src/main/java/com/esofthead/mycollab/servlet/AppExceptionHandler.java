@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.servlet;
 
+import com.esofthead.mycollab.configuration.IDeploymentMode;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.template.velocity.TemplateContext;
@@ -48,6 +49,9 @@ public class AppExceptionHandler extends GenericHttpServlet {
 
     @Autowired
     private TemplateEngine templateEngine;
+
+    @Autowired
+    private IDeploymentMode deploymentMode;
 
     @Override
     protected void onHandleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -125,7 +129,7 @@ public class AppExceptionHandler extends GenericHttpServlet {
     private String printRequest(HttpServletRequest request) {
         StringBuilder builder = new StringBuilder();
         String subDomain;
-        if (SiteConfiguration.getDeploymentMode() == SiteConfiguration.DeploymentMode.site) {
+        if (deploymentMode.isDemandEdition()) {
             subDomain = request.getServerName().split("\\.")[0];
         } else {
             subDomain = request.getServerName();

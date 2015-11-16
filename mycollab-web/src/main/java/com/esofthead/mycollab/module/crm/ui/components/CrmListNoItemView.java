@@ -23,6 +23,7 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -41,7 +42,7 @@ public abstract class CrmListNoItemView extends AbstractPageView {
         layout.with(image).withAlign(image, Alignment.TOP_CENTER);
 
         Label title = new Label(titleMessage());
-        title.addStyleName("h2");
+        title.addStyleName(ValoTheme.LABEL_H2);
         title.setWidthUndefined();
         layout.addComponent(title);
 
@@ -55,7 +56,7 @@ public abstract class CrmListNoItemView extends AbstractPageView {
         MHorizontalLayout links = new MHorizontalLayout();
 
         links.addComponent(btCreateContact);
-        btCreateContact.addStyleName(UIConstants.THEME_GREEN_LINK);
+        btCreateContact.addStyleName(UIConstants.BUTTON_ACTION);
 
 		/*
          * Label or = new Label("Or"); or.setStyleName("h2");

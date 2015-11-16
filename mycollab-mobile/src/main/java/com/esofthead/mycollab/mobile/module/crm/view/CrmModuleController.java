@@ -73,8 +73,7 @@ public class CrmModuleController extends AbstractController {
     private static final long serialVersionUID = 6995176903239247669L;
     final private NavigationManager crmViewNavigation;
 
-    private static final Logger LOG = LoggerFactory
-            .getLogger(CrmModuleController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CrmModuleController.class);
 
     public CrmModuleController(NavigationManager navigationManager) {
         this.crmViewNavigation = navigationManager;
@@ -98,8 +97,7 @@ public class CrmModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(CrmEvent.GotoLogin event) {
-                CrmLoginPresenter presenter = PresenterResolver
-                        .getPresenter(CrmLoginPresenter.class);
+                CrmLoginPresenter presenter = PresenterResolver.getPresenter(CrmLoginPresenter.class);
                 presenter.go(crmViewNavigation, null);
             }
         });
@@ -115,8 +113,7 @@ public class CrmModuleController extends AbstractController {
                 try {
                     doLogin(data[0], data[1], Boolean.valueOf(data[2]));
                 } catch (MyCollabException exception) {
-                    EventBusFactory.getInstance().post(
-                            new CrmEvent.GotoLogin(this, null));
+                    EventBusFactory.getInstance().post(new CrmEvent.GotoLogin(this, null));
                 }
             }
         });
@@ -128,10 +125,8 @@ public class CrmModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(CrmEvent.GotoContainer event) {
-                CrmContainerPresenter presenter = PresenterResolver
-                        .getPresenter(CrmContainerPresenter.class);
-                presenter.go(crmViewNavigation,
-                        (CrmModuleScreenData.GotoModule) event.getData());
+                CrmContainerPresenter presenter = PresenterResolver.getPresenter(CrmContainerPresenter.class);
+                presenter.go(crmViewNavigation, (CrmModuleScreenData.GotoModule) event.getData());
             }
         });
     }
@@ -143,13 +138,10 @@ public class CrmModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(AccountEvent.GotoList event) {
-                AccountListPresenter presenter = PresenterResolver
-                        .getPresenter(AccountListPresenter.class);
+                AccountListPresenter presenter = PresenterResolver.getPresenter(AccountListPresenter.class);
                 AccountSearchCriteria criteria = new AccountSearchCriteria();
-                criteria.setSaccountid(new NumberSearchField(SearchField.AND,
-                        AppContext.getAccountId()));
-                presenter.go(crmViewNavigation,
-                        new ScreenData.Search<AccountSearchCriteria>(criteria));
+                criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+                presenter.go(crmViewNavigation, new ScreenData.Search<>(criteria));
             }
 
         });
@@ -173,10 +165,8 @@ public class CrmModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(AccountEvent.GotoEdit event) {
-                AccountAddPresenter presenter = PresenterResolver
-                        .getPresenter(AccountAddPresenter.class);
-                presenter.go(crmViewNavigation, new ScreenData.Edit<Object>(
-                        event.getData()));
+                AccountAddPresenter presenter = PresenterResolver.getPresenter(AccountAddPresenter.class);
+                presenter.go(crmViewNavigation, new ScreenData.Edit<>(event.getData()));
             }
         });
 
@@ -187,10 +177,8 @@ public class CrmModuleController extends AbstractController {
             @SuppressWarnings({"rawtypes", "unchecked"})
             @Override
             public void handle(AccountEvent.GotoRead event) {
-                AccountReadPresenter presenter = PresenterResolver
-                        .getPresenter(AccountReadPresenter.class);
-                presenter.go(crmViewNavigation,
-                        new ScreenData.Preview(event.getData()));
+                AccountReadPresenter presenter = PresenterResolver.getPresenter(AccountReadPresenter.class);
+                presenter.go(crmViewNavigation, new ScreenData.Preview(event.getData()));
             }
         });
 
@@ -201,9 +189,7 @@ public class CrmModuleController extends AbstractController {
             @Override
             public void handle(AccountEvent.GoToRelatedItems event) {
                 if (event.getData() instanceof CrmRelatedItemsScreenData)
-                    crmViewNavigation
-                            .navigateTo(((CrmRelatedItemsScreenData) event
-                                    .getData()).getParams());
+                    crmViewNavigation.navigateTo(((CrmRelatedItemsScreenData) event.getData()).getParams());
             }
         });
     }
@@ -215,15 +201,10 @@ public class CrmModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(ActivityEvent.GotoList event) {
-                ActivityListPresenter presenter = PresenterResolver
-                        .getPresenter(ActivityListPresenter.class);
+                ActivityListPresenter presenter = PresenterResolver.getPresenter(ActivityListPresenter.class);
                 ActivitySearchCriteria criteria = new ActivitySearchCriteria();
-                criteria.setSaccountid(new NumberSearchField(SearchField.AND,
-                        AppContext.getAccountId()));
-                presenter
-                        .go(crmViewNavigation,
-                                new ScreenData.Search<ActivitySearchCriteria>(
-                                        criteria));
+                criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+                presenter.go(crmViewNavigation, new ScreenData.Search<>(criteria));
             }
         });
         this.register(new ApplicationEventListener<ActivityEvent.TaskRead>() {
@@ -233,10 +214,8 @@ public class CrmModuleController extends AbstractController {
             @SuppressWarnings({"unchecked", "rawtypes"})
             @Override
             public void handle(ActivityEvent.TaskRead event) {
-                AssignmentReadPresenter presenter = PresenterResolver
-                        .getPresenter(AssignmentReadPresenter.class);
-                presenter.go(crmViewNavigation,
-                        new ScreenData.Preview(event.getData()));
+                AssignmentReadPresenter presenter = PresenterResolver.getPresenter(AssignmentReadPresenter.class);
+                presenter.go(crmViewNavigation, new ScreenData.Preview(event.getData()));
             }
         });
 
@@ -259,10 +238,8 @@ public class CrmModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(ActivityEvent.TaskEdit event) {
-                AssignmentAddPresenter presenter = PresenterResolver
-                        .getPresenter(AssignmentAddPresenter.class);
-                presenter.go(crmViewNavigation, new ScreenData.Edit<Object>(
-                        event.getData()));
+                AssignmentAddPresenter presenter = PresenterResolver.getPresenter(AssignmentAddPresenter.class);
+                presenter.go(crmViewNavigation, new ScreenData.Edit<>(event.getData()));
             }
         });
 
@@ -273,10 +250,8 @@ public class CrmModuleController extends AbstractController {
             @SuppressWarnings({"unchecked", "rawtypes"})
             @Override
             public void handle(ActivityEvent.CallRead event) {
-                CallReadPresenter presenter = PresenterResolver
-                        .getPresenter(CallReadPresenter.class);
-                presenter.go(crmViewNavigation,
-                        new ScreenData.Preview(event.getData()));
+                CallReadPresenter presenter = PresenterResolver.getPresenter(CallReadPresenter.class);
+                presenter.go(crmViewNavigation, new ScreenData.Preview(event.getData()));
             }
         });
 
@@ -286,10 +261,8 @@ public class CrmModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(ActivityEvent.CallAdd event) {
-                CallAddPresenter presenter = PresenterResolver
-                        .getPresenter(CallAddPresenter.class);
-                presenter.go(crmViewNavigation, new ScreenData.Add<SimpleCall>(
-                        new SimpleCall()));
+                CallAddPresenter presenter = PresenterResolver.getPresenter(CallAddPresenter.class);
+                presenter.go(crmViewNavigation, new ScreenData.Add<>(new SimpleCall()));
             }
         });
 
@@ -299,10 +272,8 @@ public class CrmModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(CallEdit event) {
-                CallAddPresenter presenter = PresenterResolver
-                        .getPresenter(CallAddPresenter.class);
-                presenter.go(crmViewNavigation, new ScreenData.Edit<Object>(
-                        event.getData()));
+                CallAddPresenter presenter = PresenterResolver.getPresenter(CallAddPresenter.class);
+                presenter.go(crmViewNavigation, new ScreenData.Edit<>(event.getData()));
             }
         });
 
@@ -313,10 +284,8 @@ public class CrmModuleController extends AbstractController {
             @SuppressWarnings({"unchecked", "rawtypes"})
             @Override
             public void handle(ActivityEvent.MeetingRead event) {
-                MeetingReadPresenter presenter = PresenterResolver
-                        .getPresenter(MeetingReadPresenter.class);
-                presenter.go(crmViewNavigation,
-                        new ScreenData.Preview(event.getData()));
+                MeetingReadPresenter presenter = PresenterResolver.getPresenter(MeetingReadPresenter.class);
+                presenter.go(crmViewNavigation, new ScreenData.Preview(event.getData()));
             }
         });
 
@@ -326,10 +295,8 @@ public class CrmModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(ActivityEvent.MeetingAdd event) {
-                MeetingAddPresenter presenter = PresenterResolver
-                        .getPresenter(MeetingAddPresenter.class);
-                presenter.go(crmViewNavigation,
-                        new ScreenData.Add<SimpleMeeting>(new SimpleMeeting()));
+                MeetingAddPresenter presenter = PresenterResolver.getPresenter(MeetingAddPresenter.class);
+                presenter.go(crmViewNavigation, new ScreenData.Add<>(new SimpleMeeting()));
             }
         });
 
@@ -339,10 +306,8 @@ public class CrmModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(ActivityEvent.MeetingEdit event) {
-                MeetingAddPresenter presenter = PresenterResolver
-                        .getPresenter(MeetingAddPresenter.class);
-                presenter.go(crmViewNavigation, new ScreenData.Edit<Object>(
-                        event.getData()));
+                MeetingAddPresenter presenter = PresenterResolver.getPresenter(MeetingAddPresenter.class);
+                presenter.go(crmViewNavigation, new ScreenData.Edit<>(event.getData()));
             }
         });
 
@@ -353,9 +318,7 @@ public class CrmModuleController extends AbstractController {
             @Override
             public void handle(ActivityEvent.GoToRelatedItems event) {
                 if (event.getData() instanceof CrmRelatedItemsScreenData) {
-                    crmViewNavigation
-                            .navigateTo(((CrmRelatedItemsScreenData) event
-                                    .getData()).getParams());
+                    crmViewNavigation.navigateTo(((CrmRelatedItemsScreenData) event.getData()).getParams());
                 }
             }
         });
@@ -382,10 +345,8 @@ public class CrmModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(ContactEvent.GotoAdd event) {
-                ContactAddPresenter presenter = PresenterResolver
-                        .getPresenter(ContactAddPresenter.class);
-                presenter.go(crmViewNavigation,
-                        new ScreenData.Add<SimpleContact>(new SimpleContact()));
+                ContactAddPresenter presenter = PresenterResolver.getPresenter(ContactAddPresenter.class);
+                presenter.go(crmViewNavigation, new ScreenData.Add<>(new SimpleContact()));
             }
         });
 
@@ -419,8 +380,7 @@ public class CrmModuleController extends AbstractController {
             @Override
             public void handle(ContactEvent.GoToRelatedItems event) {
                 if (event.getData() instanceof CrmRelatedItemsScreenData)
-                    crmViewNavigation.navigateTo(((CrmRelatedItemsScreenData) event
-                            .getData()).getParams());
+                    crmViewNavigation.navigateTo(((CrmRelatedItemsScreenData) event.getData()).getParams());
             }
 
         });
@@ -434,11 +394,9 @@ public class CrmModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(CampaignEvent.GotoList event) {
-                CampaignListPresenter presenter = PresenterResolver
-                        .getPresenter(CampaignListPresenter.class);
+                CampaignListPresenter presenter = PresenterResolver.getPresenter(CampaignListPresenter.class);
                 CampaignSearchCriteria searchCriteria = new CampaignSearchCriteria();
-                searchCriteria.setSaccountid(new NumberSearchField(
-                        SearchField.AND, AppContext.getAccountId()));
+                searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
 
                 presenter.go(crmViewNavigation, new ScreenData.Search<>(searchCriteria));
             }
@@ -461,8 +419,7 @@ public class CrmModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(CampaignEvent.GotoEdit event) {
-                CampaignAddPresenter presenter = PresenterResolver
-                        .getPresenter(CampaignAddPresenter.class);
+                CampaignAddPresenter presenter = PresenterResolver.getPresenter(CampaignAddPresenter.class);
                 presenter.go(crmViewNavigation, new ScreenData.Edit<>(event.getData()));
             }
         });
@@ -498,15 +455,11 @@ public class CrmModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(CaseEvent.GotoList event) {
-                CaseListPresenter presenter = PresenterResolver
-                        .getPresenter(CaseListPresenter.class);
+                CaseListPresenter presenter = PresenterResolver.getPresenter(CaseListPresenter.class);
 
                 CaseSearchCriteria searchCriteria = new CaseSearchCriteria();
-                searchCriteria.setSaccountid(new NumberSearchField(
-                        SearchField.AND, AppContext.getAccountId()));
-                presenter.go(crmViewNavigation,
-                        new ScreenData.Search<CaseSearchCriteria>(
-                                searchCriteria));
+                searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+                presenter.go(crmViewNavigation, new ScreenData.Search<>(searchCriteria));
             }
         });
 
@@ -516,10 +469,8 @@ public class CrmModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(CaseEvent.GotoAdd event) {
-                CaseAddPresenter presenter = PresenterResolver
-                        .getPresenter(CaseAddPresenter.class);
-                presenter.go(crmViewNavigation, new ScreenData.Add<SimpleCase>(
-                        new SimpleCase()));
+                CaseAddPresenter presenter = PresenterResolver.getPresenter(CaseAddPresenter.class);
+                presenter.go(crmViewNavigation, new ScreenData.Add<>(new SimpleCase()));
             }
         });
 
@@ -529,10 +480,8 @@ public class CrmModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(CaseEvent.GotoEdit event) {
-                CaseAddPresenter presenter = PresenterResolver
-                        .getPresenter(CaseAddPresenter.class);
-                presenter.go(crmViewNavigation, new ScreenData.Edit<Object>(
-                        event.getData()));
+                CaseAddPresenter presenter = PresenterResolver.getPresenter(CaseAddPresenter.class);
+                presenter.go(crmViewNavigation, new ScreenData.Edit<>(event.getData()));
             }
         });
 
@@ -543,10 +492,8 @@ public class CrmModuleController extends AbstractController {
             @SuppressWarnings({"rawtypes", "unchecked"})
             @Override
             public void handle(CaseEvent.GotoRead event) {
-                CaseReadPresenter presenter = PresenterResolver
-                        .getPresenter(CaseReadPresenter.class);
-                presenter.go(crmViewNavigation,
-                        new ScreenData.Preview(event.getData()));
+                CaseReadPresenter presenter = PresenterResolver.getPresenter(CaseReadPresenter.class);
+                presenter.go(crmViewNavigation, new ScreenData.Preview(event.getData()));
             }
         });
 
@@ -557,9 +504,7 @@ public class CrmModuleController extends AbstractController {
             @Override
             public void handle(CaseEvent.GoToRelatedItems event) {
                 if (event.getData() instanceof CrmRelatedItemsScreenData)
-                    crmViewNavigation
-                            .navigateTo(((CrmRelatedItemsScreenData) event
-                                    .getData()).getParams());
+                    crmViewNavigation.navigateTo(((CrmRelatedItemsScreenData) event.getData()).getParams());
             }
         });
     }
@@ -571,14 +516,10 @@ public class CrmModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(LeadEvent.GotoList event) {
-                LeadListPresenter presenter = PresenterResolver
-                        .getPresenter(LeadListPresenter.class);
+                LeadListPresenter presenter = PresenterResolver.getPresenter(LeadListPresenter.class);
                 LeadSearchCriteria searchCriteria = new LeadSearchCriteria();
-                searchCriteria.setSaccountid(new NumberSearchField(
-                        SearchField.AND, AppContext.getAccountId()));
-                presenter.go(crmViewNavigation,
-                        new ScreenData.Search<LeadSearchCriteria>(
-                                searchCriteria));
+                searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+                presenter.go(crmViewNavigation, new ScreenData.Search<>(searchCriteria));
             }
         });
 
@@ -589,10 +530,8 @@ public class CrmModuleController extends AbstractController {
             @SuppressWarnings({"rawtypes", "unchecked"})
             @Override
             public void handle(LeadEvent.GotoRead event) {
-                LeadReadPresenter presenter = PresenterResolver
-                        .getPresenter(LeadReadPresenter.class);
-                presenter.go(crmViewNavigation,
-                        new ScreenData.Preview(event.getData()));
+                LeadReadPresenter presenter = PresenterResolver.getPresenter(LeadReadPresenter.class);
+                presenter.go(crmViewNavigation, new ScreenData.Preview(event.getData()));
             }
         });
 
@@ -602,10 +541,8 @@ public class CrmModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(LeadEvent.GotoAdd event) {
-                LeadAddPresenter presenter = PresenterResolver
-                        .getPresenter(LeadAddPresenter.class);
-                presenter.go(crmViewNavigation, new ScreenData.Add<SimpleLead>(
-                        new SimpleLead()));
+                LeadAddPresenter presenter = PresenterResolver.getPresenter(LeadAddPresenter.class);
+                presenter.go(crmViewNavigation, new ScreenData.Add<>(new SimpleLead()));
             }
         });
 
@@ -615,10 +552,8 @@ public class CrmModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(LeadEvent.GotoEdit event) {
-                LeadAddPresenter presenter = PresenterResolver
-                        .getPresenter(LeadAddPresenter.class);
-                presenter.go(crmViewNavigation, new ScreenData.Edit<Object>(
-                        event.getData()));
+                LeadAddPresenter presenter = PresenterResolver.getPresenter(LeadAddPresenter.class);
+                presenter.go(crmViewNavigation, new ScreenData.Edit<>(event.getData()));
             }
         });
 
@@ -629,9 +564,7 @@ public class CrmModuleController extends AbstractController {
             @Override
             public void handle(LeadEvent.GoToRelatedItems event) {
                 if (event.getData() instanceof CrmRelatedItemsScreenData)
-                    crmViewNavigation
-                            .navigateTo(((CrmRelatedItemsScreenData) event
-                                    .getData()).getParams());
+                    crmViewNavigation.navigateTo(((CrmRelatedItemsScreenData) event.getData()).getParams());
             }
         });
     }
@@ -643,14 +576,10 @@ public class CrmModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(OpportunityEvent.GotoList event) {
-                OpportunityListPresenter presenter = PresenterResolver
-                        .getPresenter(OpportunityListPresenter.class);
+                OpportunityListPresenter presenter = PresenterResolver.getPresenter(OpportunityListPresenter.class);
                 OpportunitySearchCriteria searchCriteria = new OpportunitySearchCriteria();
-                searchCriteria.setSaccountid(new NumberSearchField(
-                        SearchField.AND, AppContext.getAccountId()));
-                presenter.go(crmViewNavigation,
-                        new ScreenData.Search<OpportunitySearchCriteria>(
-                                searchCriteria));
+                searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+                presenter.go(crmViewNavigation, new ScreenData.Search<>(searchCriteria));
 
             }
         });
@@ -662,10 +591,8 @@ public class CrmModuleController extends AbstractController {
             @SuppressWarnings({"rawtypes", "unchecked"})
             @Override
             public void handle(OpportunityEvent.GotoRead event) {
-                OpportunityReadPresenter presenter = PresenterResolver
-                        .getPresenter(OpportunityReadPresenter.class);
-                presenter.go(crmViewNavigation,
-                        new ScreenData.Preview(event.getData()));
+                OpportunityReadPresenter presenter = PresenterResolver.getPresenter(OpportunityReadPresenter.class);
+                presenter.go(crmViewNavigation, new ScreenData.Preview(event.getData()));
             }
         });
 
@@ -675,11 +602,8 @@ public class CrmModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(OpportunityEvent.GotoAdd event) {
-                OpportunityAddPresenter presenter = PresenterResolver
-                        .getPresenter(OpportunityAddPresenter.class);
-                presenter.go(crmViewNavigation,
-                        new ScreenData.Add<SimpleOpportunity>(
-                                new SimpleOpportunity()));
+                OpportunityAddPresenter presenter = PresenterResolver.getPresenter(OpportunityAddPresenter.class);
+                presenter.go(crmViewNavigation, new ScreenData.Add<>(new SimpleOpportunity()));
             }
         });
 
@@ -689,10 +613,8 @@ public class CrmModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(OpportunityEvent.GotoEdit event) {
-                OpportunityAddPresenter presenter = PresenterResolver
-                        .getPresenter(OpportunityAddPresenter.class);
-                presenter.go(crmViewNavigation, new ScreenData.Edit<Object>(
-                        event.getData()));
+                OpportunityAddPresenter presenter = PresenterResolver.getPresenter(OpportunityAddPresenter.class);
+                presenter.go(crmViewNavigation, new ScreenData.Edit<Object>(event.getData()));
             }
         });
 
@@ -703,39 +625,29 @@ public class CrmModuleController extends AbstractController {
             @Override
             public void handle(OpportunityEvent.GoToRelatedItems event) {
                 if (event.getData() instanceof CrmRelatedItemsScreenData)
-                    crmViewNavigation
-                            .navigateTo(((CrmRelatedItemsScreenData) event
-                                    .getData()).getParams());
+                    crmViewNavigation.navigateTo(((CrmRelatedItemsScreenData) event.getData()).getParams());
             }
         });
     }
 
-    public static void doLogin(String username, String password,
-                               boolean isRememberPassword) throws MyCollabException {
-        UserService userService = ApplicationContextUtil
-                .getSpringBean(UserService.class);
-        SimpleUser user = userService.authentication(username, password,
-                AppContext.getSubDomain(), false);
+    public static void doLogin(String username, String password, boolean isRememberPassword) throws MyCollabException {
+        UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
+        SimpleUser user = userService.authentication(username, password, AppContext.getSubDomain(), false);
 
-        BillingAccountService billingAccountService = ApplicationContextUtil
-                .getSpringBean(BillingAccountService.class);
+        BillingAccountService billingAccountService = ApplicationContextUtil.getSpringBean(BillingAccountService.class);
 
-        SimpleBillingAccount billingAccount = billingAccountService
-                .getBillingAccountById(AppContext.getAccountId());
+        SimpleBillingAccount billingAccount = billingAccountService.getBillingAccountById(AppContext.getAccountId());
 
-        LOG.debug("Get billing account successfully: "
-                + BeanUtility.printBeanObj(billingAccount));
+        LOG.debug("Get billing account successfully: " + BeanUtility.printBeanObj(billingAccount));
 
 
         if (isRememberPassword) {
             LocalStorage storage = LocalStorage.get();
-            String storeVal = username + "$"
-                    + PasswordEncryptHelper.encryptText(password);
+            String storeVal = username + "$" + PasswordEncryptHelper.encryptText(password);
             storage.put(MobileApplication.LOGIN_DATA, storeVal);
         }
 
         AppContext.getInstance().setSessionVariables(user, billingAccount);
-        EventBusFactory.getInstance().post(
-                new CrmEvent.GotoContainer(UI.getCurrent(), null));
+        EventBusFactory.getInstance().post(new CrmEvent.GotoContainer(UI.getCurrent(), null));
     }
 }

@@ -101,7 +101,7 @@ public class CampaignSelectionWindow extends Window {
 						});
                         campaignLink.setDescription(CrmTooltipGenerator.generateTooltipCampaign(
                                 AppContext.getUserLocale(), campaign,
-                                AppContext.getSiteUrl(), AppContext.getTimezone()));
+                                AppContext.getSiteUrl(), AppContext.getUserTimezone()));
                         return campaignLink;
 					}
 				});

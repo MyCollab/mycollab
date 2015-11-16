@@ -55,22 +55,18 @@ public class ProjectListPresenter extends AbstractListPresenter<ProjectListView,
         projectModuleMenu.selectButton(AppContext
                 .getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_LIST));
 
-        MobileNavigationManager currentNavigationManager = (MobileNavigationManager) UI
-                .getCurrent().getContent();
+        MobileNavigationManager currentNavigationManager = (MobileNavigationManager) UI.getCurrent().getContent();
         currentNavigationManager.setNavigationMenu(projectModuleMenu);
 
         String url = ((MobileApplication) UI.getCurrent()).getInitialUrl();
         if (url != null && !url.equals("")) {
             String[] tokens = url.split("/");
             if (tokens.length > 1) {
-                String[] fragments = Arrays.copyOfRange(tokens, 1,
-                        tokens.length);
-                MobileApplication.rootUrlResolver.getSubResolver("project")
-                        .handle(fragments);
+                String[] fragments = Arrays.copyOfRange(tokens, 1, tokens.length);
+                MobileApplication.rootUrlResolver.getSubResolver("project").handle(fragments);
             }
         } else {
-            AppContext.addFragment("project/",
-                    AppContext.getMessage(GenericI18Enum.MODULE_PROJECT));
+            AppContext.addFragment("project/", AppContext.getMessage(GenericI18Enum.MODULE_PROJECT));
         }
 
         ((MobileApplication) UI.getCurrent()).setInitialUrl("");

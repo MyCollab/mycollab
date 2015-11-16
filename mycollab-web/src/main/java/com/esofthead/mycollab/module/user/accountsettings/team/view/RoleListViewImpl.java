@@ -45,7 +45,6 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 import java.util.Arrays;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 1.0
  */
@@ -63,31 +62,26 @@ public class RoleListViewImpl extends AbstractPageView implements RoleListView {
     public RoleListViewImpl() {
         this.setMargin(new MarginInfo(false, true, false, true));
 
-        this.searchPanel = new RoleSearchPanel();
-        this.listLayout = new VerticalLayout();
-        this.with(this.searchPanel, this.listLayout);
-
+        searchPanel = new RoleSearchPanel();
+        listLayout = new VerticalLayout();
+        this.with(searchPanel, listLayout);
         this.generateDisplayTable();
     }
 
     private void generateDisplayTable() {
-        this.tableItem = new RoleTableDisplay(new TableViewField(null,
+        tableItem = new RoleTableDisplay(new TableViewField(null,
                 "selected", UIConstants.TABLE_CONTROL_WIDTH), Arrays.asList(
-                new TableViewField(RoleI18nEnum.FORM_NAME, "rolename",
-                        UIConstants.TABLE_EX_LABEL_WIDTH), new TableViewField(
-                        GenericI18Enum.FORM_DESCRIPTION, "description",
-                        UIConstants.TABLE_EX_LABEL_WIDTH)));
+                new TableViewField(RoleI18nEnum.FORM_NAME, "rolename", UIConstants.TABLE_EX_LABEL_WIDTH),
+                new TableViewField(GenericI18Enum.FORM_DESCRIPTION, "description", UIConstants.TABLE_EX_LABEL_WIDTH)));
 
-        this.tableItem.addTableListener(new TableClickListener() {
+        tableItem.addTableListener(new TableClickListener() {
             private static final long serialVersionUID = 1L;
 
             @Override
             public void itemClick(final TableClickEvent event) {
                 final Role role = (Role) event.getData();
                 if ("rolename".equals(event.getFieldName())) {
-                    EventBusFactory.getInstance().post(
-                            new RoleEvent.GotoRead(RoleListViewImpl.this, role
-                                    .getId()));
+                    EventBusFactory.getInstance().post(new RoleEvent.GotoRead(RoleListViewImpl.this, role.getId()));
                 }
             }
         });
@@ -108,13 +102,13 @@ public class RoleListViewImpl extends AbstractPageView implements RoleListView {
         layoutWrapper.addStyleName(UIConstants.TABLE_ACTION_CONTROLS);
         layoutWrapper.addComponent(layout);
 
-        this.selectOptionButton = new SelectionOptionButton(this.tableItem);
-        layout.addComponent(this.selectOptionButton);
+        selectOptionButton = new SelectionOptionButton(tableItem);
+        layout.addComponent(selectOptionButton);
 
         Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE));
         deleteBtn.setEnabled(AppContext.canAccess(RolePermissionCollections.ACCOUNT_ROLE));
 
-        this.tableActionControls = new DefaultMassItemActionHandlerContainer();
+        tableActionControls = new DefaultMassItemActionHandlerContainer();
         if (AppContext.canAccess(RolePermissionCollections.ACCOUNT_ROLE)) {
             tableActionControls.addDeleteActionItem();
         }
@@ -128,26 +122,25 @@ public class RoleListViewImpl extends AbstractPageView implements RoleListView {
 
     @Override
     public void enableActionControls(final int numOfSelectedItems) {
-        this.tableActionControls.setVisible(true);
-        this.selectedItemsNumberLabel.setValue(AppContext.getMessage(
-                GenericI18Enum.TABLE_SELECTED_ITEM_TITLE, numOfSelectedItems));
+        tableActionControls.setVisible(true);
+        this.selectedItemsNumberLabel.setValue(AppContext.getMessage(GenericI18Enum.TABLE_SELECTED_ITEM_TITLE, numOfSelectedItems));
     }
 
     @Override
     public void disableActionControls() {
-        this.tableActionControls.setVisible(false);
-        this.selectOptionButton.setSelectedCheckbox(false);
+        tableActionControls.setVisible(false);
+        selectOptionButton.setSelectedCheckbox(false);
         this.selectedItemsNumberLabel.setValue("");
     }
 
     @Override
     public HasSelectionOptionHandlers getOptionSelectionHandlers() {
-        return this.selectOptionButton;
+        return selectOptionButton;
     }
 
     @Override
     public HasMassItemActionHandler getPopupActionHandlers() {
-        return this.tableActionControls;
+        return tableActionControls;
     }
 
     @Override

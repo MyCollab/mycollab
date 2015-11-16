@@ -19,39 +19,34 @@ package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
+import com.esofthead.mycollab.vaadin.ui.FormContainer;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class ProjectMemberFormLayoutFactory implements IFormLayoutFactory {
-	private static final long serialVersionUID = 1L;
-	private GridFormLayoutHelper informationLayout;
+    private static final long serialVersionUID = 1L;
+    private GridFormLayoutHelper informationLayout;
 
-	@Override
-	public ComponentContainer getLayout() {
-		final VerticalLayout layout = new VerticalLayout();
-		final Label organizationHeader = new Label(AppContext.getMessage(ProjectMemberI18nEnum.FORM_INFORMATION_SECTION));
-		organizationHeader.setStyleName("h2");
-		layout.addComponent(organizationHeader);
-		this.informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 2);
-		layout.addComponent(this.informationLayout.getLayout());
-		return layout;
-	}
+    @Override
+    public ComponentContainer getLayout() {
+        final FormContainer layout = new FormContainer();
+        informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 2);
+        layout.addSection(AppContext.getMessage(ProjectMemberI18nEnum.FORM_INFORMATION_SECTION), informationLayout.getLayout());
+        return layout;
+    }
 
-	@Override
-	public void attachField(Object propertyId, final Field<?> field) {
-		if (propertyId.equals("memberFullName")) {
-			this.informationLayout.addComponent(field, AppContext.getMessage(ProjectMemberI18nEnum.FORM_USER), 0, 0);
-		} else if (propertyId.equals("projectroleid")) {
-			this.informationLayout.addComponent(field, AppContext.getMessage(ProjectMemberI18nEnum.FORM_ROLE), 0, 1);
-		}
-	}
+    @Override
+    public void attachField(Object propertyId, final Field<?> field) {
+        if (propertyId.equals("memberFullName")) {
+            informationLayout.addComponent(field, AppContext.getMessage(ProjectMemberI18nEnum.FORM_USER), 0, 0);
+        } else if (propertyId.equals("projectroleid")) {
+            informationLayout.addComponent(field, AppContext.getMessage(ProjectMemberI18nEnum.FORM_ROLE), 0, 1);
+        }
+    }
 }

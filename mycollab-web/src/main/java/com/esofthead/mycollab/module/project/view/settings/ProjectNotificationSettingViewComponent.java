@@ -25,13 +25,17 @@ import com.esofthead.mycollab.module.project.service.ProjectNotificationSettingS
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.BlockWidget;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.OptionGroup;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
@@ -44,7 +48,7 @@ public class ProjectNotificationSettingViewComponent extends BlockWidget {
     public ProjectNotificationSettingViewComponent(final ProjectNotificationSetting bean) {
         super(AppContext.getMessage(ProjectSettingI18nEnum.VIEW_TITLE));
 
-        MVerticalLayout bodyWrapper = new MVerticalLayout();
+        MVerticalLayout bodyWrapper = new MVerticalLayout().withWidth("100%");
         bodyWrapper.setSizeFull();
 
         HorizontalLayout notificationLabelWrapper = new HorizontalLayout();
@@ -53,9 +57,7 @@ public class ProjectNotificationSettingViewComponent extends BlockWidget {
 
         notificationLabelWrapper.setStyleName("notification-label");
 
-        Label notificationLabel = new Label(
-                AppContext.getMessage(ProjectSettingI18nEnum.EXT_LEVEL));
-        notificationLabel.addStyleName("h2");
+        ELabel notificationLabel = ELabel.h3(AppContext.getMessage(ProjectSettingI18nEnum.EXT_LEVEL));
 
         notificationLabel.setHeightUndefined();
         notificationLabelWrapper.addComponent(notificationLabel);
@@ -83,9 +85,9 @@ public class ProjectNotificationSettingViewComponent extends BlockWidget {
         optionGroup.setItemCaption(NotificationType.Full.name(), AppContext
                 .getMessage(ProjectSettingI18nEnum.OPT_MAXIMUM_SETTING));
 
-        optionGroup.setHeight("100%");
+        optionGroup.setWidth("100%");
 
-        body.with(optionGroup).expand(optionGroup).withAlign(optionGroup, Alignment.MIDDLE_LEFT);
+        body.with(optionGroup).withAlign(optionGroup, Alignment.MIDDLE_LEFT);
 
         String levelVal = bean.getLevel();
         if (levelVal == null) {
@@ -94,39 +96,34 @@ public class ProjectNotificationSettingViewComponent extends BlockWidget {
             optionGroup.select(levelVal);
         }
 
-        Button updateBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        Button updateBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(ClickEvent event) {
-                        try {
-                            bean.setLevel((String) optionGroup.getValue());
-                            ProjectNotificationSettingService projectNotificationSettingService = ApplicationContextUtil
-                                    .getSpringBean(ProjectNotificationSettingService.class);
+            @Override
+            public void buttonClick(ClickEvent event) {
+                try {
+                    bean.setLevel((String) optionGroup.getValue());
+                    ProjectNotificationSettingService projectNotificationSettingService = ApplicationContextUtil
+                            .getSpringBean(ProjectNotificationSettingService.class);
 
-                            if (bean.getId() == null) {
-                                projectNotificationSettingService
-                                        .saveWithSession(bean,
-                                                AppContext.getUsername());
-                            } else {
-                                projectNotificationSettingService.updateWithSession(bean,
-                                        AppContext.getUsername());
-                            }
-                            NotificationUtil.showNotification("Congrats", AppContext
-                                    .getMessage(ProjectSettingI18nEnum.DIALOG_UPDATE_SUCCESS));
-                        } catch (Exception e) {
-                            throw new MyCollabException(e);
-                        }
+                    if (bean.getId() == null) {
+                        projectNotificationSettingService.saveWithSession(bean, AppContext.getUsername());
+                    } else {
+                        projectNotificationSettingService.updateWithSession(bean, AppContext.getUsername());
                     }
-                });
-        updateBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+                    NotificationUtil.showNotification("Congrats", AppContext
+                            .getMessage(ProjectSettingI18nEnum.DIALOG_UPDATE_SUCCESS));
+                } catch (Exception e) {
+                    throw new MyCollabException(e);
+                }
+            }
+        });
+        updateBtn.addStyleName(UIConstants.BUTTON_ACTION);
         updateBtn.setIcon(FontAwesome.REFRESH);
         body.addComponent(updateBtn);
         body.setComponentAlignment(updateBtn, Alignment.BOTTOM_LEFT);
 
         bodyWrapper.addComponent(body);
         this.addComponent(bodyWrapper);
-
     }
 }

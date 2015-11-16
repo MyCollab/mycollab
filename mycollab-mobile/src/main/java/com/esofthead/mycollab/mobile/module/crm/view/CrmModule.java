@@ -34,7 +34,6 @@ public class CrmModule extends AbstractMobileMainView {
 	private static final long serialVersionUID = 1741055981807436733L;
 
 	public CrmModule() {
-		ControllerRegistry.addController(new CrmModuleController(
-				(NavigationManager) UI.getCurrent().getContent()));
+		ControllerRegistry.addController(new CrmModuleController((NavigationManager) UI.getCurrent().getContent()));
 	}
 }

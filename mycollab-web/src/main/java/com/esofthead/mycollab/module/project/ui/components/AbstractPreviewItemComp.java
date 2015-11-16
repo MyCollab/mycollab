@@ -26,7 +26,6 @@ import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.vaadin.floatingcomponent.FloatingComponent;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
@@ -40,21 +39,18 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  */
 public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implements PageView {
     private static final long serialVersionUID = 1L;
-
     private static Logger LOG = LoggerFactory.getLogger(AbstractPreviewItemComp.class);
 
     protected B beanItem;
-    protected AdvancedPreviewBeanForm<B> previewForm;
-    protected ReadViewLayout previewLayout;
-
-    protected ComponentContainer header;
-
-    private MVerticalLayout sidebarContent;
-    private MVerticalLayout bodyContent;
-
-    private Button favoriteBtn;
     private FavoriteItemService favoriteItemService = ApplicationContextUtil.getSpringBean(FavoriteItemService.class);
     private boolean isDisplaySideBar = true;
+
+    protected AdvancedPreviewBeanForm<B> previewForm;
+    protected ReadViewLayout previewLayout;
+    protected ComponentContainer header;
+    private MVerticalLayout sidebarContent;
+    private MVerticalLayout bodyContent;
+    private Button favoriteBtn;
 
     public AbstractPreviewItemComp(String headerText, Resource iconResource) {
         this(headerText, iconResource, null);
@@ -69,9 +65,8 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
     }
 
     public AbstractPreviewItemComp(String headerText, Resource iconResource, ReadViewLayout layout) {
-        Label headerLbl = new Label("", ContentMode.HTML);
+        ELabel headerLbl = ELabel.h3("");
         headerLbl.setSizeUndefined();
-        headerLbl.setStyleName("hdr-text");
 
         this.previewLayout = layout;
 
@@ -180,7 +175,8 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
 
     private boolean isFavorite() {
         try {
-            return favoriteItemService.isUserFavorite(AppContext.getUsername(), getType(), PropertyUtils.getProperty(beanItem, "id").toString());
+            return favoriteItemService.isUserFavorite(AppContext.getUsername(), getType(),
+                    PropertyUtils.getProperty(beanItem, "id").toString());
         } catch (Exception e) {
             LOG.error("Error while check favorite", e);
             return false;

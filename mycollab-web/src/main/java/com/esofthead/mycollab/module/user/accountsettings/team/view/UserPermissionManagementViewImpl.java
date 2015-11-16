@@ -41,7 +41,6 @@ public class UserPermissionManagementViewImpl extends AbstractPageView implement
 
     public UserPermissionManagementViewImpl() {
         groupTab = new TabSheetDecorator();
-        groupTab.setStyleName(UIConstants.THEME_TAB_STYLE3);
         this.addComponent(groupTab);
         buildComponents();
     }

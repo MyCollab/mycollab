@@ -45,11 +45,10 @@ public class DateSearchField extends SearchField {
         this(AND, value, comparison);
     }
 
-    public DateSearchField(String oper, Date dateVal, String comparision) {
+    public DateSearchField(String oper, Date dateVal, String comparison) {
         this.operation = oper;
-        this.comparison = comparision;
-        this.value = DateTimeUtils.trimHMSOfDate(DateTimeUtils
-                .convertTimeFromSystemTimezoneToUTC(dateVal.getTime()));
+        this.comparison = comparison;
+        this.value = DateTimeUtils.trimHMSOfDate(DateTimeUtils.convertDateTimeToUTC(dateVal));
     }
 
     public Date getValue() {

@@ -16,49 +16,47 @@
  */
 package com.esofthead.mycollab.core.arguments;
 
-import java.util.Date;
-
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 
+import java.util.Date;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class DateTimeSearchField extends SearchField {
-	private static final long serialVersionUID = 1L;
-	
-	public static final String LESSTHAN = "<";
-	public static final String LESSTHANEQUAL = "<=";
-	public static final String GREATERTHAN = ">";
-	public static final String GREATERTHANEQUAL = ">=";
-	public static final String EQUAL = "=";
-	public static final String NOTEQUAL = "<>";
+    private static final long serialVersionUID = 1L;
 
-	protected Date value;
-	protected String comparision;
+    public static final String LESSTHAN = "<";
+    public static final String LESSTHANEQUAL = "<=";
+    public static final String GREATERTHAN = ">";
+    public static final String GREATERTHANEQUAL = ">=";
+    public static final String EQUAL = "=";
+    public static final String NOTEQUAL = "<>";
 
-	public DateTimeSearchField(String oper, String comparision, Date value) {
-		this.operation = oper;
-		this.value = DateTimeUtils.convertTimeFromSystemTimezoneToUTC(value.getTime());
-		this.comparision = comparision;
-	}
+    protected Date value;
+    protected String comparision;
 
-	public Date getValue() {
-		return value;
-	}
+    public DateTimeSearchField(String oper, String comparision, Date value) {
+        this.operation = oper;
+        this.value = DateTimeUtils.convertDateTimeToUTC(value);
+        this.comparision = comparision;
+    }
 
-	public void setValue(Date value) {
-		this.value = value;
-	}
+    public Date getValue() {
+        return value;
+    }
 
-	public String getComparision() {
-		return comparision;
-	}
+    public void setValue(Date value) {
+        this.value = value;
+    }
 
-	public void setComparision(String comparision) {
-		this.comparision = comparision;
-	}
+    public String getComparision() {
+        return comparision;
+    }
+
+    public void setComparision(String comparision) {
+        this.comparision = comparision;
+    }
 
 }

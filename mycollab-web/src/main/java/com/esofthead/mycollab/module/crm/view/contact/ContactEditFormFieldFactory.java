@@ -25,7 +25,6 @@ import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
 import com.vaadin.data.Property;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
@@ -92,23 +91,19 @@ class ContactEditFormFieldFactory<B extends Contact> extends AbstractBeanFieldGr
             prefixSelect.setValue(attachForm.getBean().getPrefix());
             layout.addComponent(prefixSelect);
 
-            prefixSelect
-                    .addValueChangeListener(new Property.ValueChangeListener() {
-                        private static final long serialVersionUID = 1L;
+            prefixSelect.addValueChangeListener(new Property.ValueChangeListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void valueChange(Property.ValueChangeEvent event) {
-                            attachForm.getBean().setPrefix(
-                                    (String) prefixSelect.getValue());
-
-                        }
-                    });
+                @Override
+                public void valueChange(Property.ValueChangeEvent event) {
+                    attachForm.getBean().setPrefix((String) prefixSelect.getValue());
+                }
+            });
 
             TextField firstnameTxtField = new TextField();
             firstnameTxtField.setWidth("100%");
             firstnameTxtField.setNullRepresentation("");
-            layout.addComponent(firstnameTxtField);
-            layout.setExpandRatio(firstnameTxtField, 1.0f);
+            layout.with(firstnameTxtField).expand(firstnameTxtField);
 
             // binding field group
             fieldGroup.bind(prefixSelect, "prefix");

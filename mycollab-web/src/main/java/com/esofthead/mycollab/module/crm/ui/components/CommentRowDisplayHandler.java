@@ -55,7 +55,7 @@ public class CommentRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleC
         rowLayout.setWidth("100%");
 
         MHorizontalLayout messageHeader = new MHorizontalLayout().withMargin(new MarginInfo(true,
-                true, false, true)).withWidth("100%").withStyleName("message-header");
+                true, false, true)).withWidth("100%");
         messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         ELabel timePostLbl = new ELabel(AppContext.getMessage(GenericI18Enum.EXT_ADDED_COMMENT, comment.getOwnerFullName(),
@@ -63,7 +63,7 @@ public class CommentRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleC
                 formatDateTime(comment.getCreatedtime()));
 
         timePostLbl.setSizeUndefined();
-        timePostLbl.setStyleName("time-post");
+        timePostLbl.setStyleName(UIConstants.LABEL_META_INFO);
         messageHeader.with(timePostLbl).expand(timePostLbl);
 
         // Message delete button
@@ -105,16 +105,13 @@ public class CommentRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleC
         rowLayout.addComponent(messageHeader);
 
         Label messageContent = new SafeHtmlLabel(comment.getComment());
-        messageContent.setStyleName("message-body");
         rowLayout.addComponent(messageContent);
 
         List<Content> attachments = comment.getAttachments();
         if (!CollectionUtils.isEmpty(attachments)) {
-            MVerticalLayout messageFooter = new MVerticalLayout().withSpacing(false).withWidth
-                    ("100%").withStyleName("message-footer");
-            AttachmentDisplayComponent attachmentDisplay = new AttachmentDisplayComponent(
-                    attachments);
-            attachmentDisplay.setWidth("100%");
+            MVerticalLayout messageFooter = new MVerticalLayout().withSpacing(false).withWidth("100%")
+                    .withStyleName("message-footer");
+            AttachmentDisplayComponent attachmentDisplay = new AttachmentDisplayComponent(attachments);
             messageFooter.with(attachmentDisplay).withAlign(attachmentDisplay, Alignment.MIDDLE_RIGHT);
             rowLayout.addComponent(messageFooter);
         }

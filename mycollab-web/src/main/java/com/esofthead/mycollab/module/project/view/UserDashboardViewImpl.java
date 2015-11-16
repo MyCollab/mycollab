@@ -19,7 +19,6 @@ package com.esofthead.mycollab.module.project.view;
 import com.esofthead.mycollab.common.domain.criteria.MonitorSearchCriteria;
 import com.esofthead.mycollab.common.i18n.FollowerI18nEnum;
 import com.esofthead.mycollab.common.service.MonitorItemService;
-import com.esofthead.mycollab.configuration.Storage;
 import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
@@ -28,7 +27,6 @@ import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ProjectGenericItem;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectGenericItemSearchCriteria;
-import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectGenericItemService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
@@ -54,6 +52,7 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.themes.ValoTheme;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -144,9 +143,8 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
         MVerticalLayout headerContent = new MVerticalLayout().withMargin(new MarginInfo(false, false, false, true));
         headerContent.addStyleName("projectfeed-hdr-content");
 
-        Label headerLabel = new Label(AppContext.getUser().getDisplayName());
-        headerLabel.setStyleName("h1");
-        headerLabel.addStyleName(UIConstants.WORD_WRAP);
+        ELabel headerLabel = ELabel.h2(AppContext.getUser().getDisplayName());
+        headerLabel.addStyleName(UIConstants.LABEL_WORD_WRAP);
 
         MHorizontalLayout headerContentTop = new MHorizontalLayout().withMargin(new MarginInfo(false, false, true,
                 false)).withWidth("100%");
@@ -195,7 +193,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
                 displayView();
             }
         });
-        backDashboard.setStyleName(UIConstants.THEME_GREEN_LINK);
+        backDashboard.setStyleName(UIConstants.BUTTON_ACTION);
         headerComp.with(headerLbl, backDashboard);
         layout.with(headerComp);
 
@@ -232,7 +230,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
             MVerticalLayout layout = new MVerticalLayout().withMargin(new MarginInfo(true, true, false, true)).withWidth("100%");
             Label link = new Label(ProjectLinkBuilder.generateProjectItemHtmlLink(projectItem.getProjectShortName(), projectItem
                     .getProjectId(), projectItem.getSummary(), projectItem.getType(), projectItem.getTypeId()), ContentMode.HTML);
-            link.setStyleName("h2");
+            link.setStyleName(ValoTheme.LABEL_H2);
 
             String desc = (StringUtils.isBlank(projectItem.getDescription())) ? "&lt;&lt;No description&gt;&gt;" : projectItem
                     .getDescription();
@@ -297,7 +295,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
                     UI.getCurrent().addWindow(new ProjectAddWindow());
                 }
             });
-            createNewBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+            createNewBtn.setStyleName(UIConstants.BUTTON_ACTION);
             btnControls.with(skipBtn, createNewBtn);
             content.with(btnControls).withAlign(btnControls, Alignment.MIDDLE_RIGHT);
         }

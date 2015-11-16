@@ -57,19 +57,19 @@ public class StyleCalendarExp extends VerticalLayout {
 
         btnShowNextYear = new Button();
         btnShowNextYear.setIcon(new AssetResource("icons/16/cal_year_next.png"));
-        btnShowNextYear.setStyleName(UIConstants.THEME_LINK);
+        btnShowNextYear.setStyleName(UIConstants.BUTTON_LINK);
 
         btnShowNextMonth = new Button();
         btnShowNextMonth.setIcon(new AssetResource("icons/16/cal_month_next.png"));
-        btnShowNextMonth.setStyleName(UIConstants.THEME_LINK);
+        btnShowNextMonth.setStyleName(UIConstants.BUTTON_LINK);
 
         btnShowPreviousMonth = new Button();
         btnShowPreviousMonth.setIcon(new AssetResource("icons/16/cal_month_pre.png"));
-        btnShowPreviousMonth.setStyleName(UIConstants.THEME_LINK);
+        btnShowPreviousMonth.setStyleName(UIConstants.BUTTON_LINK);
 
         btnShowPreviousYear = new Button();
         btnShowPreviousYear.setIcon(new AssetResource("icons/16/cal_year_pre.png"));
-        btnShowPreviousYear.setStyleName(UIConstants.THEME_LINK);
+        btnShowPreviousYear.setStyleName(UIConstants.BUTTON_LINK);
 
         lbSelectedDate.setValue(AppContext.formatDate(new Date()));
         lbSelectedDate.addStyleName("calendarDateLabel");

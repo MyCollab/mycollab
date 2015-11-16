@@ -46,8 +46,7 @@ public class MilestoneComboBox extends ValueComboBox {
         MilestoneSearchCriteria criteria = new MilestoneSearchCriteria();
         criteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
 
-        MilestoneService milestoneService = ApplicationContextUtil
-                .getSpringBean(MilestoneService.class);
+        MilestoneService milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
         List<SimpleMilestone> milestoneList = milestoneService.findPagableListByCriteria(new SearchRequest<>(
                 criteria, 0, Integer.MAX_VALUE));
 

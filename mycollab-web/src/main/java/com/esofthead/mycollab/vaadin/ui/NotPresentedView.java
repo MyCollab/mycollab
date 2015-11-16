@@ -19,12 +19,15 @@ package com.esofthead.mycollab.vaadin.ui;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
-import com.vaadin.server.BrowserWindowOpener;
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Div;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.themes.ValoTheme;
+import org.springframework.web.client.RestTemplate;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -39,17 +42,24 @@ public class NotPresentedView extends AbstractPageView {
 
         final Label titleIcon = new Label(FontAwesome.EXCLAMATION_CIRCLE.getHtml(), ContentMode.HTML);
         titleIcon.setStyleName("warning-icon");
-        titleIcon.setWidth("60px");
-        this.addComponent(titleIcon);
+        titleIcon.addStyleName(ValoTheme.LABEL_NO_MARGIN);
+        titleIcon.setWidthUndefined();
+        this.with(titleIcon);
 
-        Label label = new Label(AppContext.getMessage(GenericI18Enum.NOTIFICATION_FEATURE_NOT_AVAILABLE_IN_VERSION));
-        label.setStyleName("h2_community");
-        this.addComponent(label);
+        Label label = ELabel.h2(AppContext.getMessage(GenericI18Enum.NOTIFICATION_FEATURE_NOT_AVAILABLE_IN_VERSION)).withWidthUndefined();
+        this.with(label).withAlign(label, Alignment.MIDDLE_CENTER);
 
-        Button requestFeatureBtn = new Button("Request the premium edition");
-        requestFeatureBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-        BrowserWindowOpener opener = new BrowserWindowOpener("mailto:support@mycollab.com");
-        opener.extend(requestFeatureBtn);
-        this.addComponent(requestFeatureBtn);
+        RestTemplate restTemplate = new RestTemplate();
+        try {
+            String result = restTemplate.getForObject("https://api.mycollab.com/api/storeweb", String.class);
+            Label webPage = new Label(result, ContentMode.HTML);
+            webPage.setHeight("600px");
+            this.with(new MVerticalLayout(webPage).withMargin(false).withAlign(webPage, Alignment.TOP_CENTER));
+        } catch (Exception e) {
+            Div informDiv = new Div().appendText("Can not load the store page. You can check the online edition at ")
+                    .appendChild(new A("https://www.mycollab.com/pricing/download/", "_blank").appendText("here"));
+            ELabel webPage = new ELabel(informDiv.write(), ContentMode.HTML).withWidthUndefined();
+            this.with(new MVerticalLayout(webPage).withAlign(webPage, Alignment.TOP_CENTER));
+        }
     }
 }

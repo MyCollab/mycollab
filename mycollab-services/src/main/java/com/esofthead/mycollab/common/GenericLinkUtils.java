@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.common;
 
+import com.esofthead.mycollab.configuration.IDeploymentMode;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.module.user.domain.BillingAccount;
 import com.esofthead.mycollab.module.user.service.BillingAccountService;
@@ -55,7 +56,8 @@ public abstract class GenericLinkUtils {
      */
     public static String generateSiteUrlByAccountId(Integer sAccountId) {
         String siteUrl = "";
-        if (SiteConfiguration.getDeploymentMode() == SiteConfiguration.DeploymentMode.site) {
+        IDeploymentMode mode = ApplicationContextUtil.getSpringBean(IDeploymentMode.class);
+        if (mode.isDemandEdition()) {
             BillingAccountService billingAccountService = ApplicationContextUtil.getSpringBean(BillingAccountService.class);
             BillingAccount account = billingAccountService.getAccountById(sAccountId);
             if (account != null) {

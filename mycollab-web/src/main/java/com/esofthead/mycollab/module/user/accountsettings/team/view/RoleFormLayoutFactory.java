@@ -19,9 +19,14 @@ package com.esofthead.mycollab.module.user.accountsettings.team.view;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.DefaultReadViewLayout;
+import com.esofthead.mycollab.vaadin.ui.FormContainer;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.ReadViewLayout;
 import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
-import com.vaadin.ui.*;
+import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.Field;
+import com.vaadin.ui.Layout;
 
 /**
  * @author MyCollab Ltd.
@@ -65,24 +70,19 @@ public abstract class RoleFormLayoutFactory implements IFormLayoutFactory {
 
         @Override
         public ComponentContainer getLayout() {
-            VerticalLayout layout = new VerticalLayout();
-            Label organizationHeader = new Label(AppContext.getMessage(RoleI18nEnum.SECTION_INFORMATION));
-            organizationHeader.setStyleName(UIConstants.H2_STYLE2);
-            layout.addComponent(organizationHeader);
+            FormContainer layout = new FormContainer();
 
             informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(6, 2);
-            layout.addComponent(informationLayout.getLayout());
+            layout.addSection(AppContext.getMessage(RoleI18nEnum.SECTION_INFORMATION), informationLayout.getLayout());
             return layout;
         }
 
         @Override
         public void attachField(Object propertyId, final Field<?> field) {
             if (propertyId.equals("rolename")) {
-                this.informationLayout.addComponent(field,
-                        AppContext.getMessage(RoleI18nEnum.FORM_NAME), 0, 0, 2, "100%");
+                informationLayout.addComponent(field, AppContext.getMessage(RoleI18nEnum.FORM_NAME), 0, 0, 2, "100%");
             } else if (propertyId.equals("description")) {
-                this.informationLayout.addComponent(field,
-                        AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 1, 2, "100%");
+                informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 1, 2, "100%");
             }
         }
     }

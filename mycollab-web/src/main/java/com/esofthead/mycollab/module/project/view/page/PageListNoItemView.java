@@ -74,7 +74,7 @@ public class PageListNoItemView extends ProjectListNoItemView {
     protected MHorizontalLayout createControlButtons() {
         Button createPageBtn = new Button(actionMessage(), actionListener());
         createPageBtn.setEnabled(hasPermission());
-        createPageBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+        createPageBtn.addStyleName(UIConstants.BUTTON_ACTION);
 
         Button createPageGroupBtn = new Button(AppContext.getMessage(Page18InEnum.BUTTON_NEW_GROUP), new Button.ClickListener() {
             @Override
@@ -83,7 +83,7 @@ public class PageListNoItemView extends ProjectListNoItemView {
             }
         });
         createPageGroupBtn.setEnabled(hasPermission());
-        createPageGroupBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+        createPageGroupBtn.addStyleName(UIConstants.BUTTON_ACTION);
 
         MHorizontalLayout links = new MHorizontalLayout();
         links.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);

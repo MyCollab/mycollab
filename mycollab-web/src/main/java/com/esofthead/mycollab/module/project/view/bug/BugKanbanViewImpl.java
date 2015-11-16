@@ -18,36 +18,40 @@ package com.esofthead.mycollab.module.project.view.bug;
 
 import com.esofthead.mycollab.common.domain.OptionVal;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
-import com.esofthead.mycollab.core.db.query.SearchFieldInfo;
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
-import com.esofthead.mycollab.module.project.ProjectTooltipGenerator;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
-import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.view.ProjectView;
 import com.esofthead.mycollab.module.project.view.bug.components.BugSavedFilterComboBox;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.AsyncInvoker;
 import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.mvp.ViewManager;
+import com.esofthead.mycollab.vaadin.ui.OptionPopupContent;
+import com.esofthead.mycollab.vaadin.ui.ToggleButtonGroup;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.UIUtils;
 import com.google.common.eventbus.Subscribe;
+import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
-import com.hp.gagawa.java.elements.Img;
 import com.vaadin.event.dd.DragAndDropEvent;
 import com.vaadin.event.dd.DropHandler;
 import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
@@ -63,7 +67,6 @@ import fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode;
 import fi.jasoft.dragdroplayouts.events.LayoutBoundTransferable;
 import fi.jasoft.dragdroplayouts.events.VerticalLocationIs;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.hene.popupbutton.PopupButton;
@@ -111,18 +114,6 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
         MHorizontalLayout groupWrapLayout = new MHorizontalLayout();
         groupWrapLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-        groupWrapLayout.addComponent(new Label("Filter:"));
-        final BugSavedFilterComboBox savedFilterComboBox = new BugSavedFilterComboBox();
-        savedFilterComboBox.addQuerySelectListener(new SavedFilterComboBox.QuerySelectListener() {
-            @Override
-            public void querySelect(SavedFilterComboBox.QuerySelectEvent querySelectEvent) {
-                List<SearchFieldInfo> fieldInfos = querySelectEvent.getSearchFieldInfos();
-                BugSearchCriteria criteria = SearchFieldInfo.buildSearchCriteria(BugSearchCriteria.class, fieldInfos);
-                criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-                EventBusFactory.getInstance().post(new BugEvent.SearchRequest(BugKanbanViewImpl.this, criteria));
-            }
-        });
-        groupWrapLayout.addComponent(savedFilterComboBox);
         searchPanel.addHeaderRight(groupWrapLayout);
 
         Button advanceDisplayBtn = new Button(null, new Button.ClickListener() {
@@ -177,52 +168,53 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
     }
 
     @Override
+    public void displayView() {
+        searchPanel.selectQueryInfo(BugSavedFilterComboBox.ALL_BUGS);
+    }
+
+    @Override
     public void queryBug(final BugSearchCriteria searchCriteria) {
         kanbanLayout.removeAllComponents();
         kanbanBlocks = new ConcurrentHashMap<>();
 
         setProjectNavigatorVisibility(false);
-        new Thread() {
+        AsyncInvoker.access(new AsyncInvoker.PageCommand() {
             @Override
             public void run() {
-                UI.getCurrent().access(new Runnable() {
-                    @Override
-                    public void run() {
-                        List<OptionVal> optionVals = new ArrayList();
-                        for (OptionI18nEnum.BugStatus bugStatus : OptionI18nEnum.bug_statuses) {
-                            OptionVal option = new OptionVal();
-                            option.setTypeval(bugStatus.name());
-                            option.setType(ProjectTypeConstants.BUG);
-                            optionVals.add(option);
-                        }
-                        for (OptionVal optionVal : optionVals) {
-                            KanbanBlock kanbanBlock = new KanbanBlock(optionVal);
-                            kanbanBlocks.put(optionVal.getTypeval(), kanbanBlock);
-                            kanbanLayout.addComponent(kanbanBlock);
-                        }
-                        UI.getCurrent().push();
+                List<OptionVal> optionVals = new ArrayList();
+                for (OptionI18nEnum.BugStatus bugStatus : OptionI18nEnum.bug_statuses) {
+                    OptionVal option = new OptionVal();
+                    option.setTypeval(bugStatus.name());
+                    option.setType(ProjectTypeConstants.BUG);
+                    optionVals.add(option);
+                }
+                for (OptionVal optionVal : optionVals) {
+                    KanbanBlock kanbanBlock = new KanbanBlock(optionVal);
+                    kanbanBlocks.put(optionVal.getTypeval(), kanbanBlock);
+                    kanbanLayout.addComponent(kanbanBlock);
+                }
+                this.push();
 
-                        int totalTasks = bugService.getTotalCount(searchCriteria);
-                        int pages = totalTasks / 20;
-                        for (int page = 0; page < pages + 1; page++) {
-                            List<SimpleBug> bugs = bugService.findPagableListByCriteria(new SearchRequest<>(searchCriteria, page + 1, 20));
-                            if (CollectionUtils.isNotEmpty(bugs)) {
-                                for (SimpleBug bug : bugs) {
-                                    String status = bug.getStatus();
-                                    KanbanBlock kanbanBlock = kanbanBlocks.get(status);
-                                    if (kanbanBlock == null) {
-                                        LOG.error("Can not find a kanban block for status: " + status);
-                                    } else {
-                                        kanbanBlock.addBlockItem(new KanbanBugBlockItem(bug));
-                                    }
-                                }
-                                UI.getCurrent().push();
+                int totalBugs = bugService.getTotalCount(searchCriteria);
+                searchPanel.setTotalCountNumber(totalBugs);
+                int pages = totalBugs / 20;
+                for (int page = 0; page < pages + 1; page++) {
+                    List<SimpleBug> bugs = bugService.findPagableListByCriteria(new SearchRequest<>(searchCriteria, page + 1, 20));
+                    if (CollectionUtils.isNotEmpty(bugs)) {
+                        for (SimpleBug bug : bugs) {
+                            String status = bug.getStatus();
+                            KanbanBlock kanbanBlock = kanbanBlocks.get(status);
+                            if (kanbanBlock == null) {
+                                LOG.error("Can not find a kanban block for status: " + status);
+                            } else {
+                                kanbanBlock.addBlockItem(new KanbanBugBlockItem(bug));
                             }
                         }
+                        this.push();
                     }
-                });
+                }
             }
-        }.start();
+        });
     }
 
     private class KanbanBugBlockItem extends CustomComponent {
@@ -234,47 +226,57 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
             root.addStyleName("kanban-item");
             this.setCompositionRoot(root);
 
-            String bugName = String.format("[%s-%s] %s", bug.getProjectShortName(), bug.getBugkey(), bug.getSummary());
-            ButtonLink bugBtn = new ButtonLink(bugName, new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent clickEvent) {
-                    EventBusFactory.getInstance().post(new BugEvent.GotoRead(KanbanBugBlockItem.this, bug.getId()));
-                }
-            });
-            bugBtn.setIcon(ProjectAssetsManager.getBugPriority(bug.getPriority()));
-            if (bug.getPriority() != null) {
-                bugBtn.addStyleName("bug-" + bug.getPriority().toLowerCase());
-            }
-            bugBtn.setDescription(ProjectTooltipGenerator.generateToolTipBug(AppContext.getUserLocale(), bug,
-                    AppContext.getSiteUrl(), AppContext.getTimezone()));
-            root.with(bugBtn);
+            BugPopupFieldFactory popupFieldFactory = ViewManager.getCacheComponent(BugPopupFieldFactory.class);
+            MHorizontalLayout headerLayout = new MHorizontalLayout();
+            Label bugLinkLbl = new Label(buildBugLink(), ContentMode.HTML);
 
-            Div footerDiv = new Div().setStyle("display:flex").setCSSClass("footer2");
+            if (bug.isCompleted()) {
+                bugLinkLbl.addStyleName("completed");
+                bugLinkLbl.removeStyleName("overdue pending");
+            } else if (bug.isOverdue()) {
+                bugLinkLbl.addStyleName("overdue");
+                bugLinkLbl.removeStyleName("completed pending");
+            }
+
+            bugLinkLbl.addStyleName(UIConstants.LABEL_WORD_WRAP);
+            PopupView priorityField = popupFieldFactory.createBugPriorityPopupField(bug);
+            headerLayout.with(priorityField, bugLinkLbl).expand(bugLinkLbl);
+
+            root.addComponent(headerLayout);
+
+            CssLayout footer = new CssLayout();
 
             // Build footer
-            if (bug.getNumComments() != null && bug.getNumComments() > 0) {
-                Div comment = new Div().appendText(FontAwesome.COMMENT_O.getHtml() + " " + bug.getNumComments()).setTitle("Comment");
-                footerDiv.appendChild(comment).appendChild(DivLessFormatter.EMPTY_SPACE());
-            }
+            PopupView commentField = popupFieldFactory.createBugCommentsPopupField(bug);
+            footer.addComponent(commentField);
 
             if (bug.getDueDateRoundPlusOne() != null) {
+                PopupView field = popupFieldFactory.createBugDeadlinePopupField(bug);
                 String deadline = String.format("%s: %s", AppContext.getMessage(BugI18nEnum.FORM_DUE_DATE),
                         AppContext.formatDate(bug.getDueDateRoundPlusOne()));
-                Div deadlineDiv = new Div().appendText(FontAwesome.CLOCK_O.getHtml() + " " + AppContext.formatPrettyTime(bug
-                        .getDueDateRoundPlusOne())).setTitle(deadline);
-                footerDiv.appendChild(deadlineDiv).appendChild(DivLessFormatter.EMPTY_SPACE());
+                field.setDescription(deadline);
+                footer.addComponent(field);
             }
 
-            if (bug.getAssignuser() != null) {
-                Img userAvatar = new Img("", StorageFactory.getInstance().getAvatarPath(bug.getAssignUserAvatarId(), 16))
-                        .setTitle(bug.getAssignuserFullName());
-                footerDiv.appendChild(userAvatar);
-            }
+            PopupView assigneeField = popupFieldFactory.createBugAssigneePopupField(bug);
+            footer.addComponent(assigneeField);
 
-            if (footerDiv.getChildren().size() > 0) {
-                Label footer = new Label(footerDiv.write(), ContentMode.HTML);
-                root.addComponent(footer);
-            }
+            root.addComponent(footer);
+        }
+
+        private String buildBugLink() {
+            String uid = UUID.randomUUID().toString();
+
+            String linkName = String.format("[#%d] - %s", bug.getBugkey(), StringUtils.trim(bug.getSummary(), 70, true));
+            A taskLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateBugPreviewFullLink(bug.getBugkey(),
+                    CurrentProjectVariables.getShortName())).appendText(linkName).setStyle("display:inline");
+
+            taskLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, ProjectTypeConstants.BUG,
+                    bug.getId() + ""));
+            taskLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
+
+            Div resultDiv = new DivLessFormatter().appendChild(taskLink, DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));
+            return resultDiv.write();
         }
     }
 
@@ -362,7 +364,7 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
             headerLayout.setExpandRatio(header, 1.0f);
 
             PopupButton controlsBtn = new PopupButton();
-            controlsBtn.addStyleName(UIConstants.THEME_LINK);
+            controlsBtn.addStyleName(UIConstants.BUTTON_LINK);
             headerLayout.addComponent(controlsBtn);
             headerLayout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
 
@@ -386,8 +388,7 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
             });
             addNewBtn.setIcon(FontAwesome.PLUS);
             addNewBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS));
-            addNewBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
-            addNewBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+            addNewBtn.addStyleName(UIConstants.BUTTON_ACTION);
             root.with(headerLayout, dragLayoutContainer, addNewBtn);
         }
 
@@ -432,7 +433,7 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
                         }
                     }
                 });
-                saveBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+                saveBtn.addStyleName(UIConstants.BUTTON_ACTION);
 
                 Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
                     @Override

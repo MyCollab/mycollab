@@ -19,6 +19,8 @@ package com.esofthead.mycollab.module.project.view.task;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.Task;
@@ -90,7 +92,7 @@ public class TaskAddWindow extends Window {
                         close();
                     }
                 });
-                updateAllBtn.addStyleName(UIConstants.THEME_LINK);
+                updateAllBtn.addStyleName(UIConstants.BUTTON_LINK);
 
                 Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
                     @Override
@@ -111,13 +113,13 @@ public class TaskAddWindow extends Window {
                                     AppContext.getAccountId(), bean.getProjectid(),
                                     ProjectTypeConstants.TASK, "" + taskId);
                             uploadField.saveContentsToRepo(attachPath);
-                            EventBusFactory.getInstance().post(new TaskEvent.NewTaskAdded(TaskAddWindow.this, taskId));
                             close();
+                            EventBusFactory.getInstance().post(new TaskEvent.NewTaskAdded(TaskAddWindow.this, taskId));
                         }
                     }
                 });
                 saveBtn.setIcon(FontAwesome.SAVE);
-                saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+                saveBtn.setStyleName(UIConstants.BUTTON_ACTION);
 
                 Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
                     @Override

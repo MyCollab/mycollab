@@ -37,11 +37,11 @@ import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
-import org.vaadin.viritin.layouts.MHorizontalLayout;
-import org.vaadin.viritin.layouts.MVerticalLayout;
 import org.vaadin.suggestfield.BeanSuggestionConverter;
 import org.vaadin.suggestfield.SuggestField;
 import org.vaadin.suggestfield.client.SuggestFieldSuggestion;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -99,12 +99,11 @@ public class LinkIssueWindow extends Window {
             @Override
             public ComponentContainer getLayout() {
                 final VerticalLayout layout = new VerticalLayout();
-                this.informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
+                informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
 
-                layout.addComponent(this.informationLayout.getLayout());
+                layout.addComponent(informationLayout.getLayout());
 
-                final MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(new MarginInfo(true, true,
-                        true, false));
+                final MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false));
                 layout.addComponent(controlsBtn);
                 layout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
 
@@ -129,7 +128,7 @@ public class LinkIssueWindow extends Window {
                         }
                     }
                 });
-                saveBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+                saveBtn.addStyleName(UIConstants.BUTTON_ACTION);
                 saveBtn.setIcon(FontAwesome.SAVE);
                 saveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 
@@ -141,7 +140,7 @@ public class LinkIssueWindow extends Window {
                 });
                 cancelBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
 
-                controlsBtn.with(saveBtn, cancelBtn).alignAll(Alignment.MIDDLE_RIGHT);
+                controlsBtn.with(cancelBtn, saveBtn).alignAll(Alignment.MIDDLE_RIGHT);
                 return layout;
             }
 
@@ -224,7 +223,7 @@ public class LinkIssueWindow extends Window {
             }
 
             private List<Object> handleSearchQuery(String query) {
-                if ("".equals(query) || query == null) {
+                if ("" .equals(query) || query == null) {
                     return Collections.emptyList();
                 }
                 searchCriteria.setSummary(new StringSearchField(query));
@@ -249,7 +248,6 @@ public class LinkIssueWindow extends Window {
                     assert selectedBug != null : "This should not be happening";
                     return selectedBug;
                 }
-
             }
         }
     }

@@ -125,7 +125,7 @@ public class ProfilePhotoUploadViewImpl extends AbstractPageView implements Prof
 
             }
         });
-        acceptBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        acceptBtn.setStyleName(UIConstants.BUTTON_ACTION);
         acceptBtn.setIcon(FontAwesome.CHECK);
 
         controlBtns.with(acceptBtn, cancelBtn).alignAll(Alignment.MIDDLE_LEFT);

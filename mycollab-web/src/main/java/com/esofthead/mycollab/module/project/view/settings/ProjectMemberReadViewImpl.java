@@ -76,8 +76,6 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
     public ProjectMemberReadViewImpl() {
         super(AppContext.getMessage(ProjectMemberI18nEnum.VIEW_READ_TITLE), FontAwesome.USER);
 
-        contentWrapper.addStyleName("member-preview");
-
         previewForm = initPreviewForm();
         previewForm.setWidth("100%");
         previewForm.setStyleName("member-preview-form");
@@ -172,7 +170,6 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
             Label memberLink = new Label(beanItem.getMemberFullName());
             memberLink.setWidth("100%");
             memberLink.addStyleName("member-name");
-            memberLink.addStyleName("h2");
 
             memberInfo.addComponent(memberLink);
 
@@ -191,20 +188,20 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
 
             Label memberEmailLabel = new Label(String.format("<a href='mailto:%s'>%s</a>", beanItem.getUsername(),
                     beanItem.getUsername()), ContentMode.HTML);
-            memberEmailLabel.addStyleName("member-email");
+            memberEmailLabel.addStyleName(UIConstants.LABEL_META_INFO);
             memberEmailLabel.setWidth("100%");
             memberInfo.addComponent(memberEmailLabel);
 
             ELabel memberSinceLabel = new ELabel(String.format("Member since: %s", AppContext.formatPrettyTime(beanItem.getJoindate())))
                     .withDescription(AppContext.formatDateTime(beanItem.getJoindate()));
-            memberSinceLabel.addStyleName("member-email");
+            memberSinceLabel.addStyleName(UIConstants.LABEL_META_INFO);
             memberSinceLabel.setWidth("100%");
             memberInfo.addComponent(memberSinceLabel);
 
             if (RegisterStatusConstants.SENT_VERIFICATION_EMAIL.equals(beanItem.getStatus())) {
                 final VerticalLayout waitingNotLayout = new VerticalLayout();
                 Label infoStatus = new Label(AppContext.getMessage(ProjectMemberI18nEnum.WAITING_ACCEPT_INVITATION));
-                infoStatus.addStyleName("member-email");
+                infoStatus.addStyleName(UIConstants.LABEL_META_INFO);
                 waitingNotLayout.addComponent(infoStatus);
 
                 ButtonLink resendInvitationLink = new ButtonLink("Resend Invitation", new Button.ClickListener() {
@@ -217,22 +214,22 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
                         projectMemberMapper.updateByPrimaryKeySelective(beanItem);
                         waitingNotLayout.removeAllComponents();
                         Label statusEmail = new Label(AppContext.getMessage(ProjectMemberI18nEnum.SENDING_EMAIL_INVITATION));
-                        statusEmail.addStyleName("member-email");
+                        statusEmail.addStyleName(UIConstants.LABEL_META_INFO);
                         waitingNotLayout.addComponent(statusEmail);
                     }
                 });
-                resendInvitationLink.setStyleName(UIConstants.THEME_LINK);
-                resendInvitationLink.addStyleName("member-email");
+                resendInvitationLink.setStyleName(UIConstants.BUTTON_LINK);
+                resendInvitationLink.addStyleName(UIConstants.LABEL_META_INFO);
                 waitingNotLayout.addComponent(resendInvitationLink);
                 memberInfo.addComponent(waitingNotLayout);
             } else if (RegisterStatusConstants.ACTIVE.equals(beanItem.getStatus())) {
                 Label lastAccessTimeLbl = new ELabel(String.format("Logged in %s", AppContext.formatPrettyTime(beanItem.getLastAccessTime())))
                         .withDescription(AppContext.formatDateTime(beanItem.getLastAccessTime()));
-                lastAccessTimeLbl.addStyleName("member-email");
+                lastAccessTimeLbl.addStyleName(UIConstants.LABEL_META_INFO);
                 memberInfo.addComponent(lastAccessTimeLbl);
             } else if (RegisterStatusConstants.VERIFICATING.equals(beanItem.getStatus())) {
                 Label infoStatus = new Label(AppContext.getMessage(ProjectMemberI18nEnum.WAITING_ACCEPT_INVITATION));
-                infoStatus.addStyleName("member-email");
+                infoStatus.addStyleName(UIConstants.LABEL_META_INFO);
                 memberInfo.addComponent(infoStatus);
             }
 
@@ -245,7 +242,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
                     " " + new Span().appendText("" + NumberUtils.roundDouble(2, beanItem.getTotalNonBillableLogTime())).setTitle("Non billable hours");
 
             Label memberWorkStatus = new Label(memberWorksInfo, ContentMode.HTML);
-            memberWorkStatus.addStyleName("member-email");
+            memberWorkStatus.addStyleName(UIConstants.LABEL_META_INFO);
             memberInfo.addComponent(memberWorkStatus);
             memberInfo.setWidth("100%");
 
@@ -287,17 +284,15 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
         }
     }
 
-    private class UserAssignmentWidget extends MVerticalLayout {
+    private class UserAssignmentWidget extends Depot {
         private static final long serialVersionUID = 1L;
 
         private ProjectGenericTaskSearchCriteria searchCriteria;
-
-        private Label titleLbl;
         private final DefaultBeanPagedList<ProjectGenericTaskService, ProjectGenericTaskSearchCriteria, ProjectGenericTask> taskList;
 
         public UserAssignmentWidget() {
-            withSpacing(false).withMargin(false).withWidth("400px");
-            titleLbl = new Label(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_OPEN_ASSIGNMENTS_TITLE, 0));
+            super(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_OPEN_ASSIGNMENTS_TITLE, 0), new CssLayout());
+            this.setWidth("400px");
 
             final CheckBox overdueSelection = new CheckBox("Overdue");
             overdueSelection.addValueChangeListener(new Property.ValueChangeListener() {
@@ -327,15 +322,12 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
                 }
             });
 
-            MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true)).
-                    withHeight("34px").with(titleLbl, overdueSelection, isOpenSelection).
-                    withAlign(titleLbl, Alignment.MIDDLE_LEFT).withAlign(overdueSelection, Alignment.MIDDLE_RIGHT).
-                    withAlign(isOpenSelection, Alignment.MIDDLE_RIGHT).expand(titleLbl);
-            header.addStyleName("panel-header");
+            addHeaderElement(overdueSelection);
+            addHeaderElement(isOpenSelection);
 
             taskList = new DefaultBeanPagedList<>(ApplicationContextUtil.getSpringBean(ProjectGenericTaskService.class),
                     new TaskRowDisplayHandler(), 10);
-            this.with(header, taskList);
+            bodyContent.addComponent(taskList);
         }
 
         private void showOpenAssignments() {
@@ -348,7 +340,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
 
         private void updateSearchResult() {
             taskList.setSearchCriteria(searchCriteria);
-            titleLbl.setValue(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_OPEN_ASSIGNMENTS_TITLE, taskList.getTotalCount()));
+            setTitle(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_OPEN_ASSIGNMENTS_TITLE, taskList.getTotalCount()));
         }
     }
 

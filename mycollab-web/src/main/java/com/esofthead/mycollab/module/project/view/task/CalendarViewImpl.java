@@ -42,6 +42,7 @@ import com.vaadin.ui.components.calendar.CalendarComponentEvents;
 import com.vaadin.ui.components.calendar.event.CalendarEventProvider;
 import com.vaadin.ui.components.calendar.handler.BasicEventMoveHandler;
 import com.vaadin.ui.components.calendar.handler.BasicEventResizeHandler;
+import com.vaadin.ui.themes.ValoTheme;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -100,8 +101,7 @@ public class CalendarViewImpl extends AbstractPageView implements CalendarView {
     public void display() {
         calendar = new Calendar();
         calendar.addStyleName("assignment-calendar");
-        calendar.setWidth("100%");
-        calendar.setHeight("100%");
+        calendar.setSizeFull();
         calendar.setHandler(new CalendarComponentEvents.EventClickHandler() {
             @Override
             public void eventClick(CalendarComponentEvents.EventClick event) {
@@ -180,7 +180,7 @@ public class CalendarViewImpl extends AbstractPageView implements CalendarView {
                 displayMonthView();
             }
         });
-        todayBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        todayBtn.setStyleName(UIConstants.BUTTON_ACTION);
         ButtonGroup navigationBtns = new ButtonGroup();
         Button previousBtn = new Button("", new Button.ClickListener() {
             @Override
@@ -189,8 +189,7 @@ public class CalendarViewImpl extends AbstractPageView implements CalendarView {
                 displayMonthView();
             }
         });
-        previousBtn.setWidth("40px");
-        previousBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        previousBtn.setStyleName(UIConstants.BUTTON_ACTION);
         previousBtn.setIcon(FontAwesome.CHEVRON_LEFT);
         navigationBtns.addButton(previousBtn);
 
@@ -201,8 +200,7 @@ public class CalendarViewImpl extends AbstractPageView implements CalendarView {
                 displayMonthView();
             }
         });
-        nextBtn.setWidth("40px");
-        nextBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        nextBtn.setStyleName(UIConstants.BUTTON_ACTION);
         nextBtn.setIcon(FontAwesome.CHEVRON_RIGHT);
         navigationBtns.addButton(nextBtn);
 
@@ -211,7 +209,7 @@ public class CalendarViewImpl extends AbstractPageView implements CalendarView {
 
         CssLayout titleWrapper = new CssLayout();
         headerLbl = new Label();
-        headerLbl.setStyleName("h1");
+        headerLbl.setStyleName(ValoTheme.LABEL_H2);
         titleWrapper.addComponent(headerLbl);
 
         Button advanceDisplayBtn = new Button(null, new Button.ClickListener() {
@@ -275,7 +273,7 @@ public class CalendarViewImpl extends AbstractPageView implements CalendarView {
             public void eventSetChange(CalendarEventProvider.EventSetChangeEvent event) {
                 assignMeLbl.setValue("Assign to me (" + provider.getAssignMeNum() + ")");
                 assignOtherLbl.setValue("Assign to others (" + provider.getAssignOthersNum() + ")");
-                nonAssigneeLbl.setValue("Not be assigned (" + provider.getNotAssignNum() + ")");
+                nonAssigneeLbl.setValue("Not assign (" + provider.getNotAssignNum() + ")");
                 billableHoursLbl.setValue(FontAwesome.MONEY.getHtml() + " Billable hours: " + provider
                         .getTotalBillableHours());
                 nonBillableHoursLbl.setValue(FontAwesome.GIFT.getHtml() + " Non billable hours: " + provider

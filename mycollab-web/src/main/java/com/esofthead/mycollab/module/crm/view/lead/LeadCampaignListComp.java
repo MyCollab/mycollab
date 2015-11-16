@@ -83,7 +83,7 @@ public class LeadCampaignListComp
         controlsBtn.setSizeUndefined();
         controlsBtn.setEnabled(AppContext
                 .canWrite(RolePermissionCollections.CRM_CAMPAIGN));
-        controlsBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+        controlsBtn.addStyleName(UIConstants.BUTTON_ACTION);
         controlsBtn.setCaption(AppContext
                 .getMessage(CampaignI18nEnum.BUTTON_NEW_CAMPAIGN));
         controlsBtn.setIcon(FontAwesome.PLUS);

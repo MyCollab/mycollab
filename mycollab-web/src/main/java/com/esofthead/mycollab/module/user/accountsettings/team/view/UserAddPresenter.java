@@ -137,7 +137,8 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
             super("Getting started instructions");
             this.setResizable(false);
             this.setModal(true);
-            contentLayout = new MVerticalLayout().withWidth("600px");
+            this.setWidth("600px");
+            contentLayout = new MVerticalLayout();
             this.setContent(contentLayout);
             center();
             displayInfo(user);
@@ -174,7 +175,7 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
                     GetStartedInstructionWindow.this.close();
                 }
             });
-            addNewBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+            addNewBtn.setStyleName(UIConstants.BUTTON_ACTION);
             Button doneBtn = new Button("Done", new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;
 
@@ -187,7 +188,7 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
                     GetStartedInstructionWindow.this.close();
                 }
             });
-            doneBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+            doneBtn.setStyleName(UIConstants.BUTTON_ACTION);
             controlsBtn.with(addNewBtn, doneBtn);
             contentLayout.with(controlsBtn).withAlign(controlsBtn, Alignment.MIDDLE_RIGHT);
         }

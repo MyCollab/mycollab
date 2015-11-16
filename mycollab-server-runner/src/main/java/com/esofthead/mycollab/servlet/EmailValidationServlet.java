@@ -39,8 +39,7 @@ public class EmailValidationServlet extends HttpServlet {
 
     private static final Logger LOG = LoggerFactory.getLogger(EmailValidationServlet.class);
 
-    protected void doGet(HttpServletRequest request,
-                         HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String smtpUserName = request.getParameter("smtpUserName");
         String smtpPassword = request.getParameter("smtpPassword");
         String smtpHost = request.getParameter("smtpHost");
@@ -48,26 +47,24 @@ public class EmailValidationServlet extends HttpServlet {
         String tls = request.getParameter("tls");
         String ssl = request.getParameter("ssl");
 
-        int mailServerPort;
+        int mailServerPort = 25;
         try {
             mailServerPort = Integer.parseInt(smtpPort);
         } catch (Exception e) {
-            PrintWriter out = response.getWriter();
-            out.write("Port must be an integer value");
-            return;
+            LOG.info("The smtp port value is not a number. We will use default port value is 25");
         }
         try {
             Email email = new SimpleEmail();
             email.setHostName(smtpHost);
             email.setSmtpPort(mailServerPort);
             email.setAuthenticator(new DefaultAuthenticator(smtpUserName, smtpPassword));
-            if ("true".equals(tls)) {
+            if ("true" .equals(tls)) {
                 email.setStartTLSEnabled(true);
             } else {
                 email.setStartTLSEnabled(false);
             }
 
-            if ("true".equals(ssl)) {
+            if ("true" .equals(ssl)) {
                 email.setSSLOnConnect(true);
             } else {
                 email.setSSLOnConnect(false);

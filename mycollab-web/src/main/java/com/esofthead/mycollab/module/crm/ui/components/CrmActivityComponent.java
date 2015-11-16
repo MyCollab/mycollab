@@ -50,7 +50,10 @@ import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author MyCollab Ltd
@@ -85,7 +88,7 @@ public class CrmActivityComponent extends MVerticalLayout implements ReloadableC
         withMargin(false).withStyleName("activity-comp");
         this.type = type;
         this.groupFormatter = groupFormatter;
-        headerLbl = new ELabel("Change history").withStyleName("title");
+        headerLbl = new ELabel("Change history");
 
         final OptionGroup sortDirection = new OptionGroup();
         sortDirection.addStyleName("sortDirection");
@@ -95,13 +98,13 @@ public class CrmActivityComponent extends MVerticalLayout implements ReloadableC
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 Object value = sortDirection.getValue();
-                isAscending = "Newest".equals(value);
+                isAscending = "Newest" .equals(value);
                 displayActivities();
             }
         });
 
         MHorizontalLayout headerPanel = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true))
-                .withStyleName("header").withWidth("100%")
+                .withStyleName("section").withWidth("100%")
                 .with(headerLbl, sortDirection).withAlign(headerLbl, Alignment.MIDDLE_LEFT).withAlign(sortDirection, Alignment.MIDDLE_RIGHT);
 
         commentBox = new CrmCommentInput(this, type, emailHandler);
@@ -175,14 +178,14 @@ public class CrmActivityComponent extends MVerticalLayout implements ReloadableC
 
         MVerticalLayout rowLayout = new MVerticalLayout().withWidth("100%").withStyleName("message-container");
 
-        MHorizontalLayout messageHeader = new MHorizontalLayout().withWidth("100%").withStyleName("message-header");
+        MHorizontalLayout messageHeader = new MHorizontalLayout().withWidth("100%");
         messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         ELabel timePostLbl = new ELabel(AppContext.getMessage(
                 GenericI18Enum.EXT_ADDED_COMMENT, comment.getOwnerFullName(),
                 AppContext.formatPrettyTime(comment.getCreatedtime())), ContentMode.HTML).
                 withDescription(AppContext.formatDateTime(comment.getCreatedtime()));
-        timePostLbl.setStyleName("time-post");
+        timePostLbl.setStyleName(UIConstants.LABEL_META_INFO);
 
         if (hasDeletePermission(comment)) {
             Button msgDeleteBtn = new Button();
@@ -221,7 +224,6 @@ public class CrmActivityComponent extends MVerticalLayout implements ReloadableC
         rowLayout.addComponent(messageHeader);
 
         Label messageContent = new SafeHtmlLabel(comment.getComment());
-        messageContent.setStyleName("message-body");
         rowLayout.addComponent(messageContent);
 
         List<Content> attachments = comment.getAttachments();
@@ -254,14 +256,14 @@ public class CrmActivityComponent extends MVerticalLayout implements ReloadableC
 
             MVerticalLayout rowLayout = new MVerticalLayout().withWidth("100%").withStyleName("message-container");
 
-            MHorizontalLayout messageHeader = new MHorizontalLayout().withWidth("100%").withStyleName("message-header");
+            MHorizontalLayout messageHeader = new MHorizontalLayout().withWidth("100%");
             messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
             ELabel timePostLbl = new ELabel(AppContext.getMessage(
                     GenericI18Enum.EXT_MODIFIED_ITEM, auditLog.getPostedUserFullName(),
                     AppContext.formatPrettyTime(auditLog.getPosteddate())), ContentMode.HTML).
                     withDescription(AppContext.formatDateTime(auditLog.getPosteddate()));
-            timePostLbl.setStyleName("time-post");
+            timePostLbl.setStyleName(UIConstants.LABEL_META_INFO);
             messageHeader.with(timePostLbl).expand(timePostLbl);
 
             rowLayout.addComponent(messageHeader);

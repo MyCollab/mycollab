@@ -56,7 +56,7 @@ public class CampaignContactSelectionWindow extends RelatedItemSelectionWindow<S
 				close();
 			}
 		});
-		selectBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+		selectBtn.setStyleName(UIConstants.BUTTON_ACTION);
 
 		ContactSimpleSearchPanel contactSimpleSearchPanel = new ContactSimpleSearchPanel();
 		contactSimpleSearchPanel.addSearchHandler(new SearchHandler<ContactSearchCriteria>() {

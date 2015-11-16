@@ -69,7 +69,6 @@ public class ApplicationProperties {
     public static final String DEFAULT_LOCALE = "locale.default";
     public static final String SITE_NAME = "site.name";
     public static final String SERVER_ADDRESS = "server.address";
-    public static final String RUNNING_MODE = "running.mode";
 
     public static final String RESOURCE_DOWNLOAD_URL = "resource.downloadUrl";
 

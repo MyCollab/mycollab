@@ -34,6 +34,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -55,7 +56,7 @@ public class MyProjectListComponent extends MVerticalLayout {
         withSpacing(false).withMargin(new MarginInfo(true, false, true, false));
         this.addStyleName("myprojectlist");
 
-        MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true)).withHeight("34px");
+        MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true));
         header.addStyleName("panel-header");
         titleLbl = new Label(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_ACTIVE_PROJECTS_TITLE, 0));
 
@@ -67,12 +68,13 @@ public class MyProjectListComponent extends MVerticalLayout {
                 displayResults();
             }
         };
+        searchTextField.addStyleName(ValoTheme.TEXTFIELD_SMALL);
 
         final PopupButton projectsPopup = new PopupButton("");
         projectsPopup.setIcon(FontAwesome.CARET_SQUARE_O_DOWN);
         projectsPopup.addStyleName(UIConstants.BUTTON_ICON_ONLY);
 
-        OptionPopupContent filterBtnLayout = new OptionPopupContent().withWidth("200px");
+        OptionPopupContent filterBtnLayout = new OptionPopupContent();
 
         ProjectService projectService = ApplicationContextUtil.getSpringBean(ProjectService.class);
         int allProjectCount = projectService.getTotalCount(getAllProjectsSearchCriteria());

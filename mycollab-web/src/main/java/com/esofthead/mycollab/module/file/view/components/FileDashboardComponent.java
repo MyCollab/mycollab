@@ -28,6 +28,7 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -62,7 +63,7 @@ public class FileDashboardComponent extends MVerticalLayout {
 
         Label titleLbl = new Label(ProjectAssetsManager.getAsset(ProjectTypeConstants.FILE).getHtml() + " Files",
                 ContentMode.HTML);
-        titleLbl.setStyleName("headerName");
+        titleLbl.setStyleName(ValoTheme.LABEL_H2);
         layout.with(titleLbl).withAlign(titleLbl, Alignment.MIDDLE_LEFT).expand(titleLbl);
         return layout;
 	}

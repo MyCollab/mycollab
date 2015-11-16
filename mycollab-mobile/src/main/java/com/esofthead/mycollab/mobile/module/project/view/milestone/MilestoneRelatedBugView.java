@@ -62,10 +62,8 @@ public class MilestoneRelatedBugView extends AbstractRelatedListView<SimpleBug, 
     private void loadBugs() {
         BugSearchCriteria criteria = new BugSearchCriteria();
 
-        criteria.setProjectId(new NumberSearchField(SearchField.AND,
-                CurrentProjectVariables.getProjectId()));
-        criteria.setMilestoneIds(new SetSearchField<>(this.milestone
-                .getId()));
+        criteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
+        criteria.setMilestoneIds(new SetSearchField<>(this.milestone.getId()));
         setSearchCriteria(criteria);
     }
 

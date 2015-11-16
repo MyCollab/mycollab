@@ -18,7 +18,6 @@ package com.esofthead.mycollab.mobile.module.project.view.bug;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.ui.ProjectAttachmentDisplayComp;
 import com.esofthead.mycollab.mobile.module.project.ui.ProjectCommentListDisplay;
 import com.esofthead.mycollab.mobile.module.project.ui.ProjectPreviewFormControlsGenerator;
@@ -31,6 +30,7 @@ import com.esofthead.mycollab.mobile.ui.IconConstants;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
@@ -48,7 +48,6 @@ import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.*;
@@ -60,13 +59,10 @@ import java.util.List;
 
 /**
  * @author MyCollab Ltd.
- *
  * @since 4.5.2
  */
 @ViewComponent
-public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
-        implements BugReadView {
-
+public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implements BugReadView {
     private static final long serialVersionUID = 579279560838174387L;
 
     private ProjectCommentListDisplay associateComments;
@@ -90,39 +86,29 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 
     private void displayWorkflowControl() {
         this.bugWorkFlowControl.removeAllComponents();
-        if (BugStatus.Open.name().equals(this.beanItem.getStatus())
-                || BugStatus.ReOpened.name().equals(this.beanItem.getStatus())) {
-            final Button startProgressBtn = new Button(
-                    AppContext.getMessage(BugI18nEnum.BUTTON_START_PROGRESS),
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+        if (BugStatus.Open.name().equals(this.beanItem.getStatus()) || BugStatus.ReOpened.name().equals(this.beanItem.getStatus())) {
+            final Button startProgressBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_START_PROGRESS), new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(final ClickEvent event) {
-                            beanItem.setStatus(BugStatus.InProgress.name());
-                            final BugService bugService = ApplicationContextUtil
-                                    .getSpringBean(BugService.class);
-                            bugService.updateSelectiveWithSession(beanItem,
-                                    AppContext.getUsername());
-                            displayWorkflowControl();
-                        }
-                    });
+                @Override
+                public void buttonClick(final ClickEvent event) {
+                    beanItem.setStatus(BugStatus.InProgress.name());
+                    final BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+                    bugService.updateSelectiveWithSession(beanItem, AppContext.getUsername());
+                    displayWorkflowControl();
+                }
+            });
             bugWorkFlowControl.addComponent(startProgressBtn);
 
-            final Button resolveBtn = new Button(
-                    AppContext.getMessage(BugI18nEnum.BUTTON_RESOLVED),
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            final Button resolveBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_RESOLVED), new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(final ClickEvent event) {
-                            EventBusFactory.getInstance().post(
-                                    new ShellEvent.PushView(this,
-                                            new ResolvedInputView(
-                                                    BugReadViewImpl.this,
-                                                    beanItem)));
-                        }
-                    });
+                @Override
+                public void buttonClick(final ClickEvent event) {
+                    EventBusFactory.getInstance().post(new ShellEvent.PushView(this,
+                            new ResolvedInputView(BugReadViewImpl.this, beanItem)));
+                }
+            });
             bugWorkFlowControl.addComponent(resolveBtn);
 
             final Button wontFixBtn = new Button(
@@ -140,107 +126,76 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
                         }
                     });
             bugWorkFlowControl.addComponent(wontFixBtn);
-        } else if (BugStatus.InProgress.name()
-                .equals(this.beanItem.getStatus())) {
-            final Button stopProgressBtn = new Button(
-                    AppContext.getMessage(BugI18nEnum.BUTTON_STOP_PROGRESS),
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+        } else if (BugStatus.InProgress.name().equals(this.beanItem.getStatus())) {
+            final Button stopProgressBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_STOP_PROGRESS), new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(final ClickEvent event) {
-                            beanItem.setStatus(BugStatus.Open.name());
-                            final BugService bugService = ApplicationContextUtil
-                                    .getSpringBean(BugService.class);
-                            bugService.updateSelectiveWithSession(beanItem,
-                                    AppContext.getUsername());
-                            displayWorkflowControl();
-                        }
-                    });
+                @Override
+                public void buttonClick(final ClickEvent event) {
+                    beanItem.setStatus(BugStatus.Open.name());
+                    final BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+                    bugService.updateSelectiveWithSession(beanItem, AppContext.getUsername());
+                    displayWorkflowControl();
+                }
+            });
             bugWorkFlowControl.addComponent(stopProgressBtn);
 
-            final Button resolveBtn = new Button(
-                    AppContext.getMessage(BugI18nEnum.BUTTON_RESOLVED),
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            final Button resolveBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_RESOLVED), new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(final ClickEvent event) {
-                            EventBusFactory.getInstance().post(
-                                    new ShellEvent.PushView(this,
-                                            new ResolvedInputView(
-                                                    BugReadViewImpl.this,
-                                                    beanItem)));
-                        }
-                    });
+                @Override
+                public void buttonClick(final ClickEvent event) {
+                    EventBusFactory.getInstance().post(new ShellEvent.PushView(this,
+                            new ResolvedInputView(BugReadViewImpl.this, beanItem)));
+                }
+            });
             bugWorkFlowControl.addComponent(resolveBtn);
         } else if (BugStatus.Verified.name().equals(this.beanItem.getStatus())) {
-            final Button reopenBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN),
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            final Button reopenBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN), new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(final ClickEvent event) {
-                            EventBusFactory.getInstance().post(
-                                    new ShellEvent.PushView(this,
-                                            new ReOpenView(
-                                                    BugReadViewImpl.this,
-                                                    beanItem)));
-                        }
-                    });
+                @Override
+                public void buttonClick(final ClickEvent event) {
+                    EventBusFactory.getInstance().post(new ShellEvent.PushView(this,
+                            new ReOpenView(BugReadViewImpl.this, beanItem)));
+                }
+            });
             bugWorkFlowControl.addComponent(reopenBtn);
         } else if (BugStatus.Resolved.name().equals(this.beanItem.getStatus())) {
-            final Button reopenBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN),
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            final Button reopenBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN), new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(final ClickEvent event) {
-                            EventBusFactory.getInstance().post(
-                                    new ShellEvent.PushView(this,
-                                            new ReOpenView(
-                                                    BugReadViewImpl.this,
-                                                    beanItem)));
-                        }
-                    });
+                @Override
+                public void buttonClick(final ClickEvent event) {
+                    EventBusFactory.getInstance().post(new ShellEvent.PushView(this,
+                            new ReOpenView(BugReadViewImpl.this, beanItem)));
+                }
+            });
             bugWorkFlowControl.addComponent(reopenBtn);
 
-            final Button approveNCloseBtn = new Button(
-                    AppContext.getMessage(BugI18nEnum.BUTTON_APPROVE_CLOSE),
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            final Button approveNCloseBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_APPROVE_CLOSE), new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(final ClickEvent event) {
-                            EventBusFactory.getInstance().post(
-                                    new ShellEvent.PushView(this,
-                                            new ApproveInputView(
-                                                    BugReadViewImpl.this,
-                                                    beanItem)));
-                        }
-                    });
+                @Override
+                public void buttonClick(final ClickEvent event) {
+                    EventBusFactory.getInstance().post(new ShellEvent.PushView(this,
+                            new ApproveInputView(BugReadViewImpl.this, beanItem)));
+                }
+            });
             bugWorkFlowControl.addComponent(approveNCloseBtn);
         } else if (BugStatus.Resolved.name().equals(this.beanItem.getStatus())) {
-            final Button reopenBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN),
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            final Button reopenBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN), new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(final ClickEvent event) {
-                            EventBusFactory.getInstance().post(
-                                    new ShellEvent.PushView(this,
-                                            new ReOpenView(
-                                                    BugReadViewImpl.this,
-                                                    beanItem)));
-                        }
-                    });
+                @Override
+                public void buttonClick(final ClickEvent event) {
+                    EventBusFactory.getInstance().post(new ShellEvent.PushView(this,
+                            new ReOpenView(BugReadViewImpl.this, beanItem)));
+                }
+            });
             bugWorkFlowControl.addComponent(reopenBtn);
         }
-        this.bugWorkFlowControl.setEnabled(CurrentProjectVariables
-                .canWrite(ProjectRolePermissionCollections.BUGS));
+        this.bugWorkFlowControl.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS));
     }
 
     @Override
@@ -270,12 +225,9 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
         bugTimeLogComp.displayTime(beanItem);
         this.previewForm.addComponent(bugTimeLogComp);
 
-        ResourceService resourceService = ApplicationContextUtil
-                .getSpringBean(ResourceService.class);
-        List<Content> attachments = resourceService.getContents(AttachmentUtils
-                .getProjectEntityAttachmentPath(AppContext.getAccountId(),
-                        beanItem.getProjectid(),
-                        ProjectTypeConstants.BUG, "" + beanItem.getId()));
+        ResourceService resourceService = ApplicationContextUtil.getSpringBean(ResourceService.class);
+        List<Content> attachments = resourceService.getContents(AttachmentUtils.getProjectEntityAttachmentPath(AppContext.getAccountId(),
+                beanItem.getProjectid(), ProjectTypeConstants.BUG, "" + beanItem.getId()));
         if (CollectionUtils.isNotEmpty(attachments)) {
             attachmentComp = new ProjectAttachmentDisplayComp(attachments);
             this.previewForm.addComponent(attachmentComp);
@@ -316,10 +268,8 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 
     @Override
     protected ComponentContainer createButtonControls() {
-        ProjectPreviewFormControlsGenerator<SimpleBug> formControlsGenerator = new ProjectPreviewFormControlsGenerator<>(
-                this.previewForm);
-        VerticalLayout controlsLayout = formControlsGenerator
-                .createButtonControls(ProjectRolePermissionCollections.BUGS);
+        ProjectPreviewFormControlsGenerator<SimpleBug> formControlsGenerator = new ProjectPreviewFormControlsGenerator<>(this.previewForm);
+        VerticalLayout controlsLayout = formControlsGenerator.createButtonControls(ProjectRolePermissionCollections.BUGS);
         bugWorkFlowControl = new VerticalLayout();
         bugWorkFlowControl.setWidth("100%");
         bugWorkFlowControl.setSpacing(true);
@@ -355,9 +305,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
         return toolbarLayout;
     }
 
-    private class BugPreviewBeanFormFieldFactory extends
-            AbstractBeanFieldGroupViewFieldFactory<SimpleBug> {
-
+    private class BugPreviewBeanFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<SimpleBug> {
         private static final long serialVersionUID = -288972730658409446L;
 
         public BugPreviewBeanFormFieldFactory(GenericBeanForm<SimpleBug> form) {
@@ -392,13 +340,10 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
                         BugStatus.class);
             } else if (propertyId.equals("priority")) {
                 if (StringUtils.isNotBlank(beanItem.getPriority())) {
-                    final Resource iconPriority = new ExternalResource(
-                            ProjectResources
-                                    .getIconResourceLink12ByBugPriority(beanItem
-                                            .getPriority()));
+                    final Resource iconPriority = new ExternalResource(ProjectResources
+                            .getIconResourceLink12ByBugPriority(beanItem.getPriority()));
                     final Image iconEmbedded = new Image(null, iconPriority);
-                    final Label lbPriority = new Label(AppContext.getMessage(
-                            BugPriority.class, beanItem.getPriority()));
+                    final Label lbPriority = new Label(AppContext.getMessage(BugPriority.class, beanItem.getPriority()));
 
                     final FormContainerHorizontalViewField containerField = new FormContainerHorizontalViewField();
                     containerField.addComponentField(iconEmbedded);
@@ -408,14 +353,11 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
                 }
             } else if (propertyId.equals("severity")) {
                 if (StringUtils.isNotBlank(beanItem.getSeverity())) {
-                    final Resource iconPriority = new ExternalResource(
-                            ProjectResources
-                                    .getIconResourceLink12ByBugSeverity(beanItem
-                                            .getSeverity()));
+                    final Resource iconPriority = new ExternalResource(ProjectResources
+                            .getIconResourceLink12ByBugSeverity(beanItem.getSeverity()));
                     final Image iconEmbedded = new Image();
                     iconEmbedded.setSource(iconPriority);
-                    final Label lbPriority = new Label(AppContext.getMessage(
-                            BugSeverity.class, beanItem.getSeverity()));
+                    final Label lbPriority = new Label(AppContext.getMessage(BugSeverity.class, beanItem.getSeverity()));
 
                     final FormContainerHorizontalViewField containerField = new FormContainerHorizontalViewField();
                     containerField.addComponentField(iconEmbedded);

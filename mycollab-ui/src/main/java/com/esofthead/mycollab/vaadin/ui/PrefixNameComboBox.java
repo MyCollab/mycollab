@@ -43,7 +43,7 @@ public class PrefixNameComboBox extends ValueComboBox {
 
 	public PrefixNameComboBox() {
 		super();
-		this.setWidth("50px");
+		this.setWidth("80px");
 		setCaption(null);
 		this.loadData("Mr.", "Ms.", "Mrs.", "Dr.", "Prof.");
 	}

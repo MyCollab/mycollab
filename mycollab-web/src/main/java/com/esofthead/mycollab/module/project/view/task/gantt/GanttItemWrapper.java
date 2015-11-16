@@ -548,4 +548,20 @@ public class GanttItemWrapper {
         }
         return false;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof GanttItemWrapper)) return false;
+
+        GanttItemWrapper that = (GanttItemWrapper) o;
+
+        return task.equals(that.task);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return task.hashCode();
+    }
 }

@@ -27,5 +27,7 @@ import com.esofthead.mycollab.vaadin.mvp.PageView;
 public interface BugKanbanView extends PageView {
     HasSearchHandlers<BugSearchCriteria> getSearchHandlers();
 
+    void displayView();
+
     void queryBug(BugSearchCriteria searchCriteria);
 }

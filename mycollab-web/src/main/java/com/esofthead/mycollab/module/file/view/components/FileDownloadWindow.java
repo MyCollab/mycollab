@@ -27,7 +27,6 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.resources.StreamDownloadResourceUtil;
 import com.esofthead.mycollab.vaadin.resources.file.FileAssetsUtil;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
-import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserLink;
 import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
@@ -55,7 +54,7 @@ public class FileDownloadWindow extends Window {
 
     public FileDownloadWindow(final Content content) {
         super(content.getName());
-        this.setWidth("400px");
+        this.setWidth("500px");
         this.center();
         this.setResizable(false);
         this.setModal(true);
@@ -72,10 +71,7 @@ public class FileDownloadWindow extends Window {
         iconWrapper.addComponent(iconEmbed);
         layout.with(iconWrapper).withAlign(iconWrapper, Alignment.MIDDLE_CENTER);
 
-        final GridFormLayoutHelper info = new GridFormLayoutHelper(1, 4, "100%", "100px", Alignment.TOP_LEFT);
-        info.getLayout().setWidth("100%");
-        info.getLayout().setMargin(new MarginInfo(false, true, false, true));
-        info.getLayout().setSpacing(false);
+        final GridFormLayoutHelper inforLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 4);
 
         if (this.content.getDescription() != null) {
             final Label desvalue = new Label();
@@ -85,26 +81,26 @@ public class FileDownloadWindow extends Window {
                 desvalue.setValue("&nbsp;");
                 desvalue.setContentMode(ContentMode.HTML);
             }
-            info.addComponent(desvalue, "Description", 0, 0);
+            inforLayout.addComponent(desvalue, "Description", 0, 0);
         }
 
         UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
         SimpleUser user = userService.findUserByUserNameInAccount(content.getCreatedUser(), AppContext.getAccountId());
         if (user == null) {
-            info.addComponent(new UserLink(AppContext.getUsername(), AppContext.getUserAvatarId(),
+            inforLayout.addComponent(new UserLink(AppContext.getUsername(), AppContext.getUserAvatarId(),
                     AppContext.getUserDisplayName()), "Created by", 0, 1);
         } else {
-            info.addComponent(new UserLink(user.getUsername(), user.getAvatarid(), user.getDisplayName()), "Created by", 0, 1);
+            inforLayout.addComponent(new UserLink(user.getUsername(), user.getAvatarid(), user.getDisplayName()), "Created by", 0, 1);
         }
 
 
         final Label size = new Label(FileUtils.getVolumeDisplay(content.getSize()));
-        info.addComponent(size, "Size", 0, 2);
+        inforLayout.addComponent(size, "Size", 0, 2);
 
         ELabel dateCreate = new ELabel().prettyDateTime(content.getCreated().getTime());
-        info.addComponent(dateCreate, "Created date", 0, 3);
+        inforLayout.addComponent(dateCreate, "Created date", 0, 3);
 
-        layout.addComponent(info.getLayout());
+        layout.addComponent(inforLayout.getLayout());
 
         final MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false));
 
@@ -117,7 +113,7 @@ public class FileDownloadWindow extends Window {
         FileDownloader fileDownloader = new FileDownloader(downloadResource);
         fileDownloader.extend(downloadBtn);
         downloadBtn.setIcon(FontAwesome.DOWNLOAD);
-        downloadBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+        downloadBtn.addStyleName(UIConstants.BUTTON_ACTION);
 
         buttonControls.with(downloadBtn).withAlign(downloadBtn, Alignment.MIDDLE_CENTER);
 

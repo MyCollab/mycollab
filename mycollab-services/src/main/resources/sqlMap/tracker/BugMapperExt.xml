@@ -361,7 +361,6 @@
     </sql>
 
     <sql id="selectBug">
-
         <![CDATA[
           SELECT DISTINCT m_tracker_bug.id, m_tracker_bug.summary, m_tracker_bug.detail, m_tracker_bug.assignuser, m_tracker_bug.createdTime, 
                  m_tracker_bug.logby, m_tracker_bug.severity, m_tracker_bug.priority, m_tracker_bug.lastUpdatedTime,

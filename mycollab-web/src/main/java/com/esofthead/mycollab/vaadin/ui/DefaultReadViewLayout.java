@@ -17,8 +17,6 @@
 package com.esofthead.mycollab.vaadin.ui;
 
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Label;
-import org.apache.commons.lang3.StringUtils;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -26,7 +24,7 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @since 4.6.0
  */
 public class DefaultReadViewLayout extends ReadViewLayout {
-    private Label titleLbl;
+    private ELabel titleLbl;
 
     public DefaultReadViewLayout(String title) {
         super();
@@ -35,42 +33,23 @@ public class DefaultReadViewLayout extends ReadViewLayout {
 
     private ComponentContainer buildHeader(String title) {
         MHorizontalLayout header = new MHorizontalLayout().withWidth("100%");
-
-        this.titleLbl = new Label();
-        this.titleLbl.setStyleName("headerName");
-
+        titleLbl = ELabel.h2(title);
         header.with(titleLbl).expand(titleLbl);
-
-        if (StringUtils.isBlank(title)) {
-            this.setTitle("Undefined");
-        } else {
-            this.setTitle(title);
-        }
         return header;
     }
 
     @Override
-    public void clearTitleStyleName() {
-        this.titleLbl.setStyleName("headerName");
-    }
-
-    @Override
     public void addTitleStyleName(final String styleName) {
-        this.titleLbl.addStyleName(styleName);
-    }
-
-    @Override
-    public void setTitleStyleName(final String styleName) {
-        this.titleLbl.setStyleName(styleName);
+        titleLbl.addStyleName(styleName);
     }
 
     @Override
     public void removeTitleStyleName(final String styleName) {
-        this.titleLbl.removeStyleName(styleName);
+        titleLbl.removeStyleName(styleName);
     }
 
     @Override
     public void setTitle(final String title) {
-        this.titleLbl.setValue(title);
+        titleLbl.setValue(title);
     }
 }

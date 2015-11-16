@@ -67,8 +67,7 @@ public abstract class AbstractPresenter<V extends PageView> implements IPresente
 	}
 
 	@Override
-	public void go(ComponentContainer container, ScreenData<?> data,
-			boolean isHistoryTrack) {
+	public void go(ComponentContainer container, ScreenData<?> data, boolean isHistoryTrack) {
 		getView();
 		LOG.debug("Go to view: " + view);
 		if (isHistoryTrack) {
@@ -97,8 +96,7 @@ public abstract class AbstractPresenter<V extends PageView> implements IPresente
 	protected abstract void onGo(ComponentContainer container, ScreenData<?> data);
 
 	private boolean checkPermissionAccessIfAny() {
-		ViewPermission viewPermission = this.getClass().getAnnotation(
-				ViewPermission.class);
+		ViewPermission viewPermission = this.getClass().getAnnotation(ViewPermission.class);
 		if (viewPermission != null) {
 			String permissionId = viewPermission.permissionId();
 			int impliedPermissionVal = viewPermission.impliedPermissionVal();

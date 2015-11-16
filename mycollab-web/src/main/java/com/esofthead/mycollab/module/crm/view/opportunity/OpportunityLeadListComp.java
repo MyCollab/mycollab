@@ -68,7 +68,7 @@ public class OpportunityLeadListComp extends
         controlsBtn.setSizeUndefined();
         controlsBtn.setEnabled(AppContext
                 .canWrite(RolePermissionCollections.CRM_LEAD));
-        controlsBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+        controlsBtn.addStyleName(UIConstants.BUTTON_ACTION);
         controlsBtn.setCaption(AppContext
                 .getMessage(LeadI18nEnum.BUTTON_NEW_LEAD));
         controlsBtn.setIcon(FontAwesome.PLUS);

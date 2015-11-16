@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.module.crm.events.OpportunityEvent;
 import com.esofthead.mycollab.module.crm.i18n.OpportunityI18nEnum;
-import com.esofthead.mycollab.module.crm.ui.components.CrmViewHeader;
+import com.esofthead.mycollab.module.crm.ui.components.ComponentUtils;
 import com.esofthead.mycollab.module.crm.view.account.AccountSelectionField;
 import com.esofthead.mycollab.module.crm.view.campaign.CampaignSelectionField;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserListSelect;
@@ -63,23 +63,21 @@ public class OpportunitySearchPanel extends DefaultGenericSearchPanel<Opportunit
 
     @Override
     protected HeaderWithFontAwesome buildSearchTitle() {
-        return new CrmViewHeader(CrmTypeConstants.OPPORTUNITY, AppContext.getMessage(OpportunityI18nEnum.VIEW_LIST_TITLE));
+        return ComponentUtils.header(CrmTypeConstants.OPPORTUNITY, AppContext.getMessage(OpportunityI18nEnum.VIEW_LIST_TITLE));
     }
 
     @Override
     protected void buildExtraControls() {
-        Button createAccountBtn = new Button(AppContext.getMessage(OpportunityI18nEnum.BUTTON_NEW_OPPORTUNITY),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        Button createAccountBtn = new Button(AppContext.getMessage(OpportunityI18nEnum.BUTTON_NEW_OPPORTUNITY), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        EventBusFactory.getInstance().post(new OpportunityEvent.GotoAdd(
-                                OpportunitySearchPanel.this, null));
-                    }
-                });
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                EventBusFactory.getInstance().post(new OpportunityEvent.GotoAdd(OpportunitySearchPanel.this, null));
+            }
+        });
         createAccountBtn.setIcon(FontAwesome.PLUS);
-        createAccountBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        createAccountBtn.setStyleName(UIConstants.BUTTON_ACTION);
         createAccountBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY));
         addHeaderRight(createAccountBtn);
     }
@@ -127,11 +125,10 @@ public class OpportunitySearchPanel extends DefaultGenericSearchPanel<Opportunit
             layout.with(nameField).withAlign(nameField, Alignment.MIDDLE_CENTER);
 
             this.myItemCheckbox = new CheckBox(AppContext.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
-            this.myItemCheckbox.setWidth("75px");
             layout.with(myItemCheckbox).withAlign(myItemCheckbox, Alignment.MIDDLE_CENTER);
 
             Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
-            searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+            searchBtn.setStyleName(UIConstants.BUTTON_ACTION);
             searchBtn.setIcon(FontAwesome.SEARCH);
 
             searchBtn.addClickListener(new Button.ClickListener() {
@@ -161,7 +158,7 @@ public class OpportunitySearchPanel extends DefaultGenericSearchPanel<Opportunit
                             OpportunitySearchPanel.this.moveToAdvancedSearchLayout();
                         }
                     });
-            advancedSearchBtn.setStyleName(UIConstants.THEME_LINK);
+            advancedSearchBtn.setStyleName(UIConstants.BUTTON_LINK);
             layout.with(advancedSearchBtn).withAlign(advancedSearchBtn, Alignment.MIDDLE_CENTER);
             return layout;
         }

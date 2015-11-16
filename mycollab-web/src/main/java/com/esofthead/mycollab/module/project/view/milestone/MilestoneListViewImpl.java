@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.project.view.milestone;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -31,8 +32,7 @@ import com.esofthead.mycollab.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
-import com.esofthead.mycollab.module.project.ui.components.ProjectViewHeader;
-import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
+import com.esofthead.mycollab.module.project.ui.components.ComponentUtils;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasMassItemActionHandler;
@@ -41,8 +41,8 @@ import com.esofthead.mycollab.vaadin.events.HasSelectableItemHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSelectionOptionHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.*;
-import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.esofthead.mycollab.web.CustomLayoutExt;
 import com.google.common.eventbus.Subscribe;
@@ -50,6 +50,7 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.teemu.VaadinIcons;
@@ -140,13 +141,11 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
     }
 
     private void initUI() {
-        ProjectViewHeader headerText = new ProjectViewHeader(ProjectTypeConstants.MILESTONE,
-                AppContext.getMessage(MilestoneI18nEnum.VIEW_LIST_TITLE));
+        HeaderWithFontAwesome headerText = ComponentUtils.headerH3(ProjectTypeConstants.MILESTONE, AppContext.getMessage
+                (MilestoneI18nEnum.VIEW_LIST_TITLE));
 
-        MHorizontalLayout header = new MHorizontalLayout()
-                .withStyleName("hdr-view").withWidth("100%").withMargin(true)
-                .with(headerText, createHeaderRight())
-                .withAlign(headerText, Alignment.MIDDLE_LEFT).expand(headerText);
+        MHorizontalLayout header = new MHorizontalLayout().withStyleName("hdr-view").withWidth("100%").withMargin(true)
+                .with(headerText, createHeaderRight()).withAlign(headerText, Alignment.MIDDLE_LEFT).expand(headerText);
         this.addComponent(header);
     }
 
@@ -162,7 +161,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
             }
         });
         createBtn.setIcon(FontAwesome.PLUS);
-        createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        createBtn.setStyleName(UIConstants.BUTTON_ACTION);
         createBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
         layout.with(createBtn);
 
@@ -253,11 +252,12 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
         layout.addStyleName(UIConstants.MILESTONE_BOX);
         layout.setWidth("100%");
 
-        LabelLink milestoneLink = new LabelLink(milestone.getName(),
+        LabelLink milestoneLink = new LabelLink(StringUtils.trim(milestone.getName(), 50, true),
                 ProjectLinkBuilder.generateMilestonePreviewFullLink(milestone.getProjectid(), milestone.getId()));
-        milestoneLink.addStyleName("bold");
-        milestoneLink.addStyleName(UIConstants.WORD_WRAP);
-        milestoneLink.addStyleName("milestone-name");
+        milestoneLink.setDescription(milestone.getName());
+        milestoneLink.addStyleName(UIConstants.LABEL_WORD_WRAP);
+        milestoneLink.addStyleName(ValoTheme.LABEL_H3);
+        milestoneLink.addStyleName(ValoTheme.LABEL_NO_MARGIN);
         milestoneLink.setWidth("100%");
 
         MHorizontalLayout milestoneHeader = new MHorizontalLayout().withWidth("100%").with(milestoneLink).expand(milestoneLink);
@@ -306,7 +306,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
         });
         deleteBtn.setIcon(FontAwesome.TRASH_O);
         deleteBtn.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.MILESTONES));
-        filterBtnLayout.addOption(deleteBtn);
+        filterBtnLayout.addDangerOption(deleteBtn);
 
         taskSettingPopupBtn.setIcon(FontAwesome.COG);
         taskSettingPopupBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
@@ -315,34 +315,26 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
         milestoneHeader.addComponent(taskSettingPopupBtn);
         layout.addComponent(milestoneHeader);
 
-        MHorizontalLayout spacing = new MHorizontalLayout().withHeight("8px").withWidth("100%");
-        layout.addComponent(spacing);
+        int openAssignments = milestone.getNumOpenBugs() + milestone.getNumOpenTasks();
+        int totalAssignments = milestone.getNumBugs() + milestone.getNumTasks();
+        ELabel progressInfoLbl;
+        if (totalAssignments > 0) {
+            progressInfoLbl = new ELabel(String.format("%d of %d issue(s) resolved. Progress (%d%%)",
+                    (totalAssignments - openAssignments), totalAssignments, (totalAssignments - openAssignments)
+                            * 100 / totalAssignments)).withStyleName(UIConstants.LABEL_META_INFO);
+        } else {
+            progressInfoLbl = new ELabel("No issue").withStyleName(UIConstants.LABEL_META_INFO);
+        }
+        layout.addComponent(progressInfoLbl);
 
-        GridFormLayoutHelper layoutHelper = new GridFormLayoutHelper(1, 5, "100%", "80px");
-        layoutHelper.addComponent(new ELabel(AppContext.formatDate(milestone.getStartdate())),
-                AppContext.getMessage(MilestoneI18nEnum.FORM_START_DATE_FIELD), 0, 0);
-        layoutHelper.addComponent(new ELabel(AppContext.formatDate(milestone.getEnddate())),
-                AppContext.getMessage(MilestoneI18nEnum.FORM_END_DATE_FIELD), 0, 1);
-
-        CssLayout linkWrapper = new CssLayout();
-        linkWrapper.setWidth("100%");
-        linkWrapper.addComponent(new ProjectUserLink(milestone.getOwner(), milestone.getOwnerAvatarId(), milestone.getOwnerFullName()));
-        layoutHelper.addComponent(linkWrapper, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 2);
-
-        ProgressBarIndicator progressTask = new ProgressBarIndicator(milestone.getNumTasks(), milestone.getNumOpenTasks(), false);
-        progressTask.setWidth("100%");
-
-        layoutHelper.addComponent(progressTask, AppContext.getMessage(MilestoneI18nEnum.FORM_TASK_FIELD), 0, 3);
-
-        ProgressBarIndicator progressBug = new ProgressBarIndicator(milestone.getNumBugs(), milestone.getNumOpenBugs(), false);
-        progressBug.setWidth("100%");
-
-        layoutHelper.addComponent(progressBug, AppContext.getMessage(MilestoneI18nEnum.FORM_BUG_FIELD), 0, 4);
-        GridLayout milestoneInfoLayout = layoutHelper.getLayout();
-        milestoneInfoLayout.setWidth("100%");
-        milestoneInfoLayout.setMargin(false);
-        milestoneInfoLayout.setSpacing(true);
-        layout.addComponent(milestoneInfoLayout);
+        CssLayout metaBlock = new CssLayout();
+        MilestonePopupFieldFactory popupFieldFactory = ViewManager.getCacheComponent(MilestonePopupFieldFactory.class);
+        metaBlock.addComponent(popupFieldFactory.createMilestoneAssigneePopupField(milestone, false));
+        metaBlock.addComponent(popupFieldFactory.createStartDatePopupField(milestone));
+        metaBlock.addComponent(popupFieldFactory.createEndDatePopupField(milestone));
+        metaBlock.addComponent(popupFieldFactory.createBillableHoursPopupField(milestone));
+        metaBlock.addComponent(popupFieldFactory.createNonBillableHoursPopupField(milestone));
+        layout.addComponent(metaBlock);
 
         return layout;
     }

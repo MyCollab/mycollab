@@ -41,15 +41,13 @@ import java.util.Arrays;
  * @author MyCollab Ltd.
  * @since 2.0
  */
-public class ActivityRelatedItemListComp extends
-        RelatedListComp<SimpleActivity, ActivitySearchCriteria> {
+public class ActivityRelatedItemListComp extends RelatedListComp<SimpleActivity, ActivitySearchCriteria> {
     private static final long serialVersionUID = 1L;
 
     private final boolean allowCreateNew;
 
     public ActivityRelatedItemListComp(final boolean allowCreateNew) {
         this.allowCreateNew = allowCreateNew;
-
         initUI();
     }
 
@@ -57,49 +55,43 @@ public class ActivityRelatedItemListComp extends
         if (allowCreateNew) {
             HorizontalLayout buttonLayout = new HorizontalLayout();
             buttonLayout.setSpacing(true);
-            final Button newTaskBtn = new Button("New Task",
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            final Button newTaskBtn = new Button("New Task", new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(final Button.ClickEvent event) {
-                            fireNewRelatedItem("task");
-                        }
-                    });
+                @Override
+                public void buttonClick(final Button.ClickEvent event) {
+                    fireNewRelatedItem("task");
+                }
+            });
             newTaskBtn.setIcon(FontAwesome.PLUS);
-            newTaskBtn.setEnabled(AppContext
-                    .canWrite(RolePermissionCollections.CRM_TASK));
-            newTaskBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+            newTaskBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_TASK));
+            newTaskBtn.setStyleName(UIConstants.BUTTON_ACTION);
             buttonLayout.addComponent(newTaskBtn);
 
-            final Button newCallBtn = new Button("New Call",
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            final Button newCallBtn = new Button("New Call", new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(final Button.ClickEvent event) {
-                            fireNewRelatedItem("call");
-                        }
-                    });
+                @Override
+                public void buttonClick(final Button.ClickEvent event) {
+                    fireNewRelatedItem("call");
+                }
+            });
             newCallBtn.setIcon(FontAwesome.PLUS);
-            newCallBtn.setEnabled(AppContext
-                    .canWrite(RolePermissionCollections.CRM_CALL));
-            newCallBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+            newCallBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CALL));
+            newCallBtn.addStyleName(UIConstants.BUTTON_ACTION);
             buttonLayout.addComponent(newCallBtn);
 
-            final Button newMeetingBtn = new Button("New Meeting",
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            final Button newMeetingBtn = new Button("New Meeting", new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(final Button.ClickEvent event) {
-                            fireNewRelatedItem("call");
-                        }
-                    });
+                @Override
+                public void buttonClick(final Button.ClickEvent event) {
+                    fireNewRelatedItem("call");
+                }
+            });
             newMeetingBtn.setIcon(FontAwesome.PLUS);
-            newMeetingBtn.setEnabled(AppContext
-                    .canWrite(RolePermissionCollections.CRM_MEETING));
-            newMeetingBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+            newMeetingBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_MEETING));
+            newMeetingBtn.addStyleName(UIConstants.BUTTON_ACTION);
             buttonLayout.addComponent(newMeetingBtn);
 
             this.addComponent(buttonLayout);
@@ -121,22 +113,13 @@ public class ActivityRelatedItemListComp extends
 
             @Override
             public void itemClick(final TableClickEvent event) {
-                final SimpleActivity simpleEvent = (SimpleActivity) event
-                        .getData();
+                final SimpleActivity simpleEvent = (SimpleActivity) event.getData();
                 if (CrmTypeConstants.TASK.equals(simpleEvent.getEventType())) {
-                    EventBusFactory.getInstance().post(
-                            new ActivityEvent.TaskRead(this, simpleEvent
-                                    .getId()));
-                } else if (CrmTypeConstants.MEETING.equals(simpleEvent
-                        .getEventType())) {
-                    EventBusFactory.getInstance().post(
-                            new ActivityEvent.MeetingRead(this, simpleEvent
-                                    .getId()));
-                } else if (CrmTypeConstants.CALL.equals(simpleEvent
-                        .getEventType())) {
-                    EventBusFactory.getInstance().post(
-                            new ActivityEvent.CallRead(this, simpleEvent
-                                    .getId()));
+                    EventBusFactory.getInstance().post(new ActivityEvent.TaskRead(this, simpleEvent.getId()));
+                } else if (CrmTypeConstants.MEETING.equals(simpleEvent.getEventType())) {
+                    EventBusFactory.getInstance().post(new ActivityEvent.MeetingRead(this, simpleEvent.getId()));
+                } else if (CrmTypeConstants.CALL.equals(simpleEvent.getEventType())) {
+                    EventBusFactory.getInstance().post(new ActivityEvent.CallRead(this, simpleEvent.getId()));
                 }
             }
         });

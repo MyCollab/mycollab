@@ -50,15 +50,14 @@ public class SplitButton extends CustomComponent {
         HorizontalLayout contentLayout = new HorizontalLayout();
         contentLayout.setStyleName("splitbutton");
         this.parentButton = parentButton;
-        this.parentButton.addStyleName("parent-button");
-        this.parentButton.setImmediate(true);
-        this.parentButton.addClickListener(new ClickListener() {
+        parentButton.addStyleName("parent-button");
+        parentButton.setImmediate(true);
+        parentButton.addClickListener(new ClickListener() {
             private static final long serialVersionUID = 1L;
 
             @Override
             public void buttonClick(ClickEvent event) {
-                fireEvent(new SplitButtonClickEvent(
-                        SplitButton.this));
+                fireEvent(new SplitButtonClickEvent(SplitButton.this));
             }
         });
 
@@ -69,9 +68,7 @@ public class SplitButton extends CustomComponent {
             @Override
             public void buttonClick(ClickEvent event) {
                 isPopupVisible = !isPopupVisible;
-                fireEvent(new SplitButtonPopupVisibilityEvent(
-                        SplitButton.this, isPopupVisible));
-
+                fireEvent(new SplitButtonPopupVisibilityEvent(SplitButton.this, isPopupVisible));
             }
         });
 
@@ -110,14 +107,12 @@ public class SplitButton extends CustomComponent {
     static {
         try {
             SPLIT_BUTTON_CLICK_CHANGE_METHOD = SplitButtonClickListener.class
-                    .getDeclaredMethod("splitButtonClick",
-                            SplitButtonClickEvent.class);
+                    .getDeclaredMethod("splitButtonClick", SplitButtonClickEvent.class);
 
             SPLIT_POPUP_VISIBLE_CHANGE_METHOD = SplitButtonPopupVisibilityListener.class
-                    .getDeclaredMethod(
-                            "splitButtonPopupVisibilityChange",
+                    .getDeclaredMethod("splitButtonPopupVisibilityChange",
                             SplitButtonPopupVisibilityEvent.class);
-        } catch (final java.lang.NoSuchMethodException e) {
+        } catch (final NoSuchMethodException e) {
             throw new MyCollabException("Internal error finding methods in TabSheet");
         }
     }
@@ -147,8 +142,7 @@ public class SplitButton extends CustomComponent {
     }
 
     public interface SplitButtonPopupVisibilityListener extends Serializable {
-        void splitButtonPopupVisibilityChange(
-                SplitButtonPopupVisibilityEvent event);
+        void splitButtonPopupVisibilityChange(SplitButtonPopupVisibilityEvent event);
     }
 
     public static class SplitButtonPopupVisibilityEvent extends Component.Event {

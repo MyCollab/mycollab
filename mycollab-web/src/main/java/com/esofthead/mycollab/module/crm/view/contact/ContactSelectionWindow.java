@@ -91,7 +91,7 @@ public class ContactSelectionWindow extends Window {
                     }
                 });
                 b.setDescription(CrmTooltipGenerator.generateToolTipContact(AppContext.getUserLocale(),
-                        contact, AppContext.getSiteUrl(), AppContext.getTimezone()));
+                        contact, AppContext.getSiteUrl(), AppContext.getUserTimezone()));
                 return b;
             }
         });

@@ -23,25 +23,19 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.KeyCaptionComboBox;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class AccessPermissionComboBox extends KeyCaptionComboBox {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public AccessPermissionComboBox() {
-		super(false);
+    public AccessPermissionComboBox() {
+        super(false);
 
-		this.addItem(AccessPermissionFlag.NO_ACCESS,
-				AppContext.getMessage(SecurityI18nEnum.NO_ACCESS));
-		this.addItem(AccessPermissionFlag.READ_ONLY,
-				AppContext.getMessage(SecurityI18nEnum.READONLY));
-		this.addItem(AccessPermissionFlag.READ_WRITE,
-				AppContext.getMessage(SecurityI18nEnum.READ_WRITE));
-		this.addItem(AccessPermissionFlag.ACCESS,
-				AppContext.getMessage(SecurityI18nEnum.ACCESS));
-
-		this.setValue(AccessPermissionFlag.READ_ONLY);
-	}
+        this.addItem(AccessPermissionFlag.NO_ACCESS, AppContext.getMessage(SecurityI18nEnum.NO_ACCESS));
+        this.addItem(AccessPermissionFlag.READ_ONLY, AppContext.getMessage(SecurityI18nEnum.READONLY));
+        this.addItem(AccessPermissionFlag.READ_WRITE, AppContext.getMessage(SecurityI18nEnum.READ_WRITE));
+        this.addItem(AccessPermissionFlag.ACCESS, AppContext.getMessage(SecurityI18nEnum.ACCESS));
+        this.setValue(AccessPermissionFlag.READ_ONLY);
+    }
 }

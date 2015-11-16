@@ -129,7 +129,7 @@ class GroupPageAddWindow extends Window {
                     }
                 });
                 saveBtn.setIcon(FontAwesome.SAVE);
-                saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+                saveBtn.setStyleName(UIConstants.BUTTON_ACTION);
                 saveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
                 controlsBtn.addComponent(saveBtn);
                 controlsBtn.setComponentAlignment(saveBtn, Alignment.MIDDLE_RIGHT);

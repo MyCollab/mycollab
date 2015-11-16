@@ -58,7 +58,7 @@ class LeadCampaignSelectionWindow extends
 				close();
 			}
 		});
-		selectBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+		selectBtn.setStyleName(UIConstants.BUTTON_ACTION);
 
 		CampaignSimpleSearchPanel campaignSimpleSearchPanel = new CampaignSimpleSearchPanel();
 		campaignSimpleSearchPanel

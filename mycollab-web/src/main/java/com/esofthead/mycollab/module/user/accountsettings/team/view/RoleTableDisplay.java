@@ -41,8 +41,7 @@ public class RoleTableDisplay extends DefaultPagedBeanTable<RoleService, RoleSea
     private static final long serialVersionUID = 1L;
 
     public RoleTableDisplay(TableViewField requiredColumn, List<TableViewField> displayColumns) {
-        super(ApplicationContextUtil.getSpringBean(RoleService.class),
-                SimpleRole.class, requiredColumn, displayColumns);
+        super(ApplicationContextUtil.getSpringBean(RoleService.class), SimpleRole.class, requiredColumn, displayColumns);
 
         this.addGeneratedColumn("selected", new Table.ColumnGenerator() {
             private static final long serialVersionUID = 1L;

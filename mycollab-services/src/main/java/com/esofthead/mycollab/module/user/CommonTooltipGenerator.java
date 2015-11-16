@@ -71,33 +71,16 @@ public class CommonTooltipGenerator {
                     .appendChild(new Td().setStyle("vertical-align: top;").appendText(
                             StringUtils.trimHtmlTags(user.getCountry())));
 
-            Tr trRow4 = new Tr().appendChild(
-                    new Td().setStyle(
-                            "width: 110px; vertical-align: top; text-align: right;")
-                            .appendText(
-                                    LocalizationHelper.getMessage(locale,
-                                            UserI18nEnum.FORM_WORK_PHONE)))
-                    .appendChild(
-                            new Td().setStyle("vertical-align: top;")
-                                    .appendText(
-                                            StringUtils.trimHtmlTags(user
-                                                    .getWorkphone())));
+            Tr trRow4 = new Tr().appendChild(new Td().setStyle("width: 110px; vertical-align: top; text-align: right;")
+                    .appendText(LocalizationHelper.getMessage(locale, UserI18nEnum.FORM_WORK_PHONE)))
+                    .appendChild(new Td().setStyle("vertical-align: top;")
+                            .appendText(StringUtils.trimHtmlTags(user.getWorkphone())));
 
             Tr trRow5 = new Tr().appendChild(
-                    new Td().setStyle(
-                            "width: 110px; vertical-align: top; text-align: right;")
-                            .appendText(
-                                    LocalizationHelper
-                                            .getMessage(
-                                                    locale,
-                                                    GenericI18Enum.FORM_LAST_ACCESSED_TIME)))
-                    .appendChild(
-                            new Td().setStyle(
-                                    "word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-                                    .appendText(
-                                            DateTimeUtils.getPrettyDateValue(
-                                                    user.getLastaccessedtime(),
-                                                    locale)));
+                    new Td().setStyle("width: 110px; vertical-align: top; text-align: right;")
+                            .appendText(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_LAST_ACCESSED_TIME)))
+                    .appendChild(new Td().setStyle("word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+                            .appendText(DateTimeUtils.getPrettyDateValue(user.getLastaccessedtime(), locale)));
             table.appendChild(trRow1, trRow2, trRow3, trRow4, trRow5);
             div.appendChild(table);
             return div.write();

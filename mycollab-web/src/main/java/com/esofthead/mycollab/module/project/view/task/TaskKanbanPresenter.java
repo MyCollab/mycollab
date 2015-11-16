@@ -65,11 +65,7 @@ public class TaskKanbanPresenter extends AbstractPresenter<TaskKanbanview> {
             taskContainer.navigateToContainer(ProjectTypeConstants.TASK);
             taskContainer.removeAllComponents();
             taskContainer.addComponent(view.getWidget());
-
-            TaskSearchCriteria searchCriteria = new TaskSearchCriteria();
-            searchCriteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-            searchCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("taskindex", SearchCriteria.ASC)));
-            doSearch(searchCriteria);
+            view.display();
 
             ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
             breadCrumb.gotoTaskKanbanView();

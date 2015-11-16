@@ -83,5 +83,4 @@ public class ProjectMemberSelectionField extends CustomField<String> {
     public void addValueChangeListener(ValueChangeListener listener) {
         memberSelectionBox.addValueChangeListener(listener);
     }
-
 }

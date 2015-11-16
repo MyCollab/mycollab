@@ -22,9 +22,13 @@ import com.esofthead.mycollab.module.crm.domain.CampaignWithBLOBs;
 import com.esofthead.mycollab.module.crm.i18n.CampaignI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.FormContainer;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.MassUpdateWindow;
 import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
-import com.vaadin.ui.*;
+import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.Field;
 
 /**
  * @author MyCollab Ltd.
@@ -57,21 +61,14 @@ public class MassUpdateCampaignWindow extends MassUpdateWindow<CampaignWithBLOBs
 
         @Override
         public ComponentContainer getLayout() {
-            final VerticalLayout formLayout = new VerticalLayout();
-            formLayout.setDefaultComponentAlignment(Alignment.TOP_CENTER);
+            final FormContainer formLayout = new FormContainer();
 
-            final Label organizationHeader = new Label(AppContext.getMessage(CampaignI18nEnum.SECTION_CAMPAIGN_INFORMATION));
-            organizationHeader.setStyleName(UIConstants.H2_STYLE2);
-            formLayout.addComponent(organizationHeader);
+            informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
+            formLayout.addSection(AppContext.getMessage(CampaignI18nEnum.SECTION_CAMPAIGN_INFORMATION),
+                    informationLayout.getLayout());
 
-            this.informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
-            formLayout.addComponent(this.informationLayout.getLayout());
-
-            this.campaignGoal = GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
-            final Label campaignMoreInfo = new Label(AppContext.getMessage(CampaignI18nEnum.SECTION_GOAL));
-            campaignMoreInfo.setStyleName(UIConstants.H2_STYLE2);
-            formLayout.addComponent(campaignMoreInfo);
-            formLayout.addComponent(this.campaignGoal.getLayout());
+            campaignGoal = GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
+            formLayout.addSection(AppContext.getMessage(CampaignI18nEnum.SECTION_GOAL), campaignGoal.getLayout());
 
             formLayout.addComponent(buildButtonControls());
 
@@ -80,16 +77,15 @@ public class MassUpdateCampaignWindow extends MassUpdateWindow<CampaignWithBLOBs
 
         @Override
         public void attachField(Object propertyId, final Field<?> field) {
-
             if (propertyId.equals("assignuser")) {
-                this.informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 0);
+                informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 0);
             }
             if (propertyId.equals("status")) {
-                this.informationLayout.addComponent(field, AppContext.getMessage(CampaignI18nEnum.FORM_STATUS), 1, 0);
+                informationLayout.addComponent(field, AppContext.getMessage(CampaignI18nEnum.FORM_STATUS), 1, 0);
             } else if (propertyId.equals("type")) {
-                this.informationLayout.addComponent(field, AppContext.getMessage(CampaignI18nEnum.FORM_TYPE), 0, 1);
+                informationLayout.addComponent(field, AppContext.getMessage(CampaignI18nEnum.FORM_TYPE), 0, 1);
             } else if (propertyId.equals("currencyid")) {
-                this.campaignGoal.addComponent(field, AppContext.getMessage(CampaignI18nEnum.FORM_CURRENCY), 0, 0);
+                campaignGoal.addComponent(field, AppContext.getMessage(CampaignI18nEnum.FORM_CURRENCY), 0, 0);
             }
         }
     }

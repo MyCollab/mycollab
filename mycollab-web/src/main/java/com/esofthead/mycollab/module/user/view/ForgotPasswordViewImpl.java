@@ -45,8 +45,7 @@ import com.vaadin.ui.TextField;
  * @since 1.0
  */
 @ViewComponent
-public class ForgotPasswordViewImpl extends AbstractPageView implements
-        ForgotPasswordView {
+public class ForgotPasswordViewImpl extends AbstractPageView implements ForgotPasswordView {
     private static final long serialVersionUID = 1L;
 
     public ForgotPasswordViewImpl() {
@@ -95,11 +94,11 @@ public class ForgotPasswordViewImpl extends AbstractPageView implements
                     }
                 }
             });
-            sendEmail.setStyleName(UIConstants.THEME_GREEN_LINK);
+            sendEmail.setStyleName(UIConstants.BUTTON_ACTION);
             customLayout.addComponent(sendEmail, "loginButton");
 
             Button memoBackBtn = new Button(AppContext.getMessage(ShellI18nEnum.BUTTON_IGNORE_RESET_PASSWORD));
-            memoBackBtn.setStyleName(UIConstants.THEME_LINK);
+            memoBackBtn.setStyleName(UIConstants.BUTTON_LINK);
             memoBackBtn.addClickListener(new ClickListener() {
                 private static final long serialVersionUID = 1L;
 

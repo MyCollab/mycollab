@@ -24,7 +24,6 @@ import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.HistoryFieldFormat;
-import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.I;
 import com.hp.gagawa.java.elements.Li;
 import org.apache.commons.lang3.StringUtils;
@@ -134,7 +133,7 @@ public class FieldGroupFormatter {
         @Override
         public String toString(String value) {
             if (StringUtils.isNoneBlank(value)) {
-                Date formatDate = DateTimeUtils.convertDateByFormatW3C(value);
+                Date formatDate = DateTimeUtils.parseDateByW3C(value);
                 I lbl = new I().appendText(AppContext.formatPrettyTime(formatDate));
                 lbl.setTitle(AppContext.formatDate(formatDate));
                 return lbl.write();
@@ -149,7 +148,7 @@ public class FieldGroupFormatter {
         @Override
         public String toString(String value) {
             if (StringUtils.isNoneBlank(value)) {
-                Date formatDate = DateTimeUtils.convertDateByFormatW3C(value);
+                Date formatDate = DateTimeUtils.parseDateByW3C(value);
                 I lbl = new I().appendText(AppContext.formatPrettyTime(formatDate));
                 lbl.setTitle(AppContext.formatDateTime(formatDate));
                 return lbl.write();
@@ -165,7 +164,7 @@ public class FieldGroupFormatter {
         public String toString(String value) {
             String content;
             if (StringUtils.isNoneBlank(value)) {
-                Date formatDate = DateTimeUtils.convertDateByFormatW3C(value);
+                Date formatDate = DateTimeUtils.parseDateByW3C(value);
                 content = AppContext.formatDate(formatDate);
             } else {
                 content = AppContext.getMessage(GenericI18Enum.FORM_EMPTY);
@@ -180,7 +179,7 @@ public class FieldGroupFormatter {
         public String toString(String value) {
             String content;
             if (StringUtils.isNotBlank(value)) {
-                Date formatDate = DateTimeUtils.convertDateByFormatW3C(value);
+                Date formatDate = DateTimeUtils.parseDateByW3C(value);
                 content = AppContext.formatDateTime(formatDate);
             } else {
                 content = AppContext.getMessage(GenericI18Enum.FORM_EMPTY);

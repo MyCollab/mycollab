@@ -136,7 +136,7 @@ public class WontFixExplainWindow extends Window {
                         }
                     }
                 });
-                wonFixBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+                wonFixBtn.setStyleName(UIConstants.BUTTON_ACTION);
                 wonFixBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 
                 Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {

@@ -236,7 +236,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
         });
 
         addBtn.setEnabled(isEnableAdd());
-        addBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        addBtn.setStyleName(UIConstants.BUTTON_ACTION);
         addBtn.setIcon(FontAwesome.PLUS);
         addLayout.with(newTimeInputField, forDateField, isBillableField, addBtn);
     }
@@ -292,7 +292,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
         });
 
         addBtn.setEnabled(isEnableAdd());
-        addBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        addBtn.setStyleName(UIConstants.BUTTON_ACTION);
         addLayout.with(addBtn).withAlign(addBtn, Alignment.MIDDLE_LEFT);
     }
 

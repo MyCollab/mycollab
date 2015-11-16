@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.db.migration.service;
 
-import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.configuration.IDeploymentMode;
 import org.flywaydb.core.Flyway;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +39,9 @@ public class DbMigrationRunner {
     @Autowired
     private DataSource dataSource;
 
+    @Autowired
+    private IDeploymentMode deploymentMode;
+
     @PostConstruct
     public void migrate() {
         try {
@@ -46,7 +49,7 @@ public class DbMigrationRunner {
             flyway.setBaselineOnMigrate(true);
             flyway.setDataSource(dataSource);
             flyway.setValidateOnMigrate(false);
-            if (SiteConfiguration.getDeploymentMode() == SiteConfiguration.DeploymentMode.site) {
+            if (deploymentMode.isDemandEdition()) {
                 flyway.setLocations("db/migration", "db/migration2");
             } else {
                 flyway.setLocations("db/migration");

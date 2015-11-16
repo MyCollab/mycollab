@@ -71,7 +71,7 @@ class MilestoneAddWindow extends Window {
                 close();
             }
         });
-        updateAllBtn.addStyleName(UIConstants.THEME_LINK);
+        updateAllBtn.addStyleName(UIConstants.BUTTON_LINK);
 
         Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
             @Override
@@ -94,7 +94,7 @@ class MilestoneAddWindow extends Window {
             }
         });
         saveBtn.setIcon(FontAwesome.SAVE);
-        saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        saveBtn.setStyleName(UIConstants.BUTTON_ACTION);
         saveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 
         Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {

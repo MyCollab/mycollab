@@ -16,12 +16,12 @@
  */
 package com.esofthead.mycollab.module.project.view.bug;
 
+import com.esofthead.mycollab.common.domain.criteria.TimelineTrackingSearchCriteria;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.core.db.query.SearchFieldInfo;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -40,6 +40,7 @@ import com.esofthead.mycollab.reporting.RpFieldsBuilder;
 import com.esofthead.mycollab.reporting.SimpleReportTemplateExecutor;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.AsyncInvoker;
 import com.esofthead.mycollab.vaadin.events.HasMassItemActionHandler;
 import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSelectableItemHandlers;
@@ -80,6 +81,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
     private String groupByState;
     private String sortDirection;
     private BugSearchCriteria baseCriteria;
+    private BugSearchCriteria statisticSearchCriteria;
 
     private BugSearchPanel searchPanel;
     private MVerticalLayout wrapBody;
@@ -123,22 +125,8 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
         MHorizontalLayout groupWrapLayout = new MHorizontalLayout();
         groupWrapLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-        groupWrapLayout.addComponent(new Label("Filter:"));
-        final BugSavedFilterComboBox savedFilterComboBox = new BugSavedFilterComboBox();
-        savedFilterComboBox.addQuerySelectListener(new SavedFilterComboBox.QuerySelectListener() {
-            @Override
-            public void querySelect(SavedFilterComboBox.QuerySelectEvent querySelectEvent) {
-                List<SearchFieldInfo> fieldInfos = querySelectEvent.getSearchFieldInfos();
-                BugSearchCriteria criteria = SearchFieldInfo.buildSearchCriteria(BugSearchCriteria.class, fieldInfos);
-                criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-                EventBusFactory.getInstance().post(new BugEvent.SearchRequest(BugListViewImpl.this, criteria));
-            }
-        });
-        groupWrapLayout.addComponent(savedFilterComboBox);
-
         groupWrapLayout.addComponent(new Label("Sort:"));
         final ComboBox sortCombo = new ValueComboBox(false, DESCENDING, ASCENDING);
-        sortCombo.setWidth("100px");
         sortCombo.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
@@ -155,8 +143,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
         groupWrapLayout.addComponent(sortCombo);
 
         groupWrapLayout.addComponent(new Label("Group by:"));
-        final ComboBox groupCombo = new ValueComboBox(false, GROUP_DUE_DATE, GROUP_START_DATE, PLAIN_LIST);
-        groupCombo.setWidth("100px");
+        final ComboBox groupCombo = new ValueComboBox(false, GROUP_DUE_DATE, GROUP_START_DATE, GROUP_CREATED_DATE, PLAIN_LIST);
         groupCombo.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
@@ -177,7 +164,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
                 exportSplitBtn.setPopupVisible(true);
             }
         });
-        exportSplitBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+        exportSplitBtn.addStyleName(UIConstants.BUTTON_ACTION);
         OptionPopupContent popupButtonsControl = new OptionPopupContent();
 
         Button exportPdfBtn = new Button("PDF");
@@ -206,7 +193,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
         newBugBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
         newBugBtn.setIcon(FontAwesome.PLUS);
         newBugBtn.setDescription(AppContext.getMessage(BugI18nEnum.BUTTON_NEW_BUG));
-        newBugBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        newBugBtn.setStyleName(UIConstants.BUTTON_ACTION);
         groupWrapLayout.addComponent(newBugBtn);
 
         Button advanceDisplayBtn = new Button();
@@ -233,8 +220,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
         mainLayout = new MHorizontalLayout().withFullHeight().withFullWidth();
         wrapBody = new MVerticalLayout().withMargin(new MarginInfo(false, true, true, false));
 
-        this.rightColumn = new MVerticalLayout().withWidth("350px").withMargin(new MarginInfo(true, false, true,
-                false));
+        rightColumn = new MVerticalLayout().withWidth("370px").withMargin(new MarginInfo(true, false, true, false));
 
         mainLayout.with(wrapBody, rightColumn).expand(wrapBody);
         this.with(searchPanel, mainLayout);
@@ -275,28 +261,34 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 
     private void displayBugStatistic() {
         rightColumn.removeAllComponents();
-        BugSearchCriteria criteria = new BugSearchCriteria();
-        criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-        criteria.setStatuses(new SetSearchField<>(OptionI18nEnum.BugStatus.InProgress.name(),
-                OptionI18nEnum.BugStatus.Open.name(), OptionI18nEnum.BugStatus.ReOpened.name()));
-
+        final BugStatusTrendChartWidget bugStatusTrendChartWidget = new BugStatusTrendChartWidget();
+        rightColumn.addComponent(bugStatusTrendChartWidget);
         // Unresolved by assignee
         UnresolvedBugsByAssigneeWidget unresolvedByAssigneeWidget = new UnresolvedBugsByAssigneeWidget();
-        BugSearchCriteria unresolvedByAssigneeSearchCriteria = BeanUtility.deepClone(criteria);
+        BugSearchCriteria unresolvedByAssigneeSearchCriteria = BeanUtility.deepClone(statisticSearchCriteria);
         unresolvedByAssigneeWidget.setSearchCriteria(unresolvedByAssigneeSearchCriteria);
         rightColumn.addComponent(unresolvedByAssigneeWidget);
 
         // Unresolve by priority widget
         UnresolvedBugsByPriorityWidget unresolvedByPriorityWidget = new UnresolvedBugsByPriorityWidget();
-        BugSearchCriteria unresolvedByPrioritySearchCriteria = BeanUtility.deepClone(criteria);
+        BugSearchCriteria unresolvedByPrioritySearchCriteria = BeanUtility.deepClone(statisticSearchCriteria);
         unresolvedByPriorityWidget.setSearchCriteria(unresolvedByPrioritySearchCriteria);
         rightColumn.addComponent(unresolvedByPriorityWidget);
 
         //Unresolved by status
         UnresolvedBugsByStatusWidget unresolvedBugsByStatusWidget = new UnresolvedBugsByStatusWidget();
-        BugSearchCriteria unresolvedByStatusSearchCriteria = BeanUtility.deepClone(criteria);
+        BugSearchCriteria unresolvedByStatusSearchCriteria = BeanUtility.deepClone(statisticSearchCriteria);
         unresolvedBugsByStatusWidget.setSearchCriteria(unresolvedByStatusSearchCriteria);
         rightColumn.addComponent(unresolvedBugsByStatusWidget);
+
+        AsyncInvoker.access(new AsyncInvoker.PageCommand() {
+            @Override
+            public void run() {
+                TimelineTrackingSearchCriteria timelineTrackingSearchCriteria = new TimelineTrackingSearchCriteria();
+                timelineTrackingSearchCriteria.setExtraTypeIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
+                bugStatusTrendChartWidget.display(timelineTrackingSearchCriteria);
+            }
+        });
     }
 
     private void queryAndDisplayBugs() {
@@ -305,11 +297,14 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
             baseCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("duedate", sortDirection)));
             bugGroupOrderComponent = new DueDateOrderComponent();
         } else if (GROUP_START_DATE.equals(groupByState)) {
-            baseCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("createdTime", sortDirection)));
+            baseCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("m_tracker_bug.startdate", sortDirection)));
             bugGroupOrderComponent = new StartDateOrderComponent();
         } else if (PLAIN_LIST.equals(groupByState)) {
             baseCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("lastUpdatedTime", sortDirection)));
             bugGroupOrderComponent = new SimpleListOrderComponent();
+        } else if (GROUP_CREATED_DATE.equals(groupByState)) {
+            baseCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("createdTime", sortDirection)));
+            bugGroupOrderComponent = new CreatedDateOrderComponent();
         } else {
             throw new MyCollabException("Do not support group view by " + groupByState);
         }
@@ -334,12 +329,22 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
                     }
                 }
             });
-            moreBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+            moreBtn.addStyleName(UIConstants.BUTTON_ACTION);
             wrapBody.addComponent(moreBtn);
         }
         List<SimpleBug> bugs = bugService.findPagableListByCriteria(new SearchRequest<>(baseCriteria, currentPage + 1, 20));
         bugGroupOrderComponent.insertBugs(bugs);
         displayBugStatistic();
+    }
+
+    @Override
+    public void displayView() {
+        baseCriteria = new BugSearchCriteria();
+        baseCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+        baseCriteria.setStatuses(new SetSearchField<>(OptionI18nEnum.BugStatus.InProgress.name(),
+                OptionI18nEnum.BugStatus.Open.name(), OptionI18nEnum.BugStatus.ReOpened.name()));
+        statisticSearchCriteria = BeanUtility.deepClone(baseCriteria);
+        searchPanel.selectQueryInfo(BugSavedFilterComboBox.OPEN_BUGS);
     }
 
     @Override

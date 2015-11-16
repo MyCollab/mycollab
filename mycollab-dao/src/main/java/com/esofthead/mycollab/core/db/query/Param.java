@@ -65,4 +65,11 @@ public abstract class Param {
         Param item = (Param) obj;
         return new EqualsBuilder().append(id, item.id).build();
     }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + displayName.hashCode();
+        return result;
+    }
 }

@@ -84,7 +84,7 @@ public abstract class MassUpdateWindow<B> extends Window {
                 MassUpdateWindow.this.close();
             }
         });
-        updateBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        updateBtn.setStyleName(UIConstants.BUTTON_ACTION);
         updateBtn.setIcon(FontAwesome.SAVE);
 
         closeBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE), new Button.ClickListener() {

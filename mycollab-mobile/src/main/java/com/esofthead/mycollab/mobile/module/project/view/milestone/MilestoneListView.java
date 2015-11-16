@@ -24,9 +24,9 @@ import com.esofthead.mycollab.vaadin.mvp.PageView;
  * @since 4.5.2
  */
 public interface MilestoneListView extends PageView {
-	public void goToClosedMilestones();
+	void goToClosedMilestones();
 
-	public void goToInProgressMilestones();
+	void goToInProgressMilestones();
 
-	public void goToFutureMilestones();
+	void goToFutureMilestones();
 }

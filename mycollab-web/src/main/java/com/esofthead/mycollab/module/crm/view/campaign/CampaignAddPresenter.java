@@ -50,32 +50,29 @@ public class CampaignAddPresenter extends CrmGenericPresenter<CampaignAddView> {
 
     @Override
     protected void postInitView() {
-        view.getEditFormHandlers().addFormHandler(
-                new EditFormHandler<SimpleCampaign>() {
-                    private static final long serialVersionUID = 1L;
+        view.getEditFormHandlers().addFormHandler(new EditFormHandler<SimpleCampaign>() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void onSave(final SimpleCampaign campaign) {
-                        int campaignId = saveCampaign(campaign);
-                        EventBusFactory.getInstance().post(new CampaignEvent.GotoRead(this, campaignId));
-                    }
+            @Override
+            public void onSave(final SimpleCampaign campaign) {
+                int campaignId = saveCampaign(campaign);
+                EventBusFactory.getInstance().post(new CampaignEvent.GotoRead(this, campaignId));
+            }
 
-                    @Override
-                    public void onCancel() {
-                        ViewState viewState = HistoryViewManager.back();
-                        if (viewState instanceof NullViewState) {
-                            EventBusFactory.getInstance().post(
-                                    new CampaignEvent.GotoList(this, null));
-                        }
-                    }
+            @Override
+            public void onCancel() {
+                ViewState viewState = HistoryViewManager.back();
+                if (viewState instanceof NullViewState) {
+                    EventBusFactory.getInstance().post(new CampaignEvent.GotoList(this, null));
+                }
+            }
 
-                    @Override
-                    public void onSaveAndNew(final SimpleCampaign campaign) {
-                        saveCampaign(campaign);
-                        EventBusFactory.getInstance().post(
-                                new CampaignEvent.GotoAdd(this, null));
-                    }
-                });
+            @Override
+            public void onSaveAndNew(final SimpleCampaign campaign) {
+                saveCampaign(campaign);
+                EventBusFactory.getInstance().post(new CampaignEvent.GotoAdd(this, null));
+            }
+        });
     }
 
     @Override

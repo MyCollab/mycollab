@@ -95,7 +95,7 @@ h3 {
                                         </tr>
 
                                         <tr>
-                                            <td ><label for="serverAddress">Server address:</label></td>
+                                            <td ><label for="serverAddress">Server address (without port value):</label></td>
                                         </tr>
                                         <tr>
                                             <td><input id="serverAddress"/></td>

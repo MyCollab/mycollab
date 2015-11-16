@@ -21,23 +21,29 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.db.query.Param;
+import com.esofthead.mycollab.core.db.query.SearchFieldInfo;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
-import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
-import com.esofthead.mycollab.module.project.ui.components.ProjectViewHeader;
+import com.esofthead.mycollab.module.project.events.BugEvent;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
+import com.esofthead.mycollab.module.project.view.bug.components.BugSavedFilterComboBox;
 import com.esofthead.mycollab.module.project.view.settings.component.ComponentListSelect;
-import com.esofthead.mycollab.module.project.view.settings.component.VersionListSelect;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberListSelect;
+import com.esofthead.mycollab.module.project.view.settings.component.VersionListSelect;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
+
+import java.util.List;
 
 /**
  * @author MyCollab Ltd.
@@ -47,6 +53,7 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
     private static final long serialVersionUID = 1L;
 
     private BugSearchCriteria searchCriteria;
+    private BugSavedFilterComboBox savedFilterComboBox;
 
     private static Param[] paramFields = new Param[]{
             BugSearchCriteria.p_textDesc, BugSearchCriteria.p_priority,
@@ -58,12 +65,36 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
             BugSearchCriteria.p_lastupdatedtime};
 
     @Override
-    protected HeaderWithFontAwesome buildSearchTitle() {
-        return new ProjectViewHeader(ProjectTypeConstants.BUG, AppContext.getMessage(BugI18nEnum.VIEW_LIST_TITLE));
+    protected ComponentContainer buildSearchTitle() {
+        savedFilterComboBox = new BugSavedFilterComboBox();
+        savedFilterComboBox.addQuerySelectListener(new SavedFilterComboBox.QuerySelectListener() {
+            @Override
+            public void querySelect(SavedFilterComboBox.QuerySelectEvent querySelectEvent) {
+                List<SearchFieldInfo> fieldInfos = querySelectEvent.getSearchFieldInfos();
+                BugSearchCriteria criteria = SearchFieldInfo.buildSearchCriteria(BugSearchCriteria.class, fieldInfos);
+                criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+                EventBusFactory.getInstance().post(new BugEvent.SearchRequest(BugSearchPanel.this, criteria));
+            }
+        });
+        Label taskIcon = new Label(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG).getHtml(), ContentMode.HTML);
+        taskIcon.addStyleName(ValoTheme.LABEL_H2);
+        taskIcon.addStyleName(ValoTheme.LABEL_NO_MARGIN);
+        taskIcon.setWidthUndefined();
+        return new MHorizontalLayout(taskIcon, savedFilterComboBox).expand(savedFilterComboBox).alignAll(Alignment.MIDDLE_LEFT);
     }
 
     @Override
-    protected void buildExtraControls() {}
+    public void setTotalCountNumber(int countNumber) {
+        savedFilterComboBox.setTotalCountNumber(countNumber);
+    }
+
+    @Override
+    protected void buildExtraControls() {
+    }
+
+    public void selectQueryInfo(String queryId) {
+        savedFilterComboBox.selectQueryInfo(queryId);
+    }
 
     @Override
     protected SearchLayout<BugSearchCriteria> createBasicSearchLayout() {
@@ -107,7 +138,7 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
 
             Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
             searchBtn.setIcon(FontAwesome.SEARCH);
-            searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+            searchBtn.setStyleName(UIConstants.BUTTON_ACTION);
 
             searchBtn.addClickListener(new Button.ClickListener() {
                 @Override
@@ -115,7 +146,7 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
                     callSearchAction();
                 }
             });
-            searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+            searchBtn.setStyleName(UIConstants.BUTTON_ACTION);
             basicSearchBody.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_LEFT);
 
             Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
@@ -135,7 +166,7 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
                             moveToAdvancedSearchLayout();
                         }
                     });
-            advancedSearchBtn.setStyleName(UIConstants.THEME_LINK);
+            advancedSearchBtn.setStyleName(UIConstants.BUTTON_LINK);
             basicSearchBody.with(advancedSearchBtn).withAlign(advancedSearchBtn, Alignment.MIDDLE_CENTER);
 
             return basicSearchBody;

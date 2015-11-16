@@ -28,7 +28,6 @@ import com.vaadin.ui.ComponentContainer;
 
 /**
  * @author MyCollab Inc.
- *
  * @since 4.3.1
  */
 public class ProjectModulePresenter extends AbstractMobilePresenter<ProjectModule> {
@@ -44,28 +43,25 @@ public class ProjectModulePresenter extends AbstractMobilePresenter<ProjectModul
     }
 
     private void checkLocalData() {
-        LocalStorage.detectValue(MobileApplication.LOGIN_DATA,
-                new LocalStorageCallback() {
-                    private static final long serialVersionUID = 3217947479690600476L;
+        LocalStorage.detectValue(MobileApplication.LOGIN_DATA, new LocalStorageCallback() {
+            private static final long serialVersionUID = 3217947479690600476L;
 
-                    @Override
-                    public void onSuccess(String value) {
-                        if (value != null) {
-                            String[] loginParams = value.split("\\$");
-                            EventBusFactory.getInstance()
-                                    .post(new ProjectEvent.PlainLogin(this, new String[]{loginParams[0],
-                                            PasswordEncryptHelper.decryptText(loginParams[1]), String.valueOf(false)}));
+            @Override
+            public void onSuccess(String value) {
+                if (value != null) {
+                    String[] loginParams = value.split("\\$");
+                    EventBusFactory.getInstance().post(new ProjectEvent.PlainLogin(this, new String[]{loginParams[0],
+                            PasswordEncryptHelper.decryptText(loginParams[1]), String.valueOf(false)}));
 
-                        } else {
-                            EventBusFactory.getInstance().post(new ProjectEvent.GotoLogin(this, null));
-                        }
-                    }
+                } else {
+                    EventBusFactory.getInstance().post(new ProjectEvent.GotoLogin(this, null));
+                }
+            }
 
-                    @Override
-                    public void onFailure(FailureEvent error) {
-                        EventBusFactory.getInstance().post(new ProjectEvent.GotoLogin(this, null));
-                    }
-                });
+            @Override
+            public void onFailure(FailureEvent error) {
+                EventBusFactory.getInstance().post(new ProjectEvent.GotoLogin(this, null));
+            }
+        });
     }
-
 }

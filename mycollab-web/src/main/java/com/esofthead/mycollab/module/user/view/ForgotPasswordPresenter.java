@@ -28,31 +28,28 @@ import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class ForgotPasswordPresenter extends AbstractPresenter<ForgotPasswordView> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public ForgotPasswordPresenter() {
-		super(ForgotPasswordView.class);
-	}
+    public ForgotPasswordPresenter() {
+        super(ForgotPasswordView.class);
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		MainWindowContainer windowContainer = (MainWindowContainer) container;
-		windowContainer.removeAllComponents();
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        MainWindowContainer windowContainer = (MainWindowContainer) container;
+        windowContainer.removeAllComponents();
 
-		windowContainer.addComponent(view.getWidget());
+        windowContainer.addComponent(view.getWidget());
 
         ExtMailService extMailService = ApplicationContextUtil.getSpringBean(ExtMailService.class);
         if (!extMailService.isMailSetupValid()) {
-            NotificationUtil.showErrorNotification(AppContext
-                    .getMessage(ShellI18nEnum.WINDOW_SMTP_CONFIRM_SETUP_FOR_USER));
+            NotificationUtil.showErrorNotification(AppContext.getMessage(ShellI18nEnum.WINDOW_SMTP_CONFIRM_SETUP_FOR_USER));
         }
 
-		AppContext.addFragment("user/forgotpassword", AppContext
-				.getMessage(ShellI18nEnum.OPT_FORGOT_PASSWORD_VIEW_TITLE));
-	}
+        AppContext.addFragment("user/forgotpassword", AppContext.getMessage(ShellI18nEnum.OPT_FORGOT_PASSWORD_VIEW_TITLE));
+    }
 }

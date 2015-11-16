@@ -32,6 +32,7 @@ import com.esofthead.mycollab.module.project.domain.Milestone;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
+import com.esofthead.mycollab.module.project.service.GanttAssignmentService;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.schedule.email.project.ProjectMilestoneRelayEmailNotificationAction;
@@ -87,14 +88,16 @@ public class MilestoneServiceImpl extends DefaultService<Integer, Milestone, Mil
             record.setStatus(OptionI18nEnum.MilestoneStatus.InProgress.name());
         }
         Integer recordId = super.saveWithSession(record, username);
-        asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectService.class}));
+        asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectService.class,
+                GanttAssignmentService.class}));
         return recordId;
     }
 
     @Override
     public Integer updateWithSession(Milestone record, String username) {
         int result = super.updateWithSession(record, username);
-        asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectService.class}));
+        asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectService.class,
+                GanttAssignmentService.class}));
         return result;
     }
 }

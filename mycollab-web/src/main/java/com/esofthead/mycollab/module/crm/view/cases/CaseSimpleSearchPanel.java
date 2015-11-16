@@ -89,7 +89,7 @@ public class CaseSimpleSearchPanel extends GenericSearchPanel<CaseSearchCriteria
 
         Button searchBtn = new Button(
                 AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
-        searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        searchBtn.setStyleName(UIConstants.BUTTON_ACTION);
         searchBtn.setIcon(FontAwesome.SEARCH);
         searchBtn.addClickListener(new Button.ClickListener() {
             @Override

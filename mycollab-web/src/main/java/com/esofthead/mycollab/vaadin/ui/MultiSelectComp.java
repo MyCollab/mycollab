@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.hp.gagawa.java.elements.Li;
 import com.hp.gagawa.java.elements.Ul;
@@ -27,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,8 +72,8 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
             }
         });
 
-        popupContent = new VerticalLayout();
-        this.componentPopupSelection.setContent(popupContent);
+        popupContent = new MVerticalLayout();
+        componentPopupSelection.setContent(popupContent);
     }
 
     protected List<T> createData() {
@@ -86,7 +86,6 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
                 .withAlign(componentsText, Alignment.MIDDLE_LEFT);
 
         componentPopupSelection.addStyleName(UIConstants.MULTI_SELECT_BG);
-        componentPopupSelection.setWidth("25px");
         componentPopupSelection.setDirection(Alignment.TOP_LEFT);
 
         MHorizontalLayout multiSelectComp = new MHorizontalLayout().withSpacing(false).with(componentsText, componentPopupSelection)
@@ -98,9 +97,10 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
                 @Override
                 public void buttonClick(ClickEvent clickEvent) {
                     requestAddNewComp();
+                    UIUtils.removeAllWindows();
                 }
             });
-            newBtn.setStyleName(UIConstants.THEME_LINK);
+            newBtn.setStyleName(UIConstants.BUTTON_LINK);
             newBtn.setWidthUndefined();
             content.with(newBtn);
         }
@@ -127,7 +127,6 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
     private void initContentPopup() {
         popupContent.removeAllComponents();
         for (final T item : items) {
-
             final ItemSelectionComp<T> chkItem = buildItem(item);
 
             if (selectedItems != null) {
@@ -181,7 +180,7 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
 
     private void displaySelectedItems() {
         componentsText.setReadOnly(false);
-        componentsText.setValue(getDisplaySelectedItemsString());
+        componentsText.setValue(selectedItems.size() + " selected");
         componentsText.setReadOnly(true);
         Ul ul = new Ul();
         try {
@@ -230,24 +229,6 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
 
     public List<T> getSelectedItems() {
         return this.selectedItems;
-    }
-
-    protected String getDisplaySelectedItemsString() {
-        final StringBuilder str = new StringBuilder();
-        for (int i = 0; i < selectedItems.size(); i++) {
-            final Object itemObj = selectedItems.get(i);
-            try {
-                String objDisplayName = (String) PropertyUtils.getProperty(itemObj, propertyDisplayField);
-                if (i == selectedItems.size() - 1) {
-                    str.append(objDisplayName);
-                } else {
-                    str.append(objDisplayName + ", ");
-                }
-            } catch (final Exception e) {
-                throw new MyCollabException(e);
-            }
-        }
-        return str.toString();
     }
 
     public static class ItemSelectionComp<T> extends CheckBox {

@@ -27,8 +27,7 @@ public abstract class MyCollabAssets {
     private static MyCollabAssets impl;
 
     static {
-        SiteConfiguration.DeploymentMode deploymentMode = SiteConfiguration.getDeploymentMode();
-        if (deploymentMode == SiteConfiguration.DeploymentMode.site) {
+        if (SiteConfiguration.isDemandEdition()) {
             impl = new S3();
         } else {
             impl = new Local();

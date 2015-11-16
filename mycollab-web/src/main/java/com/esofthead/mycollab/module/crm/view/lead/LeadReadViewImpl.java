@@ -80,7 +80,7 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead> implem
                 previewForm.fireExtraAction("convert", beanItem);
             }
         });
-        convertButton.setStyleName(UIConstants.THEME_GREEN_LINK);
+        convertButton.setStyleName(UIConstants.BUTTON_ACTION);
         convertButton.setIcon(FontAwesome.FLASK);
         controlsButton.insertToControlBlock(convertButton);
 

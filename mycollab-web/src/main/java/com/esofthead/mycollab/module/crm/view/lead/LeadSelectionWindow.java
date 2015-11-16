@@ -94,7 +94,7 @@ public class LeadSelectionWindow extends Window {
                     }
                 });
                 b.setDescription(CrmTooltipGenerator.generateTooltipLead(AppContext.getUserLocale(), lead,
-                        AppContext.getSiteUrl(), AppContext.getTimezone()));
+                        AppContext.getSiteUrl(), AppContext.getUserTimezone()));
                 return b;
             }
         });

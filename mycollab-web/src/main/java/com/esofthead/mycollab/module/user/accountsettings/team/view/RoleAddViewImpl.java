@@ -35,6 +35,7 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -51,10 +52,9 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
     public RoleAddViewImpl() {
         super();
 
-        this.setMargin(new MarginInfo(false, true, false, true));
+        this.setMargin(new MarginInfo(false, true, true, true));
         this.editForm = new EditForm();
         this.addComponent(this.editForm);
-        this.addStyleName("accountsettings-role");
     }
 
     @Override
@@ -108,8 +108,7 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
             }
 
             protected String initFormHeader() {
-                return role.getId() == null ?
-                        AppContext.getMessage(RoleI18nEnum.VIEW_NEW_TITLE) :
+                return role.getId() == null ? AppContext.getMessage(RoleI18nEnum.VIEW_NEW_TITLE) :
                         AppContext.getMessage(RoleI18nEnum.VIEW_EDIT_TITLE);
             }
 
@@ -118,17 +117,12 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
             }
 
             private Layout createButtonControls() {
-                return new EditFormControlsGenerator<>(
-                        RoleAddViewImpl.EditForm.this).createButtonControls();
+                return new EditFormControlsGenerator<>(RoleAddViewImpl.EditForm.this).createButtonControls();
             }
 
             @Override
             protected Layout createBottomPanel() {
                 final VerticalLayout permissionsPanel = new VerticalLayout();
-                final Label organizationHeader = new Label(
-                        AppContext.getMessage(RoleI18nEnum.FORM_PERMISSION_HEADER));
-                organizationHeader.setStyleName(UIConstants.H2_STYLE2);
-                permissionsPanel.addComponent(organizationHeader);
 
                 PermissionMap perMap;
                 if (role instanceof SimpleRole) {
@@ -138,10 +132,10 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
                 }
 
                 GridFormLayoutHelper crmFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(
-                        2, RolePermissionCollections.CRM_PERMISSIONS_ARR.length);
+                        2, RolePermissionCollections.CRM_PERMISSIONS_ARR.size());
 
-                for (int i = 0; i < RolePermissionCollections.CRM_PERMISSIONS_ARR.length; i++) {
-                    PermissionDefItem permissionDefItem = RolePermissionCollections.CRM_PERMISSIONS_ARR[i];
+                for (int i = 0; i < RolePermissionCollections.CRM_PERMISSIONS_ARR.size(); i++) {
+                    PermissionDefItem permissionDefItem = RolePermissionCollections.CRM_PERMISSIONS_ARR.get(i);
                     KeyCaptionComboBox permissionBox = PermissionComboBoxFactory
                             .createPermissionSelection(permissionDefItem
                                     .getPermissionCls());
@@ -169,23 +163,22 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
             }
         }
 
-        private Depot constructGridLayout(String depotTitle,
-                                          PermissionMap perMap, PermissionDefItem[] defItems) {
-            GridFormLayoutHelper formHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, defItems.length);
-            Depot component = new Depot(depotTitle, formHelper.getLayout());
+        private ComponentContainer constructGridLayout(String depotTitle, PermissionMap perMap, List<PermissionDefItem> defItems) {
+            GridFormLayoutHelper formHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, defItems.size());
+            FormContainer permissionsPanel = new FormContainer();
+            permissionsPanel.addSection(depotTitle, formHelper.getLayout());
 
-            for (int i = 0; i < defItems.length; i++) {
-                PermissionDefItem permissionDefItem = defItems[i];
+            for (int i = 0; i < defItems.size(); i++) {
+                PermissionDefItem permissionDefItem = defItems.get(i);
                 KeyCaptionComboBox permissionBox = PermissionComboBoxFactory
-                        .createPermissionSelection(permissionDefItem
-                                .getPermissionCls());
+                        .createPermissionSelection(permissionDefItem.getPermissionCls());
                 Integer flag = perMap.getPermissionFlag(permissionDefItem.getKey());
                 permissionBox.setValue(flag);
                 permissionControlsMap.put(permissionDefItem.getKey(), permissionBox);
                 formHelper.addComponent(permissionBox, permissionDefItem.getCaption(), 0, i);
             }
 
-            return component;
+            return permissionsPanel;
         }
 
         protected PermissionMap getPermissionMap() {

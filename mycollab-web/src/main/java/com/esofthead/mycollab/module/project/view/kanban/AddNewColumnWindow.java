@@ -46,10 +46,7 @@ public class AddNewColumnWindow extends Window {
         this.setResizable(false);
         this.center();
         MVerticalLayout layout = new MVerticalLayout().withMargin(new MarginInfo(false, false, true, false));
-        GridFormLayoutHelper gridFormLayoutHelper = new GridFormLayoutHelper(1, 3, "100%", "250px", Alignment.TOP_LEFT);
-        gridFormLayoutHelper.getLayout().setWidth("100%");
-        gridFormLayoutHelper.getLayout().addStyleName("colored-gridlayout");
-        gridFormLayoutHelper.getLayout().setMargin(false);
+        GridFormLayoutHelper gridFormLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
         this.setContent(layout);
 
         final TextField stageField = new TextField();
@@ -91,7 +88,7 @@ public class AddNewColumnWindow extends Window {
             }
         });
         saveBtn.setIcon(FontAwesome.SAVE);
-        saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        saveBtn.setStyleName(UIConstants.BUTTON_ACTION);
 
         Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
             @Override

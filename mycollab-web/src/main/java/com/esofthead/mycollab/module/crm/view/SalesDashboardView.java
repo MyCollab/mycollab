@@ -43,10 +43,9 @@ public class SalesDashboardView extends Depot {
     private int currentReportIndex = 0;
 
     public SalesDashboardView() {
-        super("Sales Dashboard", null, new VerticalLayout(), "100%", "200px");
+        super("Sales Dashboard", new VerticalLayout());
         this.bodyContent.setSizeFull();
         this.initUI();
-        this.setHeaderColor(true);
         this.setContentBorder(true);
     }
 

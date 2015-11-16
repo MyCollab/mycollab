@@ -35,6 +35,7 @@ import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -97,7 +98,7 @@ public class BugAddWindow extends Window {
                         close();
                     }
                 });
-                updateAllBtn.addStyleName(UIConstants.THEME_LINK);
+                updateAllBtn.addStyleName(UIConstants.BUTTON_LINK);
 
                 Button updateBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
                     @Override
@@ -137,7 +138,8 @@ public class BugAddWindow extends Window {
                         }
                     }
                 });
-                updateBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+                updateBtn.setIcon(FontAwesome.SAVE);
+                updateBtn.setStyleName(UIConstants.BUTTON_ACTION);
 
                 Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
                     @Override

@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.mail;
 
+import com.esofthead.mycollab.configuration.IDeploymentMode;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.module.user.domain.BillingAccount;
@@ -29,9 +30,9 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 public class MailUtils {
     public static String getSiteUrl(Integer sAccountId) {
         String siteUrl = "";
-        if (SiteConfiguration.getDeploymentMode() == SiteConfiguration.DeploymentMode.site) {
-            BillingAccountService billingAccountService = ApplicationContextUtil
-                    .getSpringBean(BillingAccountService.class);
+        IDeploymentMode mode = ApplicationContextUtil.getSpringBean(IDeploymentMode.class);
+        if (mode.isDemandEdition()) {
+            BillingAccountService billingAccountService = ApplicationContextUtil.getSpringBean(BillingAccountService.class);
             BillingAccount account = billingAccountService.getAccountById(sAccountId);
             if (account != null) {
                 siteUrl = SiteConfiguration.getSiteUrl(account.getSubdomain());

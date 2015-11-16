@@ -17,9 +17,10 @@
 package com.esofthead.mycollab.servlet;
 
 import com.esofthead.mycollab.core.UserInvalidInputException;
+import org.apache.commons.mail.DefaultAuthenticator;
+import org.apache.commons.mail.Email;
+import org.apache.commons.mail.SimpleEmail;
 
-import javax.mail.Session;
-import javax.mail.Transport;
 import java.util.Properties;
 
 /**
@@ -29,7 +30,7 @@ import java.util.Properties;
 public class InstallUtils {
 
     public static void checkSMTPConfig(String host, int port, String username,
-                                          String password, boolean auth, boolean isStartTls, boolean isSSL) {
+                                       String password, boolean auth, boolean isStartTls, boolean isSSL) {
         try {
             Properties props = new Properties();
             if (auth) {
@@ -46,10 +47,27 @@ public class InstallUtils {
                 props.setProperty("mail.smtp.ssl.socketFactory.fallback", "false");
 
             }
-            Session session = Session.getInstance(props, null);
-            Transport transport = session.getTransport("smtp");
-            transport.connect(host, port, username, password);
-            transport.close();
+
+            Email email = new SimpleEmail();
+            email.setHostName(host);
+            email.setSmtpPort(port);
+            email.setAuthenticator(new DefaultAuthenticator(username, password));
+            if (isStartTls) {
+                email.setStartTLSEnabled(true);
+            } else {
+                email.setStartTLSEnabled(false);
+            }
+
+            if (isSSL) {
+                email.setSSLOnConnect(true);
+            } else {
+                email.setSSLOnConnect(false);
+            }
+            email.setFrom(username);
+            email.setSubject("MyCollab Test Email");
+            email.setMsg("This is a test mail ... :-)");
+            email.addTo(username);
+            email.send();
         } catch (Exception e) {
             throw new UserInvalidInputException(e);
         }

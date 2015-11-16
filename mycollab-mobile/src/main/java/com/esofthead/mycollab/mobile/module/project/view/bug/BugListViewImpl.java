@@ -30,41 +30,35 @@ import com.vaadin.ui.Component;
 
 /**
  * @author MyCollab Ltd.
- *
  * @since 4.5.2
  */
 @ViewComponent
-public class BugListViewImpl extends
-		AbstractListViewComp<BugSearchCriteria, SimpleBug> implements
-		BugListView {
+public class BugListViewImpl extends AbstractListViewComp<BugSearchCriteria, SimpleBug> implements BugListView {
+    private static final long serialVersionUID = -7877935907665712184L;
 
-	private static final long serialVersionUID = -7877935907665712184L;
+    public BugListViewImpl() {
+        this.addStyleName("bugs-list-view");
+        this.setCaption(AppContext.getMessage(BugI18nEnum.VIEW_LIST_TITLE));
+    }
 
-	public BugListViewImpl() {
-		this.addStyleName("bugs-list-view");
-		this.setCaption(AppContext.getMessage(BugI18nEnum.VIEW_LIST_TITLE));
-	}
+    @Override
+    protected AbstractPagedBeanList<BugSearchCriteria, SimpleBug> createBeanTable() {
+        return new BugListDisplay();
+    }
 
-	@Override
-	protected AbstractPagedBeanList<BugSearchCriteria, SimpleBug> createBeanTable() {
-		return new BugListDisplay();
-	}
+    @Override
+    protected Component createRightComponent() {
+        Button addBug = new Button();
+        addBug.addClickListener(new Button.ClickListener() {
+            private static final long serialVersionUID = 8204610801164300917L;
 
-	@Override
-	protected Component createRightComponent() {
-		Button addBug = new Button();
-		addBug.addClickListener(new Button.ClickListener() {
-
-			private static final long serialVersionUID = 8204610801164300917L;
-
-			@Override
-			public void buttonClick(Button.ClickEvent event) {
-				EventBusFactory.getInstance().post(
-						new BugEvent.GotoAdd(this, null));
-			}
-		});
-		addBug.setStyleName("add-btn");
-		return addBug;
-	}
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                EventBusFactory.getInstance().post(new BugEvent.GotoAdd(this, null));
+            }
+        });
+        addBug.setStyleName("add-btn");
+        return addBug;
+    }
 
 }

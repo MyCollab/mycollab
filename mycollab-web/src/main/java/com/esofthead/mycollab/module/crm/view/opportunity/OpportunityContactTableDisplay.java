@@ -64,7 +64,7 @@ public class OpportunityContactTableDisplay
 								.getId()));
 				b.setDescription(CrmTooltipGenerator.generateToolTipContact(
 						AppContext.getUserLocale(), contact,
-						AppContext.getSiteUrl(), AppContext.getTimezone()));
+						AppContext.getSiteUrl(), AppContext.getUserTimezone()));
 				return b;
 			}
 		});

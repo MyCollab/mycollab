@@ -20,11 +20,11 @@ import com.esofthead.mycollab.common.domain.CommentWithBLOBs;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.view.settings.ProjectMemberSelectionField;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractMobilePageView;
 import com.esofthead.mycollab.mobile.ui.MobileGridFormLayoutHelper;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
@@ -42,7 +42,6 @@ import com.vaadin.ui.*;
 import java.util.GregorianCalendar;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 4.5.2
  */
@@ -58,9 +57,7 @@ class ReOpenView extends AbstractMobilePageView {
     private final BugReadView callbackForm;
 
     ReOpenView(final BugReadView callbackForm, final SimpleBug bug) {
-        this.setCaption("Reopen ["
-                + CurrentProjectVariables.getProject().getShortname() + "-"
-                + bug.getBugkey() + "]");
+        this.setCaption("Reopen [" + CurrentProjectVariables.getProject().getShortname() + "-" + bug.getBugkey() + "]");
         this.bug = bug;
         this.callbackForm = callbackForm;
 
@@ -75,50 +72,37 @@ class ReOpenView extends AbstractMobilePageView {
         contentLayout.setWidth("100%");
         contentLayout.addComponent(this.editForm);
 
-        final Button reOpenBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN),
-                new Button.ClickListener() {
-                    @Override
-                    public void buttonClick(final Button.ClickEvent event) {
+        final Button reOpenBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN), new Button.ClickListener() {
+            @Override
+            public void buttonClick(final Button.ClickEvent event) {
+                if (editForm.validateForm()) {
+                    ReOpenView.this.bug.setStatus(BugStatus.ReOpened.name());
 
-                        if (editForm.validateForm()) {
-                            ReOpenView.this.bug.setStatus(BugStatus.ReOpened
-                                    .name());
+                    // Save bug status and assignee
+                    final BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+                    bugService.updateSelectiveWithSession(ReOpenView.this.bug, AppContext.getUsername());
 
-                            // Save bug status and assignee
-                            final BugService bugService = ApplicationContextUtil
-                                    .getSpringBean(BugService.class);
-                            bugService.updateSelectiveWithSession(
-                                    ReOpenView.this.bug,
-                                    AppContext.getUsername());
+                    // Save comment
+                    final String commentValue = editForm.commentArea.getValue();
+                    if (commentValue != null && !commentValue.trim().equals("")) {
+                        final CommentWithBLOBs comment = new CommentWithBLOBs();
+                        comment.setComment(commentValue);
+                        comment.setCreatedtime(new GregorianCalendar().getTime());
+                        comment.setCreateduser(AppContext.getUsername());
+                        comment.setSaccountid(AppContext.getAccountId());
+                        comment.setType(ProjectTypeConstants.BUG);
+                        comment.setTypeid("" + bug.getId());
+                        comment.setExtratypeid(CurrentProjectVariables.getProjectId());
 
-                            // Save comment
-                            final String commentValue = editForm.commentArea.getValue();
-                            if (commentValue != null
-                                    && !commentValue.trim().equals("")) {
-                                final CommentWithBLOBs comment = new CommentWithBLOBs();
-                                comment.setComment(commentValue);
-                                comment.setCreatedtime(new GregorianCalendar()
-                                        .getTime());
-                                comment.setCreateduser(AppContext.getUsername());
-                                comment.setSaccountid(AppContext.getAccountId());
-                                comment.setType(ProjectTypeConstants.BUG);
-                                comment.setTypeid("" + bug.getId());
-                                comment.setExtratypeid(CurrentProjectVariables
-                                        .getProjectId());
-
-                                final CommentService commentService = ApplicationContextUtil
-                                        .getSpringBean(CommentService.class);
-                                commentService.saveWithSession(comment,
-                                        AppContext.getUsername());
-                            }
-                            ReOpenView.this.callbackForm.previewItem(bug);
-                            EventBusFactory.getInstance().post(
-                                    new ShellEvent.NavigateBack(this, null));
-                        }
-
+                        final CommentService commentService = ApplicationContextUtil.getSpringBean(CommentService.class);
+                        commentService.saveWithSession(comment, AppContext.getUsername());
                     }
-                });
+                    ReOpenView.this.callbackForm.previewItem(bug);
+                    EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
+                }
+
+            }
+        });
         reOpenBtn.setStyleName("save-btn");
         this.setRightComponent(reOpenBtn);
 

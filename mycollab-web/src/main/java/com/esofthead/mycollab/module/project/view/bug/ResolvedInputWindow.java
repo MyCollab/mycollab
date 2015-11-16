@@ -135,7 +135,7 @@ public class ResolvedInputWindow extends Window {
 
                     }
                 });
-                resolveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+                resolveBtn.setStyleName(UIConstants.BUTTON_ACTION);
                 resolveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 
                 Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {

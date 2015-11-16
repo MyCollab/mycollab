@@ -45,8 +45,7 @@ public class ProjectAttachmentDisplayComp extends CssLayout {
 
 	private void constructUI() {
 		this.setStyleName("attachment-display-comp");
-		Label compHeader = new Label(
-				AppContext.getMessage(GenericI18Enum.M_FORM_ATTACHMENT));
+		Label compHeader = new Label(AppContext.getMessage(GenericI18Enum.M_FORM_ATTACHMENT));
 		compHeader.setStyleName("h2");
 		this.addComponent(compHeader);
 		VerticalLayout comp = new VerticalLayout();

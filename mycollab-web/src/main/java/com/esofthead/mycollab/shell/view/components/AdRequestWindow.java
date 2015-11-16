@@ -70,7 +70,7 @@ public class AdRequestWindow extends Window {
                 UI.getCurrent().addWindow(new TestimonialWindow());
             }
         });
-        testimonialBtn.setStyleName(UIConstants.THEME_LINK);
+        testimonialBtn.setStyleName(UIConstants.BUTTON_LINK);
         testimonialBtn.setIcon(FontAwesome.KEYBOARD_O);
 
         shareControls.with(rateSourceforge, tweetUs, linkedIn, testimonialBtn);
@@ -93,7 +93,7 @@ public class AdRequestWindow extends Window {
                 turnOffAdd(user);
             }
         });
-        loveBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+        loveBtn.addStyleName(UIConstants.BUTTON_ACTION);
         loveBtn.setIcon(FontAwesome.HEART);
 
         btnControls.with(ignoreBtn, loveBtn);

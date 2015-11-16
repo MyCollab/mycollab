@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -42,18 +41,15 @@ public class ProjectRoleReadViewImpl extends VerticalLayout implements ProjectRo
     private SimpleProjectRole beanItem;
     private AdvancedPreviewBeanForm<SimpleProjectRole> previewForm;
     private ReadViewLayout previewLayout;
-    private Label headerText;
+    private HeaderWithFontAwesome headerText;
     private MHorizontalLayout header;
 
     private GridFormLayoutHelper projectFormHelper;
 
     public ProjectRoleReadViewImpl() {
-        this.headerText = new Label();
-        headerText.setCaption(AppContext.getMessage(ProjectRoleI18nEnum.FORM_READ_TITLE));
-        headerText.setIcon(FontAwesome.USERS);
-        headerText.addStyleName("headerName");
-
-        this.headerText.setSizeUndefined();
+        headerText = HeaderWithFontAwesome.h3(FontAwesome.USERS, AppContext.getMessage(ProjectRoleI18nEnum
+                .FORM_READ_TITLE));
+        headerText.setSizeUndefined();
         this.addComponent(constructHeader());
 
         previewForm = initPreviewForm();
@@ -68,11 +64,8 @@ public class ProjectRoleReadViewImpl extends VerticalLayout implements ProjectRo
         contentWrapper.setStyleName("content-wrapper");
 
         previewLayout = new DefaultReadViewLayout("");
-
         contentWrapper.addComponent(previewLayout);
-
         previewLayout.addBody(previewForm);
-
         this.addComponent(contentWrapper);
     }
 
@@ -81,21 +74,14 @@ public class ProjectRoleReadViewImpl extends VerticalLayout implements ProjectRo
     }
 
     protected ComponentContainer createButtonControls() {
-        return (new ProjectPreviewFormControlsGenerator<>(previewForm))
-                .createButtonControls(ProjectRolePermissionCollections.ROLES);
+        return (new ProjectPreviewFormControlsGenerator<>(previewForm)).createButtonControls(ProjectRolePermissionCollections.ROLES);
     }
 
     protected ComponentContainer createBottomPanel() {
-        VerticalLayout permissionsPanel = new VerticalLayout();
-        Label organizationHeader = new Label(
-                AppContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS));
-        organizationHeader.addStyleName("h2");
-        permissionsPanel.addComponent(organizationHeader);
+        FormContainer permissionsPanel = new FormContainer();
 
-        projectFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2,
-                ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length);
-
-        permissionsPanel.addComponent(projectFormHelper.getLayout());
+        projectFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length);
+        permissionsPanel.addSection(AppContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS), projectFormHelper.getLayout());
 
         return permissionsPanel;
     }
@@ -107,8 +93,7 @@ public class ProjectRoleReadViewImpl extends VerticalLayout implements ProjectRo
         for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
             String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
             Enum permissionKey = RolePermissionI18nEnum.valueOf(permissionPath);
-            projectFormHelper.addComponent(
-                    new Label(AppContext.getPermissionCaptionValue(permissionMap, permissionKey.name())),
+            projectFormHelper.addComponent(new Label(AppContext.getPermissionCaptionValue(permissionMap, permissionKey.name())),
                     AppContext.getMessage(permissionKey), 0, i);
         }
 
@@ -152,7 +137,6 @@ public class ProjectRoleReadViewImpl extends VerticalLayout implements ProjectRo
 
     private ComponentContainer constructHeader() {
         header = new MHorizontalLayout().withStyleName("hdr-view").withWidth("100%").withMargin(true);
-        headerText.setStyleName("header-text");
         header.with(headerText).alignAll(Alignment.MIDDLE_LEFT).expand(headerText);
         return header;
     }

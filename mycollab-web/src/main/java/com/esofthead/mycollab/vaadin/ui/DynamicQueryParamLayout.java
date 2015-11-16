@@ -75,7 +75,7 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends 
                 callSearchAction();
             }
         });
-        searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        searchBtn.setStyleName(UIConstants.BUTTON_ACTION);
         searchBtn.setIcon(FontAwesome.SEARCH);
 
         buttonControls.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_CENTER);
@@ -101,7 +101,7 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends 
                         .moveToBasicSearchLayout();
             }
         });
-        basicSearchBtn.setStyleName(UIConstants.THEME_LINK);
+        basicSearchBtn.setStyleName(UIConstants.BUTTON_LINK);
         buttonControls.with(basicSearchBtn).withAlign(basicSearchBtn, Alignment.MIDDLE_CENTER);
         return buttonControls;
     }

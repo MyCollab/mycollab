@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.module.crm.ui.components;
 
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
+import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
 import org.vaadin.viritin.button.MButton;
@@ -25,20 +27,24 @@ import org.vaadin.viritin.button.MButton;
  * @since 5.0.0
  */
 public class ComponentUtils {
-    public static MButton createCustomizeViewButton() {
+    public static final HeaderWithFontAwesome header(String resId, String title) {
+        return HeaderWithFontAwesome.h2(CrmAssetsManager.getAsset(resId), title);
+    }
+
+    public static final MButton createCustomizeViewButton() {
         MButton customizeViewBtn = new MButton("");
         customizeViewBtn.setIcon(FontAwesome.ADJUST);
         customizeViewBtn.setDescription("Layout Options");
-        customizeViewBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        customizeViewBtn.setStyleName(UIConstants.BUTTON_ACTION);
         customizeViewBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
         return customizeViewBtn;
     }
 
-    public static MButton createImportEntitiesButton() {
+    public static final MButton createImportEntitiesButton() {
         MButton importBtn = new MButton("");
         importBtn.setDescription("Import");
         importBtn.setIcon(FontAwesome.CLOUD_UPLOAD);
-        importBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        importBtn.setStyleName(UIConstants.BUTTON_ACTION);
         importBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
         return importBtn;
     }

@@ -60,7 +60,7 @@ RelatedItemSelectionWindow<SimpleAccount, AccountSearchCriteria> {
 				close();
 			}
 		});
-		selectBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+		selectBtn.setStyleName(UIConstants.BUTTON_ACTION);
 
 		AccountSimpleSearchPanel accountSimpleSearchPanel = new AccountSimpleSearchPanel();
 		accountSimpleSearchPanel

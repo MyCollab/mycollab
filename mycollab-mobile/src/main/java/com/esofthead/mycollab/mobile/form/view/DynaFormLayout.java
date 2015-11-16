@@ -129,8 +129,7 @@ public class DynaFormLayout implements IFormLayoutFactory {
 		if (dynaField != null) {
 			DynaSection section = dynaField.getOwnSection();
 			MobileGridFormLayoutHelper gridLayout = sectionMappings.get(section);
-			gridLayout.addComponent(field, dynaField.getDisplayName(), 0,
-					dynaField.getFieldIndex(), Alignment.TOP_RIGHT);
+			gridLayout.addComponent(field, dynaField.getDisplayName(), 0, dynaField.getFieldIndex(), Alignment.TOP_RIGHT);
 
 		}
 	}

@@ -31,6 +31,7 @@ import com.esofthead.mycollab.module.user.domain.criteria.UserSearchCriteria
 import com.esofthead.mycollab.module.user.service.UserService
 import com.esofthead.mycollab.schedule.jobs.GenericQuartzJobBean
 import org.quartz.{JobExecutionContext, JobExecutionException}
+import org.slf4j.{LoggerFactory, Logger}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.config.BeanDefinition
 import org.springframework.context.annotation.Scope
@@ -43,6 +44,7 @@ import org.springframework.stereotype.Component
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 class UserSignUpEmailNotificationJob extends GenericQuartzJobBean {
+    private val LOG: Logger = LoggerFactory.getLogger(classOf[UserSignUpEmailNotificationJob])
     @Autowired var userService: UserService = _
     @Autowired var extMailService: ExtMailService = _
     @Autowired var contentGenerator: IContentGenerator = _
@@ -69,15 +71,19 @@ class UserSignUpEmailNotificationJob extends GenericQuartzJobBean {
     }
 
     def sendConfirmEmailToUser(user: SimpleUser) {
-        contentGenerator.putVariable("user", user)
-        val siteUrl = GenericLinkUtils.generateSiteUrlByAccountId(user.getAccountId)
-        contentGenerator.putVariable("siteUrl", siteUrl)
-        val confirmLink = siteUrl + "user/confirm_signup/" + UrlEncodeDecoder.encode(user.getUsername + "/" + user.getAccountId)
-        contentGenerator.putVariable("linkConfirm", confirmLink)
-        extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getDefaultSiteName,
-            Arrays.asList(new MailRecipientField(user.getEmail, user.getDisplayName)), null, null,
-            contentGenerator.parseString(LocalizationHelper.getMessage(SiteConfiguration.getDefaultLocale,
-                UserI18nEnum.MAIL_CONFIRM_PASSWORD_SUBJECT)),
-            contentGenerator.parseFile(CONFIRM_EMAIL_TEMPLATE, SiteConfiguration.getDefaultLocale), null)
+        try {
+            contentGenerator.putVariable("user", user)
+            val siteUrl = GenericLinkUtils.generateSiteUrlByAccountId(user.getAccountId)
+            contentGenerator.putVariable("siteUrl", siteUrl)
+            val confirmLink = siteUrl + "user/confirm_signup/" + UrlEncodeDecoder.encode(user.getUsername + "/" + user.getAccountId)
+            contentGenerator.putVariable("linkConfirm", confirmLink)
+            extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getDefaultSiteName,
+                Arrays.asList(new MailRecipientField(user.getEmail, user.getDisplayName)), null, null,
+                contentGenerator.parseString(LocalizationHelper.getMessage(SiteConfiguration.getDefaultLocale,
+                    UserI18nEnum.MAIL_CONFIRM_PASSWORD_SUBJECT)),
+                contentGenerator.parseFile(CONFIRM_EMAIL_TEMPLATE, SiteConfiguration.getDefaultLocale), null)
+        } catch {
+            case e: Exception => LOG.error("Can not send confirm email ", e)
+        }
     }
 }

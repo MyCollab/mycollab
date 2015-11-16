@@ -49,6 +49,7 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
+import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -85,45 +86,42 @@ public class ProjectInfoComponent extends MHorizontalLayout {
     };
 
     public ProjectInfoComponent(final SimpleProject project) {
-        this.withMargin(true);
-        this.addStyleName("project-info");
-        this.setWidth("100%");
-        this.setHeight("80px");
-        Label headerLbl = new Label(FontAwesome.BUILDING_O.getHtml() + String.format(" %s (%s)", project.getName(),
-                project.getShortname()), ContentMode.HTML);
+        this.withMargin(true).withStyleName("project-info").withFullWidth().withHeight("80px");
+        ELabel headerLbl = ELabel.h2(FontAwesome.BUILDING_O.getHtml() + String.format(" %s (%s)", project.getName(),
+                project.getShortname()));
         headerLbl.setDescription(project.getDescription());
         headerLbl.addStyleName("header");
         MVerticalLayout headerLayout = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, true));
-        headerLayout.with(headerLbl);
 
         MHorizontalLayout footer = new MHorizontalLayout();
         footer.addStyleName("desc");
         if (project.getHomepage() != null) {
-            Label homepageLbl = new Label(FontAwesome.WECHAT.getHtml() + " " + new A(project.getHomepage())
-                    .appendText(project.getHomepage()).setTarget("_blank").write(), ContentMode.HTML);
+            ELabel homepageLbl = new ELabel(FontAwesome.WECHAT.getHtml() + " " + new A(project.getHomepage())
+                    .appendText(project.getHomepage()).setTarget("_blank").write(), ContentMode.HTML)
+                    .withStyleName(ValoTheme.LABEL_SMALL);
             homepageLbl.setDescription(AppContext.getMessage(ProjectI18nEnum.FORM_HOME_PAGE));
             footer.addComponent(homepageLbl);
         }
 
         if (project.getNumActiveMembers() > 0) {
             Label activeMembersLbl = new ELabel(FontAwesome.USERS.getHtml() + " " + project.getNumActiveMembers(),
-                    ContentMode.HTML).withDescription("Active members");
+                    ContentMode.HTML).withDescription("Active members").withStyleName(ValoTheme.LABEL_SMALL);
             footer.addComponent(activeMembersLbl);
         }
 
         Label createdTimeLbl = new ELabel(FontAwesome.CLOCK_O.getHtml() + " " + AppContext.formatPrettyTime(project.getCreatedtime()),
-                ContentMode.HTML).withDescription("Created time");
+                ContentMode.HTML).withDescription("Created time").withStyleName(ValoTheme.LABEL_SMALL);
         footer.add(createdTimeLbl);
 
         billableHoursLbl = new ELabel(FontAwesome.MONEY.getHtml() + " " + NumberUtils.roundDouble(2, project.getTotalBillableHours()),
-                ContentMode.HTML).withDescription("Billable hours");
+                ContentMode.HTML).withDescription("Billable hours").withStyleName(ValoTheme.LABEL_SMALL);
         footer.addComponent(billableHoursLbl);
 
         nonBillableHoursLbl = new ELabel(FontAwesome.GIFT.getHtml() + " " + project.getTotalNonBillableHours(),
-                ContentMode.HTML).withDescription("Non billable hours");
+                ContentMode.HTML).withDescription("Non billable hours").withStyleName(ValoTheme.LABEL_SMALL);
         footer.addComponent(nonBillableHoursLbl);
 
-        headerLayout.with(footer);
+        headerLayout.with(headerLbl, footer);
         this.with(headerLayout).expand(headerLayout);
 
         MHorizontalLayout topPanel = new MHorizontalLayout().withMargin(false);
@@ -141,7 +139,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
 
                 }
             });
-            activeProjectBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+            activeProjectBtn.setStyleName(UIConstants.BUTTON_ACTION);
             topPanel.with(activeProjectBtn).withAlign(activeProjectBtn, Alignment.MIDDLE_RIGHT);
         } else {
             SearchTextField searchField = new SearchTextField() {
@@ -152,9 +150,8 @@ public class ProjectInfoComponent extends MHorizontalLayout {
 
             final PopupButton controlsBtn = new PopupButton();
             controlsBtn.setIcon(FontAwesome.ELLIPSIS_H);
-            controlsBtn.addStyleName(UIConstants.THEME_BLANK_LINK);
 
-            OptionPopupContent popupButtonsControl = new OptionPopupContent().withWidth("150px");
+            OptionPopupContent popupButtonsControl = new OptionPopupContent();
 
             Button createPhaseBtn = new Button(AppContext.getMessage(MilestoneI18nEnum.BUTTON_NEW_PHASE), new Button.ClickListener() {
                 @Override
@@ -330,14 +327,14 @@ public class ProjectInfoComponent extends MHorizontalLayout {
                 });
                 deleteProjectBtn.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.PROJECT));
                 deleteProjectBtn.setIcon(FontAwesome.TRASH_O);
-                popupButtonsControl.addOption(deleteProjectBtn);
+                popupButtonsControl.addDangerOption(deleteProjectBtn);
             }
 
             controlsBtn.setContent(popupButtonsControl);
             controlsBtn.setWidthUndefined();
 
-            topPanel.with(searchField, controlsBtn).withAlign(searchField, Alignment.MIDDLE_RIGHT).withAlign(controlsBtn,
-                    Alignment.MIDDLE_RIGHT);
+            topPanel.with(searchField, controlsBtn).withAlign(searchField, Alignment.TOP_RIGHT).withAlign(controlsBtn,
+                    Alignment.TOP_RIGHT);
         }
     }
 

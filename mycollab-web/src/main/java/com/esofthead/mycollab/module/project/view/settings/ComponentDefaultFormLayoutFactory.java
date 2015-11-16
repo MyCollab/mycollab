@@ -35,34 +35,22 @@ public class ComponentDefaultFormLayoutFactory {
 
     static {
         defaultForm = new DynaForm();
-        DynaSection mainSection = new DynaSectionBuilder().layoutType(
-                LayoutType.ONE_COLUMN).build();
+        DynaSection mainSection = new DynaSectionBuilder().layoutType(LayoutType.ONE_COLUMN).build();
 
-        mainSection
-                .addField(new TextDynaFieldBuilder()
-                        .fieldName(Component.Field.componentname)
-                        .displayName(
-                                AppContext
-                                        .getMessage(ComponentI18nEnum.FORM_NAME))
-                        .required(true).mandatory(true).fieldIndex(0).build());
+        mainSection.addField(new TextDynaFieldBuilder().fieldName(Component.Field.componentname)
+                .displayName(AppContext.getMessage(ComponentI18nEnum.FORM_NAME))
+                .required(true).mandatory(true).fieldIndex(0).build());
 
-        mainSection.addField(new TextDynaFieldBuilder()
-                .fieldName(Component.Field.description)
-                .displayName(
-                        AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION))
+        mainSection.addField(new TextDynaFieldBuilder().fieldName(Component.Field.description)
+                .displayName(AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION))
                 .fieldIndex(1).build());
 
-        mainSection
-                .addField(new TextDynaFieldBuilder()
-                        .fieldName(Component.Field.userlead)
-                        .displayName(
-                                AppContext
-                                        .getMessage(ComponentI18nEnum.FORM_LEAD))
-                        .fieldIndex(2).build());
+        mainSection.addField(new TextDynaFieldBuilder().fieldName(Component.Field.userlead)
+                .displayName(AppContext.getMessage(ComponentI18nEnum.FORM_LEAD))
+                .fieldIndex(2).build());
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(Component.Field.id).displayName(AppContext
-                .getMessage(ComponentI18nEnum.FORM_BUGS)).fieldIndex(3)
-                .build());
+                .getMessage(ComponentI18nEnum.FORM_BUGS)).fieldIndex(3).build());
 
         defaultForm.addSection(mainSection);
     }

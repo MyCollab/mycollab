@@ -30,6 +30,7 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.themes.ValoTheme;
 import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -55,7 +56,7 @@ public class TagListViewImpl extends AbstractPageView implements TagListView {
 
         Label headerLbl = new Label(FontAwesome.TAGS.getHtml() + " Tags", ContentMode.HTML);
         headerLbl.setSizeUndefined();
-        headerLbl.setStyleName("hdr-text");
+        headerLbl.setStyleName(ValoTheme.LABEL_H2);
         header.with(headerLbl);
 
         MHorizontalLayout contentWrapper = new MHorizontalLayout();

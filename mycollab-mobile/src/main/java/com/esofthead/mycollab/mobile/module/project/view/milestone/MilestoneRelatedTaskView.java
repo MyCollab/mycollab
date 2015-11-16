@@ -32,16 +32,13 @@ import com.vaadin.ui.Component;
  *
  * @since 4.5.2
  */
-public class MilestoneRelatedTaskView extends
-		AbstractRelatedListView<SimpleTask, TaskSearchCriteria> {
-
+public class MilestoneRelatedTaskView extends AbstractRelatedListView<SimpleTask, TaskSearchCriteria> {
 	private static final long serialVersionUID = 5053569495583750804L;
 
 	private SimpleMilestone milestone;
 
 	public MilestoneRelatedTaskView() {
-		this.setCaption(AppContext
-				.getMessage(TaskI18nEnum.M_VIEW_RELATED_TITLE));
+		this.setCaption(AppContext.getMessage(TaskI18nEnum.M_VIEW_RELATED_TITLE));
 		itemList = new TaskListDisplay();
 		this.setContent(itemList);
 	}
@@ -58,8 +55,7 @@ public class MilestoneRelatedTaskView extends
 
 	private void loadTasks() {
 		TaskSearchCriteria criteria = new TaskSearchCriteria();
-		criteria.setProjectid(new NumberSearchField(CurrentProjectVariables
-				.getProjectId()));
+		criteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
 		criteria.setMilestoneId(new NumberSearchField(milestone.getId()));
 		setSearchCriteria(criteria);
 	}

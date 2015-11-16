@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.common.service.ibatis;
 
-import com.esofthead.mycollab.cache.CacheUtils;
 import com.esofthead.mycollab.common.dao.TagMapper;
 import com.esofthead.mycollab.common.domain.Tag;
 import com.esofthead.mycollab.common.domain.TagExample;

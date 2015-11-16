@@ -33,14 +33,12 @@ public class MessageScreenData {
 	}
 
 	public static class Read extends ScreenData<Integer> {
-
 		public Read(Integer params) {
 			super(params);
 		}
 	}
 
 	public static class Search extends ScreenData<MessageSearchCriteria> {
-
 		public Search(MessageSearchCriteria params) {
 			super(params);
 		}

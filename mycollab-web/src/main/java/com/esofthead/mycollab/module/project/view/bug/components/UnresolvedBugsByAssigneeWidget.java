@@ -35,6 +35,7 @@ import com.esofthead.mycollab.vaadin.ui.DepotWithChart;
 import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
@@ -66,7 +67,7 @@ public class UnresolvedBugsByAssigneeWidget extends DepotWithChart {
         if (!groupItems.isEmpty()) {
             for (GroupItem item : groupItems) {
                 MHorizontalLayout assigneeLayout = new MHorizontalLayout().withWidth("100%");
-
+                assigneeLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
                 String assignUser = item.getGroupid();
                 String assignUserFullName = item.getGroupid() == null ? AppContext.getMessage(BugI18nEnum.OPT_UNDEFINED_USER) :
                         item.getGroupname();
@@ -80,7 +81,6 @@ public class UnresolvedBugsByAssigneeWidget extends DepotWithChart {
                 assigneeLayout.with(indicator).expand(indicator);
                 bodyContent.addComponent(assigneeLayout);
             }
-
         }
     }
 
@@ -96,7 +96,7 @@ public class UnresolvedBugsByAssigneeWidget extends DepotWithChart {
         private static final long serialVersionUID = 1L;
 
         public BugAssigneeLink(final String assignee, final String assigneeAvatarId, final String assigneeFullName) {
-            super(assigneeFullName, new Button.ClickListener() {
+            super(StringUtils.trim(assigneeFullName, 25, true), new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;
 
                 @Override
@@ -106,14 +106,14 @@ public class UnresolvedBugsByAssigneeWidget extends DepotWithChart {
                 }
             });
 
-            this.setStyleName(UIConstants.THEME_LINK);
+            this.setStyleName(UIConstants.BUTTON_LINK);
             this.setWidth("110px");
             this.addStyleName(UIConstants.TEXT_ELLIPSIS);
             this.setIcon(UserAvatarControlFactory.createAvatarResource(assigneeAvatarId, 16));
             UserService service = ApplicationContextUtil.getSpringBean(UserService.class);
             SimpleUser user = service.findUserByUserNameInAccount(assignee, AppContext.getAccountId());
             this.setDescription(CommonTooltipGenerator.generateTooltipUser(AppContext.getUserLocale(), user,
-                    AppContext.getSiteUrl(), AppContext.getTimezone()));
+                    AppContext.getSiteUrl(), AppContext.getUserTimezone()));
         }
     }
 }

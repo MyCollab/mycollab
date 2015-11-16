@@ -42,6 +42,7 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.themes.ValoTheme;
 import org.apache.commons.lang3.StringUtils;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -67,7 +68,7 @@ public class ProjectSearchItemsViewImpl extends AbstractPageView implements Proj
         this.addComponent(layout);
 
         Label headerLbl = new Label("", ContentMode.HTML);
-        headerLbl.addStyleName("headerName");
+        headerLbl.addStyleName(ValoTheme.LABEL_H2);
 
         DefaultBeanPagedList<ProjectGenericItemService, ProjectGenericItemSearchCriteria, ProjectGenericItem>
                 searchItemsTable = new DefaultBeanPagedList<>(ApplicationContextUtil.getSpringBean(ProjectGenericItemService.class), new
@@ -89,7 +90,7 @@ public class ProjectSearchItemsViewImpl extends AbstractPageView implements Proj
                     .withWidth("100%");
             Label link = new Label(ProjectLinkBuilder.generateProjectItemHtmlLink(item.getProjectShortName(), item
                     .getProjectId(), item.getSummary(), item.getType(), item.getTypeId()), ContentMode.HTML);
-            link.setStyleName("h2");
+            link.setStyleName(ValoTheme.LABEL_H3);
 
             String desc = (StringUtils.isBlank(item.getDescription())) ? "&lt;&lt;No description&gt;&gt;" : item
                     .getDescription();

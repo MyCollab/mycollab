@@ -58,7 +58,7 @@ public class ProjectRoleSearchPanel extends DefaultGenericSearchPanel<ProjectRol
 
     @Override
     protected HeaderWithFontAwesome buildSearchTitle() {
-        return new HeaderWithFontAwesome(FontAwesome.GROUP, AppContext.getMessage(ProjectRoleI18nEnum.VIEW_LIST_TITLE));
+        return HeaderWithFontAwesome.h2(FontAwesome.GROUP, AppContext.getMessage(ProjectRoleI18nEnum.VIEW_LIST_TITLE));
     }
 
     @Override
@@ -71,7 +71,7 @@ public class ProjectRoleSearchPanel extends DefaultGenericSearchPanel<ProjectRol
                 EventBusFactory.getInstance().post(new ProjectRoleEvent.GotoAdd(this, null));
             }
         });
-        createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        createBtn.setStyleName(UIConstants.BUTTON_ACTION);
         createBtn.setIcon(FontAwesome.PLUS);
         createBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.ROLES));
         this.addHeaderRight(createBtn);
@@ -117,7 +117,7 @@ public class ProjectRoleSearchPanel extends DefaultGenericSearchPanel<ProjectRol
                     callSearchAction();
                 }
             });
-            searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+            searchBtn.setStyleName(UIConstants.BUTTON_ACTION);
             searchBtn.setIcon(FontAwesome.SEARCH);
             basicSearchBody.addComponent(searchBtn);
 

@@ -171,7 +171,7 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
                     GetStartedInstructionWindow.this.close();
                 }
             });
-            addNewBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+            addNewBtn.setStyleName(UIConstants.BUTTON_ACTION);
 
             Button doneBtn = new Button("Done", new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;
@@ -185,7 +185,7 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
                     GetStartedInstructionWindow.this.close();
                 }
             });
-            doneBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+            doneBtn.setStyleName(UIConstants.BUTTON_ACTION);
             controlsBtn.with(addNewBtn, doneBtn);
             contentLayout.with(controlsBtn).withAlign(controlsBtn, Alignment.MIDDLE_RIGHT);
         }

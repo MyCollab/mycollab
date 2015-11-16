@@ -41,7 +41,6 @@ import java.util.Map;
  */
 @ViewComponent
 public class ProjectRoleAddViewImpl extends AbstractEditItemComp<ProjectRole> implements ProjectRoleAddView {
-
     private static final long serialVersionUID = 1L;
     private final Map<String, AccessPermissionComboBox> permissionControlsMap = new HashMap<>();
 
@@ -104,11 +103,7 @@ public class ProjectRoleAddViewImpl extends AbstractEditItemComp<ProjectRole> im
 
     @Override
     protected ComponentContainer createBottomPanel() {
-        final VerticalLayout permissionsPanel = new VerticalLayout();
-        final Label organizationHeader = new Label(
-                AppContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS));
-        organizationHeader.setStyleName("h2");
-        permissionsPanel.addComponent(organizationHeader);
+        final FormContainer permissionsPanel = new FormContainer();
 
         PermissionMap perMap;
         if (beanItem instanceof SimpleProjectRole) {
@@ -128,11 +123,9 @@ public class ProjectRoleAddViewImpl extends AbstractEditItemComp<ProjectRole> im
             permissionBox.setValue(flag);
             permissionControlsMap.put(permissionPath, permissionBox);
             permissionFormHelper.addComponent(permissionBox,
-                    AppContext.getMessage(RolePermissionI18nEnum
-                            .valueOf(permissionPath)), 0, i);
+                    AppContext.getMessage(RolePermissionI18nEnum.valueOf(permissionPath)), 0, i);
         }
-
-        permissionsPanel.addComponent(permissionFormHelper.getLayout());
+        permissionsPanel.addSection(AppContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS), permissionFormHelper.getLayout());
 
         return permissionsPanel;
     }
@@ -147,5 +140,4 @@ public class ProjectRoleAddViewImpl extends AbstractEditItemComp<ProjectRole> im
         }
         return permissionMap;
     }
-
 }

@@ -17,28 +17,30 @@
 package com.esofthead.mycollab.module.project.view;
 
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.0
- * 
  */
 public class AbstractProjectPageView extends AbstractPageView {
     private static final long serialVersionUID = 1L;
 
-    protected Label headerText;
+    protected ELabel headerText;
     protected CssLayout contentWrapper;
     protected MHorizontalLayout header;
 
     public AbstractProjectPageView(String headerText, FontAwesome icon) {
         super();
 
-        this.headerText = new Label(icon.getHtml() + " " + headerText, ContentMode.HTML);
+        this.headerText = ELabel.h2(icon.getHtml() + " " + headerText);
         super.addComponent(constructHeader());
 
         contentWrapper = new CssLayout();
@@ -48,7 +50,6 @@ public class AbstractProjectPageView extends AbstractPageView {
     }
 
     private ComponentContainer constructHeader() {
-        headerText.setStyleName("hdr-text");
         header = new MHorizontalLayout().with(headerText).withStyleName("hdr-view").withWidth("100%").withMargin(true);
         return header;
     }

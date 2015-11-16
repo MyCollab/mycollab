@@ -42,6 +42,7 @@ import com.esofthead.mycollab.module.project.ui.form.ProjectFormAttachmentDispla
 import com.esofthead.mycollab.module.project.ui.form.ProjectItemViewField;
 import com.esofthead.mycollab.module.project.ui.format.TaskFieldFormatter;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
+import com.esofthead.mycollab.module.project.view.task.components.TaskTimeLogSheet;
 import com.esofthead.mycollab.schedule.email.project.ProjectTaskRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.utils.TooltipHelper;
@@ -131,7 +132,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
         } else if (beanItem.isPending()) {
             addLayoutStyleName(UIConstants.LINK_PENDING);
         } else if (beanItem.isOverdue()) {
-            addLayoutStyleName("headerNameOverdue");
+            addLayoutStyleName(UIConstants.LABEL_OVERDUE);
         }
 
         if (!beanItem.isCompleted()) {
@@ -163,8 +164,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
 
     @Override
     protected IFormLayoutFactory initFormLayoutFactory() {
-        return new DynaFormLayout(ProjectTypeConstants.TASK,
-                TaskDefaultFormLayoutFactory.getForm(), Task.Field.taskname.name());
+        return new DynaFormLayout(ProjectTypeConstants.TASK, TaskDefaultFormLayoutFactory.getForm(), Task.Field.taskname.name());
     }
 
     @Override
@@ -209,7 +209,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
             }
         });
 
-        quickActionStatusBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        quickActionStatusBtn.setStyleName(UIConstants.BUTTON_ACTION);
         taskPreviewForm.insertToControlBlock(quickActionStatusBtn);
 
         if (!CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) {
@@ -236,34 +236,32 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
     }
 
     private static class TaskPreviewFormLayout extends ReadViewLayout {
-        private Label titleLbl;
+        private ELabel titleLbl;
 
         void displayTaskHeader(SimpleTask task) {
             if (task.getParenttaskid() == null) {
                 MHorizontalLayout header = new MHorizontalLayout().withWidth("100%");
-                titleLbl = new Label(task.getTaskname());
-                titleLbl.setStyleName("headerName");
+                titleLbl = ELabel.h2(task.getTaskname());
                 header.with(titleLbl).expand(titleLbl);
                 this.addHeader(header);
             } else {
                 MVerticalLayout header = new MVerticalLayout().withMargin(false);
                 Label parentLabel = new Label(buildParentTaskLink(task), ContentMode.HTML);
 
-                titleLbl = new Label("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + task.getTaskname(), ContentMode.HTML);
-                titleLbl.setStyleName("headerName");
+                titleLbl = ELabel.h2("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + task.getTaskname());
                 header.with(parentLabel, titleLbl);
                 this.addHeader(header);
             }
 
             if (task.isCompleted()) {
-                titleLbl.removeStyleName("pending headerNameOverdue");
+                titleLbl.removeStyleName("pending overdue");
                 titleLbl.addStyleName("completed");
             } else if (task.isPending()) {
-                titleLbl.removeStyleName("completed headerNameOverdue");
+                titleLbl.removeStyleName("completed overdue");
                 titleLbl.addStyleName("pending");
             } else if (task.isOverdue()) {
                 titleLbl.removeStyleName("completed pending");
-                titleLbl.setStyleName("headerNameOverdue");
+                titleLbl.addStyleName("overdue");
             }
         }
 
@@ -279,18 +277,8 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
         }
 
         @Override
-        public void clearTitleStyleName() {
-            titleLbl.setStyleName("headerName");
-        }
-
-        @Override
         public void addTitleStyleName(String styleName) {
             titleLbl.addStyleName(styleName);
-        }
-
-        @Override
-        public void setTitleStyleName(String styleName) {
-            titleLbl.setStyleName(styleName);
         }
 
         @Override
@@ -387,7 +375,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
 
                 }
             });
-            addNewTaskBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+            addNewTaskBtn.setStyleName(UIConstants.BUTTON_ACTION);
             addNewTaskBtn.setIcon(FontAwesome.PLUS);
             addNewTaskBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
 
@@ -423,7 +411,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
             } else if (subTask.isPending()) {
                 taskLink.addStyleName("pending");
             }
-            taskLink.addStyleName("wordWrap");
+            taskLink.addStyleName(UIConstants.LABEL_WORD_WRAP);
             layout.with(checkBox, taskLink).expand(taskLink);
 
             checkBox.addValueChangeListener(new ValueChangeListener() {
@@ -471,14 +459,14 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
 
             if (subTask.getPercentagecomplete() != null && subTask.getPercentagecomplete() > 0) {
                 Div completeTxt = new Div().appendChild(new Text(String.format(" %s%%", subTask.getPercentagecomplete())))
-                        .setStyle("display:inline").setCSSClass("footer2");
+                        .setStyle("display:inline").setCSSClass(UIConstants.LABEL_META_INFO);
                 resultDiv.appendChild(completeTxt);
             }
 
             if (subTask.getDeadline() != null) {
                 Div deadline = new Div().appendChild(new Text(String.format(" - %s: %s", AppContext.getMessage(TaskI18nEnum.FORM_DEADLINE),
                         AppContext.formatPrettyTime(subTask.getDeadlineRoundPlusOne())))).setStyle("display:inline").
-                        setCSSClass("footer2").setTitle(AppContext.formatDate(subTask.getDeadline()));
+                        setCSSClass(UIConstants.LABEL_META_INFO).setTitle(AppContext.formatDate(subTask.getDeadline()));
 
                 resultDiv.appendChild(deadline);
             }
@@ -499,7 +487,6 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
             this.addComponent(peopleInfoHeader);
 
             GridLayout layout = new GridLayout(2, 2);
-            layout.setSpacing(true);
             layout.setWidth("100%");
             layout.setMargin(new MarginInfo(false, false, false, true));
             try {

@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.vaadin.ui;
 
 import com.esofthead.mycollab.configuration.StorageFactory;
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.user.AccountLinkGenerator;
 import com.esofthead.mycollab.utils.TooltipHelper;
@@ -25,7 +26,6 @@ import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Label;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.UUID;
 
@@ -45,7 +45,7 @@ public class UserLink extends Label {
         DivLessFormatter div = new DivLessFormatter();
         Img userAvatar = new Img("", StorageFactory.getInstance().getAvatarPath(userAvatarId, 16));
         A userLink = new A().setId("tag" + uid).setHref(AccountLinkGenerator.generatePreviewFullUserLink(AppContext.getSiteUrl(),
-                username)).appendText(com.esofthead.mycollab.core.utils.StringUtils.trim(displayName, 30, true));
+                username)).appendText(StringUtils.trim(displayName, 30, true));
         userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(uid, username));
         userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
         div.appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink, DivLessFormatter.EMPTY_SPACE(),

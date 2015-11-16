@@ -47,8 +47,7 @@ public class ProjectSettingPresenter extends AbstractPresenter<ProjectSettingVie
         ProjectNotificationSettingService projectNotificationSettingService = ApplicationContextUtil
                 .getSpringBean(ProjectNotificationSettingService.class);
         ProjectNotificationSetting notification = projectNotificationSettingService
-                .findNotification(AppContext.getUsername(),
-                        CurrentProjectVariables.getProjectId(),
+                .findNotification(AppContext.getUsername(), CurrentProjectVariables.getProjectId(),
                         AppContext.getAccountId());
 
         ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);

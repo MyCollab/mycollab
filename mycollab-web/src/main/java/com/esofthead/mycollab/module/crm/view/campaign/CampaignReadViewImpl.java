@@ -153,14 +153,10 @@ public class CampaignReadViewImpl extends AbstractPreviewItemComp<SimpleCampaign
 
         previewItemContainer.selectTab(CrmTypeConstants.DETAIL);
 
-        previewLayout.resetTitleStyle();
-
         Date now = new GregorianCalendar().getTime();
         String status = this.beanItem.getStatus();
-        if (!"Complete".equals(status)
-                && (this.beanItem.getEnddate() != null && this.beanItem
-                .getEnddate().before(now))) {
-            previewLayout.setTitleStyleName("hdr-text-overdue");
+        if (!"Completed" .equals(status) && (this.beanItem.getEnddate() != null && this.beanItem.getEnddate().before(now))) {
+            previewLayout.addTitleStyleName(UIConstants.LABEL_OVERDUE);
         }
     }
 

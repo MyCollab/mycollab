@@ -21,6 +21,7 @@ import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.common.interceptor.aspect.ClassInfo;
 import com.esofthead.mycollab.common.interceptor.aspect.ClassInfoMap;
 import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
+import com.esofthead.mycollab.configuration.IDeploymentMode;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
@@ -85,6 +86,9 @@ public class ProjectServiceImpl extends DefaultService<Integer, Project, Project
 
     @Autowired
     private BillingPlanCheckerService billingPlanCheckerService;
+
+    @Autowired
+    private IDeploymentMode deploymentMode;
 
     @Autowired
     private AsyncEventBus asyncEventBus;
@@ -229,7 +233,7 @@ public class ProjectServiceImpl extends DefaultService<Integer, Project, Project
 
     @Override
     public String getSubdomainOfProject(Integer projectId) {
-        if (SiteConfiguration.getDeploymentMode() == SiteConfiguration.DeploymentMode.site) {
+        if (deploymentMode.isDemandEdition()) {
             return projectMapperExt.getSubdomainOfProject(projectId);
         } else {
             return SiteConfiguration.getSiteUrl("");

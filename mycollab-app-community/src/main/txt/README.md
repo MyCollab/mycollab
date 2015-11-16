@@ -43,6 +43,27 @@ understanding in a matter of minutes.
 Last changelog
 ==============
 
+Version 5.2.2
+-----------------------------
+
+**Library Upgrades**
+
+* Joda 2.9
+* Quartz 2.2.2
+* Http component 4.4.4, other libraries
+
+**Improvements & New Features**
+
+* Add timeline tracking chart
+* Major UI updates includes animations, consistent UI controls and colors
+* Detect more potential issues of installation and give the solutions to users
+
+**Bug Fixes**
+
+* Fix several issues of push events in the corporate networks
+* Advanced user layout does not keep values of the simple user layout
+* Pretty time text is wrong with several timezones
+
 Version 5.2.1
 -----------------------------
 

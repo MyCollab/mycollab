@@ -26,5 +26,9 @@ import java.util.List;
  * @since 5.1.1
  */
 public abstract class BugGroupOrderComponent extends CssLayout {
+    public BugGroupOrderComponent() {
+        this.setWidth("100%");
+    }
+
     abstract public void insertBugs(List<SimpleBug> tasks);
 }

@@ -89,7 +89,7 @@ public class UpgradeConfirmWindow extends Window {
                 navigateToWaitingUpgradePage();
             }
         });
-        autoUpgradeBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+        autoUpgradeBtn.addStyleName(UIConstants.BUTTON_ACTION);
         buttonControls.with(skipBtn, autoUpgradeBtn);
         content.with(buttonControls).withAlign(buttonControls, Alignment.MIDDLE_RIGHT);
     }

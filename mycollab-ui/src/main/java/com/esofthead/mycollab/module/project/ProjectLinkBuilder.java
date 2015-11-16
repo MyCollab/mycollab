@@ -135,6 +135,19 @@ public class ProjectLinkBuilder {
                 + ProjectLinkGenerator.generateMilestonePreviewLink(projectId, milestoneId);
     }
 
+    public static final String generatePageFolderFullLink(Integer projectId, String folderPath) {
+        if (projectId == null || folderPath == null) {
+            return "";
+        }
+        return AppContext.getSiteUrl() + GenericLinkUtils.URL_PREFIX_PARAM
+                + ProjectLinkGenerator.generatePagesLink(projectId, folderPath);
+    }
+
+    public static final String generatePageFullLink(Integer projectId, String pagePath) {
+        return AppContext.getSiteUrl() + GenericLinkUtils.URL_PREFIX_PARAM
+                + ProjectLinkGenerator.generatePageRead(projectId, pagePath);
+    }
+
     public static String generateProjectItemHtmlLink(String prjShortName, Integer projectId, String summary, String type, String typeId) {
         String uid = UUID.randomUUID().toString();
         Text image = new Text(ProjectAssetsManager.getAsset(type).getHtml());

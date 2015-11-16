@@ -72,6 +72,12 @@
 
         <table schema="mycollab" tableName="s_favorite"
                domainObjectName="FavoriteItem"/>
+
+        <table schema="mycollab" tableName="s_timeline_tracking"
+               domainObjectName="TimelineTracking"/>
+
+        <table schema="mycollab" tableName="s_timeline_tracking_cache"
+               domainObjectName="TimelineTrackingCaching"/>
     </context>
 
 </generatorConfiguration>

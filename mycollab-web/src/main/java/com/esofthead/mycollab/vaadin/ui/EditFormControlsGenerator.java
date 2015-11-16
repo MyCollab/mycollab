@@ -62,7 +62,7 @@ public class EditFormControlsGenerator<T> implements Serializable {
                 }
             });
             saveBtn.setIcon(FontAwesome.SAVE);
-            saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+            saveBtn.setStyleName(UIConstants.BUTTON_ACTION);
             layout.addComponent(saveBtn);
         }
 
@@ -78,7 +78,7 @@ public class EditFormControlsGenerator<T> implements Serializable {
                 }
             });
             saveAndNewBtn.setIcon(FontAwesome.SHARE_ALT);
-            saveAndNewBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+            saveAndNewBtn.setStyleName(UIConstants.BUTTON_ACTION);
             layout.addComponent(saveAndNewBtn);
         }
 

@@ -91,7 +91,7 @@ public class OptionI18nEnum {
 
     @BaseName("localization/project-bug-related")
     @LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
-    public static enum BugRelation {
+    public enum BugRelation {
         Related, Duplicated, Block
     }
 }

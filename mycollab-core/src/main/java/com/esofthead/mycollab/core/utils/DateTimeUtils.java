@@ -48,20 +48,11 @@ public class DateTimeUtils {
      * @return
      */
     public static Date trimHMSOfDate(Date value) {
-        GregorianCalendar calendar = new GregorianCalendar();
-        calendar.setTime(value);
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        return calendar.getTime();
+        return new LocalDate(value).toDate();
     }
 
     public static Date getCurrentDateWithoutMS() {
-        GregorianCalendar calendar = new GregorianCalendar();
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        return calendar.getTime();
+        return new LocalDate().toDate();
     }
 
     public static Date convertDateByString(String strDate, String format) {
@@ -77,7 +68,7 @@ public class DateTimeUtils {
     }
 
     public static String converToStringWithUserTimeZone(String dateVal, String dateFormat, TimeZone userTimeZone) {
-        Date date = convertDateByFormatW3C(dateVal);
+        Date date = parseDateByW3C(dateVal);
         return converToStringWithUserTimeZone(date, dateFormat, userTimeZone);
     }
 
@@ -85,7 +76,7 @@ public class DateTimeUtils {
      * @param strDate
      * @return
      */
-    public static Date convertDateByFormatW3C(String strDate) {
+    public static Date parseDateByW3C(String strDate) {
         String formatW3C = "yyyy-MM-dd'T'HH:mm:ss";
         if (strDate != null && !strDate.equals("")) {
             SimpleDateFormat formatter = new SimpleDateFormat(formatW3C);
@@ -154,11 +145,17 @@ public class DateTimeUtils {
         }
     }
 
-    public static Date convertTimeFromSystemTimezoneToUTC(long timeInMillis) {
-        DateTime dt = new DateTime();
-        dt = dt.withMillis(-DateTimeZone.getDefault().getOffset(timeInMillis) + timeInMillis);
-        dt = dt.withZone(utcZone);
-        return dt.toDate();
+    /**
+     * @param date
+     * @return
+     */
+    public static Date convertDateTimeToUTC(Date date) {
+        return convertDateTimeByTimezone(date, DateTimeZone.UTC.toTimeZone());
+    }
+
+    public static Date convertDateTimeByTimezone(Date date, TimeZone timeZone) {
+        DateTime dateTime = new DateTime(date);
+        return dateTime.toDateTime(DateTimeZone.forTimeZone(timeZone)).toLocalDateTime().toDate();
     }
 
     /**
@@ -189,12 +186,6 @@ public class DateTimeUtils {
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
         Date end = calendar.getTime();
         return new Date[]{begin, end};
-    }
-
-    public static int compareByDate(Date date1, Date date2) {
-        Date newDate1 = trimHMSOfDate(date1);
-        Date newDate2 = trimHMSOfDate(date2);
-        return newDate1.compareTo(newDate2);
     }
 
     public static LocalDate min(LocalDate... values) {

@@ -18,6 +18,10 @@ package com.esofthead.mycollab.vaadin.ui;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HasComponents;
+import com.vaadin.ui.UI;
+import com.vaadin.ui.Window;
+
+import java.util.Collection;
 
 /**
  * @author MyCollab Ltd
@@ -34,5 +38,12 @@ public class UIUtils {
             }
         }
         return null;
+    }
+
+    public static void removeAllWindows() {
+        Collection<Window> windows = UI.getCurrent().getWindows();
+        for (Window window : windows) {
+            window.close();
+        }
     }
 }

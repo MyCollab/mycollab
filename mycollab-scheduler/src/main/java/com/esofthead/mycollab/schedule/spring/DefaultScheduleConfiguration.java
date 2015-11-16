@@ -20,6 +20,7 @@ import com.esofthead.mycollab.schedule.AutowiringSpringBeanJobFactory;
 import com.esofthead.mycollab.schedule.QuartzScheduleProperties;
 import com.esofthead.mycollab.schedule.email.user.service.SendUserInvitationEmailJob;
 import com.esofthead.mycollab.schedule.email.user.service.UserSignUpEmailNotificationJob;
+import com.esofthead.mycollab.schedule.jobs.CleanupTimeTrackingCacheDataJob;
 import com.esofthead.mycollab.schedule.jobs.CrmSendingRelayEmailNotificationJob;
 import com.esofthead.mycollab.schedule.jobs.ProjectSendingRelayEmailNotificationJob;
 import com.esofthead.mycollab.schedule.jobs.SendingRelayEmailJob;
@@ -48,6 +49,13 @@ public class DefaultScheduleConfiguration {
     public JobDetailFactoryBean sendInviteUserEmailJob() {
         JobDetailFactoryBean bean = new JobDetailFactoryBean();
         bean.setJobClass(SendUserInvitationEmailJob.class);
+        return bean;
+    }
+
+    @Bean
+    public JobDetailFactoryBean cleanTimelineTrackingCacheJob() {
+        JobDetailFactoryBean bean = new JobDetailFactoryBean();
+        bean.setJobClass(CleanupTimeTrackingCacheDataJob.class);
         return bean;
     }
 
@@ -109,6 +117,14 @@ public class DefaultScheduleConfiguration {
         CronTriggerFactoryBean bean = new CronTriggerFactoryBean();
         bean.setJobDetail(sendInviteUserEmailJob().getObject());
         bean.setCronExpression("0 * * * * ?");
+        return bean;
+    }
+
+    @Bean
+    public CronTriggerFactoryBean cleanUpTimelineCacheData() {
+        CronTriggerFactoryBean bean = new CronTriggerFactoryBean();
+        bean.setJobDetail(cleanTimelineTrackingCacheJob().getObject());
+        bean.setCronExpression("0 0 0 * * ?");
         return bean;
     }
 

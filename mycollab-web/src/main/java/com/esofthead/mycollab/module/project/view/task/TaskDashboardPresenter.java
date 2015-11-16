@@ -70,7 +70,7 @@ public class TaskDashboardPresenter extends ProjectGenericListPresenter<TaskDash
             breadCrumb.gotoTaskDashboard();
 
             displayListView(container, data);
-            view.lazyLoadView();
+            view.displayView();
         } else {
             NotificationUtil.showMessagePermissionAlert();
         }

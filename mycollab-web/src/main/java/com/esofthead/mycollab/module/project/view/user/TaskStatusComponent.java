@@ -34,20 +34,16 @@ import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanPagedList;
 import com.esofthead.mycollab.vaadin.ui.DefaultBeanPagedList;
+import com.esofthead.mycollab.vaadin.ui.Depot;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
 import com.vaadin.data.Property;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Label;
+import com.vaadin.ui.*;
 import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
-import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.List;
 import java.util.UUID;
@@ -56,21 +52,14 @@ import java.util.UUID;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class TaskStatusComponent extends MVerticalLayout {
+public class TaskStatusComponent extends Depot {
     private static final long serialVersionUID = 1L;
 
-    private Label titleLbl;
     private TaskStatusPagedList taskComponents;
     private ProjectGenericTaskSearchCriteria searchCriteria;
 
     public TaskStatusComponent() {
-        withSpacing(false).withMargin(new MarginInfo(true, false, true, false));
-
-        MHorizontalLayout header = new MHorizontalLayout().withSpacing(false).withMargin(new MarginInfo(false, true,
-                false, true)).withHeight("34px");
-        header.addStyleName("panel-header");
-
-        titleLbl = new Label(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_OPEN_ASSIGNMENTS_TITLE, 0));
+        super(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_OPEN_ASSIGNMENTS_TITLE, 0), new CssLayout());
 
         final CheckBox overdueSelection = new CheckBox("Overdue");
         overdueSelection.addValueChangeListener(new Property.ValueChangeListener() {
@@ -100,12 +89,12 @@ public class TaskStatusComponent extends MVerticalLayout {
             }
         });
 
-        header.with(titleLbl, overdueSelection, myItemsOnly).withAlign(titleLbl, Alignment.MIDDLE_LEFT).withAlign
-                (overdueSelection, Alignment.MIDDLE_RIGHT).withAlign(myItemsOnly, Alignment.MIDDLE_RIGHT).expand(titleLbl);
+        this.addHeaderElement(overdueSelection);
+        this.addHeaderElement(myItemsOnly);
 
         taskComponents = new TaskStatusPagedList();
 
-        this.with(header, taskComponents);
+        bodyContent.addComponent(taskComponents);
     }
 
     public void showProjectTasksByStatus(List<Integer> prjKeys) {
@@ -117,7 +106,7 @@ public class TaskStatusComponent extends MVerticalLayout {
 
     private void updateSearchResult() {
         taskComponents.setSearchCriteria(searchCriteria);
-        titleLbl.setValue(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_OPEN_ASSIGNMENTS_TITLE, taskComponents.getTotalCount()));
+        setTitle(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_OPEN_ASSIGNMENTS_TITLE, taskComponents.getTotalCount()));
     }
 
     private static class TaskStatusPagedList extends DefaultBeanPagedList<ProjectGenericTaskService,

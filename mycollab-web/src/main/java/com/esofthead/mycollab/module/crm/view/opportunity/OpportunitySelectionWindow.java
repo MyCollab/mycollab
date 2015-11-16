@@ -94,7 +94,7 @@ public class OpportunitySelectionWindow extends Window {
                     }
                 });
                 b.setDescription(CrmTooltipGenerator.generateTooltipOpportunity(AppContext.getUserLocale(),
-                        opportunity, AppContext.getSiteUrl(), AppContext.getTimezone()));
+                        opportunity, AppContext.getSiteUrl(), AppContext.getUserTimezone()));
                 return b;
             }
         });

@@ -18,8 +18,6 @@ package com.esofthead.mycollab.vaadin.ui;
 
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

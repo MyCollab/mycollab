@@ -18,56 +18,41 @@ package com.esofthead.mycollab.shell.view.components;
 
 import com.esofthead.mycollab.common.i18n.ShellI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.web.CustomLayoutExt;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.ValoTheme;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
-public class NoSubDomainExistedWindow extends VerticalLayout {
-	private static final long serialVersionUID = 1L;
+public class NoSubDomainExistedWindow extends MVerticalLayout {
+    private static final long serialVersionUID = 1L;
 
-	public NoSubDomainExistedWindow(final String domain) {
-		NoSubDomainLayout contentLayout = new NoSubDomainLayout(domain);
-		contentLayout.setWidth("616px");
-		this.addComponent(contentLayout);
-		this.setComponentAlignment(contentLayout, Alignment.MIDDLE_CENTER);
-	}
+    public NoSubDomainExistedWindow(final String domain) {
+        this.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+        final Label titleIcon = new ELabel(FontAwesome.EXCLAMATION_CIRCLE.getHtml(), ContentMode.HTML).withWidthUndefined();
+        titleIcon.setStyleName("warning-icon");
+        titleIcon.addStyleName(ValoTheme.LABEL_NO_MARGIN);
 
-	private class NoSubDomainLayout extends CustomLayoutExt {
-		private static final long serialVersionUID = 1L;
+        Label warningMsg = new ELabel(AppContext.getMessage(ShellI18nEnum.ERROR_NO_SUB_DOMAIN, domain)).withWidthUndefined();
 
-		public NoSubDomainLayout(final String domain) {
-			super("noSubdomainWindow");
+        Button backToHome = new Button(AppContext.getMessage(ShellI18nEnum.BUTTON_BACK_TO_HOME_PAGE), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-			VerticalLayout warningContent = new VerticalLayout();
-			Label warningMsg = new Label(AppContext.getMessage(ShellI18nEnum.ERROR_NO_SUB_DOMAIN, domain));
-			warningContent.addComponent(warningMsg);
-
-			Button backToHome = new Button(
-					AppContext.getMessage(ShellI18nEnum.BUTTON_BACK_TO_HOME_PAGE),
-					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
-
-						@Override
-						public void buttonClick(ClickEvent event) {
-							getUI().getPage().setLocation("https://www.mycollab.com");
-						}
-					});
-			backToHome.addStyleName(UIConstants.THEME_GREEN_LINK);
-			warningContent.addComponent(backToHome);
-			warningContent.setComponentAlignment(backToHome,
-					Alignment.MIDDLE_CENTER);
-			warningContent.setHeight("97px");
-			this.addComponent(warningContent, "warning-message");
-		}
-	}
+            @Override
+            public void buttonClick(ClickEvent event) {
+                getUI().getPage().setLocation("https://www.mycollab.com");
+            }
+        });
+        backToHome.addStyleName(UIConstants.BUTTON_ACTION);
+        this.with(titleIcon, warningMsg, backToHome);
+    }
 }

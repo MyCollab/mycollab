@@ -45,15 +45,7 @@ public abstract class ReadViewLayout extends CustomLayoutExt {
 		this.addComponent(bottomControls, "readViewBottomControls");
 	}
 
-	public void clearTitleStyleName() {
-		throw new MyCollabException("Must be implemented in the sub class");
-	}
-
 	public void addTitleStyleName(String styleName) {
-		throw new MyCollabException("Must be implemented in the sub class");
-	}
-
-	public void setTitleStyleName(String styleName) {
 		throw new MyCollabException("Must be implemented in the sub class");
 	}
 

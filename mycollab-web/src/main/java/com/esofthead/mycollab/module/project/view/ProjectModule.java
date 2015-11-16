@@ -30,12 +30,14 @@ import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.ui.OptionPopupContent;
 import com.esofthead.mycollab.vaadin.ui.ServiceMenu;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.web.IDesktopModule;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
+import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.teemu.VaadinIcons;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -119,8 +121,8 @@ public class ProjectModule extends AbstractPageView implements IDesktopModule {
         final ProjectPagedList projectList = new ProjectPagedList();
         projectList.addStyleName("contentWrapper");
         final Label titleLbl = new Label(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_ACTIVE_PROJECTS_TITLE, 0));
-        titleLbl.setStyleName("h2");
-        MVerticalLayout contentLayout = new MVerticalLayout().withWidth("500px");
+        titleLbl.setStyleName(ValoTheme.LABEL_H2);
+        OptionPopupContent contentLayout = new OptionPopupContent().withWidth("500px");
 
         final TextField searchField = new TextField();
         searchField.setInputPrompt("Search");
@@ -138,16 +140,16 @@ public class ProjectModule extends AbstractPageView implements IDesktopModule {
                         ProjectCommonI18nEnum.WIDGET_ACTIVE_PROJECTS_TITLE, count));
             }
         });
-        searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        searchBtn.setStyleName(UIConstants.BUTTON_ACTION);
         searchBtn.setIcon(FontAwesome.SEARCH);
 
-        MHorizontalLayout popupHeader = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, false))
+        MHorizontalLayout popupHeader = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true))
                 .withWidth("100%");
-        MHorizontalLayout searchPanel = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, false));
+        MHorizontalLayout searchPanel = new MHorizontalLayout().withMargin(true);
         searchPanel.with(searchField, searchBtn);
-        popupHeader.with(titleLbl, searchPanel).withAlign(titleLbl, Alignment.MIDDLE_LEFT).withAlign
-                (searchPanel, Alignment.MIDDLE_RIGHT);
-        contentLayout.with(popupHeader, projectList);
+        popupHeader.with(titleLbl, searchPanel).withAlign(titleLbl, Alignment.MIDDLE_LEFT).expand(titleLbl);
+        contentLayout.addBlankOption(popupHeader);
+        contentLayout.addBlankOption(projectList);
         switchProjectPopup.setContent(contentLayout);
 
         switchProjectPopup.addPopupVisibilityListener(new PopupButton.PopupVisibilityListener() {

@@ -34,6 +34,7 @@ import com.esofthead.mycollab.vaadin.ui.ButtonI18nComp;
 import com.esofthead.mycollab.vaadin.ui.DepotWithChart;
 import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -80,10 +81,11 @@ public class UnresolvedBugsByPriorityWidget extends DepotWithChart {
                     if (priority.name().equals(item.getGroupid())) {
                         isFound = true;
                         MHorizontalLayout priorityLayout = new MHorizontalLayout().withWidth("100%");
+                        priorityLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
                         ButtonI18nComp priorityLink = new ButtonI18nComp(priority.name(), priority, listener);
                         priorityLink.setIcon(ProjectAssetsManager.getBugPriority(priority.name()));
                         priorityLink.setWidth("110px");
-                        priorityLink.setStyleName(UIConstants.THEME_LINK);
+                        priorityLink.setStyleName(UIConstants.BUTTON_LINK);
                         priorityLink.addStyleName("bug-" + priority.name().toLowerCase());
 
                         ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount, totalCount - item.getValue(), false);
@@ -97,10 +99,11 @@ public class UnresolvedBugsByPriorityWidget extends DepotWithChart {
 
                 if (!isFound) {
                     MHorizontalLayout priorityLayout = new MHorizontalLayout().withWidth("100%");
+                    priorityLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
                     Button priorityLink = new ButtonI18nComp(priority.name(), priority, listener);
                     priorityLink.setIcon(ProjectAssetsManager.getBugPriority(priority.name()));
                     priorityLink.setWidth("110px");
-                    priorityLink.setStyleName(UIConstants.THEME_LINK);
+                    priorityLink.setStyleName(UIConstants.BUTTON_LINK);
                     priorityLink.addStyleName("bug-" + priority.name().toLowerCase());
                     ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount, totalCount, false);
                     indicator.setWidth("100%");

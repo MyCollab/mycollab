@@ -35,13 +35,17 @@ import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsUtil;
-import com.esofthead.mycollab.module.project.ui.components.*;
+import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
+import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
+import com.esofthead.mycollab.module.project.ui.components.ProjectActivityComponent;
+import com.esofthead.mycollab.module.project.ui.components.ProjectMemberLink;
 import com.esofthead.mycollab.module.project.ui.format.MilestoneFieldFormatter;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.esofthead.mycollab.schedule.email.project.ProjectMilestoneRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.AsyncInvoker;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.*;
@@ -141,7 +145,8 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
 
     @Override
     protected IFormLayoutFactory initFormLayoutFactory() {
-        return new DynaFormLayout(ProjectTypeConstants.MILESTONE, MilestoneDefaultFormLayoutFactory.getForm(), Milestone.Field.name.name());
+        return new DynaFormLayout(ProjectTypeConstants.MILESTONE, MilestoneDefaultFormLayoutFactory.getForm(),
+                Milestone.Field.name.name());
     }
 
     @Override
@@ -274,51 +279,48 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
 
         private void updateSearchStatus() {
             assignmentsLayout.removeAllComponents();
-            new Thread() {
-                public void run() {
-                    UI.getCurrent().access(new Runnable() {
-                        @Override
-                        public void run() {
-                            final ProjectGenericTaskService genericTaskService = ApplicationContextUtil.getSpringBean(ProjectGenericTaskService.class);
-                            int totalCount = genericTaskService.getTotalCount(searchCriteria);
-                            for (int i = 0; i < (totalCount / 20) + 1; i++) {
-                                List<ProjectGenericTask> genericTasks = genericTaskService.findPagableListByCriteria(new SearchRequest<>(searchCriteria, i + 1, 20));
-                                if (CollectionUtils.isNotEmpty(genericTasks)) {
-                                    for (ProjectGenericTask genericTask : genericTasks) {
-                                        Div issueDiv = new Div();
-                                        String uid = UUID.randomUUID().toString();
-                                        A taskLink = new A().setId("tag" + uid);
-                                        taskLink.setHref(ProjectLinkBuilder.generateProjectItemLink(genericTask.getProjectShortName(),
-                                                genericTask.getProjectId(), genericTask.getType(), genericTask.getExtraTypeId() + ""));
-                                        taskLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, genericTask.getType(), genericTask.getTypeId() + ""));
-                                        taskLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
-                                        taskLink.appendText(String.format("[#%d] - %s", genericTask.getExtraTypeId(), genericTask.getName()));
-                                        issueDiv.appendChild(taskLink, TooltipHelper.buildDivTooltipEnable(uid));
-                                        Label issueLbl = new Label(issueDiv.write(), ContentMode.HTML);
-                                        if (genericTask.isClosed()) {
-                                            issueLbl.addStyleName("completed");
-                                        } else if (genericTask.isOverdue()) {
-                                            issueLbl.addStyleName("overdue");
-                                        }
-                                        MHorizontalLayout rowComp = new MHorizontalLayout();
-                                        rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
-                                        rowComp.with(new ELabel(ProjectAssetsManager.getAsset(genericTask.getType()).getHtml(), ContentMode.HTML));
-                                        String avatarLink = StorageFactory.getInstance().getAvatarPath(genericTask.getAssignUserAvatarId(), 16);
-                                        Img img = new Img(genericTask.getAssignUserFullName(), avatarLink).setTitle(genericTask
-                                                .getAssignUserFullName());
-                                        rowComp.with(new ELabel(img.write(), ContentMode.HTML));
 
-                                        MCssLayout issueWrapper = new MCssLayout(issueLbl);
-                                        rowComp.with(issueWrapper);
-                                        assignmentsLayout.add(rowComp);
-                                    }
-                                    UI.getCurrent().push();
+            AsyncInvoker.access(new AsyncInvoker.PageCommand() {
+                @Override
+                public void run() {
+                    final ProjectGenericTaskService genericTaskService = ApplicationContextUtil.getSpringBean(ProjectGenericTaskService.class);
+                    int totalCount = genericTaskService.getTotalCount(searchCriteria);
+                    for (int i = 0; i < (totalCount / 20) + 1; i++) {
+                        List<ProjectGenericTask> genericTasks = genericTaskService.findPagableListByCriteria(new SearchRequest<>(searchCriteria, i + 1, 20));
+                        if (CollectionUtils.isNotEmpty(genericTasks)) {
+                            for (ProjectGenericTask genericTask : genericTasks) {
+                                Div issueDiv = new Div();
+                                String uid = UUID.randomUUID().toString();
+                                A taskLink = new A().setId("tag" + uid);
+                                taskLink.setHref(ProjectLinkBuilder.generateProjectItemLink(genericTask.getProjectShortName(),
+                                        genericTask.getProjectId(), genericTask.getType(), genericTask.getExtraTypeId() + ""));
+                                taskLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, genericTask.getType(), genericTask.getTypeId() + ""));
+                                taskLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
+                                taskLink.appendText(String.format("[#%d] - %s", genericTask.getExtraTypeId(), genericTask.getName()));
+                                issueDiv.appendChild(taskLink, TooltipHelper.buildDivTooltipEnable(uid));
+                                Label issueLbl = new ELabel(issueDiv.write(), ContentMode.HTML).withWidth("100%")
+                                        .withStyleName(UIConstants.LABEL_WORD_WRAP);
+                                if (genericTask.isClosed()) {
+                                    issueLbl.addStyleName("completed");
+                                } else if (genericTask.isOverdue()) {
+                                    issueLbl.addStyleName("overdue");
                                 }
+                                MHorizontalLayout rowComp = new MHorizontalLayout();
+                                rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
+                                rowComp.with(new ELabel(ProjectAssetsManager.getAsset(genericTask.getType()).getHtml(), ContentMode.HTML));
+                                String avatarLink = StorageFactory.getInstance().getAvatarPath(genericTask.getAssignUserAvatarId(), 16);
+                                Img img = new Img(genericTask.getAssignUserFullName(), avatarLink).setTitle(genericTask
+                                        .getAssignUserFullName());
+
+                                MCssLayout issueWrapper = new MCssLayout(issueLbl);
+                                rowComp.with(new ELabel(img.write(), ContentMode.HTML), issueWrapper);
+                                assignmentsLayout.add(rowComp);
                             }
+                            this.push();
                         }
-                    });
+                    }
                 }
-            }.start();
+            });
         }
     }
 

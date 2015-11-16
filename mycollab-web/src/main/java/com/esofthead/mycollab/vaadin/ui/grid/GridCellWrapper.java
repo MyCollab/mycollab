@@ -40,8 +40,6 @@ class GridCellWrapper extends HorizontalLayout {
             component.setWidth("200px");
         } else if (component instanceof AbstractTextField || component instanceof RichTextArea) {
             component.setWidth("100%");
-        } else if (component instanceof DateField) {
-            component.setWidth("150px");
         }
         super.addComponent(component);
     }

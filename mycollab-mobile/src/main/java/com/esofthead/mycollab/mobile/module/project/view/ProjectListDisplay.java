@@ -30,40 +30,32 @@ import com.vaadin.ui.Component;
 
 /**
  * @author MyCollab Ltd.
- *
  * @since 4.4.0
- *
  */
-public class ProjectListDisplay extends
-		DefaultPagedBeanList<ProjectService, ProjectSearchCriteria, SimpleProject> {
-	private static final long serialVersionUID = -3362055893248919249L;
+public class ProjectListDisplay extends DefaultPagedBeanList<ProjectService, ProjectSearchCriteria, SimpleProject> {
+    private static final long serialVersionUID = -3362055893248919249L;
 
-	public ProjectListDisplay() {
-		super(ApplicationContextUtil.getSpringBean(ProjectService.class),
-				new ProjectRowDisplayHandler());
-	}
+    public ProjectListDisplay() {
+        super(ApplicationContextUtil.getSpringBean(ProjectService.class), new ProjectRowDisplayHandler());
+    }
 
-	public static class ProjectRowDisplayHandler implements
-			RowDisplayHandler<SimpleProject> {
+    public static class ProjectRowDisplayHandler implements RowDisplayHandler<SimpleProject> {
 
-		@Override
-		public Component generateRow(final SimpleProject project, int rowIndex) {
-			final Button b = new Button(project.getName());
-			b.addClickListener(new Button.ClickListener() {
-				private static final long serialVersionUID = 6404941057797908742L;
+        @Override
+        public Component generateRow(final SimpleProject project, int rowIndex) {
+            final Button b = new Button(project.getName());
+            b.addClickListener(new Button.ClickListener() {
+                private static final long serialVersionUID = 6404941057797908742L;
 
-				@Override
-				public void buttonClick(Button.ClickEvent event) {
-					PageActionChain chain = new PageActionChain(
-							new ProjectScreenData.Goto(project.getId()));
-					EventBusFactory.getInstance().post(
-							new ProjectEvent.GotoMyProject(
-									ProjectRowDisplayHandler.this, chain));
-				}
-			});
-			b.setWidth("100%");
-			b.addStyleName("list-item");
-			return b;
-		}
-	}
+                @Override
+                public void buttonClick(Button.ClickEvent event) {
+                    PageActionChain chain = new PageActionChain(new ProjectScreenData.Goto(project.getId()));
+                    EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(ProjectRowDisplayHandler.this, chain));
+                }
+            });
+            b.setWidth("100%");
+            b.addStyleName("list-item");
+            return b;
+        }
+    }
 }

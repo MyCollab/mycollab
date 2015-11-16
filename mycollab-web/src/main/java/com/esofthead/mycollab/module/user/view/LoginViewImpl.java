@@ -35,6 +35,7 @@ import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.UserError;
 import com.vaadin.ui.*;
+import com.vaadin.ui.themes.ValoTheme;
 
 /**
  * @author MyCollab Ltd.
@@ -56,8 +57,8 @@ public class LoginViewImpl extends AbstractPageView implements LoginView {
         private CustomLayout custom;
         private CheckBox rememberMe;
 
-        public LoginFormContainer() {
-
+        LoginFormContainer() {
+            this.setSizeFull();
         }
 
         @Override
@@ -73,7 +74,7 @@ public class LoginViewImpl extends AbstractPageView implements LoginView {
             rememberMe = new CheckBox(AppContext.getMessage(ShellI18nEnum.OPT_REMEMBER_PASSWORD), false);
             custom.addComponent(rememberMe, "rememberMe");
 
-            loginBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+            loginBtn.setStyleName(UIConstants.BUTTON_ACTION);
             loginBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
             custom.addComponent(loginBtn, "loginButton");
 
@@ -86,7 +87,7 @@ public class LoginViewImpl extends AbstractPageView implements LoginView {
                             EventBusFactory.getInstance().post(new ShellEvent.GotoForgotPasswordPage(this, null));
                         }
                     });
-            forgotPasswordBtn.setStyleName(UIConstants.THEME_LINK);
+            forgotPasswordBtn.setStyleName(UIConstants.BUTTON_LINK);
             custom.addComponent(forgotPasswordBtn, "forgotLink");
 
             if (ServerInstance.getInstance().isFirstTimeRunner()) {

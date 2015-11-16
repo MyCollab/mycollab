@@ -16,8 +16,8 @@
  */
 package com.esofthead.mycollab.module.user.service.mybatis;
 
+import com.esofthead.mycollab.configuration.IDeploymentMode;
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
@@ -27,6 +27,7 @@ import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
+import com.esofthead.mycollab.module.billing.UserStatusConstants;
 import com.esofthead.mycollab.module.billing.service.BillingPlanCheckerService;
 import com.esofthead.mycollab.module.file.service.UserAvatarService;
 import com.esofthead.mycollab.module.user.dao.RolePermissionMapper;
@@ -36,6 +37,7 @@ import com.esofthead.mycollab.module.user.dao.UserMapperExt;
 import com.esofthead.mycollab.module.user.domain.*;
 import com.esofthead.mycollab.module.user.domain.criteria.UserSearchCriteria;
 import com.esofthead.mycollab.module.user.esb.DeleteUserEvent;
+import com.esofthead.mycollab.module.user.esb.SendUserInvitationEvent;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.security.PermissionMap;
 import com.google.common.eventbus.AsyncEventBus;
@@ -82,6 +84,9 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
     @Autowired
     private AsyncEventBus asyncEventBus;
 
+    @Autowired
+    private IDeploymentMode deploymentMode;
+
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public ICrudGenericDAO getCrudMapper() {
@@ -100,7 +105,7 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
         // check if user email has already in this account yet
         UserAccountExample userAccountEx = new UserAccountExample();
 
-        if (SiteConfiguration.getDeploymentMode() == SiteConfiguration.DeploymentMode.site) {
+        if (deploymentMode.isDemandEdition()) {
             userAccountEx.createCriteria().andUsernameEqualTo(record.getEmail())
                     .andAccountidEqualTo(sAccountId).andRegisterstatusIn(Arrays.asList(
                     RegisterStatusConstants.ACTIVE,
@@ -145,7 +150,7 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
         UserExample userEx = new UserExample();
         userEx.createCriteria().andUsernameEqualTo(record.getUsername());
         if (userMapper.countByExample(userEx) == 0) {
-            record.setRegisterstatus(RegisterStatusConstants.VERIFICATING);
+            record.setRegisterstatus(UserStatusConstants.EMAIL_NOT_VERIFIED);
             userMapper.insert(record);
             userAvatarService.uploadDefaultAvatar(record.getUsername());
         }
@@ -159,12 +164,12 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
         userAccount.setUsername(record.getUsername());
         userAccount.setRegisteredtime(new GregorianCalendar().getTime());
         userAccount.setLastaccessedtime(new GregorianCalendar().getTime());
-        userAccount.setRegisterstatus(RegisterStatusConstants.VERIFICATING);
+        userAccount.setRegisterstatus(RegisterStatusConstants.SENT_VERIFICATION_EMAIL);
         userAccount.setInviteuser(inviteUser);
 
-        LOG.debug("Check whether user is already in this account with status different than ACTIVE, then change status of him");
+        LOG.debug("Check whether user is already in this account with status different than ACTIVE, then change his status");
         userAccountEx = new UserAccountExample();
-        if (SiteConfiguration.getDeploymentMode() == SiteConfiguration.DeploymentMode.site) {
+        if (deploymentMode.isDemandEdition()) {
             userAccountEx.createCriteria().andUsernameEqualTo(record.getEmail()).andAccountidEqualTo(sAccountId);
         } else {
             userAccountEx.createCriteria().andUsernameEqualTo(record.getEmail());
@@ -175,6 +180,10 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
         } else {
             userAccountMapper.insert(userAccount);
         }
+
+        SendUserInvitationEvent invitationEvent = new SendUserInvitationEvent(record.getUsername(), record
+                .getDisplayName(), record.getSubdomain(), sAccountId);
+        asyncEventBus.post(invitationEvent);
     }
 
     @Override
@@ -245,43 +254,37 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
 
     @SuppressWarnings({"rawtypes", "unchecked"})
     @Override
-    public SimpleUser authentication(String username, String password,
-                                     String subDomain, boolean isPasswordEncrypt) {
+    public SimpleUser authentication(String username, String password, String subDomain, boolean isPasswordEncrypt) {
         UserSearchCriteria criteria = new UserSearchCriteria();
         criteria.setUsername(new StringSearchField(username));
         criteria.setRegisterStatuses(new SetSearchField<>(RegisterStatusConstants.ACTIVE));
         criteria.setSaccountid(null);
 
-        if (SiteConfiguration.getDeploymentMode() == SiteConfiguration.DeploymentMode.site) {
+        if (deploymentMode.isDemandEdition()) {
             criteria.setSubdomain(new StringSearchField(subDomain));
         }
 
-        List<SimpleUser> users = findPagableListByCriteria(new SearchRequest<>(
-                criteria, 0, Integer.MAX_VALUE));
+        List<SimpleUser> users = findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
         if (users == null || users.isEmpty()) {
             throw new UserInvalidInputException(String.format("User %s is not existed in this domain %s", username, subDomain));
         } else {
             SimpleUser user = users.get(0);
-            if (user.getPassword() == null || !PasswordEncryptHelper.checkPassword(password,
-                    user.getPassword(), isPasswordEncrypt)) {
+            if (user.getPassword() == null || !PasswordEncryptHelper.checkPassword(password, user.getPassword(), isPasswordEncrypt)) {
                 LOG.debug(String.format("PASS: %s   %s", password, user.getPassword()));
                 throw new UserInvalidInputException("Invalid username or password");
             }
 
             LOG.debug(String.format("User %s login to system successfully!", username));
 
-            if (user.getIsAccountOwner() == null || (user.getIsAccountOwner() != null
-                    && !user.getIsAccountOwner())) {
+            if (user.getIsAccountOwner() == null || (user.getIsAccountOwner() != null && !user.getIsAccountOwner())) {
                 if (user.getRoleid() != null) {
                     LOG.debug(String.format("User %s is not admin. Getting his role", username));
                     RolePermissionExample ex = new RolePermissionExample();
                     ex.createCriteria().andRoleidEqualTo(user.getRoleid());
-                    List roles = rolePermissionMapper
-                            .selectByExampleWithBLOBs(ex);
+                    List roles = rolePermissionMapper.selectByExampleWithBLOBs(ex);
                     if (CollectionUtils.isNotEmpty(roles)) {
                         RolePermission rolePer = (RolePermission) roles.get(0);
-                        PermissionMap permissionMap = PermissionMap
-                                .fromJsonString(rolePer.getRoleval());
+                        PermissionMap permissionMap = PermissionMap.fromJsonString(rolePer.getRoleval());
                         user.setPermissionMaps(permissionMap);
                         LOG.debug(String.format("Find role match to user %s", username));
                     } else {

@@ -42,22 +42,31 @@ public class ViewManager {
         }
 
         try {
+            LoadPolicy policy = viewClass.getAnnotation(LoadPolicy.class);
+            if (policy != null && policy.scope() == ViewScope.PROTOTYPE) {
+                return createInstanceFromCls(viewClass);
+            }
             T value = (T) viewMap.get(viewClass);
             if (value == null) {
-                ComponentScannerService componentScannerService = ApplicationContextUtil.getSpringBean
-                        (ComponentScannerService.class);
-                Class<?> implCls = componentScannerService.getViewImplCls(viewClass);
-                if (implCls != null) {
-                    value = (T) implCls.newInstance();
-                    viewMap.put(viewClass, value);
-                    return value;
-                }
+                value = createInstanceFromCls(viewClass);
+                viewMap.put(viewClass, value);
+                return value;
             } else {
                 return value;
             }
-            throw new MyCollabException("Can not find the implementation class for view " + viewClass);
         } catch (Exception e) {
             throw new MyCollabException("Can not create view instance of class: " + viewClass, e);
         }
+    }
+
+    private static <T> T createInstanceFromCls(Class<T> viewClass) throws IllegalAccessException,
+            InstantiationException {
+        ComponentScannerService componentScannerService = ApplicationContextUtil.getSpringBean
+                (ComponentScannerService.class);
+        Class<?> implCls = componentScannerService.getViewImplCls(viewClass);
+        if (implCls != null) {
+            return (T) implCls.newInstance();
+        }
+        throw new MyCollabException("Can not find the implementation class for view " + viewClass);
     }
 }

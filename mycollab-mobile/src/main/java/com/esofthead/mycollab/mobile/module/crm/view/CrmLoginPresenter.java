@@ -28,7 +28,6 @@ import com.vaadin.ui.ComponentContainer;
  *
  */
 public class CrmLoginPresenter extends AbstractPresenter<CrmLoginView> {
-
 	private static final long serialVersionUID = -750325026975907368L;
 
 	public CrmLoginPresenter() {

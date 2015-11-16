@@ -103,7 +103,7 @@ public class PreviewFormControlsGenerator<T> implements Serializable {
                             }
                         });
                 addBtn.setIcon(FontAwesome.PLUS);
-                addBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+                addBtn.setStyleName(UIConstants.BUTTON_ACTION);
                 addBtn.setEnabled(canWrite);
                 editButtons.addComponent(addBtn);
             }
@@ -122,7 +122,7 @@ public class PreviewFormControlsGenerator<T> implements Serializable {
                             }
                         });
                 editBtn.setIcon(FontAwesome.EDIT);
-                editBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+                editBtn.setStyleName(UIConstants.BUTTON_ACTION);
                 editBtn.setEnabled(canWrite);
                 editButtons.addComponent(editBtn);
             }
@@ -140,7 +140,7 @@ public class PreviewFormControlsGenerator<T> implements Serializable {
                             }
                         });
                 deleteBtn.setIcon(FontAwesome.TRASH_O);
-                deleteBtn.setStyleName(UIConstants.THEME_RED_LINK);
+                deleteBtn.setStyleName(UIConstants.BUTTON_DANGER);
                 deleteBtn.setEnabled(canAccess);
                 editButtons.addComponent(deleteBtn);
             }
@@ -158,7 +158,7 @@ public class PreviewFormControlsGenerator<T> implements Serializable {
                             }
                         });
                 cloneBtn.setIcon(FontAwesome.ROAD);
-                cloneBtn.setStyleName(UIConstants.THEME_LINK);
+                cloneBtn.setStyleName(UIConstants.BUTTON_LINK);
                 cloneBtn.setEnabled(canWrite);
                 popupButtonsControl.addOption(cloneBtn);
             }
@@ -182,8 +182,7 @@ public class PreviewFormControlsGenerator<T> implements Serializable {
                     }
                 });
                 previousItem.setIcon(FontAwesome.CHEVRON_LEFT);
-                previousItem.setWidth("40px");
-                previousItem.setStyleName(UIConstants.THEME_GREEN_LINK);
+                previousItem.setStyleName(UIConstants.BUTTON_ACTION);
                 previousItem.setDescription(AppContext.getMessage(GenericI18Enum.TOOLTIP_SHOW_PREVIOUS_ITEM));
                 previousItem.setEnabled(canRead);
                 navigationBtns.addButton(previousItem);
@@ -198,8 +197,7 @@ public class PreviewFormControlsGenerator<T> implements Serializable {
                     }
                 });
                 nextItemBtn.setIcon(FontAwesome.CHEVRON_RIGHT);
-                nextItemBtn.setWidth("40px");
-                nextItemBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+                nextItemBtn.setStyleName(UIConstants.BUTTON_ACTION);
                 nextItemBtn.setDescription(AppContext.getMessage(GenericI18Enum.TOOLTIP_SHOW_NEXT_ITEM));
                 nextItemBtn.setEnabled(canRead);
                 navigationBtns.addButton(nextItemBtn);

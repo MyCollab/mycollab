@@ -59,7 +59,7 @@ class BasicInfoChangeWindow extends Window {
 
     public BasicInfoChangeWindow(final User user) {
         this.user = user;
-        this.setWidth("450px");
+        this.setWidth("600px");
         this.setResizable(false);
         this.setModal(true);
         this.initUI();
@@ -72,22 +72,16 @@ class BasicInfoChangeWindow extends Window {
 
         final GridFormLayoutHelper passInfo = GridFormLayoutHelper.defaultFormLayoutHelper(1, 6);
 
-        passInfo.addComponent(txtFirstName,
-                AppContext.getMessage(UserI18nEnum.FORM_FIRST_NAME), 0, 0);
-        passInfo.addComponent(txtLastName,
-                AppContext.getMessage(UserI18nEnum.FORM_LAST_NAME), 0, 1);
+        passInfo.addComponent(txtFirstName, AppContext.getMessage(UserI18nEnum.FORM_FIRST_NAME), 0, 0);
+        passInfo.addComponent(txtLastName, AppContext.getMessage(UserI18nEnum.FORM_LAST_NAME), 0, 1);
         this.txtLastName.setRequired(true);
-        passInfo.addComponent(txtEmail,
-                AppContext.getMessage(UserI18nEnum.FORM_EMAIL), 0, 2);
+        passInfo.addComponent(txtEmail, AppContext.getMessage(UserI18nEnum.FORM_EMAIL), 0, 2);
         this.txtEmail.setRequired(true);
-        passInfo.addComponent(birthdayField,
-                AppContext.getMessage(UserI18nEnum.FORM_BIRTHDAY), 0, 3);
+        passInfo.addComponent(birthdayField, AppContext.getMessage(UserI18nEnum.FORM_BIRTHDAY), 0, 3);
         this.birthdayField.setDate(this.user.getDateofbirth());
 
-        passInfo.addComponent(timeZoneField,
-                AppContext.getMessage(UserI18nEnum.FORM_TIMEZONE), 0, 4);
-        this.timeZoneField.setTimeZone(TimezoneMapper.getTimezoneExt(this.user
-                .getTimezone()));
+        passInfo.addComponent(timeZoneField, AppContext.getMessage(UserI18nEnum.FORM_TIMEZONE), 0, 4);
+        this.timeZoneField.setTimeZone(TimezoneMapper.getTimezoneExt(this.user.getTimezone()));
 
         passInfo.addComponent(languageBox,
                 AppContext.getMessage(UserI18nEnum.FORM_LANGUAGE), 0, 5);
@@ -126,7 +120,7 @@ class BasicInfoChangeWindow extends Window {
                         changeUserInfo();
                     }
                 });
-        saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        saveBtn.setStyleName(UIConstants.BUTTON_ACTION);
         saveBtn.setIcon(FontAwesome.SAVE);
 
         hlayoutControls.with(cancelBtn, saveBtn).alignAll(Alignment.MIDDLE_CENTER);

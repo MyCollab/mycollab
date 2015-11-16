@@ -21,13 +21,9 @@ import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.esofthead.mycollab.vaadin.desktop.ui.ListView;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
-public interface AccountListView extends
-		ListView<AccountSearchCriteria, SimpleAccount> {
-	public static final String VIEW_DEF_ID = "crm-account-list";
-
+public interface AccountListView extends ListView<AccountSearchCriteria, SimpleAccount> {
+    String VIEW_DEF_ID = "crm-account-list";
 }

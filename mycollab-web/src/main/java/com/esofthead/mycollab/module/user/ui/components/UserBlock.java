@@ -20,12 +20,11 @@ import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.user.AccountLinkBuilder;
 import com.esofthead.mycollab.utils.TooltipHelper;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.hp.gagawa.java.elements.A;
 import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
-import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.UUID;
@@ -37,8 +36,7 @@ import java.util.UUID;
 public class UserBlock extends MVerticalLayout {
     public UserBlock(String username, String userAvatarId, String displayName) {
         withMargin(false).withWidth("80px");
-        MButton button = new MButton(UserAvatarControlFactory.createAvatarResource(userAvatarId, 48)).
-                withStyleName(UIConstants.THEME_LINK);
+        Image avatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(userAvatarId, 48);
 
         String uid = UUID.randomUUID().toString();
         DivLessFormatter div = new DivLessFormatter();
@@ -48,6 +46,6 @@ public class UserBlock extends MVerticalLayout {
         userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
         div.appendChild(userLink, DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));
         Label userLbl = new Label(div.write(), ContentMode.HTML);
-        with(button, userLbl);
+        with(avatar, userLbl);
     }
 }

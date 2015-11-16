@@ -36,7 +36,7 @@ public class EmailConfiguration implements Cloneable {
     private String password;
 
     @Digits(integer = 6, fraction = 0)
-    private Integer port;
+    private Integer port = 25;
 
     private boolean isStartTls = false;
 

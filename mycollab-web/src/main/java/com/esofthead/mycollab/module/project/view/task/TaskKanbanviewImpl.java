@@ -23,7 +23,6 @@ import com.esofthead.mycollab.common.service.OptionValService;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
-import com.esofthead.mycollab.core.db.query.SearchFieldInfo;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
@@ -42,9 +41,12 @@ import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.view.ProjectView;
 import com.esofthead.mycollab.module.project.view.kanban.AddNewColumnWindow;
 import com.esofthead.mycollab.module.project.view.kanban.DeleteColumnWindow;
+import com.esofthead.mycollab.module.project.view.task.components.TaskSavedFilterComboBox;
+import com.esofthead.mycollab.module.project.view.task.components.TaskSearchPanel;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.AsyncInvoker;
 import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -121,20 +123,6 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
         groupWrapLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
         searchPanel.addHeaderRight(groupWrapLayout);
 
-        groupWrapLayout.addComponent(new Label("Filter:"));
-        final TaskSavedFilterComboBox savedFilterComboBox = new TaskSavedFilterComboBox();
-        savedFilterComboBox.addQuerySelectListener(new SavedFilterComboBox.QuerySelectListener() {
-            @Override
-            public void querySelect(SavedFilterComboBox.QuerySelectEvent querySelectEvent) {
-                List<SearchFieldInfo> fieldInfos = querySelectEvent.getSearchFieldInfos();
-                TaskSearchCriteria criteria = SearchFieldInfo.buildSearchCriteria(TaskSearchCriteria.class,
-                        fieldInfos);
-                criteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-                EventBusFactory.getInstance().post(new TaskEvent.SearchRequest(TaskKanbanviewImpl.this, criteria));
-            }
-        });
-        groupWrapLayout.addComponent(savedFilterComboBox);
-
         Button addNewColumnBtn = new Button("Add a new column", new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
@@ -143,7 +131,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
         });
         addNewColumnBtn.setIcon(FontAwesome.PLUS);
         addNewColumnBtn.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS));
-        addNewColumnBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        addNewColumnBtn.setStyleName(UIConstants.BUTTON_ACTION);
         groupWrapLayout.addComponent(addNewColumnBtn);
 
         Button deleteColumBtn = new Button("Delete columns", new Button.ClickListener() {
@@ -154,8 +142,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
         });
         deleteColumBtn.setIcon(FontAwesome.TRASH_O);
         deleteColumBtn.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS));
-        deleteColumBtn.setStyleName(UIConstants.THEME_RED_LINK);
-//        groupWrapLayout.addComponent(deleteColumBtn);
+        deleteColumBtn.setStyleName(UIConstants.BUTTON_DANGER);
 
         Button advanceDisplayBtn = new Button(null, new Button.ClickListener() {
             @Override
@@ -278,61 +265,59 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
     }
 
     @Override
+    public void display() {
+        searchPanel.selectQueryInfo(TaskSavedFilterComboBox.ALL_TASKS);
+    }
+
+    @Override
     public void queryTask(final TaskSearchCriteria searchCriteria) {
         kanbanLayout.removeAllComponents();
         kanbanBlocks = new ConcurrentHashMap<>();
 
         setProjectNavigatorVisibility(false);
-        new Thread() {
+        AsyncInvoker.access(new AsyncInvoker.PageCommand() {
             @Override
             public void run() {
-                UI.getCurrent().access(new Runnable() {
-                    @Override
-                    public void run() {
-                        List<OptionVal> optionVals = optionValService.findOptionVals(ProjectTypeConstants.TASK,
-                                CurrentProjectVariables.getProjectId(), AppContext.getAccountId());
-                        for (OptionVal optionVal : optionVals) {
-                            KanbanBlock kanbanBlock = new KanbanBlock(optionVal);
-                            kanbanBlocks.put(optionVal.getTypeval(), kanbanBlock);
-                            kanbanLayout.addComponent(kanbanBlock);
-                        }
-                        UI.getCurrent().push();
+                List<OptionVal> optionVals = optionValService.findOptionVals(ProjectTypeConstants.TASK,
+                        CurrentProjectVariables.getProjectId(), AppContext.getAccountId());
+                for (OptionVal optionVal : optionVals) {
+                    KanbanBlock kanbanBlock = new KanbanBlock(optionVal);
+                    kanbanBlocks.put(optionVal.getTypeval(), kanbanBlock);
+                    kanbanLayout.addComponent(kanbanBlock);
+                }
+                this.push();
 
-                        int totalTasks = taskService.getTotalCount(searchCriteria);
-                        searchPanel.setTotalCountNumber(totalTasks);
-                        int pages = totalTasks / 20;
-                        for (int page = 0; page < pages + 1; page++) {
-                            List<SimpleTask> tasks = taskService.findPagableListByCriteria(new SearchRequest<>(searchCriteria, page + 1, 20));
-                            if (CollectionUtils.isNotEmpty(tasks)) {
-                                for (SimpleTask task : tasks) {
-                                    String status = task.getStatus();
-                                    KanbanBlock kanbanBlock = kanbanBlocks.get(status);
-                                    if (kanbanBlock == null) {
-                                        LOG.error("Can not find a kanban block for status: " + status + " for task: "
-                                                + BeanUtility.printBeanObj(task));
-                                    } else {
-                                        kanbanBlock.addBlockItem(new KanbanTaskBlockItem(task));
-                                    }
-                                }
-                                UI.getCurrent().push();
+                int totalTasks = taskService.getTotalCount(searchCriteria);
+                searchPanel.setTotalCountNumber(totalTasks);
+                int pages = totalTasks / 20;
+                for (int page = 0; page < pages + 1; page++) {
+                    List<SimpleTask> tasks = taskService.findPagableListByCriteria(new SearchRequest<>(searchCriteria, page + 1, 20));
+                    if (CollectionUtils.isNotEmpty(tasks)) {
+                        for (SimpleTask task : tasks) {
+                            String status = task.getStatus();
+                            KanbanBlock kanbanBlock = kanbanBlocks.get(status);
+                            if (kanbanBlock == null) {
+                                LOG.error("Can not find a kanban block for status: " + status + " for task: "
+                                        + BeanUtility.printBeanObj(task));
+                            } else {
+                                kanbanBlock.addBlockItem(new KanbanTaskBlockItem(task));
                             }
                         }
-
+                        this.push();
                     }
-                });
+                }
             }
-        }.start();
+        });
     }
 
     @Override
     public void addColumn(final OptionVal option) {
-        UI.getCurrent().access(new Runnable() {
+        AsyncInvoker.access(new AsyncInvoker.PageCommand() {
             @Override
             public void run() {
                 KanbanBlock kanbanBlock = new KanbanBlock(option);
                 kanbanBlocks.put(option.getTypeval(), kanbanBlock);
                 kanbanLayout.addComponent(kanbanBlock);
-                UI.getCurrent().push();
             }
         });
     }
@@ -361,13 +346,13 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
                 taskLinkLbl.addStyleName("pending");
                 taskLinkLbl.removeStyleName("completed overdue");
             }
-            taskLinkLbl.addStyleName("wordWrap");
+            taskLinkLbl.addStyleName(UIConstants.LABEL_WORD_WRAP);
             PopupView priorityField = popupFieldFactory.createPriorityPopupField(task);
             headerLayout.with(priorityField, taskLinkLbl).expand(taskLinkLbl);
 
             root.with(headerLayout);
 
-            MHorizontalLayout footer = new MHorizontalLayout().withStyleName("footer2");
+            CssLayout footer = new CssLayout();
 
             PopupView commentField = popupFieldFactory.createCommentsPopupField(task);
             footer.addComponent(commentField);
@@ -389,7 +374,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
         private String buildTaskLink() {
             String uid = UUID.randomUUID().toString();
 
-            String linkName = String.format("[#%d] - %s", task.getTaskkey(), task.getTaskname());
+            String linkName = String.format("[#%d] - %s", task.getTaskkey(), StringUtils.trim(task.getTaskname(), 70, true));
             A taskLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateTaskPreviewFullLink(task.getTaskkey(),
                     CurrentProjectVariables.getShortName())).appendText(linkName).setStyle("display:inline");
 
@@ -485,7 +470,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
             headerLayout.setExpandRatio(header, 1.0f);
 
             final PopupButton controlsBtn = new PopupButton();
-            controlsBtn.addStyleName(UIConstants.THEME_LINK);
+            controlsBtn.addStyleName(UIConstants.BUTTON_LINK);
             headerLayout.addComponent(controlsBtn);
             headerLayout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
 
@@ -513,7 +498,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
                         NotificationUtil.showErrorNotification("Can not delete column because it has tasks");
                     } else {
                         ConfirmDialogExt.show(UI.getCurrent(), AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
-                                        AppContext.getSiteName()),
+                                AppContext.getSiteName()),
                                 AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_MULTIPLE_ITEMS_MESSAGE),
                                 AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                                 AppContext.getMessage(GenericI18Enum.BUTTON_NO),
@@ -535,7 +520,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
             });
             deleteColumnBtn.setIcon(FontAwesome.TRASH_O);
             deleteColumnBtn.setEnabled(canExecute);
-            popupContent.addOption(deleteColumnBtn);
+            popupContent.addDangerOption(deleteColumnBtn);
 
             popupContent.addSeparator();
 
@@ -559,8 +544,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
             });
             addNewBtn.setIcon(FontAwesome.PLUS);
             addNewBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
-            addNewBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
-            addNewBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+            addNewBtn.addStyleName(UIConstants.BUTTON_ACTION);
             root.with(headerLayout, dragLayoutContainer, addNewBtn);
         }
 
@@ -613,7 +597,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
                         }
                     }
                 });
-                saveBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+                saveBtn.addStyleName(UIConstants.BUTTON_ACTION);
 
                 Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
                     @Override
@@ -647,10 +631,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
 
                 final TextField columnNameField = new TextField();
                 columnNameField.setValue(optionVal.getTypeval());
-                GridFormLayoutHelper gridFormLayoutHelper = new GridFormLayoutHelper(1, 1, "100%", "150px", Alignment.TOP_LEFT);
-                gridFormLayoutHelper.getLayout().setWidth("100%");
-                gridFormLayoutHelper.getLayout().addStyleName("colored-gridlayout");
-                gridFormLayoutHelper.getLayout().setMargin(false);
+                GridFormLayoutHelper gridFormLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 1);
                 gridFormLayoutHelper.addComponent(columnNameField, "Column name", 0, 0);
 
                 Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
@@ -685,7 +666,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
                     }
                 });
                 saveBtn.setIcon(FontAwesome.SAVE);
-                saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+                saveBtn.setStyleName(UIConstants.BUTTON_ACTION);
 
                 MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(new MarginInfo(false, true, true, false))
                         .with(cancelBtn, saveBtn);

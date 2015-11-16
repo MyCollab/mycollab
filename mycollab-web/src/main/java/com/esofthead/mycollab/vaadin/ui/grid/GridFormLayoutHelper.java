@@ -34,8 +34,8 @@ public class GridFormLayoutHelper implements Serializable {
     private static final long serialVersionUID = 1L;
     private final GridLayout layout;
 
-    private final String fieldControlWidth;
-    private final String defaultCaptionWidth;
+    private String fieldControlWidth;
+    private String defaultCaptionWidth;
     private final Alignment captionAlignment;
 
     private Map<String, GridCellWrapper> fieldCaptionMappings = new HashMap<>();
@@ -49,7 +49,7 @@ public class GridFormLayoutHelper implements Serializable {
     }
 
     public GridFormLayoutHelper(int columns, int rows, String fieldControlWidth, String defaultCaptionWidth) {
-        this(columns, rows, fieldControlWidth, defaultCaptionWidth, Alignment.TOP_RIGHT);
+        this(columns, rows, fieldControlWidth, defaultCaptionWidth, Alignment.TOP_LEFT);
     }
 
     public GridFormLayoutHelper(int columns, int rows, String fieldControlWidth, String defaultCaptionWidth, Alignment captionAlignment) {
@@ -66,8 +66,14 @@ public class GridFormLayoutHelper implements Serializable {
     public static GridFormLayoutHelper defaultFormLayoutHelper(int columns, int rows) {
         GridFormLayoutHelper helper = new GridFormLayoutHelper(columns, rows, "100%", "167px", Alignment.TOP_LEFT);
         helper.getLayout().setWidth("100%");
-        helper.getLayout().addStyleName("colored-gridlayout");
+        helper.getLayout().addStyleName(UIConstants.GRIDFORM_STANDARD);
+        helper.getLayout().setMargin(false);
         return helper;
+    }
+
+    public GridFormLayoutHelper withCaptionWidth(String width) {
+        this.defaultCaptionWidth = width;
+        return this;
     }
 
     public void appendRow() {

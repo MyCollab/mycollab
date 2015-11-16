@@ -46,7 +46,8 @@ import java.util.List;
 public abstract class SavedFilterComboBox extends CustomField<String> {
     private static Logger LOG = LoggerFactory.getLogger(SavedFilterComboBox.class);
 
-    private TextField componentsText;
+    protected TextField componentsText;
+    protected String selectedQueryName = "";
     private PopupButton componentPopupSelection;
     private OptionPopupContent popupContent;
     private List<SearchQueryInfo> sharedQueries;
@@ -92,6 +93,18 @@ public abstract class SavedFilterComboBox extends CustomField<String> {
         sharedQueries.add(searchQueryInfo);
     }
 
+    public void selectQueryInfo(String queryId) {
+        for (SearchQueryInfo queryInfo : sharedQueries) {
+            if (queryId.equals(queryInfo.getQueryId())) {
+                selectedQueryName = queryInfo.getQueryName();
+                updateQueryNameField(selectedQueryName);
+                SavedFilterComboBox.this.fireEvent(new QuerySelectEvent(SavedFilterComboBox.this, queryInfo
+                        .getSearchFieldInfos()));
+                componentPopupSelection.setPopupVisible(false);
+            }
+        }
+    }
+
     @Override
     protected Component initContent() {
         componentsText = new TextField();
@@ -100,6 +113,8 @@ public abstract class SavedFilterComboBox extends CustomField<String> {
         componentsText.addStyleName("noBorderRight");
         componentsText.setWidth("100%");
         componentPopupSelection = new PopupButton();
+        componentPopupSelection.addStyleName(UIConstants.MULTI_SELECT_BG);
+        componentPopupSelection.setDirection(Alignment.TOP_LEFT);
         componentPopupSelection.addClickListener(new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
@@ -115,9 +130,6 @@ public abstract class SavedFilterComboBox extends CustomField<String> {
         MHorizontalLayout content = new MHorizontalLayout().withSpacing(true).with(componentsText)
                 .withAlign(componentsText, Alignment.MIDDLE_LEFT);
 
-        componentPopupSelection.addStyleName(UIConstants.MULTI_SELECT_BG);
-        componentPopupSelection.setWidth("25px");
-        componentPopupSelection.setDirection(Alignment.TOP_LEFT);
 
         MHorizontalLayout multiSelectComp = new MHorizontalLayout().withSpacing(false).with(componentsText,
                 componentPopupSelection).expand(componentsText);
@@ -153,9 +165,10 @@ public abstract class SavedFilterComboBox extends CustomField<String> {
             super("      " + queryInfo.getQueryName(), new ClickListener() {
                 @Override
                 public void buttonClick(ClickEvent event) {
+                    selectedQueryName = queryInfo.getQueryName();
+                    updateQueryNameField(selectedQueryName);
                     SavedFilterComboBox.this.fireEvent(new QuerySelectEvent(SavedFilterComboBox.this, queryInfo
                             .getSearchFieldInfos()));
-                    updateQueryNameField(queryInfo.getQueryName());
                     componentPopupSelection.setPopupVisible(false);
                 }
             });

@@ -1,6 +1,6 @@
 # Free, open source CRM, Document and Project Management software
 [![License](http://img.shields.io/badge/License-GPL-orange.svg)](http://www.gnu.org/copyleft/gpl.html) [![Project Stats](https://www.openhub.net/p/mycollab/widgets/project_thin_badge.gif)](https://www.openhub.net/p/mycollab) [![Build](https://travis-ci.org/MyCollab/mycollab.svg)](https://travis-ci.org/MyCollab/mycollab)
-[![Version](https://img.shields.io/badge/Version-5.2.1-brightgreen.svg)](https://community.mycollab.com/)
+[![Version](https://img.shields.io/badge/Version-5.2.2-brightgreen.svg)](https://community.mycollab.com/)
 [![SourceForge](https://img.shields.io/sourceforge/dm/mycollab.svg)](https://community.mycollab.com/download)
 
 ## Introduction
@@ -10,22 +10,22 @@ MyCollab is the free and open source collaboration tools, it has three existing 
 <table>
   <tr>
     <td align="center">
-      <a href="https://c1.staticflickr.com/1/577/22021324390_6728f52095_o.png" target="_blank" title="Project Dashboard">
-        <img src="https://c1.staticflickr.com/1/577/22021324390_94264b6923.jpg" alt="Project Dashboard">
+      <a href="https://c1.staticflickr.com/1/593/22637424918_e53f053365_o.png" target="_blank" title="Project Dashboard">
+        <img src="https://c1.staticflickr.com/1/593/22637424918_b82fea22e8.jpg" alt="Project Dashboard">
       </a>
       <br />
       <em>Project Dashboard</em>
     </td>
     <td align="center">
-      <a href="https://c1.staticflickr.com/1/740/22219734101_20b676c293_o.png" target="_blank" title="Bug Dashboard">
-        <img src="https://c1.staticflickr.com/1/740/22219734101_fc7a887ae5.jpg" alt="Bug Dashboard">
+      <a href="https://c2.staticflickr.com/6/5709/22433024834_1a3806edfa_o.png" target="_blank" title="Bug Dashboard">
+        <img src="https://c2.staticflickr.com/6/5709/22433024834_e01c2589f7.jpg" alt="Bug Dashboard">
       </a>
       <br />
       <em>Bug Dashboard</em>
     </td>
     <td align="center">
-    <a href="https://c2.staticflickr.com/6/5785/22196663942_585d55e155_o.png" target="_blank" title="Task Dashboard">
-      <img src="https://c2.staticflickr.com/6/5785/22196663942_81330c3452.jpg" alt="Task Dashboard">
+    <a href="https://c1.staticflickr.com/1/743/23066993121_0f973421f6_o.png" target="_blank" title="Task Dashboard">
+      <img src="https://c1.staticflickr.com/1/743/23066993121_d56a2a6165.jpg" alt="Task Dashboard">
     </a>
       <br />
       <em>Task Dashboard</em>
@@ -33,22 +33,22 @@ MyCollab is the free and open source collaboration tools, it has three existing 
   </tr>
   <tr>
     <td align="center">
-    <a href="https://c1.staticflickr.com/1/683/22021628348_49c584238a_o.png" target="_blank" title="Kanban Board">
-        <img src="https://c1.staticflickr.com/1/683/22021628348_965cd7da3d.jpg" alt="Kanban Board">
+    <a href="https://c1.staticflickr.com/1/780/22663560609_87d0a46e77_o.png" target="_blank" title="Kanban Board">
+        <img src="https://c1.staticflickr.com/1/780/22663560609_244177381c.jpg" alt="Kanban Board">
       </a>
       <br />
       <em>Kanban Board</em>
     </td>
     <td align="center">
-      <a href="https://c2.staticflickr.com/6/5725/22219735751_0df884fc84_o.png" target="_blank" title="File Management">
-        <img src="https://c2.staticflickr.com/6/5725/22219735751_4fce463c3a.jpg" alt="File Management">
+      <a href="https://c1.staticflickr.com/1/701/23042231092_b30e377518_o.png" target="_blank" title="Calendar">
+        <img src="https://c1.staticflickr.com/1/701/23042231092_29ecd007b1.jpg" alt="Calendar">
       </a>
       <br />
       <em>Calendar</em>
     </td>
     <td align="center">
-      <a href="https://c2.staticflickr.com/6/5804/21588380983_afee6dcf78_o.png" target="_blank" title="Customer Account">
-        <img src="https://c2.staticflickr.com/6/5804/21588380983_40ec4a56f0.jpg" alt="Customer Account">
+      <a href="https://c1.staticflickr.com/1/658/22637466047_11c19d7016_o.png" target="_blank" title="Milestone">
+        <img src="https://c1.staticflickr.com/1/658/22637466047_30890f3774.jpg" alt="Milestone">
       </a>
       <br />
       <em>Roadmap</em>
@@ -91,7 +91,7 @@ Please take a look at MyCollab requirements:
 
 ## Installation
 
-The current MyCollab version is 5.2.1 released on 26th October, 2015. This branch focuses in mobile devices, reporting and customize options for on-demand edition.
+The current MyCollab version is 5.2.2 released on 16th November, 2015. This branch focuses in mobile devices, reporting and customize options for on-demand edition.
 
 1. Download MyCollab binary - https://community.mycollab.com/download/
 2. Follow installation guideline at https://community.mycollab.com/installation-guideline/

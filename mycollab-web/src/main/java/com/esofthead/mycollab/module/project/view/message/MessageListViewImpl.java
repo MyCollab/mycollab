@@ -53,6 +53,7 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.themes.ValoTheme;
 import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.easyuploads.MultiFileUploadExt;
@@ -124,8 +125,7 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
         int totalCount = messageService.getTotalCount(searchCriteria);
 
         this.isEmpty = !(totalCount > 0);
-
-        this.topMessagePanel.createBasicLayout();
+        topMessagePanel.createBasicLayout();
         this.addComponent(topMessagePanel);
 
         if (this.isEmpty) {
@@ -156,12 +156,13 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
                     .getId()), new Text(message.getTitle()));
 
             MHorizontalLayout messageHeader = new MHorizontalLayout().withMargin(new MarginInfo(false, true,
-                    false, false)).withStyleName("message-header");
-            VerticalLayout leftHeader = new VerticalLayout();
-            leftHeader.addComponent(new ELabel(labelLink.write(), ContentMode.HTML).withStyleName("h2"));
+                    false, false));
+            messageHeader.setDefaultComponentAlignment(Alignment.TOP_LEFT);
+            CssLayout leftHeader = new CssLayout();
+            leftHeader.addComponent(new ELabel(labelLink.write(), ContentMode.HTML).withStyleName(ValoTheme.LABEL_H3
+                    + " " + ValoTheme.LABEL_NO_MARGIN));
             ELabel timePostLbl = new ELabel().prettyDateTime(message.getPosteddate());
-            timePostLbl.setSizeUndefined();
-            timePostLbl.setStyleName("time-post");
+            timePostLbl.setStyleName(UIConstants.LABEL_META_INFO);
 
             Button deleteBtn = new Button("", new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;
@@ -202,20 +203,16 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
             rowLayout.addComponent(messageHeader);
 
             SafeHtmlLabel messageContent = new SafeHtmlLabel(message.getMessage());
-            messageContent.setStyleName("message-body");
             rowLayout.addComponent(messageContent);
 
             MHorizontalLayout notification = new MHorizontalLayout().withStyleName("notification");
             notification.setSizeUndefined();
             if (message.getCommentsCount() > 0) {
                 MHorizontalLayout commentNotification = new MHorizontalLayout();
-                Label commentCountLbl = new Label(Integer.toString(message.getCommentsCount()));
-                commentCountLbl.setStyleName("comment-count");
+                Label commentCountLbl = new Label(Integer.toString(message.getCommentsCount()) + " " + FontAwesome.COMMENTS
+                        .getHtml(), ContentMode.HTML);
                 commentCountLbl.setSizeUndefined();
                 commentNotification.addComponent(commentCountLbl);
-                final Button commentIcon = new Button(FontAwesome.COMMENTS);
-                commentIcon.addStyleName(UIConstants.BUTTON_ICON_ONLY);
-                commentNotification.addComponent(commentIcon);
                 notification.addComponent(commentNotification);
             }
             ResourceService attachmentService = ApplicationContextUtil.getSpringBean(ResourceService.class);
@@ -225,7 +222,6 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
             if (CollectionUtils.isNotEmpty(attachments)) {
                 HorizontalLayout attachmentNotification = new HorizontalLayout();
                 Label attachmentCountLbl = new Label(Integer.toString(attachments.size()));
-                attachmentCountLbl.setStyleName("attachment-count");
                 attachmentCountLbl.setSizeUndefined();
                 attachmentNotification.addComponent(attachmentCountLbl);
                 Button attachmentIcon = new Button(FontAwesome.PAPERCLIP);
@@ -281,7 +277,7 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
                     doSearch();
                 }
             });
-            searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+            searchBtn.setStyleName(UIConstants.BUTTON_ACTION);
             searchBtn.setIcon(FontAwesome.SEARCH);
 
             basicSearchBody.with(nameField, searchBtn).withAlign(nameField, Alignment.MIDDLE_LEFT);
@@ -304,19 +300,19 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
 
         public TopMessagePanel() {
             this.withWidth("100%").withStyleName("message-toppanel");
-            this.messagePanelBody = new MHorizontalLayout().withSpacing(false).withStyleName("message-toppanel-body")
+            messagePanelBody = new MHorizontalLayout().withSpacing(false).withStyleName("message-toppanel-body")
                     .withWidth("100%");
-            this.messagePanelBody.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+            messagePanelBody.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-            this.messageSearchPanel = new MessageSearchPanel();
-            this.messageSearchPanel.setWidth("400px");
-            this.addComponent(this.messagePanelBody);
+            messageSearchPanel = new MessageSearchPanel();
+            messageSearchPanel.setWidth("400px");
+            this.addComponent(messagePanelBody);
 
             this.createBasicLayout();
         }
 
         private void createAddMessageLayout() {
-            this.messagePanelBody.removeAllComponents();
+            messagePanelBody.removeAllComponents();
             MVerticalLayout addMessageWrapper = new MVerticalLayout().withWidth("700px");
 
             final RichTextArea ckEditorTextField = new RichTextArea();
@@ -345,8 +341,7 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
             uploadExt.addComponent(attachments);
             controls.with(uploadExt).withAlign(uploadExt, Alignment.TOP_LEFT).expand(uploadExt);
 
-            final CheckBox chkIsStick = new CheckBox(
-                    AppContext.getMessage(MessageI18nEnum.FORM_IS_STICK));
+            final CheckBox chkIsStick = new CheckBox(AppContext.getMessage(MessageI18nEnum.FORM_IS_STICK));
             controls.with(chkIsStick).withAlign(chkIsStick, Alignment.TOP_RIGHT);
 
             Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
@@ -387,42 +382,41 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
                     }
                 }
             });
-            saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+            saveBtn.setStyleName(UIConstants.BUTTON_ACTION);
             saveBtn.setIcon(FontAwesome.SAVE);
 
             controls.with(saveBtn).withAlign(saveBtn, Alignment.TOP_RIGHT);
 
             addMessageWrapper.with(controls).withAlign(controls, Alignment.MIDDLE_CENTER);
-            this.messagePanelBody.addComponent(addMessageWrapper);
+            messagePanelBody.addComponent(addMessageWrapper);
         }
 
         public void createBasicLayout() {
-            this.messagePanelBody.removeAllComponents();
-            this.messagePanelBody.addComponent(this.messageSearchPanel);
+            messagePanelBody.removeAllComponents();
+            messagePanelBody.addComponent(messageSearchPanel);
 
-            if (!MessageListViewImpl.this.isEmpty) {
-                Button createMessageBtn = new Button(AppContext.getMessage(MessageI18nEnum.BUTTON_NEW_MESSAGE),
-                        new Button.ClickListener() {
-                            private static final long serialVersionUID = 1L;
+            if (!isEmpty) {
+                Button createMessageBtn = new Button(AppContext.getMessage(MessageI18nEnum.BUTTON_NEW_MESSAGE), new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-                            @Override
-                            public void buttonClick(final ClickEvent event) {
-                                TopMessagePanel.this.createAddMessageLayout();
-                            }
-                        });
+                    @Override
+                    public void buttonClick(final ClickEvent event) {
+                        TopMessagePanel.this.createAddMessageLayout();
+                    }
+                });
                 createMessageBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MESSAGES));
-                createMessageBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+                createMessageBtn.setStyleName(UIConstants.BUTTON_ACTION);
                 createMessageBtn.setIcon(FontAwesome.PLUS);
                 createMessageBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MESSAGES));
 
-                this.messagePanelBody.addComponent(createMessageBtn);
-                this.messagePanelBody.setComponentAlignment(createMessageBtn, Alignment.MIDDLE_RIGHT);
+                messagePanelBody.addComponent(createMessageBtn);
+                messagePanelBody.setComponentAlignment(createMessageBtn, Alignment.MIDDLE_RIGHT);
             }
 
         }
 
         public HasSearchHandlers<MessageSearchCriteria> getSearchHandlers() {
-            return this.messageSearchPanel;
+            return messageSearchPanel;
         }
     }
 

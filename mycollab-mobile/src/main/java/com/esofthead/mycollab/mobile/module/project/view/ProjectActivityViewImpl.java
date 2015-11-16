@@ -32,10 +32,7 @@ import com.vaadin.ui.Component;
  */
 
 @ViewComponent
-public class ProjectActivityViewImpl extends
-		AbstractListViewComp<ActivityStreamSearchCriteria, ProjectActivityStream>
-		implements ProjectActivityView {
-
+public class ProjectActivityViewImpl extends AbstractListViewComp<ActivityStreamSearchCriteria, ProjectActivityStream> implements ProjectActivityView {
 	private static final long serialVersionUID = 6930154745425180819L;
 
 	public ProjectActivityViewImpl() {

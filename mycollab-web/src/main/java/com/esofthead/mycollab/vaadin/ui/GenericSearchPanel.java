@@ -32,24 +32,21 @@ import java.util.List;
  * @since 2.0
  */
 @SuppressWarnings("serial")
-public abstract class GenericSearchPanel<S extends SearchCriteria> extends CustomComponent implements
-        HasSearchHandlers<S> {
-
+public abstract class GenericSearchPanel<S extends SearchCriteria> extends CustomComponent implements HasSearchHandlers<S> {
     private List<SearchHandler<S>> searchHandlers;
-
     private Component headerRight;
 
     @Override
     public void addSearchHandler(final SearchHandler<S> handler) {
-        if (this.searchHandlers == null) {
-            this.searchHandlers = new ArrayList<>();
+        if (searchHandlers == null) {
+            searchHandlers = new ArrayList<>();
         }
-        this.searchHandlers.add(handler);
+        searchHandlers.add(handler);
     }
 
     public void notifySearchHandler(final S criteria) {
-        if (this.searchHandlers != null) {
-            for (SearchHandler<S> handler : this.searchHandlers) {
+        if (searchHandlers != null) {
+            for (SearchHandler<S> handler : searchHandlers) {
                 handler.onSearch(criteria);
             }
         }

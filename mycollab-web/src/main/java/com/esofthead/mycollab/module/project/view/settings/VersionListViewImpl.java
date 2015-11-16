@@ -44,7 +44,6 @@ import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
-import com.vaadin.ui.ComponentContainer;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.Arrays;
@@ -55,8 +54,7 @@ import java.util.GregorianCalendar;
  * @since 1.0
  */
 @ViewComponent
-public class VersionListViewImpl extends AbstractPageView implements
-        VersionListView {
+public class VersionListViewImpl extends AbstractPageView implements VersionListView {
     private static final long serialVersionUID = 1L;
 
     private final VersionSearchPanel versionSearchPanel;
@@ -80,7 +78,8 @@ public class VersionListViewImpl extends AbstractPageView implements
                 new TableViewField(null, "selected", UIConstants.TABLE_CONTROL_WIDTH),
                 Arrays.asList(new TableViewField(VersionI18nEnum.FORM_NAME, "versionname", UIConstants.TABLE_EX_LABEL_WIDTH),
                         new TableViewField(GenericI18Enum.FORM_DESCRIPTION, "description", 500),
-                        new TableViewField(VersionI18nEnum.FORM_DUE_DATE, "duedate", UIConstants.TABLE_DATE_TIME_WIDTH)));
+                        new TableViewField(VersionI18nEnum.FORM_DUE_DATE, "duedate", UIConstants.TABLE_DATE_TIME_WIDTH),
+                        new TableViewField(GenericI18Enum.FORM_PROGRESS, "id", UIConstants.TABLE_EX_LABEL_WIDTH)));
 
         tableItem.addGeneratedColumn("selected", new Table.ColumnGenerator() {
             private static final long serialVersionUID = 1L;
@@ -120,7 +119,7 @@ public class VersionListViewImpl extends AbstractPageView implements
                 }
                 b.setDescription(ProjectTooltipGenerator.generateToolTipVersion(
                         AppContext.getUserLocale(), bugVersion, AppContext.getSiteUrl(),
-                        AppContext.getTimezone()));
+                        AppContext.getUserTimezone()));
                 return b;
 
             }
@@ -136,6 +135,17 @@ public class VersionListViewImpl extends AbstractPageView implements
             }
         });
 
+        tableItem.addGeneratedColumn("id", new Table.ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public com.vaadin.ui.Component generateCell(final Table source, final Object itemId, final Object columnId) {
+                SimpleVersion version = tableItem.getBeanByIndex(itemId);
+                return new ProgressBarIndicator(version.getNumBugs(), version.getNumOpenBugs(), false);
+
+            }
+        });
+
         tableItem.setWidth("100%");
 
         versionListLayout.addComponent(constructTableActionControls());
@@ -144,7 +154,7 @@ public class VersionListViewImpl extends AbstractPageView implements
 
     @Override
     public HasSearchHandlers<VersionSearchCriteria> getSearchHandlers() {
-        return this.versionSearchPanel;
+        return versionSearchPanel;
     }
 
     private ComponentContainer constructTableActionControls() {

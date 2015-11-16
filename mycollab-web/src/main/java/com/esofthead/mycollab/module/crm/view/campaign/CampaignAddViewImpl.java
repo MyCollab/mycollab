@@ -21,32 +21,23 @@ import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.i18n.CampaignI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractEditItemComp;
-import com.esofthead.mycollab.vaadin.ui.DynaFormLayout;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.esofthead.mycollab.vaadin.ui.EditFormControlsGenerator;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 2.0
- *
  */
 @ViewComponent
-public class CampaignAddViewImpl extends AbstractEditItemComp<SimpleCampaign>
-        implements CampaignAddView {
+public class CampaignAddViewImpl extends AbstractEditItemComp<SimpleCampaign> implements CampaignAddView {
     private static final long serialVersionUID = 1L;
 
     @Override
     protected String initFormTitle() {
-        return (beanItem.getId() == null) ? AppContext
-                .getMessage(CampaignI18nEnum.VIEW_NEW_TITLE) : beanItem
-                .getCampaignname();
+        return (beanItem.getId() == null) ? AppContext.getMessage(CampaignI18nEnum.VIEW_NEW_TITLE) : beanItem.getCampaignname();
     }
 
     @Override

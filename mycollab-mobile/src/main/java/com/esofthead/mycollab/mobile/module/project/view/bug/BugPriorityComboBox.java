@@ -29,7 +29,6 @@ import java.util.Arrays;
  * @since 4.5.2
  */
 public class BugPriorityComboBox extends I18nValueComboBox {
-
     private static final long serialVersionUID = 1L;
 
     public BugPriorityComboBox() {

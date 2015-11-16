@@ -33,9 +33,7 @@ import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.UrlLinkViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.UrlSocialNetworkLinkViewField;
 import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
-import com.hp.gagawa.java.elements.Div;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.easyuploads.UploadField;
@@ -109,58 +107,50 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
         User user = formItem.getBean();
 
         MVerticalLayout basicLayout = new MVerticalLayout().withMargin(false);
-
         HorizontalLayout userWrapper = new HorizontalLayout();
 
-        Label usernameLbl = new Label(AppContext.getUser().getDisplayName());
-        usernameLbl.setStyleName("h1");
+        ELabel usernameLbl = ELabel.h2(AppContext.getUser().getDisplayName());
         userWrapper.addComponent(usernameLbl);
 
-        Button btnChangeBasicInfo = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        Button btnChangeBasicInfo = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        UI.getCurrent().addWindow(new BasicInfoChangeWindow(formItem.getBean()));
-                    }
-                });
-        btnChangeBasicInfo.setStyleName(UIConstants.THEME_LINK);
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                UI.getCurrent().addWindow(new BasicInfoChangeWindow(formItem.getBean()));
+            }
+        });
+        btnChangeBasicInfo.setStyleName(UIConstants.BUTTON_LINK);
 
         HorizontalLayout btnChangeBasicInfoWrapper = new HorizontalLayout();
-        btnChangeBasicInfoWrapper.setWidth("40px");
         btnChangeBasicInfoWrapper.addComponent(btnChangeBasicInfo);
         btnChangeBasicInfoWrapper.setComponentAlignment(btnChangeBasicInfo, Alignment.MIDDLE_RIGHT);
         userWrapper.addComponent(btnChangeBasicInfoWrapper);
         basicLayout.addComponent(userWrapper);
         basicLayout.setComponentAlignment(userWrapper, Alignment.MIDDLE_LEFT);
 
-        basicLayout.addComponent(new Label(String.format("%s: %s", AppContext.getMessage(UserI18nEnum.FORM_BIRTHDAY),
-                AppContext.formatDate(user.getDateofbirth()))));
-        basicLayout.addComponent(new MHorizontalLayout(new Label(AppContext
-                .getMessage(UserI18nEnum.FORM_EMAIL) + ": "), new LabelLink(
-                user.getEmail(), String.format("mailto:%s", user.getEmail()))));
-        basicLayout.addComponent(new Label(String.format("%s: %s", AppContext.getMessage(UserI18nEnum.FORM_TIMEZONE),
-                TimezoneMapper.getTimezoneExt(user.getTimezone()).getDisplayName())));
-        basicLayout.addComponent(new Label(String.format("%s: %s", AppContext.getMessage(UserI18nEnum.FORM_LANGUAGE),
-                AppContext.getMessage(LangI18Enum.class, user.getLanguage()))));
+        GridFormLayoutHelper userFormLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 5).withCaptionWidth("80px");
+        userFormLayout.getLayout().addStyleName(UIConstants.GRIDFORM_BORDERLESS);
+        userFormLayout.addComponent(new Label(AppContext.formatDate(user.getDateofbirth())),
+                AppContext.getMessage(UserI18nEnum.FORM_BIRTHDAY), 0, 0);
+        userFormLayout.addComponent(new Label(user.getEmail()), AppContext.getMessage(UserI18nEnum.FORM_EMAIL), 0, 1);
+        userFormLayout.addComponent(new Label(TimezoneMapper.getTimezoneExt(user.getTimezone()).getDisplayName()),
+                AppContext.getMessage(UserI18nEnum.FORM_TIMEZONE), 0, 2);
+        userFormLayout.addComponent(new Label(AppContext.getMessage(LangI18Enum.class, user.getLanguage())),
+                AppContext.getMessage(UserI18nEnum.FORM_LANGUAGE), 0, 3);
 
-        MHorizontalLayout passwordWrapper = new MHorizontalLayout();
-        passwordWrapper.addComponent(new Label(AppContext
-                .getMessage(ShellI18nEnum.FORM_PASSWORD) + ": ***********"));
+        Button btnChangePassword = new Button("Change", new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-        Button btnChangePassword = new Button("Change",
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        UI.getCurrent().addWindow(new PasswordChangeWindow(formItem.getBean()));
-                    }
-                });
-        btnChangePassword.setStyleName(UIConstants.THEME_LINK);
-        passwordWrapper.with(btnChangePassword).withAlign(btnChangePassword, Alignment.MIDDLE_LEFT);
-        basicLayout.with(passwordWrapper).withAlign(passwordWrapper, Alignment.MIDDLE_LEFT);
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                UI.getCurrent().addWindow(new PasswordChangeWindow(formItem.getBean()));
+            }
+        });
+        btnChangePassword.setStyleName(UIConstants.BUTTON_LINK);
+        userFormLayout.addComponent(new MHorizontalLayout(new Label("***********"), btnChangePassword),
+                AppContext.getMessage(ShellI18nEnum.FORM_PASSWORD), 0, 4);
+        basicLayout.addComponent(userFormLayout.getLayout());
 
         avatarAndPass.with(basicLayout).expand(basicLayout);
     }
@@ -178,64 +168,47 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
         private class FormLayoutFactory implements IFormLayoutFactory {
             private static final long serialVersionUID = 1L;
 
-            private GridFormLayoutHelper contactLayout = new GridFormLayoutHelper(1, 5, "100%", "120px");
-            private GridFormLayoutHelper advancedInfoLayout = new GridFormLayoutHelper(1, 3, "100%", "120px");
+            private GridFormLayoutHelper contactLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 5);
+            private GridFormLayoutHelper advancedInfoLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
 
             @Override
             public ComponentContainer getLayout() {
                 contactLayout.getLayout().setSpacing(true);
                 advancedInfoLayout.getLayout().setSpacing(true);
-                MVerticalLayout layout = new MVerticalLayout().withMargin(false);
+                FormContainer layout = new FormContainer();
                 layout.addComponent(avatarAndPass);
 
-                String separatorStyle = "width: 100%; height: 1px; background-color: #CFCFCF; margin-top: 0px; margin-bottom: 10px";
                 MHorizontalLayout contactInformationHeader = new MHorizontalLayout();
                 contactInformationHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
                 Label contactInformationHeaderLbl = new Label(AppContext.getMessage(UserI18nEnum.SECTION_CONTACT_INFORMATION));
-                contactInformationHeaderLbl.addStyleName("h1");
 
-                Button btnChangeContactInfo = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
-                        new Button.ClickListener() {
-                            private static final long serialVersionUID = 1L;
+                Button btnChangeContactInfo = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-                            @Override
-                            public void buttonClick(final ClickEvent event) {
-                                UI.getCurrent().addWindow(new ContactInfoChangeWindow(formItem.getBean()));
-                            }
-                        });
-                btnChangeContactInfo.addStyleName(UIConstants.THEME_LINK);
-                contactInformationHeader.with(contactInformationHeaderLbl, btnChangeContactInfo);
+                    @Override
+                    public void buttonClick(final ClickEvent event) {
+                        UI.getCurrent().addWindow(new ContactInfoChangeWindow(formItem.getBean()));
+                    }
+                });
+                btnChangeContactInfo.addStyleName(UIConstants.BUTTON_LINK);
+                contactInformationHeader.with(contactInformationHeaderLbl, btnChangeContactInfo).alignAll(Alignment.MIDDLE_LEFT);
 
-                layout.addComponent(contactInformationHeader);
-                Div contactSeparator = new Div();
-                contactSeparator.setAttribute("style", separatorStyle);
-                layout.addComponent(new Label(contactSeparator.write(), ContentMode.HTML));
-
-                layout.with(contactLayout.getLayout(), new Label());
+                layout.addSection(new CssLayout(contactInformationHeader), contactLayout.getLayout());
 
                 MHorizontalLayout advanceInfoHeader = new MHorizontalLayout();
                 Label advanceInfoHeaderLbl = new Label(AppContext.getMessage(UserI18nEnum.SECTION_ADVANCED_INFORMATION));
-                advanceInfoHeaderLbl.addStyleName("h1");
-                advanceInfoHeader.addComponent(advanceInfoHeaderLbl);
-                advanceInfoHeader.setComponentAlignment(advanceInfoHeaderLbl, Alignment.BOTTOM_LEFT);
 
-                layout.addComponent(advanceInfoHeader);
-                Div advanceSeparator = new Div();
-                advanceSeparator.setAttribute("style", separatorStyle);
-                layout.addComponent(new Label(advanceSeparator.write(), ContentMode.HTML));
+                Button btnChangeAdvanceInfo = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-                Button btnChangeAdvanceInfo = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
-                        new Button.ClickListener() {
-                            private static final long serialVersionUID = 1L;
-
-                            @Override
-                            public void buttonClick(final ClickEvent event) {
-                                UI.getCurrent().addWindow(new AdvancedInfoChangeWindow(formItem.getBean()));
-                            }
-                        });
-                btnChangeAdvanceInfo.addStyleName(UIConstants.THEME_LINK);
-                advanceInfoHeader.with(btnChangeAdvanceInfo).withAlign(btnChangeAdvanceInfo, Alignment.MIDDLE_LEFT);
-                layout.addComponent(advancedInfoLayout.getLayout());
+                    @Override
+                    public void buttonClick(final ClickEvent event) {
+                        UI.getCurrent().addWindow(new AdvancedInfoChangeWindow(formItem.getBean()));
+                    }
+                });
+                btnChangeAdvanceInfo.addStyleName(UIConstants.BUTTON_LINK);
+                advanceInfoHeader.with(advanceInfoHeaderLbl, btnChangeAdvanceInfo);
+                layout.addSection(new CssLayout(advanceInfoHeader), advancedInfoLayout.getLayout());
                 return layout;
             }
 

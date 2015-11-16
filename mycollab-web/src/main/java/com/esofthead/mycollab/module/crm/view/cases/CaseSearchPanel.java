@@ -24,7 +24,7 @@ import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.esofthead.mycollab.module.crm.events.CaseEvent;
 import com.esofthead.mycollab.module.crm.i18n.CaseI18nEnum;
-import com.esofthead.mycollab.module.crm.ui.components.CrmViewHeader;
+import com.esofthead.mycollab.module.crm.ui.components.ComponentUtils;
 import com.esofthead.mycollab.module.crm.view.account.AccountSelectionField;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserListSelect;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -55,22 +55,21 @@ public class CaseSearchPanel extends DefaultGenericSearchPanel<CaseSearchCriteri
 
     @Override
     protected HeaderWithFontAwesome buildSearchTitle() {
-        return new CrmViewHeader(CrmTypeConstants.CASE, AppContext.getMessage(CaseI18nEnum.VIEW_LIST_TITLE));
+        return ComponentUtils.header(CrmTypeConstants.CASE, AppContext.getMessage(CaseI18nEnum.VIEW_LIST_TITLE));
     }
 
     @Override
     protected void buildExtraControls() {
-        Button createCaseBtn = new Button(AppContext.getMessage(CaseI18nEnum.BUTTON_NEW_CASE),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        Button createCaseBtn = new Button(AppContext.getMessage(CaseI18nEnum.BUTTON_NEW_CASE), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        EventBusFactory.getInstance().post(new CaseEvent.GotoAdd(this, null));
-                    }
-                });
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                EventBusFactory.getInstance().post(new CaseEvent.GotoAdd(this, null));
+            }
+        });
         createCaseBtn.setIcon(FontAwesome.PLUS);
-        createCaseBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        createCaseBtn.setStyleName(UIConstants.BUTTON_ACTION);
         createCaseBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CASE));
         this.addHeaderRight(createCaseBtn);
     }
@@ -153,11 +152,10 @@ public class CaseSearchPanel extends DefaultGenericSearchPanel<CaseSearchCriteri
             basicSearchBody.with(subjectField).withAlign(subjectField, Alignment.MIDDLE_CENTER);
 
             this.myItemCheckbox = new CheckBox(AppContext.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
-            this.myItemCheckbox.setWidth("75px");
             basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox, Alignment.MIDDLE_CENTER);
 
             Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
-            searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+            searchBtn.setStyleName(UIConstants.BUTTON_ACTION);
             searchBtn.setIcon(FontAwesome.SEARCH);
 
             searchBtn.addClickListener(new Button.ClickListener() {
@@ -189,7 +187,7 @@ public class CaseSearchPanel extends DefaultGenericSearchPanel<CaseSearchCriteri
                             CaseSearchPanel.this.moveToAdvancedSearchLayout();
                         }
                     });
-            advancedSearchBtn.setStyleName(UIConstants.THEME_LINK);
+            advancedSearchBtn.setStyleName(UIConstants.BUTTON_LINK);
             basicSearchBody.with(advancedSearchBtn).withAlign(advancedSearchBtn, Alignment.MIDDLE_CENTER);
             return basicSearchBody;
         }

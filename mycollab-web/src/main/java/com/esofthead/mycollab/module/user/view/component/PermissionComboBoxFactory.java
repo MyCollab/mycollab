@@ -23,21 +23,18 @@ import com.esofthead.mycollab.security.PermissionFlag;
 import com.esofthead.mycollab.vaadin.ui.KeyCaptionComboBox;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class PermissionComboBoxFactory {
-	public static KeyCaptionComboBox createPermissionSelection(
-			Class<? extends PermissionFlag> flag) {
-		if (AccessPermissionFlag.class.isAssignableFrom(flag)) {
-			return new AccessPermissionComboBox();
-		} else if (BooleanPermissionFlag.class.isAssignableFrom(flag)) {
-			return new YesNoPermissionComboBox();
-		} else {
-			throw new MyCollabException("Do not support permission flag "
-					+ flag);
-		}
-	}
+    public static KeyCaptionComboBox createPermissionSelection(
+            Class<? extends PermissionFlag> flag) {
+        if (AccessPermissionFlag.class.isAssignableFrom(flag)) {
+            return new AccessPermissionComboBox();
+        } else if (BooleanPermissionFlag.class.isAssignableFrom(flag)) {
+            return new YesNoPermissionComboBox();
+        } else {
+            throw new MyCollabException("Do not support permission flag " + flag);
+        }
+    }
 }

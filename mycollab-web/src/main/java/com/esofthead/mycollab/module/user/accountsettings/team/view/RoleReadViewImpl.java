@@ -25,19 +25,18 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.vaadin.ui.Depot;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
+import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
+import java.util.List;
+
 /**
- *
  * @author MyCollab Ltd.
  * @since 1.0
  */
@@ -51,14 +50,13 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
 
     public RoleReadViewImpl() {
         super();
-        this.setMargin(new MarginInfo(false, true, false, true));
+        this.setMargin(new MarginInfo(false, true, true, true));
 
         MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
                 .withWidth("100%").withStyleName(UIConstants.HEADER_VIEW);
         header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-        Label headerText = new Label(FontAwesome.USERS.getHtml() + " Detail Role", ContentMode.HTML);
-        headerText.setStyleName(UIConstants.HEADER_TEXT);
+        ELabel headerText = ELabel.h3(FontAwesome.USERS.getHtml() + " Detail Role");
 
         header.with(headerText).expand(headerText);
 
@@ -83,13 +81,13 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
         this.role = role;
         this.previewForm.setFormLayoutFactory(new FormLayoutFactory());
         this.previewForm.setBeanFormFieldFactory(new AbstractBeanFieldGroupViewFieldFactory<Role>(previewForm) {
-                    private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    protected Field<?> onCreateField(Object propertyId) {
-                        return null;
-                    }
-                });
+            @Override
+            protected Field<?> onCreateField(Object propertyId) {
+                return null;
+            }
+        });
         this.previewForm.setBean(role);
     }
 
@@ -113,18 +111,18 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
         }
     }
 
-    protected Depot constructPermissionSectionView(String depotTitle,
-                                                   PermissionMap permissionMap, PermissionDefItem[] defItems) {
-        GridFormLayoutHelper formHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2,
-                defItems.length);
-        Depot component = new Depot(depotTitle, formHelper.getLayout());
+    protected ComponentContainer constructPermissionSectionView(String depotTitle, PermissionMap permissionMap,
+                                                                List<PermissionDefItem> defItems) {
+        GridFormLayoutHelper formHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, defItems.size());
+        FormContainer permissionsPanel = new FormContainer();
 
-        for (int i = 0; i < defItems.length; i++) {
-            PermissionDefItem permissionDefItem = defItems[i];
+        for (int i = 0; i < defItems.size(); i++) {
+            PermissionDefItem permissionDefItem = defItems.get(i);
             formHelper.addComponent(new Label(getValueFromPerPath(permissionMap,
-                            permissionDefItem.getKey())), permissionDefItem.getCaption(), 0, i);
+                    permissionDefItem.getKey())), permissionDefItem.getCaption(), 0, i);
         }
-        return component;
+        permissionsPanel.addSection(depotTitle, formHelper.getLayout());
+        return permissionsPanel;
     }
 
     @Override
@@ -142,26 +140,19 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
         @Override
         protected Layout createBottomPanel() {
             VerticalLayout permissionsPanel = new VerticalLayout();
-            Label organizationHeader = new Label("Permissions");
-            organizationHeader.setStyleName("h2");
-            permissionsPanel.addComponent(organizationHeader);
 
             PermissionMap permissionMap = role.getPermissionMap();
 
-            permissionsPanel.addComponent(constructPermissionSectionView(
-                    "Project", permissionMap,
+            permissionsPanel.addComponent(constructPermissionSectionView("Project", permissionMap,
                     RolePermissionCollections.PROJECT_PERMISSION_ARR));
 
-            permissionsPanel.addComponent(constructPermissionSectionView(
-                    "Customer Management", permissionMap,
+            permissionsPanel.addComponent(constructPermissionSectionView("Customer Management", permissionMap,
                     RolePermissionCollections.CRM_PERMISSIONS_ARR));
 
-            permissionsPanel.addComponent(constructPermissionSectionView(
-                    "Document", permissionMap,
+            permissionsPanel.addComponent(constructPermissionSectionView("Document", permissionMap,
                     RolePermissionCollections.DOCUMENT_PERMISSION_ARR));
 
-            permissionsPanel.addComponent(constructPermissionSectionView(
-                    "Account Management", permissionMap,
+            permissionsPanel.addComponent(constructPermissionSectionView("Account Management", permissionMap,
                     RolePermissionCollections.ACCOUNT_PERMISSION_ARR));
 
             return permissionsPanel;

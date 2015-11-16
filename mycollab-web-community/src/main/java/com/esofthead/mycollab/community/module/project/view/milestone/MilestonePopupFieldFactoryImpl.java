@@ -38,11 +38,17 @@ import org.vaadin.teemu.VaadinIcons;
 @ViewComponent
 public class MilestonePopupFieldFactoryImpl implements MilestonePopupFieldFactory {
     @Override
-    public PopupView createMilestoneAssigneePopupField(SimpleMilestone milestone) {
+    public PopupView createMilestoneAssigneePopupField(SimpleMilestone milestone, boolean isDisplayName) {
         String avatarLink = StorageFactory.getInstance().getAvatarPath(milestone.getOwnerAvatarId(), 16);
         Img img = new Img(milestone.getOwnerFullName(), avatarLink).setTitle(milestone.getOwnerFullName());
-        return new PopupFieldBuilder().withCaption(img.write() + " " + StringUtils.trim(milestone.getOwnerFullName(), 20, true))
-                .withDescription(AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)).build();
+        if (isDisplayName) {
+            return new PopupFieldBuilder().withCaption(img.write() + " " + StringUtils.trim(milestone.getOwnerFullName(), 20, true))
+                    .withDescription(AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)).build();
+        } else {
+            return new PopupFieldBuilder().withCaption(img.write())
+                    .withDescription(AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)).build();
+        }
+
     }
 
     @Override

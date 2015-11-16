@@ -78,7 +78,7 @@ public class BugRowRenderer extends MVerticalLayout {
             bugLinkLbl.removeStyleName("completed pending");
         }
 
-        bugLinkLbl.addStyleName("wordWrap");
+        bugLinkLbl.addStyleName(UIConstants.LABEL_WORD_WRAP);
         BugPopupFieldFactory popupFieldFactory = ViewManager.getCacheComponent(BugPopupFieldFactory.class);
         MHorizontalLayout headerLayout = new MHorizontalLayout().withWidth("100%").withMargin(new MarginInfo(false,
                 true, false, false));
@@ -86,8 +86,7 @@ public class BugRowRenderer extends MVerticalLayout {
         PopupView assigneeField = popupFieldFactory.createBugAssigneePopupField(bug);
         headerLayout.with(bugSettingPopupBtn, priorityField, assigneeField, bugLinkLbl).expand(bugLinkLbl);
 
-        MHorizontalLayout footer = new MHorizontalLayout();
-        footer.addStyleName(UIConstants.FOOTER_NOTE);
+        CssLayout footer = new CssLayout();
 
         PopupView commentsField = popupFieldFactory.createBugCommentsPopupField(bug);
         footer.addComponent(commentsField);
@@ -176,7 +175,7 @@ public class BugRowRenderer extends MVerticalLayout {
         });
         deleteBtn.setIcon(FontAwesome.TRASH_O);
         deleteBtn.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS));
-        filterBtnLayout.addOption(deleteBtn);
+        filterBtnLayout.addDangerOption(deleteBtn);
         return filterBtnLayout;
     }
 }

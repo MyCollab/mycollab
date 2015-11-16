@@ -58,7 +58,7 @@ RelatedItemSelectionWindow<SimpleContact, ContactSearchCriteria> {
 				close();
 			}
 		});
-		selectBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+		selectBtn.setStyleName(UIConstants.BUTTON_ACTION);
 
 		ContactSimpleSearchPanel contactSimpleSearchPanel = new ContactSimpleSearchPanel();
 		contactSimpleSearchPanel

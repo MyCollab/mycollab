@@ -61,7 +61,7 @@ public class CampaignContactListComp extends
 		controlsBtn.setSizeUndefined();
 		controlsBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_CONTACT));
-		controlsBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+		controlsBtn.addStyleName(UIConstants.BUTTON_ACTION);
 		controlsBtn.setCaption(AppContext
 				.getMessage(ContactI18nEnum.BUTTON_NEW_CONTACT));
 		controlsBtn.setIcon(FontAwesome.PLUS);

@@ -81,24 +81,23 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
         this.bean = bean;
         this.removeAllComponents();
 
-        MHorizontalLayout header = new MHorizontalLayout();
+        MHorizontalLayout header = new MHorizontalLayout().withStyleName("info-hdr");
+        header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
         Label followerHeader = new Label(FontAwesome.EYE.getHtml() + " " +
                 AppContext.getMessage(FollowerI18nEnum.OPT_SUB_INFO_WATCHERS), ContentMode.HTML);
-        followerHeader.setStyleName("info-hdr");
         header.addComponent(followerHeader);
 
         if (hasEditPermission()) {
-            Button editBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            Button editBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(ClickEvent event) {
-                            showEditWatchersWindow(bean);
+                @Override
+                public void buttonClick(ClickEvent event) {
+                    showEditWatchersWindow(bean);
 
-                        }
-                    });
-            editBtn.setStyleName(UIConstants.THEME_LINK);
+                }
+            });
+            editBtn.setStyleName(UIConstants.BUTTON_LINK);
             header.addComponent(editBtn);
         }
 
@@ -108,7 +107,7 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
         currentUserFollow = isUserWatching(bean);
 
         final Button toogleWatching = new Button("");
-        toogleWatching.setStyleName(UIConstants.THEME_LINK);
+        toogleWatching.setStyleName(UIConstants.BUTTON_LINK);
         toogleWatching.addClickListener(new ClickListener() {
             private static final long serialVersionUID = 1L;
 
@@ -132,40 +131,34 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
         header.addComponent(toogleWatching);
 
         if (currentUserFollow) {
-            toogleWatching.setCaption(AppContext
-                    .getMessage(FollowerI18nEnum.BUTTON_UNFOLLOW));
+            toogleWatching.setCaption(AppContext.getMessage(FollowerI18nEnum.BUTTON_UNFOLLOW));
         } else {
-            toogleWatching.setCaption(AppContext
-                    .getMessage(FollowerI18nEnum.BUTTON_FOLLOW));
+            toogleWatching.setCaption(AppContext.getMessage(FollowerI18nEnum.BUTTON_FOLLOW));
         }
 
-        MVerticalLayout layout = new MVerticalLayout().withMargin(new MarginInfo(false, false, false, true))
-                .withWidth("100%");
+        MVerticalLayout layout = new MVerticalLayout().withMargin(new MarginInfo(false, false, false, true)).withWidth("100%");
 
         addComponent(layout);
 
         int totalFollowers = getTotalFollowers(bean);
-        followersBtn = new Button(AppContext.getMessage(
-                FollowerI18nEnum.OPT_NUM_FOLLOWERS, totalFollowers),
-                new ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        followersBtn = new Button(AppContext.getMessage(FollowerI18nEnum.OPT_NUM_FOLLOWERS, totalFollowers), new ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(ClickEvent event) {
-                        if (hasReadPermission()) {
-                            showEditWatchersWindow(bean);
-                        }
+            @Override
+            public void buttonClick(ClickEvent event) {
+                if (hasReadPermission()) {
+                    showEditWatchersWindow(bean);
+                }
 
-                    }
-                });
-        followersBtn.setStyleName(UIConstants.THEME_LINK);
+            }
+        });
+        followersBtn.setStyleName(UIConstants.BUTTON_LINK);
         layout.addComponent(followersBtn);
     }
 
     private void updateTotalFollowers(V bean) {
         int totalFollowers = getTotalFollowers(bean);
-        followersBtn.setCaption(AppContext.getMessage(
-                FollowerI18nEnum.OPT_NUM_FOLLOWERS, totalFollowers));
+        followersBtn.setCaption(AppContext.getMessage(FollowerI18nEnum.OPT_NUM_FOLLOWERS, totalFollowers));
     }
 
     private boolean hasReadPermission() {
@@ -177,17 +170,14 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
     }
 
     private void showEditWatchersWindow(V bean) {
-        UI.getCurrent().addWindow(
-                new CompFollowersEditWindow(hasEditPermission()));
+        UI.getCurrent().addWindow(new CompFollowersEditWindow(hasEditPermission()));
     }
 
     private boolean isUserWatching(V bean) {
         try {
-            return monitorItemService.isUserWatchingItem(
-                    AppContext.getUsername(), type,
+            return monitorItemService.isUserWatchingItem(AppContext.getUsername(), type,
                     (int) PropertyUtils.getProperty(bean, "id"));
-        } catch (IllegalAccessException | InvocationTargetException
-                | NoSuchMethodException e) {
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             return false;
         }
     }
@@ -198,8 +188,7 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
             criteria.setTypeId(new NumberSearchField((Number) PropertyUtils.getProperty(bean, "id")));
             criteria.setType(new StringSearchField(type));
             return monitorItemService.getTotalCount(criteria);
-        } catch (IllegalAccessException | InvocationTargetException
-                | NoSuchMethodException e) {
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             LOG.error("Error", e);
             return 0;
         }
@@ -230,8 +219,7 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
             criteria.setUser(new StringSearchField(username));
             monitorItemService.removeByCriteria(criteria,
                     AppContext.getAccountId());
-        } catch (IllegalAccessException | InvocationTargetException
-                | NoSuchMethodException e) {
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             LOG.error("Error", e);
         }
     }
@@ -244,8 +232,7 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
         public CompFollowersEditWindow(boolean isEdit) {
             this.setModal(true);
             this.setResizable(false);
-            this.setCaption(AppContext
-                    .getMessage(FollowerI18nEnum.DIALOG_WATCHERS_TITLE));
+            this.setCaption(AppContext.getMessage(FollowerI18nEnum.DIALOG_WATCHERS_TITLE));
             this.setWidth("600px");
 
             MVerticalLayout content = new MVerticalLayout();
@@ -257,28 +244,23 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
 
                 final ActiveUserMultiSelectComp memberSelection = new ActiveUserMultiSelectComp();
                 headerPanel.addComponent(memberSelection);
-                Button btnSave = new Button(
-                        AppContext.getMessage(FollowerI18nEnum.BUTTON_FOLLOW),
-                        new Button.ClickListener() {
-                            private static final long serialVersionUID = 1L;
+                Button btnSave = new Button(AppContext.getMessage(FollowerI18nEnum.BUTTON_FOLLOW), new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-                            @Override
-                            public void buttonClick(ClickEvent event) {
-                                List<SimpleUser> members = memberSelection
-                                        .getSelectedItems();
-                                for (SimpleUser member : members) {
-                                    CrmFollowersComp.this.followItem(
-                                            member.getUsername(), bean);
-                                }
+                    @Override
+                    public void buttonClick(ClickEvent event) {
+                        List<SimpleUser> members = memberSelection.getSelectedItems();
+                        for (SimpleUser member : members) {
+                            followItem(member.getUsername(), bean);
+                        }
 
-                                memberSelection.resetComp();
-                                loadMonitorItems();
-                            }
-                        });
+                        memberSelection.resetComp();
+                        loadMonitorItems();
+                    }
+                });
 
-                btnSave.setStyleName(UIConstants.THEME_GREEN_LINK);
+                btnSave.setStyleName(UIConstants.BUTTON_ACTION);
                 btnSave.setIcon(FontAwesome.PLUS);
-
                 headerPanel.addComponent(btnSave);
 
                 this.addCloseListener(new CloseListener() {
@@ -291,19 +273,11 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
                 });
             }
 
-            tableItem = new DefaultPagedBeanTable<>(
-                    ApplicationContextUtil
-                            .getSpringBean(MonitorItemService.class),
+            tableItem = new DefaultPagedBeanTable<>(ApplicationContextUtil.getSpringBean(MonitorItemService.class),
                     SimpleMonitorItem.class,
-                    Arrays.asList(
-                            new TableViewField(
-                                    FollowerI18nEnum.OPT_FOLLOWER_NAME, "user",
-                                    UIConstants.TABLE_EX_LABEL_WIDTH),
-                            new TableViewField(
-                                    FollowerI18nEnum.OPT_FOLLOWER_CREATE_DATE,
-                                    "monitorDate", UIConstants.TABLE_DATE_TIME_WIDTH),
-                            new TableViewField(null, "id",
-                                    UIConstants.TABLE_CONTROL_WIDTH)));
+                    Arrays.asList(new TableViewField(FollowerI18nEnum.OPT_FOLLOWER_NAME, "user", UIConstants.TABLE_EX_LABEL_WIDTH),
+                            new TableViewField(FollowerI18nEnum.OPT_FOLLOWER_CREATE_DATE, "monitorDate", UIConstants.TABLE_DATE_TIME_WIDTH),
+                            new TableViewField(null, "id", UIConstants.TABLE_CONTROL_WIDTH)));
 
             tableItem.addGeneratedColumn("user", new Table.ColumnGenerator() {
                 private static final long serialVersionUID = 1L;
@@ -311,8 +285,7 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
                 @Override
                 public com.vaadin.ui.Component generateCell(Table source,
                                                             final Object itemId, Object columnId) {
-                    final SimpleMonitorItem monitorItem = tableItem
-                            .getBeanByIndex(itemId);
+                    final SimpleMonitorItem monitorItem = tableItem.getBeanByIndex(itemId);
 
                     return new UserLink(monitorItem.getUser(), monitorItem
                             .getUserAvatarId(), monitorItem.getUserFullname());
@@ -326,8 +299,7 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
                 @Override
                 public com.vaadin.ui.Component generateCell(Table source,
                                                             Object itemId, Object columnId) {
-                    final MonitorItem monitorItem = tableItem
-                            .getBeanByIndex(itemId);
+                    final MonitorItem monitorItem = tableItem.getBeanByIndex(itemId);
                     return new ELabel().prettyDateTime(monitorItem.getMonitorDate());
                 }
             });
@@ -369,7 +341,6 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
 
                 });
             }
-
             tableItem.setWidth("100%");
 
             content.addComponent(tableItem);
@@ -380,8 +351,7 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
         private void loadMonitorItems() {
             try {
                 MonitorSearchCriteria searchCriteria = new MonitorSearchCriteria();
-                searchCriteria.setTypeId(new NumberSearchField(
-                        (Number) PropertyUtils.getProperty(bean, "id")));
+                searchCriteria.setTypeId(new NumberSearchField((Number) PropertyUtils.getProperty(bean, "id")));
                 searchCriteria.setType(new StringSearchField(type));
                 tableItem.setSearchCriteria(searchCriteria);
             } catch (IllegalAccessException | InvocationTargetException

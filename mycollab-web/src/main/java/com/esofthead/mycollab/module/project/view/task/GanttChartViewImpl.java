@@ -34,6 +34,7 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
+import com.vaadin.ui.themes.ValoTheme;
 import org.tltv.gantt.client.shared.Resolution;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
@@ -72,7 +73,7 @@ public class GanttChartViewImpl extends AbstractLazyPageView implements GanttCha
                 .withStyleName("hdr-view").withWidth("100%");
         header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
         Label headerText = new Label("Gantt chart", ContentMode.HTML);
-        headerText.setStyleName(UIConstants.HEADER_TEXT);
+        headerText.setStyleName(ValoTheme.LABEL_H2);
         CssLayout headerWrapper = new CssLayout();
         headerWrapper.addComponent(headerText);
 

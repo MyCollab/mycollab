@@ -19,20 +19,19 @@ package com.esofthead.mycollab.module.crm.view.activity;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.events.ActivityEvent;
-import com.esofthead.mycollab.module.crm.ui.components.CrmViewHeader;
+import com.esofthead.mycollab.module.crm.ui.components.ComponentUtils;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.peter.buttongroup.ButtonGroup;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -48,7 +47,7 @@ public class ActivitySearchPanel extends DefaultGenericSearchPanel<ActivitySearc
 
     @Override
     protected HeaderWithFontAwesome buildSearchTitle() {
-        return new CrmViewHeader(CrmTypeConstants.ACTIVITY, "Events");
+        return ComponentUtils.header(CrmTypeConstants.ACTIVITY, "Events");
     }
 
     @Override
@@ -57,18 +56,18 @@ public class ActivitySearchPanel extends DefaultGenericSearchPanel<ActivitySearc
         controlsBtn.setSizeUndefined();
         controlsBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CALL)
                 || AppContext.canWrite(RolePermissionCollections.CRM_MEETING));
-        controlsBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+        controlsBtn.addStyleName(UIConstants.BUTTON_ACTION);
         controlsBtn.setIcon(FontAwesome.PLUS);
         controlsBtn.setCaption("New Task");
         controlsBtn.addClickListener(new SplitButton.SplitButtonClickListener() {
-                    private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void splitButtonClick(
-                            final SplitButton.SplitButtonClickEvent event) {
-                        EventBusFactory.getInstance().post(new ActivityEvent.TaskAdd(this, null));
-                    }
-                });
+            @Override
+            public void splitButtonClick(
+                    final SplitButton.SplitButtonClickEvent event) {
+                EventBusFactory.getInstance().post(new ActivityEvent.TaskAdd(this, null));
+            }
+        });
 
         OptionPopupContent btnControlsLayout = new OptionPopupContent();
         controlsBtn.setContent(btnControlsLayout);
@@ -111,12 +110,12 @@ public class ActivitySearchPanel extends DefaultGenericSearchPanel<ActivitySearc
                         EventBusFactory.getInstance().post(new ActivityEvent.GotoCalendar(this, null));
                     }
                 });
-        calendarViewBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+        calendarViewBtn.addStyleName(UIConstants.BUTTON_ACTION);
         viewSwitcher.addButton(calendarViewBtn);
 
         Button activityListBtn = new Button("Activities");
         activityListBtn.setStyleName("selected");
-        activityListBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+        activityListBtn.addStyleName(UIConstants.BUTTON_ACTION);
         viewSwitcher.addButton(activityListBtn);
 
         addHeaderRight(viewSwitcher);
@@ -153,11 +152,10 @@ public class ActivitySearchPanel extends DefaultGenericSearchPanel<ActivitySearc
             basicSearchBody.with(nameField).withAlign(nameField, Alignment.MIDDLE_CENTER);
 
             this.myItemCheckbox = new CheckBox(AppContext.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
-            this.myItemCheckbox.setWidth("75px");
             basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox, Alignment.MIDDLE_CENTER);
 
             Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
-            searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+            searchBtn.setStyleName(UIConstants.BUTTON_ACTION);
             searchBtn.setIcon(FontAwesome.SEARCH);
 
             searchBtn.addClickListener(new Button.ClickListener() {

@@ -17,13 +17,13 @@
 package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.common.domain.OptionVal;
+import com.esofthead.mycollab.common.domain.criteria.TimelineTrackingSearchCriteria;
 import com.esofthead.mycollab.common.service.OptionValService;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.core.db.query.SearchFieldInfo;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -36,17 +36,19 @@ import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.i18n.TaskGroupI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
+import com.esofthead.mycollab.module.project.view.task.components.*;
 import com.esofthead.mycollab.reporting.ReportExportType;
 import com.esofthead.mycollab.reporting.ReportStreamSource;
 import com.esofthead.mycollab.reporting.RpFieldsBuilder;
 import com.esofthead.mycollab.reporting.SimpleReportTemplateExecutor;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.AsyncInvoker;
 import com.esofthead.mycollab.vaadin.events.HasMassItemActionHandler;
 import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSelectableItemHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSelectionOptionHandlers;
-import com.esofthead.mycollab.vaadin.mvp.AbstractLazyPageView;
+import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
@@ -71,7 +73,7 @@ import java.util.Map;
  * @since 1.0
  */
 @ViewComponent
-public class TaskDashboardViewImpl extends AbstractLazyPageView implements TaskDashboardView {
+public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashboardView {
     private static final long serialVersionUID = 1L;
 
     static final String DESCENDING = "Descending";
@@ -79,6 +81,7 @@ public class TaskDashboardViewImpl extends AbstractLazyPageView implements TaskD
 
     static final String GROUP_DUE_DATE = "Due Date";
     static final String GROUP_START_DATE = "Start Date";
+    static final String GROUP_CREATED_DATE = "Created Date";
     static final String PLAIN_LIST = "Plain";
 
     private int currentPage = 0;
@@ -127,26 +130,12 @@ public class TaskDashboardViewImpl extends AbstractLazyPageView implements TaskD
     public TaskDashboardViewImpl() {
         this.withMargin(new MarginInfo(false, true, true, true));
         taskSearchPanel = new TaskSearchPanel();
+
         MHorizontalLayout groupWrapLayout = new MHorizontalLayout();
         groupWrapLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-        groupWrapLayout.addComponent(new Label("Filter:"));
-        final TaskSavedFilterComboBox savedFilterComboBox = new TaskSavedFilterComboBox();
-        savedFilterComboBox.addQuerySelectListener(new SavedFilterComboBox.QuerySelectListener() {
-            @Override
-            public void querySelect(SavedFilterComboBox.QuerySelectEvent querySelectEvent) {
-                List<SearchFieldInfo> fieldInfos = querySelectEvent.getSearchFieldInfos();
-                TaskSearchCriteria criteria = SearchFieldInfo.buildSearchCriteria(TaskSearchCriteria.class,
-                        fieldInfos);
-                criteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-                EventBusFactory.getInstance().post(new TaskEvent.SearchRequest(TaskDashboardViewImpl.this, criteria));
-            }
-        });
-        groupWrapLayout.addComponent(savedFilterComboBox);
-
         groupWrapLayout.addComponent(new Label("Sort:"));
         final ComboBox sortCombo = new ValueComboBox(false, DESCENDING, ASCENDING);
-        sortCombo.setWidth("100px");
         sortCombo.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
@@ -163,8 +152,7 @@ public class TaskDashboardViewImpl extends AbstractLazyPageView implements TaskD
         groupWrapLayout.addComponent(sortCombo);
 
         groupWrapLayout.addComponent(new Label("Group by:"));
-        final ComboBox groupCombo = new ValueComboBox(false, GROUP_DUE_DATE, GROUP_START_DATE, PLAIN_LIST);
-        groupCombo.setWidth("100px");
+        final ComboBox groupCombo = new ValueComboBox(false, GROUP_DUE_DATE, GROUP_START_DATE, GROUP_CREATED_DATE, PLAIN_LIST);
         groupCombo.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
@@ -185,7 +173,7 @@ public class TaskDashboardViewImpl extends AbstractLazyPageView implements TaskD
                 exportSplitBtn.setPopupVisible(true);
             }
         });
-        exportSplitBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+        exportSplitBtn.addStyleName(UIConstants.BUTTON_ACTION);
         OptionPopupContent popupButtonsControl = new OptionPopupContent();
 
         Button exportPdfBtn = new Button("PDF");
@@ -208,15 +196,17 @@ public class TaskDashboardViewImpl extends AbstractLazyPageView implements TaskD
 
             @Override
             public void buttonClick(final ClickEvent event) {
-                SimpleTask newTask = new SimpleTask();
-                newTask.setProjectid(CurrentProjectVariables.getProjectId());
-                UI.getCurrent().addWindow(new TaskAddWindow(newTask));
+                if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) {
+                    SimpleTask newTask = new SimpleTask();
+                    newTask.setProjectid(CurrentProjectVariables.getProjectId());
+                    UI.getCurrent().addWindow(new TaskAddWindow(newTask));
+                }
             }
         });
         newTaskBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
         newTaskBtn.setIcon(FontAwesome.PLUS);
         newTaskBtn.setDescription(AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASKGROUP));
-        newTaskBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        newTaskBtn.setStyleName(UIConstants.BUTTON_ACTION);
         groupWrapLayout.addComponent(newTaskBtn);
 
         Button advanceDisplayBtn = new Button();
@@ -266,8 +256,9 @@ public class TaskDashboardViewImpl extends AbstractLazyPageView implements TaskD
 
         mainLayout = new MHorizontalLayout().withFullHeight().withFullWidth();
         wrapBody = new MVerticalLayout().withMargin(new MarginInfo(false, true, true, false));
-        rightColumn = new MVerticalLayout().withWidth("350px").withMargin(new MarginInfo(true, false, false, false));
+        rightColumn = new MVerticalLayout().withWidth("370px").withMargin(new MarginInfo(true, false, false, false));
         mainLayout.with(wrapBody, rightColumn).expand(wrapBody);
+        this.with(taskSearchPanel, mainLayout);
     }
 
     @Override
@@ -284,13 +275,7 @@ public class TaskDashboardViewImpl extends AbstractLazyPageView implements TaskD
         super.detach();
     }
 
-    private void constructUI() {
-        this.with(taskSearchPanel, mainLayout);
-    }
-
-    @Override
-    protected void displayView() {
-        constructUI();
+    public void displayView() {
         baseCriteria = new TaskSearchCriteria();
         baseCriteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
         OptionValService optionValService = ApplicationContextUtil.getSpringBean(OptionValService.class);
@@ -303,12 +288,14 @@ public class TaskDashboardViewImpl extends AbstractLazyPageView implements TaskD
         }
         baseCriteria.setStatuses(statuses);
         statisticSearchCriteria = BeanUtility.deepClone(baseCriteria);
-        queryAndDisplayTasks();
-        displayTaskStatistic();
+
+        taskSearchPanel.selectQueryInfo(TaskSavedFilterComboBox.OPEN_TASKS);
     }
 
     private void displayTaskStatistic() {
         rightColumn.removeAllComponents();
+        final TaskStatusTrendChartWidget taskStatusTrendChartWidget = new TaskStatusTrendChartWidget();
+        rightColumn.addComponent(taskStatusTrendChartWidget);
         UnresolvedTaskByAssigneeWidget unresolvedTaskByAssigneeWidget = new UnresolvedTaskByAssigneeWidget();
         unresolvedTaskByAssigneeWidget.setSearchCriteria(statisticSearchCriteria);
         rightColumn.addComponent(unresolvedTaskByAssigneeWidget);
@@ -320,6 +307,15 @@ public class TaskDashboardViewImpl extends AbstractLazyPageView implements TaskD
         UnresolvedTaskByStatusWidget unresolvedTaskByStatusWidget = new UnresolvedTaskByStatusWidget();
         unresolvedTaskByStatusWidget.setSearchCriteria(statisticSearchCriteria);
         rightColumn.addComponent(unresolvedTaskByStatusWidget);
+
+        AsyncInvoker.access(new AsyncInvoker.PageCommand() {
+            @Override
+            public void run() {
+                TimelineTrackingSearchCriteria timelineTrackingSearchCriteria = new TimelineTrackingSearchCriteria();
+                timelineTrackingSearchCriteria.setExtraTypeIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
+                taskStatusTrendChartWidget.display(timelineTrackingSearchCriteria);
+            }
+        });
     }
 
     @Override
@@ -341,6 +337,9 @@ public class TaskDashboardViewImpl extends AbstractLazyPageView implements TaskD
         } else if (PLAIN_LIST.equals(groupByState)) {
             baseCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("lastupdatedtime", sortDirection)));
             taskGroupOrderComponent = new SimpleListOrderComponent();
+        } else if (GROUP_CREATED_DATE.equals(groupByState)) {
+            baseCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("createdtime", sortDirection)));
+            taskGroupOrderComponent = new CreatedDateOrderComponent();
         } else {
             throw new MyCollabException("Do not support group view by " + groupByState);
         }
@@ -364,7 +363,7 @@ public class TaskDashboardViewImpl extends AbstractLazyPageView implements TaskD
                     }
                 }
             });
-            moreBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+            moreBtn.addStyleName(UIConstants.BUTTON_ACTION);
             wrapBody.addComponent(moreBtn);
         }
         List<SimpleTask> tasks = projectTaskService.findPagableListByCriteria(new SearchRequest<>(baseCriteria, currentPage + 1, 20));

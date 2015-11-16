@@ -98,7 +98,7 @@ public class QuickEditGanttItemWindow extends Window {
                         close();
                     }
                 });
-                updateAllBtn.addStyleName(UIConstants.THEME_LINK);
+                updateAllBtn.addStyleName(UIConstants.BUTTON_LINK);
 
                 Button updateBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL), new Button.ClickListener() {
                     @Override
@@ -113,7 +113,7 @@ public class QuickEditGanttItemWindow extends Window {
                         }
                     }
                 });
-                updateBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+                updateBtn.setStyleName(UIConstants.BUTTON_ACTION);
 
                 Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
                     @Override

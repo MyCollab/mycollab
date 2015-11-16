@@ -79,13 +79,13 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
 
         topPanel.addComponent(breadcrumb);
 
-        this.accountTab = new UserVerticalTabsheet();
-        this.accountTab.setSizeFull();
-        this.accountTab.setNavigatorWidth("220px");
-        this.accountTab.setNavigatorStyleName("sidebar-menu");
-        this.accountTab.setContainerStyleName("tab-content");
+        accountTab = new UserVerticalTabsheet();
+        accountTab.setSizeFull();
+        accountTab.setNavigatorWidth("220px");
+        accountTab.setNavigatorStyleName("sidebar-menu");
+        accountTab.setContainerStyleName("tab-content");
 
-        VerticalLayout contentWrapper = this.accountTab.getContentWrapper();
+        VerticalLayout contentWrapper = accountTab.getContentWrapper();
         contentWrapper.addStyleName("main-content");
         contentWrapper.addComponentAsFirst(topPanel);
 
@@ -95,12 +95,12 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
         introTextWrap.setWidth("100%");
         introTextWrap.addComponent(generateIntroText());
 
-        this.accountTab.getNavigatorWrapper().setWidth("220px");
-        this.accountTab.getNavigatorWrapper().addComponentAsFirst(introTextWrap);
+        accountTab.getNavigatorWrapper().setWidth("220px");
+        accountTab.getNavigatorWrapper().addComponentAsFirst(introTextWrap);
 
         this.buildComponents();
 
-        this.addComponent(this.accountTab);
+        this.addComponent(accountTab);
     }
 
     private Label generateIntroText() {
@@ -120,7 +120,7 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
         accountTab.addTab(constructThemeComponent(), SettingUIConstants.GENERAL_SETTING,
                 AppContext.getMessage(AdminI18nEnum.VIEW_SETTING));
 
-        if (SiteConfiguration.getDeploymentMode() == SiteConfiguration.DeploymentMode.standalone) {
+        if (!SiteConfiguration.isDemandEdition()) {
             accountTab.addTab(constructSetupComponent(), SettingUIConstants.SETUP,
                     AppContext.getMessage(AdminI18nEnum.VIEW_SETUP));
         }
@@ -174,7 +174,7 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
 
     @Override
     public void gotoSubView(String viewId) {
-        this.accountTab.selectTab(viewId);
+        accountTab.selectTab(viewId);
     }
 
     @Override

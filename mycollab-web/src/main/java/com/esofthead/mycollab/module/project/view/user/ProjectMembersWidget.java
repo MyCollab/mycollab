@@ -41,12 +41,11 @@ import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Span;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
+import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
-import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.UUID;
 
@@ -54,34 +53,27 @@ import java.util.UUID;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class ProjectMembersWidget extends MVerticalLayout {
+public class ProjectMembersWidget extends Depot {
     private static final long serialVersionUID = 1L;
 
-    private Label titleLbl;
     private DefaultBeanPagedList<ProjectMemberService, ProjectMemberSearchCriteria, SimpleProjectMember> memberList;
 
     public ProjectMembersWidget() {
-        withSpacing(false).withMargin(new MarginInfo(true, false, true, false));
+        super("", new CssLayout());
 
-        MButton inviteMemberBtn = new MButton("+").withStyleName("add-project-btn").withListener(new Button.ClickListener() {
+        MButton inviteMemberBtn = new MButton("Invite").withListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(this, null));
             }
         });
-        inviteMemberBtn.setWidth("20px");
-        inviteMemberBtn.setHeight("20px");
+        inviteMemberBtn.setIcon(FontAwesome.PLUS);
+        inviteMemberBtn.addStyleName(UIConstants.BUTTON_LINK);
+        addHeaderElement(inviteMemberBtn);
 
-        titleLbl = new Label();
-        MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(false, true,
-                false, true)).withHeight("34px").withWidth("100%").with(titleLbl, inviteMemberBtn).withAlign(titleLbl, Alignment
-                .MIDDLE_CENTER).withAlign(inviteMemberBtn, Alignment.MIDDLE_CENTER).expand(titleLbl);
-        header.addStyleName("panel-header");
-
-        memberList = new DefaultBeanPagedList<>(
-                ApplicationContextUtil.getSpringBean(ProjectMemberService.class),
+        memberList = new DefaultBeanPagedList<>(ApplicationContextUtil.getSpringBean(ProjectMemberService.class),
                 new MemberRowDisplayHandler());
-        this.with(header, memberList);
+        bodyContent.addComponent(memberList);
     }
 
     public void showInformation() {
@@ -89,7 +81,7 @@ public class ProjectMembersWidget extends MVerticalLayout {
         searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
         searchCriteria.setStatus(new StringSearchField(ProjectMemberStatusConstants.ACTIVE));
         memberList.setSearchCriteria(searchCriteria);
-        titleLbl.setValue(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_MEMBERS_TITLE, memberList.getTotalCount()));
+        this.setTitle(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_MEMBERS_TITLE, memberList.getTotalCount()));
     }
 
     public static class MemberRowDisplayHandler implements AbstractBeanPagedList.RowDisplayHandler<SimpleProjectMember> {
@@ -104,7 +96,6 @@ public class ProjectMembersWidget extends MVerticalLayout {
             layout.with(content).expand(content);
 
             CssLayout footer = new CssLayout();
-            footer.setStyleName(UIConstants.FOOTER_NOTE);
 
             String roleVal;
             if (member.isAdmin()) {
@@ -112,7 +103,7 @@ public class ProjectMembersWidget extends MVerticalLayout {
             } else {
                 roleVal = member.getRoleName();
             }
-            ELabel memberRole = new ELabel(roleVal, ContentMode.HTML).withDescription("Role");
+            ELabel memberRole = new ELabel(roleVal, ContentMode.HTML).withDescription("Role").withStyleName(UIConstants.LABEL_META_INFO);
             footer.addComponent(memberRole);
 
             String memberWorksInfo = ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK).getHtml() + " " + new Span
@@ -123,7 +114,7 @@ public class ProjectMembersWidget extends MVerticalLayout {
                     member.getTotalBillableLogTime())).setTitle("Billable hours") + "  " + FontAwesome.GIFT.getHtml() +
                     " " + new Span().appendText("" + NumberUtils.roundDouble(2, member.getTotalNonBillableLogTime())).setTitle("Non billable hours");
 
-            Label memberWorkStatus = new Label(memberWorksInfo, ContentMode.HTML);
+            ELabel memberWorkStatus = new ELabel(memberWorksInfo, ContentMode.HTML).withStyleName(UIConstants.LABEL_META_INFO);
             footer.addComponent(memberWorkStatus);
 
             content.addComponent(footer);

@@ -33,9 +33,10 @@ import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.i18n.Page18InEnum;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
-import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
-import com.esofthead.mycollab.module.project.ui.components.ProjectViewHeader;
-import com.esofthead.mycollab.schedule.email.project.ProjectPageRelayEmailNotificationAction;
+import com.esofthead.mycollab.module.project.ui.components.ComponentUtils;
+import com.esofthead.mycollab.module.project.ui.components.ProjectActivityComponent;
+import com.esofthead.mycollab.module.project.ui.format.BugFieldFormatter;
+import com.esofthead.mycollab.schedule.email.project.BugRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -81,7 +82,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
 
     private static final Logger LOG = LoggerFactory.getLogger(PageReadViewImpl.class);
 
-    private CommentDisplay commentListComp;
+    private ProjectActivityComponent commentListComp;
     private PageVersionSelectionBox pageVersionsSelection;
 
     private PageVersion selectedVersion;
@@ -96,13 +97,14 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
     private void constructHeader() {
         pageVersionsSelection = new PageVersionSelectionBox();
 
-        ProjectViewHeader headerLbl = new ProjectViewHeader(ProjectTypeConstants.PAGE, AppContext.getMessage(Page18InEnum.VIEW_READ_TITLE));
+        HeaderWithFontAwesome headerLbl = ComponentUtils.headerH3(ProjectTypeConstants.PAGE, AppContext.getMessage
+                (Page18InEnum.VIEW_READ_TITLE));
         headerLbl.setWidthUndefined();
-        headerLbl.setStyleName(UIConstants.HEADER_TEXT);
 
         ((MHorizontalLayout) header).addComponent(headerLbl, 0);
         ((MHorizontalLayout) header).addComponent(pageVersionsSelection, 1);
-        ((MHorizontalLayout) header).withWidth("100%").withStyleName("hdr-view").expand(pageVersionsSelection).alignAll(Alignment.MIDDLE_LEFT);
+        ((MHorizontalLayout) header).withWidth("100%").withStyleName("hdr-view").expand(pageVersionsSelection)
+                .alignAll(Alignment.MIDDLE_LEFT);
     }
 
     @Override
@@ -112,8 +114,8 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
 
     @Override
     protected void initRelatedComponents() {
-        commentListComp = new CommentDisplay(ProjectTypeConstants.PAGE,
-                CurrentProjectVariables.getProjectId(), ProjectPageRelayEmailNotificationAction.class);
+        commentListComp = new ProjectActivityComponent(ProjectTypeConstants.PAGE, CurrentProjectVariables
+                .getProjectId(), BugFieldFormatter.instance(), BugRelayEmailNotificationAction.class);
         commentListComp.setWidth("100%");
         commentListComp.setMargin(true);
     }
@@ -121,7 +123,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
     @Override
     protected void onPreviewItem() {
         ((PagePreviewFormLayout) previewLayout).displayPageInfo(beanItem);
-        commentListComp.loadComments(beanItem.getPath());
+        commentListComp.loadActivities(beanItem.getPath());
         pageVersionsSelection.displayVersions(beanItem.getPath());
     }
 
@@ -161,7 +163,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
                 ProjectRolePermissionCollections.PAGES);
 
         Button exportPdfBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_PDF), FontAwesome.EXTERNAL_LINK);
-        exportPdfBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        exportPdfBtn.setStyleName(UIConstants.BUTTON_ACTION);
 
         FileDownloader fileDownloader = new FileDownloader(getPDFStream());
         fileDownloader.extend(exportPdfBtn);
@@ -200,9 +202,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
 
     @Override
     protected ComponentContainer createBottomPanel() {
-        TabSheetLazyLoadComponent tabContainer = new TabSheetLazyLoadComponent();
-        tabContainer.addTab(this.commentListComp, AppContext.getMessage(GenericI18Enum.TAB_COMMENT), FontAwesome.COMMENTS);
-        return tabContainer;
+        return commentListComp;
     }
 
     @Override
@@ -250,10 +250,9 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
     private static class PagePreviewFormLayout extends ReadViewLayout {
         void displayPageInfo(Page beanItem) {
             MVerticalLayout header = new MVerticalLayout().withMargin(false);
-            Label titleLbl = new Label(beanItem.getSubject());
-            titleLbl.setStyleName("headerName");
+            ELabel titleLbl = ELabel.h2(beanItem.getSubject());
             header.with(titleLbl);
-            Div footer = new Div().setStyle("width:100%").setCSSClass("footer2");
+            Div footer = new Div().setStyle("width:100%").setCSSClass(UIConstants.LABEL_META_INFO);
             Span lastUpdatedTimeTxt = new Span().appendText(AppContext.getMessage(DayI18nEnum.LAST_UPDATED_ON,
                     AppContext.formatPrettyTime(beanItem.getLastUpdatedTime().getTime())))
                     .setTitle(AppContext.formatDateTime(beanItem.getLastUpdatedTime().getTime()));
@@ -293,13 +292,16 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
             this.setCompositionRoot(content);
         }
 
+        public PageVersionSelectionBox(Component compositionRoot) {
+            super(compositionRoot);
+        }
+
         void displayVersions(String path) {
             List<PageVersion> pageVersions = pageService.getPageVersions(path);
             if (pageVersions.size() > 0) {
                 final ComboBox pageSelection = new ComboBox();
                 content.addComponent(pageSelection);
                 pageSelection.setNullSelectionAllowed(false);
-                pageSelection.setStyleName("version-selection-box");
                 pageSelection.setTextInputAllowed(false);
 
                 pageSelection.addValueChangeListener(new ValueChangeListener() {

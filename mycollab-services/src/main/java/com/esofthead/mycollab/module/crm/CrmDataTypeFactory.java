@@ -52,7 +52,7 @@ public class CrmDataTypeFactory {
 			"Assigned", "In Process", "Converted", "Recycled", "Dead" };
 
 	private static String[] CAMPAIGN_STATUS_LIST = new String[] { "Planning",
-			"Active", "Inactive", "Complete", "In Queue", "Sending" };
+			"Active", "Inactive", "Completed", "In Queue", "Sending" };
 
 	private static String[] CAMPAIGN_TYPE_LIST = new String[] { "Conference",
 			"Webinar", "Trade Show", "Public Relations", "Partners",

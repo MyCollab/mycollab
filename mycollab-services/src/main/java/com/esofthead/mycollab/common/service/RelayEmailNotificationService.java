@@ -22,12 +22,10 @@ import com.esofthead.mycollab.common.domain.criteria.RelayEmailNotificationSearc
 import com.esofthead.mycollab.core.persistence.service.IDefaultService;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @IgnoreCacheClass
 public interface RelayEmailNotificationService extends
-		IDefaultService<Integer, RelayEmailNotificationWithBLOBs, RelayEmailNotificationSearchCriteria> {
+        IDefaultService<Integer, RelayEmailNotificationWithBLOBs, RelayEmailNotificationSearchCriteria> {
 }

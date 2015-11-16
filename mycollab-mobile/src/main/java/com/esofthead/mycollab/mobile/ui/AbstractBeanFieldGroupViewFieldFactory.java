@@ -68,6 +68,11 @@ public abstract class AbstractBeanFieldGroupViewFieldFactory<B> implements IBean
     }
 
     @Override
+    public void setBuffered(boolean isBuffered) {
+
+    }
+
+    @Override
     public boolean commit() {
         return true;
     }

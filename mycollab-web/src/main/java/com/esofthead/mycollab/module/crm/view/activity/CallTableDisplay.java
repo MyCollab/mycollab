@@ -85,7 +85,7 @@ public class CallTableDisplay extends
                     }
                 });
                 b.setIcon(FontAwesome.TRASH_O);
-                b.setStyleName(UIConstants.THEME_LINK);
+                b.setStyleName(UIConstants.BUTTON_LINK);
                 b.setDescription("Close this call");
                 return b;
 

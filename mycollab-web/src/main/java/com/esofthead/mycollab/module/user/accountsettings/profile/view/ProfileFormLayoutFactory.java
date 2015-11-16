@@ -70,30 +70,18 @@ public abstract class ProfileFormLayoutFactory implements IFormLayoutFactory {
 
         @Override
         public ComponentContainer getLayout() {
-            VerticalLayout layout = new VerticalLayout();
-            Label organizationHeader = new Label(AppContext.getMessage(UserI18nEnum.SECTION_BASIC_INFORMATION));
-            organizationHeader.setStyleName("h2");
-            layout.addComponent(organizationHeader);
-
+            FormContainer layout = new FormContainer();
             basicInformationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 7);
-
-            layout.addComponent(basicInformationLayout.getLayout());
-
-            Label contactHeader = new Label(AppContext.getMessage(UserI18nEnum.SECTION_CONTACT_INFORMATION));
-            contactHeader.setStyleName("h2");
-            layout.addComponent(contactHeader);
+            layout.addSection(AppContext.getMessage(UserI18nEnum.SECTION_BASIC_INFORMATION),
+                    basicInformationLayout.getLayout());
 
             contactInformationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 3);
-
-            layout.addComponent(contactInformationLayout.getLayout());
-
-            Label advancedHeader = new Label(AppContext.getMessage(UserI18nEnum.SECTION_ADVANCED_INFORMATION));
-            advancedHeader.setStyleName("h2");
-            layout.addComponent(advancedHeader);
+            layout.addSection(AppContext.getMessage(UserI18nEnum.SECTION_CONTACT_INFORMATION),
+                    contactInformationLayout.getLayout());
 
             advancedInformationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 2);
-
-            layout.addComponent(advancedInformationLayout.getLayout());
+            layout.addSection(AppContext.getMessage(UserI18nEnum.SECTION_ADVANCED_INFORMATION),
+                    advancedInformationLayout.getLayout());
             return layout;
         }
 

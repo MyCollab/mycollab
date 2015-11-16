@@ -34,14 +34,18 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.*;
 import com.esofthead.mycollab.vaadin.ui.AddViewLayout;
+import com.esofthead.mycollab.vaadin.ui.FormContainer;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.Layout;
+import com.vaadin.ui.TextArea;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -117,7 +121,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements Pro
 
             }
         });
-        inviteBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        inviteBtn.setStyleName(UIConstants.BUTTON_ACTION);
         inviteBtn.setIcon(FontAwesome.SEND);
 
         Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
@@ -132,22 +136,18 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements Pro
             }
         });
         cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-        controlButtons.with(cancelBtn, inviteBtn);
+        controlButtons.with(inviteBtn, cancelBtn);
 
         controlButtons.setSizeUndefined();
         return controlButtons;
     }
 
     private Layout createBottomPanel() {
-        VerticalLayout permissionsPanel = new VerticalLayout();
-        Label organizationHeader = new Label(AppContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS));
-        organizationHeader.setStyleName("h2");
-        permissionsPanel.addComponent(organizationHeader);
+        FormContainer permissionsPanel = new FormContainer();
 
         projectFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2,
                 ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length);
-        permissionsPanel.addComponent(projectFormHelper.getLayout());
-
+        permissionsPanel.addSection(AppContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS), projectFormHelper.getLayout());
         roleId = (Integer) roleComboBox.getValue();
         displayRolePermission(roleId);
 

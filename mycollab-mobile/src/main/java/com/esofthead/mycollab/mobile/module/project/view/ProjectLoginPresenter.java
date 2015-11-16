@@ -28,7 +28,6 @@ import com.vaadin.ui.ComponentContainer;
  *
  */
 public class ProjectLoginPresenter extends AbstractPresenter<ProjectLoginView> {
-
 	private static final long serialVersionUID = -750325026975907368L;
 
 	public ProjectLoginPresenter() {

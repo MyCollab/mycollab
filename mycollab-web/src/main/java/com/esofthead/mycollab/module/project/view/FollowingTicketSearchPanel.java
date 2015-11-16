@@ -159,7 +159,7 @@ public class FollowingTicketSearchPanel extends DefaultGenericSearchPanel<Follow
                             FollowingTicketSearchPanel.this.doSearch();
                         }
                     });
-            queryBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+            queryBtn.setStyleName(UIConstants.BUTTON_ACTION);
             selectionLayout.addComponent(queryBtn, 4, 0);
 
             return basicSearchBody;

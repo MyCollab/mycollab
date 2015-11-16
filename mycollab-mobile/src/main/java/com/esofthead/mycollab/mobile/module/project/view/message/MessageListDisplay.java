@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.message;
 
-import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.events.MessageEvent;
@@ -77,8 +76,7 @@ public class MessageListDisplay extends
 			metadataRow.addComponent(userNameLbl);
 			metadataRow.setExpandRatio(userNameLbl, 1.0f);
 
-			Label messageTimePost = new Label(DateTimeUtils.getPrettyDateValue(
-					message.getPosteddate(), AppContext.getUserLocale()));
+			Label messageTimePost = new Label(AppContext.formatPrettyTime(message.getPosteddate()));
 			messageTimePost.setStyleName("time-post");
 			messageTimePost.setWidthUndefined();
 			metadataRow.addComponent(messageTimePost);

@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.billing.servlet;
 
 import com.esofthead.mycollab.common.UrlTokenizer;
+import com.esofthead.mycollab.configuration.IDeploymentMode;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.ResourceNotFoundException;
@@ -60,6 +61,9 @@ public class AcceptInvitationPage extends VelocityWebServletRequestHandler {
     @Autowired
     private UserAccountMapper userAccountMapper;
 
+    @Autowired
+    private IDeploymentMode deploymentMode;
+
     @Override
     protected void onHandleRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -74,14 +78,13 @@ public class AcceptInvitationPage extends VelocityWebServletRequestHandler {
 
                 Integer accountId = urlTokenizer.getInt();
                 String username = urlTokenizer.getString();
-                if (SiteConfiguration.getDeploymentMode() == SiteConfiguration.DeploymentMode.site) {
+                if (deploymentMode.isDemandEdition()) {
                     subDomain = urlTokenizer.getString();
                 }
 
                 User user = userService.findUserByUserName(username);
                 if (user == null) {
-                    PageGeneratorUtil.responeUserNotExistPage(response,
-                            username, request.getContextPath() + "/");
+                    PageGeneratorUtil.responeUserNotExistPage(response, username, request.getContextPath() + "/");
                     return;
                 } else {
                     if (!UserStatusConstants.EMAIL_VERIFIED.equals(user.getStatus())) {

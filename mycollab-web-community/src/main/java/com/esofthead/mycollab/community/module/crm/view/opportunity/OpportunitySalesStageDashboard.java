@@ -29,7 +29,6 @@ import com.esofthead.mycollab.module.crm.view.opportunity.IOpportunitySalesStage
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.vaadin.ui.ComponentContainer;
 import org.jfree.data.general.DefaultPieDataset;
 
 import java.util.List;
@@ -43,21 +42,7 @@ public class OpportunitySalesStageDashboard extends PieChartWrapper<OpportunityS
     private static final long serialVersionUID = 1L;
 
     public OpportunitySalesStageDashboard() {
-        this(400, 265);
-    }
-
-    public OpportunitySalesStageDashboard(final int width, final int height) {
-        super(width, height);
-    }
-
-    @Override
-    public ComponentContainer getWidget() {
-        return this;
-    }
-
-    @Override
-    public void addViewListener(ViewListener listener) {
-
+        super(400, 265);
     }
 
     @Override

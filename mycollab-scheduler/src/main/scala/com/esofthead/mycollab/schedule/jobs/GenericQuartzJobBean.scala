@@ -50,5 +50,5 @@ abstract class GenericQuartzJobBean extends QuartzJobBean {
 }
 
 object GenericQuartzJobBean {
-    private var isSendingDbError: Boolean = false;
+    private var isSendingDbError: Boolean = false
 }

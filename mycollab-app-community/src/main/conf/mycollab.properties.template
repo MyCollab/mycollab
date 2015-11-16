@@ -10,7 +10,6 @@ locale.default=en_US
 locale.list=en_US
 
 site.name=${sitename}
-running.mode=standalone
 server.address=${serveraddress}
 
 # The method to pull data from server to client. They are two values: push or pull. Push method is recommended, but

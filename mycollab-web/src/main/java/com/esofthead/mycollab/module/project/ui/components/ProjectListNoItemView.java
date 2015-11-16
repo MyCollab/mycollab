@@ -17,13 +17,13 @@
 package com.esofthead.mycollab.module.project.ui.components;
 
 import com.esofthead.mycollab.vaadin.mvp.PageView;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Label;
+import com.vaadin.ui.*;
+import com.vaadin.ui.themes.ValoTheme;
+import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -31,30 +31,26 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  * @author MyCollab Ltd.
  * @since 5.0.0
  */
-public abstract class ProjectListNoItemView extends MVerticalLayout implements PageView {
+public abstract class ProjectListNoItemView extends VerticalLayout implements PageView {
     public ProjectListNoItemView() {
-        this.withMargin(false).withStyleName("case-noitem");
-        this.setDefaultComponentAlignment(Alignment.TOP_CENTER);
+        MVerticalLayout content = new MVerticalLayout().withWidth("700px");
+        ELabel image = new ELabel(viewIcon().getHtml(), ContentMode.HTML).withStyleName(ValoTheme.LABEL_H1).withWidthUndefined();
+        image.addStyleName(ValoTheme.LABEL_NO_MARGIN);
 
-        Label image = new Label(viewIcon().getHtml(), ContentMode.HTML);
-        image.setSizeUndefined();
+        ELabel title = ELabel.h2(viewTitle()).withWidthUndefined();
 
-        Label title = new Label(viewTitle());
-        title.addStyleName("h2");
-        title.setSizeUndefined();
-
-        Label body = new Label(String.format("<div style=\"text-align:center\">%s</div>", viewHint()), ContentMode.HTML);
-        body.setWidth("500px");
-
+        ELabel body = new ELabel(viewHint(), ContentMode.HTML).withWidthUndefined();
+        body.addStyleName(UIConstants.LABEL_WORD_WRAP);
         MHorizontalLayout links = createControlButtons();
-
-        this.with(image, title, body, links);
+        content.with(image, title, body, links).alignAll(Alignment.TOP_CENTER);
+        this.addComponent(content);
+        this.setComponentAlignment(content, Alignment.MIDDLE_CENTER);
     }
 
     protected MHorizontalLayout createControlButtons() {
         Button createItemBtn = new Button(actionMessage(), actionListener());
         createItemBtn.setEnabled(hasPermission());
-        createItemBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+        createItemBtn.addStyleName(UIConstants.BUTTON_ACTION);
 
         return new MHorizontalLayout().with(createItemBtn);
     }

@@ -26,8 +26,8 @@ import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.view.bug.components.BugResolutionComboBox;
-import com.esofthead.mycollab.module.project.view.settings.component.VersionMultiSelectField;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
+import com.esofthead.mycollab.module.project.view.settings.component.VersionMultiSelectField;
 import com.esofthead.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.service.BugRelatedItemService;
@@ -40,7 +40,6 @@ import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
-import com.vaadin.ui.ComponentContainer;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
@@ -63,11 +62,12 @@ public class ReOpenWindow extends Window {
         super("Reopen bug '" + bug.getSummary() + "'");
         this.setResizable(false);
         this.setModal(true);
+        this.setWidth("750px");
         this.bug = bug;
         this.callbackForm = callbackForm;
 
         MVerticalLayout contentLayout = new MVerticalLayout().withSpacing(false).withMargin(new MarginInfo(false,
-                false, true, false)).withWidth("750px");
+                false, true, false));
 
         EditForm editForm = new EditForm();
         editForm.setBean(bug);
@@ -138,7 +138,7 @@ public class ReOpenWindow extends Window {
 
                     }
                 });
-                wonFixBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+                wonFixBtn.setStyleName(UIConstants.BUTTON_ACTION);
                 wonFixBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 
                 Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {

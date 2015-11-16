@@ -26,7 +26,7 @@ import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.esofthead.mycollab.module.crm.events.AccountEvent;
 import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
-import com.esofthead.mycollab.module.crm.ui.components.CrmViewHeader;
+import com.esofthead.mycollab.module.crm.ui.components.ComponentUtils;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserListSelect;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -36,6 +36,7 @@ import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -54,7 +55,7 @@ public class AccountSearchPanel extends DefaultGenericSearchPanel<AccountSearchC
 
     @Override
     protected HeaderWithFontAwesome buildSearchTitle() {
-        return new CrmViewHeader(CrmTypeConstants.ACCOUNT, AppContext.getMessage(AccountI18nEnum.VIEW_LIST_TITLE));
+        return ComponentUtils.header(CrmTypeConstants.ACCOUNT, AppContext.getMessage(AccountI18nEnum.VIEW_LIST_TITLE));
     }
 
     @Override
@@ -65,7 +66,7 @@ public class AccountSearchPanel extends DefaultGenericSearchPanel<AccountSearchC
                 EventBusFactory.getInstance().post(new AccountEvent.GotoAdd(this, null));
             }
         });
-        createAccountBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        createAccountBtn.setStyleName(UIConstants.BUTTON_ACTION);
         createAccountBtn.setIcon(FontAwesome.PLUS);
         createAccountBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_ACCOUNT));
         this.addHeaderRight(createAccountBtn);
@@ -89,7 +90,7 @@ public class AccountSearchPanel extends DefaultGenericSearchPanel<AccountSearchC
 
         @Override
         public ComponentContainer constructHeader() {
-            return constructHeader();
+            return AccountSearchPanel.this.constructHeader();
         }
 
         @Override
@@ -135,13 +136,13 @@ public class AccountSearchPanel extends DefaultGenericSearchPanel<AccountSearchC
 
             basicSearchBody.with(nameField).withAlign(nameField, Alignment.MIDDLE_CENTER);
 
-            this.myItemCheckbox = new CheckBox(AppContext.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
-            this.myItemCheckbox.setWidth("75px");
+            myItemCheckbox = new CheckBox(AppContext.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
+            myItemCheckbox.addStyleName(ValoTheme.CHECKBOX_SMALL);
 
             basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox, Alignment.MIDDLE_CENTER);
 
             Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
-            searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+            searchBtn.setStyleName(UIConstants.BUTTON_ACTION);
             searchBtn.setIcon(FontAwesome.SEARCH);
             searchBtn.addClickListener(new Button.ClickListener() {
                 @Override
@@ -168,7 +169,7 @@ public class AccountSearchPanel extends DefaultGenericSearchPanel<AccountSearchC
                     AccountSearchPanel.this.moveToAdvancedSearchLayout();
                 }
             });
-            advancedSearchBtn.setStyleName(UIConstants.THEME_LINK);
+            advancedSearchBtn.setStyleName(UIConstants.BUTTON_LINK);
             basicSearchBody.with(advancedSearchBtn).withAlign(advancedSearchBtn, Alignment.MIDDLE_CENTER);
             return basicSearchBody;
         }

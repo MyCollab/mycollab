@@ -31,6 +31,7 @@ import com.vaadin.event.FieldEvents;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.*;
+import com.vaadin.ui.themes.ValoTheme;
 import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.jouni.restrain.Restrain;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -68,7 +69,7 @@ class PredecessorWindow extends Window {
         MVerticalLayout content = new MVerticalLayout();
         this.setContent(content);
         Label headerLbl = new Label(String.format("Row %d: %s", ganttItemWrapper.getGanttIndex(), ganttItemWrapper.getName()));
-        headerLbl.addStyleName("h2");
+        headerLbl.addStyleName(ValoTheme.LABEL_H2);
         content.add(headerLbl);
 
         CssLayout preWrapper = new CssLayout();
@@ -104,7 +105,7 @@ class PredecessorWindow extends Window {
                 PredecessorWindow.this.close();
             }
         });
-        saveBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+        saveBtn.addStyleName(UIConstants.BUTTON_ACTION);
         buttonControls.with(cancelBtn, saveBtn);
     }
 

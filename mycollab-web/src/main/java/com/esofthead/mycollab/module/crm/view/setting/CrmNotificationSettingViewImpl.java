@@ -36,23 +36,22 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.OptionGroup;
+import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 @ViewComponent
 public class CrmNotificationSettingViewImpl extends AbstractPageView implements
-		CrmNotificationSettingView {
-	private static final long serialVersionUID = 1L;
+        CrmNotificationSettingView {
+    private static final long serialVersionUID = 1L;
 
-	@Override
-	public void showNotificationSettings(final CrmNotificationSetting notification) {
-		this.removeAllComponents();
+    @Override
+    public void showNotificationSettings(final CrmNotificationSetting notification) {
+        this.removeAllComponents();
 
         MVerticalLayout bodyWrapper = new MVerticalLayout();
         bodyWrapper.setSizeFull();
@@ -61,9 +60,8 @@ public class CrmNotificationSettingViewImpl extends AbstractPageView implements
                 ("notification-label");
         notificationLabelWrapper.setSizeFull();
 
-        Label notificationLabel = new Label(
-                AppContext.getMessage(ProjectSettingI18nEnum.EXT_LEVEL));
-        notificationLabel.addStyleName("h2");
+        Label notificationLabel = new Label(AppContext.getMessage(ProjectSettingI18nEnum.EXT_LEVEL));
+        notificationLabel.addStyleName(ValoTheme.LABEL_H2);
 
         notificationLabel.setHeightUndefined();
         notificationLabelWrapper.addComponent(notificationLabel);
@@ -76,22 +74,16 @@ public class CrmNotificationSettingViewImpl extends AbstractPageView implements
         optionGroup.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
 
         optionGroup.addItem(NotificationType.Default.name());
-        optionGroup
-                .setItemCaption(
-                        NotificationType.Default.name(),
-                        AppContext
-                                .getMessage(ProjectSettingI18nEnum.OPT_DEFAULT_SETTING));
+        optionGroup.setItemCaption(NotificationType.Default.name(),
+                AppContext.getMessage(ProjectSettingI18nEnum.OPT_DEFAULT_SETTING));
 
         optionGroup.addItem(NotificationType.None.name());
         optionGroup.setItemCaption(NotificationType.None.name(), AppContext
                 .getMessage(ProjectSettingI18nEnum.OPT_NONE_SETTING));
 
         optionGroup.addItem(NotificationType.Minimal.name());
-        optionGroup
-                .setItemCaption(
-                        NotificationType.Minimal.name(),
-                        AppContext
-                                .getMessage(ProjectSettingI18nEnum.OPT_MINIMUM_SETTING));
+        optionGroup.setItemCaption(NotificationType.Minimal.name(),
+                AppContext.getMessage(ProjectSettingI18nEnum.OPT_MINIMUM_SETTING));
 
         optionGroup.addItem(NotificationType.Full.name());
         optionGroup.setItemCaption(NotificationType.Full.name(), AppContext
@@ -108,39 +100,32 @@ public class CrmNotificationSettingViewImpl extends AbstractPageView implements
             optionGroup.select(levelVal);
         }
 
-        Button updateBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        Button updateBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(ClickEvent event) {
-                        try {
-                            notification.setLevel((String) optionGroup
-                                    .getValue());
-                            CrmNotificationSettingService crmNotificationSettingService = ApplicationContextUtil
-                                    .getSpringBean(CrmNotificationSettingService.class);
-                            if (notification.getId() == null) {
-                                crmNotificationSettingService
-                                        .saveWithSession(notification,
-                                                AppContext.getUsername());
-                            } else {
-                                crmNotificationSettingService
-                                        .updateWithSession(notification,
-                                                AppContext.getUsername());
-                            }
-                            NotificationUtil.showNotification("Congrats", AppContext
-                                    .getMessage(ProjectSettingI18nEnum.DIALOG_UPDATE_SUCCESS));
-                        } catch (Exception e) {
-                            throw new MyCollabException(e);
-                        }
+            @Override
+            public void buttonClick(ClickEvent event) {
+                try {
+                    notification.setLevel((String) optionGroup.getValue());
+                    CrmNotificationSettingService crmNotificationSettingService = ApplicationContextUtil
+                            .getSpringBean(CrmNotificationSettingService.class);
+                    if (notification.getId() == null) {
+                        crmNotificationSettingService.saveWithSession(notification, AppContext.getUsername());
+                    } else {
+                        crmNotificationSettingService.updateWithSession(notification, AppContext.getUsername());
                     }
-                });
-        updateBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+                    NotificationUtil.showNotification("Congrats", AppContext
+                            .getMessage(ProjectSettingI18nEnum.DIALOG_UPDATE_SUCCESS));
+                } catch (Exception e) {
+                    throw new MyCollabException(e);
+                }
+            }
+        });
+        updateBtn.addStyleName(UIConstants.BUTTON_ACTION);
         updateBtn.setIcon(FontAwesome.REFRESH);
         body.with(updateBtn).withAlign(updateBtn, Alignment.BOTTOM_LEFT);
 
         bodyWrapper.addComponent(body);
         this.addComponent(bodyWrapper);
-	}
+    }
 }

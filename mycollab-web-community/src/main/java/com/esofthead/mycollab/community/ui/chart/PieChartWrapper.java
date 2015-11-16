@@ -16,11 +16,12 @@
  */
 package com.esofthead.mycollab.community.ui.chart;
 
+import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.utils.StringUtils;
+import com.esofthead.mycollab.ui.chart.GenericChartWrapper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.web.CustomLayoutExt;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
@@ -45,10 +46,12 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public abstract class PieChartWrapper<S extends SearchCriteria> extends GenericChartWrapper<S> {
+public abstract class PieChartWrapper<S extends SearchCriteria> extends GenericChartWrapper {
     private static final long serialVersionUID = 1L;
 
     protected DefaultPieDataset pieDataSet;
+    protected S searchCriteria;
+    protected List<GroupItem> groupItems;
     private Class<? extends Enum<?>> enumKeyCls;
 
     public PieChartWrapper(final int width, final int height) {
@@ -59,6 +62,15 @@ public abstract class PieChartWrapper<S extends SearchCriteria> extends GenericC
         super(width, height);
         this.enumKeyCls = emumKey;
     }
+
+    public void displayChart(final S criteria) {
+        removeAllComponents();
+        this.searchCriteria = criteria;
+        this.groupItems = loadGroupItems();
+        displayChart();
+    }
+
+    abstract protected List<GroupItem> loadGroupItems();
 
     @Override
     protected JFreeChart createChart() {
@@ -89,21 +101,11 @@ public abstract class PieChartWrapper<S extends SearchCriteria> extends GenericC
         final List keys = pieDataSet.getKeys();
         for (int i = 0; i < keys.size(); i++) {
             final Comparable key = (Comparable) keys.get(i);
-            plot.setSectionPaint(key, Color.decode("0x" + GenericChartWrapper.CHART_COLOR_STR[i
-                    % GenericChartWrapper.CHART_COLOR_STR.length]));
+            int colorIndex = i % CHART_COLOR_STR.size();
+            plot.setSectionPaint(key, Color.decode("0x" + CHART_COLOR_STR.get(colorIndex)));
         }
         // OPTIONAL CUSTOMISATION COMPLETED.
         return chart;
-    }
-
-    @Override
-    public ComponentContainer getWidget() {
-        return this;
-    }
-
-    @Override
-    public void addViewListener(ViewListener listener) {
-
     }
 
     protected abstract DefaultPieDataset createDataset();
@@ -140,22 +142,21 @@ public abstract class PieChartWrapper<S extends SearchCriteria> extends GenericC
 
     @Override
     protected final ComponentContainer createLegendBox() {
-        final CustomLayout boxWrapper = CustomLayoutExt.createLayout("legendBox");
         final CssLayout mainLayout = new CssLayout();
-
+        mainLayout.addStyleName("legendBoxContent");
         mainLayout.setSizeUndefined();
         final List keys = pieDataSet.getKeys();
 
         for (int i = 0; i < keys.size(); i++) {
-            final MHorizontalLayout layout = new MHorizontalLayout().withSpacing(false).
-                    withMargin(new MarginInfo(false, false, false, true));
+            MHorizontalLayout layout = new MHorizontalLayout().withSpacing(false).withMargin(new MarginInfo(false, false, false, true));
             layout.addStyleName("inline-block");
             layout.setSizeUndefined();
             layout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 
             final Comparable key = (Comparable) keys.get(i);
-            final String color = "<div style = \" width:8px;height:8px;border-radius:5px;background: #"
-                    + GenericChartWrapper.CHART_COLOR_STR[i % GenericChartWrapper.CHART_COLOR_STR.length] + "\" />";
+            int colorIndex = i % CHART_COLOR_STR.size();
+            final String color = "<div style = \" width:13px;height:13px;background: #"
+                    + CHART_COLOR_STR.get(colorIndex) + "\" />";
             final Label lblCircle = new Label(color);
             lblCircle.setContentMode(ContentMode.HTML);
 
@@ -171,24 +172,26 @@ public abstract class PieChartWrapper<S extends SearchCriteria> extends GenericC
                 btnCaption = String.format("%s(%d)", AppContext.getMessage(enumKeyCls, key.toString()),
                         pieDataSet.getValue(key).intValue());
             }
-            final Button btnLink = new Button(btnCaption, new Button.ClickListener() {
+            final Button btnLink = new Button(StringUtils.trim(btnCaption, 25, true), new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;
 
                 @Override
                 public void buttonClick(final ClickEvent event) {
                     if (key instanceof Key) {
-                        PieChartWrapper.this.clickLegendItem(((Key) key).getKey());
+                        clickLegendItem(((Key) key).getKey());
                     } else {
-                        PieChartWrapper.this.clickLegendItem(key.toString());
+                        clickLegendItem(key.toString());
                     }
                 }
             });
-            btnLink.addStyleName(UIConstants.THEME_LINK);
+            btnLink.setDescription(btnCaption);
+            btnLink.addStyleName(UIConstants.BUTTON_LINK);
             layout.with(lblCircle, btnLink);
             mainLayout.addComponent(layout);
         }
-        boxWrapper.setWidth("100%");
-        boxWrapper.addComponent(mainLayout, "legendBoxContent");
-        return boxWrapper;
+        mainLayout.setWidth("100%");
+        return mainLayout;
     }
+
+    abstract protected void clickLegendItem(String key);
 }

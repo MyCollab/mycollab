@@ -29,7 +29,7 @@ import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.events.BugVersionEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.VersionI18nEnum;
-import com.esofthead.mycollab.module.project.ui.components.ProjectViewHeader;
+import com.esofthead.mycollab.module.project.ui.components.ComponentUtils;
 import com.esofthead.mycollab.module.tracker.domain.criteria.VersionSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
@@ -39,7 +39,6 @@ import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
-import com.vaadin.ui.ComponentContainer;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -61,22 +60,21 @@ public class VersionSearchPanel extends DefaultGenericSearchPanel<VersionSearchC
 
     @Override
     protected HeaderWithFontAwesome buildSearchTitle() {
-        return new ProjectViewHeader(ProjectTypeConstants.BUG_VERSION, AppContext.getMessage(VersionI18nEnum.VIEW_LIST_TITLE));
+        return ComponentUtils.headerH2(ProjectTypeConstants.BUG_VERSION, AppContext.getMessage(VersionI18nEnum.VIEW_LIST_TITLE));
     }
 
     @Override
     protected void buildExtraControls() {
-        Button createBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_NEW_VERSION),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        Button createBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_NEW_VERSION), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(final Button.ClickEvent event) {
-                        EventBusFactory.getInstance().post(new BugVersionEvent.GotoAdd(this, null));
-                    }
-                });
+            @Override
+            public void buttonClick(final Button.ClickEvent event) {
+                EventBusFactory.getInstance().post(new BugVersionEvent.GotoAdd(this, null));
+            }
+        });
         createBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.VERSIONS));
-        createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        createBtn.setStyleName(UIConstants.BUTTON_ACTION);
         createBtn.setIcon(FontAwesome.PLUS);
         this.addHeaderRight(createBtn);
     }
@@ -99,42 +97,36 @@ public class VersionSearchPanel extends DefaultGenericSearchPanel<VersionSearchC
         @Override
         public ComponentContainer constructBody() {
             MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
+            basicSearchBody.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
             Label nameLbl = new Label("Name:");
-            basicSearchBody.with(nameLbl).withAlign(nameLbl, Alignment.MIDDLE_LEFT);
+            basicSearchBody.with(nameLbl);
 
-            this.nameField = new TextField();
-            this.nameField.setInputPrompt("Query by version name");
-            this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
-            this.nameField.addShortcutListener(new ShortcutListener("VersionSearchName", ShortcutAction.KeyCode.ENTER, null) {
+            nameField = new TextField();
+            nameField.setInputPrompt("Query by version name");
+            nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
+            nameField.addShortcutListener(new ShortcutListener("VersionSearchName", ShortcutAction.KeyCode.ENTER, null) {
                 @Override
                 public void handleAction(Object o, Object o1) {
                     callSearchAction();
                 }
             });
-            basicSearchBody.with(nameField).withAlign(nameField, Alignment.MIDDLE_CENTER);
+            basicSearchBody.with(nameField);
 
-            Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
-            searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-            searchBtn.setIcon(FontAwesome.SEARCH);
-
-            searchBtn.addClickListener(new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
+            Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH), new Button.ClickListener() {
                 @Override
-                public void buttonClick(final Button.ClickEvent event) {
+                public void buttonClick(Button.ClickEvent event) {
                     callSearchAction();
                 }
             });
-            basicSearchBody.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_CENTER);
+            searchBtn.setStyleName(UIConstants.BUTTON_ACTION);
+            searchBtn.setIcon(FontAwesome.SEARCH);
+            basicSearchBody.with(searchBtn);
 
-            Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
-            cancelBtn.addClickListener(new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
+            Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), new Button.ClickListener() {
                 @Override
-                public void buttonClick(final Button.ClickEvent event) {
-                    VersionBasicSearchLayout.this.nameField.setValue("");
+                public void buttonClick(Button.ClickEvent event) {
+                    nameField.setValue("");
                 }
             });
             cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
@@ -147,7 +139,7 @@ public class VersionSearchPanel extends DefaultGenericSearchPanel<VersionSearchC
         protected SearchCriteria fillUpSearchCriteria() {
             searchCriteria = new VersionSearchCriteria();
             searchCriteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
-            searchCriteria.setVersionname(new StringSearchField(this.nameField.getValue().trim()));
+            searchCriteria.setVersionname(new StringSearchField(nameField.getValue().trim()));
             return searchCriteria;
         }
     }

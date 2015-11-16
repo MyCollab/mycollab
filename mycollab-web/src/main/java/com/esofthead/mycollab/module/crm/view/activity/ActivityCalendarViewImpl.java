@@ -26,7 +26,7 @@ import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.module.crm.service.MeetingService;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
-import com.esofthead.mycollab.module.crm.ui.components.CrmViewHeader;
+import com.esofthead.mycollab.module.crm.ui.components.ComponentUtils;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedEditItemField;
 import com.esofthead.mycollab.module.crm.view.activity.ActivityEventProvider.CrmEvent;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -50,10 +50,11 @@ import com.vaadin.ui.components.calendar.handler.BasicBackwardHandler;
 import com.vaadin.ui.components.calendar.handler.BasicDateClickHandler;
 import com.vaadin.ui.components.calendar.handler.BasicForwardHandler;
 import com.vaadin.ui.components.calendar.handler.BasicWeekClickHandler;
+import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.hene.popupbutton.PopupButton;
+import org.vaadin.peter.buttongroup.ButtonGroup;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
-import org.vaadin.peter.buttongroup.ButtonGroup;
 
 import java.text.DateFormatSymbols;
 import java.util.Date;
@@ -65,8 +66,7 @@ import java.util.Locale;
  * @since 2.0
  */
 @ViewComponent
-public class ActivityCalendarViewImpl extends AbstractCssPageView implements
-        ActivityCalendarView {
+public class ActivityCalendarViewImpl extends AbstractCssPageView implements ActivityCalendarView {
     private static final long serialVersionUID = 1L;
     private final PopupButton calendarActionBtn;
     private CalendarDisplay calendarComponent;
@@ -83,7 +83,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
 
         this.addStyleName("activityCalendar");
         calendarActionBtn = new PopupButton(AppContext.getMessage(GenericI18Enum.BUTTON_CREATE));
-        calendarActionBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        calendarActionBtn.setStyleName(UIConstants.BUTTON_ACTION);
         initContent();
     }
 
@@ -105,24 +105,21 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
                 .withWidth("100%").withStyleName(UIConstants.HEADER_VIEW);
         actionPanel.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-        Component headerText = new CrmViewHeader(CrmTypeConstants.ACTIVITY, "Calendar");
-        headerText.setStyleName(UIConstants.HEADER_TEXT);
+        Component headerText = ComponentUtils.header(CrmTypeConstants.ACTIVITY, "Calendar");
         actionPanel.with(headerText).expand(headerText);
 
         mainContent.addComponent(actionPanel);
 
-        this.dateHdr = new Label();
-        this.dateHdr.setSizeUndefined();
-        this.dateHdr.setStyleName("h2");
+        dateHdr = new Label();
+        dateHdr.setSizeUndefined();
+        dateHdr.setStyleName(ValoTheme.LABEL_H3);
         mainContent.addComponent(this.dateHdr);
-        mainContent
-                .setComponentAlignment(this.dateHdr, Alignment.MIDDLE_CENTER);
+        mainContent.setComponentAlignment(this.dateHdr, Alignment.MIDDLE_CENTER);
 
         toggleViewBtn = new PopupButton("Monthly");
         toggleViewBtn.setWidth("200px");
         toggleViewBtn.addStyleName("calendar-view-switcher");
-        MVerticalLayout popupLayout = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, true))
-                .withWidth("190px");
+        MVerticalLayout popupLayout = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, true)).withWidth("190px");
 
         monthViewBtn = new Button("Monthly", new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
@@ -137,7 +134,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
                 initLabelCaption();
             }
         });
-        monthViewBtn.setStyleName(UIConstants.THEME_LINK);
+        monthViewBtn.setStyleName(UIConstants.BUTTON_LINK);
         popupLayout.addComponent(monthViewBtn);
 
         weekViewBtn = new Button("Weekly", new Button.ClickListener() {
@@ -151,7 +148,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
                 datePicker.selectWeek(new Date());
             }
         });
-        weekViewBtn.setStyleName(UIConstants.THEME_LINK);
+        weekViewBtn.setStyleName(UIConstants.BUTTON_LINK);
         popupLayout.addComponent(weekViewBtn);
 
         dailyViewBtn = new Button("Daily", new Button.ClickListener() {
@@ -166,7 +163,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
                 calendarComponent.switchToDateView(currentDate);
             }
         });
-        dailyViewBtn.setStyleName(UIConstants.THEME_LINK);
+        dailyViewBtn.setStyleName(UIConstants.BUTTON_LINK);
         popupLayout.addComponent(dailyViewBtn);
 
         toggleViewBtn.setContent(popupLayout);
@@ -175,16 +172,14 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
         toggleBtnWrap.addComponent(toggleViewBtn);
 
         rightColumn.addComponent(toggleBtnWrap);
-        rightColumn.setComponentAlignment(toggleBtnWrap,
-                Alignment.MIDDLE_CENTER);
+        rightColumn.setComponentAlignment(toggleBtnWrap, Alignment.MIDDLE_CENTER);
 
         rightColumn.addComponent(this.datePicker);
         initLabelCaption();
         addCalendarEvent();
 
         actionPanel.addComponent(calendarActionBtn);
-        actionPanel.setComponentAlignment(calendarActionBtn,
-                Alignment.MIDDLE_RIGHT);
+        actionPanel.setComponentAlignment(calendarActionBtn, Alignment.MIDDLE_RIGHT);
 
         OptionPopupContent actionBtnLayout = new OptionPopupContent().withWidth("150px");
 
@@ -196,14 +191,11 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
                 calendarActionBtn.setPopupVisible(false);
                 String caption = event.getButton().getCaption();
                 if (caption.equals("New Task")) {
-                    EventBusFactory.getInstance().post(
-                            new ActivityEvent.TaskAdd(this, null));
+                    EventBusFactory.getInstance().post(new ActivityEvent.TaskAdd(this, null));
                 } else if (caption.equals("New Call")) {
-                    EventBusFactory.getInstance().post(
-                            new ActivityEvent.CallAdd(this, null));
+                    EventBusFactory.getInstance().post(new ActivityEvent.CallAdd(this, null));
                 } else if (caption.equals("New Meeting")) {
-                    EventBusFactory.getInstance().post(
-                            new ActivityEvent.MeetingAdd(this, null));
+                    EventBusFactory.getInstance().post(new ActivityEvent.MeetingAdd(this, null));
                 }
             }
         };
@@ -229,7 +221,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
 
         Button calendarViewBtn = new Button("Calendar");
         calendarViewBtn.setStyleName("selected");
-        calendarViewBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+        calendarViewBtn.addStyleName(UIConstants.BUTTON_ACTION);
         viewSwitcher.addButton(calendarViewBtn);
 
         Button activityListBtn = new Button("Activities", new Button.ClickListener() {
@@ -242,7 +234,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
                 EventBusFactory.getInstance().post(new ActivityEvent.GotoTodoList(this, null));
             }
         });
-        activityListBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+        activityListBtn.addStyleName(UIConstants.BUTTON_ACTION);
         viewSwitcher.addButton(activityListBtn);
 
         actionPanel.addComponent(viewSwitcher);
@@ -291,13 +283,11 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
         futureWapper.addStyleName("eventLblfuture");
         Label futureLabel = new Label("Future");
         futureWapper.addComponent(futureLabel);
-        futureWapper
-                .setComponentAlignment(futureLabel, Alignment.MIDDLE_CENTER);
+        futureWapper.setComponentAlignment(futureLabel, Alignment.MIDDLE_CENTER);
         noteInfoLayout.addComponent(futureWapper);
 
         mainContent.addComponent(noteInfoLayout);
-        mainContent.setComponentAlignment(noteInfoLayout,
-                Alignment.MIDDLE_CENTER);
+        mainContent.setComponentAlignment(noteInfoLayout, Alignment.MIDDLE_CENTER);
     }
 
     private void updateLabelCaption(Date date) {
@@ -785,7 +775,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
                                 }
                             });
                     saveBtn.setIcon(FontAwesome.SAVE);
-                    saveBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+                    saveBtn.addStyleName(UIConstants.BUTTON_ACTION);
                     layout.addComponent(saveBtn);
                     layout.setComponentAlignment(saveBtn,
                             Alignment.MIDDLE_CENTER);

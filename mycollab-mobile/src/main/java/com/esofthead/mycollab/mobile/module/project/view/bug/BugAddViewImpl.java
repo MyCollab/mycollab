@@ -17,12 +17,12 @@
 package com.esofthead.mycollab.mobile.module.project.view.bug;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.ui.form.field.ProjectFormAttachmentUploadField;
 import com.esofthead.mycollab.mobile.module.project.view.milestone.MilestoneComboBox;
 import com.esofthead.mycollab.mobile.module.project.view.settings.ProjectMemberSelectionField;
 import com.esofthead.mycollab.mobile.ui.AbstractEditItemComp;
 import com.esofthead.mycollab.mobile.ui.MobileGridFormLayoutHelper;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
@@ -30,7 +30,8 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.addon.touchkit.ui.DatePicker;
 import com.vaadin.addon.touchkit.ui.NumberField;
@@ -53,8 +54,8 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements B
 
     @Override
     protected String initFormTitle() {
-        return beanItem.getId() == null ? AppContext.getMessage(BugI18nEnum.FORM_NEW_BUG_TITLE) : "["
-                + CurrentProjectVariables.getProject().getShortname() + "-" + beanItem.getBugkey() + "]";
+        return beanItem.getId() == null ? AppContext.getMessage(BugI18nEnum.FORM_NEW_BUG_TITLE) :
+                "[" + CurrentProjectVariables.getProject().getShortname() + "-" + beanItem.getBugkey() + "]";
     }
 
     @Override
@@ -86,7 +87,6 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements B
 
         @Override
         protected Field<?> onCreateField(final Object propertyId) {
-
             if (propertyId.equals("environment")) {
                 final TextArea field = new TextArea("", "");
                 field.setNullRepresentation("");
@@ -120,18 +120,15 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements B
                 return tf;
             } else if (propertyId.equals("milestoneid")) {
                 final MilestoneComboBox milestoneBox = new MilestoneComboBox();
-                milestoneBox
-                        .addValueChangeListener(new Property.ValueChangeListener() {
-                            private static final long serialVersionUID = 1L;
+                milestoneBox.addValueChangeListener(new Property.ValueChangeListener() {
+                    private static final long serialVersionUID = 1L;
 
-                            @Override
-                            public void valueChange(
-                                    Property.ValueChangeEvent event) {
-                                String milestoneName = milestoneBox
-                                        .getItemCaption(milestoneBox.getValue());
-                                beanItem.setMilestoneName(milestoneName);
-                            }
-                        });
+                    @Override
+                    public void valueChange(Property.ValueChangeEvent event) {
+                        String milestoneName = milestoneBox.getItemCaption(milestoneBox.getValue());
+                        beanItem.setMilestoneName(milestoneName);
+                    }
+                });
                 return milestoneBox;
             } else if (propertyId.equals("estimatetime") || (propertyId.equals("estimateremaintime"))) {
                 NumberField field = new NumberField();
@@ -180,11 +177,9 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements B
             } else if (propertyId.equals("duedate")) {
                 this.informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_DUE_DATE), 0, 5);
             } else if (propertyId.equals("estimatetime")) {
-                this.informationLayout.addComponent(field, AppContext
-                        .getMessage(BugI18nEnum.FORM_ORIGINAL_ESTIMATE), 0, 6);
+                this.informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_ORIGINAL_ESTIMATE), 0, 6);
             } else if (propertyId.equals("estimateremaintime")) {
-                this.informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_REMAIN_ESTIMATE),
-                        0, 7);
+                this.informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_REMAIN_ESTIMATE), 0, 7);
             } else if (propertyId.equals("assignuser")) {
                 this.informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 8);
             } else if (propertyId.equals("description")) {

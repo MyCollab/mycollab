@@ -27,9 +27,9 @@ import com.esofthead.mycollab.module.user.domain.User;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
@@ -37,125 +37,104 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @SuppressWarnings("serial")
 public class PasswordChangeWindow extends Window {
+    private PasswordField txtNewPassword;
+    private PasswordField txtConfirmPassword;
 
-	private PasswordField txtNewPassword;
-	private PasswordField txtConfirmPassword;
+    private final User user;
 
-	private final User user;
+    public PasswordChangeWindow(final User user) {
+        this.setWidth("600px");
+        this.initUI();
+        this.center();
+        this.setResizable(false);
+        this.setModal(true);
+        this.user = user;
+        this.setCaption(AppContext.getMessage(UserI18nEnum.WINDOW_CHANGE_PASSWORD_TITLE));
+    }
 
-	public PasswordChangeWindow(final User user) {
-		this.setWidth("600px");
-		this.initUI();
-		this.center();
-		this.setResizable(false);
-		this.setModal(true);
-		this.user = user;
-		this.setCaption(AppContext
-				.getMessage(UserI18nEnum.WINDOW_CHANGE_PASSWORD_TITLE));
-	}
+    private void initUI() {
+        final MVerticalLayout mainLayout = new MVerticalLayout().withWidth("100%");
 
-	private void initUI() {
-		final MVerticalLayout mainLayout = new MVerticalLayout().withWidth("100%");
+        final Label lbInstruct1 = new Label(AppContext.getMessage(UserI18nEnum.MSG_PASSWORD_INSTRUCT_LABEL_1));
+        mainLayout.addComponent(lbInstruct1);
+        mainLayout.setComponentAlignment(lbInstruct1, Alignment.MIDDLE_LEFT);
 
-		final Label lbInstruct1 = new Label(
-				AppContext
-						.getMessage(UserI18nEnum.MSG_PASSWORD_INSTRUCT_LABEL_1));
-		mainLayout.addComponent(lbInstruct1);
-		mainLayout.setComponentAlignment(lbInstruct1, Alignment.MIDDLE_LEFT);
+        final Label lbInstruct2 = new Label(AppContext.getMessage(UserI18nEnum.MSG_PASSWORD_INSTRUCT_LABEL_2));
+        mainLayout.addComponent(lbInstruct2);
+        mainLayout.setComponentAlignment(lbInstruct2, Alignment.MIDDLE_LEFT);
 
-		final Label lbInstruct2 = new Label(
-				AppContext
-						.getMessage(UserI18nEnum.MSG_PASSWORD_INSTRUCT_LABEL_2));
-		mainLayout.addComponent(lbInstruct2);
-		mainLayout.setComponentAlignment(lbInstruct2, Alignment.MIDDLE_LEFT);
+        GridFormLayoutHelper passInfo = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
 
-		GridFormLayoutHelper passInfo = new GridFormLayoutHelper(1, 3, "300px", "180px");
+        txtNewPassword = new PasswordField();
+        passInfo.addComponent(txtNewPassword, "New Password", 0, 0);
 
-		txtNewPassword = new PasswordField();
-		passInfo.addComponent(txtNewPassword, "New Password", 0, 0);
+        txtConfirmPassword = new PasswordField();
+        passInfo.addComponent(txtConfirmPassword, "Confirmed Password", 0, 1);
 
-		txtConfirmPassword = new PasswordField();
-		passInfo.addComponent(txtConfirmPassword, "Confirmed New Password", 0,
-				1);
+        passInfo.getLayout().setSpacing(true);
+        mainLayout.addComponent(passInfo.getLayout());
+        mainLayout.setComponentAlignment(passInfo.getLayout(), Alignment.MIDDLE_CENTER);
 
-		passInfo.getLayout().setSpacing(true);
-		mainLayout.addComponent(passInfo.getLayout());
-		mainLayout.setComponentAlignment(passInfo.getLayout(),
-				Alignment.MIDDLE_CENTER);
+        final MHorizontalLayout hlayoutControls = new MHorizontalLayout().withMargin(true);
 
-		final MHorizontalLayout hlayoutControls = new MHorizontalLayout().withMargin(true);
+        final Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-		final Button cancelBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                PasswordChangeWindow.this.close();
+            }
+        });
+        cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						PasswordChangeWindow.this.close();
-					}
-				});
-		cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+        final Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-		final Button saveBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						PasswordChangeWindow.this.changePassword();
-					}
-				});
-		saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                PasswordChangeWindow.this.changePassword();
+            }
+        });
+        saveBtn.setStyleName(UIConstants.BUTTON_ACTION);
         saveBtn.setIcon(FontAwesome.SAVE);
 
         hlayoutControls.with(cancelBtn, saveBtn);
 
-		mainLayout.with(hlayoutControls).withAlign(hlayoutControls, Alignment.MIDDLE_RIGHT);
+        mainLayout.with(hlayoutControls).withAlign(hlayoutControls, Alignment.MIDDLE_RIGHT);
 
-		this.setModal(true);
-		this.setContent(mainLayout);
-	}
+        this.setModal(true);
+        this.setContent(mainLayout);
+    }
 
-	private void changePassword() {
+    private void changePassword() {
 
-		this.txtNewPassword.removeStyleName("errorField");
-		this.txtConfirmPassword.removeStyleName("errorField");
+        this.txtNewPassword.removeStyleName("errorField");
+        this.txtConfirmPassword.removeStyleName("errorField");
 
-		if (!this.txtNewPassword.getValue().equals(
-				this.txtConfirmPassword.getValue())) {
-			NotificationUtil.showErrorNotification(AppContext
-					.getMessage(UserI18nEnum.ERROR_PASSWORDS_ARE_NOT_MATCH));
-			this.txtNewPassword.addStyleName("errorField");
-			this.txtConfirmPassword.addStyleName("errorField");
-			return;
-		}
+        if (!this.txtNewPassword.getValue().equals(this.txtConfirmPassword.getValue())) {
+            NotificationUtil.showErrorNotification(AppContext.getMessage(UserI18nEnum.ERROR_PASSWORDS_ARE_NOT_MATCH));
+            this.txtNewPassword.addStyleName("errorField");
+            this.txtConfirmPassword.addStyleName("errorField");
+            return;
+        }
 
-		try {
-			PasswordCheckerUtil.checkValidPassword(this.txtNewPassword
-					.getValue());
-		} catch (InvalidPasswordException e) {
-			NotificationUtil.showErrorNotification(e.getMessage());
-		}
+        try {
+            PasswordCheckerUtil.checkValidPassword(this.txtNewPassword.getValue());
+        } catch (InvalidPasswordException e) {
+            NotificationUtil.showErrorNotification(e.getMessage());
+        }
 
-		this.user.setPassword(PasswordEncryptHelper
-				.encryptSaltPassword(this.txtNewPassword.getValue()));
+        this.user.setPassword(PasswordEncryptHelper.encryptSaltPassword(this.txtNewPassword.getValue()));
 
-		final UserService userService = ApplicationContextUtil
-				.getSpringBean(UserService.class);
-		userService.updateWithSession(this.user, AppContext.getUsername());
+        final UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
+        userService.updateWithSession(this.user, AppContext.getUsername());
 
-		EventBusFactory.getInstance().post(
-				new ProfileEvent.GotoProfileView(PasswordChangeWindow.this,
-						null));
-		PasswordChangeWindow.this.close();
-	}
+        EventBusFactory.getInstance().post(new ProfileEvent.GotoProfileView(PasswordChangeWindow.this, null));
+        PasswordChangeWindow.this.close();
+    }
 }

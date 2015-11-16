@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.view.bug;
 
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
@@ -31,8 +29,6 @@ import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
-
-import java.util.Arrays;
 
 /**
  * @author MyCollab Ltd
@@ -65,10 +61,7 @@ public class BugKanbanPresenter extends AbstractPresenter<BugKanbanView> {
             bugContainer.removeAllComponents();
             bugContainer.addComponent(view.getWidget());
 
-            BugSearchCriteria searchCriteria = new BugSearchCriteria();
-            searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-            searchCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("bugIndex", SearchCriteria.ASC)));
-            doSearch(searchCriteria);
+            view.displayView();
 
             ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
             breadCrumb.gotoBugKanbanView();

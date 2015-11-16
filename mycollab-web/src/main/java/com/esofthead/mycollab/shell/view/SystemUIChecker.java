@@ -38,7 +38,7 @@ public class SystemUIChecker {
      * @return true if the system has the valid smtp account, false if otherwise
      */
     public static boolean hasValidSmtpAccount() {
-        if (SiteConfiguration.getDeploymentMode() != SiteConfiguration.DeploymentMode.site) {
+        if (!SiteConfiguration.isDemandEdition()) {
             ExtMailService extMailService = ApplicationContextUtil.getSpringBean(ExtMailService.class);
             if (!extMailService.isMailSetupValid()) {
                 if (AppContext.isAdmin()) {
@@ -53,16 +53,13 @@ public class SystemUIChecker {
                                 @Override
                                 public void onClose(ConfirmDialog dialog) {
                                     if (dialog.isConfirmed()) {
-                                        EventBusFactory.getInstance().post(
-                                                new ShellEvent.GotoUserAccountModule(this,
-                                                        new String[]{"setup"}));
+                                        EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"setup"}));
                                     }
                                 }
                             });
 
                 } else {
-                    NotificationUtil.showErrorNotification(AppContext
-                            .getMessage(ShellI18nEnum.WINDOW_SMTP_CONFIRM_SETUP_FOR_USER));
+                    NotificationUtil.showErrorNotification(AppContext.getMessage(ShellI18nEnum.WINDOW_SMTP_CONFIRM_SETUP_FOR_USER));
                 }
                 return false;
             } else {

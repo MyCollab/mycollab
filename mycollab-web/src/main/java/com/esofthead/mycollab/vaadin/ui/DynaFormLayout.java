@@ -27,6 +27,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.vaadin.ui.*;
+import org.vaadin.viritin.layouts.MCssLayout;
 
 import java.util.*;
 
@@ -65,7 +66,7 @@ public class DynaFormLayout implements IDynaFormLayout {
 
     @Override
     public ComponentContainer getLayout() {
-        VerticalLayout layout = new VerticalLayout();
+        FormContainer layout = new FormContainer();
         int sectionCount = dynaForm.getSectionCount();
         sectionMappings = new HashMap<>();
 
@@ -77,9 +78,8 @@ public class DynaFormLayout implements IDynaFormLayout {
 
             if (StringUtils.isNotBlank(section.getHeader())) {
                 Label header = new Label(section.getHeader());
-                header.setWidth("100%");
-                header.setStyleName("h2");
-                layout.addComponent(header);
+                MCssLayout formSection = new MCssLayout(header).withStyleName("section").withFullWidth();
+                layout.addComponent(formSection);
             }
 
             GridFormLayoutHelper gridLayout;
@@ -94,8 +94,7 @@ public class DynaFormLayout implements IDynaFormLayout {
                 for (int j = 0; j < section.getFieldCount(); j++) {
                     AbstractDynaField dynaField = section.getField(j);
                     if (!excludeFields.contains(dynaField.getFieldName())) {
-                        gridLayout.buildCell(dynaField.getDisplayName(), 0, gridLayout.getRows() - 1, 2, "100%",
-                                Alignment.TOP_LEFT);
+                        gridLayout.buildCell(dynaField.getDisplayName(), 0, gridLayout.getRows() - 1, 2, "100%", Alignment.TOP_LEFT);
                         if (j < section.getFieldCount() - 1) {
                             gridLayout.appendRow();
                         }
@@ -117,8 +116,7 @@ public class DynaFormLayout implements IDynaFormLayout {
                             if (columnIndex > 0) {
                                 gridLayout.appendRow();
                             }
-                            gridLayout.buildCell(dynaField.getDisplayName(), 0, gridLayout.getRows() - 1, 2, "100%",
-                                    Alignment.TOP_LEFT);
+                            gridLayout.buildCell(dynaField.getDisplayName(), 0, gridLayout.getRows() - 1, 2, "100%", Alignment.TOP_LEFT);
                             columnIndex = 0;
                             if (j < section.getFieldCount() - 1) {
                                 gridLayout.appendRow();

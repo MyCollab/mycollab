@@ -129,7 +129,7 @@ class AssignBugWindow extends Window {
                         }
                     }
                 });
-                approveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+                approveBtn.setStyleName(UIConstants.BUTTON_ACTION);
                 approveBtn.setIcon(FontAwesome.SHARE);
                 approveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 

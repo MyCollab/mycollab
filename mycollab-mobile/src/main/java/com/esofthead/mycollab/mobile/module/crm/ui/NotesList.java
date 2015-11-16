@@ -23,7 +23,6 @@ import com.esofthead.mycollab.common.service.RelayEmailNotificationService;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.mobile.ui.AbstractMobilePageView;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.Note;
@@ -84,8 +83,7 @@ public class NotesList extends AbstractMobilePageView {
     }
 
     private void initUI() {
-        noteList = new BeanList<NoteService, NoteSearchCriteria, SimpleNote>(
-                noteService, NoteRowDisplayHandler.class);
+        noteList = new BeanList<>(noteService, NoteRowDisplayHandler.class);
         noteList.setDisplayEmptyListText(false);
         noteList.setStyleName("noteList");
 
@@ -99,14 +97,12 @@ public class NotesList extends AbstractMobilePageView {
         commentBox.setSpacing(true);
         commentBox.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
         final TextArea noteInput = new TextArea();
-        noteInput.setInputPrompt(AppContext
-                .getMessage(GenericI18Enum.M_NOTE_INPUT_PROMPT));
+        noteInput.setInputPrompt(AppContext.getMessage(GenericI18Enum.M_NOTE_INPUT_PROMPT));
         noteInput.setSizeFull();
         commentBox.addComponent(noteInput);
         commentBox.setExpandRatio(noteInput, 1.0f);
 
-        Button postBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.M_BUTTON_SEND));
+        Button postBtn = new Button(AppContext.getMessage(GenericI18Enum.M_BUTTON_SEND));
         postBtn.setStyleName("submit-btn");
         postBtn.setWidthUndefined();
         postBtn.addClickListener(new Button.ClickListener() {
@@ -133,45 +129,26 @@ public class NotesList extends AbstractMobilePageView {
                 relayNotification.setChangecomment(noteInput.getValue());
                 relayNotification.setSaccountid(AppContext.getAccountId());
                 relayNotification.setType(type);
-                relayNotification
-                        .setAction(MonitorTypeConstants.ADD_COMMENT_ACTION);
+                relayNotification.setAction(MonitorTypeConstants.ADD_COMMENT_ACTION);
                 relayNotification.setTypeid("" + typeid);
                 if (type.equals(CrmTypeConstants.ACCOUNT)) {
-                    relayNotification
-                            .setEmailhandlerbean(AccountRelayEmailNotificationAction.class
-                                    .getName());
+                    relayNotification.setEmailhandlerbean(AccountRelayEmailNotificationAction.class.getName());
                 } else if (type.equals(CrmTypeConstants.CONTACT)) {
-                    relayNotification
-                            .setEmailhandlerbean(ContactRelayEmailNotificationAction.class
-                                    .getName());
+                    relayNotification.setEmailhandlerbean(ContactRelayEmailNotificationAction.class.getName());
                 } else if (type.equals(CrmTypeConstants.CAMPAIGN)) {
-                    relayNotification
-                            .setEmailhandlerbean(CampaignRelayEmailNotificationAction.class
-                                    .getName());
+                    relayNotification.setEmailhandlerbean(CampaignRelayEmailNotificationAction.class.getName());
                 } else if (type.equals(CrmTypeConstants.LEAD)) {
-                    relayNotification
-                            .setEmailhandlerbean(LeadRelayEmailNotificationAction.class
-                                    .getName());
+                    relayNotification.setEmailhandlerbean(LeadRelayEmailNotificationAction.class.getName());
                 } else if (type.equals(CrmTypeConstants.OPPORTUNITY)) {
-                    relayNotification
-                            .setEmailhandlerbean(OpportunityRelayEmailNotificationAction.class
-                                    .getName());
+                    relayNotification.setEmailhandlerbean(OpportunityRelayEmailNotificationAction.class.getName());
                 } else if (type.equals(CrmTypeConstants.CASE)) {
-                    relayNotification
-                            .setEmailhandlerbean(CaseRelayEmailNotificationAction.class
-                                    .getName());
+                    relayNotification.setEmailhandlerbean(CaseRelayEmailNotificationAction.class.getName());
                 } else if (type.equals(CrmTypeConstants.TASK)) {
-                    relayNotification
-                            .setEmailhandlerbean(TaskRelayEmailNotificationAction.class
-                                    .getName());
+                    relayNotification.setEmailhandlerbean(TaskRelayEmailNotificationAction.class.getName());
                 } else if (type.equals(CrmTypeConstants.MEETING)) {
-                    relayNotification
-                            .setEmailhandlerbean(MeetingRelayEmailNotificationAction.class
-                                    .getName());
+                    relayNotification.setEmailhandlerbean(MeetingRelayEmailNotificationAction.class.getName());
                 } else if (type.equals(CrmTypeConstants.CALL)) {
-                    relayNotification
-                            .setEmailhandlerbean(CallRelayEmailNotificationAction.class
-                                    .getName());
+                    relayNotification.setEmailhandlerbean(CallRelayEmailNotificationAction.class.getName());
                 }
                 RelayEmailNotificationService relayEmailNotificationService = ApplicationContextUtil
                         .getSpringBean(RelayEmailNotificationService.class);
@@ -212,7 +189,7 @@ public class NotesList extends AbstractMobilePageView {
             username.setWidth("100%");
 
 
-            Label timePostLbl = new Label(DateTimeUtils.getPrettyDateValue(note.getCreatedtime(), AppContext.getUserLocale()));
+            Label timePostLbl = new Label(AppContext.formatPrettyTime(note.getCreatedtime()));
             timePostLbl.setSizeUndefined();
             timePostLbl.setStyleName("time-post");
             messageHeader.with(username, timePostLbl).expand(username);

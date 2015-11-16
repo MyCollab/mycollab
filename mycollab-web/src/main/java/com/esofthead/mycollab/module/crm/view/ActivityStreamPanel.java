@@ -246,7 +246,7 @@ public class ActivityStreamPanel extends CssLayout {
             this.controlBarWrapper.setWidth("100%");
             this.controlBarWrapper.setStyleName("page-controls");
             ButtonGroup controlBtns = new ButtonGroup();
-            controlBtns.setStyleName(UIConstants.THEME_GREEN_LINK);
+            controlBtns.setStyleName(UIConstants.BUTTON_ACTION);
             Button prevBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_NAV_NEWER), new Button.ClickListener() {
                 private static final long serialVersionUID = -94021599166105307L;
 
@@ -257,7 +257,7 @@ public class ActivityStreamPanel extends CssLayout {
             });
 
             prevBtn.setEnabled(hasPrevious());
-            prevBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+            prevBtn.setStyleName(UIConstants.BUTTON_ACTION);
             prevBtn.setWidth("64px");
 
             Button nextBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_NAV_OLDER), new Button.ClickListener() {
@@ -270,7 +270,7 @@ public class ActivityStreamPanel extends CssLayout {
             });
 
             nextBtn.setEnabled(hasNext());
-            nextBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+            nextBtn.setStyleName(UIConstants.BUTTON_ACTION);
             nextBtn.setWidth("64px");
 
             controlBtns.addButton(prevBtn);

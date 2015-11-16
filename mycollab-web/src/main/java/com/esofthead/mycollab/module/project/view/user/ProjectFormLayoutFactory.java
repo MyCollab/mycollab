@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.module.project.view.user;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -23,10 +22,13 @@ import com.esofthead.mycollab.module.project.domain.Project;
 import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.AddViewLayout;
+import com.esofthead.mycollab.vaadin.ui.FormContainer;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
-import com.vaadin.ui.*;
+import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.Field;
+import com.vaadin.ui.Layout;
 
 /**
  * @author MyCollab Ltd.
@@ -82,31 +84,16 @@ public abstract class ProjectFormLayoutFactory implements IFormLayoutFactory {
 
         @Override
         public ComponentContainer getLayout() {
-            final VerticalLayout layout = new VerticalLayout();
-
-            final Label organizationHeader = new Label(AppContext.getMessage(ProjectI18nEnum.SECTION_PROJECT_INFO));
-            organizationHeader.setStyleName("h2");
-            layout.addComponent(organizationHeader);
+            final FormContainer layout = new FormContainer();
 
             informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 2);
-            layout.addComponent(informationLayout.getLayout());
-            layout.setComponentAlignment(informationLayout.getLayout(), Alignment.BOTTOM_CENTER);
-
-            final Label financialHeader = new Label(AppContext.getMessage(ProjectI18nEnum.SECTION_FINANCE_SCHEDULE));
-            financialHeader.setStyleName("h2");
-            layout.addComponent(financialHeader);
+            layout.addSection(AppContext.getMessage(ProjectI18nEnum.SECTION_PROJECT_INFO), informationLayout.getLayout());
 
             financialLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 5);
-            layout.addComponent(financialLayout.getLayout());
-            layout.setComponentAlignment(financialLayout.getLayout(), Alignment.BOTTOM_CENTER);
-
-            final Label descHeader = new Label(AppContext.getMessage(ProjectI18nEnum.SECTION_DESCRIPTION));
-            descHeader.setStyleName("h2");
-            layout.addComponent(descHeader);
+            layout.addSection(AppContext.getMessage(ProjectI18nEnum.SECTION_FINANCE_SCHEDULE), financialLayout.getLayout());
 
             descriptionLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 1);
-            layout.addComponent(descriptionLayout.getLayout());
-            layout.setComponentAlignment(descriptionLayout.getLayout(), Alignment.BOTTOM_CENTER);
+            layout.addSection(AppContext.getMessage(ProjectI18nEnum.SECTION_DESCRIPTION), descriptionLayout.getLayout());
             return layout;
         }
 

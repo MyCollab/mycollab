@@ -125,7 +125,7 @@ class CrmCommentInput extends MHorizontalLayout {
                         component.reload();
                     }
                 });
-        newCommentBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        newCommentBtn.setStyleName(UIConstants.BUTTON_ACTION);
         newCommentBtn.setIcon(FontAwesome.SEND);
         controlsLayout.with(cancelBtn, newCommentBtn);
         textAreaWrap.with(commentArea, controlsLayout);

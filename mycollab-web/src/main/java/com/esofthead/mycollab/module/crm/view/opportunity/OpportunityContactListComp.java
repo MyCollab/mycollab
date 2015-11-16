@@ -107,7 +107,7 @@ public class OpportunityContactListComp extends
         final SplitButton controlsBtn = new SplitButton();
         controlsBtn.setSizeUndefined();
         controlsBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CONTACT));
-        controlsBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+        controlsBtn.addStyleName(UIConstants.BUTTON_ACTION);
         controlsBtn.setCaption("Add/Edit Contacts' Role");
         controlsBtn.setIcon(FontAwesome.PLUS);
         controlsBtn

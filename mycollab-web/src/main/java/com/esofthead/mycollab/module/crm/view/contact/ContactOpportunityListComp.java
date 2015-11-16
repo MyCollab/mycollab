@@ -63,7 +63,7 @@ public class ContactOpportunityListComp
         VerticalLayout controlsBtnWrap = new VerticalLayout();
         controlsBtnWrap.setWidth("100%");
         final SplitButton controlsBtn = new SplitButton();
-        controlsBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+        controlsBtn.addStyleName(UIConstants.BUTTON_ACTION);
         controlsBtn.setCaption(AppContext
                 .getMessage(OpportunityI18nEnum.BUTTON_NEW_OPPORTUNITY));
         controlsBtn.setIcon(FontAwesome.PLUS);

@@ -28,20 +28,14 @@ public class ButtonLink extends MButton {
     private static final long serialVersionUID = 1L;
 
     public ButtonLink(String caption) {
-        this(caption, null, true);
-    }
-
-    public ButtonLink(String caption, ClickListener listener, Boolean wordWrap) {
-        super(caption);
-        this.setStyleName(UIConstants.THEME_LINK);
-        if (listener != null) {
-            this.addClickListener(listener);
-        }
-        if (wordWrap)
-            this.addStyleName("wordWrap");
+        this(caption, null);
     }
 
     public ButtonLink(String caption, ClickListener listener) {
-        this(caption, listener, true);
+        super(caption);
+        this.setStyleName(UIConstants.BUTTON_LINK);
+        if (listener != null) {
+            this.addClickListener(listener);
+        }
     }
 }

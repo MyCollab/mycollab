@@ -120,7 +120,7 @@ public class TestimonialWindow extends Window {
                 }
             }
         });
-        submitBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        submitBtn.setStyleName(UIConstants.BUTTON_ACTION);
         submitBtn.setIcon(FontAwesome.MAIL_FORWARD);
 
         buttonControls.with(cancelBtn, submitBtn);

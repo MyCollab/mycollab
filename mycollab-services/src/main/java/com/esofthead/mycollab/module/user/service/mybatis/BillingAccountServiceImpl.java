@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.user.service.mybatis;
 
-import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.configuration.IDeploymentMode;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultCrudService;
@@ -37,14 +37,16 @@ import java.util.List;
  * @since 1.0
  */
 @Service
-public class BillingAccountServiceImpl extends DefaultCrudService<Integer, BillingAccount> implements
-        BillingAccountService {
+public class BillingAccountServiceImpl extends DefaultCrudService<Integer, BillingAccount> implements BillingAccountService {
 
     @Autowired
     private BillingAccountMapper billingAccountMapper;
 
     @Autowired
     private BillingAccountMapperExt billingAccountMapperExt;
+
+    @Autowired
+    private IDeploymentMode deploymentMode;
 
     @Override
     public ICrudGenericDAO<Integer, BillingAccount> getCrudMapper() {
@@ -69,7 +71,7 @@ public class BillingAccountServiceImpl extends DefaultCrudService<Integer, Billi
     public BillingAccount getAccountByDomain(String domain) {
         BillingAccountExample ex = new BillingAccountExample();
 
-        if (SiteConfiguration.getDeploymentMode() == SiteConfiguration.DeploymentMode.site) {
+        if (deploymentMode.isDemandEdition()) {
             ex.createCriteria().andSubdomainEqualTo(domain);
         }
 
@@ -85,7 +87,7 @@ public class BillingAccountServiceImpl extends DefaultCrudService<Integer, Billi
     public BillingAccount getAccountById(Integer accountId) {
         BillingAccountExample ex = new BillingAccountExample();
 
-        if (SiteConfiguration.getDeploymentMode() == SiteConfiguration.DeploymentMode.site) {
+        if (deploymentMode.isDemandEdition()) {
             ex.createCriteria().andIdEqualTo(accountId);
         }
 

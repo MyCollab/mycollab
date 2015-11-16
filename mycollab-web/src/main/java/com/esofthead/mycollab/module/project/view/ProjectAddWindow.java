@@ -139,8 +139,8 @@ public class ProjectAddWindow extends Window implements WizardProgressListener {
         ProjectAddWizard() {
             this.getCancelButton().setStyleName(UIConstants.THEME_GRAY_LINK);
             this.getBackButton().setStyleName(UIConstants.THEME_GRAY_LINK);
-            this.getNextButton().setStyleName(UIConstants.THEME_GREEN_LINK);
-            this.getFinishButton().setStyleName(UIConstants.THEME_GREEN_LINK);
+            this.getNextButton().setStyleName(UIConstants.BUTTON_ACTION);
+            this.getFinishButton().setStyleName(UIConstants.BUTTON_ACTION);
             this.footer.setMargin(new MarginInfo(true, true, false, false));
         }
 

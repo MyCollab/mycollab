@@ -25,7 +25,7 @@ import com.vaadin.ui.PopupView;
  * @since 5.2.0
  */
 public interface MilestonePopupFieldFactory extends CacheableComponent {
-    PopupView createMilestoneAssigneePopupField(SimpleMilestone milestone);
+    PopupView createMilestoneAssigneePopupField(SimpleMilestone milestone, boolean isDisplayName);
 
     PopupView createStartDatePopupField(SimpleMilestone milestone);
 

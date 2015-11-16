@@ -17,16 +17,9 @@
 package com.esofthead.mycollab.module.project.view.bug;
 
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
-import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
-import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.view.ProjectView;
 import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
-import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
-import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
@@ -64,11 +57,6 @@ public class BugPresenter extends AbstractPresenter<BugContainer> {
         } else if (data instanceof BugScreenData.GotoKanbanView) {
             presenter = PresenterResolver.getPresenter(BugKanbanPresenter.class);
         } else if (data == null) {
-            BugSearchCriteria criteria = new BugSearchCriteria();
-            criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-            criteria.setStatuses(new SetSearchField<>(OptionI18nEnum.BugStatus.InProgress.name(),
-                    OptionI18nEnum.BugStatus.Open.name(), OptionI18nEnum.BugStatus.ReOpened.name()));
-            data = new BugScreenData.Search(criteria);
             presenter = PresenterResolver.getPresenter(BugListPresenter.class);
         } else if (data instanceof BugScreenData.Search) {
             presenter = PresenterResolver.getPresenter(BugListPresenter.class);

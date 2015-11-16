@@ -103,6 +103,14 @@ public class CrmModule extends AbstractPageView implements IDesktopModule {
                         }
                     });
 
+            serviceMenu.addService(CrmTypeConstants.CAMPAIGN, AppContext.getMessage(CrmCommonI18nEnum
+                    .TOOLBAR_CAMPAIGNS_HEADER), new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent clickEvent) {
+                    EventBusFactory.getInstance().post(new CampaignEvent.GotoList(this, null));
+                }
+            });
+
             serviceMenu.addService(CrmTypeConstants.OPPORTUNITY, AppContext.getMessage(CrmCommonI18nEnum
                     .TOOLBAR_OPPORTUNTIES_HEADER), new Button.ClickListener() {
                 @Override
@@ -127,7 +135,7 @@ public class CrmModule extends AbstractPageView implements IDesktopModule {
             addPopupMenu.setIcon(FontAwesome.PLUS_CIRCLE);
             addPopupMenu.addStyleName("add-btn-popup");
             addPopupMenu.setDirection(Alignment.BOTTOM_LEFT);
-            OptionPopupContent popupButtonsControl = new OptionPopupContent().withWidth("150px");
+            OptionPopupContent popupButtonsControl = new OptionPopupContent();
 
             Button newAccountBtn = new Button(AppContext.getMessage(AccountI18nEnum.BUTTON_NEW_ACCOUNT), listener);
             newAccountBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_ACCOUNT));

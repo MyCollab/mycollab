@@ -30,5 +30,6 @@ import com.esofthead.mycollab.vaadin.mvp.PageView;
 public interface TaskKanbanview extends PageView, IKanbanView {
     HasSearchHandlers<TaskSearchCriteria> getSearchHandlers();
 
+    void display();
     void queryTask(TaskSearchCriteria searchCriteria);
 }

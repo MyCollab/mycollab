@@ -16,6 +16,10 @@
  */
 package com.esofthead.mycollab.security;
 
+import com.google.common.collect.ImmutableList;
+
+import java.util.List;
+
 /**
  * Keep all permissions of MyCollab
  *
@@ -43,7 +47,7 @@ public class RolePermissionCollections {
 
     public static final String PUBLIC_DOCUMENT_ACCESS = "PublicDocumentAccess";
 
-    public static final PermissionDefItem[] CRM_PERMISSIONS_ARR = {
+    public static final List<PermissionDefItem> CRM_PERMISSIONS_ARR = ImmutableList.of(
             new PermissionDefItem(CRM_ACCOUNT, "Account", AccessPermissionFlag.class),
             new PermissionDefItem(CRM_CONTACT, "Contact", AccessPermissionFlag.class),
             new PermissionDefItem(CRM_CAMPAIGN, "Campaign", AccessPermissionFlag.class),
@@ -52,17 +56,17 @@ public class RolePermissionCollections {
             new PermissionDefItem(CRM_CASE, "Case", AccessPermissionFlag.class),
             new PermissionDefItem(CRM_TASK, "Task", AccessPermissionFlag.class),
             new PermissionDefItem(CRM_MEETING, "Meeting", AccessPermissionFlag.class),
-            new PermissionDefItem(CRM_CALL, "Call", AccessPermissionFlag.class)};
+            new PermissionDefItem(CRM_CALL, "Call", AccessPermissionFlag.class));
 
-    public static final PermissionDefItem[] ACCOUNT_PERMISSION_ARR = {
+    public static final List<PermissionDefItem> ACCOUNT_PERMISSION_ARR = ImmutableList.of(
             new PermissionDefItem(ACCOUNT_USER, "User", AccessPermissionFlag.class),
             new PermissionDefItem(ACCOUNT_ROLE, "Role", AccessPermissionFlag.class),
             new PermissionDefItem(ACCOUNT_BILLING, "Billing Management", BooleanPermissionFlag.class),
-            new PermissionDefItem(ACCOUNT_THEME, "Theme", BooleanPermissionFlag.class)};
+            new PermissionDefItem(ACCOUNT_THEME, "Theme", BooleanPermissionFlag.class));
 
-    public static final PermissionDefItem[] PROJECT_PERMISSION_ARR = {new PermissionDefItem(
-            CREATE_NEW_PROJECT, "Create New Project", BooleanPermissionFlag.class)};
+    public static final List<PermissionDefItem> PROJECT_PERMISSION_ARR = ImmutableList.of(new PermissionDefItem(
+            CREATE_NEW_PROJECT, "Create New Project", BooleanPermissionFlag.class));
 
-    public static final PermissionDefItem[] DOCUMENT_PERMISSION_ARR = {new PermissionDefItem(
-            PUBLIC_DOCUMENT_ACCESS, "Public Documents", AccessPermissionFlag.class)};
+    public static final List<PermissionDefItem> DOCUMENT_PERMISSION_ARR = ImmutableList.of(new PermissionDefItem(
+            PUBLIC_DOCUMENT_ACCESS, "Public Documents", AccessPermissionFlag.class));
 }

@@ -35,6 +35,7 @@ import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.easyuploads.SingleFileUploadField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -197,7 +198,7 @@ public abstract class EntityImportWindow<E> extends Window {
                     }
                 }
             });
-            nextBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+            nextBtn.addStyleName(UIConstants.BUTTON_ACTION);
             controlGroupBtn.with(nextBtn).withAlign(nextBtn,
                     Alignment.MIDDLE_CENTER);
 
@@ -222,34 +223,26 @@ public abstract class EntityImportWindow<E> extends Window {
             bodyLayoutWapper.addStyleName(UIConstants.BORDER_BOX_2);
             bodyLayoutWapper.setWidth("100%");
 
-            final MHorizontalLayout bodyLayout = new MHorizontalLayout()
-                    .withSpacing(true).withMargin(true);
+            final MHorizontalLayout bodyLayout = new MHorizontalLayout().withMargin(true);
 
             Label title = new Label("Step 2:");
             title.addStyleName("h3");
             bodyLayout.with(title).withAlign(title, Alignment.TOP_LEFT);
 
-            MVerticalLayout informationLayout = new MVerticalLayout()
-                    .withSpacing(true).withWidth("100%");
+            MVerticalLayout informationLayout = new MVerticalLayout().withWidth("100%");
 
-            GridFormLayoutHelper gridLayout = new GridFormLayoutHelper(1, 4,
-                    "100%", "200px", Alignment.TOP_LEFT);
-
-            gridLayout.getLayout().setSpacing(true);
-            gridLayout.getLayout().setMargin(false);
+            GridFormLayoutHelper gridLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 4);
             gridLayout.getLayout().setWidth("100%");
 
             informationLayout.addComponent(new Label("Specify Format"));
 
             @SuppressWarnings("rawtypes")
-            BeanItemContainer<String> fileformatType = new BeanItemContainer(
-                    String.class, Arrays.asList(fileType));
+            BeanItemContainer<String> fileformatType = new BeanItemContainer(String.class, Arrays.asList(fileType));
 
             fileformatComboBox = new ComboBox();
             fileformatComboBox.setContainerDataSource(fileformatType);
             fileformatComboBox.setNullSelectionAllowed(false);
-            fileformatComboBox
-                    .setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
+            fileformatComboBox.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
             fileformatComboBox.setValue("VCard");
             if (isSupportCSV && isSupportVCard)
                 fileformatComboBox.setEnabled(true);
@@ -323,7 +316,7 @@ public abstract class EntityImportWindow<E> extends Window {
             uploadFieldVerticalLayout.addComponent(new Label("Select File"));
 
             uploadField = new SingleFileUploadField();
-            uploadField.addStyleName(UIConstants.THEME_GREEN_LINK);
+            uploadField.addStyleName(UIConstants.BUTTON_ACTION);
             uploadField.addListener(new ValueChangeListener() {
                 private static final long serialVersionUID = 1L;
 
@@ -377,7 +370,7 @@ public abstract class EntityImportWindow<E> extends Window {
 
             final HorizontalLayout titleHorizontal = new HorizontalLayout();
             Label title = new Label("Step 3:");
-            title.addStyleName("h2");
+            title.addStyleName(ValoTheme.LABEL_H3);
             titleHorizontal.addComponent(title);
             bodyLayout.addComponent(titleHorizontal);
 
@@ -385,17 +378,13 @@ public abstract class EntityImportWindow<E> extends Window {
                     .withMargin(true);
 
             Label infoLabel = new Label("Map the columns to Module fields");
-            infoLabel.addStyleName("h3");
+            infoLabel.addStyleName(ValoTheme.LABEL_H4);
             columnMappingCrmLayout.addComponent(infoLabel);
             try {
-                gridCrmMapping = new GridFormLayoutHelper(2, (new CSVReader(
-                        new FileReader(uploadFile))).readNext().length + 2,
-                        "100%", "200px");
+                gridCrmMapping = GridFormLayoutHelper.defaultFormLayoutHelper(2, (new CSVReader(new FileReader(uploadFile))).readNext().length + 2);
             } catch (Exception e) {
                 throw new MyCollabException(e);
             }
-            gridCrmMapping.getLayout().setMargin(true);
-            gridCrmMapping.getLayout().setSpacing(true);
 
             Label header = new Label("Header");
             header.addStyleName("h3");
@@ -406,20 +395,15 @@ public abstract class EntityImportWindow<E> extends Window {
             if (checkboxChecked)
                 gridCrmMapping.addComponent(new Label(), "Header", 0, 0);
             else {
-                gridCrmMapping
-                        .addComponent(new Label(), "First Row Data", 0, 0);
+                gridCrmMapping.addComponent(new Label(), "First Row Data", 0, 0);
             }
             gridCrmMapping.addComponent(new Label(), "CRM Fields", 1, 0);
             columnMappingCrmLayout.addComponent(gridCrmMapping.getLayout());
 
-            MHorizontalLayout controlGroupBtn = new MHorizontalLayout()
-                    .withMargin(new MarginInfo(false, false, false, false));
+            MHorizontalLayout controlGroupBtn = new MHorizontalLayout().withMargin(new MarginInfo(false, false, false, false));
+            columnMappingCrmLayout.with(controlGroupBtn).withAlign(controlGroupBtn, Alignment.MIDDLE_CENTER);
 
-            columnMappingCrmLayout.with(controlGroupBtn).withAlign(
-                    controlGroupBtn, Alignment.MIDDLE_CENTER);
-
-            Button saveBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
+            Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
                     new ClickListener() {
                         private static final long serialVersionUID = 1L;
 
@@ -515,7 +499,7 @@ public abstract class EntityImportWindow<E> extends Window {
                         }
                     });
 
-            saveBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+            saveBtn.addStyleName(UIConstants.BUTTON_ACTION);
             controlGroupBtn.addComponent(saveBtn);
 
             Button previousBtn = new Button("Previous", new ClickListener() {
@@ -530,7 +514,7 @@ public abstract class EntityImportWindow<E> extends Window {
                     EntityImportWindow.this.center();
                 }
             });
-            previousBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+            previousBtn.addStyleName(UIConstants.BUTTON_ACTION);
             controlGroupBtn.addComponent(previousBtn);
 
             Button btnClose = new Button("Close", new ClickListener() {
@@ -542,7 +526,7 @@ public abstract class EntityImportWindow<E> extends Window {
                     reloadWhenBackToListView();
                 }
             });
-            btnClose.addStyleName(UIConstants.THEME_GREEN_LINK);
+            btnClose.addStyleName(UIConstants.BUTTON_ACTION);
             controlGroupBtn.addComponent(btnClose);
             bodyLayout.addComponent(columnMappingCrmLayout);
             this.addComponent(bodyLayout);

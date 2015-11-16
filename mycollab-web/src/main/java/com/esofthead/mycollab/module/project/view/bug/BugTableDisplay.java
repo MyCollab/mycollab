@@ -17,16 +17,11 @@
 package com.esofthead.mycollab.module.project.view.bug;
 
 import com.esofthead.mycollab.common.TableViewField;
-import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.project.*;
-import com.esofthead.mycollab.module.project.events.BugEvent;
-import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
-import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
-import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
+import com.esofthead.mycollab.core.utils.StringUtils;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
+import com.esofthead.mycollab.module.project.ProjectTooltipGenerator;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
-import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
@@ -34,21 +29,14 @@ import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.LabelLink;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
-import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
-import org.apache.commons.lang3.StringUtils;
-import org.vaadin.dialogs.ConfirmDialog;
-import org.vaadin.peter.contextmenu.ContextMenu;
-import org.vaadin.peter.contextmenu.ContextMenu.ContextMenuItem;
-import org.vaadin.peter.contextmenu.ContextMenu.ContextMenuItemClickEvent;
-import org.vaadin.peter.contextmenu.ContextMenu.ContextMenuItemClickListener;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.Table;
 
 import java.util.List;
 
@@ -70,95 +58,6 @@ public class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearch
 
     public BugTableDisplay(String viewId, TableViewField requiredColumn, List<TableViewField> displayColumns) {
         super(ApplicationContextUtil.getSpringBean(BugService.class), SimpleBug.class, viewId, requiredColumn, displayColumns);
-
-        this.addGeneratedColumn("id", new Table.ColumnGenerator() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public Object generateCell(Table source, Object itemId, Object columnId) {
-                final SimpleBug bug = getBeanByIndex(itemId);
-                final Button bugSettingBtn = new Button(null, FontAwesome.COG);
-                bugSettingBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
-
-                final ContextMenu contextMenu = new ContextMenu();
-                contextMenu.setAsContextMenuOf(bugSettingBtn);
-                contextMenu.setOpenAutomatically(false);
-
-                contextMenu.addItemClickListener(new ContextMenuItemClickListener() {
-
-                    @Override
-                    public void contextMenuItemClicked(
-                            ContextMenuItemClickEvent event) {
-                        if (((ContextMenuItem) event.getSource()).getData() == null) {
-                            return;
-                        }
-
-                        String category = ((MenuItemData) ((ContextMenuItem) event.getSource()).getData()).getAction();
-                        String value = ((MenuItemData) ((ContextMenuItem) event.getSource()).getData()).getValue();
-                        if ("status".equals(category)) {
-                            if (AppContext.getMessage(BugStatus.Verified).equals(value)) {
-                                UI.getCurrent().addWindow(new ApproveInputWindow(BugTableDisplay.this, bug));
-                            } else if (AppContext.getMessage(BugStatus.InProgress).equals(value)) {
-                                bug.setStatus(BugStatus.InProgress.name());
-                                BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
-                                bugService.updateWithSession(bug, AppContext.getUsername());
-                            } else if (AppContext.getMessage(BugStatus.Open).equals(value)) {
-                                UI.getCurrent().addWindow(new ReOpenWindow(BugTableDisplay.this, bug));
-                            } else if (AppContext.getMessage(BugStatus.Resolved).equals(value)) {
-                                UI.getCurrent().addWindow(new ResolvedInputWindow(BugTableDisplay.this, bug));
-                            }
-                        } else if ("severity".equals(category)) {
-                            bug.setSeverity(value);
-                            BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
-                            bugService.updateWithSession(bug, AppContext.getUsername());
-                            refresh();
-                        } else if ("priority".equals(category)) {
-                            bug.setPriority(value);
-                            BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
-                            bugService.updateWithSession(bug, AppContext.getUsername());
-                            refresh();
-                        } else if ("action".equals(category)) {
-                            if ("edit".equals(value)) {
-                                EventBusFactory.getInstance().post(new BugEvent.GotoEdit(BugTableDisplay.this, bug));
-                            } else if ("delete".equals(value)) {
-                                ConfirmDialogExt.show(UI.getCurrent(),
-                                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
-                                                AppContext.getSiteName()),
-                                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                                        new ConfirmDialog.Listener() {
-                                            private static final long serialVersionUID = 1L;
-
-                                            @Override
-                                            public void onClose(
-                                                    ConfirmDialog dialog) {
-                                                if (dialog.isConfirmed()) {
-                                                    BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
-                                                    bugService.removeWithSession(bug, AppContext.getUsername(),
-                                                            AppContext.getAccountId());
-                                                    refresh();
-                                                }
-                                            }
-                                        });
-                            }
-                        }
-                    }
-                });
-
-                bugSettingBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS));
-
-                bugSettingBtn.addClickListener(new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void buttonClick(ClickEvent event) {
-                        displayContextMenuItem(contextMenu, bug, event.getClientX(), event.getClientY());
-                    }
-                });
-                return bugSettingBtn;
-            }
-        });
 
         this.addGeneratedColumn("assignuserFullName", new Table.ColumnGenerator() {
             private static final long serialVersionUID = 1L;
@@ -198,7 +97,7 @@ public class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearch
                 }
 
                 b.setDescription(ProjectTooltipGenerator.generateToolTipBug(
-                        AppContext.getUserLocale(), bug, AppContext.getSiteUrl(), AppContext.getTimezone()));
+                        AppContext.getUserLocale(), bug, AppContext.getSiteUrl(), AppContext.getUserTimezone()));
 
                 if (bug.isCompleted()) {
                     b.addStyleName(UIConstants.LINK_COMPLETED);
@@ -260,100 +159,6 @@ public class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearch
             }
         });
         this.setWidth("100%");
-    }
-
-    private void displayContextMenuItem(ContextMenu contextMenu, SimpleBug bug, int locx, int locy) {
-        contextMenu.open(locx - 25, locy);
-        contextMenu.removeAllItems();
-
-        ContextMenuItem editMenu = contextMenu.addItem(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), FontAwesome.EDIT);
-        editMenu.setData(new MenuItemData("action", "edit", AppContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
-
-        ContextMenuItem statusMenuItem = contextMenu.addItem("Status");
-        if (BugStatus.Open.name().equals(bug.getStatus()) || BugStatus.ReOpened.name().equals(bug.getStatus())) {
-            statusMenuItem.addItem("Start Progress").setData(
-                    new MenuItemData("status", BugStatus.InProgress.name(), AppContext
-                            .getMessage(BugStatus.InProgress)));
-            statusMenuItem.addItem("Resolved").setData(
-                    new MenuItemData("status", BugStatus.Resolved.name(), AppContext
-                            .getMessage(BugStatus.Resolved)));
-            statusMenuItem.addItem("Won't Fix").setData(
-                    new MenuItemData("status", BugStatus.Resolved.name(), AppContext
-                            .getMessage(BugStatus.Resolved)));
-        } else if (BugStatus.InProgress.name().equals(bug.getStatus())) {
-            statusMenuItem.addItem("Stop Progress").setData(
-                    new MenuItemData("status", BugStatus.Resolved.name(), AppContext
-                            .getMessage(BugStatus.Open)));
-            statusMenuItem.addItem("Resolved").setData(
-                    new MenuItemData("status", BugStatus.Resolved.name(), AppContext
-                            .getMessage(BugStatus.Resolved)));
-        } else if (BugStatus.Verified.name().equals(bug.getStatus())) {
-            statusMenuItem.addItem("ReOpen").setData(
-                    new MenuItemData("status", BugStatus.ReOpened.name(), AppContext
-                            .getMessage(BugStatus.ReOpened)));
-        } else if (BugStatus.Resolved.name().equals(bug.getStatus())) {
-            statusMenuItem.addItem("ReOpen").setData(
-                    new MenuItemData("status", BugStatus.ReOpened.name(), AppContext
-                            .getMessage(BugStatus.ReOpened)));
-            statusMenuItem.addItem("Approve & Close").setData(
-                    new MenuItemData("status", BugStatus.Verified.name(), AppContext
-                            .getMessage(BugStatus.Verified)));
-        }
-
-        // Show bug priority
-        ContextMenuItem priorityMenuItem = contextMenu.addItem(AppContext.getMessage(BugI18nEnum.FORM_PRIORITY));
-        for (BugPriority bugPriority : OptionI18nEnum.bug_priorities) {
-            ContextMenuItem prioritySubMenuItem = priorityMenuItem.addItem(AppContext.getMessage(bugPriority));
-            prioritySubMenuItem.setIcon(new ExternalResource(ProjectResources.getIconResourceLink12ByBugPriority(bugPriority.name
-                    ())));
-            prioritySubMenuItem.setData(new MenuItemData("priority", bugPriority.name(), AppContext.getMessage(bugPriority)));
-            if (bugPriority.name().equals(bug.getPriority())) {
-                prioritySubMenuItem.setEnabled(false);
-            }
-        }
-
-        // Show bug severity
-        ContextMenuItem severityMenuItem = contextMenu.addItem(AppContext.getMessage(BugI18nEnum.FORM_SEVERITY));
-        for (BugSeverity bugSeverity : OptionI18nEnum.bug_severities) {
-            ContextMenuItem severitySubMenuItem = severityMenuItem
-                    .addItem(AppContext.getMessage(bugSeverity));
-            severityMenuItem.setData(new MenuItemData("severity", bugSeverity.name(), AppContext.getMessage(bugSeverity)));
-            severitySubMenuItem.setIcon(new ExternalResource(ProjectResources.getIconResourceLink12ByBugSeverity
-                    (bugSeverity.name())));
-            if (bugSeverity.name().equals(bug.getSeverity())) {
-                severitySubMenuItem.setEnabled(false);
-            }
-        }
-
-        // Add delete button
-        ContextMenuItem deleteMenuItem = contextMenu.addItem(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE));
-        deleteMenuItem.setData(new MenuItemData("action", "delete", AppContext.getMessage(GenericI18Enum.BUTTON_DELETE)));
-        deleteMenuItem.setIcon(FontAwesome.TRASH_O);
-        deleteMenuItem.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.BUGS));
-    }
-
-    private static class MenuItemData {
-        private String action;
-        private String value;
-        private String displayName;
-
-        public MenuItemData(String action, String value, String displayName) {
-            this.action = action;
-            this.value = value;
-            this.displayName = displayName;
-        }
-
-        public String getAction() {
-            return action;
-        }
-
-        public String getValue() {
-            return value;
-        }
-
-        public String getDisplayName() {
-            return displayName;
-        }
     }
 
     @Override

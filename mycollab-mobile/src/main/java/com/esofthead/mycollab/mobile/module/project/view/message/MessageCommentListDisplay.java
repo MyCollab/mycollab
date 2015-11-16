@@ -20,7 +20,6 @@ import com.esofthead.mycollab.common.domain.SimpleComment;
 import com.esofthead.mycollab.common.domain.criteria.CommentSearchCriteria;
 import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.mobile.module.project.ui.ProjectCommentInput;
 import com.esofthead.mycollab.mobile.ui.MobileAttachmentUtils;
 import com.esofthead.mycollab.module.ecm.domain.Content;
@@ -39,126 +38,123 @@ import java.util.List;
 
 /**
  * @author MyCollab Ltd.
- *
  * @since 4.4.0
- *
  */
 public class MessageCommentListDisplay extends VerticalLayout implements
-		ReloadableComponent {
-	private static final long serialVersionUID = 1L;
+        ReloadableComponent {
+    private static final long serialVersionUID = 1L;
 
-	private final BeanList<CommentService, CommentSearchCriteria, SimpleComment> commentList;
-	private String type;
-	private String typeid;
-	private Integer numComments;
-	private ProjectCommentInput commentBox;
+    private final BeanList<CommentService, CommentSearchCriteria, SimpleComment> commentList;
+    private String type;
+    private String typeid;
+    private Integer numComments;
+    private ProjectCommentInput commentBox;
 
-	public MessageCommentListDisplay(
-			final String type,
-			final Integer extraTypeId,
-			final boolean isDisplayCommentInput,
-			final Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
-		this.setStyleName("comment-list");
-		this.setMargin(new MarginInfo(true, false, false, false));
-		this.type = type;
-		if (isDisplayCommentInput) {
-			commentBox = new ProjectCommentInput(this, type, extraTypeId,
-					false, emailHandler);
-		}
+    public MessageCommentListDisplay(
+            final String type,
+            final Integer extraTypeId,
+            final boolean isDisplayCommentInput,
+            final Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
+        this.setStyleName("comment-list");
+        this.setMargin(new MarginInfo(true, false, false, false));
+        this.type = type;
+        if (isDisplayCommentInput) {
+            commentBox = new ProjectCommentInput(this, type, extraTypeId,
+                    false, emailHandler);
+        }
 
-		commentList = new BeanList<>(
-				ApplicationContextUtil.getSpringBean(CommentService.class),
-				CommentRowDisplayHandler.class);
-		commentList.setDisplayEmptyListText(false);
-		this.addComponent(commentList);
+        commentList = new BeanList<>(
+                ApplicationContextUtil.getSpringBean(CommentService.class),
+                CommentRowDisplayHandler.class);
+        commentList.setDisplayEmptyListText(false);
+        this.addComponent(commentList);
 
-		displayCommentList();
-	}
+        displayCommentList();
+    }
 
-	private void displayCommentList() {
-		if (type == null || typeid == null) {
-			return;
-		}
+    private void displayCommentList() {
+        if (type == null || typeid == null) {
+            return;
+        }
 
-		final CommentSearchCriteria searchCriteria = new CommentSearchCriteria();
-		searchCriteria.setType(new StringSearchField(type));
-		searchCriteria.setTypeid(new StringSearchField(typeid));
-		numComments = commentList.setSearchCriteria(searchCriteria);
-	}
+        final CommentSearchCriteria searchCriteria = new CommentSearchCriteria();
+        searchCriteria.setType(new StringSearchField(type));
+        searchCriteria.setTypeid(new StringSearchField(typeid));
+        numComments = commentList.setSearchCriteria(searchCriteria);
+    }
 
-	public void loadComments(final String typeId) {
-		this.typeid = typeId;
-		if (commentBox != null) {
-			commentBox.setTypeAndId(typeId);
-		}
-		displayCommentList();
-	}
+    public void loadComments(final String typeId) {
+        this.typeid = typeId;
+        if (commentBox != null) {
+            commentBox.setTypeAndId(typeId);
+        }
+        displayCommentList();
+    }
 
-	@Override
-	public void reload() {
-		displayCommentList();
-	}
+    @Override
+    public void reload() {
+        displayCommentList();
+    }
 
-	public static class CommentRowDisplayHandler extends
-			BeanList.RowDisplayHandler<SimpleComment> {
+    public static class CommentRowDisplayHandler extends
+            BeanList.RowDisplayHandler<SimpleComment> {
 
-		private static final long serialVersionUID = 7604097872938029830L;
+        private static final long serialVersionUID = 7604097872938029830L;
 
-		@Override
-		public Component generateRow(SimpleComment comment, int rowIndex) {
-			HorizontalLayout commentBlock = new HorizontalLayout();
-			commentBlock.setStyleName("comment-block");
-			Image userAvatarImg = UserAvatarControlFactory
-					.createUserAvatarEmbeddedComponent(
-							comment.getOwnerAvatarId(), 32);
-			userAvatarImg.setStyleName("user-avatar");
-			commentBlock.addComponent(userAvatarImg);
+        @Override
+        public Component generateRow(SimpleComment comment, int rowIndex) {
+            HorizontalLayout commentBlock = new HorizontalLayout();
+            commentBlock.setStyleName("comment-block");
+            Image userAvatarImg = UserAvatarControlFactory
+                    .createUserAvatarEmbeddedComponent(
+                            comment.getOwnerAvatarId(), 32);
+            userAvatarImg.setStyleName("user-avatar");
+            commentBlock.addComponent(userAvatarImg);
 
-			CssLayout rightCol = new CssLayout();
-			rightCol.setWidth("100%");
-			rightCol.setStyleName("right-col");
+            CssLayout rightCol = new CssLayout();
+            rightCol.setWidth("100%");
+            rightCol.setStyleName("right-col");
 
-			HorizontalLayout metadataRow = new HorizontalLayout();
-			metadataRow.setWidth("100%");
-			metadataRow.setStyleName("metadata-row");
-			Label userNameLbl = new Label(comment.getOwnerFullName());
-			userNameLbl.setStyleName("user-name");
-			metadataRow.addComponent(userNameLbl);
-			metadataRow.setExpandRatio(userNameLbl, 1.0f);
+            HorizontalLayout metadataRow = new HorizontalLayout();
+            metadataRow.setWidth("100%");
+            metadataRow.setStyleName("metadata-row");
+            Label userNameLbl = new Label(comment.getOwnerFullName());
+            userNameLbl.setStyleName("user-name");
+            metadataRow.addComponent(userNameLbl);
+            metadataRow.setExpandRatio(userNameLbl, 1.0f);
 
-			Label commentTimePost = new Label(DateTimeUtils.getPrettyDateValue(
-					comment.getCreatedtime(), AppContext.getUserLocale()));
-			commentTimePost.setStyleName("time-post");
-			commentTimePost.setWidthUndefined();
-			metadataRow.addComponent(commentTimePost);
-			rightCol.addComponent(metadataRow);
+            Label commentTimePost = new Label(AppContext.formatPrettyTime(comment.getCreatedtime()));
+            commentTimePost.setStyleName("time-post");
+            commentTimePost.setWidthUndefined();
+            metadataRow.addComponent(commentTimePost);
+            rightCol.addComponent(metadataRow);
 
             SafeHtmlLabel commentContent = new SafeHtmlLabel(comment.getComment());
-			commentContent.setStyleName("comment-content");
-			rightCol.addComponent(commentContent);
+            commentContent.setStyleName("comment-content");
+            rightCol.addComponent(commentContent);
 
-			List<Content> attachments = comment.getAttachments();
-			if (!CollectionUtils.isEmpty(attachments)) {
-				CssLayout attachmentPanel = new CssLayout();
-				attachmentPanel.setStyleName("attachment-panel");
-				attachmentPanel.setWidth("100%");
+            List<Content> attachments = comment.getAttachments();
+            if (!CollectionUtils.isEmpty(attachments)) {
+                CssLayout attachmentPanel = new CssLayout();
+                attachmentPanel.setStyleName("attachment-panel");
+                attachmentPanel.setWidth("100%");
 
-				for (Content attachment : attachments) {
-					attachmentPanel.addComponent(MobileAttachmentUtils
-							.renderAttachmentRow(attachment));
-				}
-				rightCol.addComponent(attachmentPanel);
-			}
+                for (Content attachment : attachments) {
+                    attachmentPanel.addComponent(MobileAttachmentUtils
+                            .renderAttachmentRow(attachment));
+                }
+                rightCol.addComponent(attachmentPanel);
+            }
 
-			commentBlock.addComponent(rightCol);
-			commentBlock.setExpandRatio(rightCol, 1.0f);
-			commentBlock.setWidth("100%");
-			return commentBlock;
-		}
+            commentBlock.addComponent(rightCol);
+            commentBlock.setExpandRatio(rightCol, 1.0f);
+            commentBlock.setWidth("100%");
+            return commentBlock;
+        }
 
-	}
+    }
 
-	public ProjectCommentInput getCommentBox() {
-		return this.commentBox;
-	}
+    public ProjectCommentInput getCommentBox() {
+        return this.commentBox;
+    }
 }

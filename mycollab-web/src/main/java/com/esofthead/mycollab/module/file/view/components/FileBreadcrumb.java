@@ -88,7 +88,7 @@ public class FileBreadcrumb extends Breadcrumb implements CacheableComponent, Ha
                         notifySearchHandler(criteria);
                     }
                 });
-        documentBtnLink.addStyleName(UIConstants.THEME_LINK);
+        documentBtnLink.addStyleName(UIConstants.BUTTON_LINK);
         this.addLink(documentBtnLink);
         this.setLinkEnabled(true, 1);
     }

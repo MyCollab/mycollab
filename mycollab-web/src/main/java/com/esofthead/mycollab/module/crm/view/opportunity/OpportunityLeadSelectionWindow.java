@@ -55,7 +55,7 @@ public class OpportunityLeadSelectionWindow extends RelatedItemSelectionWindow<S
 				close();
 			}
 		});
-		selectBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+		selectBtn.setStyleName(UIConstants.BUTTON_ACTION);
 
 		LeadSimpleSearchPanel leadSimpleSearchPanel = new LeadSimpleSearchPanel();
 		leadSimpleSearchPanel.addSearchHandler(new SearchHandler<LeadSearchCriteria>() {

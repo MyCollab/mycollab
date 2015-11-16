@@ -51,9 +51,7 @@ import com.vaadin.ui.Button.ClickEvent;
  */
 
 @ViewComponent
-public class MilestoneReadViewImpl extends
-		AbstractPreviewItemComp<SimpleMilestone> implements MilestoneReadView {
-
+public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilestone> implements MilestoneReadView {
 	private static final long serialVersionUID = -2466318105833801922L;
 
 	private ProjectCommentListDisplay associateComments;
@@ -70,8 +68,7 @@ public class MilestoneReadViewImpl extends
 	protected void afterPreviewItem() {
 		associateComments.loadComments("" + beanItem.getId());
 		if (associateComments.getNumComments() > 0) {
-			relatedComments
-					.setCaption("<span aria-hidden=\"true\" data-icon=\""
+			relatedComments.setCaption("<span aria-hidden=\"true\" data-icon=\""
 							+ IconConstants.PROJECT_MESSAGE
 							+ "\" data-count=\""
 							+ associateComments.getNumComments()
@@ -80,8 +77,7 @@ public class MilestoneReadViewImpl extends
 									.getMessage(GenericI18Enum.TAB_COMMENT)
 							+ "</div>");
 		} else {
-			relatedComments
-					.setCaption("<span aria-hidden=\"true\" data-icon=\""
+			relatedComments.setCaption("<span aria-hidden=\"true\" data-icon=\""
 							+ IconConstants.PROJECT_MESSAGE
 							+ "\"></span><div class=\"screen-reader-text\">"
 							+ AppContext
@@ -102,10 +98,8 @@ public class MilestoneReadViewImpl extends
 
 	@Override
 	protected void initRelatedComponents() {
-		associateComments = new ProjectCommentListDisplay(
-				ProjectTypeConstants.MILESTONE,
-				CurrentProjectVariables.getProjectId(), true,
-				ProjectMilestoneRelayEmailNotificationAction.class);
+		associateComments = new ProjectCommentListDisplay(ProjectTypeConstants.MILESTONE,
+				CurrentProjectVariables.getProjectId(), true, ProjectMilestoneRelayEmailNotificationAction.class);
 	}
 
 	@Override
@@ -120,9 +114,7 @@ public class MilestoneReadViewImpl extends
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		return new ProjectPreviewFormControlsGenerator<>(
-				this.previewForm)
-				.createButtonControls(ProjectRolePermissionCollections.MILESTONES);
+		return new ProjectPreviewFormControlsGenerator<>(this.previewForm).createButtonControls(ProjectRolePermissionCollections.MILESTONES);
 	}
 
 	@Override
@@ -144,8 +136,7 @@ public class MilestoneReadViewImpl extends
 
 			@Override
 			public void buttonClick(ClickEvent arg0) {
-				EventBusFactory.getInstance().post(
-						new ShellEvent.PushView(this, getRelatedBugs()));
+				EventBusFactory.getInstance().post(new ShellEvent.PushView(this, getRelatedBugs()));
 			}
 		});
 		toolbarLayout.addComponent(relatedBugs);
@@ -163,8 +154,7 @@ public class MilestoneReadViewImpl extends
 
 			@Override
 			public void buttonClick(ClickEvent arg0) {
-				EventBusFactory.getInstance().post(
-						new ShellEvent.PushView(this, getRelatedTasks()));
+				EventBusFactory.getInstance().post(new ShellEvent.PushView(this, getRelatedTasks()));
 			}
 		});
 		toolbarLayout.addComponent(relatedTasks);
@@ -182,8 +172,7 @@ public class MilestoneReadViewImpl extends
 
 			@Override
 			public void buttonClick(ClickEvent arg0) {
-				EventBusFactory.getInstance().post(
-						new ShellEvent.PushView(this, associateComments));
+				EventBusFactory.getInstance().post(new ShellEvent.PushView(this, associateComments));
 			}
 		});
 		toolbarLayout.addComponent(relatedComments);
@@ -223,17 +212,13 @@ public class MilestoneReadViewImpl extends
 			} else if (propertyId.equals("owner")) {
 				return new FormViewField(beanItem.getOwnerFullName());
 			} else if (propertyId.equals("description")) {
-				return new FormDetectAndDisplayUrlViewField(
-						beanItem.getDescription());
+				return new FormDetectAndDisplayUrlViewField(beanItem.getDescription());
 			} else if (propertyId.equals("numOpenTasks")) {
-				return new FormViewField(beanItem.getNumOpenTasks() + "/"
-						+ beanItem.getNumTasks());
+				return new FormViewField(beanItem.getNumOpenTasks() + "/" + beanItem.getNumTasks());
 			} else if (propertyId.equals("numOpenBugs")) {
-				return new FormViewField(beanItem.getNumOpenBugs() + "/"
-						+ beanItem.getNumBugs());
+				return new FormViewField(beanItem.getNumOpenBugs() + "/" + beanItem.getNumBugs());
 			} else if (propertyId.equals("status")) {
-				return new FormViewField(AppContext.getMessage(
-						MilestoneStatus.class, beanItem.getStatus()));
+				return new FormViewField(AppContext.getMessage(MilestoneStatus.class, beanItem.getStatus()));
 			}
 			return null;
 		}

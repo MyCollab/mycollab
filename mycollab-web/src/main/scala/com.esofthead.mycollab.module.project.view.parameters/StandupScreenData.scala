@@ -21,9 +21,9 @@ import com.esofthead.mycollab.module.project.domain.criteria.StandupReportSearch
 import com.esofthead.mycollab.vaadin.mvp.ScreenData
 
 /**
- * @author MyCollab Ltd.
- * @since 5.0.3
- */
+  * @author MyCollab Ltd.
+  * @since 5.0.3
+  */
 object StandupScreenData {
 
   class Search(param: StandupReportSearchCriteria) extends ScreenData[StandupReportSearchCriteria](param) {}
@@ -31,7 +31,5 @@ object StandupScreenData {
   class Add(param: StandupReportWithBLOBs) extends ScreenData[StandupReportWithBLOBs](param) {}
 
   class Edit(param: StandupReportWithBLOBs) extends ScreenData[StandupReportWithBLOBs](param) {}
-
-  class Read(param: Integer) extends ScreenData[Integer](param) {}
 
 }

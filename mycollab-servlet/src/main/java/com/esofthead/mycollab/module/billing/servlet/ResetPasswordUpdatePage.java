@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.billing.servlet;
 
 import com.esofthead.mycollab.common.UrlTokenizer;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.configuration.IDeploymentMode;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.ResourceNotFoundException;
 import com.esofthead.mycollab.module.user.domain.User;
@@ -42,6 +42,9 @@ public class ResetPasswordUpdatePage extends VelocityWebServletRequestHandler {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private IDeploymentMode deploymentMode;
+
     @Override
     protected void onHandleRequest(HttpServletRequest request, HttpServletResponse response) {
         String pathInfo = request.getPathInfo();
@@ -51,15 +54,13 @@ public class ResetPasswordUpdatePage extends VelocityWebServletRequestHandler {
                 String username = urlTokenizer.getString();
                 User user = userService.findUserByUserName(username);
                 if (user == null) {
-                    PageGeneratorUtil.responeUserNotExistPage(response,
-                            username, request.getContextPath() + "/");
+                    PageGeneratorUtil.responeUserNotExistPage(response, username, request.getContextPath() + "/");
                     return;
                 } else {
-                    String loginURL = (SiteConfiguration.getDeploymentMode() == SiteConfiguration.DeploymentMode.site)
+                    String loginURL = (deploymentMode.isDemandEdition())
                             ? ("https://www.mycollab.com/sign-in?username=" + username) : (request.getContextPath() + "/");
 
-                    String redirectURL = request.getContextPath() + "/"
-                            + "user/recoverypassword/action";
+                    String redirectURL = request.getContextPath() + "/" + "user/recoverypassword/action";
 
                     Map<String, Object> context = new HashMap<String, Object>();
                     context.put("username", username);

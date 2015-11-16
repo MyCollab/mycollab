@@ -23,21 +23,12 @@ import com.esofthead.mycollab.mobile.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.vaadin.addon.touchkit.ui.EmailField;
 import com.vaadin.server.ThemeResource;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.PasswordField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd.
- *
  * @since 4.4.0
- *
  */
 
 @ViewComponent
@@ -58,8 +49,7 @@ public class ProjectLoginViewImpl extends AbstractMobileMainView implements Proj
         Image mainLogo = new Image(null, new ThemeResource("icons/logo_m.png"));
         contentLayout.addComponent(mainLogo);
 
-        Label introText = new Label(
-                "MyCollab helps you do all your office jobs on the computers, phones and tablets you use");
+        Label introText = new Label("MyCollab helps you do all your office jobs on the computers, phones and tablets you use");
         introText.setStyleName("intro-text");
         contentLayout.addComponent(introText);
 
@@ -98,10 +88,8 @@ public class ProjectLoginViewImpl extends AbstractMobileMainView implements Proj
 
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                EventBusFactory.getInstance().post(
-                        new ProjectEvent.PlainLogin(this, new String[] {
-                                emailField.getValue(), pwdField.getValue(),
-                                String.valueOf(rememberPassword.getValue()) }));
+                EventBusFactory.getInstance().post(new ProjectEvent.PlainLogin(this, new String[]{
+                        emailField.getValue(), pwdField.getValue(), String.valueOf(rememberPassword.getValue())}));
             }
         });
         contentLayout.addComponent(signInBtn);

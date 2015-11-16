@@ -97,13 +97,11 @@ public class OpportunityReadViewImpl extends AbstractPreviewItemComp<SimpleOppor
 
         previewItemContainer.selectTab(CrmTypeConstants.DETAIL);
 
-        previewLayout.resetTitleStyle();
-
         String saleState = this.beanItem.getSalesstage();
         Date closeDate = this.beanItem.getExpectedcloseddate();
-        if ((!"Closed Won".equals(saleState) && !"Closed Lost".equals(saleState))
+        if ((!"Closed Won" .equals(saleState) && !"Closed Lost" .equals(saleState))
                 && closeDate != null && (closeDate.before(new GregorianCalendar().getTime()))) {
-            previewLayout.setTitleStyleName("hdr-text-overdue");
+            previewLayout.addTitleStyleName(UIConstants.LABEL_OVERDUE);
         }
     }
 

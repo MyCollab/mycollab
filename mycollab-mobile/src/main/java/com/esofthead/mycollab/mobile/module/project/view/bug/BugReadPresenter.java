@@ -102,13 +102,11 @@ public class BugReadPresenter extends AbstractMobilePresenter<BugReadView> {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.BUGS)) {
             InsideProjectNavigationMenu projectModuleMenu = (InsideProjectNavigationMenu) ((MobileNavigationManager) UI
                     .getCurrent().getContent()).getNavigationMenu();
-            projectModuleMenu.selectButton(AppContext
-                    .getMessage(ProjectCommonI18nEnum.VIEW_BUG));
+            projectModuleMenu.selectButton(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_BUG));
 
             if (data.getParams() instanceof Integer) {
                 BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
-                SimpleBug bug = bugService.findById((Integer) data.getParams(),
-                        AppContext.getAccountId());
+                SimpleBug bug = bugService.findById((Integer) data.getParams(), AppContext.getAccountId());
                 if (bug != null) {
                     view.previewItem(bug);
                     super.onGo(container, data);

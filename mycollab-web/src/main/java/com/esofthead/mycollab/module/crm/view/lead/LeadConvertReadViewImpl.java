@@ -47,6 +47,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.themes.ValoTheme;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -82,10 +83,8 @@ public class LeadConvertReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 
     @Override
     protected ComponentContainer createButtonControls() {
-        CrmPreviewFormControlsGenerator<SimpleLead> controlsButton = new CrmPreviewFormControlsGenerator<>(
-                previewForm);
-        return controlsButton.createButtonControls(BACK_BTN_PRESENTED
-                | NAVIGATOR_BTN_PRESENTED, RolePermissionCollections.CRM_LEAD);
+        CrmPreviewFormControlsGenerator<SimpleLead> controlsButton = new CrmPreviewFormControlsGenerator<>(previewForm);
+        return controlsButton.createButtonControls(BACK_BTN_PRESENTED | NAVIGATOR_BTN_PRESENTED, RolePermissionCollections.CRM_LEAD);
     }
 
     @Override
@@ -97,8 +96,8 @@ public class LeadConvertReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
     public void previewItem(SimpleLead item) {
         this.beanItem = item;
         previewLayout.setTitle(initFormTitle());
+        previewLayout.initTitleStyleName();
         displayConvertLeadInfo(item);
-
         onPreviewItem();
     }
 
@@ -191,13 +190,10 @@ public class LeadConvertReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
         previewForm.removeAllComponents();
 
         Label header = new Label("Conversion Details");
-        header.addStyleName("h2");
+        header.addStyleName(ValoTheme.LABEL_H2);
         previewForm.addComponent(header);
 
-        GridFormLayoutHelper layoutHelper = new GridFormLayoutHelper(1, 3);
-        layoutHelper.getLayout().setWidth("100%");
-        layoutHelper.getLayout().setMargin(false);
-        layoutHelper.getLayout().addStyleName("colored-gridlayout");
+        GridFormLayoutHelper layoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
 
         LOG.debug("Display associate account");
         AccountService accountService = ApplicationContextUtil
@@ -214,7 +210,7 @@ public class LeadConvertReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
                 }
             });
             accountLink.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT));
-            accountLink.setStyleName(UIConstants.THEME_LINK);
+            accountLink.setStyleName(UIConstants.BUTTON_LINK);
             layoutHelper.addComponent(accountLink, "Account", 0, 0);
         } else {
             layoutHelper.addComponent(new Label(""), "Account", 0, 0);
@@ -234,15 +230,14 @@ public class LeadConvertReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
                 }
             });
             contactLink.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT));
-            contactLink.setStyleName(UIConstants.THEME_LINK);
+            contactLink.setStyleName(UIConstants.BUTTON_LINK);
             layoutHelper.addComponent(contactLink, "Contact", 0, 1);
         } else {
             layoutHelper.addComponent(new Label(""), "Contact", 0, 1);
         }
 
         LOG.debug("Display associate opportunity");
-        OpportunityService opportunityService = ApplicationContextUtil
-                .getSpringBean(OpportunityService.class);
+        OpportunityService opportunityService = ApplicationContextUtil.getSpringBean(OpportunityService.class);
         final SimpleOpportunity opportunity = opportunityService.findOpportunityAssoWithConvertedLead(lead.getId(),
                 AppContext.getAccountId());
         if (opportunity != null) {
@@ -255,7 +250,7 @@ public class LeadConvertReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
                 }
             });
             opportunityLink.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.OPPORTUNITY));
-            opportunityLink.setStyleName(UIConstants.THEME_LINK);
+            opportunityLink.setStyleName(UIConstants.BUTTON_LINK);
             layoutHelper.addComponent(opportunityLink, "Opportunity", 0, 2);
         } else {
             layoutHelper.addComponent(new Label(""), "Opportunity", 0, 2);

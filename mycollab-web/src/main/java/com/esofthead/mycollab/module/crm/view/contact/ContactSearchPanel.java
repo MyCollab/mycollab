@@ -24,7 +24,7 @@ import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.esofthead.mycollab.module.crm.events.ContactEvent;
 import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
-import com.esofthead.mycollab.module.crm.ui.components.CrmViewHeader;
+import com.esofthead.mycollab.module.crm.ui.components.ComponentUtils;
 import com.esofthead.mycollab.module.crm.view.account.AccountSelectionField;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserListSelect;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -57,22 +57,21 @@ public class ContactSearchPanel extends DefaultGenericSearchPanel<ContactSearchC
 
     @Override
     protected HeaderWithFontAwesome buildSearchTitle() {
-        return new CrmViewHeader(CrmTypeConstants.CONTACT, AppContext.getMessage(ContactI18nEnum.VIEW_LIST_TITLE));
+        return ComponentUtils.header(CrmTypeConstants.CONTACT, AppContext.getMessage(ContactI18nEnum.VIEW_LIST_TITLE));
     }
 
     @Override
     protected void buildExtraControls() {
-        Button createBtn = new Button(AppContext.getMessage(ContactI18nEnum.BUTTON_NEW_CONTACT),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        Button createBtn = new Button(AppContext.getMessage(ContactI18nEnum.BUTTON_NEW_CONTACT), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        EventBusFactory.getInstance().post(new ContactEvent.GotoAdd(this, null));
-                    }
-                });
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                EventBusFactory.getInstance().post(new ContactEvent.GotoAdd(this, null));
+            }
+        });
         createBtn.setIcon(FontAwesome.PLUS);
-        createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        createBtn.setStyleName(UIConstants.BUTTON_ACTION);
         createBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CONTACT));
         this.addHeaderRight(createBtn);
     }
@@ -119,11 +118,10 @@ public class ContactSearchPanel extends DefaultGenericSearchPanel<ContactSearchC
             basicSearchBody.with(nameField).withAlign(nameField, Alignment.MIDDLE_CENTER);
 
             this.myItemCheckbox = new CheckBox(AppContext.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
-            this.myItemCheckbox.setWidth("75px");
             basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox, Alignment.MIDDLE_CENTER);
 
             Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
-            searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+            searchBtn.setStyleName(UIConstants.BUTTON_ACTION);
             searchBtn.setIcon(FontAwesome.SEARCH);
 
             searchBtn.addClickListener(new Button.ClickListener() {
@@ -153,7 +151,7 @@ public class ContactSearchPanel extends DefaultGenericSearchPanel<ContactSearchC
                             ContactSearchPanel.this.moveToAdvancedSearchLayout();
                         }
                     });
-            advancedSearchBtn.setStyleName(UIConstants.THEME_LINK);
+            advancedSearchBtn.setStyleName(UIConstants.BUTTON_LINK);
             basicSearchBody.with(advancedSearchBtn).withAlign(advancedSearchBtn, Alignment.MIDDLE_CENTER);
             return basicSearchBody;
         }
@@ -198,9 +196,9 @@ public class ContactSearchPanel extends DefaultGenericSearchPanel<ContactSearchC
 
         @Override
         protected Component buildSelectionComp(String fieldId) {
-            if ("contact-assignuser".equals(fieldId)) {
+            if ("contact-assignuser" .equals(fieldId)) {
                 return new ActiveUserListSelect();
-            } else if ("contact-account".equals(fieldId)) {
+            } else if ("contact-account" .equals(fieldId)) {
                 return new AccountSelectionField();
             }
             return null;

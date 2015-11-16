@@ -80,8 +80,8 @@ public class ProjectCommentInput extends MHorizontalLayout {
         controlsLayout.setDefaultComponentAlignment(Alignment.TOP_RIGHT);
 
         final MultiFileUploadExt uploadExt = new MultiFileUploadExt(attachments);
+        uploadExt.setWidth("100%");
         uploadExt.addComponent(attachments);
-        controlsLayout.with(uploadExt).withAlign(uploadExt, Alignment.TOP_LEFT).expand(uploadExt);
 
         final Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
@@ -91,6 +91,7 @@ public class ProjectCommentInput extends MHorizontalLayout {
                 commentArea.setValue("");
             }
         });
+        cancelBtn.setWidthUndefined();
         cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 
         final Button newCommentBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_POST), new Button.ClickListener() {
@@ -124,9 +125,11 @@ public class ProjectCommentInput extends MHorizontalLayout {
                 component.reload();
             }
         });
-        newCommentBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        newCommentBtn.setStyleName(UIConstants.BUTTON_ACTION);
+        newCommentBtn.setWidthUndefined();
         newCommentBtn.setIcon(FontAwesome.SEND);
-        controlsLayout.with(cancelBtn, newCommentBtn);
+
+        controlsLayout.with(uploadExt, new MHorizontalLayout(cancelBtn, newCommentBtn)).withAlign(uploadExt, Alignment.TOP_LEFT);
         textAreaWrap.with(commentArea, controlsLayout);
     }
 

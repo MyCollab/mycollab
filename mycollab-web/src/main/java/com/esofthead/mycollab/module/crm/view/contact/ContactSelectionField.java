@@ -29,32 +29,27 @@ import com.vaadin.ui.*;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
-public class ContactSelectionField extends CustomField<Integer> implements
-		FieldSelection<Contact> {
-	private static final long serialVersionUID = 1L;
+public class ContactSelectionField extends CustomField<Integer> implements FieldSelection<Contact> {
+    private static final long serialVersionUID = 1L;
 
-	private MHorizontalLayout layout;
+    private MHorizontalLayout layout;
+    private TextField contactName;
+    private Button browseBtn;
+    private Button clearBtn;
 
-	private TextField contactName;
+    private SimpleContact contact;
 
-	private SimpleContact contact;
-
-	private Button browseBtn;
-	private Button clearBtn;
-
-	public ContactSelectionField() {
-		contactName = new TextField();
-		contactName.setNullRepresentation("");
-		contactName.setWidth("100%");
-		browseBtn = new Button(null, FontAwesome.ELLIPSIS_H);
+    public ContactSelectionField() {
+        contactName = new TextField();
+        contactName.setNullRepresentation("");
+        contactName.setWidth("100%");
+        browseBtn = new Button(null, FontAwesome.ELLIPSIS_H);
         browseBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
         browseBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
-		browseBtn.addClickListener(new Button.ClickListener() {
+        browseBtn.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 ContactSelectionWindow contactWindow = new ContactSelectionWindow(
@@ -64,75 +59,75 @@ public class ContactSelectionField extends CustomField<Integer> implements
             }
         });
 
-		clearBtn = new Button(null, FontAwesome.TRASH_O);
+        clearBtn = new Button(null, FontAwesome.TRASH_O);
         clearBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
         clearBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
 
-		clearBtn.addClickListener(new Button.ClickListener() {
+        clearBtn.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 contactName.setValue("");
                 contact = null;
             }
         });
-	}
+    }
 
-	@Override
-	public void fireValueChange(Contact data) {
-		contact = (SimpleContact) data;
-		if (contact != null) {
-			contactName.setValue(contact.getContactName());
-			setInternalValue(contact.getId());
-		}
+    @Override
+    public void fireValueChange(Contact data) {
+        contact = (SimpleContact) data;
+        if (contact != null) {
+            contactName.setValue(contact.getContactName());
+            setInternalValue(contact.getId());
+        }
 
-	}
+    }
 
-	@Override
-	public void setPropertyDataSource(Property newDataSource) {
-		final Object value = newDataSource.getValue();
-		if (value instanceof Integer) {
-			setContactByVal((Integer) value);
-			super.setPropertyDataSource(newDataSource);
-		} else {
-			super.setPropertyDataSource(newDataSource);
-		}
-	}
+    @Override
+    public void setPropertyDataSource(Property newDataSource) {
+        final Object value = newDataSource.getValue();
+        if (value instanceof Integer) {
+            setContactByVal((Integer) value);
+            super.setPropertyDataSource(newDataSource);
+        } else {
+            super.setPropertyDataSource(newDataSource);
+        }
+    }
 
-	@Override
-	public void setValue(Integer value) {
-		this.setContactByVal(value);
-		super.setValue(value);
-	}
+    @Override
+    public void setValue(Integer value) {
+        this.setContactByVal(value);
+        super.setValue(value);
+    }
 
-	private void setContactByVal(Integer contactId) {
-		ContactService contactService = ApplicationContextUtil
-				.getSpringBean(ContactService.class);
-		SimpleContact contactVal = contactService.findById(contactId,
-				AppContext.getAccountId());
-		if (contactVal != null) {
-			setInternalContact(contactVal);
-		}
-	}
+    private void setContactByVal(Integer contactId) {
+        ContactService contactService = ApplicationContextUtil
+                .getSpringBean(ContactService.class);
+        SimpleContact contactVal = contactService.findById(contactId,
+                AppContext.getAccountId());
+        if (contactVal != null) {
+            setInternalContact(contactVal);
+        }
+    }
 
-	private void setInternalContact(SimpleContact contact) {
-		this.contact = contact;
-		contactName.setValue(contact.getContactName());
-	}
+    private void setInternalContact(SimpleContact contact) {
+        this.contact = contact;
+        contactName.setValue(contact.getContactName());
+    }
 
-	public SimpleContact getContact() {
-		return this.contact;
-	}
+    public SimpleContact getContact() {
+        return this.contact;
+    }
 
-	@Override
-	protected Component initContent() {
-		layout = new MHorizontalLayout().withWidth("100%");
+    @Override
+    protected Component initContent() {
+        layout = new MHorizontalLayout().withWidth("100%");
         layout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-		layout.with(contactName, browseBtn, clearBtn).expand(contactName);
-		return layout;
-	}
+        layout.with(contactName, browseBtn, clearBtn).expand(contactName);
+        return layout;
+    }
 
-	@Override
-	public Class<Integer> getType() {
-		return Integer.class;
-	}
+    @Override
+    public Class<Integer> getType() {
+        return Integer.class;
+    }
 }

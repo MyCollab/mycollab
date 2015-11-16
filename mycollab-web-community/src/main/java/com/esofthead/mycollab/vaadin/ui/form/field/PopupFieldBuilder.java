@@ -20,7 +20,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.vaadin.server.BrowserWindowOpener;
+import com.esofthead.mycollab.web.AdWindow;
 import com.vaadin.server.FontIcon;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -32,6 +32,7 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 public class PopupFieldBuilder {
     private String captionHtml;
     private String description = "Edit";
+    private PopupView view;
 
     public PopupFieldBuilder withCaptionAndIcon(FontIcon icon, String caption) {
         captionHtml = icon.getHtml() + " " + StringUtils.trim(caption, 20, true);
@@ -49,7 +50,7 @@ public class PopupFieldBuilder {
     }
 
     public PopupView build() {
-        final PopupView view = new PopupView(new PopupView.Content() {
+        view = new PopupView(new PopupView.Content() {
             @Override
             public String getMinimizedValueAsHTML() {
                 return captionHtml;
@@ -59,12 +60,16 @@ public class PopupFieldBuilder {
             public Component getPopupComponent() {
                 MVerticalLayout layout = new MVerticalLayout();
                 layout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-                Label infoLbl =  new Label(AppContext.getMessage(GenericI18Enum.NOTIFICATION_FEATURE_NOT_AVAILABLE_IN_VERSION));
+                Label infoLbl = new Label(AppContext.getMessage(GenericI18Enum.NOTIFICATION_FEATURE_NOT_AVAILABLE_IN_VERSION));
 
-                Button requestFeatureBtn = new Button("Request the premium edition");
-                requestFeatureBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-                BrowserWindowOpener opener = new BrowserWindowOpener("mailto:support@mycollab.com");
-                opener.extend(requestFeatureBtn);
+                Button requestFeatureBtn = new Button("Buy the premium edition", new Button.ClickListener() {
+                    @Override
+                    public void buttonClick(Button.ClickEvent event) {
+                        UI.getCurrent().addWindow(new AdWindow());
+                        view.setPopupVisible(false);
+                    }
+                });
+                requestFeatureBtn.addStyleName(UIConstants.BUTTON_ACTION);
 
                 layout.with(infoLbl, requestFeatureBtn);
                 return layout;

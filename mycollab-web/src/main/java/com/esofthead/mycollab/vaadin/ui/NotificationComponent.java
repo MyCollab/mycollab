@@ -18,6 +18,7 @@ package com.esofthead.mycollab.vaadin.ui;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.ui.components.notification.*;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.AbstractNotification;
 import com.esofthead.mycollab.core.NewUpdateAvailableNotification;
 import com.esofthead.mycollab.core.NotificationBroadcaster;
@@ -143,8 +144,17 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
 
             UI currentUI = getUI();
             if (currentUI != null) {
-                no.show(currentUI.getPage());
-                currentUI.push();
+                if (SiteConfiguration.getPullMethod() == SiteConfiguration.PullMethod.push) {
+                    no.show(currentUI.getPage());
+                    currentUI.push();
+                } else {
+                    try {
+                        UI.getCurrent().setPollInterval(1000);
+                        no.show(currentUI.getPage());
+                    } finally {
+                        UI.getCurrent().setPollInterval(-1);
+                    }
+                }
             }
         }
     }
@@ -167,8 +177,7 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
                     NotificationComponent.this.setPopupVisible(false);
                 }
             });
-            actionBtn.setStyleName(UIConstants.THEME_LINK);
-            actionBtn.addStyleName("block");
+            actionBtn.setStyleName(UIConstants.BUTTON_BLOCK);
             wrapper.with(cssWrapper, actionBtn).expand(cssWrapper);
         } else if (item instanceof NewUpdateAvailableNotification) {
             final NewUpdateAvailableNotification notification = (NewUpdateAvailableNotification) item;
@@ -189,8 +198,7 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
                         NotificationComponent.this.setPopupVisible(false);
                     }
                 });
-                upgradeBtn.setStyleName(UIConstants.THEME_LINK);
-                upgradeBtn.addStyleName("block");
+                upgradeBtn.addStyleName(UIConstants.BUTTON_BLOCK);
                 wrapper.addComponent(upgradeBtn);
             }
         } else if (item instanceof RequestUploadAvatarNotification) {
@@ -202,20 +210,17 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
                     NotificationComponent.this.setPopupVisible(false);
                 }
             });
-            uploadAvatarBtn.setStyleName(UIConstants.THEME_LINK);
-            uploadAvatarBtn.addStyleName("block");
+            uploadAvatarBtn.setStyleName(UIConstants.BUTTON_BLOCK);
             wrapper.add(uploadAvatarBtn);
         } else if (item instanceof SmtpSetupNotification) {
             Button smtpBtn = new Button("Setup", new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
-                    EventBusFactory.getInstance().post(
-                            new ShellEvent.GotoUserAccountModule(this, new String[]{"setup"}));
+                    EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"setup"}));
                     NotificationComponent.this.setPopupVisible(false);
                 }
             });
-            smtpBtn.setStyleName(UIConstants.THEME_LINK);
-            smtpBtn.addStyleName("block");
+            smtpBtn.setStyleName(UIConstants.BUTTON_BLOCK);
             Label lbl = new Label(FontAwesome.EXCLAMATION_TRIANGLE.getHtml() + " Your members can not receive any mail " +
                     "notification without a proper SMTP setting", ContentMode.HTML);
             MCssLayout lblWrapper = new MCssLayout(lbl);
@@ -230,8 +235,7 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
                     NotificationComponent.this.setPopupVisible(false);
                 }
             });
-            actionBtn.setStyleName(UIConstants.THEME_LINK);
-            actionBtn.addStyleName("block");
+            actionBtn.setStyleName(UIConstants.BUTTON_BLOCK);
             wrapper.addComponent(actionBtn);
         } else if (item instanceof RequestPreviewNotification) {
             wrapper.addComponent(new Label(FontAwesome.THUMBS_O_UP.getHtml() + " Help us to spread the world",
@@ -247,8 +251,7 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
                     NotificationComponent.this.setPopupVisible(false);
                 }
             });
-            dismissBtn.setStyleName(UIConstants.THEME_LINK);
-            dismissBtn.addStyleName("block");
+            dismissBtn.setStyleName(UIConstants.BUTTON_BLOCK);
             wrapper.addComponent(dismissBtn);
             Button spreadBtn = new Button("I will", new ClickListener() {
                 @Override
@@ -257,8 +260,7 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
                     NotificationComponent.this.setPopupVisible(false);
                 }
             });
-            spreadBtn.setStyleName(UIConstants.THEME_LINK);
-            spreadBtn.addStyleName("block");
+            spreadBtn.setStyleName(UIConstants.BUTTON_BLOCK);
             wrapper.addComponent(spreadBtn);
         } else {
             LOG.error("Do not render notification " + item);

@@ -27,7 +27,6 @@ import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.MobileApplication;
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.events.*;
 import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent.AllActivities;
 import com.esofthead.mycollab.mobile.module.project.events.TaskEvent.GoInsideList;
@@ -37,6 +36,7 @@ import com.esofthead.mycollab.mobile.module.project.view.milestone.MilestonePres
 import com.esofthead.mycollab.mobile.module.project.view.parameters.*;
 import com.esofthead.mycollab.mobile.module.project.view.settings.ProjectUserPresenter;
 import com.esofthead.mycollab.mobile.module.project.view.task.TaskPresenter;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectMemberStatusConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
@@ -94,8 +94,7 @@ public class ProjectModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(ProjectEvent.GotoLogin event) {
-                ProjectLoginPresenter presenter = PresenterResolver
-                        .getPresenter(ProjectLoginPresenter.class);
+                ProjectLoginPresenter presenter = PresenterResolver.getPresenter(ProjectLoginPresenter.class);
                 presenter.go(navManager, null);
             }
         });
@@ -111,8 +110,7 @@ public class ProjectModuleController extends AbstractController {
                 try {
                     doLogin(data[0], data[1], Boolean.valueOf(data[2]));
                 } catch (MyCollabException exception) {
-                    EventBusFactory.getInstance().post(
-                            new ProjectEvent.GotoLogin(this, null));
+                    EventBusFactory.getInstance().post(new ProjectEvent.GotoLogin(this, null));
                 }
             }
         });
@@ -148,10 +146,8 @@ public class ProjectModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(AllActivities event) {
-                AllActivityStreamPresenter presenter = PresenterResolver
-                        .getPresenter(AllActivityStreamPresenter.class);
-                presenter.go(navManager,
-                        (ProjectScreenData.AllActivities) event.getData());
+                AllActivityStreamPresenter presenter = PresenterResolver.getPresenter(AllActivityStreamPresenter.class);
+                presenter.go(navManager, (ProjectScreenData.AllActivities) event.getData());
             }
 
         });
@@ -161,10 +157,8 @@ public class ProjectModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(ProjectEvent.MyProjectActivities event) {
-                ProjectActivityStreamPresenter presenter = PresenterResolver
-                        .getPresenter(ProjectActivityStreamPresenter.class);
-                presenter.go(navManager,
-                        (ProjectScreenData.ViewActivities) event.getData());
+                ProjectActivityStreamPresenter presenter = PresenterResolver.getPresenter(ProjectActivityStreamPresenter.class);
+                presenter.go(navManager, (ProjectScreenData.ViewActivities) event.getData());
             }
         });
     }
@@ -182,16 +176,13 @@ public class ProjectModuleController extends AbstractController {
                 if (params == null) {
                     BugSearchCriteria criteria = new BugSearchCriteria();
 
-                    criteria.setProjectId(new NumberSearchField(
-                            SearchField.AND, CurrentProjectVariables
-                            .getProjectId()));
+                    criteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
                     BugFilterParameter parameter = new BugFilterParameter("Open Bugs", criteria);
                     presenter.go(navManager, new BugScreenData.Search(parameter));
                 } else if (params instanceof BugScreenData.Search) {
                     presenter.go(navManager, (BugScreenData.Search) params);
                 } else {
-                    throw new MyCollabException("Invalid search parameter: "
-                            + BeanUtility.printBeanObj(params));
+                    throw new MyCollabException("Invalid search parameter: " + BeanUtility.printBeanObj(params));
                 }
             }
 
@@ -202,10 +193,8 @@ public class ProjectModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(BugEvent.GotoRead event) {
-                BugScreenData.Read data = new BugScreenData.Read(
-                        (Integer) event.getData());
-                BugPresenter presenter = PresenterResolver
-                        .getPresenter(BugPresenter.class);
+                BugScreenData.Read data = new BugScreenData.Read((Integer) event.getData());
+                BugPresenter presenter = PresenterResolver.getPresenter(BugPresenter.class);
                 presenter.go(navManager, data);
             }
         });
@@ -216,8 +205,7 @@ public class ProjectModuleController extends AbstractController {
             @Override
             public void handle(BugEvent.GotoAdd event) {
                 BugScreenData.Add data = new BugScreenData.Add(new SimpleBug());
-                BugPresenter presenter = PresenterResolver
-                        .getPresenter(BugPresenter.class);
+                BugPresenter presenter = PresenterResolver.getPresenter(BugPresenter.class);
                 presenter.go(navManager, data);
             }
         });
@@ -228,10 +216,8 @@ public class ProjectModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(BugEvent.GotoEdit event) {
-                BugScreenData.Edit data = new BugScreenData.Edit(
-                        (SimpleBug) event.getData());
-                BugPresenter presenter = PresenterResolver
-                        .getPresenter(BugPresenter.class);
+                BugScreenData.Edit data = new BugScreenData.Edit((SimpleBug) event.getData());
+                BugPresenter presenter = PresenterResolver.getPresenter(BugPresenter.class);
                 presenter.go(navManager, data);
             }
         });
@@ -246,8 +232,7 @@ public class ProjectModuleController extends AbstractController {
             @Override
             public void handle(MessageEvent.GotoAdd event) {
                 MessageScreenData.Add data = new MessageScreenData.Add();
-                MessagePresenter presenter = PresenterResolver
-                        .getPresenter(MessagePresenter.class);
+                MessagePresenter presenter = PresenterResolver.getPresenter(MessagePresenter.class);
                 presenter.go(navManager, data);
             }
 
@@ -261,10 +246,8 @@ public class ProjectModuleController extends AbstractController {
             public void handle(MessageEvent.GotoList event) {
                 MessageSearchCriteria searchCriteria = new MessageSearchCriteria();
                 searchCriteria.setProjectids(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-                MessageScreenData.Search data = new MessageScreenData.Search(
-                        searchCriteria);
-                MessagePresenter presenter = PresenterResolver
-                        .getPresenter(MessagePresenter.class);
+                MessageScreenData.Search data = new MessageScreenData.Search(searchCriteria);
+                MessagePresenter presenter = PresenterResolver.getPresenter(MessagePresenter.class);
                 presenter.go(navManager, data);
             }
         });
@@ -276,10 +259,8 @@ public class ProjectModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(MessageEvent.GotoRead event) {
-                MessageScreenData.Read data = new MessageScreenData.Read(
-                        (Integer) event.getData());
-                MessagePresenter presenter = PresenterResolver
-                        .getPresenter(MessagePresenter.class);
+                MessageScreenData.Read data = new MessageScreenData.Read((Integer) event.getData());
+                MessagePresenter presenter = PresenterResolver.getPresenter(MessagePresenter.class);
                 presenter.go(navManager, data);
             }
         });
@@ -294,8 +275,7 @@ public class ProjectModuleController extends AbstractController {
             @Override
             public void handle(MilestoneEvent.GotoList event) {
                 MilestoneScreenData.List data = new MilestoneScreenData.List();
-                MilestonePresenter presenter = PresenterResolver
-                        .getPresenter(MilestonePresenter.class);
+                MilestonePresenter presenter = PresenterResolver.getPresenter(MilestonePresenter.class);
                 presenter.go(navManager, data);
             }
         });
@@ -306,10 +286,8 @@ public class ProjectModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(MilestoneEvent.GotoRead event) {
-                MilestoneScreenData.Read data = new MilestoneScreenData.Read(
-                        (Integer) event.getData());
-                MilestonePresenter presenter = PresenterResolver
-                        .getPresenter(MilestonePresenter.class);
+                MilestoneScreenData.Read data = new MilestoneScreenData.Read((Integer) event.getData());
+                MilestonePresenter presenter = PresenterResolver.getPresenter(MilestonePresenter.class);
                 presenter.go(navManager, data);
             }
         });
@@ -320,10 +298,8 @@ public class ProjectModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(MilestoneEvent.GotoAdd event) {
-                MilestoneScreenData.Add data = new MilestoneScreenData.Add(
-                        new SimpleMilestone());
-                MilestonePresenter presenter = PresenterResolver
-                        .getPresenter(MilestonePresenter.class);
+                MilestoneScreenData.Add data = new MilestoneScreenData.Add(new SimpleMilestone());
+                MilestonePresenter presenter = PresenterResolver.getPresenter(MilestonePresenter.class);
                 presenter.go(navManager, data);
             }
         });
@@ -334,10 +310,8 @@ public class ProjectModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(MilestoneEvent.GotoEdit event) {
-                MilestoneScreenData.Edit data = new MilestoneScreenData.Edit(
-                        (SimpleMilestone) event.getData());
-                MilestonePresenter presenter = PresenterResolver
-                        .getPresenter(MilestonePresenter.class);
+                MilestoneScreenData.Edit data = new MilestoneScreenData.Edit((SimpleMilestone) event.getData());
+                MilestonePresenter presenter = PresenterResolver.getPresenter(MilestonePresenter.class);
                 presenter.go(navManager, data);
             }
         });
@@ -352,8 +326,7 @@ public class ProjectModuleController extends AbstractController {
             @Override
             public void handle(TaskEvent.GotoList event) {
                 TaskGroupScreenData.List data = new TaskGroupScreenData.List();
-                TaskPresenter presenter = PresenterResolver
-                        .getPresenter(TaskPresenter.class);
+                TaskPresenter presenter = PresenterResolver.getPresenter(TaskPresenter.class);
                 presenter.go(navManager, data);
             }
 
@@ -365,10 +338,8 @@ public class ProjectModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(GoInsideList event) {
-                TaskScreenData.List data = new TaskScreenData.List(
-                        (Integer) event.getData());
-                TaskPresenter presenter = PresenterResolver
-                        .getPresenter(TaskPresenter.class);
+                TaskScreenData.List data = new TaskScreenData.List((Integer) event.getData());
+                TaskPresenter presenter = PresenterResolver.getPresenter(TaskPresenter.class);
                 presenter.go(navManager, data);
             }
 
@@ -380,10 +351,8 @@ public class ProjectModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(TaskEvent.GotoRead event) {
-                TaskScreenData.Read data = new TaskScreenData.Read(
-                        (Integer) event.getData());
-                TaskPresenter presenter = PresenterResolver
-                        .getPresenter(TaskPresenter.class);
+                TaskScreenData.Read data = new TaskScreenData.Read((Integer) event.getData());
+                TaskPresenter presenter = PresenterResolver.getPresenter(TaskPresenter.class);
                 presenter.go(navManager, data);
             }
 
@@ -395,10 +364,8 @@ public class ProjectModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(TaskEvent.GotoEdit event) {
-                TaskScreenData.Edit data = new TaskScreenData.Edit(
-                        (SimpleTask) event.getData());
-                TaskPresenter presenter = PresenterResolver
-                        .getPresenter(TaskPresenter.class);
+                TaskScreenData.Edit data = new TaskScreenData.Edit((SimpleTask) event.getData());
+                TaskPresenter presenter = PresenterResolver.getPresenter(TaskPresenter.class);
                 presenter.go(navManager, data);
             }
 
@@ -410,10 +377,8 @@ public class ProjectModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(TaskEvent.GotoAdd event) {
-                TaskScreenData.Add data = new TaskScreenData.Add(
-                        (Integer) event.getData());
-                TaskPresenter presenter = PresenterResolver
-                        .getPresenter(TaskPresenter.class);
+                TaskScreenData.Add data = new TaskScreenData.Add((Integer) event.getData());
+                TaskPresenter presenter = PresenterResolver.getPresenter(TaskPresenter.class);
                 presenter.go(navManager, data);
             }
 
@@ -425,10 +390,8 @@ public class ProjectModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(TaskEvent.GotoListView event) {
-                TaskGroupScreenData.Read data = new TaskGroupScreenData.Read(
-                        (Integer) event.getData());
-                TaskPresenter presenter = PresenterResolver
-                        .getPresenter(TaskPresenter.class);
+                TaskGroupScreenData.Read data = new TaskGroupScreenData.Read((Integer) event.getData());
+                TaskPresenter presenter = PresenterResolver.getPresenter(TaskPresenter.class);
                 presenter.go(navManager, data);
             }
 
@@ -443,10 +406,8 @@ public class ProjectModuleController extends AbstractController {
                 SimpleTaskList taskList = new SimpleTaskList();
                 taskList.setProjectid(CurrentProjectVariables.getProjectId());
                 taskList.setStatus(StatusI18nEnum.Open.name());
-                TaskGroupScreenData.Add data = new TaskGroupScreenData.Add(
-                        taskList);
-                TaskPresenter presenter = PresenterResolver
-                        .getPresenter(TaskPresenter.class);
+                TaskGroupScreenData.Add data = new TaskGroupScreenData.Add(taskList);
+                TaskPresenter presenter = PresenterResolver.getPresenter(TaskPresenter.class);
                 presenter.go(navManager, data);
             }
 
@@ -458,10 +419,8 @@ public class ProjectModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(TaskEvent.GotoListEdit event) {
-                TaskGroupScreenData.Edit data = new TaskGroupScreenData.Edit(
-                        (SimpleTaskList) event.getData());
-                TaskPresenter presenter = PresenterResolver
-                        .getPresenter(TaskPresenter.class);
+                TaskGroupScreenData.Edit data = new TaskGroupScreenData.Edit((SimpleTaskList) event.getData());
+                TaskPresenter presenter = PresenterResolver.getPresenter(TaskPresenter.class);
                 presenter.go(navManager, data);
             }
 
@@ -477,16 +436,11 @@ public class ProjectModuleController extends AbstractController {
             @Override
             public void handle(ProjectMemberEvent.GotoList event) {
                 ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
-                criteria.setProjectId(new NumberSearchField(
-                        CurrentProjectVariables.getProjectId()));
-                criteria.setSaccountid(new NumberSearchField(AppContext
-                        .getAccountId()));
-                criteria.setStatus(new StringSearchField(
-                        ProjectMemberStatusConstants.ACTIVE));
-                ProjectUserPresenter presenter = PresenterResolver
-                        .getPresenter(ProjectUserPresenter.class);
-                presenter.go(navManager, new ProjectMemberScreenData.Search(
-                        criteria));
+                criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                criteria.setStatus(new StringSearchField(ProjectMemberStatusConstants.ACTIVE));
+                ProjectUserPresenter presenter = PresenterResolver.getPresenter(ProjectUserPresenter.class);
+                presenter.go(navManager, new ProjectMemberScreenData.Search(criteria));
             }
         });
         this.register(new ApplicationEventListener<ProjectMemberEvent.GotoRead>() {
@@ -496,10 +450,8 @@ public class ProjectModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(ProjectMemberEvent.GotoRead event) {
-                ProjectMemberScreenData.Read data = new ProjectMemberScreenData.Read(
-                        event.getData());
-                ProjectUserPresenter presenter = PresenterResolver
-                        .getPresenter(ProjectUserPresenter.class);
+                ProjectMemberScreenData.Read data = new ProjectMemberScreenData.Read(event.getData());
+                ProjectUserPresenter presenter = PresenterResolver.getPresenter(ProjectUserPresenter.class);
                 presenter.go(navManager, data);
             }
 
@@ -511,10 +463,8 @@ public class ProjectModuleController extends AbstractController {
             @Subscribe
             @Override
             public void handle(ProjectMemberEvent.GotoEdit event) {
-                ProjectMemberScreenData.Edit data = new ProjectMemberScreenData.Edit(
-                        (SimpleProjectMember) event.getData());
-                ProjectUserPresenter presenter = PresenterResolver
-                        .getPresenter(ProjectUserPresenter.class);
+                ProjectMemberScreenData.Edit data = new ProjectMemberScreenData.Edit((SimpleProjectMember) event.getData());
+                ProjectUserPresenter presenter = PresenterResolver.getPresenter(ProjectUserPresenter.class);
                 presenter.go(navManager, data);
             }
 
@@ -527,40 +477,30 @@ public class ProjectModuleController extends AbstractController {
             @Override
             public void handle(ProjectMemberEvent.GotoInviteMembers event) {
                 ProjectMemberScreenData.InviteProjectMembers data = new ProjectMemberScreenData.InviteProjectMembers();
-                ProjectUserPresenter presenter = PresenterResolver
-                        .getPresenter(ProjectUserPresenter.class);
+                ProjectUserPresenter presenter = PresenterResolver.getPresenter(ProjectUserPresenter.class);
                 presenter.go(navManager, data);
             }
 
         });
     }
 
-    public static void doLogin(String username, String password,
-                               boolean isRememberPassword) throws MyCollabException {
-        UserService userService = ApplicationContextUtil
-                .getSpringBean(UserService.class);
-        SimpleUser user = userService.authentication(username, password,
-                AppContext.getSubDomain(), false);
+    public static void doLogin(String username, String password, boolean isRememberPassword) throws MyCollabException {
+        UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
+        SimpleUser user = userService.authentication(username, password, AppContext.getSubDomain(), false);
 
-        BillingAccountService billingAccountService = ApplicationContextUtil
-                .getSpringBean(BillingAccountService.class);
+        BillingAccountService billingAccountService = ApplicationContextUtil.getSpringBean(BillingAccountService.class);
+        SimpleBillingAccount billingAccount = billingAccountService.getBillingAccountById(AppContext.getAccountId());
 
-        SimpleBillingAccount billingAccount = billingAccountService
-                .getBillingAccountById(AppContext.getAccountId());
-
-        LOG.debug("Get billing account successfully: "
-                + BeanUtility.printBeanObj(billingAccount));
+        LOG.debug("Get billing account successfully: " + BeanUtility.printBeanObj(billingAccount));
 
         if (isRememberPassword) {
             LocalStorage storage = LocalStorage.get();
-            String storeVal = username + "$"
-                    + PasswordEncryptHelper.encryptText(password);
+            String storeVal = username + "$" + PasswordEncryptHelper.encryptText(password);
             storage.put(MobileApplication.LOGIN_DATA, storeVal);
         }
 
         AppContext.getInstance().setSessionVariables(user, billingAccount);
-        EventBusFactory.getInstance().post(
-                new ProjectEvent.GotoProjectList(UI.getCurrent(), null));
+        EventBusFactory.getInstance().post(new ProjectEvent.GotoProjectList(UI.getCurrent(), null));
     }
 
 }

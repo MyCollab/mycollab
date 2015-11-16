@@ -84,7 +84,7 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
         withMargin(false).withStyleName("activity-comp");
         this.type = type;
         this.groupFormatter = groupFormatter;
-        headerLbl = new ELabel("Change history").withStyleName("title");
+        headerLbl = new ELabel("Change history");
 
         final OptionGroup sortDirection = new OptionGroup();
         sortDirection.addStyleName("sortDirection");
@@ -99,7 +99,7 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
             }
         });
 
-        MHorizontalLayout headerPanel = new MHorizontalLayout().withMargin(true).withStyleName("header").withWidth("100%")
+        MHorizontalLayout headerPanel = new MHorizontalLayout().withMargin(true).withStyleName("section").withWidth("100%")
                 .with(headerLbl, sortDirection).withAlign(headerLbl, Alignment.MIDDLE_LEFT).withAlign(sortDirection, Alignment.MIDDLE_RIGHT);
 
         commentBox = new ProjectCommentInput(this, type, extraTypeId, emailHandler);
@@ -173,14 +173,14 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
 
         MVerticalLayout rowLayout = new MVerticalLayout().withWidth("100%").withStyleName("message-container");
 
-        MHorizontalLayout messageHeader = new MHorizontalLayout().withWidth("100%").withStyleName("message-header");
+        MHorizontalLayout messageHeader = new MHorizontalLayout().withWidth("100%");
         messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         ELabel timePostLbl = new ELabel(AppContext.getMessage(
                 GenericI18Enum.EXT_ADDED_COMMENT, comment.getOwnerFullName(),
                 AppContext.formatPrettyTime(comment.getCreatedtime())), ContentMode.HTML).
                 withDescription(AppContext.formatDateTime(comment.getCreatedtime()));
-        timePostLbl.setStyleName("time-post");
+        timePostLbl.setStyleName(UIConstants.LABEL_META_INFO);
 
         if (hasDeletePermission(comment)) {
             Button msgDeleteBtn = new Button();
@@ -219,7 +219,6 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
         rowLayout.addComponent(messageHeader);
 
         Label messageContent = new SafeHtmlLabel(comment.getComment());
-        messageContent.setStyleName("message-body");
         rowLayout.addComponent(messageContent);
 
         List<Content> attachments = comment.getAttachments();
@@ -252,14 +251,14 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
 
             MVerticalLayout rowLayout = new MVerticalLayout().withWidth("100%").withStyleName("message-container");
 
-            MHorizontalLayout messageHeader = new MHorizontalLayout().withWidth("100%").withStyleName("message-header");
+            MHorizontalLayout messageHeader = new MHorizontalLayout().withWidth("100%");
             messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
             ELabel timePostLbl = new ELabel(AppContext.getMessage(
                     GenericI18Enum.EXT_MODIFIED_ITEM, auditLog.getPostedUserFullName(),
                     AppContext.formatPrettyTime(auditLog.getPosteddate())), ContentMode.HTML).
                     withDescription(AppContext.formatDateTime(auditLog.getPosteddate()));
-            timePostLbl.setStyleName("time-post");
+            timePostLbl.setStyleName(UIConstants.LABEL_META_INFO);
             messageHeader.with(timePostLbl).expand(timePostLbl);
 
             rowLayout.addComponent(messageHeader);

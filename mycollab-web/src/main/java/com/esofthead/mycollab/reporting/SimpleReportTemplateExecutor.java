@@ -59,7 +59,7 @@ public abstract class SimpleReportTemplateExecutor<T> extends ReportTemplateExec
 
     public SimpleReportTemplateExecutor(String reportTitle, RpFieldsBuilder fieldBuilder, ReportExportType outputForm,
                                         Class<T> classType) {
-        super(AppContext.getTimezone(), AppContext.getUserLocale(), reportTitle, outputForm);
+        super(AppContext.getUserTimezone(), AppContext.getUserLocale(), reportTitle, outputForm);
         this.fieldBuilder = fieldBuilder;
         this.classType = classType;
     }

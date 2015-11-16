@@ -36,9 +36,7 @@ import com.vaadin.ui.TextField;
  * 
  * @param <B>
  */
-public class MilestoneEditFormFieldFactory<B extends Milestone> extends
-		AbstractBeanFieldGroupEditFieldFactory<B> {
-
+public class MilestoneEditFormFieldFactory<B extends Milestone> extends AbstractBeanFieldGroupEditFieldFactory<B> {
 	private static final long serialVersionUID = 1L;
 
 	MilestoneEditFormFieldFactory(GenericBeanForm<B> form) {
@@ -54,8 +52,7 @@ public class MilestoneEditFormFieldFactory<B extends Milestone> extends
 			return userbox;
 		} else if (propertyId.equals("status")) {
 			if (attachForm.getBean().getStatus() == null) {
-				attachForm.getBean().setStatus(
-						MilestoneStatus.InProgress.toString());
+				attachForm.getBean().setStatus(MilestoneStatus.InProgress.toString());
 			}
 			return new ProgressStatusComboBox();
 		} else if (propertyId.equals("name")) {
@@ -66,8 +63,7 @@ public class MilestoneEditFormFieldFactory<B extends Milestone> extends
 				tf.setRequiredError("Please enter name");
 			}
 			return tf;
-		} else if (propertyId.equals("startdate")
-				|| propertyId.equals("enddate")) {
+		} else if (propertyId.equals("startdate") || propertyId.equals("enddate")) {
 			return new DatePicker();
 		} else if (propertyId.equals("description")) {
 			final TextArea descArea = new TextArea();
@@ -85,8 +81,7 @@ public class MilestoneEditFormFieldFactory<B extends Milestone> extends
 			super();
 			setCaption(null);
 			this.setNullSelectionAllowed(false);
-			this.loadData(Arrays.asList(MilestoneStatus.InProgress,
-					MilestoneStatus.Future, MilestoneStatus.Closed));
+			this.loadData(Arrays.asList(MilestoneStatus.InProgress, MilestoneStatus.Future, MilestoneStatus.Closed));
 		}
 	}
 

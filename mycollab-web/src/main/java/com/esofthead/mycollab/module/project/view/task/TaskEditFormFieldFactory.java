@@ -29,6 +29,8 @@ import com.esofthead.mycollab.module.project.ui.components.HumanTimeConverter;
 import com.esofthead.mycollab.module.project.ui.components.TaskCompleteStatusSelection;
 import com.esofthead.mycollab.module.project.view.milestone.MilestoneComboBox;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
+import com.esofthead.mycollab.module.project.view.task.components.TaskPriorityComboBox;
+import com.esofthead.mycollab.module.project.view.task.components.TaskStatusComboBox;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;

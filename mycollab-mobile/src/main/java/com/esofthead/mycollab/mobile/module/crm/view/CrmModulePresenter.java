@@ -29,56 +29,43 @@ import com.vaadin.addon.touchkit.extensions.LocalStorageCallback;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.2
- * 
  */
 public class CrmModulePresenter extends AbstractMobilePresenter<CrmModule> {
-	private static final long serialVersionUID = -3370467477599009160L;
+    private static final long serialVersionUID = -3370467477599009160L;
 
-	public CrmModulePresenter() {
-		super(CrmModule.class);
-	}
+    public CrmModulePresenter() {
+        super(CrmModule.class);
+    }
 
-	@Override
-	protected void onGo(ComponentContainer navigator, ScreenData<?> data) {
-		AppContext.addFragment("crm/",
-				AppContext.getMessage(GenericI18Enum.MODULE_CRM));
-		checkLocalData();
-	}
+    @Override
+    protected void onGo(ComponentContainer navigator, ScreenData<?> data) {
+        AppContext.addFragment("crm/", AppContext.getMessage(GenericI18Enum.MODULE_CRM));
+        checkLocalData();
+    }
 
-	private void checkLocalData() {
-		LocalStorage.detectValue(MobileApplication.LOGIN_DATA,
-				new LocalStorageCallback() {
-					private static final long serialVersionUID = 3217947479690600476L;
+    private void checkLocalData() {
+        LocalStorage.detectValue(MobileApplication.LOGIN_DATA, new LocalStorageCallback() {
+            private static final long serialVersionUID = 3217947479690600476L;
 
-					@Override
-					public void onSuccess(String value) {
-						if (value != null) {
-							String[] loginParams = value.split("\\$");
-							EventBusFactory
-									.getInstance()
-									.post(new CrmEvent.PlainLogin(
-											this,
-											new String[] {
-													loginParams[0],
-													PasswordEncryptHelper
-															.decryptText(loginParams[1]),
-													String.valueOf(false) }));
+            @Override
+            public void onSuccess(String value) {
+                if (value != null) {
+                    String[] loginParams = value.split("\\$");
+                    EventBusFactory.getInstance().post(new CrmEvent.PlainLogin(this,
+                            new String[]{loginParams[0], PasswordEncryptHelper.decryptText(loginParams[1]), String.valueOf(false)}));
 
-						} else {
-							EventBusFactory.getInstance().post(
-									new CrmEvent.GotoLogin(this, null));
-						}
-					}
+                } else {
+                    EventBusFactory.getInstance().post(new CrmEvent.GotoLogin(this, null));
+                }
+            }
 
-					@Override
-					public void onFailure(FailureEvent error) {
-						EventBusFactory.getInstance().post(
-								new CrmEvent.GotoLogin(this, null));
-					}
-				});
-	}
+            @Override
+            public void onFailure(FailureEvent error) {
+                EventBusFactory.getInstance().post(new CrmEvent.GotoLogin(this, null));
+            }
+        });
+    }
 
 }

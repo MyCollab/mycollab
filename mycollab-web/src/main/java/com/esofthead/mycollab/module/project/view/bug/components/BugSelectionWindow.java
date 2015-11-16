@@ -114,7 +114,7 @@ public class BugSelectionWindow extends Window {
                 }
 
                 b.setDescription(ProjectTooltipGenerator.generateToolTipBug(AppContext.getUserLocale(), bug,
-                        AppContext.getSiteUrl(), AppContext.getTimezone()));
+                        AppContext.getSiteUrl(), AppContext.getUserTimezone()));
                 return b;
 
             }

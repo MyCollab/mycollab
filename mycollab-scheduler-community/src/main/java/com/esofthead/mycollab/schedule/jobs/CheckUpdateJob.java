@@ -64,6 +64,7 @@ public class CheckUpdateJob extends GenericQuartzJobBean {
                         return;
                     }
                 }
+                LOG.info("There is the new version of MyCollab " + version);
                 isDownloading = true;
                 String autoDownloadLink = props.getProperty("autoDownload");
                 String manualDownloadLink = props.getProperty("downloadLink");
@@ -72,10 +73,12 @@ public class CheckUpdateJob extends GenericQuartzJobBean {
                 try {
                     downloadMyCollabThread.join();
                     File installerFile = downloadMyCollabThread.tmpFile;
-                    latestFileDownloadedPath = installerFile.getAbsolutePath();
-                    NotificationBroadcaster.removeGlobalNotification(NewUpdateAvailableNotification.class);
-                    NotificationBroadcaster.broadcast(new NewUpdateAvailableNotification(version, autoDownloadLink, manualDownloadLink,
-                            latestFileDownloadedPath));
+                    if (installerFile.exists() && installerFile.isFile() && installerFile.length() > 0) {
+                        latestFileDownloadedPath = installerFile.getAbsolutePath();
+                        NotificationBroadcaster.removeGlobalNotification(NewUpdateAvailableNotification.class);
+                        NotificationBroadcaster.broadcast(new NewUpdateAvailableNotification(version, autoDownloadLink, manualDownloadLink,
+                                latestFileDownloadedPath));
+                    }
                 } catch (Exception e) {
                     LOG.error("Exception", e);
                 } finally {
@@ -100,25 +103,52 @@ public class CheckUpdateJob extends GenericQuartzJobBean {
             try {
                 tmpFile = File.createTempFile("mycollab" + version.replace('.', '_'), ".zip");
                 URL url = new URL(downloadLink);
+                LOG.info("Start download the new MyCollab version at " + downloadLink);
                 HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
                 int responseCode = httpConn.getResponseCode();
+                InputStream inputStream = null;
 
                 // always check HTTP response code first
                 if (responseCode == HttpURLConnection.HTTP_OK) {
                     // opens input stream from the HTTP connection
-                    InputStream inputStream = httpConn.getInputStream();
+                    inputStream = httpConn.getInputStream();
+                } else {
+                    if (responseCode == HttpURLConnection.HTTP_MOVED_TEMP
+                            || responseCode == HttpURLConnection.HTTP_MOVED_PERM
+                            || responseCode == HttpURLConnection.HTTP_SEE_OTHER) {
+                        // get redirect url from "location" header field
+                        String newUrl = httpConn.getHeaderField("Location");
 
+                        // get the cookie if need, for login
+                        String cookies = httpConn.getHeaderField("Set-Cookie");
+
+                        // open the new connnection again
+                        httpConn = (HttpURLConnection) new URL(newUrl).openConnection();
+                        httpConn.setRequestProperty("Cookie", cookies);
+                        httpConn.addRequestProperty("Accept-Language", "en-US,en;q=0.8");
+                        httpConn.addRequestProperty("Referer", "google.com");
+                        inputStream = httpConn.getInputStream();
+                    }
+                }
+                if (inputStream != null) {
+                    int loadedBytes = 0;
                     // opens an output stream to save into file
                     try (FileOutputStream outputStream = new FileOutputStream(tmpFile)) {
                         int bytesRead;
                         byte[] buffer = new byte[4096];
                         while (((bytesRead = inputStream.read(buffer)) != -1)) {
                             outputStream.write(buffer, 0, bytesRead);
+                            loadedBytes += bytesRead;
+                            LOG.info("  Progress: " + loadedBytes/1024);
                         }
                         outputStream.close();
                         inputStream.close();
                         httpConn.disconnect();
+                        LOG.info("Download MyCollab edition successfully");
                     }
+                } else {
+                    LOG.info("Can not download the new MyCollab. Reason is: " + responseCode);
+                    return;
                 }
             } catch (Exception e) {
                 LOG.error("Error while download " + downloadLink, e);

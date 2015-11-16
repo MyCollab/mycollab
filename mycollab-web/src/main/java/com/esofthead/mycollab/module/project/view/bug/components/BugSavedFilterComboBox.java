@@ -36,22 +36,30 @@ import java.util.Arrays;
  * @since 5.2.1
  */
 public class BugSavedFilterComboBox extends SavedFilterComboBox {
+    public static final String ALL_BUGS = "ALL_BUGS";
+    public static final String OPEN_BUGS = "OPEN_BUGS";
+    public static final String MY_BUGS = "MY_BUGS";
+    public static final String NEW_THIS_WEEK = "NEW_THIS_WEEK";
+    public static final String UPDATE_THIS_WEEK = "UPDATE_THIS_WEEK";
+    public static final String NEW_LAST_WEEK = "NEW_LAST_WEEK";
+    public static final String UPDATE_LAST_WEEK = "UPDATE_LAST_WEEK";
+
     public BugSavedFilterComboBox() {
         super(ProjectTypeConstants.BUG);
 
-        SearchQueryInfo allBugsQuery = new SearchQueryInfo("All Bugs", SearchFieldInfo.inCollection
+        SearchQueryInfo allBugsQuery = new SearchQueryInfo(ALL_BUGS, "All Bugs", SearchFieldInfo.inCollection
                 (BugSearchCriteria.p_projectIds, new CurrentProjectIdInjecter()));
 
-        SearchQueryInfo allOpenBugsQuery = new SearchQueryInfo("All Open Bugs", new SearchFieldInfo(SearchField.AND,
-                new PropertyListParam("bug-status", BugI18nEnum.FORM_STATUS, "m_tracker_bug", "status"), PropertyListParam.BELONG_TO, new
-                VariableInjecter() {
+        SearchQueryInfo allOpenBugsQuery = new SearchQueryInfo(OPEN_BUGS, "All Open Bugs", new SearchFieldInfo(SearchField.AND,
+                new PropertyListParam("bug-status", BugI18nEnum.FORM_STATUS, "m_tracker_bug", "status"), PropertyListParam.BELONG_TO,
+                new VariableInjecter() {
                     @Override
                     public Object eval() {
                         return Arrays.asList(BugStatus.InProgress.name(), BugStatus.Open.name(), BugStatus.ReOpened.name());
                     }
                 }));
 
-        SearchQueryInfo myBugsQuery = new SearchQueryInfo("My Bugs", SearchFieldInfo.inCollection
+        SearchQueryInfo myBugsQuery = new SearchQueryInfo(MY_BUGS, "My Bugs", SearchFieldInfo.inCollection
                 (BugSearchCriteria.p_assignee, new VariableInjecter() {
                     @Override
                     public Object eval() {
@@ -59,17 +67,17 @@ public class BugSavedFilterComboBox extends SavedFilterComboBox {
                     }
                 }));
 
-        SearchQueryInfo newBugsThisWeekQuery = new SearchQueryInfo("New This Week", SearchFieldInfo.inDateRange
-                (BugSearchCriteria.p_createddate, VariableInjecter.THIS_WEEK));
+        SearchQueryInfo newBugsThisWeekQuery = new SearchQueryInfo(NEW_THIS_WEEK, "New This Week", SearchFieldInfo
+                .inDateRange(BugSearchCriteria.p_createddate, VariableInjecter.THIS_WEEK));
 
-        SearchQueryInfo updateBugsThisWeekQuery = new SearchQueryInfo("Update This Week", SearchFieldInfo.inDateRange
-                (BugSearchCriteria.p_lastupdatedtime, VariableInjecter.THIS_WEEK));
+        SearchQueryInfo updateBugsThisWeekQuery = new SearchQueryInfo(UPDATE_THIS_WEEK, "Update This Week",
+                SearchFieldInfo.inDateRange(BugSearchCriteria.p_lastupdatedtime, VariableInjecter.THIS_WEEK));
 
-        SearchQueryInfo newBugsLastWeekQuery = new SearchQueryInfo("New Last Week", SearchFieldInfo.inDateRange
-                (BugSearchCriteria.p_createddate, VariableInjecter.LAST_WEEK));
+        SearchQueryInfo newBugsLastWeekQuery = new SearchQueryInfo(NEW_LAST_WEEK, "New Last Week", SearchFieldInfo
+                .inDateRange(BugSearchCriteria.p_createddate, VariableInjecter.LAST_WEEK));
 
-        SearchQueryInfo updateBugsLastWeekQuery = new SearchQueryInfo("Update Last Week", SearchFieldInfo.inDateRange
-                (BugSearchCriteria.p_lastupdatedtime, VariableInjecter.LAST_WEEK));
+        SearchQueryInfo updateBugsLastWeekQuery = new SearchQueryInfo(UPDATE_LAST_WEEK, "Update Last Week",
+                SearchFieldInfo.inDateRange(BugSearchCriteria.p_lastupdatedtime, VariableInjecter.LAST_WEEK));
 
         this.addSharedSearchQueryInfo(allBugsQuery);
         this.addSharedSearchQueryInfo(allOpenBugsQuery);
@@ -78,5 +86,11 @@ public class BugSavedFilterComboBox extends SavedFilterComboBox {
         this.addSharedSearchQueryInfo(updateBugsThisWeekQuery);
         this.addSharedSearchQueryInfo(newBugsLastWeekQuery);
         this.addSharedSearchQueryInfo(updateBugsLastWeekQuery);
+    }
+
+    public void setTotalCountNumber(int countNumber) {
+        componentsText.setReadOnly(false);
+        componentsText.setValue(selectedQueryName + " (" + countNumber + ")");
+        componentsText.setReadOnly(true);
     }
 }

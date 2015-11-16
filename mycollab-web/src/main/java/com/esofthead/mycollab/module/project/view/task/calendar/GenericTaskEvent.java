@@ -34,7 +34,7 @@ public class GenericTaskEvent extends BasicEvent {
         this.assignment = assignment;
         this.setCaption(assignment.getTaskname());
         this.setDescription(ProjectTooltipGenerator.generateToolTipTask(AppContext.getUserLocale(), assignment,
-                AppContext.getSiteUrl(), AppContext.getTimezone()));
+                AppContext.getSiteUrl(), AppContext.getUserTimezone()));
         this.setAllDay(true);
 
         if (AppContext.getUsername().equals(assignment.getAssignuser())) {

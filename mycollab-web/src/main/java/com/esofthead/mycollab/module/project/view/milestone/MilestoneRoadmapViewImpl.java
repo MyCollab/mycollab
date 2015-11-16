@@ -37,7 +37,7 @@ import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
-import com.esofthead.mycollab.module.project.ui.components.ProjectViewHeader;
+import com.esofthead.mycollab.module.project.ui.components.ComponentUtils;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -45,6 +45,7 @@ import com.esofthead.mycollab.vaadin.mvp.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
+import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.esofthead.mycollab.vaadin.ui.ToggleButtonGroup;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.google.common.eventbus.Subscribe;
@@ -55,6 +56,7 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
+import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.teemu.VaadinIcons;
 import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -113,7 +115,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
     }
 
     private void initUI() {
-        ProjectViewHeader headerText = new ProjectViewHeader(ProjectTypeConstants.MILESTONE, "Roadmap");
+        HeaderWithFontAwesome headerText = ComponentUtils.headerH2(ProjectTypeConstants.MILESTONE, "Roadmap");
 
         MHorizontalLayout header = new MHorizontalLayout()
                 .withStyleName("hdr-view").withWidth("100%").withMargin(true)
@@ -134,7 +136,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
             }
         });
         createBtn.setIcon(FontAwesome.PLUS);
-        createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        createBtn.setStyleName(UIConstants.BUTTON_ACTION);
         createBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
         layout.with(createBtn);
 
@@ -171,12 +173,12 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
                     .appendText(milestone.getName())).appendText(" (" + AppContext.getMessage(com.esofthead.mycollab
                     .module.project.i18n.OptionI18nEnum.MilestoneStatus.class, milestone
                     .getStatus()) + ")");
-            ELabel milestoneLbl = new ELabel(milestoneDiv.write(), ContentMode.HTML).withStyleName("h2");
+            ELabel milestoneLbl = new ELabel(milestoneDiv.write(), ContentMode.HTML).withStyleName(ValoTheme.LABEL_H3);
             this.addComponent(milestoneLbl);
 
-            MHorizontalLayout metaBlock = new MHorizontalLayout();
+            CssLayout metaBlock = new CssLayout();
             MilestonePopupFieldFactory popupFieldFactory = ViewManager.getCacheComponent(MilestonePopupFieldFactory.class);
-            metaBlock.addComponent(popupFieldFactory.createMilestoneAssigneePopupField(milestone));
+            metaBlock.addComponent(popupFieldFactory.createMilestoneAssigneePopupField(milestone, true));
             metaBlock.addComponent(popupFieldFactory.createStartDatePopupField(milestone));
             metaBlock.addComponent(popupFieldFactory.createEndDatePopupField(milestone));
             metaBlock.addComponent(popupFieldFactory.createBillableHoursPopupField(milestone));
@@ -188,15 +190,16 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
             this.addComponent(descriptionLbl);
 
             MHorizontalLayout progressLayout = new MHorizontalLayout();
+            progressLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
             int openAssignments = milestone.getNumOpenBugs() + milestone.getNumOpenTasks();
             int totalAssignments = milestone.getNumBugs() + milestone.getNumTasks();
             ELabel progressInfoLbl;
             if (totalAssignments > 0) {
                 progressInfoLbl = new ELabel(String.format("%d of %d issue(s) resolved. Progress (%d%%)",
                         (totalAssignments - openAssignments), totalAssignments, (totalAssignments - openAssignments)
-                                * 100 / totalAssignments)).withStyleName("meta");
+                                * 100 / totalAssignments)).withStyleName(UIConstants.LABEL_META_INFO);
             } else {
-                progressInfoLbl = new ELabel("No issue").withStyleName("meta");
+                progressInfoLbl = new ELabel("No issue").withStyleName(UIConstants.LABEL_META_INFO);
             }
 
             final Button viewIssuesBtn = new Button("View issues");
@@ -252,8 +255,8 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
                 }
             };
             viewIssuesBtn.addClickListener(viewIssuesListener);
-            viewIssuesBtn.setStyleName(UIConstants.THEME_LINK);
-            viewIssuesBtn.addStyleName("block");
+            viewIssuesBtn.addStyleName(UIConstants.BUTTON_ACTION);
+            viewIssuesBtn.addStyleName(ValoTheme.BUTTON_SMALL);
             progressLayout.with(progressInfoLbl, viewIssuesBtn);
             this.addComponent(progressLayout);
             issueLayout = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, true));

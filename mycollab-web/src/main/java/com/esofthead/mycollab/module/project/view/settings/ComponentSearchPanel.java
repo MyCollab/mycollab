@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.events.BugComponentEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ComponentI18nEnum;
-import com.esofthead.mycollab.module.project.ui.components.ProjectViewHeader;
+import com.esofthead.mycollab.module.project.ui.components.ComponentUtils;
 import com.esofthead.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
@@ -39,7 +39,6 @@ import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
-import com.vaadin.ui.ComponentContainer;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -61,22 +60,21 @@ public class ComponentSearchPanel extends DefaultGenericSearchPanel<ComponentSea
 
     @Override
     protected HeaderWithFontAwesome buildSearchTitle() {
-        return new ProjectViewHeader(ProjectTypeConstants.BUG_COMPONENT, AppContext.getMessage(ComponentI18nEnum.VIEW_LIST_TITLE));
+        return ComponentUtils.headerH2(ProjectTypeConstants.BUG_COMPONENT, AppContext.getMessage(ComponentI18nEnum.VIEW_LIST_TITLE));
     }
 
     @Override
     protected void buildExtraControls() {
-        Button createBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_NEW_COMPONENT),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        Button createBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_NEW_COMPONENT), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(final Button.ClickEvent event) {
-                        EventBusFactory.getInstance().post(new BugComponentEvent.GotoAdd(this, null));
-                    }
-                });
+            @Override
+            public void buttonClick(final Button.ClickEvent event) {
+                EventBusFactory.getInstance().post(new BugComponentEvent.GotoAdd(this, null));
+            }
+        });
         createBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.COMPONENTS));
-        createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        createBtn.setStyleName(UIConstants.BUTTON_ACTION);
         createBtn.setIcon(FontAwesome.PLUS);
         this.addHeaderRight(createBtn);
     }
@@ -100,8 +98,9 @@ public class ComponentSearchPanel extends DefaultGenericSearchPanel<ComponentSea
         @Override
         public ComponentContainer constructBody() {
             MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
+            basicSearchBody.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
             Label nameLbl = new Label("Name:");
-            basicSearchBody.with(nameLbl).withAlign(nameLbl, Alignment.MIDDLE_LEFT);
+            basicSearchBody.with(nameLbl);
 
             nameField = ShortcutExtension.installShortcutAction(new TextField(),
                     new ShortcutListener("ComponentSearchName", ShortcutAction.KeyCode.ENTER, null) {
@@ -112,32 +111,24 @@ public class ComponentSearchPanel extends DefaultGenericSearchPanel<ComponentSea
                     });
             nameField.setInputPrompt("Query by component name");
             nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
-            basicSearchBody.with(nameField).withAlign(nameField, Alignment.MIDDLE_CENTER);
+            basicSearchBody.with(nameField);
 
             myItemCheckbox = new CheckBox(AppContext.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
-            basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox, Alignment.MIDDLE_CENTER);
+            basicSearchBody.with(myItemCheckbox);
 
-            Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
-            searchBtn.setIcon(FontAwesome.SEARCH);
-            searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-
-            searchBtn.addClickListener(new Button.ClickListener() {
-
-                private static final long serialVersionUID = 1L;
-
+            Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH), new Button.ClickListener() {
                 @Override
-                public void buttonClick(final Button.ClickEvent event) {
+                public void buttonClick(Button.ClickEvent event) {
                     callSearchAction();
                 }
             });
-            basicSearchBody.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_LEFT);
+            searchBtn.setIcon(FontAwesome.SEARCH);
+            searchBtn.setStyleName(UIConstants.BUTTON_ACTION);
+            basicSearchBody.with(searchBtn);
 
-            Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
-            cancelBtn.addClickListener(new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
+            Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), new Button.ClickListener() {
                 @Override
-                public void buttonClick(final Button.ClickEvent event) {
+                public void buttonClick(Button.ClickEvent event) {
                     nameField.setValue("");
                 }
             });

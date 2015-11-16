@@ -30,7 +30,8 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 public abstract class DefaultGenericSearchPanel<S extends SearchCriteria> extends GenericSearchPanel<S> {
     private static final long serialVersionUID = 1L;
 
-    private HeaderWithFontAwesome headerText;
+    private MHorizontalLayout header;
+    private ComponentContainer headerText;
     private MHorizontalLayout rightComponent;
 
     public DefaultGenericSearchPanel() {
@@ -41,27 +42,32 @@ public abstract class DefaultGenericSearchPanel<S extends SearchCriteria> extend
 
     abstract protected SearchLayout<S> createAdvancedSearchLayout();
 
-    abstract protected HeaderWithFontAwesome buildSearchTitle();
+    abstract protected ComponentContainer buildSearchTitle();
 
     abstract protected void buildExtraControls();
 
     protected ComponentContainer constructHeader() {
-        headerText = buildSearchTitle();
-        rightComponent = new MHorizontalLayout();
+        if (header == null) {
+            headerText = buildSearchTitle();
+            rightComponent = new MHorizontalLayout();
 
-        MHorizontalLayout header = new MHorizontalLayout()
-                .withStyleName(UIConstants.HEADER_VIEW).withWidth("100%")
-                .withMargin(new MarginInfo(true, false, true, false));
+            header = new MHorizontalLayout().withStyleName(UIConstants.HEADER_VIEW).withWidth("100%")
+                    .withMargin(new MarginInfo(true, false, true, false));
 
-        header.with(headerText, rightComponent).withAlign(headerText, Alignment.MIDDLE_LEFT)
-                .withAlign(rightComponent, Alignment.MIDDLE_RIGHT).expand(headerText);
+            header.with(headerText, rightComponent).withAlign(headerText, Alignment.MIDDLE_LEFT)
+                    .withAlign(rightComponent, Alignment.MIDDLE_RIGHT).expand(headerText);
 
-        buildExtraControls();
-        return header;
+            buildExtraControls();
+            return header;
+        } else {
+            return header;
+        }
     }
 
     public void setTotalCountNumber(int countNumber) {
-        headerText.appendToTitle(String.format("(%d Total)", countNumber));
+        if (headerText instanceof HeaderWithFontAwesome) {
+            ((HeaderWithFontAwesome) headerText).appendToTitle(String.format("(%d Total)", countNumber));
+        }
     }
 
     protected void moveToBasicSearchLayout() {

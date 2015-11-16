@@ -16,11 +16,9 @@
  */
 package com.esofthead.mycollab.schedule.spring;
 
-import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.schedule.AutowiringSpringBeanJobFactory;
 import com.esofthead.mycollab.schedule.QuartzScheduleProperties;
 import com.esofthead.mycollab.schedule.jobs.CheckUpdateJob;
-import com.esofthead.mycollab.spring.DataSourceConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -56,10 +54,6 @@ public class CommunityScheduleConfiguration {
     @Bean
     public SchedulerFactoryBean quartzSchedulerCommunity() {
         SchedulerFactoryBean bean = new SchedulerFactoryBean();
-
-        if (SiteConfiguration.DeploymentMode.site == SiteConfiguration.getDeploymentMode()) {
-            bean.setDataSource(new DataSourceConfiguration().dataSource());
-        }
 
         bean.setQuartzProperties(new QuartzScheduleProperties());
         bean.setOverwriteExistingJobs(true);

@@ -34,6 +34,8 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.*;
 import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
+import com.hp.gagawa.java.Node;
+import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -58,7 +60,7 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
 
     public UserReadViewImpl() {
         super();
-        this.setMargin(new MarginInfo(false, true, false, true));
+        this.setMargin(new MarginInfo(false, true, true, true));
         this.addStyleName("userInfoContainer");
 
         header = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
@@ -80,41 +82,34 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
 
         MVerticalLayout basicLayout = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, true));
 
-        HorizontalLayout userWrapper = new HorizontalLayout();
+        CssLayout userWrapper = new CssLayout();
         String nickName = user.getNickname();
-        Label userName = new Label(user.getDisplayName()
-                + (StringUtils.isEmpty(nickName) ? "" : (String.format(" ( %s )", nickName))));
-        userName.setStyleName("h1");
-        userName.addStyleName(UIConstants.WORD_WRAP);
+        ELabel userName = ELabel.h2(user.getDisplayName() + (StringUtils.isEmpty(nickName) ? "" : (String.format(" ( " +
+                "%s )", nickName))));
         userWrapper.addComponent(userName);
 
         basicLayout.addComponent(userWrapper);
         basicLayout.setComponentAlignment(userWrapper, Alignment.MIDDLE_LEFT);
 
-        Component role;
+        GridFormLayoutHelper formLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 5).withCaptionWidth("80px");
+        formLayoutHelper.getLayout().addStyleName(UIConstants.GRIDFORM_BORDERLESS);
+        basicLayout.addComponent(formLayoutHelper.getLayout());
+
+        Node roleDiv;
         if (Boolean.TRUE.equals(user.getIsAccountOwner())) {
-            role = new DefaultViewField("Account Owner");
+            roleDiv = new Div().appendText("Account Owner");
         } else {
-            role = new LinkViewField(user.getRoleName(),
-                    AccountLinkBuilder.generatePreviewFullRoleLink(user.getRoleid()));
+            roleDiv = new A(AccountLinkBuilder.generatePreviewFullRoleLink(user.getRoleid())).appendText(user.getRoleName());
         }
-        MHorizontalLayout roleWrapper = new MHorizontalLayout();
-        roleWrapper.addComponent(new Label(AppContext.getMessage(UserI18nEnum.FORM_ROLE) + ": "));
-        roleWrapper.addComponent(role);
 
-        basicLayout.addComponent(roleWrapper);
-
-        basicLayout.addComponent(new Label(AppContext.getMessage(UserI18nEnum.FORM_BIRTHDAY)
-                + ": "
-                + AppContext.formatDate(user.getDateofbirth())));
-        basicLayout.addComponent(new MHorizontalLayout()
-                .add(new Label(AppContext.getMessage(UserI18nEnum.FORM_EMAIL) + ": ")).add(
-                        new LabelLink(user.getEmail(), "mailto:" + user.getEmail())));
-        basicLayout.addComponent(new Label(AppContext.getMessage(UserI18nEnum.FORM_TIMEZONE)
-                + ": " + TimezoneMapper.getTimezoneExt(user.getTimezone()).getDisplayName()));
-        basicLayout
-                .addComponent(new Label(AppContext.getMessage(UserI18nEnum.FORM_LANGUAGE)
-                        + ": " + AppContext.getMessage(LangI18Enum.class, user.getLanguage())));
+        formLayoutHelper.addComponent(new Label(roleDiv.write(), ContentMode.HTML), AppContext.getMessage(UserI18nEnum.FORM_ROLE), 0, 0);
+        formLayoutHelper.addComponent(new Label(AppContext.formatDate(user.getDateofbirth())), AppContext.getMessage(UserI18nEnum.FORM_BIRTHDAY), 0, 1);
+        formLayoutHelper.addComponent(new Label(new A("mailto:" + user.getEmail()).appendText(user.getEmail()).write(),
+                ContentMode.HTML), AppContext.getMessage(UserI18nEnum.FORM_EMAIL), 0, 2);
+        formLayoutHelper.addComponent(new Label(TimezoneMapper.getTimezoneExt(user.getTimezone()).getDisplayName()),
+                AppContext.getMessage(UserI18nEnum.FORM_TIMEZONE), 0, 3);
+        formLayoutHelper.addComponent(new Label(AppContext.getMessage(LangI18Enum.class, user.getLanguage())),
+                AppContext.getMessage(UserI18nEnum.FORM_LANGUAGE), 0, 4);
 
         avatarAndPass.with(basicLayout).withAlign(basicLayout, Alignment.TOP_LEFT).expand(basicLayout);
 
@@ -122,7 +117,8 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
         CssLayout avatarAndPAssWrapper = new CssLayout();
         avatarAndPass.setWidthUndefined();
         avatarAndPAssWrapper.addComponent(avatarAndPass);
-        header.with(avatarAndPass, controlButtons).withAlign(avatarAndPass, Alignment.TOP_LEFT).withAlign(controlButtons, Alignment.TOP_RIGHT);
+        header.with(avatarAndPass, controlButtons).withAlign(avatarAndPass, Alignment.TOP_LEFT)
+                .withAlign(controlButtons, Alignment.TOP_RIGHT);
     }
 
     private Layout createTopPanel() {
@@ -163,13 +159,11 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
         @Override
         public void setBean(User newDataSource) {
             this.setFormLayoutFactory(new FormLayoutFactory());
-            this.setBeanFormFieldFactory(new AbstractBeanFieldGroupViewFieldFactory<User>(
-                    PreviewForm.this) {
+            this.setBeanFormFieldFactory(new AbstractBeanFieldGroupViewFieldFactory<User>(PreviewForm.this) {
                 private static final long serialVersionUID = 1L;
 
                 @Override
                 protected Field<?> onCreateField(Object propertyId) {
-
                     if (propertyId.equals("email")) {
                         return new EmailViewField(user.getEmail());
                     } else if (propertyId.equals("roleid")) {
@@ -204,33 +198,14 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
         private class FormLayoutFactory implements IFormLayoutFactory {
             private static final long serialVersionUID = 1L;
 
-            private GridFormLayoutHelper contactLayout = new GridFormLayoutHelper(1, 5, "100%", "120px");
-            private GridFormLayoutHelper advancedInfoLayout = new GridFormLayoutHelper(1, 3, "100%", "120px");
+            private GridFormLayoutHelper contactLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 5);
+            private GridFormLayoutHelper advancedInfoLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
 
             @Override
             public ComponentContainer getLayout() {
-                MVerticalLayout layout = new MVerticalLayout().withSpacing(false).withMargin(false);
-
-                Label contactInformationHeaderLbl = new Label(AppContext.getMessage(UserI18nEnum.SECTION_CONTACT_INFORMATION));
-                contactInformationHeaderLbl.addStyleName("h1");
-                layout.addComponent(contactInformationHeaderLbl);
-
-                String separatorStyle = "width: 100%; height: 1px; background-color: #CFCFCF; margin-top: 3px; margin-bottom: 10px";
-                Div contactSeparator = new Div();
-                contactSeparator.setAttribute("style", separatorStyle);
-                layout.addComponent(new Label(contactSeparator.write(), ContentMode.HTML));
-
-                layout.with(contactLayout.getLayout(), new Label());
-
-                Label advanceInfoHeaderLbl = new Label(AppContext.getMessage(UserI18nEnum.SECTION_ADVANCED_INFORMATION));
-                advanceInfoHeaderLbl.addStyleName("h1");
-                layout.addComponent(advanceInfoHeaderLbl);
-
-                Div advancSeparator = new Div();
-                advancSeparator.setAttribute("style", separatorStyle);
-                layout.addComponent(new Label(advancSeparator.write(), ContentMode.HTML));
-                layout.addComponent(advancedInfoLayout.getLayout());
-
+                FormContainer layout = new FormContainer();
+                layout.addSection(AppContext.getMessage(UserI18nEnum.SECTION_CONTACT_INFORMATION), contactLayout.getLayout());
+                layout.addSection(AppContext.getMessage(UserI18nEnum.SECTION_ADVANCED_INFORMATION), advancedInfoLayout.getLayout());
                 return layout;
             }
 

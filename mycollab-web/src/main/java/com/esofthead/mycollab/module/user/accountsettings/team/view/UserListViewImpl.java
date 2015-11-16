@@ -18,9 +18,13 @@ package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.user.AccountLinkBuilder;
+import com.esofthead.mycollab.module.user.AccountLinkGenerator;
+import com.esofthead.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
+import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.domain.criteria.UserSearchCriteria;
 import com.esofthead.mycollab.module.user.events.UserEvent;
@@ -31,6 +35,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.*;
+import com.hp.gagawa.java.elements.A;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -75,10 +80,12 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
             }
         });
         createBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.ACCOUNT_USER));
-        createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        createBtn.setStyleName(UIConstants.BUTTON_ACTION);
         createBtn.setIcon(FontAwesome.PLUS);
 
-        header.with(createBtn).withAlign(createBtn, Alignment.MIDDLE_RIGHT);
+        HeaderWithFontAwesome headerLbl = HeaderWithFontAwesome.h2(FontAwesome.USERS, "Users");
+
+        header.with(headerLbl, createBtn).expand(headerLbl).withAlign(createBtn, Alignment.MIDDLE_RIGHT);
         this.addComponent(header);
 
         CssLayout contentLayout = new CssLayout();
@@ -135,35 +142,27 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 
         memberInfo.addComponent(layoutButtonDelete);
 
-        ButtonLink userAccountLink = new ButtonLink(member.getDisplayName());
-        userAccountLink.addClickListener(new ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                EventBusFactory.getInstance().post(new UserEvent.GotoRead(UserListViewImpl.this, member.getUsername()));
-            }
-        });
-
-        memberInfo.addComponent(userAccountLink);
+        A memberLink = new A(AccountLinkGenerator.generatePreviewFullUserLink(AppContext.getSiteUrl(),
+                member.getUsername())).appendText(member.getDisplayName());
+        memberInfo.addComponent(new ELabel(memberLink.write(), ContentMode.HTML));
 
         Label memberEmailLabel = new Label(String.format("<a href='mailto:%s'>%s</a>", member.getUsername(),
                 member.getUsername()), ContentMode.HTML);
-        memberEmailLabel.addStyleName("member-email");
+        memberEmailLabel.addStyleName(UIConstants.LABEL_META_INFO);
         memberEmailLabel.setWidth("100%");
         memberInfo.addComponent(memberEmailLabel);
 
         ELabel memberSinceLabel = new ELabel("Member since: "
                 + AppContext.formatPrettyTime(member.getRegisteredtime())).withDescription(AppContext.formatDateTime
                 (member.getRegisteredtime()));
-        memberSinceLabel.addStyleName("member-email");
+        memberSinceLabel.addStyleName(UIConstants.LABEL_META_INFO);
         memberSinceLabel.setWidth("100%");
         memberInfo.addComponent(memberSinceLabel);
 
         if (RegisterStatusConstants.SENT_VERIFICATION_EMAIL.equals(member.getRegisterstatus())) {
             final VerticalLayout waitingNotLayout = new VerticalLayout();
             Label infoStatus = new Label("Waiting for accept invitation");
-            infoStatus.addStyleName("member-email");
+            infoStatus.addStyleName(UIConstants.LABEL_META_INFO);
             waitingNotLayout.addComponent(infoStatus);
 
             ButtonLink resendInvitationLink = new ButtonLink("Resend Invitation", new Button.ClickListener() {
@@ -176,22 +175,22 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
                             RegisterStatusConstants.VERIFICATING);
                     waitingNotLayout.removeAllComponents();
                     Label statusEmail = new Label("Sending invitation email");
-                    statusEmail.addStyleName("member-email");
+                    statusEmail.addStyleName(UIConstants.LABEL_META_INFO);
                     waitingNotLayout.addComponent(statusEmail);
                 }
             });
-            resendInvitationLink.addStyleName("member-email");
+            resendInvitationLink.addStyleName(UIConstants.BUTTON_LINK);
             waitingNotLayout.addComponent(resendInvitationLink);
             memberInfo.addComponent(waitingNotLayout);
         } else if (RegisterStatusConstants.ACTIVE.equals(member.getRegisterstatus())) {
             ELabel lastAccessTimeLbl = new ELabel("Logged in "
                     + AppContext.formatPrettyTime(member.getLastaccessedtime())).withDescription(AppContext
                     .formatDateTime(member.getLastaccessedtime()));
-            lastAccessTimeLbl.addStyleName("member-email");
+            lastAccessTimeLbl.addStyleName(UIConstants.LABEL_META_INFO);
             memberInfo.addComponent(lastAccessTimeLbl);
         } else if (RegisterStatusConstants.VERIFICATING.equals(member.getRegisterstatus())) {
             Label infoStatus = new Label("Sending invitation email");
-            infoStatus.addStyleName("member-email");
+            infoStatus.addStyleName(UIConstants.LABEL_META_INFO);
             memberInfo.addComponent(infoStatus);
         }
 

@@ -35,20 +35,16 @@ import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanPagedList;
 import com.esofthead.mycollab.vaadin.ui.DefaultBeanPagedList;
+import com.esofthead.mycollab.vaadin.ui.Depot;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
 import com.vaadin.data.Property;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Label;
+import com.vaadin.ui.*;
 import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
-import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.UUID;
 
@@ -56,17 +52,15 @@ import java.util.UUID;
  * @author MyCollab Ltd.
  * @since 4.1
  */
-public class ProjectAssignmentsWidget extends MVerticalLayout {
+public class ProjectAssignmentsWidget extends Depot {
     private static final long serialVersionUID = 1L;
 
     private ProjectGenericTaskSearchCriteria searchCriteria;
 
-    private Label titleLbl;
     private DefaultBeanPagedList<ProjectGenericTaskService, ProjectGenericTaskSearchCriteria, ProjectGenericTask> taskList;
 
     public ProjectAssignmentsWidget() {
-        withSpacing(false).withMargin(new MarginInfo(true, false, true, false));
-        titleLbl = new Label(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_OPEN_ASSIGNMENTS_TITLE, 0));
+        super(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_OPEN_ASSIGNMENTS_TITLE, 0), new CssLayout());
 
         final CheckBox overdueSelection = new CheckBox("Overdue");
         overdueSelection.addValueChangeListener(new Property.ValueChangeListener() {
@@ -96,15 +90,11 @@ public class ProjectAssignmentsWidget extends MVerticalLayout {
             }
         });
 
-        MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true))
-                .withHeight("34px").with(titleLbl, overdueSelection, myItemsSelection)
-                .withAlign(titleLbl, Alignment.MIDDLE_LEFT).withAlign(overdueSelection, Alignment.MIDDLE_RIGHT)
-                .withAlign(myItemsSelection, Alignment.MIDDLE_RIGHT).expand(titleLbl);
-        header.addStyleName("panel-header");
-
         taskList = new DefaultBeanPagedList<>(ApplicationContextUtil.getSpringBean(ProjectGenericTaskService.class),
                 new TaskRowDisplayHandler(), 10);
-        this.with(header, taskList);
+        this.addHeaderElement(overdueSelection);
+        this.addHeaderElement(myItemsSelection);
+        this.bodyContent.addComponent(taskList);
     }
 
     public void showOpenAssignments() {
@@ -116,7 +106,7 @@ public class ProjectAssignmentsWidget extends MVerticalLayout {
 
     private void updateSearchResult() {
         taskList.setSearchCriteria(searchCriteria);
-        titleLbl.setValue(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_OPEN_ASSIGNMENTS_TITLE, taskList.getTotalCount()));
+        this.setTitle(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_OPEN_ASSIGNMENTS_TITLE, taskList.getTotalCount()));
     }
 
     public static class TaskRowDisplayHandler implements DefaultBeanPagedList.RowDisplayHandler<ProjectGenericTask> {

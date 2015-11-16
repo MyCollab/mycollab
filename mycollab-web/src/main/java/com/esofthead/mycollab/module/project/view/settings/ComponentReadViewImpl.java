@@ -33,7 +33,10 @@ import com.esofthead.mycollab.module.project.i18n.ComponentI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
-import com.esofthead.mycollab.module.project.ui.components.*;
+import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
+import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
+import com.esofthead.mycollab.module.project.ui.components.ProjectActivityComponent;
+import com.esofthead.mycollab.module.project.ui.components.ProjectMemberLink;
 import com.esofthead.mycollab.module.project.ui.format.ComponentFieldFormatter;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.esofthead.mycollab.module.tracker.domain.Component;
@@ -110,8 +113,7 @@ public class ComponentReadViewImpl extends AbstractPreviewItemComp<SimpleCompone
 
     @Override
     protected IFormLayoutFactory initFormLayoutFactory() {
-        return new DynaFormLayout(ProjectTypeConstants.BUG_COMPONENT,
-                ComponentDefaultFormLayoutFactory.getForm(),
+        return new DynaFormLayout(ProjectTypeConstants.BUG_COMPONENT, ComponentDefaultFormLayoutFactory.getForm(),
                 Component.Field.componentname.name());
     }
 
@@ -157,8 +159,8 @@ public class ComponentReadViewImpl extends AbstractPreviewItemComp<SimpleCompone
             @Override
             protected Field<?> onCreateField(final Object propertyId) {
                 if (Component.Field.userlead.equalTo(propertyId)) {
-                    return new ProjectUserFormLinkField(beanItem.getUserlead(),
-                            beanItem.getUserLeadAvatarId(), beanItem.getUserLeadFullName());
+                    return new ProjectUserFormLinkField(beanItem.getUserlead(), beanItem.getUserLeadAvatarId(),
+                            beanItem.getUserLeadFullName());
                 } else if (Component.Field.id.equalTo(propertyId)) {
                     ContainerViewField containerField = new ContainerViewField();
                     containerField.addComponentField(new BugsComp());
@@ -171,10 +173,8 @@ public class ComponentReadViewImpl extends AbstractPreviewItemComp<SimpleCompone
 
     @Override
     protected ComponentContainer createButtonControls() {
-        ProjectPreviewFormControlsGenerator<SimpleComponent> componentPreviewForm = new
-                ProjectPreviewFormControlsGenerator<>(previewForm);
-        HorizontalLayout topPanel = componentPreviewForm
-                .createButtonControls(ProjectRolePermissionCollections.COMPONENTS);
+        ProjectPreviewFormControlsGenerator<SimpleComponent> componentPreviewForm = new ProjectPreviewFormControlsGenerator<>(previewForm);
+        HorizontalLayout topPanel = componentPreviewForm.createButtonControls(ProjectRolePermissionCollections.COMPONENTS);
         quickActionStatusBtn = new Button("", new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
@@ -198,7 +198,7 @@ public class ComponentReadViewImpl extends AbstractPreviewItemComp<SimpleCompone
             }
         });
 
-        quickActionStatusBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        quickActionStatusBtn.setStyleName(UIConstants.BUTTON_ACTION);
         componentPreviewForm.insertToControlBlock(quickActionStatusBtn);
 
         if (!CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.COMPONENTS)) {
@@ -290,21 +290,20 @@ public class ComponentReadViewImpl extends AbstractPreviewItemComp<SimpleCompone
                         } else if (bug.isOverdue()) {
                             issueLbl.addStyleName("overdue");
                         }
+                        CssLayout issueWrapper = new CssLayout(issueLbl);
 
                         MHorizontalLayout rowComp = new MHorizontalLayout();
                         rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
-                        rowComp.with(new ELabel(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG).getHtml(), ContentMode.HTML));
 
                         String bugPriority = bug.getPriority();
                         Span priorityLink = new Span().appendText(ProjectAssetsManager.getBugPriorityHtml(bugPriority)).setTitle(bugPriority);
-                        rowComp.with(new ELabel(priorityLink.write(), ContentMode.HTML));
 
                         String avatarLink = StorageFactory.getInstance().getAvatarPath(bug.getAssignUserAvatarId(), 16);
                         Img img = new Img(bug.getAssignuserFullName(), avatarLink).setTitle(bug.getAssignuserFullName());
-                        rowComp.with(new ELabel(img.write(), ContentMode.HTML));
 
-                        MCssLayout issueWrapper = new MCssLayout(issueLbl);
-                        rowComp.with(issueWrapper);
+                        rowComp.with(new ELabel(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG).getHtml(), ContentMode.HTML).withWidth("-1px"),
+                                new ELabel(priorityLink.write(), ContentMode.HTML).withWidth("-1px"),
+                                new ELabel(img.write(), ContentMode.HTML).withWidth("-1px"), issueWrapper).expand(issueWrapper);
                         issueLayout.add(rowComp);
                     }
                 }
