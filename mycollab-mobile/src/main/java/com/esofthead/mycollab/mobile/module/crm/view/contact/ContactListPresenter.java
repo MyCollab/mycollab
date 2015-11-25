@@ -28,8 +28,7 @@ import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
  * 
  */
 
-public class ContactListPresenter extends
-		CrmListPresenter<ContactListView, ContactSearchCriteria, SimpleContact> {
+public class ContactListPresenter extends CrmListPresenter<ContactListView, ContactSearchCriteria, SimpleContact> {
 	private static final long serialVersionUID = -8607598374388692503L;
 
 	public ContactListPresenter() {

@@ -35,8 +35,7 @@ import java.util.Set;
  * @author MyCollab Ltd.
  * @since 4.0
  */
-public abstract class AbstractBeanBlockList<S extends SearchCriteria, T>
-        extends VerticalLayout implements HasPagableHandlers {
+public abstract class AbstractBeanBlockList<S extends SearchCriteria, T> extends VerticalLayout implements HasPagableHandlers {
     private static final long serialVersionUID = -1842929843421392806L;
 
     private int defaultNumberSearchItems = 10;

@@ -33,9 +33,9 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.NumberField;
-import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
 import com.vaadin.data.Property;
 import com.vaadin.ui.Field;
+import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.TextField;
 
 /**
@@ -60,9 +60,9 @@ class BugEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Sim
     protected Field<?> onCreateField(final Object propertyId) {
         final SimpleBug beanItem = attachForm.getBean();
         if (propertyId.equals("environment")) {
-            return new RichTextEditField();
+            return new RichTextArea();
         } else if (propertyId.equals("description")) {
-            return new RichTextEditField();
+            return new RichTextArea();
         } else if (propertyId.equals("priority")) {
             if (beanItem.getPriority() == null) {
                 beanItem.setPriority(OptionI18nEnum.BugPriority.Major.name());

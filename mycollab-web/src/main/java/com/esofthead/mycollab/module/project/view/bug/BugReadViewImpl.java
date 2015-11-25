@@ -40,6 +40,8 @@ import com.esofthead.mycollab.module.project.ui.components.*;
 import com.esofthead.mycollab.module.project.ui.form.ProjectFormAttachmentDisplayField;
 import com.esofthead.mycollab.module.project.ui.form.ProjectItemViewField;
 import com.esofthead.mycollab.module.project.ui.format.BugFieldFormatter;
+import com.esofthead.mycollab.module.project.view.bug.components.BugPriorityComboBox;
+import com.esofthead.mycollab.module.project.view.bug.components.BugSeverityComboBox;
 import com.esofthead.mycollab.module.project.view.bug.components.LinkIssueWindow;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.esofthead.mycollab.module.tracker.dao.RelatedBugMapper;
@@ -482,15 +484,14 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
         @Override
         protected Field<?> onCreateField(final Object propertyId) {
             if (BugWithBLOBs.Field.duedate.equalTo(propertyId)) {
-                return new DateViewField(beanItem.getDuedate());
+                return new DateViewField(beanItem.getDueDateRoundPlusOne());
             } else if (BugWithBLOBs.Field.createdtime.equalTo(propertyId)) {
                 return new DateViewField(beanItem.getCreatedtime());
             } else if (SimpleBug.Field.assignuserFullName.equalTo(propertyId)) {
-                return new ProjectUserFormLinkField(beanItem.getAssignuser(),
-                        beanItem.getAssignUserAvatarId(), beanItem.getAssignuserFullName());
+                return new ProjectUserFormLinkField(beanItem.getAssignuser(), beanItem.getAssignUserAvatarId(),
+                        beanItem.getAssignuserFullName());
             } else if (SimpleBug.Field.loguserFullName.equalTo(propertyId)) {
-                return new ProjectUserFormLinkField(beanItem.getLogby(),
-                        beanItem.getLoguserAvatarId(), beanItem.getLoguserFullName());
+                return new ProjectUserFormLinkField(beanItem.getLogby(), beanItem.getLoguserAvatarId(), beanItem.getLoguserFullName());
             } else if (BugWithBLOBs.Field.id.equalTo(propertyId)) {
                 return new ProjectFormAttachmentDisplayField(
                         beanItem.getProjectid(), ProjectTypeConstants.BUG, beanItem.getId());
@@ -563,7 +564,8 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                 }
 
             } else if (SimpleBug.Field.milestoneName.equalTo(propertyId)) {
-                return new ProjectItemViewField(ProjectTypeConstants.MILESTONE, beanItem.getMilestoneid() + "", beanItem.getMilestoneName());
+                return new ProjectItemViewField(ProjectTypeConstants.MILESTONE, beanItem.getMilestoneid() + "",
+                        beanItem.getMilestoneName());
             } else if (BugWithBLOBs.Field.environment.equalTo(propertyId)) {
                 return new RichTextViewField(beanItem.getEnvironment());
             } else if (BugWithBLOBs.Field.description.equalTo(propertyId)) {
@@ -596,6 +598,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
     public HasPreviewFormHandlers<SimpleBug> getPreviewFormHandlers() {
         return this.previewForm;
     }
+
 
     private static class PeopleInfoComp extends MVerticalLayout {
         private static final long serialVersionUID = 1L;

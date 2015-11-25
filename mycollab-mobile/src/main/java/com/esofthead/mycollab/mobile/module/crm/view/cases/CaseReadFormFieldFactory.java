@@ -16,39 +16,36 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.cases;
 
-import com.esofthead.mycollab.mobile.ui.AbstractBeanFieldGroupViewFieldFactory;
-import com.esofthead.mycollab.mobile.ui.DefaultFormViewFieldFactory.FormEmailLinkViewField;
-import com.esofthead.mycollab.mobile.ui.DefaultFormViewFieldFactory.FormViewField;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
+import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.EmailViewField;
 import com.vaadin.ui.Field;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
-class CaseReadFormFieldFactory extends
-		AbstractBeanFieldGroupViewFieldFactory<SimpleCase> {
-	private static final long serialVersionUID = 1L;
+class CaseReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<SimpleCase> {
+    private static final long serialVersionUID = 1L;
 
-	public CaseReadFormFieldFactory(GenericBeanForm<SimpleCase> form) {
-		super(form);
-	}
+    public CaseReadFormFieldFactory(GenericBeanForm<SimpleCase> form) {
+        super(form);
+    }
 
-	@Override
-	protected Field<?> onCreateField(Object propertyId) {
-		final SimpleCase cases = attachForm.getBean();
-		if (propertyId.equals("accountid")) {
-			return new FormViewField(cases.getAccountName());
-		} else if (propertyId.equals("email")) {
-			return new FormEmailLinkViewField(cases.getEmail());
-		} else if (propertyId.equals("assignuser")) {
-			return new FormViewField(cases.getAssignUserFullName());
-		}
+    @Override
+    protected Field<?> onCreateField(Object propertyId) {
+        final SimpleCase cases = attachForm.getBean();
+        if (propertyId.equals("accountid")) {
+            return new DefaultViewField(cases.getAccountName());
+        } else if (propertyId.equals("email")) {
+            return new EmailViewField(cases.getEmail());
+        } else if (propertyId.equals("assignuser")) {
+            return new DefaultViewField(cases.getAssignUserFullName());
+        }
 
-		return null;
-	}
+        return null;
+    }
 
 }

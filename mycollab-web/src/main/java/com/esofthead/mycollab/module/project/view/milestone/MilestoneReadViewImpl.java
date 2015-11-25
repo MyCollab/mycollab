@@ -22,7 +22,6 @@ import com.esofthead.mycollab.core.arguments.*;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.Milestone;
@@ -43,7 +42,6 @@ import com.esofthead.mycollab.module.project.ui.format.MilestoneFieldFormatter;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.esofthead.mycollab.schedule.email.project.ProjectMilestoneRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
-import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.AsyncInvoker;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
@@ -53,8 +51,6 @@ import com.esofthead.mycollab.vaadin.ui.form.field.ContainerViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.DateViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
 import com.vaadin.data.Property;
 import com.vaadin.server.FontAwesome;
@@ -65,12 +61,10 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * @author MyCollab Ltd.
@@ -289,31 +283,18 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
                         List<ProjectGenericTask> genericTasks = genericTaskService.findPagableListByCriteria(new SearchRequest<>(searchCriteria, i + 1, 20));
                         if (CollectionUtils.isNotEmpty(genericTasks)) {
                             for (ProjectGenericTask genericTask : genericTasks) {
-                                Div issueDiv = new Div();
-                                String uid = UUID.randomUUID().toString();
-                                A taskLink = new A().setId("tag" + uid);
-                                taskLink.setHref(ProjectLinkBuilder.generateProjectItemLink(genericTask.getProjectShortName(),
-                                        genericTask.getProjectId(), genericTask.getType(), genericTask.getExtraTypeId() + ""));
-                                taskLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, genericTask.getType(), genericTask.getTypeId() + ""));
-                                taskLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
-                                taskLink.appendText(String.format("[#%d] - %s", genericTask.getExtraTypeId(), genericTask.getName()));
-                                issueDiv.appendChild(taskLink, TooltipHelper.buildDivTooltipEnable(uid));
-                                Label issueLbl = new ELabel(issueDiv.write(), ContentMode.HTML).withWidth("100%")
-                                        .withStyleName(UIConstants.LABEL_WORD_WRAP);
-                                if (genericTask.isClosed()) {
-                                    issueLbl.addStyleName("completed");
-                                } else if (genericTask.isOverdue()) {
-                                    issueLbl.addStyleName("overdue");
-                                }
+
                                 MHorizontalLayout rowComp = new MHorizontalLayout();
                                 rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
-                                rowComp.with(new ELabel(ProjectAssetsManager.getAsset(genericTask.getType()).getHtml(), ContentMode.HTML));
+                                rowComp.with(new ELabel(ProjectAssetsManager.getAsset(genericTask.getType()).getHtml
+                                        (), ContentMode.HTML).withWidthUndefined());
                                 String avatarLink = StorageFactory.getInstance().getAvatarPath(genericTask.getAssignUserAvatarId(), 16);
                                 Img img = new Img(genericTask.getAssignUserFullName(), avatarLink).setTitle(genericTask
                                         .getAssignUserFullName());
 
-                                MCssLayout issueWrapper = new MCssLayout(issueLbl);
-                                rowComp.with(new ELabel(img.write(), ContentMode.HTML), issueWrapper);
+                                ToogleGenericTaskSummaryField toogleGenericTaskSummaryField = new ToogleGenericTaskSummaryField(genericTask);
+                                rowComp.with(new ELabel(img.write(), ContentMode.HTML).withWidthUndefined(),
+                                        toogleGenericTaskSummaryField).expand(toogleGenericTaskSummaryField);
                                 assignmentsLayout.add(rowComp);
                             }
                             this.push();

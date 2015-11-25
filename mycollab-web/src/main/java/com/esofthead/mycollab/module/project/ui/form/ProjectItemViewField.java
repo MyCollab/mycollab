@@ -35,7 +35,7 @@ import java.util.UUID;
  * @author MyCollab Ltd.
  * @since 5.0.4
  */
-public class ProjectItemViewField extends CustomField {
+public class ProjectItemViewField extends CustomField<String> {
     private String type;
     private String typeId;
     private String typeDisplayName;
@@ -67,6 +67,6 @@ public class ProjectItemViewField extends CustomField {
 
     @Override
     public Class getType() {
-        return Object.class;
+        return String.class;
     }
 }

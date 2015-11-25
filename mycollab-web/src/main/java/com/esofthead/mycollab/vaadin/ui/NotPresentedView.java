@@ -53,7 +53,7 @@ public class NotPresentedView extends AbstractPageView {
         try {
             String result = restTemplate.getForObject("https://api.mycollab.com/api/storeweb", String.class);
             Label webPage = new Label(result, ContentMode.HTML);
-            webPage.setHeight("600px");
+            webPage.setHeight("480px");
             this.with(new MVerticalLayout(webPage).withMargin(false).withAlign(webPage, Alignment.TOP_CENTER));
         } catch (Exception e) {
             Div informDiv = new Div().appendText("Can not load the store page. You can check the online edition at ")

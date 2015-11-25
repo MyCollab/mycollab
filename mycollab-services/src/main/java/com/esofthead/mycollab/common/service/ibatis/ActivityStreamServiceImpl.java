@@ -34,15 +34,14 @@ import org.springframework.stereotype.Service;
  * 
  */
 @Service
-public class ActivityStreamServiceImpl extends
-		DefaultService<Integer, ActivityStreamWithBLOBs, ActivityStreamSearchCriteria>
+public class ActivityStreamServiceImpl extends DefaultService<Integer, ActivityStreamWithBLOBs, ActivityStreamSearchCriteria>
 		implements ActivityStreamService {
 
 	@Autowired
-	protected ActivityStreamMapper activityStreamMapper;
+	private ActivityStreamMapper activityStreamMapper;
 
 	@Autowired
-	protected ActivityStreamMapperExt activityStreamMapperExt;
+	private ActivityStreamMapperExt activityStreamMapperExt;
 
 	@Override
 	public ICrudGenericDAO<Integer, ActivityStreamWithBLOBs> getCrudMapper() {

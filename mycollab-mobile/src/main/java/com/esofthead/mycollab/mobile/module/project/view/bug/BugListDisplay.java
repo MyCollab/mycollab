@@ -33,7 +33,11 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.hp.gagawa.java.elements.A;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.VerticalLayout;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -51,10 +55,7 @@ public class BugListDisplay extends DefaultPagedBeanList<BugService, BugSearchCr
 
         @Override
         public Component generateRow(final SimpleBug bug, int rowIndex) {
-            HorizontalLayout bugRowLayout = new HorizontalLayout();
-            bugRowLayout.setWidth("100%");
-            bugRowLayout.setStyleName("list-item");
-            bugRowLayout.setSpacing(true);
+            MHorizontalLayout bugRowLayout = new MHorizontalLayout().withWidth("100%").withStyleName("list-item");
 
             Label bugIconLbl = new Label("<span aria-hidden=\"true\" data-icon=\"" + IconConstants.PROJECT_BUG + "\"></span>");
             bugIconLbl.setContentMode(ContentMode.HTML);
@@ -95,7 +96,7 @@ public class BugListDisplay extends DefaultPagedBeanList<BugService, BugSearchCr
             bugInfoLayout.addComponent(assigneeLbl);
 
             Label statusLbl = new Label(AppContext.getMessage(BugI18nEnum.FORM_STATUS) + ":&nbsp;<span class='bug-status'>"
-                            + AppContext.getMessage(BugStatus.class, bug.getStatus()) + "</span>");
+                    + AppContext.getMessage(BugStatus.class, bug.getStatus()) + "</span>");
             statusLbl.setContentMode(ContentMode.HTML);
             statusLbl.setStyleName("bug-meta-info");
             bugInfoLayout.addComponent(statusLbl);

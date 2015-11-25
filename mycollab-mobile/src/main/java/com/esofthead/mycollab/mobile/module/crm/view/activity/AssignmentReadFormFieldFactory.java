@@ -17,50 +17,44 @@
 package com.esofthead.mycollab.mobile.module.crm.view.activity;
 
 import com.esofthead.mycollab.mobile.module.crm.ui.RelatedReadItemField;
-import com.esofthead.mycollab.mobile.ui.AbstractBeanFieldGroupViewFieldFactory;
-import com.esofthead.mycollab.mobile.ui.DefaultFormViewFieldFactory.DateFieldWithUserTimeZone;
-import com.esofthead.mycollab.mobile.ui.DefaultFormViewFieldFactory.FormViewField;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.module.crm.domain.SimpleTask;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
+import com.esofthead.mycollab.vaadin.ui.form.field.DateTimeViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
 import com.vaadin.ui.Field;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
-class AssignmentReadFormFieldFactory extends
-		AbstractBeanFieldGroupViewFieldFactory<SimpleTask> {
-	private static final long serialVersionUID = 1L;
+class AssignmentReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<SimpleTask> {
+    private static final long serialVersionUID = 1L;
 
-	public AssignmentReadFormFieldFactory(GenericBeanForm<SimpleTask> form) {
-		super(form);
-	}
+    public AssignmentReadFormFieldFactory(GenericBeanForm<SimpleTask> form) {
+        super(form);
+    }
 
-	@Override
-	protected Field<?> onCreateField(Object propertyId) {
-		if (propertyId.equals("assignuser")) {
-			return new FormViewField(attachForm.getBean()
-					.getAssignUserFullName());
-		} else if (propertyId.equals("startdate")) {
-			if (attachForm.getBean().getStartdate() == null)
-				return null;
-			return new DateFieldWithUserTimeZone(attachForm.getBean()
-					.getStartdate(), "DATETIME_FIELD");
-		} else if (propertyId.equals("duedate")) {
-			if (attachForm.getBean().getDuedate() == null)
-				return null;
-			return new DateFieldWithUserTimeZone(attachForm.getBean()
-					.getDuedate(), "DATETIME_FIELD");
-		} else if (propertyId.equals("contactid")) {
-			return new FormViewField(attachForm.getBean().getContactName());
-		} else if (propertyId.equals("typeid")) {
-			return new RelatedReadItemField(attachForm.getBean());
+    @Override
+    protected Field<?> onCreateField(Object propertyId) {
+        if (propertyId.equals("assignuser")) {
+            return new DefaultViewField(attachForm.getBean().getAssignUserFullName());
+        } else if (propertyId.equals("startdate")) {
+            if (attachForm.getBean().getStartdate() == null)
+                return null;
+            return new DateTimeViewField(attachForm.getBean().getStartdate());
+        } else if (propertyId.equals("duedate")) {
+            if (attachForm.getBean().getDuedate() == null)
+                return null;
+            return new DateTimeViewField(attachForm.getBean().getDuedate());
+        } else if (propertyId.equals("contactid")) {
+            return new DefaultViewField(attachForm.getBean().getContactName());
+        } else if (propertyId.equals("typeid")) {
+            return new RelatedReadItemField(attachForm.getBean());
 
-		}
+        }
 
-		return null;
-	}
+        return null;
+    }
 
 }

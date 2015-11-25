@@ -7,24 +7,22 @@
     <parent>
         <groupId>com.esofthead.mycollab</groupId>
         <artifactId>mycollab-parent-community</artifactId>
-        <version>5.2.2</version>
+        <version>5.2.3</version>
         <relativePath>../mycollab-parent-community/pom.xml</relativePath>
     </parent>
     <packaging>jar</packaging>
     <properties>
-        <izpackVersion>5.0.5</izpackVersion>
-        <staging.dir>${project.build.directory}/staging</staging.dir>
-        <info.appName>MyCollab</info.appName>
-        <info.appsubpath>mycollab</info.appsubpath>
+        <installer.izpackVersion>5.0.5</installer.izpackVersion>
+        <installer.staging.dir>${project.build.directory}/staging</installer.staging.dir>
         <izpack.dir.app>${basedir}/src/main/izpack</izpack.dir.app>
-        <staging.dir.app>${staging.dir}</staging.dir.app>
+        <staging.dir.app>${installer.staging.dir}</staging.dir.app>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-server-runner</artifactId>
-            <version>5.2.2</version>
+            <version>5.2.3</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.esofthead.mycollab</groupId>
@@ -36,37 +34,37 @@
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-servlet</artifactId>
-            <version>5.2.2</version>
+            <version>5.2.3</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-services-community</artifactId>
-            <version>5.2.2</version>
+            <version>5.2.3</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-caching-community</artifactId>
-            <version>5.2.2</version>
+            <version>5.2.3</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-scheduler-community</artifactId>
-            <version>5.2.2</version>
+            <version>5.2.3</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-mobile</artifactId>
-            <version>5.2.2</version>
+            <version>5.2.3</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-web-community</artifactId>
-            <version>5.2.2</version>
+            <version>5.2.3</version>
         </dependency>
 
         <dependency>
@@ -124,226 +122,201 @@
                             <finalName>runner</finalName>
                             <archive>
                                 <manifest>
-                                    <addClasspath>true</addClasspath>
-                                    <classpathPrefix>lib/</classpathPrefix>
-                                    <useUniqueVersions>false</useUniqueVersions>
-                                    <mainClass>com.esofthead.mycollab.jetty.CommunityServerRunner</mainClass>
+                                    <mainClass>com.esofthead.mycollab.jetty.DefaultServerRunner</mainClass>
                                 </manifest>
                             </archive>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.10</version>
+                <configuration>
+                    <excludeTransitive>false</excludeTransitive>
+                    <useBaseVersion>true</useBaseVersion>
+                    <stripVersion>false</stripVersion>
+                    <overWriteReleases>true</overWriteReleases>
+                    <overWriteSnapshots>true</overWriteSnapshots>
+                    <overWriteIfNewer>true</overWriteIfNewer>
+                </configuration>
+                <executions>
+                    <execution>
+                        <!-- copy *application* jars to izpack staging lib -->
+                        <id>copy-product-dependencies</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${installer.staging.dir}/lib</outputDirectory>
+                            <excludeScope>provided</excludeScope>
+                            <!-- this excludes tools.jar, e.g. -->
+                            <excludeArtifactIds>mycustompanels</excludeArtifactIds>
+                            <!-- IMPORTANT: don't copy custom panels
+                                where our application jars live -->
+                            <excludeGroupIds>org.codehaus.izpack</excludeGroupIds>
+                            <!-- IMPORTANT: we don't want to copy
+                                the izpack dependency where our application jars live -->
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <!-- copy izpack custom (custom panels, etc.)
+                            jars to izpack staging custom -->
+                        <id>copy-izpack-dependencies</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${installer.staging.dir}/custom</outputDirectory>
+                            <includeArtifactIds>mycustompanels</includeArtifactIds>
+                            <!-- IMPORTANT: this causes *only* our
+                                custom panels to be copied -->
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.izpack</groupId>
+                <artifactId>izpack-maven-plugin</artifactId>
+                <version>${installer.izpackVersion}</version>
+                <executions>
+                    <execution>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>izpack</goal>
+                        </goals>
+                        <configuration>
+                            <!-- base for relative paths in izpack descriptor -->
+                            <baseDir>${installer.staging.dir}</baseDir>
+                            <mkdirs>true</mkdirs>
+                            <installFile>${installer.staging.dir}/install.xml</installFile>
+                            <finalName>MyCollab-Generic-${project.version}</finalName>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>com.akathist.maven.plugins.launch4j</groupId>
+                <artifactId>launch4j-maven-plugin</artifactId>
+                <version>1.7.8</version>
+                <executions>
+                    <execution>
+                        <id>l4j-clui</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>launch4j</goal>
+                        </goals>
+                        <configuration>
+                            <headerType>gui</headerType>
+                            <jar>${project.build.directory}/MyCollab-Generic-${project.version}.jar</jar>
+                            <outfile>${project.build.directory}/MyCollab-Installer-${project.version}.exe
+                            </outfile>
+                            <downloadUrl>http://java.com/download</downloadUrl>
+                            <icon>src/main/installer-resources/windows/MyCollab.ico</icon>
+                            <jre>
+                                <minVersion>1.7.0</minVersion>
+                                <jdkPreference>preferJre</jdkPreference>
+                            </jre>
+                            <versionInfo>
+                                <fileVersion>${project.version}.0</fileVersion>
+                                <txtFileVersion>${project.version}</txtFileVersion>
+                                <fileDescription>${project.name}</fileDescription>
+                                <copyright>©2015, MyCollab</copyright>
+                                <productVersion>${project.version}.0</productVersion>
+                                <txtProductVersion>${project.version}</txtProductVersion>
+                                <productName>MyCollab</productName>
+                                <companyName>MyCollab</companyName>
+                                <internalName>MyCollab</internalName>
+                                <originalFilename>MyCollab-${project.version}.exe</originalFilename>
+                            </versionInfo>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <id>prepare-installer</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <copy file="${project.build.directory}/runner.jar"
+                                      tofile="${installer.staging.dir}/runner.jar"/>
+                                <copy todir="${installer.staging.dir}">
+                                    <fileset dir="${izpack.dir.app}"/>
+                                </copy>
+                                <copy todir="${installer.staging.dir}/conf">
+                                    <fileset dir="${basedir}/src/main/conf">
+                                        <exclude name="mycollab.properties"/>
+                                    </fileset>
+                                </copy>
+                                <copy todir="${installer.staging.dir}/logs">
+                                    <fileset dir="${basedir}/src/main/logs"/>
+                                </copy>
+                                <copy todir="${installer.staging.dir}/bin">
+                                    <fileset dir="${basedir}/src/main/scripts"/>
+                                </copy>
+                                <copy todir="${installer.staging.dir}/txt">
+                                    <fileset dir="${basedir}/src/main/txt"/>
+                                </copy>
+                                <copy todir="${installer.staging.dir}/webapp">
+                                    <fileset dir="${basedir}/src/main/webapp"/>
+                                </copy>
+                                <copy todir="${installer.staging.dir}/lib">
+                                    <fileset dir="${basedir}/src/main/lib"/>
+                                </copy>
+                            </target>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>create-macos-bundle</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <taskdef name="jarbundler"
+                                         classname="net.sourceforge.jarbundler.JarBundler"
+                                         classpathref="maven.plugin.classpath"/>
+                                <jarbundler dir="target"
+                                            name="MyCollab-MacOS-${project.version}"
+                                            mainclass="com.izforge.izpack.installer.bootstrap.Installer"
+                                            jar="target/MyCollab-Generic-${project.version}.jar"
+                                            copyright="©2015, MyCollab"
+                                            bundleid="com.esofthead.mycollab"
+                                            jvmversion="1.7+"
+                                            icon="src/main/installer-resources/macos/mycollab.icns"
+                                            stubfile="src/main/installer-resources/macos/universalJavaApplicationStub"
+                                            version="${project.version}" build="${project.version} - GA"
+                                            useJavaXKey="true" showplist="true" verbose="true"/>
+                            </target>
+                        </configuration>
+                    </execution>
+
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.esofthead.mycollab</groupId>
+                        <artifactId>jarbundler</artifactId>
+                        <version>2.4.0</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
         </plugins>
     </build>
 
     <profiles>
-        <profile>
-            <id>dev</id>
-            <activation>
-                <property>
-                    <name>!environment</name>
-                </property>
-            </activation>
-            <build>
-            </build>
-        </profile>
-        <profile>
-            <id>production</id>
-            <activation>
-                <property>
-                    <name>environment</name>
-                    <value>production</value>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-dependency-plugin</artifactId>
-                        <version>2.10</version>
-                        <configuration>
-                            <excludeTransitive>false</excludeTransitive>
-                            <useBaseVersion>true</useBaseVersion>
-                            <stripVersion>false</stripVersion>
-                            <overWriteReleases>true</overWriteReleases>
-                            <overWriteSnapshots>true</overWriteSnapshots>
-                            <overWriteIfNewer>true</overWriteIfNewer>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <!-- copy *application* jars to izpack staging lib -->
-                                <id>copy-product-dependencies</id>
-                                <phase>prepare-package</phase>
-                                <goals>
-                                    <goal>copy-dependencies</goal>
-                                </goals>
-                                <configuration>
-                                    <outputDirectory>${staging.dir}/lib</outputDirectory>
-                                    <excludeScope>provided</excludeScope>
-                                    <!-- this excludes tools.jar, e.g. -->
-                                    <excludeArtifactIds>mycustompanels</excludeArtifactIds>
-                                    <!-- IMPORTANT: don't copy custom panels 
-                                        where our application jars live -->
-                                    <excludeGroupIds>org.codehaus.izpack</excludeGroupIds>
-                                    <!-- IMPORTANT: we don't want to copy 
-                                        the izpack dependency where our application jars live -->
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <!-- copy izpack custom (custom panels, etc.) 
-                                    jars to izpack staging custom -->
-                                <id>copy-izpack-dependencies</id>
-                                <phase>prepare-package</phase>
-                                <goals>
-                                    <goal>copy-dependencies</goal>
-                                </goals>
-                                <configuration>
-                                    <outputDirectory>${staging.dir}/custom</outputDirectory>
-                                    <includeArtifactIds>mycustompanels</includeArtifactIds>
-                                    <!-- IMPORTANT: this causes *only* our 
-                                        custom panels to be copied -->
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.codehaus.izpack</groupId>
-                        <artifactId>izpack-maven-plugin</artifactId>
-                        <version>5.0.5</version>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>izpack</goal>
-                                </goals>
-                                <configuration>
-                                    <!-- base for relative paths in izpack descriptor -->
-                                    <baseDir>${staging.dir}</baseDir>
-                                    <mkdirs>true</mkdirs>
-                                    <installFile>${staging.dir}/install.xml</installFile>
-                                    <finalName>MyCollab-Generic-${project.version}</finalName>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>com.akathist.maven.plugins.launch4j</groupId>
-                        <artifactId>launch4j-maven-plugin</artifactId>
-                        <version>1.7.8</version>
-                        <executions>
-                            <execution>
-                                <id>l4j-clui</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>launch4j</goal>
-                                </goals>
-                                <configuration>
-                                    <headerType>gui</headerType>
-                                    <jar>${project.build.directory}/MyCollab-Generic-${project.version}.jar</jar>
-                                    <outfile>${project.build.directory}/MyCollab-Installer-${project.version}.exe
-                                    </outfile>
-                                    <downloadUrl>http://java.com/download</downloadUrl>
-                                    <icon>src/main/windows-resources/MyCollab.ico</icon>
-                                    <jre>
-                                        <minVersion>1.7.0</minVersion>
-                                        <jdkPreference>preferJre</jdkPreference>
-                                    </jre>
-                                    <versionInfo>
-                                        <fileVersion>${project.version}.0</fileVersion>
-                                        <txtFileVersion>${project.version}</txtFileVersion>
-                                        <fileDescription>${project.name}</fileDescription>
-                                        <copyright>©2015, MyCollab</copyright>
-                                        <productVersion>${project.version}.0</productVersion>
-                                        <txtProductVersion>${project.version}</txtProductVersion>
-                                        <productName>MyCollab</productName>
-                                        <companyName>MyCollab</companyName>
-                                        <internalName>MyCollab</internalName>
-                                        <originalFilename>MyCollab-${project.version}.exe</originalFilename>
-                                    </versionInfo>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <version>1.8</version>
-                        <executions>
-                            <execution>
-                                <id>create-staging-area</id>
-                                <phase>process-resources</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <target>
-                                        <copy todir="${staging.dir}">
-                                            <fileset dir="${izpack.dir.app}"/>
-                                        </copy>
-                                        <copy todir="${staging.dir}/conf">
-                                            <fileset dir="${basedir}/src/main/conf">
-                                                <exclude name="mycollab.properties"/>
-                                            </fileset>
-                                        </copy>
-                                        <copy todir="${staging.dir}/logs">
-                                            <fileset dir="${basedir}/src/main/logs"/>
-                                        </copy>
-                                        <copy todir="${staging.dir}/scripts">
-                                            <fileset dir="${basedir}/src/main/scripts"/>
-                                        </copy>
-                                        <copy todir="${staging.dir}/txt">
-                                            <fileset dir="${basedir}/src/main/txt"/>
-                                        </copy>
-                                        <copy todir="${staging.dir}/webapp">
-                                            <fileset dir="${basedir}/src/main/webapp"/>
-                                        </copy>
-                                        <copy todir="${staging.dir}/lib">
-                                            <fileset dir="${basedir}/src/main/lib"/>
-                                        </copy>
-                                    </target>
-                                </configuration>
-                            </execution>
-
-                            <execution>
-                                <id>create-macos-bundle</id>
-                                <phase>install</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <target>
-                                        <taskdef name="jarbundler"
-                                                 classname="net.sourceforge.jarbundler.JarBundler"
-                                                 classpathref="maven.plugin.classpath"/>
-                                        <jarbundler dir="target"
-                                                    name="MyCollab-MacOS-${project.version}"
-                                                    mainclass="com.izforge.izpack.installer.bootstrap.Installer"
-                                                    jar="target/MyCollab-Generic-${project.version}.jar"
-                                                    copyright="©2015, MyCollab"
-                                                    bundleid="com.esofthead.mycollab"
-                                                    jvmversion="1.7+"
-                                                    icon="src/main/macos-resources/mycollab.icns"
-                                                    stubfile="src/main/macos-resources/universalJavaApplicationStub"
-                                                    version="${project.version}" build="${project.version} - GA"
-                                                    useJavaXKey="true" showplist="true" verbose="true"/>
-                                    </target>
-                                </configuration>
-                            </execution>
-
-                        </executions>
-                        <dependencies>
-                            <dependency>
-                                <groupId>com.esofthead.mycollab</groupId>
-                                <artifactId>jarbundler</artifactId>
-                                <version>2.4.0</version>
-                            </dependency>
-                        </dependencies>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
         <profile>
             <id>widgetset</id>
             <activation>

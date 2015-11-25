@@ -152,7 +152,7 @@ public class VerticalTabsheet extends CustomComponent {
                 button.setIcon(resource);
             }
             button.setStyleName(TAB_STYLENAME);
-            button.setWidth("100%");
+            button.setWidth("90%");
 
             if (button.getLevel() > 0) {
                 int insertIndex = 0;
@@ -165,8 +165,10 @@ public class VerticalTabsheet extends CustomComponent {
                     }
                 }
                 navigatorContainer.addComponent(button, insertIndex);
+                navigatorContainer.setComponentAlignment(button, Alignment.MIDDLE_CENTER);
             } else {
                 navigatorContainer.addComponent(button);
+                navigatorContainer.setComponentAlignment(button, Alignment.MIDDLE_CENTER);
             }
 
             TabImpl tabImpl = new TabImpl(id, caption, component);
@@ -177,8 +179,9 @@ public class VerticalTabsheet extends CustomComponent {
     public Button addButtonOnNavigatorContainer(String id, String caption, Resource icon) {
         final ButtonTabImpl button = new ButtonTabImpl(id, 0, caption, "");
         navigatorContainer.addComponent(button);
+        navigatorContainer.setComponentAlignment(button, Alignment.MIDDLE_CENTER);
         button.setStyleName(TAB_STYLENAME);
-        button.setWidth("100%");
+        button.setWidth("90%");
         button.setIcon(icon);
         return button;
     }

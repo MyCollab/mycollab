@@ -33,8 +33,7 @@ import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.PRESENTER_VAL;
 public final class PresenterResolver {
 
     public static <P extends IPresenter> P getPresenter(Class<P> presenterClass) {
-        Map<Class<?>, Object> presenterMap = (Map<Class<?>, Object>) MyCollabSession
-                .getVariable(PRESENTER_VAL);
+        Map<Class<?>, Object> presenterMap = (Map<Class<?>, Object>) MyCollabSession.getVariable(PRESENTER_VAL);
         if (presenterMap == null) {
             presenterMap = new WeakHashMap<>();
             MyCollabSession.putVariable(PRESENTER_VAL, presenterMap);

@@ -118,6 +118,9 @@ public class ThemeManager {
             extraStyles.append(".vertical-tabsheet .v-button-tab .v-button-wrap:hover {color: #" + accountTheme
                     .getVtabsheettextselected() + "!important;}");
 
+            extraStyles.append(".vertical-tabsheet .v-button-tab:hover .v-button-wrap {color: #" + accountTheme
+                    .getVtabsheettextselected() + "!important;}");
+
             //Volume text display bar in file manager
             extraStyles.append(".v-label.volumeUsageInfo div { color: #" + accountTheme
                     .getVtabsheettextselected() + ";}");

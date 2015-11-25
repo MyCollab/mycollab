@@ -16,40 +16,36 @@
  */
 package com.esofthead.mycollab.mobile.ui;
 
-import java.util.List;
-
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 
+import java.util.List;
+
 /**
- * 
- * @author MyCollab Ltd.
- * @since 4.0
- * 
  * @param <SearchService>
  * @param <S>
  * @param <B>
+ * @author MyCollab Ltd.
+ * @since 4.0
  */
-public class DefaultPagedBeanList<SearchService extends ISearchableService<S>, S extends SearchCriteria, B>
-		extends AbstractPagedBeanList<S, B> {
-	private static final long serialVersionUID = 1L;
+public class DefaultPagedBeanList<SearchService extends ISearchableService<S>, S extends SearchCriteria, B> extends AbstractPagedBeanList<S, B> {
+    private static final long serialVersionUID = 1L;
 
-	private final SearchService searchService;
+    private final SearchService searchService;
 
-	public DefaultPagedBeanList(final SearchService searchService,
-			RowDisplayHandler<B> rowDisplayHandler) {
-		super(rowDisplayHandler);
-		this.searchService = searchService;
-	}
+    public DefaultPagedBeanList(final SearchService searchService, RowDisplayHandler<B> rowDisplayHandler) {
+        super(rowDisplayHandler);
+        this.searchService = searchService;
+    }
 
-	@Override
-	protected int queryTotalCount() {
-		return searchService.getTotalCount(searchRequest.getSearchCriteria());
-	}
+    @Override
+    protected int queryTotalCount() {
+        return searchService.getTotalCount(searchRequest.getSearchCriteria());
+    }
 
-	@SuppressWarnings("unchecked")
-	@Override
-	protected List<B> queryCurrentData() {
-		return searchService.findPagableListByCriteria(searchRequest);
-	}
+    @SuppressWarnings("unchecked")
+    @Override
+    protected List<B> queryCurrentData() {
+        return searchService.findPagableListByCriteria(searchRequest);
+    }
 }

@@ -17,124 +17,112 @@
 package com.esofthead.mycollab.module.crm.view.lead;
 
 import com.esofthead.mycollab.module.crm.domain.Lead;
-import com.esofthead.mycollab.module.user.ui.components.ActiveUserComboBox;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.CompoundCustomField;
-import com.esofthead.mycollab.vaadin.ui.CountryComboBox;
-import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.module.crm.ui.components.IndustryComboBox;
-import com.esofthead.mycollab.vaadin.ui.PrefixNameComboBox;
+import com.esofthead.mycollab.module.user.ui.components.ActiveUserComboBox;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
 import com.vaadin.data.Property;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TextField;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
- * 
+ * @param <B>
  * @author MyCollab Ltd.
  * @since 2.0
- * 
- * @param <B>
  */
-class LeadEditFormFieldFactory<B extends Lead> extends
-		AbstractBeanFieldGroupEditFieldFactory<B> {
-	private static final long serialVersionUID = 1L;
+class LeadEditFormFieldFactory<B extends Lead> extends AbstractBeanFieldGroupEditFieldFactory<B> {
+    private static final long serialVersionUID = 1L;
 
-	private LeadFirstNamePrefixField firstNamePrefixField;
+    private LeadFirstNamePrefixField firstNamePrefixField;
 
-	LeadEditFormFieldFactory(GenericBeanForm<B> form) {
-		this(form, true);
-	}
+    LeadEditFormFieldFactory(GenericBeanForm<B> form) {
+        this(form, true);
+    }
 
-	LeadEditFormFieldFactory(GenericBeanForm<B> form, boolean isValidateForm) {
-		super(form, isValidateForm);
+    LeadEditFormFieldFactory(GenericBeanForm<B> form, boolean isValidateForm) {
+        super(form, isValidateForm);
 
-		firstNamePrefixField = new LeadFirstNamePrefixField();
-	}
+        firstNamePrefixField = new LeadFirstNamePrefixField();
+    }
 
-	@Override
-	protected Field<?> onCreateField(Object propertyId) {
-		if (propertyId.equals("firstname") || propertyId.equals("prefixname")) {
-			return firstNamePrefixField;
-		} else if (propertyId.equals("primcountry")
-				|| propertyId.equals("othercountry")) {
-			return new CountryComboBox();
-		} else if (propertyId.equals("status")) {
-			return new LeadStatusComboBox();
-		} else if (propertyId.equals("industry")) {
-			return new IndustryComboBox();
-		} else if (propertyId.equals("assignuser")) {
-			return new ActiveUserComboBox();
-		} else if (propertyId.equals("source")) {
-			return new LeadSourceComboBox();
-		} else if (propertyId.equals("lastname")) {
-			TextField tf = new TextField();
-			if (isValidateForm) {
-				tf.setNullRepresentation("");
-				tf.setRequired(true);
-				tf.setRequiredError("Last name must not be null");
-			}
+    @Override
+    protected Field<?> onCreateField(Object propertyId) {
+        if (propertyId.equals("firstname") || propertyId.equals("prefixname")) {
+            return firstNamePrefixField;
+        } else if (propertyId.equals("primcountry") || propertyId.equals("othercountry")) {
+            return new CountryComboBox();
+        } else if (propertyId.equals("status")) {
+            return new LeadStatusComboBox();
+        } else if (propertyId.equals("industry")) {
+            return new IndustryComboBox();
+        } else if (propertyId.equals("assignuser")) {
+            return new ActiveUserComboBox();
+        } else if (propertyId.equals("source")) {
+            return new LeadSourceComboBox();
+        } else if (propertyId.equals("lastname")) {
+            TextField tf = new TextField();
+            if (isValidateForm) {
+                tf.setNullRepresentation("");
+                tf.setRequired(true);
+                tf.setRequiredError("Last name must not be null");
+            }
 
-			return tf;
-		} else if (propertyId.equals("description")) {
-			return new RichTextEditField();
-		} else if (propertyId.equals("accountname")) {
-			TextField txtField = new TextField();
-			if (isValidateForm) {
-				txtField.setRequired(true);
-				txtField.setRequiredError("Account name must be not null");
-			}
+            return tf;
+        } else if (propertyId.equals("description")) {
+            return new RichTextEditField();
+        } else if (propertyId.equals("accountname")) {
+            TextField txtField = new TextField();
+            if (isValidateForm) {
+                txtField.setRequired(true);
+                txtField.setRequiredError("Account name must be not null");
+            }
 
-			return txtField;
-		}
+            return txtField;
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	class LeadFirstNamePrefixField extends CompoundCustomField<Lead> {
-		private static final long serialVersionUID = 1L;
+    class LeadFirstNamePrefixField extends CompoundCustomField<Lead> {
+        private static final long serialVersionUID = 1L;
 
-		@Override
-		protected Component initContent() {
-			HorizontalLayout layout = new HorizontalLayout();
-			layout.setWidth("100%");
-			layout.setSpacing(true);
+        @Override
+        protected Component initContent() {
+            MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%");
 
-			final PrefixNameComboBox prefixSelect = new PrefixNameComboBox();
-			prefixSelect.setValue(attachForm.getBean().getPrefixname());
-			layout.addComponent(prefixSelect);
+            final PrefixNameComboBox prefixSelect = new PrefixNameComboBox();
+            prefixSelect.setValue(attachForm.getBean().getPrefixname());
+            layout.addComponent(prefixSelect);
 
-			prefixSelect
-					.addValueChangeListener(new Property.ValueChangeListener() {
-						private static final long serialVersionUID = 1L;
+            prefixSelect.addValueChangeListener(new Property.ValueChangeListener() {
+                private static final long serialVersionUID = 1L;
 
-						@Override
-						public void valueChange(Property.ValueChangeEvent event) {
-							attachForm.getBean().setPrefixname(
-									(String) prefixSelect.getValue());
+                @Override
+                public void valueChange(Property.ValueChangeEvent event) {
+                    attachForm.getBean().setPrefixname((String) prefixSelect.getValue());
+                }
+            });
 
-						}
-					});
+            TextField firstnameTxtField = new TextField();
+            firstnameTxtField.setWidth("100%");
+            firstnameTxtField.setNullRepresentation("");
+            layout.addComponent(firstnameTxtField);
+            layout.setExpandRatio(firstnameTxtField, 1.0f);
 
-			TextField firstnameTxtField = new TextField();
-			firstnameTxtField.setWidth("100%");
-			firstnameTxtField.setNullRepresentation("");
-			layout.addComponent(firstnameTxtField);
-			layout.setExpandRatio(firstnameTxtField, 1.0f);
+            // binding field group
+            fieldGroup.bind(prefixSelect, "prefixname");
+            fieldGroup.bind(firstnameTxtField, "firstname");
 
-			// binding field group
-			fieldGroup.bind(prefixSelect, "prefixname");
-			fieldGroup.bind(firstnameTxtField, "firstname");
+            return layout;
+        }
 
-			return layout;
-		}
+        @Override
+        public Class<? extends Lead> getType() {
+            return Lead.class;
+        }
 
-		@Override
-		public Class<? extends Lead> getType() {
-			return Lead.class;
-		}
-
-	}
+    }
 }

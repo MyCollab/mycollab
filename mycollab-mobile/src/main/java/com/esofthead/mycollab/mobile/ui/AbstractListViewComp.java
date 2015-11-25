@@ -23,38 +23,37 @@ import com.vaadin.ui.Component;
  * @author MyCollab Ltd.
  * @since 3.0
  */
-public abstract class AbstractListViewComp<S extends SearchCriteria, B> extends
-		AbstractMobilePageView implements IListView<S, B> {
-	private static final long serialVersionUID = 3603608419228750094L;
+public abstract class AbstractListViewComp<S extends SearchCriteria, B> extends AbstractMobilePageView implements IListView<S, B> {
+    private static final long serialVersionUID = 3603608419228750094L;
 
-	protected AbstractPagedBeanList<S, B> itemList;
+    protected AbstractPagedBeanList<S, B> itemList;
 
-	public AbstractListViewComp() {
+    public AbstractListViewComp() {
 
-		this.itemList = createBeanTable();
+        this.itemList = createBeanTable();
 
-		setContent(itemList);
+        setContent(itemList);
 
-		Component rightComponent = createRightComponent();
-		if (rightComponent != null) {
-			setRightComponent(rightComponent);
-		}
-	}
+        Component rightComponent = createRightComponent();
+        if (rightComponent != null) {
+            setRightComponent(rightComponent);
+        }
+    }
 
-	@Override
-	public AbstractPagedBeanList<S, B> getPagedBeanTable() {
-		return this.itemList;
-	}
+    @Override
+    public AbstractPagedBeanList<S, B> getPagedBeanTable() {
+        return this.itemList;
+    }
 
-	@Override
-	public void onBecomingVisible() {
-		super.onBecomingVisible();
+    @Override
+    public void onBecomingVisible() {
+        super.onBecomingVisible();
 
-		if (getPagedBeanTable().getSearchRequest() != null)
-			getPagedBeanTable().refresh();
-	}
+        if (getPagedBeanTable().getSearchRequest() != null)
+            getPagedBeanTable().refresh();
+    }
 
-	abstract protected AbstractPagedBeanList<S, B> createBeanTable();
+    abstract protected AbstractPagedBeanList<S, B> createBeanTable();
 
-	abstract protected Component createRightComponent();
+    abstract protected Component createRightComponent();
 }

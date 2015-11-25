@@ -104,7 +104,7 @@ class MilestoneAddWindow extends Window {
             }
         });
         cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-        buttonControls.with(updateAllBtn, cancelBtn, saveBtn);
+        buttonControls.with(updateAllBtn, saveBtn, cancelBtn);
         content.addComponent(buttonControls);
         content.setComponentAlignment(buttonControls, Alignment.MIDDLE_RIGHT);
     }

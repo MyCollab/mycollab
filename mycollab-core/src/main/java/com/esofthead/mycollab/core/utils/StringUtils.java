@@ -86,7 +86,7 @@ public final class StringUtils {
             return "";
         }
 
-        value = Jsoup.clean(value, Whitelist.relaxed().addTags("img")
+        value = Jsoup.clean(value,relaxed().addTags("img")
                 .addAttributes("img", "align", "alt", "height", "src", "title", "width", "style")
                 .addProtocols("img", "src", "http", "https"));
         Document doc = Jsoup.parse(value);
@@ -94,6 +94,10 @@ public final class StringUtils {
         replaceHtml(body);
         String html = body.html();
         return html.replace("\n", "");
+    }
+
+    private static Whitelist relaxed() {
+        return (new Whitelist()).addTags(new String[]{"a", "b", "blockquote", "br", "caption", "cite", "code", "col", "colgroup", "dd", "div", "dl", "dt", "em", "h1", "h2", "h3", "h4", "h5", "h6", "i", "img", "li", "ol", "pre", "q", "small", "span", "strike", "strong", "sub", "sup", "table", "tbody", "td", "tfoot", "th", "thead", "tr", "u", "ul"}).addAttributes("a", new String[]{"href", "title"}).addAttributes("blockquote", new String[]{"cite"}).addAttributes("col", new String[]{"span", "width"}).addAttributes("colgroup", new String[]{"span", "width"}).addAttributes("img", new String[]{"align", "alt", "height", "src", "title", "width"}).addAttributes("ol", new String[]{"start", "type"}).addAttributes("q", new String[]{"cite"}).addAttributes("table", new String[]{"summary", "width"}).addAttributes("td", new String[]{"abbr", "axis", "colspan", "rowspan", "width"}).addAttributes("th", new String[]{"abbr", "axis", "colspan", "rowspan", "scope", "width"}).addAttributes("ul", new String[]{"type"}).addProtocols("a", "href", new String[]{"ftp", "http", "https", "mailto"}).addProtocols("blockquote", "cite", new String[]{"http", "https"}).addProtocols("cite", "cite", new String[]{"http", "https"}).addProtocols("img", "src", new String[]{"http", "https"}).addProtocols("q", "cite", new String[]{"http", "https"});
     }
 
     private static void replaceHtml(Node element) {

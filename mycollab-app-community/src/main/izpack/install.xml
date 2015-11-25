@@ -67,14 +67,14 @@
     <packs>
         <pack name="Base" required="yes">
             <description>The MyCollab core files</description>
-            <file src="../runner.jar" targetdir="$INSTALL_PATH"/>
+            <file src="runner.jar" targetdir="$INSTALL_PATH"/>
             <file src="executor.jar" targetdir="$INSTALL_PATH"/>
             <fileset dir="conf" targetdir="$INSTALL_PATH/conf"/>
             <fileset dir="lib" includes="*" targetdir="$INSTALL_PATH/lib"/>
             <fileset dir="logs" targetdir="$INSTALL_PATH/logs"/>
-            <file src="scripts/mycollab.ini" targetdir="$INSTALL_PATH/bin"/>
-            <fileset dir="scripts" includes="*.sh" targetdir="$INSTALL_PATH/bin" condition="NotWindowsPlatform"/>
-            <fileset dir="scripts" includes="*.bat" targetdir="$INSTALL_PATH/bin" condition="izpack.windowsinstall"/>
+            <file src="bin/mycollab.ini" targetdir="$INSTALL_PATH/bin"/>
+            <fileset dir="bin" includes="*.sh" targetdir="$INSTALL_PATH/bin" condition="NotWindowsPlatform"/>
+            <fileset dir="bin" includes="*.bat" targetdir="$INSTALL_PATH/bin" condition="izpack.windowsinstall"/>
             <fileset dir="txt" includes="*" targetdir="$INSTALL_PATH"/>
             <fileset dir="webapp" includes="**" targetdir="$INSTALL_PATH/webapp"/>
             <executable targetfile="$INSTALL_PATH/bin/mycollab.sh" stage="never" keep="true" condition="NotWindowsPlatform"/>

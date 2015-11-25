@@ -34,92 +34,76 @@ import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.0
- * 
  */
-public class ContactAddPresenter extends
-		AbstractMobilePresenter<ContactAddView> {
-	private static final long serialVersionUID = -2859144864540984138L;
+public class ContactAddPresenter extends AbstractMobilePresenter<ContactAddView> {
+    private static final long serialVersionUID = -2859144864540984138L;
 
-	public ContactAddPresenter() {
-		super(ContactAddView.class);
-	}
+    public ContactAddPresenter() {
+        super(ContactAddView.class);
+    }
 
-	@Override
-	protected void postInitView() {
-		view.getEditFormHandlers().addFormHandler(
-				new EditFormHandler<SimpleContact>() {
-					private static final long serialVersionUID = 1L;
+    @Override
+    protected void postInitView() {
+        view.getEditFormHandlers().addFormHandler(new EditFormHandler<SimpleContact>() {
+            private static final long serialVersionUID = 1L;
 
-					@Override
-					public void onSave(final SimpleContact contact) {
-						saveContact(contact);
-						EventBusFactory.getInstance().post(
-								new ShellEvent.NavigateBack(this, null));
-					}
+            @Override
+            public void onSave(final SimpleContact contact) {
+                saveContact(contact);
+                EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
+            }
 
-					@Override
-					public void onCancel() {
-					}
+            @Override
+            public void onCancel() {
+            }
 
-					@Override
-					public void onSaveAndNew(final SimpleContact contact) {
-						saveContact(contact);
-						EventBusFactory.getInstance().post(
-								new ContactEvent.GotoAdd(this, null));
-					}
-				});
-	}
+            @Override
+            public void onSaveAndNew(final SimpleContact contact) {
+                saveContact(contact);
+                EventBusFactory.getInstance().post(new ContactEvent.GotoAdd(this, null));
+            }
+        });
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		if (AppContext.canWrite(RolePermissionCollections.CRM_CONTACT)) {
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        if (AppContext.canWrite(RolePermissionCollections.CRM_CONTACT)) {
+            SimpleContact contact = null;
+            if (data.getParams() instanceof SimpleContact) {
+                contact = (SimpleContact) data.getParams();
+            } else if (data.getParams() instanceof Integer) {
+                ContactService contactService = ApplicationContextUtil.getSpringBean(ContactService.class);
+                contact = contactService.findById((Integer) data.getParams(), AppContext.getAccountId());
+            }
+            if (contact == null) {
+                NotificationUtil.showRecordNotExistNotification();
+                return;
+            }
+            super.onGo(container, data);
+            view.editItem(contact);
 
-			SimpleContact contact = null;
-			if (data.getParams() instanceof SimpleContact) {
-				contact = (SimpleContact) data.getParams();
-			} else if (data.getParams() instanceof Integer) {
-				ContactService contactService = ApplicationContextUtil
-						.getSpringBean(ContactService.class);
-				contact = contactService.findById((Integer) data.getParams(),
-						AppContext.getAccountId());
-			}
-			if (contact == null) {
-				NotificationUtil.showRecordNotExistNotification();
-				return;
-			}
-			super.onGo(container, data);
-			view.editItem(contact);
+            if (contact.getId() == null) {
+                AppContext.addFragment("crm/contact/add", AppContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE, "Contact"));
+            } else {
+                AppContext.addFragment("crm/contact/edit/" + UrlEncodeDecoder.encode(contact.getId()),
+                        AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, "Contact", contact.getLastname()));
+            }
+        } else {
+            NotificationUtil.showMessagePermissionAlert();
+        }
+    }
 
-			if (contact.getId() == null) {
-				AppContext.addFragment("crm/contact/add", AppContext
-						.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
-								"Contact"));
-			} else {
-				AppContext.addFragment(
-						"crm/contact/edit/"
-								+ UrlEncodeDecoder.encode(contact.getId()),
-						AppContext.getMessage(
-								GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
-								"Contact", contact.getLastname()));
-			}
-		} else {
-			NotificationUtil.showMessagePermissionAlert();
-		}
-	}
+    private void saveContact(Contact contact) {
+        ContactService contactService = ApplicationContextUtil.getSpringBean(ContactService.class);
 
-	private void saveContact(Contact contact) {
-		ContactService contactService = ApplicationContextUtil
-				.getSpringBean(ContactService.class);
-
-		contact.setSaccountid(AppContext.getAccountId());
-		if (contact.getId() == null) {
-			contactService.saveWithSession(contact, AppContext.getUsername());
-		} else {
-			contactService.updateWithSession(contact, AppContext.getUsername());
-		}
-	}
+        contact.setSaccountid(AppContext.getAccountId());
+        if (contact.getId() == null) {
+            contactService.saveWithSession(contact, AppContext.getUsername());
+        } else {
+            contactService.updateWithSession(contact, AppContext.getUsername());
+        }
+    }
 
 }

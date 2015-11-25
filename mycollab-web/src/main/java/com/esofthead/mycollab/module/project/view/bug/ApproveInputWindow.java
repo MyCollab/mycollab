@@ -30,12 +30,10 @@ import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
-import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
 import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
-import com.vaadin.ui.ComponentContainer;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
@@ -71,7 +69,7 @@ public class ApproveInputWindow extends Window {
 
     private class EditForm extends AdvancedEditBeanForm<BugWithBLOBs> {
         private static final long serialVersionUID = 1L;
-        private RichTextEditField commentArea;
+        private RichTextArea commentArea;
 
         @Override
         public void setBean(BugWithBLOBs newDataSource) {
@@ -139,7 +137,7 @@ public class ApproveInputWindow extends Window {
                     }
                 });
                 cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-                controlsBtn.with(cancelBtn, approveBtn);
+                controlsBtn.with(approveBtn, cancelBtn);
 
                 layout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
                 return layout;
@@ -167,7 +165,7 @@ public class ApproveInputWindow extends Window {
                 if (propertyId.equals("assignuser")) {
                     return new ProjectMemberSelectionField();
                 } else if (propertyId.equals("comment")) {
-                    commentArea = new RichTextEditField();
+                    commentArea = new RichTextArea();
                     return commentArea;
                 }
 

@@ -19,45 +19,36 @@ package com.esofthead.mycollab.module.project.view.task.components;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
-import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.view.task.TaskPopupFieldFactory;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
-import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.OptionPopupContent;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Div;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
-import java.util.UUID;
-
 /**
  * @author MyCollab Ltd
  * @since 5.1.1
  */
 class TaskRowRenderer extends MVerticalLayout {
-    private Label taskLinkLbl;
     private SimpleTask task;
 
     private PopupButton taskSettingPopupBtn;
+    private ToogleTaskSummaryField toogleTaskField;
 
     TaskRowRenderer(final SimpleTask task) {
         this.task = task;
@@ -69,26 +60,14 @@ class TaskRowRenderer extends MVerticalLayout {
         OptionPopupContent filterBtnLayout = createPopupContent();
         taskSettingPopupBtn.setContent(filterBtnLayout);
 
-        taskLinkLbl = new Label(buildTaskLink(), ContentMode.HTML);
-
-        if (task.isCompleted()) {
-            taskLinkLbl.addStyleName("completed");
-            taskLinkLbl.removeStyleName("overdue pending");
-        } else if (task.isOverdue()) {
-            taskLinkLbl.addStyleName("overdue");
-            taskLinkLbl.removeStyleName("completed pending");
-        } else if (task.isPending()) {
-            taskLinkLbl.addStyleName("pending");
-            taskLinkLbl.removeStyleName("completed overdue");
-        }
-        taskLinkLbl.addStyleName(UIConstants.LABEL_WORD_WRAP);
+        toogleTaskField = new ToogleTaskSummaryField(task);
         MHorizontalLayout headerLayout = new MHorizontalLayout().withWidth("100%").withMargin(new MarginInfo(false,
                 true, false, false));
 
         TaskPopupFieldFactory popupFieldFactory = ViewManager.getCacheComponent(TaskPopupFieldFactory.class);
         PopupView priorityField = popupFieldFactory.createPriorityPopupField(task);
         PopupView assigneeField = popupFieldFactory.createAssigneePopupField(task);
-        headerLayout.with(taskSettingPopupBtn, priorityField, assigneeField, taskLinkLbl).expand(taskLinkLbl);
+        headerLayout.with(taskSettingPopupBtn, priorityField, assigneeField, toogleTaskField).expand(toogleTaskField);
 
         CssLayout footer = new CssLayout();
 
@@ -125,36 +104,21 @@ class TaskRowRenderer extends MVerticalLayout {
         this.with(headerLayout, footer);
     }
 
-    private String buildTaskLink() {
-        String uid = UUID.randomUUID().toString();
-
-        String linkName = String.format("[#%d] - %s", task.getTaskkey(), task.getTaskname());
-        A taskLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateTaskPreviewFullLink(task.getTaskkey(),
-                CurrentProjectVariables.getShortName())).appendText(linkName).setStyle("display:inline");
-
-        taskLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, ProjectTypeConstants.TASK, task.getId() + ""));
-        taskLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
-
-        Div resultDiv = new DivLessFormatter().appendChild(taskLink, DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));
-        return resultDiv.write();
-    }
 
     private void closeTask() {
-        taskLinkLbl.removeStyleName("overdue pending");
-        taskLinkLbl.addStyleName("completed");
+        toogleTaskField.closeTask();
         OptionPopupContent filterBtnLayout = createPopupContent();
         taskSettingPopupBtn.setContent(filterBtnLayout);
     }
 
     private void reOpenTask() {
-        taskLinkLbl.removeStyleName("overdue pending completed");
+        toogleTaskField.reOpenTask();
         OptionPopupContent filterBtnLayout = createPopupContent();
         taskSettingPopupBtn.setContent(filterBtnLayout);
     }
 
     private void pendingTask() {
-        taskLinkLbl.removeStyleName("overdue completed");
-        taskLinkLbl.addStyleName("pending");
+        toogleTaskField.pendingTask();
         OptionPopupContent filterBtnLayout = createPopupContent();
         taskSettingPopupBtn.setContent(filterBtnLayout);
     }

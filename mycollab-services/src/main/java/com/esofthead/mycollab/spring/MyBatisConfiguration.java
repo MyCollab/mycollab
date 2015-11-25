@@ -20,6 +20,7 @@ import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.persistence.VelocityDriverDeclare;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.scripting.velocity.VelocityFacade;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,8 @@ import java.util.ArrayList;
 public class MyBatisConfiguration {
     @Autowired
     DataSourceConfiguration dbConfig;
+
+    VelocityFacade a;
 
     @Bean
     public SqlSessionFactory sqlSessionFactory() throws Exception {

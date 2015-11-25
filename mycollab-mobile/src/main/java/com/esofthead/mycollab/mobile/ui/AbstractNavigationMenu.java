@@ -16,77 +16,74 @@
  */
 package com.esofthead.mycollab.mobile.ui;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
 import com.esofthead.vaadin.mobilecomponent.NavigationMenuButton;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.0
- * 
  */
 public abstract class AbstractNavigationMenu extends CssLayout {
-	private static final long serialVersionUID = -8517225259459579426L;
+    private static final long serialVersionUID = -8517225259459579426L;
 
-	protected final Button.ClickListener defaultBtnClickListener;
+    protected final Button.ClickListener defaultBtnClickListener;
 
-	protected final Map<String, MenuButton> buttonMap = new HashMap<String, MenuButton>();
+    protected final Map<String, MenuButton> buttonMap = new HashMap<String, MenuButton>();
 
-	public AbstractNavigationMenu() {
-		super();
+    public AbstractNavigationMenu() {
+        super();
 
-		setWidth("250px");
-		setStyleName("navigation-menu");
+        setWidth("250px");
+        setStyleName("navigation-menu");
 
-		defaultBtnClickListener = createDefaultButtonClickListener();
-	}
+        defaultBtnClickListener = createDefaultButtonClickListener();
+    }
 
-	public static class MenuButton extends Button {
-		private static final long serialVersionUID = -2516191547029466932L;
+    public static class MenuButton extends Button {
+        private static final long serialVersionUID = -2516191547029466932L;
 
-		private final String btnId;
+        private final String btnId;
 
-		public MenuButton(String caption, String iconCode) {
-			super(
-					"<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\""
-							+ iconCode + "\"></span>" + caption);
-			setStyleName("nav-btn");
-			setHtmlContentAllowed(true);
-			setWidth("100%");
-			btnId = caption;
-			NavigationMenuButton.extend(this);
-		}
+        public MenuButton(String caption, String iconCode) {
+            super(
+                    "<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\""
+                            + iconCode + "\"></span>" + caption);
+            setStyleName("nav-btn");
+            setHtmlContentAllowed(true);
+            setWidth("100%");
+            btnId = caption;
+            NavigationMenuButton.extend(this);
+        }
 
-		public String getBtnId() {
-			return btnId;
-		}
-	}
+        public String getBtnId() {
+            return btnId;
+        }
+    }
 
-	public void addMenu(MenuButton newMenu) {
-		newMenu.addClickListener(defaultBtnClickListener);
-		addComponent(newMenu);
-		buttonMap.put(newMenu.getBtnId(), newMenu);
-	}
+    public void addMenu(MenuButton newMenu) {
+        newMenu.addClickListener(defaultBtnClickListener);
+        addComponent(newMenu);
+        buttonMap.put(newMenu.getBtnId(), newMenu);
+    }
 
-	public void selectButton(String caption) {
-		for (final Iterator<MenuButton> it = this.buttonIterator(); it
-				.hasNext();) {
-			final MenuButton btn = it.next();
-			btn.removeStyleName("isSelected");
-			if (btn.getBtnId().equals(caption)) {
-				btn.addStyleName("isSelected");
-			}
-		}
-	}
+    public void selectButton(String caption) {
+        for (final Iterator<MenuButton> it = this.buttonIterator(); it.hasNext(); ) {
+            final MenuButton btn = it.next();
+            btn.removeStyleName("isSelected");
+            if (btn.getBtnId().equals(caption)) {
+                btn.addStyleName("isSelected");
+            }
+        }
+    }
 
-	protected Iterator<MenuButton> buttonIterator() {
-		return buttonMap.values().iterator();
-	}
+    protected Iterator<MenuButton> buttonIterator() {
+        return buttonMap.values().iterator();
+    }
 
-	protected abstract Button.ClickListener createDefaultButtonClickListener();
+    protected abstract Button.ClickListener createDefaultButtonClickListener();
 }

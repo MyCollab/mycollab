@@ -146,7 +146,7 @@ public class WontFixExplainWindow extends Window {
                     }
                 });
                 cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-                controlsBtn.with(cancelBtn, wonFixBtn);
+                controlsBtn.with(wonFixBtn, cancelBtn);
 
                 layout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
 

@@ -17,73 +17,64 @@
 package com.esofthead.mycollab.mobile.module.crm.view.activity;
 
 import com.esofthead.mycollab.mobile.module.crm.ui.RelatedReadItemField;
-import com.esofthead.mycollab.mobile.ui.AbstractBeanFieldGroupViewFieldFactory;
-import com.esofthead.mycollab.mobile.ui.DefaultFormViewFieldFactory.DateFieldWithUserTimeZone;
-import com.esofthead.mycollab.mobile.ui.DefaultFormViewFieldFactory.FormViewField;
 import com.esofthead.mycollab.module.crm.domain.SimpleCall;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
+import com.esofthead.mycollab.vaadin.ui.form.field.DateTimeViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
 import com.vaadin.ui.Field;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
-class CallReadFormFieldFactory extends
-		AbstractBeanFieldGroupViewFieldFactory<SimpleCall> {
-	private static final long serialVersionUID = 1L;
+class CallReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<SimpleCall> {
+    private static final long serialVersionUID = 1L;
 
-	public CallReadFormFieldFactory(GenericBeanForm<SimpleCall> form) {
-		super(form);
-	}
+    public CallReadFormFieldFactory(GenericBeanForm<SimpleCall> form) {
+        super(form);
+    }
 
-	@Override
-	protected Field<?> onCreateField(Object propertyId) {
-		if (propertyId.equals("assignuser")) {
-			return new FormViewField(attachForm.getBean()
-					.getAssignUserFullName());
-		} else if (propertyId.equals("typeid")) {
-			return new RelatedReadItemField(attachForm.getBean());
-		} else if (propertyId.equals("status")) {
-			String value = "";
-			value += attachForm.getBean().getStatus() != null ? attachForm
-					.getBean().getStatus() + " " : "";
-			value += attachForm.getBean().getCalltype() != null ? attachForm
-					.getBean().getCalltype() : "";
-			final FormViewField field = new FormViewField(value);
-			return field;
-		} else if (propertyId.equals("durationinseconds")) {
-			final Integer duration = attachForm.getBean()
-					.getDurationinseconds();
-			if (duration != null && duration != 0) {
-				final int hours = duration / 3600;
-				final int minutes = (duration % 3600) / 60;
-				final StringBuffer value = new StringBuffer();
-				if (hours == 1) {
-					value.append("1 hour ");
-				} else if (hours >= 2) {
-					value.append(hours + " hours ");
-				}
+    @Override
+    protected Field<?> onCreateField(Object propertyId) {
+        if (propertyId.equals("assignuser")) {
+            return new DefaultViewField(attachForm.getBean().getAssignUserFullName());
+        } else if (propertyId.equals("typeid")) {
+            return new RelatedReadItemField(attachForm.getBean());
+        } else if (propertyId.equals("status")) {
+            String value = "";
+            value += attachForm.getBean().getStatus() != null ? attachForm.getBean().getStatus() + " " : "";
+            value += attachForm.getBean().getCalltype() != null ? attachForm.getBean().getCalltype() : "";
+            return new DefaultViewField(value);
+        } else if (propertyId.equals("durationinseconds")) {
+            final Integer duration = attachForm.getBean().getDurationinseconds();
+            if (duration != null && duration != 0) {
+                final int hours = duration / 3600;
+                final int minutes = (duration % 3600) / 60;
+                final StringBuffer value = new StringBuffer();
+                if (hours == 1) {
+                    value.append("1 hour ");
+                } else if (hours >= 2) {
+                    value.append(hours + " hours ");
+                }
 
-				if (minutes > 0) {
-					value.append(minutes + " minutes");
-				}
+                if (minutes > 0) {
+                    value.append(minutes + " minutes");
+                }
 
-				return new FormViewField(value.toString());
-			} else {
-				return new FormViewField("");
-			}
-		} else if (propertyId.equals("startdate")) {
-			if (attachForm.getBean().getStartdate() == null) {
-				return new FormViewField("");
-			} else {
-				return new DateFieldWithUserTimeZone(attachForm.getBean()
-						.getStartdate(), "DATETIME_FIELD");
-			}
-		}
+                return new DefaultViewField(value.toString());
+            } else {
+                return new DefaultViewField("");
+            }
+        } else if (propertyId.equals("startdate")) {
+            if (attachForm.getBean().getStartdate() == null) {
+                return new DefaultViewField("");
+            } else {
+                return new DateTimeViewField(attachForm.getBean().getStartdate());
+            }
+        }
 
-		return null;
-	}
+        return null;
+    }
 
 }

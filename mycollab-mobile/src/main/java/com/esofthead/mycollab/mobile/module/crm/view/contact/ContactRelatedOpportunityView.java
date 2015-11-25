@@ -33,95 +33,82 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.0
- * 
  */
-public class ContactRelatedOpportunityView extends
-		AbstractRelatedListView<SimpleOpportunity, OpportunitySearchCriteria> {
-	private static final long serialVersionUID = -2085487353401924075L;
-	private Contact contact;
+public class ContactRelatedOpportunityView extends AbstractRelatedListView<SimpleOpportunity, OpportunitySearchCriteria> {
+    private static final long serialVersionUID = -2085487353401924075L;
+    private Contact contact;
 
-	public ContactRelatedOpportunityView() {
-		initUI();
-	}
+    public ContactRelatedOpportunityView() {
+        initUI();
+    }
 
-	private void initUI() {
-		this.setCaption(AppContext
-				.getMessage(OpportunityI18nEnum.M_TITLE_RELATED_OPPORTUNITIES));
-		itemList = new OpportunityListDisplay();
-		this.setContent(itemList);
-	}
+    private void initUI() {
+        this.setCaption(AppContext.getMessage(OpportunityI18nEnum.M_TITLE_RELATED_OPPORTUNITIES));
+        itemList = new OpportunityListDisplay();
+        this.setContent(itemList);
+    }
 
-	public void displayOpportunities(final Contact contact) {
-		this.contact = contact;
-		loadOpportunities();
-	}
+    public void displayOpportunities(final Contact contact) {
+        this.contact = contact;
+        loadOpportunities();
+    }
 
-	private void loadOpportunities() {
-		final OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
-		criteria.setSaccountid(new NumberSearchField(SearchField.AND,
-				AppContext.getAccountId()));
-		criteria.setContactId(new NumberSearchField(SearchField.AND, contact
-				.getId()));
-		setSearchCriteria(criteria);
-	}
+    private void loadOpportunities() {
+        final OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
+        criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+        criteria.setContactId(new NumberSearchField(SearchField.AND, contact.getId()));
+        setSearchCriteria(criteria);
+    }
 
-	@Override
-	public void refresh() {
-		loadOpportunities();
-	}
+    @Override
+    public void refresh() {
+        loadOpportunities();
+    }
 
-	@Override
-	protected Component createRightComponent() {
-		final NavigationBarQuickMenu addOpportunity = new NavigationBarQuickMenu();
-		addOpportunity.setStyleName("add-btn");
+    @Override
+    protected Component createRightComponent() {
+        final NavigationBarQuickMenu addOpportunity = new NavigationBarQuickMenu();
+        addOpportunity.setStyleName("add-btn");
 
-		VerticalLayout addBtns = new VerticalLayout();
-		addBtns.setStyleName("edit-btn-layout");
-		addBtns.setWidth("100%");
-		addBtns.setSpacing(true);
-		addBtns.setMargin(true);
+        VerticalLayout addBtns = new VerticalLayout();
+        addBtns.setStyleName("edit-btn-layout");
+        addBtns.setWidth("100%");
+        addBtns.setSpacing(true);
+        addBtns.setMargin(true);
 
-		Button newOpportunity = new Button(
-				AppContext.getMessage(OpportunityI18nEnum.VIEW_NEW_TITLE));
-		newOpportunity.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = 7172838996944732255L;
+        Button newOpportunity = new Button(AppContext.getMessage(OpportunityI18nEnum.VIEW_NEW_TITLE));
+        newOpportunity.addClickListener(new Button.ClickListener() {
+            private static final long serialVersionUID = 7172838996944732255L;
 
-			@Override
-			public void buttonClick(Button.ClickEvent event) {
-				fireNewRelatedItem("");
-			}
-		});
-		addBtns.addComponent(newOpportunity);
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                fireNewRelatedItem("");
+            }
+        });
+        addBtns.addComponent(newOpportunity);
 
-		Button selectOpportunity = new Button(
-				AppContext
-						.getMessage(OpportunityI18nEnum.M_TITLE_SELECT_OPPORTUNITIES));
-		selectOpportunity.addClickListener(new Button.ClickListener() {
+        Button selectOpportunity = new Button(AppContext.getMessage(OpportunityI18nEnum.M_TITLE_SELECT_OPPORTUNITIES));
+        selectOpportunity.addClickListener(new Button.ClickListener() {
 
-			private static final long serialVersionUID = -8732749124902402042L;
+            private static final long serialVersionUID = -8732749124902402042L;
 
-			@Override
-			public void buttonClick(Button.ClickEvent event) {
-				ContactOpportunitySelectionView opportunitySelectionView = new ContactOpportunitySelectionView(
-						ContactRelatedOpportunityView.this);
-				OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
-				criteria.setSaccountid(new NumberSearchField(AppContext
-						.getAccountId()));
-				opportunitySelectionView.setSearchCriteria(criteria);
-				EventBusFactory.getInstance().post(
-						new ShellEvent.PushView(
-								ContactRelatedOpportunityView.this,
-								opportunitySelectionView));
-			}
-		});
-		addBtns.addComponent(selectOpportunity);
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                ContactOpportunitySelectionView opportunitySelectionView = new ContactOpportunitySelectionView(
+                        ContactRelatedOpportunityView.this);
+                OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
+                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                opportunitySelectionView.setSearchCriteria(criteria);
+                EventBusFactory.getInstance().post(new ShellEvent.PushView(ContactRelatedOpportunityView.this,
+                        opportunitySelectionView));
+            }
+        });
+        addBtns.addComponent(selectOpportunity);
+        addOpportunity.setContent(addBtns);
 
-		addOpportunity.setContent(addBtns);
-
-		return addOpportunity;
-	}
+        return addOpportunity;
+    }
 
 }

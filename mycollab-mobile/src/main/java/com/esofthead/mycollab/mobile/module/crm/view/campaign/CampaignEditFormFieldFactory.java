@@ -26,55 +26,47 @@ import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 
 /**
- * 
+ * @param <B>
  * @author MyCollab Ltd.
  * @since 4.1
- * 
- * @param <B>
  */
-class CampaignEditFormFieldFactory<B extends CampaignWithBLOBs> extends
-		AbstractBeanFieldGroupEditFieldFactory<B> {
-	private static final long serialVersionUID = 1L;
+class CampaignEditFormFieldFactory<B extends CampaignWithBLOBs> extends AbstractBeanFieldGroupEditFieldFactory<B> {
+    private static final long serialVersionUID = 1L;
 
-	CampaignEditFormFieldFactory(GenericBeanForm<B> form) {
-		super(form);
-	}
+    CampaignEditFormFieldFactory(GenericBeanForm<B> form) {
+        super(form);
+    }
 
-	CampaignEditFormFieldFactory(GenericBeanForm<B> form, boolean isValidateForm) {
-		super(form, isValidateForm);
-	}
+    @Override
+    protected Field<?> onCreateField(Object propertyId) {
 
-	@Override
-	protected Field<?> onCreateField(Object propertyId) {
-
-		if ("type".equals(propertyId)) {
-			CampaignTypeComboBox typeCombo = new CampaignTypeComboBox();
-			typeCombo.setWidth("100%");
-			return typeCombo;
-		} else if ("status".equals(propertyId)) {
-			CampaignStatusComboBox statusCombo = new CampaignStatusComboBox();
-			statusCombo.setWidth("100%");
-			return statusCombo;
-		} else if ("campaignname".equals(propertyId)) {
-			TextField tf = new TextField();
-			if (isValidateForm) {
-				tf.setNullRepresentation("");
-				tf.setRequired(true);
-				tf.setRequiredError("Name must not be null");
-			}
-
-			return tf;
-		} else if ("description".equals(propertyId)) {
-			TextArea descArea = new TextArea();
-			descArea.setNullRepresentation("");
-			return descArea;
-		} else if ("assignuser".equals(propertyId)) {
-			ActiveUserComboBox userBox = new ActiveUserComboBox();
-			userBox.select(attachForm.getBean().getAssignuser());
-			return userBox;
-		} else if (propertyId.equals("currencyid")) {
-			return new CurrencyComboBoxField();
-		}
-		return null;
-	}
+        if ("type".equals(propertyId)) {
+            CampaignTypeComboBox typeCombo = new CampaignTypeComboBox();
+            typeCombo.setWidth("100%");
+            return typeCombo;
+        } else if ("status".equals(propertyId)) {
+            CampaignStatusComboBox statusCombo = new CampaignStatusComboBox();
+            statusCombo.setWidth("100%");
+            return statusCombo;
+        } else if ("campaignname".equals(propertyId)) {
+            TextField tf = new TextField();
+            if (isValidateForm) {
+                tf.setNullRepresentation("");
+                tf.setRequired(true);
+                tf.setRequiredError("Name must not be null");
+            }
+            return tf;
+        } else if ("description".equals(propertyId)) {
+            TextArea descArea = new TextArea();
+            descArea.setNullRepresentation("");
+            return descArea;
+        } else if ("assignuser".equals(propertyId)) {
+            ActiveUserComboBox userBox = new ActiveUserComboBox();
+            userBox.select(attachForm.getBean().getAssignuser());
+            return userBox;
+        } else if (propertyId.equals("currencyid")) {
+            return new CurrencyComboBoxField();
+        }
+        return null;
+    }
 }

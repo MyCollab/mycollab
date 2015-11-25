@@ -17,102 +17,99 @@
 package com.esofthead.mycollab.mobile.module.project.view.settings;
 
 import com.esofthead.mycollab.mobile.module.project.ui.ProjectPreviewFormControlsGenerator;
-import com.esofthead.mycollab.mobile.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.mobile.ui.AbstractPreviewItemComp;
 import com.esofthead.mycollab.mobile.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.mobile.ui.DefaultFormViewFieldFactory.FormViewField;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 
 /**
  * @author MyCollab Ltd.
- *
  * @since 4.5.2
  */
 @ViewComponent
-public class ProjectMemberReadViewImpl extends AbstractPreviewItemComp<SimpleProjectMember>
-		implements ProjectMemberReadView {
-	private static final long serialVersionUID = 364308373821870384L;
+public class ProjectMemberReadViewImpl extends AbstractPreviewItemComp<SimpleProjectMember> implements ProjectMemberReadView {
+    private static final long serialVersionUID = 364308373821870384L;
 
-	@Override
-	protected void afterPreviewItem() {
-	}
+    @Override
+    protected void afterPreviewItem() {
+    }
 
-	@Override
-	protected String initFormTitle() {
-		return this.beanItem.getDisplayName();
-	}
+    @Override
+    protected String initFormTitle() {
+        return this.beanItem.getDisplayName();
+    }
 
-	@Override
-	protected AdvancedPreviewBeanForm<SimpleProjectMember> initPreviewForm() {
-		return new AdvancedPreviewBeanForm<>();
-	}
+    @Override
+    protected AdvancedPreviewBeanForm<SimpleProjectMember> initPreviewForm() {
+        return new AdvancedPreviewBeanForm<>();
+    }
 
-	@Override
-	protected void initRelatedComponents() {
-	}
+    @Override
+    protected void initRelatedComponents() {
+    }
 
-	@Override
-	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new ProjectMemberFormLayoutFactory();
-	}
+    @Override
+    protected IFormLayoutFactory initFormLayoutFactory() {
+        return new ProjectMemberFormLayoutFactory();
+    }
 
-	@Override
-	protected AbstractBeanFieldGroupViewFieldFactory<SimpleProjectMember> initBeanFormFieldFactory() {
-		return new ProjectMemberBeanFormFieldFactory(this.previewForm);
-	}
+    @Override
+    protected AbstractBeanFieldGroupViewFieldFactory<SimpleProjectMember> initBeanFormFieldFactory() {
+        return new ProjectMemberBeanFormFieldFactory(this.previewForm);
+    }
 
-	@Override
-	protected ComponentContainer createButtonControls() {
-		return new ProjectPreviewFormControlsGenerator<>(this.previewForm)
-				.createButtonControls(ProjectPreviewFormControlsGenerator.EDIT_BTN_PRESENTED
-								| ProjectPreviewFormControlsGenerator.DELETE_BTN_PRESENTED,
-						ProjectRolePermissionCollections.USERS);
-	}
+    @Override
+    protected ComponentContainer createButtonControls() {
+        return new ProjectPreviewFormControlsGenerator<>(this.previewForm).createButtonControls(
+                ProjectPreviewFormControlsGenerator.EDIT_BTN_PRESENTED | ProjectPreviewFormControlsGenerator.DELETE_BTN_PRESENTED,
+                ProjectRolePermissionCollections.USERS);
+    }
 
-	@Override
-	protected ComponentContainer createBottomPanel() {
-		return null;
-	}
+    @Override
+    protected ComponentContainer createBottomPanel() {
+        return null;
+    }
 
-	private class ProjectMemberBeanFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<SimpleProjectMember> {
+    private class ProjectMemberBeanFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<SimpleProjectMember> {
         private static final long serialVersionUID = 5269043189285551214L;
 
-		public ProjectMemberBeanFormFieldFactory(GenericBeanForm<SimpleProjectMember> form) {
-			super(form);
-		}
+        public ProjectMemberBeanFormFieldFactory(GenericBeanForm<SimpleProjectMember> form) {
+            super(form);
+        }
 
-		@Override
-		protected Field<?> onCreateField(Object propertyId) {
-			if (propertyId.equals("memberFullName")) {
-				return new FormViewField(beanItem.getDisplayName());
-			} else if (propertyId.equals("roleName")) {
-				String memberRole;
-				if (Boolean.TRUE.equals(beanItem.getIsadmin())) {
-					memberRole = AppContext.getMessage(ProjectMemberI18nEnum.M_FORM_PROJECT_ADMIN);
-				} else {
-					memberRole = beanItem.getRoleName();
-				}
-				return new FormViewField(memberRole);
-			} else if (propertyId.equals("email")) {
-				return new FormViewField(beanItem.getEmail());
-			}
-			return null;
-		}
+        @Override
+        protected Field<?> onCreateField(Object propertyId) {
+            if (propertyId.equals("memberFullName")) {
+                return new DefaultViewField(beanItem.getDisplayName());
+            } else if (propertyId.equals("roleName")) {
+                String memberRole;
+                if (Boolean.TRUE.equals(beanItem.getIsadmin())) {
+                    memberRole = AppContext.getMessage(ProjectMemberI18nEnum.M_FORM_PROJECT_ADMIN);
+                } else {
+                    memberRole = beanItem.getRoleName();
+                }
+                return new DefaultViewField(memberRole);
+            } else if (propertyId.equals("email")) {
+                return new DefaultViewField(beanItem.getEmail());
+            }
+            return null;
+        }
 
-	}
+    }
 
-	@Override
-	public HasPreviewFormHandlers<SimpleProjectMember> getPreviewFormHandlers() {
-		return this.previewForm;
-	}
+    @Override
+    public HasPreviewFormHandlers<SimpleProjectMember> getPreviewFormHandlers() {
+        return this.previewForm;
+    }
 
 }

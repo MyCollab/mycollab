@@ -19,18 +19,18 @@ package com.esofthead.mycollab.mobile.module.project.view.task;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.ui.ProjectAttachmentDisplayComp;
 import com.esofthead.mycollab.mobile.module.project.ui.ProjectCommentListDisplay;
 import com.esofthead.mycollab.mobile.module.project.ui.ProjectPreviewFormControlsGenerator;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
-import com.esofthead.mycollab.mobile.ui.*;
-import com.esofthead.mycollab.mobile.ui.DefaultFormViewFieldFactory.FormContainerHorizontalViewField;
-import com.esofthead.mycollab.mobile.ui.DefaultFormViewFieldFactory.FormDetectAndDisplayUrlViewField;
-import com.esofthead.mycollab.mobile.ui.DefaultFormViewFieldFactory.FormViewField;
+import com.esofthead.mycollab.mobile.ui.AbstractPreviewItemComp;
+import com.esofthead.mycollab.mobile.ui.AdvancedPreviewBeanForm;
+import com.esofthead.mycollab.mobile.ui.IconConstants;
+import com.esofthead.mycollab.mobile.ui.UIConstants;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
@@ -42,9 +42,12 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.form.field.ContainerHorizontalViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.*;
@@ -59,8 +62,7 @@ import java.util.List;
  * @since 4.5.0
  */
 @ViewComponent
-public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
-        implements TaskReadView {
+public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implements TaskReadView {
     private static final long serialVersionUID = 9021783098267883004L;
 
     private Button quickActionStatusBtn;
@@ -238,19 +240,19 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
         protected Field<?> onCreateField(final Object propertyId) {
 
             if (propertyId.equals("assignuser")) {
-                return new FormViewField(beanItem.getAssignUserFullName());
+                return new DefaultViewField(beanItem.getAssignUserFullName());
             } else if (propertyId.equals("taskListName")) {
 //                return new FormViewField(beanItem.getTaskListName());
             } else if (propertyId.equals("startdate")) {
-                return new FormViewField(AppContext.formatDate(beanItem.getStartdate()));
+                return new DefaultViewField(AppContext.formatDate(beanItem.getStartdate()));
             } else if (propertyId.equals("enddate")) {
-                return new FormViewField(AppContext.formatDate(beanItem.getEnddate()));
+                return new DefaultViewField(AppContext.formatDate(beanItem.getEnddate()));
             } else if (propertyId.equals("actualstartdate")) {
-                return new FormViewField(AppContext.formatDate(beanItem.getActualstartdate()));
+                return new DefaultViewField(AppContext.formatDate(beanItem.getActualstartdate()));
             } else if (propertyId.equals("actualenddate")) {
-                return new FormViewField(AppContext.formatDate(beanItem.getActualenddate()));
+                return new DefaultViewField(AppContext.formatDate(beanItem.getActualenddate()));
             } else if (propertyId.equals("deadline")) {
-                return new FormViewField(AppContext.formatDate(beanItem.getDeadline()));
+                return new DefaultViewField(AppContext.formatDate(beanItem.getDeadline()));
             } else if (propertyId.equals("tasklistid")) {
 //                return new FormViewField(beanItem.getTaskListName());
             } else if (propertyId.equals("priority")) {
@@ -260,7 +262,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
                     final Embedded iconEmbedded = new Embedded(null, iconPriority);
                     final Label lbPriority = new Label(AppContext.getMessage(TaskPriority.class, beanItem.getPriority()));
 
-                    final FormContainerHorizontalViewField containerField = new FormContainerHorizontalViewField();
+                    final ContainerHorizontalViewField containerField = new ContainerHorizontalViewField();
                     containerField.addComponentField(iconEmbedded);
                     containerField.getLayout().setComponentAlignment(iconEmbedded, Alignment.MIDDLE_LEFT);
                     lbPriority.setWidthUndefined();
@@ -269,7 +271,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
                     return containerField;
                 }
             } else if (propertyId.equals("notes")) {
-                return new FormDetectAndDisplayUrlViewField(beanItem.getNotes());
+                return new RichTextViewField(beanItem.getNotes());
             }
             return null;
         }

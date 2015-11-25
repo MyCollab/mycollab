@@ -21,55 +21,51 @@ import com.esofthead.mycollab.module.user.ui.components.ActiveUserComboBox;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.CurrencyComboBoxField;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.TextField;
 
 /**
- * 
+ * @param <B>
  * @author MyCollab Ltd.
  * @since 3.0
- * 
- * @param <B>
  */
-class CampaignEditFormFieldFactory<B extends CampaignWithBLOBs> extends
-		AbstractBeanFieldGroupEditFieldFactory<B> {
-	private static final long serialVersionUID = 1L;
+class CampaignEditFormFieldFactory<B extends CampaignWithBLOBs> extends AbstractBeanFieldGroupEditFieldFactory<B> {
+    private static final long serialVersionUID = 1L;
 
-	CampaignEditFormFieldFactory(GenericBeanForm<B> form) {
-		super(form);
-	}
+    CampaignEditFormFieldFactory(GenericBeanForm<B> form) {
+        super(form);
+    }
 
-	CampaignEditFormFieldFactory(GenericBeanForm<B> form, boolean isValidateForm) {
-		super(form, isValidateForm);
-	}
+    CampaignEditFormFieldFactory(GenericBeanForm<B> form, boolean isValidateForm) {
+        super(form, isValidateForm);
+    }
 
-	@Override
-	protected Field<?> onCreateField(Object propertyId) {
+    @Override
+    protected Field<?> onCreateField(Object propertyId) {
 
-		if ("type".equals(propertyId)) {
-			return new CampaignTypeComboBox();
-		} else if ("status".equals(propertyId)) {
-			return new CampaignStatusComboBox();
-		} else if ("campaignname".equals(propertyId)) {
-			TextField tf = new TextField();
-			if (isValidateForm) {
-				tf.setNullRepresentation("");
-				tf.setRequired(true);
-				tf.setRequiredError("Name must not be null");
-			}
+        if ("type".equals(propertyId)) {
+            return new CampaignTypeComboBox();
+        } else if ("status".equals(propertyId)) {
+            return new CampaignStatusComboBox();
+        } else if ("campaignname".equals(propertyId)) {
+            TextField tf = new TextField();
+            if (isValidateForm) {
+                tf.setNullRepresentation("");
+                tf.setRequired(true);
+                tf.setRequiredError("Name must not be null");
+            }
 
-			return tf;
-		} else if ("description".equals(propertyId)) {
-			return new RichTextEditField();
-		} else if ("assignuser".equals(propertyId)) {
-			ActiveUserComboBox userBox = new ActiveUserComboBox();
-			userBox.select(attachForm.getBean().getAssignuser());
-			return userBox;
-		} else if (propertyId.equals("currencyid")) {
-			return new CurrencyComboBoxField();
-		}
-		return null;
-	}
+            return tf;
+        } else if ("description".equals(propertyId)) {
+            return new RichTextEditField();
+        } else if ("assignuser".equals(propertyId)) {
+            ActiveUserComboBox userBox = new ActiveUserComboBox();
+            userBox.select(attachForm.getBean().getAssignuser());
+            return userBox;
+        } else if (propertyId.equals("currencyid")) {
+            return new CurrencyComboBoxField();
+        }
+        return null;
+    }
 }

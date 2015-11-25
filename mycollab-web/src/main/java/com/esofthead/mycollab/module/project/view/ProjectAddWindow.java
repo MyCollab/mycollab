@@ -34,7 +34,6 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 import com.esofthead.mycollab.vaadin.ui.*;
-import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.apache.commons.collections.CollectionUtils;
@@ -242,7 +241,7 @@ public class ProjectAddWindow extends Window implements WizardProgressListener {
             @Override
             protected Field<?> onCreateField(final Object propertyId) {
                 if (Project.Field.description.equalTo(propertyId)) {
-                    return new RichTextEditField();
+                    return new RichTextArea();
                 } else if (Project.Field.projectstatus.equalTo(propertyId)) {
                     ProjectStatusComboBox projectCombo = new ProjectStatusComboBox();
                     projectCombo.setRequired(true);

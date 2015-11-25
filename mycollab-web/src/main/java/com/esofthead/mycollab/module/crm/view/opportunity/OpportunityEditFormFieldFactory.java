@@ -29,54 +29,52 @@ import com.vaadin.ui.Field;
 import com.vaadin.ui.TextField;
 
 /**
- * 
+ * @param <B>
  * @author MyCollab Ltd.
  * @since 1.0
- * 
- * @param <B>
  */
 class OpportunityEditFormFieldFactory<B extends Opportunity> extends AbstractBeanFieldGroupEditFieldFactory<B> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	OpportunityEditFormFieldFactory(GenericBeanForm<B> form) {
-		super(form);
-	}
+    OpportunityEditFormFieldFactory(GenericBeanForm<B> form) {
+        super(form);
+    }
 
-	OpportunityEditFormFieldFactory(GenericBeanForm<B> form, boolean isValidateForm) {
-		super(form, isValidateForm);
-	}
+    OpportunityEditFormFieldFactory(GenericBeanForm<B> form, boolean isValidateForm) {
+        super(form, isValidateForm);
+    }
 
-	@Override
-	protected Field<?> onCreateField(Object propertyId) {
+    @Override
+    protected Field<?> onCreateField(Object propertyId) {
 
-		if (propertyId.equals("campaignid")) {
-			return new CampaignSelectionField();
-		} else if (propertyId.equals("accountid")) {
-			AccountSelectionField accountField = new AccountSelectionField();
-			accountField.setRequired(true);
-			return accountField;
-		} else if (propertyId.equals("opportunityname")) {
-			TextField tf = new TextField();
-			if (isValidateForm) {
-				tf.setNullRepresentation("");
-				tf.setRequired(true);
-				tf.setRequiredError("Name must not be null");
-			}
-			return tf;
-		} else if (propertyId.equals("currencyid")) {
-			return new CurrencyComboBoxField();
-		} else if (propertyId.equals("salesstage")) {
-			return new OpportunitySalesStageComboBox();
-		} else if (propertyId.equals("opportunitytype")) {
-			return new OpportunityTypeComboBox();
-		} else if (propertyId.equals("source")) {
-			return new LeadSourceComboBox();
-		} else if (propertyId.equals("description")) {
-			return new RichTextEditField();
-		} else if (propertyId.equals("assignuser")) {
-			return new ActiveUserComboBox();
-		}
+        if (propertyId.equals("campaignid")) {
+            return new CampaignSelectionField();
+        } else if (propertyId.equals("accountid")) {
+            AccountSelectionField accountField = new AccountSelectionField();
+            accountField.setRequired(true);
+            return accountField;
+        } else if (propertyId.equals("opportunityname")) {
+            TextField tf = new TextField();
+            if (isValidateForm) {
+                tf.setNullRepresentation("");
+                tf.setRequired(true);
+                tf.setRequiredError("Name must not be null");
+            }
+            return tf;
+        } else if (propertyId.equals("currencyid")) {
+            return new CurrencyComboBoxField();
+        } else if (propertyId.equals("salesstage")) {
+            return new OpportunitySalesStageComboBox();
+        } else if (propertyId.equals("opportunitytype")) {
+            return new OpportunityTypeComboBox();
+        } else if (propertyId.equals("source")) {
+            return new LeadSourceComboBox();
+        } else if (propertyId.equals("description")) {
+            return new RichTextEditField();
+        } else if (propertyId.equals("assignuser")) {
+            return new ActiveUserComboBox();
+        }
 
-		return null;
-	}
+        return null;
+    }
 }

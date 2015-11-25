@@ -43,6 +43,7 @@ import com.esofthead.mycollab.module.project.ui.form.ProjectItemViewField;
 import com.esofthead.mycollab.module.project.ui.format.TaskFieldFormatter;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.esofthead.mycollab.module.project.view.task.components.TaskTimeLogSheet;
+import com.esofthead.mycollab.module.project.view.task.components.ToogleTaskSummaryField;
 import com.esofthead.mycollab.schedule.email.project.ProjectTaskRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.utils.TooltipHelper;
@@ -54,15 +55,16 @@ import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.DateViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
-import com.hp.gagawa.java.elements.*;
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Div;
+import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Span;
 import com.vaadin.data.Property;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Label;
+import com.vaadin.ui.Button.ClickEvent;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -71,7 +73,6 @@ import org.slf4j.LoggerFactory;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
-import java.lang.Object;
 import java.util.List;
 import java.util.UUID;
 
@@ -402,17 +403,18 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
 
             final CheckBox checkBox = new CheckBox("", subTask.isCompleted());
             checkBox.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
+            layout.with(checkBox);
 
-            final Label taskLink = new Label(buildTaskLink(subTask), ContentMode.HTML);
-            if (subTask.isCompleted()) {
-                taskLink.addStyleName("completed");
-            } else if (subTask.isOverdue()) {
-                taskLink.addStyleName("overdue");
-            } else if (subTask.isPending()) {
-                taskLink.addStyleName("pending");
-            }
-            taskLink.addStyleName(UIConstants.LABEL_WORD_WRAP);
-            layout.with(checkBox, taskLink).expand(taskLink);
+            Span priorityLink = new Span().appendText(ProjectAssetsManager.getTaskPriorityHtml(subTask.getPriority()))
+                    .setTitle(subTask.getPriority());
+            layout.with(new ELabel(priorityLink.write(), ContentMode.HTML).withWidthUndefined());
+
+            String avatarLink = StorageFactory.getInstance().getAvatarPath(subTask.getAssignUserAvatarId(), 16);
+            Img avatarImg = new Img(subTask.getAssignUserFullName(), avatarLink).setTitle(subTask.getAssignUserFullName());
+            layout.with(new ELabel(avatarImg.write(), ContentMode.HTML).withWidthUndefined());
+
+            final ToogleTaskSummaryField toogleTaskSummaryField = new ToogleTaskSummaryField(subTask);
+            layout.with(toogleTaskSummaryField).expand(toogleTaskSummaryField);
 
             checkBox.addValueChangeListener(new ValueChangeListener() {
                 @Override
@@ -422,55 +424,21 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
                     if (selectedFlag) {
                         subTask.setStatus(StatusI18nEnum.Closed.name());
                         subTask.setPercentagecomplete(100d);
-                        taskLink.removeStyleName("overdue pending");
-                        taskLink.addStyleName("completed");
+                        toogleTaskSummaryField.closeTask();
                     } else {
                         subTask.setStatus(StatusI18nEnum.Open.name());
                         subTask.setPercentagecomplete(0d);
-                        taskLink.removeStyleName("overdue pending completed");
                         if (subTask.isOverdue()) {
-                            taskLink.addStyleName("overdue");
+                            toogleTaskSummaryField.overdueTask();
+                        } else {
+                            toogleTaskSummaryField.reOpenTask();
                         }
                     }
                     taskService.updateSelectiveWithSession(subTask, AppContext.getUsername());
-                    taskLink.setValue(buildTaskLink(subTask));
+                    toogleTaskSummaryField.updateLabel();
                 }
             });
             return layout;
-        }
-
-        private String buildTaskLink(SimpleTask subTask) {
-            String linkName = String.format("[#%d] - %s", subTask.getTaskkey(), subTask.getTaskname());
-            String uid = UUID.randomUUID().toString();
-            String taskPriority = subTask.getPriority();
-            Span priorityLink = new Span().appendText(ProjectAssetsManager.getTaskPriorityHtml(taskPriority))
-                    .setTitle(taskPriority);
-            A taskLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateTaskPreviewFullLink(subTask.getTaskkey(),
-                    CurrentProjectVariables.getShortName())).appendText(linkName).setStyle("display:inline");
-            taskLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, ProjectTypeConstants.TASK, subTask.getId() + ""));
-            taskLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
-
-            String avatarLink = StorageFactory.getInstance().getAvatarPath(subTask.getAssignUserAvatarId(), 16);
-            Img avatarImg = new Img(subTask.getAssignUserFullName(), avatarLink).setTitle(subTask.getAssignUserFullName());
-
-            Div resultDiv = new DivLessFormatter().appendChild(avatarImg, DivLessFormatter.EMPTY_SPACE(),
-                    priorityLink, DivLessFormatter.EMPTY_SPACE(), taskLink, DivLessFormatter.EMPTY_SPACE(),
-                    TooltipHelper.buildDivTooltipEnable(uid));
-
-            if (subTask.getPercentagecomplete() != null && subTask.getPercentagecomplete() > 0) {
-                Div completeTxt = new Div().appendChild(new Text(String.format(" %s%%", subTask.getPercentagecomplete())))
-                        .setStyle("display:inline").setCSSClass(UIConstants.LABEL_META_INFO);
-                resultDiv.appendChild(completeTxt);
-            }
-
-            if (subTask.getDeadline() != null) {
-                Div deadline = new Div().appendChild(new Text(String.format(" - %s: %s", AppContext.getMessage(TaskI18nEnum.FORM_DEADLINE),
-                        AppContext.formatPrettyTime(subTask.getDeadlineRoundPlusOne())))).setStyle("display:inline").
-                        setCSSClass(UIConstants.LABEL_META_INFO).setTitle(AppContext.formatDate(subTask.getDeadline()));
-
-                resultDiv.appendChild(deadline);
-            }
-            return resultDiv.write();
         }
     }
 

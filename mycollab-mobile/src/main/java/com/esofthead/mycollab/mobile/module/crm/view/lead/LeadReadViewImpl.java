@@ -23,7 +23,6 @@ import com.esofthead.mycollab.mobile.module.crm.ui.CrmPreviewFormControlsGenerat
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmRelatedItemsScreenData;
 import com.esofthead.mycollab.mobile.module.crm.ui.NotesList;
 import com.esofthead.mycollab.mobile.module.crm.view.activity.ActivityRelatedItemView;
-import com.esofthead.mycollab.mobile.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.mobile.ui.AbstractPreviewItemComp;
 import com.esofthead.mycollab.mobile.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.mobile.ui.IconConstants;
@@ -36,7 +35,7 @@ import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.vaadin.ui.Alignment;
@@ -46,141 +45,135 @@ import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.HorizontalLayout;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
 
 @ViewComponent
 public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead> implements LeadReadView {
-	private static final long serialVersionUID = 5288751461504873888L;
-	private NotesList associateNotes;
-	private ActivityRelatedItemView associateActivities;
-	private LeadRelatedCampaignView associateCampaigns;
+    private static final long serialVersionUID = 5288751461504873888L;
+    private NotesList associateNotes;
+    private ActivityRelatedItemView associateActivities;
+    private LeadRelatedCampaignView associateCampaigns;
 
-	@Override
-	public HasPreviewFormHandlers<SimpleLead> getPreviewFormHandlers() {
-		return this.previewForm;
-	}
+    @Override
+    public HasPreviewFormHandlers<SimpleLead> getPreviewFormHandlers() {
+        return this.previewForm;
+    }
 
-	@Override
-	protected void initRelatedComponents() {
-		associateCampaigns = new LeadRelatedCampaignView();
-		associateNotes = new NotesList(
-				AppContext.getMessage(CrmCommonI18nEnum.M_TITLE_RELATED_NOTES));
-		associateActivities = new ActivityRelatedItemView(
-				CrmTypeConstants.CAMPAIGN);
-	}
+    @Override
+    protected void initRelatedComponents() {
+        associateCampaigns = new LeadRelatedCampaignView();
+        associateNotes = new NotesList(
+                AppContext.getMessage(CrmCommonI18nEnum.M_TITLE_RELATED_NOTES));
+        associateActivities = new ActivityRelatedItemView(
+                CrmTypeConstants.CAMPAIGN);
+    }
 
-	@Override
-	protected void afterPreviewItem() {
-		associateCampaigns.displayCampaign(beanItem);
-		associateNotes.showNotes(CrmTypeConstants.LEAD, beanItem.getId());
-		associateActivities.displayActivity(beanItem.getId());
-	}
+    @Override
+    protected void afterPreviewItem() {
+        associateCampaigns.displayCampaign(beanItem);
+        associateNotes.showNotes(CrmTypeConstants.LEAD, beanItem.getId());
+        associateActivities.displayActivity(beanItem.getId());
+    }
 
-	@Override
-	protected String initFormTitle() {
-		return beanItem.getLeadName();
-	}
+    @Override
+    protected String initFormTitle() {
+        return beanItem.getLeadName();
+    }
 
-	@Override
-	protected AdvancedPreviewBeanForm<SimpleLead> initPreviewForm() {
-		return new AdvancedPreviewBeanForm<SimpleLead>();
-	}
+    @Override
+    protected AdvancedPreviewBeanForm<SimpleLead> initPreviewForm() {
+        return new AdvancedPreviewBeanForm<SimpleLead>();
+    }
 
-	@Override
-	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new DynaFormLayout(CrmTypeConstants.LEAD, LeadDefaultDynaFormLayoutFactory.getForm());
-	}
+    @Override
+    protected IFormLayoutFactory initFormLayoutFactory() {
+        return new DynaFormLayout(CrmTypeConstants.LEAD, LeadDefaultDynaFormLayoutFactory.getForm());
+    }
 
-	@Override
-	protected AbstractBeanFieldGroupViewFieldFactory<SimpleLead> initBeanFormFieldFactory() {
-		return new LeadReadFormFieldFactory(previewForm);
-	}
+    @Override
+    protected AbstractBeanFieldGroupViewFieldFactory<SimpleLead> initBeanFormFieldFactory() {
+        return new LeadReadFormFieldFactory(previewForm);
+    }
 
-	@Override
-	protected ComponentContainer createButtonControls() {
-		return new CrmPreviewFormControlsGenerator<>(this.previewForm)
-				.createButtonControls(RolePermissionCollections.CRM_LEAD);
-	}
+    @Override
+    protected ComponentContainer createButtonControls() {
+        return new CrmPreviewFormControlsGenerator<>(this.previewForm).createButtonControls(RolePermissionCollections.CRM_LEAD);
+    }
 
-	@Override
-	protected ComponentContainer createBottomPanel() {
-		HorizontalLayout toolbarLayout = new HorizontalLayout();
-		toolbarLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-		toolbarLayout.setSpacing(true);
+    @Override
+    protected ComponentContainer createBottomPanel() {
+        HorizontalLayout toolbarLayout = new HorizontalLayout();
+        toolbarLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+        toolbarLayout.setSpacing(true);
 
-		Button relatedCampaigns = new Button();
-		relatedCampaigns.setCaption("<span aria-hidden=\"true\" data-icon=\""
-				+ IconConstants.CRM_CAMPAIGN
-				+ "\"></span><div class=\"screen-reader-text\">"
-				+ AppContext.getMessage(CrmCommonI18nEnum.TAB_CAMPAIGN)
-				+ "</div>");
-		relatedCampaigns.setHtmlContentAllowed(true);
-		relatedCampaigns.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = 7027681785871215444L;
+        Button relatedCampaigns = new Button();
+        relatedCampaigns.setCaption("<span aria-hidden=\"true\" data-icon=\""
+                + IconConstants.CRM_CAMPAIGN
+                + "\"></span><div class=\"screen-reader-text\">"
+                + AppContext.getMessage(CrmCommonI18nEnum.TAB_CAMPAIGN)
+                + "</div>");
+        relatedCampaigns.setHtmlContentAllowed(true);
+        relatedCampaigns.addClickListener(new Button.ClickListener() {
+            private static final long serialVersionUID = 7027681785871215444L;
 
-			@Override
-			public void buttonClick(ClickEvent event) {
-				EventBusFactory.getInstance().post(
-						new LeadEvent.GoToRelatedItems(LeadReadViewImpl.this,
-								new CrmRelatedItemsScreenData(
-										associateCampaigns)));
-			}
-		});
-		toolbarLayout.addComponent(relatedCampaigns);
+            @Override
+            public void buttonClick(ClickEvent event) {
+                EventBusFactory.getInstance().post(
+                        new LeadEvent.GoToRelatedItems(LeadReadViewImpl.this,
+                                new CrmRelatedItemsScreenData(
+                                        associateCampaigns)));
+            }
+        });
+        toolbarLayout.addComponent(relatedCampaigns);
 
-		Button relatedNotes = new Button();
-		relatedNotes.setCaption("<span aria-hidden=\"true\" data-icon=\""
-				+ IconConstants.CRM_DOCUMENT
-				+ "\"></span><div class=\"screen-reader-text\">"
-				+ "Notes" + "</div>");
-		relatedNotes.setHtmlContentAllowed(true);
-		relatedNotes.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = 7589415773039335559L;
+        Button relatedNotes = new Button();
+        relatedNotes.setCaption("<span aria-hidden=\"true\" data-icon=\""
+                + IconConstants.CRM_DOCUMENT
+                + "\"></span><div class=\"screen-reader-text\">"
+                + "Notes" + "</div>");
+        relatedNotes.setHtmlContentAllowed(true);
+        relatedNotes.addClickListener(new Button.ClickListener() {
+            private static final long serialVersionUID = 7589415773039335559L;
 
-			@Override
-			public void buttonClick(ClickEvent arg0) {
-				EventBusFactory.getInstance().post(
-						new LeadEvent.GoToRelatedItems(this,
-								new CrmRelatedItemsScreenData(associateNotes)));
-			}
-		});
-		toolbarLayout.addComponent(relatedNotes);
+            @Override
+            public void buttonClick(ClickEvent arg0) {
+                EventBusFactory.getInstance().post(
+                        new LeadEvent.GoToRelatedItems(this, new CrmRelatedItemsScreenData(associateNotes)));
+            }
+        });
+        toolbarLayout.addComponent(relatedNotes);
 
-		Button relatedActivities = new Button();
-		relatedActivities.setCaption("<span aria-hidden=\"true\" data-icon=\""
-				+ IconConstants.CRM_ACTIVITY
-				+ "\"></span><div class=\"screen-reader-text\">"
-				+ AppContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY)
-				+ "</div>");
-		relatedActivities.setHtmlContentAllowed(true);
-		relatedActivities.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = 7589415773039335559L;
+        Button relatedActivities = new Button();
+        relatedActivities.setCaption("<span aria-hidden=\"true\" data-icon=\""
+                + IconConstants.CRM_ACTIVITY
+                + "\"></span><div class=\"screen-reader-text\">"
+                + AppContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY)
+                + "</div>");
+        relatedActivities.setHtmlContentAllowed(true);
+        relatedActivities.addClickListener(new Button.ClickListener() {
+            private static final long serialVersionUID = 7589415773039335559L;
 
-			@Override
-			public void buttonClick(ClickEvent arg0) {
-				EventBusFactory.getInstance().post(
-						new LeadEvent.GoToRelatedItems(this,
-								new CrmRelatedItemsScreenData(
-										associateActivities)));
-			}
-		});
-		toolbarLayout.addComponent(relatedActivities);
+            @Override
+            public void buttonClick(ClickEvent arg0) {
+                EventBusFactory.getInstance().post(new LeadEvent.GoToRelatedItems(this,
+                        new CrmRelatedItemsScreenData(associateActivities)));
+            }
+        });
+        toolbarLayout.addComponent(relatedActivities);
 
-		return toolbarLayout;
-	}
+        return toolbarLayout;
+    }
 
-	@Override
-	public IRelatedListHandlers<SimpleActivity> getRelatedActivityHandlers() {
-		return associateActivities;
-	}
+    @Override
+    public IRelatedListHandlers<SimpleActivity> getRelatedActivityHandlers() {
+        return associateActivities;
+    }
 
-	@Override
-	public IRelatedListHandlers<SimpleCampaign> getRelatedCampaignHandlers() {
-		return associateCampaigns;
-	}
+    @Override
+    public IRelatedListHandlers<SimpleCampaign> getRelatedCampaignHandlers() {
+        return associateCampaigns;
+    }
 
 }

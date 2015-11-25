@@ -49,7 +49,6 @@ import java.util.GregorianCalendar;
  */
 @SuppressWarnings("serial")
 class WontFixExplainView extends AbstractMobilePageView {
-
     private final SimpleBug bug;
     private final EditForm editForm;
     private final BugReadView callbackForm;
@@ -69,7 +68,6 @@ class WontFixExplainView extends AbstractMobilePageView {
         final Button wonFixBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_WONT_FIX), new Button.ClickListener() {
             @Override
             public void buttonClick(final ClickEvent event) {
-
                 if (editForm.validateForm()) {
                     WontFixExplainView.this.bug.setStatus(BugStatus.Resolved.name());
 

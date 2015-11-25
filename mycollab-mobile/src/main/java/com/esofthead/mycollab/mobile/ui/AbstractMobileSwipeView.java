@@ -43,8 +43,7 @@ public class AbstractMobileSwipeView extends MobileNavigationView implements Pag
 
     @Override
     public void addViewListener(ViewListener listener) {
-        addListener(ViewEvent.VIEW_IDENTIFIER(), ViewEvent.class, listener,
-                ViewListener.viewInitMethod);
+        addListener(ViewEvent.VIEW_IDENTIFIER(), ViewEvent.class, listener, ViewListener.viewInitMethod);
     }
 
     @Override

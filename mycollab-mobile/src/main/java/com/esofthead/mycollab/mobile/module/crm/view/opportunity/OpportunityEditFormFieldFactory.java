@@ -35,17 +35,11 @@ import com.vaadin.ui.TextField;
  * 
  * @param <B>
  */
-class OpportunityEditFormFieldFactory<B extends Opportunity> extends
-		AbstractBeanFieldGroupEditFieldFactory<B> {
+class OpportunityEditFormFieldFactory<B extends Opportunity> extends AbstractBeanFieldGroupEditFieldFactory<B> {
 	private static final long serialVersionUID = 1L;
 
 	OpportunityEditFormFieldFactory(GenericBeanForm<B> form) {
 		super(form);
-	}
-
-	OpportunityEditFormFieldFactory(GenericBeanForm<B> form,
-			boolean isValidateForm) {
-		super(form, isValidateForm);
 	}
 
 	@Override

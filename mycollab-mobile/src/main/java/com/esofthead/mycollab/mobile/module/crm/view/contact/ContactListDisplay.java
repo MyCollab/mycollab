@@ -27,40 +27,33 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.0
- * 
  */
-public class ContactListDisplay
-		extends
-		DefaultPagedBeanList<ContactService, ContactSearchCriteria, SimpleContact> {
-	private static final long serialVersionUID = -2234454107835680053L;
+public class ContactListDisplay extends DefaultPagedBeanList<ContactService, ContactSearchCriteria, SimpleContact> {
+    private static final long serialVersionUID = -2234454107835680053L;
 
-	public ContactListDisplay() {
-		super(ApplicationContextUtil.getSpringBean(ContactService.class),
-				new ContactRowDisplayHandler());
-	}
+    public ContactListDisplay() {
+        super(ApplicationContextUtil.getSpringBean(ContactService.class), new ContactRowDisplayHandler());
+    }
 
-	static public class ContactRowDisplayHandler implements
-			RowDisplayHandler<SimpleContact> {
+    static public class ContactRowDisplayHandler implements RowDisplayHandler<SimpleContact> {
 
-		@Override
-		public Component generateRow(final SimpleContact contact, int rowIndex) {
-			final Button b = new Button(contact.getContactName());
-			b.addClickListener(new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+        @Override
+        public Component generateRow(final SimpleContact contact, int rowIndex) {
+            final Button b = new Button(contact.getContactName());
+            b.addClickListener(new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final Button.ClickEvent event) {
-					EventBusFactory.getInstance().post(
-							new ContactEvent.GotoRead(this, contact.getId()));
-				}
-			});
-			b.setWidth("100%");
-			b.addStyleName("list-item");
-			return b;
-		}
+                @Override
+                public void buttonClick(final Button.ClickEvent event) {
+                    EventBusFactory.getInstance().post(new ContactEvent.GotoRead(this, contact.getId()));
+                }
+            });
+            b.setWidth("100%");
+            b.addStyleName("list-item");
+            return b;
+        }
 
-	}
+    }
 }

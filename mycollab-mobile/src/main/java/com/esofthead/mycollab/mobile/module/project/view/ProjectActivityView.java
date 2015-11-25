@@ -25,7 +25,6 @@ import com.esofthead.mycollab.module.project.domain.ProjectActivityStream;
  *
  * @since 4.5.2
  */
-public interface ProjectActivityView extends
-		IListView<ActivityStreamSearchCriteria, ProjectActivityStream> {
+public interface ProjectActivityView extends IListView<ActivityStreamSearchCriteria, ProjectActivityStream> {
 
 }

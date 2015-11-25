@@ -147,7 +147,7 @@ public class ResolvedInputWindow extends Window {
                     }
                 });
                 cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-                controlsBtn.with(cancelBtn, resolveBtn);
+                controlsBtn.with(resolveBtn, cancelBtn);
 
                 layout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
 

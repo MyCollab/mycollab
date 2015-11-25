@@ -55,21 +55,17 @@ public class ContactReadFormFieldFactory extends AbstractBeanFieldGroupViewField
         SimpleContact contact = attachForm.getBean();
 
         if (propertyId.equals("accountid")) {
-            return new LinkViewField(contact.getAccountName(),
-                    CrmLinkBuilder.generateAccountPreviewLinkFull(contact.getAccountid()),
+            return new LinkViewField(contact.getAccountName(), CrmLinkBuilder.generateAccountPreviewLinkFull(contact.getAccountid()),
                     CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT));
         } else if (propertyId.equals("email")) {
             return new EmailViewField(attachForm.getBean().getEmail());
         } else if (propertyId.equals("assignuser")) {
-            return new UserLinkViewField(contact.getAssignuser(),
-                    contact.getAssignUserAvatarId(), contact.getAssignUserFullName());
+            return new UserLinkViewField(contact.getAssignuser(), contact.getAssignUserAvatarId(), contact.getAssignUserFullName());
         } else if (propertyId.equals("iscallable")) {
             if (Boolean.FALSE.equals(contact.getIscallable())) {
-                return new DefaultViewField(
-                        AppContext.getMessage(GenericI18Enum.BUTTON_NO));
+                return new DefaultViewField(AppContext.getMessage(GenericI18Enum.BUTTON_NO));
             } else {
-                return new DefaultViewField(
-                        AppContext.getMessage(GenericI18Enum.BUTTON_YES));
+                return new DefaultViewField(AppContext.getMessage(GenericI18Enum.BUTTON_YES));
             }
         } else if (propertyId.equals("birthday")) {
             return new DateViewField(contact.getBirthday());
@@ -111,8 +107,7 @@ public class ContactReadFormFieldFactory extends AbstractBeanFieldGroupViewField
             try {
                 vcardTemp = File.createTempFile("mycollab", ".vcf");
             } catch (IOException e) {
-                throw new MyCollabException(
-                        "Can not create temporary file to download vcard export", e);
+                throw new MyCollabException("Can not create temporary file to download vcard export", e);
             }
         }
 

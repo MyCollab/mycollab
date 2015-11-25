@@ -25,7 +25,6 @@ import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ProjectGenericTask;
@@ -39,7 +38,6 @@ import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.ComponentUtils;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
-import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -49,8 +47,6 @@ import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.esofthead.mycollab.vaadin.ui.ToggleButtonGroup;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.google.common.eventbus.Subscribe;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
@@ -58,13 +54,11 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.teemu.VaadinIcons;
-import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * @author MyCollab Ltd
@@ -164,17 +158,12 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
 
     private static class MilestoneBlock extends MVerticalLayout {
         private boolean showIssues = false;
-        private MVerticalLayout issueLayout;
 
         MilestoneBlock(final SimpleMilestone milestone) {
             this.setStyleName("roadmap-block");
-            Div milestoneDiv = new Div().appendText(VaadinIcons.CALENDAR_BRIEFCASE.getHtml() + " ").appendChild(new A
-                    (ProjectLinkBuilder.generateMilestonePreviewFullLink(milestone.getProjectid(), milestone.getId()))
-                    .appendText(milestone.getName())).appendText(" (" + AppContext.getMessage(com.esofthead.mycollab
-                    .module.project.i18n.OptionI18nEnum.MilestoneStatus.class, milestone
-                    .getStatus()) + ")");
-            ELabel milestoneLbl = new ELabel(milestoneDiv.write(), ContentMode.HTML).withStyleName(ValoTheme.LABEL_H3);
-            this.addComponent(milestoneLbl);
+
+            ToogleMilestoneSummaryField toogleMilestoneSummaryField = new ToogleMilestoneSummaryField(milestone);
+            this.with(toogleMilestoneSummaryField).expand(toogleMilestoneSummaryField);
 
             CssLayout metaBlock = new CssLayout();
             MilestonePopupFieldFactory popupFieldFactory = ViewManager.getCacheComponent(MilestonePopupFieldFactory.class);
@@ -202,6 +191,9 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
                 progressInfoLbl = new ELabel("No issue").withStyleName(UIConstants.LABEL_META_INFO);
             }
 
+            final MVerticalLayout issueLayout = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, true));
+            issueLayout.setVisible(false);
+
             final Button viewIssuesBtn = new Button("View issues");
             Button.ClickListener viewIssuesListener = new Button.ClickListener() {
                 @Override
@@ -219,31 +211,16 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
                         List<ProjectGenericTask> genericTasks = genericTaskService.findPagableListByCriteria(new
                                 SearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
                         for (ProjectGenericTask genericTask : genericTasks) {
-                            Div issueDiv = new Div();
-                            String uid = UUID.randomUUID().toString();
-                            A taskLink = new A().setId("tag" + uid);
-                            taskLink.setHref(ProjectLinkBuilder.generateProjectItemLink(genericTask.getProjectShortName(),
-                                    genericTask.getProjectId(), genericTask.getType(), genericTask.getExtraTypeId() + ""));
-                            taskLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, genericTask.getType(), genericTask.getTypeId() + ""));
-                            taskLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
-                            taskLink.appendText(String.format("[#%d] - %s", genericTask.getExtraTypeId(), genericTask.getName()));
-                            issueDiv.appendChild(taskLink, TooltipHelper.buildDivTooltipEnable(uid));
-                            Label issueLbl = new Label(issueDiv.write(), ContentMode.HTML);
-                            if (genericTask.isClosed()) {
-                                issueLbl.addStyleName("completed");
-                            } else if (genericTask.isOverdue()) {
-                                issueLbl.addStyleName("overdue");
-                            }
+                            ToogleGenericTaskSummaryField toogleGenericTaskSummaryField = new ToogleGenericTaskSummaryField(genericTask);
                             MHorizontalLayout rowComp = new MHorizontalLayout();
                             rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
-                            rowComp.with(new ELabel(ProjectAssetsManager.getAsset(genericTask.getType()).getHtml(), ContentMode.HTML));
+                            rowComp.with(new ELabel(ProjectAssetsManager.getAsset(genericTask.getType()).getHtml(), ContentMode.HTML).withWidthUndefined());
                             String avatarLink = StorageFactory.getInstance().getAvatarPath(genericTask.getAssignUserAvatarId(), 16);
                             Img img = new Img(genericTask.getAssignUserFullName(), avatarLink).setTitle(genericTask
                                     .getAssignUserFullName());
-                            rowComp.with(new ELabel(img.write(), ContentMode.HTML));
+                            rowComp.with(new ELabel(img.write(), ContentMode.HTML).withWidthUndefined());
 
-                            MCssLayout issueWrapper = new MCssLayout(issueLbl);
-                            rowComp.with(issueWrapper);
+                            rowComp.with(toogleGenericTaskSummaryField).expand(toogleGenericTaskSummaryField);
                             issueLayout.addComponent(rowComp);
 
                         }
@@ -259,8 +236,6 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
             viewIssuesBtn.addStyleName(ValoTheme.BUTTON_SMALL);
             progressLayout.with(progressInfoLbl, viewIssuesBtn);
             this.addComponent(progressLayout);
-            issueLayout = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, true));
-            issueLayout.setVisible(false);
             this.addComponent(issueLayout);
         }
     }

@@ -49,8 +49,7 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B>
 		super();
 		setSizeFull();
 		InfiniteScrollLayout scrollLayout = InfiniteScrollLayout.extend(this);
-		scrollLayout
-				.addScrollListener(new InfiniteScrollLayout.ScrollReachBottomListener() {
+		scrollLayout.addScrollListener(new InfiniteScrollLayout.ScrollReachBottomListener() {
 
 					@Override
 					public void onReachBottom() {
@@ -93,8 +92,7 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B>
 	@Override
 	public void setSearchCriteria(final S searchCriteria) {
 		this.currentPage = 1;
-		this.searchRequest = new SearchRequest<S>(searchCriteria,
-				this.currentPage, this.displayNumItems);
+		this.searchRequest = new SearchRequest<>(searchCriteria, this.currentPage, this.displayNumItems);
 		this.doSearch();
 	}
 
@@ -115,8 +113,7 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B>
 
 	protected void doSearch() {
 		this.totalCount = this.queryTotalCount();
-		this.totalPage = (this.totalCount - 1)
-				/ this.searchRequest.getNumberOfItems() + 1;
+		this.totalPage = (this.totalCount - 1) / this.searchRequest.getNumberOfItems() + 1;
 		if (this.searchRequest.getCurrentPage() > this.totalPage) {
 			this.searchRequest.setCurrentPage(this.totalPage);
 		}

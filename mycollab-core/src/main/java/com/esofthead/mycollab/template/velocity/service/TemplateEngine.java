@@ -23,18 +23,16 @@ import java.io.Writer;
 
 /**
  * Wrap velocity engine
- * 
+ *
  * @author MyCollab Ltd.
  * @since 4.0.0
- * 
  */
 public interface TemplateEngine {
-	/**
-	 *
-	 * @param context
-	 * @param writer
-	 * @param message
-	 * @param reader
-	 */
-	void evaluate(TemplateContext context, Writer writer, String message, Reader reader);
+    /**
+     * @param context
+     * @param writer
+     * @param message
+     * @param reader
+     */
+    void evaluate(TemplateContext context, Writer writer, String message, Reader reader);
 }

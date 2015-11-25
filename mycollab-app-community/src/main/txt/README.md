@@ -43,6 +43,23 @@ understanding in a matter of minutes.
 Last changelog
 ==============
 
+Version 5.2.3
+-----------------------------
+**Library Upgrades**
+
+* Joda 2.9.1, Hiraki CP 2.4.2, SLF4J 1.7.13
+* Spring framework 4.2.3.RELEASE
+* Dynamic Reports 4.0.2
+
+**Improvements & New Features**
+
+* Allow inline edit task, milestone and bug summary field in dashboard view
+* Minor UI updates
+
+**Bug Fixes**
+
+* Upgrade process still keeps the old version value of class path items
+
 Version 5.2.2
 -----------------------------
 

@@ -18,15 +18,13 @@ package com.esofthead.mycollab.mobile.module.project.view.task;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.ui.ProjectCommentListDisplay;
 import com.esofthead.mycollab.mobile.module.project.ui.ProjectPreviewFormControlsGenerator;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
-import com.esofthead.mycollab.mobile.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.mobile.ui.AbstractPreviewItemComp;
 import com.esofthead.mycollab.mobile.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.mobile.ui.DefaultFormViewFieldFactory.FormViewField;
 import com.esofthead.mycollab.mobile.ui.IconConstants;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
@@ -34,15 +32,16 @@ import com.esofthead.mycollab.schedule.email.project.ProjectTaskGroupRelayEmailN
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 
 /**
  * @author MyCollab Ltd.
- *
  * @since 4.5.0
  */
 
@@ -152,20 +151,16 @@ public class TaskGroupReadViewImpl extends AbstractPreviewItemComp<SimpleTaskLis
         @Override
         protected Field<?> onCreateField(Object propertyId) {
             if (propertyId.equals("milestoneid")) {
-                return new FormViewField(beanItem.getMilestoneName());
+                return new DefaultViewField(beanItem.getMilestoneName());
             } else if (propertyId.equals("owner")) {
-                return new FormViewField(beanItem.getOwnerFullName());
+                return new DefaultViewField(beanItem.getOwnerFullName());
             } else if (propertyId.equals("percentageComplete")) {
-                final FormViewField progressField = new FormViewField(
-                        ((int) (beanItem.getPercentageComplete() * 100)) / 100
-                                + "%");
+                final DefaultViewField progressField = new DefaultViewField(((int) (beanItem.getPercentageComplete() * 100)) / 100 + "%");
                 return progressField;
             } else if (propertyId.equals("description")) {
-                return new FormViewField(beanItem.getDescription(),
-                        ContentMode.HTML);
+                return new DefaultViewField(beanItem.getDescription(), ContentMode.HTML);
             } else if (propertyId.equals("numOpenTasks")) {
-                final FormViewField fieldContainer = new FormViewField("("
-                        + beanItem.getNumOpenTasks() + "/"
+                final DefaultViewField fieldContainer = new DefaultViewField("(" + beanItem.getNumOpenTasks() + "/"
                         + beanItem.getNumAllTasks() + ")");
                 return fieldContainer;
             }

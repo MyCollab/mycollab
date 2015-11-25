@@ -1551,7 +1551,7 @@ a.pending {
 }
 
 .meta-info {
-	color: #888;
+	color: #999;
 	font-size: 13px;
 }
 
@@ -1930,7 +1930,7 @@ div.v-window {
 	background-color: #cae9f8;
 	padding: 0px 5px;
 	margin: 3px 3px 0px 0px;
-	color: #888;
+	color: #999;
 	font-size: 13px;
 }
 
@@ -2171,6 +2171,18 @@ span.block {
 
 .v-context-menu-container .v-context-menu .v-context-submenu .v-context-menu-item-basic-text {
 	padding-left: 6px;
+}
+
+.v-csslayout.editable-field {
+	display: flex;
+	min-height: 21px;
+}
+
+.v-csslayout.editable-field:hover::after {
+	float: top;
+	content: "\f044";
+	color: #999;
+	font-family: FontAwesome;
 }
 
 table {
@@ -13828,7 +13840,7 @@ a.pending {
 }
 
 .meta-info {
-	color: #888;
+	color: #999;
 	font-size: 13px;
 }
 
@@ -14207,7 +14219,7 @@ div.v-window {
 	background-color: #cae9f8;
 	padding: 0px 5px;
 	margin: 3px 3px 0px 0px;
-	color: #888;
+	color: #999;
 	font-size: 13px;
 }
 
@@ -14450,6 +14462,18 @@ span.block {
 	padding-left: 6px;
 }
 
+.v-csslayout.editable-field {
+	display: flex;
+	min-height: 21px;
+}
+
+.v-csslayout.editable-field:hover::after {
+	float: top;
+	content: "\f044";
+	color: #999;
+	font-family: FontAwesome;
+}
+
 .form .section {
 	padding: 25px 5px 5px 5px;
 	color: #006DAC;
@@ -14481,7 +14505,7 @@ span.block {
 }
 
 .v-gridlayout.colored-gridlayout .gridform-field {
-	min-height: 39px;
+	min-height: 43px;
 }
 
 .v-gridlayout.colored-gridlayout .gridform-caption {
@@ -14863,7 +14887,7 @@ div .addview-layout-body .control-buttons {
 
 .message-body p {
 	margin: 4px 0px;
-	color: #888;
+	color: #999;
 }
 
 .message .message-footer {
@@ -15072,7 +15096,7 @@ div.v-csslayout.followers-container .v-checkbox {
 
 .searchitems-layout .project-item-search-box .footer {
 	border-style: none;
-	color: #888;
+	color: #999;
 	font-size: 13px;
 }
 
@@ -15284,7 +15308,7 @@ div.v-button.token-field:hover {
 }
 
 .bug-component .created-time {
-	color: #888;
+	color: #999;
 	font-size: 13px;
 }
 
@@ -16261,13 +16285,13 @@ input.v-textfield-errorField {
 	width: 100%;
 	padding: 0px 0px 10px;
 	text-align: center;
-	color: #888;
+	color: #999;
 }
 
 #loginForm .rememberMe .v-checkbox {
 	width: 410px;
 	margin: 0px;
-	color: #888;
+	color: #999;
 }
 
 #loginForm .rememberMe .v-checkbox label {
@@ -16682,7 +16706,7 @@ div.v-csslayout.member-block {
 }
 
 .member-role {
-	color: #888;
+	color: #999;
 	font-size: 14px;
 }
 
@@ -17350,8 +17374,8 @@ div.v-ratingstars-bar {
 .vertical-tabsheet .v-button-tab {
 	border: none;
 	background: none no-repeat 0 0 transparent;
-	height: 42px;
-	border-radius: 0px;
+	margin: 5px;
+	border-radius: 6px;
 	-webkit-box-shadow: none;
 	text-align: left;
 }
@@ -17359,9 +17383,7 @@ div.v-ratingstars-bar {
 .vertical-tabsheet .v-button-tab .v-button-wrap {
 	background: none no-repeat 0 0 transparent;
 	background-image: none;
-	border-radius: 0px;
 	text-align: left;
-	margin-left: 10px;
 	border: none;
 }
 
@@ -17758,14 +17780,14 @@ div.v-csslayout.bean-block.olive-block {
 
 .text-log-hours {
 	text-align: right;
-	color: #888;
+	color: #999;
 }
 
 .text-log-hours-total {
 	margin-top: 10px;
 	text-align: right;
 	font-weight: 600;
-	color: #888;
+	color: #999;
 }
 
 .attachment-block {

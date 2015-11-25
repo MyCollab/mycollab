@@ -32,6 +32,7 @@ import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
  * 
@@ -39,14 +40,13 @@ import com.vaadin.ui.TextField;
  * @since 4.0
  * 
  */
-class ContactEditFormFieldFactory<B extends Contact> extends
-		AbstractBeanFieldGroupEditFieldFactory<B> {
+class ContactEditFormFieldFactory<B extends Contact> extends AbstractBeanFieldGroupEditFieldFactory<B> {
 	private static final long serialVersionUID = 1L;
 
 	private ContactFirstNamePrefixField firstNamePrefixField;
 
 	ContactEditFormFieldFactory(GenericBeanForm<B> form) {
-		super(form, true);
+		super(form);
 		firstNamePrefixField = new ContactFirstNamePrefixField();
 	}
 
@@ -92,23 +92,18 @@ class ContactEditFormFieldFactory<B extends Contact> extends
 
 		@Override
 		protected Component initContent() {
-			HorizontalLayout layout = new HorizontalLayout();
-			layout.setWidth("100%");
-			layout.setSpacing(true);
+			MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%");
 
 			final PrefixNameComboBox prefixSelect = new PrefixNameComboBox();
 			prefixSelect.setValue(attachForm.getBean().getPrefix());
 			layout.addComponent(prefixSelect);
 
-			prefixSelect
-					.addValueChangeListener(new Property.ValueChangeListener() {
+			prefixSelect.addValueChangeListener(new Property.ValueChangeListener() {
 						private static final long serialVersionUID = 1L;
 
 						@Override
 						public void valueChange(Property.ValueChangeEvent event) {
-							attachForm.getBean().setPrefix(
-									(String) prefixSelect.getValue());
-
+							attachForm.getBean().setPrefix((String) prefixSelect.getValue());
 						}
 					});
 
@@ -129,6 +124,5 @@ class ContactEditFormFieldFactory<B extends Contact> extends
 		public Class<? extends Contact> getType() {
 			return Contact.class;
 		}
-
 	}
 }

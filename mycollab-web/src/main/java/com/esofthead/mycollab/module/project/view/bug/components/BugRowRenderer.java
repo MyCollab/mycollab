@@ -18,47 +18,37 @@ package com.esofthead.mycollab.module.project.view.bug.components;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
-import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.view.bug.BugPopupFieldFactory;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
-import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.OptionPopupContent;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Div;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
-import java.util.UUID;
-
 /**
  * @author MyCollab Ltd
  * @since 5.1.1
  */
 public class BugRowRenderer extends MVerticalLayout {
-    private Label bugLinkLbl;
     private SimpleBug bug;
 
     private PopupButton bugSettingPopupBtn;
 
-    BugRowRenderer(SimpleBug bug) {
+    BugRowRenderer(final SimpleBug bug) {
         this.bug = bug;
         withSpacing(true).withMargin(false).withWidth("100%").addStyleName("taskrow");
 
@@ -68,23 +58,15 @@ public class BugRowRenderer extends MVerticalLayout {
         OptionPopupContent filterBtnLayout = createPopupContent();
         bugSettingPopupBtn.setContent(filterBtnLayout);
 
-        bugLinkLbl = new Label(buildBugLink(), ContentMode.HTML);
 
-        if (bug.isCompleted()) {
-            bugLinkLbl.addStyleName("completed");
-            bugLinkLbl.removeStyleName("overdue pending");
-        } else if (bug.isOverdue()) {
-            bugLinkLbl.addStyleName("overdue");
-            bugLinkLbl.removeStyleName("completed pending");
-        }
+        final ToogleBugSummaryField bugWrapper = new ToogleBugSummaryField(bug);
 
-        bugLinkLbl.addStyleName(UIConstants.LABEL_WORD_WRAP);
         BugPopupFieldFactory popupFieldFactory = ViewManager.getCacheComponent(BugPopupFieldFactory.class);
         MHorizontalLayout headerLayout = new MHorizontalLayout().withWidth("100%").withMargin(new MarginInfo(false,
                 true, false, false));
         PopupView priorityField = popupFieldFactory.createBugPriorityPopupField(bug);
         PopupView assigneeField = popupFieldFactory.createBugAssigneePopupField(bug);
-        headerLayout.with(bugSettingPopupBtn, priorityField, assigneeField, bugLinkLbl).expand(bugLinkLbl);
+        headerLayout.with(bugSettingPopupBtn, priorityField, assigneeField, bugWrapper).expand(bugWrapper);
 
         CssLayout footer = new CssLayout();
 
@@ -112,19 +94,6 @@ public class BugRowRenderer extends MVerticalLayout {
         this.with(headerLayout, footer);
     }
 
-    private String buildBugLink() {
-        String uid = UUID.randomUUID().toString();
-
-        String linkName = String.format("[#%d] - %s", bug.getBugkey(), bug.getSummary());
-        A taskLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateBugPreviewFullLink(bug.getBugkey(),
-                CurrentProjectVariables.getShortName())).appendText(linkName).setStyle("display:inline");
-
-        taskLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, ProjectTypeConstants.BUG, bug.getId() + ""));
-        taskLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
-
-        Div resultDiv = new DivLessFormatter().appendChild(taskLink, DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));
-        return resultDiv.write();
-    }
 
     private void deleteBug() {
         ComponentContainer parent = (ComponentContainer) this.getParent();

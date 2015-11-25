@@ -27,9 +27,7 @@ import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
@@ -43,8 +41,8 @@ import com.esofthead.mycollab.module.project.view.kanban.AddNewColumnWindow;
 import com.esofthead.mycollab.module.project.view.kanban.DeleteColumnWindow;
 import com.esofthead.mycollab.module.project.view.task.components.TaskSavedFilterComboBox;
 import com.esofthead.mycollab.module.project.view.task.components.TaskSearchPanel;
+import com.esofthead.mycollab.module.project.view.task.components.ToogleTaskSummaryField;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
-import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.AsyncInvoker;
 import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
@@ -54,8 +52,6 @@ import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.google.common.eventbus.Subscribe;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Div;
 import com.vaadin.event.dd.DragAndDropEvent;
 import com.vaadin.event.dd.DropHandler;
 import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
@@ -65,7 +61,6 @@ import com.vaadin.server.Page;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.dd.HorizontalDropLocation;
 import com.vaadin.shared.ui.dd.VerticalDropLocation;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import fi.jasoft.dragdroplayouts.DDHorizontalLayout;
 import fi.jasoft.dragdroplayouts.DDVerticalLayout;
@@ -335,20 +330,9 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
 
             MHorizontalLayout headerLayout = new MHorizontalLayout();
 
-            Label taskLinkLbl = new Label(buildTaskLink(), ContentMode.HTML);
-            if (task.isCompleted()) {
-                taskLinkLbl.addStyleName("completed");
-                taskLinkLbl.removeStyleName("overdue pending");
-            } else if (task.isOverdue()) {
-                taskLinkLbl.addStyleName("overdue");
-                taskLinkLbl.removeStyleName("completed pending");
-            } else if (task.isPending()) {
-                taskLinkLbl.addStyleName("pending");
-                taskLinkLbl.removeStyleName("completed overdue");
-            }
-            taskLinkLbl.addStyleName(UIConstants.LABEL_WORD_WRAP);
+            ToogleTaskSummaryField toogleTaskSummaryField = new ToogleTaskSummaryField(task, 70);
             PopupView priorityField = popupFieldFactory.createPriorityPopupField(task);
-            headerLayout.with(priorityField, taskLinkLbl).expand(taskLinkLbl);
+            headerLayout.with(priorityField, toogleTaskSummaryField).expand(toogleTaskSummaryField);
 
             root.with(headerLayout);
 
@@ -369,20 +353,6 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
             footer.addComponent(assigneeField);
 
             root.addComponent(footer);
-        }
-
-        private String buildTaskLink() {
-            String uid = UUID.randomUUID().toString();
-
-            String linkName = String.format("[#%d] - %s", task.getTaskkey(), StringUtils.trim(task.getTaskname(), 70, true));
-            A taskLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateTaskPreviewFullLink(task.getTaskkey(),
-                    CurrentProjectVariables.getShortName())).appendText(linkName).setStyle("display:inline");
-
-            taskLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, ProjectTypeConstants.TASK, task.getId() + ""));
-            taskLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
-
-            Div resultDiv = new DivLessFormatter().appendChild(taskLink, DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));
-            return resultDiv.write();
         }
     }
 

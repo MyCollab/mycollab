@@ -29,44 +29,36 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 
 /**
- * 
- * 
  * @author MyCollab Ltd.
  * @since 4.0
- * 
  */
-
 @ViewComponent
-public class ContactListViewImpl extends
-		AbstractListViewComp<ContactSearchCriteria, SimpleContact> implements
-		ContactListView {
-	private static final long serialVersionUID = 8271856163726726780L;
+public class ContactListViewImpl extends AbstractListViewComp<ContactSearchCriteria, SimpleContact> implements ContactListView {
+    private static final long serialVersionUID = 8271856163726726780L;
 
-	public ContactListViewImpl() {
-		super();
+    public ContactListViewImpl() {
+        super();
+        setCaption(AppContext.getMessage(ContactI18nEnum.VIEW_LIST_TITLE));
+    }
 
-		setCaption(AppContext.getMessage(ContactI18nEnum.VIEW_LIST_TITLE));
-	}
+    @Override
+    protected AbstractPagedBeanList<ContactSearchCriteria, SimpleContact> createBeanTable() {
+        ContactListDisplay contactListDisplay = new ContactListDisplay();
+        return contactListDisplay;
+    }
 
-	@Override
-	protected AbstractPagedBeanList<ContactSearchCriteria, SimpleContact> createBeanTable() {
-		ContactListDisplay contactListDisplay = new ContactListDisplay();
-		return contactListDisplay;
-	}
+    @Override
+    protected Component createRightComponent() {
+        Button addContact = new Button();
+        addContact.addClickListener(new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-	@Override
-	protected Component createRightComponent() {
-		Button addContact = new Button();
-		addContact.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void buttonClick(Button.ClickEvent arg0) {
-				EventBusFactory.getInstance().post(
-						new ContactEvent.GotoAdd(this, null));
-			}
-		});
-		addContact.setStyleName("add-btn");
-		return addContact;
-	}
+            @Override
+            public void buttonClick(Button.ClickEvent arg0) {
+                EventBusFactory.getInstance().post(new ContactEvent.GotoAdd(this, null));
+            }
+        });
+        addContact.setStyleName("add-btn");
+        return addContact;
+    }
 }

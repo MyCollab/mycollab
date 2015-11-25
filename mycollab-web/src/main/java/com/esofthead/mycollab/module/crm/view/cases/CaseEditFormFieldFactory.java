@@ -26,59 +26,56 @@ import com.vaadin.ui.Field;
 import com.vaadin.ui.TextField;
 
 /**
- * 
+ * @param <B>
  * @author MyCollab Ltd.
  * @since 3.0
- * 
- * @param <B>
  */
-class CaseEditFormFieldFactory<B extends CaseWithBLOBs> extends
-		AbstractBeanFieldGroupEditFieldFactory<B> {
-	private static final long serialVersionUID = 1L;
+class CaseEditFormFieldFactory<B extends CaseWithBLOBs> extends AbstractBeanFieldGroupEditFieldFactory<B> {
+    private static final long serialVersionUID = 1L;
 
-	CaseEditFormFieldFactory(GenericBeanForm<B> form) {
-		super(form);
-	}
+    CaseEditFormFieldFactory(GenericBeanForm<B> form) {
+        super(form);
+    }
 
-	CaseEditFormFieldFactory(GenericBeanForm<B> form, boolean isValidateForm) {
-		super(form, isValidateForm);
-	}
+    CaseEditFormFieldFactory(GenericBeanForm<B> form, boolean isValidateForm) {
+        super(form, isValidateForm);
+    }
 
-	@Override
-	protected Field<?> onCreateField(Object propertyId) {
-		if (propertyId.equals("priority")) {
-			return new CasePriorityComboBox();
-		} else if (propertyId.equals("status")) {
-			return new CaseStatusComboBox();
-		} else if (propertyId.equals("reason")) {
-			return new CaseReasonComboBox();
-		} else if (propertyId.equals("origin")) {
-			return new CasesOriginComboBox();
-		} else if (propertyId.equals("type")) {
-			return new CaseTypeComboBox();
-		} else if (propertyId.equals("description")) {
-			return new RichTextEditField();
-		} else if (propertyId.equals("resolution")) {
-			return new RichTextEditField();
-		} else if (propertyId.equals("accountid")) {
-			AccountSelectionField accountField = new AccountSelectionField();
-			accountField.setRequired(true);
-			return accountField;
-		} else if (propertyId.equals("subject")) {
-			TextField tf = new TextField();
-			if (isValidateForm) {
-				tf.setNullRepresentation("");
-				tf.setRequired(true);
-				tf.setRequiredError("Subject must not be null");
-			}
+    @Override
+    protected Field<?> onCreateField(Object propertyId) {
+        if (propertyId.equals("priority")) {
+            return new CasePriorityComboBox();
+        } else if (propertyId.equals("status")) {
+            return new CaseStatusComboBox();
+        } else if (propertyId.equals("reason")) {
+            return new CaseReasonComboBox();
+        } else if (propertyId.equals("origin")) {
+            return new CasesOriginComboBox();
+        } else if (propertyId.equals("type")) {
+            return new CaseTypeComboBox();
+        } else if (propertyId.equals("description")) {
+            return new RichTextEditField();
+        } else if (propertyId.equals("resolution")) {
+            return new RichTextEditField();
+        } else if (propertyId.equals("accountid")) {
+            AccountSelectionField accountField = new AccountSelectionField();
+            accountField.setRequired(true);
+            return accountField;
+        } else if (propertyId.equals("subject")) {
+            TextField tf = new TextField();
+            if (isValidateForm) {
+                tf.setNullRepresentation("");
+                tf.setRequired(true);
+                tf.setRequiredError("Subject must not be null");
+            }
 
-			return tf;
-		} else if (propertyId.equals("assignuser")) {
-			ActiveUserComboBox userBox = new ActiveUserComboBox();
-			userBox.select(attachForm.getBean().getAssignuser());
-			return userBox;
-		}
+            return tf;
+        } else if (propertyId.equals("assignuser")) {
+            ActiveUserComboBox userBox = new ActiveUserComboBox();
+            userBox.select(attachForm.getBean().getAssignuser());
+            return userBox;
+        }
 
-		return null;
-	}
+        return null;
+    }
 }

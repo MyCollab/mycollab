@@ -22,9 +22,7 @@ import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
@@ -34,6 +32,7 @@ import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemCo
 import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
 import com.esofthead.mycollab.module.project.ui.components.ProjectActivityComponent;
 import com.esofthead.mycollab.module.project.ui.format.VersionFieldFormatter;
+import com.esofthead.mycollab.module.project.view.bug.components.ToogleBugSummaryField;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
@@ -41,15 +40,12 @@ import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.module.tracker.service.VersionService;
 import com.esofthead.mycollab.schedule.email.project.VersionRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
-import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.ContainerViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.DateViewField;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Span;
 import com.vaadin.data.Property;
@@ -58,12 +54,10 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.apache.commons.collections.CollectionUtils;
-import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * @author MyCollab Ltd.
@@ -261,37 +255,22 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version> implem
                 List<SimpleBug> bugs = bugService.findPagableListByCriteria(new SearchRequest<>(searchCriteria, i + 1, 20));
                 if (CollectionUtils.isNotEmpty(bugs)) {
                     for (SimpleBug bug : bugs) {
-                        Div bugDiv = new Div();
-                        String uid = UUID.randomUUID().toString();
-
-                        A itemLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectItemLink(
-                                bug.getProjectShortName(), bug.getProjectid(), ProjectTypeConstants.BUG, bug.getBugkey() + ""));
-                        itemLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, ProjectTypeConstants.BUG, bug.getId() + ""));
-                        itemLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
-                        itemLink.appendText(String.format("[#%d] - %s", bug.getBugkey(), bug.getSummary()));
-                        bugDiv.appendChild(itemLink, DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));
-
-                        Label issueLbl = new Label(bugDiv.write(), ContentMode.HTML);
-                        if (bug.isCompleted()) {
-                            issueLbl.addStyleName("completed");
-                        } else if (bug.isOverdue()) {
-                            issueLbl.addStyleName("overdue");
-                        }
+                        ToogleBugSummaryField toogleBugSummaryField = new ToogleBugSummaryField(bug);
 
                         MHorizontalLayout rowComp = new MHorizontalLayout();
                         rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
                         rowComp.with(new ELabel(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG).getHtml(),
-                                ContentMode.HTML).withWidth("-1px"));
+                                ContentMode.HTML).withWidthUndefined());
 
                         String bugPriority = bug.getPriority();
                         Span priorityLink = new Span().appendText(ProjectAssetsManager.getBugPriorityHtml(bugPriority)).setTitle(bugPriority);
-                        rowComp.with(new ELabel(priorityLink.write(), ContentMode.HTML).withWidth("-1px"));
+                        rowComp.with(new ELabel(priorityLink.write(), ContentMode.HTML).withWidthUndefined());
 
                         String avatarLink = StorageFactory.getInstance().getAvatarPath(bug.getAssignUserAvatarId(), 16);
                         Img img = new Img(bug.getAssignuserFullName(), avatarLink).setTitle(bug.getAssignuserFullName());
                         rowComp.with(new ELabel(img.write(), ContentMode.HTML));
 
-                        rowComp.with(issueLbl).expand(issueLbl);
+                        rowComp.with(toogleBugSummaryField).expand(toogleBugSummaryField);
                         issueLayout.add(rowComp);
                     }
                 }

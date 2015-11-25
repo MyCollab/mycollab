@@ -15,7 +15,7 @@
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
 /**
- * 
+ *
  */
 package com.esofthead.mycollab.mobile.module.crm.view.contact;
 
@@ -33,51 +33,42 @@ import com.vaadin.ui.Component;
 
 /**
  * @author MyCollab Inc.
- * 
  * @since 4.3.1
  */
-public class ContactOpportunitySelectionView
-		extends
-		AbstractRelatedItemSelectionView<SimpleOpportunity, OpportunitySearchCriteria> {
+public class ContactOpportunitySelectionView extends
+        AbstractRelatedItemSelectionView<SimpleOpportunity, OpportunitySearchCriteria> {
+    private static final long serialVersionUID = -238551162632570679L;
 
-	private static final long serialVersionUID = -238551162632570679L;
+    public ContactOpportunitySelectionView(AbstractRelatedListView<SimpleOpportunity, OpportunitySearchCriteria> relatedListView) {
+        super(AppContext.getMessage(OpportunityI18nEnum.M_TITLE_SELECT_OPPORTUNITIES), relatedListView);
+    }
 
-	public ContactOpportunitySelectionView(
-			AbstractRelatedListView<SimpleOpportunity, OpportunitySearchCriteria> relatedListView) {
-		super(AppContext
-				.getMessage(OpportunityI18nEnum.M_TITLE_SELECT_OPPORTUNITIES),
-				relatedListView);
-	}
+    @Override
+    protected void initUI() {
+        this.itemList = new OpportunityListDisplay();
+        this.itemList.setRowDisplayHandler(new AbstractPagedBeanList.RowDisplayHandler<SimpleOpportunity>() {
 
-	@Override
-	protected void initUI() {
-		this.itemList = new OpportunityListDisplay();
-		this.itemList
-				.setRowDisplayHandler(new AbstractPagedBeanList.RowDisplayHandler<SimpleOpportunity>() {
+            @Override
+            public Component generateRow(final SimpleOpportunity obj,
+                                         int rowIndex) {
+                final SelectableButton b = new SelectableButton(obj.getOpportunityname());
+                if (selections.contains(obj)) b.select();
+                b.addClickListener(new Button.ClickListener() {
 
-					@Override
-					public Component generateRow(final SimpleOpportunity obj,
-							int rowIndex) {
-						final SelectableButton b = new SelectableButton(obj
-								.getOpportunityname());
-						if (selections.contains(obj))
-							b.select();
-						b.addClickListener(new Button.ClickListener() {
+                    private static final long serialVersionUID = 2458940518722524446L;
 
-							private static final long serialVersionUID = 2458940518722524446L;
+                    @Override
+                    public void buttonClick(ClickEvent event) {
+                        if (b.isSelected())
+                            selections.add(obj);
+                        else
+                            selections.remove(obj);
+                    }
 
-							@Override
-							public void buttonClick(ClickEvent event) {
-								if (b.isSelected())
-									selections.add(obj);
-								else
-									selections.remove(obj);
-							}
-
-						});
-						return b;
-					}
-				});
-	}
+                });
+                return b;
+            }
+        });
+    }
 
 }

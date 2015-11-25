@@ -47,8 +47,7 @@ public class ComponentScannerService implements InitializingBean {
         provider.addIncludeFilter(new AnnotationTypeFilter(ViewComponent.class));
         provider.addIncludeFilter(new AssignableTypeFilter(IPresenter.class));
         for (BeanDefinition candidate : provider.findCandidateComponents("com.esofthead.mycollab.**.view")) {
-            Class cls = ClassUtils.resolveClassName(candidate.getBeanClassName(),
-                    ClassUtils.getDefaultClassLoader());
+            Class cls = ClassUtils.resolveClassName(candidate.getBeanClassName(), ClassUtils.getDefaultClassLoader());
             if (cls.getAnnotation(ViewComponent.class) != null) {
                 viewClasses.add(cls);
             } else if (IPresenter.class.isAssignableFrom(cls)) {

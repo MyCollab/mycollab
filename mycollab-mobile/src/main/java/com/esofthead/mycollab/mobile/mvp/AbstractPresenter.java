@@ -69,17 +69,8 @@ public abstract class AbstractPresenter<V extends PageView> implements IPresente
 	@Override
 	public void go(ComponentContainer container, ScreenData<?> data, boolean isHistoryTrack) {
 		getView();
-		LOG.debug("Go to view: " + view);
 		if (isHistoryTrack) {
 			ViewState state = new ViewState(container, this, data);
-			if (LOG.isDebugEnabled()) {
-				StringBuilder str = new StringBuilder();
-				str.append("----").append("\n");
-				str.append("Add ").append(state).append("\n");
-				str.append("to history with container ").append(container).append("\n");
-				str.append("----");
-				LOG.debug(str.toString());
-			}
 			HistoryViewManager.addHistory(state);
 		} else {
 			LOG.debug("Disable history track for " + this);

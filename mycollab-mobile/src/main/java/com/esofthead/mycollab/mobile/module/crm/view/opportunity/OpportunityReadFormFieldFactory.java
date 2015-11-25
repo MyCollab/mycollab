@@ -17,50 +17,45 @@
 package com.esofthead.mycollab.mobile.module.crm.view.opportunity;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
-import com.esofthead.mycollab.mobile.ui.AbstractBeanFieldGroupViewFieldFactory;
-import com.esofthead.mycollab.mobile.ui.DefaultFormViewFieldFactory.FormViewField;
+
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
+import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
 import com.vaadin.ui.Field;
 
-public class OpportunityReadFormFieldFactory extends
-		AbstractBeanFieldGroupViewFieldFactory<SimpleOpportunity> {
-	private static final long serialVersionUID = 1L;
+public class OpportunityReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<SimpleOpportunity> {
+    private static final long serialVersionUID = 1L;
 
-	public OpportunityReadFormFieldFactory(
-			GenericBeanForm<SimpleOpportunity> form) {
-		super(form);
-	}
+    public OpportunityReadFormFieldFactory(GenericBeanForm<SimpleOpportunity> form) {
+        super(form);
+    }
 
-	@Override
-	protected Field<?> onCreateField(Object propertyId) {
-		Field<?> field = null;
-		final SimpleOpportunity opportunity = attachForm.getBean();
+    @Override
+    protected Field<?> onCreateField(Object propertyId) {
+        Field<?> field = null;
+        final SimpleOpportunity opportunity = attachForm.getBean();
 
-		if (propertyId.equals("accountid")) {
-			field = new FormViewField(opportunity.getAccountName());
-		} else if (propertyId.equals("campaignid")) {
-			field = new FormViewField(opportunity.getCampaignName());
-		} else if (propertyId.equals("assignuser")) {
-			field = new FormViewField(opportunity.getAssignUserFullName());
-		} else if (propertyId.equals("expectedcloseddate")) {
-			field = new FormViewField(AppContext.formatDate(opportunity
-					.getExpectedcloseddate()));
-		} else if (propertyId.equals("currencyid")) {
-			if (opportunity.getCurrency() != null) {
-				return new FormViewField(opportunity.getCurrency()
-						.getShortname());
-			} else {
-				return new FormViewField("");
-			}
-		}
-		return field;
-	}
+        if (propertyId.equals("accountid")) {
+            field = new DefaultViewField(opportunity.getAccountName());
+        } else if (propertyId.equals("campaignid")) {
+            field = new DefaultViewField(opportunity.getCampaignName());
+        } else if (propertyId.equals("assignuser")) {
+            field = new DefaultViewField(opportunity.getAssignUserFullName());
+        } else if (propertyId.equals("expectedcloseddate")) {
+            field = new DefaultViewField(AppContext.formatDate(opportunity.getExpectedcloseddate()));
+        } else if (propertyId.equals("currencyid")) {
+            if (opportunity.getCurrency() != null) {
+                return new DefaultViewField(opportunity.getCurrency().getShortname());
+            } else {
+                return new DefaultViewField("");
+            }
+        }
+        return field;
+    }
 
 }

@@ -19,20 +19,16 @@
     <parent>
         <groupId>com.esofthead.mycollab</groupId>
         <artifactId>mycollab-parent-community</artifactId>
-        <version>5.2.2</version>
+        <version>5.2.3</version>
         <relativePath>../mycollab-parent-community/pom.xml</relativePath>
     </parent>
-
-    <properties>
-        <jackrabbitVersion>2.11.2</jackrabbitVersion>
-    </properties>
 
     <dependencies>
         <!-- MYCOLLAB DEPENDENCIES -->
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-core</artifactId>
-            <version>5.2.2</version>
+            <version>5.2.3</version>
         </dependency>
 
         <!-- ECM -->

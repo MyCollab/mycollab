@@ -27,7 +27,6 @@ import com.esofthead.mycollab.module.project.i18n.Page18InEnum;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
-import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
 import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
@@ -110,8 +109,6 @@ class GroupPageAddWindow extends Window {
                     }
                 });
                 cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-                controlsBtn.addComponent(cancelBtn);
-                controlsBtn.setComponentAlignment(cancelBtn, Alignment.MIDDLE_LEFT);
 
                 Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
@@ -131,8 +128,7 @@ class GroupPageAddWindow extends Window {
                 saveBtn.setIcon(FontAwesome.SAVE);
                 saveBtn.setStyleName(UIConstants.BUTTON_ACTION);
                 saveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
-                controlsBtn.addComponent(saveBtn);
-                controlsBtn.setComponentAlignment(saveBtn, Alignment.MIDDLE_RIGHT);
+                controlsBtn.with(saveBtn, cancelBtn);
 
                 layout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
 
@@ -161,7 +157,7 @@ class GroupPageAddWindow extends Window {
         @Override
         protected Field<?> onCreateField(final Object propertyId) {
             if (propertyId.equals("description")) {
-                return new RichTextEditField();
+                return new RichTextArea();
             }
 
             return null;

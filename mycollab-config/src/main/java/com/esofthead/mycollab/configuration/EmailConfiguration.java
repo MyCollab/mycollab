@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.configuration;
 
 import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.core.arguments.ValuedBean;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
@@ -27,7 +28,7 @@ import javax.validation.constraints.NotNull;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class EmailConfiguration implements Cloneable {
+public class EmailConfiguration extends ValuedBean implements Cloneable {
     @NotNull
     private String host;
     @NotNull
