@@ -30,11 +30,6 @@ public class OptionPopupContent extends CustomComponent {
         this.setCompositionRoot(root);
     }
 
-    public OptionPopupContent withWidth(String width) {
-        this.getCompositionRoot().setWidth(width);
-        return this;
-    }
-
     public void removeOptions() {
         ((ComponentContainer) this.getCompositionRoot()).removeAllComponents();
     }

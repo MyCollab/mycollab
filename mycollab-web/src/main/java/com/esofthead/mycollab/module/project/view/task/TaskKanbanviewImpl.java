@@ -341,13 +341,11 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
             PopupView commentField = popupFieldFactory.createCommentsPopupField(task);
             footer.addComponent(commentField);
 
-            if (task.getDeadlineRoundPlusOne() != null) {
-                PopupView field = popupFieldFactory.createDeadlinePopupField(task);
-                String deadline = String.format("%s: %s", AppContext.getMessage(TaskI18nEnum.FORM_DEADLINE),
-                        AppContext.formatDate(task.getDeadlineRoundPlusOne()));
-                field.setDescription(deadline);
-                footer.addComponent(field);
-            }
+            PopupView followerField = popupFieldFactory.createFollowersPopupField(task);
+            footer.addComponent(followerField);
+
+            PopupView deadlineField = popupFieldFactory.createDeadlinePopupField(task);
+            footer.addComponent(deadlineField);
 
             PopupView assigneeField = popupFieldFactory.createAssigneePopupField(task);
             footer.addComponent(assigneeField);
@@ -368,7 +366,10 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
             root = new MVerticalLayout();
             root.setWidth("300px");
             root.addStyleName("kanban-block");
+            String optionId = UUID.randomUUID().toString() + "-" + stage.hashCode();
+            root.setId(optionId);
             this.setCompositionRoot(root);
+            JavaScript.getCurrent().execute("$('#" + optionId + "').css({'background-color':'#" + stage.getColor() + "'});");
 
             dragLayoutContainer = new DDVerticalLayout();
             dragLayoutContainer.setSpacing(true);

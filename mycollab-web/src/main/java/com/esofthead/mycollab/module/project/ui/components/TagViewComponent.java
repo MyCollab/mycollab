@@ -32,9 +32,9 @@ import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.UI;
 import org.vaadin.dialogs.ConfirmDialog;
-import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.suggestfield.SuggestField;
 import org.vaadin.suggestfield.client.SuggestFieldSuggestion;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.ArrayList;
 import java.util.Collections;

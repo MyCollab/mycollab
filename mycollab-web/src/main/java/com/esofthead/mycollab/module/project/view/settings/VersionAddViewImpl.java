@@ -26,11 +26,11 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.*;
-import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
 import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
+import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.TextField;
 
 /**
@@ -102,7 +102,7 @@ public class VersionAddViewImpl extends AbstractEditItemComp<Version> implements
                 }
                 return tf;
             } else if (Version.Field.description.equalTo(propertyId)) {
-                return new RichTextEditField();
+                return new RichTextArea();
             } else if (Version.Field.duedate.equalTo(propertyId)) {
                 final DateFieldExt dateField = new DateFieldExt();
                 dateField.setResolution(Resolution.DAY);

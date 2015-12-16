@@ -112,4 +112,10 @@ public class BugPopupFieldFactoryImpl implements BugPopupFieldFactory {
         return new PopupFieldBuilder().withCaptionAndIcon(FontAwesome.GIFT, "" + bug.getNonBillableHours())
                 .withDescription("Non billable hours").build();
     }
+
+    @Override
+    public PopupView createFollowersPopupField(SimpleBug bug) {
+        return new PopupFieldBuilder().withCaptionAndIcon(FontAwesome.EYE, "" + bug.getNumFollowers())
+                .withDescription("Followers").build();
+    }
 }

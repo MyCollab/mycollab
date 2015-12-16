@@ -19,12 +19,15 @@ package com.esofthead.mycollab.common.dao;
 import com.esofthead.mycollab.common.domain.MonitorItem;
 import com.esofthead.mycollab.common.domain.criteria.MonitorSearchCriteria;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
+import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Collection;
+import java.util.List;
 
-public interface MonitorItemMapperExt extends
-		ISearchableDAO<MonitorSearchCriteria> {
+public interface MonitorItemMapperExt extends ISearchableDAO<MonitorSearchCriteria> {
 
     void saveMonitorItems(@Param("monitors") Collection<MonitorItem> monitorItems);
+
+    List<SimpleUser> getWatchers(@Param("type") String type, @Param("typeId") Integer typeId);
 }

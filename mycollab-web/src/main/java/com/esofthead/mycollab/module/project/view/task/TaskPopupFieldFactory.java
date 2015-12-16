@@ -47,4 +47,6 @@ public interface TaskPopupFieldFactory extends CacheableComponent {
     PopupView createBillableHoursPopupField(SimpleTask task);
 
     PopupView createNonBillableHoursPopupField(SimpleTask task);
+
+    PopupView createFollowersPopupField(SimpleTask task);
 }

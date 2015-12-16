@@ -44,6 +44,7 @@ public class RolePermissionCollections {
     public static final String ACCOUNT_THEME = "Theme";
 
     public static final String CREATE_NEW_PROJECT = "CreateNewProject";
+    public static final String GLOBAL_PROJECT_SETTINGS = "GlobalProjectSettings";
 
     public static final String PUBLIC_DOCUMENT_ACCESS = "PublicDocumentAccess";
 
@@ -65,7 +66,8 @@ public class RolePermissionCollections {
             new PermissionDefItem(ACCOUNT_THEME, "Theme", BooleanPermissionFlag.class));
 
     public static final List<PermissionDefItem> PROJECT_PERMISSION_ARR = ImmutableList.of(new PermissionDefItem(
-            CREATE_NEW_PROJECT, "Create New Project", BooleanPermissionFlag.class));
+            CREATE_NEW_PROJECT, "Create New Project", BooleanPermissionFlag.class), new PermissionDefItem(
+            GLOBAL_PROJECT_SETTINGS, "Global Project Settings", BooleanPermissionFlag.class));
 
     public static final List<PermissionDefItem> DOCUMENT_PERMISSION_ARR = ImmutableList.of(new PermissionDefItem(
             PUBLIC_DOCUMENT_ACCESS, "Public Documents", AccessPermissionFlag.class));

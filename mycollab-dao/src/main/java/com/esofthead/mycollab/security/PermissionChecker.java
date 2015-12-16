@@ -27,7 +27,7 @@ public class PermissionChecker {
 	 * @param flag
 	 * @return true if <code>flag</code> is boolean permission flag
 	 */
-	public static boolean isBooleanPermission(int flag) {
+	public static boolean isBooleanPermission(Integer flag) {
 		return (flag >> 7) == 1;
 	}
 
@@ -36,7 +36,7 @@ public class PermissionChecker {
 	 * @param flag
 	 * @return true of <code>flag</code> is access permission
 	 */
-	public static boolean isAccessPermission(int flag) {
+	public static boolean isAccessPermission(Integer flag) {
 		return (flag >> 3) == 0;
 	}
 

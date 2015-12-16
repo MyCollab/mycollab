@@ -71,7 +71,7 @@ public class SelectionOptionButton extends SplitButton implements HasSelectionOp
             }
         });
 
-        final OptionPopupContent selectContent = new OptionPopupContent().withWidth("150px");
+        final OptionPopupContent selectContent = new OptionPopupContent();
 
         selectAllBtn = new ButtonLink("", new Button.ClickListener() {
             @Override

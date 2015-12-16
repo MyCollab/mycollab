@@ -132,6 +132,12 @@ public class TaskPopupFieldFactoryImpl implements TaskPopupFieldFactory {
     }
 
     @Override
+    public PopupView createFollowersPopupField(SimpleTask task) {
+        return new PopupFieldBuilder().withCaptionAndIcon(FontAwesome.EYE, "" + task.getNumFollowers())
+                .withDescription("Followers").build();
+    }
+
+    @Override
     public PopupView createBillableHoursPopupField(SimpleTask task) {
         return new PopupFieldBuilder().withCaptionAndIcon(FontAwesome.MONEY, "" + task.getBillableHours())
                 .withDescription("Billable hours").build();

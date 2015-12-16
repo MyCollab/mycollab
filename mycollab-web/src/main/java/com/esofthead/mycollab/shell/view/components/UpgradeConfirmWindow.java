@@ -89,6 +89,9 @@ public class UpgradeConfirmWindow extends Window {
                 navigateToWaitingUpgradePage();
             }
         });
+        if (installerFilePath == null) {
+            autoUpgradeBtn.setEnabled(false);
+        }
         autoUpgradeBtn.addStyleName(UIConstants.BUTTON_ACTION);
         buttonControls.with(skipBtn, autoUpgradeBtn);
         content.with(buttonControls).withAlign(buttonControls, Alignment.MIDDLE_RIGHT);

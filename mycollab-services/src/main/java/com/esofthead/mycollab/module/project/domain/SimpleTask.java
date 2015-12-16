@@ -44,6 +44,7 @@ public class SimpleTask extends Task {
     private Integer numSubTasks;
     private Double billableHours;
     private Double nonBillableHours;
+    private Integer numFollowers;
 
     public Integer getNumComments() {
         return numComments;
@@ -177,6 +178,14 @@ public class SimpleTask extends Task {
 
     public void setNonBillableHours(Double nonBillableHours) {
         this.nonBillableHours = nonBillableHours;
+    }
+
+    public Integer getNumFollowers() {
+        return numFollowers;
+    }
+
+    public void setNumFollowers(Integer numFollowers) {
+        this.numFollowers = numFollowers;
     }
 
     public boolean isCompleted() {

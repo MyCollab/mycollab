@@ -57,10 +57,10 @@ public class GridFormLayoutHelper implements Serializable {
         this.defaultCaptionWidth = defaultCaptionWidth;
         this.captionAlignment = captionAlignment;
 
-        this.layout = new GridLayout(2 * columns, rows);
-        this.layout.setMargin(false);
-        this.layout.setSpacing(false);
-        this.layout.setRowExpandRatio(0, 0);
+        layout = new GridLayout(2 * columns, rows);
+        layout.setMargin(false);
+        layout.setSpacing(false);
+        layout.setRowExpandRatio(0, 0);
     }
 
     public static GridFormLayoutHelper defaultFormLayoutHelper(int columns, int rows) {
@@ -77,11 +77,11 @@ public class GridFormLayoutHelper implements Serializable {
     }
 
     public void appendRow() {
-        this.layout.setRows(layout.getRows() + 1);
+        layout.setRows(layout.getRows() + 1);
     }
 
     public int getRows() {
-        return this.layout.getRows();
+        return layout.getRows();
     }
 
     public void addComponent(Component field, String caption, int columns, int rows, int colspan, String width) {
@@ -113,7 +113,7 @@ public class GridFormLayoutHelper implements Serializable {
             if (rows == 0) {
                 captionWrapper.addStyleName("first-row");
             }
-            this.layout.addComponent(captionWrapper, 2 * columns, rows);
+            layout.addComponent(captionWrapper, 2 * columns, rows);
         }
         GridCellWrapper fieldWrapper = new GridCellWrapper();
 
@@ -121,8 +121,8 @@ public class GridFormLayoutHelper implements Serializable {
             fieldWrapper.addStyleName("first-row");
         }
         fieldWrapper.setWidth(width);
-        this.layout.addComponent(fieldWrapper, 2 * columns + 1, rows, 2 * (columns + colspan - 1) + 1, rows);
-        this.layout.setColumnExpandRatio(2 * columns + 1, 1.0f);
+        layout.addComponent(fieldWrapper, 2 * columns + 1, rows, 2 * (columns + colspan - 1) + 1, rows);
+        layout.setColumnExpandRatio(2 * columns + 1, 1.0f);
 
         if (StringUtils.isNotBlank(caption)) {
             fieldCaptionMappings.put(caption, fieldWrapper);
@@ -143,8 +143,8 @@ public class GridFormLayoutHelper implements Serializable {
         if (caption != null) {
             Label l = new Label(caption);
             l.setWidth(this.defaultCaptionWidth);
-            this.layout.addComponent(l, 2 * columns, rows);
-            this.layout.setComponentAlignment(l, this.captionAlignment);
+            layout.addComponent(l, 2 * columns, rows);
+            layout.setComponentAlignment(l, this.captionAlignment);
         }
         if (!(field instanceof Button))
             field.setCaption(null);
@@ -155,12 +155,12 @@ public class GridFormLayoutHelper implements Serializable {
             field.setWidth(fieldControlWidth);
         }
 
-        this.layout.addComponent(field, 2 * columns + 1, rows);
-        this.layout.setColumnExpandRatio(2 * columns + 1, 1.0f);
+        layout.addComponent(field, 2 * columns + 1, rows);
+        layout.setColumnExpandRatio(2 * columns + 1, 1.0f);
         return field;
     }
 
     public GridLayout getLayout() {
-        return this.layout;
+        return layout;
     }
 }

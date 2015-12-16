@@ -70,7 +70,7 @@
         <dependency>
             <groupId>org.vaadin</groupId>
             <artifactId>viritin</artifactId>
-            <version>1.37</version>
+            <version>1.38</version>
         </dependency>
 
         <dependency>

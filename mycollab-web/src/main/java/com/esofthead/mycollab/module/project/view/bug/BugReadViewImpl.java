@@ -255,7 +255,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
         peopleInfoComp = new PeopleInfoComp();
         bugFollowersList = new ProjectFollowersComp<>(ProjectTypeConstants.BUG, ProjectRolePermissionCollections.BUGS);
         bugTimeLogList = ViewManager.getCacheComponent(BugTimeLogSheet.class);
-        addToSideBar(dateInfoComp, peopleInfoComp, bugFollowersList, bugTimeLogList);
+        addToSideBar(dateInfoComp, peopleInfoComp, bugTimeLogList, bugFollowersList);
     }
 
     @Override

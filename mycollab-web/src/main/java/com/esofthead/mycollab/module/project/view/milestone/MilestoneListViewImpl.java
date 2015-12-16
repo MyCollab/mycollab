@@ -262,7 +262,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
 
             PopupButton taskSettingPopupBtn = new PopupButton();
             taskSettingPopupBtn.setWidth("15px");
-            OptionPopupContent filterBtnLayout = new OptionPopupContent().withWidth("100px");
+            OptionPopupContent filterBtnLayout = new OptionPopupContent();
 
             Button editButton = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;

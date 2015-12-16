@@ -48,8 +48,7 @@ public class ProjectSummaryViewImpl extends AbstractLazyPageView implements Proj
         ProjectActivityStreamComponent activityPanel = new ProjectActivityStreamComponent();
         leftPanel.addComponent(activityPanel);
 
-        MVerticalLayout rightPanel = new MVerticalLayout().withMargin(new MarginInfo(false, false, false, true))
-                .withWidth("500px");
+        MVerticalLayout rightPanel = new MVerticalLayout().withMargin(new MarginInfo(false, false, false, true));
         ProjectMembersWidget membersWidget = new ProjectMembersWidget();
         ProjectAssignmentsWidget taskOverdueWidget = new ProjectAssignmentsWidget();
 
@@ -59,6 +58,6 @@ public class ProjectSummaryViewImpl extends AbstractLazyPageView implements Proj
         membersWidget.showInformation();
         taskOverdueWidget.showOpenAssignments();
 
-        layout.with(leftPanel, rightPanel).expand(leftPanel);
+        layout.with(leftPanel, rightPanel);
     }
 }

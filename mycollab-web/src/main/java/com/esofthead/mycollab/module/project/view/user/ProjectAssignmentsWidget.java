@@ -61,6 +61,7 @@ public class ProjectAssignmentsWidget extends Depot {
 
     public ProjectAssignmentsWidget() {
         super(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_OPEN_ASSIGNMENTS_TITLE, 0), new CssLayout());
+        this.setWidth("100%");
 
         final CheckBox overdueSelection = new CheckBox("Overdue");
         overdueSelection.addValueChangeListener(new Property.ValueChangeListener() {

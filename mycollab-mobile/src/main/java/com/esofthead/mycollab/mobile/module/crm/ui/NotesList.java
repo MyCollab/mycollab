@@ -177,8 +177,7 @@ public class NotesList extends AbstractMobilePageView {
         public Component generateRow(final SimpleNote note, final int rowIndex) {
             MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%").withStyleName("message").withMargin(true);
             layout.addComponent(UserAvatarControlFactory
-                    .createUserAvatarButtonLink(note.getCreatedUserAvatarId(),
-                            note.getCreateUserFullName()));
+                    .createUserAvatarEmbeddedButton(note.getCreatedUserAvatarId(), 48));
 
             MVerticalLayout rowLayout = new MVerticalLayout().withMargin(false).withWidth("100%").withStyleName("message-container");
             rowLayout.setDefaultComponentAlignment(Alignment.TOP_LEFT);

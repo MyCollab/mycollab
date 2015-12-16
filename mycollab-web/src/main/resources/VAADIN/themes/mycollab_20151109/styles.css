@@ -2185,6 +2185,46 @@ span.block {
 	font-family: FontAwesome;
 }
 
+.v-csslayout.removeable-btn {
+	display: flex;
+	min-height: 21px;
+	margin: 3px;
+}
+
+.v-csslayout.removeable-btn:hover::after {
+	float: top;
+	content: "\f00d";
+	color: #999;
+	font-family: FontAwesome;
+	margin: 0px;
+	z-index: 10;
+	cursor: pointer;
+}
+
+.v-popupview {
+	text-decoration: none;
+	color: #006DAC;
+}
+
+.v-popupview:hover {
+	color: #006DAC;
+}
+
+.flex {
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-wrap: wrap;
+	flex-wrap: wrap;
+	-ms-writing-mode: lr-tb;
+}
+
+.scrollable-container {
+	overflow-y: auto;
+}
+
 table {
 	table-layout: auto;
 	word-break: break-through;
@@ -13594,7 +13634,7 @@ div.v-button-link.xbreadcrumbbutton .v-button-wrap {
 .v-button.v-button-block {
 	color: white;
 	font-weight: normal;
-	margin: 0px 3px;
+	margin: 0px 3px 3px 0px;
 }
 
 .v-button-selected-style {
@@ -14472,6 +14512,46 @@ span.block {
 	content: "\f044";
 	color: #999;
 	font-family: FontAwesome;
+}
+
+.v-csslayout.removeable-btn {
+	display: flex;
+	min-height: 21px;
+	margin: 3px;
+}
+
+.v-csslayout.removeable-btn:hover::after {
+	float: top;
+	content: "\f00d";
+	color: #999;
+	font-family: FontAwesome;
+	margin: 0px;
+	z-index: 10;
+	cursor: pointer;
+}
+
+.v-popupview {
+	text-decoration: none;
+	color: #006DAC;
+}
+
+.v-popupview:hover {
+	color: #006DAC;
+}
+
+.flex {
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-wrap: wrap;
+	flex-wrap: wrap;
+	-ms-writing-mode: lr-tb;
+}
+
+.scrollable-container {
+	overflow-y: auto;
 }
 
 .form .section {
@@ -17496,10 +17576,6 @@ img.icon-btn {
 .content-wrapper {
 	padding: 0px 30px;
 	width: 100%;
-}
-
-.v-slot-timeAdd-popup {
-	padding-bottom: 12px;
 }
 
 .crm-activity-list, .project-activity-list {

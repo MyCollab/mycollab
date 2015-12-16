@@ -42,6 +42,7 @@ public class SimpleBug extends BugWithBLOBs {
     private Integer numComments;
     private Double billableHours;
     private Double nonBillableHours;
+    private Integer numFollowers;
 
     @NotBindable
     private List<Version> affectedVersions;
@@ -153,6 +154,14 @@ public class SimpleBug extends BugWithBLOBs {
 
     public String getLoguserAvatarId() {
         return loguserAvatarId;
+    }
+
+    public Integer getNumFollowers() {
+        return numFollowers;
+    }
+
+    public void setNumFollowers(Integer numFollowers) {
+        this.numFollowers = numFollowers;
     }
 
     public void setLoguserAvatarId(String loguserAvatarId) {

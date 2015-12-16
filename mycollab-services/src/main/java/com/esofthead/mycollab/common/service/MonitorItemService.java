@@ -33,9 +33,9 @@ import java.util.List;
 @IgnoreCacheClass
 public interface MonitorItemService extends ICrudService<Integer, MonitorItem>, ISearchableService<MonitorSearchCriteria> {
 
-    boolean isUserWatchingItem(String username, String type, int typeid);
+    boolean isUserWatchingItem(String username, String type, Integer typeid);
 
-    List<SimpleUser> getWatchers(String type, int typeId);
+    List<SimpleUser> getWatchers(String type, Integer typeId);
 
     void saveMonitorItems(Collection<MonitorItem> monitorItems);
 }

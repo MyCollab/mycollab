@@ -65,24 +65,30 @@ public class CheckUpdateJob extends GenericQuartzJobBean {
                     }
                 }
                 LOG.info("There is the new version of MyCollab " + version);
-                isDownloading = true;
                 String autoDownloadLink = props.getProperty("autoDownload");
                 String manualDownloadLink = props.getProperty("downloadLink");
-                DownloadMyCollabThread downloadMyCollabThread = new DownloadMyCollabThread(version, autoDownloadLink);
-                downloadMyCollabThread.start();
-                try {
-                    downloadMyCollabThread.join();
-                    File installerFile = downloadMyCollabThread.tmpFile;
-                    if (installerFile.exists() && installerFile.isFile() && installerFile.length() > 0) {
-                        latestFileDownloadedPath = installerFile.getAbsolutePath();
-                        NotificationBroadcaster.removeGlobalNotification(NewUpdateAvailableNotification.class);
-                        NotificationBroadcaster.broadcast(new NewUpdateAvailableNotification(version, autoDownloadLink, manualDownloadLink,
-                                latestFileDownloadedPath));
+                if (autoDownloadLink != null) {
+                    DownloadMyCollabThread downloadMyCollabThread = new DownloadMyCollabThread(version, autoDownloadLink);
+                    downloadMyCollabThread.start();
+                    isDownloading = true;
+                    try {
+                        downloadMyCollabThread.join();
+                        File installerFile = downloadMyCollabThread.tmpFile;
+                        if (installerFile.exists() && installerFile.isFile() && installerFile.length() > 0) {
+                            latestFileDownloadedPath = installerFile.getAbsolutePath();
+                            NotificationBroadcaster.removeGlobalNotification(NewUpdateAvailableNotification.class);
+                            NotificationBroadcaster.broadcast(new NewUpdateAvailableNotification(version, autoDownloadLink, manualDownloadLink,
+                                    latestFileDownloadedPath));
+                        }
+                    } catch (Exception e) {
+                        LOG.error("Exception", e);
+                    } finally {
+                        isDownloading = false;
                     }
-                } catch (Exception e) {
-                    LOG.error("Exception", e);
-                } finally {
-                    isDownloading = false;
+                } else {
+                    NotificationBroadcaster.removeGlobalNotification(NewUpdateAvailableNotification.class);
+                    NotificationBroadcaster.broadcast(new NewUpdateAvailableNotification(version, autoDownloadLink, manualDownloadLink,
+                            latestFileDownloadedPath));
                 }
             }
         }
@@ -139,7 +145,7 @@ public class CheckUpdateJob extends GenericQuartzJobBean {
                         while (((bytesRead = inputStream.read(buffer)) != -1)) {
                             outputStream.write(buffer, 0, bytesRead);
                             loadedBytes += bytesRead;
-                            LOG.info("  Progress: " + loadedBytes/1024);
+                            LOG.info("  Progress: " + loadedBytes / 1024);
                         }
                         outputStream.close();
                         inputStream.close();

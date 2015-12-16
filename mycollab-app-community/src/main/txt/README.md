@@ -43,6 +43,22 @@ understanding in a matter of minutes.
 Last changelog
 ==============
 
+Version 5.2.4
+-----------------------------
+**Library Upgrades**
+
+* Gson 2.5 
+* Guava 19
+* Jackrabbit 2.11.3
+* Other libraries
+
+**Improvements & New Features**
+
+* Add upcoming tasks in the project dashboard
+* Customize color of task statuses in kanban board
+* Display detail watchers in the sidebar
+
+
 Version 5.2.3
 -----------------------------
 **Library Upgrades**

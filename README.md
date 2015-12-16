@@ -87,20 +87,20 @@ We use MyCollab in our daily jobs to manage our customers information, projects.
 MyCollab requires a running Java Runtime Environment (7 or greater), Java command should be presented in PATH environment and MySQL (InnoDB support recommended).
 
 Please take a look at MyCollab requirements:
-    [https://community.mycollab.com/installation-guideline/](https://community.mycollab.com/installation-guideline/)
+    [https://community.mycollab.com/installing-mycollab/](https://community.mycollab.com/installing-mycollab/)
 
 ## Installation
 
 The current MyCollab version is 5.2.3 released on 25th November, 2015. This branch focuses in mobile devices, reporting and customize options for on-demand edition.
 
-1. Download MyCollab binary - https://community.mycollab.com/download/
-2. Follow installation guideline at https://community.mycollab.com/installation-guideline/
+1. Download MyCollab binary - https://www.mycollab.com/self-hosted/
+2. Follow installation guideline at https://community.mycollab.com/installing-mycollab/
 
-If you need to understand the more MyCollab advanced configuration settings, please visit the link https://community.mycollab.com/configuration/. You will finish reading and understanding in a matter of minutes.
+If you need to understand the more MyCollab advanced configuration settings, please visit the link https://community.mycollab.com/administration/configuration/. You will finish reading and understanding in a matter of minutes.
 
 If you want to customize MyCollab, following links are useful to you:
-* Setup MyCollab projects with IntelliJ https://community.mycollab.com/setup-intellij-projects/
-* How to customize MyCollab https://community.mycollab.com/how-to-customize-mycollab/
+* Setup MyCollab projects with IntelliJ https://community.mycollab.com/developing/setup-intellij-projects/
+* How to customize MyCollab https://community.mycollab.com/developing/how-to-customize-mycollab/
 
 ## Support
 Contact the MyCollab team at:
@@ -110,7 +110,7 @@ Contact the MyCollab team at:
 
 ## License & Author
 
-* MyCollab community is licensed with Affero GPL v3. For license terms, see https://community.mycollab.com/licenses/
+* MyCollab community is licensed with Affero GPL v3. For license terms, see http://www.gnu.org/licenses/gpl-3.0.en.html
 
 * You can try MyCollab on-demand edition on site https://www.mycollab.com
 

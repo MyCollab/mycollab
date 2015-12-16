@@ -384,7 +384,7 @@ function updateInfoAction(){
         return;
     }
     $('#setupBtn').html('<img src="${defaultUrls.cdn_url}icons/lazy-load-icon.gif" alt="Pulpit rock" style="height:18px;"><span style="font-size: 15px">&nbsp;&nbsp;Setting up...</span>');
-    $('#setupBtn').after('<p><h3 style=\"color:orange\">Please be patient! It may takes several minutes to set up MyCollab depends on your servers performance. Whenever the install process is completed, the browser is redirected automatically to the application home page</h3></p>');
+    $('#setupBtn').after('<p><h3 style=\"color:orange\">Please be patient! It may takes several minutes to set up MyCollab depends on your servers performance. Whenever the install process is completed, the browser redirects automatically to the application home page</h3></p>');
     var urlPost = "/install";
 
     var tlsStatus = "";

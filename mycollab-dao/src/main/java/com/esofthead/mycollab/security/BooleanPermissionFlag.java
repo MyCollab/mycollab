@@ -21,40 +21,39 @@ import com.esofthead.mycollab.core.MyCollabException;
 
 /**
  * Boolean permission flag
- * 
+ * @version 1.0
  */
 public class BooleanPermissionFlag implements PermissionFlag {
-	public static final int TRUE = 128;
+    public static final int TRUE = 128;
+    public static final int FALSE = 129;
 
-	public static final int FALSE = 129;
+    /**
+     * Check whether <code>flag</code> is true permission
+     *
+     * @param flag
+     * @return
+     */
+    public static boolean beTrue(Integer flag) {
+        return (flag == TRUE);
+    }
 
-	/**
-	 * Check whether <code>flag</code> is true permission
-	 * 
-	 * @param flag
-	 * @return
-	 */
-	public static boolean beTrue(int flag) {
-		return (flag == TRUE);
-	}
+    /**
+     * Check whether <code>flag</code> is false permission
+     *
+     * @param flag
+     * @return
+     */
+    public static boolean beFalse(Integer flag) {
+        return (flag == FALSE);
+    }
 
-	/**
-	 * Check whether <code>flag</code> is false permission
-	 * 
-	 * @param flag
-	 * @return
-	 */
-	public static boolean beFalse(int flag) {
-		return (flag == FALSE);
-	}
-
-	public static SecurityI18nEnum toKey(int flag) {
-		if (flag == TRUE) {
-			return SecurityI18nEnum.YES;
-		} else if (flag == FALSE) {
-			return SecurityI18nEnum.NO;
-		} else {
-			throw new MyCollabException("Flag could be true or false");
-		}
-	}
+    public static SecurityI18nEnum toKey(Integer flag) {
+        if (flag == TRUE) {
+            return SecurityI18nEnum.YES;
+        } else if (flag == null || flag == FALSE) {
+            return SecurityI18nEnum.NO;
+        } else {
+            throw new MyCollabException("Flag could be true or false");
+        }
+    }
 }

@@ -181,7 +181,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
         actionPanel.addComponent(calendarActionBtn);
         actionPanel.setComponentAlignment(calendarActionBtn, Alignment.MIDDLE_RIGHT);
 
-        OptionPopupContent actionBtnLayout = new OptionPopupContent().withWidth("150px");
+        OptionPopupContent actionBtnLayout = new OptionPopupContent();
 
         Button.ClickListener listener = new Button.ClickListener() {
             private static final long serialVersionUID = 1L;

@@ -41,7 +41,6 @@ import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.teemu.VaadinIcons;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
-import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -122,7 +121,7 @@ public class ProjectModule extends AbstractPageView implements IDesktopModule {
         projectList.addStyleName("contentWrapper");
         final Label titleLbl = new Label(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_ACTIVE_PROJECTS_TITLE, 0));
         titleLbl.setStyleName(ValoTheme.LABEL_H2);
-        OptionPopupContent contentLayout = new OptionPopupContent().withWidth("500px");
+        OptionPopupContent contentLayout = new OptionPopupContent();
 
         final TextField searchField = new TextField();
         searchField.setInputPrompt("Search");

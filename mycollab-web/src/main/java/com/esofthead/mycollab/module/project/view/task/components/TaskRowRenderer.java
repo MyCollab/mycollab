@@ -74,6 +74,9 @@ class TaskRowRenderer extends MVerticalLayout {
         PopupView commentField = popupFieldFactory.createCommentsPopupField(task);
         footer.addComponent(commentField);
 
+        PopupView followerView = popupFieldFactory.createFollowersPopupField(task);
+        footer.addComponent(followerView);
+
         PopupView statusField = popupFieldFactory.createStatusPopupField(task);
         footer.addComponent(statusField);
 
@@ -131,7 +134,7 @@ class TaskRowRenderer extends MVerticalLayout {
     }
 
     private OptionPopupContent createPopupContent() {
-        OptionPopupContent filterBtnLayout = new OptionPopupContent().withWidth("100px");
+        OptionPopupContent filterBtnLayout = new OptionPopupContent();
 
         Button editButton = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;

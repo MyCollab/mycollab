@@ -12,7 +12,7 @@
     </parent>
     <packaging>jar</packaging>
     <properties>
-        <installer.izpackVersion>5.0.5</installer.izpackVersion>
+        <installer.izpackVersion>5.0.6</installer.izpackVersion>
         <installer.staging.dir>${project.build.directory}/staging</installer.staging.dir>
         <izpack.dir.app>${basedir}/src/main/izpack</izpack.dir.app>
         <staging.dir.app>${installer.staging.dir}</staging.dir.app>

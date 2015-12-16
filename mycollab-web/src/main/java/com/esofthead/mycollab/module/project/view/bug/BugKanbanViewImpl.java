@@ -245,13 +245,11 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
             PopupView commentField = popupFieldFactory.createBugCommentsPopupField(bug);
             footer.addComponent(commentField);
 
-            if (bug.getDueDateRoundPlusOne() != null) {
-                PopupView field = popupFieldFactory.createBugDeadlinePopupField(bug);
-                String deadline = String.format("%s: %s", AppContext.getMessage(BugI18nEnum.FORM_DUE_DATE),
-                        AppContext.formatDate(bug.getDueDateRoundPlusOne()));
-                field.setDescription(deadline);
-                footer.addComponent(field);
-            }
+            PopupView followerField = popupFieldFactory.createFollowersPopupField(bug);
+            footer.addComponent(followerField);
+
+            PopupView deadlineField = popupFieldFactory.createBugDeadlinePopupField(bug);
+            footer.addComponent(deadlineField);
 
             PopupView assigneeField = popupFieldFactory.createBugAssigneePopupField(bug);
             footer.addComponent(assigneeField);

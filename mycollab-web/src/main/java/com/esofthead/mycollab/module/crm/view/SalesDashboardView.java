@@ -80,7 +80,7 @@ public class SalesDashboardView extends Depot {
         saleChartPopup.setIcon(FontAwesome.CARET_SQUARE_O_DOWN);
         saleChartPopup.setStyleName(UIConstants.BUTTON_ICON_ONLY);
 
-        final OptionPopupContent filterBtnLayout = new OptionPopupContent().withWidth("200px");
+        final OptionPopupContent filterBtnLayout = new OptionPopupContent();
 
         final Button btnOpportunitySales = new Button("Opportunity Sales Stage", new Button.ClickListener() {
             private static final long serialVersionUID = 1L;

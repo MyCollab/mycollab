@@ -132,8 +132,8 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
             sidebarContent = new MVerticalLayout().withWidth("250px").withStyleName("readview-sidebar");
             bodyContainer.setSidebar(sidebarContent);
 
-            FloatingComponent floatSidebar = FloatingComponent.floatThis(sidebarContent);
-            floatSidebar.setContainerId("main-body");
+//            FloatingComponent floatSidebar = FloatingComponent.floatThis(sidebarContent);
+//            floatSidebar.setContainerId("main-body");
             previewLayout.addBody(bodyContainer);
         } else {
             CssLayout bodyContainer = new CssLayout();

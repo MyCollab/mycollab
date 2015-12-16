@@ -41,12 +41,9 @@ public class V20150401_2__Insert_Default_Values implements SpringJdbcMigration {
         LOG.info("Set up initial values");
 
         LOG.debug("Insert default billing plan");
-        SimpleJdbcInsert billingJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
-                .withTableName("s_billing_plan")
-                .usingColumns("billingType", "numUsers", "volume",
-                        "numProjects", "pricing", "hasBugEnable",
-                        "hasStandupMeetingEnable", "hasTimeTracking")
-                .usingGeneratedKeyColumns("id");
+        SimpleJdbcInsert billingJdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("s_billing_plan")
+                .usingColumns("billingType", "numUsers", "volume", "numProjects", "pricing", "hasBugEnable", "hasStandupMeetingEnable",
+                        "hasTimeTracking").usingGeneratedKeyColumns("id");
 
         Map<String, Object> billingParameters = new HashMap<>();
         billingParameters.put("billingType", "Community");
@@ -62,10 +59,8 @@ public class V20150401_2__Insert_Default_Values implements SpringJdbcMigration {
                 .executeAndReturnKey(billingParameters);
 
         LOG.debug("Insert default account");
-        SimpleJdbcInsert accountJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
-                .withTableName("s_account")
-                .usingColumns("status", "billingPlanId", "paymentMethod",
-                        "subdomain").usingGeneratedKeyColumns("id");
+        SimpleJdbcInsert accountJdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("s_account")
+                .usingColumns("status", "billingPlanId", "paymentMethod", "subdomain").usingGeneratedKeyColumns("id");
         Map<String, Object> accountParameters = new HashMap<>();
         accountParameters.put("status", "Active");
         accountParameters.put("billingPlanId", billingPlanId);
@@ -74,9 +69,8 @@ public class V20150401_2__Insert_Default_Values implements SpringJdbcMigration {
         Number accountId = accountJdbcInsert.executeAndReturnKey(accountParameters);
 
         LOG.debug("Insert default users");
-        SimpleJdbcInsert userJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
-                .withTableName("s_user").usingColumns("username", "firstname",
-                        "lastname", "email", "status", "registeredTime",
+        SimpleJdbcInsert userJdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("s_user")
+                .usingColumns("username", "firstname", "lastname", "email", "status", "registeredTime",
                         "password", "timezone");
         Date nowDate = DateTimeUtils.convertDateTimeToUTC(new GregorianCalendar().getTime());
         String timezoneDbId = TimezoneMapper.getTimezoneDbId(TimeZone.getDefault());
@@ -88,19 +82,15 @@ public class V20150401_2__Insert_Default_Values implements SpringJdbcMigration {
         userParameters.put("email", "admin@mycollab.com");
         userParameters.put("status", "Active");
         userParameters.put("registeredTime", nowDate);
-        userParameters.put("password",
-                PasswordEncryptHelper.encryptSaltPassword("admin123"));
+        userParameters.put("password", PasswordEncryptHelper.encryptSaltPassword("admin123"));
         userParameters.put("timezone", timezoneDbId);
         userJdbcInsert.execute(userParameters);
 
         LOG.debug("Insert default user avatar");
 
         LOG.debug("Create associate between user and billing plan");
-        SimpleJdbcInsert userAccountJdbcInsert = new SimpleJdbcInsert(
-                jdbcTemplate)
-                .withTableName("s_user_account")
-                .usingColumns("username", "accountId", "isAccountOwner",
-                        "registeredTime", "registerStatus")
+        SimpleJdbcInsert userAccountJdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("s_user_account")
+                .usingColumns("username", "accountId", "isAccountOwner", "registeredTime", "registerStatus")
                 .usingGeneratedKeyColumns("id");
         Map<String, Object> userAccountParameters = new HashMap<>();
         userAccountParameters.put("username", "admin@mycollab.com");
@@ -117,37 +107,27 @@ public class V20150401_2__Insert_Default_Values implements SpringJdbcMigration {
                         "isSystemRole").usingGeneratedKeyColumns("id");
 
         LOG.debug("Create default admin role");
-        SqlParameterSource adminRoleParameters = new MapSqlParameterSource()
-                .addValue("rolename", "Administrator")
-                .addValue("description", "Admin Role")
-                .addValue("sAccountId", accountId)
-                .addValue("isSystemRole", Boolean.TRUE);
+        SqlParameterSource adminRoleParameters = new MapSqlParameterSource().addValue("rolename", "Administrator")
+                .addValue("description", "Admin Role").addValue("sAccountId", accountId).addValue("isSystemRole", Boolean.TRUE);
         Number adminRoleId = roleJdbcInsert
                 .executeAndReturnKey(adminRoleParameters);
 
         LOG.debug("Create default employee role");
-        SqlParameterSource employeeRoleParameters = new MapSqlParameterSource()
-                .addValue("rolename", "Employee")
-                .addValue("description", "Employee Role")
-                .addValue("sAccountId", accountId)
+        SqlParameterSource employeeRoleParameters = new MapSqlParameterSource().addValue("rolename", "Employee")
+                .addValue("description", "Employee Role").addValue("sAccountId", accountId)
                 .addValue("isSystemRole", Boolean.TRUE);
         Number employeeRoleId = roleJdbcInsert
                 .executeAndReturnKey(employeeRoleParameters);
 
         LOG.debug("Create default guest role");
-        SqlParameterSource guestRoleParameters = new MapSqlParameterSource()
-                .addValue("rolename", "Guest")
-                .addValue("description", "Guest Role")
-                .addValue("sAccountId", accountId)
+        SqlParameterSource guestRoleParameters = new MapSqlParameterSource().addValue("rolename", "Guest")
+                .addValue("description", "Guest Role").addValue("sAccountId", accountId)
                 .addValue("isSystemRole", Boolean.TRUE);
-        Number guestRoleId = roleJdbcInsert
-                .executeAndReturnKey(guestRoleParameters);
+        Number guestRoleId = roleJdbcInsert.executeAndReturnKey(guestRoleParameters);
 
         LOG.debug("Associate permission with admin role");
-        SimpleJdbcInsert rolePermissionJdbcInsert = new SimpleJdbcInsert(
-                jdbcTemplate).withTableName("s_role_permission")
-                .usingColumns("roleid", "roleVal")
-                .usingGeneratedKeyColumns("id");
+        SimpleJdbcInsert rolePermissionJdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("s_role_permission")
+                .usingColumns("roleid", "roleVal").usingGeneratedKeyColumns("id");
 
         SqlParameterSource adminRolePermissionParameters = new MapSqlParameterSource()
                 .addValue("roleid", adminRoleId).addValue("roleVal",

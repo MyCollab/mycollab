@@ -18,6 +18,7 @@
         <result column="parentTaskName" property="parentTaskName" jdbcType="VARCHAR"/>
         <result column="billableHours" property="billableHours" jdbcType="DOUBLE"/>
         <result column="nonBillableHours" property="nonBillableHours" jdbcType="DOUBLE"/>
+        <result column="numFollowers" property="numFollowers" jdbcType="INTEGER"/>
     </resultMap>
 
     <sql id="querySearchCriteria">
@@ -166,7 +167,8 @@
                  (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = m_prj_task.projectid
                      AND m_prj_time_logging.type='Project-Task' AND m_prj_time_logging.typeid=m_prj_task.id AND m_prj_time_logging.isBillable = 1) AS billableHours,
                  (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = m_prj_task.projectid
-                     AND m_prj_time_logging.type='Project-Task' AND m_prj_time_logging.typeid=m_prj_task.id AND m_prj_time_logging.isBillable = 0) AS nonBillableHours
+                     AND m_prj_time_logging.type='Project-Task' AND m_prj_time_logging.typeid=m_prj_task.id AND m_prj_time_logging.isBillable = 0) AS nonBillableHours,
+                 (SELECT COUNT(*) FROM m_monitor_item WHERE m_monitor_item.typeid = m_prj_task.id AND m_monitor_item.type = 'Project-Task') AS numFollowers
           FROM m_prj_task
               LEFT OUTER JOIN m_prj_project ON (m_prj_task.projectid = m_prj_project.id) 
               LEFT OUTER JOIN m_prj_milestone ON (m_prj_milestone.id = m_prj_task.milestoneId)

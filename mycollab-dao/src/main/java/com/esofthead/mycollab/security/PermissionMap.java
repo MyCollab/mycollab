@@ -166,8 +166,7 @@ public class PermissionMap extends ValuedBean {
         }
 
         for (final PermissionDefItem element : RolePermissionCollections.DOCUMENT_PERMISSION_ARR) {
-            permissionMap
-                    .addPath(element.getKey(), AccessPermissionFlag.ACCESS);
+            permissionMap.addPath(element.getKey(), AccessPermissionFlag.ACCESS);
         }
         return permissionMap;
     }
@@ -178,8 +177,7 @@ public class PermissionMap extends ValuedBean {
     public static PermissionMap buildEmployeePermissionCollection() {
         PermissionMap permissionMap = new PermissionMap();
         for (PermissionDefItem element : RolePermissionCollections.CRM_PERMISSIONS_ARR) {
-            permissionMap.addPath(element.getKey(),
-                    AccessPermissionFlag.READ_ONLY);
+            permissionMap.addPath(element.getKey(), AccessPermissionFlag.READ_ONLY);
         }
 
         for (final PermissionDefItem element : RolePermissionCollections.ACCOUNT_PERMISSION_ARR) {

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.esofthead.mycollab.module.user.dao.UserMapperExt">
-    <resultMap
-        extends="com.esofthead.mycollab.module.user.dao.UserMapper.BaseResultMap"
+    <resultMap extends="com.esofthead.mycollab.module.user.dao.UserMapper.BaseResultMap"
         id="SimpleUserResult" type="com.esofthead.mycollab.module.user.domain.SimpleUser">
         <result column="displayName" jdbcType="VARCHAR" property="displayName" />
         <result column="roleName" jdbcType="VARCHAR" property="roleName" />

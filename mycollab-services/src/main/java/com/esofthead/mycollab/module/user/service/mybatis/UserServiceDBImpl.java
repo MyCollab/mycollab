@@ -106,17 +106,13 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
         UserAccountExample userAccountEx = new UserAccountExample();
 
         if (deploymentMode.isDemandEdition()) {
-            userAccountEx.createCriteria().andUsernameEqualTo(record.getEmail())
-                    .andAccountidEqualTo(sAccountId).andRegisterstatusIn(Arrays.asList(
-                    RegisterStatusConstants.ACTIVE,
-                    RegisterStatusConstants.SENT_VERIFICATION_EMAIL,
-                    RegisterStatusConstants.VERIFICATING));
+            userAccountEx.createCriteria().andUsernameEqualTo(record.getEmail()).andAccountidEqualTo(sAccountId)
+                    .andRegisterstatusIn(Arrays.asList(RegisterStatusConstants.ACTIVE,
+                            RegisterStatusConstants.SENT_VERIFICATION_EMAIL, RegisterStatusConstants.VERIFICATING));
         } else {
             userAccountEx.createCriteria().andUsernameEqualTo(record.getEmail())
-                    .andRegisterstatusIn(Arrays.asList(
-                            RegisterStatusConstants.ACTIVE,
-                            RegisterStatusConstants.SENT_VERIFICATION_EMAIL,
-                            RegisterStatusConstants.VERIFICATING));
+                    .andRegisterstatusIn(Arrays.asList(RegisterStatusConstants.ACTIVE,
+                            RegisterStatusConstants.SENT_VERIFICATION_EMAIL, RegisterStatusConstants.VERIFICATING));
         }
 
         if (userAccountMapper.countByExample(userAccountEx) > 0) {
@@ -265,7 +261,7 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
         }
 
         List<SimpleUser> users = findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
-        if (users == null || users.isEmpty()) {
+        if (CollectionUtils.isEmpty(users)) {
             throw new UserInvalidInputException(String.format("User %s is not existed in this domain %s", username, subDomain));
         } else {
             SimpleUser user = users.get(0);
@@ -319,8 +315,7 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
     }
 
     private void internalPendingUserAccount(String username, Integer accountId) {
-        // check if current user is the unique account owner, then reject
-        // deletion
+        // check if current user is the unique account owner, then reject deletion
         UserAccountExample userAccountEx = new UserAccountExample();
         userAccountEx.createCriteria().andUsernameEqualTo(username).andAccountidEqualTo(accountId);
         List<UserAccount> accounts = userAccountMapper.selectByExample(userAccountEx);
@@ -330,9 +325,8 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
                 userAccountEx = new UserAccountExample();
                 userAccountEx.createCriteria().andAccountidEqualTo(accountId).andIsaccountownerEqualTo(Boolean.TRUE);
                 if (userAccountMapper.countByExample(userAccountEx) == 1) {
-                    throw new UserInvalidInputException(
-                            String.format("Can not delete user %s. The reason is %s is the unique account owner of the current account.",
-                                    username, username));
+                    throw new UserInvalidInputException(String.format("Can not delete user %s. The reason is %s is the unique account " +
+                            "owner of the current account.", username, username));
                 }
             }
         }

@@ -51,11 +51,4 @@ public class UserAvatarControlFactory {
         }
         return VaadinResourceFactory.getInstance().getAvatarResource(avatarId, size);
     }
-
-    public static Button createUserAvatarButtonLink(String userAvatarId, String fullName) {
-        Button button = new Button();
-        button.setIcon(createAvatarResource(userAvatarId, 48));
-        button.setStyleName("link");
-        return button;
-    }
 }

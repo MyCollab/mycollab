@@ -21,6 +21,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.OptionValService;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.view.IKanbanView;
+import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
@@ -28,9 +29,14 @@ import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.TextArea;
+import com.vaadin.ui.TextField;
+import com.vaadin.ui.Window;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
+import java.awt.*;
 import java.util.GregorianCalendar;
 
 /**
@@ -38,6 +44,7 @@ import java.util.GregorianCalendar;
  * @since 5.1.1
  */
 public class AddNewColumnWindow extends Window {
+    private static final Color DEFAULT_COLOR = Color.decode("#fdde86");
 
     public AddNewColumnWindow(final IKanbanView kanbanView, final String type) {
         super("Add column");
@@ -46,16 +53,20 @@ public class AddNewColumnWindow extends Window {
         this.setResizable(false);
         this.center();
         MVerticalLayout layout = new MVerticalLayout().withMargin(new MarginInfo(false, false, true, false));
-        GridFormLayoutHelper gridFormLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
+        GridFormLayoutHelper gridFormLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 4);
         this.setContent(layout);
 
         final TextField stageField = new TextField();
         final CheckBox defaultProject = new CheckBox();
+        defaultProject.setEnabled(AppContext.canBeYes(RolePermissionCollections.GLOBAL_PROJECT_SETTINGS));
+        final ColorPicker colorPicker = new ColorPicker("", new com.vaadin.shared.ui.colorpicker.Color(DEFAULT_COLOR.getRed(),
+                DEFAULT_COLOR.getGreen(), DEFAULT_COLOR.getBlue()));
         final TextArea description = new TextArea();
 
         gridFormLayoutHelper.addComponent(stageField, "Stage name", 0, 0);
         gridFormLayoutHelper.addComponent(defaultProject, "Default for new projects", 0, 1);
-        gridFormLayoutHelper.addComponent(description, "Description", 0, 2);
+        gridFormLayoutHelper.addComponent(colorPicker, "Color", 0, 2);
+        gridFormLayoutHelper.addComponent(description, "Description", 0, 3);
 
         Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
             @Override
@@ -64,6 +75,12 @@ public class AddNewColumnWindow extends Window {
                 optionVal.setCreatedtime(new GregorianCalendar().getTime());
                 optionVal.setCreateduser(AppContext.getUsername());
                 optionVal.setDescription(description.getValue());
+                com.vaadin.shared.ui.colorpicker.Color color = colorPicker.getColor();
+                String cssColor = color.getCSS();
+                if (cssColor.startsWith("#")) {
+                    cssColor = cssColor.substring(1);
+                }
+                optionVal.setColor(cssColor);
                 if (defaultProject.getValue()) {
                     optionVal.setIsdefault(true);
                 } else {
@@ -98,7 +115,7 @@ public class AddNewColumnWindow extends Window {
         });
         cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 
-        MHorizontalLayout controls = new MHorizontalLayout().with(cancelBtn, saveBtn).withMargin(
+        MHorizontalLayout controls = new MHorizontalLayout().with(saveBtn, cancelBtn).withMargin(
                 new MarginInfo(false, true, false, false));
         layout.with(gridFormLayoutHelper.getLayout(), controls).withAlign(controls, Alignment.BOTTOM_RIGHT);
     }

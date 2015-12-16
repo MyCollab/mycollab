@@ -122,7 +122,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
         followerSheet = new ProjectFollowersComp<>(ProjectTypeConstants.TASK, ProjectRolePermissionCollections.TASKS);
         timesheetComp = ViewManager.getCacheComponent(TaskTimeLogSheet.class);
 
-        addToSideBar(dateInfoComp, peopleInfoComp, followerSheet, timesheetComp);
+        addToSideBar(dateInfoComp, peopleInfoComp, timesheetComp, followerSheet);
     }
 
     @Override

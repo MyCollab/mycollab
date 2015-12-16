@@ -37,8 +37,7 @@ import java.util.List;
  * @since 1.0
  */
 @Service
-public class MonitorItemServiceImpl extends DefaultService<Integer, MonitorItem, MonitorSearchCriteria> implements
-        MonitorItemService {
+public class MonitorItemServiceImpl extends DefaultService<Integer, MonitorItem, MonitorSearchCriteria> implements MonitorItemService {
 
     @Autowired
     private MonitorItemMapper monitorItemMapper;
@@ -57,9 +56,9 @@ public class MonitorItemServiceImpl extends DefaultService<Integer, MonitorItem,
     }
 
     @Override
-    public boolean isUserWatchingItem(String username, String type, int typeid) {
+    public boolean isUserWatchingItem(String username, String type, Integer typeId) {
         MonitorItemExample ex = new MonitorItemExample();
-        ex.createCriteria().andUserEqualTo(username).andTypeEqualTo(type).andTypeidEqualTo(typeid);
+        ex.createCriteria().andUserEqualTo(username).andTypeEqualTo(type).andTypeidEqualTo(typeId);
         return monitorItemMapper.countByExample(ex) > 0;
     }
 
@@ -83,8 +82,8 @@ public class MonitorItemServiceImpl extends DefaultService<Integer, MonitorItem,
     }
 
     @Override
-    public List<SimpleUser> getWatchers(String type, int typeId) {
-        return null;
+    public List<SimpleUser> getWatchers(String type, Integer typeId) {
+        return monitorItemMapperExt.getWatchers(type, typeId);
     }
 
     @Override
