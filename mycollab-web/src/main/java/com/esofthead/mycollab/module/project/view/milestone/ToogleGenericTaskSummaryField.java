@@ -32,6 +32,7 @@ import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
+import com.hp.gagawa.java.elements.Span;
 import com.vaadin.data.Property;
 import com.vaadin.event.FieldEvents;
 import com.vaadin.event.LayoutEvents;
@@ -57,11 +58,6 @@ public class ToogleGenericTaskSummaryField extends CssLayout {
         taskLbl = new ELabel(buildGenericTaskLink(), ContentMode.HTML).withWidthUndefined();
         taskLbl.addStyleName(ValoTheme.LABEL_NO_MARGIN);
         taskLbl.addStyleName(UIConstants.LABEL_WORD_WRAP);
-        if (genericTask.isClosed()) {
-            taskLbl.addStyleName("completed");
-        } else if (genericTask.isOverdue()) {
-            taskLbl.addStyleName("overdue");
-        }
         this.addComponent(taskLbl);
         if ((genericTask.isTask() && CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) ||
                 (genericTask.isBug() && CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS))) {
@@ -101,9 +97,9 @@ public class ToogleGenericTaskSummaryField extends CssLayout {
     }
 
     private void updateFieldValue(TextField editField) {
-        ToogleGenericTaskSummaryField.this.removeComponent(editField);
-        ToogleGenericTaskSummaryField.this.addComponent(taskLbl);
-        ToogleGenericTaskSummaryField.this.addStyleName("editable-field");
+        removeComponent(editField);
+        addComponent(taskLbl);
+        addStyleName("editable-field");
         String newValue = editField.getValue();
         if (StringUtils.isNotBlank(newValue) && !newValue.equals(genericTask.getName())) {
             genericTask.setName(newValue);
@@ -137,7 +133,16 @@ public class ToogleGenericTaskSummaryField extends CssLayout {
         taskLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, genericTask.getType(), genericTask.getTypeId() + ""));
         taskLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
         taskLink.appendText(String.format("[#%d] - %s", genericTask.getExtraTypeId(), genericTask.getName()));
-        issueDiv.appendChild(taskLink, TooltipHelper.buildDivTooltipEnable(uid));
+        issueDiv.appendChild(taskLink);
+
+        if (genericTask.isClosed()) {
+            taskLink.setCSSClass("completed");
+        } else if (genericTask.isOverdue()) {
+            taskLink.setCSSClass("overdue");
+            issueDiv.appendChild(new Span().setCSSClass(UIConstants.LABEL_META_INFO).appendText(" - Due in " + AppContext
+                    .formatDuration(genericTask.getDueDate())));
+        }
+        TooltipHelper.buildDivTooltipEnable(uid);
         return issueDiv.write();
     }
 }

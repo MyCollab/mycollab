@@ -29,6 +29,12 @@ public class ColorUtils {
         return toHexString(brighter);
     }
 
+    public static final String darkerColor(String hexValue) {
+        Color color = Color.decode(hexValue);
+        Color brighter = darker(color, 0.1);
+        return toHexString(brighter);
+    }
+
     public final static String toHexString(Color colour) throws NullPointerException {
         String hexColour = Integer.toHexString(colour.getRGB() & 0xffffff);
         if (hexColour.length() < 6) {
@@ -59,6 +65,28 @@ public class ColorUtils {
         int alpha = color.getAlpha();
 
         return new Color(red, green, blue, alpha);
+    }
+
+    /**
+     * Make a color darker.
+     *
+     * @param color     Color to make darker.
+     * @param fraction  Darkness fraction.
+     * @return          Darker color.
+     */
+    public static Color darker (Color color, double fraction)
+    {
+        int red   = (int) Math.round (color.getRed()   * (1.0 - fraction));
+        int green = (int) Math.round (color.getGreen() * (1.0 - fraction));
+        int blue  = (int) Math.round (color.getBlue()  * (1.0 - fraction));
+
+        if (red   < 0) red   = 0; else if (red   > 255) red   = 255;
+        if (green < 0) green = 0; else if (green > 255) green = 255;
+        if (blue  < 0) blue  = 0; else if (blue  > 255) blue  = 255;
+
+        int alpha = color.getAlpha();
+
+        return new Color (red, green, blue, alpha);
     }
 
     /**

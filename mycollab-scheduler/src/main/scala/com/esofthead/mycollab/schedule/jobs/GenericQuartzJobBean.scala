@@ -18,13 +18,13 @@ package com.esofthead.mycollab.schedule.jobs
 
 import org.quartz.{JobExecutionContext, JobExecutionException}
 import org.slf4j.{Logger, LoggerFactory}
-import org.springframework.dao.DataAccessException
+import org.springframework.dao.{DataAccessException, TransientDataAccessException}
 import org.springframework.scheduling.quartz.QuartzJobBean
 
 /**
- * @author MyCollab Ltd.
- * @since 4.6.0
- */
+  * @author MyCollab Ltd.
+  * @since 4.6.0
+  */
 abstract class GenericQuartzJobBean extends QuartzJobBean {
     private val LOG: Logger = LoggerFactory.getLogger(classOf[GenericQuartzJobBean])
 
@@ -35,7 +35,7 @@ abstract class GenericQuartzJobBean extends QuartzJobBean {
             GenericQuartzJobBean.isSendingDbError = false
         }
         catch {
-            case e: DataAccessException => {
+            case e@(_: DataAccessException | _: TransientDataAccessException) => {
                 if (!GenericQuartzJobBean.isSendingDbError) {
                     LOG.error("Exception in running schedule", e)
                     GenericQuartzJobBean.isSendingDbError = true

@@ -42,12 +42,12 @@ public class TaskStatusListSelect extends ListSelect {
     @Override
     public void attach() {
         OptionValService optionValService = ApplicationContextUtil.getSpringBean(OptionValService.class);
-        List<OptionVal> options = optionValService.findOptionVals(ProjectTypeConstants.TASK, CurrentProjectVariables
-                .getProjectId(), AppContext.getAccountId());
+        List<OptionVal> options = optionValService.findOptionVals(ProjectTypeConstants.TASK,
+                CurrentProjectVariables.getProjectId(), AppContext.getAccountId());
         for (OptionVal option : options) {
             this.addItem(option.getTypeval());
-            this.setItemCaption(option.getTypeval(), AppContext.getMessage(OptionI18nEnum.StatusI18nEnum.class, option
-                    .getTypeval()));
+            this.setItemCaption(option.getTypeval(), AppContext.getMessage(OptionI18nEnum.StatusI18nEnum.class,
+                    option.getTypeval()));
         }
         super.attach();
     }

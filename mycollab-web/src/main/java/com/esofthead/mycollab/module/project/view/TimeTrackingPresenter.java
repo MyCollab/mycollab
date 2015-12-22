@@ -16,12 +16,10 @@
  */
 package com.esofthead.mycollab.module.project.view;
 
-import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComponentContainer;
 
 /**
@@ -38,11 +36,10 @@ public class TimeTrackingPresenter extends AbstractPresenter<ITimeTrackingView> 
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        ProjectModule prjContainer = (ProjectModule) container;
-        prjContainer.removeAllComponents();
-        prjContainer.with(view).withAlign(view, Alignment.TOP_CENTER);
+        if (container instanceof ProjectModule) {
+            container.removeAllComponents();
+            container.addComponent(view);
+        }
         view.display();
-
-        AppContext.addFragment("project/timetracking", "Calendar");
     }
 }

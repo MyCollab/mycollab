@@ -34,4 +34,6 @@ public interface ProjectView extends PageView {
     Component gotoSubView(String name);
 
     void setNavigatorVisibility(boolean visibility);
+
+    void displaySearchResult(String value);
 }

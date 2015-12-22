@@ -26,12 +26,12 @@ import com.esofthead.mycollab.core.arguments.SearchField;
  * @since 4.0
  */
 public class StringParam extends ColumnParam {
-    static final String IS = "is";
-    static final String IS_NOT = "isn't";
-    static final String CONTAINS = "contains";
-    static final String NOT_CONTAINS = "doesn't contains";
-    static final String IS_EMPTY = "is empty";
-    static final String IS_NOT_EMPTY = "is not empty";
+    public static final String IS = "is";
+    public static final String IS_NOT = "isn't";
+    public static final String CONTAINS = "contains";
+    public static final String NOT_CONTAINS = "doesn't contains";
+    public static final String IS_EMPTY = "is empty";
+    public static final String IS_NOT_EMPTY = "is not empty";
 
     private static String NULL_EXPR = "%s.%s is null";
     private static String NOT_NULL_EXPR = "%s.%s is not null";

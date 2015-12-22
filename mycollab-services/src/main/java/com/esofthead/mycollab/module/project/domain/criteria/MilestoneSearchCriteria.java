@@ -19,61 +19,68 @@ package com.esofthead.mycollab.module.project.domain.criteria;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
+import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class MilestoneSearchCriteria extends SearchCriteria {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private StringSearchField assignUser;
-	private StringSearchField status;
-	private NumberSearchField projectId;
-	private NumberSearchField id;
-	private StringSearchField milestoneName;
+    private StringSearchField assignUser;
+    private StringSearchField status;
+    private NumberSearchField projectId;
+    private SetSearchField<Integer> projectIds;
+    private NumberSearchField id;
+    private StringSearchField milestoneName;
 
-	public StringSearchField getAssignUser() {
-		return assignUser;
-	}
+    public StringSearchField getAssignUser() {
+        return assignUser;
+    }
 
-	public void setAssignUser(StringSearchField assignUser) {
-		this.assignUser = assignUser;
-	}
+    public void setAssignUser(StringSearchField assignUser) {
+        this.assignUser = assignUser;
+    }
 
-	public StringSearchField getStatus() {
-		return status;
-	}
+    public StringSearchField getStatus() {
+        return status;
+    }
 
-	public void setStatus(StringSearchField status) {
-		this.status = status;
-	}
+    public void setStatus(StringSearchField status) {
+        this.status = status;
+    }
 
-	public NumberSearchField getProjectId() {
-		return projectId;
-	}
+    public NumberSearchField getProjectId() {
+        return projectId;
+    }
 
-	public void setProjectId(NumberSearchField projectId) {
-		this.projectId = projectId;
-	}
+    public void setProjectId(NumberSearchField projectId) {
+        this.projectId = projectId;
+    }
 
-	public void setId(NumberSearchField id) {
-		this.id = id;
-	}
+    public void setId(NumberSearchField id) {
+        this.id = id;
+    }
 
-	public NumberSearchField getId() {
-		return id;
-	}
+    public NumberSearchField getId() {
+        return id;
+    }
 
-	public void setMilestoneName(StringSearchField milestoneName) {
-		this.milestoneName = milestoneName;
-	}
+    public void setMilestoneName(StringSearchField milestoneName) {
+        this.milestoneName = milestoneName;
+    }
 
-	public StringSearchField getMilestoneName() {
-		return milestoneName;
-	}
+    public StringSearchField getMilestoneName() {
+        return milestoneName;
+    }
 
+    public SetSearchField<Integer> getProjectIds() {
+        return projectIds;
+    }
+
+    public void setProjectIds(SetSearchField<Integer> projectIds) {
+        this.projectIds = projectIds;
+    }
 }

@@ -17,7 +17,11 @@
 
 package com.esofthead.mycollab.module.project.domain;
 
+import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
+
+import java.util.Date;
 
 /**
  * @author MyCollab Ltd.
@@ -152,5 +156,14 @@ public class SimpleMilestone extends Milestone {
 
     public void setTotalBugNonBillableHours(Double totalBugNonBillableHours) {
         this.totalBugNonBillableHours = totalBugNonBillableHours;
+    }
+
+    public boolean isOverdue() {
+        if (!OptionI18nEnum.MilestoneStatus.Closed.name().equals(getStatus())) {
+            Date now = DateTimeUtils.getCurrentDateWithoutMS();
+            return (getEnddate() != null && getEnddate().before(now));
+        }
+
+        return false;
     }
 }

@@ -20,16 +20,19 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectMemberStatusConstants;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectRoleSearchCriteria;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectRoleScreenData;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.*;
 import com.esofthead.mycollab.vaadin.ui.TabSheetDecorator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
@@ -54,27 +57,30 @@ public class UserSettingViewImpl extends AbstractPageView implements UserSetting
     public UserSettingViewImpl() {
         this.setWidth("100%");
         this.myProjectTab = new TabSheetDecorator();
-
         this.addComponent(myProjectTab);
-
         this.buildComponents();
     }
 
     private void buildComponents() {
         this.userPresenter = PresenterResolver.getPresenter(ProjectUserPresenter.class);
-        this.myProjectTab.addTab(this.userPresenter.getView(), AppContext.getMessage(ProjectCommonI18nEnum.VIEW_USERS));
+        this.myProjectTab.addTab(this.userPresenter.getView(), AppContext.getMessage(ProjectCommonI18nEnum
+                .VIEW_USERS), FontAwesome.USERS);
 
         this.rolePresenter = PresenterResolver.getPresenter(ProjectRolePresenter.class);
-        this.myProjectTab.addTab(this.rolePresenter.getView(), AppContext.getMessage(ProjectCommonI18nEnum.VIEW_ROLES));
+        this.myProjectTab.addTab(this.rolePresenter.getView(), AppContext.getMessage(ProjectCommonI18nEnum
+                .VIEW_ROLES), FontAwesome.USER_MD);
 
         this.componentPresenter = PresenterResolver.getPresenter(ComponentPresenter.class);
-        this.myProjectTab.addTab(this.componentPresenter.getView(), AppContext.getMessage(BugI18nEnum.TAB_COMPONENT));
+        this.myProjectTab.addTab(this.componentPresenter.getView(), AppContext.getMessage(BugI18nEnum.TAB_COMPONENT),
+                ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG_COMPONENT));
 
         this.versionPresenter = PresenterResolver.getPresenter(VersionPresenter.class);
-        this.myProjectTab.addTab(this.versionPresenter.getView(), AppContext.getMessage(BugI18nEnum.TAB_VERSION));
+        this.myProjectTab.addTab(this.versionPresenter.getView(), AppContext.getMessage(BugI18nEnum.TAB_VERSION),
+                ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG_VERSION));
 
         this.settingPresenter = PresenterResolver.getPresenter(ProjectSettingPresenter.class);
-        this.myProjectTab.addTab(this.settingPresenter.getView(), AppContext.getMessage(ProjectCommonI18nEnum.VIEW_SETTINGS));
+        this.myProjectTab.addTab(this.settingPresenter.getView(), AppContext.getMessage(ProjectCommonI18nEnum
+                .VIEW_SETTINGS), FontAwesome.COG);
 
         this.myProjectTab.addSelectedTabChangeListener(new SelectedTabChangeListener() {
             private static final long serialVersionUID = 1L;

@@ -41,7 +41,7 @@ import org.springframework.stereotype.Component
         import scala.collection.JavaConversions._
         val defaultOptions = optionValMapper.selectByExample(ex)
         for (option <- defaultOptions) {
-            val prjOption = new OptionVal;
+            val prjOption = new OptionVal
             prjOption.setCreatedtime(new GregorianCalendar().getTime)
             prjOption.setDescription(option.getDescription)
             prjOption.setExtraid(event.projectId)

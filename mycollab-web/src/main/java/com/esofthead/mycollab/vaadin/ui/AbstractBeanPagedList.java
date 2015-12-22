@@ -56,6 +56,7 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T> extends
         listContainer = new CssLayout();
         listContainer.setWidth("100%");
         this.addComponent(listContainer);
+        this.setExpandRatio(listContainer, 1.0f);
     }
 
     @Override
@@ -208,10 +209,7 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T> extends
     }
 
     private Component msgWhenEmptyList() {
-        HorizontalLayout comp = new HorizontalLayout();
-        comp.setMargin(true);
-        comp.addComponent(new Label(stringWhenEmptyList()));
-        return comp;
+        return new MHorizontalLayout().withMargin(true).withWidth("100%").withStyleName("panel-body").with(new Label(stringWhenEmptyList()));
     }
 
     abstract protected int queryTotalCount();

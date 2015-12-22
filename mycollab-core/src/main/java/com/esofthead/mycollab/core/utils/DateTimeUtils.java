@@ -19,6 +19,9 @@ package com.esofthead.mycollab.core.utils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
+import org.joda.time.Period;
+import org.joda.time.format.PeriodFormat;
+import org.joda.time.format.PeriodFormatter;
 import org.ocpsoft.prettytime.PrettyTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -101,6 +104,12 @@ public class DateTimeUtils {
         }
         PrettyTime p = new PrettyTime(locale);
         return p.format(dateTime);
+    }
+
+    public static String getPrettyDurationValue(Date date, Locale locale) {
+        Period period = new Period(new LocalDate(date), LocalDate.now());
+        PeriodFormatter formatter = PeriodFormat.wordBased(locale);
+        return formatter.print(period);
     }
 
     /**

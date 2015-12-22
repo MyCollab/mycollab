@@ -30,6 +30,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
+import com.hp.gagawa.java.elements.Span;
 import com.vaadin.data.Property;
 import com.vaadin.event.FieldEvents;
 import com.vaadin.event.LayoutEvents;
@@ -58,14 +59,6 @@ public class ToogleBugSummaryField extends CssLayout {
         this.bug = bug;
         this.maxLength = trimCharacters;
         bugLinkLbl = new Label(buildBugLink(), ContentMode.HTML);
-
-        if (bug.isCompleted()) {
-            bugLinkLbl.addStyleName("completed");
-            bugLinkLbl.removeStyleName("overdue pending");
-        } else if (bug.isOverdue()) {
-            bugLinkLbl.addStyleName("overdue");
-            bugLinkLbl.removeStyleName("completed pending");
-        }
 
         bugLinkLbl.addStyleName(UIConstants.LABEL_WORD_WRAP);
         bugLinkLbl.setWidthUndefined();
@@ -127,11 +120,19 @@ public class ToogleBugSummaryField extends CssLayout {
         String linkName = String.format("[#%d] - %s", bug.getBugkey(), StringUtils.trim(bug.getSummary(), maxLength, true));
         A bugLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateBugPreviewFullLink(bug.getBugkey(),
                 CurrentProjectVariables.getShortName())).appendText(linkName).setStyle("display:inline");
+        Div resultDiv = new DivLessFormatter().appendChild(bugLink);
+        if (bug.isOverdue()) {
+            bugLink.setCSSClass("overdue");
+            resultDiv.appendChild(new Span().setCSSClass(UIConstants.LABEL_META_INFO).appendText(" - Due in " + AppContext
+                    .formatDuration(bug.getDuedate())));
+        } else if (bug.isCompleted()) {
+            bugLink.setCSSClass("completed");
+        }
 
         bugLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, ProjectTypeConstants.BUG, bug.getId() + ""));
         bugLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
 
-        Div resultDiv = new DivLessFormatter().appendChild(bugLink, DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));
+        resultDiv.appendChild(TooltipHelper.buildDivTooltipEnable(uid));
         return resultDiv.write();
     }
 }

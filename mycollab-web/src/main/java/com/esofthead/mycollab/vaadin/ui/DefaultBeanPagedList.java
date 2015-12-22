@@ -17,39 +17,37 @@
 
 package com.esofthead.mycollab.vaadin.ui;
 
-import java.util.List;
-
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 
+import java.util.List;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class DefaultBeanPagedList<SearchService extends ISearchableService<S>, S extends SearchCriteria, T>
-		extends AbstractBeanPagedList<S, T> {
-	private static final long serialVersionUID = 1L;
+public class DefaultBeanPagedList<SearchService extends ISearchableService<S>, S extends SearchCriteria, T> extends AbstractBeanPagedList<S, T> {
+    private static final long serialVersionUID = 1L;
 
-	private final SearchService searchService;
+    private final SearchService searchService;
 
-	public DefaultBeanPagedList(SearchService searchService, RowDisplayHandler<T> rowDisplayHandler) {
-		this(searchService, rowDisplayHandler, 20);
-	}
+    public DefaultBeanPagedList(SearchService searchService, RowDisplayHandler<T> rowDisplayHandler) {
+        this(searchService, rowDisplayHandler, 20);
+    }
 
-	public DefaultBeanPagedList(SearchService searchService, RowDisplayHandler<T> rowDisplayHandler, int defaultNumberSearchItems) {
-		super(rowDisplayHandler, defaultNumberSearchItems);
-		this.searchService = searchService;
-	}
+    public DefaultBeanPagedList(SearchService searchService, RowDisplayHandler<T> rowDisplayHandler, int defaultNumberSearchItems) {
+        super(rowDisplayHandler, defaultNumberSearchItems);
+        this.searchService = searchService;
+    }
 
-	@Override
-	protected int queryTotalCount() {
-		return searchService.getTotalCount(searchRequest.getSearchCriteria());
-	}
+    @Override
+    protected int queryTotalCount() {
+        return searchService.getTotalCount(searchRequest.getSearchCriteria());
+    }
 
-	@SuppressWarnings("unchecked")
-	@Override
-	protected List<T> queryCurrentData() {
-		return searchService.findPagableListByCriteria(searchRequest);
-	}
+    @SuppressWarnings("unchecked")
+    @Override
+    protected List<T> queryCurrentData() {
+        return searchService.findPagableListByCriteria(searchRequest);
+    }
 }

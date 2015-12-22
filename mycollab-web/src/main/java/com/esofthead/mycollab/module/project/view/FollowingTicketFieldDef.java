@@ -30,7 +30,7 @@ public class FollowingTicketFieldDef {
             UIConstants.TABLE_EX_LABEL_WIDTH);
 
     public static final TableViewField project = new TableViewField(FollowerI18nEnum.FORM_PROJECT_NAME, "projectName",
-            UIConstants.TABLE_X_LABEL_WIDTH);
+            UIConstants.TABLE_EX_LABEL_WIDTH);
 
     public static final TableViewField assignee = new TableViewField(GenericI18Enum.FORM_ASSIGNEE, "assignUser",
             UIConstants.TABLE_X_LABEL_WIDTH);

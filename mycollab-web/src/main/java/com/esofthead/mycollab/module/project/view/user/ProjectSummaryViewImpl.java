@@ -16,11 +16,11 @@
  */
 package com.esofthead.mycollab.module.project.view.user;
 
+import com.esofthead.mycollab.module.project.view.milestone.MilestoneTimelineWidget;
 import com.esofthead.mycollab.vaadin.mvp.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.VerticalLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -43,21 +43,34 @@ public class ProjectSummaryViewImpl extends AbstractLazyPageView implements Proj
 
         MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%");
         contentWrapper.addComponent(layout);
-        VerticalLayout leftPanel = new VerticalLayout();
+        MVerticalLayout leftPanel = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, false));
 
-        ProjectActivityStreamComponent activityPanel = new ProjectActivityStreamComponent();
-        leftPanel.addComponent(activityPanel);
+        MilestoneTimelineWidget milestoneTimelineWidget = new MilestoneTimelineWidget();
+        ProjectOverdueAssignmentsWidget taskOverdueWidget = new ProjectOverdueAssignmentsWidget();
+        ProjectUnresolvedAssignmentWidget unresolvedAssignmentThisWeekWidget = new ProjectUnresolvedAssignmentWidget();
 
-        MVerticalLayout rightPanel = new MVerticalLayout().withMargin(new MarginInfo(false, false, false, true));
+        ProjectUnresolvedAssignmentWidget unresolvedAssignmentNextWeekWidget = new ProjectUnresolvedAssignmentWidget();
+
+        leftPanel.addComponent(milestoneTimelineWidget);
+        leftPanel.with(milestoneTimelineWidget, unresolvedAssignmentThisWeekWidget, unresolvedAssignmentNextWeekWidget, taskOverdueWidget);
+
+        MVerticalLayout rightPanel = new MVerticalLayout().withMargin(false).withWidth("500px");
         ProjectMembersWidget membersWidget = new ProjectMembersWidget();
-        ProjectAssignmentsWidget taskOverdueWidget = new ProjectAssignmentsWidget();
+        ProjectActivityStreamComponent activityPanel = new ProjectActivityStreamComponent();
+        rightPanel.with(membersWidget, activityPanel);
 
-        rightPanel.with(membersWidget, taskOverdueWidget);
-
+        milestoneTimelineWidget.display();
+        unresolvedAssignmentThisWeekWidget.displayUnresolvedAssignmentsThisWeek();
+        unresolvedAssignmentNextWeekWidget.displayUnresolvedAssignmentsNextWeek();
         activityPanel.showProjectFeeds();
         membersWidget.showInformation();
         taskOverdueWidget.showOpenAssignments();
 
-        layout.with(leftPanel, rightPanel);
+        layout.with(leftPanel, rightPanel).expand(leftPanel);
+    }
+
+    @Override
+    public void displaySearchResult(String value) {
+        removeAllComponents();
     }
 }

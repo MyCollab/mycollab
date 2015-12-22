@@ -216,7 +216,7 @@ public class ActivityStreamComponent extends CssLayout {
 
             itemLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, activityStream.getType(), activityStream.getTypeid()));
             itemLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
-            itemLink.appendText(activityStream.getNamefield());
+            itemLink.appendText(StringUtils.trim(activityStream.getNamefield(), 50, true));
 
             div.appendChild(itemImg, DivLessFormatter.EMPTY_SPACE(), itemLink, DivLessFormatter.EMPTY_SPACE(),
                     TooltipHelper.buildDivTooltipEnable(uid));

@@ -25,4 +25,5 @@ import com.esofthead.mycollab.vaadin.mvp.LazyPageView;
  * 
  */
 public interface ProjectSummaryView extends LazyPageView {
+    void displaySearchResult(String value);
 }

@@ -56,7 +56,13 @@
         #end
         
         #ifnotnull($searchCriteria.isOpenned)
-            ${searchCriteria.isOpenned.operation} m_prj_problem.status='Open'
+            ${searchCriteria.isOpenned.operation} m_prj_problem.status NOT IN ('Closed')
+        #end
+
+        #ifnotnull($searchCriteria.dateInRange)
+            ${searchCriteria.dateInRange.operation} ((m_prj_problem.datedue BETWEEN @{searchCriteria.dateInRange.from} AND @{searchCriteria.dateInRange.to})
+              OR (m_prj_problem.actualstartdate BETWEEN @{searchCriteria.dateInRange.from} AND @{searchCriteria.dateInRange.to})
+              OR (m_prj_problem.actualenddate BETWEEN @{searchCriteria.dateInRange.from} AND @{searchCriteria.dateInRange.to}))
         #end
 
         #ifnotnull($searchCriteria.types)
@@ -99,7 +105,11 @@
         #end
         
         #ifnotnull($searchCriteria.isOpenned)
-            ${searchCriteria.isOpenned.operation} m_prj_risk.status='Open'
+            ${searchCriteria.isOpenned.operation} m_prj_risk.status NOT IN ('Closed')
+        #end
+
+        #ifnotnull($searchCriteria.dateInRange)
+            ${searchCriteria.dateInRange.operation} (m_prj_risk.datedue BETWEEN @{searchCriteria.dateInRange.from} AND @{searchCriteria.dateInRange.to})
         #end
 
         #ifnotnull($searchCriteria.types)
@@ -142,7 +152,13 @@
         #end
         
         #ifnotnull($searchCriteria.isOpenned)
-            ${searchCriteria.isOpenned.operation} m_tracker_bug.status IN ('Open','InProgress', 'Reopenned', 'Test Pending')
+            ${searchCriteria.isOpenned.operation} m_tracker_bug.status NOT IN ('Verified')
+        #end
+
+        #ifnotnull($searchCriteria.dateInRange)
+            ${searchCriteria.dateInRange.operation} ((m_tracker_bug.duedate BETWEEN @{searchCriteria.dateInRange.from} AND @{searchCriteria.dateInRange.to})
+            OR (m_tracker_bug.startdate BETWEEN @{searchCriteria.dateInRange.from} AND @{searchCriteria.dateInRange.to})
+            OR (m_tracker_bug.enddate BETWEEN @{searchCriteria.dateInRange.from} AND @{searchCriteria.dateInRange.to}))
         #end
 
         #ifnotnull($searchCriteria.milestoneId)
@@ -189,7 +205,15 @@
         #end
         
         #ifnotnull($searchCriteria.isOpenned)
-            ${searchCriteria.isOpenned.operation} m_prj_task.status='Open'
+            ${searchCriteria.isOpenned.operation} m_prj_task.status NOT IN ('Closed')
+        #end
+
+        #ifnotnull($searchCriteria.dateInRange)
+            ${searchCriteria.dateInRange.operation} ((m_prj_task.deadline BETWEEN @{searchCriteria.dateInRange.from} AND @{searchCriteria.dateInRange.to})
+            OR (m_prj_task.startdate BETWEEN @{searchCriteria.dateInRange.from} AND @{searchCriteria.dateInRange.to})
+            OR (m_prj_task.enddate BETWEEN @{searchCriteria.dateInRange.from} AND @{searchCriteria.dateInRange.to})
+            OR (m_prj_task.actualStartDate BETWEEN @{searchCriteria.dateInRange.from} AND @{searchCriteria.dateInRange.to})
+            OR (m_prj_task.actualEndDate BETWEEN @{searchCriteria.dateInRange.from} AND @{searchCriteria.dateInRange.to}))
         #end
 
         #ifnotnull($searchCriteria.milestoneId)

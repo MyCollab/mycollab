@@ -17,10 +17,7 @@
 package com.esofthead.mycollab.module.project.view.bug.components;
 
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.core.db.query.PropertyListParam;
-import com.esofthead.mycollab.core.db.query.SearchFieldInfo;
-import com.esofthead.mycollab.core.db.query.SearchQueryInfo;
-import com.esofthead.mycollab.core.db.query.VariableInjecter;
+import com.esofthead.mycollab.core.db.query.*;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
@@ -28,6 +25,7 @@ import com.esofthead.mycollab.module.project.query.CurrentProjectIdInjecter;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.SavedFilterComboBox;
+import org.joda.time.LocalDate;
 
 import java.util.Arrays;
 
@@ -38,6 +36,7 @@ import java.util.Arrays;
 public class BugSavedFilterComboBox extends SavedFilterComboBox {
     public static final String ALL_BUGS = "ALL_BUGS";
     public static final String OPEN_BUGS = "OPEN_BUGS";
+    public static final String OVERDUE_BUGS = "OVERDUE_BUGS";
     public static final String MY_BUGS = "MY_BUGS";
     public static final String NEW_THIS_WEEK = "NEW_THIS_WEEK";
     public static final String UPDATE_THIS_WEEK = "UPDATE_THIS_WEEK";
@@ -58,6 +57,20 @@ public class BugSavedFilterComboBox extends SavedFilterComboBox {
                         return Arrays.asList(BugStatus.InProgress.name(), BugStatus.Open.name(), BugStatus.ReOpened.name());
                     }
                 }));
+
+        SearchQueryInfo overdueTaskQuery = new SearchQueryInfo(OVERDUE_BUGS, "Overdue Bugs", new SearchFieldInfo
+                (SearchField.AND, BugSearchCriteria.p_duedate, DateParam.BEFORE, new VariableInjecter() {
+                    @Override
+                    public Object eval() {
+                        return new LocalDate().toDate();
+                    }
+                }), new SearchFieldInfo(SearchField.AND, new StringParam("id-status", BugI18nEnum.FORM_STATUS,
+                "m_tracker_bug", "status"), StringParam.IS_NOT, new VariableInjecter() {
+            @Override
+            public Object eval() {
+                return BugStatus.Verified.name();
+            }
+        }));
 
         SearchQueryInfo myBugsQuery = new SearchQueryInfo(MY_BUGS, "My Bugs", SearchFieldInfo.inCollection
                 (BugSearchCriteria.p_assignee, new VariableInjecter() {
@@ -81,6 +94,7 @@ public class BugSavedFilterComboBox extends SavedFilterComboBox {
 
         this.addSharedSearchQueryInfo(allBugsQuery);
         this.addSharedSearchQueryInfo(allOpenBugsQuery);
+        this.addSharedSearchQueryInfo(overdueTaskQuery);
         this.addSharedSearchQueryInfo(myBugsQuery);
         this.addSharedSearchQueryInfo(newBugsThisWeekQuery);
         this.addSharedSearchQueryInfo(updateBugsThisWeekQuery);

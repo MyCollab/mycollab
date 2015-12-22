@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.project.view;
 
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.FollowingTicket;
 import com.esofthead.mycollab.module.project.domain.criteria.FollowingTicketSearchCriteria;
@@ -33,6 +34,9 @@ import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserLink;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Div;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Table;
@@ -46,16 +50,12 @@ import java.util.GregorianCalendar;
  * @since 1.0
  */
 public class FollowingTicketTableDisplay extends DefaultPagedBeanTable<ProjectFollowingTicketService, FollowingTicketSearchCriteria, FollowingTicket> {
-
     private static final long serialVersionUID = 1L;
 
     public FollowingTicketTableDisplay() {
         super(ApplicationContextUtil.getSpringBean(ProjectFollowingTicketService.class),
-                FollowingTicket.class, Arrays.asList(
-                        FollowingTicketFieldDef.summary,
-                        FollowingTicketFieldDef.project,
-                        FollowingTicketFieldDef.assignee,
-                        FollowingTicketFieldDef.createdDate));
+                FollowingTicket.class, Arrays.asList(FollowingTicketFieldDef.summary,
+                        FollowingTicketFieldDef.project, FollowingTicketFieldDef.assignee, FollowingTicketFieldDef.createdDate));
 
         this.addGeneratedColumn("summary", new ColumnGenerator() {
             private static final long serialVersionUID = 1L;
@@ -64,17 +64,14 @@ public class FollowingTicketTableDisplay extends DefaultPagedBeanTable<ProjectFo
             public Object generateCell(final Table source, final Object itemId,
                                        final Object columnId) {
                 final FollowingTicket ticket = getBeanByIndex(itemId);
-                final ButtonLink ticketLink = new ButtonLink(ticket
-                        .getSummary());
+                final ButtonLink ticketLink = new ButtonLink(ticket.getSummary());
 
                 if (ProjectTypeConstants.BUG.equals(ticket.getType())) {
                     ticketLink.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG));
 
                     if (BugStatus.Verified.name().equals(ticket.getStatus())) {
                         ticketLink.addStyleName(UIConstants.LINK_COMPLETED);
-                    } else if (ticket.getDueDate() != null
-                            && ticket.getDueDate().before(
-                            DateTimeUtils.getCurrentDateWithoutMS())) {
+                    } else if (ticket.getDueDate() != null && ticket.getDueDate().before(DateTimeUtils.getCurrentDateWithoutMS())) {
                         ticketLink.addStyleName(UIConstants.LINK_OVERDUE);
                     }
 
@@ -85,12 +82,9 @@ public class FollowingTicketTableDisplay extends DefaultPagedBeanTable<ProjectFo
                         public void buttonClick(final ClickEvent event) {
                             final int projectId = ticket.getProjectId();
                             final int bugId = ticket.getTypeId();
-                            final PageActionChain chain = new PageActionChain(
-                                    new ProjectScreenData.Goto(projectId),
+                            final PageActionChain chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
                                     new BugScreenData.Read(bugId));
-                            EventBusFactory.getInstance()
-                                    .post(new ProjectEvent.GotoMyProject(this,
-                                            chain));
+                            EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
                         }
                     });
                 } else if (ProjectTypeConstants.TASK.equals(ticket.getType())) {
@@ -101,9 +95,7 @@ public class FollowingTicketTableDisplay extends DefaultPagedBeanTable<ProjectFo
                     } else {
                         if ("Pending".equals(ticket.getStatus())) {
                             ticketLink.addStyleName(UIConstants.LINK_PENDING);
-                        } else if (ticket.getDueDate() != null
-                                && ticket.getDueDate().before(
-                                new GregorianCalendar().getTime())) {
+                        } else if (ticket.getDueDate() != null && ticket.getDueDate().before(new GregorianCalendar().getTime())) {
                             ticketLink.addStyleName(UIConstants.LINK_OVERDUE);
                         }
                     }
@@ -115,12 +107,8 @@ public class FollowingTicketTableDisplay extends DefaultPagedBeanTable<ProjectFo
                         public void buttonClick(final ClickEvent event) {
                             final int projectId = ticket.getProjectId();
                             final int taskId = ticket.getTypeId();
-                            final PageActionChain chain = new PageActionChain(
-                                    new ProjectScreenData.Goto(projectId),
-                                    new TaskScreenData.Read(taskId));
-                            EventBusFactory.getInstance()
-                                    .post(new ProjectEvent.GotoMyProject(this,
-                                            chain));
+                            final PageActionChain chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new TaskScreenData.Read(taskId));
+                            EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
                         }
                     });
                 } else if (ProjectTypeConstants.PROBLEM.equals(ticket.getType())) {
@@ -131,9 +119,7 @@ public class FollowingTicketTableDisplay extends DefaultPagedBeanTable<ProjectFo
                     } else {
                         if ("Pending".equals(ticket.getStatus())) {
                             ticketLink.addStyleName(UIConstants.LINK_PENDING);
-                        } else if (ticket.getDueDate() != null
-                                && ticket.getDueDate().before(
-                                new GregorianCalendar().getTime())) {
+                        } else if (ticket.getDueDate() != null && ticket.getDueDate().before(new GregorianCalendar().getTime())) {
                             ticketLink.addStyleName(UIConstants.LINK_OVERDUE);
                         }
                     }
@@ -145,12 +131,9 @@ public class FollowingTicketTableDisplay extends DefaultPagedBeanTable<ProjectFo
                         public void buttonClick(final ClickEvent event) {
                             int projectId = ticket.getProjectId();
                             int problemId = ticket.getTypeId();
-                            PageActionChain chain = new PageActionChain(
-                                    new ProjectScreenData.Goto(projectId),
+                            PageActionChain chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
                                     new ProblemScreenData.Read(problemId));
-                            EventBusFactory.getInstance()
-                                    .post(new ProjectEvent.GotoMyProject(this,
-                                            chain));
+                            EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
                         }
                     });
                 } else if (ProjectTypeConstants.RISK.equals(ticket.getType())) {
@@ -175,12 +158,9 @@ public class FollowingTicketTableDisplay extends DefaultPagedBeanTable<ProjectFo
                         public void buttonClick(final ClickEvent event) {
                             final int projectId = ticket.getProjectId();
                             final int riskId = ticket.getTypeId();
-                            final PageActionChain chain = new PageActionChain(
-                                    new ProjectScreenData.Goto(projectId),
+                            final PageActionChain chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
                                     new RiskScreenData.Read(riskId));
-                            EventBusFactory.getInstance()
-                                    .post(new ProjectEvent.GotoMyProject(this,
-                                            chain));
+                            EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
                         }
                     });
                 }
@@ -196,22 +176,10 @@ public class FollowingTicketTableDisplay extends DefaultPagedBeanTable<ProjectFo
             public Object generateCell(final Table source, final Object itemId,
                                        final Object columnId) {
                 final FollowingTicket ticket = getBeanByIndex(itemId);
-                final ButtonLink projectLink = new ButtonLink(ticket
-                        .getProjectName());
-                projectLink.addClickListener(new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        final int projectId = ticket.getProjectId();
-                        final PageActionChain chain = new PageActionChain(
-                                new ProjectScreenData.Goto(projectId));
-                        EventBusFactory.getInstance().post(
-                                new ProjectEvent.GotoMyProject(this, chain));
-                    }
-                });
-                projectLink.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.PROJECT));
-                return projectLink;
+                Div projectLinkDiv = new Div().appendText(ProjectAssetsManager.getAsset(ProjectTypeConstants.PROJECT).getHtml() + " ")
+                        .appendChild(new A(ProjectLinkBuilder.generateProjectFullLink(ticket.getProjectId()))
+                                .appendText(ticket.getProjectName()));
+                return new ELabel(projectLinkDiv.write(), ContentMode.HTML).withStyleName(UIConstants.LABEL_WORD_WRAP);
             }
         });
 
@@ -222,9 +190,7 @@ public class FollowingTicketTableDisplay extends DefaultPagedBeanTable<ProjectFo
             public Object generateCell(final Table source, final Object itemId,
                                        final Object columnId) {
                 FollowingTicket ticket = getBeanByIndex(itemId);
-                return new UserLink(ticket.getAssignUser(), ticket
-                        .getAssignUserAvatarId(), ticket
-                        .getAssignUserFullName());
+                return new UserLink(ticket.getAssignUser(), ticket.getAssignUserAvatarId(), ticket.getAssignUserFullName());
             }
         });
 
@@ -234,8 +200,7 @@ public class FollowingTicketTableDisplay extends DefaultPagedBeanTable<ProjectFo
             @Override
             public Object generateCell(final Table source, final Object itemId,
                                        final Object columnId) {
-                FollowingTicket ticket = FollowingTicketTableDisplay.this
-                        .getBeanByIndex(itemId);
+                FollowingTicket ticket = FollowingTicketTableDisplay.this.getBeanByIndex(itemId);
                 return new ELabel().prettyDateTime(ticket.getMonitorDate());
             }
         });

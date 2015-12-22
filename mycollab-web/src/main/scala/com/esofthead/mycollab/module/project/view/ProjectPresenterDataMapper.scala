@@ -110,9 +110,9 @@ object ProjectPresenterDataMapper {
         classOf[FileScreenData.GotoDashboard] -> classOf[FilePresenter])
 
     val projectMapper = Map[Class[_ <: ScreenData[_]], Class[_ <: IPresenter[_]]](
-        classOf[ProjectScreenData.GotoTagList] -> classOf[ProjectDashboardPresenter],
-        classOf[ProjectScreenData.SearchItem] -> classOf[ProjectDashboardPresenter],
-        classOf[ProjectScreenData.Edit] -> classOf[ProjectDashboardPresenter])
+        classOf[ProjectScreenData.GotoTagList] -> classOf[UserProjectDashboardPresenter],
+        classOf[ProjectScreenData.SearchItem] -> classOf[UserProjectDashboardPresenter],
+        classOf[ProjectScreenData.Edit] -> classOf[UserProjectDashboardPresenter])
 
     val allMapper = milestoneMapper ++ messageMapper ++ pageMapper ++ problemMapper ++ riskMapper ++ taskMapper ++
         trackerMapper ++ standupMapper ++ userMapper ++ timeMapper ++ fileMapper ++ projectMapper

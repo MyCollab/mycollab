@@ -44,6 +44,13 @@
             #ifnotnull($searchCriteria.projectId)
                 ${searchCriteria.projectId.operation} m_prj_milestone.projectid = @{searchCriteria.projectId.value,jdbcType=NUMERIC}
             #end
+
+            #ifnotnull($searchCriteria.projectIds)
+                ${searchCriteria.projectIds.operation} m_prj_milestone.projectid IN
+                #repeat(${searchCriteria.projectIds.values} $projectid "," "(" ")")
+                        @{projectid}
+                #end
+            #end
             
             #ifnotnull($searchCriteria.milestoneName)
                 ${searchCriteria.milestoneName.operation} m_prj_milestone.name like '%${searchCriteria.milestoneName.value}%'
@@ -75,6 +82,13 @@
             
             #ifnotnull($searchCriteria.projectId)
                 ${searchCriteria.projectId.operation} m_prj_milestone.projectid = @{searchCriteria.projectId.value,jdbcType=NUMERIC}
+            #end
+
+            #ifnotnull($searchCriteria.projectIds)
+                ${searchCriteria.projectIds.operation} m_prj_milestone.projectid IN
+                #repeat(${searchCriteria.projectIds.values} $projectid "," "(" ")")
+                        @{projectid}
+                #end
             #end
             
             #ifnotnull($searchCriteria.milestoneName)

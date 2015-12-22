@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.core.arguments;
 
-import com.esofthead.mycollab.core.utils.DateTimeUtils;
+import org.joda.time.LocalDate;
 
 import java.util.Date;
 
@@ -48,7 +48,7 @@ public class DateSearchField extends SearchField {
     public DateSearchField(String oper, Date dateVal, String comparison) {
         this.operation = oper;
         this.comparison = comparison;
-        this.value = DateTimeUtils.trimHMSOfDate(DateTimeUtils.convertDateTimeToUTC(dateVal));
+        this.value = new LocalDate(dateVal).toDate();
     }
 
     public Date getValue() {

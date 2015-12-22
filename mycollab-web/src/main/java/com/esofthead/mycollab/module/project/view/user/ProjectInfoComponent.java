@@ -21,6 +21,7 @@ import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.core.arguments.BooleanSearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.utils.NumberUtils;
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -33,6 +34,7 @@ import com.esofthead.mycollab.module.project.i18n.*;
 import com.esofthead.mycollab.module.project.service.ItemTimeLoggingService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
+import com.esofthead.mycollab.module.project.view.ProjectView;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -86,8 +88,8 @@ public class ProjectInfoComponent extends MHorizontalLayout {
     };
 
     public ProjectInfoComponent(final SimpleProject project) {
-        this.withMargin(true).withStyleName("project-info").withFullWidth().withHeight("80px");
-        ELabel headerLbl = ELabel.h2(FontAwesome.BUILDING_O.getHtml() + String.format(" %s (%s)", project.getName(),
+        this.withMargin(true).withStyleName("project-info").withFullWidth();
+        ELabel headerLbl = ELabel.h2(FontAwesome.BUILDING_O.getHtml() + String.format(" %s (%s)", StringUtils.trim(project.getName(), 400, true),
                 project.getShortname()));
         headerLbl.setDescription(project.getDescription());
         headerLbl.addStyleName("header");
@@ -144,7 +146,10 @@ public class ProjectInfoComponent extends MHorizontalLayout {
         } else {
             SearchTextField searchField = new SearchTextField() {
                 public void doSearch(String value) {
-                    EventBusFactory.getInstance().post(new ProjectEvent.GotoProjectSearchItemsView(ProjectInfoComponent.this, value));
+                    ProjectView prjview = UIUtils.getRoot(this, ProjectView.class);
+                    if (prjview != null) {
+                        prjview.displaySearchResult(value);
+                    }
                 }
             };
 

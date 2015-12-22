@@ -1530,7 +1530,7 @@ a {
 }
 
 a:visited, a:link {
-	color: #006DAC;
+	color: #0083ce;
 }
 
 a.completed {
@@ -1546,8 +1546,12 @@ a.pending {
 	color: #108e2a;
 }
 
+.v-tabsheet-tabitemcell .v-tabsheet-tabitem-selected .v-caption.v-caption, .v-tabsheet-tabitemcell .v-caption:hover {
+	color: #0083ce;
+}
+
 .v-button.v-button-link, .v-button.v-button-link:hover {
-	color: #006DAC;
+	color: #0083ce;
 }
 
 .meta-info {
@@ -1575,9 +1579,9 @@ a.pending {
 }
 
 .list-row:hover {
-	-webkit-box-shadow: inset 5px 0px 0px 0px #3A97FF;
-	-moz-box-shadow: inset 5px 0px 0px 0px #3A97FF;
-	box-shadow: inset 5px 0px 0px 0px #3A97FF;
+	-webkit-box-shadow: inset 5px 0px 0px 0px #0083ce;
+	-moz-box-shadow: inset 5px 0px 0px 0px #0083ce;
+	box-shadow: inset 5px 0px 0px 0px #0083ce;
 }
 
 .panel-header {
@@ -2223,6 +2227,98 @@ span.block {
 
 .scrollable-container {
 	overflow-y: auto;
+}
+
+.tm-container {
+	border: 1px solid #e5e5e5;
+}
+
+.tm-container .tm-wrapper {
+	overflow-x: auto;
+}
+
+.tm-container .tm-wrapper .timeline {
+	list-style-type: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.tm-container .tm-wrapper .timeline li {
+	transition: all 200ms ease-in;
+}
+
+.tm-container .tm-wrapper .timeline li .timestamp {
+	margin-bottom: 20px;
+	padding: 0px 40px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	font-weight: 100;
+	font-size: 13px;
+	color: #999;
+}
+
+.tm-container .tm-wrapper .timeline li .timestamp .date.overdue {
+	color: red;
+}
+
+.tm-container .tm-wrapper .timeline li .status {
+	padding: 10px 40px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	text-align: center;
+	border-top: 2px solid #D6DCE0;
+	position: relative;
+	transition: all 200ms ease-in;
+}
+
+.tm-container .tm-wrapper .timeline li .status:before {
+	content: "";
+	width: 25px;
+	height: 25px;
+	background-color: white;
+	border-radius: 25px;
+	border: 1px solid #ddd;
+	position: absolute;
+	text-align: center;
+	top: -15px;
+	left: 42%;
+	transition: all 200ms ease-in;
+}
+
+.tm-container .tm-wrapper .timeline li.closed .status {
+	border-top: 2px solid #d9cfb5;
+}
+
+.tm-container .tm-wrapper .timeline li.closed .status:before {
+	content: "C";
+	background-color: #d9cfb5;
+	border: none;
+	transition: all 200ms ease-in;
+}
+
+.tm-container .tm-wrapper .timeline li.inprogress .status {
+	border-top: 2px solid #66DC71;
+}
+
+.tm-container .tm-wrapper .timeline li.inprogress .status:before {
+	content: "P";
+	background-color: #66DC71;
+	border: none;
+	transition: all 200ms ease-in;
+}
+
+.tm-container .tm-wrapper .timeline li.future .status {
+	border-top: 2px solid #2981fe;
+}
+
+.tm-container .tm-wrapper .timeline li.future .status:before {
+	content: "F";
+	background-color: #2981fe;
+	border: none;
+	transition: all 200ms ease-in;
 }
 
 table {
@@ -13859,7 +13955,7 @@ a {
 }
 
 a:visited, a:link {
-	color: #006DAC;
+	color: #0083ce;
 }
 
 a.completed {
@@ -13875,8 +13971,12 @@ a.pending {
 	color: #108e2a;
 }
 
+.v-tabsheet-tabitemcell .v-tabsheet-tabitem-selected .v-caption.v-caption, .v-tabsheet-tabitemcell .v-caption:hover {
+	color: #0083ce;
+}
+
 .v-button.v-button-link, .v-button.v-button-link:hover {
-	color: #006DAC;
+	color: #0083ce;
 }
 
 .meta-info {
@@ -13904,9 +14004,9 @@ a.pending {
 }
 
 .list-row:hover {
-	-webkit-box-shadow: inset 5px 0px 0px 0px #3A97FF;
-	-moz-box-shadow: inset 5px 0px 0px 0px #3A97FF;
-	box-shadow: inset 5px 0px 0px 0px #3A97FF;
+	-webkit-box-shadow: inset 5px 0px 0px 0px #0083ce;
+	-moz-box-shadow: inset 5px 0px 0px 0px #0083ce;
+	box-shadow: inset 5px 0px 0px 0px #0083ce;
 }
 
 .panel-header {
@@ -14554,6 +14654,98 @@ span.block {
 	overflow-y: auto;
 }
 
+.tm-container {
+	border: 1px solid #e5e5e5;
+}
+
+.tm-container .tm-wrapper {
+	overflow-x: auto;
+}
+
+.tm-container .tm-wrapper .timeline {
+	list-style-type: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.tm-container .tm-wrapper .timeline li {
+	transition: all 200ms ease-in;
+}
+
+.tm-container .tm-wrapper .timeline li .timestamp {
+	margin-bottom: 20px;
+	padding: 0px 40px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	font-weight: 100;
+	font-size: 13px;
+	color: #999;
+}
+
+.tm-container .tm-wrapper .timeline li .timestamp .date.overdue {
+	color: red;
+}
+
+.tm-container .tm-wrapper .timeline li .status {
+	padding: 10px 40px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	text-align: center;
+	border-top: 2px solid #D6DCE0;
+	position: relative;
+	transition: all 200ms ease-in;
+}
+
+.tm-container .tm-wrapper .timeline li .status:before {
+	content: "";
+	width: 25px;
+	height: 25px;
+	background-color: white;
+	border-radius: 25px;
+	border: 1px solid #ddd;
+	position: absolute;
+	text-align: center;
+	top: -15px;
+	left: 42%;
+	transition: all 200ms ease-in;
+}
+
+.tm-container .tm-wrapper .timeline li.closed .status {
+	border-top: 2px solid #d9cfb5;
+}
+
+.tm-container .tm-wrapper .timeline li.closed .status:before {
+	content: "C";
+	background-color: #d9cfb5;
+	border: none;
+	transition: all 200ms ease-in;
+}
+
+.tm-container .tm-wrapper .timeline li.inprogress .status {
+	border-top: 2px solid #66DC71;
+}
+
+.tm-container .tm-wrapper .timeline li.inprogress .status:before {
+	content: "P";
+	background-color: #66DC71;
+	border: none;
+	transition: all 200ms ease-in;
+}
+
+.tm-container .tm-wrapper .timeline li.future .status {
+	border-top: 2px solid #2981fe;
+}
+
+.tm-container .tm-wrapper .timeline li.future .status:before {
+	content: "F";
+	background-color: #2981fe;
+	border: none;
+	transition: all 200ms ease-in;
+}
+
 .form .section {
 	padding: 25px 5px 5px 5px;
 	color: #006DAC;
@@ -14654,7 +14846,6 @@ span.block {
 }
 
 .crmContainer .navigator-wrap .basic-info {
-	color: #f7f7f7;
 	font-size: 13px;
 }
 
@@ -14673,10 +14864,6 @@ span.block {
 
 .crmContainer .navigator-wrap .basic-info .info-hdr .v-button-wrap {
 	padding: 6px;
-}
-
-.crmContainer .navigator-wrap .basic-info .v-label a, .crmContainer .navigator-wrap .basic-info .v-button.v-button-link {
-	color: #f7f7f7;
 }
 
 .crmContainer.preview-comp {
@@ -14830,9 +15017,9 @@ div .addview-layout-body .control-buttons {
 }
 
 .v-popupbutton-popup-myprojectlist .projectblock:hover, .myprojectlist .projectblock:hover {
-	-webkit-box-shadow: inset 5px 0px 0px 0px #3A97FF;
-	-moz-box-shadow: inset 5px 0px 0px 0px #3A97FF;
-	box-shadow: inset 5px 0px 0px 0px #3A97FF;
+	-webkit-box-shadow: inset 5px 0px 0px 0px #0083ce;
+	-moz-box-shadow: inset 5px 0px 0px 0px #0083ce;
+	box-shadow: inset 5px 0px 0px 0px #0083ce;
 }
 
 .v-popupbutton-popup-myprojectlist .projectblock .projectlink-wrapper, .v-popupbutton-popup-myprojectlist .projectblock .projectlink-wrapper-archived, .myprojectlist .projectblock .projectlink-wrapper, .myprojectlist .projectblock .projectlink-wrapper-archived {
@@ -14846,9 +15033,9 @@ div .addview-layout-body .control-buttons {
 }
 
 .v-popupbutton-popup-myprojectlist .projectblock .projectlink-wrapper:hover, .myprojectlist .projectblock .projectlink-wrapper:hover {
-	-webkit-box-shadow: inset 5px 0px 0px 0px #3A97FF;
-	-moz-box-shadow: inset 5px 0px 0px 0px #3A97FF;
-	box-shadow: inset 5px 0px 0px 0px #3A97FF;
+	-webkit-box-shadow: inset 5px 0px 0px 0px #0083ce;
+	-moz-box-shadow: inset 5px 0px 0px 0px #0083ce;
+	box-shadow: inset 5px 0px 0px 0px #0083ce;
 }
 
 .v-popupbutton-popup-myprojectlist .projectblock .projectlink-wrapper-archived, .myprojectlist .projectblock .projectlink-wrapper-archived {
@@ -14856,9 +15043,9 @@ div .addview-layout-body .control-buttons {
 }
 
 .v-popupbutton-popup-myprojectlist .projectblock .projectlink-wrapper-archived:hover, .myprojectlist .projectblock .projectlink-wrapper-archived:hover {
-	-webkit-box-shadow: inset 5px 0px 0px 0px #3A97FF;
-	-moz-box-shadow: inset 5px 0px 0px 0px #3A97FF;
-	box-shadow: inset 5px 0px 0px 0px #3A97FF;
+	-webkit-box-shadow: inset 5px 0px 0px 0px #0083ce;
+	-moz-box-shadow: inset 5px 0px 0px 0px #0083ce;
+	box-shadow: inset 5px 0px 0px 0px #0083ce;
 }
 
 .project-status .v-verticallayout.v-margin-top {
@@ -14875,6 +15062,29 @@ div .addview-layout-body .control-buttons {
 
 .project-status .v-verticallayout.v-margin-left {
 	padding-left: 15px;
+}
+
+.v-horizontal.project-info {
+	position: relative;
+}
+
+.v-horizontal.project-info :after {
+	content: "";
+	left: 220px;
+	height: 1px;
+	width: 100%;
+	background: #e5e5e5;
+	position: absolute;
+	bottom: 0px;
+}
+
+.v-horizontal.project-info * :after {
+	display: none;
+}
+
+.v-horizontal.project-info .v-popupbutton {
+	border: 1px solid #e5e5e5;
+	border-radius: 3px;
 }
 
 .instruction-box {
@@ -14983,61 +15193,9 @@ div .addview-layout-body .control-buttons {
 	border-radius: 0px;
 }
 
-.projectinfo-header, .message-toppanel-header {
-	font-size: 14px;
-	border-bottom: 1px solid #c5c5c5;
-	padding-bottom: 3px;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
-	background: none no-repeat left top #f1f1f1;
-	border-radius: 0px;
-}
-
-.message-toppanel-header.v-margin-top {
-	padding-top: 3px;
-}
-
-.message-toppanel-header.v-margin-right {
-	padding-right: 10px;
-}
-
-.message-toppanel-header.v-margin-bottom {
-	padding-bottom: 2px;
-}
-
-.message-toppanel-header.v-margin-left {
-	padding-left: 18px;
-}
-
-.projectinfo-footer.v-margin-top {
-	padding-top: 5px;
-}
-
-.projectinfo-footer.v-margin-right {
-	padding-right: 5px;
-}
-
-.projectinfo-footer.v-margin-bottom {
-	padding-bottom: 5px;
-}
-
-.projectinfo-footer.v-margin-left {
-	padding-left: 18px;
-}
-
 .projectfeed-hdr-wrapper {
-	background: none repeat-x left bottom cadetblue;
 	padding: 15px 30px;
-}
-
-.projectfeed-hdr-wrapper .h1 {
-	padding: 0px;
-	color: #f7f7f7;
-}
-
-.projectfeed-hdr-wrapper .h2, .projectfeed-hdr-wrapper .v-button-link .v-button-caption, .projectfeed-hdr-wrapper .v-button-link .v-icon, .projectfeed-hdr-wrapper .v-label, .projectfeed-hdr-wrapper .v-label a {
-	color: #f7f7f7;
+	border-bottom: 1px solid #e5e5e5;
 }
 
 .member-preview-form {
@@ -15131,7 +15289,7 @@ div.v-csslayout.followers-container .v-checkbox {
 }
 
 .v-csslayout.tag-block .v-button.remove-btn-sup {
-	width: 8px;
+	width: 20px;
 	height: 25px;
 	background-color: #fdde86;
 }
@@ -15368,9 +15526,9 @@ div.v-button.token-field:hover {
 }
 
 .tasklist .taskrow:hover {
-	-webkit-box-shadow: inset 5px 0px 0px 0px #3A97FF;
-	-moz-box-shadow: inset 5px 0px 0px 0px #3A97FF;
-	box-shadow: inset 5px 0px 0px 0px #3A97FF;
+	-webkit-box-shadow: inset 5px 0px 0px 0px #0083ce;
+	-moz-box-shadow: inset 5px 0px 0px 0px #0083ce;
+	box-shadow: inset 5px 0px 0px 0px #0083ce;
 }
 
 .bug-component {
@@ -15979,6 +16137,15 @@ input.v-textfield-pagedtable-pagefield {
 	height: 45px;
 }
 
+.topNavigation #mainLogo {
+	float: left;
+	width: 195px;
+	height: 100%;
+	margin: 0;
+	padding: 4px 15px 0px 10px;
+	display: block;
+}
+
 .topNavigation .serviceMenuContainer {
 	float: left;
 }
@@ -16031,16 +16198,6 @@ input.v-textfield-pagedtable-pagefield {
 	font-weight: 600;
 }
 
-.topNavigation .navSeparator {
-	display: block;
-	float: left;
-	border-left: solid 1px #f7f7f7;
-	border-right: solid 1px #f7f7f7;
-	height: 20px;
-	width: 0;
-	margin: 10px 0px 0px;
-}
-
 .topNavigation .accountMenuContainer {
 	float: right;
 }
@@ -16086,14 +16243,6 @@ input.v-textfield-pagedtable-pagefield {
 .topNavigation .accountMenuContainer .v-button.notification-button .v-button-wrap, .topNavigation .accountMenuContainer .v-button.notification-button .v-button-wrap:hover, .topNavigation .accountMenuContainer .v-button.notification-button.v-pressed .v-button-wrap, .topNavigation .accountMenuContainer .v-button.notification-button.v-pressed .v-button-wrap:hover {
 	padding: 4px 6px;
 	background: none;
-}
-
-#mainLogo {
-	float: left;
-	width: 150px;
-	margin: 2px 15px 1px 0px;
-	padding: 0px 15px 0px 0px;
-	display: block;
 }
 
 .v-popupbutton-popup-notification-button .popupContent {
@@ -17439,6 +17588,8 @@ div.v-ratingstars-bar {
 
 .vertical-tabsheet .navigator-wrap {
 	display: inline-block;
+	border-left: 1px solid #e5e5e5;
+	border-right: 1px solid #e5e5e5;
 }
 
 .vertical-tabsheet .container-wrap {
@@ -17579,7 +17730,7 @@ img.icon-btn {
 }
 
 .crm-activity-list, .project-activity-list {
-	padding-top: 20px;
+	padding-top: 5px;
 }
 
 .page-controls {
@@ -17707,7 +17858,6 @@ div.v-csslayout.bean-block {
 .intro-text-wrap .v-label {
 	border-bottom: 1px solid #e5e5e5;
 	padding-bottom: 13px;
-	color: #f7f7f7;
 	font-size: 13px;
 }
 
@@ -17947,7 +18097,6 @@ div.v-csslayout.rightsidebar-layout .sidebar-wrap {
 	font-size: 13px;
 	border-left: 1px solid #e5e5e5;
 	border-right: 1px solid #e5e5e5;
-	background-color: floralwhite;
 }
 
 div.v-csslayout.rightsidebar-layout .content-wrap {

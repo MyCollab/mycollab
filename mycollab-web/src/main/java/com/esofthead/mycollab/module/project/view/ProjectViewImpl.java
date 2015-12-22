@@ -46,6 +46,7 @@ import com.esofthead.mycollab.module.project.view.task.TaskPresenter;
 import com.esofthead.mycollab.module.project.view.time.ITimeTrackingPresenter;
 import com.esofthead.mycollab.module.project.view.user.ProjectDashboardPresenter;
 import com.esofthead.mycollab.module.project.view.user.ProjectInfoComponent;
+import com.esofthead.mycollab.module.project.view.user.ProjectSummaryView;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.*;
@@ -77,6 +78,11 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
         ControllerRegistry.addController(new ProjectController(this));
         ProjectInfoComponent infoComp = new ProjectInfoComponent(project);
         this.with(infoComp, viewWrap).expand(viewWrap);
+    }
+
+    @Override
+    public void displaySearchResult(String value) {
+        viewWrap.displaySearchResult(value);
     }
 
     @Override
@@ -199,6 +205,10 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
                     UI.getCurrent().addWindow(new AskToAddMoreMembersWindow());
                 }
             }
+        }
+
+        void displaySearchResult(String value) {
+            dashboardPresenter.go(ProjectViewImpl.this, new ProjectScreenData.SearchItem(value));
         }
 
         void setNavigatorVisibility(boolean visibility) {

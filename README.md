@@ -91,7 +91,7 @@ Please take a look at MyCollab requirements:
 
 ## Installation
 
-The current MyCollab version is 5.2.3 released on 25th November, 2015. This branch focuses in mobile devices, reporting and customize options for on-demand edition.
+The current MyCollab version is 5.2.4 released on 23th December, 2015. This branch focuses in mobile devices, reporting and customize options for on-demand edition.
 
 1. Download MyCollab binary - https://www.mycollab.com/self-hosted/
 2. Follow installation guideline at https://community.mycollab.com/installing-mycollab/

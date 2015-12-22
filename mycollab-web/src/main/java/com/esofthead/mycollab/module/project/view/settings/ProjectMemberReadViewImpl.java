@@ -291,7 +291,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
         private final DefaultBeanPagedList<ProjectGenericTaskService, ProjectGenericTaskSearchCriteria, ProjectGenericTask> taskList;
 
         public UserAssignmentWidget() {
-            super(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_OPEN_ASSIGNMENTS_TITLE, 0), new CssLayout());
+            super(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_OVERDUE_ASSIGNMENTS_TITLE, 0), new CssLayout());
             this.setWidth("400px");
 
             final CheckBox overdueSelection = new CheckBox("Overdue");
@@ -340,7 +340,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
 
         private void updateSearchResult() {
             taskList.setSearchCriteria(searchCriteria);
-            setTitle(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_OPEN_ASSIGNMENTS_TITLE, taskList.getTotalCount()));
+            setTitle(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_OVERDUE_ASSIGNMENTS_TITLE, taskList.getTotalCount()));
         }
     }
 

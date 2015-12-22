@@ -69,6 +69,7 @@ public class ProjectSearchItemsViewImpl extends AbstractPageView implements Proj
 
         Label headerLbl = new Label("", ContentMode.HTML);
         headerLbl.addStyleName(ValoTheme.LABEL_H2);
+        headerLbl.addStyleName(ValoTheme.LABEL_NO_MARGIN);
 
         DefaultBeanPagedList<ProjectGenericItemService, ProjectGenericItemSearchCriteria, ProjectGenericItem>
                 searchItemsTable = new DefaultBeanPagedList<>(ApplicationContextUtil.getSpringBean(ProjectGenericItemService.class), new

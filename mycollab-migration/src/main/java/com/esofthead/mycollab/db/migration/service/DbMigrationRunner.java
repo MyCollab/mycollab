@@ -18,7 +18,6 @@ package com.esofthead.mycollab.db.migration.service;
 
 import com.esofthead.mycollab.configuration.IDeploymentMode;
 import org.flywaydb.core.Flyway;
-import org.flywaydb.core.internal.util.scanner.classpath.ClassPathScanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +35,6 @@ import javax.sql.DataSource;
 @DependsOn("appContextUtil")
 public class DbMigrationRunner {
     private static final Logger LOG = LoggerFactory.getLogger(DbMigrationRunner.class);
-
-    ClassPathScanner a;
 
     @Autowired
     private DataSource dataSource;

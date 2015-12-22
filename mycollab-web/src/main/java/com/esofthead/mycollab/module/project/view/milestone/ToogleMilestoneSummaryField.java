@@ -29,6 +29,7 @@ import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
+import com.hp.gagawa.java.elements.Span;
 import com.vaadin.data.Property;
 import com.vaadin.event.FieldEvents;
 import com.vaadin.event.LayoutEvents;
@@ -112,10 +113,19 @@ public class ToogleMilestoneSummaryField extends CssLayout {
     }
 
     private String buildMilestoneLink() {
-        Div milestoneDiv = new Div().appendText(VaadinIcons.CALENDAR_BRIEFCASE.getHtml() + " ").appendChild(new A
-                (ProjectLinkBuilder.generateMilestonePreviewFullLink(milestone.getProjectid(), milestone.getId()))
-                .appendText(StringUtils.trim(milestone.getName(), maxLength, true)))
-                .appendText(" (" + AppContext.getMessage(OptionI18nEnum.MilestoneStatus.class, milestone.getStatus()) + ")");
+        A milestoneLink = new A(ProjectLinkBuilder.generateMilestonePreviewFullLink(milestone.getProjectid(), milestone.getId()));
+        milestoneLink.appendText(StringUtils.trim(milestone.getName(), maxLength, true));
+
+        Div milestoneDiv = new Div().appendText(VaadinIcons.CALENDAR_BRIEFCASE.getHtml() + " ").appendChild(milestoneLink)
+                .appendText(" (" + AppContext.getMessage(OptionI18nEnum.MilestoneStatus.class, milestone.getStatus())
+                        + ")");
+        if (milestone.isOverdue()) {
+            milestoneLink.setCSSClass("overdue");
+            milestoneDiv.appendChild(new Span().setCSSClass(UIConstants.LABEL_META_INFO).appendText(" - Due in " + AppContext
+                    .formatDuration(milestone.getEnddate())));
+        } else if (OptionI18nEnum.MilestoneStatus.Closed.name().equals(milestone.getStatus())) {
+            milestoneLink.setCSSClass("completed");
+        }
         return milestoneDiv.write();
     }
 }

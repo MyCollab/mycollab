@@ -34,7 +34,6 @@ import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.i18n.TaskGroupI18nEnum;
-import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.view.ProjectView;
 import com.esofthead.mycollab.module.project.view.kanban.AddNewColumnWindow;
@@ -434,7 +433,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
 
             HorizontalLayout headerLayout = new HorizontalLayout();
             headerLayout.setWidth("100%");
-            header = new Label(optionVal.getTypeval());
+            header = new Label(AppContext.getMessage(StatusI18nEnum.class, optionVal.getTypeval()));
             header.addStyleName("header");
             headerLayout.addComponent(header);
             headerLayout.setComponentAlignment(header, Alignment.MIDDLE_LEFT);
@@ -447,7 +446,8 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
 
             String typeval = optionVal.getTypeval();
             boolean canExecute = !typeval.equals(StatusI18nEnum.Closed.name()) && !typeval.equals(StatusI18nEnum.Archived.name())
-                    && !typeval.equals(StatusI18nEnum.Open.name()) && !typeval.equals(StatusI18nEnum.Pending.name());
+                    && !typeval.equals(StatusI18nEnum.Open.name()) && !typeval.equals(StatusI18nEnum.Pending.name())
+                    && !typeval.equals(StatusI18nEnum.InProgress.name());
             canExecute = canExecute && CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS);
 
             OptionPopupContent popupContent = new OptionPopupContent();

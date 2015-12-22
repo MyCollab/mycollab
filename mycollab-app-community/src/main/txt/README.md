@@ -47,9 +47,7 @@ Version 5.2.4
 -----------------------------
 **Library Upgrades**
 
-* Gson 2.5 
-* Guava 19
-* Jackrabbit 2.11.3
+* Gson 2.5, Guava 19, Jackrabbit 2.11.3, Spring framework 4.2.4.RELEASE
 * Other libraries
 
 **Improvements & New Features**
@@ -57,6 +55,9 @@ Version 5.2.4
 * Add upcoming tasks in the project dashboard
 * Customize color of task statuses in kanban board
 * Display detail watchers in the sidebar
+* The new project dashboard
+* Improve theme compatibility
+* Several minor improvements
 
 
 Version 5.2.3

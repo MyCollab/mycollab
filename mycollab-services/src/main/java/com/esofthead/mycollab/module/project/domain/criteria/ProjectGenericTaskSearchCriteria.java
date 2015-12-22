@@ -36,6 +36,8 @@ public class ProjectGenericTaskSearchCriteria extends SearchCriteria {
 
     private DateSearchField dueDate;
 
+    private RangeDateSearchField dateInRange;
+
     private NumberSearchField milestoneId;
 
     private SetSearchField<String> types;
@@ -104,5 +106,13 @@ public class ProjectGenericTaskSearchCriteria extends SearchCriteria {
 
     public void setTypes(SetSearchField<String> types) {
         this.types = types;
+    }
+
+    public RangeDateSearchField getDateInRange() {
+        return dateInRange;
+    }
+
+    public void setDateInRange(RangeDateSearchField dateInRange) {
+        this.dateInRange = dateInRange;
     }
 }

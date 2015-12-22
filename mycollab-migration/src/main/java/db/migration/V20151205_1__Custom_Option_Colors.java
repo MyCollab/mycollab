@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
  * @author MyCollab Ltd
  * @since 5.2.4
  */
-public class V20151205_1__Custom_Option_Colors   implements SpringJdbcMigration {
+public class V20151205_1__Custom_Option_Colors implements SpringJdbcMigration {
     @Override
     public void migrate(JdbcTemplate jdbcTemplate) throws Exception {
         jdbcTemplate.execute("ALTER TABLE `m_options` ADD COLUMN `color` VARCHAR(6) NULL;");

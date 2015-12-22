@@ -32,6 +32,6 @@ public class OptionI18nEnum {
 	@BaseName("localization/common-generic-status")
 	@LocaleData(value = { @Locale("en-US"), @Locale("ja-JP") }, defaultCharset = "UTF-8")
 	public enum StatusI18nEnum {
-		Open, Closed, Archived, Pending
+		Open, Closed, Archived, Pending, InProgress
 	}
 }

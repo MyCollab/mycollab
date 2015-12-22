@@ -48,6 +48,7 @@ public class ThemeManager {
         /* Top Menu */
         if (accountTheme.getTopmenubg() != null) {
             extraStyles.append(".topNavigation { background-color: #" + accountTheme.getTopmenubg() + "; }");
+            extraStyles.append(".topNavigation #mainLogo { background-color: " + ColorUtils.darkerColor("#" + accountTheme.getTopmenubg()) + "; }");
         }
 
         if (accountTheme.getTopmenubgselected() != null) {
@@ -82,21 +83,16 @@ public class ThemeManager {
             extraStyles.append(".vertical-tabsheet .navigator-wrap { background-color: #"
                     + accountTheme.getVtabsheetbg() + "; }");
 
-            extraStyles.append(".project-info { background-color: #" + accountTheme.getVtabsheetbg() + "; }");
-
             extraStyles.append(".projectfeed-hdr-wrapper { background-color: #"
                     + accountTheme.getVtabsheetbg() + "; }");
 
+            extraStyles.append(".project-info { background-color: #" + accountTheme.getVtabsheetbg() + "; }");
+
             extraStyles.append(".v-label.volumeUsageInfo { border-top: 25px solid #" + accountTheme
                     .getVtabsheetbg() + ";}");
-        }
 
-        if (accountTheme.getVtabsheetbgselected() != null) {
-            extraStyles.append(".vertical-tabsheet .v-button-tab.tab-selected { background-color: #"
-                    + accountTheme.getVtabsheetbgselected() + "; }");
-
-            extraStyles.append(".vertical-tabsheet .v-button-tab:hover {background-color: #" + accountTheme
-                    .getVtabsheetbgselected() + ";}");
+            extraStyles.append("div.v-csslayout.rightsidebar-layout .sidebar-wrap { background-color: " + ColorUtils
+                    .brighterColor("#" + accountTheme.getVtabsheetbg()) + ";}");
         }
 
         if (accountTheme.getVtabsheettext() != null) {
@@ -105,9 +101,25 @@ public class ThemeManager {
 
             extraStyles.append(".project-info .header { color: #" + accountTheme.getVtabsheettext() + "; }");
 
-            extraStyles.append(".project-info .desc .v-label { color: #" + accountTheme.getVtabsheettext() + "; }");
+            extraStyles.append(".project-info .v-label { color: #" + accountTheme.getVtabsheettext() + "; }");
 
-            extraStyles.append(".project-info .desc .v-label a { color: #" + accountTheme.getVtabsheettext() + "; }");
+            extraStyles.append(".project-info .v-label a { color: #" + accountTheme.getVtabsheettext() + "; }");
+
+            extraStyles.append(".projectfeed-hdr-wrapper .v-label { color: #" + accountTheme.getVtabsheettext() + "; }");
+
+            extraStyles.append("div.v-csslayout.rightsidebar-layout .sidebar-wrap { color: #" + accountTheme.getVtabsheettext() + "; }");
+
+            extraStyles.append(".crmContainer .navigator-wrap .basic-info { color: #" + accountTheme.getVtabsheettext() + "; }");
+
+            extraStyles.append(".intro-text-wrap .v-label { color: #" + accountTheme.getVtabsheettext() + "; }");
+        }
+
+        if (accountTheme.getVtabsheetbgselected() != null) {
+            extraStyles.append(".vertical-tabsheet .v-button-tab.tab-selected { background-color: #"
+                    + accountTheme.getVtabsheetbgselected() + "; }");
+
+            extraStyles.append(".vertical-tabsheet .v-button-tab:hover {background-color: #" + accountTheme
+                    .getVtabsheetbgselected() + ";}");
         }
 
         if (accountTheme.getVtabsheettextselected() != null) {

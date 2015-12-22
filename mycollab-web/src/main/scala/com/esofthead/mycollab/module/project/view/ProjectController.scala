@@ -35,7 +35,6 @@ import com.esofthead.mycollab.module.project.view.message.MessagePresenter
 import com.esofthead.mycollab.module.project.view.milestone.MilestonePresenter
 import com.esofthead.mycollab.module.project.view.page.PagePresenter
 import com.esofthead.mycollab.module.project.view.parameters.MilestoneScreenData.Roadmap
-import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData.SearchItem
 import com.esofthead.mycollab.module.project.view.parameters.TaskScreenData.GotoDashboard
 import com.esofthead.mycollab.module.project.view.parameters._
 import com.esofthead.mycollab.module.project.view.problem.IProblemPresenter
@@ -43,7 +42,6 @@ import com.esofthead.mycollab.module.project.view.risk.IRiskPresenter
 import com.esofthead.mycollab.module.project.view.settings.UserSettingPresenter
 import com.esofthead.mycollab.module.project.view.standup.IStandupPresenter
 import com.esofthead.mycollab.module.project.view.task.TaskPresenter
-import com.esofthead.mycollab.module.project.view.user.ProjectDashboardPresenter
 import com.esofthead.mycollab.module.project.{CurrentProjectVariables, ProjectMemberStatusConstants}
 import com.esofthead.mycollab.module.tracker.domain.criteria.{BugSearchCriteria, ComponentSearchCriteria, VersionSearchCriteria}
 import com.esofthead.mycollab.module.tracker.domain.{Component, SimpleBug, Version}
@@ -53,9 +51,9 @@ import com.esofthead.mycollab.vaadin.mvp.{AbstractController, PresenterResolver}
 import com.google.common.eventbus.Subscribe
 
 /**
- * @author MyCollab Ltd.
- * @since 5.0.3
- */
+  * @author MyCollab Ltd.
+  * @since 5.0.3
+  */
 class ProjectController(val projectView: ProjectView) extends AbstractController {
     bindProjectEvents()
     bindTaskEvents()
@@ -74,7 +72,7 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
             @Subscribe def handle(event: ProjectEvent.GotoEdit) {
                 val project = event.getData.asInstanceOf[SimpleProject]
                 CurrentProjectVariables.setProject(project)
-                val presenter = PresenterResolver.getPresenter(classOf[ProjectDashboardPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[UserProjectDashboardPresenter])
                 presenter.go(projectView, new ProjectScreenData.Edit(project))
             }
         })
@@ -82,16 +80,8 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
         this.register(new ApplicationEventListener[ProjectEvent.GotoTagListView] {
             @Subscribe def handle(event: ProjectEvent.GotoTagListView) {
                 val tag = event.getData.asInstanceOf[Tag]
-                val presenter = PresenterResolver.getPresenter(classOf[ProjectDashboardPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[UserProjectDashboardPresenter])
                 presenter.go(projectView, new ProjectScreenData.GotoTagList(tag))
-            }
-        })
-
-        this.register(new ApplicationEventListener[ProjectEvent.GotoProjectSearchItemsView] {
-            @Subscribe def handle(event: ProjectEvent.GotoProjectSearchItemsView): Unit = {
-                val value = event.getData.asInstanceOf[String]
-                val presenter = PresenterResolver.getPresenter(classOf[ProjectDashboardPresenter])
-                presenter.go(projectView, new SearchItem(value))
             }
         })
     }

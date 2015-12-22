@@ -249,7 +249,7 @@ public class AppContext implements Serializable {
             @Subscribe
             @Override
             public void handle(UserProfileChangeEvent event) {
-                if ("avatarid" .equals(event.getFieldChange())) {
+                if ("avatarid".equals(event.getFieldChange())) {
                     session.setAvatarid((String) event.getData());
                 }
             }
@@ -460,6 +460,10 @@ public class AppContext implements Serializable {
 
     public static String formatDayMonth(Date date) {
         return DateTimeUtils.formatDate(date, AppContext.getUserDateFormat().getDayMonthFormat());
+    }
+
+    public static String formatDuration(Date date) {
+        return DateTimeUtils.getPrettyDurationValue(date, getUserLocale());
     }
 
     /**

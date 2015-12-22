@@ -188,7 +188,7 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Activi
         itemLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, activityStream.getType(),
                 activityStream.getTypeid()));
         itemLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
-        itemLink.appendText(activityStream.getNamefield());
+        itemLink.appendText(StringUtils.trim(activityStream.getNamefield(), 50, true));
 
         div.appendChild(image, DivLessFormatter.EMPTY_SPACE(), itemLink, DivLessFormatter.EMPTY_SPACE(),
                 TooltipHelper.buildDivTooltipEnable(uid));

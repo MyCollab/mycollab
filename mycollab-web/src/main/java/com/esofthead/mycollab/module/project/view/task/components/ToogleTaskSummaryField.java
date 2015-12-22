@@ -30,6 +30,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
+import com.hp.gagawa.java.elements.Span;
 import com.vaadin.data.Property;
 import com.vaadin.event.FieldEvents;
 import com.vaadin.event.LayoutEvents;
@@ -60,16 +61,6 @@ public class ToogleTaskSummaryField extends CssLayout {
         this.task = task;
         taskLinkLbl = new Label(buildTaskLink(), ContentMode.HTML);
         taskLinkLbl.setWidthUndefined();
-        if (task.isCompleted()) {
-            taskLinkLbl.addStyleName("completed");
-            taskLinkLbl.removeStyleName("overdue pending");
-        } else if (task.isOverdue()) {
-            taskLinkLbl.addStyleName("overdue");
-            taskLinkLbl.removeStyleName("completed pending");
-        } else if (task.isPending()) {
-            taskLinkLbl.addStyleName("pending");
-            taskLinkLbl.removeStyleName("completed overdue");
-        }
         taskLinkLbl.addStyleName(UIConstants.LABEL_WORD_WRAP);
 
         this.addComponent(taskLinkLbl);
@@ -126,15 +117,22 @@ public class ToogleTaskSummaryField extends CssLayout {
 
     private String buildTaskLink() {
         String uid = UUID.randomUUID().toString();
-
         String linkName = String.format("[#%d] - %s", task.getTaskkey(), StringUtils.trim(task.getTaskname(), maxLength, true));
         A taskLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateTaskPreviewFullLink(task.getTaskkey(),
                 CurrentProjectVariables.getShortName())).appendText(linkName).setStyle("display:inline");
+        Div resultDiv = new DivLessFormatter().appendChild(taskLink);
+        if (task.isOverdue()) {
+            taskLink.setCSSClass("overdue");
+            resultDiv.appendChild(new Span().setCSSClass(UIConstants.LABEL_META_INFO).appendText(" - Due in " + AppContext
+                    .formatDuration(task.getDeadline())));
+        } else if (task.isCompleted()) {
+            taskLink.setCSSClass("completed");
+        }
 
         taskLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, ProjectTypeConstants.TASK, task.getId() + ""));
         taskLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
 
-        Div resultDiv = new DivLessFormatter().appendChild(taskLink, DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));
+        resultDiv.appendChild(TooltipHelper.buildDivTooltipEnable(uid));
         return resultDiv.write();
     }
 

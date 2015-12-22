@@ -34,11 +34,10 @@ public class TaskSearchCriteria extends SearchCriteria {
     public static final PropertyListParam p_assignee = new PropertyListParam("task-assignuser",
             GenericI18Enum.FORM_ASSIGNEE, "m_prj_task", "assignUser");
 
-    public static final Param p_milestoneId = new PropertyListParam("task-milestone",
+    public static final PropertyListParam p_milestoneId = new PropertyListParam("task-milestone",
             TaskI18nEnum.FORM_MILESTONE, "m_prj_task", "milestoneId");
 
-    public static final Param p_duedate = new DateParam("task-duedate",
-            TaskI18nEnum.FORM_DEADLINE, "m_prj_task", "deadline");
+    public static final DateParam p_duedate = new DateParam("task-duedate", TaskI18nEnum.FORM_DEADLINE, "m_prj_task", "deadline");
 
     public static final DateParam p_lastupdatedtime = new DateParam(
             "task-lastupdatedtime", GenericI18Enum.FORM_LAST_UPDATED_TIME,
@@ -50,7 +49,7 @@ public class TaskSearchCriteria extends SearchCriteria {
     public static final PropertyListParam p_status = new PropertyListParam("task-status",
             TaskI18nEnum.FORM_STATUS, "m_prj_task", "status");
 
-    public static final Param p_startdate = new DateParam("task-startdate",
+    public static final DateParam p_startdate = new DateParam("task-startdate",
             TaskI18nEnum.FORM_START_DATE, "m_prj_task", "startdate");
 
     public static final Param p_actualstartdate = new DateParam("task-actualstartdate", TaskI18nEnum.FORM_ACTUAL_START_DATE,

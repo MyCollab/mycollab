@@ -113,8 +113,8 @@ public class BugSelectionWindow extends Window {
                     b.addStyleName(UIConstants.LINK_OVERDUE);
                 }
 
-                b.setDescription(ProjectTooltipGenerator.generateToolTipBug(AppContext.getUserLocale(), bug,
-                        AppContext.getSiteUrl(), AppContext.getUserTimezone()));
+                b.setDescription(ProjectTooltipGenerator.generateToolTipBug(AppContext.getUserLocale(), bug, AppContext.getSiteUrl(),
+                        AppContext.getUserTimezone()));
                 return b;
 
             }

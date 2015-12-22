@@ -6,20 +6,20 @@
     <name>mycollab-parent-community</name>
     <groupId>com.esofthead.mycollab</groupId>
     <artifactId>mycollab-parent-community</artifactId>
-    <version>5.2.3</version>
+    <version>5.2.4</version>
     <packaging>pom</packaging>
     <prerequisites>
         <maven>3.0.4</maven>
     </prerequisites>
     <properties>
-        <springVersion>4.2.3.RELEASE</springVersion>
+        <springVersion>4.2.4.RELEASE</springVersion>
         <aspectjVersion>1.8.6</aspectjVersion>
         <javaVersion>1.7</javaVersion>
         <slf4jVersion>1.7.13</slf4jVersion>
         <servletVersion>3.1.0</servletVersion>
         <vaadinVersion>7.5.6</vaadinVersion>
         <jettyVersion>9.2.13.v20150730</jettyVersion>
-        <mysqlVersion>5.1.37</mysqlVersion>
+        <mysqlVersion>5.1.38</mysqlVersion>
         <junitVersion>4.12</junitVersion>
         <jackrabbitVersion>2.11.3</jackrabbitVersion>
         <scala.binary.version>2.11</scala.binary.version>

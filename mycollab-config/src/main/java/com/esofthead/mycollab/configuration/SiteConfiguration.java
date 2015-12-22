@@ -91,8 +91,7 @@ public class SiteConfiguration {
             instance.appUrl += "/";
         }
 
-        instance.endecryptPassword = ApplicationProperties.getString(
-                BI_ENDECRYPT_PASSWORD, "esofthead321");
+        instance.endecryptPassword = ApplicationProperties.getString(BI_ENDECRYPT_PASSWORD, "esofthead321");
 
         // load email
         String host = ApplicationProperties.getString(MAIL_SMTPHOST);

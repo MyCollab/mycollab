@@ -46,9 +46,7 @@ public class FollowingTicketPresenter extends AbstractPresenter<FollowingTicketV
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        ProjectModule prjContainer = (ProjectModule) container;
-        prjContainer.removeAllComponents();
-        prjContainer.with(view).withAlign(view, Alignment.TOP_CENTER);
+        UserDashboardView prjContainer = (UserDashboardView) container;
         view.displayTickets();
     }
 }
