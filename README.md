@@ -1,6 +1,6 @@
 # Free, open source CRM, Document and Project Management software
 [![License](http://img.shields.io/badge/License-GPL-orange.svg)](http://www.gnu.org/copyleft/gpl.html) [![Project Stats](https://www.openhub.net/p/mycollab/widgets/project_thin_badge.gif)](https://www.openhub.net/p/mycollab) [![Build](https://travis-ci.org/MyCollab/mycollab.svg)](https://travis-ci.org/MyCollab/mycollab)
-[![Version](https://img.shields.io/badge/Version-5.2.3-brightgreen.svg)](https://community.mycollab.com/)
+[![Version](https://img.shields.io/badge/Version-5.2.4-brightgreen.svg)](https://community.mycollab.com/)
 [![SourceForge](https://img.shields.io/sourceforge/dm/mycollab.svg)](https://community.mycollab.com/download)
 
 ## Introduction
@@ -10,22 +10,22 @@ MyCollab is the free and open source collaboration tools, it has three existing 
 <table>
   <tr>
     <td align="center">
-      <a href="https://c1.staticflickr.com/1/593/22637424918_e53f053365_o.png" target="_blank" title="Project Dashboard">
-        <img src="https://c1.staticflickr.com/1/593/22637424918_b82fea22e8.jpg" alt="Project Dashboard">
+      <a href="https://c1.staticflickr.com/1/657/23881269156_8ed005bebd_o.png" target="_blank" title="Project Dashboard">
+        <img src="https://c1.staticflickr.com/1/657/23881269156_417b9a3a73.jpg" alt="Project Dashboard">
       </a>
       <br />
       <em>Project Dashboard</em>
     </td>
     <td align="center">
-      <a href="https://c2.staticflickr.com/6/5709/22433024834_1a3806edfa_o.png" target="_blank" title="Bug Dashboard">
-        <img src="https://c2.staticflickr.com/6/5709/22433024834_e01c2589f7.jpg" alt="Bug Dashboard">
+      <a href="https://c2.staticflickr.com/6/5814/23539502829_cb72e85b22_o.png" target="_blank" title="Bug Dashboard">
+        <img src="https://c2.staticflickr.com/6/5814/23539502829_e6b6b75ced.jpg" alt="Bug Dashboard">
       </a>
       <br />
       <em>Bug Dashboard</em>
     </td>
     <td align="center">
-    <a href="https://c1.staticflickr.com/1/743/23066993121_0f973421f6_o.png" target="_blank" title="Task Dashboard">
-      <img src="https://c1.staticflickr.com/1/743/23066993121_d56a2a6165.jpg" alt="Task Dashboard">
+    <a href="https://c1.staticflickr.com/1/717/23881278026_710dec7708_o.png" target="_blank" title="Task Dashboard">
+      <img src="https://c1.staticflickr.com/1/717/23881278026_754c1bb71a.jpg" alt="Task Dashboard">
     </a>
       <br />
       <em>Task Dashboard</em>
@@ -33,22 +33,22 @@ MyCollab is the free and open source collaboration tools, it has three existing 
   </tr>
   <tr>
     <td align="center">
-    <a href="https://c1.staticflickr.com/1/780/22663560609_87d0a46e77_o.png" target="_blank" title="Kanban Board">
-        <img src="https://c1.staticflickr.com/1/780/22663560609_244177381c.jpg" alt="Kanban Board">
+    <a href="https://c1.staticflickr.com/1/674/23799062212_61fd9eb3d2_o.png" target="_blank" title="Kanban Board">
+        <img src="https://c1.staticflickr.com/1/674/23799062212_17d9fd1b4c.jpg" alt="Kanban Board">
       </a>
       <br />
       <em>Kanban Board</em>
     </td>
     <td align="center">
-      <a href="https://c1.staticflickr.com/1/701/23042231092_b30e377518_o.png" target="_blank" title="Calendar">
-        <img src="https://c1.staticflickr.com/1/701/23042231092_29ecd007b1.jpg" alt="Calendar">
+      <a href="https://c1.staticflickr.com/1/625/23799060562_317cd54928_o.png" target="_blank" title="Calendar">
+        <img src="https://c1.staticflickr.com/1/625/23799060562_23cb477480.jpg" alt="Calendar">
       </a>
       <br />
       <em>Calendar</em>
     </td>
     <td align="center">
-      <a href="https://c1.staticflickr.com/1/658/22637466047_11c19d7016_o.png" target="_blank" title="Milestone">
-        <img src="https://c1.staticflickr.com/1/658/22637466047_30890f3774.jpg" alt="Milestone">
+      <a href="https://c2.staticflickr.com/6/5792/23907364975_97830df6f3_o.png" target="_blank" title="Milestone">
+        <img src="https://c2.staticflickr.com/6/5792/23907364975_3c215a877d.jpg" alt="Milestone">
       </a>
       <br />
       <em>Roadmap</em>
