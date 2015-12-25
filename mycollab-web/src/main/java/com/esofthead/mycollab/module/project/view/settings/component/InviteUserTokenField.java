@@ -20,17 +20,16 @@ import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.hp.gagawa.java.elements.Img;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.suggestfield.BeanSuggestionConverter;
 import org.vaadin.suggestfield.SuggestField;
 import org.vaadin.suggestfield.client.SuggestFieldSuggestion;
@@ -55,12 +54,10 @@ public class InviteUserTokenField extends CssLayout implements SuggestField.NewI
         super();
         inviteEmails = new ArrayList<>();
         this.setWidth("100%");
-        this.addStyleName(ValoTheme.LAYOUT_HORIZONTAL_WRAPPING);
         this.addStyleName("member-token");
         suggestField = new SuggestField();
-        suggestField.setWidth("100%");
-        suggestField.setHeight("32px");
-        suggestField.setInputPrompt(AppContext.getMessage(ProjectMemberI18nEnum.USER_TOKEN_INVITE_HINT));
+        suggestField.setHeight("25px");
+        suggestField.setWidth("300px");
         suggestField.setNewItemsAllowed(true);
         suggestField.setNewItemsHandler(this);
         suggestField.setImmediate(true);
@@ -81,6 +78,8 @@ public class InviteUserTokenField extends CssLayout implements SuggestField.NewI
         if (StringUtils.isValidEmail(value) && !inviteEmails.contains(value)) {
             inviteEmails.add(value);
             return value;
+        } else {
+            NotificationUtil.showNotification("Info", value + " is not a valid email or it is already in the list");
         }
         return null;
     }
@@ -114,6 +113,8 @@ public class InviteUserTokenField extends CssLayout implements SuggestField.NewI
                 if (!inviteEmails.contains(user.getEmail())) {
                     addToken(generateToken(user));
                     inviteEmails.add(user.getEmail());
+                } else {
+                    NotificationUtil.showNotification("Info", "Email " + user.getEmail() + " is already in the list");
                 }
             } else {
                 throw new MyCollabException("Do not support token type " + token);

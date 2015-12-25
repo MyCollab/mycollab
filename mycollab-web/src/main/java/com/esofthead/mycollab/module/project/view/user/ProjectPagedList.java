@@ -65,12 +65,16 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
 
             final VerticalLayout linkIconFix = new VerticalLayout();
             linkIconFix.setWidth("100%");
+            MHorizontalLayout prjHeaderLayout = new MHorizontalLayout();
             final LabelLink projectLink = new LabelLink(String.format("[%s] %s", project.getShortname(), project.getName()),
                     ProjectLinkBuilder.generateProjectFullLink(project.getId()));
             projectLink.addStyleName(ValoTheme.LABEL_BOLD);
             projectLink.addStyleName(ValoTheme.LABEL_NO_MARGIN);
-            linkIconFix.addComponent(projectLink);
-            linkIconFix.setExpandRatio(projectLink, 1.0f);
+
+
+            prjHeaderLayout.with(projectLink);
+
+            linkIconFix.addComponent(prjHeaderLayout);
 
             Label projectMemberBtn = new ELabel(FontAwesome.USERS.getHtml() + " " + project.getNumActiveMembers(),
                     ContentMode.HTML).withDescription("Active members").withStyleName(UIConstants.LABEL_META_INFO);

@@ -1,0 +1,229 @@
+/* --------- wrapper --------- */
+.v-sliderpanel-wrapper {
+  z-index: 9990;
+  margin-left: auto;
+  margin-right: auto;
+}
+.v-sliderpanel-wrapper.layout-horizontal {
+  /* --------- horizontal handling --------- */
+  width: 100%;
+  height: 0;
+  position: relative;
+}
+.v-sliderpanel-wrapper.layout-horizontal .v-sliderpanel-content {
+  /* ------- content ------- */
+  width: 100%;
+}
+.v-sliderpanel-wrapper.layout-horizontal .v-sliderpanel-tab {
+  /* ------- tab ------- */
+  border-radius: 0 0 10px 10px;
+  height: 40px;
+  width: 260px;
+}
+.v-sliderpanel-wrapper.layout-horizontal .v-sliderpanel-tab.tab-beginning {
+  left: 4%;
+}
+.v-sliderpanel-wrapper.layout-horizontal .v-sliderpanel-tab.tab-middle {
+  left: 50%;
+  margin-left: -130px;
+}
+.v-sliderpanel-wrapper.layout-horizontal .v-sliderpanel-tab.tab-end {
+  left: 96%;
+  margin-left: -260px;
+}
+.v-sliderpanel-wrapper.layout-horizontal .v-sliderpanel-navigator {
+  height: 40px;
+  width: 100%;
+}
+.v-sliderpanel-wrapper.layout-horizontal.mode-bottom .v-sliderpanel-tab {
+  border-radius: 10px 10px 0 0;
+}
+.v-sliderpanel-wrapper.layout-horizontal.mode-bottom .v-sliderpanel-navigator {
+  position: absolute;
+}
+.v-sliderpanel-wrapper.layout-vertical {
+  /* --------- vertical handling --------- */
+  height: 100%;
+  width: 0;
+  position: relative;
+}
+.v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-content {
+  /* ------- content ------- */
+  height: 100%;
+}
+.v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-tab {
+  /* ------- tab ------- */
+  border-radius: 0 0 10px 10px;
+  height: 40px;
+  width: 260px;
+  position: absolute;
+}
+.v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-tab.tab-beginning {
+  top: 4%;
+}
+.v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-tab.tab-middle {
+  top: 50%;
+  margin-top: -20px;
+}
+.v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-tab.tab-end {
+  bottom: 4%;
+}
+.v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-navigator {
+  /* ------- navigation ------- */
+  position: absolute;
+  height: 100%;
+  width: 40px;
+}
+.v-sliderpanel-wrapper.layout-vertical.mode-right {
+  margin-left: 0;
+}
+.v-sliderpanel-wrapper.layout-vertical.mode-right .v-sliderpanel-tab {
+  border-radius: 0 0 10px 10px;
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+  left: -110px;
+}
+.v-sliderpanel-wrapper.layout-vertical.mode-right .v-sliderpanel-navigator {
+  left: 0;
+}
+.v-sliderpanel-wrapper.layout-vertical.mode-right .v-sliderpanel-content {
+  float: right;
+  left: 40px;
+}
+.v-sliderpanel-wrapper.layout-vertical.mode-left {
+  margin-right: 0;
+}
+.v-sliderpanel-wrapper.layout-vertical.mode-left .v-sliderpanel-tab {
+  -moz-transform: rotate(270deg);
+  -o-transform: rotate(270deg);
+  -webkit-transform: rotate(270deg);
+  transform: rotate(270deg);
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+  margin-top: 130px;
+  margin-left: -110px;
+}
+.v-sliderpanel-wrapper.layout-vertical.mode-left .v-sliderpanel-content {
+  left: -40px;
+}
+.v-sliderpanel-wrapper.layout-vertical.mode-left .v-sliderpanel-navigator {
+  right: 0;
+}
+
+/* --------- content --------- */
+.v-sliderpanel-content {
+  overflow: hidden;
+  position: absolute;
+  background: #808080;
+  color: #fff;
+  z-index: 9990;
+}
+
+/* --------- navigator --------- */
+.v-sliderpanel-navigator {
+  position: relative;
+  top: 0;
+  z-index: 9991;
+  pointer-events: none;
+}
+
+/* --------- tab action caption --------- */
+.v-sliderpanel-tab {
+  position: relative;
+  line-height: 35px;
+  color: #fff;
+  font-size: 0.8em;
+  cursor: pointer;
+  background: #808080;
+  pointer-events: all;
+}
+.v-sliderpanel-tab.open .v-sliderpanel-icon:before {
+  content: "\f056";
+  color: white;
+}
+.v-sliderpanel-tab.closed .v-sliderpanel-icon:before {
+  content: "\f055";
+  color: white;
+}
+.v-sliderpanel-tab .v-sliderpanel-caption {
+  padding: 3px 0 0 15px;
+  width: 210px;
+}
+
+/* --------- icon --------- */
+.v-sliderpanel-icon {
+  height: 22px;
+  width: 22px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: inline-block;
+  line-height: 22px;
+  font-size: 16px;
+  text-align: center;
+}
+
+/* --------- different colors --------- */
+.v-sliderpanel-tab.blackico.open .v-sliderpanel-icon:before {
+  content: "\f056";
+  color: black;
+}
+.v-sliderpanel-tab.blackico.closed .v-sliderpanel-icon:before {
+  content: "\f055";
+  color: black;
+}
+
+.sp-white.v-sliderpanel-content, .sp-white.v-sliderpanel-tab {
+  background: #fafafa;
+  color: #000;
+}
+.sp-white.v-sliderpanel-tab.open .v-sliderpanel-icon:before {
+  content: "\f056";
+  color: black;
+}
+.sp-white.v-sliderpanel-tab.closed .v-sliderpanel-icon:before {
+  content: "\f055";
+  color: black;
+}
+.sp-white .v-sliderpanel-content {
+  -moz-box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.2);
+}
+.sp-white.layout-vertical .v-sliderpanel-tab {
+  -moz-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.2);
+}
+.sp-white.mode-top .v-sliderpanel-tab {
+  -moz-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.2);
+}
+.sp-white.mode-bottom .v-sliderpanel-tab {
+  -moz-box-shadow: 0px -1px 1px 0px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0px -1px 1px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px -1px 1px 0px rgba(0, 0, 0, 0.2);
+}
+
+.sp-blue.v-sliderpanel-content, .sp-blue.v-sliderpanel-tab {
+  background: #197de1;
+  color: #fff;
+}
+
+.sp-green.v-sliderpanel-content, .sp-green.v-sliderpanel-tab {
+  background: #3dbc1a;
+  color: #fff;
+}
+
+.sp-red.v-sliderpanel-content, .sp-red.v-sliderpanel-tab {
+  background: #ed473b;
+  color: #fff;
+}

@@ -14,6 +14,22 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
+/**
+  * This file is part of mycollab-web.
+  *
+  * mycollab-web is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 3 of the License, or
+  * (at your option) any later version.
+  *
+  * mycollab-web is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
+  */
 package com.esofthead.mycollab.module.project.view
 
 import java.util.GregorianCalendar
@@ -42,6 +58,7 @@ import com.esofthead.mycollab.module.project.view.risk.IRiskPresenter
 import com.esofthead.mycollab.module.project.view.settings.UserSettingPresenter
 import com.esofthead.mycollab.module.project.view.standup.IStandupPresenter
 import com.esofthead.mycollab.module.project.view.task.TaskPresenter
+import com.esofthead.mycollab.module.project.view.user.ProjectDashboardPresenter
 import com.esofthead.mycollab.module.project.{CurrentProjectVariables, ProjectMemberStatusConstants}
 import com.esofthead.mycollab.module.tracker.domain.criteria.{BugSearchCriteria, ComponentSearchCriteria, VersionSearchCriteria}
 import com.esofthead.mycollab.module.tracker.domain.{Component, SimpleBug, Version}
@@ -72,7 +89,7 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
             @Subscribe def handle(event: ProjectEvent.GotoEdit) {
                 val project = event.getData.asInstanceOf[SimpleProject]
                 CurrentProjectVariables.setProject(project)
-                val presenter = PresenterResolver.getPresenter(classOf[UserProjectDashboardPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[ProjectDashboardPresenter])
                 presenter.go(projectView, new ProjectScreenData.Edit(project))
             }
         })

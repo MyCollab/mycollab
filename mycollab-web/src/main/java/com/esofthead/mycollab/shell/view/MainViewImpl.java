@@ -18,6 +18,7 @@ package com.esofthead.mycollab.shell.view;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.ui.components.notification.*;
+import com.esofthead.mycollab.configuration.IDeploymentMode;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -59,6 +60,10 @@ import com.vaadin.ui.Button.ClickListener;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.LocalDate;
 import org.vaadin.hene.popupbutton.PopupButton;
+import org.vaadin.sliderpanel.SliderPanel;
+import org.vaadin.sliderpanel.SliderPanelBuilder;
+import org.vaadin.sliderpanel.client.SliderMode;
+import org.vaadin.sliderpanel.client.SliderTabPosition;
 import org.vaadin.teemu.VaadinIcons;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -76,7 +81,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
     private static final long serialVersionUID = 1L;
 
     private CustomLayout headerLayout;
-    private CssLayout bodyLayout;
+    private HorizontalLayout bodyLayout;
 
     public MainViewImpl() {
         this.setSizeFull();
@@ -87,7 +92,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
     @Override
     public void display() {
         this.removeAllComponents();
-        bodyLayout = new CssLayout();
+        bodyLayout = new HorizontalLayout();
         bodyLayout.addStyleName("main-view");
         bodyLayout.setId("main-body");
         bodyLayout.setSizeFull();
@@ -102,6 +107,17 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
 
         ComponentContainer widget = module.getWidget();
         bodyLayout.addComponent(widget);
+
+        IDeploymentMode mode = ApplicationContextUtil.getSpringBean(IDeploymentMode.class);
+        if (mode.isCommunityEdition()) {
+            SliderPanel sliderPanel = new SliderPanelBuilder(new CommunitySliderContent())
+                    .caption("Community").flowInContent(true)
+                    .mode(SliderMode.RIGHT)
+                    .tabPosition(SliderTabPosition.MIDDLE)
+                    .build();
+            bodyLayout.addComponent(sliderPanel);
+        }
+        bodyLayout.setExpandRatio(widget, 1.0f);
 
         MHorizontalLayout serviceMenu = module.buildMenu();
         if (serviceMenu != null) {

@@ -27,12 +27,13 @@ import com.esofthead.mycollab.module.project.events.ProjectMemberEvent;
 import com.esofthead.mycollab.module.project.events.ProjectMemberEvent.InviteProjectMembers;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
-import com.esofthead.mycollab.module.user.events.UserEvent;
 import com.esofthead.mycollab.shell.view.SystemUIChecker;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.mvp.*;
 import com.esofthead.mycollab.vaadin.mvp.PageView.ViewListener;
+import com.esofthead.mycollab.vaadin.mvp.ScreenData;
+import com.esofthead.mycollab.vaadin.mvp.ViewEvent;
+import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.ui.Hr;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
@@ -41,10 +42,12 @@ import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.B;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Text;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.apache.commons.collections.CollectionUtils;
+import org.vaadin.jouni.restrain.Restrain;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -85,7 +88,7 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
                                 Notification.Type.HUMANIZED_MESSAGE);
                         EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null));
                     } else {
-                        UI.getCurrent().addWindow(new GetStartedInstructionWindow(inviteMembers));
+                        UI.getCurrent().addWindow(new CanSendEmailInstructionWindow(inviteMembers));
                     }
                 }
             }
@@ -109,10 +112,10 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
         }
     }
 
-    private static class GetStartedInstructionWindow extends Window {
+    private static class CanSendEmailInstructionWindow extends Window {
         private MVerticalLayout contentLayout;
 
-        public GetStartedInstructionWindow(InviteProjectMembers invitation) {
+        public CanSendEmailInstructionWindow(InviteProjectMembers invitation) {
             super("Getting started instructions");
             this.setResizable(false);
             this.setModal(true);
@@ -133,10 +136,17 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
                     .appendText(" as role ").appendChild(new B().appendText(invitation.getRoleName()));
             contentLayout.with(new Label(introDiv.write(), ContentMode.HTML));
 
+
+            MVerticalLayout linksContainer = new MVerticalLayout();
+            new Restrain(linksContainer).setMaxHeight("400px");
+            linksContainer.addStyleName("scrollable-container");
+            contentLayout.with(linksContainer);
+
             List<String> inviteEmails = invitation.getEmails();
             Date nowTime = new GregorianCalendar().getTime();
             for (String inviteEmail : inviteEmails) {
-                Div userEmailDiv = new Div().appendText("&nbsp;&nbsp;&nbsp;&nbsp;Email: ").appendChild(new A().setHref("mailto:" + inviteEmail).appendText(inviteEmail));
+                Div userEmailDiv = new Div().appendText("&nbsp;&nbsp;&nbsp;&nbsp;" + FontAwesome.MAIL_FORWARD.getHtml() +
+                        " Email: ").appendChild(new A().setHref("mailto:" + inviteEmail).appendText(inviteEmail));
 
                 String acceptLinkVal = SiteConfiguration.getSiteUrl(AppContext.getSubDomain())
                         + "project/member/invitation/confirm_invite/"
@@ -155,9 +165,9 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
                                 AppContext.getAccountId(), CurrentProjectVariables.getProjectId(),
                                 AppContext.getUsername(), AppContext.getUsername());
                 Div denyLink = new Div().appendChild(new Text("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Deny: "), new A().setHref(denyLinkVal).appendText(denyLinkVal));
-                contentLayout.with(new Label(userEmailDiv.write(), ContentMode.HTML), new Label(acceptLinkDiv.write(), ContentMode.HTML),
+                linksContainer.with(new Label(userEmailDiv.write(), ContentMode.HTML), new Label(acceptLinkDiv.write(), ContentMode.HTML),
                         new Label(denyLink.write(), ContentMode.HTML));
-                contentLayout.add(new Hr());
+                linksContainer.add(new Hr());
             }
 
             MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false));
@@ -167,8 +177,8 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
 
                 @Override
                 public void buttonClick(Button.ClickEvent event) {
-                    EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(GetStartedInstructionWindow.this, null));
-                    GetStartedInstructionWindow.this.close();
+                    EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(CanSendEmailInstructionWindow.this, null));
+                    CanSendEmailInstructionWindow.this.close();
                 }
             });
             addNewBtn.setStyleName(UIConstants.BUTTON_ACTION);
@@ -178,11 +188,8 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
 
                 @Override
                 public void buttonClick(Button.ClickEvent event) {
-                    ViewState viewState = HistoryViewManager.back();
-                    if (viewState instanceof NullViewState) {
-                        EventBusFactory.getInstance().post(new UserEvent.GotoList(this, null));
-                    }
-                    GetStartedInstructionWindow.this.close();
+                    EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null));
+                    CanSendEmailInstructionWindow.this.close();
                 }
             });
             doneBtn.setStyleName(UIConstants.BUTTON_ACTION);

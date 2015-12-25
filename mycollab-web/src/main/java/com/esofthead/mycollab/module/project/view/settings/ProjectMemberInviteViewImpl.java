@@ -34,6 +34,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.*;
 import com.esofthead.mycollab.vaadin.ui.AddViewLayout;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.FormContainer;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
@@ -47,6 +48,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.TextArea;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -90,10 +92,10 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements Pro
         GridFormLayoutHelper informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
 
         inviteUserTokenField = new InviteUserTokenField();
-        informationLayout.addComponent(inviteUserTokenField, AppContext
-                .getMessage(ProjectMemberI18nEnum.FORM_INVITEES_EMAIL), 0, 0);
-        informationLayout.addComponent(roleComboBox,
-                AppContext.getMessage(ProjectMemberI18nEnum.FORM_ROLE), 0, 1);
+        informationLayout.addComponent(new MVerticalLayout(inviteUserTokenField, new ELabel(AppContext.getMessage
+                (ProjectMemberI18nEnum.USER_TOKEN_INVITE_HINT)).withStyleName(UIConstants.LABEL_META_INFO)).withMargin(false),
+                AppContext.getMessage(ProjectMemberI18nEnum.FORM_INVITEES_EMAIL), 0, 0);
+        informationLayout.addComponent(roleComboBox, AppContext.getMessage(ProjectMemberI18nEnum.FORM_ROLE), 0, 1);
 
         messageArea = new TextArea();
         messageArea.setValue(AppContext.getMessage(ProjectMemberI18nEnum.MSG_DEFAULT_INVITATION_COMMENT));
@@ -115,8 +117,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements Pro
                 roleId = (Integer) roleComboBox.getValue();
                 BeanItem<SimpleProjectRole> item = (BeanItem<SimpleProjectRole>) roleComboBox.getItem(roleId);
                 String roleName = (item != null) ? item.getBean().getRolename() : "";
-                ProjectMemberInviteViewImpl.this.fireEvent(new ViewEvent<>(
-                        ProjectMemberInviteViewImpl.this,
+                ProjectMemberInviteViewImpl.this.fireEvent(new ViewEvent<>(ProjectMemberInviteViewImpl.this,
                         new InviteProjectMembers(inviteUserTokenField.getInviteEmails(), roleId, roleName, messageArea.getValue())));
 
             }
@@ -145,8 +146,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements Pro
     private Layout createBottomPanel() {
         FormContainer permissionsPanel = new FormContainer();
 
-        projectFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2,
-                ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length);
+        projectFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length);
         permissionsPanel.addSection(AppContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS), projectFormHelper.getLayout());
         roleId = (Integer) roleComboBox.getValue();
         displayRolePermission(roleId);

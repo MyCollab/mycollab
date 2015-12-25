@@ -215,6 +215,19 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
             }
         }
 
+        if (Boolean.TRUE.equals(record.getIsAccountOwner())) {
+            if (record.getRoleid() != null && record.getRoleid() !=-1) {
+                UserAccountExample userAccountEx = new UserAccountExample();
+                userAccountEx.createCriteria().andAccountidEqualTo(sAccountId).andIsaccountownerEqualTo(Boolean.TRUE);
+                if (userAccountMapper.countByExample(userAccountEx) == 1) {
+                    throw new UserInvalidInputException(String.format("Can not change role of user %s. The reason is " +
+                            "%s is the unique account owner of the current account.", record.getUsername(), record.getUsername()));
+                } else {
+                    record.setIsAccountOwner(false);
+                }
+            }
+        }
+
         // now we keep username similar than email
         UserExample ex = new UserExample();
         ex.createCriteria().andUsernameEqualTo(record.getUsername());
@@ -231,6 +244,7 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
                 userAccount.setIsaccountowner(true);
             } else {
                 userAccount.setRoleid(record.getRoleid());
+                userAccount.setIsaccountowner(false);
             }
 
             userAccount.setRegisterstatus(record.getRegisterstatus());
@@ -240,9 +254,9 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
     }
 
     @Override
-    public void massRemoveWithSession(List<User> items, String username, Integer accountId) {
+    public void massRemoveWithSession(List<User> users, String username, Integer accountId) {
         List<String> keys = new ArrayList<>();
-        for (User user : items) {
+        for (User user : users) {
             keys.add(user.getUsername());
         }
         userMapperExt.removeKeysWithSession(keys);
@@ -314,38 +328,27 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
         pendingUserAccounts(Arrays.asList(username), accountId);
     }
 
-    private void internalPendingUserAccount(String username, Integer accountId) {
+    @Override
+    public void pendingUserAccounts(List<String> usernames, Integer accountId) {
         // check if current user is the unique account owner, then reject deletion
         UserAccountExample userAccountEx = new UserAccountExample();
-        userAccountEx.createCriteria().andUsernameEqualTo(username).andAccountidEqualTo(accountId);
-        List<UserAccount> accounts = userAccountMapper.selectByExample(userAccountEx);
-        if (accounts.size() > 0) {
-            UserAccount account = accounts.get(0);
-            if (Boolean.TRUE.equals(account.getIsaccountowner())) {
-                userAccountEx = new UserAccountExample();
-                userAccountEx.createCriteria().andAccountidEqualTo(accountId).andIsaccountownerEqualTo(Boolean.TRUE);
-                if (userAccountMapper.countByExample(userAccountEx) == 1) {
-                    throw new UserInvalidInputException(String.format("Can not delete user %s. The reason is %s is the unique account " +
-                            "owner of the current account.", username, username));
-                }
-            }
+        userAccountEx.createCriteria().andUsernameNotIn(usernames).andAccountidEqualTo(accountId)
+                .andIsaccountownerEqualTo(true).andRegisterstatusEqualTo(RegisterStatusConstants.ACTIVE);
+        if (userAccountMapper.countByExample(userAccountEx) == 0) {
+            throw new UserInvalidInputException("Can not delete users. The reason is there is no " +
+                    "account owner in the rest users");
         }
 
         userAccountEx = new UserAccountExample();
-        userAccountEx.createCriteria().andUsernameEqualTo(username).andAccountidEqualTo(accountId);
+        userAccountEx.createCriteria().andUsernameIn(usernames).andAccountidEqualTo(accountId);
         UserAccount userAccount = new UserAccount();
         userAccount.setRegisterstatus(RegisterStatusConstants.DELETE);
         userAccountMapper.updateByExampleSelective(userAccount, userAccountEx);
 
         // notify users are "deleted"
-        DeleteUserEvent event = new DeleteUserEvent(username, accountId);
-        asyncEventBus.post(event);
-    }
-
-    @Override
-    public void pendingUserAccounts(List<String> usernames, Integer accountId) {
-        for (String username : usernames) {
-            internalPendingUserAccount(username, accountId);
+        for (String username: usernames) {
+            DeleteUserEvent event = new DeleteUserEvent(username, accountId);
+            asyncEventBus.post(event);
         }
     }
 

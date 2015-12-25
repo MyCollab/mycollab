@@ -2321,6 +2321,10 @@ span.block {
 	transition: all 200ms ease-in;
 }
 
+.v-sliderpanel-tab {
+	font-size: 0.9em !important;
+}
+
 table {
 	table-layout: auto;
 	word-break: break-through;
@@ -13768,7 +13772,7 @@ div.v-button-nonPopupIndicator div.v-popup-indicator {
 }
 
 .v-button.small-padding.v-pressed .v-button-wrap, .v-button.small-padding .v-button-wrap {
-	padding: 2px 2px;
+	padding: 4px 4px;
 }
 
 .v-button.small-padding.v-pressed .v-button-wrap .v-icon, .v-button.small-padding .v-button-wrap .v-icon {
@@ -14746,6 +14750,10 @@ span.block {
 	transition: all 200ms ease-in;
 }
 
+.v-sliderpanel-tab {
+	font-size: 0.9em !important;
+}
+
 .form .section {
 	padding: 25px 5px 5px 5px;
 	color: #006DAC;
@@ -15374,7 +15382,8 @@ div.v-csslayout.member-token {
 }
 
 div.v-csslayout.member-token .v-textfield {
-	border: 0px solid #e5e5e5;
+	border-width: 0px;
+	box-shadow: none;
 }
 
 div.v-csslayout.member-token .v-textfield:focus {
@@ -15393,14 +15402,9 @@ div.v-csslayout.member-token .v-button-small {
 }
 
 div.v-button.token-field {
-	background-color: antiquewhite;
 	height: 32px;
 	margin-right: 5px;
 	margin-bottom: 5px;
-}
-
-div.v-button.token-field:hover {
-	background-color: antiquewhite;
 }
 
 .standup-calendar .selected-ext {
@@ -16855,7 +16859,7 @@ input.v-textfield-errorField {
 	padding: 0px 1px 1px 0px;
 }
 
-.v-csslayout.main-view {
+.main-view {
 	overflow-y: auto;
 	overflow-x: hidden;
 	background-color: #FFF;
@@ -16915,23 +16919,12 @@ div.v-csslayout.member-block {
 }
 
 .member-block .member-name {
-	font-size: 15px;
-	border-bottom: 1px solid #e5e5e5 !important;
-	padding-bottom: 5px;
-}
-
-.member-block .member-name:focus {
-	font-size: 15px;
 	border-bottom: 1px solid #e5e5e5 !important;
 	padding-bottom: 5px;
 }
 
 .member-block div.v-button-link .v-button-wrap .v-button-caption, .member-block div a {
 	font-weight: 500;
-}
-
-.member-block .member-role {
-	padding-top: 3px;
 }
 
 .member-role {
@@ -18107,4 +18100,30 @@ div.v-csslayout.rightsidebar-layout .content-wrap {
 	-ms-flex: 1;
 	flex: 1;
 	display: inline-block;
+}
+
+.community {
+	color: #e4e4e4;
+}
+
+.community .v-label-h2 {
+	color: #f1f1f1;
+}
+
+.community .v-label-h2 a {
+	color: #f1f1f1;
+}
+
+.community .title a {
+	color: #f1f1f1;
+	font-size: 1.1em;
+}
+
+.community .title .v-icon {
+	font-size: 1.2em;
+	color: #f1f1f1;
+}
+
+.community .desc {
+	font-size: 0.9em;
 }

@@ -36,14 +36,17 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.*;
+import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Span;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.List;
 
@@ -112,7 +115,20 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
         Image memberAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(member.getMemberAvatarId(), 100);
         blockTop.addComponent(memberAvatar);
 
-        VerticalLayout memberInfo = new VerticalLayout();
+
+        MHorizontalLayout buttonControls = new MHorizontalLayout();
+        Button editBtn = new Button("", FontAwesome.EDIT);
+        editBtn.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent event) {
+                EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoEdit(ProjectMemberListViewImpl.this, member));
+            }
+        });
+        editBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS));
+        editBtn.setDescription("Edit user '" + member.getDisplayName() + "' information");
+        editBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
+        blockContent.addComponent(editBtn);
+        blockContent.setComponentAlignment(editBtn, Alignment.TOP_RIGHT);
 
         Button deleteBtn = new Button("", FontAwesome.TRASH_O);
         deleteBtn.addClickListener(new Button.ClickListener() {
@@ -129,39 +145,39 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
                             @Override
                             public void onClose(ConfirmDialog dialog) {
                                 if (dialog.isConfirmed()) {
-                                    ProjectMemberService prjMemberService = ApplicationContextUtil
-                                            .getSpringBean(ProjectMemberService.class);
-                                    member.setStatus(ProjectMemberStatusConstants.INACTIVE);
-                                    prjMemberService.updateWithSession(member, AppContext.getUsername());
+                                    ProjectMemberService prjMemberService = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
+                                    prjMemberService.removeWithSession(member, AppContext.getUsername(), AppContext.getAccountId());
 
-                                    EventBusFactory.getInstance()
-                                            .post(new ProjectMemberEvent.GotoList(ProjectMemberListViewImpl.this, null));
+                                    EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(ProjectMemberListViewImpl.this, null));
                                 }
                             }
                         });
             }
         });
+        deleteBtn.setDescription("Remove user '" + member.getDisplayName() + "' out of this project");
         deleteBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
-
-        blockContent.addComponent(deleteBtn);
         deleteBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS));
-        blockContent.setComponentAlignment(deleteBtn, Alignment.TOP_RIGHT);
 
-        LabelLink memberLink = new LabelLink(member.getMemberFullName(),
-                ProjectLinkBuilder.generateProjectMemberFullLink(member.getProjectid(), member.getUsername()));
+        buttonControls.with(editBtn, deleteBtn);
+        blockContent.addComponent(buttonControls);
+        blockContent.setComponentAlignment(buttonControls, Alignment.TOP_RIGHT);
 
-        memberLink.setWidth("100%");
-        memberLink.addStyleName("member-name");
+        A memberLink = new A(ProjectLinkBuilder.generateProjectMemberFullLink(member.getProjectid(), member
+                .getUsername())).appendText(member.getMemberFullName());
+        ELabel memberNameLbl = new ELabel(memberLink.write(), ContentMode.HTML).withStyleName(ValoTheme.LABEL_H3);
+        memberNameLbl.addStyleName(ValoTheme.LABEL_NO_MARGIN);
+        memberNameLbl.setWidth("100%");
 
-        memberInfo.addComponent(memberLink);
+        MVerticalLayout memberInfo = new MVerticalLayout().withMargin(false);
+        memberInfo.addComponent(memberNameLbl);
+        memberInfo.addComponent(new Hr());
 
         String roleLink = String.format("<a href=\"%s%s%s\"", AppContext.getSiteUrl(), GenericLinkUtils.URL_PREFIX_PARAM,
                 ProjectLinkGenerator.generateRolePreviewLink(member.getProjectid(), member.getProjectRoleId()));
         Label memberRole = new Label();
         memberRole.setContentMode(ContentMode.HTML);
-        memberRole.setStyleName("member-role");
-        if (member.isAdmin()) {
-            memberRole.setValue(roleLink + "style=\"color: #B00000;\">" + "Project Admin" + "</a>");
+        if (member.isProjectOwner()) {
+            memberRole.setValue(roleLink + "style=\"color: #B00000;\">" + "Project Owner" + "</a>");
         } else {
             memberRole.setValue(roleLink + "style=\"color:gray;font-size:12px;\">" + member.getRoleName() + "</a>");
         }
@@ -183,7 +199,6 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
         if (RegisterStatusConstants.SENT_VERIFICATION_EMAIL.equals(member.getStatus())) {
             final VerticalLayout waitingNotLayout = new VerticalLayout();
             Label infoStatus = new Label(AppContext.getMessage(ProjectMemberI18nEnum.WAITING_ACCEPT_INVITATION));
-            infoStatus.addStyleName("member-email");
             waitingNotLayout.addComponent(infoStatus);
 
             ButtonLink resendInvitationLink = new ButtonLink(
@@ -212,7 +227,6 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
             memberInfo.addComponent(lastAccessTimeLbl);
         } else if (RegisterStatusConstants.VERIFICATING.equals(member.getStatus())) {
             Label infoStatus = new Label(AppContext.getMessage(ProjectMemberI18nEnum.SENDING_EMAIL_INVITATION));
-            infoStatus.addStyleName("member-email");
             memberInfo.addComponent(infoStatus);
         }
 

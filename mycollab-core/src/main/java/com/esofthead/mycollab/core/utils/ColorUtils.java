@@ -24,8 +24,12 @@ import java.awt.*;
  */
 public class ColorUtils {
     public static final String brighterColor(String hexValue) {
+        return brighterColor(hexValue, 0.1);
+    }
+
+    public static final String brighterColor(String hexValue, double fraction) {
         Color color = Color.decode(hexValue);
-        Color brighter = lighter(color, 0.1);
+        Color brighter = lighter(color, fraction);
         return toHexString(brighter);
     }
 

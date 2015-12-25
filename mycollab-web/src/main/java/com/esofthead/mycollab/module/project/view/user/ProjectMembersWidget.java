@@ -22,10 +22,7 @@ import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.NumberUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.html.DivLessFormatter;
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
-import com.esofthead.mycollab.module.project.ProjectMemberStatusConstants;
-import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.*;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
 import com.esofthead.mycollab.module.project.events.ProjectMemberEvent;
@@ -43,7 +40,6 @@ import com.hp.gagawa.java.elements.Span;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
-import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
@@ -67,6 +63,7 @@ public class ProjectMembersWidget extends Depot {
                 EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(this, null));
             }
         });
+        inviteMemberBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS));
         inviteMemberBtn.setIcon(FontAwesome.PLUS);
         inviteMemberBtn.addStyleName(UIConstants.BUTTON_LINK);
         addHeaderElement(inviteMemberBtn);
@@ -98,7 +95,7 @@ public class ProjectMembersWidget extends Depot {
             CssLayout footer = new CssLayout();
 
             String roleVal;
-            if (member.isAdmin()) {
+            if (member.isProjectOwner()) {
                 roleVal = AppContext.getMessage(ProjectRoleI18nEnum.OPT_ADMIN_ROLE_DISPLAY);
             } else {
                 roleVal = member.getRoleName();

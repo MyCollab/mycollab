@@ -46,8 +46,8 @@ public class UserProjectDashboardViewImpl extends AbstractPageView implements Us
         AllMilestoneTimelineWidget milestoneTimelineWidget = new AllMilestoneTimelineWidget();
         TaskStatusComponent taskStatusComponent = new TaskStatusComponent();
         ActivityStreamComponent activityStreamComponent = new ActivityStreamComponent();
-        UserUnresolvedAssignmentWidget unresolvedAssignmentThisWeekWidget = new UserUnresolvedAssignmentWidget();
-        UserUnresolvedAssignmentWidget unresolvedAssignmentNextWeekWidget = new UserUnresolvedAssignmentWidget();
+        UserUnresolvedAssignmentWidget unresolvedAssignmentThisWeekWidget = new UserUnresolvedAssignmentWidget("Unresolved assignments in this week (0)");
+        UserUnresolvedAssignmentWidget unresolvedAssignmentNextWeekWidget = new UserUnresolvedAssignmentWidget("Unresolved assignments in next week (0)");
         MVerticalLayout leftPanel = new MVerticalLayout().withMargin(new MarginInfo(true,
                 true, false, false)).withWidth("100%").with(milestoneTimelineWidget,
                 unresolvedAssignmentThisWeekWidget, unresolvedAssignmentNextWeekWidget, taskStatusComponent);

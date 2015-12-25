@@ -46,8 +46,8 @@ public class UserUnresolvedAssignmentWidget extends Depot {
     private DefaultBeanPagedList<ProjectGenericTaskService, ProjectGenericTaskSearchCriteria, ProjectGenericTask> taskList;
     private String title = "";
 
-    public UserUnresolvedAssignmentWidget() {
-        super("", new CssLayout());
+    public UserUnresolvedAssignmentWidget(String title) {
+        super(title, new CssLayout());
         this.setWidth("100%");
         final CheckBox myItemsSelection = new CheckBox("My Items");
         myItemsSelection.addValueChangeListener(new Property.ValueChangeListener() {

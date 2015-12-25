@@ -17,6 +17,8 @@
 package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.common.i18n.SecurityI18nEnum;
+import com.esofthead.mycollab.core.UserInvalidInputException;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
@@ -183,11 +185,16 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
         public void commit() throws SourceException, InvalidValueException {
             Integer roleId = (Integer) roleComboBox.getValue();
             if (roleId == -1) {
-                beanItem.setIsadmin(Boolean.TRUE);
-                this.setInternalValue(null);
+                if (CurrentProjectVariables.isAdmin()) {
+                    beanItem.setIsadmin(Boolean.TRUE);
+                    this.setInternalValue(null);
+                } else {
+                    throw new UserInvalidInputException("Only the Project Owner can assign the role Project " +
+                            "Owner to the user");
+                }
             } else {
-                this.setInternalValue((Integer) this.roleComboBox.getValue());
                 beanItem.setIsadmin(Boolean.FALSE);
+                this.setInternalValue((Integer) this.roleComboBox.getValue());
             }
 
             super.commit();

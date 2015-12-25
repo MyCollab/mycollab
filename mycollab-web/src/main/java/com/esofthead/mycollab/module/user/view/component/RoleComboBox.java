@@ -49,14 +49,14 @@ public class RoleComboBox extends ComboBox {
         BeanContainer<String, SimpleRole> beanItem = new BeanContainer<>(SimpleRole.class);
         beanItem.setBeanIdProperty("id");
 
-        for (SimpleRole role : roleList) {
-            beanItem.addBean(role);
-        }
-
         SimpleRole ownerRole = new SimpleRole();
         ownerRole.setId(-1);
         ownerRole.setRolename("Account Owner");
         beanItem.addBean(ownerRole);
+
+        for (SimpleRole role : roleList) {
+            beanItem.addBean(role);
+        }
 
         this.setContainerDataSource(beanItem);
         this.setItemCaptionPropertyId("rolename");

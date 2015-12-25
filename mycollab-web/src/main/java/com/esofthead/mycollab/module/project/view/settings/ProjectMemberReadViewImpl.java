@@ -116,10 +116,8 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
     }
 
     private ComponentContainer createButtonControls() {
-        return new ProjectPreviewFormControlsGenerator<>(previewForm)
-                .createButtonControls(ProjectPreviewFormControlsGenerator.DELETE_BTN_PRESENTED
-                                | ProjectPreviewFormControlsGenerator.EDIT_BTN_PRESENTED,
-                        ProjectRolePermissionCollections.USERS);
+        return new ProjectPreviewFormControlsGenerator<>(previewForm).createButtonControls(ProjectPreviewFormControlsGenerator.DELETE_BTN_PRESENTED
+                | ProjectPreviewFormControlsGenerator.EDIT_BTN_PRESENTED, ProjectRolePermissionCollections.USERS);
     }
 
     private void createBottomPanel() {

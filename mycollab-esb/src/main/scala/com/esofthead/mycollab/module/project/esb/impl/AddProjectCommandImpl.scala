@@ -50,6 +50,7 @@ import org.springframework.stereotype.Component
             prjOption.setType(option.getType)
             prjOption.setTypeval(option.getTypeval)
             prjOption.setRefoption(option.getId)
+            prjOption.setColor("fdde86")
             optionValMapper.insert(prjOption)
         }
     }

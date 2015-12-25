@@ -21,6 +21,7 @@ import java.util.Arrays
 import com.esofthead.mycollab.cache.CleanCacheEvent
 import com.esofthead.mycollab.module.GenericCommand
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants
+import com.esofthead.mycollab.module.project.ProjectMemberStatusConstants
 import com.esofthead.mycollab.module.project.dao.ProjectMemberMapper
 import com.esofthead.mycollab.module.project.domain.{ProjectMember, ProjectMemberExample}
 import com.esofthead.mycollab.module.project.service.ProjectMemberService
@@ -51,7 +52,7 @@ object DeleteUserCommand {
         ex.createCriteria.andStatusIn(Arrays.asList(RegisterStatusConstants.ACTIVE, RegisterStatusConstants.SENT_VERIFICATION_EMAIL,
             RegisterStatusConstants.VERIFICATING)).andSaccountidEqualTo(event.accountid).andUsernameEqualTo(event.username)
         val projectMember: ProjectMember = new ProjectMember
-        projectMember.setStatus(RegisterStatusConstants.DELETE)
+        projectMember.setStatus(ProjectMemberStatusConstants.INACTIVE)
         projectMemberMapper.updateByExampleSelective(projectMember, ex)
         asyncEventBus.post(new CleanCacheEvent(event.accountid, Array(classOf[ProjectMemberService])))
     }

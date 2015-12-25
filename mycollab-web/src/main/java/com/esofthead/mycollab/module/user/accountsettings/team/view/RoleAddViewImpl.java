@@ -136,9 +136,7 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
 
                 for (int i = 0; i < RolePermissionCollections.CRM_PERMISSIONS_ARR.size(); i++) {
                     PermissionDefItem permissionDefItem = RolePermissionCollections.CRM_PERMISSIONS_ARR.get(i);
-                    KeyCaptionComboBox permissionBox = PermissionComboBoxFactory
-                            .createPermissionSelection(permissionDefItem
-                                    .getPermissionCls());
+                    KeyCaptionComboBox permissionBox = PermissionComboBoxFactory.createPermissionSelection(permissionDefItem.getPermissionCls());
 
                     Integer flag = perMap.getPermissionFlag(permissionDefItem.getKey());
                     permissionBox.setValue(flag);
@@ -146,17 +144,13 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
                     crmFormHelper.addComponent(permissionBox, permissionDefItem.getCaption(), 0, i);
                 }
 
-                permissionsPanel.addComponent(constructGridLayout(
-                        AppContext.getMessage(RoleI18nEnum.SECTION_PROJECT_MANAGEMENT_TITLE),
+                permissionsPanel.addComponent(constructGridLayout(AppContext.getMessage(RoleI18nEnum.SECTION_PROJECT_MANAGEMENT_TITLE),
                         perMap, RolePermissionCollections.PROJECT_PERMISSION_ARR));
-                permissionsPanel.addComponent(constructGridLayout(
-                        AppContext.getMessage(RoleI18nEnum.SECTION_CRM_TITLE),
+                permissionsPanel.addComponent(constructGridLayout(AppContext.getMessage(RoleI18nEnum.SECTION_CRM_TITLE),
                         perMap, RolePermissionCollections.CRM_PERMISSIONS_ARR));
-                permissionsPanel.addComponent(constructGridLayout(AppContext
-                                .getMessage(RoleI18nEnum.SECTION_DOCUMENT_TITLE),
+                permissionsPanel.addComponent(constructGridLayout(AppContext.getMessage(RoleI18nEnum.SECTION_DOCUMENT_TITLE),
                         perMap, RolePermissionCollections.DOCUMENT_PERMISSION_ARR));
-                permissionsPanel.addComponent(constructGridLayout(
-                        AppContext.getMessage(RoleI18nEnum.SECTION_ACCOUNT_MANAGEMENT_TITLE),
+                permissionsPanel.addComponent(constructGridLayout(AppContext.getMessage(RoleI18nEnum.SECTION_ACCOUNT_MANAGEMENT_TITLE),
                         perMap, RolePermissionCollections.ACCOUNT_PERMISSION_ARR));
 
                 return permissionsPanel;
@@ -170,8 +164,7 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
 
             for (int i = 0; i < defItems.size(); i++) {
                 PermissionDefItem permissionDefItem = defItems.get(i);
-                KeyCaptionComboBox permissionBox = PermissionComboBoxFactory
-                        .createPermissionSelection(permissionDefItem.getPermissionCls());
+                KeyCaptionComboBox permissionBox = PermissionComboBoxFactory.createPermissionSelection(permissionDefItem.getPermissionCls());
                 Integer flag = perMap.getPermissionFlag(permissionDefItem.getKey());
                 permissionBox.setValue(flag);
                 permissionControlsMap.put(permissionDefItem.getKey(), permissionBox);

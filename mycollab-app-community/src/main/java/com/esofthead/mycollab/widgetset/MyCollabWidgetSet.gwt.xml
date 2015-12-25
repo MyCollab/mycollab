@@ -48,4 +48,6 @@
     <inherits name="org.vaadin.jouni.restrain.RestrainWidgetset" />
 
     <inherits name="com.ejt.vaadin.loginform.WidgetSet" />
+
+    <inherits name="org.vaadin.sliderpanel.WidgetSet" />
 </module>

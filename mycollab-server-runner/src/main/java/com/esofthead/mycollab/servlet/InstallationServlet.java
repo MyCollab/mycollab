@@ -151,6 +151,7 @@ public class InstallationServlet extends HttpServlet {
                 }
             }
 
+
         } catch (Exception e) {
             LOG.error("Error while set up MyCollab", e);
             out.write("Can not write the settings to the file system. You should check our knowledge base article at " +

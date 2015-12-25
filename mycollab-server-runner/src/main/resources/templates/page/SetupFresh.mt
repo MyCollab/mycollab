@@ -95,10 +95,10 @@ h3 {
                                         </tr>
 
                                         <tr>
-                                            <td ><label for="serverAddress">Server address (without port value):</label></td>
+                                            <td ><label for="serverAddress">Server address (without port value and http/https protocol):</label></td>
                                         </tr>
                                         <tr>
-                                            <td><input id="serverAddress"/></td>
+                                            <td><input id="serverAddress" placeholder="Example: 192.168.1.70 or myservername.com"/></td>
                                         </tr>
                                         <tr><td><h4>You can get this info from your web host. It could be an IP address or server name. You must not include the server port in this value. If you want to change the server port, please use <a href="https://community.mycollab.com/faq/#defaultport">this way</a></h4></td></tr>
                                     </tbody>
@@ -120,7 +120,7 @@ h3 {
                                             <td><label for="databaseName">Database name: </label></td>
                                         </tr>
                                         <tr>
-                                            <td><input id="databaseName"/></td>
+                                            <td><input id="databaseName" placeholder="Example: mycollab"/></td>
                                         </tr>
                                         <tr><td><h4>Name of MyCollab database. Database must be created before.</h4></td></tr>
 
@@ -144,7 +144,7 @@ h3 {
                                             <td><label for="databaseServer">Database server address:</label></td>
                                         </tr>
                                         <tr>
-                                            <td><input id="databaseServer"/></td>
+                                            <td><input id="databaseServer" placeholder="Example: localhost"/></td>
                                         </tr>
                                         <tr><td><h4>You can get this info from your web host. If you use local Mysql, the address usually is <i>localhost:3306</i>.<h4></td></tr>
                                     </tbody>
@@ -169,7 +169,7 @@ h3 {
                                             <td ><label for="smtpUserName">User name:</label></td>
                                         </tr>
                                         <tr>
-                                            <td><input id="smtpUserName"/></td>
+                                            <td><input id="smtpUserName" placeholder="Example: mycollab@gmail.com"/></td>
                                         </tr>
                                         <tr>
                                         <td><h4>Username or account of your email service.

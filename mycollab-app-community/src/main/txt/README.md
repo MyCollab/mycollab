@@ -25,19 +25,16 @@ MyCollab requires a running Java Runtime Environment (7 or greater), Java comman
 
 Please have a look at MyCollab requirements
 
-* [https://community.mycollab.com/installation-guideline/](https://community.mycollab.com/installation-guideline/)
+* [https://community.mycollab.com/installing-mycollab/](https://community.mycollab.com/installing-mycollab/)
 
 Installation
 ============
 
 1. Download MyCollab Binary File mycollab-x.xxx-dist
-2. Follow installation guideline at [https://community.mycollab.com/installation-guideline/](https://community
-.mycollab.com/installation-guideline/)
-3. If you already installed MyCollab and you want to upgrade to MyCollab latest version, this link [https://community
-.mycollab.com/upgrade/](http://community.mycollab.com/upgrade/) will instruct steps to make your bug easily
+2. Follow installation guideline at [https://community.mycollab.com/installing-mycollab/](https://community.mycollab.com/installing-mycollab/)
+3. If you already installed MyCollab and you want to upgrade to MyCollab latest version, this link [https://community.mycollab.com/administration/upgrade/](https://community.mycollab.com/administration/upgrade/) will instruct steps to make your bug easily
 
-If you want to understand more MyCollab advanced configuration settings, please visit the link [https://community
-.mycollab.com/configuration/](https://community.mycollab.com/configuration/). You will finish reading and
+If you want to understand more MyCollab advanced configuration settings, please visit the link [https://community.mycollab.com/administration/configuration/](https://community.mycollab.com/administration/configuration/). You will finish reading and
 understanding in a matter of minutes.
 
 Last changelog

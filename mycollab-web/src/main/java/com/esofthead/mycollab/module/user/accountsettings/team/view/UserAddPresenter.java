@@ -90,20 +90,20 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
         });
     }
 
-    public void save(SimpleUser item) {
+    private void save(SimpleUser user) {
         UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
-        item.setAccountId(AppContext.getAccountId());
+        user.setAccountId(AppContext.getAccountId());
 
-        if (item.getStatus() == null) {
-            item.setStatus(UserStatusConstants.EMAIL_VERIFIED_REQUEST);
+        if (user.getStatus() == null) {
+            user.setStatus(UserStatusConstants.EMAIL_VERIFIED_REQUEST);
         }
 
-        if (item.getUsername() == null) {
-            userService.saveUserAccount(item, AppContext.getAccountId(), AppContext.getUsername());
+        if (user.getUsername() == null) {
+            userService.saveUserAccount(user, AppContext.getAccountId(), AppContext.getUsername());
             NotificationUtil.showNotification(AppContext.getMessage(GenericI18Enum.HELP_SPAM_FILTER_PREVENT_TITLE),
                     AppContext.getMessage(GenericI18Enum.HELP_SPAM_FILTER_PREVENT_MESSAGE));
         } else {
-            userService.updateUserAccount(item, AppContext.getAccountId());
+            userService.updateUserAccount(user, AppContext.getAccountId());
         }
 
     }

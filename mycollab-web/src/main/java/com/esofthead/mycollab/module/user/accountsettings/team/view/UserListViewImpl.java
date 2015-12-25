@@ -18,13 +18,10 @@ package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
-import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.user.AccountLinkBuilder;
 import com.esofthead.mycollab.module.user.AccountLinkGenerator;
-import com.esofthead.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
-import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.domain.criteria.UserSearchCriteria;
 import com.esofthead.mycollab.module.user.events.UserEvent;
@@ -42,8 +39,10 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.Arrays;
 import java.util.List;
@@ -105,10 +104,19 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
         Image memberAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(member.getAvatarid(), 100);
         blockTop.addComponent(memberAvatar);
 
-        VerticalLayout memberInfo = new VerticalLayout();
+        MVerticalLayout memberInfo = new MVerticalLayout().withMargin(false);
 
-        MHorizontalLayout layoutButtonDelete = new MHorizontalLayout().withWidth("100%");
-        layoutButtonDelete.setVisible(AppContext.canWrite(RolePermissionCollections.ACCOUNT_USER));
+        MHorizontalLayout buttonControls = new MHorizontalLayout();
+        buttonControls.setVisible(AppContext.canWrite(RolePermissionCollections.ACCOUNT_USER));
+
+        Button editBtn = new Button("", FontAwesome.EDIT);
+        editBtn.addClickListener(new ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent event) {
+                EventBusFactory.getInstance().post(new UserEvent.GotoEdit(UserListViewImpl.this, member));
+            }
+        });
+        editBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
 
         Button deleteBtn = new Button();
         deleteBtn.addClickListener(new Button.ClickListener() {
@@ -138,13 +146,17 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
         });
         deleteBtn.setIcon(FontAwesome.TRASH_O);
         deleteBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
-        layoutButtonDelete.with(deleteBtn).withAlign(deleteBtn, Alignment.MIDDLE_RIGHT);
+        buttonControls.with(editBtn, deleteBtn);
 
-        memberInfo.addComponent(layoutButtonDelete);
+        memberInfo.addComponent(buttonControls);
+        memberInfo.setComponentAlignment(buttonControls, Alignment.TOP_RIGHT);
 
         A memberLink = new A(AccountLinkGenerator.generatePreviewFullUserLink(AppContext.getSiteUrl(),
                 member.getUsername())).appendText(member.getDisplayName());
-        memberInfo.addComponent(new ELabel(memberLink.write(), ContentMode.HTML));
+        ELabel memberLinkLbl = new ELabel(memberLink.write(), ContentMode.HTML).withStyleName(ValoTheme.LABEL_H3);
+        memberLinkLbl.addStyleName(ValoTheme.LABEL_NO_MARGIN);
+        memberInfo.addComponent(memberLinkLbl);
+        memberInfo.addComponent(new Hr());
 
         Label memberEmailLabel = new Label(String.format("<a href='mailto:%s'>%s</a>", member.getUsername(),
                 member.getUsername()), ContentMode.HTML);
@@ -152,9 +164,8 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
         memberEmailLabel.setWidth("100%");
         memberInfo.addComponent(memberEmailLabel);
 
-        ELabel memberSinceLabel = new ELabel("Member since: "
-                + AppContext.formatPrettyTime(member.getRegisteredtime())).withDescription(AppContext.formatDateTime
-                (member.getRegisteredtime()));
+        ELabel memberSinceLabel = new ELabel("Member since: " + AppContext.formatPrettyTime(member.getRegisteredtime()))
+                .withDescription(AppContext.formatDateTime(member.getRegisteredtime()));
         memberSinceLabel.addStyleName(UIConstants.LABEL_META_INFO);
         memberSinceLabel.setWidth("100%");
         memberInfo.addComponent(memberSinceLabel);
