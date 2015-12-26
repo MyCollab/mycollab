@@ -46,7 +46,7 @@ mail.noreply=noreply@mycollab.com
 # want to send report automatically to our team, you can
 # leave this field to empty
 #=====================================================
-error.sendTo=support@mycollab.com
+error.sendTo=error@esofthead.com
 
 #=====================================================
 #    LINK CONFIGURATION
