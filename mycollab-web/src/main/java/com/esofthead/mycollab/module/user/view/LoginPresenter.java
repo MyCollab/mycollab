@@ -16,18 +16,7 @@
  */
 package com.esofthead.mycollab.module.user.view;
 
-import com.esofthead.mycollab.core.utils.BeanUtility;
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.user.dao.UserAccountMapper;
-import com.esofthead.mycollab.module.user.domain.SimpleBillingAccount;
-import com.esofthead.mycollab.module.user.domain.SimpleUser;
-import com.esofthead.mycollab.module.user.domain.UserAccount;
-import com.esofthead.mycollab.module.user.domain.UserAccountExample;
 import com.esofthead.mycollab.module.user.events.UserEvent.PlainLogin;
-import com.esofthead.mycollab.module.user.service.BillingAccountService;
-import com.esofthead.mycollab.module.user.service.UserService;
-import com.esofthead.mycollab.shell.events.ShellEvent;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PageView.ViewListener;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -36,10 +25,6 @@ import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.esofthead.mycollab.web.DesktopApplication;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.GregorianCalendar;
 
 /**
  * @author MyCollab Ltd.
@@ -47,8 +32,6 @@ import java.util.GregorianCalendar;
  */
 public class LoginPresenter extends AbstractPresenter<LoginView> {
     private static final long serialVersionUID = 1L;
-
-    private static final Logger LOG = LoggerFactory.getLogger(LoginPresenter.class);
 
     public LoginPresenter() {
         super(LoginView.class);
@@ -62,32 +45,9 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
             @Override
             public void receiveEvent(ViewEvent<PlainLogin> event) {
                 PlainLogin data = (PlainLogin) event.getData();
-                doLogin(data.getUsername(), data.getPassword(), data.isRememberMe());
+                ((DesktopApplication) UI.getCurrent()).doLogin(data.getUsername(), data.getPassword(), data.isRememberMe());
             }
         });
-    }
-
-    public void doLogin(String username, String password, boolean isRememberPassword) {
-        UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
-        SimpleUser user = userService.authentication(username, password, AppContext.getSubDomain(), false);
-
-        if (isRememberPassword) {
-            ((DesktopApplication) UI.getCurrent()).rememberPassword(username, password);
-        }
-
-        BillingAccountService billingAccountService = ApplicationContextUtil.getSpringBean(BillingAccountService.class);
-
-        SimpleBillingAccount billingAccount = billingAccountService.getBillingAccountById(AppContext.getAccountId());
-        LOG.debug(String.format("Get billing account successfully: %s", BeanUtility.printBeanObj(billingAccount)));
-        AppContext.getInstance().setSessionVariables(user, billingAccount);
-
-        UserAccountMapper userAccountMapper = ApplicationContextUtil.getSpringBean(UserAccountMapper.class);
-        UserAccount userAccount = new UserAccount();
-        userAccount.setLastaccessedtime(new GregorianCalendar().getTime());
-        UserAccountExample ex = new UserAccountExample();
-        ex.createCriteria().andAccountidEqualTo(billingAccount.getId()).andUsernameEqualTo(user.getUsername());
-        userAccountMapper.updateByExampleSelective(userAccount, ex);
-        EventBusFactory.getInstance().post(new ShellEvent.GotoMainPage(this, null));
     }
 
     @Override

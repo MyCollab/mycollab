@@ -94,30 +94,28 @@ class ContactInfoChangeWindow extends Window {
 
         MHorizontalLayout hlayoutControls = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true));
 
-        Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        ContactInfoChangeWindow.this.close();
-                    }
-                });
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                ContactInfoChangeWindow.this.close();
+            }
+        });
         cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 
-        Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        changeUserInfo();
-                    }
-                });
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                changeUserInfo();
+            }
+        });
         saveBtn.setStyleName(UIConstants.BUTTON_ACTION);
         saveBtn.setIcon(FontAwesome.SAVE);
 
-        hlayoutControls.with(cancelBtn, saveBtn).alignAll(Alignment.MIDDLE_CENTER);
+        hlayoutControls.with(saveBtn, cancelBtn).alignAll(Alignment.MIDDLE_CENTER);
 
         mainLayout.with(hlayoutControls).withAlign(hlayoutControls, Alignment.MIDDLE_RIGHT);
 

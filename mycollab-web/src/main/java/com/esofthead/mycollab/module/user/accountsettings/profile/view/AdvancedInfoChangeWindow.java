@@ -57,8 +57,7 @@ class AdvancedInfoChangeWindow extends Window {
         this.setModal(true);
         this.initUI();
         this.center();
-        this.setCaption(AppContext
-                .getMessage(UserI18nEnum.WINDOW_CHANGE_ADVANCED_INFO_TITLE));
+        this.setCaption(AppContext.getMessage(UserI18nEnum.WINDOW_CHANGE_ADVANCED_INFO_TITLE));
     }
 
     private void initUI() {
@@ -66,12 +65,9 @@ class AdvancedInfoChangeWindow extends Window {
 
         GridFormLayoutHelper passInfo = GridFormLayoutHelper.defaultFormLayoutHelper(1, 4);
 
-        passInfo.addComponent(txtWebsite,
-                AppContext.getMessage(UserI18nEnum.FORM_WEBSITE), 0, 0);
-        passInfo.addComponent(txtCompany,
-                AppContext.getMessage(UserI18nEnum.FORM_COMPANY), 0, 1);
-        passInfo.addComponent(cboCountry,
-                AppContext.getMessage(UserI18nEnum.FORM_COUNTRY), 0, 2);
+        passInfo.addComponent(txtWebsite, AppContext.getMessage(UserI18nEnum.FORM_WEBSITE), 0, 0);
+        passInfo.addComponent(txtCompany, AppContext.getMessage(UserI18nEnum.FORM_COMPANY), 0, 1);
+        passInfo.addComponent(cboCountry, AppContext.getMessage(UserI18nEnum.FORM_COUNTRY), 0, 2);
 
         this.txtWebsite.setValue(this.user.getWebsite() == null ? ""
                 : this.user.getWebsite());
@@ -86,32 +82,28 @@ class AdvancedInfoChangeWindow extends Window {
 
         MHorizontalLayout hlayoutControls = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true));
 
-        Button cancelBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        AdvancedInfoChangeWindow.this.close();
-                    }
-                });
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                AdvancedInfoChangeWindow.this.close();
+            }
+        });
         cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 
-        Button saveBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        changeInfo();
-                    }
-                });
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                changeInfo();
+            }
+        });
         saveBtn.setStyleName(UIConstants.BUTTON_ACTION);
         saveBtn.setIcon(FontAwesome.SAVE);
 
-        hlayoutControls.with(cancelBtn, saveBtn).alignAll(Alignment.MIDDLE_CENTER);
+        hlayoutControls.with(saveBtn, cancelBtn).alignAll(Alignment.MIDDLE_CENTER);
 
         mainLayout.with(hlayoutControls).withAlign(hlayoutControls, Alignment.MIDDLE_RIGHT);
 
@@ -124,12 +116,10 @@ class AdvancedInfoChangeWindow extends Window {
         user.setCompany(this.txtCompany.getValue());
         user.setCountry((String) this.cboCountry.getValue());
 
-        UserService userService = ApplicationContextUtil
-                .getSpringBean(UserService.class);
+        UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
         userService.updateWithSession(this.user, AppContext.getUsername());
 
-        EventBusFactory.getInstance().post(
-                new ProfileEvent.GotoProfileView(AdvancedInfoChangeWindow.this, null));
+        EventBusFactory.getInstance().post(new ProfileEvent.GotoProfileView(AdvancedInfoChangeWindow.this, null));
         AdvancedInfoChangeWindow.this.close();
 
         Page.getCurrent().getJavaScript().execute("window.location.reload();");

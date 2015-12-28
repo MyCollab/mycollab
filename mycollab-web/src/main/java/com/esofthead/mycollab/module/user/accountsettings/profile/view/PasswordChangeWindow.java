@@ -103,7 +103,7 @@ public class PasswordChangeWindow extends Window {
         saveBtn.setStyleName(UIConstants.BUTTON_ACTION);
         saveBtn.setIcon(FontAwesome.SAVE);
 
-        hlayoutControls.with(cancelBtn, saveBtn);
+        hlayoutControls.with(saveBtn, cancelBtn);
 
         mainLayout.with(hlayoutControls).withAlign(hlayoutControls, Alignment.MIDDLE_RIGHT);
 

@@ -47,7 +47,6 @@ import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.USER_TIMEZONE;
  */
 @SuppressWarnings("serial")
 class BasicInfoChangeWindow extends Window {
-
     private TextField txtFirstName = new TextField();
     private TextField txtLastName = new TextField();
     private TextField txtEmail = new TextField();
@@ -123,7 +122,7 @@ class BasicInfoChangeWindow extends Window {
         saveBtn.setStyleName(UIConstants.BUTTON_ACTION);
         saveBtn.setIcon(FontAwesome.SAVE);
 
-        hlayoutControls.with(cancelBtn, saveBtn).alignAll(Alignment.MIDDLE_CENTER);
+        hlayoutControls.with(saveBtn, cancelBtn).alignAll(Alignment.MIDDLE_CENTER);
         mainLayout.with(hlayoutControls).withAlign(hlayoutControls, Alignment.MIDDLE_RIGHT);
 
         this.setModal(true);

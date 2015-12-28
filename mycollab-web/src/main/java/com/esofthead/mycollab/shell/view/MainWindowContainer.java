@@ -28,6 +28,7 @@ import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.web.DesktopApplication;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.UI;
 import org.vaadin.viritin.util.BrowserCookie;
 
 import java.io.Serializable;
@@ -45,6 +46,7 @@ public class MainWindowContainer extends CssLayout {
         this.setCaption(AppContext.getSiteName());
         isAutoLogin = true;
         ControllerRegistry.addController(new ShellController(this));
+        this.setSizeFull();
         this.setDefaultView();
     }
 
@@ -54,12 +56,6 @@ public class MainWindowContainer extends CssLayout {
     }
 
     private void setDefaultView() {
-        final LoginPresenter presenter = PresenterResolver.getPresenter(LoginPresenter.class);
-        LoginView loginView = presenter.getView();
-        this.setStyleName("loginView");
-        this.setSizeFull();
-        this.setContent(loginView.getWidget());
-
         // Read previously stored cookie value
         if (isAutoLogin) {
             BrowserCookie.detectCookieValue(DesktopApplication.NAME_COOKIE, new CookieCallbackSerilizable() {
@@ -69,18 +65,29 @@ public class MainWindowContainer extends CssLayout {
                         String[] loginParams = value.split("\\$");
                         if (loginParams.length == 2) {
                             try {
-                                presenter.doLogin(loginParams[0],
-                                        PasswordEncryptHelper.decryptText(loginParams[1]), false);
+                                ((DesktopApplication) UI.getCurrent()).doLogin(loginParams[0], PasswordEncryptHelper.decryptText(loginParams[1]), false);
                             } catch (UserInvalidInputException e) {
                                 // do nothing
                             } catch (Exception e) {
                                 throw new MyCollabException(e);
                             }
                         }
+                    } else {
+                        navigateToLoginView();
                     }
                 }
             });
+        } else {
+            navigateToLoginView();
         }
+    }
+
+    private void navigateToLoginView() {
+        final LoginPresenter presenter = PresenterResolver.getPresenter(LoginPresenter.class);
+        LoginView loginView = presenter.getView();
+        this.setStyleName("loginView");
+        this.setSizeFull();
+        this.setContent(loginView.getWidget());
     }
 
     public void setAutoLogin(boolean isAutoLogin) {
