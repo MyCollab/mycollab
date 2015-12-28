@@ -21,6 +21,7 @@ import com.esofthead.mycollab.common.ui.components.notification.*;
 import com.esofthead.mycollab.configuration.IDeploymentMode;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
+import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.jetty.ServerInstance;
 import com.esofthead.mycollab.module.billing.AccountStatusConstants;
@@ -44,6 +45,7 @@ import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.web.AdWindow;
 import com.esofthead.mycollab.web.CustomLayoutExt;
 import com.esofthead.mycollab.web.IDesktopModule;
+import com.google.common.eventbus.Subscribe;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.vaadin.event.LayoutEvents;
@@ -82,11 +84,32 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
 
     private CustomLayout headerLayout;
     private HorizontalLayout bodyLayout;
+    private MHorizontalLayout accountLayout;
+
+    private ApplicationEventListener<ShellEvent.RefreshPage> pageRefreshHandler = new ApplicationEventListener<ShellEvent.RefreshPage>() {
+        @Override
+        @Subscribe
+        public void handle(ShellEvent.RefreshPage event) {
+            buildAccountMenuLayout();
+        }
+    };
 
     public MainViewImpl() {
         this.setSizeFull();
         ControllerRegistry.addController(new MainViewController(this));
         ThemeManager.loadUserTheme(AppContext.getAccountId());
+    }
+
+    @Override
+    public void attach() {
+        super.attach();
+        EventBusFactory.getInstance().register(pageRefreshHandler);
+    }
+
+    @Override
+    public void detach() {
+        EventBusFactory.getInstance().unregister(pageRefreshHandler);
+        super.detach();
     }
 
     @Override
@@ -111,10 +134,8 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         IDeploymentMode mode = ApplicationContextUtil.getSpringBean(IDeploymentMode.class);
         if (mode.isCommunityEdition()) {
             SliderPanel sliderPanel = new SliderPanelBuilder(new CommunitySliderContent())
-                    .caption("Community").flowInContent(true)
-                    .mode(SliderMode.RIGHT)
-                    .tabPosition(SliderTabPosition.MIDDLE)
-                    .build();
+                    .caption("Community").flowInContent(true).mode(SliderMode.RIGHT)
+                    .tabPosition(SliderTabPosition.MIDDLE).build();
             bodyLayout.addComponent(sliderPanel);
         }
         bodyLayout.setExpandRatio(widget, 1.0f);
@@ -213,9 +234,17 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
 
         headerLayout.addComponent(new MHorizontalLayout().with(modulePopup).withAlign(modulePopup, Alignment.MIDDLE_LEFT), "mainLogo");
 
-        MHorizontalLayout accountLayout = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, false));
+        accountLayout = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, false));
         accountLayout.setHeight("45px");
         accountLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+        buildAccountMenuLayout();
+
+        headerLayout.addComponent(accountLayout, "accountMenu");
+        return headerLayout;
+    }
+
+    private MHorizontalLayout buildAccountMenuLayout() {
+        accountLayout.removeAllComponents();
 
         if (SiteConfiguration.isDemandEdition()) {
             // display trial box if user in trial mode
@@ -441,7 +470,6 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         accountMenu.setContent(accountPopupContent);
         accountLayout.addComponent(accountMenu);
 
-        headerLayout.addComponent(accountLayout, "accountMenu");
-        return headerLayout;
+        return accountLayout;
     }
 }

@@ -26,6 +26,8 @@ object ShellEvent {
 
     class NotifyErrorEvent(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
+    class RefreshPage(source: AnyRef) extends ApplicationEvent(source, null) {}
+
     class GotoMainPage(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
     class LogOut(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}

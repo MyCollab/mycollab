@@ -116,8 +116,7 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
         }
 
         if (userAccountMapper.countByExample(userAccountEx) > 0) {
-            throw new UserInvalidInputException(
-                    String.format("There is already user has email %s in your account", record.getEmail()));
+            throw new UserInvalidInputException(String.format("There is already user has email %s in your account", record.getEmail()));
         }
 
         if (record.getPassword() != null) {

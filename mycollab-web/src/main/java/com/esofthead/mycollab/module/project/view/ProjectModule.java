@@ -122,6 +122,7 @@ public class ProjectModule extends AbstractPageView implements IDesktopModule {
         final Label titleLbl = new Label(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_ACTIVE_PROJECTS_TITLE, 0));
         titleLbl.setStyleName(ValoTheme.LABEL_H2);
         OptionPopupContent contentLayout = new OptionPopupContent();
+        contentLayout.setWidth("550px");
 
         final TextField searchField = new TextField();
         searchField.setInputPrompt("Search");

@@ -138,6 +138,11 @@ public class DesktopApplication extends MyCollabUI {
         }
     }
 
+    @Override
+    protected void refresh(VaadinRequest request) {
+        EventBusFactory.getInstance().post(new ShellEvent.RefreshPage(this));
+    }
+
     private boolean isInNotSupportedBrowserList(String userAgent) {
         return (userAgent.indexOf("msie 6.0") != -1) || (userAgent.indexOf("msie 6.1") != -1)
                 || userAgent.indexOf("msie 7.0") != -1 || userAgent.indexOf("msie 8.0") != -1 || userAgent.indexOf("msie 9.0") != -1;

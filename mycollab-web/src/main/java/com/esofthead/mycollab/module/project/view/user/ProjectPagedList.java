@@ -29,6 +29,7 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
+import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -65,14 +66,15 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
 
             final VerticalLayout linkIconFix = new VerticalLayout();
             linkIconFix.setWidth("100%");
-            MHorizontalLayout prjHeaderLayout = new MHorizontalLayout();
-            final LabelLink projectLink = new LabelLink(String.format("[%s] %s", project.getShortname(), project.getName()),
+            MCssLayout prjHeaderLayout = new MCssLayout().withFullWidth();
+
+            final LabelLink projectLbl = new LabelLink(String.format("[%s] %s", project.getShortname(), project.getName()),
                     ProjectLinkBuilder.generateProjectFullLink(project.getId()));
-            projectLink.addStyleName(ValoTheme.LABEL_BOLD);
-            projectLink.addStyleName(ValoTheme.LABEL_NO_MARGIN);
+            projectLbl.addStyleName(ValoTheme.LABEL_BOLD);
+            projectLbl.addStyleName(ValoTheme.LABEL_NO_MARGIN);
+            projectLbl.setWidthUndefined();
 
-
-            prjHeaderLayout.with(projectLink);
+            prjHeaderLayout.addComponent(projectLbl);
 
             linkIconFix.addComponent(prjHeaderLayout);
 
@@ -96,7 +98,7 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
 
             linkIconFix.addComponent(metaInfo);
 
-            projectLink.setWidth("100%");
+            projectLbl.setWidth("100%");
             linkWrapper.addComponent(linkIconFix);
             projectLayout.addComponent(linkWrapper);
 

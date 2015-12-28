@@ -36,32 +36,31 @@ import java.util.List;
 
 /**
  * @author MyCollab Ltd.
- *
  * @since 4.5.2
  */
 public class AllActivityStreamPresenter extends AbstractListPresenter<AllActivityView, ActivityStreamSearchCriteria, ProjectActivityStream> {
-	private static final long serialVersionUID = -2089284900326846089L;
+    private static final long serialVersionUID = -2089284900326846089L;
 
-	public AllActivityStreamPresenter() {
-		super(AllActivityView.class);
-	}
+    public AllActivityStreamPresenter() {
+        super(AllActivityView.class);
+    }
 
-	@Override
-	protected void onGo(ComponentContainer navigator, ScreenData<?> data) {
-		ProjectModuleNavigationMenu projectModuleMenu = new ProjectModuleNavigationMenu();
-		projectModuleMenu.selectButton(AppContext.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES));
-		((MobileNavigationManager) UI.getCurrent().getContent()).setNavigationMenu(projectModuleMenu);
-		super.onGo(navigator, data);
-		ProjectService prjService = ApplicationContextUtil.getSpringBean(ProjectService.class);
-		List<Integer> prjKeys = prjService.getProjectKeysUserInvolved(
-				AppContext.getUsername(), AppContext.getAccountId());
-		ActivityStreamSearchCriteria searchCriteria = new ActivityStreamSearchCriteria();
-		searchCriteria.setModuleSet(new SetSearchField<>(ModuleNameConstants.PRJ));
-		searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+    @Override
+    protected void onGo(ComponentContainer navigator, ScreenData<?> data) {
+        ProjectModuleNavigationMenu projectModuleMenu = new ProjectModuleNavigationMenu();
+        projectModuleMenu.selectButton(AppContext.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES));
+        ((MobileNavigationManager) UI.getCurrent().getContent()).setNavigationMenu(projectModuleMenu);
+        super.onGo(navigator, data);
+        ProjectService prjService = ApplicationContextUtil.getSpringBean(ProjectService.class);
+        List<Integer> prjKeys = prjService.getProjectKeysUserInvolved(
+                AppContext.getUsername(), AppContext.getAccountId());
+        ActivityStreamSearchCriteria searchCriteria = new ActivityStreamSearchCriteria();
+        searchCriteria.setModuleSet(new SetSearchField<>(ModuleNameConstants.PRJ));
+        searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
 
-		searchCriteria.setExtraTypeIds(new SetSearchField<>(prjKeys.toArray(new Integer[0])));
-		doSearch(searchCriteria);
-		AppContext.addFragment("project/activities/", AppContext.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES));
-	}
+        searchCriteria.setExtraTypeIds(new SetSearchField<>(prjKeys.toArray(new Integer[0])));
+        doSearch(searchCriteria);
+        AppContext.addFragment("project/activities/", AppContext.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES));
+    }
 
 }
