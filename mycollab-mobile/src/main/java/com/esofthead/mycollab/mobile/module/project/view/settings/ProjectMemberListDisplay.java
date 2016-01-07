@@ -24,79 +24,68 @@ import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearch
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 
 /**
  * @author MyCollab Ltd.
- *
  * @since 4.5.0
  */
-public class ProjectMemberListDisplay extends
-		DefaultPagedBeanList<ProjectMemberService, ProjectMemberSearchCriteria, SimpleProjectMember> {
-	private static final long serialVersionUID = -8386107467240727141L;
+public class ProjectMemberListDisplay extends DefaultPagedBeanList<ProjectMemberService, ProjectMemberSearchCriteria, SimpleProjectMember> {
+    private static final long serialVersionUID = -8386107467240727141L;
 
-	public ProjectMemberListDisplay() {
-		super(ApplicationContextUtil.getSpringBean(ProjectMemberService.class),
-				new ProjectMemberRowDisplayHandler());
-		this.addStyleName("member-list");
-	}
+    public ProjectMemberListDisplay() {
+        super(ApplicationContextUtil.getSpringBean(ProjectMemberService.class), new ProjectMemberRowDisplayHandler());
+        this.addStyleName("member-list");
+    }
 
-	private static class ProjectMemberRowDisplayHandler implements RowDisplayHandler<SimpleProjectMember> {
+    private static class ProjectMemberRowDisplayHandler implements RowDisplayHandler<SimpleProjectMember> {
 
-		@Override
-		public Component generateRow(final SimpleProjectMember member, int rowIndex) {
-			HorizontalLayout mainLayout = new HorizontalLayout();
-			mainLayout.setWidth("100%");
-			mainLayout.setStyleName("member-row");
-			Image memberAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(
-							member.getMemberAvatarId(), 48);
-			mainLayout.addComponent(memberAvatar);
+        @Override
+        public Component generateRow(final SimpleProjectMember member, int rowIndex) {
+            HorizontalLayout mainLayout = new HorizontalLayout();
+            mainLayout.setWidth("100%");
+            mainLayout.setStyleName("member-row");
+            Image memberAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(member.getMemberAvatarId(), 48);
+            mainLayout.addComponent(memberAvatar);
 
-			VerticalLayout memberInfoLayout = new VerticalLayout();
-			memberInfoLayout.setWidth("100%");
-			memberInfoLayout.setStyleName("member-info");
-			Button memberDisplayName = new Button(member.getDisplayName());
-			memberDisplayName.setStyleName("display-name");
-			memberDisplayName.addClickListener(new Button.ClickListener() {
+            VerticalLayout memberInfoLayout = new VerticalLayout();
+            memberInfoLayout.setWidth("100%");
+            memberInfoLayout.setStyleName("member-info");
+            Button memberDisplayName = new Button(member.getDisplayName());
+            memberDisplayName.setStyleName("display-name");
+            memberDisplayName.addClickListener(new Button.ClickListener() {
 
-				private static final long serialVersionUID = -1689918040423397195L;
+                private static final long serialVersionUID = -1689918040423397195L;
 
-				@Override
-				public void buttonClick(Button.ClickEvent event) {
-					EventBusFactory.getInstance().post(
-							new ProjectMemberEvent.GotoRead(this, member.getUsername()));
-				}
-			});
-			memberInfoLayout.addComponent(memberDisplayName);
+                @Override
+                public void buttonClick(Button.ClickEvent event) {
+                    EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoRead(this, member.getUsername()));
+                }
+            });
+            memberInfoLayout.addComponent(memberDisplayName);
 
-			Label memberUserName = new Label(member.getUsername());
-			memberInfoLayout.addComponent(memberUserName);
+            Label memberUserName = new Label(member.getUsername());
+            memberInfoLayout.addComponent(memberUserName);
 
-			String bugStatus = member.getNumOpenBugs() + " open bug";
-			if (member.getNumOpenBugs() > 1) {
-				bugStatus += "s";
-			}
+            String bugStatus = member.getNumOpenBugs() + " open bug";
+            if (member.getNumOpenBugs() > 1) {
+                bugStatus += "s";
+            }
 
-			String taskStatus = member.getNumOpenTasks() + " open task";
-			if (member.getNumOpenTasks() > 1) {
-				taskStatus += "s";
-			}
+            String taskStatus = member.getNumOpenTasks() + " open task";
+            if (member.getNumOpenTasks() > 1) {
+                taskStatus += "s";
+            }
 
-			Label memberWorkStatus = new Label(bugStatus + " - " + taskStatus);
-			memberInfoLayout.addComponent(memberWorkStatus);
+            Label memberWorkStatus = new Label(bugStatus + " - " + taskStatus);
+            memberInfoLayout.addComponent(memberWorkStatus);
 
-			mainLayout.addComponent(memberInfoLayout);
-			mainLayout.setExpandRatio(memberInfoLayout, 1.0f);
-			mainLayout.addStyleName("list-item");
+            mainLayout.addComponent(memberInfoLayout);
+            mainLayout.setExpandRatio(memberInfoLayout, 1.0f);
 
-			return mainLayout;
-		}
+            return mainLayout;
+        }
 
-	}
+    }
 
 }

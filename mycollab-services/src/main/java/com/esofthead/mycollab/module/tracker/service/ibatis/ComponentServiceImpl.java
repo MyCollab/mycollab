@@ -33,7 +33,6 @@ import com.esofthead.mycollab.module.tracker.domain.ComponentExample;
 import com.esofthead.mycollab.module.tracker.domain.SimpleComponent;
 import com.esofthead.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.ComponentService;
-import com.esofthead.mycollab.schedule.email.project.ComponentRelayEmailNotificationAction;
 import com.google.common.eventbus.AsyncEventBus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,7 +40,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-@Traceable(nameField = "componentname", extraFieldName = "projectid", notifyAgent = ComponentRelayEmailNotificationAction.class)
+@Traceable(nameField = "componentname", extraFieldName = "projectid")
 @Watchable(userFieldName = "userlead", extraTypeId = "projectid")
 public class ComponentServiceImpl extends DefaultService<Integer, Component, ComponentSearchCriteria> implements
         ComponentService {

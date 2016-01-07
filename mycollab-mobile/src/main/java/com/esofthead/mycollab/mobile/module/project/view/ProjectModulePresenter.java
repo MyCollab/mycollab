@@ -39,10 +39,6 @@ public class ProjectModulePresenter extends AbstractMobilePresenter<ProjectModul
 
     @Override
     protected void onGo(ComponentContainer navigator, ScreenData<?> data) {
-        checkLocalData();
-    }
-
-    private void checkLocalData() {
         LocalStorage.detectValue(MobileApplication.LOGIN_DATA, new LocalStorageCallback() {
             private static final long serialVersionUID = 3217947479690600476L;
 

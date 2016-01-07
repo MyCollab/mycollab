@@ -33,7 +33,6 @@ import com.esofthead.mycollab.module.project.domain.criteria.MessageSearchCriter
 import com.esofthead.mycollab.module.project.esb.DeleteProjectMessageEvent;
 import com.esofthead.mycollab.module.project.service.MessageService;
 import com.esofthead.mycollab.module.project.service.ProjectActivityStreamService;
-import com.esofthead.mycollab.schedule.email.project.MessageRelayEmailNotificationAction;
 import com.google.common.eventbus.AsyncEventBus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,7 +46,7 @@ import java.util.List;
  */
 @Service
 @Transactional
-@Traceable(nameField = "title", extraFieldName = "projectid", notifyAgent = MessageRelayEmailNotificationAction.class)
+@Traceable(nameField = "title", extraFieldName = "projectid")
 public class MessageServiceImpl extends DefaultService<Integer, Message, MessageSearchCriteria> implements MessageService {
 
     static {

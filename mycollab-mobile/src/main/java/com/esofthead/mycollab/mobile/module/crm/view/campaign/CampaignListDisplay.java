@@ -27,41 +27,29 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.0
- * 
  */
-public class CampaignListDisplay
-		extends
-		DefaultPagedBeanList<CampaignService, CampaignSearchCriteria, SimpleCampaign> {
-	private static final long serialVersionUID = -2234454107835680053L;
+public class CampaignListDisplay extends DefaultPagedBeanList<CampaignService, CampaignSearchCriteria, SimpleCampaign> {
+    private static final long serialVersionUID = -2234454107835680053L;
 
-	public CampaignListDisplay() {
-		super(ApplicationContextUtil.getSpringBean(CampaignService.class),
-				new CampaignRowDisplayHandler());
-	}
+    public CampaignListDisplay() {
+        super(ApplicationContextUtil.getSpringBean(CampaignService.class), new CampaignRowDisplayHandler());
+    }
 
-	static public class CampaignRowDisplayHandler implements
-			RowDisplayHandler<SimpleCampaign> {
+    static public class CampaignRowDisplayHandler implements RowDisplayHandler<SimpleCampaign> {
 
-		@Override
-		public Component generateRow(final SimpleCampaign campaign, int rowIndex) {
+        @Override
+        public Component generateRow(final SimpleCampaign campaign, int rowIndex) {
+            final Button b = new Button(campaign.getCampaignname(), new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent clickEvent) {
+                    EventBusFactory.getInstance().post(new CampaignEvent.GotoRead(this, campaign.getId()));
+                }
+            });
+            b.setWidth("100%");
+            return b;
+        }
 
-			final Button b = new Button(campaign.getCampaignname());
-			b.addClickListener(new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void buttonClick(final Button.ClickEvent event) {
-					EventBusFactory.getInstance().post(
-							new CampaignEvent.GotoRead(this, campaign.getId()));
-				}
-			});
-			b.setWidth("100%");
-			b.addStyleName("list-item");
-			return b;
-		}
-
-	}
+    }
 }

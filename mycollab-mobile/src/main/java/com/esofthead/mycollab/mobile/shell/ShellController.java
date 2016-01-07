@@ -121,7 +121,6 @@ public class ShellController extends AbstractController {
         });
 
         this.register(new ApplicationEventListener<ShellEvent.PushView>() {
-
             private static final long serialVersionUID = 1305847008958371404L;
 
             @Subscribe
@@ -129,8 +128,7 @@ public class ShellController extends AbstractController {
             public void handle(ShellEvent.PushView event) {
                 if (event.getData() instanceof Component) {
                     if (event.getData() instanceof IMobileView) {
-                        ((IMobileView) event.getData())
-                                .setPreviousComponent(mainNav.getCurrentComponent());
+                        ((IMobileView) event.getData()).setPreviousComponent(mainNav.getCurrentComponent());
                     }
                     mainNav.navigateTo((Component) event.getData());
                 }

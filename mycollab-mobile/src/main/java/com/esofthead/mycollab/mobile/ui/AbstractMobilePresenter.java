@@ -23,28 +23,24 @@ import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.5.0
- * 
  */
 
-public abstract class AbstractMobilePresenter<V extends PageView> extends
-		AbstractPresenter<V> {
+public abstract class AbstractMobilePresenter<V extends PageView> extends AbstractPresenter<V> {
+    private static final long serialVersionUID = 1L;
 
-	private static final long serialVersionUID = 1L;
+    public AbstractMobilePresenter(Class<V> viewClass) {
+        super(viewClass);
+    }
 
-	public AbstractMobilePresenter(Class<V> viewClass) {
-		super(viewClass);
-	}
-
-	@Override
-	protected void onGo(ComponentContainer navigator, ScreenData<?> data) {
-		if (navigator instanceof NavigationManager)
-			((NavigationManager) navigator).navigateTo(view.getWidget());
-		else {
-			navigator.removeAllComponents();
-			navigator.addComponent(view.getWidget());
-		}
-	}
+    @Override
+    protected void onGo(ComponentContainer navigator, ScreenData<?> data) {
+        if (navigator instanceof NavigationManager)
+            ((NavigationManager) navigator).navigateTo(view.getWidget());
+        else {
+            navigator.removeAllComponents();
+            navigator.addComponent(view.getWidget());
+        }
+    }
 }

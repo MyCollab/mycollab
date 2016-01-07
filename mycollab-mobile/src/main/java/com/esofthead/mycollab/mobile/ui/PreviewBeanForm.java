@@ -18,23 +18,28 @@ package com.esofthead.mycollab.mobile.ui;
 
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 
+/**
+ * MyCollab Ltd
+ * @since 1.0
+ * @param <B>
+ */
 public interface PreviewBeanForm<B> extends HasPreviewFormHandlers<B> {
 
-	public B getBean();
+    B getBean();
 
-	public void setBean(B bean);
+    void setBean(B bean);
 
-	public void fireAssignForm(B bean);
+    void fireAssignForm(B bean);
 
-	public void fireEditForm(B bean);
+    void fireEditForm(B bean);
 
-	public void showHistory();
+    void showHistory();
 
-	public void fireCancelForm(B bean);
+    void fireCancelForm(B bean);
 
-	public void fireDeleteForm(B bean);
+    void fireDeleteForm(B bean);
 
-	public void fireCloneForm(B bean);
+    void fireCloneForm(B bean);
 
-	public void fireExtraAction(String action, B bean);
+    void fireExtraAction(String action, B bean);
 }

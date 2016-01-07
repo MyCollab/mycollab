@@ -28,67 +28,56 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
 public class ContactSelectionView extends AbstractSelectionView<SimpleContact> {
-	private static final long serialVersionUID = 7742786524816492321L;
-	private ContactSearchCriteria searchCriteria;
-	private ContactListDisplay itemList;
+    private static final long serialVersionUID = 7742786524816492321L;
+    private ContactSearchCriteria searchCriteria;
+    private ContactListDisplay itemList;
 
-	private ContactRowDisplayHandler rowHandler = new ContactRowDisplayHandler();
+    private ContactRowDisplayHandler rowHandler = new ContactRowDisplayHandler();
 
-	public ContactSelectionView() {
-		super();
-		createUI();
-		this.setCaption(AppContext
-				.getMessage(ContactI18nEnum.M_VIEW_CONTACT_NAME_LOOKUP));
-	}
+    public ContactSelectionView() {
+        super();
+        createUI();
+        this.setCaption(AppContext.getMessage(ContactI18nEnum.M_VIEW_CONTACT_NAME_LOOKUP));
+    }
 
-	public void createUI() {
-		itemList = new ContactListDisplay();
-		itemList.setWidth("100%");
-		itemList.setRowDisplayHandler(rowHandler);
-		this.setContent(itemList);
-	}
+    public void createUI() {
+        itemList = new ContactListDisplay();
+        itemList.setWidth("100%");
+        itemList.setRowDisplayHandler(rowHandler);
+        this.setContent(itemList);
+    }
 
-	@Override
-	public void load() {
-		searchCriteria = new ContactSearchCriteria();
-		searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
-				AppContext.getAccountId()));
+    @Override
+    public void load() {
+        searchCriteria = new ContactSearchCriteria();
+        searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+        itemList.setSearchCriteria(searchCriteria);
 
-		itemList.setSearchCriteria(searchCriteria);
+        SimpleContact clearContact = new SimpleContact();
+        itemList.getListContainer().addComponentAsFirst(rowHandler.generateRow(clearContact, 0));
+    }
 
-		SimpleContact clearContact = new SimpleContact();
-		itemList.getListContainer().addComponentAsFirst(
-				rowHandler.generateRow(clearContact, 0));
-	}
+    private class ContactRowDisplayHandler implements RowDisplayHandler<SimpleContact> {
 
-	private class ContactRowDisplayHandler implements
-			RowDisplayHandler<SimpleContact> {
+        @Override
+        public Component generateRow(final SimpleContact contact, int rowIndex) {
+            Button b = new Button(contact.getContactName(), new Button.ClickListener() {
+                private static final long serialVersionUID = -5218323555163873836L;
 
-		@Override
-		public Component generateRow(final SimpleContact contact, int rowIndex) {
-			Button b = new Button(contact.getContactName(),
-					new Button.ClickListener() {
+                @Override
+                public void buttonClick(final Button.ClickEvent event) {
+                    selectionField.fireValueChange(contact);
+                    ContactSelectionView.this.getNavigationManager().navigateBack();
+                }
+            });
+            if (contact.getId() == null)
+                b.addStyleName("blank-item");
+            return b;
+        }
 
-						private static final long serialVersionUID = -5218323555163873836L;
-
-						@Override
-						public void buttonClick(final Button.ClickEvent event) {
-							selectionField.fireValueChange(contact);
-							ContactSelectionView.this.getNavigationManager()
-									.navigateBack();
-						}
-					});
-			b.addStyleName("list-item");
-			if (contact.getId() == null)
-				b.addStyleName("blank-item");
-			return b;
-		}
-
-	}
+    }
 }

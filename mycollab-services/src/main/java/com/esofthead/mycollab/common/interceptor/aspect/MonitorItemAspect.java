@@ -74,7 +74,6 @@ public class MonitorItemAspect {
                 monitorItem.setSaccountid(sAccountId);
 
                 monitorItemService.saveWithSession(monitorItem, username);
-                LOG.debug("Save monitor item: " + BeanUtility.printBeanObj(monitorItem));
 
                 if (!watchableAnnotation.userFieldName().equals("")) {
                     String moreUser = (String) PropertyUtils.getProperty(bean, watchableAnnotation.userFieldName());
@@ -97,7 +96,6 @@ public class MonitorItemAspect {
                 relayNotification.setType(ClassInfoMap.getType(cls));
                 relayNotification.setAction(MonitorTypeConstants.CREATE_ACTION);
                 relayNotification.setTypeid("" + typeId);
-                relayNotification.setEmailhandlerbean(traceAnnotation.notifyAgent().getName());
                 relayEmailNotificationService.saveWithSession(relayNotification, username);
                 // Save notification item
             }

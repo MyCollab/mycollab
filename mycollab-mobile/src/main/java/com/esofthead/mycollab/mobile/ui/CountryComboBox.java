@@ -22,7 +22,6 @@ import com.esofthead.mycollab.common.CountryValueFactory;
  * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
 public class CountryComboBox extends ValueComboBox {
 	private static final long serialVersionUID = 1L;

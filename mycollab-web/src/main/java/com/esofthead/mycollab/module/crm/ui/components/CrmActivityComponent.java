@@ -98,7 +98,7 @@ public class CrmActivityComponent extends MVerticalLayout implements ReloadableC
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 Object value = sortDirection.getValue();
-                isAscending = "Newest" .equals(value);
+                isAscending = "Newest".equals(value);
                 displayActivities();
             }
         });
@@ -107,7 +107,7 @@ public class CrmActivityComponent extends MVerticalLayout implements ReloadableC
                 .withStyleName("section").withWidth("100%")
                 .with(headerLbl, sortDirection).withAlign(headerLbl, Alignment.MIDDLE_LEFT).withAlign(sortDirection, Alignment.MIDDLE_RIGHT);
 
-        commentBox = new CrmCommentInput(this, type, emailHandler);
+        commentBox = new CrmCommentInput(this, type);
         activityBox = new MVerticalLayout();
         this.with(headerPanel, commentBox, activityBox);
 

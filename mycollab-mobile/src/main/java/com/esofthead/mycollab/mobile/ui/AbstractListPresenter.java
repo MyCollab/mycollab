@@ -28,8 +28,7 @@ import com.esofthead.mycollab.core.arguments.ValuedBean;
  * @param <S>
  * @param <B>
  */
-public abstract class AbstractListPresenter<V extends IListView<S, B>, S extends SearchCriteria, B extends ValuedBean>
-		extends AbstractMobilePresenter<V> {
+public abstract class AbstractListPresenter<V extends IListView<S, B>, S extends SearchCriteria, B extends ValuedBean> extends AbstractMobilePresenter<V> {
 	private static final long serialVersionUID = -2202567598255893303L;
 
 	protected S searchCriteria;

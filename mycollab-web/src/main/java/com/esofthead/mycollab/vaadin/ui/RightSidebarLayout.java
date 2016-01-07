@@ -15,7 +15,7 @@
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
 /**
- * 
+ *
  */
 package com.esofthead.mycollab.vaadin.ui;
 
@@ -25,36 +25,36 @@ import com.vaadin.ui.CssLayout;
 /**
  * @author MyCollab Ltd.
  * @since 4.5.4
- *
  */
 public class RightSidebarLayout extends CssLayout {
-	private static final long serialVersionUID = 6058720774092113093L;
+    private static final long serialVersionUID = 6058720774092113093L;
 
-	private final CssLayout contentWrap;
-	private final CssLayout sidebarWrap;
+    private final CssLayout contentWrap;
+    private final CssLayout sidebarWrap;
 
-	public RightSidebarLayout() {
-		this.setStyleName("rightsidebar-layout");
+    public RightSidebarLayout() {
+        this.setStyleName("rightsidebar-layout");
+        this.setWidth("100%");
 
-		this.contentWrap = new CssLayout();
-		this.contentWrap.setStyleName("content-wrap");
-		this.contentWrap.setWidth("100%");
-		this.addComponent(contentWrap);
+        contentWrap = new CssLayout();
+        contentWrap.setStyleName("content-wrap");
+        contentWrap.setWidth("100%");
+        this.addComponent(contentWrap);
 
-		this.sidebarWrap = new CssLayout();
-		this.sidebarWrap.setStyleName("sidebar-wrap");
-		this.sidebarWrap.setWidth("250px");
-		this.addComponent(sidebarWrap);
-	}
+        sidebarWrap = new CssLayout();
+        sidebarWrap.setStyleName("sidebar-wrap");
+        sidebarWrap.setWidth("250px");
+        this.addComponent(sidebarWrap);
+    }
 
-	public void setContent(Component c) {
-		this.contentWrap.removeAllComponents();
-		this.contentWrap.addComponent(c);
-	}
+    public void setContent(Component c) {
+        contentWrap.removeAllComponents();
+        contentWrap.addComponent(c);
+    }
 
-	public void setSidebar(Component c) {
-		this.sidebarWrap.removeAllComponents();
-		this.sidebarWrap.addComponent(c);
-	}
+    public void setSidebar(Component c) {
+        sidebarWrap.removeAllComponents();
+        sidebarWrap.addComponent(c);
+    }
 
 }

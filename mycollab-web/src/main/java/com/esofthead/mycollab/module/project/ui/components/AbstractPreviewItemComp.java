@@ -23,13 +23,13 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.ui.*;
-import com.esofthead.vaadin.floatingcomponent.FloatingComponent;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.*;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -114,8 +114,7 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
             addHeaderRightContent(actionControls);
         }
 
-        CssLayout contentWrapper = new CssLayout();
-        contentWrapper.setStyleName("content-wrapper");
+        MCssLayout contentWrapper = new MCssLayout().withFullWidth().withStyleName(UIConstants.CONTENT_WRAPPER);
 
         if (previewLayout == null)
             previewLayout = new DefaultReadViewLayout("");
@@ -127,19 +126,17 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
             bodyContainer.setSizeFull();
             bodyContainer.addStyleName("readview-body-wrap");
 
-            bodyContent = new MVerticalLayout().withSpacing(false).withMargin(false).with(previewForm);
+            bodyContent = new MVerticalLayout().withSpacing(false).withMargin(false).withFullWidth().with(previewForm);
             bodyContainer.setContent(bodyContent);
             sidebarContent = new MVerticalLayout().withWidth("250px").withStyleName("readview-sidebar");
             bodyContainer.setSidebar(sidebarContent);
 
-//            FloatingComponent floatSidebar = FloatingComponent.floatThis(sidebarContent);
-//            floatSidebar.setContainerId("main-body");
             previewLayout.addBody(bodyContainer);
         } else {
             CssLayout bodyContainer = new CssLayout();
             bodyContainer.setSizeFull();
             bodyContainer.addStyleName("readview-body-wrap");
-            bodyContent = new MVerticalLayout().withSpacing(false).withMargin(false).with(previewForm);
+            bodyContent = new MVerticalLayout().withSpacing(false).withFullWidth().withMargin(false).with(previewForm);
             bodyContainer.addComponent(bodyContent);
             previewLayout.addBody(bodyContainer);
         }
@@ -210,15 +207,11 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
 
         initRelatedComponents();
         ComponentContainer bottomPanel = createBottomPanel();
-        addBottomPanel(bottomPanel);
-    }
-
-    protected void addBottomPanel(ComponentContainer container) {
-        if (container != null) {
+        if (bottomPanel != null) {
             if (bodyContent.getComponentCount() >= 2) {
-                bodyContent.replaceComponent(bodyContent.getComponent(bodyContent.getComponentCount() - 1), container);
+                bodyContent.replaceComponent(bodyContent.getComponent(bodyContent.getComponentCount() - 1), bottomPanel);
             } else {
-                bodyContent.addComponent(container);
+                bodyContent.addComponent(bottomPanel);
             }
         }
     }

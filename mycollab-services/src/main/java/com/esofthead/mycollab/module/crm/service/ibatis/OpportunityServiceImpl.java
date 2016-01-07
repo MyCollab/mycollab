@@ -34,7 +34,6 @@ import com.esofthead.mycollab.module.crm.domain.*;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
-import com.esofthead.mycollab.schedule.email.crm.OpportunityRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,7 +49,7 @@ import java.util.List;
  */
 @Service
 @Transactional
-@Traceable(nameField = "opportunityname", notifyAgent = OpportunityRelayEmailNotificationAction.class)
+@Traceable(nameField = "opportunityname")
 @Watchable(userFieldName = "assignuser")
 public class OpportunityServiceImpl extends DefaultService<Integer, Opportunity, OpportunitySearchCriteria> implements OpportunityService {
 

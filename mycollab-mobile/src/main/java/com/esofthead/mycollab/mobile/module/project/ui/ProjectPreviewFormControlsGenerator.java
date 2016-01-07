@@ -27,114 +27,91 @@ import com.vaadin.ui.VerticalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.5.0
- * 
  */
 public class ProjectPreviewFormControlsGenerator<T> {
-	public static final int EDIT_BTN_PRESENTED = 2;
-	public static final int DELETE_BTN_PRESENTED = 4;
-	public static final int CLONE_BTN_PRESENTED = 8;
-	public static final int ASSIGN_BTN_PRESENTED = 16;
+    public static final int EDIT_BTN_PRESENTED = 2;
+    public static final int DELETE_BTN_PRESENTED = 4;
+    public static final int CLONE_BTN_PRESENTED = 8;
+    public static final int ASSIGN_BTN_PRESENTED = 16;
 
-	private Button deleteBtn, editBtn, cloneBtn, assignBtn;
-	private PreviewBeanForm<T> previewForm;
+    private Button deleteBtn, editBtn, cloneBtn, assignBtn;
+    private PreviewBeanForm<T> previewForm;
 
-	private MVerticalLayout editButtons;
+    private MVerticalLayout editButtons;
 
-	public ProjectPreviewFormControlsGenerator(final PreviewBeanForm<T> editForm) {
-		this.previewForm = editForm;
+    public ProjectPreviewFormControlsGenerator(final PreviewBeanForm<T> editForm) {
+        this.previewForm = editForm;
+        editButtons = new MVerticalLayout().withWidth("100%");
+    }
 
-		editButtons = new MVerticalLayout().withWidth("100%");
-		editButtons.addStyleName("edit-btn-layout");
-		editButtons.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-	}
+    public void insertToControlBlock(Component button) {
+        editButtons.addComponent(button, 0);
+    }
 
-	public void insertToControlBlock(Component button) {
-		editButtons.addComponent(button, 0);
-	}
+    public VerticalLayout createButtonControls(final String permissionItem) {
+        return createButtonControls(EDIT_BTN_PRESENTED | DELETE_BTN_PRESENTED | CLONE_BTN_PRESENTED, permissionItem);
+    }
 
-	public VerticalLayout createButtonControls(final String permissionItem) {
-		return createButtonControls(EDIT_BTN_PRESENTED | DELETE_BTN_PRESENTED
-				| CLONE_BTN_PRESENTED, permissionItem);
-	}
+    public VerticalLayout createButtonControls(int buttonEnableFlags, final String permissionItem) {
+        boolean canWrite = true;
+        boolean canAccess = true;
+        if (permissionItem != null) {
+            canWrite = AppContext.canWrite(permissionItem);
+            canAccess = AppContext.canAccess(permissionItem);
+        }
 
-	public VerticalLayout createButtonControls(int buttonEnableFlags,
-			final String permissionItem) {
+        if ((buttonEnableFlags & EDIT_BTN_PRESENTED) == EDIT_BTN_PRESENTED) {
+            editBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), new Button.ClickListener() {
+                @Override
+                public void buttonClick(ClickEvent clickEvent) {
+                    T item = previewForm.getBean();
+                    previewForm.fireEditForm(item);
+                }
+            });
+            editButtons.addComponent(editBtn);
+            editBtn.setEnabled(canWrite);
+        }
 
-		boolean canWrite = true;
-		boolean canAccess = true;
-		if (permissionItem != null) {
-			canWrite = AppContext.canWrite(permissionItem);
-			canAccess = AppContext.canAccess(permissionItem);
-		}
+        if ((buttonEnableFlags & DELETE_BTN_PRESENTED) == DELETE_BTN_PRESENTED) {
+            deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-		if ((buttonEnableFlags & EDIT_BTN_PRESENTED) == EDIT_BTN_PRESENTED) {
-			editBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT));
-			editBtn.addClickListener(new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+                @Override
+                public void buttonClick(final ClickEvent event) {
+                    T item = previewForm.getBean();
+                    previewForm.fireDeleteForm(item);
+                }
+            });
+            editButtons.addComponent(deleteBtn);
+            deleteBtn.setEnabled(canAccess);
+        }
 
-				@Override
-				public void buttonClick(final Button.ClickEvent event) {
-					T item = previewForm.getBean();
-					previewForm.fireEditForm(item);
-				}
-			});
-			editBtn.setWidth("100%");
-			editButtons.addComponent(editBtn);
-			editBtn.setEnabled(canWrite);
-		}
+        if ((buttonEnableFlags & CLONE_BTN_PRESENTED) == CLONE_BTN_PRESENTED) {
+            cloneBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLONE), new Button.ClickListener() {
+                @Override
+                public void buttonClick(ClickEvent clickEvent) {
+                    T item = previewForm.getBean();
+                    previewForm.fireCloneForm(item);
+                }
+            });
+            editButtons.addComponent(cloneBtn);
+            cloneBtn.setEnabled(canWrite);
+        }
 
-		if ((buttonEnableFlags & DELETE_BTN_PRESENTED) == DELETE_BTN_PRESENTED) {
-			deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
-					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+        if ((buttonEnableFlags & ASSIGN_BTN_PRESENTED) == ASSIGN_BTN_PRESENTED) {
+            assignBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ASSIGN), new Button.ClickListener() {
+                @Override
+                public void buttonClick(ClickEvent clickEvent) {
+                    T item = previewForm.getBean();
+                    previewForm.fireAssignForm(item);
+                }
+            });
+            editButtons.addComponent(assignBtn);
+            editButtons.setEnabled(canWrite);
+        }
 
-						@Override
-						public void buttonClick(final ClickEvent event) {
-							T item = previewForm.getBean();
-							previewForm.fireDeleteForm(item);
-						}
-					});
-			deleteBtn.setWidth("100%");
-			editButtons.addComponent(deleteBtn);
-			deleteBtn.setEnabled(canAccess);
-		}
-
-		if ((buttonEnableFlags & CLONE_BTN_PRESENTED) == CLONE_BTN_PRESENTED) {
-			cloneBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLONE));
-			cloneBtn.addClickListener(new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void buttonClick(final Button.ClickEvent event) {
-					T item = previewForm.getBean();
-					previewForm.fireCloneForm(item);
-				}
-			});
-			cloneBtn.setWidth("100%");
-			editButtons.addComponent(cloneBtn);
-			cloneBtn.setEnabled(canWrite);
-		}
-
-		if ((buttonEnableFlags & ASSIGN_BTN_PRESENTED) == ASSIGN_BTN_PRESENTED) {
-			assignBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ASSIGN));
-			assignBtn.addClickListener(new Button.ClickListener() {
-
-				private static final long serialVersionUID = 6882405297466892069L;
-
-				@Override
-				public void buttonClick(Button.ClickEvent event) {
-					T item = previewForm.getBean();
-					previewForm.fireAssignForm(item);
-				}
-			});
-			assignBtn.setWidth("100%");
-			editButtons.addComponent(assignBtn);
-			editButtons.setEnabled(canWrite);
-		}
-
-		return editButtons;
-	}
+        return editButtons;
+    }
 }

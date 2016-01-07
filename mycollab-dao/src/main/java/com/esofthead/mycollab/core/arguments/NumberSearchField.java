@@ -17,57 +17,60 @@
 package com.esofthead.mycollab.core.arguments;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class NumberSearchField extends SearchField {
-	private static final long serialVersionUID = 1L;
-	
-	public static final String EQUAL = "=";
-	public static final String NOTEQUAL = "<>";
-	public static final String LESSTHAN = "<";
-	public static final String GREATER = ">";
+    private static final long serialVersionUID = 1L;
 
-	private Number value;
-	private String compareOperator;
+    public static final String EQUAL = "=";
+    public static final String NOTEQUAL = "<>";
+    public static final String LESSTHAN = "<";
+    public static final String GREATER = ">";
 
-	public NumberSearchField() {
-		this(0);
-	}
+    private Number value;
+    private String compareOperator;
 
-	public NumberSearchField(Number value) {
-		this(SearchField.AND, value, EQUAL);
-	}
+    public NumberSearchField() {
+        this(0);
+    }
 
-	public NumberSearchField(String oper, Number value) {
-		this(oper, value, EQUAL);
-	}
+    public NumberSearchField(Number value) {
+        this(SearchField.AND, value, EQUAL);
+    }
 
-	public NumberSearchField(Number value, String compareOperator) {
-		this(SearchField.AND, value, compareOperator);
-	}
+    public NumberSearchField(String oper, Number value) {
+        this(oper, value, EQUAL);
+    }
 
-	public NumberSearchField(String oper, Number value, String compareOperator) {
-		this.operation = oper;
-		this.value = value;
-		this.compareOperator = compareOperator;
-	}
+    public NumberSearchField(Number value, String compareOperator) {
+        this(SearchField.AND, value, compareOperator);
+    }
 
-	public Number getValue() {
-		return value;
-	}
+    public NumberSearchField(String oper, Number value, String compareOperator) {
+        this.operation = oper;
+        this.value = value;
+        this.compareOperator = compareOperator;
+    }
 
-	public void setValue(Number value) {
-		this.value = value;
-	}
+    public Number getValue() {
+        return value;
+    }
 
-	public String getCompareOperator() {
-		return compareOperator;
-	}
+    public void setValue(Number value) {
+        this.value = value;
+    }
 
-	public void setCompareOperator(String compareOperator) {
-		this.compareOperator = compareOperator;
-	}
+    public String getCompareOperator() {
+        return compareOperator;
+    }
+
+    public void setCompareOperator(String compareOperator) {
+        this.compareOperator = compareOperator;
+    }
+
+    public static NumberSearchField and(Number value) {
+        return new NumberSearchField(AND, value, EQUAL);
+    }
 
 }

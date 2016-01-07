@@ -43,6 +43,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.criteria.MessageSearchCriteria;
+import com.esofthead.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
@@ -57,9 +58,9 @@ import com.esofthead.mycollab.vaadin.mvp.AbstractController;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
-import com.esofthead.vaadin.mobilecomponent.MobileNavigationManager;
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.addon.touchkit.extensions.LocalStorage;
+import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.ui.UI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,11 +72,11 @@ import org.slf4j.LoggerFactory;
 public class ProjectModuleController extends AbstractController {
     private static final long serialVersionUID = 8999456416358169209L;
 
-    private final MobileNavigationManager navManager;
+    private final NavigationManager navManager;
 
     private static final Logger LOG = LoggerFactory.getLogger(ProjectModuleController.class);
 
-    public ProjectModuleController(MobileNavigationManager navigationManager) {
+    public ProjectModuleController(NavigationManager navigationManager) {
         this.navManager = navigationManager;
 
         bindProjectEvents();
@@ -165,7 +166,6 @@ public class ProjectModuleController extends AbstractController {
 
     private void bindBugEvents() {
         this.register(new ApplicationEventListener<BugEvent.GotoList>() {
-
             private static final long serialVersionUID = 4076325106652853379L;
 
             @Subscribe
@@ -175,10 +175,8 @@ public class ProjectModuleController extends AbstractController {
                 BugPresenter presenter = PresenterResolver.getPresenter(BugPresenter.class);
                 if (params == null) {
                     BugSearchCriteria criteria = new BugSearchCriteria();
-
                     criteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
-                    BugFilterParameter parameter = new BugFilterParameter("Open Bugs", criteria);
-                    presenter.go(navManager, new BugScreenData.Search(parameter));
+                    presenter.go(navManager, new BugScreenData.Search(criteria));
                 } else if (params instanceof BugScreenData.Search) {
                     presenter.go(navManager, (BugScreenData.Search) params);
                 } else {
@@ -268,15 +266,22 @@ public class ProjectModuleController extends AbstractController {
 
     private void bindMilestoneEvents() {
         this.register(new ApplicationEventListener<MilestoneEvent.GotoList>() {
-
             private static final long serialVersionUID = -4211546107827460336L;
 
             @Subscribe
             @Override
             public void handle(MilestoneEvent.GotoList event) {
-                MilestoneScreenData.List data = new MilestoneScreenData.List();
+                Object params = event.getData();
                 MilestonePresenter presenter = PresenterResolver.getPresenter(MilestonePresenter.class);
-                presenter.go(navManager, data);
+                if (params == null) {
+                    MilestoneSearchCriteria criteria = new MilestoneSearchCriteria();
+                    criteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
+                    presenter.go(navManager, new MilestoneScreenData.Search(criteria));
+                } else if (params instanceof MilestoneScreenData.Search) {
+                    presenter.go(navManager, (MilestoneScreenData.Search) params);
+                } else {
+                    throw new MyCollabException("Invalid search parameter: " + BeanUtility.printBeanObj(params));
+                }
             }
         });
         this.register(new ApplicationEventListener<MilestoneEvent.GotoRead>() {

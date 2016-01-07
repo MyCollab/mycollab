@@ -29,45 +29,34 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.0
- * 
  */
-public class CaseListDisplay extends
-		DefaultPagedBeanList<CaseService, CaseSearchCriteria, SimpleCase> {
-	private static final long serialVersionUID = -5865353122197825948L;
+public class CaseListDisplay extends DefaultPagedBeanList<CaseService, CaseSearchCriteria, SimpleCase> {
+    private static final long serialVersionUID = -5865353122197825948L;
 
-	public CaseListDisplay() {
-		super(ApplicationContextUtil.getSpringBean(CaseService.class),
-				new CaseRowDisplayHandler());
-	}
+    public CaseListDisplay() {
+        super(ApplicationContextUtil.getSpringBean(CaseService.class), new CaseRowDisplayHandler());
+    }
 
-	static public class CaseRowDisplayHandler implements
-			RowDisplayHandler<SimpleCase> {
+    static public class CaseRowDisplayHandler implements RowDisplayHandler<SimpleCase> {
 
-		@Override
-		public Component generateRow(final SimpleCase cases, int rowIndex) {
-			Button b = new Button(cases.getSubject(),
-					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+        @Override
+        public Component generateRow(final SimpleCase cases, int rowIndex) {
+            Button b = new Button(cases.getSubject(), new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-						@Override
-						public void buttonClick(ClickEvent event) {
-							EventBusFactory.getInstance()
-									.post(new CaseEvent.GotoRead(this, cases
-											.getId()));
-						}
-					});
+                @Override
+                public void buttonClick(ClickEvent event) {
+                    EventBusFactory.getInstance().post(new CaseEvent.GotoRead(this, cases.getId()));
+                }
+            });
 
-			if ("Closed".equals(cases.getStatus())
-					|| "Rejected".equals(cases.getStatus())) {
-				b.addStyleName(UIConstants.LINK_COMPLETED);
-			}
-			b.setWidth("100%");
-			b.addStyleName("list-item");
-			return b;
-		}
-
-	}
+            if ("Closed".equals(cases.getStatus()) || "Rejected".equals(cases.getStatus())) {
+                b.addStyleName(UIConstants.LINK_COMPLETED);
+            }
+            b.setWidth("100%");
+            return b;
+        }
+    }
 }

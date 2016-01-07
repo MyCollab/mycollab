@@ -53,14 +53,14 @@ public class AllActivityViewImpl extends AbstractListViewComp<ActivityStreamSear
     }
 
     @Override
-    protected AbstractPagedBeanList<ActivityStreamSearchCriteria, ProjectActivityStream> createBeanTable() {
+    protected AbstractPagedBeanList<ActivityStreamSearchCriteria, ProjectActivityStream> createBeanList() {
         ProjectActivityStreamListDisplay beanList = new ProjectActivityStreamListDisplay();
         beanList.setRowDisplayHandler(new ActivityStreamRowHandler());
         return beanList;
     }
 
     @Override
-    protected Component createRightComponent() {
+    protected Component buildRightComponent() {
         return null;
     }
 
@@ -68,7 +68,7 @@ public class AllActivityViewImpl extends AbstractListViewComp<ActivityStreamSear
 
         @Override
         public Component generateRow(final ProjectActivityStream streamData, int rowIndex) {
-            MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%").withStyleName("list-item");
+            MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%");
             layout.addStyleName("activity-row");
 
             Label typeIcon = new Label("<span aria-hidden=\"true\" data-icon=\""

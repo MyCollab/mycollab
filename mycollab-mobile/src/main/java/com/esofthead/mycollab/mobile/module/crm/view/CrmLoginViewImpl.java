@@ -79,25 +79,20 @@ public class CrmLoginViewImpl extends AbstractMobileMainView implements CrmLogin
         rememberPassword.setValue(true);
         contentLayout.addComponent(rememberPassword);
 
-        Button signInBtn = new Button("Sign In");
-        signInBtn.setWidth("100%");
-        signInBtn.addStyleName(UIConstants.BUTTON_BIG);
-        signInBtn.addStyleName(UIConstants.COLOR_BLUE);
-        signInBtn.addClickListener(new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
+        Button signInBtn = new Button("Sign In", new Button.ClickListener() {
             @Override
-            public void buttonClick(Button.ClickEvent event) {
+            public void buttonClick(Button.ClickEvent clickEvent) {
                 EventBusFactory.getInstance().post(new CrmEvent.PlainLogin(this, new String[]{emailField.getValue(),
                         pwdField.getValue(), String.valueOf(rememberPassword.getValue())}));
             }
         });
+        signInBtn.setWidth("100%");
+        signInBtn.addStyleName(UIConstants.BUTTON_ACTION);
         contentLayout.addComponent(signInBtn);
 
         Button createAccountBtn = new Button("Create Account");
         createAccountBtn.setWidth("100%");
-        createAccountBtn.addStyleName(UIConstants.BUTTON_BIG);
-        createAccountBtn.addStyleName(UIConstants.COLOR_GRAY);
+        createAccountBtn.addStyleName(UIConstants.BUTTON_OPTION);
         contentLayout.addComponent(createAccountBtn);
 
         this.addComponent(contentLayout);

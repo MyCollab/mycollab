@@ -30,40 +30,32 @@ import com.vaadin.ui.Component;
 
 /**
  * @author MyCollab Ltd.
- *
  * @since 4.5.2
  */
 @ViewComponent
-public class ProjectMemberListViewImpl extends AbstractListViewComp<ProjectMemberSearchCriteria, SimpleProjectMember>
-		implements ProjectMemberListView {
+public class ProjectMemberListViewImpl extends AbstractListViewComp<ProjectMemberSearchCriteria, SimpleProjectMember> implements ProjectMemberListView {
+    private static final long serialVersionUID = 3008732621100597514L;
 
-	private static final long serialVersionUID = 3008732621100597514L;
+    public ProjectMemberListViewImpl() {
+        this.addStyleName("member-list-view");
+        this.setCaption(AppContext.getMessage(ProjectMemberI18nEnum.VIEW_LIST_TITLE));
+    }
 
-	public ProjectMemberListViewImpl() {
-		this.addStyleName("member-list-view");
-		this.setCaption(AppContext.getMessage(ProjectMemberI18nEnum.VIEW_LIST_TITLE));
-	}
+    @Override
+    protected AbstractPagedBeanList<ProjectMemberSearchCriteria, SimpleProjectMember> createBeanList() {
+        return new ProjectMemberListDisplay();
+    }
 
-	@Override
-	protected AbstractPagedBeanList<ProjectMemberSearchCriteria, SimpleProjectMember> createBeanTable() {
-		return new ProjectMemberListDisplay();
-	}
-
-	@Override
-	protected Component createRightComponent() {
-		Button inviteMemberBtn = new Button();
-		inviteMemberBtn.addClickListener(new Button.ClickListener() {
-
-			private static final long serialVersionUID = 3817727548038589396L;
-
-			@Override
-			public void buttonClick(Button.ClickEvent event) {
-				EventBusFactory.getInstance().post(
-						new ProjectMemberEvent.GotoInviteMembers(this, null));
-			}
-		});
-		inviteMemberBtn.setStyleName("add-btn");
-		return inviteMemberBtn;
-	}
+    @Override
+    protected Component buildRightComponent() {
+        Button inviteMemberBtn = new Button("", new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(this, null));
+            }
+        });
+        inviteMemberBtn.setStyleName("add-btn");
+        return inviteMemberBtn;
+    }
 
 }

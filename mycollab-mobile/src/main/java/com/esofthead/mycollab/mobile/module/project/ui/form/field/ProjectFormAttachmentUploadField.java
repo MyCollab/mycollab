@@ -52,8 +52,7 @@ public class ProjectFormAttachmentUploadField extends CustomField {
     private String attachmentPath;
 
     public ProjectFormAttachmentUploadField() {
-        resourceService = ApplicationContextUtil
-                .getSpringBean(ResourceService.class);
+        resourceService = ApplicationContextUtil.getSpringBean(ResourceService.class);
         currentPollInterval = UI.getCurrent().getPollInterval();
 
         receiver = createReceiver();
@@ -83,16 +82,12 @@ public class ProjectFormAttachmentUploadField extends CustomField {
                 }
                 if (!indicators.isEmpty()) {
                     rowWrap.replaceComponent(indicators.remove(0),
-                            MobileAttachmentUtils.renderAttachmentFieldRow(
-                                    MobileAttachmentUtils.constructContent(
-                                            fileName, attachmentPath),
+                            MobileAttachmentUtils.renderAttachmentFieldRow(MobileAttachmentUtils.constructContent(fileName, attachmentPath),
                                     new Button.ClickListener() {
-
                                         private static final long serialVersionUID = 581451358291203810L;
 
                                         @Override
-                                        public void buttonClick(
-                                                Button.ClickEvent event) {
+                                        public void buttonClick(Button.ClickEvent event) {
                                             fileStores.remove(fileName);
                                         }
                                     }));
@@ -104,8 +99,7 @@ public class ProjectFormAttachmentUploadField extends CustomField {
 
                 File file = receiver.getFile();
 
-                receiveFile(file, fileName, event.getMimeType(),
-                        event.getBytesReceived());
+                receiveFile(file, fileName, event.getMimeType(), event.getBytesReceived());
                 receiver.setValue(null);
 
             }
@@ -113,8 +107,7 @@ public class ProjectFormAttachmentUploadField extends CustomField {
             @Override
             public void streamingFailed(StreamVariable.StreamingErrorEvent event) {
                 if (!indicators.isEmpty()) {
-                    Label uploadResult = new Label("Upload failed! File: "
-                            + event.getFileName());
+                    Label uploadResult = new Label("Upload failed! File: " + event.getFileName());
                     uploadResult.setStyleName("upload-status");
                     rowWrap.replaceComponent(indicators.remove(0), uploadResult);
                 }
@@ -130,10 +123,8 @@ public class ProjectFormAttachmentUploadField extends CustomField {
 
             @Override
             public OutputStream getOutputStream() {
-                MultiUpload.FileDetail next = attachmentBtn
-                        .getPendingFileNames().iterator().next();
-                return receiver.receiveUpload(next.getFileName(),
-                        next.getMimeType());
+                MultiUpload.FileDetail next = attachmentBtn.getPendingFileNames().iterator().next();
+                return receiver.receiveUpload(next.getFileName(), next.getMimeType());
             }
 
             @Override
@@ -141,7 +132,7 @@ public class ProjectFormAttachmentUploadField extends CustomField {
                     Collection<MultiUpload.FileDetail> pendingFileNames) {
                 UI.getCurrent().setPollInterval(500);
                 if (indicators == null) {
-                    indicators = new LinkedList<ProgressBar>();
+                    indicators = new LinkedList<>();
                 }
                 for (MultiUpload.FileDetail f : pendingFileNames) {
                     ProgressBar pi = new ProgressBar();
@@ -161,9 +152,7 @@ public class ProjectFormAttachmentUploadField extends CustomField {
             }
         };
         attachmentBtn.setHandler(handler);
-
         fileStores = new HashMap<>();
-
         constructUI();
     }
 
@@ -175,8 +164,7 @@ public class ProjectFormAttachmentUploadField extends CustomField {
         rowWrap.setWidth("100%");
         rowWrap.setStyleName("attachment-row-wrap");
 
-        Label compHeader = new Label(
-                AppContext.getMessage(GenericI18Enum.M_FORM_ATTACHMENT));
+        Label compHeader = new Label(AppContext.getMessage(GenericI18Enum.M_FORM_ATTACHMENT));
         compHeader.setStyleName("h2");
 
         content.addComponent(compHeader);
@@ -192,14 +180,12 @@ public class ProjectFormAttachmentUploadField extends CustomField {
     }
 
     public void getAttachments(int projectId, String type, int typeId) {
-        attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(
-                AppContext.getAccountId(), projectId, type, "" + typeId);
+        attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(AppContext.getAccountId(), projectId, type, "" + typeId);
         List<Content> attachments = resourceService.getContents(attachmentPath);
         rowWrap.removeAllComponents();
         if (CollectionUtils.isNotEmpty(attachments)) {
             for (final Content attachment : attachments) {
-                rowWrap.addComponent(MobileAttachmentUtils
-                        .renderAttachmentFieldRow(attachment));
+                rowWrap.addComponent(MobileAttachmentUtils.renderAttachmentFieldRow(attachment));
             }
         }
     }
@@ -214,8 +200,7 @@ public class ProjectFormAttachmentUploadField extends CustomField {
     }
 
     public void saveContentsToRepo(Integer projectId, String type, Integer typeId) {
-        attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(
-                AppContext.getAccountId(), projectId, type, "" + typeId);
+        attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(AppContext.getAccountId(), projectId, type, "" + typeId);
         MobileAttachmentUtils.saveContentsToRepo(attachmentPath, fileStores);
     }
 
@@ -237,14 +222,12 @@ public class ProjectFormAttachmentUploadField extends CustomField {
         return receiver;
     }
 
-    public void receiveFile(File file, String fileName, String mimeType,
-                            long length) {
+    public void receiveFile(File file, String fileName, String mimeType, long length) {
         if (fileStores == null) {
             fileStores = new HashMap<>();
         }
         if (fileStores.containsKey(fileName)) {
-            NotificationUtil.showWarningNotification("File " + fileName
-                    + " is already existed.");
+            NotificationUtil.showWarningNotification("File " + fileName + " is already existed.");
         } else {
             fileStores.put(fileName, file);
         }

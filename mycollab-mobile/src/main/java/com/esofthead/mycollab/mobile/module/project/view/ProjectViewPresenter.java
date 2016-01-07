@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.mobile.module.project.view;
 
 import com.esofthead.mycollab.core.utils.ClassUtils;
-import com.esofthead.mycollab.mobile.module.project.ui.InsideProjectNavigationMenu;
 import com.esofthead.mycollab.mobile.module.project.view.bug.BugPresenter;
 import com.esofthead.mycollab.mobile.module.project.view.message.MessagePresenter;
 import com.esofthead.mycollab.mobile.module.project.view.milestone.MilestonePresenter;
@@ -35,9 +34,7 @@ import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
-import com.esofthead.vaadin.mobilecomponent.MobileNavigationManager;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.UI;
 
 /**
  * @author MyCollab Ltd.
@@ -63,7 +60,6 @@ public class ProjectViewPresenter extends AbstractPresenter<ProjectView> {
                 NotificationUtil.showRecordNotExistNotification();
             } else {
                 CurrentProjectVariables.setProject(project);
-                ((MobileNavigationManager) UI.getCurrent().getContent()).setNavigationMenu(new InsideProjectNavigationMenu());
             }
         }
     }
@@ -71,7 +67,7 @@ public class ProjectViewPresenter extends AbstractPresenter<ProjectView> {
     @Override
     protected void onDefaultStopChain() {
         ProjectDashboardPresenter presenter = PresenterResolver.getPresenter(ProjectDashboardPresenter.class);
-        presenter.go((MobileNavigationManager) UI.getCurrent().getContent(), null);
+        presenter.go(null);
     }
 
     @Override
@@ -88,7 +84,7 @@ public class ProjectViewPresenter extends AbstractPresenter<ProjectView> {
         } else if (ClassUtils.instanceOf(pageAction, TaskScreenData.List.class, TaskScreenData.Read.class, TaskScreenData.Add.class,
                 TaskScreenData.Edit.class)) {
             presenter = PresenterResolver.getPresenter(TaskPresenter.class);
-        } else if (ClassUtils.instanceOf(pageAction, MilestoneScreenData.List.class, MilestoneScreenData.Search.class,
+        } else if (ClassUtils.instanceOf(pageAction, MilestoneScreenData.Search.class,
                 MilestoneScreenData.Read.class, MilestoneScreenData.Add.class, MilestoneScreenData.Edit.class)) {
             presenter = PresenterResolver.getPresenter(MilestonePresenter.class);
         } else if (ClassUtils.instanceOf(pageAction, BugScreenData.Search.class, BugScreenData.Add.class,

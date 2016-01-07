@@ -26,6 +26,7 @@ import org.vaadin.viritin.layouts.MCssLayout;
 public class FormContainer extends VerticalLayout {
     public FormContainer() {
         this.addStyleName("form");
+        this.setWidth("100%");
         this.setDefaultComponentAlignment(Alignment.TOP_CENTER);
     }
 
@@ -36,6 +37,7 @@ public class FormContainer extends VerticalLayout {
     public void addSection(Component sectionHeader, ComponentContainer container) {
         sectionHeader.addStyleName("section");
         sectionHeader.setWidth("100%");
+        container.setWidth("100%");
         this.addComponent(sectionHeader);
         this.addComponent(container);
     }

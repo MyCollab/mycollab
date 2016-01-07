@@ -40,7 +40,6 @@ import com.esofthead.mycollab.module.project.ui.components.ProjectActivityCompon
 import com.esofthead.mycollab.module.project.ui.components.ProjectMemberLink;
 import com.esofthead.mycollab.module.project.ui.format.MilestoneFieldFormatter;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
-import com.esofthead.mycollab.schedule.email.project.ProjectMilestoneRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.AsyncInvoker;
@@ -103,8 +102,7 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
     @Override
     protected void initRelatedComponents() {
         activityComponent = new ProjectActivityComponent(ProjectTypeConstants.MILESTONE,
-                CurrentProjectVariables.getProjectId(), MilestoneFieldFormatter.instance(),
-                ProjectMilestoneRelayEmailNotificationAction.class);
+                CurrentProjectVariables.getProjectId(), MilestoneFieldFormatter.instance());
         dateInfoComp = new DateInfoComp();
         peopleInfoComp = new PeopleInfoComp();
         milestoneTimeLogComp = new MilestoneTimeLogComp();

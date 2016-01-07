@@ -32,13 +32,11 @@ import com.vaadin.ui.*;
  * @author MyCollab Ltd.
  * @since 4.5.0
  */
-public class TaskGroupListDisplay extends
-        DefaultPagedBeanList<ProjectTaskListService, TaskListSearchCriteria, SimpleTaskList> {
+public class TaskGroupListDisplay extends DefaultPagedBeanList<ProjectTaskListService, TaskListSearchCriteria, SimpleTaskList> {
     private static final long serialVersionUID = -9048439116024747065L;
 
     public TaskGroupListDisplay() {
-        super(ApplicationContextUtil.getSpringBean(ProjectTaskListService.class),
-                new TaskGroupRowDisplayHandler());
+        super(ApplicationContextUtil.getSpringBean(ProjectTaskListService.class), new TaskGroupRowDisplayHandler());
         this.addStyleName("task-group-list");
     }
 
@@ -67,8 +65,7 @@ public class TaskGroupListDisplay extends
             b.setStyleName("task-list-name");
             taskListInfo.addComponent(b);
 
-            Label taskListUpdateTime = new Label(AppContext.getMessage(
-                    DayI18nEnum.LAST_UPDATED_ON,
+            Label taskListUpdateTime = new Label(AppContext.getMessage(DayI18nEnum.LAST_UPDATED_ON,
                     AppContext.formatDateTime(taskList.getLastupdatedtime())));
             taskListUpdateTime.setWidthUndefined();
             taskListUpdateTime.setStyleName("last-updated-time");
@@ -80,11 +77,9 @@ public class TaskGroupListDisplay extends
                 activeTasksNum.setWidthUndefined();
                 activeTasksNum.setStyleName("active-task-num");
                 taskListLayout.addComponent(activeTasksNum);
-                taskListLayout.setComponentAlignment(activeTasksNum,
-                        Alignment.MIDDLE_LEFT);
+                taskListLayout.setComponentAlignment(activeTasksNum, Alignment.MIDDLE_LEFT);
             }
             taskListLayout.setExpandRatio(taskListInfo, 1.0f);
-            taskListLayout.addStyleName("list-item");
 
             return taskListLayout;
         }

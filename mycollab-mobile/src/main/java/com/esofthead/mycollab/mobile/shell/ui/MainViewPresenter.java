@@ -18,7 +18,7 @@ package com.esofthead.mycollab.mobile.shell.ui;
 
 import com.esofthead.mycollab.mobile.mvp.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
-import com.esofthead.vaadin.mobilecomponent.MobileNavigationManager;
+import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.ui.ComponentContainer;
 
 /**
@@ -26,16 +26,14 @@ import com.vaadin.ui.ComponentContainer;
  * @since 3.0
  */
 public class MainViewPresenter extends AbstractPresenter<MainView> {
-	private static final long serialVersionUID = 7699660189568510585L;
+    private static final long serialVersionUID = 7699660189568510585L;
 
-	public MainViewPresenter() {
-		super(MainView.class);
-	}
+    public MainViewPresenter() {
+        super(MainView.class);
+    }
 
-	@Override
-	protected void onGo(ComponentContainer navigationManager, ScreenData<?> data) {
-		((MobileNavigationManager) navigationManager).setNavigationMenu(null);
-		((MobileNavigationManager) navigationManager).navigateTo(view
-				.getWidget());
-	}
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        ((NavigationManager) container).navigateTo(view.getWidget());
+    }
 }

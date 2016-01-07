@@ -24,12 +24,10 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.mobile.ui.AbstractMobilePageView;
-import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.Note;
 import com.esofthead.mycollab.module.crm.domain.SimpleNote;
 import com.esofthead.mycollab.module.crm.domain.criteria.NoteSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.NoteService;
-import com.esofthead.mycollab.schedule.email.crm.*;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.BeanList;
@@ -131,29 +129,8 @@ public class NotesList extends AbstractMobilePageView {
                 relayNotification.setType(type);
                 relayNotification.setAction(MonitorTypeConstants.ADD_COMMENT_ACTION);
                 relayNotification.setTypeid("" + typeid);
-                if (type.equals(CrmTypeConstants.ACCOUNT)) {
-                    relayNotification.setEmailhandlerbean(AccountRelayEmailNotificationAction.class.getName());
-                } else if (type.equals(CrmTypeConstants.CONTACT)) {
-                    relayNotification.setEmailhandlerbean(ContactRelayEmailNotificationAction.class.getName());
-                } else if (type.equals(CrmTypeConstants.CAMPAIGN)) {
-                    relayNotification.setEmailhandlerbean(CampaignRelayEmailNotificationAction.class.getName());
-                } else if (type.equals(CrmTypeConstants.LEAD)) {
-                    relayNotification.setEmailhandlerbean(LeadRelayEmailNotificationAction.class.getName());
-                } else if (type.equals(CrmTypeConstants.OPPORTUNITY)) {
-                    relayNotification.setEmailhandlerbean(OpportunityRelayEmailNotificationAction.class.getName());
-                } else if (type.equals(CrmTypeConstants.CASE)) {
-                    relayNotification.setEmailhandlerbean(CaseRelayEmailNotificationAction.class.getName());
-                } else if (type.equals(CrmTypeConstants.TASK)) {
-                    relayNotification.setEmailhandlerbean(TaskRelayEmailNotificationAction.class.getName());
-                } else if (type.equals(CrmTypeConstants.MEETING)) {
-                    relayNotification.setEmailhandlerbean(MeetingRelayEmailNotificationAction.class.getName());
-                } else if (type.equals(CrmTypeConstants.CALL)) {
-                    relayNotification.setEmailhandlerbean(CallRelayEmailNotificationAction.class.getName());
-                }
-                RelayEmailNotificationService relayEmailNotificationService = ApplicationContextUtil
-                        .getSpringBean(RelayEmailNotificationService.class);
-                relayEmailNotificationService.saveWithSession(
-                        relayNotification, AppContext.getUsername());
+                RelayEmailNotificationService relayEmailNotificationService = ApplicationContextUtil.getSpringBean(RelayEmailNotificationService.class);
+                relayEmailNotificationService.saveWithSession(relayNotification, AppContext.getUsername());
                 noteInput.setValue("");
                 displayNotes();
             }

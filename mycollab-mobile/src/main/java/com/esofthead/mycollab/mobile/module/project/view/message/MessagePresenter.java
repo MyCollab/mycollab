@@ -17,20 +17,15 @@
 package com.esofthead.mycollab.mobile.module.project.view.message;
 
 import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.mobile.module.project.ui.InsideProjectNavigationMenu;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.MessageScreenData;
 import com.esofthead.mycollab.mobile.mvp.AbstractPresenter;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.criteria.MessageSearchCriteria;
-import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
-import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
-import com.esofthead.vaadin.mobilecomponent.MobileNavigationManager;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.UI;
 
 /**
  * @author MyCollab Ltd.
@@ -46,32 +41,20 @@ public class MessagePresenter extends AbstractPresenter<MessageContainer> {
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.MESSAGES)) {
-
-            InsideProjectNavigationMenu projectModuleMenu = (InsideProjectNavigationMenu) ((MobileNavigationManager) UI
-                    .getCurrent().getContent()).getNavigationMenu();
-            projectModuleMenu.selectButton(AppContext
-                    .getMessage(ProjectCommonI18nEnum.VIEW_MESSAGE));
-
             if (data instanceof MessageScreenData.Read) {
-                MessageReadPresenter presenter = PresenterResolver
-                        .getPresenter(MessageReadPresenter.class);
+                MessageReadPresenter presenter = PresenterResolver.getPresenter(MessageReadPresenter.class);
                 presenter.go(container, data);
             } else if (data instanceof MessageScreenData.Search) {
-                MessageListPresenter presenter = PresenterResolver
-                        .getPresenter(MessageListPresenter.class);
+                MessageListPresenter presenter = PresenterResolver.getPresenter(MessageListPresenter.class);
                 presenter.go(container, data);
             } else if (data instanceof MessageScreenData.Add) {
-                MessageAddPresenter presenter = PresenterResolver
-                        .getPresenter(MessageAddPresenter.class);
+                MessageAddPresenter presenter = PresenterResolver.getPresenter(MessageAddPresenter.class);
                 presenter.go(container, data);
             } else if (data == null) {
                 MessageSearchCriteria searchCriteria = new MessageSearchCriteria();
                 searchCriteria.setProjectids(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-                MessageListPresenter presenter = PresenterResolver
-                        .getPresenter(MessageListPresenter.class);
-                presenter.go(container,
-                        new ScreenData.Preview<>(
-                                searchCriteria));
+                MessageListPresenter presenter = PresenterResolver.getPresenter(MessageListPresenter.class);
+                presenter.go(container, new ScreenData.Preview<>(searchCriteria));
             }
         } else {
             NotificationUtil.showMessagePermissionAlert();

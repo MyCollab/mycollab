@@ -26,8 +26,6 @@ import com.vaadin.server.Resource;
  * @since 4.5.1
  */
 public abstract class VaadinResource {
-
-
     public abstract Resource getStreamResource(String documentPath);
 
     public Resource getResource(String documentPath) {

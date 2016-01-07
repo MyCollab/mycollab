@@ -65,7 +65,7 @@ class ProjectUrlResolver extends UrlResolver {
 
     class DashboardUrlResolver extends ProjectUrlResolver {
         protected override def handlePage(params: String*) {
-            if (params.length > 0) {
+            if (params.length == 0) {
                 EventBusFactory.getInstance.post(new ShellEvent.GotoProjectModule(this, null))
             }
             else {

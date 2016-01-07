@@ -1,0 +1,748 @@
+.section {
+	padding: 10px 5px 10px 5px;
+	border-bottom: 1px solid $my-separator-color;
+}
+
+.section .v-label {
+	font-size: 20px;
+	font-weight: 500;
+}
+
+.section {
+	padding: 10px 5px 10px 5px;
+	border-bottom: 1px solid #e5e5e5;
+}
+
+.section .v-label {
+	font-size: 20px;
+	font-weight: 500;
+}
+
+.meta-info {
+	color: #999;
+	font-size: smaller !important;
+}
+
+hr {
+	border: 0;
+	border-top: 1px solid #e5e5e5;
+}
+
+a {
+	color: #0083ce !important;
+	text-decoration: none !important;
+}
+
+.truncate {
+	white-space: nowrap !important;
+	overflow: hidden !important;
+	text-overflow: ellipsis;
+}
+
+.truncate a, .v-button.truncate, .truncate span {
+	display: block;
+	white-space: nowrap !important;
+	overflow: hidden !important;
+	text-overflow: ellipsis;
+}
+
+.v-gridlayout.colored-gridlayout .gridform-caption, .v-gridlayout.colored-gridlayout .gridform-field {
+	border-bottom: 1px solid #e5e5e5;
+}
+
+.v-gridlayout.colored-gridlayout .gridform-caption.v-margin-top, .v-gridlayout.colored-gridlayout .gridform-field.v-margin-top {
+	padding-top: 8px;
+}
+
+.v-gridlayout.colored-gridlayout .gridform-caption.v-margin-right, .v-gridlayout.colored-gridlayout .gridform-field.v-margin-right {
+	padding-right: 8px;
+}
+
+.v-gridlayout.colored-gridlayout .gridform-caption.v-margin-bottom, .v-gridlayout.colored-gridlayout .gridform-field.v-margin-bottom {
+	padding-bottom: 4px;
+}
+
+.v-gridlayout.colored-gridlayout .gridform-caption.v-margin-left, .v-gridlayout.colored-gridlayout .gridform-field.v-margin-left {
+	padding-left: 0px;
+}
+
+.v-gridlayout.colored-gridlayout .gridform-field {
+	min-height: 43px;
+	padding-top: 8px;
+	padding-bottom: 8px;
+}
+
+.v-gridlayout.colored-gridlayout .gridform-caption {
+	min-height: 43px;
+}
+
+.v-gridlayout.colored-gridlayout .gridform-caption .v-label {
+	text-align: right;
+	color: #999;
+}
+
+.v-navbar-quickmenu-content {
+	width: 100%;
+	background-color: gray;
+}
+
+.navigation-button-wrap .v-icon {
+	padding-right: 10px;
+}
+
+.attachment-panel {
+	border-top: 1px solid #dddddd;
+	padding: 0.5rem 0rem 0.8rem;
+}
+
+.v-touchkit-navbar-caption {
+	font-size: smaller;
+}
+
+.v-touchkit-navbar .v-navbar-quickmenu-button {
+	font-size: 20px !important;
+}
+
+.attachment-preview-view {
+	background-color: black;
+}
+
+.attachment-preview-view .v-touchkit-navbutton-back-btn {
+	background-color: rgba(0, 0, 0, 0.4);
+	background-image: none;
+	padding: 0.4rem 1rem;
+	border: 0.1rem solid white;
+	border-radius: 0.3rem;
+	color: white;
+}
+
+.attachment-preview-view .image-wrap {
+	overflow: scroll;
+	white-space: nowrap;
+}
+
+.attachment-preview-view .image-wrap:before {
+	content: "";
+	display: inline-block;
+	height: 100%;
+	vertical-align: middle;
+}
+
+.attachment-preview-view .image-wrap img {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.attachment-row .thumbnail-wrap {
+	display: inline-block;
+}
+
+.attachment-row .v-button {
+	text-align: left;
+	color: #0083ce;
+	box-shadow: none;
+	font-size: smaller;
+}
+
+.attachment-display-comp .attachment-row {
+	padding: 0.3rem 0.5rem 0.4rem;
+	border-bottom: 0.1rem solid #e5e5e5;
+}
+
+.attachment-field .v-upload .v-button {
+	font-size: 1.5rem;
+	min-height: inherit;
+	line-height: normal;
+	vertical-align: middle;
+}
+
+.attachment-field .v-upload .v-button .v-button-wrap {
+	padding: 0px;
+}
+
+.attachment-field .v-progressbar.upload-progress {
+	padding: 1.3rem 0.5rem 1.4rem;
+	display: block;
+	background-color: white;
+	border-bottom: 0.1rem solid #e5e5e5;
+}
+
+.attachment-field .v-progressbar.upload-progress .v-progressbar-wrapper {
+	border-color: #e5e5e5;
+}
+
+.attachment-field .v-progressbar.upload-progress .v-progressbar-wrapper .v-progressbar-indicator {
+	background-color: #49a3e1;
+}
+
+.attachment-field .attachment-row {
+	padding: 0.3rem 0.5rem 0.4rem;
+	border-bottom: 0.1rem solid #e5e5e5;
+}
+
+.attachment-field .attachment-row .v-button {
+	color: #0083ce;
+}
+
+* {
+	-webkit-tap-highlight-color: transparent;
+	-webkit-tap-highlight-color: transparent;
+}
+
+body {
+	background-color: white;
+}
+
+.v-touchkit-navview-wrapper {
+	background-color: white;
+}
+
+.v-touchkit-navbar, .v-touchkit-tabbar-toolbar .v-touchkit-toolbar, .v-touchkit-navview-toolbar, .v-mobilecomponent .v-touchkit-navpanel {
+	box-shadow: none !important;
+}
+
+.v-touchkit-verticalcomponentgroup {
+	border-top: 1px solid #e5e5e5 !important;
+	border-bottom: 1px solid #e5e5e5 !important;
+	box-shadow: none !important;
+}
+
+.v-touchkit-componentgroup-row:before {
+	border-top: 1px solid #e5e5e5 !important;
+	left: 0px !important;
+	right: 0px !important;
+}
+
+.v-table-body {
+	border: none;
+}
+
+.content-wrapper {
+	margin: 0 auto;
+	display: block;
+}
+
+.content-wrapper.v-margin-top {
+	padding-top: 2.5rem;
+}
+
+.content-wrapper .intro-text {
+	text-align: center;
+}
+
+.content-wrapper .welcometext-wrapper {
+	background: url("icons/welcometext_bg.png") repeat-x left center #f5f5f5;
+}
+
+.content-wrapper .welcometext-wrapper .v-label {
+	display: block;
+	margin: 0 auto;
+	text-align: center;
+	background-color: #f5f5f5;
+	font-size: 1.6rem;
+	color: #2692db;
+	border: none;
+}
+
+.login-view {
+	overflow: auto;
+}
+
+.login-view .v-textfield {
+	color: #222222;
+}
+
+.attachment-panel .v-label.attachment-name {
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.noteList {
+	background-color: white;
+}
+
+.message {
+	border-bottom: 1px solid #cbcbcb;
+}
+
+.message .message-header .user-name {
+	color: #e39241;
+}
+
+.message .message-header .time-post {
+	color: #bfbfbf;
+}
+
+.message .message-body {
+	color: #959595;
+}
+
+.v-touchkit-navbutton:after {
+	content: "";
+}
+
+.project-dashboard {
+	background-color: white;
+}
+
+.project-dashboard .project-info-layout {
+	padding-bottom: 1.2rem;
+}
+
+.project-dashboard .project-info-layout .project-icon {
+	font-size: 4rem;
+	line-height: 5rem;
+	padding: 1rem;
+}
+
+.project-dashboard .project-info-layout .project-name {
+	font-weight: bold;
+	font-size: 1.4rem;
+	padding-top: 0.6rem;
+	text-align: center;
+}
+
+.project-activities-view .activity-date {
+	border-bottom: 2px solid #f59330;
+	padding: 1rem 0.5rem 0.5rem;
+	font-size: 1.1rem;
+	font-weight: bold;
+	color: #959595;
+}
+
+.project-activities-view .activity-row {
+	padding: 0.5rem 2.5rem 0.8rem 1.4rem;
+	border-bottom: 0.1rem solid #dddddd;
+	color: #959595;
+}
+
+.project-activities-view .activity-row .activity-type {
+	font-size: 2rem;
+	color: #f59330;
+}
+
+.project-activities-view .activity-row .v-label.activity-item {
+	font-size: 1.4rem;
+	font-weight: bold;
+	text-overflow: ellipsis;
+}
+
+.project-activities-view .activity-row .v-label.activity-item a {
+	text-decoration: none;
+	white-space: nowrap;
+	color: #414141;
+}
+
+.project-activities-view .activity-row .activity-detail-row .activity-detail {
+	font-size: 1.1rem;
+}
+
+.project-activities-view .activity-row .activity-detail-row .v-button.link {
+	display: inline-block;
+}
+
+.project-activities-view .activity-row .activity-detail-row .v-button.link .v-button-wrap {
+	padding: 0rem 0rem 0rem 0.4rem;
+}
+
+.project-activities-view .activity-row .activity-detail-row .v-button.link .v-button-wrap .v-button-caption {
+	font-size: 1.1rem;
+}
+
+.bug-blocker .v-icon, .v-filterselect-item-bug-blocker .v-icon {
+	color: #d32d1a;
+}
+
+.bug-blocker.v-icon {
+	color: #d32d1a;
+}
+
+.bug-critical .v-icon, .v-filterselect-item-bug-critical .v-icon {
+	color: #e95948;
+}
+
+.bug-critical.v-icon {
+	color: #e95948;
+}
+
+.bug-major .v-icon, .v-filterselect-item-bug-major .v-icon {
+	color: #f09085;
+}
+
+.bug-major.v-icon {
+	color: #f09085;
+}
+
+.bug-minor .v-icon, .v-filterselect-item-bug-minor .v-icon {
+	color: #f7c7c1;
+}
+
+.bug-minor.v-icon {
+	color: #f7c7c1;
+}
+
+.bug-trivial .v-icon, .v-filterselect-item-bug-trivial .v-icon {
+	color: #b7b9b0;
+}
+
+.bug-trivial.v-icon {
+	color: #b7b9b0;
+}
+
+.bug-severity-critical .v-icon, .v-filterselect-item-bug-severity-critical .v-icon {
+	color: #d32d1a;
+}
+
+.bug-severity-critical.v-icon {
+	color: #d32d1a;
+}
+
+.bug-severity-major .v-icon, .v-filterselect-item-bug-severity-major .v-icon {
+	color: #e95948;
+}
+
+.bug-severity-major.v-icon {
+	color: #e95948;
+}
+
+.bug-severity-minor .v-icon, .v-filterselect-item-bug-severity-minor .v-icon {
+	color: #f09085;
+}
+
+.bug-severity-minor.v-icon {
+	color: #f09085;
+}
+
+.bug-severity-trivial .v-icon, .v-filterselect-item-bug-severity-trivial .v-icon {
+	color: #f7c7c1;
+}
+
+.bug-severity-trivial.v-icon {
+	color: #f7c7c1;
+}
+
+.message-list-view .message-block, .message-read-view .message-block {
+	padding: 1.2rem 0.8rem 0rem 0.8rem;
+}
+
+.message-list-view .message-block .user-avatar, .message-read-view .message-block .user-avatar {
+	padding-right: 0.8rem;
+}
+
+.message-list-view .message-block .title-row, .message-read-view .message-block .title-row {
+	padding: 0.5rem 0;
+}
+
+.message-list-view .message-block .title-row .comment-count, .message-read-view .message-block .title-row .comment-count {
+	font-size: 1rem;
+	color: #f7f7f7;
+	background-color: #5e5d55;
+	padding: 0.2rem 0.5rem;
+	border-radius: 0.3rem;
+}
+
+.message-list-view .message-block .title-row.has-comment, .message-read-view .message-block .title-row.has-comment {
+	padding: 0.3rem 0rem;
+}
+
+.message-list-view .message-block .attachment-row, .message-read-view .message-block .attachment-row {
+	padding: 0.3rem 0.5rem 0.4rem;
+}
+
+.message-read-view .message-block {
+	border-bottom: 1px solid #e5e5e5;
+	padding-bottom: 1rem;
+}
+
+.comment-list .comment-block {
+	padding: 0.8rem;
+}
+
+.comment-list .comment-block .user-avatar {
+	padding-right: 0.8rem;
+}
+
+.comment-list .comment-block .right-col {
+	border: 1px solid #e5e5e5;
+	padding: 0.5rem 0.5rem 0 0.5rem;
+}
+
+.comment-list .comment-block .right-col:before {
+	content: "";
+	position: absolute;
+	border-style: solid;
+	display: block;
+	width: 0;
+	top: 9px;
+	left: -7px;
+	border-width: 7px 7px 7px 0;
+	border-color: transparent #e5e5e5;
+	border-radius: 0px;
+}
+
+.comment-list .comment-block .right-col:after {
+	content: "";
+	position: absolute;
+	border-style: solid;
+	display: block;
+	width: 0;
+	top: 9px;
+	left: -6px;
+	border-width: 7px 7px 7px 0;
+	border-color: transparent white;
+	border-radius: 0px;
+}
+
+.comment-list .comment-block .right-col .comment-content {
+	padding: 0.5rem 0;
+}
+
+.comment-list .comment-block .right-col .attachment-row {
+	padding: 0.3rem 0.5rem 0.4rem;
+}
+
+.message-add-view .content-layout .bottom-row {
+	margin: 1.2rem auto 0rem;
+	box-shadow: none;
+}
+
+.message-add-view .content-layout .bottom-row .v-caption {
+	font-size: 1.4rem;
+}
+
+.message-add-view .content-layout .bottom-row .attachment-field .attachment-field-header {
+	padding-bottom: 0.5rem;
+}
+
+.message-add-view .content-layout .bottom-row .attachment-field .attachment-row-wrap {
+	display: block;
+}
+
+.message-add-view .content-layout .bottom-row .attachment-field .attachment-row-wrap .attachment-row {
+	border-top: 0.1rem solid #dddddd;
+	border-bottom: none;
+}
+
+.message-add-view .content-layout .bottom-row .attachment-field .attachment-row-wrap .attachment-row .v-button {
+	display: inline-block;
+}
+
+.bug-blocker .v-icon, .v-filterselect-item-bug-blocker .v-icon {
+	color: #d32d1a;
+}
+
+.bug-blocker.v-icon {
+	color: #d32d1a;
+}
+
+.bug-critical .v-icon, .v-filterselect-item-bug-critical .v-icon {
+	color: #e95948;
+}
+
+.bug-critical.v-icon {
+	color: #e95948;
+}
+
+.bug-major .v-icon, .v-filterselect-item-bug-major .v-icon {
+	color: #f09085;
+}
+
+.bug-major.v-icon {
+	color: #f09085;
+}
+
+.bug-minor .v-icon, .v-filterselect-item-bug-minor .v-icon {
+	color: #f7c7c1;
+}
+
+.bug-minor.v-icon {
+	color: #f7c7c1;
+}
+
+.bug-trivial .v-icon, .v-filterselect-item-bug-trivial .v-icon {
+	color: #b7b9b0;
+}
+
+.bug-trivial.v-icon {
+	color: #b7b9b0;
+}
+
+.bug-severity-critical .v-icon, .v-filterselect-item-bug-severity-critical .v-icon {
+	color: #d32d1a;
+}
+
+.bug-severity-critical.v-icon {
+	color: #d32d1a;
+}
+
+.bug-severity-major .v-icon, .v-filterselect-item-bug-severity-major .v-icon {
+	color: #e95948;
+}
+
+.bug-severity-major.v-icon {
+	color: #e95948;
+}
+
+.bug-severity-minor .v-icon, .v-filterselect-item-bug-severity-minor .v-icon {
+	color: #f09085;
+}
+
+.bug-severity-minor.v-icon {
+	color: #f09085;
+}
+
+.bug-severity-trivial .v-icon, .v-filterselect-item-bug-severity-trivial .v-icon {
+	color: #f7c7c1;
+}
+
+.bug-severity-trivial.v-icon {
+	color: #f7c7c1;
+}
+
+.member-list .list-item.member-row {
+	padding: 1rem 2.5rem 1rem 1.4rem;
+	border-bottom: 0.1rem solid #DDDDDD;
+	color: #8C8C8C;
+}
+
+.member-list .list-item.member-row .member-info {
+	padding-left: 0.5rem;
+}
+
+.member-list .list-item.member-row .member-info .display-name {
+	font-weight: bold;
+	font-size: 1.4rem;
+	color: #f59330;
+}
+
+.member-list .list-item.member-row .member-info .user-name {
+	font-size: 1.2rem;
+	color: #959595;
+}
+
+.timelog-edit-view div.v-vertical > .v-expand > .v-spacing {
+	display: block;
+	height: 1.2rem;
+}
+
+.timelog-edit-view .summary-info-panel {
+	background-color: white;
+	border-bottom: 0.1rem solid #dddddd;
+}
+
+.timelog-edit-view .summary-info-panel .total-time {
+	border-right: 0.1rem solid #dddddd;
+}
+
+.timelog-edit-view .summary-info-panel .summary-block .block-label {
+	color: #959595;
+}
+
+.timelog-edit-view .summary-info-panel .summary-block .block-value {
+	color: #414141;
+	font-size: 1.5rem;
+	font-weight: bold;
+}
+
+.timelog-edit-view .data-list-view {
+	border-top: 0.1rem solid #dddddd;
+}
+
+.timelog-edit-view .data-list-view .log-day {
+	border-bottom: 2px solid #f59330;
+	padding: 1rem 0.5rem 0.5rem;
+	font-size: 1.1rem;
+	font-weight: bold;
+	color: #959595;
+}
+
+.timelog-edit-view .data-list-view .time-log-item {
+	padding: 0.5rem 2.5rem 0.8rem 1.4rem;
+	border-bottom: 0.1rem solid #dddddd;
+	color: #959595;
+}
+
+.timelog-edit-view .data-list-view .time-log-item .log-value {
+	font-size: 1.4rem;
+	font-weight: bold;
+	color: #414141;
+}
+
+.timelog-edit-view .data-list-view .time-log-item .v-caption-on-top > .v-caption {
+	display: inline-block;
+}
+
+.timelog-edit-view .data-list-view .time-log-item .log-user {
+	font-size: 1.1rem;
+}
+
+.timelog-edit-view .data-list-view .time-log-item .is-billable {
+	text-align: center;
+	color: #49a3e1;
+}
+
+.time-log-window .v-window-outerheader {
+	height: inherit;
+}
+
+.time-log-window .v-window-outerheader .v-window-header {
+	text-align: center;
+	padding-bottom: 0.5rem;
+}
+
+.time-log-window.new-time-entry-window .input-wrapper {
+	margin: 0px;
+	border-bottom: none;
+	box-shadow: none;
+	border-color: #dddddd;
+	font-size: 1.4rem;
+}
+
+.time-log-window.new-time-entry-window .input-wrapper .v-textfield {
+	border: none;
+}
+
+.time-log-window.new-time-entry-window .input-wrapper .v-textfield:focus {
+	box-shadow: none;
+}
+
+.time-log-window.new-time-entry-window .input-wrapper .v-touchkit-componentgroup-row > .v-caption {
+	font-size: 1.4rem;
+}
+
+.time-log-window.new-time-entry-window .input-wrapper .v-select-select {
+	font-size: inherit;
+}
+
+.time-log-window.update-remain-time-window .input-wrapper {
+	padding: 0.5rem 1rem;
+}
+
+.time-log-window.update-remain-time-window .input-wrapper .v-textfield {
+	font-size: 1.5rem;
+	color: #959595;
+	line-height: 2rem;
+	border-radius: 0px;
+	border-color: #dddddd;
+}
+
+.time-log-window .button-layout {
+	border-top: 0.1rem solid #dddddd;
+}
+
+.time-log-window .button-layout .v-button {
+	background-color: transparent;
+}
+
+.time-log-window .button-layout .v-button .v-button-wrap {
+	padding: 1rem;
+}
+
+.time-log-window .button-layout .v-button .v-button-wrap .v-button-caption {
+	color: #49a3e1;
+	font-size: 1.4rem;
+}
+
+.time-log-window .button-layout .v-button.add-btn {
+	border-left: 0.1rem solid #dddddd;
+}

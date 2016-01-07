@@ -22,11 +22,8 @@ import com.esofthead.mycollab.module.project.domain.criteria.MessageSearchCriter
 
 /**
  * @author MyCollab Ltd.
- *
  * @since 4.4.0
- *
  */
-public interface MessageListView extends
-		IListView<MessageSearchCriteria, SimpleMessage> {
+public interface MessageListView extends IListView<MessageSearchCriteria, SimpleMessage> {
 
 }

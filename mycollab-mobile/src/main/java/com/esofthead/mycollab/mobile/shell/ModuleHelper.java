@@ -16,36 +16,34 @@
  */
 package com.esofthead.mycollab.mobile.shell;
 
-import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.CURRENT_MODULE;
-
-import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
 import com.esofthead.mycollab.mobile.module.crm.view.CrmContainerView;
 import com.esofthead.mycollab.mobile.module.project.view.ProjectListView;
 import com.esofthead.mycollab.vaadin.mvp.IModule;
+import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
+
+import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.CURRENT_MODULE;
 
 /**
  * @author MyCollab Ltd.
- *
  * @since 4.4.0
- *
  */
 public class ModuleHelper {
 
-	public static void setCurrentModule(IModule module) {
-		MyCollabSession.putVariable(CURRENT_MODULE, module);
-	}
+    public static void setCurrentModule(IModule module) {
+        MyCollabSession.putVariable(CURRENT_MODULE, module);
+    }
 
-	public static IModule getCurrentModule() {
-		return (IModule) MyCollabSession.getVariable(CURRENT_MODULE);
-	}
+    public static IModule getCurrentModule() {
+        return (IModule) MyCollabSession.getVariable(CURRENT_MODULE);
+    }
 
-	public static boolean isCurrentProjectModule() {
-		IModule module = getCurrentModule();
-		return (module != null) && (module instanceof ProjectListView);
-	}
+    public static boolean isCurrentProjectModule() {
+        IModule module = getCurrentModule();
+        return (module != null) && (module instanceof ProjectListView);
+    }
 
-	public static boolean isCurrentCrmModule() {
-		IModule module = getCurrentModule();
-		return (module != null) && (module instanceof CrmContainerView);
-	}
+    public static boolean isCurrentCrmModule() {
+        IModule module = getCurrentModule();
+        return (module != null) && (module instanceof CrmContainerView);
+    }
 }

@@ -61,6 +61,7 @@ public class ProjectRoleReadViewImpl extends VerticalLayout implements ProjectRo
         addHeaderRightContent(actionControls);
 
         CssLayout contentWrapper = new CssLayout();
+        contentWrapper.setWidth("100%");
         contentWrapper.setStyleName("content-wrapper");
 
         previewLayout = new DefaultReadViewLayout("");

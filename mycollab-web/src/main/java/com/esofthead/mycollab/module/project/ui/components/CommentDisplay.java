@@ -21,7 +21,6 @@ import com.esofthead.mycollab.common.domain.criteria.CommentSearchCriteria;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.BeanList;
@@ -42,10 +41,10 @@ public class CommentDisplay extends MVerticalLayout implements ReloadableCompone
     private String typeId;
     private ProjectCommentInput commentBox;
 
-    public CommentDisplay(String type, Integer extraTypeId, Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
+    public CommentDisplay(String type, Integer extraTypeId) {
         withMargin(new MarginInfo(true, false, true, false));
         this.type = type;
-        commentBox = new ProjectCommentInput(this, type, extraTypeId, emailHandler);
+        commentBox = new ProjectCommentInput(this, type, extraTypeId);
         this.addComponent(commentBox);
 
         commentList = new BeanList<>(ApplicationContextUtil.getSpringBean(CommentService.class), CommentRowDisplayHandler.class);

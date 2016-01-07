@@ -25,6 +25,5 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
  */
 @ViewComponent
 public class MessageContainer extends AbstractMobileMainView {
-
     private static final long serialVersionUID = 2543406663265055057L;
 }

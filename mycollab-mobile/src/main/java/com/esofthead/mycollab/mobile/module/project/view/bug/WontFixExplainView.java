@@ -23,7 +23,7 @@ import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.view.settings.ProjectMemberSelectionField;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractMobilePageView;
-import com.esofthead.mycollab.mobile.ui.MobileGridFormLayoutHelper;
+import com.esofthead.mycollab.mobile.ui.grid.GridFormLayoutHelper;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
@@ -34,8 +34,11 @@ import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.Field;
+import com.vaadin.ui.TextArea;
 
 import java.util.GregorianCalendar;
 
@@ -101,7 +104,6 @@ class WontFixExplainView extends AbstractMobilePageView {
                 }
             }
         });
-        wonFixBtn.setStyleName("save-btn");
         this.setRightComponent(wonFixBtn);
         this.setContent(this.editForm);
     }
@@ -109,10 +111,6 @@ class WontFixExplainView extends AbstractMobilePageView {
     private static class EditForm extends AdvancedEditBeanForm<BugWithBLOBs> {
         private static final long serialVersionUID = 1L;
         private TextArea commentArea;
-
-        public EditForm() {
-            this.addStyleName("editview-layout");
-        }
 
         @Override
         public void setBean(final BugWithBLOBs newDataSource) {
@@ -124,14 +122,11 @@ class WontFixExplainView extends AbstractMobilePageView {
         static class FormLayoutFactory implements IFormLayoutFactory {
 
             private static final long serialVersionUID = 1L;
-            private MobileGridFormLayoutHelper informationLayout;
+            private GridFormLayoutHelper informationLayout;
 
             @Override
             public ComponentContainer getLayout() {
-                informationLayout = new MobileGridFormLayoutHelper(1, 3, "100%", "140px", Alignment.TOP_LEFT);
-                this.informationLayout.getLayout().setWidth("100%");
-                this.informationLayout.getLayout().setMargin(false);
-
+                informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
                 return informationLayout.getLayout();
             }
 

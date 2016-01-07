@@ -30,8 +30,7 @@ import com.vaadin.ui.Component;
  * @author MyCollab Ltd.
  * @since 4.0
  */
-public abstract class AbstractRelatedListView<T, S extends SearchCriteria>
-		extends AbstractMobilePageView implements IRelatedListHandlers<T> {
+public abstract class AbstractRelatedListView<T, S extends SearchCriteria> extends AbstractMobilePageView implements IRelatedListHandlers<T> {
 	private static final long serialVersionUID = 1L;
 
 	protected Set<RelatedListHandler<T>> handlers;

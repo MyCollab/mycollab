@@ -37,6 +37,7 @@ import com.esofthead.mycollab.module.user.dao.UserMapperExt;
 import com.esofthead.mycollab.module.user.domain.*;
 import com.esofthead.mycollab.module.user.domain.criteria.UserSearchCriteria;
 import com.esofthead.mycollab.module.user.esb.DeleteUserEvent;
+import com.esofthead.mycollab.module.user.esb.RequestToResetPasswordEvent;
 import com.esofthead.mycollab.module.user.esb.SendUserInvitationEvent;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.security.PermissionMap;
@@ -215,7 +216,7 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
         }
 
         if (Boolean.TRUE.equals(record.getIsAccountOwner())) {
-            if (record.getRoleid() != null && record.getRoleid() !=-1) {
+            if (record.getRoleid() != null && record.getRoleid() != -1) {
                 UserAccountExample userAccountEx = new UserAccountExample();
                 userAccountEx.createCriteria().andAccountidEqualTo(sAccountId).andIsaccountownerEqualTo(Boolean.TRUE);
                 if (userAccountMapper.countByExample(userAccountEx) == 1) {
@@ -345,7 +346,7 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
         userAccountMapper.updateByExampleSelective(userAccount, userAccountEx);
 
         // notify users are "deleted"
-        for (String username: usernames) {
+        for (String username : usernames) {
             DeleteUserEvent event = new DeleteUserEvent(username, accountId);
             asyncEventBus.post(event);
         }
@@ -382,5 +383,10 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
         criteria.setRegisterStatuses(new SetSearchField<>(RegisterStatusConstants.ACTIVE));
         criteria.setSaccountid(new NumberSearchField(accountId));
         return userMapperExt.getTotalCount(criteria);
+    }
+
+    @Override
+    public void requestToResetPassword(String username) {
+        asyncEventBus.post(new RequestToResetPasswordEvent(username));
     }
 }

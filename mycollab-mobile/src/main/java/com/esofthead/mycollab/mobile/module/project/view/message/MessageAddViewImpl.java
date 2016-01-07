@@ -16,14 +16,10 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.message;
 
-import java.util.GregorianCalendar;
-import java.util.HashSet;
-import java.util.Set;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.ui.form.field.ProjectFormAttachmentUploadField;
 import com.esofthead.mycollab.mobile.ui.AbstractMobilePageView;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
 import com.esofthead.mycollab.module.project.i18n.MessageI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -33,17 +29,15 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.addon.touchkit.ui.Switch;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.TextArea;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
+
+import java.util.GregorianCalendar;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author MyCollab Ltd.
- *
  * @since 4.5.0
- *
  */
 @ViewComponent
 public class MessageAddViewImpl extends AbstractMobilePageView implements MessageAddView, HasEditFormHandlers<SimpleMessage> {
@@ -57,7 +51,6 @@ public class MessageAddViewImpl extends AbstractMobilePageView implements Messag
     private final Switch isStickField;
 
     private MessageAttachmentField attachment;
-
     private Set<EditFormHandler<SimpleMessage>> handlers = new HashSet<>();
 
     public MessageAddViewImpl() {
@@ -76,42 +69,31 @@ public class MessageAddViewImpl extends AbstractMobilePageView implements Messag
         subjectField = new TextField();
         subjectField.setStyleName("title-field");
         subjectField.setWidth("100%");
-        subjectField.setInputPrompt(AppContext
-                .getMessage(MessageI18nEnum.FORM_TITLE));
+        subjectField.setInputPrompt(AppContext.getMessage(MessageI18nEnum.FORM_TITLE));
         addFormLayout.addComponent(subjectField);
 
         contentField = new TextArea();
         contentField.setStyleName("content-field");
         contentField.setWidth("100%");
-        contentField.setInputPrompt(AppContext
-                .getMessage(MessageI18nEnum.M_FORM_CONTENT_FIELD_PROMPT));
+        contentField.setInputPrompt(AppContext.getMessage(MessageI18nEnum.M_FORM_CONTENT_FIELD_PROMPT));
         addFormLayout.addComponent(contentField);
 
         VerticalComponentGroup bottomRow = new VerticalComponentGroup();
         bottomRow.setStyleName("bottom-row");
         bottomRow.setWidth("100%");
-        isStickField = new Switch(
-                AppContext.getMessage(MessageI18nEnum.FORM_IS_STICK), false);
+        isStickField = new Switch(AppContext.getMessage(MessageI18nEnum.FORM_IS_STICK), false);
         bottomRow.addComponent(isStickField);
 
         attachment = new MessageAttachmentField();
-
         attachment.setCaption(null);
         bottomRow.addComponent(attachment);
 
         this.content.addComponent(addFormLayout);
-
         this.content.addComponent(bottomRow);
 
-        this.saveBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.M_BUTTON_DONE));
-        this.saveBtn.addStyleName("save-btn");
-        this.saveBtn.addClickListener(new Button.ClickListener() {
-
-            private static final long serialVersionUID = -2038682412445718948L;
-
+        this.saveBtn = new Button(AppContext.getMessage(GenericI18Enum.M_BUTTON_DONE), new Button.ClickListener() {
             @Override
-            public void buttonClick(Button.ClickEvent event) {
+            public void buttonClick(Button.ClickEvent clickEvent) {
                 final SimpleMessage message = new SimpleMessage();
                 message.setProjectid(CurrentProjectVariables.getProjectId());
                 message.setPosteddate(new GregorianCalendar().getTime());
@@ -125,8 +107,7 @@ public class MessageAddViewImpl extends AbstractMobilePageView implements Messag
 
                 } else {
                     subjectField.addStyleName("errorField");
-                    NotificationUtil.showErrorNotification(AppContext
-                            .getMessage(MessageI18nEnum.FORM_TITLE_REQUIRED_ERROR));
+                    NotificationUtil.showErrorNotification(AppContext.getMessage(MessageI18nEnum.FORM_TITLE_REQUIRED_ERROR));
                 }
             }
         });

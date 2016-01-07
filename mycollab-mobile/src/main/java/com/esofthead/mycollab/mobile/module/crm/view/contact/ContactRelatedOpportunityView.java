@@ -30,7 +30,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.VerticalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -72,42 +72,28 @@ public class ContactRelatedOpportunityView extends AbstractRelatedListView<Simpl
         final NavigationBarQuickMenu addOpportunity = new NavigationBarQuickMenu();
         addOpportunity.setStyleName("add-btn");
 
-        VerticalLayout addBtns = new VerticalLayout();
-        addBtns.setStyleName("edit-btn-layout");
-        addBtns.setWidth("100%");
-        addBtns.setSpacing(true);
-        addBtns.setMargin(true);
+        MVerticalLayout addBtns = new MVerticalLayout().withWidth("100%");
 
-        Button newOpportunity = new Button(AppContext.getMessage(OpportunityI18nEnum.VIEW_NEW_TITLE));
-        newOpportunity.addClickListener(new Button.ClickListener() {
-            private static final long serialVersionUID = 7172838996944732255L;
-
+        Button newOpportunityBtn = new Button(AppContext.getMessage(OpportunityI18nEnum.VIEW_NEW_TITLE), new Button.ClickListener() {
             @Override
-            public void buttonClick(Button.ClickEvent event) {
+            public void buttonClick(Button.ClickEvent clickEvent) {
                 fireNewRelatedItem("");
             }
         });
-        addBtns.addComponent(newOpportunity);
+        addBtns.addComponent(newOpportunityBtn);
 
-        Button selectOpportunity = new Button(AppContext.getMessage(OpportunityI18nEnum.M_TITLE_SELECT_OPPORTUNITIES));
-        selectOpportunity.addClickListener(new Button.ClickListener() {
-
-            private static final long serialVersionUID = -8732749124902402042L;
-
+        Button selectOpportunityBtn = new Button(AppContext.getMessage(OpportunityI18nEnum.M_TITLE_SELECT_OPPORTUNITIES), new Button.ClickListener() {
             @Override
-            public void buttonClick(Button.ClickEvent event) {
-                ContactOpportunitySelectionView opportunitySelectionView = new ContactOpportunitySelectionView(
-                        ContactRelatedOpportunityView.this);
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                ContactOpportunitySelectionView opportunitySelectionView = new ContactOpportunitySelectionView(ContactRelatedOpportunityView.this);
                 OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
                 opportunitySelectionView.setSearchCriteria(criteria);
-                EventBusFactory.getInstance().post(new ShellEvent.PushView(ContactRelatedOpportunityView.this,
-                        opportunitySelectionView));
+                EventBusFactory.getInstance().post(new ShellEvent.PushView(ContactRelatedOpportunityView.this, opportunitySelectionView));
             }
         });
-        addBtns.addComponent(selectOpportunity);
+        addBtns.addComponent(selectOpportunityBtn);
         addOpportunity.setContent(addBtns);
-
         return addOpportunity;
     }
 

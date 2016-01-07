@@ -16,30 +16,38 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.milestone;
 
-import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.mobile.module.project.events.MilestoneEvent;
+import com.esofthead.mycollab.configuration.StorageFactory;
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.mobile.ui.DefaultPagedBeanList;
-import com.esofthead.mycollab.mobile.ui.IconConstants;
+import com.esofthead.mycollab.mobile.ui.UIConstants;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
 import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Div;
+import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Span;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.CssLayout;
+import org.vaadin.viritin.layouts.MCssLayout;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.5.2
  */
 public class MilestoneListDisplay extends DefaultPagedBeanList<MilestoneService, MilestoneSearchCriteria, SimpleMilestone> {
-
     private static final long serialVersionUID = 253054104668116456L;
 
     public MilestoneListDisplay() {
@@ -50,69 +58,35 @@ public class MilestoneListDisplay extends DefaultPagedBeanList<MilestoneService,
 
         @Override
         public Component generateRow(final SimpleMilestone milestone, int rowIndex) {
-            HorizontalLayout layout = new HorizontalLayout();
-            layout.setStyleName("list-item");
-            layout.setSpacing(true);
-            Label milestoneIconLbl = new Label("<span aria-hidden=\"true\" data-icon=\""
-                    + IconConstants.PROJECT_MILESTONE + "\"></span>");
-            milestoneIconLbl.setStyleName("milestone-icon");
-            milestoneIconLbl.setWidthUndefined();
-            milestoneIconLbl.setContentMode(ContentMode.HTML);
-            layout.addComponent(milestoneIconLbl);
+            MVerticalLayout milestoneInfoLayout = new MVerticalLayout().withSpacing(false).withFullWidth();
 
-            VerticalLayout milestoneInfoLayout = new VerticalLayout();
-            milestoneInfoLayout.setWidth("100%");
+            A milestoneLink = new A(ProjectLinkBuilder.generateMilestonePreviewFullLink(CurrentProjectVariables
+                    .getProjectId(), milestone.getId())).appendChild(new Span().appendText(milestone.getName()));
+            MCssLayout milestoneWrap = new MCssLayout(new ELabel(milestoneLink.write(), ContentMode.HTML));
+            milestoneInfoLayout.addComponent(new MHorizontalLayout(new ELabel(ProjectAssetsManager.getAsset
+                    (ProjectTypeConstants.MILESTONE).getHtml(), ContentMode.HTML).withWidthUndefined(), milestoneWrap)
+                    .expand(milestoneWrap).withFullWidth());
 
-            Button milestoneNameBtn = new Button(milestone.getName(), new Button.ClickListener() {
+            CssLayout metaLayout = new CssLayout();
+            milestoneInfoLayout.addComponent(metaLayout);
 
-                private static final long serialVersionUID = 1222533996695304038L;
-
-                @Override
-                public void buttonClick(ClickEvent evt) {
-                    EventBusFactory.getInstance().post(new MilestoneEvent.GotoRead(this, milestone.getId()));
-                }
-
-            });
-            milestoneNameBtn.setStyleName("milestone-name");
-            milestoneInfoLayout.addComponent(milestoneNameBtn);
-
-            Label milestoneDatesInfo = new Label();
+            ELabel milestoneDatesInfo = new ELabel().withWidthUndefined();
             milestoneDatesInfo.setValue(AppContext.getMessage(MilestoneI18nEnum.M_LIST_DATE_INFO,
                     AppContext.formatDate(milestone.getStartdate(), " N/A "),
                     AppContext.formatDate(milestone.getEnddate(), " N/A ")));
-            milestoneDatesInfo.setStyleName("milestone-meta-info");
-            milestoneInfoLayout.addComponent(milestoneDatesInfo);
+            milestoneDatesInfo.addStyleName(UIConstants.META_INFO);
+            metaLayout.addComponent(milestoneDatesInfo);
 
-            A assigneeLink = new A();
-            assigneeLink.setHref(ProjectLinkGenerator.generateProjectMemberFullLink(AppContext.getSiteUrl(),
-                    CurrentProjectVariables.getProjectId(), milestone.getOwner()));
-            assigneeLink.setCSSClass("milestone-assignee");
-            assigneeLink.appendText(milestone.getOwnerFullName());
+            A assigneeLink = new A(ProjectLinkGenerator.generateProjectMemberFullLink(AppContext.getSiteUrl(),
+                    CurrentProjectVariables.getProjectId(), milestone.getOwner())).appendText(StringUtils.trim(milestone.getOwnerFullName(), 30, true));
+            Div assigneeDiv = new Div().appendChild(new Img("", StorageFactory.getInstance().getAvatarPath(milestone
+                    .getOwnerAvatarId(), 16))).appendChild(assigneeLink);
 
-            Label assigneeLbl = new Label();
-            assigneeLbl.setValue(AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)
-                    + ":&nbsp;"
-                    + assigneeLink.write());
-            assigneeLbl.setStyleName("milestone-meta-info");
-            assigneeLbl.setContentMode(ContentMode.HTML);
-            milestoneInfoLayout.addComponent(assigneeLbl);
+            ELabel assigneeLbl = new ELabel(assigneeDiv.write(), ContentMode.HTML).withStyleName(UIConstants.META_INFO)
+                    .withWidthUndefined();
+            metaLayout.addComponent(assigneeLbl);
 
-            Label taskBugLbl = new Label();
-            taskBugLbl.setValue(AppContext.getMessage(MilestoneI18nEnum.M_LIST_TASK_BUG_INFO,
-                    "<span aria-hidden=\"true\" data-icon=\""
-                            + IconConstants.PROJECT_TASK + "\"></span>",
-                    milestone.getNumOpenTasks(), milestone.getNumTasks(),
-                    "<span aria-hidden=\"true\" data-icon=\""
-                            + IconConstants.PROJECT_BUG + "\"></span>",
-                    milestone.getNumOpenBugs(), milestone.getNumOpenBugs()));
-            taskBugLbl.setStyleName("milestone-meta-info");
-            taskBugLbl.setContentMode(ContentMode.HTML);
-            milestoneInfoLayout.addComponent(taskBugLbl);
-
-            layout.addComponent(milestoneInfoLayout);
-            layout.setExpandRatio(milestoneInfoLayout, 1.0f);
-            layout.setWidth("100%");
-            return layout;
+            return milestoneInfoLayout;
         }
     }
 }

@@ -31,14 +31,13 @@ import com.esofthead.mycollab.module.tracker.domain.SimpleVersion;
 import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.module.tracker.domain.criteria.VersionSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.VersionService;
-import com.esofthead.mycollab.schedule.email.project.VersionRelayEmailNotificationAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-@Traceable(nameField = "versionname", extraFieldName = "projectid", notifyAgent = VersionRelayEmailNotificationAction.class)
+@Traceable(nameField = "versionname", extraFieldName = "projectid")
 @Watchable(extraTypeId = "projectid")
 public class VersionServiceImpl extends DefaultService<Integer, Version, VersionSearchCriteria> implements VersionService {
     static {

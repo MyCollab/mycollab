@@ -16,11 +16,11 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.bug;
 
-import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
-import com.esofthead.mycollab.vaadin.ui.AssetResource;
 import com.esofthead.mycollab.vaadin.ui.I18nValueComboBox;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.ComboBox;
 
 import java.util.Arrays;
 
@@ -29,7 +29,6 @@ import java.util.Arrays;
  * @since 4.5.2
  */
 public class BugSeverityComboBox extends I18nValueComboBox {
-
     private static final long serialVersionUID = 1L;
 
     public BugSeverityComboBox() {
@@ -38,9 +37,20 @@ public class BugSeverityComboBox extends I18nValueComboBox {
         this.setCaption(null);
         this.loadData(Arrays.asList(OptionI18nEnum.bug_severities));
 
-        this.setItemIcon(BugSeverity.Critical.name(), new AssetResource(ProjectResources.B_SEVERITY_CRITICAL_IMG_12));
-        this.setItemIcon(BugSeverity.Major.name(), new AssetResource(ProjectResources.B_SEVERITY_MAJOR_IMG_12));
-        this.setItemIcon(BugSeverity.Minor.name(), new AssetResource(ProjectResources.B_SEVERITY_MINOR_IMG_12));
-        this.setItemIcon(BugSeverity.Trivial.name(), new AssetResource(ProjectResources.B_SEVERITY_TRIVIAL_IMG_12));
+        this.setItemIcon(BugSeverity.Critical.name(), FontAwesome.STAR);
+        this.setItemIcon(BugSeverity.Major.name(), FontAwesome.STAR);
+        this.setItemIcon(BugSeverity.Minor.name(), FontAwesome.STAR);
+        this.setItemIcon(BugSeverity.Trivial.name(), FontAwesome.STAR);
+
+        this.setItemStyleGenerator(new ItemStyleGenerator() {
+            @Override
+            public String getStyle(ComboBox source, Object itemId) {
+                if (itemId != null) {
+                    return "bug-severity-" + itemId.toString().toLowerCase();
+                } else {
+                    return null;
+                }
+            }
+        });
     }
 }

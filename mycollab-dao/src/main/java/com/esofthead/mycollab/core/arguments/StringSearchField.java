@@ -17,34 +17,36 @@
 package com.esofthead.mycollab.core.arguments;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class StringSearchField extends SearchField {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String value;
+    private String value;
 
-	public StringSearchField() {
-		this("");
-	}
+    public StringSearchField() {
+        this("");
+    }
 
-	public StringSearchField(String value) {
-		this(SearchField.AND, value);
-	}
+    public StringSearchField(String value) {
+        this(SearchField.AND, value);
+    }
 
-	public StringSearchField(String oper, String value) {
-		this.operation = oper;
-		this.value = value;
-	}
+    public StringSearchField(String oper, String value) {
+        this.operation = oper;
+        this.value = value;
+    }
 
-	public String getValue() {
-		return value;
-	}
+    public String getValue() {
+        return value;
+    }
 
-	public void setValue(String value) {
-		this.value = value;
-	}
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public static StringSearchField and(String value) {
+        return new StringSearchField(AND, value);
+    }
 }

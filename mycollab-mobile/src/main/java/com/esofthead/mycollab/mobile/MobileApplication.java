@@ -18,6 +18,7 @@ package com.esofthead.mycollab.mobile;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.IgnoreException;
+import com.esofthead.mycollab.core.MyCollabVersion;
 import com.esofthead.mycollab.core.SessionExpireException;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -25,22 +26,17 @@ import com.esofthead.mycollab.mobile.shell.ShellController;
 import com.esofthead.mycollab.mobile.shell.ShellUrlResolver;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
-import com.esofthead.mycollab.mobile.ui.MobileHistoryViewManager;
 import com.esofthead.mycollab.module.billing.UsageExceedBillingPlanException;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.MyCollabUI;
 import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
-import com.esofthead.mycollab.vaadin.mvp.NullViewState;
-import com.esofthead.mycollab.vaadin.mvp.ViewState;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
+import com.esofthead.mycollab.vaadin.ui.ThemeManager;
 import com.esofthead.mycollab.vaadin.ui.service.GoogleAnalyticsService;
-import com.esofthead.vaadin.mobilecomponent.MobileNavigationManager;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
-import com.vaadin.addon.touchkit.ui.NavigationManager.NavigationEvent;
-import com.vaadin.addon.touchkit.ui.NavigationManager.NavigationEvent.Direction;
-import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.annotations.Theme;
+import com.vaadin.annotations.Viewport;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.DefaultErrorHandler;
 import com.vaadin.server.Page;
@@ -48,7 +44,6 @@ import com.vaadin.server.Page.UriFragmentChangedEvent;
 import com.vaadin.server.Page.UriFragmentChangedListener;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import org.slf4j.Logger;
@@ -60,7 +55,8 @@ import java.util.Collection;
  * @author MyCollab Ltd.
  * @since 3.0
  */
-@Theme("mycollab-mobile")
+@Theme(MyCollabVersion.THEME_MOBILE_VERSION)
+@Viewport("width=device-width, initial-scale=1")
 @Widgetset("com.esofthead.mycollab.widgetset.MyCollabMobileWidgetSet")
 public class MobileApplication extends MyCollabUI {
     private static final long serialVersionUID = 1L;
@@ -150,40 +146,44 @@ public class MobileApplication extends MyCollabUI {
         this.getLoadingIndicatorConfiguration().setSecondDelay(300);
         this.getLoadingIndicatorConfiguration().setThirdDelay(500);
 
-        final MobileNavigationManager manager = new MobileNavigationManager();
-        manager.addNavigationListener(new NavigationManager.NavigationListener() {
-            private static final long serialVersionUID = -2317588983851761998L;
+//        final MobileNavigationManager manager = new MobileNavigationManager();
+//        manager.addNavigationListener(new NavigationManager.NavigationListener() {
+//            private static final long serialVersionUID = -2317588983851761998L;
+//
+//            @SuppressWarnings("unchecked")
+//            @Override
+//            public void navigate(NavigationEvent event) {
+//                NavigationManager currentNavigator = (NavigationManager) event.getSource();
+//                if (event.getDirection() == Direction.BACK) {
+//                    Component nextComponent = currentNavigator.getNextComponent();
+//                    ViewState currentState = MobileHistoryViewManager.peak();
+//
+//                    if (!(currentState instanceof NullViewState) && currentState.getPresenter().getView().equals(nextComponent)) {
+//                        ViewState viewState = MobileHistoryViewManager.pop();
+//                        while (!(viewState instanceof NullViewState)) {
+//                            if (viewState.getPresenter().getView().equals(currentNavigator.getCurrentComponent())) {
+//                                viewState.getPresenter().go(viewState.getContainer(), viewState.getParams());
+//                                break;
+//                            }
+//                            viewState = MobileHistoryViewManager.pop(false);
+//                        }
+//                    }
+//                    if (nextComponent instanceof NavigationView) {
+//                        ((NavigationView) nextComponent).setPreviousComponent(null);
+//                    }
+//                    currentNavigator.removeComponent(nextComponent);
+//                    currentNavigator.getState().setNextComponent(null);
+//
+//                }
+//            }
+//        });
 
-            @SuppressWarnings("unchecked")
-            @Override
-            public void navigate(NavigationEvent event) {
-                NavigationManager currentNavigator = (NavigationManager) event.getSource();
-                if (event.getDirection() == Direction.BACK) {
-                    Component nextComponent = currentNavigator.getNextComponent();
-                    ViewState currentState = MobileHistoryViewManager.peak();
 
-                    if (!(currentState instanceof NullViewState) && currentState.getPresenter().getView().equals(nextComponent)) {
-                        ViewState viewState = MobileHistoryViewManager.pop();
-                        while (!(viewState instanceof NullViewState)) {
-                            if (viewState.getPresenter().getView().equals(currentNavigator.getCurrentComponent())) {
-                                viewState.getPresenter().go(viewState.getContainer(), viewState.getParams());
-                                break;
-                            }
-                            viewState = MobileHistoryViewManager.pop(false);
-                        }
-                    }
-                    if (nextComponent instanceof NavigationView) {
-                        ((NavigationView) nextComponent).setPreviousComponent(null);
-                    }
-                    currentNavigator.removeComponent(nextComponent);
-                    currentNavigator.getState().setNextComponent(null);
-
-                }
-            }
-        });
+        final NavigationManager manager = new NavigationManager();
         setContent(manager);
 
         registerControllers(manager);
+        ThemeManager.loadMobileTheme(AppContext.getAccountId());
 
         getPage().addUriFragmentChangedListener(new UriFragmentChangedListener() {
             private static final long serialVersionUID = -6410955178515535406L;
@@ -198,7 +198,11 @@ public class MobileApplication extends MyCollabUI {
     }
 
     private void enter(String uriFragement) {
-        rootUrlResolver.navigateByFragement(uriFragement);
+        try {
+            rootUrlResolver.navigateByFragement(uriFragement);
+        } catch (Exception e) {
+            LOG.error("Error", e);
+        }
     }
 
     private void registerControllers(NavigationManager manager) {
@@ -214,4 +218,5 @@ public class MobileApplication extends MyCollabUI {
             return null;
         }
     }
+
 }

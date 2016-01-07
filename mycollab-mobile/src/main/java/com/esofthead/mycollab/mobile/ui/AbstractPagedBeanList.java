@@ -16,156 +16,153 @@
  */
 package com.esofthead.mycollab.mobile.ui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.vaadin.ui.Hr;
 import com.esofthead.vaadin.mobilecomponent.InfiniteScrollLayout;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author MyCollab Ltd.
  * @since 3.0
  */
-public abstract class AbstractPagedBeanList<S extends SearchCriteria, B>
-		extends CssLayout implements IPagedBeanList<S, B> {
-	private static final long serialVersionUID = 1504984093640864283L;
+public abstract class AbstractPagedBeanList<S extends SearchCriteria, B> extends CssLayout implements IPagedBeanList<S, B> {
+    private static final long serialVersionUID = 1504984093640864283L;
 
-	protected int displayNumItems = SearchRequest.DEFAULT_NUMBER_SEARCH_ITEMS;
-	protected List<B> currentListData;
-	private RowDisplayHandler<B> rowDisplayHandler;
+    protected int displayNumItems = SearchRequest.DEFAULT_NUMBER_SEARCH_ITEMS;
+    protected List<B> currentListData;
+    private RowDisplayHandler<B> rowDisplayHandler;
 
-	protected CssLayout listContainer;
+    protected CssLayout listContainer;
 
-	protected SearchRequest<S> searchRequest;
-	protected int currentPage = 1;
-	protected int totalPage = 1;
-	protected int currentViewCount;
-	protected int totalCount;
+    protected SearchRequest<S> searchRequest;
+    protected int currentPage = 1;
+    protected int totalPage = 1;
+    protected int currentViewCount;
+    protected int totalCount;
 
-	public AbstractPagedBeanList(RowDisplayHandler<B> rowDisplayHandler) {
-		super();
-		setSizeFull();
-		InfiniteScrollLayout scrollLayout = InfiniteScrollLayout.extend(this);
-		scrollLayout.addScrollListener(new InfiniteScrollLayout.ScrollReachBottomListener() {
+    public AbstractPagedBeanList(RowDisplayHandler<B> rowDisplayHandler) {
+        super();
+        setSizeFull();
+        InfiniteScrollLayout scrollLayout = InfiniteScrollLayout.extend(this);
+        scrollLayout.addScrollListener(new InfiniteScrollLayout.ScrollReachBottomListener() {
 
-					@Override
-					public void onReachBottom() {
-						loadMore();
-					}
-				});
+            @Override
+            public void onReachBottom() {
+                loadMore();
+            }
+        });
 
-		this.rowDisplayHandler = rowDisplayHandler;
+        this.rowDisplayHandler = rowDisplayHandler;
 
-		listContainer = new CssLayout();
-		listContainer.setStyleName("beanlist-content");
-		listContainer.setWidth("100%");
-		this.addComponent(listContainer);
-		this.setStyleName("data-list-view");
-	}
+        listContainer = new CssLayout();
+        this.addComponent(listContainer);
+    }
 
-	public AbstractPagedBeanList(RowDisplayHandler<B> rowDisplayHandler,
-			int defaultNumberSearchItems) {
-		this(rowDisplayHandler);
-		this.displayNumItems = defaultNumberSearchItems;
-	}
+    public AbstractPagedBeanList(RowDisplayHandler<B> rowDisplayHandler, int defaultNumberSearchItems) {
+        this(rowDisplayHandler);
+        this.displayNumItems = defaultNumberSearchItems;
+    }
 
-	public int currentViewCount() {
-		return this.currentViewCount;
-	}
+    public int currentViewCount() {
+        return this.currentViewCount;
+    }
 
-	public int totalItemsCount() {
-		return this.totalCount;
-	}
+    public int totalItemsCount() {
+        return this.totalCount;
+    }
 
-	public void setDisplayNumItems(int value) {
-		this.displayNumItems = value;
-	}
+    public void setDisplayNumItems(int value) {
+        this.displayNumItems = value;
+    }
 
-	@Override
-	public List<B> getCurrentDataList() {
-		return currentListData;
-	}
+    @Override
+    public List<B> getCurrentDataList() {
+        return currentListData;
+    }
 
-	@Override
-	public void setSearchCriteria(final S searchCriteria) {
-		this.currentPage = 1;
-		this.searchRequest = new SearchRequest<>(searchCriteria, this.currentPage, this.displayNumItems);
-		this.doSearch();
-	}
+    @Override
+    public void setSearchCriteria(final S searchCriteria) {
+        this.currentPage = 1;
+        this.searchRequest = new SearchRequest<>(searchCriteria, this.currentPage, this.displayNumItems);
+        this.doSearch();
+    }
 
-	public SearchRequest<S> getSearchRequest() {
-		return this.searchRequest;
-	}
+    public SearchRequest<S> getSearchRequest() {
+        return this.searchRequest;
+    }
 
-	@Override
-	public void refresh() {
-		this.currentPage = 1;
-		this.searchRequest.setCurrentPage(this.currentPage);
-		this.doSearch();
-	}
+    @Override
+    public void refresh() {
+        this.currentPage = 1;
+        this.searchRequest.setCurrentPage(this.currentPage);
+        this.doSearch();
+    }
 
-	abstract protected int queryTotalCount();
+    abstract protected int queryTotalCount();
 
-	abstract protected List<B> queryCurrentData();
+    abstract protected List<B> queryCurrentData();
 
-	protected void doSearch() {
-		this.totalCount = this.queryTotalCount();
-		this.totalPage = (this.totalCount - 1) / this.searchRequest.getNumberOfItems() + 1;
-		if (this.searchRequest.getCurrentPage() > this.totalPage) {
-			this.searchRequest.setCurrentPage(this.totalPage);
-		}
+    protected void doSearch() {
+        this.totalCount = this.queryTotalCount();
+        this.totalPage = (this.totalCount - 1) / this.searchRequest.getNumberOfItems() + 1;
+        if (this.searchRequest.getCurrentPage() > this.totalPage) {
+            this.searchRequest.setCurrentPage(this.totalPage);
+        }
 
-		this.currentListData = this.queryCurrentData();
-		this.currentViewCount = this.currentListData.size();
+        this.currentListData = this.queryCurrentData();
+        this.currentViewCount = this.currentListData.size();
 
-		listContainer.removeAllComponents();
+        listContainer.removeAllComponents();
 
-		renderRows();
-	}
+        renderRows();
+    }
 
-	protected void renderRows() {
-		int i = 0;
-		for (final B item : currentListData) {
-			final Component row = rowDisplayHandler.generateRow(item, i);
-			listContainer.addComponent(row);
-			i++;
-		}
-	}
+    protected void renderRows() {
+        int i = 0;
+        for (final B item : currentListData) {
+            final Component row = rowDisplayHandler.generateRow(item, i);
+            listContainer.addComponent(row);
+            listContainer.addComponent(new Hr());
+            i++;
+        }
+    }
 
-	protected void loadMore() {
-		this.currentPage += 1;
-		this.searchRequest.setCurrentPage(this.currentPage);
-		List<B> currentData = this.queryCurrentData();
-		if (this.currentListData == null)
-			this.currentListData = new ArrayList<B>();
-		this.currentListData.addAll(currentData);
-		this.currentViewCount += this.currentListData.size();
+    protected void loadMore() {
+        this.currentPage += 1;
+        this.searchRequest.setCurrentPage(this.currentPage);
+        List<B> currentData = this.queryCurrentData();
+        if (this.currentListData == null)
+            this.currentListData = new ArrayList<>();
+        this.currentListData.addAll(currentData);
+        this.currentViewCount += this.currentListData.size();
 
-		int i = currentViewCount + 1;
-		for (final B item : currentData) {
-			final Component row = rowDisplayHandler.generateRow(item, i);
-			listContainer.addComponent(row);
-			i++;
-		}
-	}
+        int i = currentViewCount + 1;
+        for (final B item : currentData) {
+            final Component row = rowDisplayHandler.generateRow(item, i);
+            listContainer.addComponent(row);
+            listContainer.addComponent(new Hr());
+            i++;
+        }
+    }
 
-	public void setRowDisplayHandler(RowDisplayHandler<B> rowDisplayHandler) {
-		this.rowDisplayHandler = rowDisplayHandler;
-	}
+    public void setRowDisplayHandler(RowDisplayHandler<B> rowDisplayHandler) {
+        this.rowDisplayHandler = rowDisplayHandler;
+    }
 
-	public RowDisplayHandler<B> getRowDisplayHandler() {
-		return this.rowDisplayHandler;
-	}
+    public RowDisplayHandler<B> getRowDisplayHandler() {
+        return this.rowDisplayHandler;
+    }
 
-	public CssLayout getListContainer() {
-		return this.listContainer;
-	}
+    public CssLayout getListContainer() {
+        return this.listContainer;
+    }
 
-	public interface RowDisplayHandler<B> {
-
-		Component generateRow(B obj, int rowIndex);
-	}
+    public interface RowDisplayHandler<B> {
+        Component generateRow(B obj, int rowIndex);
+    }
 }

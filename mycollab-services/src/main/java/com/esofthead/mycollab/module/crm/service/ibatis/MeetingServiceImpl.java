@@ -33,7 +33,6 @@ import com.esofthead.mycollab.module.crm.domain.SimpleMeeting;
 import com.esofthead.mycollab.module.crm.domain.criteria.MeetingSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.EventService;
 import com.esofthead.mycollab.module.crm.service.MeetingService;
-import com.esofthead.mycollab.schedule.email.crm.MeetingRelayEmailNotificationAction;
 import com.google.common.eventbus.AsyncEventBus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,7 +46,7 @@ import java.util.List;
  */
 @Service
 @Transactional
-@Traceable(nameField = "subject", notifyAgent = MeetingRelayEmailNotificationAction.class)
+@Traceable(nameField = "subject")
 @Watchable(userFieldName = "createduser")
 public class MeetingServiceImpl extends DefaultService<Integer, MeetingWithBLOBs, MeetingSearchCriteria> implements MeetingService {
     static {

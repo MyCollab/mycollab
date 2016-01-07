@@ -27,40 +27,28 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.0
- * 
  */
-public class AccountListDisplay
-		extends
-		DefaultPagedBeanList<AccountService, AccountSearchCriteria, SimpleAccount> {
-	private static final long serialVersionUID = 1491890029721763281L;
+public class AccountListDisplay extends DefaultPagedBeanList<AccountService, AccountSearchCriteria, SimpleAccount> {
+    private static final long serialVersionUID = 1491890029721763281L;
 
-	public AccountListDisplay() {
-		super(ApplicationContextUtil.getSpringBean(AccountService.class),
-				new AccountRowDisplayHandler());
-	}
+    public AccountListDisplay() {
+        super(ApplicationContextUtil.getSpringBean(AccountService.class), new AccountRowDisplayHandler());
+    }
 
-	static public class AccountRowDisplayHandler implements
-			RowDisplayHandler<SimpleAccount> {
+    static public class AccountRowDisplayHandler implements RowDisplayHandler<SimpleAccount> {
 
-		@Override
-		public Component generateRow(final SimpleAccount account, int rowIndex) {
-			final Button b = new Button(account.getAccountname());
-			b.addClickListener(new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void buttonClick(final Button.ClickEvent event) {
-					EventBusFactory.getInstance().post(
-							new AccountEvent.GotoRead(this, account.getId()));
-				}
-			});
-			b.setWidth("100%");
-			b.addStyleName("list-item");
-			return b;
-		}
-
-	}
+        @Override
+        public Component generateRow(final SimpleAccount account, int rowIndex) {
+            final Button b = new Button(account.getAccountname(), new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent clickEvent) {
+                    EventBusFactory.getInstance().post(new AccountEvent.GotoRead(this, account.getId()));
+                }
+            });
+            b.setWidth("100%");
+            return b;
+        }
+    }
 }

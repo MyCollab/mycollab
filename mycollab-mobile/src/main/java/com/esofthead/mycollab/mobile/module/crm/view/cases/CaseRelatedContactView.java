@@ -30,92 +30,66 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.VerticalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
-public class CaseRelatedContactView extends
-		AbstractRelatedListView<SimpleContact, ContactSearchCriteria> {
-	private static final long serialVersionUID = 5099516420497442125L;
-	private CaseWithBLOBs myCase;
+public class CaseRelatedContactView extends AbstractRelatedListView<SimpleContact, ContactSearchCriteria> {
+    private static final long serialVersionUID = 5099516420497442125L;
+    private CaseWithBLOBs myCase;
 
-	public CaseRelatedContactView() {
-		this.setCaption(AppContext
-				.getMessage(ContactI18nEnum.M_TITLE_RELATED_CONTACTS));
-		itemList = new ContactListDisplay();
-		this.setContent(itemList);
-	}
+    public CaseRelatedContactView() {
+        this.setCaption(AppContext.getMessage(ContactI18nEnum.M_TITLE_RELATED_CONTACTS));
+        itemList = new ContactListDisplay();
+        this.setContent(itemList);
+    }
 
-	public void displayContacts(CaseWithBLOBs cases) {
-		this.myCase = cases;
-		loadContacts();
-	}
+    public void displayContacts(CaseWithBLOBs cases) {
+        this.myCase = cases;
+        loadContacts();
+    }
 
-	private void loadContacts() {
-		ContactSearchCriteria criteria = new ContactSearchCriteria();
-		criteria.setSaccountid(new NumberSearchField(SearchField.AND,
-				AppContext.getAccountId()));
-		criteria.setCaseId(new NumberSearchField(SearchField.AND, myCase
-				.getId()));
-		this.setSearchCriteria(criteria);
-	}
+    private void loadContacts() {
+        ContactSearchCriteria criteria = new ContactSearchCriteria();
+        criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+        criteria.setCaseId(new NumberSearchField(SearchField.AND, myCase.getId()));
+        this.setSearchCriteria(criteria);
+    }
 
-	@Override
-	public void refresh() {
-		loadContacts();
-	}
+    @Override
+    public void refresh() {
+        loadContacts();
+    }
 
-	@Override
-	protected Component createRightComponent() {
-		final NavigationBarQuickMenu addContact = new NavigationBarQuickMenu();
-		addContact.setStyleName("add-btn");
+    @Override
+    protected Component createRightComponent() {
+        final NavigationBarQuickMenu addContact = new NavigationBarQuickMenu();
+        addContact.setStyleName("add-btn");
 
-		VerticalLayout addBtns = new VerticalLayout();
-		addBtns.setWidth("100%");
-		addBtns.setSpacing(true);
-		addBtns.setMargin(true);
-		addBtns.setStyleName("edit-btn-layout");
+        MVerticalLayout addBtns = new MVerticalLayout().withWidth("100%");
 
-		Button newContact = new Button(
-				AppContext.getMessage(ContactI18nEnum.VIEW_NEW_TITLE));
-		newContact.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+        Button newContactBtn = new Button(AppContext.getMessage(ContactI18nEnum.VIEW_NEW_TITLE), new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                fireNewRelatedItem("");
+            }
+        });
+        addBtns.addComponent(newContactBtn);
 
-			@Override
-			public void buttonClick(Button.ClickEvent arg0) {
-				fireNewRelatedItem("");
-			}
-		});
-		addBtns.addComponent(newContact);
-
-		Button selectContact = new Button(
-				AppContext.getMessage(ContactI18nEnum.M_TITLE_SELECT_CONTACTS));
-		selectContact.addClickListener(new Button.ClickListener() {
-
-			private static final long serialVersionUID = 5491307760254926146L;
-
-			@Override
-			public void buttonClick(Button.ClickEvent event) {
-				CaseContactSelectionView contactSelectionView = new CaseContactSelectionView(
-						CaseRelatedContactView.this);
-				ContactSearchCriteria criteria = new ContactSearchCriteria();
-				criteria.setSaccountid(new NumberSearchField(AppContext
-						.getAccountId()));
-				contactSelectionView.setSearchCriteria(criteria);
-				EventBusFactory.getInstance().post(
-						new ShellEvent.PushView(CaseRelatedContactView.this,
-								contactSelectionView));
-			}
-		});
-		addBtns.addComponent(selectContact);
-
-		addContact.setContent(addBtns);
-
-		return addContact;
-	}
-
+        Button selectContact = new Button(AppContext.getMessage(ContactI18nEnum.M_TITLE_SELECT_CONTACTS), new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                CaseContactSelectionView contactSelectionView = new CaseContactSelectionView(CaseRelatedContactView.this);
+                ContactSearchCriteria criteria = new ContactSearchCriteria();
+                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                contactSelectionView.setSearchCriteria(criteria);
+                EventBusFactory.getInstance().post(new ShellEvent.PushView(CaseRelatedContactView.this, contactSelectionView));
+            }
+        });
+        addBtns.addComponent(selectContact);
+        addContact.setContent(addBtns);
+        return addContact;
+    }
 }

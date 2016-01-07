@@ -28,67 +28,55 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
 public class LeadSelectionView extends AbstractSelectionView<SimpleLead> {
-	private static final long serialVersionUID = 8715554837844950390L;
-	private LeadSearchCriteria searchCriteria;
-	private LeadListDisplay itemList;
+    private static final long serialVersionUID = 8715554837844950390L;
 
-	private LeadRowDisplayHandler rowHandler = new LeadRowDisplayHandler();
+    private LeadSearchCriteria searchCriteria;
+    private LeadListDisplay itemList;
 
-	public LeadSelectionView() {
-		super();
-		createUI();
-		this.setCaption(AppContext
-				.getMessage(LeadI18nEnum.M_VIEW_LEAD_NAME_LOOKUP));
-	}
+    private LeadRowDisplayHandler rowHandler = new LeadRowDisplayHandler();
 
-	public void createUI() {
-		itemList = new LeadListDisplay();
+    public LeadSelectionView() {
+        super();
+        createUI();
+        this.setCaption(AppContext.getMessage(LeadI18nEnum.M_VIEW_LEAD_NAME_LOOKUP));
+    }
 
-		itemList.setWidth("100%");
-		itemList.setRowDisplayHandler(rowHandler);
-		this.setContent(itemList);
-	}
+    public void createUI() {
+        itemList = new LeadListDisplay();
+        itemList.setWidth("100%");
+        itemList.setRowDisplayHandler(rowHandler);
+        this.setContent(itemList);
+    }
 
-	@Override
-	public void load() {
-		searchCriteria = new LeadSearchCriteria();
-		searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
-				AppContext.getAccountId()));
+    @Override
+    public void load() {
+        searchCriteria = new LeadSearchCriteria();
+        searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+        itemList.setSearchCriteria(searchCriteria);
+        SimpleLead clearLead = new SimpleLead();
+        itemList.getListContainer().addComponentAsFirst(rowHandler.generateRow(clearLead, 0));
+    }
 
-		itemList.setSearchCriteria(searchCriteria);
+    private class LeadRowDisplayHandler implements RowDisplayHandler<SimpleLead> {
 
-		SimpleLead clearLead = new SimpleLead();
-		itemList.getListContainer().addComponentAsFirst(
-				rowHandler.generateRow(clearLead, 0));
-	}
+        @Override
+        public Component generateRow(final SimpleLead lead, int rowIndex) {
+            Button b = new Button(lead.getLeadName(), new Button.ClickListener() {
+                private static final long serialVersionUID = 9024530145840868279L;
 
-	private class LeadRowDisplayHandler implements
-			RowDisplayHandler<SimpleLead> {
-
-		@Override
-		public Component generateRow(final SimpleLead lead, int rowIndex) {
-			Button b = new Button(lead.getLeadName(),
-					new Button.ClickListener() {
-						private static final long serialVersionUID = 9024530145840868279L;
-
-						@Override
-						public void buttonClick(final Button.ClickEvent event) {
-							selectionField.fireValueChange(lead);
-							LeadSelectionView.this.getNavigationManager()
-									.navigateBack();
-						}
-					});
-			b.addStyleName("list-item");
-			if (lead.getId() == null)
-				b.addStyleName("blank-item");
-			return b;
-		}
-
-	}
+                @Override
+                public void buttonClick(final Button.ClickEvent event) {
+                    selectionField.fireValueChange(lead);
+                    LeadSelectionView.this.getNavigationManager().navigateBack();
+                }
+            });
+            if (lead.getId() == null)
+                b.addStyleName("blank-item");
+            return b;
+        }
+    }
 }

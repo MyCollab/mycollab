@@ -22,47 +22,44 @@ import com.esofthead.mycollab.mobile.module.project.ui.AbstractListViewComp;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
 import com.esofthead.mycollab.module.project.domain.criteria.MessageSearchCriteria;
+import com.esofthead.mycollab.module.project.i18n.MessageI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 @ViewComponent
-public class MessageListViewImpl extends
-		AbstractListViewComp<MessageSearchCriteria, SimpleMessage> implements
-		MessageListView {
+public class MessageListViewImpl extends AbstractListViewComp<MessageSearchCriteria, SimpleMessage> implements MessageListView {
+    private static final long serialVersionUID = -5340014066758050437L;
 
-	private static final long serialVersionUID = -5340014066758050437L;
+    public MessageListViewImpl() {
+        super();
+        setCaption(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MESSAGE));
+        setStyleName("message-list-view");
+    }
 
-	public MessageListViewImpl() {
-		super();
-		setCaption(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MESSAGE));
-		setStyleName("message-list-view");
+    @Override
+    protected AbstractPagedBeanList<MessageSearchCriteria, SimpleMessage> createBeanList() {
+        MessageListDisplay messageListDisplay = new MessageListDisplay();
+        return messageListDisplay;
+    }
 
-	}
-
-	@Override
-	protected AbstractPagedBeanList<MessageSearchCriteria, SimpleMessage> createBeanTable() {
-		MessageListDisplay messageListDisplay = new MessageListDisplay();
-		return messageListDisplay;
-	}
-
-	@Override
-	protected Component createRightComponent() {
-		Button addMessage = new Button();
-		addMessage.addClickListener(new Button.ClickListener() {
-
-			private static final long serialVersionUID = 1556502569683651113L;
-
-			@Override
-			public void buttonClick(Button.ClickEvent event) {
-				EventBusFactory.getInstance().post(
-						new MessageEvent.GotoAdd(this, null));
-			}
-		});
-		addMessage.setStyleName("add-btn");
-		return addMessage;
-	}
+    @Override
+    protected Component buildRightComponent() {
+        NavigationBarQuickMenu menu = new NavigationBarQuickMenu();
+        menu.setButtonCaption("...");
+        MVerticalLayout content = new MVerticalLayout();
+        content.with(new Button(AppContext.getMessage(MessageI18nEnum.BUTTON_NEW_MESSAGE), new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                EventBusFactory.getInstance().post(new MessageEvent.GotoAdd(this, null));
+            }
+        }));
+        menu.setContent(content);
+        return menu;
+    }
 
 }

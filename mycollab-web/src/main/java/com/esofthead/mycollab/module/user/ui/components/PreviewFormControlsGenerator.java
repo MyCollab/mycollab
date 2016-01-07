@@ -64,7 +64,6 @@ public class PreviewFormControlsGenerator<T> implements Serializable {
         layout.setSizeUndefined();
         popupButtonsControl = new OptionPopupContent();
         editButtons = new MHorizontalLayout();
-        editButtons.addStyleName("edit-btn");
         editButtons.setDefaultComponentAlignment(Alignment.TOP_RIGHT);
     }
 

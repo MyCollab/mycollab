@@ -16,17 +16,18 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view;
 
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent;
-import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.mobile.ui.DefaultPagedBeanList;
+import com.esofthead.mycollab.mobile.ui.UIConstants;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
-import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
-import com.vaadin.ui.Button;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
+import com.hp.gagawa.java.elements.A;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -43,19 +44,10 @@ public class ProjectListDisplay extends DefaultPagedBeanList<ProjectService, Pro
 
         @Override
         public Component generateRow(final SimpleProject project, int rowIndex) {
-            final Button b = new Button(project.getName());
-            b.addClickListener(new Button.ClickListener() {
-                private static final long serialVersionUID = 6404941057797908742L;
-
-                @Override
-                public void buttonClick(Button.ClickEvent event) {
-                    PageActionChain chain = new PageActionChain(new ProjectScreenData.Goto(project.getId()));
-                    EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(ProjectRowDisplayHandler.this, chain));
-                }
-            });
-            b.setWidth("100%");
-            b.addStyleName("list-item");
-            return b;
+            MVerticalLayout layout = new MVerticalLayout();
+            A prjLink = new A(ProjectLinkBuilder.generateProjectFullLink(project.getId())).appendText(project.getName());
+            layout.with(new ELabel(prjLink.write(), ContentMode.HTML).withStyleName(UIConstants.TRUNCATE));
+            return layout;
         }
     }
 }

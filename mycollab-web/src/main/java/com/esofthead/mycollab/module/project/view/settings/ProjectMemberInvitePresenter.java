@@ -83,7 +83,7 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
 
                     ExtMailService mailService = ApplicationContextUtil.getSpringBean(ExtMailService.class);
                     if (mailService.isMailSetupValid()) {
-                        NotificationUtil.showNotification("Invitation is sent success",
+                        NotificationUtil.showNotification("Invitation is sent successfully",
                                 AppContext.getMessage(GenericI18Enum.HELP_SPAM_FILTER_PREVENT_MESSAGE),
                                 Notification.Type.HUMANIZED_MESSAGE);
                         EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null));

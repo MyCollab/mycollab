@@ -14,18 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-ui.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.vaadin.mvp;
 
 /**
- * 
+ * @param <T>
  * @author MyCollab Ltd.
  * @since 1.0
- * 
- * @param <T>
  */
 public interface IPreviewView<T> extends PageView {
-	void previewItem(T item);
+    void previewItem(T item);
 
-	T getItem();
+    T getItem();
 }

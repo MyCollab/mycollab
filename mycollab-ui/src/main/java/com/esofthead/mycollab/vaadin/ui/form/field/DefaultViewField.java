@@ -52,10 +52,6 @@ public class DefaultViewField extends CustomField<String> {
         return String.class;
     }
 
-    protected String getValueAsHtml() {
-        return value;
-    }
-
     @Override
     protected Component initContent() {
         return label;

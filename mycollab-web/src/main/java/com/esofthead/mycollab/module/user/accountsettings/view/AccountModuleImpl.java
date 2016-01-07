@@ -70,7 +70,7 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
         super();
         ControllerRegistry.addController(new UserAccountController(this));
         this.setWidth("100%");
-        this.addStyleName("main-content-wrapper accountViewContainer");
+        this.addStyleName("accountViewContainer");
 
         MHorizontalLayout topPanel = new MHorizontalLayout().withWidth("100%").withStyleName("top-panel")
                 .withMargin(new MarginInfo(true, true, true, false));

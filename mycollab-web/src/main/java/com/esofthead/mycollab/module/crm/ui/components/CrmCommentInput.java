@@ -22,7 +22,6 @@ import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.ui.components.UserBlock;
-import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AttachmentPanel;
@@ -53,8 +52,7 @@ class CrmCommentInput extends MHorizontalLayout {
     private String type;
     private String typeId;
 
-    CrmCommentInput(final ReloadableComponent component, final String typeVal,
-                    final Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
+    CrmCommentInput(final ReloadableComponent component, final String typeVal) {
         super();
         this.withMargin(new MarginInfo(true, true, false, true)).withWidth("100%").withStyleName("message");
 
@@ -80,51 +78,46 @@ class CrmCommentInput extends MHorizontalLayout {
         uploadExt.addComponent(attachments);
         controlsLayout.with(uploadExt).withAlign(uploadExt, Alignment.TOP_LEFT).expand(uploadExt);
 
-        final Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        final Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(ClickEvent event) {
-                        commentArea.setValue("");
-                    }
-                });
+            @Override
+            public void buttonClick(ClickEvent event) {
+                commentArea.setValue("");
+            }
+        });
         cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 
-        final Button newCommentBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_POST),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        final Button newCommentBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_POST), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(final Button.ClickEvent event) {
-                        CommentWithBLOBs comment = new CommentWithBLOBs();
-                        comment.setComment(Jsoup.clean(commentArea.getValue(),
-                                Whitelist.relaxed()));
-                        comment.setCreatedtime(new GregorianCalendar()
-                                .getTime());
-                        comment.setCreateduser(AppContext.getUsername());
-                        comment.setSaccountid(AppContext.getAccountId());
-                        comment.setType(type.toString());
-                        comment.setTypeid(typeId);
+            @Override
+            public void buttonClick(final Button.ClickEvent event) {
+                CommentWithBLOBs comment = new CommentWithBLOBs();
+                comment.setComment(Jsoup.clean(commentArea.getValue(), Whitelist.relaxed()));
+                comment.setCreatedtime(new GregorianCalendar().getTime());
+                comment.setCreateduser(AppContext.getUsername());
+                comment.setSaccountid(AppContext.getAccountId());
+                comment.setType(type.toString());
+                comment.setTypeid(typeId);
 
-                        CommentService commentService = ApplicationContextUtil
-                                .getSpringBean(CommentService.class);
-                        int commentId = commentService.saveWithSession(comment, AppContext.getUsername(), emailHandler);
+                CommentService commentService = ApplicationContextUtil.getSpringBean(CommentService.class);
+                int commentId = commentService.saveWithSession(comment, AppContext.getUsername());
 
-                        String attachmentPath = AttachmentUtils.getCommentAttachmentPath(typeVal,
-                                AppContext.getAccountId(), null, typeId, commentId);
+                String attachmentPath = AttachmentUtils.getCommentAttachmentPath(typeVal,
+                        AppContext.getAccountId(), null, typeId, commentId);
 
-                        if (!"".equals(attachmentPath)) {
-                            attachments.saveContentsToRepo(attachmentPath);
-                        }
+                if (!"".equals(attachmentPath)) {
+                    attachments.saveContentsToRepo(attachmentPath);
+                }
 
-                        // save success, clear comment area and load list
-                        // comments again
-                        commentArea.setValue("");
-                        attachments.removeAllAttachmentsDisplay();
-                        component.reload();
-                    }
-                });
+                // save success, clear comment area and load list
+                // comments again
+                commentArea.setValue("");
+                attachments.removeAllAttachmentsDisplay();
+                component.reload();
+            }
+        });
         newCommentBtn.setStyleName(UIConstants.BUTTON_ACTION);
         newCommentBtn.setIcon(FontAwesome.SEND);
         controlsLayout.with(cancelBtn, newCommentBtn);

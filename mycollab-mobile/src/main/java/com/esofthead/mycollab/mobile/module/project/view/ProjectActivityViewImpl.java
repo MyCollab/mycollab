@@ -41,12 +41,12 @@ public class ProjectActivityViewImpl extends AbstractListViewComp<ActivityStream
 	}
 
 	@Override
-	protected AbstractPagedBeanList<ActivityStreamSearchCriteria, ProjectActivityStream> createBeanTable() {
+	protected AbstractPagedBeanList<ActivityStreamSearchCriteria, ProjectActivityStream> createBeanList() {
 		return new ProjectActivityStreamListDisplay();
 	}
 
 	@Override
-	protected Component createRightComponent() {
+	protected Component buildRightComponent() {
 		return null;
 	}
 

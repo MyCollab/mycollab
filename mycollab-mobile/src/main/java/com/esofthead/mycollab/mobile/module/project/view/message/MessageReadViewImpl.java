@@ -16,144 +16,132 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.message;
 
-import com.esofthead.mycollab.core.utils.DateTimeUtils;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.utils.StringUtils;
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.ui.AbstractMobilePageView;
 import com.esofthead.mycollab.mobile.ui.MobileAttachmentUtils;
+import com.esofthead.mycollab.mobile.ui.Section;
+import com.esofthead.mycollab.mobile.ui.UIConstants;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
 import com.esofthead.mycollab.module.project.i18n.MessageI18nEnum;
-import com.esofthead.mycollab.schedule.email.project.MessageRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
+import com.esofthead.mycollab.vaadin.ui.Hr;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.apache.commons.collections.CollectionUtils;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.List;
 
 /**
  * @author MyCollab Ltd.
- *
  * @since 4.4.0
- *
  */
 @ViewComponent
-public class MessageReadViewImpl extends AbstractMobilePageView implements
-		MessageReadView {
+public class MessageReadViewImpl extends AbstractMobilePageView implements MessageReadView {
+    private static final long serialVersionUID = -2234834060460314620L;
 
-	private static final long serialVersionUID = -2234834060460314620L;
+    private SimpleMessage bean;
+    private final VerticalLayout mainLayout;
 
-	private SimpleMessage bean;
-	private final VerticalLayout mainLayout;
+    public MessageReadViewImpl() {
+        super();
+        this.addStyleName("message-read-view");
+        this.setCaption(AppContext.getMessage(MessageI18nEnum.M_VIEW_READ_TITLE));
+        mainLayout = new VerticalLayout();
+        mainLayout.setWidth("100%");
+        this.setContent(mainLayout);
+    }
 
-	public MessageReadViewImpl() {
-		super();
-		this.addStyleName("message-read-view");
-		this.setCaption(AppContext
-				.getMessage(MessageI18nEnum.M_VIEW_READ_TITLE));
-		mainLayout = new VerticalLayout();
-		mainLayout.setWidth("100%");
-		this.setContent(mainLayout);
-	}
+    @Override
+    public void previewItem(SimpleMessage message) {
+        mainLayout.removeAllComponents();
+        this.bean = message;
 
-	@Override
-	public void previewItem(SimpleMessage message) {
-		this.bean = message;
-		mainLayout.removeAllComponents();
+        HorizontalLayout messageBlock = new HorizontalLayout();
+        messageBlock.setStyleName("message-block");
+        Image userAvatarImg = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(message.getPostedUserAvatarId(), 32);
+        userAvatarImg.setStyleName("user-avatar");
+        messageBlock.addComponent(userAvatarImg);
 
-		HorizontalLayout messageBlock = new HorizontalLayout();
-		messageBlock.setStyleName("message-block");
-		Image userAvatarImg = UserAvatarControlFactory
-				.createUserAvatarEmbeddedComponent(
-						message.getPostedUserAvatarId(), 32);
-		userAvatarImg.setStyleName("user-avatar");
-		messageBlock.addComponent(userAvatarImg);
+        CssLayout rightCol = new CssLayout();
+        rightCol.setWidth("100%");
 
-		CssLayout rightCol = new CssLayout();
-		rightCol.setWidth("100%");
+        MHorizontalLayout metadataRow = new MHorizontalLayout().withFullWidth();
 
-		HorizontalLayout metadataRow = new HorizontalLayout();
-		metadataRow.setWidth("100%");
-		metadataRow.setStyleName("metadata-row");
-		Label userNameLbl = new Label(message.getFullPostedUserName());
-		userNameLbl.setStyleName("user-name");
-		metadataRow.addComponent(userNameLbl);
-		metadataRow.setExpandRatio(userNameLbl, 1.0f);
+        ELabel userNameLbl = new ELabel(message.getFullPostedUserName()).withStyleName(UIConstants.META_INFO);
+        userNameLbl.addStyleName(UIConstants.TRUNCATE);
+        CssLayout userNameWrap = new CssLayout(userNameLbl);
 
-		Label messageTimePost = new Label(AppContext.formatPrettyTime(message.getPosteddate()));
-		messageTimePost.setStyleName("time-post");
-		messageTimePost.setWidthUndefined();
-		metadataRow.addComponent(messageTimePost);
-		rightCol.addComponent(metadataRow);
+        ELabel messageTimePost = new ELabel().prettyDateTime(message.getPosteddate()).withStyleName(UIConstants.META_INFO).withWidthUndefined();
+        metadataRow.with(userNameWrap, messageTimePost).withAlign(messageTimePost, Alignment.TOP_RIGHT).expand(userNameWrap);
 
-		HorizontalLayout titleRow = new HorizontalLayout();
-		titleRow.setWidth("100%");
-		titleRow.setStyleName("title-row");
-		Label messageTitle = new Label(message.getTitle());
-		messageTitle.setStyleName("message-title");
-		titleRow.addComponent(messageTitle);
-		titleRow.setExpandRatio(messageTitle, 1.0f);
+        rightCol.addComponent(metadataRow);
 
-		if (message.getCommentsCount() > 0) {
-			Label msgCommentCount = new Label(String.valueOf(message
-					.getCommentsCount()));
-			msgCommentCount.setStyleName("comment-count");
-			msgCommentCount.setWidthUndefined();
-			titleRow.addComponent(msgCommentCount);
-			titleRow.addStyleName("has-comment");
-			titleRow.setComponentAlignment(messageTitle, Alignment.MIDDLE_LEFT);
-		}
-		rightCol.addComponent(titleRow);
+        HorizontalLayout titleRow = new HorizontalLayout();
+        titleRow.setWidth("100%");
+        titleRow.setStyleName("title-row");
+        Label messageTitle = new Label(message.getTitle());
+        messageTitle.setStyleName("message-title");
+        titleRow.addComponent(messageTitle);
+        titleRow.setExpandRatio(messageTitle, 1.0f);
 
-		Label messageContent = new Label(StringUtils.trim(
-				StringUtils.trimHtmlTags(message.getMessage()), 150, true));
-		messageContent.setStyleName("message-content");
-		rightCol.addComponent(messageContent);
+        if (message.getCommentsCount() > 0) {
+            Label msgCommentCount = new Label(String.valueOf(message.getCommentsCount()));
+            msgCommentCount.setStyleName("comment-count");
+            msgCommentCount.setWidthUndefined();
+            titleRow.addComponent(msgCommentCount);
+            titleRow.addStyleName("has-comment");
+            titleRow.setComponentAlignment(messageTitle, Alignment.MIDDLE_LEFT);
+        }
+        rightCol.addComponent(titleRow);
 
-		ResourceService attachmentService = ApplicationContextUtil
-				.getSpringBean(ResourceService.class);
-		List<Content> attachments = attachmentService
-				.getContents(AttachmentUtils.getProjectEntityAttachmentPath(
-						AppContext.getAccountId(), message.getProjectid(),
-						ProjectTypeConstants.MESSAGE, "" + message.getId()));
-		if (CollectionUtils.isNotEmpty(attachments)) {
-			CssLayout attachmentPanel = new CssLayout();
-			attachmentPanel.setStyleName("attachment-panel");
-			attachmentPanel.setWidth("100%");
+        Label messageContent = new Label(StringUtils.trimHtmlTags(message.getMessage()));
+        rightCol.addComponent(messageContent);
 
-			for (Content attachment : attachments) {
-				attachmentPanel.addComponent(MobileAttachmentUtils
-						.renderAttachmentRow(attachment));
-			}
-			rightCol.addComponent(attachmentPanel);
-		}
+        ResourceService attachmentService = ApplicationContextUtil.getSpringBean(ResourceService.class);
+        List<Content> attachments = attachmentService.getContents(AttachmentUtils.getProjectEntityAttachmentPath(
+                AppContext.getAccountId(), message.getProjectid(), ProjectTypeConstants.MESSAGE, "" + message.getId()));
+        if (CollectionUtils.isNotEmpty(attachments)) {
+            CssLayout attachmentPanel = new CssLayout();
+            attachmentPanel.setStyleName("attachment-panel");
+            attachmentPanel.setWidth("100%");
 
-		messageBlock.addComponent(rightCol);
-		messageBlock.setExpandRatio(rightCol, 1.0f);
-		messageBlock.setWidth("100%");
+            for (Content attachment : attachments) {
+                attachmentPanel.addComponent(MobileAttachmentUtils.renderAttachmentRow(attachment));
+            }
+            rightCol.addComponent(attachmentPanel);
+        }
 
-		mainLayout.addComponent(messageBlock);
+        messageBlock.addComponent(rightCol);
+        messageBlock.setExpandRatio(rightCol, 1.0f);
+        messageBlock.setWidth("100%");
+        mainLayout.addComponent(messageBlock);
 
-		MessageCommentListDisplay commentDisplay = new MessageCommentListDisplay(
-				ProjectTypeConstants.MESSAGE,
-				CurrentProjectVariables.getProjectId(), true,
-				MessageRelayEmailNotificationAction.class);
-		commentDisplay.loadComments("" + message.getId());
+        Label commentTitleLbl = new Label();
+        Section section = new Section(FontAwesome.COMMENT, commentTitleLbl);
+        MessageCommentListDisplay commentDisplay = new MessageCommentListDisplay(ProjectTypeConstants.MESSAGE,
+                CurrentProjectVariables.getProjectId(), true);
+        int numComments = commentDisplay.loadComments("" + message.getId());
+        commentTitleLbl.setValue(AppContext.getMessage(GenericI18Enum.TAB_COMMENT, numComments));
 
-		this.setToolbar(commentDisplay.getCommentBox());
-		mainLayout.addComponent(commentDisplay);
-	}
+        this.setToolbar(commentDisplay.getCommentBox());
+        mainLayout.addComponent(section);
+        mainLayout.addComponent(commentDisplay);
+    }
 
-	@Override
-	public SimpleMessage getItem() {
-
-		return this.bean;
-	}
+    @Override
+    public SimpleMessage getItem() {
+        return this.bean;
+    }
 
 }

@@ -19,17 +19,23 @@ package com.esofthead.mycollab.mobile.module.project.view;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.events.*;
-import com.esofthead.mycollab.mobile.ui.AbstractMobileSwipeView;
+import com.esofthead.mycollab.mobile.ui.AbstractMobilePageView;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
-import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.*;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
+import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
+import com.vaadin.addon.touchkit.ui.NavigationButton;
+import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -37,7 +43,7 @@ import com.vaadin.ui.*;
  */
 
 @ViewComponent
-public class ProjectDashboardViewImpl extends AbstractMobileSwipeView implements ProjectDashboardView {
+public class ProjectDashboardViewImpl extends AbstractMobilePageView implements ProjectDashboardView {
     private static final long serialVersionUID = 2364544271302929730L;
 
     private final CssLayout mainLayout;
@@ -45,10 +51,45 @@ public class ProjectDashboardViewImpl extends AbstractMobileSwipeView implements
     public ProjectDashboardViewImpl() {
         super();
         this.setCaption(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_DASHBOARD));
+        this.setRightComponent(buildRightComponent());
         mainLayout = new CssLayout();
         mainLayout.setSizeFull();
         mainLayout.setStyleName("project-dashboard");
         this.setContent(mainLayout);
+    }
+
+    private Component buildRightComponent() {
+        NavigationBarQuickMenu menu = new NavigationBarQuickMenu();
+        menu.setButtonCaption("...");
+        MVerticalLayout content = new MVerticalLayout();
+        content.with(new Button(AppContext.getMessage(MessageI18nEnum.BUTTON_NEW_MESSAGE), new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                EventBusFactory.getInstance().post(new MessageEvent.GotoAdd(this, null));
+            }
+        }));
+        content.with(new Button(AppContext.getMessage(MilestoneI18nEnum.BUTTON_NEW_PHASE), new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                EventBusFactory.getInstance().post(new MilestoneEvent.GotoAdd(this, null));
+            }
+        }));
+
+        content.with(new Button(AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASK), new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                EventBusFactory.getInstance().post(new TaskEvent.GotoAdd(this, null));
+            }
+        }));
+
+        content.with(new Button(AppContext.getMessage(BugI18nEnum.BUTTON_NEW_BUG), new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                EventBusFactory.getInstance().post(new BugEvent.GotoAdd(this, null));
+            }
+        }));
+        menu.setContent(content);
+        return menu;
     }
 
     @Override
@@ -60,7 +101,7 @@ public class ProjectDashboardViewImpl extends AbstractMobileSwipeView implements
         projectInfo.setWidth("100%");
         projectInfo.setDefaultComponentAlignment(Alignment.TOP_CENTER);
 
-        Label projectIcon = new Label("<span aria-hidden=\"true\" data-icon=\"&#xe614\"></span>");
+        ELabel projectIcon = ELabel.h2(FontAwesome.BUILDING_O.getHtml());
         projectIcon.setStyleName("project-icon");
         projectIcon.setContentMode(ContentMode.HTML);
         projectIcon.setWidthUndefined();
@@ -71,65 +112,63 @@ public class ProjectDashboardViewImpl extends AbstractMobileSwipeView implements
         projectName.setStyleName("project-name");
         projectInfo.addComponent(projectName);
 
-        GridLayout projectModulesList = new GridLayout(2, 3);
-        projectModulesList.setStyleName("project-modules-layout");
-        projectModulesList.setWidth("100%");
-        projectModulesList.setSpacing(true);
-        projectModulesList.setDefaultComponentAlignment(Alignment.TOP_CENTER);
-
-        projectModulesList.addComponent(new ProjectModuleButton(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MESSAGE),
-                ProjectAssetsManager.getAsset(ProjectTypeConstants.MESSAGE)));
-
-        projectModulesList.addComponent(new ProjectModuleButton(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MILESTONE),
-                ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE)));
-
-        projectModulesList.addComponent(new ProjectModuleButton(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_TASK),
-                ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK)));
-
-        projectModulesList.addComponent(new ProjectModuleButton(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_BUG),
-                ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG)));
-
-        projectModulesList.addComponent(new ProjectModuleButton(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_USERS),
-                ProjectAssetsManager.getAsset(ProjectTypeConstants.MEMBER)), 0, 2, 1, 2);
-
         mainLayout.addComponent(projectInfo);
-        mainLayout.addComponent(projectModulesList);
+
+        VerticalComponentGroup btnGroup = new VerticalComponentGroup();
+
+        NavigationButton messageBtn = new NavigationButton(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MESSAGE));
+        messageBtn.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+            @Override
+            public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
+                EventBusFactory.getInstance().post(new MessageEvent.GotoList(this, null));
+            }
+        });
+        btnGroup.addComponent(new NavigationButtonWrap(ProjectAssetsManager.getAsset(ProjectTypeConstants.MESSAGE), messageBtn));
+
+        NavigationButton milestoneBtn = new NavigationButton(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MILESTONE));
+        milestoneBtn.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+            @Override
+            public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
+                EventBusFactory.getInstance().post(new MilestoneEvent.GotoList(this, null));
+            }
+        });
+        btnGroup.addComponent(new NavigationButtonWrap(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE), milestoneBtn));
+
+        NavigationButton taskBtn = new NavigationButton(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_TASK));
+        taskBtn.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+            @Override
+            public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
+                EventBusFactory.getInstance().post(new TaskEvent.GotoList(this, null));
+            }
+        });
+        btnGroup.addComponent(new NavigationButtonWrap(ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK), taskBtn));
+
+        NavigationButton bugBtn = new NavigationButton(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_BUG));
+        bugBtn.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+            @Override
+            public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
+                EventBusFactory.getInstance().post(new BugEvent.GotoList(this, null));
+            }
+        });
+        btnGroup.addComponent(new NavigationButtonWrap(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG), bugBtn));
+
+        NavigationButton userBtn = new NavigationButton(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_USERS));
+        userBtn.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+            @Override
+            public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
+                EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null));
+            }
+        });
+        btnGroup.addComponent(new NavigationButtonWrap(FontAwesome.USERS, userBtn));
+
+        mainLayout.addComponent(btnGroup);
     }
 
-    private static class ProjectModuleButton extends Button {
-        private static final long serialVersionUID = -6193679382567699005L;
-        private String buttonId;
-
-        public ProjectModuleButton(String id, FontAwesome iconCode) {
-            super(id);
-            this.setIcon(iconCode);
-            this.setWidth("100%");
-            this.setStyleName("project-module-btn");
-            this.buttonId = id;
-            this.setHtmlContentAllowed(true);
-            this.addClickListener(new Button.ClickListener() {
-                private static final long serialVersionUID = -6012218269990812630L;
-
-                @Override
-                public void buttonClick(Button.ClickEvent evt) {
-                    String buttonId = ((ProjectModuleButton) evt.getButton()).getButtonId();
-                    if (AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MESSAGE).equals(buttonId)) {
-                        EventBusFactory.getInstance().post(new MessageEvent.GotoList(this, null));
-                    } else if (AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MILESTONE).equals(buttonId)) {
-                        EventBusFactory.getInstance().post(new MilestoneEvent.GotoList(this, null));
-                    } else if (AppContext.getMessage(ProjectCommonI18nEnum.VIEW_TASK).equals(buttonId)) {
-                        EventBusFactory.getInstance().post(new TaskEvent.GotoList(this, null));
-                    } else if (AppContext.getMessage(ProjectCommonI18nEnum.VIEW_BUG).equals(buttonId)) {
-                        EventBusFactory.getInstance().post(new BugEvent.GotoList(this, null));
-                    } else if (AppContext.getMessage(ProjectCommonI18nEnum.VIEW_USERS).equals(buttonId)) {
-                        EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null));
-                    }
-                }
-            });
-        }
-
-        public String getButtonId() {
-            return this.buttonId;
+    private static class NavigationButtonWrap extends MHorizontalLayout {
+        NavigationButtonWrap(FontAwesome icon, NavigationButton button) {
+            this.setStyleName("navigation-button-wrap");
+            ELabel iconLbl = new ELabel(icon.getHtml(), ContentMode.HTML).withWidthUndefined();
+            with(iconLbl, button).withAlign(iconLbl, Alignment.MIDDLE_LEFT).expand(button);
         }
     }
 }

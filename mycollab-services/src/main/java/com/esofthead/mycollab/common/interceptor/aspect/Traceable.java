@@ -22,18 +22,15 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(value = { ElementType.TYPE })
+@Target(value = {ElementType.TYPE})
 public @interface Traceable {
-	String idField() default "id";
+    String idField() default "id";
 
-	String nameField();
+    String nameField();
 
-	String extraFieldName() default "";
-
-	Class notifyAgent();
+    String extraFieldName() default "";
 }

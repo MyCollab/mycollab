@@ -211,6 +211,12 @@
     padding-top: 6px !important;
 }
 
+/* Panel styles */
+.v-ddpanel-over {
+	background-color: rgb(169,209,255) !important; /* IE fallback */
+    background-color: rgba(169,209,255,.6) !important;
+}
+
 /* Fixes VFilterselect dragging drag image styles */
 .v-drag-element .v-filterselect-input{
 	float:left;

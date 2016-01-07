@@ -16,9 +16,6 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.ui;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.mobile.ui.AbstractMobilePageView;
@@ -27,79 +24,74 @@ import com.esofthead.mycollab.mobile.ui.AbstractRelatedListView;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.ui.Button;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * @author MyCollab Inc.
- * 
  * @since 4.3.1
  */
-public abstract class AbstractRelatedItemSelectionView<T, S extends SearchCriteria>
-		extends AbstractMobilePageView {
-	private static final long serialVersionUID = -8672605824883862622L;
+public abstract class AbstractRelatedItemSelectionView<T, S extends SearchCriteria> extends AbstractMobilePageView {
+    private static final long serialVersionUID = -8672605824883862622L;
 
-	protected static final String SELECTED_STYLENAME = "selected";
+    protected static final String SELECTED_STYLENAME = "selected";
 
-	protected final AbstractRelatedListView<T, S> relatedListView;
-	protected Set<T> selections = new HashSet<T>();
-	protected AbstractPagedBeanList<S, T> itemList;
+    protected final AbstractRelatedListView<T, S> relatedListView;
+    protected Set<T> selections = new HashSet<T>();
+    protected AbstractPagedBeanList<S, T> itemList;
 
-	public AbstractRelatedItemSelectionView(String title,
-			final AbstractRelatedListView<T, S> relatedListView) {
-		this.setCaption(title);
-		this.relatedListView = relatedListView;
-		initUI();
-		this.setContent(itemList);
-		Button doneBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.M_BUTTON_DONE),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = -652476076947907047L;
+    public AbstractRelatedItemSelectionView(String title, final AbstractRelatedListView<T, S> relatedListView) {
+        this.setCaption(title);
+        this.relatedListView = relatedListView;
+        initUI();
+        this.setContent(itemList);
+        Button doneBtn = new Button(AppContext.getMessage(GenericI18Enum.M_BUTTON_DONE), new Button.ClickListener() {
+            private static final long serialVersionUID = -652476076947907047L;
 
-					@Override
-					public void buttonClick(Button.ClickEvent event) {
-						if (!selections.isEmpty()) {
-							relatedListView.fireSelectedRelatedItems(selections);
-						}
-					}
-				});
-		doneBtn.setStyleName("save-btn");
-		this.setRightComponent(doneBtn);
-	}
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                if (!selections.isEmpty()) {
+                    relatedListView.fireSelectedRelatedItems(selections);
+                }
+            }
+        });
+        this.setRightComponent(doneBtn);
+    }
 
-	protected abstract void initUI();
+    protected abstract void initUI();
 
-	public void setSearchCriteria(S criteria) {
-		itemList.setSearchCriteria(criteria);
-	}
+    public void setSearchCriteria(S criteria) {
+        itemList.setSearchCriteria(criteria);
+    }
 
-	protected class SelectableButton extends Button {
-		private static final long serialVersionUID = 8233451662822791473L;
-		private boolean selected = false;
+    protected class SelectableButton extends Button {
+        private static final long serialVersionUID = 8233451662822791473L;
+        private boolean selected = false;
 
-		public SelectableButton(String caption) {
-			super(caption);
-			setStyleName("list-item selectable-button");
-			addClickListener(new Button.ClickListener() {
+        public SelectableButton(String caption) {
+            super(caption);
+            addClickListener(new Button.ClickListener() {
+                private static final long serialVersionUID = 6187441057387703570L;
 
-				private static final long serialVersionUID = 6187441057387703570L;
+                @Override
+                public void buttonClick(Button.ClickEvent event) {
+                    selected = !selected;
+                    if (selected) {
+                        addStyleName(SELECTED_STYLENAME);
+                    } else {
+                        removeStyleName(SELECTED_STYLENAME);
+                    }
+                }
+            });
+        }
 
-				@Override
-				public void buttonClick(Button.ClickEvent event) {
-					selected = !selected;
-					if (selected) {
-						addStyleName(SELECTED_STYLENAME);
-					} else {
-						removeStyleName(SELECTED_STYLENAME);
-					}
-				}
-			});
-		}
+        public boolean isSelected() {
+            return selected;
+        }
 
-		public boolean isSelected() {
-			return selected;
-		}
-
-		public void select() {
-			this.selected = true;
-			this.addStyleName(SELECTED_STYLENAME);
-		}
-	}
+        public void select() {
+            this.selected = true;
+            this.addStyleName(SELECTED_STYLENAME);
+        }
+    }
 }

@@ -29,69 +29,57 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
-public class CampaignSelectionView extends
-		AbstractSelectionView<CampaignWithBLOBs> {
+public class CampaignSelectionView extends AbstractSelectionView<CampaignWithBLOBs> {
+    private static final long serialVersionUID = 1L;
 
-	private static final long serialVersionUID = 1L;
-	private CampaignSearchCriteria searchCriteria;
-	private CampaignListDisplay itemList;
+    private CampaignSearchCriteria searchCriteria;
+    private CampaignListDisplay itemList;
 
-	private CampaignRowDisplayHandler rowHandler = new CampaignRowDisplayHandler();
+    private CampaignRowDisplayHandler rowHandler = new CampaignRowDisplayHandler();
 
-	public CampaignSelectionView() {
-		super();
-		createUI();
-		this.setCaption(AppContext
-				.getMessage(CampaignI18nEnum.M_VIEW_CAMPAIGN_NAME_LOOKUP));
-	}
+    public CampaignSelectionView() {
+        super();
+        createUI();
+        this.setCaption(AppContext.getMessage(CampaignI18nEnum.M_VIEW_CAMPAIGN_NAME_LOOKUP));
+    }
 
-	private void createUI() {
-		itemList = new CampaignListDisplay();
+    private void createUI() {
+        itemList = new CampaignListDisplay();
 
-		itemList.setWidth("100%");
-		itemList.setRowDisplayHandler(rowHandler);
-		this.setContent(itemList);
-	}
+        itemList.setWidth("100%");
+        itemList.setRowDisplayHandler(rowHandler);
+        this.setContent(itemList);
+    }
 
-	@Override
-	public void load() {
-		searchCriteria = new CampaignSearchCriteria();
-		searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
-				AppContext.getAccountId()));
+    @Override
+    public void load() {
+        searchCriteria = new CampaignSearchCriteria();
+        searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+        itemList.setSearchCriteria(searchCriteria);
+        SimpleCampaign clearCampaign = new SimpleCampaign();
+        itemList.getListContainer().addComponentAsFirst(rowHandler.generateRow(clearCampaign, 0));
+    }
 
-		itemList.setSearchCriteria(searchCriteria);
+    private class CampaignRowDisplayHandler implements RowDisplayHandler<SimpleCampaign> {
 
-		SimpleCampaign clearCampaign = new SimpleCampaign();
-		itemList.getListContainer().addComponentAsFirst(
-				rowHandler.generateRow(clearCampaign, 0));
-	}
+        @Override
+        public Component generateRow(final SimpleCampaign campaign, int rowIndex) {
+            Button b = new Button(campaign.getCampaignname(), new Button.ClickListener() {
+                private static final long serialVersionUID = -2772809360324017746L;
 
-	private class CampaignRowDisplayHandler implements
-			RowDisplayHandler<SimpleCampaign> {
+                @Override
+                public void buttonClick(final Button.ClickEvent event) {
+                    selectionField.fireValueChange(campaign);
+                    CampaignSelectionView.this.getNavigationManager().navigateBack();
+                }
+            });
+            if (campaign.getId() == null)
+                b.addStyleName("blank-item");
+            return b;
+        }
 
-		@Override
-		public Component generateRow(final SimpleCampaign campaign, int rowIndex) {
-			Button b = new Button(campaign.getCampaignname(),
-					new Button.ClickListener() {
-						private static final long serialVersionUID = -2772809360324017746L;
-
-						@Override
-						public void buttonClick(final Button.ClickEvent event) {
-							selectionField.fireValueChange(campaign);
-							CampaignSelectionView.this.getNavigationManager()
-									.navigateBack();
-						}
-					});
-			b.addStyleName("list-item");
-			if (campaign.getId() == null)
-				b.addStyleName("blank-item");
-			return b;
-		}
-
-	}
+    }
 }

@@ -162,7 +162,6 @@ public class AuditLogAspect {
                         relayNotification.setSaccountid(sAccountId);
                         relayNotification.setType(ClassInfoMap.getType(cls));
                         relayNotification.setTypeid("" + typeId);
-                        relayNotification.setEmailhandlerbean(traceableAnnotation.notifyAgent().getName());
                         if (auditLogId != null) {
                             relayNotification.setExtratypeid(auditLogId);
                         }

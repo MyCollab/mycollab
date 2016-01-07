@@ -25,7 +25,6 @@ import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
  * 
  */
 public class IndustryComboBox extends ValueComboBox {
-
 	private static final long serialVersionUID = 1L;
 
 	public IndustryComboBox() {

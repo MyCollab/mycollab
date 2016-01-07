@@ -16,12 +16,11 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.bug;
 
-
-import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
-import com.esofthead.mycollab.vaadin.ui.AssetResource;
 import com.esofthead.mycollab.vaadin.ui.I18nValueComboBox;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.ComboBox;
 
 import java.util.Arrays;
 
@@ -37,10 +36,20 @@ public class BugPriorityComboBox extends I18nValueComboBox {
         this.setNullSelectionAllowed(false);
         this.setCaption(null);
         this.loadData(Arrays.asList(OptionI18nEnum.bug_priorities));
-        this.setItemIcon(BugPriority.Blocker.name(), new AssetResource(ProjectResources.B_PRIORITY_BLOCKER_IMG_12));
-        this.setItemIcon(BugPriority.Critical.name(), new AssetResource(ProjectResources.B_PRIORITY_CRITICAL_IMG_12));
-        this.setItemIcon(BugPriority.Major.name(), new AssetResource(ProjectResources.B_PRIORITY_MAJOR_IMG_12));
-        this.setItemIcon(BugPriority.Minor.name(), new AssetResource(ProjectResources.B_PRIORITY_MINOR_IMG_12));
-        this.setItemIcon(BugPriority.Trivial.name(), new AssetResource(ProjectResources.B_PRIORITY_TRIVIAL_IMG_12));
+        this.setItemIcon(BugPriority.Blocker.name(), FontAwesome.ARROW_UP);
+        this.setItemIcon(BugPriority.Critical.name(), FontAwesome.ARROW_UP);
+        this.setItemIcon(BugPriority.Major.name(), FontAwesome.ARROW_UP);
+        this.setItemIcon(BugPriority.Minor.name(), FontAwesome.ARROW_DOWN);
+        this.setItemIcon(BugPriority.Trivial.name(), FontAwesome.ARROW_DOWN);
+
+        this.setItemStyleGenerator(new ItemStyleGenerator() {
+            @Override
+            public String getStyle(ComboBox source, Object itemId) {
+                if (itemId != null) {
+                    return String.format("bug-%s", itemId.toString().toLowerCase());
+                }
+                return null;
+            }
+        });
     }
 }

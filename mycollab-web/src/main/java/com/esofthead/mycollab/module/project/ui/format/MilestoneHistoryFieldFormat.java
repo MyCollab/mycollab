@@ -48,9 +48,8 @@ public final class MilestoneHistoryFieldFormat implements HistoryFieldFormat {
             SimpleMilestone milestone = milestoneService.findById(milestoneId, AppContext.getAccountId());
 
             if (milestone != null) {
-                return ProjectLinkBuilder.generateProjectItemLinkWithTooltip(CurrentProjectVariables.getShortName(),
-                        milestone.getProjectid(), milestone.getName(), ProjectTypeConstants.MILESTONE, milestone.getId() + "",
-                        milestone.getId() + "");
+                return ProjectLinkBuilder.generateProjectItemHtmlLinkAndTooltip(CurrentProjectVariables.getShortName(),
+                        milestone.getProjectid(), milestone.getName(), ProjectTypeConstants.MILESTONE, milestone.getId() + "");
             }
         } catch (Exception e) {
             LOG.error("Error", e);

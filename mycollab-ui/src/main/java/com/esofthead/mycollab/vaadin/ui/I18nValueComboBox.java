@@ -30,7 +30,7 @@ public class I18nValueComboBox extends StyleComboBox {
 
     public I18nValueComboBox() {
         super();
-        this.setPageLength(20);
+//        this.setPageLength(20);
     }
 
     public I18nValueComboBox(boolean nullIsAllowable, Enum<?>... keys) {

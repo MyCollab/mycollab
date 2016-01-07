@@ -97,7 +97,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
     public MainViewImpl() {
         this.setSizeFull();
         ControllerRegistry.addController(new MainViewController(this));
-        ThemeManager.loadUserTheme(AppContext.getAccountId());
+        ThemeManager.loadDesktopTheme(AppContext.getAccountId());
     }
 
     @Override

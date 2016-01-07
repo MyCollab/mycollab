@@ -119,8 +119,6 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
         ProjectViewWrap(final SimpleProject project) {
             super();
             this.setWidth("100%");
-
-            this.addStyleName("main-content-wrapper");
             this.addStyleName("projectDashboardView");
 
             myProjectTab = new ProjectVerticalTabsheet();

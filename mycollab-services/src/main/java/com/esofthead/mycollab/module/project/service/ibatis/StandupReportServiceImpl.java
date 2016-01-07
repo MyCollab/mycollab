@@ -38,7 +38,6 @@ import com.esofthead.mycollab.module.project.domain.criteria.StandupReportSearch
 import com.esofthead.mycollab.module.project.service.ProjectActivityStreamService;
 import com.esofthead.mycollab.module.project.service.StandupReportService;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
-import com.esofthead.mycollab.schedule.email.project.StandupRelayEmailNotificationAction;
 import com.google.common.eventbus.AsyncEventBus;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -55,7 +54,7 @@ import java.util.List;
  */
 @Service
 @Transactional
-@Traceable(nameField = "forday", extraFieldName = "projectid", notifyAgent = StandupRelayEmailNotificationAction.class)
+@Traceable(nameField = "forday", extraFieldName = "projectid")
 public class StandupReportServiceImpl extends DefaultService<Integer, StandupReportWithBLOBs, StandupReportSearchCriteria>
         implements StandupReportService {
     static {

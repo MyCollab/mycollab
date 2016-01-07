@@ -26,7 +26,6 @@ import com.esofthead.mycollab.mobile.ui.TempFileFactory;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
@@ -57,10 +56,9 @@ public class ProjectCommentInput extends VerticalLayout {
     private TextArea commentInput;
 
     private String type;
-    private String typeid;
+    private String typeId;
     private Integer extraTypeId;
     private ReloadableComponent component;
-    private Class<? extends SendingRelayEmailNotificationAction> emailHandlerClass;
 
     private FileBuffer receiver;
     private MultiUpload uploadField;
@@ -72,16 +70,12 @@ public class ProjectCommentInput extends VerticalLayout {
 
     private CssLayout statusWrapper;
 
-    public ProjectCommentInput(final ReloadableComponent component, final String typeVal,
-                               final Integer extraTypeIdVal, final boolean cancelButtonEnable,
-                               final Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
-
+    public ProjectCommentInput(ReloadableComponent component, String typeVal, Integer extraTypeIdVal) {
         resourceService = ApplicationContextUtil.getSpringBean(ResourceService.class);
 
         type = typeVal;
         extraTypeId = extraTypeIdVal;
         this.component = component;
-        this.emailHandlerClass = emailHandler;
 
         currentPollInterval = UI.getCurrent().getPollInterval();
         constructUI();
@@ -103,38 +97,26 @@ public class ProjectCommentInput extends VerticalLayout {
         inputWrapper.addComponent(uploadField);
 
         commentInput = new TextArea();
-        commentInput.setInputPrompt(AppContext
-                .getMessage(GenericI18Enum.M_NOTE_INPUT_PROMPT));
+        commentInput.setInputPrompt(AppContext.getMessage(GenericI18Enum.M_NOTE_INPUT_PROMPT));
         commentInput.setSizeFull();
 
-        Button postBtn = new Button(AppContext.getMessage(GenericI18Enum.M_BUTTON_SEND));
-        postBtn.setStyleName("submit-btn");
-        postBtn.setWidthUndefined();
-        postBtn.addClickListener(new Button.ClickListener() {
-
-            private static final long serialVersionUID = 6687918902751556313L;
-
+        Button postBtn = new Button(AppContext.getMessage(GenericI18Enum.M_BUTTON_SEND), new Button.ClickListener() {
             @Override
-            public void buttonClick(Button.ClickEvent arg0) {
+            public void buttonClick(ClickEvent clickEvent) {
                 final CommentWithBLOBs comment = new CommentWithBLOBs();
                 comment.setComment(commentInput.getValue());
                 comment.setCreatedtime(new GregorianCalendar().getTime());
                 comment.setCreateduser(AppContext.getUsername());
                 comment.setSaccountid(AppContext.getAccountId());
                 comment.setType(type.toString());
-                comment.setTypeid("" + typeid);
+                comment.setTypeid("" + typeId);
                 comment.setExtratypeid(extraTypeId);
 
-                final CommentService commentService = ApplicationContextUtil
-                        .getSpringBean(CommentService.class);
-                int commentId = commentService.saveWithSession(comment,
-                        AppContext.getUsername(), emailHandlerClass);
+                final CommentService commentService = ApplicationContextUtil.getSpringBean(CommentService.class);
+                int commentId = commentService.saveWithSession(comment, AppContext.getUsername());
 
-                String attachmentPath = AttachmentUtils
-                        .getCommentAttachmentPath(type,
-                                AppContext.getAccountId(),
-                                CurrentProjectVariables.getProjectId(), typeid,
-                                commentId);
+                String attachmentPath = AttachmentUtils.getCommentAttachmentPath(type, AppContext.getAccountId(),
+                        CurrentProjectVariables.getProjectId(), typeId, commentId);
                 if (!"".equals(attachmentPath)) {
                     saveContentsToRepo(attachmentPath);
                 }
@@ -145,8 +127,9 @@ public class ProjectCommentInput extends VerticalLayout {
                 statusWrapper.removeAllComponents();
                 component.reload();
             }
-
         });
+        postBtn.setStyleName("submit-btn");
+        postBtn.setWidthUndefined();
         inputWrapper.with(commentInput, postBtn).expand(commentInput);
         this.addComponent(inputWrapper);
     }
@@ -170,15 +153,12 @@ public class ProjectCommentInput extends VerticalLayout {
                 String fileName = event.getFileName();
                 int index = fileName.lastIndexOf(".");
                 if (index > 0) {
-                    String fileExt = fileName.substring(index + 1,
-                            fileName.length());
-                    fileName = MobileAttachmentUtils.ATTACHMENT_NAME_PREFIX
-                            + System.currentTimeMillis() + "." + fileExt;
+                    String fileExt = fileName.substring(index + 1, fileName.length());
+                    fileName = MobileAttachmentUtils.ATTACHMENT_NAME_PREFIX + System.currentTimeMillis() + "." + fileExt;
                 }
 
                 if (!indicators.isEmpty()) {
-                    statusWrapper.replaceComponent(indicators.remove(0),
-                            createAttachmentRow(fileName));
+                    statusWrapper.replaceComponent(indicators.remove(0), createAttachmentRow(fileName));
                 }
 
                 if (indicators.size() == 0) {
@@ -187,19 +167,16 @@ public class ProjectCommentInput extends VerticalLayout {
 
                 File file = receiver.getFile();
 
-                receiveFile(file, fileName, event.getMimeType(),
-                        event.getBytesReceived());
+                receiveFile(file, fileName, event.getMimeType(), event.getBytesReceived());
                 receiver.setValue(null);
             }
 
             @Override
             public void streamingFailed(StreamVariable.StreamingErrorEvent event) {
                 if (!indicators.isEmpty()) {
-                    Label uploadResult = new Label("Upload failed! File: "
-                            + event.getFileName());
+                    Label uploadResult = new Label("Upload failed! File: " + event.getFileName());
                     uploadResult.setStyleName("upload-status");
-                    statusWrapper.replaceComponent(indicators.remove(0),
-                            uploadResult);
+                    statusWrapper.replaceComponent(indicators.remove(0), uploadResult);
                 }
             }
 
@@ -220,8 +197,7 @@ public class ProjectCommentInput extends VerticalLayout {
             }
 
             @Override
-            public void filesQueued(
-                    Collection<MultiUpload.FileDetail> pendingFileNames) {
+            public void filesQueued(Collection<MultiUpload.FileDetail> pendingFileNames) {
                 UI.getCurrent().setPollInterval(500);
                 if (indicators == null) {
                     indicators = new LinkedList<>();
@@ -284,8 +260,7 @@ public class ProjectCommentInput extends VerticalLayout {
                     String fileExt = "";
                     int index = fileName.lastIndexOf(".");
                     if (index > 0) {
-                        fileExt = fileName.substring(index + 1,
-                                fileName.length());
+                        fileExt = fileName.substring(index + 1, fileName.length());
                     }
 
                     if ("jpg".equalsIgnoreCase(fileExt) || "png".equalsIgnoreCase(fileExt)) {
@@ -310,28 +285,16 @@ public class ProjectCommentInput extends VerticalLayout {
                             ByteArrayOutputStream outStream = new ByteArrayOutputStream();
                             ImageIO.write(scaledImage, fileExt, outStream);
 
-                            resourceService.saveContent(
-                                    MobileAttachmentUtils.constructContent(
-                                            fileName, attachmentPath),
-                                    AppContext.getUsername(),
-                                    new ByteArrayInputStream(outStream
-                                            .toByteArray()), AppContext
-                                            .getAccountId());
+                            resourceService.saveContent(MobileAttachmentUtils.constructContent(fileName, attachmentPath),
+                                    AppContext.getUsername(), new ByteArrayInputStream(outStream.toByteArray()), AppContext.getAccountId());
                         } catch (IOException e) {
                             LOG.error("Error in upload file", e);
-                            resourceService.saveContent(
-                                    MobileAttachmentUtils.constructContent(
-                                            fileName, attachmentPath),
-                                    AppContext.getUsername(),
-                                    new FileInputStream(file), AppContext
-                                            .getAccountId());
+                            resourceService.saveContent(MobileAttachmentUtils.constructContent(fileName, attachmentPath),
+                                    AppContext.getUsername(), new FileInputStream(file), AppContext.getAccountId());
                         }
                     } else {
-                        resourceService.saveContent(MobileAttachmentUtils
-                                        .constructContent(fileName, attachmentPath),
-                                AppContext.getUsername(), new FileInputStream(
-                                        file), AppContext
-                                        .getAccountId());
+                        resourceService.saveContent(MobileAttachmentUtils.constructContent(fileName, attachmentPath),
+                                AppContext.getUsername(), new FileInputStream(file), AppContext.getAccountId());
                     }
 
                 } catch (FileNotFoundException e) {
@@ -355,20 +318,17 @@ public class ProjectCommentInput extends VerticalLayout {
     }
 
     public void setTypeAndId(final String typeid) {
-        this.typeid = typeid;
+        this.typeId = typeid;
     }
 
-    public void receiveFile(File file, String fileName, String mimeType,
-                            long length) {
+    public void receiveFile(File file, String fileName, String mimeType, long length) {
         if (fileStores == null) {
             fileStores = new HashMap<>();
         }
         if (fileStores.containsKey(fileName)) {
-            NotificationUtil.showWarningNotification("File " + fileName
-                    + " is already existed.");
+            NotificationUtil.showWarningNotification("File " + fileName + " is already existed.");
         } else {
-            LOG.debug("Store file " + fileName + " in path "
-                    + file.getAbsolutePath() + " is exist: " + file.exists());
+            LOG.debug("Store file " + fileName + " in path " + file.getAbsolutePath() + " is exist: " + file.exists());
             fileStores.put(fileName, file);
         }
     }

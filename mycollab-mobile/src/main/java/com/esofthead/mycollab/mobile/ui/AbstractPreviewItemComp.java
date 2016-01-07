@@ -16,33 +16,33 @@
  */
 package com.esofthead.mycollab.mobile.ui;
 
+import com.esofthead.mycollab.vaadin.mvp.IPreviewView;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.vaadin.mobilecomponent.MobileViewToolbar;
 import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.CssLayout;
 
 /**
  * @param <B>
  * @author MyCollab Ltd.
  * @since 3.0
  */
-public abstract class AbstractPreviewItemComp<B> extends AbstractMobilePageView {
+public abstract class AbstractPreviewItemComp<B> extends AbstractMobilePageView implements IPreviewView<B> {
     private static final long serialVersionUID = 1L;
 
     protected B beanItem;
     protected AdvancedPreviewBeanForm<B> previewForm;
-
     private NavigationBarQuickMenu editBtn;
+    private CssLayout content;
 
     public AbstractPreviewItemComp() {
+        content = new CssLayout();
         previewForm = initPreviewForm();
-        previewForm.setStyleName("readview-layout");
-        this.setContent(previewForm);
+        content.addComponent(previewForm);
 
         editBtn = new NavigationBarQuickMenu();
-        editBtn.setButtonCaption(null);
-        editBtn.setStyleName("edit-btn");
+        editBtn.setButtonCaption("...");
         editBtn.setContent(createButtonControls());
         this.setRightComponent(editBtn);
 
@@ -50,14 +50,9 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractMobilePageView 
 
         ComponentContainer toolbarContent = createBottomPanel();
         if (toolbarContent != null) {
-            toolbarContent.addStyleName("related-items");
-            toolbarContent.setHeight("100%");
-            toolbarContent.setWidthUndefined();
-
-            MobileViewToolbar toolbar = new MobileViewToolbar();
-            toolbar.setComponent(toolbarContent);
-            this.setToolbar(toolbar);
+            content.addComponent(toolbarContent);
         }
+        this.setContent(content);
     }
 
     public void previewItem(final B item) {
@@ -66,7 +61,6 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractMobilePageView 
 
         previewForm.setFormLayoutFactory(initFormLayoutFactory());
         previewForm.setBeanFormFieldFactory(initBeanFormFieldFactory());
-
     }
 
     public B getItem() {

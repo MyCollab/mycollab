@@ -16,15 +16,11 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.settings;
 
-import com.esofthead.mycollab.mobile.ui.MobileGridFormLayoutHelper;
+import com.esofthead.mycollab.mobile.ui.grid.GridFormLayoutHelper;
 import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 
 /**
  * @author MyCollab Ltd.
@@ -33,7 +29,7 @@ import com.vaadin.ui.VerticalLayout;
 public class ProjectMemberFormLayoutFactory implements IFormLayoutFactory {
     private static final long serialVersionUID = 8920529536882351151L;
 
-    private MobileGridFormLayoutHelper informationLayout;
+    private GridFormLayoutHelper informationLayout;
 
     @Override
     public ComponentContainer getLayout() {
@@ -43,10 +39,7 @@ public class ProjectMemberFormLayoutFactory implements IFormLayoutFactory {
         header.setStyleName("h2");
         layout.addComponent(header);
 
-        this.informationLayout = new MobileGridFormLayoutHelper(1, 3, "100%", "150px", Alignment.TOP_LEFT);
-        this.informationLayout.getLayout().setWidth("100%");
-        this.informationLayout.getLayout().addStyleName("colored-gridlayout");
-        this.informationLayout.getLayout().setMargin(false);
+        this.informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
         layout.addComponent(this.informationLayout.getLayout());
         layout.setComponentAlignment(this.informationLayout.getLayout(), Alignment.BOTTOM_CENTER);
         return layout;

@@ -97,11 +97,8 @@ public class TaskAddViewImpl extends AbstractEditItemComp<SimpleTask> implements
 				return new TaskPercentageCompleteComboBox();
 			} else if ("priority".equals(propertyId)) {
 				return new TaskPriorityComboBox();
-			} else if (propertyId.equals("startdate")
-					|| propertyId.equals("actualstartdate")
-					|| propertyId.equals("enddate")
-					|| propertyId.equals("actualenddate")
-					|| propertyId.equals("deadline")) {
+			} else if (propertyId.equals("startdate") || propertyId.equals("actualstartdate") || propertyId.equals("enddate")
+					|| propertyId.equals("actualenddate") || propertyId.equals("deadline")) {
 				return new DatePicker();
 			}
 			return null;

@@ -58,19 +58,17 @@ public class TaskListViewImpl extends AbstractListViewComp<TaskSearchCriteria, S
 
     public TaskListViewImpl() {
         this.addStyleName("task-list-view");
-        this.setToggleButton(false);
     }
 
     @Override
-    protected AbstractPagedBeanList<TaskSearchCriteria, SimpleTask> createBeanTable() {
+    protected AbstractPagedBeanList<TaskSearchCriteria, SimpleTask> createBeanList() {
         return new TaskListDisplay();
     }
 
     @Override
-    protected Component createRightComponent() {
+    protected Component buildRightComponent() {
         NavigationBarQuickMenu editBtn = new NavigationBarQuickMenu();
         editBtn.setButtonCaption(null);
-        editBtn.setStyleName("edit-btn");
 
         ProjectPreviewFormControlsGenerator<SimpleTaskList> controlsGenerator = new ProjectPreviewFormControlsGenerator<>(this);
         VerticalLayout menuContent = controlsGenerator.createButtonControls(ProjectRolePermissionCollections.TASKS);

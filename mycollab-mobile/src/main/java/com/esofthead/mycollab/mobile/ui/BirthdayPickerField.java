@@ -35,5 +35,4 @@ public class BirthdayPickerField extends DatePicker {
         cal.set(Calendar.YEAR, 2004);
         this.setMax(cal.getTime());
     }
-
 }

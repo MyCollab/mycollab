@@ -28,6 +28,7 @@ public class DefaultReadViewLayout extends ReadViewLayout {
 
     public DefaultReadViewLayout(String title) {
         super();
+        this.setWidth("100%");
         this.addHeader(buildHeader(title));
     }
 

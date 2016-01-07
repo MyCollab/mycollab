@@ -20,7 +20,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.ui.ProjectAttachmentDisplayComp;
-import com.esofthead.mycollab.mobile.module.project.ui.ProjectCommentListDisplay;
+import com.esofthead.mycollab.mobile.module.project.ui.ProjectCommentListView;
 import com.esofthead.mycollab.mobile.module.project.ui.ProjectPreviewFormControlsGenerator;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractPreviewItemComp;
@@ -37,7 +37,6 @@ import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
-import com.esofthead.mycollab.schedule.email.project.ProjectTaskRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
@@ -66,7 +65,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
     private static final long serialVersionUID = 9021783098267883004L;
 
     private Button quickActionStatusBtn;
-    private ProjectCommentListDisplay associateComments;
+    private ProjectCommentListView associateComments;
     private Button relatedComments;
     private TaskTimeLogComp taskTimeLogComp;
     private ProjectAttachmentDisplayComp attachmentComp;
@@ -144,9 +143,8 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
 
     @Override
     protected void initRelatedComponents() {
-        associateComments = new ProjectCommentListDisplay(ProjectTypeConstants.TASK,
-                CurrentProjectVariables.getProjectId(), true,
-                ProjectTaskRelayEmailNotificationAction.class);
+        associateComments = new ProjectCommentListView(ProjectTypeConstants.TASK,
+                CurrentProjectVariables.getProjectId(), true);
     }
 
     @Override

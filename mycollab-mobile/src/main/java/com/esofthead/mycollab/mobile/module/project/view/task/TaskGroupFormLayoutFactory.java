@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.mobile.module.project.view.task;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.mobile.ui.MobileGridFormLayoutHelper;
+import com.esofthead.mycollab.mobile.ui.grid.GridFormLayoutHelper;
 import com.esofthead.mycollab.module.project.i18n.TaskGroupI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
@@ -30,7 +30,7 @@ import com.vaadin.ui.*;
 public class TaskGroupFormLayoutFactory implements IFormLayoutFactory {
     private static final long serialVersionUID = 1L;
 
-    private MobileGridFormLayoutHelper informationLayout;
+    private GridFormLayoutHelper informationLayout;
 
     @Override
     public ComponentContainer getLayout() {
@@ -38,7 +38,7 @@ public class TaskGroupFormLayoutFactory implements IFormLayoutFactory {
         Label header = new Label(AppContext.getMessage(TaskGroupI18nEnum.M_FORM_READ_TITLE));
         header.setStyleName("h2");
         layout.addComponent(header);
-        this.informationLayout = new MobileGridFormLayoutHelper(1, 6, "100%", "150px", Alignment.TOP_LEFT);
+        this.informationLayout = new GridFormLayoutHelper(1, 6, "100%", "150px", Alignment.TOP_LEFT);
         this.informationLayout.getLayout().addStyleName("colored-gridlayout");
         this.informationLayout.getLayout().setMargin(false);
         this.informationLayout.getLayout().setWidth("100%");

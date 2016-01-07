@@ -17,25 +17,24 @@
 package com.esofthead.mycollab.mobile.module.project.view.milestone;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.mobile.ui.MobileGridFormLayoutHelper;
+import com.esofthead.mycollab.mobile.ui.grid.GridFormLayoutHelper;
 import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
+import org.vaadin.viritin.layouts.MCssLayout;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 4.5.2
  */
 public class MilestoneFormLayoutFactory implements IFormLayoutFactory {
     private static final long serialVersionUID = 1L;
 
-    private MobileGridFormLayoutHelper informationLayout;
+    private GridFormLayoutHelper informationLayout;
 
     @Override
     public void attachField(Object propertyId, final Field<?> field) {
@@ -49,10 +48,6 @@ public class MilestoneFormLayoutFactory implements IFormLayoutFactory {
             this.informationLayout.addComponent(field, AppContext.getMessage(MilestoneI18nEnum.FORM_START_DATE_FIELD), 0, 3);
         } else if (propertyId.equals("enddate")) {
             this.informationLayout.addComponent(field, AppContext.getMessage(MilestoneI18nEnum.FORM_END_DATE_FIELD), 0, 4);
-        } else if (propertyId.equals("numOpenTasks")) {
-            this.informationLayout.addComponent(field, AppContext.getMessage(MilestoneI18nEnum.FORM_TASK_FIELD), 0, 5);
-        } else if (propertyId.equals("numOpenBugs")) {
-            this.informationLayout.addComponent(field, AppContext.getMessage(MilestoneI18nEnum.FORM_BUG_FIELD), 0, 6);
         } else if (propertyId.equals("description")) {
             this.informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 7);
         }
@@ -61,17 +56,14 @@ public class MilestoneFormLayoutFactory implements IFormLayoutFactory {
     @Override
     public ComponentContainer getLayout() {
         final VerticalLayout layout = new VerticalLayout();
+        layout.setWidth("100%");
         layout.setMargin(false);
-        Label header = new Label(AppContext.getMessage(MilestoneI18nEnum.M_FORM_READ_TITLE));
-        header.setStyleName("h2");
-        layout.addComponent(header);
 
-        this.informationLayout = new MobileGridFormLayoutHelper(1, 8, "100%", "150px", Alignment.TOP_LEFT);
-        this.informationLayout.getLayout().setWidth("100%");
-        this.informationLayout.getLayout().addStyleName("colored-gridlayout");
-        this.informationLayout.getLayout().setMargin(false);
-        layout.addComponent(this.informationLayout.getLayout());
-        layout.setComponentAlignment(this.informationLayout.getLayout(), Alignment.BOTTOM_CENTER);
+        Label header = new Label(AppContext.getMessage(MilestoneI18nEnum.M_FORM_READ_TITLE));
+        layout.addComponent(new MCssLayout(header).withStyleName("section"));
+
+        informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 8);
+        layout.addComponent(informationLayout.getLayout());
         return layout;
     }
 }

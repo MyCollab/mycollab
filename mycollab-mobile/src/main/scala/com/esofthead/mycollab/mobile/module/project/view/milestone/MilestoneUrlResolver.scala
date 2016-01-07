@@ -17,11 +17,14 @@
 package com.esofthead.mycollab.mobile.module.project.view.milestone
 
 import com.esofthead.mycollab.common.UrlTokenizer
+import com.esofthead.mycollab.core.arguments.NumberSearchField
 import com.esofthead.mycollab.eventmanager.EventBusFactory
 import com.esofthead.mycollab.mobile.module.project.ProjectUrlResolver
 import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent
+import com.esofthead.mycollab.mobile.module.project.view.parameters.MilestoneScreenData.Search
 import com.esofthead.mycollab.mobile.module.project.view.parameters.{MilestoneScreenData, ProjectScreenData}
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone
+import com.esofthead.mycollab.module.project.domain.criteria.MilestoneSearchCriteria
 import com.esofthead.mycollab.module.project.service.MilestoneService
 import com.esofthead.mycollab.spring.ApplicationContextUtil
 import com.esofthead.mycollab.vaadin.AppContext
@@ -40,7 +43,10 @@ class MilestoneUrlResolver extends ProjectUrlResolver {
     private class ListUrlResolver extends ProjectUrlResolver {
         protected override def handlePage(params: String*) {
             val projectId: Int = new UrlTokenizer(params(0)).getInt
-            val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId), new MilestoneScreenData.List)
+            val searchCriteria = new MilestoneSearchCriteria
+            searchCriteria.setProjectId(new NumberSearchField(projectId))
+            val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId), new
+                    Search(searchCriteria))
             EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
         }
     }

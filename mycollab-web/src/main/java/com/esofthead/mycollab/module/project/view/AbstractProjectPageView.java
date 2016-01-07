@@ -18,12 +18,12 @@ package com.esofthead.mycollab.module.project.view;
 
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.themes.ValoTheme;
+import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -34,7 +34,7 @@ public class AbstractProjectPageView extends AbstractPageView {
     private static final long serialVersionUID = 1L;
 
     protected ELabel headerText;
-    protected CssLayout contentWrapper;
+    protected MCssLayout contentWrapper;
     protected MHorizontalLayout header;
 
     public AbstractProjectPageView(String headerText, FontAwesome icon) {
@@ -43,8 +43,7 @@ public class AbstractProjectPageView extends AbstractPageView {
         this.headerText = ELabel.h2(icon.getHtml() + " " + headerText);
         super.addComponent(constructHeader());
 
-        contentWrapper = new CssLayout();
-        contentWrapper.setStyleName("content-wrapper");
+        contentWrapper = new MCssLayout().withStyleName(UIConstants.CONTENT_WRAPPER);
         super.addComponent(contentWrapper);
 
     }

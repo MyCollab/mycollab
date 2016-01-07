@@ -48,7 +48,6 @@ import org.springframework.stereotype.Component
 class ProjectProblemRelayEmailNotificationActionImpl extends SendMailToAllMembersAction[SimpleProblem] with ProjectProblemRelayEmailNotificationAction {
 
     @Autowired var problemService: ProblemService = _
-
     @Autowired var projectService: ProjectService = _
 
     private val mapper = new ProjectFieldNameMapper

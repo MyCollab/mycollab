@@ -55,14 +55,4 @@ public class BugSeverityComboBox extends I18nValueComboBox {
             }
         });
     }
-
-    @Override
-    public void setPropertyDataSource(Property newDataSource) {
-        super.setPropertyDataSource(newDataSource);
-    }
-
-    @Override
-    public Object getValue() {
-        return super.getValue();
-    }
 }

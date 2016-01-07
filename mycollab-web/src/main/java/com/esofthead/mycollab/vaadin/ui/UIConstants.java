@@ -22,7 +22,6 @@ package com.esofthead.mycollab.vaadin.ui;
  */
 public class UIConstants {
     public static final String BORDER_BOX_2 = "border-box2";
-    public static final String DEFAULT_CAPTION_FORM_WIDTH = "120px";
     public static final String DEFAULT_CONTROL_WIDTH = "250px";
     public static final String DEFAULT_ATTACHMENT_THUMBNAIL_WIDTH = "180px";
     public static final String DEFAULT_ATTACHMENT_THUMBNAIL_HEIGHT = "180px";
@@ -31,8 +30,8 @@ public class UIConstants {
     public static final String CUSTOM_FIELD_SECTION = "customFieldSection";
     public static final String POPUP_WITHOUT_INDICATOR = "nonPopupIndicator";
     public static final String TABLE_ACTION_CONTROLS = "table-actionctls";
-    public static final String BUTTON_ACTION = "greenbtn";
     public static final String BUTTON_BLOCK = "block";
+    public static final String BUTTON_ACTION = "greenbtn";
     public static final String THEME_GRAY_LINK = "graybtn";
     public static final String BUTTON_DANGER = "redbtn";
     public static final String BUTTON_LINK = "link";

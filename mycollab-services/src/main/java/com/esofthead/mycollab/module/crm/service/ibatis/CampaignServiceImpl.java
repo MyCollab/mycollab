@@ -29,7 +29,6 @@ import com.esofthead.mycollab.module.crm.dao.*;
 import com.esofthead.mycollab.module.crm.domain.*;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.CampaignService;
-import com.esofthead.mycollab.schedule.email.crm.CampaignRelayEmailNotificationAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,7 +43,7 @@ import java.util.List;
  */
 @Service
 @Transactional
-@Traceable(nameField = "campaignname", notifyAgent = CampaignRelayEmailNotificationAction.class)
+@Traceable(nameField = "campaignname")
 @Watchable(userFieldName = "assignuser")
 public class CampaignServiceImpl extends DefaultService<Integer, CampaignWithBLOBs, CampaignSearchCriteria> implements CampaignService {
 

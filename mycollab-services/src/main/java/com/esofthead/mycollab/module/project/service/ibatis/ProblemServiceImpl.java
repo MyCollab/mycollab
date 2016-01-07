@@ -33,7 +33,6 @@ import com.esofthead.mycollab.module.project.domain.SimpleProblem;
 import com.esofthead.mycollab.module.project.domain.criteria.ProblemSearchCriteria;
 import com.esofthead.mycollab.module.project.esb.DeleteProjectProblemEvent;
 import com.esofthead.mycollab.module.project.service.*;
-import com.esofthead.mycollab.schedule.email.project.ProjectProblemRelayEmailNotificationAction;
 import com.google.common.eventbus.AsyncEventBus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,7 +46,7 @@ import java.util.List;
  */
 @Service
 @Transactional
-@Traceable(nameField = "issuename", extraFieldName = "projectid", notifyAgent = ProjectProblemRelayEmailNotificationAction.class)
+@Traceable(nameField = "issuename", extraFieldName = "projectid")
 @Watchable(userFieldName = "assigntouser", extraTypeId = "projectid")
 public class ProblemServiceImpl extends DefaultService<Integer, Problem, ProblemSearchCriteria> implements ProblemService {
 

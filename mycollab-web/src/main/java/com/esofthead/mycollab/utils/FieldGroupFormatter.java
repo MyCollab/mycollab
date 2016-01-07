@@ -21,12 +21,12 @@ import com.esofthead.mycollab.common.domain.Currency;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CurrencyService;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.HistoryFieldFormat;
 import com.hp.gagawa.java.elements.I;
 import com.hp.gagawa.java.elements.Li;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -118,7 +118,7 @@ public class FieldGroupFormatter {
         @Override
         public String toString(String value) {
             String content;
-            if (StringUtils.isNoneBlank(value)) {
+            if (StringUtils.isNotBlank(value)) {
                 content = (value.length() > 200) ? (value.substring(0, 150) + "...") : value;
             } else {
                 content = AppContext.getMessage(GenericI18Enum.FORM_EMPTY);
@@ -132,7 +132,7 @@ public class FieldGroupFormatter {
 
         @Override
         public String toString(String value) {
-            if (StringUtils.isNoneBlank(value)) {
+            if (StringUtils.isNotBlank(value)) {
                 Date formatDate = DateTimeUtils.parseDateByW3C(value);
                 I lbl = new I().appendText(AppContext.formatPrettyTime(formatDate));
                 lbl.setTitle(AppContext.formatDate(formatDate));
@@ -147,7 +147,7 @@ public class FieldGroupFormatter {
 
         @Override
         public String toString(String value) {
-            if (StringUtils.isNoneBlank(value)) {
+            if (StringUtils.isNotBlank(value)) {
                 Date formatDate = DateTimeUtils.parseDateByW3C(value);
                 I lbl = new I().appendText(AppContext.formatPrettyTime(formatDate));
                 lbl.setTitle(AppContext.formatDateTime(formatDate));
@@ -163,7 +163,7 @@ public class FieldGroupFormatter {
         @Override
         public String toString(String value) {
             String content;
-            if (StringUtils.isNoneBlank(value)) {
+            if (StringUtils.isNotBlank(value)) {
                 Date formatDate = DateTimeUtils.parseDateByW3C(value);
                 content = AppContext.formatDate(formatDate);
             } else {

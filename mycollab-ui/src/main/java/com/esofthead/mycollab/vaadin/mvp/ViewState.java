@@ -20,10 +20,10 @@ package com.esofthead.mycollab.vaadin.mvp;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
+ *
  * @author MyCollab Ltd.
  * @since 1.0
- * 
+ *
  */
 @SuppressWarnings("rawtypes")
 public class ViewState {

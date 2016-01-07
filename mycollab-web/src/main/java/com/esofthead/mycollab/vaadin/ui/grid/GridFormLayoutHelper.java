@@ -40,18 +40,6 @@ public class GridFormLayoutHelper implements Serializable {
 
     private Map<String, GridCellWrapper> fieldCaptionMappings = new HashMap<>();
 
-    public GridFormLayoutHelper() {
-        this(0, 0);
-    }
-
-    public GridFormLayoutHelper(int columns, int rows) {
-        this(columns, rows, UIConstants.DEFAULT_CONTROL_WIDTH, UIConstants.DEFAULT_CAPTION_FORM_WIDTH, Alignment.TOP_LEFT);
-    }
-
-    public GridFormLayoutHelper(int columns, int rows, String fieldControlWidth, String defaultCaptionWidth) {
-        this(columns, rows, fieldControlWidth, defaultCaptionWidth, Alignment.TOP_LEFT);
-    }
-
     public GridFormLayoutHelper(int columns, int rows, String fieldControlWidth, String defaultCaptionWidth, Alignment captionAlignment) {
         this.fieldControlWidth = fieldControlWidth;
         this.defaultCaptionWidth = defaultCaptionWidth;
@@ -67,7 +55,6 @@ public class GridFormLayoutHelper implements Serializable {
         GridFormLayoutHelper helper = new GridFormLayoutHelper(columns, rows, "100%", "167px", Alignment.TOP_LEFT);
         helper.getLayout().setWidth("100%");
         helper.getLayout().addStyleName(UIConstants.GRIDFORM_STANDARD);
-        helper.getLayout().setMargin(false);
         return helper;
     }
 

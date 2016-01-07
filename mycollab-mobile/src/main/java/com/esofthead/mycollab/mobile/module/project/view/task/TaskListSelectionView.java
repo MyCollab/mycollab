@@ -75,7 +75,6 @@ public class TaskListSelectionView extends AbstractSelectionView<SimpleTaskList>
         public Component generateRow(final SimpleTaskList taskList, int rowIndex) {
             HorizontalLayout taskListLayout = new HorizontalLayout();
             taskListLayout.setStyleName("task-list-layout");
-            taskListLayout.addStyleName("list-item");
             taskListLayout.setWidth("100%");
             taskListLayout.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
                 private static final long serialVersionUID = 6510342655212187338L;

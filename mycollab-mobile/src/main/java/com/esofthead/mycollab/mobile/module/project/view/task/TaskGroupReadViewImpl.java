@@ -18,7 +18,7 @@ package com.esofthead.mycollab.mobile.module.project.view.task;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.mobile.module.project.ui.ProjectCommentListDisplay;
+import com.esofthead.mycollab.mobile.module.project.ui.ProjectCommentListView;
 import com.esofthead.mycollab.mobile.module.project.ui.ProjectPreviewFormControlsGenerator;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractPreviewItemComp;
@@ -28,7 +28,6 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
-import com.esofthead.mycollab.schedule.email.project.ProjectTaskGroupRelayEmailNotificationAction;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -49,7 +48,7 @@ import com.vaadin.ui.Button.ClickEvent;
 public class TaskGroupReadViewImpl extends AbstractPreviewItemComp<SimpleTaskList> implements TaskGroupReadView {
     private static final long serialVersionUID = 8303226753169728418L;
 
-    private ProjectCommentListDisplay associateComments;
+    private ProjectCommentListView associateComments;
     private Button relatedComments;
 
     @Override
@@ -69,10 +68,7 @@ public class TaskGroupReadViewImpl extends AbstractPreviewItemComp<SimpleTaskLis
 
     @Override
     protected void initRelatedComponents() {
-        associateComments = new ProjectCommentListDisplay(
-                ProjectTypeConstants.TASK,
-                CurrentProjectVariables.getProjectId(), true,
-                ProjectTaskGroupRelayEmailNotificationAction.class);
+        associateComments = new ProjectCommentListView(ProjectTypeConstants.TASK, CurrentProjectVariables.getProjectId(), true);
         if (associateComments.getNumComments() > 0) {
             relatedComments
                     .setCaption("<span aria-hidden=\"true\" data-icon=\""

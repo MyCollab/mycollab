@@ -27,8 +27,10 @@ import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.resources.VaadinResourceFactory;
-import com.esofthead.mycollab.vaadin.ui.AssetResource;
-import com.vaadin.server.Resource;
+import com.esofthead.mycollab.vaadin.resources.file.FileAssetsUtil;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.apache.commons.collections.MapUtils;
@@ -50,24 +52,22 @@ public class MobileAttachmentUtils {
 
     public static final String ATTACHMENT_NAME_PREFIX = "attachment_";
 
-    private static final Resource DEFAULT_SOURCE = new AssetResource("icons/docs-256.png");
-
     public static Component renderAttachmentRow(final Content attachment) {
         String docName = attachment.getPath();
         int lastIndex = docName.lastIndexOf("/");
-        MHorizontalLayout attachmentRow = new MHorizontalLayout().withWidth("100%").withStyleName("attachment-row");
+        MHorizontalLayout attachmentRow = new MHorizontalLayout().withSpacing(false).withWidth("100%").withStyleName("attachment-row");
         attachmentRow.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         CssLayout thumbnailWrap = new CssLayout();
         thumbnailWrap.setWidth("25px");
-        thumbnailWrap.setHeight("40px");
         thumbnailWrap.setStyleName("thumbnail-wrap");
 
-        Image thumbnail = new Image(null);
-        if (StringUtils.isBlank(attachment.getThumbnail())) {
-            thumbnail.setSource(DEFAULT_SOURCE);
+        Component thumbnail;
+
+        if (StringUtils.isNotBlank(attachment.getThumbnail())) {
+            thumbnail = new Image(null, VaadinResourceFactory.getInstance().getResource(attachment.getThumbnail()));
         } else {
-            thumbnail.setSource(VaadinResourceFactory.getInstance().getResource(attachment.getThumbnail()));
+            thumbnail = new ELabel(FileAssetsUtil.getFileIconResource(attachment.getName()).getHtml(), ContentMode.HTML);
         }
         thumbnail.setWidth("100%");
         thumbnailWrap.addComponent(thumbnail);
@@ -89,8 +89,8 @@ public class MobileAttachmentUtils {
                 }
             });
             b.setWidth("100%");
-            attachmentRow.addComponent(b);
-            attachmentRow.setExpandRatio(b, 1.0f);
+            b.addStyleName(UIConstants.TRUNCATE);
+            attachmentRow.with(b).expand(b);
         } else {
             Label l = new Label(attachment.getTitle());
             l.setWidth("100%");
@@ -107,33 +107,28 @@ public class MobileAttachmentUtils {
             docName = docName.substring(lastIndex + 1, docName.length());
         }
 
-        final HorizontalLayout attachmentLayout = new HorizontalLayout();
-        attachmentLayout.setSpacing(true);
-        attachmentLayout.setStyleName("attachment-row");
-        attachmentLayout.setWidth("100%");
+        final MHorizontalLayout attachmentLayout = new MHorizontalLayout().withStyleName("attachment-row").withFullWidth();
         attachmentLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         CssLayout thumbnailWrap = new CssLayout();
         thumbnailWrap.setWidth("25px");
-        thumbnailWrap.setHeight("40px");
         thumbnailWrap.setStyleName("thumbnail-wrap");
 
-        Image thumbnail = new Image(null);
-        if (StringUtils.isBlank(attachment.getThumbnail())) {
-            thumbnail.setSource(DEFAULT_SOURCE);
+        Component thumbnail;
+        if (StringUtils.isNotBlank(attachment.getThumbnail())) {
+            thumbnail = new Image(null, VaadinResourceFactory.getInstance().getResource(attachment.getThumbnail()));
         } else {
-            thumbnail.setSource(VaadinResourceFactory.getInstance().getResource(attachment.getThumbnail()));
+            thumbnail = new ELabel(FileAssetsUtil.getFileIconResource(attachment.getName()).getHtml(), ContentMode.HTML);
         }
         thumbnail.setWidth("100%");
         thumbnailWrap.addComponent(thumbnail);
         attachmentLayout.addComponent(thumbnailWrap);
 
-        Label attachmentLink = new Label(docName);
-        attachmentLayout.addComponent(attachmentLink);
-        attachmentLayout.setExpandRatio(attachmentLink, 1.0f);
+        ELabel attachmentLink = new ELabel(docName).withStyleName(UIConstants.META_INFO);
+        attachmentLink.addStyleName(UIConstants.TRUNCATE);
+        attachmentLayout.with(attachmentLink).expand(attachmentLink);
 
-        Button removeAttachment = new Button(String.format("<span aria-hidden=\"true\" data-icon=\"%s\"></span>", IconConstants.DELETE),
-                new Button.ClickListener() {
+        Button removeAttachment = new Button("", new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
@@ -148,18 +143,16 @@ public class MobileAttachmentUtils {
                                     @Override
                                     public void onClose(ConfirmDialog dialog) {
                                         if (dialog.isConfirmed()) {
-                                            ResourceService attachmentService = ApplicationContextUtil
-                                                    .getSpringBean(ResourceService.class);
-                                            attachmentService.removeResource(attachment.getPath(),
-                                                    AppContext.getUsername(), AppContext.getAccountId());
-                                            ((ComponentContainer) attachmentLayout.getParent())
-                                                    .removeComponent(attachmentLayout);
+                                            ResourceService attachmentService = ApplicationContextUtil.getSpringBean(ResourceService.class);
+                                            attachmentService.removeResource(attachment.getPath(), AppContext.getUsername(), AppContext.getAccountId());
+                                            ((ComponentContainer) attachmentLayout.getParent()).removeComponent(attachmentLayout);
                                         }
                                     }
                                 });
 
                     }
                 });
+        removeAttachment.setIcon(FontAwesome.TRASH_O);
         if (additionalListener != null) {
             removeAttachment.addClickListener(additionalListener);
         }
@@ -174,11 +167,9 @@ public class MobileAttachmentUtils {
         return renderAttachmentFieldRow(attachment, null);
     }
 
-    public static void saveContentsToRepo(String attachmentPath,
-                                          Map<String, File> fileStores) {
+    public static void saveContentsToRepo(String attachmentPath, Map<String, File> fileStores) {
         if (MapUtils.isNotEmpty(fileStores)) {
-            ResourceService resourceService = ApplicationContextUtil
-                    .getSpringBean(ResourceService.class);
+            ResourceService resourceService = ApplicationContextUtil.getSpringBean(ResourceService.class);
             for (Map.Entry<String, File> entry : fileStores.entrySet()) {
                 try {
                     String fileExt = "";
@@ -205,31 +196,21 @@ public class MobileAttachmentUtils {
                             float scaleX = Math.min(destHeight / imgHeight, 1);
                             float scaleY = Math.min(destWidth / imgWidth, 1);
                             scale = Math.min(scaleX, scaleY);
-                            scaledImage = ImageUtil.scaleImage(bufferedImage,
-                                    scale);
+                            scaledImage = ImageUtil.scaleImage(bufferedImage, scale);
 
                             ByteArrayOutputStream outStream = new ByteArrayOutputStream();
                             ImageIO.write(scaledImage, fileExt, outStream);
 
-                            resourceService.saveContent(
-                                    constructContent(fileName, attachmentPath),
-                                    AppContext.getUsername(),
-                                    new ByteArrayInputStream(outStream
-                                            .toByteArray()), AppContext
-                                            .getAccountId());
+                            resourceService.saveContent(constructContent(fileName, attachmentPath), AppContext.getUsername(),
+                                    new ByteArrayInputStream(outStream.toByteArray()), AppContext.getAccountId());
                         } catch (IOException e) {
                             LOG.error("Error in upload file", e);
-                            resourceService.saveContent(
-                                    constructContent(fileName, attachmentPath),
-                                    AppContext.getUsername(),
-                                    new FileInputStream(fileStores
-                                            .get(fileName)), AppContext
-                                            .getAccountId());
+                            resourceService.saveContent(constructContent(fileName, attachmentPath), AppContext.getUsername(),
+                                    new FileInputStream(fileStores.get(fileName)), AppContext.getAccountId());
                         }
                     } else {
                         resourceService.saveContent(constructContent(fileName, attachmentPath),
-                                AppContext.getUsername(), new FileInputStream(file), AppContext
-                                        .getAccountId());
+                                AppContext.getUsername(), new FileInputStream(file), AppContext.getAccountId());
                     }
 
                 } catch (FileNotFoundException e) {

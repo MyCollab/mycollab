@@ -16,22 +16,19 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view;
 
-import java.util.Arrays;
-
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.mobile.MobileApplication;
-import com.esofthead.mycollab.mobile.module.project.ui.ProjectModuleNavigationMenu;
 import com.esofthead.mycollab.mobile.shell.ModuleHelper;
 import com.esofthead.mycollab.mobile.ui.AbstractListPresenter;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
-import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
-import com.esofthead.vaadin.mobilecomponent.MobileNavigationManager;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
+
+import java.util.Arrays;
 
 /**
  * @author MyCollab Ltd.
@@ -50,13 +47,6 @@ public class ProjectListPresenter extends AbstractListPresenter<ProjectListView,
         super.onGo(container, data);
         doSearch((ProjectSearchCriteria) data.getParams());
         AppContext.getInstance().updateLastModuleVisit(ModuleNameConstants.PRJ);
-
-        ProjectModuleNavigationMenu projectModuleMenu = new ProjectModuleNavigationMenu();
-        projectModuleMenu.selectButton(AppContext
-                .getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_LIST));
-
-        MobileNavigationManager currentNavigationManager = (MobileNavigationManager) UI.getCurrent().getContent();
-        currentNavigationManager.setNavigationMenu(projectModuleMenu);
 
         String url = ((MobileApplication) UI.getCurrent()).getInitialUrl();
         if (url != null && !url.equals("")) {

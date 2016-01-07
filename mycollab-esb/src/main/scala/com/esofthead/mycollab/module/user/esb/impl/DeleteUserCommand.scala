@@ -37,17 +37,12 @@ import org.springframework.stereotype.Component
  * @since 1.0
  *
  */
-object DeleteUserCommand {
-    private val LOG: Logger = LoggerFactory.getLogger(classOf[DeleteUserCommand])
-}
-
 @Component class DeleteUserCommand extends GenericCommand {
     @Autowired private val projectMemberMapper: ProjectMemberMapper = null
-    
+
     @AllowConcurrentEvents
     @Subscribe
     def execute(event: DeleteUserEvent): Unit = {
-        DeleteUserCommand.LOG.debug("Remove user {} with account id {}", Array(event.username, event.accountid))
         val ex: ProjectMemberExample = new ProjectMemberExample
         ex.createCriteria.andStatusIn(Arrays.asList(RegisterStatusConstants.ACTIVE, RegisterStatusConstants.SENT_VERIFICATION_EMAIL,
             RegisterStatusConstants.VERIFICATING)).andSaccountidEqualTo(event.accountid).andUsernameEqualTo(event.username)

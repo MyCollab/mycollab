@@ -33,50 +33,50 @@ import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 
 /**
- * @author MyCollab Ltd.
- * @since 4.6.0
- */
+  * @author MyCollab Ltd.
+  * @since 4.6.0
+  */
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 class CrmSendingRelayEmailNotificationJob extends GenericQuartzJobBean {
-    private val LOG: Logger = LoggerFactory.getLogger(classOf[CrmSendingRelayEmailNotificationJob])
+  private val LOG: Logger = LoggerFactory.getLogger(classOf[CrmSendingRelayEmailNotificationJob])
 
-    @Autowired private val relayEmailNotificationMapper: RelayEmailNotificationMapper = null
+  @Autowired private val relayEmailNotificationMapper: RelayEmailNotificationMapper = null
 
-    @SuppressWarnings(Array("unchecked"))
-    def executeJob(context: JobExecutionContext) {
-        val relayEmailService: RelayEmailNotificationService = ApplicationContextUtil.getSpringBean(classOf[RelayEmailNotificationService])
-        val criteria: RelayEmailNotificationSearchCriteria = new RelayEmailNotificationSearchCriteria
-        criteria.setTypes(new SetSearchField[String](CrmTypeConstants.ACCOUNT, CrmTypeConstants.CONTACT,
-            CrmTypeConstants.CAMPAIGN, CrmTypeConstants.LEAD, CrmTypeConstants.OPPORTUNITY, CrmTypeConstants.CASE,
-            CrmTypeConstants.TASK, CrmTypeConstants.MEETING, CrmTypeConstants.CALL))
+  @SuppressWarnings(Array("unchecked"))
+  def executeJob(context: JobExecutionContext) {
+    val relayEmailService: RelayEmailNotificationService = ApplicationContextUtil.getSpringBean(classOf[RelayEmailNotificationService])
+    val criteria: RelayEmailNotificationSearchCriteria = new RelayEmailNotificationSearchCriteria
+    criteria.setTypes(new SetSearchField[String](CrmTypeConstants.ACCOUNT, CrmTypeConstants.CONTACT,
+      CrmTypeConstants.CAMPAIGN, CrmTypeConstants.LEAD, CrmTypeConstants.OPPORTUNITY, CrmTypeConstants.CASE,
+      CrmTypeConstants.TASK, CrmTypeConstants.MEETING, CrmTypeConstants.CALL))
 
-        import scala.collection.JavaConverters._
-        val relayEmaiNotifications: List[SimpleRelayEmailNotification] = relayEmailService.findPagableListByCriteria(
-            new SearchRequest[RelayEmailNotificationSearchCriteria](criteria, 0,
-                Integer.MAX_VALUE)).asScala.toList.asInstanceOf[List[SimpleRelayEmailNotification]]
-        var emailNotificationAction: SendingRelayEmailNotificationAction = null
+    import scala.collection.JavaConverters._
+    val relayEmaiNotifications: List[SimpleRelayEmailNotification] = relayEmailService.findPagableListByCriteria(
+      new SearchRequest[RelayEmailNotificationSearchCriteria](criteria, 0,
+        Integer.MAX_VALUE)).asScala.toList.asInstanceOf[List[SimpleRelayEmailNotification]]
+    var emailNotificationAction: SendingRelayEmailNotificationAction = null
 
-        for (notification <- relayEmaiNotifications) {
-            try {
-                if (notification.getEmailhandlerbean != null) {
-                    emailNotificationAction = ApplicationContextUtil.getSpringBean(Class.forName(notification.getEmailhandlerbean)).
-                        asInstanceOf[SendingRelayEmailNotificationAction]
+    for (notification <- relayEmaiNotifications) {
+      try {
+        val mailServiceCls = MailServiceMap.service(notification.getType)
+        if (mailServiceCls != null) {
+          emailNotificationAction = ApplicationContextUtil.getSpringBean(mailServiceCls)
 
-                    if (emailNotificationAction != null) {
-                        notification.getAction match {
-                            case MonitorTypeConstants.CREATE_ACTION => emailNotificationAction.sendNotificationForCreateAction(notification)
-                            case MonitorTypeConstants.UPDATE_ACTION => emailNotificationAction.sendNotificationForUpdateAction(notification)
-                            case MonitorTypeConstants.ADD_COMMENT_ACTION => emailNotificationAction.sendNotificationForCommentAction(notification)
-                        }
-                    }
-                }
+          if (emailNotificationAction != null) {
+            notification.getAction match {
+              case MonitorTypeConstants.CREATE_ACTION => emailNotificationAction.sendNotificationForCreateAction(notification)
+              case MonitorTypeConstants.UPDATE_ACTION => emailNotificationAction.sendNotificationForUpdateAction(notification)
+              case MonitorTypeConstants.ADD_COMMENT_ACTION => emailNotificationAction.sendNotificationForCommentAction(notification)
             }
-            catch {
-                case ex: Exception => LOG.error("Error while send the schedule command " + notification.getEmailhandlerbean, ex)
-            } finally {
-                relayEmailNotificationMapper.deleteByPrimaryKey(notification.getId)
-            }
+          }
         }
+      }
+      catch {
+        case ex: Exception => LOG.error("Error while send the schedule command " + notification.getType, ex)
+      } finally {
+        relayEmailNotificationMapper.deleteByPrimaryKey(notification.getId)
+      }
     }
+  }
 }

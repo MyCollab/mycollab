@@ -40,7 +40,6 @@ public class ProjectDashboardPresenter extends AbstractMobilePresenter<ProjectDa
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-
         if (data instanceof ProjectScreenData.Edit) {
             // TODO: Handle edit project
         } else {

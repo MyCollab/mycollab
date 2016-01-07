@@ -79,8 +79,7 @@ public class BugTimeLogComp extends TimeLogComp<SimpleBug> {
 
     @Override
     protected void showEditTimeView(SimpleBug bean) {
-        EventBusFactory.getInstance().post(
-                new ShellEvent.PushView(this, new BugTimeLogView(bean)));
+        EventBusFactory.getInstance().post(new ShellEvent.PushView(this, new BugTimeLogView(bean)));
     }
 
     private static class BugTimeLogView extends TimeLogEditView<SimpleBug> {
@@ -108,8 +107,7 @@ public class BugTimeLogComp extends TimeLogComp<SimpleBug> {
 
         @Override
         protected void updateTimeRemain(double newValue) {
-            BugService bugService = ApplicationContextUtil
-                    .getSpringBean(BugService.class);
+            BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
             bean.setEstimateremaintime(newValue);
             bugService.updateWithSession(bean, AppContext.getUsername());
         }
@@ -118,8 +116,7 @@ public class BugTimeLogComp extends TimeLogComp<SimpleBug> {
         protected ItemTimeLoggingSearchCriteria getItemSearchCriteria() {
             ItemTimeLoggingSearchCriteria searchCriteria = new ItemTimeLoggingSearchCriteria();
             searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-            searchCriteria.setType(new StringSearchField(
-                    ProjectTypeConstants.BUG));
+            searchCriteria.setType(new StringSearchField(ProjectTypeConstants.BUG));
             searchCriteria.setTypeId(new NumberSearchField(bean.getId()));
             return searchCriteria;
         }
@@ -134,9 +131,7 @@ public class BugTimeLogComp extends TimeLogComp<SimpleBug> {
 
         @Override
         protected boolean isEnableAdd() {
-            return CurrentProjectVariables
-                    .canWrite(ProjectRolePermissionCollections.BUGS);
+            return CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS);
         }
-
     }
 }

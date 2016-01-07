@@ -16,119 +16,117 @@
  */
 package com.esofthead.mycollab.mobile.mvp;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.esofthead.mycollab.security.PermissionChecker;
 import com.esofthead.mycollab.security.PermissionMap;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.mvp.HistoryViewManager;
-import com.esofthead.mycollab.vaadin.mvp.IPresenter;
-import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
-import com.esofthead.mycollab.vaadin.mvp.PageView;
-import com.esofthead.mycollab.vaadin.mvp.ScreenData;
-import com.esofthead.mycollab.vaadin.mvp.ViewManager;
-import com.esofthead.mycollab.vaadin.mvp.ViewPermission;
-import com.esofthead.mycollab.vaadin.mvp.ViewState;
+import com.esofthead.mycollab.vaadin.mvp.*;
+import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.UI;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * 
  * @param <V>
  * @author MyCollab Ltd.
  * @since 3.0
  */
 public abstract class AbstractPresenter<V extends PageView> implements IPresenter<V> {
-	private static final long serialVersionUID = 1L;
-	private static final Logger LOG = LoggerFactory.getLogger(AbstractPresenter.class);
+    private static final long serialVersionUID = 1L;
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractPresenter.class);
 
-	protected Class<V> viewClass;
-	protected V view;
+    protected Class<V> viewClass;
+    protected V view;
 
-	public AbstractPresenter(Class<V> viewClass) {
-		this.viewClass = viewClass;
-	}
+    public AbstractPresenter(Class<V> viewClass) {
+        this.viewClass = viewClass;
+    }
 
-	@Override
-	public V getView() {
-		if (view == null) {
-			view = ViewManager.getCacheComponent(viewClass);
-			postInitView();
-		}
-		return view;
-	}
+    @Override
+    public V getView() {
+        if (view == null) {
+            view = ViewManager.getCacheComponent(viewClass);
+            postInitView();
+        }
+        return view;
+    }
 
-	protected void postInitView() {
-	}
+    protected void postInitView() {
+    }
 
-	@Override
-	public void go(ComponentContainer container, ScreenData<?> data) {
-		go(container, data, true);
-	}
+    public void go(ScreenData<?> data) {
+        NavigationManager manager = (NavigationManager) ((UI.getCurrent()).getContent());
+        go(manager, data);
+    }
 
-	@Override
-	public void go(ComponentContainer container, ScreenData<?> data, boolean isHistoryTrack) {
-		getView();
-		if (isHistoryTrack) {
-			ViewState state = new ViewState(container, this, data);
-			HistoryViewManager.addHistory(state);
-		} else {
-			LOG.debug("Disable history track for " + this);
-		}
+    @Override
+    public void go(ComponentContainer container, ScreenData<?> data) {
+        go(container, data, true);
+    }
 
-		if (checkPermissionAccessIfAny()) {
-			onGo(container, data);
-		} else {
-			throw new SecurityException("You can not access this resource");
-		}
+    @Override
+    public void go(ComponentContainer container, ScreenData<?> data, boolean isHistoryTrack) {
+        getView();
+        if (isHistoryTrack) {
+            ViewState state = new ViewState(container, this, data);
+            HistoryViewManager.addHistory(state);
+        } else {
+            LOG.debug("Disable history track for " + this);
+        }
 
-	}
+        if (checkPermissionAccessIfAny()) {
+            onGo(container, data);
+        } else {
+            throw new SecurityException("You can not access this resource");
+        }
 
-	protected abstract void onGo(ComponentContainer container, ScreenData<?> data);
+    }
 
-	private boolean checkPermissionAccessIfAny() {
-		ViewPermission viewPermission = this.getClass().getAnnotation(ViewPermission.class);
-		if (viewPermission != null) {
-			String permissionId = viewPermission.permissionId();
-			int impliedPermissionVal = viewPermission.impliedPermissionVal();
+    protected abstract void onGo(ComponentContainer container, ScreenData<?> data);
 
-			if (AppContext.isAdmin()) {
-				return true;
-			} else {
-				PermissionMap permissionMap = AppContext.getPermissionMap();
-				if (permissionMap == null) {
-					return false;
-				} else {
-					Integer value = permissionMap.get(permissionId);
-					if (value == null) {
-						return false;
-					} else {
-						return PermissionChecker.isImplied(value, impliedPermissionVal);
-					}
-				}
-			}
-		} else {
-			return true;
-		}
-	}
+    private boolean checkPermissionAccessIfAny() {
+        ViewPermission viewPermission = this.getClass().getAnnotation(ViewPermission.class);
+        if (viewPermission != null) {
+            String permissionId = viewPermission.permissionId();
+            int impliedPermissionVal = viewPermission.impliedPermissionVal();
 
-	@Override
-	public void handleChain(ComponentContainer container, PageActionChain pageActionChain) {
-		ScreenData pageAction = pageActionChain.pop();
-		go(container, pageAction);
+            if (AppContext.isAdmin()) {
+                return true;
+            } else {
+                PermissionMap permissionMap = AppContext.getPermissionMap();
+                if (permissionMap == null) {
+                    return false;
+                } else {
+                    Integer value = permissionMap.get(permissionId);
+                    if (value == null) {
+                        return false;
+                    } else {
+                        return PermissionChecker.isImplied(value, impliedPermissionVal);
+                    }
+                }
+            }
+        } else {
+            return true;
+        }
+    }
 
-		if (pageActionChain.hasNext()) {
-			onHandleChain(container, pageActionChain);
-		} else {
-			onDefaultStopChain();
-		}
-	}
+    @Override
+    public void handleChain(ComponentContainer container, PageActionChain pageActionChain) {
+        ScreenData pageAction = pageActionChain.pop();
+        go(container, pageAction);
 
-	protected void onDefaultStopChain() {
+        if (pageActionChain.hasNext()) {
+            onHandleChain(container, pageActionChain);
+        } else {
+            onDefaultStopChain();
+        }
+    }
 
-	}
+    protected void onDefaultStopChain() {
 
-	protected void onHandleChain(ComponentContainer container, PageActionChain pageActionChain) {
-		throw new UnsupportedOperationException("You need override this method");
-	}
+    }
+
+    protected void onHandleChain(ComponentContainer container, PageActionChain pageActionChain) {
+        throw new UnsupportedOperationException("You need override this method");
+    }
 }

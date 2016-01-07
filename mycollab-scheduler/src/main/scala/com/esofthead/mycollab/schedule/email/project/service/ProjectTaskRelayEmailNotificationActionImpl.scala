@@ -60,8 +60,7 @@ class ProjectTaskRelayEmailNotificationActionImpl extends SendMailToFollowersAct
     private val mapper = new TaskFieldNameMapper
 
     protected def buildExtraTemplateVariables(context: MailContext[SimpleTask]) {
-        val currentProject = new WebItem(bean.getProjectName, ProjectLinkGenerator.generateProjectFullLink(siteUrl, bean
-            .getProjectid))
+        val currentProject = new WebItem(bean.getProjectName, ProjectLinkGenerator.generateProjectFullLink(siteUrl, bean.getProjectid))
 
         val emailNotification: SimpleRelayEmailNotification = context.getEmailNotification
 

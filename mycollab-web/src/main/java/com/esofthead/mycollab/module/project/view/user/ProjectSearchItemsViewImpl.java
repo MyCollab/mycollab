@@ -89,7 +89,7 @@ public class ProjectSearchItemsViewImpl extends AbstractPageView implements Proj
         public Component generateRow(AbstractBeanPagedList host, ProjectGenericItem item, int rowIndex) {
             MVerticalLayout layout = new MVerticalLayout().withMargin(new MarginInfo(true, true, false, false))
                     .withWidth("100%");
-            Label link = new Label(ProjectLinkBuilder.generateProjectItemHtmlLink(item.getProjectShortName(), item
+            Label link = new Label(ProjectLinkBuilder.generateProjectItemHtmlLinkAndTooltip(item.getProjectShortName(), item
                     .getProjectId(), item.getSummary(), item.getType(), item.getTypeId()), ContentMode.HTML);
             link.setStyleName(ValoTheme.LABEL_H3);
 

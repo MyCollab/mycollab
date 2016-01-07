@@ -30,94 +30,69 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.VerticalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
-public class OpportunityRelatedLeadView extends
-		AbstractRelatedListView<SimpleLead, LeadSearchCriteria> {
-	private static final long serialVersionUID = -7499398284109642141L;
-	private SimpleOpportunity opportunity;
+public class OpportunityRelatedLeadView extends AbstractRelatedListView<SimpleLead, LeadSearchCriteria> {
+    private static final long serialVersionUID = -7499398284109642141L;
+    private SimpleOpportunity opportunity;
 
-	public OpportunityRelatedLeadView() {
-		super();
+    public OpportunityRelatedLeadView() {
+        super();
 
-		setCaption(AppContext.getMessage(LeadI18nEnum.M_TITLE_RELATED_LEADS));
-		this.itemList = new LeadListDisplay();
-		this.setContent(this.itemList);
-	}
+        setCaption(AppContext.getMessage(LeadI18nEnum.M_TITLE_RELATED_LEADS));
+        this.itemList = new LeadListDisplay();
+        this.setContent(this.itemList);
+    }
 
-	private void loadLeads() {
-		final LeadSearchCriteria searchCriteria = new LeadSearchCriteria();
-		searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
-				AppContext.getAccountId()));
-		searchCriteria.setOpportunityId(new NumberSearchField(SearchField.AND,
-				opportunity.getId()));
-		this.itemList.setSearchCriteria(searchCriteria);
-	}
+    private void loadLeads() {
+        final LeadSearchCriteria searchCriteria = new LeadSearchCriteria();
+        searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+        searchCriteria.setOpportunityId(new NumberSearchField(SearchField.AND, opportunity.getId()));
+        this.itemList.setSearchCriteria(searchCriteria);
+    }
 
-	public void displayLeads(SimpleOpportunity opportunity) {
-		this.opportunity = opportunity;
-		loadLeads();
-	}
+    public void displayLeads(SimpleOpportunity opportunity) {
+        this.opportunity = opportunity;
+        loadLeads();
+    }
 
-	@Override
-	public void refresh() {
-		loadLeads();
-	}
+    @Override
+    public void refresh() {
+        loadLeads();
+    }
 
-	@Override
-	protected Component createRightComponent() {
-		NavigationBarQuickMenu addLead = new NavigationBarQuickMenu();
-		addLead.setStyleName("add-btn");
+    @Override
+    protected Component createRightComponent() {
+        NavigationBarQuickMenu addLead = new NavigationBarQuickMenu();
+        addLead.setStyleName("add-btn");
 
-		VerticalLayout addBtns = new VerticalLayout();
-		addBtns.setStyleName("edit-btn-layout");
-		addBtns.setSpacing(true);
-		addBtns.setMargin(true);
-		addBtns.setWidth("100%");
+        MVerticalLayout addBtns = new MVerticalLayout().withWidth("100%");
 
-		Button newLead = new Button(
-				AppContext.getMessage(LeadI18nEnum.VIEW_NEW_TITLE));
-		newLead.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+        Button newLead = new Button(AppContext.getMessage(LeadI18nEnum.VIEW_NEW_TITLE), new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                fireNewRelatedItem("");
+            }
+        });
+        addBtns.addComponent(newLead);
 
-			@Override
-			public void buttonClick(Button.ClickEvent arg0) {
-				fireNewRelatedItem("");
-			}
-		});
-		addBtns.addComponent(newLead);
-
-		Button selectLead = new Button(
-				AppContext.getMessage(LeadI18nEnum.M_TITLE_SELECT_LEADS));
-		selectLead.addClickListener(new Button.ClickListener() {
-
-			private static final long serialVersionUID = -1004824769733665112L;
-
-			@Override
-			public void buttonClick(Button.ClickEvent event) {
-				final OpportunityLeadSelectionView leadSelectionView = new OpportunityLeadSelectionView(
-						OpportunityRelatedLeadView.this);
-				LeadSearchCriteria criteria = new LeadSearchCriteria();
-				criteria.setSaccountid(new NumberSearchField(AppContext
-						.getAccountId()));
-				leadSelectionView.setSearchCriteria(criteria);
-				EventBusFactory.getInstance().post(
-						new ShellEvent.PushView(
-								OpportunityRelatedLeadView.this,
-								leadSelectionView));
-			}
-		});
-		addBtns.addComponent(selectLead);
-
-		addLead.setContent(addBtns);
-
-		return addLead;
-	}
+        Button selectLead = new Button(AppContext.getMessage(LeadI18nEnum.M_TITLE_SELECT_LEADS), new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                final OpportunityLeadSelectionView leadSelectionView = new OpportunityLeadSelectionView(OpportunityRelatedLeadView.this);
+                LeadSearchCriteria criteria = new LeadSearchCriteria();
+                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                leadSelectionView.setSearchCriteria(criteria);
+                EventBusFactory.getInstance().post(new ShellEvent.PushView(OpportunityRelatedLeadView.this, leadSelectionView));
+            }
+        });
+        addBtns.addComponent(selectLead);
+        addLead.setContent(addBtns);
+        return addLead;
+    }
 
 }

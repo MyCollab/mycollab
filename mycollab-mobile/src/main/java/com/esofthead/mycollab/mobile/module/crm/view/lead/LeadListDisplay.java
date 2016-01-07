@@ -27,39 +27,29 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.0
- * 
  */
-public class LeadListDisplay extends
-		DefaultPagedBeanList<LeadService, LeadSearchCriteria, SimpleLead> {
-	private static final long serialVersionUID = -2350731660593521985L;
+public class LeadListDisplay extends DefaultPagedBeanList<LeadService, LeadSearchCriteria, SimpleLead> {
+    private static final long serialVersionUID = -2350731660593521985L;
 
-	public LeadListDisplay() {
-		super(ApplicationContextUtil.getSpringBean(LeadService.class),
-				new LeadRowDisplayHandler());
-	}
+    public LeadListDisplay() {
+        super(ApplicationContextUtil.getSpringBean(LeadService.class), new LeadRowDisplayHandler());
+    }
 
-	static public class LeadRowDisplayHandler implements
-			RowDisplayHandler<SimpleLead> {
+    static public class LeadRowDisplayHandler implements RowDisplayHandler<SimpleLead> {
 
-		@Override
-		public Component generateRow(final SimpleLead lead, int rowIndex) {
-			final Button b = new Button(lead.getLeadName());
-			b.addClickListener(new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+        @Override
+        public Component generateRow(final SimpleLead lead, int rowIndex) {
+            final Button b = new Button(lead.getLeadName(), new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent clickEvent) {
+                    EventBusFactory.getInstance().post(new LeadEvent.GotoRead(this, lead.getId()));
+                }
+            });
+            b.setWidth("100%");
+            return b;
+        }
 
-				@Override
-				public void buttonClick(final Button.ClickEvent event) {
-					EventBusFactory.getInstance().post(
-							new LeadEvent.GotoRead(this, lead.getId()));
-				}
-			});
-			b.setWidth("100%");
-			b.addStyleName("list-item");
-			return b;
-		}
-
-	}
+    }
 }

@@ -21,12 +21,11 @@ import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.IPreviewView;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.5.2
  */
 public interface MilestoneReadView extends IPreviewView<SimpleMilestone> {
 
-	HasPreviewFormHandlers<SimpleMilestone> getPreviewFormHandlers();
+    HasPreviewFormHandlers<SimpleMilestone> getPreviewFormHandlers();
 
 }

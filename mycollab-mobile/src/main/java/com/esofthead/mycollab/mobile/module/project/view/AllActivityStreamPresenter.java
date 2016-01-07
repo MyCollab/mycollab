@@ -20,7 +20,6 @@ import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.mobile.module.project.ui.ProjectModuleNavigationMenu;
 import com.esofthead.mycollab.mobile.ui.AbstractListPresenter;
 import com.esofthead.mycollab.module.project.domain.ProjectActivityStream;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
@@ -28,9 +27,7 @@ import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
-import com.esofthead.vaadin.mobilecomponent.MobileNavigationManager;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.UI;
 
 import java.util.List;
 
@@ -47,9 +44,6 @@ public class AllActivityStreamPresenter extends AbstractListPresenter<AllActivit
 
     @Override
     protected void onGo(ComponentContainer navigator, ScreenData<?> data) {
-        ProjectModuleNavigationMenu projectModuleMenu = new ProjectModuleNavigationMenu();
-        projectModuleMenu.selectButton(AppContext.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES));
-        ((MobileNavigationManager) UI.getCurrent().getContent()).setNavigationMenu(projectModuleMenu);
         super.onGo(navigator, data);
         ProjectService prjService = ApplicationContextUtil.getSpringBean(ProjectService.class);
         List<Integer> prjKeys = prjService.getProjectKeysUserInvolved(

@@ -23,13 +23,9 @@ import com.esofthead.mycollab.mobile.ui.AbstractMobileMainView;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.vaadin.server.ThemeResource;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -37,77 +33,55 @@ import com.vaadin.ui.VerticalLayout;
  */
 @ViewComponent
 public class MainView extends AbstractMobileMainView {
-	private static final long serialVersionUID = 1316340508967377888L;
+    private static final long serialVersionUID = 1316340508967377888L;
 
-	public MainView() {
-		super();
+    public MainView() {
+        super();
+        initUI();
+    }
 
-		initUI();
-	}
+    private void initUI() {
+        this.setSizeFull();
 
-	private void initUI() {
-		this.setStyleName("main-view");
-		this.setSizeFull();
+        MVerticalLayout contentLayout = new MVerticalLayout().withStyleName("content-wrapper").withWidth("320px");
+        contentLayout.setDefaultComponentAlignment(Alignment.TOP_CENTER);
 
-		VerticalLayout contentLayout = new VerticalLayout();
-		contentLayout.setStyleName("content-wrapper");
-		contentLayout.setDefaultComponentAlignment(Alignment.TOP_CENTER);
-		contentLayout.setMargin(true);
-		contentLayout.setSpacing(true);
-		contentLayout.setWidth("320px");
+        Image mainLogo = new Image(null, new ThemeResource("icons/logo_m.png"));
+        contentLayout.addComponent(mainLogo);
 
-		Image mainLogo = new Image(null, new ThemeResource("icons/logo_m.png"));
-		contentLayout.addComponent(mainLogo);
+        Label introText = new Label("MyCollab helps you do all your office jobs on the computers, phones and tablets you use");
+        introText.setStyleName("intro-text");
+        contentLayout.addComponent(introText);
 
-		Label introText = new Label(
-				"MyCollab helps you do all your office jobs on the computers, phones and tablets you use");
-		introText.setStyleName("intro-text");
-		contentLayout.addComponent(introText);
+        CssLayout welcomeTextWrapper = new CssLayout();
+        welcomeTextWrapper.setStyleName("welcometext-wrapper");
+        welcomeTextWrapper.setWidth("100%");
+        welcomeTextWrapper.setHeight("15px");
+        contentLayout.addComponent(welcomeTextWrapper);
 
-		CssLayout welcomeTextWrapper = new CssLayout();
-		welcomeTextWrapper.setStyleName("welcometext-wrapper");
-		welcomeTextWrapper.setWidth("100%");
-		welcomeTextWrapper.setHeight("15px");
-		contentLayout.addComponent(welcomeTextWrapper);
+        Button crmButton = new Button(AppContext.getMessage(GenericI18Enum.MODULE_CRM), new Button.ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent clickEvent) {
+                EventBusFactory.getInstance().post(new ShellEvent.GotoCrmModule(this, null));
+            }
+        });
+        crmButton.setWidth("100%");
 
-		ModuleButton crmButton = new ModuleButton(
-				AppContext.getMessage(GenericI18Enum.MODULE_CRM));
-		crmButton.setWidth("100%");
-		crmButton.addStyleName("crm");
-		crmButton.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = -1218427186205574547L;
+        contentLayout.addComponent(crmButton);
 
-			@Override
-			public void buttonClick(ClickEvent event) {
-				EventBusFactory.getInstance().post(
-						new ShellEvent.GotoCrmModule(this, null));
-			}
-		});
+        Button pmButton = new Button(AppContext.getMessage(GenericI18Enum.MODULE_PROJECT), new Button.ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent clickEvent) {
+                EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, null));
+            }
+        });
+        pmButton.setWidth("100%");
+        contentLayout.addComponent(pmButton);
 
-		contentLayout.addComponent(crmButton);
+        Button fileButton = new Button(AppContext.getMessage(GenericI18Enum.MODULE_DOCUMENT));
+        fileButton.setWidth("100%");
+        contentLayout.addComponent(fileButton);
 
-		ModuleButton pmButton = new ModuleButton(
-				AppContext.getMessage(GenericI18Enum.MODULE_PROJECT));
-		pmButton.setWidth("100%");
-		pmButton.addStyleName("project");
-		pmButton.addClickListener(new Button.ClickListener() {
-
-			private static final long serialVersionUID = -5323408319082242586L;
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				EventBusFactory.getInstance().post(
-						new ShellEvent.GotoProjectModule(this, null));
-			}
-		});
-		contentLayout.addComponent(pmButton);
-
-		ModuleButton fileButton = new ModuleButton(
-				AppContext.getMessage(GenericI18Enum.MODULE_DOCUMENT));
-		fileButton.setWidth("100%");
-		fileButton.addStyleName("document");
-		contentLayout.addComponent(fileButton);
-
-		this.addComponent(contentLayout);
-	}
+        this.addComponent(contentLayout);
+    }
 }

@@ -38,7 +38,6 @@ import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.module.tracker.service.VersionService;
-import com.esofthead.mycollab.schedule.email.project.VersionRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
@@ -85,8 +84,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version> implem
     @Override
     protected void initRelatedComponents() {
         activityComponent = new ProjectActivityComponent(ProjectTypeConstants.BUG_VERSION,
-                CurrentProjectVariables.getProjectId(), VersionFieldFormatter.instance(),
-                VersionRelayEmailNotificationAction.class);
+                CurrentProjectVariables.getProjectId(), VersionFieldFormatter.instance());
 
         dateInfoComp = new DateInfoComp();
         versionTimeLogComp = new VersionTimeLogComp();

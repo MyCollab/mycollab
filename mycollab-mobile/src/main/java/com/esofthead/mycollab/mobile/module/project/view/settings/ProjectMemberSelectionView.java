@@ -66,12 +66,10 @@ public class ProjectMemberSelectionView extends AbstractSelectionView<SimpleProj
     private class MemberRowDisplayHandler implements RowDisplayHandler<SimpleProjectMember> {
 
         @Override
-        public Component generateRow(final SimpleProjectMember member,
-                                     int rowIndex) {
+        public Component generateRow(final SimpleProjectMember member, int rowIndex) {
             HorizontalLayout mainLayout = new HorizontalLayout();
             mainLayout.setWidth("100%");
             mainLayout.setStyleName("member-row");
-            mainLayout.addStyleName("list-item");
             mainLayout.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
 
                 private static final long serialVersionUID = -6886497684142268213L;

@@ -58,7 +58,6 @@ public class TaskListDisplay
 		public Component generateRow(final SimpleTask task, int rowIndex) {
 			VerticalLayout layout = new VerticalLayout();
 			layout.setWidth("100%");
-			layout.setStyleName("list-item");
 			layout.addStyleName("task-layout");
 			layout.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
 
@@ -66,34 +65,27 @@ public class TaskListDisplay
 
 				@Override
 				public void layoutClick(LayoutEvents.LayoutClickEvent event) {
-					EventBusFactory.getInstance().post(
-							new TaskEvent.GotoRead(this, task.getId()));
+					EventBusFactory.getInstance().post(new TaskEvent.GotoRead(this, task.getId()));
 				}
 			});
 
 			HorizontalLayout topRow = new HorizontalLayout();
 			topRow.setWidth("100%");
-			Label b = new Label(CurrentProjectVariables.getProject()
-					.getShortname() + "-" + task.getTaskkey());
+			Label b = new Label(CurrentProjectVariables.getProject().getShortname() + "-" + task.getTaskkey());
 			b.setWidth("100%");
 			b.setStyleName("task-key");
 			topRow.addComponent(b);
 			topRow.setExpandRatio(b, 1.0f);
 
-			if (!task.getPriority().equals(
-					AppContext.getMessage(TaskPriority.None))) {
+			if (!task.getPriority().equals(AppContext.getMessage(TaskPriority.None))) {
 				Label priorityLbl = new Label(task.getPriority());
-				if (task.getPriority().equals(
-						AppContext.getMessage(TaskPriority.High))) {
+				if (task.getPriority().equals(AppContext.getMessage(TaskPriority.High))) {
 					priorityLbl.setStyleName(UIConstants.LBL_HIGH);
-				} else if (task.getPriority().equals(
-						AppContext.getMessage(TaskPriority.Urgent))) {
+				} else if (task.getPriority().equals(AppContext.getMessage(TaskPriority.Urgent))) {
 					priorityLbl.setStyleName(UIConstants.LBL_URGENT);
-				} else if (task.getPriority().equals(
-						AppContext.getMessage(TaskPriority.Medium))) {
+				} else if (task.getPriority().equals(AppContext.getMessage(TaskPriority.Medium))) {
 					priorityLbl.setStyleName(UIConstants.LBL_MEDIUM);
-				} else if (task.getPriority().equals(
-						AppContext.getMessage(TaskPriority.Low))) {
+				} else if (task.getPriority().equals(AppContext.getMessage(TaskPriority.Low))) {
 					priorityLbl.setStyleName(UIConstants.LBL_LOW);
 				}
 				priorityLbl.setWidthUndefined();

@@ -44,22 +44,16 @@ public abstract class AbstractEditItemComp<B> extends AbstractMobilePageView imp
 
     public AbstractEditItemComp() {
         super();
-        this.editForm = new AdvancedEditBeanForm<B>();
-        this.editForm.setStyleName("editview-layout");
+        this.editForm = new AdvancedEditBeanForm<>();
         this.setContent(this.editForm);
 
-        this.saveBtn = new Button(AppContext.getMessage(GenericI18Enum.M_BUTTON_DONE));
-        this.saveBtn.addStyleName("save-btn");
-        this.saveBtn.addClickListener(new Button.ClickListener() {
-            private static final long serialVersionUID = -5504095132334808021L;
-
+        this.saveBtn = new Button(AppContext.getMessage(GenericI18Enum.M_BUTTON_DONE), new Button.ClickListener() {
             @Override
-            public void buttonClick(Button.ClickEvent event) {
+            public void buttonClick(Button.ClickEvent clickEvent) {
                 if (editForm.validateForm())
                     editForm.fireSaveForm();
             }
         });
-
         this.setRightComponent(this.saveBtn);
     }
 

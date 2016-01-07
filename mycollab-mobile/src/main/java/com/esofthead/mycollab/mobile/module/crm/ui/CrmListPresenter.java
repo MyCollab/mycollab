@@ -51,8 +51,7 @@ public abstract class CrmListPresenter<V extends IListView<S, B>, S extends Sear
 
 		if (view.getParent() != null && view.getParent() instanceof AbstractMobileTabPageView) {
 			targetView = view.getParent();
-			((AbstractMobileTabPageView) view.getParent()).setSelectedTab(view
-					.getWidget());
+			((AbstractMobileTabPageView) view.getParent()).setSelectedTab(view.getWidget());
 		} else {
 			targetView = view;
 		}

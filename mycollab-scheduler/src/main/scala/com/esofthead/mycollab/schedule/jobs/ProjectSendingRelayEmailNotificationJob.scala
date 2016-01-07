@@ -30,43 +30,44 @@ import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 
 /**
- * @author MyCollab Ltd.
- * @since 4.6.0
- */
+  * @author MyCollab Ltd.
+  * @since 4.6.0
+  */
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 class ProjectSendingRelayEmailNotificationJob extends GenericQuartzJobBean {
-    private val LOG: Logger = LoggerFactory.getLogger(classOf[ProjectSendingRelayEmailNotificationJob])
+  private val LOG: Logger = LoggerFactory.getLogger(classOf[ProjectSendingRelayEmailNotificationJob])
 
-    @Autowired
-    private val projectService: ProjectService = null
+  @Autowired
+  private val projectService: ProjectService = null
 
-    @Autowired
-    private val relayNotificationMapper: RelayEmailNotificationMapper = null
+  @Autowired
+  private val relayNotificationMapper: RelayEmailNotificationMapper = null
 
-    def executeJob(context: JobExecutionContext) {
-        import scala.collection.JavaConverters._
-        val relayEmaiNotifications: List[ProjectRelayEmailNotification] = projectService.findProjectRelayEmailNotifications.asScala.toList
-        var emailNotificationAction: SendingRelayEmailNotificationAction = null
-        for (notification <- relayEmaiNotifications) {
-            try {
-                if (notification.getEmailhandlerbean != null) {
-                    emailNotificationAction = ApplicationContextUtil.getSpringBean(Class.forName(notification.getEmailhandlerbean)).
-                        asInstanceOf[SendingRelayEmailNotificationAction]
-                    if (emailNotificationAction != null) {
-                        notification.getAction match {
-                            case MonitorTypeConstants.CREATE_ACTION => emailNotificationAction.sendNotificationForCreateAction(notification)
-                            case MonitorTypeConstants.UPDATE_ACTION => emailNotificationAction.sendNotificationForUpdateAction(notification)
-                            case MonitorTypeConstants.ADD_COMMENT_ACTION => emailNotificationAction.sendNotificationForCommentAction(notification)
-                        }
-                    }
-                }
+  def executeJob(context: JobExecutionContext) {
+    import scala.collection.JavaConverters._
+    val relayEmaiNotifications: List[ProjectRelayEmailNotification] = projectService.findProjectRelayEmailNotifications.asScala.toList
+    var emailNotificationAction: SendingRelayEmailNotificationAction = null
+    for (notification <- relayEmaiNotifications) {
+      try {
+        val mailServiceCls = MailServiceMap.service(notification.getType)
+        if (mailServiceCls != null) {
+          emailNotificationAction = ApplicationContextUtil.getSpringBean(mailServiceCls)
+          if (emailNotificationAction != null) {
+            notification.getAction match {
+              case MonitorTypeConstants.CREATE_ACTION => emailNotificationAction.sendNotificationForCreateAction(notification)
+              case MonitorTypeConstants.UPDATE_ACTION => emailNotificationAction.sendNotificationForUpdateAction(notification)
+              case MonitorTypeConstants.ADD_COMMENT_ACTION => emailNotificationAction.sendNotificationForCommentAction(notification)
             }
-            catch {
-                case ex: Exception => LOG.error("Error while sending scheduler command", ex)
-            } finally {
-                relayNotificationMapper.deleteByPrimaryKey(notification.getId)
-            }
+          }
+          relayNotificationMapper.deleteByPrimaryKey(notification.getId)
         }
+      }
+      catch {
+        case ex: Exception => LOG.error("Error while sending scheduler command", ex)
+      } finally {
+//        relayNotificationMapper.deleteByPrimaryKey(notification.getId)
+      }
     }
+  }
 }

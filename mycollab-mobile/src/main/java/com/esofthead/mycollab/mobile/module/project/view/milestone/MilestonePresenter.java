@@ -17,54 +17,39 @@
 package com.esofthead.mycollab.mobile.module.project.view.milestone;
 
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.mobile.module.project.ui.InsideProjectNavigationMenu;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.MilestoneScreenData;
 import com.esofthead.mycollab.mobile.mvp.AbstractPresenter;
-import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
-import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
-import com.esofthead.vaadin.mobilecomponent.MobileNavigationManager;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.UI;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.5.2
  */
-public class MilestonePresenter extends AbstractPresenter<MilestoneContainer> {
+public class MilestonePresenter extends AbstractMobilePresenter<MilestoneContainer> {
+    private static final long serialVersionUID = 5263058263047835714L;
 
-	private static final long serialVersionUID = 5263058263047835714L;
+    public MilestonePresenter() {
+        super(MilestoneContainer.class);
+    }
 
-	public MilestonePresenter() {
-		super(MilestoneContainer.class);
-	}
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        AbstractPresenter<?> presenter;
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		InsideProjectNavigationMenu projectModuleMenu = (InsideProjectNavigationMenu) ((MobileNavigationManager) UI
-				.getCurrent().getContent()).getNavigationMenu();
-		projectModuleMenu.selectButton(AppContext
-				.getMessage(ProjectCommonI18nEnum.VIEW_MILESTONE));
+        if (data instanceof MilestoneScreenData.Search) {
+            presenter = PresenterResolver.getPresenter(MilestoneListPresenter.class);
+        } else if (data instanceof MilestoneScreenData.Add || data instanceof MilestoneScreenData.Edit) {
+            presenter = PresenterResolver.getPresenter(MilestoneAddPresenter.class);
+        } else if (data instanceof MilestoneScreenData.Read) {
+            presenter = PresenterResolver.getPresenter(MilestoneReadPresenter.class);
+        } else {
+            throw new MyCollabException("Do not support screen data " + data);
+        }
 
-		AbstractPresenter<?> presenter = null;
-
-		if (data instanceof MilestoneScreenData.List) {
-			presenter = PresenterResolver
-					.getPresenter(MilestoneListPresenter.class);
-		} else if (data instanceof MilestoneScreenData.Add
-				|| data instanceof MilestoneScreenData.Edit) {
-			presenter = PresenterResolver
-					.getPresenter(MilestoneAddPresenter.class);
-		} else if (data instanceof MilestoneScreenData.Read) {
-			presenter = PresenterResolver
-					.getPresenter(MilestoneReadPresenter.class);
-		} else {
-			throw new MyCollabException("Do not support screen data " + data);
-		}
-
-		presenter.go(container, data);
-	}
+        presenter.go(container, data);
+    }
 
 }

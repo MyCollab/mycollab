@@ -47,7 +47,7 @@ import java.util.List;
  */
 @Service
 @Transactional
-@Traceable(nameField = "subject", notifyAgent = CallRelayEmailNotificationAction.class)
+@Traceable(nameField = "subject")
 @Watchable(userFieldName = "assignuser")
 public class CallServiceImpl extends DefaultService<Integer, CallWithBLOBs, CallSearchCriteria> implements CallService {
     static {

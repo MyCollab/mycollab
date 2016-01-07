@@ -22,7 +22,6 @@ import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
-import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AttachmentPanel;
@@ -55,8 +54,7 @@ public class ProjectCommentInput extends MHorizontalLayout {
     private String typeId;
     private Integer extraTypeId;
 
-    ProjectCommentInput(final ReloadableComponent component, final String typeVal, Integer extraTypeIdVal,
-                        final Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
+    ProjectCommentInput(final ReloadableComponent component, final String typeVal, Integer extraTypeIdVal) {
         super();
         this.withMargin(new MarginInfo(true, true, false, true)).withWidth("100%").withStyleName("message");
 
@@ -109,7 +107,7 @@ public class ProjectCommentInput extends MHorizontalLayout {
                 comment.setExtratypeid(extraTypeId);
 
                 final CommentService commentService = ApplicationContextUtil.getSpringBean(CommentService.class);
-                int commentId = commentService.saveWithSession(comment, AppContext.getUsername(), emailHandler);
+                int commentId = commentService.saveWithSession(comment, AppContext.getUsername());
 
                 String attachmentPath = AttachmentUtils.getCommentAttachmentPath(typeVal, AppContext.getAccountId(),
                         CurrentProjectVariables.getProjectId(), typeId, commentId);

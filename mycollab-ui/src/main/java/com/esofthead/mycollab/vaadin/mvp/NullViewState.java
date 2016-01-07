@@ -20,45 +20,41 @@ package com.esofthead.mycollab.vaadin.mvp;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 public class NullViewState extends ViewState {
 
-	public NullViewState() {
-		super(null, new EmptyPresenter(), null);
-	}
+    public NullViewState() {
+        super(null, new EmptyPresenter(), null);
+    }
 
-	@SuppressWarnings("rawtypes")
-	public static class EmptyPresenter implements IPresenter {
+    @SuppressWarnings("rawtypes")
+    public static class EmptyPresenter implements IPresenter {
 
-		private static final long serialVersionUID = 1L;
+        private static final long serialVersionUID = 1L;
 
-		@Override
-		public void handleChain(ComponentContainer container,
-				PageActionChain pageActionChain) {
-			// do nothing
+        @Override
+        public void handleChain(ComponentContainer container, PageActionChain pageActionChain) {
+            // do nothing
 
-		}
+        }
 
-		@Override
-		public void go(ComponentContainer container, ScreenData data) {
-			// do nothing
+        @Override
+        public void go(ComponentContainer container, ScreenData data) {
+            // do nothing
 
-		}
+        }
 
-		@Override
-		public void go(ComponentContainer container, ScreenData data,
-				boolean isHistoryTrack) {
-			// do nothing
+        @Override
+        public void go(ComponentContainer container, ScreenData data, boolean isHistoryTrack) {
+            // do nothing
 
-		}
+        }
 
-		@Override
-		public PageView getView() {
-			return null;
-		}
-	}
+        @Override
+        public PageView getView() {
+            return null;
+        }
+    }
 }

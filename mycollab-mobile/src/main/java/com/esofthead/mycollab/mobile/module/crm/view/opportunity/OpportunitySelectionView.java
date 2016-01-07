@@ -28,69 +28,56 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
-public class OpportunitySelectionView extends
-		AbstractSelectionView<SimpleOpportunity> {
-	private static final long serialVersionUID = -4651110982471036490L;
-	private OpportunitySearchCriteria searchCriteria;
-	private OpportunityListDisplay itemList;
+public class OpportunitySelectionView extends AbstractSelectionView<SimpleOpportunity> {
+    private static final long serialVersionUID = -4651110982471036490L;
 
-	private OpportunityRowDisplayHandler rowHandler = new OpportunityRowDisplayHandler();
+    private OpportunitySearchCriteria searchCriteria;
+    private OpportunityListDisplay itemList;
 
-	public OpportunitySelectionView() {
-		super();
-		createUI();
-		this.setCaption(AppContext
-				.getMessage(OpportunityI18nEnum.M_VIEW_OPPORTUNITY_NAME_LOOKUP));
-	}
+    private OpportunityRowDisplayHandler rowHandler = new OpportunityRowDisplayHandler();
 
-	public void createUI() {
-		itemList = new OpportunityListDisplay();
+    public OpportunitySelectionView() {
+        super();
+        createUI();
+        this.setCaption(AppContext.getMessage(OpportunityI18nEnum.M_VIEW_OPPORTUNITY_NAME_LOOKUP));
+    }
 
-		itemList.setWidth("100%");
-		itemList.setRowDisplayHandler(rowHandler);
-		this.setContent(itemList);
-	}
+    public void createUI() {
+        itemList = new OpportunityListDisplay();
+        itemList.setWidth("100%");
+        itemList.setRowDisplayHandler(rowHandler);
+        this.setContent(itemList);
+    }
 
-	@Override
-	public void load() {
-		searchCriteria = new OpportunitySearchCriteria();
-		searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
-				AppContext.getAccountId()));
+    @Override
+    public void load() {
+        searchCriteria = new OpportunitySearchCriteria();
+        searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+        itemList.setSearchCriteria(searchCriteria);
+        SimpleOpportunity clearOpportunity = new SimpleOpportunity();
+        itemList.getListContainer().addComponentAsFirst(rowHandler.generateRow(clearOpportunity, 0));
+    }
 
-		itemList.setSearchCriteria(searchCriteria);
+    private class OpportunityRowDisplayHandler implements RowDisplayHandler<SimpleOpportunity> {
 
-		SimpleOpportunity clearOpportunity = new SimpleOpportunity();
-		itemList.getListContainer().addComponentAsFirst(
-				rowHandler.generateRow(clearOpportunity, 0));
-	}
+        @Override
+        public Component generateRow(final SimpleOpportunity opportunity, int rowIndex) {
+            Button b = new Button(opportunity.getOpportunityname(), new Button.ClickListener() {
+                private static final long serialVersionUID = -8257474042598100147L;
 
-	private class OpportunityRowDisplayHandler implements
-			RowDisplayHandler<SimpleOpportunity> {
+                @Override
+                public void buttonClick(final Button.ClickEvent event) {
+                    selectionField.fireValueChange(opportunity);
+                    OpportunitySelectionView.this.getNavigationManager().navigateBack();
+                }
+            });
+            if (opportunity.getId() == null)
+                b.addStyleName("blank-item");
+            return b;
+        }
 
-		@Override
-		public Component generateRow(final SimpleOpportunity opportunity,
-				int rowIndex) {
-			Button b = new Button(opportunity.getOpportunityname(),
-					new Button.ClickListener() {
-						private static final long serialVersionUID = -8257474042598100147L;
-
-						@Override
-						public void buttonClick(final Button.ClickEvent event) {
-							selectionField.fireValueChange(opportunity);
-							OpportunitySelectionView.this
-									.getNavigationManager().navigateBack();
-						}
-					});
-			b.addStyleName("list-item");
-			if (opportunity.getId() == null)
-				b.addStyleName("blank-item");
-			return b;
-		}
-
-	}
+    }
 }

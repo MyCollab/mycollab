@@ -26,8 +26,7 @@ import java.util.Set;
  * @author MyCollab Ltd
  * @since 5.1.0
  */
-public class CommunityOptimizedConnectorBundleLoaderFactory extends
-        ConnectorBundleLoaderFactory {
+public class CommunityOptimizedConnectorBundleLoaderFactory extends ConnectorBundleLoaderFactory {
     private Set<String> eagerConnectors = new HashSet<String>();
 
     {

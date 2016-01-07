@@ -30,7 +30,7 @@
         <![CDATA[
             SELECT s_relay_email_notification.id, s_relay_email_notification.sAccountId, s_relay_email_notification.type, 
                     s_relay_email_notification.typeid, s_relay_email_notification.action, 
-                    s_relay_email_notification.extraTypeId, s_relay_email_notification.emailHandlerBean,
+                    s_relay_email_notification.extraTypeId,
                     s_relay_email_notification.changeBy, s_relay_email_notification.changeComment,
                     concat(changeUser.firstname, ' ', LTRIM(IFNULL(changeUser.middlename, '')), changeUser.lastname) as changeByUserFullName,
                     notifier.firstname AS notifiers_firstname, notifier.lastname AS notifiers_lastname, notifier.username AS notifiers_username,

@@ -44,7 +44,6 @@ import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.esb.DeleteProjectTaskEvent;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.service.*;
-import com.esofthead.mycollab.schedule.email.project.ProjectTaskRelayEmailNotificationAction;
 import com.google.common.eventbus.AsyncEventBus;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +68,7 @@ import java.util.concurrent.locks.Lock;
  */
 @Service
 @Transactional
-@Traceable(nameField = "taskname", extraFieldName = "projectid", notifyAgent = ProjectTaskRelayEmailNotificationAction.class)
+@Traceable(nameField = "taskname", extraFieldName = "projectid")
 @Watchable(userFieldName = "assignuser", extraTypeId = "projectid")
 public class ProjectTaskServiceImpl extends DefaultService<Integer, Task, TaskSearchCriteria> implements ProjectTaskService {
     static {

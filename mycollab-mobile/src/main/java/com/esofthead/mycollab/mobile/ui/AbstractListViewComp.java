@@ -29,9 +29,7 @@ public abstract class AbstractListViewComp<S extends SearchCriteria, B> extends 
     protected AbstractPagedBeanList<S, B> itemList;
 
     public AbstractListViewComp() {
-
         this.itemList = createBeanTable();
-
         setContent(itemList);
 
         Component rightComponent = createRightComponent();

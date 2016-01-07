@@ -22,7 +22,6 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.events.TaskEvent;
-import com.esofthead.mycollab.mobile.module.project.ui.InsideProjectNavigationMenu;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractListPresenter;
 import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
@@ -31,7 +30,6 @@ import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
-import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -39,7 +37,6 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
-import com.esofthead.vaadin.mobilecomponent.MobileNavigationManager;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
 
@@ -99,14 +96,8 @@ public class TaskListPresenter extends AbstractListPresenter<TaskListView, TaskS
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.TASKS)) {
-            InsideProjectNavigationMenu projectModuleMenu = (InsideProjectNavigationMenu) ((MobileNavigationManager) UI
-                    .getCurrent().getContent()).getNavigationMenu();
-            projectModuleMenu.selectButton(AppContext
-                    .getMessage(ProjectCommonI18nEnum.VIEW_TASK));
-
             if (data.getParams() != null && data.getParams() instanceof Integer) {
-                ProjectTaskListService searchService = ApplicationContextUtil
-                        .getSpringBean(ProjectTaskListService.class);
+                ProjectTaskListService searchService = ApplicationContextUtil.getSpringBean(ProjectTaskListService.class);
                 SimpleTaskList taskList = searchService.findById((Integer) data.getParams(), AppContext.getAccountId());
                 view.setCaption(taskList.getName());
                 view.setBean(taskList);
@@ -118,10 +109,7 @@ public class TaskListPresenter extends AbstractListPresenter<TaskListView, TaskS
                 super.onGo(container, data);
                 doSearch(criteria);
 
-                AppContext.addFragment(
-                        "project/task/task/list/"
-                                + GenericLinkUtils.encodeParam(CurrentProjectVariables.getProjectId(),
-                                taskList.getId()),
+                AppContext.addFragment("project/task/task/list/" + GenericLinkUtils.encodeParam(CurrentProjectVariables.getProjectId(), taskList.getId()),
                         AppContext.getMessage(TaskI18nEnum.M_VIEW_LIST_TITLE));
             }
         } else {

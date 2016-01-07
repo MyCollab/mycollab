@@ -31,86 +31,60 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.VerticalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
-
 @ViewComponent
-public class ActivityListViewImpl extends
-		AbstractListViewComp<ActivitySearchCriteria, SimpleActivity> implements
-		ActivityListView {
-	private static final long serialVersionUID = -7632616933330982900L;
-	private VerticalLayout addButtons;
+public class ActivityListViewImpl extends AbstractListViewComp<ActivitySearchCriteria, SimpleActivity> implements ActivityListView {
+    private static final long serialVersionUID = -7632616933330982900L;
+    private MVerticalLayout addButtons;
 
-	public ActivityListViewImpl() {
-		super();
+    public ActivityListViewImpl() {
+        super();
+        setCaption(AppContext.getMessage(ActivityI18nEnum.TAB_ACTIVITY_TITLE));
+    }
 
-		setCaption(AppContext.getMessage(ActivityI18nEnum.TAB_ACTIVITY_TITLE));
-	}
+    @Override
+    protected AbstractPagedBeanList<ActivitySearchCriteria, SimpleActivity> createBeanTable() {
+        ActivityListDisplay activityListDisplay = new ActivityListDisplay();
+        return activityListDisplay;
+    }
 
-	@Override
-	protected AbstractPagedBeanList<ActivitySearchCriteria, SimpleActivity> createBeanTable() {
-		ActivityListDisplay activityListDisplay = new ActivityListDisplay();
-		return activityListDisplay;
-	}
+    @Override
+    protected Component createRightComponent() {
+        final NavigationBarQuickMenu addActivity = new NavigationBarQuickMenu();
+        addActivity.setStyleName("add-btn");
 
-	@Override
-	protected Component createRightComponent() {
-		final NavigationBarQuickMenu addActivity = new NavigationBarQuickMenu();
-		addActivity.setStyleName("add-btn");
+        addButtons = new MVerticalLayout().withWidth("100%");
 
-		addButtons = new VerticalLayout();
-		addButtons.setSpacing(true);
-		addButtons.setWidth("100%");
-		addButtons.setMargin(true);
-		addButtons.addStyleName("edit-btn-layout");
+        Button addTask = new Button(AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASK), new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                EventBusFactory.getInstance().post(new ActivityEvent.TaskAdd(this, null));
+            }
+        });
+        addButtons.addComponent(addTask);
 
-		Button addTask = new Button(
-				AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASK));
-		addTask.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = 1920289198458066344L;
+        Button addCall = new Button(AppContext.getMessage(CallI18nEnum.BUTTON_NEW_CALL), new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                EventBusFactory.getInstance().post(new ActivityEvent.CallAdd(this, null));
+            }
+        });
+        addButtons.addComponent(addCall);
 
-			@Override
-			public void buttonClick(Button.ClickEvent event) {
-				EventBusFactory.getInstance().post(
-						new ActivityEvent.TaskAdd(this, null));
-			}
-		});
-		addButtons.addComponent(addTask);
+        Button addMeeting = new Button(AppContext.getMessage(MeetingI18nEnum.BUTTON_NEW_MEETING), new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                EventBusFactory.getInstance().post(new ActivityEvent.MeetingAdd(this, null));
+            }
+        });
+        addButtons.addComponent(addMeeting);
 
-		Button addCall = new Button(
-				AppContext.getMessage(CallI18nEnum.BUTTON_NEW_CALL));
-		addCall.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = -279151189261011902L;
-
-			@Override
-			public void buttonClick(Button.ClickEvent event) {
-				EventBusFactory.getInstance().post(
-						new ActivityEvent.CallAdd(this, null));
-			}
-		});
-		addButtons.addComponent(addCall);
-
-		Button addMeeting = new Button(
-				AppContext.getMessage(MeetingI18nEnum.BUTTON_NEW_MEETING));
-		addMeeting.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = 4770664404728700960L;
-
-			@Override
-			public void buttonClick(Button.ClickEvent event) {
-				EventBusFactory.getInstance().post(
-						new ActivityEvent.MeetingAdd(this, null));
-			}
-		});
-		addButtons.addComponent(addMeeting);
-
-		addActivity.setContent(addButtons);
-
-		return addActivity;
-	}
+        addActivity.setContent(addButtons);
+        return addActivity;
+    }
 }

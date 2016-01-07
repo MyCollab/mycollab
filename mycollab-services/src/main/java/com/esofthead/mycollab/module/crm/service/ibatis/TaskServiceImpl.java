@@ -33,7 +33,6 @@ import com.esofthead.mycollab.module.crm.domain.Task;
 import com.esofthead.mycollab.module.crm.domain.criteria.TodoSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.EventService;
 import com.esofthead.mycollab.module.crm.service.TaskService;
-import com.esofthead.mycollab.schedule.email.crm.TaskRelayEmailNotificationAction;
 import com.google.common.eventbus.AsyncEventBus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,7 +46,7 @@ import java.util.List;
  */
 @Service
 @Transactional
-@Traceable(nameField = "subject", notifyAgent = TaskRelayEmailNotificationAction.class)
+@Traceable(nameField = "subject")
 @Watchable(userFieldName = "assignuser")
 public class TaskServiceImpl extends DefaultService<Integer, Task, TodoSearchCriteria> implements TaskService {
 

@@ -48,7 +48,6 @@ import org.springframework.stereotype.Component
 class ProjectRiskRelayEmailNotificationActionImpl extends SendMailToAllMembersAction[SimpleRisk] with ProjectRiskRelayEmailNotificationAction {
 
     @Autowired var riskService: RiskService = _
-
     @Autowired var projectService: ProjectService = _
 
     private val mapper = new ProjectFieldNameMapper
@@ -110,7 +109,6 @@ class ProjectRiskRelayEmailNotificationActionImpl extends SendMailToAllMembersAc
     }
 
     class AssigneeFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldFormat(fieldName, displayName) {
-
         def formatField(context: MailContext[_]): String = {
             val risk: SimpleRisk = context.getWrappedBean.asInstanceOf[SimpleRisk]
             if (risk.getAssigntouser != null) {
@@ -146,7 +144,6 @@ class ProjectRiskRelayEmailNotificationActionImpl extends SendMailToAllMembersAc
     }
 
     class RaisedByFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldFormat(fieldName, displayName) {
-
         def formatField(context: MailContext[_]): String = {
             val risk: SimpleRisk = context.getWrappedBean.asInstanceOf[SimpleRisk]
             if (risk.getRaisedbyuser != null) {

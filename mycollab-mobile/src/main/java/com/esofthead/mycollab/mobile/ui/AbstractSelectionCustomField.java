@@ -30,7 +30,7 @@ public abstract class AbstractSelectionCustomField<T, B> extends CustomField<T> 
     private static final long serialVersionUID = 1L;
 
     private Class<? extends AbstractSelectionView<B>> targetSelectionViewCls;
-    protected MobileNavigationButton navButton = new MobileNavigationButton();
+    protected NavigationButton navButton = new NavigationButton();
     protected B beanItem;
 
     public AbstractSelectionCustomField(Class<? extends AbstractSelectionView<B>> targetSelectionView) {
@@ -39,7 +39,6 @@ public abstract class AbstractSelectionCustomField<T, B> extends CustomField<T> 
 
     @Override
     protected Component initContent() {
-        navButton.setStyleName("combo-box");
         try {
             final AbstractSelectionView<B> selectionView = targetSelectionViewCls.newInstance();
             selectionView.setSelectionField(this);

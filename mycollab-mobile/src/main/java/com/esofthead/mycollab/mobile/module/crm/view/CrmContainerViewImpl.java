@@ -32,9 +32,7 @@ import com.esofthead.mycollab.module.crm.i18n.*;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.vaadin.mobilecomponent.MobileNavigationManager;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.UI;
 
 /**
  * @author MyCollab Ltd.
@@ -43,210 +41,183 @@ import com.vaadin.ui.UI;
 
 @ViewComponent
 public class CrmContainerViewImpl extends AbstractMobileTabPageView implements CrmContainerView {
-	private static final long serialVersionUID = 5251742381187041492L;
+    private static final long serialVersionUID = 5251742381187041492L;
 
-	private AccountListPresenter accountPresenter;
-	private ContactListPresenter contactPresenter;
-	private CampaignListPresenter campaignPresenter;
-	private ActivityListPresenter activityPresenter;
-	private LeadListPresenter leadPresenter;
-	private OpportunityListPresenter opportunityPresenter;
-	private CaseListPresenter casePresenter;
+    private AccountListPresenter accountPresenter;
+    private ContactListPresenter contactPresenter;
+    private CampaignListPresenter campaignPresenter;
+    private ActivityListPresenter activityPresenter;
+    private LeadListPresenter leadPresenter;
+    private OpportunityListPresenter opportunityPresenter;
+    private CaseListPresenter casePresenter;
 
-	public CrmContainerViewImpl() {
-		((MobileNavigationManager) UI.getCurrent().getContent()).setNavigationMenu(null);
-		buildComponents();
-	}
+    public CrmContainerViewImpl() {
+        buildComponents();
+    }
 
-	private void buildComponents() {
-		this.addTab(getAccountTab(), "<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\"" + IconConstants.CRM_ACCOUNT
-						+ "\"></span><div class=\"screen-reader-text\">"
-						+ AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_ACCOUNTS_HEADER)
-						+ "</div>");
-		this.addTab(getContactTab(), "<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\"" + IconConstants.CRM_CONTACT
-						+ "\"></span><div class=\"screen-reader-text\">"
-						+ AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_CONTACTS_HEADER)
-						+ "</div>");
+    private void buildComponents() {
+        this.addTab(getAccountTab(), "<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\"" + IconConstants.CRM_ACCOUNT
+                + "\"></span><div class=\"screen-reader-text\">"
+                + AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_ACCOUNTS_HEADER)
+                + "</div>");
+        this.addTab(getContactTab(), "<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\"" + IconConstants.CRM_CONTACT
+                + "\"></span><div class=\"screen-reader-text\">"
+                + AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_CONTACTS_HEADER)
+                + "</div>");
 
-		this.addTab(getCampaignTab(), "<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\""
-						+ IconConstants.CRM_CAMPAIGN
-						+ "\"></span><div class=\"screen-reader-text\">"
-						+ AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_CAMPAIGNS_HEADER)
-						+ "</div>");
-		this.addTab(
-				getLeadTab(),
-				"<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\""
-						+ IconConstants.CRM_LEAD
-						+ "\"></span><div class=\"screen-reader-text\">"
-						+ AppContext
-								.getMessage(CrmCommonI18nEnum.TOOLBAR_LEADS_HEADER)
-						+ "</div>");
-		this.addTab(
-				getOpportunityTab(),
-				"<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\""
-						+ IconConstants.CRM_OPPORTUNITY
-						+ "\"></span><div class=\"screen-reader-text\">"
-						+ AppContext
-								.getMessage(CrmCommonI18nEnum.TOOLBAR_OPPORTUNTIES_HEADER)
-						+ "</div>");
-		this.addTab(
-				getCaseTab(),
-				"<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\""
-						+ IconConstants.CRM_CASE
-						+ "\"></span><div class=\"screen-reader-text\">"
-						+ AppContext
-								.getMessage(CrmCommonI18nEnum.TOOLBAR_CASES_HEADER)
-						+ "</div>");
-		this.addTab(
-				getActivityTab(),
-				"<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\""
-						+ IconConstants.CRM_ACTIVITY
-						+ "\"></span><div class=\"screen-reader-text\">"
-						+ AppContext
-								.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER)
-						+ "</div>");
+        this.addTab(getCampaignTab(), "<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\""
+                + IconConstants.CRM_CAMPAIGN
+                + "\"></span><div class=\"screen-reader-text\">"
+                + AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_CAMPAIGNS_HEADER)
+                + "</div>");
+        this.addTab(
+                getLeadTab(),
+                "<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\""
+                        + IconConstants.CRM_LEAD
+                        + "\"></span><div class=\"screen-reader-text\">"
+                        + AppContext
+                        .getMessage(CrmCommonI18nEnum.TOOLBAR_LEADS_HEADER)
+                        + "</div>");
+        this.addTab(
+                getOpportunityTab(),
+                "<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\""
+                        + IconConstants.CRM_OPPORTUNITY
+                        + "\"></span><div class=\"screen-reader-text\">"
+                        + AppContext
+                        .getMessage(CrmCommonI18nEnum.TOOLBAR_OPPORTUNTIES_HEADER)
+                        + "</div>");
+        this.addTab(
+                getCaseTab(),
+                "<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\""
+                        + IconConstants.CRM_CASE
+                        + "\"></span><div class=\"screen-reader-text\">"
+                        + AppContext
+                        .getMessage(CrmCommonI18nEnum.TOOLBAR_CASES_HEADER)
+                        + "</div>");
+        this.addTab(
+                getActivityTab(),
+                "<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\""
+                        + IconConstants.CRM_ACTIVITY
+                        + "\"></span><div class=\"screen-reader-text\">"
+                        + AppContext
+                        .getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER)
+                        + "</div>");
 
-		this.addListener(new SelectedTabChangeListener() {
-			private static final long serialVersionUID = -2091640999903863902L;
+        this.addListener(new SelectedTabChangeListener() {
+            private static final long serialVersionUID = -2091640999903863902L;
 
-			@Override
-			public void selectedTabChange(SelectedTabChangeEvent event) {
-				Component currentComponent = getSelelectedTab().getComponent();
-				if (currentComponent == getAccountTab()) {
-					AccountSearchCriteria criteria = new AccountSearchCriteria();
-					criteria.setSaccountid(new NumberSearchField(
-							SearchField.AND, AppContext.getAccountId()));
-					accountPresenter.getView().getPagedBeanTable()
-							.setSearchCriteria(criteria);
-					AppContext.addFragment("crm/account/list", AppContext
-							.getMessage(AccountI18nEnum.VIEW_LIST_TITLE));
-				} else if (currentComponent == getContactTab()) {
-					ContactSearchCriteria criteria = new ContactSearchCriteria();
-					criteria.setSaccountid(new NumberSearchField(
-							SearchField.AND, AppContext.getAccountId()));
-					contactPresenter.getView().getPagedBeanTable()
-							.setSearchCriteria(criteria);
-					AppContext.addFragment("crm/contact/list", AppContext
-							.getMessage(ContactI18nEnum.VIEW_LIST_TITLE));
-				} else if (currentComponent == getCampaignTab()) {
-					CampaignSearchCriteria criteria = new CampaignSearchCriteria();
-					criteria.setSaccountid(new NumberSearchField(
-							SearchField.AND, AppContext.getAccountId()));
-					campaignPresenter.getView().getPagedBeanTable()
-							.setSearchCriteria(criteria);
-					AppContext.addFragment("crm/campaign/list", AppContext
-							.getMessage(CampaignI18nEnum.VIEW_LIST_TITLE));
-				} else if (currentComponent == getLeadTab()) {
-					LeadSearchCriteria criteria = new LeadSearchCriteria();
-					criteria.setSaccountid(new NumberSearchField(
-							SearchField.AND, AppContext.getAccountId()));
-					leadPresenter.getView().getPagedBeanTable()
-							.setSearchCriteria(criteria);
-					AppContext.addFragment("crm/lead/list",
-							AppContext.getMessage(LeadI18nEnum.VIEW_LIST_TITLE));
-				} else if (currentComponent == getOpportunityTab()) {
-					OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
-					criteria.setSaccountid(new NumberSearchField(
-							SearchField.AND, AppContext.getAccountId()));
-					opportunityPresenter.getView().getPagedBeanTable()
-							.setSearchCriteria(criteria);
-					AppContext.addFragment("crm/opportunity/list", AppContext
-							.getMessage(OpportunityI18nEnum.VIEW_LIST_TITLE));
-				} else if (currentComponent == getCaseTab()) {
-					CaseSearchCriteria criteria = new CaseSearchCriteria();
-					criteria.setSaccountid(new NumberSearchField(
-							SearchField.AND, AppContext.getAccountId()));
-					casePresenter.getView().getPagedBeanTable()
-							.setSearchCriteria(criteria);
-					AppContext.addFragment("crm/cases/list",
-							AppContext.getMessage(CaseI18nEnum.VIEW_LIST_TITLE));
-				} else if (currentComponent == getActivityTab()) {
-					ActivitySearchCriteria criteria = new ActivitySearchCriteria();
-					criteria.setSaccountid(new NumberSearchField(
-							SearchField.AND, AppContext.getAccountId()));
-					activityPresenter.getView().getPagedBeanTable()
-							.setSearchCriteria(criteria);
-					AppContext.addFragment("crm/activity/list", AppContext
-							.getMessage(ActivityI18nEnum.M_VIEW_LIST_TITLE));
-				}
-			}
-		});
+            @Override
+            public void selectedTabChange(SelectedTabChangeEvent event) {
+                Component currentComponent = getSelelectedTab().getComponent();
+                if (currentComponent == getAccountTab()) {
+                    AccountSearchCriteria criteria = new AccountSearchCriteria();
+                    criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+                    accountPresenter.getView().getPagedBeanTable().setSearchCriteria(criteria);
+                    AppContext.addFragment("crm/account/list", AppContext.getMessage(AccountI18nEnum.VIEW_LIST_TITLE));
+                } else if (currentComponent == getContactTab()) {
+                    ContactSearchCriteria criteria = new ContactSearchCriteria();
+                    criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+                    contactPresenter.getView().getPagedBeanTable().setSearchCriteria(criteria);
+                    AppContext.addFragment("crm/contact/list", AppContext.getMessage(ContactI18nEnum.VIEW_LIST_TITLE));
+                } else if (currentComponent == getCampaignTab()) {
+                    CampaignSearchCriteria criteria = new CampaignSearchCriteria();
+                    criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+                    campaignPresenter.getView().getPagedBeanTable().setSearchCriteria(criteria);
+                    AppContext.addFragment("crm/campaign/list", AppContext.getMessage(CampaignI18nEnum.VIEW_LIST_TITLE));
+                } else if (currentComponent == getLeadTab()) {
+                    LeadSearchCriteria criteria = new LeadSearchCriteria();
+                    criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+                    leadPresenter.getView().getPagedBeanTable().setSearchCriteria(criteria);
+                    AppContext.addFragment("crm/lead/list", AppContext.getMessage(LeadI18nEnum.VIEW_LIST_TITLE));
+                } else if (currentComponent == getOpportunityTab()) {
+                    OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
+                    criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+                    opportunityPresenter.getView().getPagedBeanTable().setSearchCriteria(criteria);
+                    AppContext.addFragment("crm/opportunity/list", AppContext.getMessage(OpportunityI18nEnum.VIEW_LIST_TITLE));
+                } else if (currentComponent == getCaseTab()) {
+                    CaseSearchCriteria criteria = new CaseSearchCriteria();
+                    criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+                    casePresenter.getView().getPagedBeanTable().setSearchCriteria(criteria);
+                    AppContext.addFragment("crm/cases/list", AppContext.getMessage(CaseI18nEnum.VIEW_LIST_TITLE));
+                } else if (currentComponent == getActivityTab()) {
+                    ActivitySearchCriteria criteria = new ActivitySearchCriteria();
+                    criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+                    activityPresenter.getView().getPagedBeanTable().setSearchCriteria(criteria);
+                    AppContext.addFragment("crm/activity/list", AppContext.getMessage(ActivityI18nEnum.M_VIEW_LIST_TITLE));
+                }
+            }
+        });
 
-	}
+    }
 
-	private Component getActivityTab() {
-		activityPresenter = PresenterResolver
-				.getPresenter(ActivityListPresenter.class);
-		return activityPresenter.getView();
-	}
+    private Component getActivityTab() {
+        activityPresenter = PresenterResolver.getPresenter(ActivityListPresenter.class);
+        return activityPresenter.getView();
+    }
 
-	private Component getCaseTab() {
-		casePresenter = PresenterResolver.getPresenter(CaseListPresenter.class);
-		return casePresenter.getView();
-	}
+    private Component getCaseTab() {
+        casePresenter = PresenterResolver.getPresenter(CaseListPresenter.class);
+        return casePresenter.getView();
+    }
 
-	private Component getOpportunityTab() {
-		opportunityPresenter = PresenterResolver
-				.getPresenter(OpportunityListPresenter.class);
-		return opportunityPresenter.getView();
-	}
+    private Component getOpportunityTab() {
+        opportunityPresenter = PresenterResolver.getPresenter(OpportunityListPresenter.class);
+        return opportunityPresenter.getView();
+    }
 
-	private Component getLeadTab() {
-		leadPresenter = PresenterResolver.getPresenter(LeadListPresenter.class);
-		return leadPresenter.getView();
-	}
+    private Component getLeadTab() {
+        leadPresenter = PresenterResolver.getPresenter(LeadListPresenter.class);
+        return leadPresenter.getView();
+    }
 
-	private Component getCampaignTab() {
-		campaignPresenter = PresenterResolver
-				.getPresenter(CampaignListPresenter.class);
-		return campaignPresenter.getView();
-	}
+    private Component getCampaignTab() {
+        campaignPresenter = PresenterResolver.getPresenter(CampaignListPresenter.class);
+        return campaignPresenter.getView();
+    }
 
-	private Component getContactTab() {
-		contactPresenter = PresenterResolver
-				.getPresenter(ContactListPresenter.class);
-		return contactPresenter.getView();
-	}
+    private Component getContactTab() {
+        contactPresenter = PresenterResolver.getPresenter(ContactListPresenter.class);
+        return contactPresenter.getView();
+    }
 
-	private Component getAccountTab() {
-		accountPresenter = PresenterResolver
-				.getPresenter(AccountListPresenter.class);
-		return accountPresenter.getView();
-	}
+    private Component getAccountTab() {
+        accountPresenter = PresenterResolver.getPresenter(AccountListPresenter.class);
+        return accountPresenter.getView();
+    }
 
-	@Override
-	public void goToAccounts() {
-		this.setSelectedTab(getAccountTab());
-	}
+    @Override
+    public void goToAccounts() {
+        this.setSelectedTab(getAccountTab());
+    }
 
-	@Override
-	public void goToContacts() {
-		this.setSelectedTab(getContactTab());
-	}
+    @Override
+    public void goToContacts() {
+        this.setSelectedTab(getContactTab());
+    }
 
-	@Override
-	public void goToCampaigns() {
-		this.setSelectedTab(getCampaignTab());
-	}
+    @Override
+    public void goToCampaigns() {
+        this.setSelectedTab(getCampaignTab());
+    }
 
-	@Override
-	public void goToCases() {
-		this.setSelectedTab(getCaseTab());
-	}
+    @Override
+    public void goToCases() {
+        this.setSelectedTab(getCaseTab());
+    }
 
-	@Override
-	public void goToLeads() {
-		this.setSelectedTab(getLeadTab());
-	}
+    @Override
+    public void goToLeads() {
+        this.setSelectedTab(getLeadTab());
+    }
 
-	@Override
-	public void goToActivities() {
-		this.setSelectedTab(getActivityTab());
-	}
+    @Override
+    public void goToActivities() {
+        this.setSelectedTab(getActivityTab());
+    }
 
-	@Override
-	public void goToOpportunities() {
-		this.setSelectedTab(getOpportunityTab());
-	}
+    @Override
+    public void goToOpportunities() {
+        this.setSelectedTab(getOpportunityTab());
+    }
 
 }

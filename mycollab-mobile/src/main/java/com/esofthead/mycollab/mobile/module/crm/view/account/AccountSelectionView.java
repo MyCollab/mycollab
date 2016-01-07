@@ -29,68 +29,60 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.0
- * 
  */
 public class AccountSelectionView extends AbstractSelectionView<Account> {
+    private static final long serialVersionUID = 1L;
 
-	private static final long serialVersionUID = 1L;
-	private AccountSearchCriteria searchCriteria;
-	private AccountListDisplay itemList;
+    private AccountSearchCriteria searchCriteria;
+    private AccountListDisplay itemList;
 
-	private AccountRowDisplayHandler rowHandler = new AccountRowDisplayHandler();
+    private AccountRowDisplayHandler rowHandler = new AccountRowDisplayHandler();
 
-	public AccountSelectionView() {
-		super();
-		createUI();
-		this.setCaption(AppContext
-				.getMessage(AccountI18nEnum.M_VIEW_ACCOUNT_NAME_LOOKUP));
-	}
+    public AccountSelectionView() {
+        super();
+        createUI();
+        this.setCaption(AppContext.getMessage(AccountI18nEnum.M_VIEW_ACCOUNT_NAME_LOOKUP));
+    }
 
-	private void createUI() {
-		itemList = new AccountListDisplay();
+    private void createUI() {
+        itemList = new AccountListDisplay();
+        itemList.setWidth("100%");
+        itemList.setRowDisplayHandler(rowHandler);
+        this.setContent(itemList);
+    }
 
-		itemList.setWidth("100%");
-		itemList.setRowDisplayHandler(rowHandler);
-		this.setContent(itemList);
-	}
+    @Override
+    public void load() {
+        searchCriteria = new AccountSearchCriteria();
+        searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
+                AppContext.getAccountId()));
 
-	@Override
-	public void load() {
-		searchCriteria = new AccountSearchCriteria();
-		searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
-				AppContext.getAccountId()));
+        itemList.setSearchCriteria(searchCriteria);
 
-		itemList.setSearchCriteria(searchCriteria);
+        SimpleAccount clearAccount = new SimpleAccount();
+        itemList.getListContainer().addComponentAsFirst(
+                rowHandler.generateRow(clearAccount, 0));
+    }
 
-		SimpleAccount clearAccount = new SimpleAccount();
-		itemList.getListContainer().addComponentAsFirst(
-				rowHandler.generateRow(clearAccount, 0));
-	}
+    private class AccountRowDisplayHandler implements RowDisplayHandler<SimpleAccount> {
 
-	private class AccountRowDisplayHandler implements
-			RowDisplayHandler<SimpleAccount> {
+        @Override
+        public Component generateRow(final SimpleAccount account, int rowIndex) {
+            Button b = new Button(account.getAccountname(), new Button.ClickListener() {
+                private static final long serialVersionUID = -6728215631308893324L;
 
-		@Override
-		public Component generateRow(final SimpleAccount account, int rowIndex) {
-			Button b = new Button(account.getAccountname(),
-					new Button.ClickListener() {
-						private static final long serialVersionUID = -6728215631308893324L;
+                @Override
+                public void buttonClick(final Button.ClickEvent event) {
+                    selectionField.fireValueChange(account);
+                    AccountSelectionView.this.getNavigationManager().navigateBack();
+                }
+            });
+            if (account.getId() == null)
+                b.addStyleName("blank-item");
+            return b;
+        }
 
-						@Override
-						public void buttonClick(final Button.ClickEvent event) {
-							selectionField.fireValueChange(account);
-							AccountSelectionView.this.getNavigationManager()
-									.navigateBack();
-						}
-					});
-			b.addStyleName("list-item");
-			if (account.getId() == null)
-				b.addStyleName("blank-item");
-			return b;
-		}
-
-	}
+    }
 }

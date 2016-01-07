@@ -31,7 +31,6 @@ import com.esofthead.mycollab.module.crm.domain.*;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.module.crm.service.ContactService;
-import com.esofthead.mycollab.schedule.email.crm.ContactRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,7 +46,7 @@ import java.util.List;
  */
 @Service
 @Transactional
-@Traceable(nameField = "lastname", notifyAgent = ContactRelayEmailNotificationAction.class)
+@Traceable(nameField = "lastname")
 @Watchable(userFieldName = "assignuser")
 public class ContactServiceImpl extends DefaultService<Integer, Contact, ContactSearchCriteria> implements ContactService {
     static {

@@ -35,7 +35,6 @@ import com.esofthead.mycollab.core.persistence.service.DefaultService;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.service.MessageService;
-import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction;
 import com.google.common.eventbus.AsyncEventBus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,19 +76,13 @@ public class CommentServiceImpl extends DefaultService<Integer, CommentWithBLOBs
 
     @Override
     public Integer saveWithSession(CommentWithBLOBs record, String username) {
-        return this.saveWithSession(record, username, null);
-    }
-
-    @Override
-    public Integer saveWithSession(CommentWithBLOBs record, String username,
-                                   Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
         Integer saveId = super.saveWithSession(record, username);
 
         if (ProjectTypeConstants.MESSAGE.equals(record.getType())) {
             asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{MessageService.class}));
         }
 
-        relayEmailNotificationService.saveWithSession(getRelayEmailNotification(record, username, emailHandler), username);
+        relayEmailNotificationService.saveWithSession(getRelayEmailNotification(record, username), username);
         activityStreamService.saveWithSession(getActivityStream(record, username), username);
         return saveId;
     }
@@ -113,8 +106,7 @@ public class CommentServiceImpl extends DefaultService<Integer, CommentWithBLOBs
         return activityStream;
     }
 
-    private RelayEmailNotificationWithBLOBs getRelayEmailNotification(CommentWithBLOBs record, String username,
-                                                                      Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
+    private RelayEmailNotificationWithBLOBs getRelayEmailNotification(CommentWithBLOBs record, String username) {
         RelayEmailNotificationWithBLOBs relayEmailNotification = new RelayEmailNotificationWithBLOBs();
         relayEmailNotification.setSaccountid(record.getSaccountid());
         relayEmailNotification.setAction(MonitorTypeConstants.ADD_COMMENT_ACTION);
@@ -122,9 +114,6 @@ public class CommentServiceImpl extends DefaultService<Integer, CommentWithBLOBs
         relayEmailNotification.setChangecomment(record.getComment());
         relayEmailNotification.setType(record.getType());
         relayEmailNotification.setTypeid(record.getTypeid());
-        if (emailHandler != null) {
-            relayEmailNotification.setEmailhandlerbean(emailHandler.getName());
-        }
         relayEmailNotification.setExtratypeid(record.getExtratypeid());
         return relayEmailNotification;
     }

@@ -27,43 +27,30 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.0
- * 
  */
-public class OpportunityListDisplay
-		extends
-		DefaultPagedBeanList<OpportunityService, OpportunitySearchCriteria, SimpleOpportunity> {
-	private static final long serialVersionUID = -2350731660593521985L;
+public class OpportunityListDisplay extends DefaultPagedBeanList<OpportunityService, OpportunitySearchCriteria, SimpleOpportunity> {
+    private static final long serialVersionUID = -2350731660593521985L;
 
-	public OpportunityListDisplay() {
-		super(ApplicationContextUtil.getSpringBean(OpportunityService.class),
-				new OpportunityRowDisplayHandler());
-	}
+    public OpportunityListDisplay() {
+        super(ApplicationContextUtil.getSpringBean(OpportunityService.class), new OpportunityRowDisplayHandler());
+    }
 
-	static public class OpportunityRowDisplayHandler implements
-			RowDisplayHandler<SimpleOpportunity> {
+    static public class OpportunityRowDisplayHandler implements RowDisplayHandler<SimpleOpportunity> {
 
-		@Override
-		public Component generateRow(final SimpleOpportunity opportunity,
-				int rowIndex) {
-			final Button b = new Button(opportunity.getOpportunityname());
-			b.addClickListener(new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+        @Override
+        public Component generateRow(final SimpleOpportunity opportunity, int rowIndex) {
+            final Button b = new Button(opportunity.getOpportunityname(), new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent clickEvent) {
+                    EventBusFactory.getInstance().post(new OpportunityEvent.GotoRead(this, opportunity.getId()));
+                }
+            });
+            b.setWidth("100%");
+            return b;
+        }
 
-				@Override
-				public void buttonClick(final Button.ClickEvent event) {
-					EventBusFactory.getInstance().post(
-							new OpportunityEvent.GotoRead(this, opportunity
-									.getId()));
-				}
-			});
-			b.setWidth("100%");
-			b.addStyleName("list-item");
-			return b;
-		}
-
-	}
+    }
 
 }

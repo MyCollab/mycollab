@@ -49,12 +49,12 @@ public class TaskGroupListViewImpl extends
 	}
 
 	@Override
-	protected AbstractPagedBeanList<TaskListSearchCriteria, SimpleTaskList> createBeanTable() {
+	protected AbstractPagedBeanList<TaskListSearchCriteria, SimpleTaskList> createBeanList() {
 		return new TaskGroupListDisplay();
 	}
 
 	@Override
-	protected Component createRightComponent() {
+	protected Component buildRightComponent() {
 		Button addTaskList = new Button("", new Button.ClickListener() {
 
 			private static final long serialVersionUID = 2067641610209145531L;

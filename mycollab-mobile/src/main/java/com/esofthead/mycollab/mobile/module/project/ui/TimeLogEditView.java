@@ -39,6 +39,7 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.apache.commons.lang3.time.DateUtils;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -48,8 +49,7 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 4.5.0
  */
-public abstract class TimeLogEditView<V extends ValuedBean> extends
-        AbstractMobilePageView {
+public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobilePageView {
     private static final long serialVersionUID = 1L;
 
     protected ItemTimeLoggingService itemTimeLoggingService;
@@ -59,9 +59,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends
 
     private VerticalLayout content;
     private HorizontalLayout headerPanel;
-
     private Label totalSpentTimeLbl;
-
     private Label remainTimeLbl;
 
     protected TimeLogEditView(final V bean) {
@@ -70,12 +68,10 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends
         content.setSpacing(true);
         content.setSizeFull();
         this.setContent(content);
-        this.setCaption(AppContext
-                .getMessage(TimeTrackingI18nEnum.DIALOG_LOG_TIME_ENTRY_TITLE));
+        this.setCaption(AppContext.getMessage(TimeTrackingI18nEnum.DIALOG_LOG_TIME_ENTRY_TITLE));
         this.addStyleName("timelog-edit-view");
 
-        this.itemTimeLoggingService = ApplicationContextUtil
-                .getSpringBean(ItemTimeLoggingService.class);
+        this.itemTimeLoggingService = ApplicationContextUtil.getSpringBean(ItemTimeLoggingService.class);
 
         this.initUI();
         this.loadTimeValue();
@@ -92,9 +88,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends
         constructRemainTimeEntryPanel();
 
         this.tableItem = new DefaultPagedBeanList<ItemTimeLoggingService, ItemTimeLoggingSearchCriteria, SimpleItemTimeLogging>(
-                ApplicationContextUtil
-                        .getSpringBean(ItemTimeLoggingService.class),
-                new TimeLogRowHandler()) {
+                ApplicationContextUtil.getSpringBean(ItemTimeLoggingService.class), new TimeLogRowHandler()) {
 
             private static final long serialVersionUID = -4549910960891655297L;
 
@@ -104,30 +98,23 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends
                 Date currentDate = new GregorianCalendar(2100, 1, 1).getTime();
                 for (final SimpleItemTimeLogging item : currentListData) {
                     if (!DateUtils.isSameDay(item.getLogforday(), currentDate)) {
-                        Label dateLbl = new Label(AppContext.formatDate(item
-                                .getLogforday()));
+                        Label dateLbl = new Label(AppContext.formatDate(item.getLogforday()));
                         dateLbl.setStyleName("log-day");
                         listContainer.addComponent(dateLbl);
                         currentDate = item.getLogforday();
                     }
-                    final Component row = getRowDisplayHandler().generateRow(
-                            item, i);
+                    final Component row = getRowDisplayHandler().generateRow(item, i);
                     listContainer.addComponent(row);
                     i++;
                 }
             }
-
         };
 
         this.tableItem.setWidth("100%");
         content.addComponent(tableItem);
         content.setExpandRatio(tableItem, 1.0f);
 
-        VerticalLayout controlBtns = new VerticalLayout();
-        controlBtns.setSpacing(true);
-        controlBtns.setWidth("100%");
-        controlBtns.setMargin(true);
-        controlBtns.addStyleName("edit-btn-layout");
+        MVerticalLayout controlBtns = new MVerticalLayout().withWidth("100%");
         controlBtns.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 
         Button addNewEntryBtn = new Button(AppContext.getMessage(TimeTrackingI18nEnum.M_DIALOG_ADD_TIME_LOG_ENTRY), new Button.ClickListener() {
@@ -141,21 +128,19 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends
         addNewEntryBtn.setWidth("100%");
         controlBtns.addComponent(addNewEntryBtn);
 
-        Button updateRemainTimeBtn = new Button(AppContext.getMessage(TimeTrackingI18nEnum.M_DIALOG_UPDATE_REMAIN_HOURS),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 9215577509351959739L;
+        Button updateRemainTimeBtn = new Button(AppContext.getMessage(TimeTrackingI18nEnum.M_DIALOG_UPDATE_REMAIN_HOURS), new Button.ClickListener() {
+            private static final long serialVersionUID = 9215577509351959739L;
 
-                    @Override
-                    public void buttonClick(Button.ClickEvent event) {
-                        UI.getCurrent().addWindow(new UpdateRemainTimeWindow());
-                    }
-                });
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                UI.getCurrent().addWindow(new UpdateRemainTimeWindow());
+            }
+        });
         updateRemainTimeBtn.setWidth("100%");
         controlBtns.addComponent(updateRemainTimeBtn);
 
         NavigationBarQuickMenu editBtn = new NavigationBarQuickMenu();
         editBtn.setButtonCaption(null);
-        editBtn.setStyleName("edit-btn");
         editBtn.setContent(controlBtns);
         this.setRightComponent(editBtn);
     }
@@ -166,9 +151,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends
         totalLayout.setStyleName("summary-block");
         totalLayout.addStyleName("total-time");
         totalLayout.setWidth("100%");
-        final Label lbTimeInstructTotal = new Label(
-                AppContext
-                        .getMessage(TimeTrackingI18nEnum.OPT_TOTAL_SPENT_HOURS));
+        final Label lbTimeInstructTotal = new Label(AppContext.getMessage(TimeTrackingI18nEnum.OPT_TOTAL_SPENT_HOURS));
         lbTimeInstructTotal.setStyleName("block-label");
         totalLayout.addComponent(lbTimeInstructTotal);
         this.totalSpentTimeLbl = new Label("_");
@@ -186,9 +169,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends
         updateLayout.addStyleName("remain-time");
         updateLayout.setWidth("100%");
 
-        final Label lbTimeInstructTotal = new Label(
-                AppContext
-                        .getMessage(TimeTrackingI18nEnum.OPT_REMAINING_WORK_HOURS));
+        final Label lbTimeInstructTotal = new Label(AppContext.getMessage(TimeTrackingI18nEnum.OPT_REMAINING_WORK_HOURS));
         lbTimeInstructTotal.setStyleName("block-label");
         updateLayout.addComponent(lbTimeInstructTotal);
         this.remainTimeLbl = new Label("_");
@@ -261,7 +242,6 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends
         public Component generateRow(SimpleItemTimeLogging obj, int rowIndex) {
             HorizontalLayout layout = new HorizontalLayout();
             layout.setWidth("100%");
-            layout.setStyleName("list-item");
             layout.addStyleName("time-log-item");
 
             VerticalLayout leftCol = new VerticalLayout();
@@ -313,7 +293,6 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends
         }
 
         public void constructUI() {
-
             this.setStyleName("time-log-window");
             this.addStyleName("new-time-entry-window");
             this.setWidth("95%");
@@ -322,8 +301,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends
             this.setClosable(false);
             this.setModal(true);
             this.setDraggable(false);
-            this.setCaption(AppContext
-                    .getMessage(TimeTrackingI18nEnum.M_DIALOG_ADD_TIME_LOG_ENTRY));
+            this.setCaption(AppContext.getMessage(TimeTrackingI18nEnum.M_DIALOG_ADD_TIME_LOG_ENTRY));
 
             final VerticalLayout addLayout = new VerticalLayout();
             addLayout.setWidth("100%");
@@ -334,22 +312,17 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends
             inputWrapper.setStyleName("input-wrapper");
 
             this.newTimeInputField = new NumbericTextField();
-            this.newTimeInputField.setCaption(AppContext
-                    .getMessage(TimeTrackingI18nEnum.M_FORM_SPENT_HOURS));
+            this.newTimeInputField.setCaption(AppContext.getMessage(TimeTrackingI18nEnum.M_FORM_SPENT_HOURS));
 
             this.newTimeInputField.setWidth("100%");
             inputWrapper.addComponent(this.newTimeInputField);
 
             this.forDate = new DatePicker();
             this.forDate.setValue(new GregorianCalendar().getTime());
-            this.forDate.setCaption(AppContext
-                    .getMessage(TimeTrackingI18nEnum.M_FORM_FOR_DAY));
+            this.forDate.setCaption(AppContext.getMessage(TimeTrackingI18nEnum.M_FORM_FOR_DAY));
             inputWrapper.addComponent(this.forDate);
 
-            this.isBillableField = new Switch(
-                    AppContext
-                            .getMessage(TimeTrackingI18nEnum.M_FORM_IS_BILLABLE),
-                    true);
+            this.isBillableField = new Switch(AppContext.getMessage(TimeTrackingI18nEnum.M_FORM_IS_BILLABLE), true);
             inputWrapper.addComponent(this.isBillableField);
             addLayout.addComponent(inputWrapper);
 
@@ -357,47 +330,38 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends
             buttonLayout.setStyleName("button-layout");
             buttonLayout.setWidth("100%");
 
-            this.btnAdd = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_CREATE),
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            this.btnAdd = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CREATE), new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(final Button.ClickEvent event) {
-                            double d = 0;
-                            try {
-                                d = Double.parseDouble(newTimeInputField
-                                        .getValue().toString());
-                            } catch (NumberFormatException e) {
-                                NewTimeLogEntryWindow.this.close();
-                                NotificationUtil
-                                        .showWarningNotification("You must enter a positive number value");
-                            }
-                            if (d > 0) {
-                                TimeLogEditView.this.saveTimeInvest(Double
-                                        .parseDouble(newTimeInputField
-                                                .getValue()), isBillableField
-                                        .getValue(), forDate.getValue());
-                                TimeLogEditView.this.loadTimeValue();
-                                NewTimeLogEntryWindow.this.close();
-                            }
-                        }
+                @Override
+                public void buttonClick(final Button.ClickEvent event) {
+                    double d = 0;
+                    try {
+                        d = Double.parseDouble(newTimeInputField.getValue().toString());
+                    } catch (NumberFormatException e) {
+                        NewTimeLogEntryWindow.this.close();
+                        NotificationUtil.showWarningNotification("You must enter a positive number value");
+                    }
+                    if (d > 0) {
+                        TimeLogEditView.this.saveTimeInvest(Double.parseDouble(newTimeInputField.getValue()),
+                                isBillableField.getValue(), forDate.getValue());
+                        TimeLogEditView.this.loadTimeValue();
+                        NewTimeLogEntryWindow.this.close();
+                    }
+                }
 
-                    });
+            });
 
             this.btnAdd.setStyleName("add-btn");
 
-            Button cancelBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
-                    new Button.ClickListener() {
+            Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
+                private static final long serialVersionUID = -5815617874202220414L;
 
-                        private static final long serialVersionUID = -5815617874202220414L;
-
-                        @Override
-                        public void buttonClick(Button.ClickEvent event) {
-                            NewTimeLogEntryWindow.this.close();
-                        }
-                    });
+                @Override
+                public void buttonClick(Button.ClickEvent event) {
+                    NewTimeLogEntryWindow.this.close();
+                }
+            });
 
             buttonLayout.addComponent(cancelBtn);
             buttonLayout.addComponent(this.btnAdd);
@@ -407,7 +371,6 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends
     }
 
     private class UpdateRemainTimeWindow extends Window {
-
         private static final long serialVersionUID = -8992497645142044633L;
 
         private NumbericTextField remainTimeInputField;
@@ -428,8 +391,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends
             this.setClosable(false);
             this.setModal(true);
             this.setDraggable(false);
-            this.setCaption(AppContext
-                    .getMessage(TimeTrackingI18nEnum.M_DIALOG_UPDATE_REMAIN_HOURS));
+            this.setCaption(AppContext.getMessage(TimeTrackingI18nEnum.M_DIALOG_UPDATE_REMAIN_HOURS));
 
             final VerticalLayout addLayout = new VerticalLayout();
             addLayout.setWidth("100%");
@@ -448,53 +410,42 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends
             buttonLayout.setStyleName("button-layout");
             buttonLayout.setWidth("100%");
 
-            this.btnAdd = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL),
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            this.btnAdd = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL), new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(final Button.ClickEvent event) {
-
-                            try {
-                                double d = 0;
-                                try {
-                                    d = Double
-                                            .parseDouble(UpdateRemainTimeWindow.this.remainTimeInputField
-                                                    .getValue());
-                                } catch (Exception e) {
-                                    UpdateRemainTimeWindow.this.close();
-                                    NotificationUtil
-                                            .showWarningNotification("You must enter a positive number value");
-                                }
-                                if (d >= 0) {
-                                    updateTimeRemain(d);
-                                    remainTimeLbl
-                                            .setValue(UpdateRemainTimeWindow.this.remainTimeInputField
-                                                    .getValue());
-                                    remainTimeInputField.setValue("0.0");
-                                }
-                            } catch (final Exception e) {
-                                remainTimeInputField.setValue("0.0");
-                            } finally {
-                                UpdateRemainTimeWindow.this.close();
-                            }
+                @Override
+                public void buttonClick(final Button.ClickEvent event) {
+                    try {
+                        double d = 0;
+                        try {
+                            d = Double.parseDouble(UpdateRemainTimeWindow.this.remainTimeInputField.getValue());
+                        } catch (Exception e) {
+                            UpdateRemainTimeWindow.this.close();
+                            NotificationUtil.showWarningNotification("You must enter a positive number value");
                         }
+                        if (d >= 0) {
+                            updateTimeRemain(d);
+                            remainTimeLbl.setValue(UpdateRemainTimeWindow.this.remainTimeInputField.getValue());
+                            remainTimeInputField.setValue("0.0");
+                        }
+                    } catch (final Exception e) {
+                        remainTimeInputField.setValue("0.0");
+                    } finally {
+                        UpdateRemainTimeWindow.this.close();
+                    }
+                }
 
-                    });
+            });
             this.btnAdd.setStyleName("add-btn");
 
-            Button cancelBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
-                    new Button.ClickListener() {
+            Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
+                private static final long serialVersionUID = -4046714950287134902L;
 
-                        private static final long serialVersionUID = -4046714950287134902L;
-
-                        @Override
-                        public void buttonClick(Button.ClickEvent event) {
-                            UpdateRemainTimeWindow.this.close();
-                        }
-                    });
+                @Override
+                public void buttonClick(Button.ClickEvent event) {
+                    UpdateRemainTimeWindow.this.close();
+                }
+            });
 
             buttonLayout.addComponent(cancelBtn);
             buttonLayout.addComponent(this.btnAdd);

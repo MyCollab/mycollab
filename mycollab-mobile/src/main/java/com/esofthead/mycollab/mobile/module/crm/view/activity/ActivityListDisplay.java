@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.activity;
 
-import java.util.GregorianCalendar;
-
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.mobile.ui.DefaultPagedBeanList;
@@ -30,61 +28,45 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 
-public class ActivityListDisplay
-		extends
-		DefaultPagedBeanList<EventService, ActivitySearchCriteria, SimpleActivity> {
-	private static final long serialVersionUID = -2050012123292483060L;
+import java.util.GregorianCalendar;
 
-	public ActivityListDisplay() {
-		super(ApplicationContextUtil.getSpringBean(EventService.class),
-				new ActivityRowDisplayHandler());
-	}
+/**
+ * @author MyCollab Ltd
+ * @since 1.0
+ */
+public class ActivityListDisplay extends DefaultPagedBeanList<EventService, ActivitySearchCriteria, SimpleActivity> {
+    private static final long serialVersionUID = -2050012123292483060L;
 
-	static public class ActivityRowDisplayHandler implements
-			RowDisplayHandler<SimpleActivity> {
+    public ActivityListDisplay() {
+        super(ApplicationContextUtil.getSpringBean(EventService.class), new ActivityRowDisplayHandler());
+    }
 
-		@Override
-		public Component generateRow(final SimpleActivity simpleEvent,
-				int rowIndex) {
-			Button b = new Button(simpleEvent.getSubject());
-			b.addClickListener(new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+    static public class ActivityRowDisplayHandler implements RowDisplayHandler<SimpleActivity> {
 
-				@Override
-				public void buttonClick(Button.ClickEvent event) {
-					if (simpleEvent.getEventType()
-							.equals(CrmTypeConstants.TASK)) {
-						EventBusFactory.getInstance().post(
-								new ActivityEvent.TaskRead(this, simpleEvent
-										.getId()));
-					} else if (simpleEvent.getEventType().equals(
-							CrmTypeConstants.CALL)) {
-						EventBusFactory.getInstance().post(
-								new ActivityEvent.CallRead(this, simpleEvent
-										.getId()));
-					} else if (simpleEvent.getEventType().equals(
-							CrmTypeConstants.MEETING)) {
-						EventBusFactory.getInstance().post(
-								new ActivityEvent.MeetingRead(this, simpleEvent
-										.getId()));
-					}
-				}
-			});
+        @Override
+        public Component generateRow(final SimpleActivity simpleEvent, int rowIndex) {
+            Button b = new Button(simpleEvent.getSubject(), new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent clickEvent) {
+                    if (simpleEvent.getEventType().equals(CrmTypeConstants.TASK)) {
+                        EventBusFactory.getInstance().post(new ActivityEvent.TaskRead(this, simpleEvent.getId()));
+                    } else if (simpleEvent.getEventType().equals(CrmTypeConstants.CALL)) {
+                        EventBusFactory.getInstance().post(new ActivityEvent.CallRead(this, simpleEvent.getId()));
+                    } else if (simpleEvent.getEventType().equals(CrmTypeConstants.MEETING)) {
+                        EventBusFactory.getInstance().post(new ActivityEvent.MeetingRead(this, simpleEvent.getId()));
+                    }
+                }
+            });
 
-			if ("Held".equals(simpleEvent.getStatus())) {
-				b.addStyleName(UIConstants.LINK_COMPLETED);
-			} else {
-				if (simpleEvent.getEndDate() != null
-						&& (simpleEvent.getEndDate()
-								.before(new GregorianCalendar().getTime()))) {
-					b.addStyleName(UIConstants.LINK_OVERDUE);
-				}
-			}
-			b.setWidth("100%");
-			b.addStyleName("list-item");
-			return b;
-		}
-
-	}
-
+            if ("Held".equals(simpleEvent.getStatus())) {
+                b.addStyleName(UIConstants.LINK_COMPLETED);
+            } else {
+                if (simpleEvent.getEndDate() != null && (simpleEvent.getEndDate().before(new GregorianCalendar().getTime()))) {
+                    b.addStyleName(UIConstants.LINK_OVERDUE);
+                }
+            }
+            b.setWidth("100%");
+            return b;
+        }
+    }
 }

@@ -17,49 +17,55 @@
 package com.esofthead.mycollab.mobile.module.project.ui;
 
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.mobile.ui.AbstractMobileSwipeView;
+import com.esofthead.mycollab.mobile.ui.AbstractMobilePageView;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.esofthead.mycollab.mobile.ui.IListView;
 import com.vaadin.ui.Component;
 
 /**
  * @author MyCollab Ltd.
- *
  * @since 4.4.0
- *
  */
-public abstract class AbstractListViewComp<S extends SearchCriteria, B> extends
-		AbstractMobileSwipeView implements IListView<S, B> {
-	private static final long serialVersionUID = 3603608419228750094L;
+public abstract class AbstractListViewComp<S extends SearchCriteria, B> extends AbstractMobilePageView implements IListView<S, B> {
+    private static final long serialVersionUID = 3603608419228750094L;
 
-	protected AbstractPagedBeanList<S, B> itemList;
+    protected AbstractPagedBeanList<S, B> itemList;
 
-	public AbstractListViewComp() {
+    public AbstractListViewComp() {
+        this.itemList = createBeanList();
+        setContent(itemList);
+    }
 
-		this.itemList = createBeanTable();
+    @Override
+    public AbstractPagedBeanList<S, B> getPagedBeanTable() {
+        return this.itemList;
+    }
 
-		setContent(itemList);
+    @Override
+    public void onBecomingVisible() {
+        super.onBecomingVisible();
+        if (getPagedBeanTable().getSearchRequest() != null) {
+            getPagedBeanTable().refresh();
+        }
 
-		Component rightComponent = createRightComponent();
-		if (rightComponent != null) {
-			setRightComponent(rightComponent);
-		}
-	}
+        Component rightComponent = buildRightComponent();
+        if (rightComponent != null) {
+            setRightComponent(rightComponent);
+        }
 
-	@Override
-	public AbstractPagedBeanList<S, B> getPagedBeanTable() {
-		return this.itemList;
-	}
+        Component toolbar = buildToolbar();
+        if (toolbar != null) {
+            setToolbar(toolbar);
+        }
+    }
 
-	@Override
-	public void onBecomingVisible() {
-		super.onBecomingVisible();
+    abstract protected AbstractPagedBeanList<S, B> createBeanList();
 
-		if (getPagedBeanTable().getSearchRequest() != null)
-			getPagedBeanTable().refresh();
-	}
+    protected Component buildRightComponent() {
+        return null;
+    }
 
-	abstract protected AbstractPagedBeanList<S, B> createBeanTable();
-
-	abstract protected Component createRightComponent();
+    protected Component buildToolbar() {
+        return null;
+    }
 }

@@ -31,7 +31,6 @@ import com.esofthead.mycollab.module.crm.dao.LeadMapperExt;
 import com.esofthead.mycollab.module.crm.domain.*;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.*;
-import com.esofthead.mycollab.schedule.email.crm.LeadRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +43,7 @@ import java.util.GregorianCalendar;
 
 @Service
 @Transactional
-@Traceable(nameField = "lastname", notifyAgent = LeadRelayEmailNotificationAction.class)
+@Traceable(nameField = "lastname")
 @Watchable(userFieldName = "assignuser")
 public class LeadServiceImpl extends DefaultService<Integer, Lead, LeadSearchCriteria> implements LeadService {
     static {

@@ -41,7 +41,6 @@ import com.esofthead.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
-import com.esofthead.mycollab.schedule.email.project.BugRelayEmailNotificationAction;
 import com.google.common.eventbus.AsyncEventBus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
@@ -60,7 +59,7 @@ import java.util.concurrent.locks.Lock;
 
 @Service
 @Transactional
-@Traceable(nameField = "summary", extraFieldName = "projectid", notifyAgent = BugRelayEmailNotificationAction.class)
+@Traceable(nameField = "summary", extraFieldName = "projectid")
 public class BugServiceImpl extends DefaultService<Integer, BugWithBLOBs, BugSearchCriteria> implements BugService {
     static {
         ClassInfo bugInfo = new ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.BUG);

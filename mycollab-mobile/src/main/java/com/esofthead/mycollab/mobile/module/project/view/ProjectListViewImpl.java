@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view;
 
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.mobile.module.project.ui.AbstractListViewComp;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
@@ -23,34 +25,41 @@ import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriter
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd.
- *
  * @since 4.4.0
- *
  */
-
 @ViewComponent
 public class ProjectListViewImpl extends AbstractListViewComp<ProjectSearchCriteria, SimpleProject> implements ProjectListView {
-	private static final long serialVersionUID = 664947871255886622L;
+    private static final long serialVersionUID = 664947871255886622L;
 
-	public ProjectListViewImpl() {
-		this.setCaption(AppContext.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_LIST));
-		this.setToggleButton(true);
-	}
+    public ProjectListViewImpl() {
+        this.setCaption(AppContext.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_LIST));
+    }
 
-	@Override
-	protected AbstractPagedBeanList<ProjectSearchCriteria, SimpleProject> createBeanTable() {
-		ProjectListDisplay projectListDisplay = new ProjectListDisplay();
-		return projectListDisplay;
-	}
+    @Override
+    protected AbstractPagedBeanList<ProjectSearchCriteria, SimpleProject> createBeanList() {
+        return new ProjectListDisplay();
+    }
 
-	@Override
-	protected Component createRightComponent() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    protected Component buildRightComponent() {
+        NavigationBarQuickMenu menu = new NavigationBarQuickMenu();
+        menu.setButtonCaption("...");
+        MVerticalLayout content = new MVerticalLayout();
+        content.with(new Button(AppContext.getMessage(ProjectCommonI18nEnum.BUTTON_NEW_PROJECT), new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                EventBusFactory.getInstance().post(new ProjectEvent.GotoAdd(this, null));
+            }
+        }));
+        menu.setContent(content);
+        return menu;
+    }
 
 }

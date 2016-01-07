@@ -223,7 +223,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
         @Override
         public Component generateRow(AbstractBeanPagedList host, ProjectGenericItem projectItem, int rowIndex) {
             MVerticalLayout layout = new MVerticalLayout().withMargin(new MarginInfo(true, true, false, true)).withWidth("100%");
-            Label link = new Label(ProjectLinkBuilder.generateProjectItemHtmlLink(projectItem.getProjectShortName(), projectItem
+            Label link = new Label(ProjectLinkBuilder.generateProjectItemHtmlLinkAndTooltip(projectItem.getProjectShortName(), projectItem
                     .getProjectId(), projectItem.getSummary(), projectItem.getType(), projectItem.getTypeId()), ContentMode.HTML);
             link.addStyleName(ValoTheme.LABEL_H3);
             link.addStyleName(ValoTheme.LABEL_NO_MARGIN);

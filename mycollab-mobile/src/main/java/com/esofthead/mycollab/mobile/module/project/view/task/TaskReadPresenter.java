@@ -18,24 +18,21 @@ package com.esofthead.mycollab.mobile.module.project.view.task;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.events.TaskEvent;
-import com.esofthead.mycollab.mobile.module.project.ui.InsideProjectNavigationMenu;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
 import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.Task;
-import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
-import com.esofthead.vaadin.mobilecomponent.MobileNavigationManager;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
 
@@ -73,8 +70,7 @@ public class TaskReadPresenter extends AbstractMobilePresenter<TaskReadView> {
                                     final ConfirmDialog dialog) {
                                 if (dialog.isConfirmed()) {
                                     ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
-                                    taskService.removeWithSession(data,
-                                            AppContext.getUsername(), AppContext.getAccountId());
+                                    taskService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
                                     EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
                                 }
                             }
@@ -85,23 +81,14 @@ public class TaskReadPresenter extends AbstractMobilePresenter<TaskReadView> {
             public void onClone(final SimpleTask data) {
                 final Task cloneData = (Task) data.copy();
                 cloneData.setId(null);
-                EventBusFactory.getInstance().post(
-                        new TaskEvent.GotoEdit(this, cloneData));
+                EventBusFactory.getInstance().post(new TaskEvent.GotoEdit(this, cloneData));
             }
         });
     }
 
     @Override
-    protected void onGo(final ComponentContainer container,
-                        final ScreenData<?> data) {
-        if (CurrentProjectVariables
-                .canRead(ProjectRolePermissionCollections.TASKS)) {
-
-            InsideProjectNavigationMenu projectModuleMenu = (InsideProjectNavigationMenu) ((MobileNavigationManager) UI
-                    .getCurrent().getContent()).getNavigationMenu();
-            projectModuleMenu.selectButton(AppContext
-                    .getMessage(ProjectCommonI18nEnum.VIEW_TASK));
-
+    protected void onGo(final ComponentContainer container, final ScreenData<?> data) {
+        if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.TASKS)) {
             if (data.getParams() instanceof Integer) {
                 ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
                 SimpleTask task = taskService.findById((Integer) data.getParams(), AppContext.getAccountId());

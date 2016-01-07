@@ -18,14 +18,13 @@ package com.esofthead.mycollab.mobile.module.project.view.bug;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.mobile.module.project.ui.CommentNavigationButton;
 import com.esofthead.mycollab.mobile.module.project.ui.ProjectAttachmentDisplayComp;
-import com.esofthead.mycollab.mobile.module.project.ui.ProjectCommentListDisplay;
 import com.esofthead.mycollab.mobile.module.project.ui.ProjectPreviewFormControlsGenerator;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.mobile.ui.AbstractPreviewItemComp;
 import com.esofthead.mycollab.mobile.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.mobile.ui.IconConstants;
+import com.esofthead.mycollab.mobile.ui.Section;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
@@ -38,22 +37,26 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.service.BugService;
-import com.esofthead.mycollab.schedule.email.project.BugRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.form.field.*;
 import com.vaadin.server.ExternalResource;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.List;
 
@@ -65,19 +68,10 @@ import java.util.List;
 public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implements BugReadView {
     private static final long serialVersionUID = 579279560838174387L;
 
-    private ProjectCommentListDisplay associateComments;
-    private Button relatedComments;
-
+    private CommentNavigationButton relatedComments;
     private VerticalLayout bugWorkFlowControl;
-
     private BugTimeLogComp bugTimeLogComp;
-
     private ProjectAttachmentDisplayComp attachmentComp;
-
-    public BugReadViewImpl() {
-        super();
-        bugTimeLogComp = new BugTimeLogComp();
-    }
 
     @Override
     public HasPreviewFormHandlers<SimpleBug> getPreviewFormHandlers() {
@@ -85,7 +79,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
     }
 
     private void displayWorkflowControl() {
-        this.bugWorkFlowControl.removeAllComponents();
+        bugWorkFlowControl.removeAllComponents();
         if (BugStatus.Open.name().equals(this.beanItem.getStatus()) || BugStatus.ReOpened.name().equals(this.beanItem.getStatus())) {
             final Button startProgressBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_START_PROGRESS), new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;
@@ -98,6 +92,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                     displayWorkflowControl();
                 }
             });
+            startProgressBtn.setWidth("100%");
             bugWorkFlowControl.addComponent(startProgressBtn);
 
             final Button resolveBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_RESOLVED), new Button.ClickListener() {
@@ -109,22 +104,18 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                             new ResolvedInputView(BugReadViewImpl.this, beanItem)));
                 }
             });
+            resolveBtn.setWidth("100%");
             bugWorkFlowControl.addComponent(resolveBtn);
 
-            final Button wontFixBtn = new Button(
-                    AppContext.getMessage(BugI18nEnum.BUTTON_WONTFIX),
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            final Button wontFixBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_WONTFIX), new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(final ClickEvent event) {
-                            EventBusFactory.getInstance().post(
-                                    new ShellEvent.PushView(this,
-                                            new WontFixExplainView(
-                                                    BugReadViewImpl.this,
-                                                    beanItem)));
-                        }
-                    });
+                @Override
+                public void buttonClick(final ClickEvent event) {
+                    EventBusFactory.getInstance().post(new ShellEvent.PushView(this, new WontFixExplainView(BugReadViewImpl.this, beanItem)));
+                }
+            });
+            wontFixBtn.setWidth("100%");
             bugWorkFlowControl.addComponent(wontFixBtn);
         } else if (BugStatus.InProgress.name().equals(this.beanItem.getStatus())) {
             final Button stopProgressBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_STOP_PROGRESS), new Button.ClickListener() {
@@ -138,6 +129,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                     displayWorkflowControl();
                 }
             });
+            stopProgressBtn.setWidth("100%");
             bugWorkFlowControl.addComponent(stopProgressBtn);
 
             final Button resolveBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_RESOLVED), new Button.ClickListener() {
@@ -149,6 +141,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                             new ResolvedInputView(BugReadViewImpl.this, beanItem)));
                 }
             });
+            resolveBtn.setWidth("100%");
             bugWorkFlowControl.addComponent(resolveBtn);
         } else if (BugStatus.Verified.name().equals(this.beanItem.getStatus())) {
             final Button reopenBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN), new Button.ClickListener() {
@@ -160,6 +153,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                             new ReOpenView(BugReadViewImpl.this, beanItem)));
                 }
             });
+            reopenBtn.setWidth("100%");
             bugWorkFlowControl.addComponent(reopenBtn);
         } else if (BugStatus.Resolved.name().equals(this.beanItem.getStatus())) {
             final Button reopenBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN), new Button.ClickListener() {
@@ -171,6 +165,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                             new ReOpenView(BugReadViewImpl.this, beanItem)));
                 }
             });
+            reopenBtn.setWidth("100%");
             bugWorkFlowControl.addComponent(reopenBtn);
 
             final Button approveNCloseBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_APPROVE_CLOSE), new Button.ClickListener() {
@@ -182,6 +177,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                             new ApproveInputView(BugReadViewImpl.this, beanItem)));
                 }
             });
+            approveNCloseBtn.setWidth("100%");
             bugWorkFlowControl.addComponent(approveNCloseBtn);
         } else if (BugStatus.Resolved.name().equals(this.beanItem.getStatus())) {
             final Button reopenBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN), new Button.ClickListener() {
@@ -193,6 +189,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                             new ReOpenView(BugReadViewImpl.this, beanItem)));
                 }
             });
+            reopenBtn.setWidth("100%");
             bugWorkFlowControl.addComponent(reopenBtn);
         }
         this.bugWorkFlowControl.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS));
@@ -200,30 +197,10 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
 
     @Override
     protected void afterPreviewItem() {
-        associateComments.loadComments("" + beanItem.getId());
-        if (associateComments.getNumComments() > 0) {
-            relatedComments
-                    .setCaption("<span aria-hidden=\"true\" data-icon=\""
-                            + IconConstants.PROJECT_MESSAGE
-                            + "\" data-count=\""
-                            + associateComments.getNumComments()
-                            + "\"></span><div class=\"screen-reader-text\">"
-                            + AppContext
-                            .getMessage(GenericI18Enum.TAB_COMMENT)
-                            + "</div>");
-        } else {
-            relatedComments
-                    .setCaption("<span aria-hidden=\"true\" data-icon=\""
-                            + IconConstants.PROJECT_MESSAGE
-                            + "\"></span><div class=\"screen-reader-text\">"
-                            + AppContext
-                            .getMessage(GenericI18Enum.TAB_COMMENT)
-                            + "</div>");
-        }
+        relatedComments.displayTotalComments(beanItem.getId() + "");
 
         displayWorkflowControl();
         bugTimeLogComp.displayTime(beanItem);
-        this.previewForm.addComponent(bugTimeLogComp);
 
         ResourceService resourceService = ApplicationContextUtil.getSpringBean(ResourceService.class);
         List<Content> attachments = resourceService.getContents(AttachmentUtils.getProjectEntityAttachmentPath(AppContext.getAccountId(),
@@ -240,8 +217,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
 
     @Override
     protected String initFormTitle() {
-        return "[" + CurrentProjectVariables.getProject().getShortname() + "-"
-                + beanItem.getBugkey() + "]";
+        return beanItem.getSummary();
     }
 
     @Override
@@ -251,9 +227,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
 
     @Override
     protected void initRelatedComponents() {
-        associateComments = new ProjectCommentListDisplay(ProjectTypeConstants.BUG,
-                CurrentProjectVariables.getProjectId(), true,
-                BugRelayEmailNotificationAction.class);
+
     }
 
     @Override
@@ -269,39 +243,22 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
     @Override
     protected ComponentContainer createButtonControls() {
         ProjectPreviewFormControlsGenerator<SimpleBug> formControlsGenerator = new ProjectPreviewFormControlsGenerator<>(this.previewForm);
-        VerticalLayout controlsLayout = formControlsGenerator.createButtonControls(ProjectRolePermissionCollections.BUGS);
         bugWorkFlowControl = new VerticalLayout();
         bugWorkFlowControl.setWidth("100%");
         bugWorkFlowControl.setSpacing(true);
         formControlsGenerator.insertToControlBlock(bugWorkFlowControl);
-        return controlsLayout;
+        return formControlsGenerator.createButtonControls(ProjectRolePermissionCollections.BUGS);
     }
 
     @Override
     protected ComponentContainer createBottomPanel() {
-        HorizontalLayout toolbarLayout = new HorizontalLayout();
-        toolbarLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-        toolbarLayout.setSpacing(true);
-
-        relatedComments = new Button();
-        relatedComments.setCaption("<span aria-hidden=\"true\" data-icon=\""
-                + IconConstants.PROJECT_MESSAGE
-                + "\"></span><div class=\"screen-reader-text\">"
-                + AppContext.getMessage(GenericI18Enum.TAB_COMMENT)
-                + "</div>");
-        relatedComments.setHtmlContentAllowed(true);
-        relatedComments.addClickListener(new Button.ClickListener() {
-
-            private static final long serialVersionUID = -7469027678729887223L;
-
-            @Override
-            public void buttonClick(ClickEvent arg0) {
-                EventBusFactory.getInstance().post(
-                        new ShellEvent.PushView(this, associateComments));
-            }
-        });
-        toolbarLayout.addComponent(relatedComments);
-
+        MVerticalLayout toolbarLayout = new MVerticalLayout().withSpacing(false).withMargin(false);
+        toolbarLayout.setDefaultComponentAlignment(Alignment.TOP_LEFT);
+        relatedComments = new CommentNavigationButton(ProjectTypeConstants.BUG);
+        Section section = new Section(FontAwesome.COMMENT, relatedComments);
+        toolbarLayout.addComponent(section);
+        bugTimeLogComp = new BugTimeLogComp();
+        toolbarLayout.addComponent(bugTimeLogComp);
         return toolbarLayout;
     }
 
@@ -319,7 +276,8 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
             } else if (propertyId.equals("createdtime")) {
                 return new DateViewField(beanItem.getCreatedtime());
             } else if (propertyId.equals("assignuserFullName")) {
-                return new DefaultViewField(beanItem.getAssignuserFullName());
+                DefaultViewField field = new DefaultViewField(beanItem.getAssignuserFullName());
+                return field;
             } else if (propertyId.equals("loguserFullName")) {
                 return new DefaultViewField(beanItem.getLoguserFullName());
             } else if (propertyId.equals("milestoneid")) {
@@ -337,29 +295,18 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                 return new I18nFormViewField(beanItem.getStatus(), BugStatus.class);
             } else if (propertyId.equals("priority")) {
                 if (StringUtils.isNotBlank(beanItem.getPriority())) {
-                    final Resource iconPriority = new ExternalResource(ProjectResources.getIconResourceLink12ByBugPriority(beanItem.getPriority()));
-                    final Image iconEmbedded = new Image(null, iconPriority);
-                    final Label lbPriority = new Label(AppContext.getMessage(BugPriority.class, beanItem.getPriority()));
-
-                    final ContainerHorizontalViewField containerField = new ContainerHorizontalViewField();
-                    containerField.addComponentField(iconEmbedded);
-                    containerField.addComponentField(lbPriority);
-                    containerField.getLayout().setExpandRatio(lbPriority, 1.0f);
-                    return containerField;
+                    String priorityLink = ProjectAssetsManager.getBugPriority(beanItem.getPriority()).getHtml() + " " + beanItem.getPriority();
+                    DefaultViewField field = new DefaultViewField(priorityLink, ContentMode.HTML);
+                    field.addStyleName("bug-" + beanItem.getPriority().toLowerCase());
+                    return field;
                 }
             } else if (propertyId.equals("severity")) {
                 if (StringUtils.isNotBlank(beanItem.getSeverity())) {
-                    final Resource iconPriority = new ExternalResource(ProjectResources
-                            .getIconResourceLink12ByBugSeverity(beanItem.getSeverity()));
-                    final Image iconEmbedded = new Image();
-                    iconEmbedded.setSource(iconPriority);
-                    final Label lbPriority = new Label(AppContext.getMessage(BugSeverity.class, beanItem.getSeverity()));
-
-                    final ContainerHorizontalViewField containerField = new ContainerHorizontalViewField();
-                    containerField.addComponentField(iconEmbedded);
-                    containerField.addComponentField(lbPriority);
-                    containerField.getLayout().setExpandRatio(lbPriority, 1.0f);
-                    return containerField;
+                    String severityLink = FontAwesome.STAR.getHtml() + " " +
+                            AppContext.getMessage(BugSeverity.class, beanItem.getSeverity());
+                    DefaultViewField lbPriority = new DefaultViewField(severityLink, ContentMode.HTML);
+                    lbPriority.addStyleName("bug-severity-" + beanItem.getSeverity().toLowerCase());
+                    return lbPriority;
                 }
             } else if (propertyId.equals("resolution")) {
                 return new I18nFormViewField(beanItem.getResolution(), BugResolution.class);

@@ -36,7 +36,6 @@ import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemCo
 import com.esofthead.mycollab.module.project.ui.components.ComponentUtils;
 import com.esofthead.mycollab.module.project.ui.components.ProjectActivityComponent;
 import com.esofthead.mycollab.module.project.ui.format.BugFieldFormatter;
-import com.esofthead.mycollab.schedule.email.project.BugRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -115,7 +114,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
     @Override
     protected void initRelatedComponents() {
         commentListComp = new ProjectActivityComponent(ProjectTypeConstants.PAGE, CurrentProjectVariables
-                .getProjectId(), BugFieldFormatter.instance(), BugRelayEmailNotificationAction.class);
+                .getProjectId(), BugFieldFormatter.instance());
         commentListComp.setWidth("100%");
         commentListComp.setMargin(true);
     }

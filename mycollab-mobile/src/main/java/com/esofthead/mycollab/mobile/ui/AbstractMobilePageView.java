@@ -32,16 +32,13 @@ import java.io.Serializable;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public abstract class AbstractMobilePageView extends NavigationView implements
-        PageView, Serializable {
+public abstract class AbstractMobilePageView extends NavigationView implements PageView, Serializable {
     private static final long serialVersionUID = 1L;
 
     public AbstractMobilePageView() {
         super();
-        this.setStyleName("mobilenavview");
         if (this.getLeftComponent() != null && this.getLeftComponent() instanceof NavigationButton) {
-            this.getLeftComponent().setCaption(
-                    AppContext.getMessage(GenericI18Enum.M_BUTTON_BACK));
+            this.getLeftComponent().setCaption(AppContext.getMessage(GenericI18Enum.M_BUTTON_BACK));
         }
     }
 
@@ -52,8 +49,7 @@ public abstract class AbstractMobilePageView extends NavigationView implements
 
     @Override
     public void addViewListener(ViewListener listener) {
-        addListener(ViewEvent.VIEW_IDENTIFIER(), ViewEvent.class, listener,
-                ViewListener.viewInitMethod);
+        addListener(ViewEvent.VIEW_IDENTIFIER(), ViewEvent.class, listener, ViewListener.viewInitMethod);
     }
 
     @Override

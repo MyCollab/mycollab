@@ -25,8 +25,10 @@ import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -37,28 +39,26 @@ public class BugListViewImpl extends AbstractListViewComp<BugSearchCriteria, Sim
     private static final long serialVersionUID = -7877935907665712184L;
 
     public BugListViewImpl() {
-        this.addStyleName("bugs-list-view");
         this.setCaption(AppContext.getMessage(BugI18nEnum.VIEW_LIST_TITLE));
     }
 
     @Override
-    protected AbstractPagedBeanList<BugSearchCriteria, SimpleBug> createBeanTable() {
+    protected AbstractPagedBeanList<BugSearchCriteria, SimpleBug> createBeanList() {
         return new BugListDisplay();
     }
 
     @Override
-    protected Component createRightComponent() {
-        Button addBug = new Button();
-        addBug.addClickListener(new Button.ClickListener() {
-            private static final long serialVersionUID = 8204610801164300917L;
-
+    protected Component buildRightComponent() {
+        NavigationBarQuickMenu menu = new NavigationBarQuickMenu();
+        menu.setButtonCaption("...");
+        MVerticalLayout content = new MVerticalLayout();
+        content.with(new Button(AppContext.getMessage(BugI18nEnum.BUTTON_NEW_BUG), new Button.ClickListener() {
             @Override
-            public void buttonClick(Button.ClickEvent event) {
+            public void buttonClick(Button.ClickEvent clickEvent) {
                 EventBusFactory.getInstance().post(new BugEvent.GotoAdd(this, null));
             }
-        });
-        addBug.setStyleName("add-btn");
-        return addBug;
+        }));
+        menu.setContent(content);
+        return menu;
     }
-
 }

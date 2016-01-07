@@ -29,7 +29,6 @@ import com.vaadin.ui.ComponentContainer;
  * 
  */
 public class LoginPresenter extends AbstractPresenter<LoginView> {
-
 	private static final long serialVersionUID = 1L;
 
 	public LoginPresenter() {
@@ -39,7 +38,6 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
 	@Override
 	protected void onGo(ComponentContainer navigationManager, ScreenData<?> data) {
 		((NavigationManager) navigationManager).navigateTo(view.getWidget());
-
 		AppContext.addFragment("user/login", "Login Page");
 	}
 }

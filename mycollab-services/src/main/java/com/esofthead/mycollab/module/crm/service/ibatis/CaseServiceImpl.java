@@ -31,7 +31,6 @@ import com.esofthead.mycollab.module.crm.domain.CaseWithBLOBs;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.CaseService;
-import com.esofthead.mycollab.schedule.email.crm.CaseRelayEmailNotificationAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,7 +41,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional
-@Traceable(nameField = "subject", notifyAgent = CaseRelayEmailNotificationAction.class)
+@Traceable(nameField = "subject")
 @Watchable(userFieldName = "assignuser")
 public class CaseServiceImpl extends DefaultService<Integer, CaseWithBLOBs, CaseSearchCriteria> implements CaseService {
     static {

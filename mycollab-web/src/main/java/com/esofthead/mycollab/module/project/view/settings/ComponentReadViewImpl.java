@@ -44,7 +44,6 @@ import com.esofthead.mycollab.module.tracker.domain.SimpleComponent;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.module.tracker.service.ComponentService;
-import com.esofthead.mycollab.schedule.email.project.ComponentRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
@@ -114,7 +113,7 @@ public class ComponentReadViewImpl extends AbstractPreviewItemComp<SimpleCompone
     @Override
     protected void initRelatedComponents() {
         activityComponent = new ProjectActivityComponent(ProjectTypeConstants.BUG_COMPONENT, CurrentProjectVariables
-                .getProjectId(), ComponentFieldFormatter.instance(), ComponentRelayEmailNotificationAction.class);
+                .getProjectId(), ComponentFieldFormatter.instance());
         dateInfoComp = new DateInfoComp();
         peopleInfoComp = new PeopleInfoComp();
         componentTimeLogComp = new ComponentTimeLogComp();

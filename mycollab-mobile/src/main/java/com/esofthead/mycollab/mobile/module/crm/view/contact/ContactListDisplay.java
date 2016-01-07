@@ -41,17 +41,13 @@ public class ContactListDisplay extends DefaultPagedBeanList<ContactService, Con
 
         @Override
         public Component generateRow(final SimpleContact contact, int rowIndex) {
-            final Button b = new Button(contact.getContactName());
-            b.addClickListener(new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
+            final Button b = new Button(contact.getContactName(), new Button.ClickListener() {
                 @Override
-                public void buttonClick(final Button.ClickEvent event) {
+                public void buttonClick(Button.ClickEvent clickEvent) {
                     EventBusFactory.getInstance().post(new ContactEvent.GotoRead(this, contact.getId()));
                 }
             });
             b.setWidth("100%");
-            b.addStyleName("list-item");
             return b;
         }
 

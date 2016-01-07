@@ -46,7 +46,7 @@
         <dependency>
             <groupId>com.vaadin.addon</groupId>
             <artifactId>vaadin-touchkit-agpl</artifactId>
-            <version>4.0.4</version>
+            <version>4.1.0.alpha1</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.vaadin</groupId>

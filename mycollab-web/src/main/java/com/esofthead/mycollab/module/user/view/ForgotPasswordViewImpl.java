@@ -16,15 +16,12 @@
  */
 package com.esofthead.mycollab.module.user.view;
 
-import com.esofthead.mycollab.common.dao.RelayEmailMapper;
-import com.esofthead.mycollab.common.domain.RelayEmailWithBLOBs;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.ShellI18nEnum;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.user.domain.User;
 import com.esofthead.mycollab.module.user.service.UserService;
-import com.esofthead.mycollab.schedule.email.user.SendingRecoveryPasswordEmailAction;
 import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -72,21 +69,9 @@ public class ForgotPasswordViewImpl extends AbstractPageView implements ForgotPa
                         User user = userService.findUserByUserName(username);
 
                         if (user == null) {
-                            NotificationUtil.showErrorNotification(AppContext
-                                    .getMessage(GenericI18Enum.ERROR_USER_IS_NOT_EXISTED, username));
+                            NotificationUtil.showErrorNotification(AppContext.getMessage(GenericI18Enum.ERROR_USER_IS_NOT_EXISTED, username));
                         } else {
-                            RelayEmailWithBLOBs relayEmail = new RelayEmailWithBLOBs();
-                            relayEmail.setRecipients(username);
-                            relayEmail.setEmailhandlerbean(SendingRecoveryPasswordEmailAction.class.getName());
-                            relayEmail.setSaccountid(1);
-                            relayEmail.setSubject("");
-                            relayEmail.setBodycontent("");
-                            relayEmail.setFromemail("");
-                            relayEmail.setFromname("");
-
-                            RelayEmailMapper relayEmailMapper = ApplicationContextUtil.getSpringBean(RelayEmailMapper.class);
-                            relayEmailMapper.insert(relayEmail);
-
+                            userService.requestToResetPassword(user.getUsername());
                             NotificationUtil.showNotification("Success", AppContext.getMessage(ShellI18nEnum.OPT_EMAIL_SENDER_NOTIFICATION));
                         }
                     } else {
@@ -97,16 +82,13 @@ public class ForgotPasswordViewImpl extends AbstractPageView implements ForgotPa
             sendEmail.setStyleName(UIConstants.BUTTON_ACTION);
             customLayout.addComponent(sendEmail, "loginButton");
 
-            Button memoBackBtn = new Button(AppContext.getMessage(ShellI18nEnum.BUTTON_IGNORE_RESET_PASSWORD));
-            memoBackBtn.setStyleName(UIConstants.BUTTON_LINK);
-            memoBackBtn.addClickListener(new ClickListener() {
-                private static final long serialVersionUID = 1L;
-
+            Button memoBackBtn = new Button(AppContext.getMessage(ShellI18nEnum.BUTTON_IGNORE_RESET_PASSWORD), new ClickListener() {
                 @Override
-                public void buttonClick(ClickEvent event) {
+                public void buttonClick(ClickEvent clickEvent) {
                     EventBusFactory.getInstance().post(new ShellEvent.LogOut(this, null));
                 }
             });
+            memoBackBtn.setStyleName(UIConstants.BUTTON_LINK);
             customLayout.addComponent(memoBackBtn, "forgotLink");
 
             this.setCompositionRoot(customLayout);

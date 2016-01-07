@@ -33,7 +33,6 @@ import com.esofthead.mycollab.module.project.domain.SimpleRisk;
 import com.esofthead.mycollab.module.project.domain.criteria.RiskSearchCriteria;
 import com.esofthead.mycollab.module.project.esb.DeleteProjectRiskEvent;
 import com.esofthead.mycollab.module.project.service.*;
-import com.esofthead.mycollab.schedule.email.project.ProjectRiskRelayEmailNotificationAction;
 import com.google.common.eventbus.AsyncEventBus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,7 +46,7 @@ import java.util.List;
  */
 @Service
 @Transactional
-@Traceable(nameField = "riskname", extraFieldName = "projectid", notifyAgent = ProjectRiskRelayEmailNotificationAction.class)
+@Traceable(nameField = "riskname", extraFieldName = "projectid")
 @Watchable(userFieldName = "assigntouser", extraTypeId = "projectid")
 public class RiskServiceImpl extends DefaultService<Integer, Risk, RiskSearchCriteria> implements RiskService {
 

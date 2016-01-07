@@ -23,10 +23,12 @@ import com.esofthead.mycollab.module.project.view.user.TaskStatusComponent;
 import com.esofthead.mycollab.module.project.view.user.UserUnresolvedAssignmentWidget;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UIUtils;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.CssLayout;
 import org.apache.commons.collections.CollectionUtils;
+import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -58,9 +60,7 @@ public class UserProjectDashboardViewImpl extends AbstractPageView implements Us
         rightPanel.with(myProjectListComponent, activityStreamComponent);
         layout.with(leftPanel, rightPanel).expand(leftPanel);
 
-        CssLayout contentWrapper = new CssLayout();
-        contentWrapper.setWidth("100%");
-        contentWrapper.addStyleName("content-wrapper");
+        MCssLayout contentWrapper = new MCssLayout().withStyleName(UIConstants.CONTENT_WRAPPER);
         addComponent(contentWrapper);
         contentWrapper.addComponent(layout);
 

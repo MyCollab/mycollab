@@ -148,7 +148,7 @@ public class ProjectLinkBuilder {
                 + ProjectLinkGenerator.generatePageRead(projectId, pagePath);
     }
 
-    public static String generateProjectItemHtmlLink(String prjShortName, Integer projectId, String summary, String type, String typeId) {
+    public static String generateProjectItemHtmlLinkAndTooltip(String prjShortName, Integer projectId, String summary, String type, String typeId) {
         String uid = UUID.randomUUID().toString();
         Text image = new Text(ProjectAssetsManager.getAsset(type).getHtml());
         A link = new A().setId("tag" + uid);
@@ -157,21 +157,6 @@ public class ProjectLinkBuilder {
         link.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
         Div div = new DivLessFormatter().appendChild(image, DivLessFormatter.EMPTY_SPACE(), link, DivLessFormatter
                 .EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));
-        return div.write();
-    }
-
-    public static String generateProjectItemLinkWithTooltip(String prjShortName, Integer projectId, String itemName,
-                                                            String type, String typeId, String extraTypeId) {
-        String uid = UUID.randomUUID().toString();
-        DivLessFormatter div = new DivLessFormatter();
-        Text img = new Text(ProjectAssetsManager.getAsset(type).getHtml());
-        A itemLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectItemLink(
-                prjShortName, projectId, type, extraTypeId));
-        itemLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, type, typeId));
-        itemLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
-        itemLink.appendText(itemName);
-
-        div.appendChild(img, DivLessFormatter.EMPTY_SPACE(), itemLink, DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));
         return div.write();
     }
 

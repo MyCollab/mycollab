@@ -30,98 +30,70 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.VerticalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.0
- * 
  */
-public class AccountRelatedLeadView extends
-		AbstractRelatedListView<SimpleLead, LeadSearchCriteria> {
-	private static final long serialVersionUID = -6563776375301107391L;
-	private Account account;
+public class AccountRelatedLeadView extends AbstractRelatedListView<SimpleLead, LeadSearchCriteria> {
+    private static final long serialVersionUID = -6563776375301107391L;
+    private Account account;
 
-	public AccountRelatedLeadView() {
-		initUI();
-	}
+    public AccountRelatedLeadView() {
+        initUI();
+    }
 
-	private void initUI() {
-		this.setCaption(AppContext
-				.getMessage(LeadI18nEnum.M_TITLE_RELATED_LEADS));
-		this.itemList = new LeadListDisplay();
-		this.setContent(itemList);
-	}
+    private void initUI() {
+        this.setCaption(AppContext.getMessage(LeadI18nEnum.M_TITLE_RELATED_LEADS));
+        this.itemList = new LeadListDisplay();
+        this.setContent(itemList);
+    }
 
-	public void displayLeads(final Account account) {
-		this.account = account;
-		loadLeads();
-	}
+    public void displayLeads(final Account account) {
+        this.account = account;
+        loadLeads();
+    }
 
-	private void loadLeads() {
-		final LeadSearchCriteria criteria = new LeadSearchCriteria();
-		criteria.setSaccountid(new NumberSearchField(SearchField.AND,
-				AppContext.getAccountId()));
-		criteria.setAccountId(new NumberSearchField(SearchField.AND, account
-				.getId()));
-		setSearchCriteria(criteria);
-	}
+    private void loadLeads() {
+        final LeadSearchCriteria criteria = new LeadSearchCriteria();
+        criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+        criteria.setAccountId(new NumberSearchField(SearchField.AND, account.getId()));
+        setSearchCriteria(criteria);
+    }
 
-	@Override
-	public void refresh() {
-		loadLeads();
-	}
+    @Override
+    public void refresh() {
+        loadLeads();
+    }
 
-	@Override
-	protected Component createRightComponent() {
-		final NavigationBarQuickMenu addLead = new NavigationBarQuickMenu();
-		addLead.setStyleName("add-btn");
+    @Override
+    protected Component createRightComponent() {
+        final NavigationBarQuickMenu addLead = new NavigationBarQuickMenu();
+        addLead.setStyleName("add-btn");
 
-		VerticalLayout addButtons = new VerticalLayout();
-		addButtons.setSpacing(true);
-		addButtons.setWidth("100%");
-		addButtons.setMargin(true);
-		addButtons.addStyleName("edit-btn-layout");
+        MVerticalLayout addButtons = new MVerticalLayout().withWidth("100%");
 
-		Button newLead = new Button(
-				AppContext.getMessage(LeadI18nEnum.VIEW_NEW_TITLE));
-		newLead.addClickListener(new Button.ClickListener() {
+        Button newLeadBtn = new Button(AppContext.getMessage(LeadI18nEnum.VIEW_NEW_TITLE), new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                fireNewRelatedItem("");
+            }
+        });
+        addButtons.addComponent(newLeadBtn);
 
-			private static final long serialVersionUID = 8228954365650824438L;
-
-			@Override
-			public void buttonClick(Button.ClickEvent arg0) {
-				fireNewRelatedItem("");
-			}
-		});
-		addButtons.addComponent(newLead);
-
-		Button selectLead = new Button(
-				AppContext.getMessage(LeadI18nEnum.M_TITLE_SELECT_LEADS));
-		selectLead.addClickListener(new Button.ClickListener() {
-
-			private static final long serialVersionUID = 9076596614526838523L;
-
-			@Override
-			public void buttonClick(Button.ClickEvent event) {
-				AccountLeadSelectionView leadSelectionView = new AccountLeadSelectionView(
-						AccountRelatedLeadView.this);
-				final LeadSearchCriteria criteria = new LeadSearchCriteria();
-				criteria.setSaccountid(new NumberSearchField(AppContext
-						.getAccountId()));
-				leadSelectionView.setSearchCriteria(criteria);
-				EventBusFactory.getInstance().post(
-						new ShellEvent.PushView(AccountRelatedLeadView.this,
-								leadSelectionView));
-
-			}
-		});
-		addButtons.addComponent(selectLead);
-
-		addLead.setContent(addButtons);
-
-		return addLead;
-	}
-
+        Button selectLead = new Button(AppContext.getMessage(LeadI18nEnum.M_TITLE_SELECT_LEADS), new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                AccountLeadSelectionView leadSelectionView = new AccountLeadSelectionView(AccountRelatedLeadView.this);
+                final LeadSearchCriteria criteria = new LeadSearchCriteria();
+                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                leadSelectionView.setSearchCriteria(criteria);
+                EventBusFactory.getInstance().post(new ShellEvent.PushView(AccountRelatedLeadView.this, leadSelectionView));
+            }
+        });
+        addButtons.addComponent(selectLead);
+        addLead.setContent(addButtons);
+        return addLead;
+    }
 }

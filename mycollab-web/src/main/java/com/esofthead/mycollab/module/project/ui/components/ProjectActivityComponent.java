@@ -30,7 +30,6 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.ecm.domain.Content;
-import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.utils.FieldGroupFormatter;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -49,7 +48,10 @@ import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author MyCollab Ltd
@@ -79,8 +81,7 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
         }
     };
 
-    public ProjectActivityComponent(String type, Integer extraTypeId, FieldGroupFormatter groupFormatter, Class<? extends
-            SendingRelayEmailNotificationAction> emailHandler) {
+    public ProjectActivityComponent(String type, Integer extraTypeId, FieldGroupFormatter groupFormatter) {
         withMargin(false).withStyleName("activity-comp");
         this.type = type;
         this.groupFormatter = groupFormatter;
@@ -102,7 +103,7 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
         MHorizontalLayout headerPanel = new MHorizontalLayout().withMargin(true).withStyleName("section").withWidth("100%")
                 .with(headerLbl, sortDirection).withAlign(headerLbl, Alignment.MIDDLE_LEFT).withAlign(sortDirection, Alignment.MIDDLE_RIGHT);
 
-        commentBox = new ProjectCommentInput(this, type, extraTypeId, emailHandler);
+        commentBox = new ProjectCommentInput(this, type, extraTypeId);
         activityBox = new MVerticalLayout();
         this.with(headerPanel, commentBox, activityBox);
 
@@ -137,10 +138,8 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
         final int logCount = auditLogService.getTotalCount(logCriteria);
         setTotalNums(commentCount + logCount);
 
-        List<SimpleComment> comments = commentService.findPagableListByCriteria(new SearchRequest<>
-                (commentCriteria, 0, Integer.MAX_VALUE));
-        List<SimpleAuditLog> auditLogs = auditLogService.findPagableListByCriteria(new SearchRequest<>
-                (logCriteria, 0, Integer.MAX_VALUE));
+        List<SimpleComment> comments = commentService.findPagableListByCriteria(new SearchRequest<>(commentCriteria, 0, Integer.MAX_VALUE));
+        List<SimpleAuditLog> auditLogs = auditLogService.findPagableListByCriteria(new SearchRequest<>(logCriteria, 0, Integer.MAX_VALUE));
         List activities = new ArrayList(commentCount + logCount);
         activities.addAll(comments);
         activities.addAll(auditLogs);

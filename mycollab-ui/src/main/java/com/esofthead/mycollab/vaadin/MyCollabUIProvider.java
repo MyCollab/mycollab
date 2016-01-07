@@ -29,6 +29,9 @@ import com.vaadin.ui.UI;
 public class MyCollabUIProvider extends UIProvider {
     private static final long serialVersionUID = 1L;
 
+    private static final String MOBILE_APP = "com.esofthead.mycollab.mobile.MobileApplication";
+    private static final String DESKTOP_APP = "com.esofthead.mycollab.web.DesktopApplication";
+
     @SuppressWarnings("unchecked")
     @Override
     public Class<? extends UI> getUIClass(UIClassSelectionEvent event) {
@@ -41,8 +44,7 @@ public class MyCollabUIProvider extends UIProvider {
             return null;
         }
 
-        uiClass = userAgent.contains("mobile") ? "com.esofthead.mycollab.mobile.MobileApplication"
-                : "com.esofthead.mycollab.web.DesktopApplication";
+        uiClass = userAgent.contains("mobile") ? MOBILE_APP : DESKTOP_APP;
 
         try {
             return (Class<? extends UI>) Class.forName(uiClass);

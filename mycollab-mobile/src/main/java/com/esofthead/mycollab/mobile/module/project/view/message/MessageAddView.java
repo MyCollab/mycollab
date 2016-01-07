@@ -30,7 +30,7 @@ import com.esofthead.mycollab.vaadin.mvp.PageView;
 public interface MessageAddView extends PageView {
     HasEditFormHandlers<SimpleMessage> getEditFormHandlers();
 
-    public void initView();
+    void initView();
 
-    public ProjectFormAttachmentUploadField getUploadField();
+    ProjectFormAttachmentUploadField getUploadField();
 }

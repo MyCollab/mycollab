@@ -16,8 +16,8 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.settings;
 
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.ui.AbstractSelectionCustomField;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -26,13 +26,11 @@ import com.esofthead.mycollab.vaadin.ui.FieldSelection;
 import com.vaadin.data.Property;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 4.5.0
- *
  */
-public class ProjectMemberSelectionField extends AbstractSelectionCustomField<String, SimpleProjectMember> implements
-        FieldSelection<SimpleProjectMember> {
+public class ProjectMemberSelectionField extends AbstractSelectionCustomField<String, SimpleProjectMember>
+        implements FieldSelection<SimpleProjectMember> {
     private static final long serialVersionUID = 1L;
 
     public ProjectMemberSelectionField() {
@@ -49,10 +47,8 @@ public class ProjectMemberSelectionField extends AbstractSelectionCustomField<St
     }
 
     private void setMemberByVal(String value) {
-        ProjectMemberService service = ApplicationContextUtil
-                .getSpringBean(ProjectMemberService.class);
-        SimpleProjectMember member = service.findMemberByUsername(value,
-                CurrentProjectVariables.getProjectId(),
+        ProjectMemberService service = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
+        SimpleProjectMember member = service.findMemberByUsername(value, CurrentProjectVariables.getProjectId(),
                 AppContext.getAccountId());
         if (member != null) {
             setInternalMember(member);
@@ -74,5 +70,4 @@ public class ProjectMemberSelectionField extends AbstractSelectionCustomField<St
         setInternalMember(data);
         setInternalValue(data.getUsername());
     }
-
 }

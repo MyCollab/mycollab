@@ -26,19 +26,17 @@ import com.esofthead.mycollab.module.project.domain.criteria.MilestoneSearchCrit
 import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.vaadin.data.util.BeanContainer;
+import com.vaadin.ui.NativeSelect;
 
 import java.util.List;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class MilestoneComboBox extends ValueComboBox {
-
     private static final long serialVersionUID = 1L;
 
-    @SuppressWarnings("unchecked")
     public MilestoneComboBox() {
         super();
         this.setItemCaptionMode(ItemCaptionMode.PROPERTY);
@@ -47,8 +45,7 @@ public class MilestoneComboBox extends ValueComboBox {
         criteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
 
         MilestoneService milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
-        List<SimpleMilestone> milestoneList = milestoneService.findPagableListByCriteria(new SearchRequest<>(
-                criteria, 0, Integer.MAX_VALUE));
+        List<SimpleMilestone> milestoneList = milestoneService.findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 
         BeanContainer<String, SimpleMilestone> beanItem = new BeanContainer<>(SimpleMilestone.class);
         beanItem.setBeanIdProperty("id");

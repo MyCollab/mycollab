@@ -22,44 +22,42 @@ import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearch
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.5.2
- *
  */
 public class ProjectMemberScreenData {
-	public static class Search extends ScreenData<ProjectMemberSearchCriteria> {
+    public static class Search extends ScreenData<ProjectMemberSearchCriteria> {
 
-		public Search(ProjectMemberSearchCriteria params) {
-			super(params);
-		}
-	}
+        public Search(ProjectMemberSearchCriteria params) {
+            super(params);
+        }
+    }
 
-	public static class Add extends ScreenData<ProjectMember> {
+    public static class Add extends ScreenData<ProjectMember> {
 
-		public Add(ProjectMember params) {
-			super(params);
-		}
-	}
+        public Add(ProjectMember params) {
+            super(params);
+        }
+    }
 
-	public static class InviteProjectMembers extends ScreenData<Object> {
+    public static class InviteProjectMembers extends ScreenData<Object> {
 
-		public InviteProjectMembers() {
-			super(null);
-		}
-	}
+        public InviteProjectMembers() {
+            super(null);
+        }
+    }
 
-	public static class Read extends ScreenData<Object> {
+    public static class Read extends ScreenData<Object> {
 
-		public Read(Object params) {
-			super(params);
-		}
-	}
+        public Read(Object params) {
+            super(params);
+        }
+    }
 
-	public static class Edit extends ScreenData<SimpleProjectMember> {
+    public static class Edit extends ScreenData<SimpleProjectMember> {
 
-		public Edit(SimpleProjectMember params) {
-			super(params);
-		}
-	}
+        public Edit(SimpleProjectMember params) {
+            super(params);
+        }
+    }
 }

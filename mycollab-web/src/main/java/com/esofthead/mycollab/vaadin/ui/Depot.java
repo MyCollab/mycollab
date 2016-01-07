@@ -40,6 +40,7 @@ public class Depot extends VerticalLayout {
         this.setMargin(false);
         header = new MHorizontalLayout().withHeight("34px").withStyleName("depotHeader");
         bodyContent = content;
+        bodyContent.setWidth("100%");
         headerContent = new MHorizontalLayout().withMargin(true).withFullHeight();
         headerContent.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
         headerContent.setVisible(false);

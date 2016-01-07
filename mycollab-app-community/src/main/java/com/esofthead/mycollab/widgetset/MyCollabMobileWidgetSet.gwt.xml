@@ -9,6 +9,8 @@
 
     <inherits name="com.vaadin.addon.touchkit.gwt.TouchKitWidgetSet" />
 
+    <inherits name="org.vaadin.thomas.slidemenu.SlidemenuWidgetset" />
+
     <inherits name="com.esofthead.vaadin.mobilecomponent.WidgetSet" />
 
     <inherits name="com.esofthead.vaadin.navigationbarquickmenu.WidgetSet"/>
