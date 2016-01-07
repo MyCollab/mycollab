@@ -48,8 +48,7 @@ public class ProjectMemberSelectionField extends AbstractSelectionCustomField<St
 
     private void setMemberByVal(String value) {
         ProjectMemberService service = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
-        SimpleProjectMember member = service.findMemberByUsername(value, CurrentProjectVariables.getProjectId(),
-                AppContext.getAccountId());
+        SimpleProjectMember member = service.findMemberByUsername(value, CurrentProjectVariables.getProjectId(), AppContext.getAccountId());
         if (member != null) {
             setInternalMember(member);
         }
