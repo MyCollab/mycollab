@@ -46,8 +46,7 @@ public class TaskAddViewImpl extends AbstractEditItemComp<SimpleTask> implements
 
 	@Override
 	protected String initFormTitle() {
-		return (beanItem.getId() == null) ? AppContext.getMessage(TaskI18nEnum.FORM_NEW_TASK_TITLE) : beanItem
-				.getTaskname();
+		return (beanItem.getId() == null) ? AppContext.getMessage(TaskI18nEnum.FORM_NEW_TASK_TITLE) : beanItem.getTaskname();
 	}
 
 	@Override
@@ -81,8 +80,6 @@ public class TaskAddViewImpl extends AbstractEditItemComp<SimpleTask> implements
 		protected Field<?> onCreateField(Object propertyId) {
 			if (propertyId.equals("assignuser")) {
 				return new ProjectMemberSelectionField();
-			} else if (propertyId.equals("tasklistid")) {
-				return new TaskListSelectionField();
 			} else if (propertyId.equals("notes")) {
 				final TextArea textArea = new TextArea();
 				textArea.setNullRepresentation("");

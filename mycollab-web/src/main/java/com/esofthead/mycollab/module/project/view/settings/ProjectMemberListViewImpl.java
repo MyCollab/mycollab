@@ -201,8 +201,7 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
             Label infoStatus = new Label(AppContext.getMessage(ProjectMemberI18nEnum.WAITING_ACCEPT_INVITATION));
             waitingNotLayout.addComponent(infoStatus);
 
-            ButtonLink resendInvitationLink = new ButtonLink(
-                    AppContext.getMessage(ProjectMemberI18nEnum.BUTTON_RESEND_INVITATION), new Button.ClickListener() {
+            ButtonLink resendInvitationLink = new ButtonLink(AppContext.getMessage(ProjectMemberI18nEnum.BUTTON_RESEND_INVITATION), new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;
 
                 @Override

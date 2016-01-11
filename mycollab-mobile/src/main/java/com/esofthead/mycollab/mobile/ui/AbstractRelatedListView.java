@@ -16,77 +16,76 @@
  */
 package com.esofthead.mycollab.mobile.ui;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.esofthead.mycollab.vaadin.ui.RelatedListHandler;
 import com.vaadin.ui.Component;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.0
  */
 public abstract class AbstractRelatedListView<T, S extends SearchCriteria> extends AbstractMobilePageView implements IRelatedListHandlers<T> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected Set<RelatedListHandler<T>> handlers;
-	protected AbstractPagedBeanList<S, T> itemList;
+    protected Set<RelatedListHandler<T>> handlers;
+    protected AbstractPagedBeanList<S, T> itemList;
 
-	public AbstractRelatedListView() {
-		this.setWidth("100%");
+    public AbstractRelatedListView() {
+        this.setWidth("100%");
 
-		Component rightComponent = createRightComponent();
-		if (rightComponent != null) {
-			setRightComponent(rightComponent);
-		}
-	}
+        Component rightComponent = createRightComponent();
+        if (rightComponent != null) {
+            setRightComponent(rightComponent);
+        }
+    }
 
-	abstract protected Component createRightComponent();
+    abstract protected Component createRightComponent();
 
-	@Override
-	public void addRelatedListHandler(final RelatedListHandler<T> handler) {
-		if (handlers == null) {
-			handlers = new HashSet<>();
-		}
+    @Override
+    public void addRelatedListHandler(final RelatedListHandler<T> handler) {
+        if (handlers == null) {
+            handlers = new HashSet<>();
+        }
 
-		handlers.add(handler);
-	}
+        handlers.add(handler);
+    }
 
-	protected void fireNewRelatedItem(final String itemId) {
-		if (handlers != null) {
-			for (final RelatedListHandler handler : handlers) {
-				handler.createNewRelatedItem(itemId);
-			}
-		}
-	}
+    protected void fireNewRelatedItem(final String itemId) {
+        if (handlers != null) {
+            for (final RelatedListHandler handler : handlers) {
+                handler.createNewRelatedItem(itemId);
+            }
+        }
+    }
 
-	public void fireSelectedRelatedItems(Set<T> selectedItems) {
-		if (handlers != null) {
-			for (RelatedListHandler<T> handler : handlers) {
-				handler.selectAssociateItems(selectedItems);
-			}
-		}
-	}
+    public void fireSelectedRelatedItems(Set<T> selectedItems) {
+        if (handlers != null) {
+            for (RelatedListHandler<T> handler : handlers) {
+                handler.selectAssociateItems(selectedItems);
+            }
+        }
+    }
 
-	public void setSearchCriteria(final S criteria) {
-		itemList.setSearchCriteria(criteria);
-	}
+    public void setSearchCriteria(final S criteria) {
+        itemList.setSearchCriteria(criteria);
+    }
 
-	public void setSelectedItems(final Set<T> selectedItems) {
-		throw new MyCollabException("Must be override by support class");
-	}
+    public void setSelectedItems(final Set<T> selectedItems) {
+        throw new MyCollabException("Must be override by support class");
+    }
 
-	@Override
-	protected void onBecomingVisible() {
-		super.onBecomingVisible();
-		refresh();
-	}
+    @Override
+    protected void onBecomingVisible() {
+        super.onBecomingVisible();
+        refresh();
+    }
 
-	public AbstractPagedBeanList<S, T> getItemList() {
-		return this.itemList;
-	}
+    public AbstractPagedBeanList<S, T> getItemList() {
+        return this.itemList;
+    }
 }

@@ -18,25 +18,26 @@ package com.esofthead.mycollab.mobile.module.project.view.task;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.html.DivLessFormatter;
+import com.esofthead.mycollab.mobile.module.project.ui.CommentNavigationButton;
 import com.esofthead.mycollab.mobile.module.project.ui.ProjectAttachmentDisplayComp;
-import com.esofthead.mycollab.mobile.module.project.ui.ProjectCommentListView;
 import com.esofthead.mycollab.mobile.module.project.ui.ProjectPreviewFormControlsGenerator;
-import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractPreviewItemComp;
 import com.esofthead.mycollab.mobile.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.mobile.ui.IconConstants;
+import com.esofthead.mycollab.mobile.ui.FormSectionBuilder;
 import com.esofthead.mycollab.mobile.ui.UIConstants;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.ProjectResources;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
+import com.esofthead.mycollab.module.project.domain.Task;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
@@ -44,15 +45,17 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.form.field.ContainerHorizontalViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
-import com.vaadin.server.ExternalResource;
-import com.vaadin.server.Resource;
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Div;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.List;
 
@@ -65,15 +68,9 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
     private static final long serialVersionUID = 9021783098267883004L;
 
     private Button quickActionStatusBtn;
-    private ProjectCommentListView associateComments;
-    private Button relatedComments;
+    private CommentNavigationButton relatedComments;
     private TaskTimeLogComp taskTimeLogComp;
     private ProjectAttachmentDisplayComp attachmentComp;
-
-    public TaskReadViewImpl() {
-        super();
-        taskTimeLogComp = new TaskTimeLogComp();
-    }
 
     @Override
     public HasPreviewFormHandlers<SimpleTask> getPreviewFormHandlers() {
@@ -83,50 +80,24 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
     @Override
     protected void afterPreviewItem() {
         if (StatusI18nEnum.Open.name().equals(beanItem.getStatus())) {
-            quickActionStatusBtn.setCaption(AppContext
-                    .getMessage(GenericI18Enum.BUTTON_CLOSE));
+            quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE));
             this.removeStyleName(UIConstants.STATUS_DISABLED);
         } else {
-            quickActionStatusBtn.setCaption(AppContext
-                    .getMessage(GenericI18Enum.BUTTON_REOPEN));
+            quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN));
             this.addStyleName(UIConstants.STATUS_DISABLED);
         }
-        associateComments.loadComments("" + beanItem.getId());
-        if (associateComments.getNumComments() > 0) {
-            relatedComments
-                    .setCaption("<span aria-hidden=\"true\" data-icon=\""
-                            + IconConstants.PROJECT_MESSAGE
-                            + "\" data-count=\""
-                            + associateComments.getNumComments()
-                            + "\"></span><div class=\"screen-reader-text\">"
-                            + AppContext
-                            .getMessage(GenericI18Enum.TAB_COMMENT)
-                            + "</div>");
-        } else {
-            relatedComments
-                    .setCaption("<span aria-hidden=\"true\" data-icon=\""
-                            + IconConstants.PROJECT_MESSAGE
-                            + "\"></span><div class=\"screen-reader-text\">"
-                            + AppContext
-                            .getMessage(GenericI18Enum.TAB_COMMENT)
-                            + "</div>");
-        }
+        relatedComments.displayTotalComments(beanItem.getId() + "");
 
         taskTimeLogComp.displayTime(beanItem);
-
         this.previewForm.addComponent(taskTimeLogComp);
 
-        ResourceService resourceService = ApplicationContextUtil
-                .getSpringBean(ResourceService.class);
-        List<Content> attachments = resourceService.getContents(AttachmentUtils
-                .getProjectEntityAttachmentPath(AppContext.getAccountId(),
-                        beanItem.getProjectid(),
-                        ProjectTypeConstants.TASK, "" + beanItem.getId()));
+        ResourceService resourceService = ApplicationContextUtil.getSpringBean(ResourceService.class);
+        List<Content> attachments = resourceService.getContents(AttachmentUtils.getProjectEntityAttachmentPath(AppContext.getAccountId(),
+                beanItem.getProjectid(), ProjectTypeConstants.TASK, "" + beanItem.getId()));
         if (CollectionUtils.isNotEmpty(attachments)) {
             attachmentComp = new ProjectAttachmentDisplayComp(attachments);
             this.previewForm.addComponent(attachmentComp);
-        } else if (attachmentComp != null
-                && attachmentComp.getParent().equals(this.previewForm)) {
+        } else if (attachmentComp != null && attachmentComp.getParent().equals(this.previewForm)) {
             this.previewForm.removeComponent(attachmentComp);
         }
     }
@@ -139,12 +110,6 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
     @Override
     protected AdvancedPreviewBeanForm<SimpleTask> initPreviewForm() {
         return new AdvancedPreviewBeanForm<>();
-    }
-
-    @Override
-    protected void initRelatedComponents() {
-        associateComments = new ProjectCommentListView(ProjectTypeConstants.TASK,
-                CurrentProjectVariables.getProjectId(), true);
     }
 
     @Override
@@ -202,28 +167,15 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
 
     @Override
     protected ComponentContainer createBottomPanel() {
-        HorizontalLayout toolbarLayout = new HorizontalLayout();
-        toolbarLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-        toolbarLayout.setSpacing(true);
+        MVerticalLayout toolbarLayout = new MVerticalLayout().withSpacing(false).withMargin(false);
+        toolbarLayout.setDefaultComponentAlignment(Alignment.TOP_LEFT);
 
-        relatedComments = new Button();
-        relatedComments.setCaption("<span aria-hidden=\"true\" data-icon=\""
-                + IconConstants.PROJECT_MESSAGE
-                + "\"></span><div class=\"screen-reader-text\">"
-                + AppContext.getMessage(GenericI18Enum.TAB_COMMENT)
-                + "</div>");
-        relatedComments.setHtmlContentAllowed(true);
-        relatedComments.addClickListener(new Button.ClickListener() {
+        relatedComments = new CommentNavigationButton(ProjectTypeConstants.TASK);
+        Component section = FormSectionBuilder.build(FontAwesome.COMMENT, relatedComments);
+        toolbarLayout.addComponent(section);
 
-            private static final long serialVersionUID = 4889821151518627676L;
-
-            @Override
-            public void buttonClick(ClickEvent arg0) {
-                EventBusFactory.getInstance().post(new ShellEvent.PushView(this, associateComments));
-            }
-        });
-        toolbarLayout.addComponent(relatedComments);
-
+        taskTimeLogComp = new TaskTimeLogComp();
+        toolbarLayout.addComponent(taskTimeLogComp);
         return toolbarLayout;
     }
 
@@ -236,11 +188,10 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
 
         @Override
         protected Field<?> onCreateField(final Object propertyId) {
-
             if (propertyId.equals("assignuser")) {
-                return new DefaultViewField(beanItem.getAssignUserFullName());
-            } else if (propertyId.equals("taskListName")) {
-//                return new FormViewField(beanItem.getTaskListName());
+                return new DefaultViewField(ProjectLinkBuilder.generateProjectMemberHtmlLink(CurrentProjectVariables
+                        .getProjectId(), beanItem.getAssignuser(), beanItem.getAssignUserFullName(), beanItem
+                        .getAssignUserAvatarId(), false), ContentMode.HTML);
             } else if (propertyId.equals("startdate")) {
                 return new DefaultViewField(AppContext.formatDate(beanItem.getStartdate()));
             } else if (propertyId.equals("enddate")) {
@@ -251,28 +202,24 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
                 return new DefaultViewField(AppContext.formatDate(beanItem.getActualenddate()));
             } else if (propertyId.equals("deadline")) {
                 return new DefaultViewField(AppContext.formatDate(beanItem.getDeadline()));
-            } else if (propertyId.equals("tasklistid")) {
-//                return new FormViewField(beanItem.getTaskListName());
             } else if (propertyId.equals("priority")) {
                 if (StringUtils.isNotBlank(beanItem.getPriority())) {
-                    final Resource iconPriority = new ExternalResource(ProjectResources
-                            .getIconResourceLink12ByTaskPriority(beanItem.getPriority()));
-                    final Embedded iconEmbedded = new Embedded(null, iconPriority);
-                    final Label lbPriority = new Label(AppContext.getMessage(TaskPriority.class, beanItem.getPriority()));
-
-                    final ContainerHorizontalViewField containerField = new ContainerHorizontalViewField();
-                    containerField.addComponentField(iconEmbedded);
-                    containerField.getLayout().setComponentAlignment(iconEmbedded, Alignment.MIDDLE_LEFT);
-                    lbPriority.setWidthUndefined();
-                    containerField.addComponentField(lbPriority);
-                    containerField.getLayout().setExpandRatio(lbPriority, 1.0f);
-                    return containerField;
+                    FontAwesome fontPriority = ProjectAssetsManager.getTaskPriority(beanItem.getPriority());
+                    String priorityLbl = fontPriority.getHtml() + " " + AppContext.getMessage(TaskPriority.class, beanItem.getPriority());
+                    DefaultViewField field = new DefaultViewField(priorityLbl, ContentMode.HTML);
+                    field.addStyleName("task-" + beanItem.getPriority().toLowerCase());
+                    return field;
                 }
+            } else if (Task.Field.milestoneid.equalTo(propertyId)) {
+                A milestoneLink = new A(ProjectLinkBuilder.generateMilestonePreviewFullLink
+                        (CurrentProjectVariables.getProjectId(), beanItem.getMilestoneid())).appendText(beanItem.getMilestoneName());
+                Div milestoneDiv = new Div().appendText(ProjectAssetsManager.getAsset(ProjectTypeConstants
+                        .MILESTONE).getHtml()).appendChild(DivLessFormatter.EMPTY_SPACE(), milestoneLink);
+                return new DefaultViewField(milestoneDiv.write(), ContentMode.HTML);
             } else if (propertyId.equals("notes")) {
                 return new RichTextViewField(beanItem.getNotes());
             }
             return null;
         }
     }
-
 }

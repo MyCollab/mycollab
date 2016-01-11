@@ -16,10 +16,11 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view;
 
-import com.esofthead.mycollab.core.utils.StringUtils;
+import com.esofthead.mycollab.core.utils.NumberUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.events.*;
-import com.esofthead.mycollab.mobile.ui.AbstractMobilePageView;
+import com.esofthead.mycollab.mobile.module.project.ui.ProjectMobileMenuPageView;
+import com.esofthead.mycollab.mobile.ui.UIConstants;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
@@ -43,7 +44,7 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  */
 
 @ViewComponent
-public class ProjectDashboardViewImpl extends AbstractMobilePageView implements ProjectDashboardView {
+public class ProjectDashboardViewImpl extends ProjectMobileMenuPageView implements ProjectDashboardView {
     private static final long serialVersionUID = 2364544271302929730L;
 
     private final CssLayout mainLayout;
@@ -107,10 +108,42 @@ public class ProjectDashboardViewImpl extends AbstractMobilePageView implements 
         projectIcon.setWidthUndefined();
         projectInfo.addComponent(projectIcon);
 
-        Label projectName = new Label(StringUtils.trim(currentProject.getName(), 50, true));
+        Label projectName = new Label(currentProject.getName());
         projectName.setWidth("100%");
         projectName.setStyleName("project-name");
         projectInfo.addComponent(projectName);
+
+        MHorizontalLayout metaInfo = new MHorizontalLayout();
+
+        Label projectMemberBtn = new ELabel(FontAwesome.USERS.getHtml() + " " + currentProject.getNumActiveMembers(),
+                ContentMode.HTML).withDescription("Active members").withStyleName(UIConstants.META_INFO);
+
+        metaInfo.addComponent(projectMemberBtn);
+        Label createdTimeLbl = new ELabel(FontAwesome.CLOCK_O.getHtml() + " " + AppContext.formatPrettyTime(currentProject.getCreatedtime()),
+                ContentMode.HTML).withDescription("Created time").withStyleName(UIConstants.META_INFO);
+        metaInfo.addComponent(createdTimeLbl);
+
+        Label billableHoursLbl = new ELabel(FontAwesome.MONEY.getHtml() + " " + NumberUtils.roundDouble(2, currentProject.getTotalBillableHours()),
+                ContentMode.HTML).withDescription("Billable hours").withStyleName(UIConstants.META_INFO);
+        metaInfo.addComponent(billableHoursLbl);
+
+        Label nonBillableHoursLbl = new ELabel(FontAwesome.GIFT.getHtml() + " " + NumberUtils.roundDouble(2,
+                currentProject.getTotalNonBillableHours()), ContentMode.HTML)
+                .withDescription("Non billable hours").withStyleName(UIConstants.META_INFO);
+        metaInfo.addComponent(nonBillableHoursLbl);
+        projectInfo.addComponent(metaInfo);
+
+        int openAssignments = currentProject.getNumOpenBugs() + currentProject.getNumOpenTasks() + currentProject.getNumOpenRisks() + currentProject.getNumOpenRisks();
+        int totalAssignments = currentProject.getNumBugs() + currentProject.getNumTasks() + currentProject.getNumRisks() + currentProject.getNumProblems();
+        ELabel progressInfoLbl;
+        if (totalAssignments > 0) {
+            progressInfoLbl = new ELabel(String.format("%d of %d issue(s) resolved. Progress (%d%%)",
+                    (totalAssignments - openAssignments), totalAssignments, (totalAssignments - openAssignments)
+                            * 100 / totalAssignments)).withWidthUndefined().withStyleName(UIConstants.META_INFO);
+        } else {
+            progressInfoLbl = new ELabel("No issue").withWidthUndefined().withStyleName(UIConstants.META_INFO);
+        }
+        projectInfo.addComponent(progressInfoLbl);
 
         mainLayout.addComponent(projectInfo);
 

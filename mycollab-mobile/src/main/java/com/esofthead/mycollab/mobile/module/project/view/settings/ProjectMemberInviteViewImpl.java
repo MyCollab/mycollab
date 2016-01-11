@@ -19,6 +19,7 @@ package com.esofthead.mycollab.mobile.module.project.view.settings;
 import com.esofthead.mycollab.common.i18n.SecurityI18nEnum;
 import com.esofthead.mycollab.mobile.module.project.events.ProjectMemberEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractMobilePageView;
+import com.esofthead.mycollab.mobile.ui.FormSectionBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectRole;
 import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
@@ -59,9 +60,7 @@ public class ProjectMemberInviteViewImpl extends AbstractMobilePageView implemen
 
     public ProjectMemberInviteViewImpl() {
         super();
-        this.addStyleName("member-invite-view");
         this.setCaption(AppContext.getMessage(ProjectMemberI18nEnum.FORM_NEW_TITLE));
-
         constructUI();
     }
 
@@ -94,12 +93,9 @@ public class ProjectMemberInviteViewImpl extends AbstractMobilePageView implemen
         inviteFormLayout.addComponent(messageArea);
 
         inviteFormLayout.addComponent(roleComboBox);
-
         mainLayout.addComponent(inviteFormLayout);
 
-        Label permissionSectionHdr = new Label(AppContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS));
-        permissionSectionHdr.setStyleName("h2");
-        mainLayout.addComponent(permissionSectionHdr);
+        mainLayout.addComponent(FormSectionBuilder.build(AppContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS)));
 
         permissionsPanel = new VerticalComponentGroup();
         mainLayout.addComponent(permissionsPanel);
@@ -112,8 +108,8 @@ public class ProjectMemberInviteViewImpl extends AbstractMobilePageView implemen
                 if ("".equals(inviteEmailField.getValue())) {
                     return;
                 }
-                ProjectMemberInviteViewImpl.this.roleId = (Integer) roleComboBox.getValue();
-                ProjectMemberInviteViewImpl.this.fireEvent(new ViewEvent<>(ProjectMemberInviteViewImpl.this,
+                roleId = (Integer) roleComboBox.getValue();
+                fireEvent(new ViewEvent<>(ProjectMemberInviteViewImpl.this,
                         new ProjectMemberEvent.InviteProjectMembers(Arrays.asList(inviteEmailField.getValue()),
                                 ProjectMemberInviteViewImpl.this.roleId, messageArea.getValue())));
 
@@ -156,5 +152,4 @@ public class ProjectMemberInviteViewImpl extends AbstractMobilePageView implemen
         inviteEmailField.setValue("");
         messageArea.setValue(AppContext.getMessage(ProjectMemberI18nEnum.MSG_DEFAULT_INVITATION_COMMENT));
     }
-
 }

@@ -14,26 +14,20 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.mobile.module.project.view.parameters
+package com.esofthead.mycollab.mobile.module.project.events
 
-import com.esofthead.mycollab.module.project.domain.SimpleTaskList
-import com.esofthead.mycollab.module.project.domain.criteria.TaskListSearchCriteria
-import com.esofthead.mycollab.vaadin.mvp.ScreenData
+import com.esofthead.mycollab.eventmanager.ApplicationEvent
 
 /**
- * @author MyCollab Ltd
- * @since 5.0.9
- */
-object TaskGroupScreenData {
+  * @author MyCollab Ltd
+  * @since 5.2.5
+  */
+object MilestoneEvent {
+  class GotoList(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
-    class List(param: TaskListSearchCriteria) extends ScreenData[TaskListSearchCriteria](param) {
-        def this() = this(null)
-    }
+  class GotoAdd(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
-    class Add(param: SimpleTaskList) extends ScreenData[SimpleTaskList](param) {}
+  class GotoRead(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
-    class Read(param: Integer) extends ScreenData[Integer](param) {}
-
-    class Edit(param: SimpleTaskList) extends ScreenData[SimpleTaskList](param) {}
-
+  class GotoEdit(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 }

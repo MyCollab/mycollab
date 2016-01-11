@@ -19,27 +19,20 @@ package com.esofthead.mycollab.mobile.module.crm.view.account;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.form.view.DynaFormLayout;
 import com.esofthead.mycollab.mobile.module.crm.events.AccountEvent;
+import com.esofthead.mycollab.mobile.module.crm.ui.CrmAbstractPreviewItemComp;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmPreviewFormControlsGenerator;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmRelatedItemsScreenData;
-import com.esofthead.mycollab.mobile.module.crm.ui.NotesList;
 import com.esofthead.mycollab.mobile.module.crm.view.activity.ActivityRelatedItemView;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
-import com.esofthead.mycollab.mobile.ui.AbstractPreviewItemComp;
 import com.esofthead.mycollab.mobile.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.mobile.ui.IconConstants;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
-import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
-import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
-import com.esofthead.mycollab.module.crm.domain.SimpleCase;
-import com.esofthead.mycollab.module.crm.domain.SimpleContact;
-import com.esofthead.mycollab.module.crm.domain.SimpleLead;
-import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
+import com.esofthead.mycollab.module.crm.domain.*;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.vaadin.ui.Alignment;
@@ -53,10 +46,9 @@ import com.vaadin.ui.HorizontalLayout;
  * @since 4.0
  */
 @ViewComponent
-public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount> implements AccountReadView {
+public class AccountReadViewImpl extends CrmAbstractPreviewItemComp<SimpleAccount> implements AccountReadView {
     private static final long serialVersionUID = -5987636662071328512L;
 
-    protected NotesList associateNotes;
     protected AccountRelatedContactView associateContacts;
     protected AccountRelatedCaseView associateCases;
     protected ActivityRelatedItemView associateActivities;
@@ -65,7 +57,6 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount> 
 
     @Override
     protected void afterPreviewItem() {
-        associateNotes.showNotes(CrmTypeConstants.ACCOUNT, beanItem.getId());
         associateContacts.displayContacts(beanItem);
         associateCases.displayCases(beanItem);
         associateActivities.displayActivity(beanItem.getId());
@@ -75,12 +66,9 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount> 
 
     @Override
     protected void initRelatedComponents() {
-        associateNotes = new NotesList(
-                AppContext.getMessage(CrmCommonI18nEnum.M_TITLE_RELATED_NOTES));
         associateContacts = new AccountRelatedContactView();
         associateCases = new AccountRelatedCaseView();
-        associateActivities = new ActivityRelatedItemView(
-                CrmTypeConstants.ACCOUNT);
+        associateActivities = new ActivityRelatedItemView(CrmTypeConstants.ACCOUNT);
         associateLeads = new AccountRelatedLeadView();
         associateOpportunities = new AccountRelatedOpportunityView();
     }
@@ -176,22 +164,6 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount> 
             }
         });
         toolbarLayout.addComponent(relatedLeads);
-
-        Button relatedNotes = new Button();
-        relatedNotes.setCaption("<span aria-hidden=\"true\" data-icon=\""
-                + IconConstants.CRM_DOCUMENT
-                + "\"></span><div class=\"screen-reader-text\">"
-                + "Notes" + "</div>");
-        relatedNotes.setHtmlContentAllowed(true);
-        relatedNotes.addClickListener(new Button.ClickListener() {
-            private static final long serialVersionUID = 7589415773039335559L;
-
-            @Override
-            public void buttonClick(ClickEvent arg0) {
-                EventBusFactory.getInstance().post(new AccountEvent.GoToRelatedItems(this, new CrmRelatedItemsScreenData(associateNotes)));
-            }
-        });
-        toolbarLayout.addComponent(relatedNotes);
 
         Button relatedActivities = new Button();
         relatedActivities.setCaption("<span aria-hidden=\"true\" data-icon=\""

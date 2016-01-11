@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view;
 
-import com.esofthead.mycollab.mobile.ui.AbstractMobilePageView;
+import com.esofthead.mycollab.mobile.ui.AbstractMobileMenuPageView;
 import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
 import com.esofthead.mycollab.vaadin.mvp.IModule;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -29,11 +29,15 @@ import com.vaadin.ui.UI;
  */
 
 @ViewComponent
-public class ProjectModule extends AbstractMobilePageView implements IModule {
+public class ProjectModule extends AbstractMobileMenuPageView implements IModule {
     private static final long serialVersionUID = -537762284500231520L;
 
     public ProjectModule() {
         ControllerRegistry.addController(new ProjectModuleController((NavigationManager) UI.getCurrent().getContent()));
     }
 
+    @Override
+    protected void buildNavigateMenu() {
+
+    }
 }

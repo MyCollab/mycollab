@@ -144,9 +144,9 @@ class ApproveInputView extends AbstractMobilePageView {
                 if (propertyId.equals("assignuser")) {
                     return new ProjectMemberSelectionField();
                 } else if (propertyId.equals("comment")) {
-                    EditForm.this.commentArea = new TextArea();
-                    EditForm.this.commentArea.setNullRepresentation("");
-                    return EditForm.this.commentArea;
+                    commentArea = new TextArea();
+                    commentArea.setNullRepresentation("");
+                    return commentArea;
                 }
 
                 return null;

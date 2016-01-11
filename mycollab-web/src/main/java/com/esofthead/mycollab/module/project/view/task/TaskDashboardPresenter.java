@@ -44,7 +44,7 @@ public class TaskDashboardPresenter extends ProjectGenericListPresenter<TaskDash
     private ProjectTaskService taskService;
 
     public TaskDashboardPresenter() {
-        super(TaskDashboardView.class, TaskGroupNoItemView.class);
+        super(TaskDashboardView.class, TaskNoItemView.class);
         taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
     }
 

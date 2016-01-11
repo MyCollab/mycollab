@@ -33,13 +33,11 @@ a {
 	text-decoration: none !important;
 }
 
-.truncate {
-	white-space: nowrap !important;
-	overflow: hidden !important;
-	text-overflow: ellipsis;
+.truncate .v-layout, .truncate .v-label, .truncate {
+	width: 100% !important;
 }
 
-.truncate a, .v-button.truncate, .truncate span {
+.truncate .v-layout a, .truncate .v-label a, .truncate a {
 	display: block;
 	white-space: nowrap !important;
 	overflow: hidden !important;
@@ -70,6 +68,7 @@ a {
 	min-height: 43px;
 	padding-top: 8px;
 	padding-bottom: 8px;
+	display: flex;
 }
 
 .v-gridlayout.colored-gridlayout .gridform-caption {
@@ -81,9 +80,23 @@ a {
 	color: #999;
 }
 
+.v-gridlayout.colored-gridlayout .v-required-field-indicator {
+	color: red !important;
+	margin-top: 0px !important;
+}
+
 .v-navbar-quickmenu-content {
 	width: 100%;
-	background-color: gray;
+	border-bottom: 1px solid #c5c5c5;
+}
+
+.v-navbar-quickmenu-content .v-button {
+	background: transparent !important;
+	box-shadow: none !important;
+}
+
+.v-touchkit-navbar {
+	border-bottom: none !important;
 }
 
 .navigation-button-wrap .v-icon {
@@ -93,6 +106,32 @@ a {
 .attachment-panel {
 	border-top: 1px solid #dddddd;
 	padding: 0.5rem 0rem 0.8rem;
+}
+
+.slidemenu {
+	top: 0px !important;
+}
+
+.slidemenu .v-window-contents {
+	border-right: 1px solid #c5c5c5;
+}
+
+.slidemenu .v-window-contents .v-button {
+	background: transparent !important;
+	box-shadow: none !important;
+}
+
+.comment-input  > div > .v-horizontallayout {
+	width: 100%;
+}
+
+.comment-input input[type="text"] {
+	width: 100%;
+	height: 100%;
+}
+
+.comment-input .submit-btn {
+	background-color: transparent;
 }
 
 .v-touchkit-navbar-caption {
@@ -205,6 +244,7 @@ body {
 	border-top: 1px solid #e5e5e5 !important;
 	border-bottom: 1px solid #e5e5e5 !important;
 	box-shadow: none !important;
+	margin-bottom: 0 !important;
 }
 
 .v-touchkit-componentgroup-row:before {
@@ -281,72 +321,19 @@ body {
 	content: "";
 }
 
-.project-dashboard {
-	background-color: white;
-}
-
 .project-dashboard .project-info-layout {
-	padding-bottom: 1.2rem;
+	padding-bottom: 0.5rem;
 }
 
 .project-dashboard .project-info-layout .project-icon {
-	font-size: 4rem;
-	line-height: 5rem;
-	padding: 1rem;
+	font-size: 2.5rem;
+	padding: 0.5rem;
 }
 
 .project-dashboard .project-info-layout .project-name {
 	font-weight: bold;
-	font-size: 1.4rem;
-	padding-top: 0.6rem;
+	font-size: 1.2rem;
 	text-align: center;
-}
-
-.project-activities-view .activity-date {
-	border-bottom: 2px solid #f59330;
-	padding: 1rem 0.5rem 0.5rem;
-	font-size: 1.1rem;
-	font-weight: bold;
-	color: #959595;
-}
-
-.project-activities-view .activity-row {
-	padding: 0.5rem 2.5rem 0.8rem 1.4rem;
-	border-bottom: 0.1rem solid #dddddd;
-	color: #959595;
-}
-
-.project-activities-view .activity-row .activity-type {
-	font-size: 2rem;
-	color: #f59330;
-}
-
-.project-activities-view .activity-row .v-label.activity-item {
-	font-size: 1.4rem;
-	font-weight: bold;
-	text-overflow: ellipsis;
-}
-
-.project-activities-view .activity-row .v-label.activity-item a {
-	text-decoration: none;
-	white-space: nowrap;
-	color: #414141;
-}
-
-.project-activities-view .activity-row .activity-detail-row .activity-detail {
-	font-size: 1.1rem;
-}
-
-.project-activities-view .activity-row .activity-detail-row .v-button.link {
-	display: inline-block;
-}
-
-.project-activities-view .activity-row .activity-detail-row .v-button.link .v-button-wrap {
-	padding: 0rem 0rem 0rem 0.4rem;
-}
-
-.project-activities-view .activity-row .activity-detail-row .v-button.link .v-button-wrap .v-button-caption {
-	font-size: 1.1rem;
 }
 
 .bug-blocker .v-icon, .v-filterselect-item-bug-blocker .v-icon {
@@ -597,27 +584,6 @@ body {
 
 .bug-severity-trivial.v-icon {
 	color: #f7c7c1;
-}
-
-.member-list .list-item.member-row {
-	padding: 1rem 2.5rem 1rem 1.4rem;
-	border-bottom: 0.1rem solid #DDDDDD;
-	color: #8C8C8C;
-}
-
-.member-list .list-item.member-row .member-info {
-	padding-left: 0.5rem;
-}
-
-.member-list .list-item.member-row .member-info .display-name {
-	font-weight: bold;
-	font-size: 1.4rem;
-	color: #f59330;
-}
-
-.member-list .list-item.member-row .member-info .user-name {
-	font-size: 1.2rem;
-	color: #959595;
 }
 
 .timelog-edit-view div.v-vertical > .v-expand > .v-spacing {

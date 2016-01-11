@@ -21,9 +21,7 @@ import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.html.DivLessFormatter;
-import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
-import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -84,18 +82,28 @@ public class ProjectLinkBuilder {
         return ProjectLinkGenerator.generateProjectMemberFullLink(AppContext.getSiteUrl(), projectId, memberName);
     }
 
-    public static String generateProjectMemberHtmlLink(int projectId, String username) {
-        ProjectMemberService projectMemberService = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
-        SimpleProjectMember member = projectMemberService.findMemberByUsername(username, projectId, AppContext.getAccountId());
-        if (member != null) {
-            String uid = UUID.randomUUID().toString();
-            Img userAvatar = new Img("", StorageFactory.getInstance().getAvatarPath(member.getMemberAvatarId(), 16));
-            A link = new A().setId("tag" + uid).setHref(generateProjectMemberFullLink(projectId,
-                    member.getUsername())).appendText(StringUtils.trim(member.getDisplayName(), 30, true));
+    public static String generateProjectMemberHtmlLink(Integer projectId, String username, String displayName, String avarId,
+                                                       Boolean isDisplayTooltip) {
+        String uid = UUID.randomUUID().toString();
+        Img userAvatar = new Img("", StorageFactory.getInstance().getAvatarPath(avarId, 16));
+        A link = new A().setId("tag" + uid).setHref(generateProjectMemberFullLink(projectId,
+                username)).appendText(StringUtils.trim(displayName, 30, true));
+        if (isDisplayTooltip) {
             link.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(uid, username));
             link.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
             return new DivLessFormatter().appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), link,
                     DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid)).write();
+        } else {
+            return new DivLessFormatter().appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), link).write();
+        }
+    }
+
+    public static String generateProjectMemberHtmlLink(Integer projectId, String username, Boolean isDisplayTooltip) {
+        ProjectMemberService projectMemberService = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
+        SimpleProjectMember member = projectMemberService.findMemberByUsername(username, projectId, AppContext.getAccountId());
+        if (member != null) {
+            return generateProjectMemberHtmlLink(projectId, member.getUsername(), member.getDisplayName(), member
+                    .getMemberAvatarId(), isDisplayTooltip);
         } else {
             return null;
         }

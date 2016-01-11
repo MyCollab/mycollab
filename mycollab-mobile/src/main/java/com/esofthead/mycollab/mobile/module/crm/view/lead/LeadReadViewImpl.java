@@ -21,7 +21,6 @@ import com.esofthead.mycollab.mobile.form.view.DynaFormLayout;
 import com.esofthead.mycollab.mobile.module.crm.events.LeadEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmPreviewFormControlsGenerator;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmRelatedItemsScreenData;
-import com.esofthead.mycollab.mobile.module.crm.ui.NotesList;
 import com.esofthead.mycollab.mobile.module.crm.view.activity.ActivityRelatedItemView;
 import com.esofthead.mycollab.mobile.ui.AbstractPreviewItemComp;
 import com.esofthead.mycollab.mobile.ui.AdvancedPreviewBeanForm;
@@ -52,7 +51,6 @@ import com.vaadin.ui.HorizontalLayout;
 @ViewComponent
 public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead> implements LeadReadView {
     private static final long serialVersionUID = 5288751461504873888L;
-    private NotesList associateNotes;
     private ActivityRelatedItemView associateActivities;
     private LeadRelatedCampaignView associateCampaigns;
 
@@ -64,16 +62,12 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead> implem
     @Override
     protected void initRelatedComponents() {
         associateCampaigns = new LeadRelatedCampaignView();
-        associateNotes = new NotesList(
-                AppContext.getMessage(CrmCommonI18nEnum.M_TITLE_RELATED_NOTES));
-        associateActivities = new ActivityRelatedItemView(
-                CrmTypeConstants.CAMPAIGN);
+        associateActivities = new ActivityRelatedItemView(CrmTypeConstants.CAMPAIGN);
     }
 
     @Override
     protected void afterPreviewItem() {
         associateCampaigns.displayCampaign(beanItem);
-        associateNotes.showNotes(CrmTypeConstants.LEAD, beanItem.getId());
         associateActivities.displayActivity(beanItem.getId());
     }
 
@@ -84,7 +78,7 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead> implem
 
     @Override
     protected AdvancedPreviewBeanForm<SimpleLead> initPreviewForm() {
-        return new AdvancedPreviewBeanForm<SimpleLead>();
+        return new AdvancedPreviewBeanForm<>();
     }
 
     @Override
@@ -127,23 +121,6 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead> implem
             }
         });
         toolbarLayout.addComponent(relatedCampaigns);
-
-        Button relatedNotes = new Button();
-        relatedNotes.setCaption("<span aria-hidden=\"true\" data-icon=\""
-                + IconConstants.CRM_DOCUMENT
-                + "\"></span><div class=\"screen-reader-text\">"
-                + "Notes" + "</div>");
-        relatedNotes.setHtmlContentAllowed(true);
-        relatedNotes.addClickListener(new Button.ClickListener() {
-            private static final long serialVersionUID = 7589415773039335559L;
-
-            @Override
-            public void buttonClick(ClickEvent arg0) {
-                EventBusFactory.getInstance().post(
-                        new LeadEvent.GoToRelatedItems(this, new CrmRelatedItemsScreenData(associateNotes)));
-            }
-        });
-        toolbarLayout.addComponent(relatedNotes);
 
         Button relatedActivities = new Button();
         relatedActivities.setCaption("<span aria-hidden=\"true\" data-icon=\""

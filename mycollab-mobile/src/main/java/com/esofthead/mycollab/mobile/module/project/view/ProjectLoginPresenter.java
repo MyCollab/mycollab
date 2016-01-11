@@ -23,20 +23,17 @@ import com.vaadin.ui.ComponentContainer;
 
 /**
  * @author MyCollab Ltd.
- *
  * @since 4.4.0
- *
  */
 public class ProjectLoginPresenter extends AbstractPresenter<ProjectLoginView> {
-	private static final long serialVersionUID = -750325026975907368L;
+    private static final long serialVersionUID = -750325026975907368L;
 
-	public ProjectLoginPresenter() {
-		super(ProjectLoginView.class);
-	}
+    public ProjectLoginPresenter() {
+        super(ProjectLoginView.class);
+    }
 
-	@Override
-	protected void onGo(ComponentContainer navigationManager, ScreenData<?> data) {
-		((NavigationManager) navigationManager).navigateTo(view.getWidget());
-	}
-
+    @Override
+    protected void onGo(ComponentContainer navigationManager, ScreenData<?> data) {
+        ((NavigationManager) navigationManager).navigateTo(view.getWidget());
+    }
 }

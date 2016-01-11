@@ -16,91 +16,77 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.task;
 
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.mobile.module.project.events.TaskEvent;
+import com.esofthead.mycollab.common.i18n.DayI18nEnum;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.mobile.ui.DefaultPagedBeanList;
 import com.esofthead.mycollab.mobile.ui.UIConstants;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
+import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
-import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.vaadin.event.LayoutEvents;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
+import com.hp.gagawa.java.elements.A;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.CssLayout;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd.
- *
  * @since 4.5.0
- *
  */
-public class TaskListDisplay
-		extends
-		DefaultPagedBeanList<ProjectTaskService, TaskSearchCriteria, SimpleTask> {
+public class TaskListDisplay extends DefaultPagedBeanList<ProjectTaskService, TaskSearchCriteria, SimpleTask> {
+    private static final long serialVersionUID = 1469872908434812706L;
 
-	private static final long serialVersionUID = 1469872908434812706L;
+    public TaskListDisplay() {
+        super(ApplicationContextUtil.getSpringBean(ProjectTaskService.class), new TaskRowDisplayHandler());
+    }
 
-	public TaskListDisplay() {
-		super(ApplicationContextUtil.getSpringBean(ProjectTaskService.class),
-				new TaskRowDisplayHandler());
-		this.addStyleName("task-list");
-	}
+    private static class TaskRowDisplayHandler implements RowDisplayHandler<SimpleTask> {
 
-	private static class TaskRowDisplayHandler implements
-			RowDisplayHandler<SimpleTask> {
+        @Override
+        public Component generateRow(final SimpleTask task, int rowIndex) {
+            MVerticalLayout rowLayout = new MVerticalLayout().withWidth("100%");
 
-		@Override
-		public Component generateRow(final SimpleTask task, int rowIndex) {
-			VerticalLayout layout = new VerticalLayout();
-			layout.setWidth("100%");
-			layout.addStyleName("task-layout");
-			layout.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
+            A taskLink = new A(ProjectLinkBuilder.generateTaskPreviewFullLink(task.getTaskkey(), task
+                    .getProjectShortname())).appendText(String.format("[#%s] - %s", task.getTaskkey(), task.getTaskname()));
 
-				private static final long serialVersionUID = -8379115635911957713L;
+            CssLayout taskLbl = new CssLayout(new ELabel(taskLink.write(), ContentMode.HTML).withStyleName(UIConstants.TRUNCATE));
+            rowLayout.with(new MHorizontalLayout(new ELabel(ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK)
+                    .getHtml(), ContentMode.HTML).withWidthUndefined(), taskLbl).expand(taskLbl).withFullWidth());
 
-				@Override
-				public void layoutClick(LayoutEvents.LayoutClickEvent event) {
-					EventBusFactory.getInstance().post(new TaskEvent.GotoRead(this, task.getId()));
-				}
-			});
+            CssLayout metaInfoLayout = new CssLayout();
+            rowLayout.with(metaInfoLayout);
 
-			HorizontalLayout topRow = new HorizontalLayout();
-			topRow.setWidth("100%");
-			Label b = new Label(CurrentProjectVariables.getProject().getShortname() + "-" + task.getTaskkey());
-			b.setWidth("100%");
-			b.setStyleName("task-key");
-			topRow.addComponent(b);
-			topRow.setExpandRatio(b, 1.0f);
+            ELabel lastUpdatedTimeLbl = new ELabel(AppContext.getMessage(DayI18nEnum.LAST_UPDATED_ON, AppContext
+                    .formatPrettyTime((task.getLastupdatedtime())))).withStyleName(UIConstants.META_INFO);
+            metaInfoLayout.addComponent(lastUpdatedTimeLbl);
 
-			if (!task.getPriority().equals(AppContext.getMessage(TaskPriority.None))) {
-				Label priorityLbl = new Label(task.getPriority());
-				if (task.getPriority().equals(AppContext.getMessage(TaskPriority.High))) {
-					priorityLbl.setStyleName(UIConstants.LBL_HIGH);
-				} else if (task.getPriority().equals(AppContext.getMessage(TaskPriority.Urgent))) {
-					priorityLbl.setStyleName(UIConstants.LBL_URGENT);
-				} else if (task.getPriority().equals(AppContext.getMessage(TaskPriority.Medium))) {
-					priorityLbl.setStyleName(UIConstants.LBL_MEDIUM);
-				} else if (task.getPriority().equals(AppContext.getMessage(TaskPriority.Low))) {
-					priorityLbl.setStyleName(UIConstants.LBL_LOW);
-				}
-				priorityLbl.setWidthUndefined();
-				topRow.addComponent(priorityLbl);
-			}
-			layout.addComponent(topRow);
+            A assigneeLink = new A();
+            assigneeLink.setHref(ProjectLinkGenerator.generateProjectMemberFullLink(AppContext.getSiteUrl(),
+                    CurrentProjectVariables.getProjectId(), task.getAssignuser()));
+            assigneeLink.appendText(task.getAssignUserFullName());
 
-			Label taskName = new Label(task.getTaskname());
-			taskName.setWidth("100%");
-			taskName.setStyleName("task-name");
-			layout.addComponent(taskName);
+            ELabel assigneeLbl = new ELabel(AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE) + (task
+                    .getAssignUserFullName() == null ?
+                    ":&nbsp;N/A&nbsp;" : ":&nbsp;" + assigneeLink.write()), ContentMode.HTML).withStyleName(UIConstants.META_INFO);
+            assigneeLbl.addStyleName(UIConstants.TRUNCATE);
+            metaInfoLayout.addComponent(assigneeLbl);
 
-			return layout;
-		}
+            ELabel statusLbl = new ELabel(AppContext.getMessage(TaskI18nEnum.FORM_STATUS) + ": " + AppContext.getMessage
+                    (OptionI18nEnum.BugStatus.class, task.getStatus()), ContentMode.HTML).withStyleName(UIConstants.META_INFO);
+            metaInfoLayout.addComponent(statusLbl);
 
-	}
-
+            return rowLayout;
+        }
+    }
 }

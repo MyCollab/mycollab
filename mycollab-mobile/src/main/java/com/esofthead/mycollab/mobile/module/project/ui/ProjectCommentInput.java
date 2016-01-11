@@ -53,7 +53,7 @@ public class ProjectCommentInput extends VerticalLayout {
     private static final Logger LOG = LoggerFactory.getLogger(ProjectCommentInput.class.getName());
     private static final long serialVersionUID = 8118887310759503892L;
 
-    private TextArea commentInput;
+    private TextField commentInput;
 
     private String type;
     private String typeId;
@@ -72,6 +72,8 @@ public class ProjectCommentInput extends VerticalLayout {
 
     public ProjectCommentInput(ReloadableComponent component, String typeVal, Integer extraTypeIdVal) {
         resourceService = ApplicationContextUtil.getSpringBean(ResourceService.class);
+        this.setWidth("100%");
+        this.setStyleName("comment-input");
 
         type = typeVal;
         extraTypeId = extraTypeIdVal;
@@ -82,23 +84,17 @@ public class ProjectCommentInput extends VerticalLayout {
     }
 
     private void constructUI() {
-        this.setWidth("100%");
-
         statusWrapper = new CssLayout();
         statusWrapper.setWidth("100%");
         statusWrapper.setStyleName("upload-status-wrap");
         this.addComponent(statusWrapper);
 
-        MHorizontalLayout inputWrapper = new MHorizontalLayout().withWidth("100%").withStyleName("comment-box");
-        inputWrapper.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+        MHorizontalLayout inputWrapper = new MHorizontalLayout().withWidth("100%");
 
         this.prepareUploadField();
 
-        inputWrapper.addComponent(uploadField);
-
-        commentInput = new TextArea();
+        commentInput = new TextField();
         commentInput.setInputPrompt(AppContext.getMessage(GenericI18Enum.M_NOTE_INPUT_PROMPT));
-        commentInput.setSizeFull();
 
         Button postBtn = new Button(AppContext.getMessage(GenericI18Enum.M_BUTTON_SEND), new Button.ClickListener() {
             @Override
@@ -121,8 +117,7 @@ public class ProjectCommentInput extends VerticalLayout {
                     saveContentsToRepo(attachmentPath);
                 }
 
-                // save success, clear comment area and load list
-                // comments again
+                // save success, clear comment area and load list comments again
                 commentInput.setValue("");
                 statusWrapper.removeAllComponents();
                 component.reload();
@@ -130,8 +125,9 @@ public class ProjectCommentInput extends VerticalLayout {
         });
         postBtn.setStyleName("submit-btn");
         postBtn.setWidthUndefined();
-        inputWrapper.with(commentInput, postBtn).expand(commentInput);
+        inputWrapper.with(uploadField, commentInput, postBtn).expand(commentInput);
         this.addComponent(inputWrapper);
+        this.setExpandRatio(inputWrapper, 1.0f);
     }
 
     private void prepareUploadField() {
@@ -190,10 +186,8 @@ public class ProjectCommentInput extends VerticalLayout {
 
             @Override
             public OutputStream getOutputStream() {
-                MultiUpload.FileDetail next = uploadField.getPendingFileNames()
-                        .iterator().next();
-                return receiver.receiveUpload(next.getFileName(),
-                        next.getMimeType());
+                MultiUpload.FileDetail next = uploadField.getPendingFileNames().iterator().next();
+                return receiver.receiveUpload(next.getFileName(), next.getMimeType());
             }
 
             @Override

@@ -74,8 +74,6 @@ public class LeadSelectionView extends AbstractSelectionView<SimpleLead> {
                     LeadSelectionView.this.getNavigationManager().navigateBack();
                 }
             });
-            if (lead.getId() == null)
-                b.addStyleName("blank-item");
             return b;
         }
     }

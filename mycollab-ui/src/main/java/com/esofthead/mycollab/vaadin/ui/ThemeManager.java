@@ -47,27 +47,33 @@ public class ThemeManager {
         extraStyles.append(".v-touchkit-navbar-caption { width: " + (UIUtils.getBrowserWidth() - 144) + "px !important; }");
         if (accountTheme.getTopmenubg() != null) {
             extraStyles.append(".v-touchkit-navbar { background-color: #" + accountTheme.getTopmenubg() + "; }");
+            extraStyles.append(".project-dashboard .project-info-layout { background-color: "
+                    + ColorUtils.brighterColor("#" + accountTheme.getTopmenubg()) + "; }");
         }
 
         if (accountTheme.getTopmenutext() != null) {
             extraStyles.append(".v-touchkit-navbar { color: #" + accountTheme.getTopmenutext() + "; }");
             extraStyles.append(".v-touchkit-navbar .v-button { color: #" + accountTheme.getTopmenutext() + "; }");
             extraStyles.append(".v-touchkit-navbar .v-touchkit-navbutton { color: #" + accountTheme.getTopmenutext() + "; }");
-            extraStyles.append(".v-touchkit-navbutton:after { color: #" + accountTheme.getTopmenutext() + "; }");
+            extraStyles.append(".v-touchkit-navbar .v-touchkit-navbutton:after { color: #" + accountTheme.getTopmenutext() + "; }");
             extraStyles.append(".v-touchkit-navbar .v-navbar-quickmenu-button { color: #" + accountTheme.getTopmenutext() + "; }");
+
+            extraStyles.append(".project-dashboard .project-info-layout { color: #"
+                    + accountTheme.getTopmenutext() + "; }");
+
+            extraStyles.append(".project-dashboard .project-info-layout .meta-info { color: "
+                    + ColorUtils.darkerColor("#" + accountTheme.getTopmenutext()) + "; }");
         }
 
         if (accountTheme.getVtabsheetbg() != null) {
-            extraStyles.append(".project-dashboard .project-info-layout { background-color: #"
-                    + accountTheme.getVtabsheetbg() + "; }");
-
             extraStyles.append(".section { background-color: #" + accountTheme.getVtabsheetbg() + "; }");
+            extraStyles.append(".v-navbar-quickmenu-content { background-color: #" + accountTheme.getVtabsheetbg() + "; }");
+            extraStyles.append(".slidemenu .v-window-contents { background-color: #" + accountTheme.getVtabsheetbg() + "; }");
         }
 
         if (accountTheme.getVtabsheettext() != null) {
-            extraStyles.append(".project-dashboard .project-info-layout { color: #"
-                    + accountTheme.getVtabsheettext() + "; }");
-
+            extraStyles.append(".v-navbar-quickmenu-content .v-button { color: #" + accountTheme.getVtabsheettext() + "; }");
+            extraStyles.append(".slidemenu .v-window-contents .v-button { color: #" + accountTheme.getVtabsheettext() + " !important; }");
             extraStyles.append(".section { color: #" + accountTheme.getVtabsheettext() + "; }");
         }
 

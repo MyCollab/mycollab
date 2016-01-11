@@ -16,11 +16,15 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.settings;
 
+import com.esofthead.mycollab.mobile.ui.FormSectionBuilder;
 import com.esofthead.mycollab.mobile.ui.grid.GridFormLayoutHelper;
 import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.Field;
+import com.vaadin.ui.VerticalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -35,9 +39,7 @@ public class ProjectMemberFormLayoutFactory implements IFormLayoutFactory {
     public ComponentContainer getLayout() {
         VerticalLayout layout = new VerticalLayout();
         layout.setMargin(false);
-        Label header = new Label(AppContext.getMessage(ProjectMemberI18nEnum.FORM_INFORMATION_SECTION));
-        header.setStyleName("h2");
-        layout.addComponent(header);
+        layout.addComponent(FormSectionBuilder.build(AppContext.getMessage(ProjectMemberI18nEnum.FORM_INFORMATION_SECTION)));
 
         this.informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
         layout.addComponent(this.informationLayout.getLayout());

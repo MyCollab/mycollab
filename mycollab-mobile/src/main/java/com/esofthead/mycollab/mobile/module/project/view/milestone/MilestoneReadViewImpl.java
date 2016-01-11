@@ -18,9 +18,12 @@ package com.esofthead.mycollab.mobile.module.project.view.milestone;
 
 import com.esofthead.mycollab.mobile.module.project.ui.CommentNavigationButton;
 import com.esofthead.mycollab.mobile.module.project.ui.ProjectPreviewFormControlsGenerator;
+import com.esofthead.mycollab.mobile.module.project.view.issue.IssueNavigatorButton;
 import com.esofthead.mycollab.mobile.ui.AbstractPreviewItemComp;
 import com.esofthead.mycollab.mobile.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.mobile.ui.Section;
+import com.esofthead.mycollab.mobile.ui.FormSectionBuilder;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
@@ -35,7 +38,9 @@ import com.esofthead.mycollab.vaadin.ui.form.field.DateViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -44,12 +49,12 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  * @author MyCollab Ltd.
  * @since 4.5.2
  */
-
 @ViewComponent
 public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilestone> implements MilestoneReadView {
     private static final long serialVersionUID = -2466318105833801922L;
 
     private CommentNavigationButton relatedComments;
+    private IssueNavigatorButton issueNavigatorButton;
 
     @Override
     public HasPreviewFormHandlers<SimpleMilestone> getPreviewFormHandlers() {
@@ -59,6 +64,7 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
     @Override
     protected void afterPreviewItem() {
         relatedComments.displayTotalComments(beanItem.getId() + "");
+        issueNavigatorButton.displayTotalIssues(beanItem.getId());
     }
 
     @Override
@@ -96,9 +102,11 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
         MVerticalLayout toolbarLayout = new MVerticalLayout().withSpacing(false).withMargin(false);
         toolbarLayout.setDefaultComponentAlignment(Alignment.TOP_LEFT);
         relatedComments = new CommentNavigationButton(ProjectTypeConstants.MILESTONE);
-        Section section = new Section(FontAwesome.COMMENT, relatedComments);
-        toolbarLayout.addComponent(section);
-
+        Component commentSection = FormSectionBuilder.build(FontAwesome.COMMENT, relatedComments);
+        toolbarLayout.addComponent(commentSection);
+        issueNavigatorButton = new IssueNavigatorButton();
+        Component issueSection = FormSectionBuilder.build(FontAwesome.TICKET, issueNavigatorButton);
+        toolbarLayout.addComponent(issueSection);
         return toolbarLayout;
     }
 
@@ -116,7 +124,8 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
             } else if (propertyId.equals("enddate")) {
                 return new DateViewField(beanItem.getEnddate());
             } else if (propertyId.equals("owner")) {
-                return new DefaultViewField(beanItem.getOwnerFullName());
+                return new DefaultViewField(ProjectLinkBuilder.generateProjectMemberHtmlLink(CurrentProjectVariables
+                        .getProjectId(), beanItem.getOwner(), beanItem.getOwnerFullName(), beanItem.getOwnerAvatarId(), false), ContentMode.HTML);
             } else if (propertyId.equals("description")) {
                 return new RichTextViewField(beanItem.getDescription());
             } else if (propertyId.equals("status")) {

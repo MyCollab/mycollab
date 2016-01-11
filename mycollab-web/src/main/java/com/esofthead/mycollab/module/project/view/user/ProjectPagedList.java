@@ -78,10 +78,12 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
 
             linkIconFix.addComponent(prjHeaderLayout);
 
-            Label projectMemberBtn = new ELabel(FontAwesome.USERS.getHtml() + " " + project.getNumActiveMembers(),
-                    ContentMode.HTML).withDescription("Active members").withStyleName(UIConstants.LABEL_META_INFO);
             MHorizontalLayout metaInfo = new MHorizontalLayout();
             metaInfo.setDefaultComponentAlignment(Alignment.TOP_LEFT);
+
+            Label projectMemberBtn = new ELabel(FontAwesome.USERS.getHtml() + " " + project.getNumActiveMembers(),
+                    ContentMode.HTML).withDescription("Active members").withStyleName(UIConstants.LABEL_META_INFO);
+
             metaInfo.addComponent(projectMemberBtn);
             Label createdTimeLbl = new ELabel(FontAwesome.CLOCK_O.getHtml() + " " + AppContext.formatPrettyTime(project.getCreatedtime()),
                     ContentMode.HTML).withDescription("Created time").withStyleName(UIConstants.LABEL_META_INFO);

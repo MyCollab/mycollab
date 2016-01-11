@@ -73,8 +73,7 @@ public class BugTimeLogComp extends TimeLogComp<SimpleBug> {
 
     @Override
     protected boolean hasEditPermission() {
-        return CurrentProjectVariables
-                .canWrite(ProjectRolePermissionCollections.BUGS);
+        return CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS);
     }
 
     @Override

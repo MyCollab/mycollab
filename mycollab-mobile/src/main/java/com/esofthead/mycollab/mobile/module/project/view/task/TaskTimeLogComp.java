@@ -16,12 +16,15 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.task;
 
-import com.esofthead.mycollab.core.arguments.*;
+import com.esofthead.mycollab.core.arguments.BooleanSearchField;
+import com.esofthead.mycollab.core.arguments.NumberSearchField;
+import com.esofthead.mycollab.core.arguments.SetSearchField;
+import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.ui.TimeLogComp;
 import com.esofthead.mycollab.mobile.module.project.ui.TimeLogEditView;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ItemTimeLogging;
@@ -38,7 +41,6 @@ import java.util.Date;
  * @since 4.5.0
  */
 public class TaskTimeLogComp extends TimeLogComp<SimpleTask> {
-
     private static final long serialVersionUID = 8006444639083945910L;
 
     @Override
@@ -103,8 +105,7 @@ public class TaskTimeLogComp extends TimeLogComp<SimpleTask> {
 
         @Override
         protected void updateTimeRemain(double newValue) {
-            ProjectTaskService taskService = ApplicationContextUtil
-                    .getSpringBean(ProjectTaskService.class);
+            ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
             bean.setRemainestimate(newValue);
             taskService.updateWithSession(bean, AppContext.getUsername());
         }
@@ -113,8 +114,7 @@ public class TaskTimeLogComp extends TimeLogComp<SimpleTask> {
         protected ItemTimeLoggingSearchCriteria getItemSearchCriteria() {
             ItemTimeLoggingSearchCriteria searchCriteria = new ItemTimeLoggingSearchCriteria();
             searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-            searchCriteria.setType(new StringSearchField(
-                    ProjectTypeConstants.TASK));
+            searchCriteria.setType(new StringSearchField(ProjectTypeConstants.TASK));
             searchCriteria.setTypeId(new NumberSearchField(bean.getId()));
             return searchCriteria;
         }

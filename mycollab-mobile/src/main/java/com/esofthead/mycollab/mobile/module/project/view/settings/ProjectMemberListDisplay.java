@@ -16,15 +16,30 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.settings;
 
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.mobile.module.project.events.ProjectMemberEvent;
+import com.esofthead.mycollab.core.utils.NumberUtils;
 import com.esofthead.mycollab.mobile.ui.DefaultPagedBeanList;
+import com.esofthead.mycollab.mobile.ui.UIConstants;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
-import com.vaadin.ui.*;
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Span;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.Image;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.VerticalLayout;
+import org.vaadin.viritin.layouts.MCssLayout;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -35,57 +50,53 @@ public class ProjectMemberListDisplay extends DefaultPagedBeanList<ProjectMember
 
     public ProjectMemberListDisplay() {
         super(ApplicationContextUtil.getSpringBean(ProjectMemberService.class), new ProjectMemberRowDisplayHandler());
-        this.addStyleName("member-list");
     }
 
     private static class ProjectMemberRowDisplayHandler implements RowDisplayHandler<SimpleProjectMember> {
 
         @Override
         public Component generateRow(final SimpleProjectMember member, int rowIndex) {
-            HorizontalLayout mainLayout = new HorizontalLayout();
-            mainLayout.setWidth("100%");
-            mainLayout.setStyleName("member-row");
+            MHorizontalLayout mainLayout = new MHorizontalLayout().withMargin(true).withWidth("100%");
             Image memberAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(member.getMemberAvatarId(), 48);
-            mainLayout.addComponent(memberAvatar);
 
             VerticalLayout memberInfoLayout = new VerticalLayout();
-            memberInfoLayout.setWidth("100%");
-            memberInfoLayout.setStyleName("member-info");
-            Button memberDisplayName = new Button(member.getDisplayName());
-            memberDisplayName.setStyleName("display-name");
-            memberDisplayName.addClickListener(new Button.ClickListener() {
+            mainLayout.addStyleName(UIConstants.TRUNCATE);
+            mainLayout.with(memberAvatar, memberInfoLayout).expand(memberInfoLayout);
 
-                private static final long serialVersionUID = -1689918040423397195L;
+            A memberLink = new A(ProjectLinkBuilder.generateProjectMemberFullLink(CurrentProjectVariables
+                    .getProjectId(), member.getUsername())).appendText(member.getDisplayName());
+            Label memberLbl = new ELabel(memberLink.write(), ContentMode.HTML)
+                    .withWidthUndefined();
+            memberInfoLayout.addComponent(new MCssLayout(memberLbl).withFullWidth());
 
-                @Override
-                public void buttonClick(Button.ClickEvent event) {
-                    EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoRead(this, member.getUsername()));
-                }
-            });
-            memberInfoLayout.addComponent(memberDisplayName);
+            Label memberEmailLabel = new Label(String.format("<a href='mailto:%s'>%s</a>", member.getUsername(),
+                    member.getUsername()), ContentMode.HTML);
+            memberEmailLabel.addStyleName(UIConstants.META_INFO);
+            memberInfoLayout.addComponent(memberEmailLabel);
 
-            Label memberUserName = new Label(member.getUsername());
-            memberInfoLayout.addComponent(memberUserName);
+            ELabel memberSinceLabel = new ELabel(String.format("Member since: %s", AppContext.formatPrettyTime(member.getJoindate())))
+                    .withDescription(AppContext.formatDateTime(member.getJoindate()));
+            memberSinceLabel.addStyleName(UIConstants.META_INFO);
+            memberInfoLayout.addComponent(memberSinceLabel);
 
-            String bugStatus = member.getNumOpenBugs() + " open bug";
-            if (member.getNumOpenBugs() > 1) {
-                bugStatus += "s";
-            }
+            ELabel lastAccessTimeLbl = new ELabel(String.format("Logged in %s", AppContext.formatPrettyTime(member.getLastAccessTime())))
+                    .withDescription(AppContext.formatDateTime(member.getLastAccessTime()));
+            lastAccessTimeLbl.addStyleName(UIConstants.META_INFO);
+            memberInfoLayout.addComponent(lastAccessTimeLbl);
 
-            String taskStatus = member.getNumOpenTasks() + " open task";
-            if (member.getNumOpenTasks() > 1) {
-                taskStatus += "s";
-            }
+            String memberWorksInfo = ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK).getHtml() + " " + new Span
+                    ().appendText("" + member.getNumOpenTasks()).setTitle("Open tasks") + "  " + ProjectAssetsManager.getAsset
+                    (ProjectTypeConstants.BUG).getHtml() + " " + new Span().appendText("" + member.getNumOpenBugs())
+                    .setTitle("Open bugs") + " " +
+                    " " + FontAwesome.MONEY.getHtml() + " " + new Span().appendText("" + NumberUtils.roundDouble(2,
+                    member.getTotalBillableLogTime())).setTitle("Billable hours") + "  " + FontAwesome.GIFT.getHtml() +
+                    " " + new Span().appendText("" + NumberUtils.roundDouble(2, member.getTotalNonBillableLogTime())).setTitle("Non billable hours");
 
-            Label memberWorkStatus = new Label(bugStatus + " - " + taskStatus);
-            memberInfoLayout.addComponent(memberWorkStatus);
-
-            mainLayout.addComponent(memberInfoLayout);
-            mainLayout.setExpandRatio(memberInfoLayout, 1.0f);
+            Label memberWorkStatus = new ELabel(memberWorksInfo, ContentMode.HTML).withWidth("100%");
+            memberWorkStatus.addStyleName(UIConstants.META_INFO);
+            memberInfoLayout.addComponent(new MCssLayout(memberWorkStatus).withFullWidth());
 
             return mainLayout;
         }
-
     }
-
 }

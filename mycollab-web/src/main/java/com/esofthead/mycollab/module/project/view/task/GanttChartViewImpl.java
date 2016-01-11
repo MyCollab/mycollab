@@ -18,15 +18,12 @@ package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
-import com.esofthead.mycollab.module.project.i18n.TaskGroupI18nEnum;
 import com.esofthead.mycollab.module.project.view.ProjectView;
 import com.esofthead.mycollab.module.project.view.task.gantt.GanttExt;
 import com.esofthead.mycollab.module.project.view.task.gantt.GanttTreeTable;
-import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.ToggleButtonGroup;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UIUtils;
 import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
 import com.vaadin.data.Property;
@@ -102,7 +99,7 @@ public class GanttChartViewImpl extends AbstractLazyPageView implements GanttCha
         });
         advanceDisplayBtn.setWidth("50px");
         advanceDisplayBtn.setIcon(FontAwesome.SITEMAP);
-        advanceDisplayBtn.setDescription(AppContext.getMessage(TaskGroupI18nEnum.ADVANCED_VIEW_TOOLTIP));
+        advanceDisplayBtn.setDescription("Advance View");
 
         Button calendarBtn = new Button(null, new Button.ClickListener() {
             @Override

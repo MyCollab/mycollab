@@ -30,32 +30,32 @@ public abstract class AbstractSelectionCustomField<T, B> extends CustomField<T> 
     private static final long serialVersionUID = 1L;
 
     private Class<? extends AbstractSelectionView<B>> targetSelectionViewCls;
-    protected NavigationButton navButton = new NavigationButton();
+    protected NavigationButton navButton;
     protected B beanItem;
 
     public AbstractSelectionCustomField(Class<? extends AbstractSelectionView<B>> targetSelectionView) {
         this.targetSelectionViewCls = targetSelectionView;
-    }
-
-    @Override
-    protected Component initContent() {
         try {
             final AbstractSelectionView<B> selectionView = targetSelectionViewCls.newInstance();
             selectionView.setSelectionField(this);
+            navButton = new NavigationButton("Select", selectionView);
             navButton.setTargetView(selectionView);
             navButton.setWidth("100%");
             navButton.addClickListener(new NavigationButton.NavigationButtonClickListener() {
                 private static final long serialVersionUID = 7766417204333658973L;
 
                 @Override
-                public void buttonClick(
-                        NavigationButton.NavigationButtonClickEvent event) {
+                public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
                     selectionView.load();
                 }
             });
-            return navButton;
         } catch (SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException e) {
             throw new MyCollabException(e);
         }
+    }
+
+    @Override
+    protected Component initContent() {
+        return navButton;
     }
 }

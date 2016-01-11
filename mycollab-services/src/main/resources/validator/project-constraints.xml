@@ -97,14 +97,6 @@
         </field>
     </bean>
 
-    <bean class="TaskList" ignore-annotations="false">
-        <field name="name">
-            <constraint annotation="javax.validation.constraints.NotNull">
-                <message>Name must not be null</message>
-            </constraint>
-        </field>
-    </bean>
-
     <bean class="Risk" ignore-annotations="false">
         <field name="riskname">
             <constraint annotation="javax.validation.constraints.NotNull">

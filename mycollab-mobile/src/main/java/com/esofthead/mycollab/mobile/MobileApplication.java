@@ -146,39 +146,6 @@ public class MobileApplication extends MyCollabUI {
         this.getLoadingIndicatorConfiguration().setSecondDelay(300);
         this.getLoadingIndicatorConfiguration().setThirdDelay(500);
 
-//        final MobileNavigationManager manager = new MobileNavigationManager();
-//        manager.addNavigationListener(new NavigationManager.NavigationListener() {
-//            private static final long serialVersionUID = -2317588983851761998L;
-//
-//            @SuppressWarnings("unchecked")
-//            @Override
-//            public void navigate(NavigationEvent event) {
-//                NavigationManager currentNavigator = (NavigationManager) event.getSource();
-//                if (event.getDirection() == Direction.BACK) {
-//                    Component nextComponent = currentNavigator.getNextComponent();
-//                    ViewState currentState = MobileHistoryViewManager.peak();
-//
-//                    if (!(currentState instanceof NullViewState) && currentState.getPresenter().getView().equals(nextComponent)) {
-//                        ViewState viewState = MobileHistoryViewManager.pop();
-//                        while (!(viewState instanceof NullViewState)) {
-//                            if (viewState.getPresenter().getView().equals(currentNavigator.getCurrentComponent())) {
-//                                viewState.getPresenter().go(viewState.getContainer(), viewState.getParams());
-//                                break;
-//                            }
-//                            viewState = MobileHistoryViewManager.pop(false);
-//                        }
-//                    }
-//                    if (nextComponent instanceof NavigationView) {
-//                        ((NavigationView) nextComponent).setPreviousComponent(null);
-//                    }
-//                    currentNavigator.removeComponent(nextComponent);
-//                    currentNavigator.getState().setNextComponent(null);
-//
-//                }
-//            }
-//        });
-
-
         final NavigationManager manager = new NavigationManager();
         setContent(manager);
 

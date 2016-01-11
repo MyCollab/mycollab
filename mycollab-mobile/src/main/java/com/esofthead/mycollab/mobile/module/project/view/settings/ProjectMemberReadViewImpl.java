@@ -19,6 +19,8 @@ package com.esofthead.mycollab.mobile.module.project.view.settings;
 import com.esofthead.mycollab.mobile.module.project.ui.ProjectPreviewFormControlsGenerator;
 import com.esofthead.mycollab.mobile.ui.AbstractPreviewItemComp;
 import com.esofthead.mycollab.mobile.ui.AdvancedPreviewBeanForm;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
@@ -29,6 +31,8 @@ import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.EmailViewField;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 
@@ -90,7 +94,9 @@ public class ProjectMemberReadViewImpl extends AbstractPreviewItemComp<SimplePro
         @Override
         protected Field<?> onCreateField(Object propertyId) {
             if (propertyId.equals("memberFullName")) {
-                return new DefaultViewField(beanItem.getDisplayName());
+                return new DefaultViewField(ProjectLinkBuilder.generateProjectMemberHtmlLink(CurrentProjectVariables
+                        .getProjectId(), beanItem.getUsername(), beanItem.getDisplayName(), beanItem
+                        .getMemberAvatarId(), false), ContentMode.HTML);
             } else if (propertyId.equals("roleName")) {
                 String memberRole;
                 if (Boolean.TRUE.equals(beanItem.getIsadmin())) {
@@ -100,7 +106,7 @@ public class ProjectMemberReadViewImpl extends AbstractPreviewItemComp<SimplePro
                 }
                 return new DefaultViewField(memberRole);
             } else if (propertyId.equals("email")) {
-                return new DefaultViewField(beanItem.getEmail());
+                return new EmailViewField(beanItem.getEmail());
             }
             return null;
         }

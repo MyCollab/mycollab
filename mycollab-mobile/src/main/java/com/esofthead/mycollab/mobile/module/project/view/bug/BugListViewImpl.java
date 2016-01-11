@@ -18,7 +18,7 @@ package com.esofthead.mycollab.mobile.module.project.view.bug;
 
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.events.BugEvent;
-import com.esofthead.mycollab.mobile.module.project.ui.AbstractListViewComp;
+import com.esofthead.mycollab.mobile.module.project.ui.AbstractListPageView;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
@@ -35,7 +35,7 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  * @since 4.5.2
  */
 @ViewComponent
-public class BugListViewImpl extends AbstractListViewComp<BugSearchCriteria, SimpleBug> implements BugListView {
+public class BugListViewImpl extends AbstractListPageView<BugSearchCriteria, SimpleBug> implements BugListView {
     private static final long serialVersionUID = -7877935907665712184L;
 
     public BugListViewImpl() {

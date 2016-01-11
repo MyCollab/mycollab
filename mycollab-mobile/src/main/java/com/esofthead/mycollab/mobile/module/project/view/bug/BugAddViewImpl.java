@@ -21,6 +21,7 @@ import com.esofthead.mycollab.mobile.module.project.ui.form.field.ProjectFormAtt
 import com.esofthead.mycollab.mobile.module.project.view.milestone.MilestoneComboBox;
 import com.esofthead.mycollab.mobile.module.project.view.settings.ProjectMemberSelectionField;
 import com.esofthead.mycollab.mobile.ui.AbstractEditItemComp;
+import com.esofthead.mycollab.mobile.ui.FormSectionBuilder;
 import com.esofthead.mycollab.mobile.ui.grid.GridFormLayoutHelper;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
@@ -36,7 +37,6 @@ import com.vaadin.addon.touchkit.ui.DatePicker;
 import com.vaadin.addon.touchkit.ui.NumberField;
 import com.vaadin.data.Property;
 import com.vaadin.ui.*;
-import org.vaadin.viritin.layouts.MCssLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -143,8 +143,7 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements B
         public ComponentContainer getLayout() {
             final VerticalLayout layout = new VerticalLayout();
             layout.setMargin(false);
-            Label header = new Label(AppContext.getMessage(BugI18nEnum.M_FORM_READ_TITLE));
-            layout.addComponent(new MCssLayout(header).withStyleName("section"));
+            layout.addComponent(FormSectionBuilder.build(AppContext.getMessage(BugI18nEnum.M_FORM_READ_TITLE)));
 
             this.informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 10);
             layout.addComponent(this.informationLayout.getLayout());

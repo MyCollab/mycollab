@@ -18,6 +18,7 @@ package com.esofthead.mycollab.mobile.module.project.ui;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
+import com.esofthead.mycollab.mobile.ui.FormSectionBuilder;
 import com.esofthead.mycollab.mobile.ui.grid.GridFormLayoutHelper;
 import com.esofthead.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.esofthead.mycollab.module.project.service.ItemTimeLoggingService;
@@ -46,10 +47,8 @@ public abstract class TimeLogComp<V extends ValuedBean> extends VerticalLayout {
     public void displayTime(final V bean) {
         this.removeAllComponents();
 
-        MHorizontalLayout header = new MHorizontalLayout().withWidth("100%");
-        header.addStyleName("section");
         Label dateInfoHeader = new Label(AppContext.getMessage(TimeTrackingI18nEnum.SUB_INFO_TIME));
-        header.with(new ELabel(FontAwesome.CLOCK_O.getHtml(), ContentMode.HTML).withWidthUndefined(), dateInfoHeader).expand(dateInfoHeader);
+        MHorizontalLayout header = FormSectionBuilder.build(FontAwesome.CLOCK_O, dateInfoHeader);
 
         if (hasEditPermission()) {
             Button editBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), new Button.ClickListener() {

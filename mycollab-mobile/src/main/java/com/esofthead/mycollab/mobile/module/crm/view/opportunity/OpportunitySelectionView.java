@@ -74,8 +74,6 @@ public class OpportunitySelectionView extends AbstractSelectionView<SimpleOpport
                     OpportunitySelectionView.this.getNavigationManager().navigateBack();
                 }
             });
-            if (opportunity.getId() == null)
-                b.addStyleName("blank-item");
             return b;
         }
 

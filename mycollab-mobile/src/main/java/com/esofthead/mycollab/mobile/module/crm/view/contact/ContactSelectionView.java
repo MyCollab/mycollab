@@ -74,8 +74,6 @@ public class ContactSelectionView extends AbstractSelectionView<SimpleContact> {
                     ContactSelectionView.this.getNavigationManager().navigateBack();
                 }
             });
-            if (contact.getId() == null)
-                b.addStyleName("blank-item");
             return b;
         }
 

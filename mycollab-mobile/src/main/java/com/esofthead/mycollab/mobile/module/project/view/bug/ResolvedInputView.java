@@ -57,9 +57,7 @@ class ResolvedInputView extends AbstractMobilePageView {
     private final BugReadView callbackForm;
 
     ResolvedInputView(final BugReadView callbackForm, final SimpleBug bug) {
-        this.setCaption("Resolve ["
-                + CurrentProjectVariables.getProject().getShortname() + "-"
-                + bug.getBugkey() + "]");
+        this.setCaption("Resolve [" + CurrentProjectVariables.getProject().getShortname() + "-" + bug.getBugkey() + "]");
         this.bug = bug;
         this.callbackForm = callbackForm;
 

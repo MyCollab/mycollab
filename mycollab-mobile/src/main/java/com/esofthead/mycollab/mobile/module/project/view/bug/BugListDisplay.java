@@ -74,7 +74,6 @@ public class BugListDisplay extends DefaultPagedBeanList<BugService, BugSearchCr
             A assigneeLink = new A();
             assigneeLink.setHref(ProjectLinkGenerator.generateProjectMemberFullLink(AppContext.getSiteUrl(),
                     CurrentProjectVariables.getProjectId(), bug.getAssignuser()));
-            assigneeLink.setCSSClass("bug-assignee");
             assigneeLink.appendText(bug.getAssignuserFullName());
 
             ELabel assigneeLbl = new ELabel(AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE) + (bug

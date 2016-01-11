@@ -23,13 +23,11 @@ import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.mobile.ui.AbstractMobilePageView;
 import com.esofthead.mycollab.mobile.ui.MobileAttachmentUtils;
+import com.esofthead.mycollab.mobile.ui.UIConstants;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.BeanList;
-import com.esofthead.mycollab.vaadin.ui.ReloadableComponent;
-import com.esofthead.mycollab.vaadin.ui.SafeHtmlLabel;
-import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.vaadin.ui.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -48,11 +46,6 @@ public class ProjectCommentListView extends AbstractMobilePageView implements Re
     private String typeId;
     private Integer numComments;
     private ProjectCommentInput commentBox;
-
-    @Deprecated
-    public ProjectCommentListView(String type, Integer extraTypeId, boolean isDisplayCommentInput) {
-        this(type, null, extraTypeId, isDisplayCommentInput);
-    }
 
     public ProjectCommentListView(String type, String typeId, Integer extraTypeId, boolean isDisplayCommentInput) {
         this.addStyleName("comment-list");
@@ -81,19 +74,6 @@ public class ProjectCommentListView extends AbstractMobilePageView implements Re
         this.setCaption(AppContext.getMessage(GenericI18Enum.TAB_COMMENT, numComments));
     }
 
-    public int getNumComments() {
-        return numComments;
-    }
-
-    @Deprecated
-    public void loadComments(final String typeId) {
-        this.typeId = typeId;
-        if (commentBox != null) {
-            commentBox.setTypeAndId(typeId);
-        }
-        displayCommentList();
-    }
-
     @Override
     public void reload() {
         displayCommentList();
@@ -114,18 +94,16 @@ public class ProjectCommentListView extends AbstractMobilePageView implements Re
             rightCol.setWidth("100%");
             rightCol.setStyleName("right-col");
 
-            HorizontalLayout metadataRow = new HorizontalLayout();
-            metadataRow.setWidth("100%");
-            Label userNameLbl = new Label(comment.getOwnerFullName());
-            userNameLbl.setStyleName("user-name");
-            metadataRow.addComponent(userNameLbl);
-            metadataRow.setExpandRatio(userNameLbl, 1.0f);
+            MHorizontalLayout metadataRow = new MHorizontalLayout().withFullWidth();
+            ELabel userNameLbl = new ELabel(comment.getOwnerFullName()).withStyleName(UIConstants.META_INFO);
+            CssLayout userNameWrap = new CssLayout(userNameLbl);
 
-            Label commentTimePost = new Label(AppContext.formatPrettyTime(comment.getCreatedtime()));
-            commentTimePost.setStyleName("time-post");
-            commentTimePost.setWidthUndefined();
-            metadataRow.addComponent(commentTimePost);
+            ELabel commentTimePost = new ELabel(AppContext.formatPrettyTime(comment.getCreatedtime())).withStyleName
+                    (UIConstants.META_INFO).withWidthUndefined();
+            metadataRow.with(userNameWrap, commentTimePost).withAlign(commentTimePost, Alignment.TOP_RIGHT).expand
+                    (userNameWrap);
             rightCol.addComponent(metadataRow);
+
 
             Label commentContent = new SafeHtmlLabel(comment.getComment());
             commentContent.setStyleName("comment-content");
@@ -148,10 +126,5 @@ public class ProjectCommentListView extends AbstractMobilePageView implements Re
             commentBlock.setWidth("100%");
             return commentBlock;
         }
-
-    }
-
-    public ProjectCommentInput getCommentBox() {
-        return this.commentBox;
     }
 }

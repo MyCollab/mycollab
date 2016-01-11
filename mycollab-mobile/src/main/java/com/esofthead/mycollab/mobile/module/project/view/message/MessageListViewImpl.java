@@ -18,7 +18,7 @@ package com.esofthead.mycollab.mobile.module.project.view.message;
 
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.events.MessageEvent;
-import com.esofthead.mycollab.mobile.module.project.ui.AbstractListViewComp;
+import com.esofthead.mycollab.mobile.module.project.ui.AbstractListPageView;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
 import com.esofthead.mycollab.module.project.domain.criteria.MessageSearchCriteria;
@@ -31,8 +31,12 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
+/**
+ * @author MyCollab Ltd
+ * @since 4.0.0
+ */
 @ViewComponent
-public class MessageListViewImpl extends AbstractListViewComp<MessageSearchCriteria, SimpleMessage> implements MessageListView {
+public class MessageListViewImpl extends AbstractListPageView<MessageSearchCriteria, SimpleMessage> implements MessageListView {
     private static final long serialVersionUID = -5340014066758050437L;
 
     public MessageListViewImpl() {

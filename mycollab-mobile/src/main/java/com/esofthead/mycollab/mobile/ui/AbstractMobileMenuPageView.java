@@ -23,25 +23,29 @@ import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewEvent;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
-import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
+import org.vaadin.thomas.slidemenu.SlideMenuView;
 
 import java.io.Serializable;
 
 /**
- * @author MyCollab Ltd
- * @since 5.2.5
+ * @author MyCollab Ltd.
+ * @since 1.0
  */
-public abstract class AbstractMobilePageView extends NavigationView implements PageView, Serializable {
+public abstract class AbstractMobileMenuPageView extends SlideMenuView implements PageView, Serializable {
     private static final long serialVersionUID = 1L;
 
-    public AbstractMobilePageView() {
+    public AbstractMobileMenuPageView() {
         super();
         if (this.getLeftComponent() != null && this.getLeftComponent() instanceof NavigationButton) {
             this.getLeftComponent().setCaption(AppContext.getMessage(GenericI18Enum.M_BUTTON_BACK));
         }
+
+        buildNavigateMenu();
     }
+
+    protected abstract void buildNavigateMenu();
 
     @Override
     public ComponentContainer getWidget() {

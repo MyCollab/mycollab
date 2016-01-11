@@ -18,26 +18,28 @@ package com.esofthead.mycollab.mobile.module.project.view.settings;
 
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.events.ProjectMemberEvent;
-import com.esofthead.mycollab.mobile.module.project.ui.AbstractListViewComp;
+import com.esofthead.mycollab.mobile.module.project.ui.AbstractListPageView;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
 import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.5.2
  */
 @ViewComponent
-public class ProjectMemberListViewImpl extends AbstractListViewComp<ProjectMemberSearchCriteria, SimpleProjectMember> implements ProjectMemberListView {
+public class ProjectMemberListViewImpl extends AbstractListPageView<ProjectMemberSearchCriteria, SimpleProjectMember>
+        implements ProjectMemberListView {
     private static final long serialVersionUID = 3008732621100597514L;
 
     public ProjectMemberListViewImpl() {
-        this.addStyleName("member-list-view");
         this.setCaption(AppContext.getMessage(ProjectMemberI18nEnum.VIEW_LIST_TITLE));
     }
 
@@ -48,14 +50,17 @@ public class ProjectMemberListViewImpl extends AbstractListViewComp<ProjectMembe
 
     @Override
     protected Component buildRightComponent() {
-        Button inviteMemberBtn = new Button("", new Button.ClickListener() {
+        NavigationBarQuickMenu menu = new NavigationBarQuickMenu();
+        menu.setButtonCaption("...");
+        MVerticalLayout content = new MVerticalLayout();
+        content.with(new Button(AppContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEES), new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(this, null));
             }
-        });
-        inviteMemberBtn.setStyleName("add-btn");
-        return inviteMemberBtn;
+        }));
+        menu.setContent(content);
+        return menu;
     }
 
 }

@@ -21,7 +21,6 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
-import com.esofthead.mycollab.module.project.i18n.TaskGroupI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.ProjectListNoItemView;
@@ -30,17 +29,13 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.UI;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 4.1.2
- *
  */
-
 @ViewComponent
-public class TaskGroupNoItemView extends ProjectListNoItemView {
+public class TaskNoItemView extends ProjectListNoItemView {
     private static final long serialVersionUID = -3777541771073533444L;
 
     @Override
@@ -50,12 +45,12 @@ public class TaskGroupNoItemView extends ProjectListNoItemView {
 
     @Override
     protected String viewTitle() {
-        return AppContext.getMessage(TaskGroupI18nEnum.NO_ITEM_VIEW_TITLE);
+        return AppContext.getMessage(TaskI18nEnum.NO_ITEM_VIEW_TITLE);
     }
 
     @Override
     protected String viewHint() {
-        return AppContext.getMessage(TaskGroupI18nEnum.NO_ITEM_VIEW_HINT);
+        return AppContext.getMessage(TaskI18nEnum.NO_ITEM_VIEW_HINT);
     }
 
     @Override
@@ -70,7 +65,7 @@ public class TaskGroupNoItemView extends ProjectListNoItemView {
 
             @Override
             public void buttonClick(final ClickEvent event) {
-                EventBusFactory.getInstance().post(new TaskEvent.GotoAdd(TaskGroupNoItemView.this, null));
+                EventBusFactory.getInstance().post(new TaskEvent.GotoAdd(TaskNoItemView.this, null));
             }
         };
     }

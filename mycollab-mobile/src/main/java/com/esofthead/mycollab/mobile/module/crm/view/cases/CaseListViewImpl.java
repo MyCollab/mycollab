@@ -18,7 +18,7 @@ package com.esofthead.mycollab.mobile.module.crm.view.cases;
 
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.CaseEvent;
-import com.esofthead.mycollab.mobile.ui.AbstractListViewComp;
+import com.esofthead.mycollab.mobile.module.crm.ui.AbstractListViewComp;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;

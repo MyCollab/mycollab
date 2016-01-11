@@ -246,8 +246,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
         block.addComponent(new Label(StringUtils.trimHtmlTags(resource.getDescription())));
 
         Label lastUpdateInfo = new ELabel(AppContext.getMessage(Page18InEnum.LABEL_LAST_UPDATE,
-                ProjectLinkBuilder.generateProjectMemberHtmlLink(
-                        CurrentProjectVariables.getProjectId(), resource.getCreatedUser()),
+                ProjectLinkBuilder.generateProjectMemberHtmlLink(CurrentProjectVariables.getProjectId(), resource.getCreatedUser(), true),
                 AppContext.formatPrettyTime(resource.getCreatedTime()
                         .getTime())), ContentMode.HTML).withDescription(AppContext.formatDateTime(resource.getCreatedTime().getTime()));
         lastUpdateInfo.addStyleName(UIConstants.LABEL_META_INFO);
@@ -330,7 +329,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 
         Label lastUpdateInfo = new ELabel(AppContext.getMessage(
                 Page18InEnum.LABEL_LAST_UPDATE, ProjectLinkBuilder.generateProjectMemberHtmlLink(
-                        CurrentProjectVariables.getProjectId(), resource.getLastUpdatedUser()),
+                        CurrentProjectVariables.getProjectId(), resource.getLastUpdatedUser(), true),
                 AppContext.formatPrettyTime(resource.getLastUpdatedTime()
                         .getTime())), ContentMode.HTML).withDescription(AppContext.formatDateTime(resource.getLastUpdatedTime().getTime()));
         lastUpdateInfo.addStyleName(UIConstants.LABEL_META_INFO);

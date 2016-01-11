@@ -20,7 +20,7 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.events.MilestoneEvent;
-import com.esofthead.mycollab.mobile.module.project.ui.AbstractListViewComp;
+import com.esofthead.mycollab.mobile.module.project.ui.AbstractListPageView;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.esofthead.mycollab.mobile.ui.UIConstants;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -42,7 +42,7 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  * @since 4.5.2
  */
 @ViewComponent
-public class MilestoneListViewImpl extends AbstractListViewComp<MilestoneSearchCriteria, SimpleMilestone> implements MilestoneListView {
+public class MilestoneListViewImpl extends AbstractListPageView<MilestoneSearchCriteria, SimpleMilestone> implements MilestoneListView {
     private static final long serialVersionUID = 2799191640785637556L;
 
     private Button closedMilestoneBtn, inProgressMilestoneBtn, futureMilestoneBtn;

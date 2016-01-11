@@ -18,7 +18,7 @@ package com.esofthead.mycollab.mobile.module.crm.view.contact;
 
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.ContactEvent;
-import com.esofthead.mycollab.mobile.ui.AbstractListViewComp;
+import com.esofthead.mycollab.mobile.module.crm.ui.AbstractListViewComp;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;

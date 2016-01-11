@@ -74,8 +74,6 @@ public class CaseSelectionView extends AbstractSelectionView<SimpleCase> {
                     CaseSelectionView.this.getNavigationManager().navigateBack();
                 }
             });
-            if (cases.getId() == null)
-                b.addStyleName("blank-item");
             return b;
         }
     }

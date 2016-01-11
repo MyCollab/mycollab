@@ -18,6 +18,7 @@ package com.esofthead.mycollab.mobile.module.project.view.milestone;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.mobile.ui.AbstractEditItemComp;
+import com.esofthead.mycollab.mobile.ui.FormSectionBuilder;
 import com.esofthead.mycollab.mobile.ui.grid.GridFormLayoutHelper;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
@@ -28,15 +29,12 @@ import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 /**
  * @author MyCollab Ltd.
- *
  * @since 4.5.2
  */
-
 @ViewComponent
 public class MilestoneAddViewImpl extends AbstractEditItemComp<SimpleMilestone> implements MilestoneAddView {
     private static final long serialVersionUID = 5003180627691878220L;
@@ -65,13 +63,11 @@ public class MilestoneAddViewImpl extends AbstractEditItemComp<SimpleMilestone> 
         public ComponentContainer getLayout() {
             final VerticalLayout layout = new VerticalLayout();
             layout.setMargin(false);
-            Label header = new Label(AppContext.getMessage(MilestoneI18nEnum.M_FORM_READ_TITLE));
-            header.setStyleName("h2");
-            layout.addComponent(header);
+            layout.addComponent(FormSectionBuilder.build(AppContext.getMessage(MilestoneI18nEnum.M_FORM_READ_TITLE)));
 
-            this.informationLayout =  GridFormLayoutHelper.defaultFormLayoutHelper(1, 6);
+            this.informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 6);
             layout.addComponent(this.informationLayout.getLayout());
-            layout.setComponentAlignment(this.informationLayout.getLayout(), Alignment.BOTTOM_CENTER);
+            layout.setComponentAlignment(this.informationLayout.getLayout(), Alignment.TOP_LEFT);
             return layout;
         }
 

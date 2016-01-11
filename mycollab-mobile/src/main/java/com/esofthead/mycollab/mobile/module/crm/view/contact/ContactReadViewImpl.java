@@ -21,9 +21,7 @@ import com.esofthead.mycollab.mobile.form.view.DynaFormLayout;
 import com.esofthead.mycollab.mobile.module.crm.events.ContactEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmPreviewFormControlsGenerator;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmRelatedItemsScreenData;
-import com.esofthead.mycollab.mobile.module.crm.ui.NotesList;
 import com.esofthead.mycollab.mobile.module.crm.view.activity.ActivityRelatedItemView;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.mobile.ui.AbstractPreviewItemComp;
 import com.esofthead.mycollab.mobile.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.mobile.ui.IconConstants;
@@ -42,6 +40,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.vaadin.ui.Alignment;
@@ -60,7 +59,6 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact> 
 
     protected ContactRelatedOpportunityView associateOpportunityList;
     protected ActivityRelatedItemView associateActivityList;
-    protected NotesList noteListItems;
 
     @Override
     protected ComponentContainer createBottomPanel() {
@@ -88,22 +86,6 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact> 
         });
 
         toolbarLayout.addComponent(relatedOpportunities);
-
-        Button relatedNotes = new Button();
-        relatedNotes.setCaption("<span aria-hidden=\"true\" data-icon=\""
-                + IconConstants.CRM_DOCUMENT
-                + "\"></span><div class=\"screen-reader-text\">"
-                + "Notes" + "</div>");
-        relatedNotes.setHtmlContentAllowed(true);
-        relatedNotes.addClickListener(new Button.ClickListener() {
-            private static final long serialVersionUID = 7589415773039335559L;
-
-            @Override
-            public void buttonClick(ClickEvent evt) {
-                EventBusFactory.getInstance().post(new ContactEvent.GoToRelatedItems(this, new CrmRelatedItemsScreenData(noteListItems)));
-            }
-        });
-        toolbarLayout.addComponent(relatedNotes);
 
         Button relatedActivities = new Button();
         relatedActivities.setCaption("<span aria-hidden=\"true\" data-icon=\""
@@ -145,14 +127,12 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact> 
     protected void initRelatedComponents() {
         associateActivityList = new ActivityRelatedItemView(CrmTypeConstants.CONTACT);
         associateOpportunityList = new ContactRelatedOpportunityView();
-        noteListItems = new NotesList(AppContext.getMessage(CrmCommonI18nEnum.M_TITLE_RELATED_NOTES));
     }
 
     @Override
     protected void afterPreviewItem() {
         associateActivityList.displayActivity(beanItem.getId());
         associateOpportunityList.displayOpportunities(beanItem);
-        noteListItems.showNotes(CrmTypeConstants.CONTACT, beanItem.getId());
     }
 
     @Override

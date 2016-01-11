@@ -21,7 +21,6 @@ import com.esofthead.mycollab.mobile.form.view.DynaFormLayout;
 import com.esofthead.mycollab.mobile.module.crm.events.CaseEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmPreviewFormControlsGenerator;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmRelatedItemsScreenData;
-import com.esofthead.mycollab.mobile.module.crm.ui.NotesList;
 import com.esofthead.mycollab.mobile.module.crm.view.activity.ActivityRelatedItemView;
 import com.esofthead.mycollab.mobile.ui.AbstractPreviewItemComp;
 import com.esofthead.mycollab.mobile.ui.AdvancedPreviewBeanForm;
@@ -50,11 +49,8 @@ import com.vaadin.ui.HorizontalLayout;
  */
 
 @ViewComponent
-public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase>
-        implements CaseReadView {
+public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase> implements CaseReadView {
     private static final long serialVersionUID = -983883973494397334L;
-
-    protected NotesList associateNotes;
     protected ActivityRelatedItemView associateActivities;
     protected CaseRelatedContactView associateContacts;
 
@@ -65,15 +61,12 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase>
 
     @Override
     protected void initRelatedComponents() {
-        associateNotes = new NotesList(
-                AppContext.getMessage(CrmCommonI18nEnum.M_TITLE_RELATED_NOTES));
         associateActivities = new ActivityRelatedItemView(CrmTypeConstants.CASE);
         associateContacts = new CaseRelatedContactView();
     }
 
     @Override
     protected void afterPreviewItem() {
-        associateNotes.showNotes(CrmTypeConstants.CASE, beanItem.getId());
         associateActivities.displayActivity(beanItem.getId());
         associateContacts.displayContacts(beanItem);
     }
@@ -127,24 +120,6 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase>
             }
         });
         toolbarLayout.addComponent(relatedContacts);
-
-        Button relatedNotes = new Button();
-        relatedNotes.setCaption("<span aria-hidden=\"true\" data-icon=\""
-                + IconConstants.CRM_DOCUMENT
-                + "\"></span><div class=\"screen-reader-text\">"
-                + "Notes" + "</div>");
-        relatedNotes.setHtmlContentAllowed(true);
-        relatedNotes.addClickListener(new Button.ClickListener() {
-            private static final long serialVersionUID = 7589415773039335559L;
-
-            @Override
-            public void buttonClick(ClickEvent arg0) {
-                EventBusFactory.getInstance().post(
-                        new CaseEvent.GoToRelatedItems(this,
-                                new CrmRelatedItemsScreenData(associateNotes)));
-            }
-        });
-        toolbarLayout.addComponent(relatedNotes);
 
         Button relatedActivities = new Button();
         relatedActivities.setCaption("<span aria-hidden=\"true\" data-icon=\""

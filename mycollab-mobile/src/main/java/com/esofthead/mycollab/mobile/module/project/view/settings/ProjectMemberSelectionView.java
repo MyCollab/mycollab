@@ -27,6 +27,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.vaadin.event.LayoutEvents;
 import com.vaadin.ui.*;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -43,7 +44,7 @@ public class ProjectMemberSelectionView extends AbstractSelectionView<SimpleProj
     public ProjectMemberSelectionView() {
         super();
         createUI();
-        this.setCaption(AppContext.getMessage(ProjectMemberI18nEnum.M_VIEW_MEMBER_LOOKUP));
+        this.setCaption("Select");
     }
 
     private void createUI() {
@@ -67,22 +68,17 @@ public class ProjectMemberSelectionView extends AbstractSelectionView<SimpleProj
 
         @Override
         public Component generateRow(final SimpleProjectMember member, int rowIndex) {
-            HorizontalLayout mainLayout = new HorizontalLayout();
-            mainLayout.setWidth("100%");
-            mainLayout.setStyleName("member-row");
+            MHorizontalLayout mainLayout = new MHorizontalLayout().withWidth("100%");
             mainLayout.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
-
                 private static final long serialVersionUID = -6886497684142268213L;
 
                 @Override
-                public void layoutClick(
-                        LayoutEvents.LayoutClickEvent event) {
+                public void layoutClick(LayoutEvents.LayoutClickEvent event) {
                     selectionField.fireValueChange(member);
-                    ProjectMemberSelectionView.this.getNavigationManager().navigateBack();
+                    getNavigationManager().navigateBack();
                 }
             });
             if (member.getId() == null) {
-                mainLayout.addStyleName("blank-item");
                 return mainLayout;
             }
             Image memberAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(

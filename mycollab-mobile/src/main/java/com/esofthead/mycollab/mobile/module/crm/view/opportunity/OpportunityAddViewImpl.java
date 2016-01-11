@@ -26,6 +26,10 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 
+/**
+ * @author MyCollab Ltd
+ * @since 4.0.0
+ */
 @ViewComponent
 public class OpportunityAddViewImpl extends AbstractEditItemComp<SimpleOpportunity> implements OpportunityAddView {
     private static final long serialVersionUID = -7666059081043542816L;

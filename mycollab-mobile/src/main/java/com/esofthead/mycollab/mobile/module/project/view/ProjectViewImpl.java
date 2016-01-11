@@ -16,16 +16,15 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view;
 
-import com.esofthead.mycollab.mobile.ui.AbstractMobilePageView;
+import com.esofthead.mycollab.mobile.module.project.ui.ProjectMobileMenuPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.4.0
  */
-
 @ViewComponent
-public class ProjectViewImpl extends AbstractMobilePageView implements ProjectView {
-	private static final long serialVersionUID = -5411890906862175950L;
+public class ProjectViewImpl extends ProjectMobileMenuPageView implements ProjectView {
+    private static final long serialVersionUID = -5411890906862175950L;
 
 }

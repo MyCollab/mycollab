@@ -36,9 +36,9 @@ public abstract class AbstractMobilePresenter<V extends PageView> extends Abstra
 
     @Override
     protected void onGo(ComponentContainer navigator, ScreenData<?> data) {
-        if (navigator instanceof NavigationManager)
+        if (navigator instanceof NavigationManager) {
             ((NavigationManager) navigator).navigateTo(view.getWidget());
-        else {
+        } else {
             navigator.removeAllComponents();
             navigator.addComponent(view.getWidget());
         }

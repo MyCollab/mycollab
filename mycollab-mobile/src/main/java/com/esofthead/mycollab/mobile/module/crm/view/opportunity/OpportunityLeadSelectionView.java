@@ -15,7 +15,7 @@
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
 /**
- * 
+ *
  */
 package com.esofthead.mycollab.mobile.module.crm.view.opportunity;
 
@@ -32,48 +32,39 @@ import com.vaadin.ui.Component;
 
 /**
  * @author MyCollab Inc.
- * 
  * @since 4.3.1
  */
-public class OpportunityLeadSelectionView extends
-		AbstractRelatedItemSelectionView<SimpleLead, LeadSearchCriteria> {
+public class OpportunityLeadSelectionView extends AbstractRelatedItemSelectionView<SimpleLead, LeadSearchCriteria> {
+    private static final long serialVersionUID = 10923261543446355L;
 
-	private static final long serialVersionUID = 10923261543446355L;
+    public OpportunityLeadSelectionView(AbstractRelatedListView<SimpleLead, LeadSearchCriteria> relatedListView) {
+        super(AppContext.getMessage(LeadI18nEnum.M_TITLE_SELECT_LEADS), relatedListView);
+    }
 
-	public OpportunityLeadSelectionView(
-			AbstractRelatedListView<SimpleLead, LeadSearchCriteria> relatedListView) {
-		super(AppContext.getMessage(LeadI18nEnum.M_TITLE_SELECT_LEADS),
-				relatedListView);
-	}
+    @Override
+    protected void initUI() {
+        this.itemList = new LeadListDisplay();
+        this.itemList.setRowDisplayHandler(new AbstractPagedBeanList.RowDisplayHandler<SimpleLead>() {
 
-	@Override
-	protected void initUI() {
-		this.itemList = new LeadListDisplay();
-		this.itemList
-				.setRowDisplayHandler(new AbstractPagedBeanList.RowDisplayHandler<SimpleLead>() {
+            @Override
+            public Component generateRow(final SimpleLead obj,
+                                         int rowIndex) {
+                final SelectableButton b = new SelectableButton(obj.getLeadName());
+                if (selections.contains(obj)) b.select();
+                b.addClickListener(new Button.ClickListener() {
 
-					@Override
-					public Component generateRow(final SimpleLead obj,
-							int rowIndex) {
-						final SelectableButton b = new SelectableButton(obj
-								.getLeadName());
-						if (selections.contains(obj))
-							b.select();
-						b.addClickListener(new Button.ClickListener() {
+                    private static final long serialVersionUID = -9086838156625853470L;
 
-							private static final long serialVersionUID = -9086838156625853470L;
-
-							@Override
-							public void buttonClick(Button.ClickEvent event) {
-								if (b.isSelected())
-									selections.add(obj);
-								else
-									selections.remove(obj);
-							}
-						});
-						return b;
-					}
-				});
-	}
-
+                    @Override
+                    public void buttonClick(Button.ClickEvent event) {
+                        if (b.isSelected())
+                            selections.add(obj);
+                        else
+                            selections.remove(obj);
+                    }
+                });
+                return b;
+            }
+        });
+    }
 }

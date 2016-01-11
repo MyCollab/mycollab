@@ -18,7 +18,7 @@ package com.esofthead.mycollab.mobile.module.crm.view.lead;
 
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.LeadEvent;
-import com.esofthead.mycollab.mobile.ui.AbstractListViewComp;
+import com.esofthead.mycollab.mobile.module.crm.ui.AbstractListViewComp;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
@@ -29,44 +29,35 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
-
 @ViewComponent
-public class LeadListViewImpl extends
-		AbstractListViewComp<LeadSearchCriteria, SimpleLead> implements
-		LeadListView {
-	private static final long serialVersionUID = -5311139413938817084L;
+public class LeadListViewImpl extends AbstractListViewComp<LeadSearchCriteria, SimpleLead> implements LeadListView {
+    private static final long serialVersionUID = -5311139413938817084L;
 
-	public LeadListViewImpl() {
-		super();
+    public LeadListViewImpl() {
+        setCaption(AppContext.getMessage(LeadI18nEnum.VIEW_LIST_TITLE));
+    }
 
-		setCaption(AppContext.getMessage(LeadI18nEnum.VIEW_LIST_TITLE));
-	}
+    @Override
+    protected AbstractPagedBeanList<LeadSearchCriteria, SimpleLead> createBeanTable() {
+        return new LeadListDisplay();
+    }
 
-	@Override
-	protected AbstractPagedBeanList<LeadSearchCriteria, SimpleLead> createBeanTable() {
-		LeadListDisplay leadListDisplay = new LeadListDisplay();
-		return leadListDisplay;
-	}
+    @Override
+    protected Component createRightComponent() {
+        Button addLead = new Button();
+        addLead.addClickListener(new Button.ClickListener() {
+            private static final long serialVersionUID = -6024437571619598638L;
 
-	@Override
-	protected Component createRightComponent() {
-		Button addLead = new Button();
-		addLead.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = -6024437571619598638L;
-
-			@Override
-			public void buttonClick(Button.ClickEvent event) {
-				EventBusFactory.getInstance().post(
-						new LeadEvent.GotoAdd(this, null));
-			}
-		});
-		addLead.setStyleName("add-btn");
-		return addLead;
-	}
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                EventBusFactory.getInstance().post(new LeadEvent.GotoAdd(this, null));
+            }
+        });
+        addLead.setStyleName("add-btn");
+        return addLead;
+    }
 
 }

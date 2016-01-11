@@ -21,16 +21,24 @@ import com.esofthead.mycollab.vaadin.ui.UIUtils;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.Label;
+import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
  * @author MyCollab Ltd
  * @since 5.2.5
  */
-public class Section extends MHorizontalLayout {
-    public Section(FontAwesome icon, Component comp) {
-        this.setStyleName("section");
-        this.with(new ELabel(icon.getHtml(), ContentMode.HTML).withWidthUndefined(), comp).expand(comp);
-        this.setWidth(UIUtils.getBrowserWidthInPixels());
+public class FormSectionBuilder {
+    public static final MHorizontalLayout build(FontAwesome icon, Component comp) {
+        MHorizontalLayout layout = new MHorizontalLayout().withStyleName(UIConstants.FORM_SECTION);
+        layout.with(new ELabel(icon.getHtml(), ContentMode.HTML).withWidthUndefined(), comp).expand(comp);
+        layout.setWidth(UIUtils.getBrowserWidthInPixels());
+        return layout;
+    }
+
+    public static final MCssLayout build(String title) {
+        Label header = new Label(title);
+        return new MCssLayout(header).withStyleName(UIConstants.FORM_SECTION);
     }
 }

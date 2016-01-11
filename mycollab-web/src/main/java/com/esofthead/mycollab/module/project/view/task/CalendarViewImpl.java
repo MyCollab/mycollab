@@ -22,7 +22,6 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
-import com.esofthead.mycollab.module.project.i18n.TaskGroupI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.view.task.calendar.GenericTaskEvent;
 import com.esofthead.mycollab.module.project.view.task.calendar.GenericTaskProvider;
@@ -220,7 +219,7 @@ public class CalendarViewImpl extends AbstractPageView implements CalendarView {
         });
         advanceDisplayBtn.setWidth("50px");
         advanceDisplayBtn.setIcon(FontAwesome.SITEMAP);
-        advanceDisplayBtn.setDescription(AppContext.getMessage(TaskGroupI18nEnum.ADVANCED_VIEW_TOOLTIP));
+        advanceDisplayBtn.setDescription("Advance View");
 
         Button calendarBtn = new Button();
         calendarBtn.setWidth("50px");

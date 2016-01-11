@@ -14,19 +14,22 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.mobile.module.project.view.task;
+package com.esofthead.mycollab.mobile.module.project.events
 
-import com.esofthead.mycollab.mobile.ui.IListView;
-import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
-import com.esofthead.mycollab.module.project.domain.criteria.TaskListSearchCriteria;
+import com.esofthead.mycollab.eventmanager.ApplicationEvent
 
 /**
- * @author MyCollab Ltd.
- *
- * @since 4.5.0
- *
- */
-public interface TaskGroupListView extends
-		IListView<TaskListSearchCriteria, SimpleTaskList> {
+  * @author MyCollab Ltd
+  * @since 5.2.5
+  */
+object TaskEvent {
+
+  class GotoList(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+
+  class GotoAdd(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+
+  class GotoRead(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+
+  class GotoEdit(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
 }

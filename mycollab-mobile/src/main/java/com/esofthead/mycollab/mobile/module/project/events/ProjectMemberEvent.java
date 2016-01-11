@@ -34,8 +34,7 @@ public class ProjectMemberEvent {
         private Integer roleId;
         private String inviteMessage;
 
-        public InviteProjectMembers(List<String> emails, Integer roleId,
-                                    String inviteMessage) {
+        public InviteProjectMembers(List<String> emails, Integer roleId, String inviteMessage) {
             this.inviteEmails = emails;
             this.roleId = roleId;
             this.inviteMessage = inviteMessage;

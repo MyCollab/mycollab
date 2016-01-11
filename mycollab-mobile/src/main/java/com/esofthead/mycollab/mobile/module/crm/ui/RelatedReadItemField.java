@@ -32,7 +32,6 @@ import org.apache.commons.beanutils.PropertyUtils;
  * @author MyCollab Ltd.
  * @since 4.1
  */
-@SuppressWarnings({"unchecked", "rawtypes"})
 public class RelatedReadItemField extends CustomField {
     private static final long serialVersionUID = 1L;
 
@@ -45,14 +44,12 @@ public class RelatedReadItemField extends CustomField {
     @Override
     protected Component initContent() {
         try {
-            final String type = (String) PropertyUtils.getProperty(
-                    RelatedReadItemField.this.bean, "type");
+            final String type = (String) PropertyUtils.getProperty(RelatedReadItemField.this.bean, "type");
             if (type == null || type.equals("")) {
                 return new Label("");
             }
 
-            final Integer typeid = (Integer) PropertyUtils.getProperty(bean,
-                    "typeid");
+            final Integer typeid = (Integer) PropertyUtils.getProperty(bean, "typeid");
             if (typeid == null) {
                 return new Label("");
             }
@@ -61,57 +58,45 @@ public class RelatedReadItemField extends CustomField {
             String relateItemName = null;
 
             if ("Account".equals(type)) {
-                AccountService accountService = ApplicationContextUtil
-                        .getSpringBean(AccountService.class);
-                final SimpleAccount account = accountService.findById(typeid,
-                        AppContext.getAccountId());
+                AccountService accountService = ApplicationContextUtil.getSpringBean(AccountService.class);
+                final SimpleAccount account = accountService.findById(typeid, AppContext.getAccountId());
                 if (account != null) {
                     relateItemName = account.getAccountname();
                     relatedLink = new AssetResource("icons/16/crm/account.png");
                 }
             } else if ("Campaign".equals(type)) {
-                CampaignService campaignService = ApplicationContextUtil
-                        .getSpringBean(CampaignService.class);
-                final SimpleCampaign campaign = campaignService.findById(
-                        typeid, AppContext.getAccountId());
+                CampaignService campaignService = ApplicationContextUtil.getSpringBean(CampaignService.class);
+                final SimpleCampaign campaign = campaignService.findById(typeid, AppContext.getAccountId());
                 if (campaign != null) {
                     relateItemName = campaign.getCampaignname();
                     relatedLink = new AssetResource("icons/16/crm/campaign.png");
                 }
             } else if ("Contact".equals(type)) {
-                ContactService contactService = ApplicationContextUtil
-                        .getSpringBean(ContactService.class);
-                final SimpleContact contact = contactService.findById(typeid,
-                        AppContext.getAccountId());
+                ContactService contactService = ApplicationContextUtil.getSpringBean(ContactService.class);
+                final SimpleContact contact = contactService.findById(typeid, AppContext.getAccountId());
                 if (contact != null) {
                     relateItemName = contact.getContactName();
                     relatedLink = new AssetResource("icons/16/crm/contact.png");
 
                 }
             } else if ("Lead".equals(type)) {
-                LeadService leadService = ApplicationContextUtil
-                        .getSpringBean(LeadService.class);
-                final SimpleLead lead = leadService.findById(typeid,
-                        AppContext.getAccountId());
+                LeadService leadService = ApplicationContextUtil.getSpringBean(LeadService.class);
+                final SimpleLead lead = leadService.findById(typeid, AppContext.getAccountId());
                 if (lead != null) {
                     relateItemName = lead.getLeadName();
                     relatedLink = new AssetResource("icons/16/crm/lead.png");
                 }
             } else if ("Opportunity".equals(type)) {
-                OpportunityService opportunityService = ApplicationContextUtil
-                        .getSpringBean(OpportunityService.class);
-                final SimpleOpportunity opportunity = opportunityService
-                        .findById(typeid, AppContext.getAccountId());
+                OpportunityService opportunityService = ApplicationContextUtil.getSpringBean(OpportunityService.class);
+                final SimpleOpportunity opportunity = opportunityService.findById(typeid, AppContext.getAccountId());
                 if (opportunity != null) {
                     relateItemName = opportunity.getOpportunityname();
                     relatedLink = new AssetResource("icons/16/crm/opportunity.png");
 
                 }
             } else if ("Case".equals(type)) {
-                CaseService caseService = ApplicationContextUtil
-                        .getSpringBean(CaseService.class);
-                final SimpleCase cases = caseService.findById(typeid,
-                        AppContext.getAccountId());
+                CaseService caseService = ApplicationContextUtil.getSpringBean(CaseService.class);
+                final SimpleCase cases = caseService.findById(typeid, AppContext.getAccountId());
                 if (cases != null) {
                     relateItemName = cases.getSubject();
                     relatedLink = new AssetResource("icons/16/crm/case.png");

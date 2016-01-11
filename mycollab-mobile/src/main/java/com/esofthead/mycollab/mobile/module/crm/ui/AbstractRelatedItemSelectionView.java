@@ -37,7 +37,7 @@ public abstract class AbstractRelatedItemSelectionView<T, S extends SearchCriter
     protected static final String SELECTED_STYLENAME = "selected";
 
     protected final AbstractRelatedListView<T, S> relatedListView;
-    protected Set<T> selections = new HashSet<T>();
+    protected Set<T> selections = new HashSet<>();
     protected AbstractPagedBeanList<S, T> itemList;
 
     public AbstractRelatedItemSelectionView(String title, final AbstractRelatedListView<T, S> relatedListView) {

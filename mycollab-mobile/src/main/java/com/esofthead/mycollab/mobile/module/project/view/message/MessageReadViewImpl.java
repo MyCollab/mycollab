@@ -19,8 +19,8 @@ package com.esofthead.mycollab.mobile.module.project.view.message;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.mobile.ui.AbstractMobilePageView;
+import com.esofthead.mycollab.mobile.ui.FormSectionBuilder;
 import com.esofthead.mycollab.mobile.ui.MobileAttachmentUtils;
-import com.esofthead.mycollab.mobile.ui.Section;
 import com.esofthead.mycollab.mobile.ui.UIConstants;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
@@ -33,7 +33,6 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
-import com.esofthead.mycollab.vaadin.ui.Hr;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
@@ -128,7 +127,7 @@ public class MessageReadViewImpl extends AbstractMobilePageView implements Messa
         mainLayout.addComponent(messageBlock);
 
         Label commentTitleLbl = new Label();
-        Section section = new Section(FontAwesome.COMMENT, commentTitleLbl);
+        Component section = FormSectionBuilder.build(FontAwesome.COMMENT, commentTitleLbl);
         MessageCommentListDisplay commentDisplay = new MessageCommentListDisplay(ProjectTypeConstants.MESSAGE,
                 CurrentProjectVariables.getProjectId(), true);
         int numComments = commentDisplay.loadComments("" + message.getId());

@@ -21,9 +21,7 @@ import com.esofthead.mycollab.mobile.form.view.DynaFormLayout;
 import com.esofthead.mycollab.mobile.module.crm.events.OpportunityEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmPreviewFormControlsGenerator;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmRelatedItemsScreenData;
-import com.esofthead.mycollab.mobile.module.crm.ui.NotesList;
 import com.esofthead.mycollab.mobile.module.crm.view.activity.ActivityRelatedItemView;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.mobile.ui.AbstractPreviewItemComp;
 import com.esofthead.mycollab.mobile.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.mobile.ui.IconConstants;
@@ -37,6 +35,7 @@ import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.vaadin.ui.Alignment;
@@ -51,10 +50,8 @@ import com.vaadin.ui.HorizontalLayout;
  */
 
 @ViewComponent
-public class OpportunityReadViewImpl extends AbstractPreviewItemComp<SimpleOpportunity> implements
-        OpportunityReadView {
+public class OpportunityReadViewImpl extends AbstractPreviewItemComp<SimpleOpportunity> implements OpportunityReadView {
     private static final long serialVersionUID = 1588189344759887006L;
-    private NotesList associateNotes;
     private ActivityRelatedItemView associateActivities;
     private OpportunityRelatedContactView associateContacts;
     private OpportunityRelatedLeadView associateLeads;
@@ -67,8 +64,6 @@ public class OpportunityReadViewImpl extends AbstractPreviewItemComp<SimpleOppor
     @Override
     protected void initRelatedComponents() {
         associateActivities = new ActivityRelatedItemView(CrmTypeConstants.OPPORTUNITY);
-
-        associateNotes = new NotesList(AppContext.getMessage(CrmCommonI18nEnum.M_TITLE_RELATED_NOTES));
         associateLeads = new OpportunityRelatedLeadView();
         associateContacts = new OpportunityRelatedContactView();
     }
@@ -76,7 +71,6 @@ public class OpportunityReadViewImpl extends AbstractPreviewItemComp<SimpleOppor
     @Override
     protected void afterPreviewItem() {
         associateActivities.displayActivity(beanItem.getId());
-        associateNotes.showNotes(CrmTypeConstants.OPPORTUNITY, beanItem.getId());
         associateLeads.displayLeads(beanItem);
         associateContacts.displayContacts(beanItem);
     }
@@ -145,23 +139,6 @@ public class OpportunityReadViewImpl extends AbstractPreviewItemComp<SimpleOppor
             }
         });
         toolbarLayout.addComponent(relatedLeads);
-
-        Button relatedNotes = new Button();
-        relatedNotes.setCaption("<span aria-hidden=\"true\" data-icon=\""
-                + IconConstants.CRM_DOCUMENT
-                + "\"></span><div class=\"screen-reader-text\">"
-                + "Notes" + "</div>");
-        relatedNotes.setHtmlContentAllowed(true);
-        relatedNotes.addClickListener(new Button.ClickListener() {
-            private static final long serialVersionUID = 7589415773039335559L;
-
-            @Override
-            public void buttonClick(ClickEvent arg0) {
-                EventBusFactory.getInstance().post(new OpportunityEvent.GoToRelatedItems(this,
-                        new CrmRelatedItemsScreenData(associateNotes)));
-            }
-        });
-        toolbarLayout.addComponent(relatedNotes);
 
         Button relatedActivities = new Button();
         relatedActivities.setCaption("<span aria-hidden=\"true\" data-icon=\""

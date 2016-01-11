@@ -85,7 +85,8 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractMobilePageView 
 
     abstract protected AdvancedPreviewBeanForm<B> initPreviewForm();
 
-    abstract protected void initRelatedComponents();
+    protected void initRelatedComponents() {
+    }
 
     abstract protected IFormLayoutFactory initFormLayoutFactory();
 

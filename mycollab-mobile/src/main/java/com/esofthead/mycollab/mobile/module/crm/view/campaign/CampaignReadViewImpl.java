@@ -21,7 +21,6 @@ import com.esofthead.mycollab.mobile.form.view.DynaFormLayout;
 import com.esofthead.mycollab.mobile.module.crm.events.CampaignEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmPreviewFormControlsGenerator;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmRelatedItemsScreenData;
-import com.esofthead.mycollab.mobile.module.crm.ui.NotesList;
 import com.esofthead.mycollab.mobile.module.crm.view.activity.ActivityRelatedItemView;
 import com.esofthead.mycollab.mobile.ui.AbstractPreviewItemComp;
 import com.esofthead.mycollab.mobile.ui.AdvancedPreviewBeanForm;
@@ -48,11 +47,9 @@ import com.vaadin.ui.HorizontalLayout;
  */
 
 @ViewComponent
-public class CampaignReadViewImpl extends
-        AbstractPreviewItemComp<SimpleCampaign> implements CampaignReadView {
+public class CampaignReadViewImpl extends AbstractPreviewItemComp<SimpleCampaign> implements CampaignReadView {
     private static final long serialVersionUID = 1718241963843463323L;
 
-    private NotesList associateNotes;
     private ActivityRelatedItemView associateActivities;
     private CampaignRelatedAccountView associateAccounts;
     private CampaignRelatedContactView associateContacts;
@@ -65,10 +62,7 @@ public class CampaignReadViewImpl extends
 
     @Override
     protected void initRelatedComponents() {
-        associateNotes = new NotesList(
-                AppContext.getMessage(CrmCommonI18nEnum.M_TITLE_RELATED_NOTES));
-        associateActivities = new ActivityRelatedItemView(
-                CrmTypeConstants.CAMPAIGN);
+        associateActivities = new ActivityRelatedItemView(CrmTypeConstants.CAMPAIGN);
         associateAccounts = new CampaignRelatedAccountView();
         associateContacts = new CampaignRelatedContactView();
         associateLeads = new CampaignRelatedLeadView();
@@ -76,7 +70,6 @@ public class CampaignReadViewImpl extends
 
     @Override
     protected void afterPreviewItem() {
-        associateNotes.showNotes(CrmTypeConstants.CAMPAIGN, beanItem.getId());
         associateActivities.displayActivity(beanItem.getId());
         associateAccounts.displayAccounts(beanItem);
         associateContacts.displayContacts(beanItem);
@@ -126,11 +119,8 @@ public class CampaignReadViewImpl extends
 
             @Override
             public void buttonClick(ClickEvent arg0) {
-                EventBusFactory
-                        .getInstance()
-                        .post(new CampaignEvent.GoToRelatedItems(
-                                this,
-                                new CrmRelatedItemsScreenData(associateAccounts)));
+                EventBusFactory.getInstance()
+                        .post(new CampaignEvent.GoToRelatedItems(this, new CrmRelatedItemsScreenData(associateAccounts)));
             }
         });
         toolbarLayout.addComponent(relatedAccounts);
@@ -147,11 +137,8 @@ public class CampaignReadViewImpl extends
 
             @Override
             public void buttonClick(ClickEvent arg0) {
-                EventBusFactory
-                        .getInstance()
-                        .post(new CampaignEvent.GoToRelatedItems(
-                                this,
-                                new CrmRelatedItemsScreenData(associateContacts)));
+                EventBusFactory.getInstance().post(new CampaignEvent.GoToRelatedItems(
+                        this, new CrmRelatedItemsScreenData(associateContacts)));
             }
         });
         toolbarLayout.addComponent(relatedContacts);
@@ -168,29 +155,10 @@ public class CampaignReadViewImpl extends
             @Override
             public void buttonClick(ClickEvent arg0) {
                 EventBusFactory.getInstance().post(
-                        new CampaignEvent.GoToRelatedItems(this,
-                                new CrmRelatedItemsScreenData(associateLeads)));
+                        new CampaignEvent.GoToRelatedItems(this, new CrmRelatedItemsScreenData(associateLeads)));
             }
         });
         toolbarLayout.addComponent(relatedLeads);
-
-        Button relatedNotes = new Button();
-        relatedNotes.setCaption("<span aria-hidden=\"true\" data-icon=\""
-                + IconConstants.CRM_DOCUMENT
-                + "\"></span><div class=\"screen-reader-text\">"
-                + "Notes" + "</div>");
-        relatedNotes.setHtmlContentAllowed(true);
-        relatedNotes.addClickListener(new Button.ClickListener() {
-            private static final long serialVersionUID = 7589415773039335559L;
-
-            @Override
-            public void buttonClick(ClickEvent arg0) {
-                EventBusFactory.getInstance().post(
-                        new CampaignEvent.GoToRelatedItems(this,
-                                new CrmRelatedItemsScreenData(associateNotes)));
-            }
-        });
-        toolbarLayout.addComponent(relatedNotes);
 
         Button relatedActivities = new Button();
         relatedActivities.setCaption("<span aria-hidden=\"true\" data-icon=\""
@@ -205,9 +173,7 @@ public class CampaignReadViewImpl extends
             @Override
             public void buttonClick(ClickEvent arg0) {
                 EventBusFactory.getInstance().post(
-                        new CampaignEvent.GoToRelatedItems(this,
-                                new CrmRelatedItemsScreenData(
-                                        associateActivities)));
+                        new CampaignEvent.GoToRelatedItems(this, new CrmRelatedItemsScreenData(associateActivities)));
             }
         });
         toolbarLayout.addComponent(relatedActivities);
