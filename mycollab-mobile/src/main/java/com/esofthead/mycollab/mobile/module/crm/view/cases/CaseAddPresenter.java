@@ -28,96 +28,78 @@ import com.esofthead.mycollab.module.crm.service.CaseService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.events.EditFormHandler;
+import com.esofthead.mycollab.vaadin.events.DefaultEditFormHandler;
+import com.esofthead.mycollab.vaadin.events.IEditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
 public class CaseAddPresenter extends AbstractMobilePresenter<CaseAddView> {
-	private static final long serialVersionUID = 8258508255937580306L;
+    private static final long serialVersionUID = 8258508255937580306L;
 
-	public CaseAddPresenter() {
-		super(CaseAddView.class);
-	}
+    public CaseAddPresenter() {
+        super(CaseAddView.class);
+    }
 
-	@Override
-	protected void postInitView() {
-		view.getEditFormHandlers().addFormHandler(
-				new EditFormHandler<SimpleCase>() {
-					private static final long serialVersionUID = 1L;
+    @Override
+    protected void postInitView() {
+        view.getEditFormHandlers().addFormHandler(new DefaultEditFormHandler<SimpleCase>() {
+            private static final long serialVersionUID = 1L;
 
-					@Override
-					public void onSave(final SimpleCase cases) {
-						saveCase(cases);
-						EventBusFactory.getInstance().post(
-								new ShellEvent.NavigateBack(this, null));
-					}
+            @Override
+            public void onSave(final SimpleCase cases) {
+                saveCase(cases);
+                EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
+            }
 
-					@Override
-					public void onCancel() {
-					}
+            @Override
+            public void onSaveAndNew(final SimpleCase cases) {
+                saveCase(cases);
+                EventBusFactory.getInstance().post(new CaseEvent.GotoAdd(this, null));
+            }
+        });
+    }
 
-					@Override
-					public void onSaveAndNew(final SimpleCase cases) {
-						saveCase(cases);
-						EventBusFactory.getInstance().post(
-								new CaseEvent.GotoAdd(this, null));
-					}
-				});
-	}
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        if (AppContext.canWrite(RolePermissionCollections.CRM_CASE)) {
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		if (AppContext.canWrite(RolePermissionCollections.CRM_CASE)) {
+            SimpleCase cases = null;
+            if (data.getParams() instanceof SimpleCase) {
+                cases = (SimpleCase) data.getParams();
+            } else if (data.getParams() instanceof Integer) {
+                CaseService caseService = ApplicationContextUtil.getSpringBean(CaseService.class);
+                cases = caseService.findById((Integer) data.getParams(), AppContext.getAccountId());
+            }
+            if (cases == null) {
+                NotificationUtil.showRecordNotExistNotification();
+                return;
+            }
+            super.onGo(container, data);
+            view.editItem(cases);
 
-			SimpleCase cases = null;
-			if (data.getParams() instanceof SimpleCase) {
-				cases = (SimpleCase) data.getParams();
-			} else if (data.getParams() instanceof Integer) {
-				CaseService caseService = ApplicationContextUtil
-						.getSpringBean(CaseService.class);
-				cases = caseService.findById((Integer) data.getParams(),
-						AppContext.getAccountId());
-			}
-			if (cases == null) {
-				NotificationUtil.showRecordNotExistNotification();
-				return;
-			}
-			super.onGo(container, data);
-			view.editItem(cases);
+            if (cases.getId() == null) {
+                AppContext.addFragment("crm/cases/add", AppContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE, "Case"));
+            } else {
+                AppContext.addFragment("crm/cases/edit/" + UrlEncodeDecoder.encode(cases.getId()),
+                        AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, "Case", cases.getSubject()));
+            }
+        } else {
+            NotificationUtil.showMessagePermissionAlert();
+        }
+    }
 
-			if (cases.getId() == null) {
-				AppContext.addFragment("crm/cases/add", AppContext.getMessage(
-						GenericI18Enum.BROWSER_ADD_ITEM_TITLE, "Case"));
-			} else {
-				AppContext.addFragment(
-						"crm/cases/edit/"
-								+ UrlEncodeDecoder.encode(cases.getId()),
-						AppContext.getMessage(
-								GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, "Case",
-								cases.getSubject()));
-			}
-		} else {
-			NotificationUtil.showMessagePermissionAlert();
-		}
-	}
-
-	private void saveCase(CaseWithBLOBs cases) {
-		CaseService caseService = ApplicationContextUtil
-				.getSpringBean(CaseService.class);
-
-		cases.setSaccountid(AppContext.getAccountId());
-		if (cases.getId() == null) {
-			caseService.saveWithSession(cases, AppContext.getUsername());
-		} else {
-			caseService.updateWithSession(cases, AppContext.getUsername());
-		}
-
-	}
+    private void saveCase(CaseWithBLOBs cases) {
+        CaseService caseService = ApplicationContextUtil.getSpringBean(CaseService.class);
+        cases.setSaccountid(AppContext.getAccountId());
+        if (cases.getId() == null) {
+            caseService.saveWithSession(cases, AppContext.getUsername());
+        } else {
+            caseService.updateWithSession(cases, AppContext.getUsername());
+        }
+    }
 }

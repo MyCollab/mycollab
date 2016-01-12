@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.crm.ui.components;
 
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanBlockList;
+import com.esofthead.mycollab.vaadin.web.ui.AbstractBeanBlockList;
 import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.esofthead.mycollab.vaadin.ui.RelatedListHandler;
 

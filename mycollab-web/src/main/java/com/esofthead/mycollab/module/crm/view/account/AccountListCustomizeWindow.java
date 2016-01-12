@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import com.esofthead.mycollab.common.TableViewField;
-import com.esofthead.mycollab.vaadin.ui.table.CustomizedTableWindow;
+import com.esofthead.mycollab.vaadin.web.ui.table.CustomizedTableWindow;
 
 /**
  * 

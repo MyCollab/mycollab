@@ -29,7 +29,7 @@ import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.events.EditFormHandler;
+import com.esofthead.mycollab.vaadin.events.IEditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.HistoryViewManager;
 import com.esofthead.mycollab.vaadin.mvp.NullViewState;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -50,7 +50,7 @@ public class AccountAddPresenter extends CrmGenericPresenter<AccountAddView> {
 
     @Override
     protected void postInitView() {
-        view.getEditFormHandlers().addFormHandler(new EditFormHandler<SimpleAccount>() {
+        view.getEditFormHandlers().addFormHandler(new IEditFormHandler<SimpleAccount>() {
             private static final long serialVersionUID = 1L;
 
             @Override

@@ -18,7 +18,7 @@ package com.esofthead.mycollab.community.module.project.view.risk;
 
 import com.esofthead.mycollab.module.project.view.risk.IRiskContainer;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.NotPresentedView;
+import com.esofthead.mycollab.vaadin.web.ui.NotPresentedView;
 
 @ViewComponent
 public class RiskContainer extends NotPresentedView implements IRiskContainer {

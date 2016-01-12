@@ -24,96 +24,94 @@ import com.esofthead.mycollab.core.utils.StringUtils;
 import java.util.Date;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class SimpleOpportunity extends Opportunity {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String createdUserAvatarId;
+    private String createdUserAvatarId;
 
-	private String createdUserFullName;
+    private String createdUserFullName;
 
-	private String accountName;
+    private String accountName;
 
-	private String campaignName;
+    private String campaignName;
 
-	private String assignUserAvatarId;
+    private String assignUserAvatarId;
 
-	private String assignUserFullName;
+    private String assignUserFullName;
 
-	@NotBindable
-	private Currency currency;
+    @NotBindable
+    private Currency currency;
 
-	public String getCreatedUserAvatarId() {
-		return createdUserAvatarId;
-	}
+    public String getCreatedUserAvatarId() {
+        return createdUserAvatarId;
+    }
 
-	public void setCreatedUserAvatarId(String createdUserAvatarId) {
-		this.createdUserAvatarId = createdUserAvatarId;
-	}
+    public void setCreatedUserAvatarId(String createdUserAvatarId) {
+        this.createdUserAvatarId = createdUserAvatarId;
+    }
 
-	public String getCreatedUserFullName() {
-		if (StringUtils.isBlank(createdUserFullName)) {
-			return StringUtils.extractNameFromEmail(getCreateduser());
-		}
-		return createdUserFullName;
-	}
+    public String getCreatedUserFullName() {
+        if (StringUtils.isBlank(createdUserFullName)) {
+            return StringUtils.extractNameFromEmail(getCreateduser());
+        }
+        return createdUserFullName;
+    }
 
-	public void setCreatedUserFullName(String createdUserFullName) {
-		this.createdUserFullName = createdUserFullName;
-	}
+    public void setCreatedUserFullName(String createdUserFullName) {
+        this.createdUserFullName = createdUserFullName;
+    }
 
-	public String getAccountName() {
-		return accountName;
-	}
+    public String getAccountName() {
+        return accountName;
+    }
 
-	public void setAccountName(String accountName) {
-		this.accountName = accountName;
-	}
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
+    }
 
-	public String getCampaignName() {
-		return campaignName;
-	}
+    public String getCampaignName() {
+        return campaignName;
+    }
 
-	public void setCampaignName(String campaignName) {
-		this.campaignName = campaignName;
-	}
+    public void setCampaignName(String campaignName) {
+        this.campaignName = campaignName;
+    }
 
-	public String getAssignUserFullName() {
-		if (StringUtils.isBlank(assignUserFullName)) {
-			return StringUtils.extractNameFromEmail(getAssignuser());
-		}
-		return assignUserFullName;
-	}
+    public String getAssignUserFullName() {
+        if (StringUtils.isBlank(assignUserFullName)) {
+            return StringUtils.extractNameFromEmail(getAssignuser());
+        }
+        return assignUserFullName;
+    }
 
-	public void setAssignUserFullName(String assignUserFullName) {
-		this.assignUserFullName = assignUserFullName;
-	}
+    public void setAssignUserFullName(String assignUserFullName) {
+        this.assignUserFullName = assignUserFullName;
+    }
 
-	public Currency getCurrency() {
-		return currency;
-	}
+    public Currency getCurrency() {
+        return currency;
+    }
 
-	public void setCurrency(Currency currency) {
-		this.currency = currency;
-	}
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
+    }
 
-	public String getAssignUserAvatarId() {
-		return assignUserAvatarId;
-	}
+    public String getAssignUserAvatarId() {
+        return assignUserAvatarId;
+    }
 
-	public void setAssignUserAvatarId(String assignUserAvatarId) {
-		this.assignUserAvatarId = assignUserAvatarId;
-	}
+    public void setAssignUserAvatarId(String assignUserAvatarId) {
+        this.assignUserAvatarId = assignUserAvatarId;
+    }
 
-	public boolean isOverdue() {
-		if (getExpectedcloseddate() != null) {
-			Date now = DateTimeUtils.getCurrentDateWithoutMS();
-			return (getExpectedcloseddate().before(now));
-		}
-		return false;
-	}
+    public boolean isOverdue() {
+        if (getExpectedcloseddate() != null) {
+            Date now = DateTimeUtils.getCurrentDateWithoutMS();
+            return (getExpectedcloseddate().before(now));
+        }
+        return false;
+    }
 }

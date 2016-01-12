@@ -17,11 +17,11 @@
 package com.esofthead.mycollab.mobile.module.project.view.milestone;
 
 import com.esofthead.mycollab.mobile.module.project.view.settings.ProjectMemberSelectionField;
+import com.esofthead.mycollab.mobile.ui.I18nValueComboBox;
 import com.esofthead.mycollab.module.project.domain.Milestone;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.I18nValueComboBox;
 import com.vaadin.addon.touchkit.ui.DatePicker;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.TextArea;

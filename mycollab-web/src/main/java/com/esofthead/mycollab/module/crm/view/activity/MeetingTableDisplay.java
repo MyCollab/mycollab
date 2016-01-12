@@ -27,9 +27,9 @@ import com.esofthead.mycollab.module.crm.domain.criteria.MeetingSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.MeetingService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.LabelLink;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
+import com.esofthead.mycollab.vaadin.web.ui.LabelLink;
+import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 

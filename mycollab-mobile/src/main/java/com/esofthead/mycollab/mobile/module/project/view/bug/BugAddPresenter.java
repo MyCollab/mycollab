@@ -32,7 +32,7 @@ import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.events.EditFormHandler;
+import com.esofthead.mycollab.vaadin.events.DefaultEditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
@@ -40,10 +40,6 @@ import com.vaadin.ui.ComponentContainer;
 /**
  * @author MyCollab Ltd.
  * @since 4.5.2
- */
-
-/*
- * TODO: Add support for Attachments, Components, Versions when they're ready
  */
 public class BugAddPresenter extends AbstractMobilePresenter<BugAddView> {
     private static final long serialVersionUID = 1L;
@@ -54,17 +50,13 @@ public class BugAddPresenter extends AbstractMobilePresenter<BugAddView> {
 
     @Override
     protected void postInitView() {
-        view.getEditFormHandlers().addFormHandler(new EditFormHandler<SimpleBug>() {
+        view.getEditFormHandlers().addFormHandler(new DefaultEditFormHandler<SimpleBug>() {
             private static final long serialVersionUID = 1L;
 
             @Override
             public void onSave(final SimpleBug bug) {
                 saveBug(bug);
                 EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
-            }
-
-            @Override
-            public void onCancel() {
             }
 
             @Override

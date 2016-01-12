@@ -25,7 +25,7 @@ import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AssetResource;
-import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet;
+import com.esofthead.mycollab.vaadin.web.ui.VerticalTabsheet;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;

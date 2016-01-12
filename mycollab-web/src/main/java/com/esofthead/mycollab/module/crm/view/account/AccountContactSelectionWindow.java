@@ -25,7 +25,7 @@ import com.esofthead.mycollab.module.crm.view.contact.ContactSimpleSearchPanel;
 import com.esofthead.mycollab.module.crm.view.contact.ContactTableDisplay;
 import com.esofthead.mycollab.module.crm.view.contact.ContactTableFieldDef;
 import com.esofthead.mycollab.vaadin.events.SearchHandler;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 

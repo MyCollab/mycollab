@@ -24,7 +24,7 @@ import com.esofthead.mycollab.module.project.domain.Task;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.utils.FieldGroupFormatter;
-import com.esofthead.mycollab.vaadin.ui.HistoryFieldFormat;
+import com.esofthead.mycollab.vaadin.web.ui.HistoryFieldFormat;
 
 /**
  * @author MyCollab Ltd

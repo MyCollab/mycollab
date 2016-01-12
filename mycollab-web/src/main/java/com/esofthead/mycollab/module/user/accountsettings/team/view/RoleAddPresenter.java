@@ -26,14 +26,14 @@ import com.esofthead.mycollab.security.AccessPermissionFlag;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.events.EditFormHandler;
+import com.esofthead.mycollab.vaadin.events.IEditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.HistoryViewManager;
 import com.esofthead.mycollab.vaadin.mvp.NullViewState;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.mvp.ViewPermission;
 import com.esofthead.mycollab.vaadin.mvp.ViewState;
-import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
+import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 
@@ -52,7 +52,7 @@ public class RoleAddPresenter extends AbstractPresenter<RoleAddView> {
 
 	@Override
 	protected void postInitView() {
-		view.getEditFormHandlers().addFormHandler(new EditFormHandler<Role>() {
+		view.getEditFormHandlers().addFormHandler(new IEditFormHandler<Role>() {
 			private static final long serialVersionUID = 1L;
 
 			@Override

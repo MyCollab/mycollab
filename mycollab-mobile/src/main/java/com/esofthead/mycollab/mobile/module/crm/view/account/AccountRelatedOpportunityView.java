@@ -29,59 +29,55 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.0
- * 
  */
-public class AccountRelatedOpportunityView extends
-		AbstractRelatedListView<SimpleOpportunity, OpportunitySearchCriteria> {
-	private static final long serialVersionUID = -5900127054425653263L;
-	private Account account;
+public class AccountRelatedOpportunityView extends AbstractRelatedListView<SimpleOpportunity, OpportunitySearchCriteria> {
+    private static final long serialVersionUID = -5900127054425653263L;
+    private Account account;
 
-	public AccountRelatedOpportunityView() {
-		initUI();
-	}
+    public AccountRelatedOpportunityView() {
+        initUI();
+    }
 
-	private void initUI() {
-		this.setCaption(AppContext
-				.getMessage(OpportunityI18nEnum.M_TITLE_RELATED_OPPORTUNITIES));
-		itemList = new OpportunityListDisplay();
-		this.setContent(itemList);
-	}
+    private void initUI() {
+        this.setCaption(AppContext.getMessage(OpportunityI18nEnum.M_TITLE_RELATED_OPPORTUNITIES));
+        itemList = new OpportunityListDisplay();
+        this.setContent(itemList);
+    }
 
-	public void displayOpportunities(final Account account) {
-		this.account = account;
-		loadOpportunities();
-	}
+    public void displayOpportunities(final Account account) {
+        this.account = account;
+        loadOpportunities();
+    }
 
-	private void loadOpportunities() {
-		final OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
-		criteria.setSaccountid(new NumberSearchField(SearchField.AND,
-				AppContext.getAccountId()));
-		criteria.setAccountId(new NumberSearchField(SearchField.AND, account
-				.getId()));
-		setSearchCriteria(criteria);
-	}
+    private void loadOpportunities() {
+        final OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
+        criteria.setSaccountid(new NumberSearchField(SearchField.AND,
+                AppContext.getAccountId()));
+        criteria.setAccountId(new NumberSearchField(SearchField.AND, account
+                .getId()));
+        setSearchCriteria(criteria);
+    }
 
-	@Override
-	public void refresh() {
-		loadOpportunities();
-	}
+    @Override
+    public void refresh() {
+        loadOpportunities();
+    }
 
-	@Override
-	protected Component createRightComponent() {
-		Button addOpportunity = new Button();
-		addOpportunity.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = 7172838996944732255L;
+    @Override
+    protected Component createRightComponent() {
+        Button addOpportunity = new Button();
+        addOpportunity.addClickListener(new Button.ClickListener() {
+            private static final long serialVersionUID = 7172838996944732255L;
 
-			@Override
-			public void buttonClick(Button.ClickEvent event) {
-				fireNewRelatedItem("");
-			}
-		});
-		addOpportunity.setStyleName("add-btn");
-		return addOpportunity;
-	}
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                fireNewRelatedItem("");
+            }
+        });
+        addOpportunity.setStyleName("add-btn");
+        return addOpportunity;
+    }
 
 }

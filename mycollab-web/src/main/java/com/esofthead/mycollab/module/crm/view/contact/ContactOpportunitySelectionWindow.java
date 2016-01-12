@@ -27,7 +27,7 @@ import com.esofthead.mycollab.module.crm.view.opportunity.OpportunityTableDispla
 import com.esofthead.mycollab.module.crm.view.opportunity.OpportunityTableFieldDef;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.SearchHandler;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.ui.Button;
 
 /**

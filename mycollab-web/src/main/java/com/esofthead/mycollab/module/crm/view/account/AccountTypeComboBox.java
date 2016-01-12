@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.crm.view.account;
 
 import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
-import com.esofthead.mycollab.vaadin.ui.I18nValueComboBox;
+import com.esofthead.mycollab.vaadin.web.ui.I18nValueComboBox;
 
 /**
  * 

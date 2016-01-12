@@ -35,7 +35,6 @@ public class ProjectActivityViewImpl extends AbstractListPageView<ActivityStream
 
     public ProjectActivityViewImpl() {
         this.setCaption(AppContext.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES));
-        this.addStyleName("project-activities-view");
     }
 
     @Override

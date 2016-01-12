@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.crm.view.campaign;
 
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
-import com.esofthead.mycollab.vaadin.desktop.ui.ListView;
+import com.esofthead.mycollab.vaadin.web.ui.ListView;
 
 public interface CampaignListView extends
 		ListView<CampaignSearchCriteria, SimpleCampaign> {

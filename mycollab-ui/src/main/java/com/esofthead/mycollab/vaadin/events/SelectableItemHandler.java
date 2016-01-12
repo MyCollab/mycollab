@@ -17,16 +17,13 @@
 package com.esofthead.mycollab.vaadin.events;
 
 /**
- * 
+ * @param <T>
  * @author MyCollab Ltd.
  * @since 1.0
- *
- * @param <T>
  */
 public interface SelectableItemHandler<T> {
-	/**
-	 * 
-	 * @param item
-	 */
-	void onSelect(T item);
+    /**
+     * @param item
+     */
+    void onSelect(T item);
 }

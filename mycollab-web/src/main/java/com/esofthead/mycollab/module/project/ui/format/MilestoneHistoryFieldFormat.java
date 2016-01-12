@@ -23,7 +23,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.HistoryFieldFormat;
+import com.esofthead.mycollab.vaadin.web.ui.HistoryFieldFormat;
 import com.hp.gagawa.java.elements.Span;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;

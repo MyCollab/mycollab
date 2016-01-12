@@ -16,11 +16,10 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.bug;
 
+import com.esofthead.mycollab.mobile.ui.I18nValueComboBox;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
-import com.esofthead.mycollab.vaadin.ui.I18nValueComboBox;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.ui.ComboBox;
 
 import java.util.Arrays;
 
@@ -41,15 +40,5 @@ public class BugPriorityComboBox extends I18nValueComboBox {
         this.setItemIcon(BugPriority.Major.name(), FontAwesome.ARROW_UP);
         this.setItemIcon(BugPriority.Minor.name(), FontAwesome.ARROW_DOWN);
         this.setItemIcon(BugPriority.Trivial.name(), FontAwesome.ARROW_DOWN);
-
-        this.setItemStyleGenerator(new ItemStyleGenerator() {
-            @Override
-            public String getStyle(ComboBox source, Object itemId) {
-                if (itemId != null) {
-                    return String.format("bug-%s", itemId.toString().toLowerCase());
-                }
-                return null;
-            }
-        });
     }
 }

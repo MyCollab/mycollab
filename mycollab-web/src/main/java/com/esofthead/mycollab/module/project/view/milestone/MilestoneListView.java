@@ -21,7 +21,7 @@ import java.util.List;
 
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
-import com.esofthead.mycollab.vaadin.desktop.ui.ListView;
+import com.esofthead.mycollab.vaadin.web.ui.ListView;
 
 /**
  * 

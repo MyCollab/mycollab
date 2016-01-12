@@ -91,7 +91,7 @@ class ReOpenView extends AbstractMobilePageView {
                         final CommentService commentService = ApplicationContextUtil.getSpringBean(CommentService.class);
                         commentService.saveWithSession(comment, AppContext.getUsername());
                     }
-                    ReOpenView.this.callbackForm.previewItem(bug);
+                    callbackForm.previewItem(bug);
                     EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
                 }
 

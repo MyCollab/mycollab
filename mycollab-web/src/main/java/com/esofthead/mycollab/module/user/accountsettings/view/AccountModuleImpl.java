@@ -34,9 +34,9 @@ import com.esofthead.mycollab.premium.module.user.accountsettings.view.UserAccou
 import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.*;
-import com.esofthead.mycollab.vaadin.ui.ServiceMenu;
-import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet;
-import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet.TabImpl;
+import com.esofthead.mycollab.vaadin.web.ui.ServiceMenu;
+import com.esofthead.mycollab.vaadin.web.ui.VerticalTabsheet;
+import com.esofthead.mycollab.vaadin.web.ui.VerticalTabsheet.TabImpl;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComponentContainer;

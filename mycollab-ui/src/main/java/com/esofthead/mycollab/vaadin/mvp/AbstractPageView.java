@@ -25,7 +25,6 @@ import java.io.Serializable;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@SuppressWarnings("serial")
 public abstract class AbstractPageView extends MVerticalLayout implements PageView, Serializable {
 
     public AbstractPageView() {

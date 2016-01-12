@@ -23,7 +23,7 @@ import com.esofthead.mycollab.module.crm.service.*;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.LabelLink;
+import com.esofthead.mycollab.vaadin.web.ui.LabelLink;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;

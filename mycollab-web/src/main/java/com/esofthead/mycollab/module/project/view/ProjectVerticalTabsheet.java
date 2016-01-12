@@ -18,12 +18,11 @@ package com.esofthead.mycollab.module.project.view;
 
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
-import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet;
+import com.esofthead.mycollab.vaadin.web.ui.VerticalTabsheet;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
 
 /**
  * @author MyCollab Ltd.

@@ -35,8 +35,8 @@ import com.esofthead.mycollab.module.project.view.time.TimeUrlResolver
 import com.esofthead.mycollab.shell.events.ShellEvent
 import com.esofthead.mycollab.spring.ApplicationContextUtil
 import com.esofthead.mycollab.vaadin.AppContext
-import com.esofthead.mycollab.vaadin.desktop.ui.ModuleHelper
 import com.esofthead.mycollab.vaadin.mvp.{PageActionChain, UrlResolver}
+import com.esofthead.mycollab.vaadin.web.ui.ModuleHelper
 
 /**
  * @author MyCollab Ltd

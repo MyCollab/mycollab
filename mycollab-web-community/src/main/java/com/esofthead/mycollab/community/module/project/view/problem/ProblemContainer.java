@@ -18,7 +18,7 @@ package com.esofthead.mycollab.community.module.project.view.problem;
 
 import com.esofthead.mycollab.module.project.view.problem.IProblemContainer;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.NotPresentedView;
+import com.esofthead.mycollab.vaadin.web.ui.NotPresentedView;
 
 @ViewComponent
 public class ProblemContainer extends NotPresentedView implements

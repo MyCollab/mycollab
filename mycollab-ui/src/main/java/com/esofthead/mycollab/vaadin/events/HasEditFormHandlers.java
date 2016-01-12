@@ -30,5 +30,5 @@ public interface HasEditFormHandlers<T> extends Serializable {
 	 * @param handler
 	 *            handler of edit attachForm
 	 */
-	void addFormHandler(EditFormHandler<T> handler);
+	void addFormHandler(IEditFormHandler<T> handler);
 }

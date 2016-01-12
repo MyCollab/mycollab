@@ -29,7 +29,7 @@ import com.esofthead.mycollab.module.project.i18n.MessageI18nEnum;
 import com.esofthead.mycollab.module.project.service.MessageService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.events.EditFormHandler;
+import com.esofthead.mycollab.vaadin.events.DefaultEditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
@@ -48,13 +48,8 @@ public class MessageAddPresenter extends AbstractMobilePresenter<MessageAddView>
     @Override
     protected void postInitView() {
         super.postInitView();
-        view.getEditFormHandlers().addFormHandler(new EditFormHandler<SimpleMessage>() {
+        view.getEditFormHandlers().addFormHandler(new DefaultEditFormHandler<SimpleMessage>() {
             private static final long serialVersionUID = 2381946253040633727L;
-
-            @Override
-            public void onSaveAndNew(SimpleMessage bean) {
-                // Do nothing
-            }
 
             @Override
             public void onSave(SimpleMessage bean) {
@@ -63,11 +58,6 @@ public class MessageAddPresenter extends AbstractMobilePresenter<MessageAddView>
                 ProjectFormAttachmentUploadField uploadField = view.getUploadField();
                 uploadField.saveContentsToRepo(CurrentProjectVariables.getProjectId(), ProjectTypeConstants.MESSAGE, bean.getId());
                 EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
-            }
-
-            @Override
-            public void onCancel() {
-                // Do nothing
             }
         });
     }

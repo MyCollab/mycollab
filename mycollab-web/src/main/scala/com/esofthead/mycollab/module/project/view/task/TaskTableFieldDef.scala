@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.project.view.task
 import com.esofthead.mycollab.common.TableViewField
 import com.esofthead.mycollab.common.i18n.GenericI18Enum
 import com.esofthead.mycollab.module.project.i18n.{TimeTrackingI18nEnum, TaskI18nEnum}
-import com.esofthead.mycollab.vaadin.ui.UIConstants
+import com.esofthead.mycollab.vaadin.web.ui.UIConstants
 
 /**
  * @author MyCollab Ltd

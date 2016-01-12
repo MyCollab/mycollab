@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.module.tracker.domain.SimpleVersion;
 import com.esofthead.mycollab.module.tracker.domain.criteria.VersionSearchCriteria;
-import com.esofthead.mycollab.vaadin.desktop.ui.ListView;
+import com.esofthead.mycollab.vaadin.web.ui.ListView;
 
 /**
  * 

@@ -20,22 +20,20 @@ package com.esofthead.mycollab.vaadin.mvp;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 @SuppressWarnings("rawtypes")
 public class ViewState {
-	private ComponentContainer container;
-	private IPresenter presenter;
-	private ScreenData<?> params;
+    private ComponentContainer container;
+    private IPresenter presenter;
+    private ScreenData<?> params;
 
-	public ViewState(ComponentContainer container, IPresenter presenter, ScreenData<?> data) {
-		this.container = container;
-		this.presenter = presenter;
-		this.params = data;
-	}
+    public ViewState(ComponentContainer container, IPresenter presenter, ScreenData<?> data) {
+        this.container = container;
+        this.presenter = presenter;
+        this.params = data;
+    }
 
     public boolean hasPresenters(Class... classes) {
         for (Class cls : classes) {
@@ -46,15 +44,15 @@ public class ViewState {
         return false;
     }
 
-	public IPresenter getPresenter() {
-		return presenter;
-	}
+    public IPresenter getPresenter() {
+        return presenter;
+    }
 
-	public ScreenData<?> getParams() {
-		return params;
-	}
+    public ScreenData<?> getParams() {
+        return params;
+    }
 
-	public ComponentContainer getContainer() {
-		return container;
-	}
+    public ComponentContainer getContainer() {
+        return container;
+    }
 }

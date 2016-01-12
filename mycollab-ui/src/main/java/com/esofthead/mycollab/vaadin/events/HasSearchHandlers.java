@@ -20,20 +20,16 @@ import com.esofthead.mycollab.core.arguments.SearchCriteria;
 
 /**
  * @param <S>
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public interface HasSearchHandlers<S extends SearchCriteria> {
-	/**
-	 * 
-	 * @param handler
-	 */
-	void addSearchHandler(SearchHandler<S> handler);
+    /**
+     * @param handler
+     */
+    void addSearchHandler(SearchHandler<S> handler);
 
     /**
-     *
      * @param totalCountNumber
      */
     void setTotalCountNumber(int totalCountNumber);

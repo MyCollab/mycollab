@@ -16,11 +16,10 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.bug;
 
+import com.esofthead.mycollab.mobile.ui.I18nValueComboBox;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
-import com.esofthead.mycollab.vaadin.ui.I18nValueComboBox;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.ui.ComboBox;
 
 import java.util.Arrays;
 
@@ -41,16 +40,5 @@ public class BugSeverityComboBox extends I18nValueComboBox {
         this.setItemIcon(BugSeverity.Major.name(), FontAwesome.STAR);
         this.setItemIcon(BugSeverity.Minor.name(), FontAwesome.STAR);
         this.setItemIcon(BugSeverity.Trivial.name(), FontAwesome.STAR);
-
-        this.setItemStyleGenerator(new ItemStyleGenerator() {
-            @Override
-            public String getStyle(ComboBox source, Object itemId) {
-                if (itemId != null) {
-                    return "bug-severity-" + itemId.toString().toLowerCase();
-                } else {
-                    return null;
-                }
-            }
-        });
     }
 }

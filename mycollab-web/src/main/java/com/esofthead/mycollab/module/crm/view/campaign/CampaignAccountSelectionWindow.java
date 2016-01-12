@@ -25,7 +25,7 @@ import com.esofthead.mycollab.module.crm.view.account.AccountSimpleSearchPanel;
 import com.esofthead.mycollab.module.crm.view.account.AccountTableDisplay;
 import com.esofthead.mycollab.module.crm.view.account.AccountTableFieldDef;
 import com.esofthead.mycollab.vaadin.events.SearchHandler;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.ui.Button;
 
 /**

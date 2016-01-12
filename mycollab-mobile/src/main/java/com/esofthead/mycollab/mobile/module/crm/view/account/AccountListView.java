@@ -21,12 +21,9 @@ import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 3.0
- * 
  */
-public interface AccountListView extends
-		IListView<AccountSearchCriteria, SimpleAccount> {
+public interface AccountListView extends IListView<AccountSearchCriteria, SimpleAccount> {
 
 }

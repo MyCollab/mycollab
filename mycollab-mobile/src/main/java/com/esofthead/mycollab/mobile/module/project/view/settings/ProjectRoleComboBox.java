@@ -45,7 +45,7 @@ public class ProjectRoleComboBox extends ValueComboBox {
         this.setItemCaptionMode(ItemCaptionMode.PROPERTY);
 
         ProjectRoleSearchCriteria criteria = new ProjectRoleSearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
         criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
 
         ProjectRoleService roleService = ApplicationContextUtil.getSpringBean(ProjectRoleService.class);

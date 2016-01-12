@@ -29,9 +29,8 @@ import com.esofthead.mycollab.module.crm.view.opportunity.OpportunitySelectionWi
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
-import com.esofthead.mycollab.vaadin.ui.KeyCaptionComboBox;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
+import com.esofthead.mycollab.vaadin.web.ui.KeyCaptionComboBox;
+import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.data.Property;
 import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.server.FontAwesome;

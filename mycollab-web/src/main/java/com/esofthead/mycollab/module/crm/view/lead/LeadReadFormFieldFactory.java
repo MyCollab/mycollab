@@ -19,12 +19,12 @@ package com.esofthead.mycollab.module.crm.view.lead;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
-import com.esofthead.mycollab.vaadin.ui.form.field.EmailViewField;
-import com.esofthead.mycollab.vaadin.ui.form.field.LinkViewField;
-import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
-import com.esofthead.mycollab.vaadin.ui.form.field.UrlLinkViewField;
-import com.esofthead.mycollab.vaadin.ui.form.field.UserLinkViewField;
+import com.esofthead.mycollab.vaadin.web.ui.field.DefaultViewField;
+import com.esofthead.mycollab.vaadin.web.ui.field.EmailViewField;
+import com.esofthead.mycollab.vaadin.web.ui.field.LinkViewField;
+import com.esofthead.mycollab.vaadin.web.ui.field.RichTextViewField;
+import com.esofthead.mycollab.vaadin.web.ui.field.UrlLinkViewField;
+import com.esofthead.mycollab.vaadin.web.ui.field.UserLinkViewField;
 import com.vaadin.ui.Field;
 
 /**

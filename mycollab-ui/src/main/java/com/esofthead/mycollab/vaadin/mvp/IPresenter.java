@@ -16,9 +16,9 @@
  */
 package com.esofthead.mycollab.vaadin.mvp;
 
-import java.io.Serializable;
-
 import com.vaadin.ui.ComponentContainer;
+
+import java.io.Serializable;
 
 /**
  * @param <V>
@@ -27,31 +27,27 @@ import com.vaadin.ui.ComponentContainer;
  */
 public interface IPresenter<V extends PageView> extends Serializable {
 
-	/**
-	 * 
-	 * @param container
-	 * @param pageActionChain
-	 */
-	void handleChain(ComponentContainer container, PageActionChain pageActionChain);
+    /**
+     * @param container
+     * @param pageActionChain
+     */
+    void handleChain(ComponentContainer container, PageActionChain pageActionChain);
 
-	/**
-	 * 
-	 * @param container
-	 * @param data
-	 */
-	void go(ComponentContainer container, ScreenData<?> data);
+    /**
+     * @param container
+     * @param data
+     */
+    void go(ComponentContainer container, ScreenData<?> data);
 
-	/**
-	 * 
-	 * @param container
-	 * @param data
-	 * @param isHistoryTrack
-	 */
-	void go(ComponentContainer container, ScreenData<?> data, boolean isHistoryTrack);
+    /**
+     * @param container
+     * @param data
+     * @param isHistoryTrack
+     */
+    void go(ComponentContainer container, ScreenData<?> data, boolean isHistoryTrack);
 
-	/**
-	 * 
-	 * @return
-	 */
-	V getView();
+    /**
+     * @return
+     */
+    V getView();
 }

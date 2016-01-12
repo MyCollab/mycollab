@@ -24,7 +24,7 @@ import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.HistoryFieldFormat;
+import com.esofthead.mycollab.vaadin.web.ui.HistoryFieldFormat;
 import com.hp.gagawa.java.elements.I;
 import com.hp.gagawa.java.elements.Li;
 import org.slf4j.Logger;

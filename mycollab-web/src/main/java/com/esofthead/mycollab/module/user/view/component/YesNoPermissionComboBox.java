@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.user.view.component;
 import com.esofthead.mycollab.common.i18n.SecurityI18nEnum;
 import com.esofthead.mycollab.security.BooleanPermissionFlag;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.KeyCaptionComboBox;
+import com.esofthead.mycollab.vaadin.web.ui.KeyCaptionComboBox;
 
 /**
  * @author MyCollab Ltd.

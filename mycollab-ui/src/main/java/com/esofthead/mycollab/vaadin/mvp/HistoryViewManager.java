@@ -16,61 +16,59 @@
  */
 package com.esofthead.mycollab.vaadin.mvp;
 
-import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.HISTORY_VAL;
+import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
+import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.HISTORY_VAL;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class HistoryViewManager {
-	private static final Logger LOG = LoggerFactory.getLogger(HistoryViewManager.class);
+    private static final Logger LOG = LoggerFactory.getLogger(HistoryViewManager.class);
 
-	public static void addHistory(ViewState viewState) {
-		List<ViewState> history = getViewState();
-		if (history.size() > 10) {
-			history.remove(0);
-		}
+    public static void addHistory(ViewState viewState) {
+        List<ViewState> history = getViewState();
+        if (history.size() > 10) {
+            history.remove(0);
+        }
 
-		history.add(viewState);
-	}
+        history.add(viewState);
+    }
 
-	@SuppressWarnings("unchecked")
-	public static ViewState back() {
-		List<ViewState> history = getViewState();
-		if (history.size() >= 2) {
-			ViewState viewState = history.get(history.size() - 2);
-			history.remove(history.size() - 2);
+    @SuppressWarnings("unchecked")
+    public static ViewState back() {
+        List<ViewState> history = getViewState();
+        if (history.size() >= 2) {
+            ViewState viewState = history.get(history.size() - 2);
+            history.remove(history.size() - 2);
 
-			if (viewState.getPresenter().getView() instanceof IModule) {
-				return new NullViewState();
-			} else {
-				LOG.debug("Back to view: " + viewState.getPresenter());
+            if (viewState.getPresenter().getView() instanceof IModule) {
+                return new NullViewState();
+            } else {
+                LOG.debug("Back to view: " + viewState.getPresenter());
 
-				viewState.getPresenter().go(viewState.getContainer(), viewState.getParams());
-				return viewState;
-			}
+                viewState.getPresenter().go(viewState.getContainer(), viewState.getParams());
+                return viewState;
+            }
 
-		} else {
-			return new NullViewState();
-		}
-	}
+        } else {
+            return new NullViewState();
+        }
+    }
 
-	@SuppressWarnings("unchecked")
-	private static List<ViewState> getViewState() {
-		List<ViewState> history = (List<ViewState>) MyCollabSession.getVariable(HISTORY_VAL);
-		if (history == null) {
-			history = new ArrayList<>();
-			MyCollabSession.putVariable(HISTORY_VAL, history);
-		}
-		return history;
-	}
+    @SuppressWarnings("unchecked")
+    private static List<ViewState> getViewState() {
+        List<ViewState> history = (List<ViewState>) MyCollabSession.getVariable(HISTORY_VAL);
+        if (history == null) {
+            history = new ArrayList<>();
+            MyCollabSession.putVariable(HISTORY_VAL, history);
+        }
+        return history;
+    }
 }

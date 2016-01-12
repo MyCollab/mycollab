@@ -27,7 +27,7 @@ import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearch
 import com.esofthead.mycollab.module.project.events.ProjectMemberEvent;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
-import com.esofthead.mycollab.vaadin.ui.MultiSelectComp;
+import com.esofthead.mycollab.vaadin.web.ui.MultiSelectComp;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;

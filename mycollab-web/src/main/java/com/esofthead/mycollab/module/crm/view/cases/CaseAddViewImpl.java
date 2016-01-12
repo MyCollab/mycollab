@@ -21,10 +21,11 @@ import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.i18n.CaseI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractEditItemComp;
-import com.esofthead.mycollab.vaadin.ui.DynaFormLayout;
+import com.esofthead.mycollab.vaadin.web.ui.DynaFormLayout;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.web.ui.EditFormControlsGenerator;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
 

@@ -21,7 +21,7 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.I18nValueComboBox;
+import com.esofthead.mycollab.vaadin.web.ui.I18nValueComboBox;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.RichTextArea;

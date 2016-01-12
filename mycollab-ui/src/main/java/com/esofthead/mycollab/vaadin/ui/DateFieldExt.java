@@ -22,10 +22,8 @@ import com.vaadin.ui.DateField;
 import java.util.Date;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 4.5.4
- *
  */
 public class DateFieldExt extends DateField {
     private static final long serialVersionUID = 1L;

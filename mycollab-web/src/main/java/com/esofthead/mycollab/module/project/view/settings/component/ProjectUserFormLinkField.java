@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.settings.component;
 
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 

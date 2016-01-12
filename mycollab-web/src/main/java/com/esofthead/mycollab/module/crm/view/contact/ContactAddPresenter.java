@@ -29,7 +29,7 @@ import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.events.EditFormHandler;
+import com.esofthead.mycollab.vaadin.events.IEditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.HistoryViewManager;
 import com.esofthead.mycollab.vaadin.mvp.NullViewState;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -50,7 +50,7 @@ public class ContactAddPresenter extends CrmGenericPresenter<ContactAddView> {
 
     @Override
     protected void postInitView() {
-        view.getEditFormHandlers().addFormHandler(new EditFormHandler<SimpleContact>() {
+        view.getEditFormHandlers().addFormHandler(new IEditFormHandler<SimpleContact>() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -94,15 +94,10 @@ public class ContactAddPresenter extends CrmGenericPresenter<ContactAddView> {
             view.editItem(contact);
 
             if (contact.getId() == null) {
-                AppContext.addFragment("crm/contact/add", AppContext
-                        .getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE, "Contact"));
+                AppContext.addFragment("crm/contact/add", AppContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE, "Contact"));
             } else {
-                AppContext.addFragment(
-                        "crm/contact/edit/"
-                                + UrlEncodeDecoder.encode(contact.getId()),
-                        AppContext.getMessage(
-                                GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
-                                "Contact", contact.getLastname()));
+                AppContext.addFragment("crm/contact/edit/" + UrlEncodeDecoder.encode(contact.getId()),
+                        AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, "Contact", contact.getLastname()));
             }
         } else {
             NotificationUtil.showMessagePermissionAlert();
@@ -111,7 +106,6 @@ public class ContactAddPresenter extends CrmGenericPresenter<ContactAddView> {
 
     private int saveContact(Contact contact) {
         ContactService contactService = ApplicationContextUtil.getSpringBean(ContactService.class);
-
         contact.setSaccountid(AppContext.getAccountId());
         if (contact.getId() == null) {
             contactService.saveWithSession(contact, AppContext.getUsername());

@@ -26,7 +26,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.events.EditFormHandler;
+import com.esofthead.mycollab.vaadin.events.DefaultEditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
@@ -44,21 +44,13 @@ public class ProjectMemberEditPresenter extends AbstractMobilePresenter<ProjectM
 
     @Override
     protected void postInitView() {
-        view.getEditFormHandlers().addFormHandler(new EditFormHandler<SimpleProjectMember>() {
+        view.getEditFormHandlers().addFormHandler(new DefaultEditFormHandler<SimpleProjectMember>() {
             private static final long serialVersionUID = 1L;
 
             @Override
             public void onSave(final SimpleProjectMember projectMember) {
                 saveProjectMember(projectMember);
                 EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
-            }
-
-            @Override
-            public void onCancel() {
-            }
-
-            @Override
-            public void onSaveAndNew(SimpleProjectMember projectMember) {
             }
         });
     }

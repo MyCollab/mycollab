@@ -25,8 +25,8 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.FormContainer;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.MassUpdateWindow;
-import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
+import com.esofthead.mycollab.vaadin.web.ui.MassUpdateWindow;
+import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 

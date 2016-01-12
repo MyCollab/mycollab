@@ -147,15 +147,15 @@ class ResolvedInputView extends AbstractMobilePageView {
             @Override
             protected Field<?> onCreateField(final Object propertyId) {
                 if (propertyId.equals("resolution")) {
-                    ResolvedInputView.this.bug.setResolution(BugResolution.Fixed.name());
+                    bug.setResolution(BugResolution.Fixed.name());
                     return BugResolutionComboBox.getInstanceForResolvedBugWindow();
                 } else if (propertyId.equals("assignuser")) {
-                    ResolvedInputView.this.bug.setAssignuser(bug.getLogby());
+                    bug.setAssignuser(bug.getLogby());
                     return new ProjectMemberSelectionField();
                 } else if (propertyId.equals("comment")) {
-                    EditForm.this.commentArea = new TextArea();
-                    EditForm.this.commentArea.setNullRepresentation("");
-                    return EditForm.this.commentArea;
+                    commentArea = new TextArea();
+                    commentArea.setNullRepresentation("");
+                    return commentArea;
                 }
 
                 return null;

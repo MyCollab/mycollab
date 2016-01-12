@@ -22,10 +22,14 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * @author MyCollab Ltd
+ * @since 2.0
+ */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(value = { ElementType.TYPE })
+@Target(value = {ElementType.TYPE})
 public @interface ViewPermission {
-	String permissionId();
+    String permissionId();
 
-	int impliedPermissionVal();
+    int impliedPermissionVal();
 }

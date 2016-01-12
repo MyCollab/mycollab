@@ -26,6 +26,8 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.web.ui.DynaFormLayout;
+import com.esofthead.mycollab.vaadin.web.ui.EditFormControlsGenerator;
 import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.ComponentContainer;

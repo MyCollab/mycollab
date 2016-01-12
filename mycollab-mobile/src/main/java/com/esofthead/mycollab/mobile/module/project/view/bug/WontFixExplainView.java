@@ -71,13 +71,11 @@ class WontFixExplainView extends AbstractMobilePageView {
 
                     final String commentValue = editForm.commentArea.getValue();
                     if (commentValue != null && !commentValue.trim().equals("")) {
-
                         // Save bug status and assignee
                         final BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
                         bugService.updateSelectiveWithSession(WontFixExplainView.this.bug, AppContext.getUsername());
 
                         // Save comment
-
                         final CommentWithBLOBs comment = new CommentWithBLOBs();
                         comment.setComment(commentValue);
                         comment.setCreatedtime(new GregorianCalendar().getTime());
@@ -155,7 +153,6 @@ class WontFixExplainView extends AbstractMobilePageView {
                     commentArea.setNullRepresentation("");
                     return commentArea;
                 }
-
                 return null;
             }
         }

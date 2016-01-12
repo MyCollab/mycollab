@@ -23,10 +23,9 @@ import org.apache.commons.beanutils.PropertyUtils;
 
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable;
-import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
-import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
-import com.vaadin.ui.VerticalLayout;
+import com.esofthead.mycollab.vaadin.web.ui.table.IPagedBeanTable;
+import com.esofthead.mycollab.vaadin.web.ui.table.IPagedBeanTable.TableClickEvent;
+import com.esofthead.mycollab.vaadin.web.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.ui.Window;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 

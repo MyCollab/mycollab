@@ -65,26 +65,26 @@ public class MilestoneAddViewImpl extends AbstractEditItemComp<SimpleMilestone> 
             layout.setMargin(false);
             layout.addComponent(FormSectionBuilder.build(AppContext.getMessage(MilestoneI18nEnum.M_FORM_READ_TITLE)));
 
-            this.informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 6);
-            layout.addComponent(this.informationLayout.getLayout());
-            layout.setComponentAlignment(this.informationLayout.getLayout(), Alignment.TOP_LEFT);
+            informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 6);
+            layout.addComponent(informationLayout.getLayout());
+            layout.setComponentAlignment(informationLayout.getLayout(), Alignment.TOP_LEFT);
             return layout;
         }
 
         @Override
         public void attachField(Object propertyId, Field<?> field) {
             if (propertyId.equals("name")) {
-                this.informationLayout.addComponent(field, AppContext.getMessage(MilestoneI18nEnum.FORM_NAME_FIELD), 0, 0);
+                informationLayout.addComponent(field, AppContext.getMessage(MilestoneI18nEnum.FORM_NAME_FIELD), 0, 0);
             } else if (propertyId.equals("status")) {
-                this.informationLayout.addComponent(field, AppContext.getMessage(MilestoneI18nEnum.FORM_STATUS_FIELD), 0, 1);
+                informationLayout.addComponent(field, AppContext.getMessage(MilestoneI18nEnum.FORM_STATUS_FIELD), 0, 1);
             } else if (propertyId.equals("owner")) {
-                this.informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 2);
+                informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 2);
             } else if (propertyId.equals("startdate")) {
-                this.informationLayout.addComponent(field, AppContext.getMessage(MilestoneI18nEnum.FORM_START_DATE_FIELD), 0, 3);
+                informationLayout.addComponent(field, AppContext.getMessage(MilestoneI18nEnum.FORM_START_DATE_FIELD), 0, 3);
             } else if (propertyId.equals("enddate")) {
-                this.informationLayout.addComponent(field, AppContext.getMessage(MilestoneI18nEnum.FORM_END_DATE_FIELD), 0, 4);
+                informationLayout.addComponent(field, AppContext.getMessage(MilestoneI18nEnum.FORM_END_DATE_FIELD), 0, 4);
             } else if (propertyId.equals("description")) {
-                this.informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 5);
+                informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 5);
             }
         }
     }

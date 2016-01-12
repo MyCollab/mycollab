@@ -22,6 +22,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum
 import com.esofthead.mycollab.reporting.ReportExportType
 import com.esofthead.mycollab.vaadin.AppContext
 import com.esofthead.mycollab.vaadin.events.{HasMassItemActionHandler, MassItemActionHandler, ViewItemAction}
+import com.esofthead.mycollab.vaadin.web.ui.UIConstants
 import com.vaadin.server.StreamResource.StreamSource
 import com.vaadin.server.{FileDownloader, FontAwesome, Resource, StreamResource}
 import com.vaadin.ui.Button

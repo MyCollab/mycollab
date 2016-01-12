@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
-import com.esofthead.mycollab.vaadin.desktop.ui.ListView;
+import com.esofthead.mycollab.vaadin.web.ui.ListView;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 
 /**

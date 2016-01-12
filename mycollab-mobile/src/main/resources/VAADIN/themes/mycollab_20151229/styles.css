@@ -103,6 +103,18 @@ a {
 	padding-right: 10px;
 }
 
+.confirm-dialog .v-window-outerheader {
+	display: none;
+}
+
+.confirm-dialog .v-window-closebox {
+	background-color: transparent !important;
+}
+
+.confirm-dialog .v-horizontallayout .v-button {
+	font-size: 14px;
+}
+
 .attachment-panel {
 	border-top: 1px solid #dddddd;
 	padding: 0.5rem 0rem 0.8rem;
@@ -241,7 +253,6 @@ body {
 }
 
 .v-touchkit-verticalcomponentgroup {
-	border-top: 1px solid #e5e5e5 !important;
 	border-bottom: 1px solid #e5e5e5 !important;
 	box-shadow: none !important;
 	margin-bottom: 0 !important;

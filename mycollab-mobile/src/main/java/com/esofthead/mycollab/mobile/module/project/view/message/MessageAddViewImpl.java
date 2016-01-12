@@ -23,7 +23,7 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
 import com.esofthead.mycollab.module.project.i18n.MessageI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.events.EditFormHandler;
+import com.esofthead.mycollab.vaadin.events.IEditFormHandler;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
@@ -51,7 +51,7 @@ public class MessageAddViewImpl extends AbstractMobilePageView implements Messag
     private final Switch isStickField;
 
     private MessageAttachmentField attachment;
-    private Set<EditFormHandler<SimpleMessage>> handlers = new HashSet<>();
+    private Set<IEditFormHandler<SimpleMessage>> handlers = new HashSet<>();
 
     public MessageAddViewImpl() {
         this.addStyleName("message-add-view");
@@ -115,7 +115,7 @@ public class MessageAddViewImpl extends AbstractMobilePageView implements Messag
     }
 
     @Override
-    public void addFormHandler(EditFormHandler<SimpleMessage> handler) {
+    public void addFormHandler(IEditFormHandler<SimpleMessage> handler) {
         handlers.add(handler);
     }
 
@@ -126,7 +126,7 @@ public class MessageAddViewImpl extends AbstractMobilePageView implements Messag
 
     private void fireSaveItem(final SimpleMessage message) {
         if (this.handlers != null) {
-            for (final EditFormHandler<SimpleMessage> handler : this.handlers) {
+            for (final IEditFormHandler<SimpleMessage> handler : this.handlers) {
                 handler.onSave(message);
             }
         }

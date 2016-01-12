@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.module.user.ui.components;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
@@ -26,7 +25,7 @@ import com.esofthead.mycollab.module.user.domain.criteria.UserSearchCriteria;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.MultiSelectComp;
+import com.esofthead.mycollab.vaadin.web.ui.MultiSelectComp;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;

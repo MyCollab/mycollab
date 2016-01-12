@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.query.CurrentProjectIdInjecter;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.SavedFilterComboBox;
+import com.esofthead.mycollab.vaadin.web.ui.SavedFilterComboBox;
 import org.joda.time.LocalDate;
 
 import java.util.ArrayList;

@@ -20,8 +20,7 @@ package com.esofthead.mycollab.module.crm.ui.components;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.esofthead.mycollab.vaadin.ui.RelatedListHandler;
-import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable;
-import com.vaadin.ui.VerticalLayout;
+import com.esofthead.mycollab.vaadin.web.ui.table.IPagedBeanTable;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.HashSet;

@@ -29,7 +29,7 @@ import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.events.EditFormHandler;
+import com.esofthead.mycollab.vaadin.events.IEditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.HistoryViewManager;
 import com.esofthead.mycollab.vaadin.mvp.NullViewState;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -50,7 +50,7 @@ public class OpportunityAddPresenter extends CrmGenericPresenter<OpportunityAddV
 
     @Override
     protected void postInitView() {
-        view.getEditFormHandlers().addFormHandler(new EditFormHandler<SimpleOpportunity>() {
+        view.getEditFormHandlers().addFormHandler(new IEditFormHandler<SimpleOpportunity>() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -94,8 +94,7 @@ public class OpportunityAddPresenter extends CrmGenericPresenter<OpportunityAddV
             view.editItem(opportunity);
 
             if (opportunity.getId() == null) {
-                AppContext.addFragment("crm/opportunity/add", AppContext
-                        .getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE, "Opportunity"));
+                AppContext.addFragment("crm/opportunity/add", AppContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE, "Opportunity"));
             } else {
                 AppContext.addFragment("crm/opportunity/edit/" + UrlEncodeDecoder.encode(opportunity.getId()),
                         AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, "Opportunity",
@@ -108,7 +107,6 @@ public class OpportunityAddPresenter extends CrmGenericPresenter<OpportunityAddV
 
     private int saveOpportunity(Opportunity opportunity) {
         OpportunityService opportunityService = ApplicationContextUtil.getSpringBean(OpportunityService.class);
-
         opportunity.setSaccountid(AppContext.getAccountId());
         if (opportunity.getId() == null) {
             opportunityService.saveWithSession(opportunity, AppContext.getUsername());

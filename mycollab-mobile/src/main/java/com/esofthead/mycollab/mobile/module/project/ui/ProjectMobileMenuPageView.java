@@ -42,13 +42,23 @@ public class ProjectMobileMenuPageView extends AbstractMobileMenuPageView {
         l.addStyleName(SlideMenu.STYLENAME_SECTIONLABEL);
         getMenu().addComponent(l);
 
+        Button prjButton = new Button("Projects", new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                getMenu().close();
+                EventBusFactory.getInstance().post(new ProjectEvent.GotoProjectList(this, null));
+            }
+        });
+        prjButton.setIcon(FontAwesome.BUILDING);
+        prjButton.addStyleName(SlideMenu.STYLENAME_BUTTON);
+        getMenu().addComponent(prjButton);
+
         // Buttons with styling (slightly smaller with left-aligned text)
         Button activityBtn = new Button("Activities", new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 getMenu().close();
                 EventBusFactory.getInstance().post(new ProjectEvent.MyProjectActivities(this, null));
-
             }
         });
         activityBtn.setIcon(FontAwesome.INBOX);

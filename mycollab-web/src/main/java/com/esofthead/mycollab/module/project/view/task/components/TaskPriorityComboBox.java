@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.project.view.task.components;
 
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
-import com.esofthead.mycollab.vaadin.ui.I18nValueComboBox;
+import com.esofthead.mycollab.vaadin.web.ui.I18nValueComboBox;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.ComboBox;
 

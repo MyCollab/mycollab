@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.tracker.domain.Component;
 import com.esofthead.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.ComponentService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
-import com.esofthead.mycollab.vaadin.ui.MultiSelectComp;
+import com.esofthead.mycollab.vaadin.web.ui.MultiSelectComp;
 import com.vaadin.data.Property;
 
 import java.util.List;

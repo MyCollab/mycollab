@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.crm.view;
 
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
-import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet;
+import com.esofthead.mycollab.vaadin.web.ui.VerticalTabsheet;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Component;
 

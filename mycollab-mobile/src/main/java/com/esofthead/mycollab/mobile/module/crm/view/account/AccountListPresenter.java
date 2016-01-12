@@ -25,24 +25,20 @@ import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 3.0
- * 
  */
-public class AccountListPresenter extends
-		CrmListPresenter<AccountListView, AccountSearchCriteria, SimpleAccount> {
-	private static final long serialVersionUID = -3014478937143932048L;
+public class AccountListPresenter extends CrmListPresenter<AccountListView, AccountSearchCriteria, SimpleAccount> {
+    private static final long serialVersionUID = -3014478937143932048L;
 
-	public AccountListPresenter() {
-		super(AccountListView.class);
-	}
+    public AccountListPresenter() {
+        super(AccountListView.class);
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		super.onGo(container, data);
-		AppContext.addFragment("crm/account/list",
-				AppContext.getMessage(AccountI18nEnum.VIEW_LIST_TITLE));
-	}
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        super.onGo(container, data);
+        AppContext.addFragment("crm/account/list", AppContext.getMessage(AccountI18nEnum.VIEW_LIST_TITLE));
+    }
 
 }

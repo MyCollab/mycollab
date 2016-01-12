@@ -18,7 +18,7 @@
 package com.esofthead.mycollab.module.project.view.bug.components;
 
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
-import com.esofthead.mycollab.vaadin.ui.I18nValueComboBox;
+import com.esofthead.mycollab.vaadin.web.ui.I18nValueComboBox;
 
 /**
  * 

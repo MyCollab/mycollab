@@ -27,11 +27,11 @@ import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.events.EditFormHandler;
+import com.esofthead.mycollab.vaadin.events.IEditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewPermission;
-import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
+import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
 import com.vaadin.ui.ComponentContainer;
 
@@ -51,7 +51,7 @@ public class ProjectAddPresenter extends AbstractPresenter<ProjectAddView> {
 
     @Override
     protected void postInitView() {
-        view.getEditFormHandlers().addFormHandler(new EditFormHandler<Project>() {
+        view.getEditFormHandlers().addFormHandler(new IEditFormHandler<Project>() {
             private static final long serialVersionUID = 1L;
 
             @Override

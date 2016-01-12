@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.events.EditFormHandler;
+import com.esofthead.mycollab.vaadin.events.DefaultEditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
@@ -46,17 +46,13 @@ public class ContactAddPresenter extends AbstractMobilePresenter<ContactAddView>
 
     @Override
     protected void postInitView() {
-        view.getEditFormHandlers().addFormHandler(new EditFormHandler<SimpleContact>() {
+        view.getEditFormHandlers().addFormHandler(new DefaultEditFormHandler<SimpleContact>() {
             private static final long serialVersionUID = 1L;
 
             @Override
             public void onSave(final SimpleContact contact) {
                 saveContact(contact);
                 EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
-            }
-
-            @Override
-            public void onCancel() {
             }
 
             @Override
@@ -97,7 +93,6 @@ public class ContactAddPresenter extends AbstractMobilePresenter<ContactAddView>
 
     private void saveContact(Contact contact) {
         ContactService contactService = ApplicationContextUtil.getSpringBean(ContactService.class);
-
         contact.setSaccountid(AppContext.getAccountId());
         if (contact.getId() == null) {
             contactService.saveWithSession(contact, AppContext.getUsername());

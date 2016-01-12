@@ -18,8 +18,8 @@ package com.esofthead.mycollab.shell.view.components;
 
 import com.esofthead.mycollab.core.MyCollabVersion;
 import com.esofthead.mycollab.vaadin.ui.AssetResource;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
+import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.web.ui.WebResourceIds;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Text;

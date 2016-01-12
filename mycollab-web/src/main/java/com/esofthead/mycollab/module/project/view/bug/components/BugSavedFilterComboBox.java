@@ -24,7 +24,7 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.query.CurrentProjectIdInjecter;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.SavedFilterComboBox;
+import com.esofthead.mycollab.vaadin.web.ui.SavedFilterComboBox;
 import org.joda.time.LocalDate;
 
 import java.util.Arrays;

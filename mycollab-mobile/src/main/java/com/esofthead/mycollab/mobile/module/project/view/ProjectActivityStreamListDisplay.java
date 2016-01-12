@@ -23,6 +23,7 @@ import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectMemberScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
+import com.esofthead.mycollab.mobile.ui.FormSectionBuilder;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ProjectActivityStream;
@@ -72,9 +73,7 @@ public class ProjectActivityStreamListDisplay extends AbstractPagedBeanList<Acti
         Date currentDate = new GregorianCalendar(2100, 1, 1).getTime();
         for (final ProjectActivityStream item : currentListData) {
             if (!DateUtils.isSameDay(item.getCreatedtime(), currentDate)) {
-                Label dateLbl = new Label(AppContext.formatDate(item.getCreatedtime()));
-                dateLbl.setStyleName("activity-date");
-                listContainer.addComponent(dateLbl);
+                listContainer.addComponent(FormSectionBuilder.build(AppContext.formatDate(item.getCreatedtime())));
                 currentDate = item.getCreatedtime();
             }
             final Component row = getRowDisplayHandler().generateRow(item, i);
@@ -86,12 +85,12 @@ public class ProjectActivityStreamListDisplay extends AbstractPagedBeanList<Acti
     private static class ActivityStreamRowHandler implements RowDisplayHandler<ProjectActivityStream> {
 
         @Override
-        public Component generateRow(final ProjectActivityStream obj, int rowIndex) {
+        public Component generateRow(final ProjectActivityStream activity, int rowIndex) {
             MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%");
             layout.addStyleName("activity-row");
 
             Label typeIcon = new Label("<span aria-hidden=\"true\" data-icon=\""
-                    + ProjectAssetsManager.toHexString(obj.getType()) + "\"></span>");
+                    + ProjectAssetsManager.toHexString(activity.getType()) + "\"></span>");
             typeIcon.setWidthUndefined();
             typeIcon.setContentMode(ContentMode.HTML);
             typeIcon.setStyleName("activity-type");
@@ -100,7 +99,7 @@ public class ProjectActivityStreamListDisplay extends AbstractPagedBeanList<Acti
 
             VerticalLayout rightCol = new VerticalLayout();
             rightCol.setWidth("100%");
-            Label streamItem = new Label(generateItemLink(obj));
+            Label streamItem = new Label(generateItemLink(activity));
             streamItem.setStyleName("activity-item");
             streamItem.setContentMode(ContentMode.HTML);
             rightCol.addComponent(streamItem);
@@ -112,24 +111,20 @@ public class ProjectActivityStreamListDisplay extends AbstractPagedBeanList<Acti
             Label streamDetail = new Label();
             streamDetail.setWidthUndefined();
             streamDetail.setStyleName("activity-detail");
-            if (ActivityStreamConstants.ACTION_CREATE.equals(obj.getAction())) {
-                streamDetail
-                        .setValue(AppContext
-                                .getMessage(ProjectCommonI18nEnum.M_FEED_USER_ACTIVITY_CREATE_ACTION_TITLE));
-            } else if (ActivityStreamConstants.ACTION_UPDATE.equals(obj
-                    .getAction())) {
-                streamDetail
-                        .setValue(AppContext
-                                .getMessage(ProjectCommonI18nEnum.M_FEED_USER_ACTIVITY_UPDATE_ACTION_TITLE));
+            if (ActivityStreamConstants.ACTION_CREATE.equals(activity.getAction())) {
+                streamDetail.setValue(AppContext
+                        .getMessage(ProjectCommonI18nEnum.M_FEED_USER_ACTIVITY_CREATE_ACTION_TITLE));
+            } else if (ActivityStreamConstants.ACTION_UPDATE.equals(activity.getAction())) {
+                streamDetail.setValue(AppContext.getMessage(ProjectCommonI18nEnum.M_FEED_USER_ACTIVITY_UPDATE_ACTION_TITLE));
             }
             detailRow.addComponent(streamDetail);
-            Button activityUser = new Button(obj.getCreatedUserFullName(), new Button.ClickListener() {
+            Button activityUser = new Button(activity.getCreatedUserFullName(), new Button.ClickListener() {
                 private static final long serialVersionUID = 719162256058709352L;
 
                 @Override
                 public void buttonClick(Button.ClickEvent event) {
-                    PageActionChain chain = new PageActionChain(new ProjectScreenData.Goto(obj.getProjectId()),
-                            new ProjectMemberScreenData.Read(obj.getCreateduser()));
+                    PageActionChain chain = new PageActionChain(new ProjectScreenData.Goto(activity.getProjectId()),
+                            new ProjectMemberScreenData.Read(activity.getCreateduser()));
                     EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
                 }
             });
@@ -147,8 +142,7 @@ public class ProjectActivityStreamListDisplay extends AbstractPagedBeanList<Acti
 
     private static String generateItemLink(ProjectActivityStream stream) {
         A itemLink = new A();
-        if (ProjectTypeConstants.TASK.equals(stream.getType())
-                || ProjectTypeConstants.BUG.equals(stream.getType())) {
+        if (ProjectTypeConstants.TASK.equals(stream.getType()) || ProjectTypeConstants.BUG.equals(stream.getType())) {
             itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
                     stream.getProjectShortName(), stream.getExtratypeid(),
                     stream.getType(), stream.getItemKey() + ""));

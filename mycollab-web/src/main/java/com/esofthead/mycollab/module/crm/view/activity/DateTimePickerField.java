@@ -21,7 +21,7 @@ import java.util.Date;
 
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.vaadin.ui.PopupDateFieldExt;
-import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
+import com.esofthead.mycollab.vaadin.web.ui.ValueComboBox;
 import com.vaadin.data.Property;
 import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.shared.ui.datefield.Resolution;

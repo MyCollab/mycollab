@@ -36,15 +36,11 @@ import com.vaadin.ui.Component;
  */
 
 @ViewComponent
-public class AccountListViewImpl extends
-		AbstractListViewComp<AccountSearchCriteria, SimpleAccount> implements
-		AccountListView {
-
+public class AccountListViewImpl extends AbstractListViewComp<AccountSearchCriteria, SimpleAccount> implements AccountListView {
 	private static final long serialVersionUID = -500810154594390148L;
 
 	public AccountListViewImpl() {
 		super();
-
 		setCaption(AppContext.getMessage(AccountI18nEnum.VIEW_LIST_TITLE));
 	}
 
@@ -62,8 +58,7 @@ public class AccountListViewImpl extends
 
 			@Override
 			public void buttonClick(Button.ClickEvent arg0) {
-				EventBusFactory.getInstance().post(
-						new AccountEvent.GotoAdd(this, null));
+				EventBusFactory.getInstance().post(new AccountEvent.GotoAdd(this, null));
 			}
 		});
 		addAccount.setStyleName("add-btn");

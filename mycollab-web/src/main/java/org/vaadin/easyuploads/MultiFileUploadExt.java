@@ -29,7 +29,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import org.apache.commons.io.FilenameUtils;
 
 import com.esofthead.mycollab.core.utils.StringUtils;
-import com.esofthead.mycollab.vaadin.ui.AttachmentUploadComponent;
+import com.esofthead.mycollab.vaadin.web.ui.AttachmentUploadComponent;
 import com.vaadin.event.dd.DragAndDropEvent;
 import com.vaadin.event.dd.DropHandler;
 import com.vaadin.event.dd.acceptcriteria.AcceptAll;

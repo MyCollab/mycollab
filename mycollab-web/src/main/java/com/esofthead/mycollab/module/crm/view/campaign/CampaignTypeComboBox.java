@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.crm.view.campaign;
 
 import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
-import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
+import com.esofthead.mycollab.vaadin.web.ui.ValueComboBox;
 
 @SuppressWarnings("serial")
 public class CampaignTypeComboBox extends ValueComboBox {

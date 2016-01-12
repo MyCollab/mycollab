@@ -20,7 +20,7 @@ import com.esofthead.mycollab.module.project.domain.FollowingTicket;
 import com.esofthead.mycollab.module.project.domain.criteria.FollowingTicketSearchCriteria;
 import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
-import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
+import com.esofthead.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
 
 /**
  * 

@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.project.ui.form;
 
 import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.AttachmentPanel;
+import com.esofthead.mycollab.vaadin.web.ui.AttachmentPanel;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.VerticalLayout;

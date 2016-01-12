@@ -19,8 +19,8 @@ package com.esofthead.mycollab.mobile.module.crm.view.cases;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
-import com.esofthead.mycollab.vaadin.ui.form.field.EmailViewField;
+import com.esofthead.mycollab.vaadin.web.ui.field.DefaultViewField;
+import com.esofthead.mycollab.vaadin.web.ui.field.EmailViewField;
 import com.vaadin.ui.Field;
 
 /**

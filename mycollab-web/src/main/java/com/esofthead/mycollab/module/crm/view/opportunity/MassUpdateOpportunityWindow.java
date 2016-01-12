@@ -23,7 +23,8 @@ import com.esofthead.mycollab.module.crm.i18n.OpportunityI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
-import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
+import com.esofthead.mycollab.vaadin.web.ui.MassUpdateWindow;
+import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.ui.*;
 
 /**

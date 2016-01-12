@@ -24,6 +24,7 @@ import com.esofthead.mycollab.module.project.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.web.ui.EditFormControlsGenerator;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
 

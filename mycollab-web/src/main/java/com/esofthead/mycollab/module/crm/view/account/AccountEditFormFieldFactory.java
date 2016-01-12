@@ -22,9 +22,9 @@ import com.esofthead.mycollab.module.crm.ui.components.IndustryComboBox;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserComboBox;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.CountryComboBox;
+import com.esofthead.mycollab.vaadin.web.ui.CountryComboBox;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
+import com.esofthead.mycollab.vaadin.web.ui.field.RichTextEditField;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.TextField;
 

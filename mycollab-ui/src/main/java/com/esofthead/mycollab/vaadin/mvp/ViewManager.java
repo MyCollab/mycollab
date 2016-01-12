@@ -59,10 +59,8 @@ public class ViewManager {
         }
     }
 
-    private static <T> T createInstanceFromCls(Class<T> viewClass) throws IllegalAccessException,
-            InstantiationException {
-        ComponentScannerService componentScannerService = ApplicationContextUtil.getSpringBean
-                (ComponentScannerService.class);
+    private static <T> T createInstanceFromCls(Class<T> viewClass) throws IllegalAccessException, InstantiationException {
+        ComponentScannerService componentScannerService = ApplicationContextUtil.getSpringBean(ComponentScannerService.class);
         Class<?> implCls = componentScannerService.getViewImplCls(viewClass);
         if (implCls != null) {
             return (T) implCls.newInstance();

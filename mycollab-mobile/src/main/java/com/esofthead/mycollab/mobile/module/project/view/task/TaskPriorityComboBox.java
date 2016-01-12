@@ -16,8 +16,8 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.task;
 
+import com.esofthead.mycollab.mobile.ui.I18nValueComboBox;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
-import com.esofthead.mycollab.vaadin.ui.I18nValueComboBox;
 
 import java.util.Arrays;
 
@@ -26,7 +26,6 @@ import java.util.Arrays;
  * @since 4.5.0
  */
 public class TaskPriorityComboBox extends I18nValueComboBox {
-
     private static final long serialVersionUID = 5484692572022056722L;
 
     public TaskPriorityComboBox() {

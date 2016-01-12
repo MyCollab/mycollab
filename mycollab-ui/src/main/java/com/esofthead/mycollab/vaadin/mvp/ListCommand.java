@@ -20,13 +20,11 @@ package com.esofthead.mycollab.vaadin.mvp;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 
 /**
- * 
+ * @param <S>
  * @author MyCollab
  * @since 1.0
- * 
- * @param <S>
  */
 public interface ListCommand<S extends SearchCriteria> {
 
-	void doSearch(S searchCriteria);
+    void doSearch(S searchCriteria);
 }

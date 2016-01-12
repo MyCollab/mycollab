@@ -88,7 +88,7 @@ public class GenericBeanForm<B> extends CssLayout {
         fieldFactory.setBean(bean);
     }
 
-    void commit() {
+    public void commit() {
         fieldFactory.commit();
     }
 

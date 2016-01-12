@@ -36,8 +36,8 @@ import com.esofthead.mycollab.configuration.SiteConfiguration
 import com.esofthead.mycollab.eventmanager.EventBusFactory
 import com.esofthead.mycollab.module.user.accountsettings.view.events.{AccountBillingEvent, ProfileEvent, SetupEvent}
 import com.esofthead.mycollab.shell.events.ShellEvent
-import com.esofthead.mycollab.vaadin.desktop.ui.ModuleHelper
 import com.esofthead.mycollab.vaadin.mvp.UrlResolver
+import com.esofthead.mycollab.vaadin.web.ui.ModuleHelper
 
 /**
   * @author MyCollab Ltd

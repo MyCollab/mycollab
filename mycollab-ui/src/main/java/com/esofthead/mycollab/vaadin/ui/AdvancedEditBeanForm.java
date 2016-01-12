@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import com.esofthead.mycollab.vaadin.events.EditFormHandler;
+import com.esofthead.mycollab.vaadin.events.IEditFormHandler;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ import java.util.List;
 public class AdvancedEditBeanForm<B> extends GenericBeanForm<B> implements HasEditFormHandlers<B> {
     private static final long serialVersionUID = 1L;
 
-    private List<EditFormHandler<B>> editFormHandlers;
+    private List<IEditFormHandler<B>> editFormHandlers;
 
     /**
      * Validate attachForm against data
@@ -47,7 +47,7 @@ public class AdvancedEditBeanForm<B> extends GenericBeanForm<B> implements HasEd
     }
 
     @Override
-    public void addFormHandler(EditFormHandler<B> editFormHandler) {
+    public void addFormHandler(IEditFormHandler<B> editFormHandler) {
         if (editFormHandlers == null) {
             editFormHandlers = new ArrayList<>();
         }
@@ -57,7 +57,7 @@ public class AdvancedEditBeanForm<B> extends GenericBeanForm<B> implements HasEd
 
     public void fireSaveForm() {
         if (editFormHandlers != null) {
-            for (EditFormHandler<B> editFormHandler : editFormHandlers) {
+            for (IEditFormHandler<B> editFormHandler : editFormHandlers) {
                 editFormHandler.onSave(this.getBean());
             }
         }
@@ -65,7 +65,7 @@ public class AdvancedEditBeanForm<B> extends GenericBeanForm<B> implements HasEd
 
     public void fireSaveAndNewForm() {
         if (editFormHandlers != null) {
-            for (EditFormHandler<B> editFormHandler : editFormHandlers) {
+            for (IEditFormHandler<B> editFormHandler : editFormHandlers) {
                 editFormHandler.onSaveAndNew(this.getBean());
             }
         }
@@ -73,7 +73,7 @@ public class AdvancedEditBeanForm<B> extends GenericBeanForm<B> implements HasEd
 
     public void fireCancelForm() {
         if (editFormHandlers != null) {
-            for (EditFormHandler<B> editFormHandler : editFormHandlers) {
+            for (IEditFormHandler<B> editFormHandler : editFormHandlers) {
                 editFormHandler.onCancel();
             }
         }

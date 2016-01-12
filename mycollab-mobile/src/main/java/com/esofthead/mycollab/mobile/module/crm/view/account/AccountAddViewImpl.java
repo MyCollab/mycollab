@@ -27,30 +27,28 @@ import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.0
- * 
  */
 @ViewComponent
 public class AccountAddViewImpl extends AbstractEditItemComp<SimpleAccount> implements AccountAddView {
-	private static final long serialVersionUID = -6760402062110610122L;
+    private static final long serialVersionUID = -6760402062110610122L;
 
-	@Override
-	protected String initFormTitle() {
-		return beanItem.getAccountname() != null ? beanItem.getAccountname()
-				: AppContext.getMessage(AccountI18nEnum.VIEW_NEW_TITLE);
-	}
+    @Override
+    protected String initFormTitle() {
+        return beanItem.getAccountname() != null ? beanItem.getAccountname()
+                : AppContext.getMessage(AccountI18nEnum.VIEW_NEW_TITLE);
+    }
 
-	@Override
-	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new DynaFormLayout(CrmTypeConstants.ACCOUNT,
-				AccountDefaultDynaFormLayoutFactory.getForm());
-	}
+    @Override
+    protected IFormLayoutFactory initFormLayoutFactory() {
+        return new DynaFormLayout(CrmTypeConstants.ACCOUNT,
+                AccountDefaultDynaFormLayoutFactory.getForm());
+    }
 
-	@Override
-	protected AbstractBeanFieldGroupEditFieldFactory<SimpleAccount> initBeanFormFieldFactory() {
-		return new AccountEditFormFieldFactory<>(editForm);
-	}
+    @Override
+    protected AbstractBeanFieldGroupEditFieldFactory<SimpleAccount> initBeanFormFieldFactory() {
+        return new AccountEditFormFieldFactory<>(editForm);
+    }
 
 }

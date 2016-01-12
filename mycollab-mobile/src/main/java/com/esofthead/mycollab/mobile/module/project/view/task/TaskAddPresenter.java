@@ -29,7 +29,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.events.EditFormHandler;
+import com.esofthead.mycollab.vaadin.events.DefaultEditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
@@ -47,7 +47,7 @@ public class TaskAddPresenter extends AbstractMobilePresenter<TaskAddView> {
 
     @Override
     protected void postInitView() {
-        view.getEditFormHandlers().addFormHandler(new EditFormHandler<SimpleTask>() {
+        view.getEditFormHandlers().addFormHandler(new DefaultEditFormHandler<SimpleTask>() {
             private static final long serialVersionUID = 9034340428921755073L;
 
             @Override
@@ -55,15 +55,6 @@ public class TaskAddPresenter extends AbstractMobilePresenter<TaskAddView> {
                 saveTask(bean);
                 EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
             }
-
-            @Override
-            public void onSaveAndNew(SimpleTask bean) {
-            }
-
-            @Override
-            public void onCancel() {
-            }
-
         });
     }
 

@@ -29,7 +29,7 @@ import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.events.EditFormHandler;
+import com.esofthead.mycollab.vaadin.events.IEditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.HistoryViewManager;
 import com.esofthead.mycollab.vaadin.mvp.NullViewState;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -50,7 +50,7 @@ public class LeadAddPresenter extends CrmGenericPresenter<LeadAddView> {
 
     @Override
     protected void postInitView() {
-        view.getEditFormHandlers().addFormHandler(new EditFormHandler<SimpleLead>() {
+        view.getEditFormHandlers().addFormHandler(new IEditFormHandler<SimpleLead>() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -97,8 +97,7 @@ public class LeadAddPresenter extends CrmGenericPresenter<LeadAddView> {
             view.editItem(lead);
 
             if (lead.getId() == null) {
-                AppContext.addFragment("crm/lead/add", AppContext.getMessage(
-                        GenericI18Enum.BROWSER_ADD_ITEM_TITLE, "Lead"));
+                AppContext.addFragment("crm/lead/add", AppContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE, "Lead"));
             } else {
                 AppContext.addFragment("crm/lead/edit/" + UrlEncodeDecoder.encode(lead.getId()),
                         AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, "Lead", lead.getLastname()));

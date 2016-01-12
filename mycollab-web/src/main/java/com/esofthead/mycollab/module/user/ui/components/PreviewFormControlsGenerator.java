@@ -18,10 +18,10 @@ package com.esofthead.mycollab.module.user.ui.components;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.vaadin.ui.OptionPopupContent;
-import com.esofthead.mycollab.vaadin.ui.SplitButton;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
+import com.esofthead.mycollab.vaadin.web.ui.OptionPopupContent;
+import com.esofthead.mycollab.vaadin.web.ui.SplitButton;
+import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;

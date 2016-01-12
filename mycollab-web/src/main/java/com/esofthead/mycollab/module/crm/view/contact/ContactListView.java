@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.crm.view.contact;
 
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
-import com.esofthead.mycollab.vaadin.desktop.ui.ListView;
+import com.esofthead.mycollab.vaadin.web.ui.ListView;
 
 public interface ContactListView extends
 		ListView<ContactSearchCriteria, SimpleContact> {

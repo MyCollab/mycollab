@@ -32,7 +32,7 @@ import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.NumberField;
+import com.esofthead.mycollab.vaadin.web.ui.NumberField;
 import com.vaadin.data.Property;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.RichTextArea;

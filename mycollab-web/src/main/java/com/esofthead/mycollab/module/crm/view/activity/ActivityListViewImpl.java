@@ -25,10 +25,10 @@ import com.esofthead.mycollab.module.crm.ui.components.AbstractListItemComp;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
+import com.esofthead.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
+import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
 
 import java.util.Arrays;
 

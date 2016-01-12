@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.project.ui.form;
 
 import com.esofthead.mycollab.module.project.ui.components.ProjectAttachmentDisplayComponentFactory;
-import com.esofthead.mycollab.vaadin.ui.AttachmentDisplayComponent;
+import com.esofthead.mycollab.vaadin.web.ui.AttachmentDisplayComponent;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;

@@ -25,7 +25,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.BeanList;
 import com.esofthead.mycollab.vaadin.ui.ReloadableComponent;
-import com.esofthead.mycollab.vaadin.ui.TabSheetLazyLoadComponent;
+import com.esofthead.mycollab.vaadin.web.ui.TabSheetLazyLoadComponent;
 import com.vaadin.shared.ui.MarginInfo;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 

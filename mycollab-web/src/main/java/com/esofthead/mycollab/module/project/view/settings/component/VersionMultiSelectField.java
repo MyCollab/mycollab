@@ -29,7 +29,7 @@ import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.module.tracker.domain.criteria.VersionSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.VersionService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
-import com.esofthead.mycollab.vaadin.ui.MultiSelectComp;
+import com.esofthead.mycollab.vaadin.web.ui.MultiSelectComp;
 import com.vaadin.data.Property;
 
 import java.util.List;

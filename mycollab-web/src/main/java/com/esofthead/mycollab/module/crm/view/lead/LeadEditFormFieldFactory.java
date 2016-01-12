@@ -20,11 +20,12 @@ import com.esofthead.mycollab.module.crm.domain.Lead;
 import com.esofthead.mycollab.module.crm.ui.components.IndustryComboBox;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserComboBox;
 import com.esofthead.mycollab.vaadin.ui.*;
-import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
+import com.esofthead.mycollab.vaadin.web.ui.CountryComboBox;
+import com.esofthead.mycollab.vaadin.web.ui.PrefixNameComboBox;
+import com.esofthead.mycollab.vaadin.web.ui.field.RichTextEditField;
 import com.vaadin.data.Property;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 

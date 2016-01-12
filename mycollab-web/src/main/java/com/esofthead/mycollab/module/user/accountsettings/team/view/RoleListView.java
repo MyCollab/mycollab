@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
 import com.esofthead.mycollab.module.user.domain.SimpleRole;
 import com.esofthead.mycollab.module.user.domain.criteria.RoleSearchCriteria;
-import com.esofthead.mycollab.vaadin.desktop.ui.ListView;
+import com.esofthead.mycollab.vaadin.web.ui.ListView;
 
 /**
  * 

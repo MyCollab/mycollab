@@ -34,9 +34,9 @@ import com.esofthead.mycollab.module.tracker.service.BugRelatedItemService;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.events.EditFormHandler;
+import com.esofthead.mycollab.vaadin.events.IEditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.*;
-import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
+import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.google.common.eventbus.AsyncEventBus;
 import com.vaadin.ui.ComponentContainer;
@@ -59,7 +59,7 @@ public class BugAddPresenter extends AbstractPresenter<BugAddView> {
 
     @Override
     protected void postInitView() {
-        view.getEditFormHandlers().addFormHandler(new EditFormHandler<SimpleBug>() {
+        view.getEditFormHandlers().addFormHandler(new IEditFormHandler<SimpleBug>() {
             private static final long serialVersionUID = 1L;
 
             @Override

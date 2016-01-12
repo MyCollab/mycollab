@@ -19,10 +19,10 @@ package com.esofthead.mycollab.module.crm.view.campaign;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.form.field.DateViewField;
-import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
-import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
-import com.esofthead.mycollab.vaadin.ui.form.field.UserLinkViewField;
+import com.esofthead.mycollab.vaadin.web.ui.field.DateViewField;
+import com.esofthead.mycollab.vaadin.web.ui.field.DefaultViewField;
+import com.esofthead.mycollab.vaadin.web.ui.field.RichTextViewField;
+import com.esofthead.mycollab.vaadin.web.ui.field.UserLinkViewField;
 import com.vaadin.ui.Field;
 
 /**

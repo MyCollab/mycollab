@@ -21,7 +21,7 @@ import com.esofthead.mycollab.module.page.domain.Page;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.I18nValueComboBox;
+import com.esofthead.mycollab.vaadin.web.ui.I18nValueComboBox;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.TextField;
 import org.vaadin.openesignforms.ckeditor.CKEditorConfig;
