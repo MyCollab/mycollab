@@ -26,10 +26,6 @@ public class UIConstants {
     public static final String BUTTON_DANGER = "danger-btn";
     public static final String LINK_COMPLETED = "completed";
     public static final String LINK_OVERDUE = "overdue";
-    public static final String LBL_URGENT = "priority-lbl urgent-lbl";
-    public static final String LBL_HIGH = "priority-lbl high-lbl";
-    public static final String LBL_MEDIUM = "priority-lbl medium-lbl";
-    public static final String LBL_LOW = "priority-lbl low-lbl";
     public static final String STATUS_DISABLED = "disabled";
 
     public static final String FORM_SECTION = "section";

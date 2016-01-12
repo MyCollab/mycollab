@@ -25,7 +25,7 @@ import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.CheckBoxDecor;
 import com.esofthead.mycollab.vaadin.web.ui.LabelLink;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
@@ -40,46 +40,36 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@SuppressWarnings("serial")
-public class CampaignTableDisplay
-        extends
-        DefaultPagedBeanTable<CampaignService, CampaignSearchCriteria, SimpleCampaign> {
+public class CampaignTableDisplay extends DefaultPagedBeanTable<CampaignService, CampaignSearchCriteria, SimpleCampaign> {
 
     public CampaignTableDisplay(List<TableViewField> displayColumns) {
         this(null, displayColumns);
     }
 
-    public CampaignTableDisplay(TableViewField requiredColumn,
-                                List<TableViewField> displayColumns) {
+    public CampaignTableDisplay(TableViewField requiredColumn, List<TableViewField> displayColumns) {
         this(null, requiredColumn, displayColumns);
 
     }
 
-    public CampaignTableDisplay(String viewId, TableViewField requiredColumn,
-                                List<TableViewField> displayColumns) {
-        super(ApplicationContextUtil.getSpringBean(CampaignService.class),
-                SimpleCampaign.class, viewId, requiredColumn, displayColumns);
+    public CampaignTableDisplay(String viewId, TableViewField requiredColumn, List<TableViewField> displayColumns) {
+        super(ApplicationContextUtil.getSpringBean(CampaignService.class), SimpleCampaign.class, viewId, requiredColumn, displayColumns);
         this.addGeneratedColumn("selected", new Table.ColumnGenerator() {
             private static final long serialVersionUID = 1L;
 
             @Override
             public Object generateCell(final Table source, final Object itemId,
                                        Object columnId) {
-                final SimpleCampaign campaign = CampaignTableDisplay.this
-                        .getBeanByIndex(itemId);
-                final CheckBoxDecor cb = new CheckBoxDecor("", campaign
-                        .isSelected());
+                final SimpleCampaign campaign = getBeanByIndex(itemId);
+                final CheckBoxDecor cb = new CheckBoxDecor("", campaign.isSelected());
                 cb.addValueChangeListener(new Property.ValueChangeListener() {
 
                     @Override
                     public void valueChange(ValueChangeEvent event) {
                         CampaignTableDisplay.this.fireSelectItemEvent(campaign);
-                        fireTableEvent(new TableClickEvent(
-                                CampaignTableDisplay.this, campaign, "selected"));
+                        fireTableEvent(new TableClickEvent(CampaignTableDisplay.this, campaign, "selected"));
 
                     }
                 });
@@ -95,12 +85,10 @@ public class CampaignTableDisplay
             @Override
             public com.vaadin.ui.Component generateCell(Table source,
                                                         final Object itemId, Object columnId) {
-                final SimpleCampaign campaign = CampaignTableDisplay.this
-                        .getBeanByIndex(itemId);
+                final SimpleCampaign campaign = getBeanByIndex(itemId);
 
                 LabelLink b = new LabelLink(campaign.getCampaignname(),
-                        CrmLinkBuilder.generateCampaignPreviewLinkFull(campaign
-                                .getId()));
+                        CrmLinkBuilder.generateCampaignPreviewLinkFull(campaign.getId()));
                 b.setDescription(CrmTooltipGenerator.generateTooltipCampaign(
                         AppContext.getUserLocale(), campaign,
                         AppContext.getSiteUrl(), AppContext.getUserTimezone()));
@@ -109,9 +97,7 @@ public class CampaignTableDisplay
                 if ("Complete".equals(campaign.getStatus())) {
                     b.addStyleName(UIConstants.LINK_COMPLETED);
                 } else {
-                    if (campaign.getEnddate() != null
-                            && (campaign.getEnddate()
-                            .before(new GregorianCalendar().getTime()))) {
+                    if (campaign.getEnddate() != null && (campaign.getEnddate().before(new GregorianCalendar().getTime()))) {
                         b.addStyleName(UIConstants.LINK_OVERDUE);
                     }
                 }
@@ -120,34 +106,26 @@ public class CampaignTableDisplay
             }
         });
 
-        this.addGeneratedColumn("assignUserFullName",
-                new Table.ColumnGenerator() {
-                    private static final long serialVersionUID = 1L;
+        this.addGeneratedColumn("assignUserFullName", new Table.ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public com.vaadin.ui.Component generateCell(Table source,
-                                                                final Object itemId, Object columnId) {
-                        final SimpleCampaign campaign = CampaignTableDisplay.this
-                                .getBeanByIndex(itemId);
-                        UserLink b = new UserLink(campaign.getAssignuser(),
-                                campaign.getAssignUserAvatarId(), campaign
-                                .getAssignUserFullName());
-                        return b;
+            @Override
+            public com.vaadin.ui.Component generateCell(Table source, final Object itemId, Object columnId) {
+                final SimpleCampaign campaign = getBeanByIndex(itemId);
+                UserLink b = new UserLink(campaign.getAssignuser(), campaign.getAssignUserAvatarId(), campaign.getAssignUserFullName());
+                return b;
 
-                    }
-                });
+            }
+        });
 
         this.addGeneratedColumn("expectedrevenue", new Table.ColumnGenerator() {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public com.vaadin.ui.Component generateCell(Table source,
-                                                        final Object itemId, Object columnId) {
-                final SimpleCampaign campaign = CampaignTableDisplay.this
-                        .getBeanByIndex(itemId);
+            public com.vaadin.ui.Component generateCell(Table source, final Object itemId, Object columnId) {
+                final SimpleCampaign campaign = getBeanByIndex(itemId);
                 if (campaign.getExpectedrevenue() != null) {
-                    String expectedRevenueText = campaign.getExpectedrevenue()
-                            + "";
+                    String expectedRevenueText = campaign.getExpectedrevenue() + "";
                     Currency currency = campaign.getCurrency();
                     if (currency != null) {
                         expectedRevenueText += " " + currency.getSymbol();
@@ -165,10 +143,8 @@ public class CampaignTableDisplay
             private static final long serialVersionUID = 1L;
 
             @Override
-            public com.vaadin.ui.Component generateCell(Table source,
-                                                        final Object itemId, Object columnId) {
-                final SimpleCampaign campaign = CampaignTableDisplay.this
-                        .getBeanByIndex(itemId);
+            public com.vaadin.ui.Component generateCell(Table source, final Object itemId, Object columnId) {
+                final SimpleCampaign campaign = getBeanByIndex(itemId);
                 if (campaign.getExpectedrevenue() != null) {
                     String expectedCostText = campaign.getExpectedcost() + "";
                     Currency currency = campaign.getCurrency();

@@ -58,10 +58,6 @@ public class BugAddPresenter extends AbstractMobilePresenter<BugAddView> {
                 saveBug(bug);
                 EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
             }
-
-            @Override
-            public void onSaveAndNew(final SimpleBug bug) {
-            }
         });
     }
 

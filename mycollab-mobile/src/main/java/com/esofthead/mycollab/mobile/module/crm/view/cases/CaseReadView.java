@@ -24,15 +24,13 @@ import com.esofthead.mycollab.vaadin.mvp.IPreviewView;
 import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
 public interface CaseReadView extends IPreviewView<SimpleCase> {
-	HasPreviewFormHandlers<SimpleCase> getPreviewFormHandlers();
+    HasPreviewFormHandlers<SimpleCase> getPreviewFormHandlers();
 
-	IRelatedListHandlers<SimpleActivity> getRelatedActivityHandlers();
+    IRelatedListHandlers<SimpleActivity> getRelatedActivityHandlers();
 
-	IRelatedListHandlers<SimpleContact> getRelatedContactHandlers();
+    IRelatedListHandlers<SimpleContact> getRelatedContactHandlers();
 }

@@ -21,11 +21,9 @@ import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.IFormAddView;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
 public interface LeadAddView extends IFormAddView<SimpleLead> {
-	HasEditFormHandlers<SimpleLead> getEditFormHandlers();
+    HasEditFormHandlers<SimpleLead> getEditFormHandlers();
 }

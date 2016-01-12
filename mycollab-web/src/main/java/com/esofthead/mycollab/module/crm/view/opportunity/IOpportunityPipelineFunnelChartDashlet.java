@@ -19,11 +19,9 @@ package com.esofthead.mycollab.module.crm.view.opportunity;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 public interface IOpportunityPipelineFunnelChartDashlet extends PageView {
-	void display();
+    void display();
 }

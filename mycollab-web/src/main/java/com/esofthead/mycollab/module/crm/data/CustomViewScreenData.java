@@ -19,16 +19,14 @@ package com.esofthead.mycollab.module.crm.data;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class CustomViewScreenData {
-	public static class Read extends ScreenData<Object> {
+    public static class Read extends ScreenData<Object> {
 
-		public Read() {
-			super(null);
-		}
-	}
+        public Read() {
+            super(null);
+        }
+    }
 }

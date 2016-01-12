@@ -45,8 +45,7 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  * @since 1.0
  */
 @ViewComponent
-public class CrmNotificationSettingViewImpl extends AbstractPageView implements
-        CrmNotificationSettingView {
+public class CrmNotificationSettingViewImpl extends AbstractPageView implements CrmNotificationSettingView {
     private static final long serialVersionUID = 1L;
 
     @Override
@@ -56,8 +55,7 @@ public class CrmNotificationSettingViewImpl extends AbstractPageView implements
         MVerticalLayout bodyWrapper = new MVerticalLayout();
         bodyWrapper.setSizeFull();
 
-        MHorizontalLayout notificationLabelWrapper = new MHorizontalLayout().withMargin(true).withStyleName
-                ("notification-label");
+        MHorizontalLayout notificationLabelWrapper = new MHorizontalLayout().withMargin(true).withStyleName("notification-label");
         notificationLabelWrapper.setSizeFull();
 
         Label notificationLabel = new Label(AppContext.getMessage(ProjectSettingI18nEnum.EXT_LEVEL));

@@ -46,7 +46,6 @@ class OpportunityEditFormFieldFactory<B extends Opportunity> extends AbstractBea
 
     @Override
     protected Field<?> onCreateField(Object propertyId) {
-
         if (propertyId.equals("campaignid")) {
             return new CampaignSelectionField();
         } else if (propertyId.equals("accountid")) {

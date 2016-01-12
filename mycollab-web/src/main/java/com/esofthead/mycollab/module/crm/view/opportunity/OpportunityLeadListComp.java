@@ -34,7 +34,7 @@ import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.esofthead.mycollab.vaadin.web.ui.SplitButton;
@@ -48,13 +48,10 @@ import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
-public class OpportunityLeadListComp extends
-        RelatedListComp2<LeadService, LeadSearchCriteria, SimpleLead> {
+public class OpportunityLeadListComp extends RelatedListComp2<LeadService, LeadSearchCriteria, SimpleLead> {
     private static final long serialVersionUID = -2052696198773718949L;
 
     private Opportunity opportunity;
@@ -70,46 +67,39 @@ public class OpportunityLeadListComp extends
         controlsBtnWrap.setWidth("100%");
         final SplitButton controlsBtn = new SplitButton();
         controlsBtn.setSizeUndefined();
-        controlsBtn.setEnabled(AppContext
-                .canWrite(RolePermissionCollections.CRM_LEAD));
+        controlsBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_LEAD));
         controlsBtn.addStyleName(UIConstants.BUTTON_ACTION);
-        controlsBtn.setCaption(AppContext
-                .getMessage(LeadI18nEnum.BUTTON_NEW_LEAD));
+        controlsBtn.setCaption(AppContext.getMessage(LeadI18nEnum.BUTTON_NEW_LEAD));
         controlsBtn.setIcon(FontAwesome.PLUS);
-        controlsBtn
-                .addClickListener(new SplitButton.SplitButtonClickListener() {
-                    private static final long serialVersionUID = 1L;
+        controlsBtn.addClickListener(new SplitButton.SplitButtonClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void splitButtonClick(
-                            final SplitButton.SplitButtonClickEvent event) {
-                        fireNewRelatedItem("");
-                    }
-                });
-        final Button selectBtn = new Button("Select from existing leads",
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+            @Override
+            public void splitButtonClick(
+                    final SplitButton.SplitButtonClickEvent event) {
+                fireNewRelatedItem("");
+            }
+        });
+        final Button selectBtn = new Button("Select from existing leads", new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        final OpportunityLeadSelectionWindow leadsWindow = new OpportunityLeadSelectionWindow(
-                                OpportunityLeadListComp.this);
-                        final LeadSearchCriteria criteria = new LeadSearchCriteria();
-                        criteria.setSaccountid(new NumberSearchField(AppContext
-                                .getAccountId()));
-                        UI.getCurrent().addWindow(leadsWindow);
-                        leadsWindow.setSearchCriteria(criteria);
-                        controlsBtn.setPopupVisible(false);
-                    }
-                });
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                final OpportunityLeadSelectionWindow leadsWindow = new OpportunityLeadSelectionWindow(OpportunityLeadListComp.this);
+                final LeadSearchCriteria criteria = new LeadSearchCriteria();
+                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                UI.getCurrent().addWindow(leadsWindow);
+                leadsWindow.setSearchCriteria(criteria);
+                controlsBtn.setPopupVisible(false);
+            }
+        });
         selectBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.LEAD));
         OptionPopupContent buttonControlLayout = new OptionPopupContent();
         buttonControlLayout.addOption(selectBtn);
         controlsBtn.setContent(buttonControlLayout);
 
         controlsBtnWrap.addComponent(controlsBtn);
-        controlsBtnWrap.setComponentAlignment(controlsBtn,
-                Alignment.MIDDLE_RIGHT);
+        controlsBtnWrap.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
         return controlsBtnWrap;
     }
 
@@ -120,10 +110,8 @@ public class OpportunityLeadListComp extends
 
     private void loadLeads() {
         final LeadSearchCriteria criteria = new LeadSearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(SearchField.AND,
-                AppContext.getAccountId()));
-        criteria.setOpportunityId(new NumberSearchField(SearchField.AND,
-                opportunity.getId()));
+        criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+        criteria.setOpportunityId(new NumberSearchField(SearchField.AND, opportunity.getId()));
         setSearchCriteria(criteria);
     }
 
@@ -132,8 +120,7 @@ public class OpportunityLeadListComp extends
         loadLeads();
     }
 
-    public class OpportunityLeadBlockDisplay implements
-            BlockDisplayHandler<SimpleLead> {
+    public class OpportunityLeadBlockDisplay implements BlockDisplayHandler<SimpleLead> {
 
         @Override
         public Component generateBlock(final SimpleLead lead, int blockIndex) {

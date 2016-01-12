@@ -20,22 +20,20 @@ import com.esofthead.mycollab.vaadin.mvp.IModule;
 
 /**
  * @author MyCollab Ltd.
- *
  * @since 4.4.0
- *
  */
 public interface CrmContainerView extends IModule {
-	void goToAccounts();
+    void goToAccounts();
 
-	void goToContacts();
+    void goToContacts();
 
-	void goToCampaigns();
+    void goToCampaigns();
 
-	void goToCases();
+    void goToCases();
 
-	void goToLeads();
+    void goToLeads();
 
-	void goToActivities();
+    void goToActivities();
 
-	void goToOpportunities();
+    void goToOpportunities();
 }

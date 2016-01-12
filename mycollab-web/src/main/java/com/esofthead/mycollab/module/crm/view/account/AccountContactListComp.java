@@ -32,7 +32,7 @@ import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.esofthead.mycollab.vaadin.web.ui.SplitButton;
@@ -48,8 +48,7 @@ import org.vaadin.viritin.button.MButton;
  * @author MyCollab Ltd.
  * @since 4.0
  */
-public class AccountContactListComp extends
-        RelatedListComp2<ContactService, ContactSearchCriteria, SimpleContact> {
+public class AccountContactListComp extends RelatedListComp2<ContactService, ContactSearchCriteria, SimpleContact> {
     private static final long serialVersionUID = -6451639268047881135L;
 
     private Account account;
@@ -65,46 +64,39 @@ public class AccountContactListComp extends
         controlsBtnWrap.setWidth("100%");
         final SplitButton controlsBtn = new SplitButton();
         controlsBtn.setSizeUndefined();
-        controlsBtn.setEnabled(AppContext
-                .canWrite(RolePermissionCollections.CRM_CONTACT));
+        controlsBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CONTACT));
         controlsBtn.addStyleName(UIConstants.BUTTON_ACTION);
-        controlsBtn.setCaption(AppContext
-                .getMessage(ContactI18nEnum.BUTTON_NEW_CONTACT));
+        controlsBtn.setCaption(AppContext.getMessage(ContactI18nEnum.BUTTON_NEW_CONTACT));
         controlsBtn.setIcon(FontAwesome.PLUS);
-        controlsBtn
-                .addClickListener(new SplitButton.SplitButtonClickListener() {
-                    private static final long serialVersionUID = 1L;
+        controlsBtn.addClickListener(new SplitButton.SplitButtonClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void splitButtonClick(
-                            final SplitButton.SplitButtonClickEvent event) {
-                        fireNewRelatedItem("");
-                    }
-                });
-        final Button selectBtn = new Button("Select from existing contacts",
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+            @Override
+            public void splitButtonClick(
+                    final SplitButton.SplitButtonClickEvent event) {
+                fireNewRelatedItem("");
+            }
+        });
+        final Button selectBtn = new Button("Select from existing contacts", new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        final AccountContactSelectionWindow contactsWindow = new AccountContactSelectionWindow(
-                                AccountContactListComp.this);
-                        final ContactSearchCriteria criteria = new ContactSearchCriteria();
-                        criteria.setSaccountid(new NumberSearchField(AppContext
-                                .getAccountId()));
-                        UI.getCurrent().addWindow(contactsWindow);
-                        contactsWindow.setSearchCriteria(criteria);
-                        controlsBtn.setPopupVisible(false);
-                    }
-                });
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                final AccountContactSelectionWindow contactsWindow = new AccountContactSelectionWindow(AccountContactListComp.this);
+                final ContactSearchCriteria criteria = new ContactSearchCriteria();
+                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                UI.getCurrent().addWindow(contactsWindow);
+                contactsWindow.setSearchCriteria(criteria);
+                controlsBtn.setPopupVisible(false);
+            }
+        });
         selectBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT));
         OptionPopupContent buttonControlLayout = new OptionPopupContent();
         buttonControlLayout.addOption(selectBtn);
         controlsBtn.setContent(buttonControlLayout);
 
         controlsBtnWrap.addComponent(controlsBtn);
-        controlsBtnWrap.setComponentAlignment(controlsBtn,
-                Alignment.MIDDLE_RIGHT);
+        controlsBtnWrap.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
         return controlsBtnWrap;
     }
 
@@ -115,10 +107,8 @@ public class AccountContactListComp extends
 
     private void loadContacts() {
         final ContactSearchCriteria criteria = new ContactSearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(SearchField.AND,
-                AppContext.getAccountId()));
-        criteria.setAccountId(new NumberSearchField(SearchField.AND, account
-                .getId()));
+        criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+        criteria.setAccountId(new NumberSearchField(SearchField.AND, account.getId()));
         setSearchCriteria(criteria);
     }
 
@@ -153,8 +143,7 @@ public class AccountContactListComp extends
                 public void buttonClick(ClickEvent clickEvent) {
                     ConfirmDialogExt.show(
                             UI.getCurrent(),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
-                                    AppContext.getSiteName()),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
                             AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                             AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                             AppContext.getMessage(GenericI18Enum.BUTTON_NO),

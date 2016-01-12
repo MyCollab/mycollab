@@ -22,8 +22,8 @@ import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.SearchHandler;
-import com.esofthead.mycollab.vaadin.web.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
+import com.esofthead.mycollab.vaadin.web.ui.ButtonLink;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Window;
@@ -32,78 +32,67 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 import java.util.Arrays;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class CampaignSelectionWindow extends Window {
-	private static final long serialVersionUID = 1L;
-	private CampaignTableDisplay tableItem;
-	private FieldSelection<CampaignWithBLOBs> fieldSelection;
+    private static final long serialVersionUID = 1L;
+    private CampaignTableDisplay tableItem;
+    private FieldSelection<CampaignWithBLOBs> fieldSelection;
 
-	public CampaignSelectionWindow(
-			FieldSelection<CampaignWithBLOBs> fieldSelection) {
-		super("Campaign Selection");
-		this.setWidth("800px");
-		this.fieldSelection = fieldSelection;
-		this.setModal(true);
-		this.setResizable(false);
-	}
+    public CampaignSelectionWindow(FieldSelection<CampaignWithBLOBs> fieldSelection) {
+        super("Campaign Selection");
+        this.setWidth("800px");
+        this.fieldSelection = fieldSelection;
+        this.setModal(true);
+        this.setResizable(false);
+    }
 
-	public void show() {
-		MVerticalLayout layout = new MVerticalLayout();
-		createCampaignList();
-		CampaignSimpleSearchPanel campaignSimpleSearchPanel = new CampaignSimpleSearchPanel();
-		campaignSimpleSearchPanel
-				.addSearchHandler(new SearchHandler<CampaignSearchCriteria>() {
+    public void show() {
+        MVerticalLayout layout = new MVerticalLayout();
+        createCampaignList();
+        CampaignSimpleSearchPanel campaignSimpleSearchPanel = new CampaignSimpleSearchPanel();
+        campaignSimpleSearchPanel.addSearchHandler(new SearchHandler<CampaignSearchCriteria>() {
 
-                    @Override
-                    public void onSearch(CampaignSearchCriteria criteria) {
-                        tableItem.setSearchCriteria(criteria);
-                    }
+            @Override
+            public void onSearch(CampaignSearchCriteria criteria) {
+                tableItem.setSearchCriteria(criteria);
+            }
 
-                });
-		layout.with(campaignSimpleSearchPanel, tableItem);
-		this.setContent(layout);
-		tableItem.setSearchCriteria(new CampaignSearchCriteria());
-		center();
-	}
+        });
+        layout.with(campaignSimpleSearchPanel, tableItem);
+        this.setContent(layout);
+        tableItem.setSearchCriteria(new CampaignSearchCriteria());
+        center();
+    }
 
-	@SuppressWarnings("serial")
-	private void createCampaignList() {
-		tableItem = new CampaignTableDisplay(Arrays.asList(
-				CampaignTableFieldDef.campaignname(), CampaignTableFieldDef.type(),
-				CampaignTableFieldDef.status(), CampaignTableFieldDef.endDate(),
-				CampaignTableFieldDef.assignUser()));
+    private void createCampaignList() {
+        tableItem = new CampaignTableDisplay(Arrays.asList(
+                CampaignTableFieldDef.campaignname(), CampaignTableFieldDef.type(),
+                CampaignTableFieldDef.status(), CampaignTableFieldDef.endDate(),
+                CampaignTableFieldDef.assignUser()));
         tableItem.setDisplayNumItems(10);
-		tableItem.setWidth("100%");
+        tableItem.setWidth("100%");
 
-		tableItem.addGeneratedColumn("campaignname",
-				new Table.ColumnGenerator() {
-					private static final long serialVersionUID = 1L;
+        tableItem.addGeneratedColumn("campaignname", new Table.ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
 
-					@Override
-					public com.vaadin.ui.Component generateCell(
-							final Table source, final Object itemId,
-							final Object columnId) {
-						final SimpleCampaign campaign = tableItem.getBeanByIndex(itemId);
+            @Override
+            public com.vaadin.ui.Component generateCell(final Table source, final Object itemId, final Object columnId) {
+                final SimpleCampaign campaign = tableItem.getBeanByIndex(itemId);
 
-						ButtonLink campaignLink = new ButtonLink(campaign
-								.getCampaignname(), new Button.ClickListener() {
-
-							@Override
-							public void buttonClick(
-									final Button.ClickEvent event) {
-								fieldSelection.fireValueChange(campaign);
-								CampaignSelectionWindow.this.close();
-							}
-						});
-                        campaignLink.setDescription(CrmTooltipGenerator.generateTooltipCampaign(
-                                AppContext.getUserLocale(), campaign,
-                                AppContext.getSiteUrl(), AppContext.getUserTimezone()));
-                        return campaignLink;
-					}
-				});
-	}
+                ButtonLink campaignLink = new ButtonLink(campaign.getCampaignname(), new Button.ClickListener() {
+                    @Override
+                    public void buttonClick(final Button.ClickEvent event) {
+                        fieldSelection.fireValueChange(campaign);
+                        CampaignSelectionWindow.this.close();
+                    }
+                });
+                campaignLink.setDescription(CrmTooltipGenerator.generateTooltipCampaign(
+                        AppContext.getUserLocale(), campaign,
+                        AppContext.getSiteUrl(), AppContext.getUserTimezone()));
+                return campaignLink;
+            }
+        });
+    }
 }

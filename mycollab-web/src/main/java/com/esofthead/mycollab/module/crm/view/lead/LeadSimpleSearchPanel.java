@@ -50,7 +50,7 @@ public class LeadSimpleSearchPanel extends GenericSearchPanel<LeadSearchCriteria
     private TextField textValueField;
     private ActiveUserComboBox userBox;
     private ValueComboBox group;
-    private GridLayout layoutSearchPane;
+    private GridLayout searchPanel;
 
     public LeadSimpleSearchPanel() {
         this.setHeight("32px");
@@ -58,11 +58,10 @@ public class LeadSimpleSearchPanel extends GenericSearchPanel<LeadSearchCriteria
     }
 
     private void createBasicSearchLayout() {
-        layoutSearchPane = new GridLayout(3, 3);
-        layoutSearchPane.setSpacing(true);
+        searchPanel = new GridLayout(3, 3);
+        searchPanel.setSpacing(true);
 
-        group = new ValueComboBox(false, "Name", "Email", "Phone",
-                AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE));
+        group = new ValueComboBox(false, "Name", "Email", "Phone", AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE));
         group.select("Name");
         group.setImmediate(true);
         group.addValueChangeListener(new Property.ValueChangeListener() {
@@ -78,19 +77,17 @@ public class LeadSimpleSearchPanel extends GenericSearchPanel<LeadSearchCriteria
                     addTextFieldSearch();
                 } else if (searchType.equals("Phone")) {
                     addTextFieldSearch();
-                } else if (searchType.equals(AppContext
-                        .getMessage(GenericI18Enum.FORM_ASSIGNEE))) {
+                } else if (searchType.equals(AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE))) {
                     addUserListSelectField();
                 }
             }
         });
 
-        layoutSearchPane.addComponent(group, 1, 0);
-        layoutSearchPane.setComponentAlignment(group, Alignment.MIDDLE_CENTER);
+        searchPanel.addComponent(group, 1, 0);
+        searchPanel.setComponentAlignment(group, Alignment.MIDDLE_CENTER);
         addTextFieldSearch();
 
-        Button searchBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
+        Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
         searchBtn.setStyleName(UIConstants.BUTTON_ACTION);
         searchBtn.setIcon(FontAwesome.SEARCH);
         searchBtn.addClickListener(new Button.ClickListener() {
@@ -101,16 +98,14 @@ public class LeadSimpleSearchPanel extends GenericSearchPanel<LeadSearchCriteria
                 doSearch();
             }
         });
-        layoutSearchPane.addComponent(searchBtn, 2, 0);
-        layoutSearchPane.setComponentAlignment(searchBtn,
-                Alignment.MIDDLE_CENTER);
-        this.setCompositionRoot(layoutSearchPane);
+        searchPanel.addComponent(searchBtn, 2, 0);
+        searchPanel.setComponentAlignment(searchBtn, Alignment.MIDDLE_CENTER);
+        this.setCompositionRoot(searchPanel);
     }
 
     private void doSearch() {
         LeadSearchCriteria searchCriteria = new LeadSearchCriteria();
-        searchCriteria.setSaccountid(new NumberSearchField(
-                SearchField.AND, AppContext.getAccountId()));
+        searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
 
         String searchType = (String) group.getValue();
         if (StringUtils.isNotBlank(searchType)) {
@@ -142,21 +137,19 @@ public class LeadSimpleSearchPanel extends GenericSearchPanel<LeadSearchCriteria
                         doSearch();
                     }
                 });
-        layoutSearchPane.addComponent(textValueField, 0, 0);
-        layoutSearchPane.setComponentAlignment(textValueField,
-                Alignment.MIDDLE_CENTER);
+        searchPanel.addComponent(textValueField, 0, 0);
+        searchPanel.setComponentAlignment(textValueField, Alignment.MIDDLE_CENTER);
     }
 
     private void addUserListSelectField() {
         userBox = new ActiveUserComboBox();
         userBox.setImmediate(true);
-        layoutSearchPane.addComponent(userBox, 0, 0);
-        layoutSearchPane
-                .setComponentAlignment(userBox, Alignment.MIDDLE_CENTER);
+        searchPanel.addComponent(userBox, 0, 0);
+        searchPanel.setComponentAlignment(userBox, Alignment.MIDDLE_CENTER);
     }
 
     private void removeComponents() {
-        layoutSearchPane.removeComponent(0, 0);
+        searchPanel.removeComponent(0, 0);
         userBox = null;
         textValueField = null;
     }

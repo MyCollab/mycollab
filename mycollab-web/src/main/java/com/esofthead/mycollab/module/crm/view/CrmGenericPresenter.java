@@ -22,10 +22,8 @@ import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class CrmGenericPresenter<V extends PageView> extends AbstractPresenter<V> {
     private static final long serialVersionUID = 1L;

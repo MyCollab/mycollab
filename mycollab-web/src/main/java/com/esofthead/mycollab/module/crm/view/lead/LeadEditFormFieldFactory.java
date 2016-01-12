@@ -45,7 +45,6 @@ class LeadEditFormFieldFactory<B extends Lead> extends AbstractBeanFieldGroupEdi
 
     LeadEditFormFieldFactory(GenericBeanForm<B> form, boolean isValidateForm) {
         super(form, isValidateForm);
-
         firstNamePrefixField = new LeadFirstNamePrefixField();
     }
 

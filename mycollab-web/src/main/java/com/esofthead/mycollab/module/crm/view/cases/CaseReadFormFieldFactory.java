@@ -29,38 +29,32 @@ import com.esofthead.mycollab.vaadin.web.ui.field.UserLinkViewField;
 import com.vaadin.ui.Field;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 3.0
- * 
  */
-class CaseReadFormFieldFactory extends
-		AbstractBeanFieldGroupViewFieldFactory<SimpleCase> {
-	private static final long serialVersionUID = 1L;
+class CaseReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<SimpleCase> {
+    private static final long serialVersionUID = 1L;
 
-	public CaseReadFormFieldFactory(GenericBeanForm<SimpleCase> form) {
-		super(form);
-	}
+    public CaseReadFormFieldFactory(GenericBeanForm<SimpleCase> form) {
+        super(form);
+    }
 
-	@Override
-	protected Field<?> onCreateField(Object propertyId) {
-		final SimpleCase cases = attachForm.getBean();
-		if (propertyId.equals("accountid")) {
-			return new LinkViewField(cases.getAccountName(),
-					CrmLinkBuilder.generateAccountPreviewLinkFull(cases
-							.getAccountid()),
+    @Override
+    protected Field<?> onCreateField(Object propertyId) {
+        final SimpleCase cases = attachForm.getBean();
+        if (propertyId.equals("accountid")) {
+            return new LinkViewField(cases.getAccountName(),
+                    CrmLinkBuilder.generateAccountPreviewLinkFull(cases.getAccountid()),
                     CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT));
-		} else if (propertyId.equals("email")) {
-			return new EmailViewField(cases.getEmail());
-		} else if (propertyId.equals("assignuser")) {
-			return new UserLinkViewField(cases.getAssignuser(),
-					cases.getAssignUserAvatarId(),
-					cases.getAssignUserFullName());
-		} else if (propertyId.equals("description")) {
-			return new RichTextViewField(cases.getDescription());
-		}
-
-		return null;
-	}
-
+        } else if (propertyId.equals("email")) {
+            return new EmailViewField(cases.getEmail());
+        } else if (propertyId.equals("assignuser")) {
+            return new UserLinkViewField(cases.getAssignuser(),
+                    cases.getAssignUserAvatarId(),
+                    cases.getAssignUserFullName());
+        } else if (propertyId.equals("description")) {
+            return new RichTextViewField(cases.getDescription());
+        }
+        return null;
+    }
 }

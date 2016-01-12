@@ -53,8 +53,7 @@ import java.util.Map;
  * @author MyCollab Ltd.
  * @since 4.0
  */
-public class AccountCaseListComp extends
-        RelatedListComp2<CaseService, CaseSearchCriteria, SimpleCase> {
+public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearchCriteria, SimpleCase> {
     private static final long serialVersionUID = -8763667647686473453L;
     private Account account;
 
@@ -129,10 +128,8 @@ public class AccountCaseListComp extends
 
     private void loadCases() {
         final CaseSearchCriteria criteria = new CaseSearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(SearchField.AND,
-                AppContext.getAccountId()));
-        criteria.setAccountId(new NumberSearchField(SearchField.AND, account
-                .getId()));
+        criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+        criteria.setAccountId(new NumberSearchField(SearchField.AND, account.getId()));
         setSearchCriteria(criteria);
     }
 

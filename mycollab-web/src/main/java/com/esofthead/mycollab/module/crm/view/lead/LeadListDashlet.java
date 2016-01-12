@@ -41,7 +41,6 @@ import java.util.Arrays;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@SuppressWarnings("serial")
 public class LeadListDashlet extends Depot {
     public static final String VIEW_DEF_ID = "crm-lead-dashlet";
 
@@ -49,7 +48,6 @@ public class LeadListDashlet extends Depot {
 
     public LeadListDashlet() {
         super("My Leads", new VerticalLayout());
-
         this.setMargin(new MarginInfo(true, false, false, false));
 
         tableItem = new LeadTableDisplay(Arrays.asList(LeadTableFieldDef.name(),

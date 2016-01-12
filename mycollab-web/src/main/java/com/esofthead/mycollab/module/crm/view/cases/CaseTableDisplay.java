@@ -24,7 +24,7 @@ import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.CaseService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.CheckBoxDecor;
 import com.esofthead.mycollab.vaadin.web.ui.LabelLink;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
@@ -41,24 +41,18 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@SuppressWarnings("serial")
-public class CaseTableDisplay extends
-        DefaultPagedBeanTable<CaseService, CaseSearchCriteria, SimpleCase> {
+public class CaseTableDisplay extends DefaultPagedBeanTable<CaseService, CaseSearchCriteria, SimpleCase> {
 
     public CaseTableDisplay(List<TableViewField> displayColumns) {
         this(null, displayColumns);
     }
 
-    public CaseTableDisplay(TableViewField requiredColumn,
-                            List<TableViewField> displayColumns) {
+    public CaseTableDisplay(TableViewField requiredColumn, List<TableViewField> displayColumns) {
         this(null, requiredColumn, displayColumns);
-
     }
 
-    public CaseTableDisplay(String viewId, TableViewField requiredColumn,
-                            List<TableViewField> displayColumns) {
-        super(ApplicationContextUtil.getSpringBean(CaseService.class),
-                SimpleCase.class, viewId, requiredColumn, displayColumns);
+    public CaseTableDisplay(String viewId, TableViewField requiredColumn, List<TableViewField> displayColumns) {
+        super(ApplicationContextUtil.getSpringBean(CaseService.class), SimpleCase.class, viewId, requiredColumn, displayColumns);
 
         this.addGeneratedColumn("selected", new ColumnGenerator() {
             private static final long serialVersionUID = 1L;
@@ -67,8 +61,7 @@ public class CaseTableDisplay extends
             public Object generateCell(final Table source, final Object itemId,
                                        Object columnId) {
                 final SimpleCase cases = getBeanByIndex(itemId);
-                CheckBoxDecor cb = new CheckBoxDecor("", cases
-                        .isSelected());
+                CheckBoxDecor cb = new CheckBoxDecor("", cases.isSelected());
                 cb.setImmediate(true);
                 cb.addValueChangeListener(new ValueChangeListener() {
 
@@ -90,9 +83,7 @@ public class CaseTableDisplay extends
             public Object generateCell(Table source, Object itemId,
                                        Object columnId) {
                 SimpleCase cases = getBeanByIndex(itemId);
-
-                LabelLink b = new LabelLink(cases.getSubject(), CrmLinkBuilder
-                        .generateCasePreviewLinkFull(cases.getId()));
+                LabelLink b = new LabelLink(cases.getSubject(), CrmLinkBuilder.generateCasePreviewLinkFull(cases.getId()));
 
                 if (cases.isCompleted()) {
                     b.addStyleName(UIConstants.LINK_COMPLETED);
@@ -112,8 +103,7 @@ public class CaseTableDisplay extends
                                        Object columnId) {
                 SimpleCase cases = getBeanByIndex(itemId);
                 return new LabelLink(cases.getAccountName(),
-                        CrmLinkBuilder.generateAccountPreviewLinkFull(cases
-                                .getAccountid()));
+                        CrmLinkBuilder.generateAccountPreviewLinkFull(cases.getAccountid()));
             }
         });
 
@@ -125,8 +115,7 @@ public class CaseTableDisplay extends
                     public com.vaadin.ui.Component generateCell(Table source,
                                                                 final Object itemId, Object columnId) {
                         SimpleCase cases = getBeanByIndex(itemId);
-                        return new UserLink(cases.getAssignuser(), cases
-                                .getAssignUserAvatarId(), cases
+                        return new UserLink(cases.getAssignuser(), cases.getAssignUserAvatarId(), cases
                                 .getAssignUserFullName());
 
                     }
@@ -138,8 +127,7 @@ public class CaseTableDisplay extends
             @Override
             public com.vaadin.ui.Component generateCell(Table source,
                                                         Object itemId, Object columnId) {
-                SimpleCase cases = CaseTableDisplay.this
-                        .getBeanByIndex(itemId);
+                SimpleCase cases = getBeanByIndex(itemId);
                 return new ELabel(AppContext.formatPrettyTime(cases.getCreatedtime())).withDescription(AppContext
                         .formatDateTime(cases.getCreatedtime()));
             }

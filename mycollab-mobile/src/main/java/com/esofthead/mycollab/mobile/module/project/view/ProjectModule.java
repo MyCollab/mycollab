@@ -27,7 +27,6 @@ import com.vaadin.ui.UI;
  * @author MyCollab Inc.
  * @since 4.3.1
  */
-
 @ViewComponent
 public class ProjectModule extends AbstractMobileMenuPageView implements IModule {
     private static final long serialVersionUID = -537762284500231520L;

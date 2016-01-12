@@ -32,7 +32,7 @@ import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.esofthead.mycollab.vaadin.web.ui.SplitButton;
@@ -93,37 +93,32 @@ public class CaseContactListComp extends RelatedListComp2<ContactService, Contac
                 fireNewRelatedItem("");
             }
         });
-        Button selectBtn = new Button("Select from existing contacts",
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        Button selectBtn = new Button("Select from existing contacts", new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(Button.ClickEvent event) {
-                        CaseContactSelectionWindow contactsWindow = new CaseContactSelectionWindow(
-                                CaseContactListComp.this);
-                        ContactSearchCriteria criteria = new ContactSearchCriteria();
-                        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-                        UI.getCurrent().addWindow(contactsWindow);
-                        contactsWindow.setSearchCriteria(criteria);
-                        controlsBtn.setPopupVisible(false);
-                    }
-                });
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                CaseContactSelectionWindow contactsWindow = new CaseContactSelectionWindow(CaseContactListComp.this);
+                ContactSearchCriteria criteria = new ContactSearchCriteria();
+                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                UI.getCurrent().addWindow(contactsWindow);
+                contactsWindow.setSearchCriteria(criteria);
+                controlsBtn.setPopupVisible(false);
+            }
+        });
         selectBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT));
         OptionPopupContent buttonControlsLayout = new OptionPopupContent();
         buttonControlsLayout.addOption(selectBtn);
         controlsBtn.setContent(buttonControlsLayout);
 
-        controlsBtn.setEnabled(AppContext
-                .canWrite(RolePermissionCollections.CRM_CONTACT));
+        controlsBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CONTACT));
 
         controlsBtnWrap.addComponent(controlsBtn);
-        controlsBtnWrap.setComponentAlignment(controlsBtn,
-                Alignment.MIDDLE_RIGHT);
+        controlsBtnWrap.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
         return controlsBtnWrap;
     }
 
-    protected class CaseContactBlockDisplay implements
-            BlockDisplayHandler<SimpleContact> {
+    protected class CaseContactBlockDisplay implements BlockDisplayHandler<SimpleContact> {
 
         @Override
         public Component generateBlock(final SimpleContact contact, int blockIndex) {

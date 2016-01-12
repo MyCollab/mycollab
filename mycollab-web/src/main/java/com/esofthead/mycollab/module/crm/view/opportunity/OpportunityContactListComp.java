@@ -36,7 +36,7 @@ import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.*;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -54,8 +54,7 @@ import java.util.Map;
  * @author MyCollab Ltd.
  * @since 4.0
  */
-public class OpportunityContactListComp extends
-        RelatedListComp2<ContactOpportunityService, ContactSearchCriteria, SimpleContactOpportunityRel> {
+public class OpportunityContactListComp extends RelatedListComp2<ContactOpportunityService, ContactSearchCriteria, SimpleContactOpportunityRel> {
     private static final long serialVersionUID = 5717208523696358616L;
 
     private Opportunity opportunity;
@@ -65,8 +64,7 @@ public class OpportunityContactListComp extends
     static {
         Map<String, String> tmpMap = new HashMap<>();
         for (int i = 0; i < CrmDataTypeFactory.getOpportunityContactRoleList().length; i++) {
-            String roleKeyName = CrmDataTypeFactory
-                    .getOpportunityContactRoleList()[i];
+            String roleKeyName = CrmDataTypeFactory.getOpportunityContactRoleList()[i];
             if (!tmpMap.containsKey(roleKeyName)) {
                 tmpMap.put(roleKeyName, AbstractBeanBlockList.COLOR_STYLENAME_LIST[i]);
             }
@@ -75,8 +73,7 @@ public class OpportunityContactListComp extends
     }
 
     public OpportunityContactListComp() {
-        super(ApplicationContextUtil
-                .getSpringBean(ContactOpportunityService.class), 20);
+        super(ApplicationContextUtil.getSpringBean(ContactOpportunityService.class), 20);
         this.setBlockDisplayHandler(new OpportunityContactBlockDisplay());
     }
 
@@ -111,34 +108,27 @@ public class OpportunityContactListComp extends
         controlsBtn.addStyleName(UIConstants.BUTTON_ACTION);
         controlsBtn.setCaption("Add/Edit Contacts' Role");
         controlsBtn.setIcon(FontAwesome.PLUS);
-        controlsBtn
-                .addClickListener(new SplitButton.SplitButtonClickListener() {
-                    private static final long serialVersionUID = 1L;
+        controlsBtn.addClickListener(new SplitButton.SplitButtonClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void splitButtonClick(
-                            final SplitButton.SplitButtonClickEvent event) {
-                        EventBusFactory.getInstance().post(
-                                new OpportunityEvent.GotoContactRoleEdit(this,
-                                        opportunity));
-                    }
-                });
-        final Button selectBtn = new Button("Select from existing contacts",
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+            @Override
+            public void splitButtonClick(final SplitButton.SplitButtonClickEvent event) {
+                EventBusFactory.getInstance().post(new OpportunityEvent.GotoContactRoleEdit(this, opportunity));
+            }
+        });
+        final Button selectBtn = new Button("Select from existing contacts", new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        OpportunityContactSelectionWindow contactsWindow = new OpportunityContactSelectionWindow(
-                                OpportunityContactListComp.this);
-                        ContactSearchCriteria criteria = new ContactSearchCriteria();
-                        criteria.setSaccountid(new NumberSearchField(AppContext
-                                .getAccountId()));
-                        UI.getCurrent().addWindow(contactsWindow);
-                        contactsWindow.setSearchCriteria(criteria);
-                        controlsBtn.setPopupVisible(false);
-                    }
-                });
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                OpportunityContactSelectionWindow contactsWindow = new OpportunityContactSelectionWindow(OpportunityContactListComp.this);
+                ContactSearchCriteria criteria = new ContactSearchCriteria();
+                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                UI.getCurrent().addWindow(contactsWindow);
+                contactsWindow.setSearchCriteria(criteria);
+                controlsBtn.setPopupVisible(false);
+            }
+        });
         selectBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT));
         OptionPopupContent buttonControlLayout = new OptionPopupContent();
         buttonControlLayout.addOption(selectBtn);
@@ -155,10 +145,8 @@ public class OpportunityContactListComp extends
 
     private void loadContacts() {
         final ContactSearchCriteria criteria = new ContactSearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(SearchField.AND,
-                AppContext.getAccountId()));
-        criteria.setOpportunityId(new NumberSearchField(SearchField.AND,
-                opportunity.getId()));
+        criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+        criteria.setOpportunityId(new NumberSearchField(SearchField.AND, opportunity.getId()));
         setSearchCriteria(criteria);
     }
 
@@ -167,12 +155,10 @@ public class OpportunityContactListComp extends
         loadContacts();
     }
 
-    public class OpportunityContactBlockDisplay implements
-            BlockDisplayHandler<SimpleContactOpportunityRel> {
+    public class OpportunityContactBlockDisplay implements BlockDisplayHandler<SimpleContactOpportunityRel> {
 
         @Override
-        public Component generateBlock(
-                final SimpleContactOpportunityRel contact, int blockIndex) {
+        public Component generateBlock(final SimpleContactOpportunityRel contact, int blockIndex) {
             CssLayout beanBlock = new CssLayout();
             beanBlock.addStyleName("bean-block");
             beanBlock.setWidth("350px");
@@ -192,38 +178,23 @@ public class OpportunityContactListComp extends
             btnDelete.addClickListener(new Button.ClickListener() {
                 @Override
                 public void buttonClick(ClickEvent clickEvent) {
-                    ConfirmDialogExt.show(
-                            UI.getCurrent(),
-                            AppContext.getMessage(
-                                    GenericI18Enum.DIALOG_DELETE_TITLE,
-                                    AppContext.getSiteName()),
-                            AppContext
-                                    .getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                            AppContext
-                                    .getMessage(GenericI18Enum.BUTTON_YES),
-                            AppContext
-                                    .getMessage(GenericI18Enum.BUTTON_NO),
+                    ConfirmDialogExt.show(UI.getCurrent(),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_NO),
                             new ConfirmDialog.Listener() {
                                 private static final long serialVersionUID = 1L;
 
                                 @Override
                                 public void onClose(ConfirmDialog dialog) {
                                     if (dialog.isConfirmed()) {
-                                        final ContactService contactService = ApplicationContextUtil
-                                                .getSpringBean(ContactService.class);
+                                        final ContactService contactService = ApplicationContextUtil.getSpringBean(ContactService.class);
                                         ContactOpportunity associateContact = new ContactOpportunity();
-                                        associateContact
-                                                .setOpportunityid(opportunity
-                                                        .getId());
-                                        associateContact.setContactid(contact
-                                                .getId());
-                                        contactService
-                                                .removeContactOpportunityRelationship(
-                                                        associateContact,
-                                                        AppContext
-                                                                .getAccountId());
-                                        OpportunityContactListComp.this
-                                                .refresh();
+                                        associateContact.setOpportunityid(opportunity.getId());
+                                        associateContact.setContactid(contact.getId());
+                                        contactService.removeContactOpportunityRelationship(associateContact, AppContext.getAccountId());
+                                        OpportunityContactListComp.this.refresh();
                                     }
                                 }
                             });

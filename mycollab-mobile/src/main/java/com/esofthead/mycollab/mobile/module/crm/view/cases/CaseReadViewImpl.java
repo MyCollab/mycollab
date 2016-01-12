@@ -47,7 +47,6 @@ import com.vaadin.ui.HorizontalLayout;
  * @author MyCollab Ltd.
  * @since 4.1
  */
-
 @ViewComponent
 public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase> implements CaseReadView {
     private static final long serialVersionUID = -983883973494397334L;

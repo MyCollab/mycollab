@@ -21,13 +21,10 @@ import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriter
 import com.esofthead.mycollab.vaadin.web.ui.ListView;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
-public interface OpportunityListView extends
-		ListView<OpportunitySearchCriteria, SimpleOpportunity> {
-	public static final String VIEW_DEF_ID = "crm-opportunity-list";
+public interface OpportunityListView extends ListView<OpportunitySearchCriteria, SimpleOpportunity> {
+    String VIEW_DEF_ID = "crm-opportunity-list";
 
 }

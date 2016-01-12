@@ -16,33 +16,26 @@
  */
 package com.esofthead.mycollab.module.crm.view.account;
 
-import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
-import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
-import com.esofthead.mycollab.module.crm.domain.SimpleCase;
-import com.esofthead.mycollab.module.crm.domain.SimpleContact;
-import com.esofthead.mycollab.module.crm.domain.SimpleLead;
-import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
+import com.esofthead.mycollab.module.crm.domain.*;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.IPreviewView;
 import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
 public interface AccountReadView extends IPreviewView<SimpleAccount> {
 
-	HasPreviewFormHandlers<SimpleAccount> getPreviewFormHandlers();
+    HasPreviewFormHandlers<SimpleAccount> getPreviewFormHandlers();
 
-	IRelatedListHandlers<SimpleContact> getRelatedContactHandlers();
+    IRelatedListHandlers<SimpleContact> getRelatedContactHandlers();
 
-	IRelatedListHandlers<SimpleOpportunity> getRelatedOpportunityHandlers();
+    IRelatedListHandlers<SimpleOpportunity> getRelatedOpportunityHandlers();
 
-	IRelatedListHandlers<SimpleLead> getRelatedLeadHandlers();
+    IRelatedListHandlers<SimpleLead> getRelatedLeadHandlers();
 
-	IRelatedListHandlers<SimpleCase> getRelatedCaseHandlers();
+    IRelatedListHandlers<SimpleCase> getRelatedCaseHandlers();
 
-	IRelatedListHandlers<SimpleActivity> getRelatedActivityHandlers();
+    IRelatedListHandlers<SimpleActivity> getRelatedActivityHandlers();
 }

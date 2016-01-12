@@ -20,6 +20,10 @@ import com.esofthead.mycollab.mobile.ui.IListView;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 
+/**
+ * @author MyCollab Ltd.
+ * @since 4.0
+ */
 public interface ContactListView extends IListView<ContactSearchCriteria, SimpleContact> {
 
 }

@@ -48,7 +48,6 @@ import java.util.*;
  * @author MyCollab Ltd.
  * @since 4.4.0
  */
-@SuppressWarnings("unused")
 public class ProjectCommentInput extends VerticalLayout {
     private static final Logger LOG = LoggerFactory.getLogger(ProjectCommentInput.class.getName());
     private static final long serialVersionUID = 8118887310759503892L;

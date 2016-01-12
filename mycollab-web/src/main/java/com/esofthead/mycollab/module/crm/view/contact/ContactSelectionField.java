@@ -52,8 +52,7 @@ public class ContactSelectionField extends CustomField<Integer> implements Field
         browseBtn.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                ContactSelectionWindow contactWindow = new ContactSelectionWindow(
-                        ContactSelectionField.this);
+                ContactSelectionWindow contactWindow = new ContactSelectionWindow(ContactSelectionField.this);
                 UI.getCurrent().addWindow(contactWindow);
                 contactWindow.show();
             }
@@ -100,10 +99,8 @@ public class ContactSelectionField extends CustomField<Integer> implements Field
     }
 
     private void setContactByVal(Integer contactId) {
-        ContactService contactService = ApplicationContextUtil
-                .getSpringBean(ContactService.class);
-        SimpleContact contactVal = contactService.findById(contactId,
-                AppContext.getAccountId());
+        ContactService contactService = ApplicationContextUtil.getSpringBean(ContactService.class);
+        SimpleContact contactVal = contactService.findById(contactId, AppContext.getAccountId());
         if (contactVal != null) {
             setInternalContact(contactVal);
         }

@@ -33,13 +33,10 @@ import com.vaadin.ui.Button;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@SuppressWarnings("serial")
-class LeadCampaignSelectionWindow extends
-		RelatedItemSelectionWindow<SimpleCampaign, CampaignSearchCriteria> {
+class LeadCampaignSelectionWindow extends RelatedItemSelectionWindow<SimpleCampaign, CampaignSearchCriteria> {
 
 	LeadCampaignSelectionWindow(LeadCampaignListComp associateLeadList) {
 		super("Select Campaigns", associateLeadList);
-
 		this.setWidth("900px");
 	}
 
@@ -71,9 +68,9 @@ class LeadCampaignSelectionWindow extends
 
 				});
 
-		this.bodyContent.addComponent(campaignSimpleSearchPanel);
-		this.bodyContent.addComponent(selectBtn);
-		this.bodyContent.addComponent(tableItem);
+		bodyContent.addComponent(campaignSimpleSearchPanel);
+		bodyContent.addComponent(selectBtn);
+		bodyContent.addComponent(tableItem);
 	}
 
 }

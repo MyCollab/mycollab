@@ -26,13 +26,10 @@ import com.esofthead.mycollab.vaadin.web.ui.field.UserLinkViewField;
 import com.vaadin.ui.Field;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 3.0
- *
  */
-class CampaignReadFormFieldFactory extends
-        AbstractBeanFieldGroupViewFieldFactory<SimpleCampaign> {
+class CampaignReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<SimpleCampaign> {
     private static final long serialVersionUID = 1L;
 
     public CampaignReadFormFieldFactory(GenericBeanForm<SimpleCampaign> form) {
@@ -44,8 +41,7 @@ class CampaignReadFormFieldFactory extends
         SimpleCampaign campaign = attachForm.getBean();
 
         if (propertyId.equals("assignuser")) {
-            return new UserLinkViewField(campaign.getAssignuser(),
-                    campaign.getAssignUserAvatarId(),
+            return new UserLinkViewField(campaign.getAssignuser(), campaign.getAssignUserAvatarId(),
                     campaign.getAssignUserFullName());
         } else if (propertyId.equals("startdate")) {
             return new DateViewField(campaign.getStartdate());
@@ -53,8 +49,7 @@ class CampaignReadFormFieldFactory extends
             return new DateViewField(campaign.getEnddate());
         } else if (propertyId.equals("currencyid")) {
             if (campaign.getCurrency() != null) {
-                return new DefaultViewField(campaign.getCurrency()
-                        .getShortname());
+                return new DefaultViewField(campaign.getCurrency().getShortname());
             } else {
                 return new DefaultViewField("");
             }

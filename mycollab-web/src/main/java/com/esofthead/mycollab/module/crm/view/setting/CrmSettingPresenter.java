@@ -28,36 +28,30 @@ import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
-public class CrmSettingPresenter extends
-		CrmGenericPresenter<CrmSettingContainer> {
-	private static final long serialVersionUID = 1L;
+public class CrmSettingPresenter extends CrmGenericPresenter<CrmSettingContainer> {
+    private static final long serialVersionUID = 1L;
 
-	public CrmSettingPresenter() {
-		super(CrmSettingContainer.class);
-	}
+    public CrmSettingPresenter() {
+        super(CrmSettingContainer.class);
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		IPresenter presenter;
-		CrmModule crmModule = (CrmModule) container;
-		crmModule.addView(view);
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        IPresenter presenter;
+        CrmModule crmModule = (CrmModule) container;
+        crmModule.addView(view);
 
-		if (ClassUtils.instanceOf(data,
-				NotificationSettingScreenData.Read.class)) {
-			presenter = PresenterResolver
-					.getPresenter(CrmNotificationSettingPresenter.class);
-		} else if (ClassUtils.instanceOf(data, CustomViewScreenData.Read.class)) {
-			presenter = PresenterResolver
-					.getPresenter(ICrmCustomViewPresenter.class);
-		} else {
-			throw new MyCollabException("Do not support screen data " + data);
-		}
+        if (ClassUtils.instanceOf(data, NotificationSettingScreenData.Read.class)) {
+            presenter = PresenterResolver.getPresenter(CrmNotificationSettingPresenter.class);
+        } else if (ClassUtils.instanceOf(data, CustomViewScreenData.Read.class)) {
+            presenter = PresenterResolver.getPresenter(ICrmCustomViewPresenter.class);
+        } else {
+            throw new MyCollabException("Do not support screen data " + data);
+        }
 
-		presenter.go(view, data);
-	}
+        presenter.go(view, data);
+    }
 }

@@ -16,36 +16,33 @@
  */
 package com.esofthead.mycollab.module.crm.view.cases;
 
-import java.util.Arrays;
-import java.util.Collection;
-
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
 import com.esofthead.mycollab.vaadin.web.ui.table.CustomizedTableWindow;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class CaseListCustomizeWindow extends CustomizedTableWindow {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@SuppressWarnings("rawtypes")
-	public CaseListCustomizeWindow(String viewId, AbstractPagedBeanTable table) {
-		super(viewId, table);
-	}
+    public CaseListCustomizeWindow(String viewId, AbstractPagedBeanTable table) {
+        super(viewId, table);
+    }
 
-	@Override
-	protected Collection<TableViewField> getAvailableColumns() {
-		return Arrays.asList(CaseTableFieldDef.account(),
-				CaseTableFieldDef.assignUser(), CaseTableFieldDef.createdTime(),
-				CaseTableFieldDef.email(), CaseTableFieldDef.origin(),
-				CaseTableFieldDef.lastUpdatedTime(), CaseTableFieldDef.phone(),
-				CaseTableFieldDef.priority(), CaseTableFieldDef.reason(),
-				CaseTableFieldDef.status(), CaseTableFieldDef.subject(),
-				CaseTableFieldDef.type());
-	}
+    @Override
+    protected Collection<TableViewField> getAvailableColumns() {
+        return Arrays.asList(CaseTableFieldDef.account(),
+                CaseTableFieldDef.assignUser(), CaseTableFieldDef.createdTime(),
+                CaseTableFieldDef.email(), CaseTableFieldDef.origin(),
+                CaseTableFieldDef.lastUpdatedTime(), CaseTableFieldDef.phone(),
+                CaseTableFieldDef.priority(), CaseTableFieldDef.reason(),
+                CaseTableFieldDef.status(), CaseTableFieldDef.subject(),
+                CaseTableFieldDef.type());
+    }
 
 }

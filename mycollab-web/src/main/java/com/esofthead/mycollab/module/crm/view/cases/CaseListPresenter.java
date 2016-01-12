@@ -30,12 +30,12 @@ import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.web.ui.DefaultMassEditActionHandler;
 import com.esofthead.mycollab.vaadin.events.ViewItemAction;
 import com.esofthead.mycollab.vaadin.mvp.MassUpdateCommand;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
-import com.esofthead.mycollab.vaadin.web.ui.MailFormWindow;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
+import com.esofthead.mycollab.vaadin.web.ui.DefaultMassEditActionHandler;
+import com.esofthead.mycollab.vaadin.web.ui.MailFormWindow;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
 
@@ -47,9 +47,9 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class CaseListPresenter extends CrmGenericListPresenter<CaseListView, CaseSearchCriteria, SimpleCase>
-        implements MassUpdateCommand<CaseWithBLOBs> {
+public class CaseListPresenter extends CrmGenericListPresenter<CaseListView, CaseSearchCriteria, SimpleCase> implements MassUpdateCommand<CaseWithBLOBs> {
     private static final long serialVersionUID = 1L;
+
     private CaseService caseService;
 
     public CaseListPresenter() {
@@ -61,7 +61,6 @@ public class CaseListPresenter extends CrmGenericListPresenter<CaseListView, Cas
         super.postInitView();
 
         caseService = ApplicationContextUtil.getSpringBean(CaseService.class);
-
         view.getPopupActionHandlers().setMassActionHandler(new DefaultMassEditActionHandler(this) {
 
             @Override
@@ -146,8 +145,7 @@ public class CaseListPresenter extends CrmGenericListPresenter<CaseListView, Cas
     @Override
     public void massUpdate(CaseWithBLOBs value) {
         if (!isSelectAll) {
-            Collection<SimpleCase> currentDataList = view.getPagedBeanTable()
-                    .getCurrentDataList();
+            Collection<SimpleCase> currentDataList = view.getPagedBeanTable().getCurrentDataList();
             List<Integer> keyList = new ArrayList<>();
             for (SimpleCase item : currentDataList) {
                 if (item.isSelected()) {
@@ -155,8 +153,7 @@ public class CaseListPresenter extends CrmGenericListPresenter<CaseListView, Cas
                 }
             }
             if (keyList.size() > 0) {
-                caseService.massUpdateWithSession(value, keyList,
-                        AppContext.getAccountId());
+                caseService.massUpdateWithSession(value, keyList, AppContext.getAccountId());
                 doSearch(searchCriteria);
             }
         } else {

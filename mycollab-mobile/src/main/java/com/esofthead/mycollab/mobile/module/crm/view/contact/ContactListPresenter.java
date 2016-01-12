@@ -21,17 +21,13 @@ import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 
 /**
- * 
- * 
  * @author MyCollab Ltd.
  * @since 4.0
- * 
  */
-
 public class ContactListPresenter extends CrmListPresenter<ContactListView, ContactSearchCriteria, SimpleContact> {
-	private static final long serialVersionUID = -8607598374388692503L;
+    private static final long serialVersionUID = -8607598374388692503L;
 
-	public ContactListPresenter() {
-		super(ContactListView.class);
-	}
+    public ContactListPresenter() {
+        super(ContactListView.class);
+    }
 }

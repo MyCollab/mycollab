@@ -44,8 +44,6 @@ class CaseReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<Si
         } else if (propertyId.equals("assignuser")) {
             return new DefaultViewField(cases.getAssignUserFullName());
         }
-
         return null;
     }
-
 }

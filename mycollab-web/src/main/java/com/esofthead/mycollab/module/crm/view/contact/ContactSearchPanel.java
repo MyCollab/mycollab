@@ -29,7 +29,7 @@ import com.esofthead.mycollab.module.crm.view.account.AccountSelectionField;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserListSelect;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.esofthead.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.web.ui.DynamicQueryParamLayout;
 import com.esofthead.mycollab.vaadin.web.ui.ShortcutExtension;
@@ -46,7 +46,6 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@SuppressWarnings("serial")
 public class ContactSearchPanel extends DefaultGenericSearchPanel<ContactSearchCriteria> {
 
     private static Param[] paramFields = new Param[]{
@@ -91,13 +90,11 @@ public class ContactSearchPanel extends DefaultGenericSearchPanel<ContactSearchC
         return new ContactAdvancedSearchLayout();
     }
 
-    @SuppressWarnings("rawtypes")
     private class ContactBasicSearchLayout extends BasicSearchLayout {
         private static final long serialVersionUID = 1L;
         private TextField nameField;
         private CheckBox myItemCheckbox;
 
-        @SuppressWarnings("unchecked")
         public ContactBasicSearchLayout() {
             super(ContactSearchPanel.this);
         }
@@ -200,9 +197,9 @@ public class ContactSearchPanel extends DefaultGenericSearchPanel<ContactSearchC
 
         @Override
         protected Component buildSelectionComp(String fieldId) {
-            if ("contact-assignuser" .equals(fieldId)) {
+            if ("contact-assignuser".equals(fieldId)) {
                 return new ActiveUserListSelect();
-            } else if ("contact-account" .equals(fieldId)) {
+            } else if ("contact-account".equals(fieldId)) {
                 return new AccountSelectionField();
             }
             return null;

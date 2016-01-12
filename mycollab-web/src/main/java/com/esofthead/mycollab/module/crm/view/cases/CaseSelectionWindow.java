@@ -35,7 +35,6 @@ import java.util.Arrays;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@SuppressWarnings("rawtypes")
 public class CaseSelectionWindow extends Window {
     private static final long serialVersionUID = 1L;
     private CaseTableDisplay tableItem;

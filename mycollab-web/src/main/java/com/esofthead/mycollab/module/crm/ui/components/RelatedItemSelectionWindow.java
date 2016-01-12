@@ -16,83 +16,76 @@
  */
 package com.esofthead.mycollab.module.crm.ui.components;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import org.apache.commons.beanutils.PropertyUtils;
-
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.vaadin.web.ui.table.IPagedBeanTable;
 import com.esofthead.mycollab.vaadin.web.ui.table.IPagedBeanTable.TableClickEvent;
 import com.esofthead.mycollab.vaadin.web.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.ui.Window;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@SuppressWarnings("rawtypes")
-public abstract class RelatedItemSelectionWindow<T, S extends SearchCriteria>
-		extends Window {
-	private static final long serialVersionUID = 1L;
+public abstract class RelatedItemSelectionWindow<T, S extends SearchCriteria> extends Window {
+    private static final long serialVersionUID = 1L;
 
-	private static final String selectedFieldName = "selected";
+    private static final String selectedFieldName = "selected";
 
-	protected RelatedListComp2 relatedListComp;
-	protected IPagedBeanTable<S, T> tableItem;
-	protected Set selectedItems = new HashSet();
-	protected MVerticalLayout bodyContent;
+    protected RelatedListComp2 relatedListComp;
+    protected IPagedBeanTable<S, T> tableItem;
+    protected Set selectedItems = new HashSet();
+    protected MVerticalLayout bodyContent;
 
-	public RelatedItemSelectionWindow(String title, RelatedListComp2 relatedList) {
-		super(title);
-		center();
-		bodyContent = new MVerticalLayout();
-		this.setContent(bodyContent);
-		this.relatedListComp = relatedList;
-		this.setModal(true);
-		this.setResizable(false);
-		initUI();
+    public RelatedItemSelectionWindow(String title, RelatedListComp2 relatedList) {
+        super(title);
+        center();
+        bodyContent = new MVerticalLayout();
+        this.setContent(bodyContent);
+        this.relatedListComp = relatedList;
+        this.setModal(true);
+        this.setResizable(false);
+        initUI();
 
-		tableItem.addTableListener(new TableClickListener() {
-			private static final long serialVersionUID = 1L;
+        tableItem.addTableListener(new TableClickListener() {
+            private static final long serialVersionUID = 1L;
 
-			@SuppressWarnings("unchecked")
-			@Override
-			public void itemClick(TableClickEvent event) {
-				try {
-					Object rowItem = event.getData();
-					Boolean selectedVal = (Boolean) PropertyUtils.getProperty(
-							rowItem, selectedFieldName);
-					if (selectedVal) {
-						selectedItems.remove(rowItem);
-						PropertyUtils.setProperty(rowItem, selectedFieldName,
-								false);
-					} else {
-						selectedItems.add(rowItem);
-						PropertyUtils.setProperty(rowItem, selectedFieldName,
-								true);
-					}
-				} catch (Exception ex) {
-					throw new MyCollabException(ex);
-				}
-			}
-		});
-	}
+            @SuppressWarnings("unchecked")
+            @Override
+            public void itemClick(TableClickEvent event) {
+                try {
+                    Object rowItem = event.getData();
+                    Boolean selectedVal = (Boolean) PropertyUtils.getProperty(rowItem, selectedFieldName);
+                    if (selectedVal) {
+                        selectedItems.remove(rowItem);
+                        PropertyUtils.setProperty(rowItem, selectedFieldName, false);
+                    } else {
+                        selectedItems.add(rowItem);
+                        PropertyUtils.setProperty(rowItem, selectedFieldName, true);
+                    }
+                } catch (Exception ex) {
+                    throw new MyCollabException(ex);
+                }
+            }
+        });
+    }
 
-	@Override
-	public void close() {
-		super.close();
-		if (!selectedItems.isEmpty()) {
-			relatedListComp.fireSelectedRelatedItems(selectedItems);
-		}
-	}
+    @Override
+    public void close() {
+        super.close();
+        if (!selectedItems.isEmpty()) {
+            relatedListComp.fireSelectedRelatedItems(selectedItems);
+        }
+    }
 
-	protected abstract void initUI();
+    protected abstract void initUI();
 
-	public void setSearchCriteria(S criteria) {
-		tableItem.setSearchCriteria(criteria);
-	}
+    public void setSearchCriteria(S criteria) {
+        tableItem.setSearchCriteria(criteria);
+    }
 }

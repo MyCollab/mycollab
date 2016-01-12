@@ -25,31 +25,26 @@ import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
-public class CrmNotificationSettingPresenter extends
-		CrmGenericPresenter<CrmNotificationSettingView> {
-	private static final long serialVersionUID = 1L;
+public class CrmNotificationSettingPresenter extends CrmGenericPresenter<CrmNotificationSettingView> {
+    private static final long serialVersionUID = 1L;
 
-	public CrmNotificationSettingPresenter() {
-		super(CrmNotificationSettingView.class);
-	}
+    public CrmNotificationSettingPresenter() {
+        super(CrmNotificationSettingView.class);
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		CrmSettingContainer settingContainer = (CrmSettingContainer) container;
-		settingContainer.gotoSubView("notification");
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        CrmSettingContainer settingContainer = (CrmSettingContainer) container;
+        settingContainer.gotoSubView("notification");
 
-		CrmNotificationSettingService service = ApplicationContextUtil
-				.getSpringBean(CrmNotificationSettingService.class);
-		CrmNotificationSetting setting = service.findNotification(
-				AppContext.getUsername(), AppContext.getAccountId());
-		view.showNotificationSettings(setting);
+        CrmNotificationSettingService service = ApplicationContextUtil.getSpringBean(CrmNotificationSettingService.class);
+        CrmNotificationSetting setting = service.findNotification(AppContext.getUsername(), AppContext.getAccountId());
+        view.showNotificationSettings(setting);
 
-		AppContext.addFragment("crm/setting/notification",
-				"Notification Settings");
-	}
+        AppContext.addFragment("crm/setting/notification",
+                "Notification Settings");
+    }
 }

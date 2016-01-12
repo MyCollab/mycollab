@@ -16,9 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.view.campaign;
 
-import java.util.Arrays;
-import java.util.List;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.iexporter.CSVObjectEntityConverter.FieldMapperDef;
@@ -31,47 +28,41 @@ import com.esofthead.mycollab.module.crm.ui.components.EntityImportWindow;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class CampaignImportWindow extends EntityImportWindow<SimpleCampaign> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public CampaignImportWindow() {
-		super(false, "Import Campaign", ApplicationContextUtil
-				.getSpringBean(CampaignService.class), SimpleCampaign.class);
-	}
+    public CampaignImportWindow() {
+        super(false, "Import Campaign", ApplicationContextUtil
+                .getSpringBean(CampaignService.class), SimpleCampaign.class);
+    }
 
-	@Override
-	protected List<FieldMapperDef> constructCSVFieldMapper() {
-		FieldMapperDef[] fields = {
-				new FieldMapperDef("campaignname", "Campaign Name"),
-				new FieldMapperDef("startdate", "Start Date",
-						new CSVDateFormatter()),
-				new FieldMapperDef("enddate", "End Date",
-						new CSVDateFormatter()),
-				new FieldMapperDef("impressionnote", "Impression Note"),
-				new FieldMapperDef("budget", "Budget"),
-				new FieldMapperDef("actualcost", "Actual Cost"),
-				new FieldMapperDef("expectedrevenue", "Expected Revenue"),
-				new FieldMapperDef("expectedcost", "Expected Cost"),
-				new FieldMapperDef("impression", "Impression"),
-				new FieldMapperDef("status", "Status"),
-				new FieldMapperDef("type", "Type"),
-				new FieldMapperDef("assignuser",
-						AppContext
-								.getMessage(GenericI18Enum.FORM_ASSIGNEE)) };
-		return Arrays.asList(fields);
-	}
+    @Override
+    protected List<FieldMapperDef> constructCSVFieldMapper() {
+        FieldMapperDef[] fields = {
+                new FieldMapperDef("campaignname", "Campaign Name"),
+                new FieldMapperDef("startdate", "Start Date", new CSVDateFormatter()),
+                new FieldMapperDef("enddate", "End Date", new CSVDateFormatter()),
+                new FieldMapperDef("impressionnote", "Impression Note"),
+                new FieldMapperDef("budget", "Budget"),
+                new FieldMapperDef("actualcost", "Actual Cost"),
+                new FieldMapperDef("expectedrevenue", "Expected Revenue"),
+                new FieldMapperDef("expectedcost", "Expected Cost"),
+                new FieldMapperDef("impression", "Impression"),
+                new FieldMapperDef("status", "Status"),
+                new FieldMapperDef("type", "Type"),
+                new FieldMapperDef("assignuser", AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE))};
+        return Arrays.asList(fields);
+    }
 
-	@Override
-	protected void reloadWhenBackToListView() {
-		EventBusFactory.getInstance().post(
-				new CampaignEvent.GotoList(CampaignListView.class,
-						new CampaignSearchCriteria()));
-	}
-
+    @Override
+    protected void reloadWhenBackToListView() {
+        EventBusFactory.getInstance().post(new CampaignEvent.GotoList(CampaignListView.class, new CampaignSearchCriteria()));
+    }
 }

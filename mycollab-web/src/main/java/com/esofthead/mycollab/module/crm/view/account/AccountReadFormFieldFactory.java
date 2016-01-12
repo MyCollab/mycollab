@@ -20,43 +20,37 @@ import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.web.ui.field.EmailViewField;
-import com.esofthead.mycollab.vaadin.web.ui.field.RichTextViewField;
-import com.esofthead.mycollab.vaadin.web.ui.field.UrlLinkViewField;
-import com.esofthead.mycollab.vaadin.web.ui.field.I18nFormViewField;
-import com.esofthead.mycollab.vaadin.web.ui.field.UserLinkViewField;
+import com.esofthead.mycollab.vaadin.web.ui.field.*;
 import com.vaadin.ui.Field;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 3.0
- * 
  */
 public class AccountReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<SimpleAccount> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public AccountReadFormFieldFactory(GenericBeanForm<SimpleAccount> form) {
-		super(form);
-	}
+    public AccountReadFormFieldFactory(GenericBeanForm<SimpleAccount> form) {
+        super(form);
+    }
 
-	@Override
-	protected Field<?> onCreateField(Object propertyId) {
-		SimpleAccount account = attachForm.getBean();
+    @Override
+    protected Field<?> onCreateField(Object propertyId) {
+        SimpleAccount account = attachForm.getBean();
 
-		if (propertyId.equals("email")) {
-			return new EmailViewField(account.getEmail());
-		} else if (propertyId.equals("assignuser")) {
-			return new UserLinkViewField(account.getAssignuser(), account.getAssignUserAvatarId(), account.getAssignUserFullName());
-		} else if (propertyId.equals("website")) {
-			return new UrlLinkViewField(account.getWebsite());
-		} else if (propertyId.equals("type")) {
-			return new I18nFormViewField(account.getType(), OptionI18nEnum.AccountType.class);
-		} else if (propertyId.equals("description")) {
-			return new RichTextViewField(account.getDescription());
-		}
+        if (propertyId.equals("email")) {
+            return new EmailViewField(account.getEmail());
+        } else if (propertyId.equals("assignuser")) {
+            return new UserLinkViewField(account.getAssignuser(), account.getAssignUserAvatarId(), account.getAssignUserFullName());
+        } else if (propertyId.equals("website")) {
+            return new UrlLinkViewField(account.getWebsite());
+        } else if (propertyId.equals("type")) {
+            return new I18nFormViewField(account.getType(), OptionI18nEnum.AccountType.class);
+        } else if (propertyId.equals("description")) {
+            return new RichTextViewField(account.getDescription());
+        }
 
-		return null;
-	}
+        return null;
+    }
 
 }

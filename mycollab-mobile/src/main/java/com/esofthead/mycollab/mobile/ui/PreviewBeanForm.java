@@ -20,8 +20,9 @@ import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 
 /**
  * MyCollab Ltd
- * @since 1.0
+ *
  * @param <B>
+ * @since 1.0
  */
 public interface PreviewBeanForm<B> extends HasPreviewFormHandlers<B> {
 

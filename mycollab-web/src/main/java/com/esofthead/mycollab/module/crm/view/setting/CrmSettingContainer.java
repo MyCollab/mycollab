@@ -33,90 +33,82 @@ import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
 import com.vaadin.ui.TabSheet.Tab;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
 @ViewComponent
 public class CrmSettingContainer extends AbstractCssPageView implements PageView {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private final CrmVerticalTabsheet settingTab;
+    private final CrmVerticalTabsheet settingTab;
 
-	private ICrmCustomViewPresenter customViewPresenter;
-	private CrmNotificationSettingPresenter notificationPresenter;
+    private ICrmCustomViewPresenter customViewPresenter;
+    private CrmNotificationSettingPresenter notificationPresenter;
 
-	public CrmSettingContainer() {
-		this.setWidth("100%");
+    public CrmSettingContainer() {
+        this.setWidth("100%");
 
-		final CssLayout contentWrapper = new CssLayout();
-		contentWrapper.setWidth("100%");
-		this.addComponent(contentWrapper);
+        final CssLayout contentWrapper = new CssLayout();
+        contentWrapper.setWidth("100%");
+        this.addComponent(contentWrapper);
 
-		settingTab = new CrmVerticalTabsheet(false);
-		settingTab.setSizeFull();
-		settingTab.setNavigatorWidth("250px");
-		settingTab.setNavigatorStyleName("sidebar-menu");
-		settingTab.setContainerStyleName("tab-content");
-		settingTab.setHeight(null);
+        settingTab = new CrmVerticalTabsheet(false);
+        settingTab.setSizeFull();
+        settingTab.setNavigatorWidth("250px");
+        settingTab.setNavigatorStyleName("sidebar-menu");
+        settingTab.setContainerStyleName("tab-content");
+        settingTab.setHeight(null);
 
-		buildComponents();
-		contentWrapper.addComponent(settingTab);
+        buildComponents();
+        contentWrapper.addComponent(settingTab);
 
-	}
+    }
 
-	@Override
-	public void attach() {
-		super.attach();
-		if (this.getParent() instanceof CustomLayout) {
-			this.getParent().addStyleName("preview-comp");
-		}
-	}
+    @Override
+    public void attach() {
+        super.attach();
+        if (this.getParent() instanceof CustomLayout) {
+            this.getParent().addStyleName("preview-comp");
+        }
+    }
 
-	private void buildComponents() {
-		settingTab.addTab(constructNotificationSettingView(), "notification",
-				"Notifications");
+    private void buildComponents() {
+        settingTab.addTab(constructNotificationSettingView(), "notification",
+                "Notifications");
 
-		settingTab.addTab(constructCustomLayoutView(), "customlayout",
-				"Custom Layouts");
+        settingTab.addTab(constructCustomLayoutView(), "customlayout",
+                "Custom Layouts");
 
-		settingTab
-				.addSelectedTabChangeListener(new SelectedTabChangeListener() {
-					private static final long serialVersionUID = 1L;
+        settingTab.addSelectedTabChangeListener(new SelectedTabChangeListener() {
+                    private static final long serialVersionUID = 1L;
 
-					@Override
-					public void selectedTabChange(SelectedTabChangeEvent event) {
-						Tab tab = ((VerticalTabsheet) event.getSource())
-								.getSelectedTab();
-						String tabId = ((TabImpl) tab).getTabId();
+                    @Override
+                    public void selectedTabChange(SelectedTabChangeEvent event) {
+                        Tab tab = ((VerticalTabsheet) event.getSource()).getSelectedTab();
+                        String tabId = ((TabImpl) tab).getTabId();
 
-						if ("notification".equals(tabId)) {
-							notificationPresenter.go(CrmSettingContainer.this,
-									new NotificationSettingScreenData.Read());
-						} else if ("customlayout".equals(tabId)) {
-							customViewPresenter.go(CrmSettingContainer.this,
-									new CustomViewScreenData.Read());
-						}
+                        if ("notification".equals(tabId)) {
+                            notificationPresenter.go(CrmSettingContainer.this, new NotificationSettingScreenData.Read());
+                        } else if ("customlayout".equals(tabId)) {
+                            customViewPresenter.go(CrmSettingContainer.this, new CustomViewScreenData.Read());
+                        }
 
-					}
-				});
-	}
+                    }
+                });
+    }
 
-	private Component constructNotificationSettingView() {
-		notificationPresenter = PresenterResolver
-				.getPresenter(CrmNotificationSettingPresenter.class);
-		return notificationPresenter.getView();
-	}
+    private Component constructNotificationSettingView() {
+        notificationPresenter = PresenterResolver.getPresenter(CrmNotificationSettingPresenter.class);
+        return notificationPresenter.getView();
+    }
 
-	private Component constructCustomLayoutView() {
-		customViewPresenter = PresenterResolver
-				.getPresenter(ICrmCustomViewPresenter.class);
-		return customViewPresenter.getView();
-	}
+    private Component constructCustomLayoutView() {
+        customViewPresenter = PresenterResolver.getPresenter(ICrmCustomViewPresenter.class);
+        return customViewPresenter.getView();
+    }
 
-	public Component gotoSubView(String viewId) {
-		return settingTab.selectTab(viewId);
-	}
+    public Component gotoSubView(String viewId) {
+        return settingTab.selectTab(viewId);
+    }
 
 }

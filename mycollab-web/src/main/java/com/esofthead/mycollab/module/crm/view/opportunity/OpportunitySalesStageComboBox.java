@@ -20,16 +20,13 @@ import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
 import com.esofthead.mycollab.vaadin.web.ui.ValueComboBox;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
-@SuppressWarnings("serial")
 public class OpportunitySalesStageComboBox extends ValueComboBox {
 
-	public OpportunitySalesStageComboBox() {
-		this.loadData(CrmDataTypeFactory.getOpportunitySalesStageList());
-		this.setNullSelectionAllowed(false);
-	}
+    public OpportunitySalesStageComboBox() {
+        this.loadData(CrmDataTypeFactory.getOpportunitySalesStageList());
+        this.setNullSelectionAllowed(false);
+    }
 }

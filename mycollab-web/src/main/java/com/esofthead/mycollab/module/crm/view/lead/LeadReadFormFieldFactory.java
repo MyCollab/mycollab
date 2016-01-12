@@ -19,60 +19,53 @@ package com.esofthead.mycollab.module.crm.view.lead;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.web.ui.field.DefaultViewField;
-import com.esofthead.mycollab.vaadin.web.ui.field.EmailViewField;
-import com.esofthead.mycollab.vaadin.web.ui.field.LinkViewField;
-import com.esofthead.mycollab.vaadin.web.ui.field.RichTextViewField;
-import com.esofthead.mycollab.vaadin.web.ui.field.UrlLinkViewField;
-import com.esofthead.mycollab.vaadin.web.ui.field.UserLinkViewField;
+import com.esofthead.mycollab.vaadin.web.ui.field.*;
 import com.vaadin.ui.Field;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 3.0
- * 
  */
 class LeadReadFormFieldFactory extends
-		AbstractBeanFieldGroupViewFieldFactory<SimpleLead> {
-	private static final long serialVersionUID = 1L;
+        AbstractBeanFieldGroupViewFieldFactory<SimpleLead> {
+    private static final long serialVersionUID = 1L;
 
-	public LeadReadFormFieldFactory(GenericBeanForm<SimpleLead> form) {
-		super(form);
-	}
+    public LeadReadFormFieldFactory(GenericBeanForm<SimpleLead> form) {
+        super(form);
+    }
 
-	@Override
-	protected Field<?> onCreateField(Object propertyId) {
-		SimpleLead lead = attachForm.getBean();
+    @Override
+    protected Field<?> onCreateField(Object propertyId) {
+        SimpleLead lead = attachForm.getBean();
 
-		if (propertyId.equals("firstname")) {
-			String prefix = "", firstName = "";
-			if (lead.getPrefixname() != null) {
-				prefix = lead.getPrefixname();
-			}
+        if (propertyId.equals("firstname")) {
+            String prefix = "", firstName = "";
+            if (lead.getPrefixname() != null) {
+                prefix = lead.getPrefixname();
+            }
 
-			if (lead.getFirstname() != null) {
-				firstName = lead.getFirstname();
-			}
+            if (lead.getFirstname() != null) {
+                firstName = lead.getFirstname();
+            }
 
-			return new DefaultViewField(prefix + firstName);
-		} else if (propertyId.equals("website")) {
-			return new UrlLinkViewField(lead.getWebsite());
-		} else if (propertyId.equals("email")) {
-			return new EmailViewField(lead.getEmail());
-		} else if (propertyId.equals("accountid")) {
-			LinkViewField field = new LinkViewField(lead.getAccountname(),
-					null, null);
+            return new DefaultViewField(prefix + firstName);
+        } else if (propertyId.equals("website")) {
+            return new UrlLinkViewField(lead.getWebsite());
+        } else if (propertyId.equals("email")) {
+            return new EmailViewField(lead.getEmail());
+        } else if (propertyId.equals("accountid")) {
+            LinkViewField field = new LinkViewField(lead.getAccountname(),
+                    null, null);
 
-			return field;
-		} else if (propertyId.equals("assignuser")) {
-			return new UserLinkViewField(lead.getAssignuser(),
-					lead.getAssignUserAvatarId(), lead.getAssignUserFullName());
-		} else if (propertyId.equals("description")) {
-			return new RichTextViewField(lead.getDescription());
-		}
+            return field;
+        } else if (propertyId.equals("assignuser")) {
+            return new UserLinkViewField(lead.getAssignuser(),
+                    lead.getAssignUserAvatarId(), lead.getAssignUserFullName());
+        } else if (propertyId.equals("description")) {
+            return new RichTextViewField(lead.getDescription());
+        }
 
-		return null;
-	}
+        return null;
+    }
 
 }

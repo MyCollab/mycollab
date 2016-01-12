@@ -30,11 +30,4 @@ public interface BugAddView extends IFormAddView<SimpleBug> {
     HasEditFormHandlers<SimpleBug> getEditFormHandlers();
 
     ProjectFormAttachmentUploadField getAttachUploadField();
-    /*
-	 * List<Component> getComponents();
-	 * 
-	 * List<Version> getAffectedVersions();
-	 * 
-	 * List<Version> getFixedVersion();
-	 */
 }

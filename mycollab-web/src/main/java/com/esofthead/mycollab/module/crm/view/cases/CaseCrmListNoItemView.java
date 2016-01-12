@@ -62,8 +62,7 @@ public class CaseCrmListNoItemView extends CrmListNoItemView {
         return new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
-                EventBusFactory.getInstance().post(
-                        new CaseEvent.GotoAdd(this, null));
+                EventBusFactory.getInstance().post(new CaseEvent.GotoAdd(this, null));
             }
         };
     }

@@ -19,6 +19,10 @@ package com.esofthead.mycollab.module.crm.view.opportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 
+/**
+ * @author MyCollab Ltd
+ * @since 1.0.0
+ */
 public interface IOpportunitySalesStageDashboard extends PageView {
     void displayChart(OpportunitySearchCriteria searchCriteria);
 }

@@ -20,17 +20,15 @@ import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
 import com.esofthead.mycollab.vaadin.web.ui.ValueComboBox;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class CasesOriginComboBox extends ValueComboBox {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public CasesOriginComboBox() {
-		super();
-		setCaption(null);
-		this.loadData(CrmDataTypeFactory.getCasesOrigin());
-	}
+    public CasesOriginComboBox() {
+        super();
+        setCaption(null);
+        this.loadData(CrmDataTypeFactory.getCasesOrigin());
+    }
 }

@@ -17,8 +17,6 @@
 
 package com.esofthead.mycollab.module.crm.view.lead;
 
-import java.util.List;
-
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.module.crm.CrmTooltipGenerator;
 import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
@@ -27,11 +25,7 @@ import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.web.ui.CheckBoxDecor;
-import com.esofthead.mycollab.vaadin.web.ui.LabelLink;
-import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.web.ui.UrlLink;
-import com.esofthead.mycollab.vaadin.web.ui.UserLink;
+import com.esofthead.mycollab.vaadin.web.ui.*;
 import com.esofthead.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -40,121 +34,110 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Link;
 import com.vaadin.ui.Table;
 
+import java.util.List;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@SuppressWarnings("serial")
 public class LeadTableDisplay extends DefaultPagedBeanTable<LeadService, LeadSearchCriteria, SimpleLead> {
 
-	public LeadTableDisplay(List<TableViewField> displayColumns) {
-		this(null, displayColumns);
-	}
+    public LeadTableDisplay(List<TableViewField> displayColumns) {
+        this(null, displayColumns);
+    }
 
-	public LeadTableDisplay(TableViewField requiredColumn, List<TableViewField> displayColumns) {
-		this(null, requiredColumn, displayColumns);
+    public LeadTableDisplay(TableViewField requiredColumn, List<TableViewField> displayColumns) {
+        this(null, requiredColumn, displayColumns);
 
-	}
+    }
 
-	public LeadTableDisplay(String viewId, TableViewField requiredColumn,
-			List<TableViewField> displayColumns) {
-		super(ApplicationContextUtil.getSpringBean(LeadService.class),
-				SimpleLead.class, viewId, requiredColumn, displayColumns);
+    public LeadTableDisplay(String viewId, TableViewField requiredColumn, List<TableViewField> displayColumns) {
+        super(ApplicationContextUtil.getSpringBean(LeadService.class),
+                SimpleLead.class, viewId, requiredColumn, displayColumns);
 
-		this.addGeneratedColumn("selected", new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
+        this.addGeneratedColumn("selected", new Table.ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public Object generateCell(final Table source, final Object itemId,
-					Object columnId) {
-				final SimpleLead lead = getBeanByIndex(itemId);
-				final CheckBoxDecor cb = new CheckBoxDecor("", lead
-						.isSelected());
-				cb.setImmediate(true);
-				cb.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
+            public Object generateCell(final Table source, final Object itemId,
+                                       Object columnId) {
+                final SimpleLead lead = getBeanByIndex(itemId);
+                final CheckBoxDecor cb = new CheckBoxDecor("", lead.isSelected());
+                cb.setImmediate(true);
+                cb.addValueChangeListener(new Property.ValueChangeListener() {
 
-					@Override
-					public void valueChange(ValueChangeEvent event) {
-						LeadTableDisplay.this.fireSelectItemEvent(lead);
+                    @Override
+                    public void valueChange(ValueChangeEvent event) {
+                        LeadTableDisplay.this.fireSelectItemEvent(lead);
 
-						fireTableEvent(new TableClickEvent(
-								LeadTableDisplay.this, lead, "selected"));
+                        fireTableEvent(new TableClickEvent(LeadTableDisplay.this, lead, "selected"));
 
-					}
-				});
+                    }
+                });
 
-				lead.setExtraData(cb);
-				return cb;
-			}
-		});
+                lead.setExtraData(cb);
+                return cb;
+            }
+        });
 
-		this.addGeneratedColumn("leadName", new Table.ColumnGenerator() {
-			@Override
-			public Object generateCell(Table source, Object itemId,
-					Object columnId) {
-				final SimpleLead lead = getBeanByIndex(itemId);
+        this.addGeneratedColumn("leadName", new Table.ColumnGenerator() {
+            @Override
+            public Object generateCell(Table source, Object itemId,
+                                       Object columnId) {
+                final SimpleLead lead = getBeanByIndex(itemId);
 
-				LabelLink b = new LabelLink(lead.getLeadName(), CrmLinkBuilder
-						.generateLeadPreviewLinkFull(lead.getId()));
-				if ("Dead".equals(lead.getStatus())
-						|| "Converted".equals(lead.getStatus())) {
-					b.addStyleName(UIConstants.LINK_COMPLETED);
-				}
-				b.setDescription(CrmTooltipGenerator.generateTooltipLead(
-						AppContext.getUserLocale(), lead,
-						AppContext.getSiteUrl(), AppContext.getUserTimezone()));
-				return b;
-			}
-		});
+                LabelLink b = new LabelLink(lead.getLeadName(), CrmLinkBuilder.generateLeadPreviewLinkFull(lead.getId()));
+                if ("Dead".equals(lead.getStatus()) || "Converted".equals(lead.getStatus())) {
+                    b.addStyleName(UIConstants.LINK_COMPLETED);
+                }
+                b.setDescription(CrmTooltipGenerator.generateTooltipLead(
+                        AppContext.getUserLocale(), lead,
+                        AppContext.getSiteUrl(), AppContext.getUserTimezone()));
+                return b;
+            }
+        });
 
-		this.addGeneratedColumn("assignUserFullName",
-				new Table.ColumnGenerator() {
-					private static final long serialVersionUID = 1L;
+        this.addGeneratedColumn("assignUserFullName", new Table.ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
 
-					@Override
-					public com.vaadin.ui.Component generateCell(Table source,
-							final Object itemId, Object columnId) {
-						final SimpleLead lead = getBeanByIndex(itemId);
-						UserLink b = new UserLink(lead.getAssignuser(), lead
-								.getAssignUserAvatarId(), lead
-								.getAssignUserFullName());
-						return b;
+            @Override
+            public com.vaadin.ui.Component generateCell(Table source, final Object itemId, Object columnId) {
+                final SimpleLead lead = getBeanByIndex(itemId);
+                return new UserLink(lead.getAssignuser(), lead.getAssignUserAvatarId(), lead.getAssignUserFullName());
+            }
+        });
 
-					}
-				});
+        this.addGeneratedColumn("email", new Table.ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
 
-		this.addGeneratedColumn("email", new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
+            @Override
+            public com.vaadin.ui.Component generateCell(Table source,
+                                                        Object itemId, Object columnId) {
+                final SimpleLead lead = getBeanByIndex(itemId);
+                Link l = new Link();
+                l.setResource(new ExternalResource("mailto:" + lead.getEmail()));
+                l.setCaption(lead.getEmail());
+                return l;
 
-			@Override
-			public com.vaadin.ui.Component generateCell(Table source,
-					Object itemId, Object columnId) {
-				final SimpleLead lead = getBeanByIndex(itemId);
-				Link l = new Link();
-				l.setResource(new ExternalResource("mailto:" + lead.getEmail()));
-				l.setCaption(lead.getEmail());
-				return l;
+            }
+        });
 
-			}
-		});
+        this.addGeneratedColumn("website", new Table.ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
 
-		this.addGeneratedColumn("website", new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
+            @Override
+            public com.vaadin.ui.Component generateCell(Table source,
+                                                        Object itemId, Object columnId) {
+                final SimpleLead lead = getBeanByIndex(itemId);
+                if (lead.getWebsite() != null) {
+                    return new UrlLink(lead.getWebsite());
+                } else {
+                    return new Label("");
+                }
 
-			@Override
-			public com.vaadin.ui.Component generateCell(Table source,
-					Object itemId, Object columnId) {
-				final SimpleLead lead = getBeanByIndex(itemId);
-				if (lead.getWebsite() != null) {
-					return new UrlLink(lead.getWebsite());
-				} else {
-					return new Label("");
-				}
+            }
+        });
 
-			}
-		});
-
-		this.setWidth("100%");
-	}
+        this.setWidth("100%");
+    }
 }

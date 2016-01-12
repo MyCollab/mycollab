@@ -51,7 +51,6 @@ public class LeadSelectionWindow extends Window {
 
     public void show() {
         MVerticalLayout layout = new MVerticalLayout();
-
         createLeadList();
 
         LeadSimpleSearchPanel leadSimpleSearchPanel = new LeadSimpleSearchPanel();
@@ -70,7 +69,6 @@ public class LeadSelectionWindow extends Window {
         center();
     }
 
-    @SuppressWarnings("serial")
     private void createLeadList() {
         tableItem = new LeadTableDisplay(Arrays.asList(LeadTableFieldDef.name(),
                 LeadTableFieldDef.status(), LeadTableFieldDef.assignedUser(),

@@ -18,61 +18,56 @@ package com.esofthead.mycollab.module.crm.view;
 
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
-import com.esofthead.mycollab.vaadin.web.ui.ListSelectionPresenter;
-import com.esofthead.mycollab.vaadin.web.ui.ListView;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
+import com.esofthead.mycollab.vaadin.web.ui.ListSelectionPresenter;
+import com.esofthead.mycollab.vaadin.web.ui.ListView;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
- * @author MyCollab Ltd.
- * @since 1.0
- * 
  * @param <V>
  * @param <S>
  * @param <B>
+ * @author MyCollab Ltd.
+ * @since 1.0
  */
-public abstract class CrmGenericListPresenter<V extends ListView<S, B>, S extends SearchCriteria, B extends ValuedBean>
-		extends ListSelectionPresenter<V, S, B> {
-	private static final long serialVersionUID = 1L;
+public abstract class CrmGenericListPresenter<V extends ListView<S, B>, S extends SearchCriteria, B extends ValuedBean> extends ListSelectionPresenter<V, S, B> {
+    private static final long serialVersionUID = 1L;
 
-	private PageView candidateView;
+    private PageView candidateView;
 
-	private Class<? extends PageView> noItemFallbackViewClass;
+    private Class<? extends PageView> noItemFallbackViewClass;
 
-	public CrmGenericListPresenter(Class<V> viewClass) {
-		this(viewClass, null);
-	}
+    public CrmGenericListPresenter(Class<V> viewClass) {
+        this(viewClass, null);
+    }
 
-	public CrmGenericListPresenter(Class<V> viewClass,
-			Class<? extends PageView> noItemFallbackViewClass) {
-		super(viewClass);
-		this.noItemFallbackViewClass = noItemFallbackViewClass;
-	}
+    public CrmGenericListPresenter(Class<V> viewClass, Class<? extends PageView> noItemFallbackViewClass) {
+        super(viewClass);
+        this.noItemFallbackViewClass = noItemFallbackViewClass;
+    }
 
-	@Override
-	public V getView() {
-		super.getView();
-		this.candidateView = view;
-		return view;
-	}
+    @Override
+    public V getView() {
+        super.getView();
+        this.candidateView = view;
+        return view;
+    }
 
-	public void displayListView(ComponentContainer container, ScreenData<?> data) {
-		this.candidateView = view;
-		displayView(container);
-	}
+    public void displayListView(ComponentContainer container, ScreenData<?> data) {
+        this.candidateView = view;
+        displayView(container);
+    }
 
-	public void displayNoExistItems(ComponentContainer container, ScreenData<?> data) {
-		this.candidateView = ViewManager
-				.getCacheComponent(noItemFallbackViewClass);
-		displayView(container);
-	}
+    public void displayNoExistItems(ComponentContainer container, ScreenData<?> data) {
+        this.candidateView = ViewManager.getCacheComponent(noItemFallbackViewClass);
+        displayView(container);
+    }
 
-	private void displayView(ComponentContainer container) {
-		CrmModule crmModule = (CrmModule) container;
-		crmModule.addView(candidateView);
-	}
+    private void displayView(ComponentContainer container) {
+        CrmModule crmModule = (CrmModule) container;
+        crmModule.addView(candidateView);
+    }
 
 }

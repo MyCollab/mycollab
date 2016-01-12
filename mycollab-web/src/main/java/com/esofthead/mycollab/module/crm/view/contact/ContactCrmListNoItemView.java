@@ -30,14 +30,12 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.0
- * 
  */
 @ViewComponent
 public class ContactCrmListNoItemView extends CrmListNoItemView {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @Override
     protected FontAwesome titleIcon() {

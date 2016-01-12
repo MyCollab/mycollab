@@ -20,12 +20,10 @@ import com.esofthead.mycollab.module.crm.domain.CrmNotificationSetting;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 public interface CrmNotificationSettingView extends PageView {
 
-	void showNotificationSettings(CrmNotificationSetting notification);
+    void showNotificationSettings(CrmNotificationSetting notification);
 }

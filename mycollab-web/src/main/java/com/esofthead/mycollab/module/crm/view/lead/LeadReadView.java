@@ -24,16 +24,14 @@ import com.esofthead.mycollab.vaadin.mvp.IPreviewView;
 import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
 public interface LeadReadView extends IPreviewView<SimpleLead> {
 
-	HasPreviewFormHandlers<SimpleLead> getPreviewFormHandlers();
+    HasPreviewFormHandlers<SimpleLead> getPreviewFormHandlers();
 
-	IRelatedListHandlers<SimpleActivity> getRelatedActivityHandlers();
+    IRelatedListHandlers<SimpleActivity> getRelatedActivityHandlers();
 
-	IRelatedListHandlers<SimpleCampaign> getRelatedCampaignHandlers();
+    IRelatedListHandlers<SimpleCampaign> getRelatedCampaignHandlers();
 }

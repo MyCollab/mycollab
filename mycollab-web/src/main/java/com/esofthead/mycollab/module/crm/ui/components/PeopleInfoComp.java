@@ -32,56 +32,54 @@ import org.slf4j.LoggerFactory;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.0
- * 
  */
 public class PeopleInfoComp extends MVerticalLayout {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private static final Logger LOG = LoggerFactory.getLogger(PeopleInfoComp.class);
+    private static final Logger LOG = LoggerFactory.getLogger(PeopleInfoComp.class);
 
-	public void displayEntryPeople(ValuedBean bean) {
-		this.removeAllComponents();
-		this.withMargin(new MarginInfo(true, false, true, true));
+    public void displayEntryPeople(ValuedBean bean) {
+        this.removeAllComponents();
+        this.withMargin(new MarginInfo(true, false, true, true));
 
-		Label peopleInfoHeader = new Label(FontAwesome.USER.getHtml() + " " +
-				AppContext.getMessage(CrmCommonI18nEnum.SUB_INFO_PEOPLE), ContentMode.HTML);
-		peopleInfoHeader.setStyleName("info-hdr");
-		this.addComponent(peopleInfoHeader);
+        Label peopleInfoHeader = new Label(FontAwesome.USER.getHtml() + " " +
+                AppContext.getMessage(CrmCommonI18nEnum.SUB_INFO_PEOPLE), ContentMode.HTML);
+        peopleInfoHeader.setStyleName("info-hdr");
+        this.addComponent(peopleInfoHeader);
 
-		GridLayout layout = new GridLayout(2, 2);
-		layout.setSpacing(true);
-		layout.setWidth("100%");
-		layout.setMargin(new MarginInfo(false, false, false, true));
-		try {
-			Label createdLbl = new Label(AppContext.getMessage(CrmCommonI18nEnum.ITEM_CREATED_PEOPLE));
-			createdLbl.setSizeUndefined();
-			layout.addComponent(createdLbl, 0, 0);
+        GridLayout layout = new GridLayout(2, 2);
+        layout.setSpacing(true);
+        layout.setWidth("100%");
+        layout.setMargin(new MarginInfo(false, false, false, true));
+        try {
+            Label createdLbl = new Label(AppContext.getMessage(CrmCommonI18nEnum.ITEM_CREATED_PEOPLE));
+            createdLbl.setSizeUndefined();
+            layout.addComponent(createdLbl, 0, 0);
 
-			String createdUserName = (String) PropertyUtils.getProperty(bean, "createduser");
-			String createdUserAvatarId = (String) PropertyUtils.getProperty(bean, "createdUserAvatarId");
-			String createdUserDisplayName = (String) PropertyUtils.getProperty(bean, "createdUserFullName");
+            String createdUserName = (String) PropertyUtils.getProperty(bean, "createduser");
+            String createdUserAvatarId = (String) PropertyUtils.getProperty(bean, "createdUserAvatarId");
+            String createdUserDisplayName = (String) PropertyUtils.getProperty(bean, "createdUserFullName");
 
-			UserLink createdUserLink = new UserLink(createdUserName, createdUserAvatarId, createdUserDisplayName);
-			layout.addComponent(createdUserLink, 1, 0);
-			layout.setColumnExpandRatio(1, 1.0f);
+            UserLink createdUserLink = new UserLink(createdUserName, createdUserAvatarId, createdUserDisplayName);
+            layout.addComponent(createdUserLink, 1, 0);
+            layout.setColumnExpandRatio(1, 1.0f);
 
-			Label assigneeLbl = new Label(AppContext.getMessage(CrmCommonI18nEnum.ITEM_ASSIGN_PEOPLE));
-			assigneeLbl.setSizeUndefined();
-			layout.addComponent(assigneeLbl, 0, 1);
-			String assignUserName = (String) PropertyUtils.getProperty(bean, "assignuser");
-			String assignUserAvatarId = (String) PropertyUtils.getProperty(bean, "assignUserAvatarId");
-			String assignUserDisplayName = (String) PropertyUtils.getProperty(bean, "assignUserFullName");
+            Label assigneeLbl = new Label(AppContext.getMessage(CrmCommonI18nEnum.ITEM_ASSIGN_PEOPLE));
+            assigneeLbl.setSizeUndefined();
+            layout.addComponent(assigneeLbl, 0, 1);
+            String assignUserName = (String) PropertyUtils.getProperty(bean, "assignuser");
+            String assignUserAvatarId = (String) PropertyUtils.getProperty(bean, "assignUserAvatarId");
+            String assignUserDisplayName = (String) PropertyUtils.getProperty(bean, "assignUserFullName");
 
-			UserLink assignUserLink = new UserLink(assignUserName, assignUserAvatarId, assignUserDisplayName);
-			layout.addComponent(assignUserLink, 1, 1);
-		} catch (Exception e) {
-			LOG.error("Can not build user link {} ", BeanUtility.printBeanObj(bean));
-		}
+            UserLink assignUserLink = new UserLink(assignUserName, assignUserAvatarId, assignUserDisplayName);
+            layout.addComponent(assignUserLink, 1, 1);
+        } catch (Exception e) {
+            LOG.error("Can not build user link {} ", BeanUtility.printBeanObj(bean));
+        }
 
-		this.addComponent(layout);
+        this.addComponent(layout);
 
-	}
+    }
 }

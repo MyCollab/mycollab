@@ -51,8 +51,7 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class CampaignAccountListComp extends
-        RelatedListComp2<AccountService, AccountSearchCriteria, SimpleAccount> {
+public class CampaignAccountListComp extends RelatedListComp2<AccountService, AccountSearchCriteria, SimpleAccount> {
     private static final long serialVersionUID = 4624196496275152351L;
 
     private CampaignWithBLOBs campaign;
@@ -74,10 +73,8 @@ public class CampaignAccountListComp extends
 
     private void loadAccounts() {
         AccountSearchCriteria criteria = new AccountSearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(SearchField.AND,
-                AppContext.getAccountId()));
-        criteria.setCampaignId(new NumberSearchField(SearchField.AND, campaign
-                .getId()));
+        criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+        criteria.setCampaignId(new NumberSearchField(SearchField.AND, campaign.getId()));
         this.setSearchCriteria(criteria);
     }
 
@@ -87,14 +84,11 @@ public class CampaignAccountListComp extends
         controlsBtnWrap.setWidth("100%");
         final SplitButton controlsBtn = new SplitButton();
         controlsBtn.setSizeUndefined();
-        controlsBtn.setEnabled(AppContext
-                .canWrite(RolePermissionCollections.CRM_ACCOUNT));
+        controlsBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_ACCOUNT));
         controlsBtn.addStyleName(UIConstants.BUTTON_ACTION);
-        controlsBtn.setCaption(AppContext
-                .getMessage(AccountI18nEnum.BUTTON_NEW_ACCOUNT));
+        controlsBtn.setCaption(AppContext.getMessage(AccountI18nEnum.BUTTON_NEW_ACCOUNT));
         controlsBtn.setIcon(FontAwesome.PLUS);
-        controlsBtn
-                .addClickListener(new SplitButton.SplitButtonClickListener() {
+        controlsBtn.addClickListener(new SplitButton.SplitButtonClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
@@ -109,11 +103,9 @@ public class CampaignAccountListComp extends
 
                     @Override
                     public void buttonClick(final ClickEvent event) {
-                        final CampaignAccountSelectionWindow accountsWindow = new CampaignAccountSelectionWindow(
-                                CampaignAccountListComp.this);
+                        final CampaignAccountSelectionWindow accountsWindow = new CampaignAccountSelectionWindow(CampaignAccountListComp.this);
                         final AccountSearchCriteria criteria = new AccountSearchCriteria();
-                        criteria.setSaccountid(new NumberSearchField(AppContext
-                                .getAccountId()));
+                        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
                         UI.getCurrent().addWindow(accountsWindow);
                         accountsWindow.setSearchCriteria(criteria);
                         controlsBtn.setPopupVisible(false);
@@ -125,17 +117,14 @@ public class CampaignAccountListComp extends
         controlsBtn.setContent(buttonControlLayout);
 
         controlsBtnWrap.addComponent(controlsBtn);
-        controlsBtnWrap.setComponentAlignment(controlsBtn,
-                Alignment.MIDDLE_RIGHT);
+        controlsBtnWrap.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
         return controlsBtnWrap;
     }
 
-    protected class CampaignAccountBlockDisplay implements
-            BlockDisplayHandler<SimpleAccount> {
+    protected class CampaignAccountBlockDisplay implements BlockDisplayHandler<SimpleAccount> {
 
         @Override
-        public Component generateBlock(final SimpleAccount account,
-                                       int blockIndex) {
+        public Component generateBlock(final SimpleAccount account, int blockIndex) {
             CssLayout beanBlock = new CssLayout();
             beanBlock.addStyleName("bean-block");
             beanBlock.setWidth("350px");
@@ -156,8 +145,7 @@ public class CampaignAccountListComp extends
                 @Override
                 public void buttonClick(ClickEvent clickEvent) {
                     ConfirmDialogExt.show(UI.getCurrent(),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
-                                    AppContext.getSiteName()),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
                             AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                             AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                             AppContext.getMessage(GenericI18Enum.BUTTON_NO),
@@ -167,14 +155,11 @@ public class CampaignAccountListComp extends
                                 @Override
                                 public void onClose(ConfirmDialog dialog) {
                                     if (dialog.isConfirmed()) {
-                                        CampaignService campaignService = ApplicationContextUtil
-                                                .getSpringBean(CampaignService.class);
+                                        CampaignService campaignService = ApplicationContextUtil.getSpringBean(CampaignService.class);
                                         CampaignAccount associateAccount = new CampaignAccount();
                                         associateAccount.setAccountid(account.getId());
                                         associateAccount.setCampaignid(campaign.getId());
-                                        campaignService.removeCampaignAccountRelationship(
-                                                associateAccount,
-                                                AppContext.getAccountId());
+                                        campaignService.removeCampaignAccountRelationship(associateAccount, AppContext.getAccountId());
                                         CampaignAccountListComp.this.refresh();
                                     }
                                 }

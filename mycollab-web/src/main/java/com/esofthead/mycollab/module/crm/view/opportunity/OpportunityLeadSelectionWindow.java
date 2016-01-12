@@ -31,40 +31,38 @@ import com.vaadin.ui.Button;
 import java.util.Arrays;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@SuppressWarnings("serial")
 public class OpportunityLeadSelectionWindow extends RelatedItemSelectionWindow<SimpleLead, LeadSearchCriteria> {
 
-	public OpportunityLeadSelectionWindow(OpportunityLeadListComp associateLeadList) {
-		super("Select Leads", associateLeadList);
-		this.setWidth("900px");
-	}
+    public OpportunityLeadSelectionWindow(OpportunityLeadListComp associateLeadList) {
+        super("Select Leads", associateLeadList);
+        this.setWidth("900px");
+    }
 
-	@Override
-	protected void initUI() {
-		tableItem = new LeadTableDisplay(LeadTableFieldDef.selected(),
-				Arrays.asList(LeadTableFieldDef.name(), LeadTableFieldDef.status(),
-						LeadTableFieldDef.email(), LeadTableFieldDef.phoneoffice()));
+    @Override
+    protected void initUI() {
+        tableItem = new LeadTableDisplay(LeadTableFieldDef.selected(),
+                Arrays.asList(LeadTableFieldDef.name(), LeadTableFieldDef.status(),
+                        LeadTableFieldDef.email(), LeadTableFieldDef.phoneoffice()));
 
-		Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), new Button.ClickListener() {
-			@Override
-			public void buttonClick(Button.ClickEvent event) {
-				close();
-			}
-		});
-		selectBtn.setStyleName(UIConstants.BUTTON_ACTION);
+        Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                close();
+            }
+        });
+        selectBtn.setStyleName(UIConstants.BUTTON_ACTION);
 
-		LeadSimpleSearchPanel leadSimpleSearchPanel = new LeadSimpleSearchPanel();
-		leadSimpleSearchPanel.addSearchHandler(new SearchHandler<LeadSearchCriteria>() {
-			@Override
-			public void onSearch(LeadSearchCriteria criteria) {
-				tableItem.setSearchCriteria(criteria);
-			}
-		});
+        LeadSimpleSearchPanel leadSimpleSearchPanel = new LeadSimpleSearchPanel();
+        leadSimpleSearchPanel.addSearchHandler(new SearchHandler<LeadSearchCriteria>() {
+            @Override
+            public void onSearch(LeadSearchCriteria criteria) {
+                tableItem.setSearchCriteria(criteria);
+            }
+        });
 
-		this.bodyContent.with(leadSimpleSearchPanel, selectBtn, tableItem);
-	}
+        bodyContent.with(leadSimpleSearchPanel, selectBtn, tableItem);
+    }
 }

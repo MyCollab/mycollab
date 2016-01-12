@@ -20,7 +20,10 @@ import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.esofthead.mycollab.vaadin.web.ui.ListView;
 
-public interface CampaignListView extends
-		ListView<CampaignSearchCriteria, SimpleCampaign> {
-	public static String VIEW_DEF_ID = "crm-campaign-list";
+/**
+ * @author MyCollab Ltd
+ * @since 1.0.0
+ */
+public interface CampaignListView extends ListView<CampaignSearchCriteria, SimpleCampaign> {
+    String VIEW_DEF_ID = "crm-campaign-list";
 }

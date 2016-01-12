@@ -20,11 +20,15 @@ import com.esofthead.mycollab.mobile.module.crm.ui.CrmListPresenter;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 
+/**
+ * @author MyCollab Ltd.
+ * @since 4.0
+ */
 public class CaseListPresenter extends CrmListPresenter<CaseListView, CaseSearchCriteria, SimpleCase> {
-	private static final long serialVersionUID = -7453209524304809914L;
+    private static final long serialVersionUID = -7453209524304809914L;
 
-	public CaseListPresenter() {
-		super(CaseListView.class);
-	}
+    public CaseListPresenter() {
+        super(CaseListView.class);
+    }
 
 }

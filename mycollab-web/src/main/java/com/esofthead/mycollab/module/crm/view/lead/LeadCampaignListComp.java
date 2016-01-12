@@ -33,7 +33,7 @@ import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.esofthead.mycollab.vaadin.web.ui.SplitButton;
@@ -49,9 +49,7 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class LeadCampaignListComp
-        extends
-        RelatedListComp2<CampaignService, CampaignSearchCriteria, SimpleCampaign> {
+public class LeadCampaignListComp extends RelatedListComp2<CampaignService, CampaignSearchCriteria, SimpleCampaign> {
     private static final long serialVersionUID = -1891728022550632203L;
     private Lead lead;
 
@@ -67,8 +65,7 @@ public class LeadCampaignListComp
 
     private void loadCampaigns() {
         CampaignSearchCriteria criteria = new CampaignSearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(SearchField.AND,
-                AppContext.getAccountId()));
+        criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
         criteria.setLeadId(new NumberSearchField(SearchField.AND, lead.getId()));
         this.setSearchCriteria(criteria);
     }
@@ -85,56 +82,47 @@ public class LeadCampaignListComp
 
         final SplitButton controlsBtn = new SplitButton();
         controlsBtn.setSizeUndefined();
-        controlsBtn.setEnabled(AppContext
-                .canWrite(RolePermissionCollections.CRM_CAMPAIGN));
+        controlsBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CAMPAIGN));
         controlsBtn.addStyleName(UIConstants.BUTTON_ACTION);
-        controlsBtn.setCaption(AppContext
-                .getMessage(CampaignI18nEnum.BUTTON_NEW_CAMPAIGN));
+        controlsBtn.setCaption(AppContext.getMessage(CampaignI18nEnum.BUTTON_NEW_CAMPAIGN));
         controlsBtn.setIcon(FontAwesome.PLUS);
-        controlsBtn
-                .addClickListener(new SplitButton.SplitButtonClickListener() {
-                    private static final long serialVersionUID = 1099580202385205069L;
+        controlsBtn.addClickListener(new SplitButton.SplitButtonClickListener() {
+            private static final long serialVersionUID = 1099580202385205069L;
 
-                    @Override
-                    public void splitButtonClick(
-                            SplitButton.SplitButtonClickEvent event) {
-                        fireNewRelatedItem("");
-                    }
-                });
-        Button selectBtn = new Button("Select from existing campaigns",
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 3046728004767791528L;
+            @Override
+            public void splitButtonClick(
+                    SplitButton.SplitButtonClickEvent event) {
+                fireNewRelatedItem("");
+            }
+        });
+        Button selectBtn = new Button("Select from existing campaigns", new Button.ClickListener() {
+            private static final long serialVersionUID = 3046728004767791528L;
 
-                    @Override
-                    public void buttonClick(Button.ClickEvent event) {
-                        LeadCampaignSelectionWindow leadsWindow = new LeadCampaignSelectionWindow(
-                                LeadCampaignListComp.this);
-                        CampaignSearchCriteria criteria = new CampaignSearchCriteria();
-                        criteria.setSaccountid(new NumberSearchField(AppContext
-                                .getAccountId()));
-                        UI.getCurrent().addWindow(leadsWindow);
-                        leadsWindow.setSearchCriteria(criteria);
-                        controlsBtn.setPopupVisible(false);
-                    }
-                });
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                LeadCampaignSelectionWindow leadsWindow = new LeadCampaignSelectionWindow(LeadCampaignListComp.this);
+                CampaignSearchCriteria criteria = new CampaignSearchCriteria();
+                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                UI.getCurrent().addWindow(leadsWindow);
+                leadsWindow.setSearchCriteria(criteria);
+                controlsBtn.setPopupVisible(false);
+            }
+        });
         selectBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CAMPAIGN));
         OptionPopupContent buttonControlsLayout = new OptionPopupContent();
         buttonControlsLayout.addOption(selectBtn);
         controlsBtn.setContent(buttonControlsLayout);
 
         controlBtnWrap.addComponent(controlsBtn);
-        controlBtnWrap.setComponentAlignment(controlsBtn,
-                Alignment.MIDDLE_RIGHT);
+        controlBtnWrap.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
 
         return controlBtnWrap;
     }
 
-    protected class LeadCampaignBlockDisplay implements
-            BlockDisplayHandler<SimpleCampaign> {
+    protected class LeadCampaignBlockDisplay implements BlockDisplayHandler<SimpleCampaign> {
 
         @Override
-        public Component generateBlock(final SimpleCampaign campaign,
-                                       int blockIndex) {
+        public Component generateBlock(final SimpleCampaign campaign, int blockIndex) {
             CssLayout beanBlock = new CssLayout();
             beanBlock.addStyleName("bean-block");
             beanBlock.setWidth("350px");
@@ -154,34 +142,22 @@ public class LeadCampaignListComp
             btnDelete.addClickListener(new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
-                    ConfirmDialogExt.show(
-                            UI.getCurrent(),
-                            AppContext.getMessage(
-                                    GenericI18Enum.DIALOG_DELETE_TITLE,
-                                    AppContext.getSiteName()),
-                            AppContext
-                                    .getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                            AppContext
-                                    .getMessage(GenericI18Enum.BUTTON_YES),
-                            AppContext
-                                    .getMessage(GenericI18Enum.BUTTON_NO),
+                    ConfirmDialogExt.show(UI.getCurrent(),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_NO),
                             new ConfirmDialog.Listener() {
                                 private static final long serialVersionUID = 1L;
 
                                 @Override
                                 public void onClose(ConfirmDialog dialog) {
                                     if (dialog.isConfirmed()) {
-                                        CampaignService campaignService = ApplicationContextUtil
-                                                .getSpringBean(CampaignService.class);
+                                        CampaignService campaignService = ApplicationContextUtil.getSpringBean(CampaignService.class);
                                         CampaignLead associateLead = new CampaignLead();
                                         associateLead.setLeadid(lead.getId());
-                                        associateLead.setCampaignid(campaign
-                                                .getId());
-                                        campaignService
-                                                .removeCampaignLeadRelationship(
-                                                        associateLead,
-                                                        AppContext
-                                                                .getAccountId());
+                                        associateLead.setCampaignid(campaign.getId());
+                                        campaignService.removeCampaignLeadRelationship(associateLead, AppContext.getAccountId());
                                         LeadCampaignListComp.this.refresh();
                                     }
                                 }

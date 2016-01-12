@@ -32,7 +32,6 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@SuppressWarnings("serial")
 public class CampaignSelectionField extends CustomField<Integer> implements FieldSelection<CampaignWithBLOBs> {
     private CampaignWithBLOBs internalValue = new CampaignWithBLOBs();
 
@@ -57,10 +56,8 @@ public class CampaignSelectionField extends CustomField<Integer> implements Fiel
     }
 
     private void setCampaignByVal(Integer campaignId) {
-        CampaignService campaignService = ApplicationContextUtil
-                .getSpringBean(CampaignService.class);
-        SimpleCampaign campaign = campaignService.findById(campaignId,
-                AppContext.getAccountId());
+        CampaignService campaignService = ApplicationContextUtil.getSpringBean(CampaignService.class);
+        SimpleCampaign campaign = campaignService.findById(campaignId, AppContext.getAccountId());
         if (campaign != null) {
             setInternalCampaign(campaign);
         }
@@ -82,8 +79,7 @@ public class CampaignSelectionField extends CustomField<Integer> implements Fiel
         browseBtn.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                CampaignSelectionWindow campaignWindow = new CampaignSelectionWindow(
-                        CampaignSelectionField.this);
+                CampaignSelectionWindow campaignWindow = new CampaignSelectionWindow(CampaignSelectionField.this);
                 UI.getCurrent().addWindow(campaignWindow);
                 campaignWindow.show();
             }

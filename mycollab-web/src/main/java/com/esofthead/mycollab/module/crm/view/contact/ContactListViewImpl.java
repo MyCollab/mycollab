@@ -43,8 +43,7 @@ import java.util.Arrays;
  * @since 1.0
  */
 @ViewComponent
-public class ContactListViewImpl extends AbstractListItemComp<ContactSearchCriteria, SimpleContact>
-        implements ContactListView {
+public class ContactListViewImpl extends AbstractListItemComp<ContactSearchCriteria, SimpleContact> implements ContactListView {
     private static final long serialVersionUID = 1L;
 
     @Override

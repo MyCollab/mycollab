@@ -20,7 +20,11 @@ import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.vaadin.web.ui.ListView;
 
+/**
+ * @author MyCollab Ltd
+ * @since 1.0.0
+ */
 public interface LeadListView extends ListView<LeadSearchCriteria, SimpleLead> {
 
-	public static String VIEW_DEF_ID = "crm-lead-list";
+    String VIEW_DEF_ID = "crm-lead-list";
 }

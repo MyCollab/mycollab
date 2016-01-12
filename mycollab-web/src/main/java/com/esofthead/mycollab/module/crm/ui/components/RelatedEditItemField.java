@@ -41,66 +41,56 @@ import org.slf4j.LoggerFactory;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
-@SuppressWarnings("rawtypes")
-public class RelatedEditItemField extends CustomField<String> implements
-		FieldSelection {
-	private static final long serialVersionUID = 1L;
+public class RelatedEditItemField extends CustomField<String> implements FieldSelection {
+    private static final long serialVersionUID = 1L;
 
-	private static final Logger LOG = LoggerFactory.getLogger(RelatedEditItemField.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RelatedEditItemField.class);
 
-	private RelatedItemComboBox relatedItemComboBox;
-	private Object bean;
+    private RelatedItemComboBox relatedItemComboBox;
+    private Object bean;
 
-	private TextField itemField;
-	private Button browseBtn;
-	private Button clearBtn;
+    private TextField itemField;
+    private Button browseBtn;
+    private Button clearBtn;
 
-	public RelatedEditItemField(Object bean) {
-		this.bean = bean;
+    public RelatedEditItemField(Object bean) {
+        this.bean = bean;
 
-		relatedItemComboBox = new RelatedItemComboBox();
-		itemField = new TextField();
-		itemField.setEnabled(true);
+        relatedItemComboBox = new RelatedItemComboBox();
+        itemField = new TextField();
+        itemField.setEnabled(true);
 
-		browseBtn = new Button(null, FontAwesome.ELLIPSIS_H);
+        browseBtn = new Button(null, FontAwesome.ELLIPSIS_H);
         browseBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
         browseBtn.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 String type = (String) relatedItemComboBox.getValue();
                 if (CrmTypeConstants.ACCOUNT.equals(type)) {
-                    AccountSelectionWindow accountWindow = new AccountSelectionWindow(
-                            RelatedEditItemField.this);
+                    AccountSelectionWindow accountWindow = new AccountSelectionWindow(RelatedEditItemField.this);
                     UI.getCurrent().addWindow(accountWindow);
                     accountWindow.show();
                 } else if (CrmTypeConstants.CAMPAIGN.equals(type)) {
-                    CampaignSelectionWindow campaignWindow = new CampaignSelectionWindow(
-                            RelatedEditItemField.this);
+                    CampaignSelectionWindow campaignWindow = new CampaignSelectionWindow(RelatedEditItemField.this);
                     UI.getCurrent().addWindow(campaignWindow);
                     campaignWindow.show();
                 } else if (CrmTypeConstants.CONTACT.equals(type)) {
-                    ContactSelectionWindow contactWindow = new ContactSelectionWindow(
-                            RelatedEditItemField.this);
+                    ContactSelectionWindow contactWindow = new ContactSelectionWindow(RelatedEditItemField.this);
                     UI.getCurrent().addWindow(contactWindow);
                     contactWindow.show();
                 } else if (CrmTypeConstants.LEAD.equals(type)) {
-                    LeadSelectionWindow leadWindow = new LeadSelectionWindow(
-                            RelatedEditItemField.this);
+                    LeadSelectionWindow leadWindow = new LeadSelectionWindow(RelatedEditItemField.this);
                     UI.getCurrent().addWindow(leadWindow);
                     leadWindow.show();
                 } else if (CrmTypeConstants.OPPORTUNITY.equals(type)) {
-                    OpportunitySelectionWindow opportunityWindow = new OpportunitySelectionWindow(
-                            RelatedEditItemField.this);
+                    OpportunitySelectionWindow opportunityWindow = new OpportunitySelectionWindow(RelatedEditItemField.this);
                     UI.getCurrent().addWindow(opportunityWindow);
                     opportunityWindow.show();
                 } else if (CrmTypeConstants.CASE.equals(type)) {
-                    CaseSelectionWindow caseWindow = new CaseSelectionWindow(
-                            RelatedEditItemField.this);
+                    CaseSelectionWindow caseWindow = new CaseSelectionWindow(RelatedEditItemField.this);
                     UI.getCurrent().addWindow(caseWindow);
                     caseWindow.show();
                 } else {
@@ -109,9 +99,9 @@ public class RelatedEditItemField extends CustomField<String> implements
             }
         });
 
-		clearBtn = new Button(null, FontAwesome.TRASH_O);
+        clearBtn = new Button(null, FontAwesome.TRASH_O);
         clearBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
-		clearBtn.addClickListener(new Button.ClickListener() {
+        clearBtn.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 try {
@@ -122,148 +112,129 @@ public class RelatedEditItemField extends CustomField<String> implements
                 }
             }
         });
-	}
+    }
 
-	@Override
-	protected Component initContent() {
-		return new MHorizontalLayout().with(relatedItemComboBox, itemField, browseBtn, clearBtn)
-                .alignAll(Alignment.MIDDLE_LEFT);
-	}
+    @Override
+    protected Component initContent() {
+        return new MHorizontalLayout().with(relatedItemComboBox, itemField, browseBtn, clearBtn).alignAll(Alignment.MIDDLE_LEFT);
+    }
 
-	@Override
-	public Class<String> getType() {
-		return String.class;
-	}
+    @Override
+    public Class<String> getType() {
+        return String.class;
+    }
 
-	@Override
-	public void setPropertyDataSource(Property newDataSource) {
-		Object value = newDataSource.getValue();
-		if (value instanceof String) {
-			setType((String) value);
-			super.setPropertyDataSource(newDataSource);
-		} else {
-			super.setPropertyDataSource(newDataSource);
-		}
-	}
+    @Override
+    public void setPropertyDataSource(Property newDataSource) {
+        Object value = newDataSource.getValue();
+        if (value instanceof String) {
+            setType((String) value);
+            super.setPropertyDataSource(newDataSource);
+        } else {
+            super.setPropertyDataSource(newDataSource);
+        }
+    }
 
-	@Override
-	public void commit() throws SourceException, InvalidValueException {
-		String value = (String) relatedItemComboBox.getValue();
-		this.setInternalValue(value);
-		super.commit();
-	}
+    @Override
+    public void commit() throws SourceException, InvalidValueException {
+        String value = (String) relatedItemComboBox.getValue();
+        this.setInternalValue(value);
+        super.commit();
+    }
 
-	public void setType(String type) {
-		LOG.debug("Set type: " + type);
-		relatedItemComboBox.select(type);
-		try {
-			Integer typeid = (Integer) PropertyUtils
-					.getProperty(bean, "typeid");
-			if (typeid != null) {
-				if (CrmTypeConstants.ACCOUNT.equals(type)) {
-					AccountService accountService = ApplicationContextUtil
-							.getSpringBean(AccountService.class);
-					SimpleAccount account = accountService.findById(typeid,
-							AppContext.getAccountId());
-					if (account != null) {
-						itemField.setValue(account.getAccountname());
-					}
-				} else if (CrmTypeConstants.CAMPAIGN.equals(type)) {
-					CampaignService campaignService = ApplicationContextUtil
-							.getSpringBean(CampaignService.class);
-					SimpleCampaign campaign = campaignService.findById(typeid,
-							AppContext.getAccountId());
-					if (campaign != null) {
-						itemField.setValue(campaign.getCampaignname());
-					}
-				} else if (CrmTypeConstants.CONTACT.equals(type)) {
-					ContactService contactService = ApplicationContextUtil
-							.getSpringBean(ContactService.class);
-					SimpleContact contact = contactService.findById(typeid,
-							AppContext.getAccountId());
-					if (contact != null) {
-						itemField.setValue(contact.getContactName());
-					}
-				} else if (CrmTypeConstants.LEAD.equals(type)) {
-					LeadService leadService = ApplicationContextUtil
-							.getSpringBean(LeadService.class);
-					SimpleLead lead = leadService.findById(typeid,
-							AppContext.getAccountId());
-					if (lead != null) {
-						itemField.setValue(lead.getLeadName());
-					}
-				} else if (CrmTypeConstants.OPPORTUNITY.equals(type)) {
-					OpportunityService opportunityService = ApplicationContextUtil
-							.getSpringBean(OpportunityService.class);
-					SimpleOpportunity opportunity = opportunityService
-							.findById(typeid, AppContext.getAccountId());
-					if (opportunity != null) {
-						itemField.setValue(opportunity.getOpportunityname());
-					}
-				} else if (CrmTypeConstants.CASE.equals(type)) {
-					CaseService caseService = ApplicationContextUtil
-							.getSpringBean(CaseService.class);
-					SimpleCase cases = caseService.findById(typeid,
-							AppContext.getAccountId());
-					if (cases != null) {
-						itemField.setValue(cases.getSubject());
-					}
-				}
-			}
+    public void setType(String type) {
+        LOG.debug("Set type: " + type);
+        relatedItemComboBox.select(type);
+        try {
+            Integer typeid = (Integer) PropertyUtils.getProperty(bean, "typeid");
+            if (typeid != null) {
+                if (CrmTypeConstants.ACCOUNT.equals(type)) {
+                    AccountService accountService = ApplicationContextUtil.getSpringBean(AccountService.class);
+                    SimpleAccount account = accountService.findById(typeid, AppContext.getAccountId());
+                    if (account != null) {
+                        itemField.setValue(account.getAccountname());
+                    }
+                } else if (CrmTypeConstants.CAMPAIGN.equals(type)) {
+                    CampaignService campaignService = ApplicationContextUtil.getSpringBean(CampaignService.class);
+                    SimpleCampaign campaign = campaignService.findById(typeid, AppContext.getAccountId());
+                    if (campaign != null) {
+                        itemField.setValue(campaign.getCampaignname());
+                    }
+                } else if (CrmTypeConstants.CONTACT.equals(type)) {
+                    ContactService contactService = ApplicationContextUtil.getSpringBean(ContactService.class);
+                    SimpleContact contact = contactService.findById(typeid, AppContext.getAccountId());
+                    if (contact != null) {
+                        itemField.setValue(contact.getContactName());
+                    }
+                } else if (CrmTypeConstants.LEAD.equals(type)) {
+                    LeadService leadService = ApplicationContextUtil.getSpringBean(LeadService.class);
+                    SimpleLead lead = leadService.findById(typeid, AppContext.getAccountId());
+                    if (lead != null) {
+                        itemField.setValue(lead.getLeadName());
+                    }
+                } else if (CrmTypeConstants.OPPORTUNITY.equals(type)) {
+                    OpportunityService opportunityService = ApplicationContextUtil
+                            .getSpringBean(OpportunityService.class);
+                    SimpleOpportunity opportunity = opportunityService
+                            .findById(typeid, AppContext.getAccountId());
+                    if (opportunity != null) {
+                        itemField.setValue(opportunity.getOpportunityname());
+                    }
+                } else if (CrmTypeConstants.CASE.equals(type)) {
+                    CaseService caseService = ApplicationContextUtil.getSpringBean(CaseService.class);
+                    SimpleCase cases = caseService.findById(typeid, AppContext.getAccountId());
+                    if (cases != null) {
+                        itemField.setValue(cases.getSubject());
+                    }
+                }
+            }
 
-		} catch (Exception e) {
-			LOG.error("Error when set type", e);
-		}
-	}
+        } catch (Exception e) {
+            LOG.error("Error when set type", e);
+        }
+    }
 
-	@Override
-	public void fireValueChange(Object data) {
-		try {
-			if (data instanceof SimpleAccount) {
-				PropertyUtils.setProperty(bean, "typeid",
-						((SimpleAccount) data).getId());
-				itemField.setValue(((SimpleAccount) data).getAccountname());
-			} else if (data instanceof SimpleCampaign) {
-				PropertyUtils.setProperty(bean, "typeid",
-						((SimpleCampaign) data).getId());
-				itemField.setValue(((SimpleCampaign) data).getCampaignname());
-			} else if (data instanceof SimpleContact) {
-				PropertyUtils.setProperty(bean, "typeid",
-						((SimpleContact) data).getId());
-				itemField.setValue(((SimpleContact) data).getContactName());
-			} else if (data instanceof SimpleLead) {
-				PropertyUtils.setProperty(bean, "typeid",
-						((SimpleLead) data).getId());
-				itemField.setValue(((SimpleLead) data).getLeadName());
-			} else if (data instanceof SimpleOpportunity) {
-				PropertyUtils.setProperty(bean, "typeid",
-						((SimpleOpportunity) data).getId());
-				itemField.setValue(((SimpleOpportunity) data)
-						.getOpportunityname());
-			} else if (data instanceof SimpleCase) {
-				PropertyUtils.setProperty(bean, "typeid",
-						((SimpleCase) data).getId());
-				itemField.setValue(((SimpleCase) data).getSubject());
-			}
-		} catch (Exception e) {
-			LOG.error("Error when fire value", e);
-		}
-	}
+    @Override
+    public void fireValueChange(Object data) {
+        try {
+            if (data instanceof SimpleAccount) {
+                PropertyUtils.setProperty(bean, "typeid", ((SimpleAccount) data).getId());
+                itemField.setValue(((SimpleAccount) data).getAccountname());
+            } else if (data instanceof SimpleCampaign) {
+                PropertyUtils.setProperty(bean, "typeid", ((SimpleCampaign) data).getId());
+                itemField.setValue(((SimpleCampaign) data).getCampaignname());
+            } else if (data instanceof SimpleContact) {
+                PropertyUtils.setProperty(bean, "typeid", ((SimpleContact) data).getId());
+                itemField.setValue(((SimpleContact) data).getContactName());
+            } else if (data instanceof SimpleLead) {
+                PropertyUtils.setProperty(bean, "typeid", ((SimpleLead) data).getId());
+                itemField.setValue(((SimpleLead) data).getLeadName());
+            } else if (data instanceof SimpleOpportunity) {
+                PropertyUtils.setProperty(bean, "typeid", ((SimpleOpportunity) data).getId());
+                itemField.setValue(((SimpleOpportunity) data).getOpportunityname());
+            } else if (data instanceof SimpleCase) {
+                PropertyUtils.setProperty(bean, "typeid", ((SimpleCase) data).getId());
+                itemField.setValue(((SimpleCase) data).getSubject());
+            }
+        } catch (Exception e) {
+            LOG.error("Error when fire value", e);
+        }
+    }
 
-	private static class RelatedItemComboBox extends KeyCaptionComboBox {
-		private static final long serialVersionUID = 1L;
+    private static class RelatedItemComboBox extends KeyCaptionComboBox {
+        private static final long serialVersionUID = 1L;
 
-		public RelatedItemComboBox() {
-			super(true);
-			setCaption(null);
-			this.setWidth("100px");
-			this.addItem(CrmTypeConstants.ACCOUNT, AppContext.getMessage(CrmCommonI18nEnum.ACCOUNT));
-			this.addItem(CrmTypeConstants.CAMPAIGN, AppContext.getMessage(CrmCommonI18nEnum.CAMPAIGN));
-			this.addItem(CrmTypeConstants.CONTACT, AppContext.getMessage(CrmCommonI18nEnum.CONTACT));
-			this.addItem(CrmTypeConstants.LEAD, AppContext.getMessage(CrmCommonI18nEnum.LEAD));
-			this.addItem(CrmTypeConstants.OPPORTUNITY, AppContext.getMessage(CrmCommonI18nEnum.OPPORTUNITY));
-			this.addItem(CrmTypeConstants.CASE, AppContext.getMessage(CrmCommonI18nEnum.CASE));
-			this.select(getNullSelectionItemId());
-		}
-	}
+        public RelatedItemComboBox() {
+            super(true);
+            setCaption(null);
+            this.setWidth("100px");
+            this.addItem(CrmTypeConstants.ACCOUNT, AppContext.getMessage(CrmCommonI18nEnum.ACCOUNT));
+            this.addItem(CrmTypeConstants.CAMPAIGN, AppContext.getMessage(CrmCommonI18nEnum.CAMPAIGN));
+            this.addItem(CrmTypeConstants.CONTACT, AppContext.getMessage(CrmCommonI18nEnum.CONTACT));
+            this.addItem(CrmTypeConstants.LEAD, AppContext.getMessage(CrmCommonI18nEnum.LEAD));
+            this.addItem(CrmTypeConstants.OPPORTUNITY, AppContext.getMessage(CrmCommonI18nEnum.OPPORTUNITY));
+            this.addItem(CrmTypeConstants.CASE, AppContext.getMessage(CrmCommonI18nEnum.CASE));
+            this.select(getNullSelectionItemId());
+        }
+    }
 }

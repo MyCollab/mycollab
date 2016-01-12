@@ -34,7 +34,7 @@ import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.esofthead.mycollab.vaadin.web.ui.SplitButton;
@@ -51,8 +51,7 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @author MyCollab Ltd.
  * @since 4.0
  */
-public class AccountLeadListComp extends
-        RelatedListComp2<LeadService, LeadSearchCriteria, SimpleLead> {
+public class AccountLeadListComp extends RelatedListComp2<LeadService, LeadSearchCriteria, SimpleLead> {
     private static final long serialVersionUID = -8793172002298632506L;
 
     private Account account;
@@ -68,46 +67,39 @@ public class AccountLeadListComp extends
         controlsBtnWrap.setWidth("100%");
         final SplitButton controlsBtn = new SplitButton();
         controlsBtn.setSizeUndefined();
-        controlsBtn.setEnabled(AppContext
-                .canWrite(RolePermissionCollections.CRM_LEAD));
+        controlsBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_LEAD));
         controlsBtn.addStyleName(UIConstants.BUTTON_ACTION);
-        controlsBtn.setCaption(AppContext
-                .getMessage(LeadI18nEnum.BUTTON_NEW_LEAD));
+        controlsBtn.setCaption(AppContext.getMessage(LeadI18nEnum.BUTTON_NEW_LEAD));
         controlsBtn.setIcon(FontAwesome.PLUS);
-        controlsBtn
-                .addClickListener(new SplitButton.SplitButtonClickListener() {
-                    private static final long serialVersionUID = 1L;
+        controlsBtn.addClickListener(new SplitButton.SplitButtonClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void splitButtonClick(
-                            final SplitButton.SplitButtonClickEvent event) {
-                        fireNewRelatedItem("");
-                    }
-                });
-        final Button selectBtn = new Button("Select from existing leads",
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+            @Override
+            public void splitButtonClick(
+                    final SplitButton.SplitButtonClickEvent event) {
+                fireNewRelatedItem("");
+            }
+        });
+        final Button selectBtn = new Button("Select from existing leads", new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        AccountLeadSelectionWindow leadsWindow = new AccountLeadSelectionWindow(
-                                AccountLeadListComp.this);
-                        LeadSearchCriteria criteria = new LeadSearchCriteria();
-                        criteria.setSaccountid(new NumberSearchField(AppContext
-                                .getAccountId()));
-                        UI.getCurrent().addWindow(leadsWindow);
-                        leadsWindow.setSearchCriteria(criteria);
-                        controlsBtn.setPopupVisible(false);
-                    }
-                });
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                AccountLeadSelectionWindow leadsWindow = new AccountLeadSelectionWindow(AccountLeadListComp.this);
+                LeadSearchCriteria criteria = new LeadSearchCriteria();
+                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                UI.getCurrent().addWindow(leadsWindow);
+                leadsWindow.setSearchCriteria(criteria);
+                controlsBtn.setPopupVisible(false);
+            }
+        });
         selectBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.LEAD));
         OptionPopupContent buttonControlLayout = new OptionPopupContent();
         buttonControlLayout.addOption(selectBtn);
         controlsBtn.setContent(buttonControlLayout);
 
         controlsBtnWrap.addComponent(controlsBtn);
-        controlsBtnWrap.setComponentAlignment(controlsBtn,
-                Alignment.MIDDLE_RIGHT);
+        controlsBtnWrap.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
         return controlsBtnWrap;
     }
 
@@ -118,10 +110,8 @@ public class AccountLeadListComp extends
 
     private void loadLeads() {
         LeadSearchCriteria criteria = new LeadSearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(SearchField.AND,
-                AppContext.getAccountId()));
-        criteria.setAccountId(new NumberSearchField(SearchField.AND, account
-                .getId()));
+        criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+        criteria.setAccountId(new NumberSearchField(SearchField.AND, account.getId()));
         setSearchCriteria(criteria);
     }
 
@@ -130,8 +120,7 @@ public class AccountLeadListComp extends
         loadLeads();
     }
 
-    public class AccountLeadBlockDisplay implements
-            BlockDisplayHandler<SimpleLead> {
+    public class AccountLeadBlockDisplay implements BlockDisplayHandler<SimpleLead> {
 
         @Override
         public Component generateBlock(final SimpleLead lead, int blockIndex) {
@@ -154,34 +143,22 @@ public class AccountLeadListComp extends
             btnDelete.addClickListener(new Button.ClickListener() {
                 @Override
                 public void buttonClick(ClickEvent clickEvent) {
-                    ConfirmDialogExt.show(
-                            UI.getCurrent(),
-                            AppContext.getMessage(
-                                    GenericI18Enum.DIALOG_DELETE_TITLE,
-                                    AppContext.getSiteName()),
-                            AppContext
-                                    .getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                            AppContext
-                                    .getMessage(GenericI18Enum.BUTTON_YES),
-                            AppContext
-                                    .getMessage(GenericI18Enum.BUTTON_NO),
+                    ConfirmDialogExt.show(UI.getCurrent(),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_NO),
                             new ConfirmDialog.Listener() {
                                 private static final long serialVersionUID = 1L;
 
                                 @Override
                                 public void onClose(ConfirmDialog dialog) {
                                     if (dialog.isConfirmed()) {
-                                        final AccountService accountService = ApplicationContextUtil
-                                                .getSpringBean(AccountService.class);
+                                        final AccountService accountService = ApplicationContextUtil.getSpringBean(AccountService.class);
                                         final AccountLead associateLead = new AccountLead();
-                                        associateLead.setAccountid(account
-                                                .getId());
+                                        associateLead.setAccountid(account.getId());
                                         associateLead.setLeadid(lead.getId());
-                                        accountService
-                                                .removeAccountLeadRelationship(
-                                                        associateLead,
-                                                        AppContext
-                                                                .getAccountId());
+                                        accountService.removeAccountLeadRelationship(associateLead, AppContext.getAccountId());
                                         AccountLeadListComp.this.refresh();
                                     }
                                 }

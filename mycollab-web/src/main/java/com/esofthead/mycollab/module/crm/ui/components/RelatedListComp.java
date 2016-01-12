@@ -30,9 +30,7 @@ import java.util.Set;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public abstract class RelatedListComp<T, S extends SearchCriteria> extends
-        MVerticalLayout implements IRelatedListHandlers<T> {
-
+public abstract class RelatedListComp<T, S extends SearchCriteria> extends MVerticalLayout implements IRelatedListHandlers<T> {
     private static final long serialVersionUID = 1L;
 
     protected Set<RelatedListHandler<T>> handlers;

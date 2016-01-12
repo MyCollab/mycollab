@@ -30,14 +30,12 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.0
- * 
  */
 @ViewComponent
 public class OpportunityCrmListNoItemView extends CrmListNoItemView {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @Override
     protected FontAwesome titleIcon() {
@@ -64,8 +62,7 @@ public class OpportunityCrmListNoItemView extends CrmListNoItemView {
         return new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
-                EventBusFactory.getInstance().post(
-                        new OpportunityEvent.GotoAdd(this, null));
+                EventBusFactory.getInstance().post(new OpportunityEvent.GotoAdd(this, null));
             }
         };
     }

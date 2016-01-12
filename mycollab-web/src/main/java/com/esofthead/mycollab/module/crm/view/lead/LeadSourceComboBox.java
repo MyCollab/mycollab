@@ -20,15 +20,13 @@ import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
 import com.esofthead.mycollab.vaadin.web.ui.ValueComboBox;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 public class LeadSourceComboBox extends ValueComboBox {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public LeadSourceComboBox() {
-		this.loadData(CrmDataTypeFactory.getLeadSourceList());
-	}
+    public LeadSourceComboBox() {
+        this.loadData(CrmDataTypeFactory.getLeadSourceList());
+    }
 }

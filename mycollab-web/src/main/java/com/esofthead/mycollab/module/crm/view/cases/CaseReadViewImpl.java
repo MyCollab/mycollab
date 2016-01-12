@@ -112,8 +112,7 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase> implem
         peopleInfoComp = new PeopleInfoComp();
         basicInfo.addComponent(peopleInfoComp);
 
-        followersComp = new CrmFollowersComp<>(CrmTypeConstants.CASE,
-                RolePermissionCollections.CRM_CASE);
+        followersComp = new CrmFollowersComp<>(CrmTypeConstants.CASE, RolePermissionCollections.CRM_CASE);
         basicInfo.addComponent(followersComp);
 
         navigatorWrapper.addComponentAsFirst(basicInfo);

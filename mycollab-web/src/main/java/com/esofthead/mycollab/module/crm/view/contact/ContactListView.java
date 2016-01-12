@@ -20,8 +20,11 @@ import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.esofthead.mycollab.vaadin.web.ui.ListView;
 
-public interface ContactListView extends
-		ListView<ContactSearchCriteria, SimpleContact> {
+/**
+ * @author MyCollab Ltd
+ * @since 1.0.0
+ */
+public interface ContactListView extends ListView<ContactSearchCriteria, SimpleContact> {
 
-	public static final String VIEW_DEF_ID = "crm-contact-list";
+    String VIEW_DEF_ID = "crm-contact-list";
 }

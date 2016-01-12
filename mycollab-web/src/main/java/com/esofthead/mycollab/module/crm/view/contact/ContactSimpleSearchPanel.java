@@ -43,7 +43,6 @@ import org.apache.commons.lang3.StringUtils;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@SuppressWarnings("serial")
 public class ContactSimpleSearchPanel extends GenericSearchPanel<ContactSearchCriteria> {
     private ContactSearchCriteria searchCriteria;
     private TextField textValueField;
@@ -60,8 +59,7 @@ public class ContactSimpleSearchPanel extends GenericSearchPanel<ContactSearchCr
         layoutSearchPane = new GridLayout(3, 3);
         layoutSearchPane.setSpacing(true);
 
-        group = new ValueComboBox(false, "Name", "Email", "Phone",
-                AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE));
+        group = new ValueComboBox(false, "Name", "Email", "Phone", AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE));
         group.select("Name");
         group.setImmediate(true);
         group.addValueChangeListener(new Property.ValueChangeListener() {
@@ -75,8 +73,7 @@ public class ContactSimpleSearchPanel extends GenericSearchPanel<ContactSearchCr
                     addTextFieldSearch();
                 } else if (searchType.equals("Phone")) {
                     addTextFieldSearch();
-                } else if (searchType.equals(AppContext
-                        .getMessage(GenericI18Enum.FORM_ASSIGNEE))) {
+                } else if (searchType.equals(AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE))) {
                     addUserListSelectField();
                 }
             }
@@ -86,8 +83,7 @@ public class ContactSimpleSearchPanel extends GenericSearchPanel<ContactSearchCr
         layoutSearchPane.setComponentAlignment(group, Alignment.MIDDLE_CENTER);
         addTextFieldSearch();
 
-        Button searchBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
+        Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
         searchBtn.setStyleName(UIConstants.BUTTON_ACTION);
         searchBtn.setIcon(FontAwesome.SEARCH);
         searchBtn.addClickListener(new Button.ClickListener() {
@@ -97,8 +93,7 @@ public class ContactSimpleSearchPanel extends GenericSearchPanel<ContactSearchCr
             }
         });
         layoutSearchPane.addComponent(searchBtn, 2, 0);
-        layoutSearchPane.setComponentAlignment(searchBtn,
-                Alignment.MIDDLE_CENTER);
+        layoutSearchPane.setComponentAlignment(searchBtn, Alignment.MIDDLE_CENTER);
         this.setCompositionRoot(layoutSearchPane);
     }
 
@@ -150,8 +145,7 @@ public class ContactSimpleSearchPanel extends GenericSearchPanel<ContactSearchCr
         userBox = new ActiveUserComboBox();
         userBox.setImmediate(true);
         layoutSearchPane.addComponent(userBox, 0, 0);
-        layoutSearchPane
-                .setComponentAlignment(userBox, Alignment.MIDDLE_CENTER);
+        layoutSearchPane.setComponentAlignment(userBox, Alignment.MIDDLE_CENTER);
     }
 
     private void removeComponents() {

@@ -25,33 +25,28 @@ import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 3.0
- * 
  */
-public class ContactRoleEditPresenter extends
-		CrmGenericPresenter<ContactRoleEditView> {
-	private static final long serialVersionUID = 1L;
+public class ContactRoleEditPresenter extends CrmGenericPresenter<ContactRoleEditView> {
+    private static final long serialVersionUID = 1L;
 
-	public ContactRoleEditPresenter() {
-		super(ContactRoleEditView.class);
-	}
+    public ContactRoleEditPresenter() {
+        super(ContactRoleEditView.class);
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		if (AppContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY)) {
-			SimpleOpportunity opportunity = (SimpleOpportunity) data
-					.getParams();
-			super.onGo(container, data);
-			view.display(opportunity);
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        if (AppContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY)) {
+            SimpleOpportunity opportunity = (SimpleOpportunity) data.getParams();
+            super.onGo(container, data);
+            view.display(opportunity);
 
-			AppContext.addFragment("crm/opportunity/addcontactroles",
-					"Add Contact Roles");
-		} else {
-			NotificationUtil.showMessagePermissionAlert();
-		}
+            AppContext.addFragment("crm/opportunity/addcontactroles", "Add Contact Roles");
+        } else {
+            NotificationUtil.showMessagePermissionAlert();
+        }
 
-	}
+    }
 
 }

@@ -42,11 +42,10 @@ import org.apache.commons.lang3.StringUtils;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@SuppressWarnings("serial")
 public class OpportunitySimpleSearchPanel extends GenericSearchPanel<OpportunitySearchCriteria> {
     private TextField textValueField;
     private ActiveUserComboBox userBox;
-    private GridLayout layoutSearchPanel;
+    private GridLayout searchPanel;
     private ValueComboBox group;
 
     public OpportunitySimpleSearchPanel() {
@@ -54,11 +53,10 @@ public class OpportunitySimpleSearchPanel extends GenericSearchPanel<Opportunity
     }
 
     private void createBasicSearchLayout() {
-        layoutSearchPanel = new GridLayout(3, 3);
-        layoutSearchPanel.setSpacing(true);
+        searchPanel = new GridLayout(3, 3);
+        searchPanel.setSpacing(true);
 
-        group = new ValueComboBox(false, "Name", "Account Name", "Sales Stage",
-                AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE));
+        group = new ValueComboBox(false, "Name", "Account Name", "Sales Stage", AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE));
         group.select("Name");
         group.setImmediate(true);
         group.addValueChangeListener(new Property.ValueChangeListener() {
@@ -80,12 +78,11 @@ public class OpportunitySimpleSearchPanel extends GenericSearchPanel<Opportunity
             }
         });
 
-        layoutSearchPanel.addComponent(group, 1, 0);
-        layoutSearchPanel.setComponentAlignment(group, Alignment.MIDDLE_CENTER);
+        searchPanel.addComponent(group, 1, 0);
+        searchPanel.setComponentAlignment(group, Alignment.MIDDLE_CENTER);
         addTextFieldSearch();
 
-        Button searchBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
+        Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
         searchBtn.setStyleName(UIConstants.BUTTON_ACTION);
         searchBtn.setIcon(FontAwesome.SEARCH);
         searchBtn.addClickListener(new Button.ClickListener() {
@@ -94,10 +91,9 @@ public class OpportunitySimpleSearchPanel extends GenericSearchPanel<Opportunity
                 doSearch();
             }
         });
-        layoutSearchPanel.addComponent(searchBtn, 2, 0);
-        layoutSearchPanel.setComponentAlignment(searchBtn,
-                Alignment.MIDDLE_CENTER);
-        this.setCompositionRoot(layoutSearchPanel);
+        searchPanel.addComponent(searchBtn, 2, 0);
+        searchPanel.setComponentAlignment(searchBtn, Alignment.MIDDLE_CENTER);
+        this.setCompositionRoot(searchPanel);
     }
 
     private void doSearch() {
@@ -135,19 +131,19 @@ public class OpportunitySimpleSearchPanel extends GenericSearchPanel<Opportunity
                 doSearch();
             }
         });
-        layoutSearchPanel.addComponent(textValueField, 0, 0);
-        layoutSearchPanel.setComponentAlignment(textValueField, Alignment.MIDDLE_CENTER);
+        searchPanel.addComponent(textValueField, 0, 0);
+        searchPanel.setComponentAlignment(textValueField, Alignment.MIDDLE_CENTER);
     }
 
     private void addUserListSelectField() {
         userBox = new ActiveUserComboBox();
         userBox.setImmediate(true);
-        layoutSearchPanel.addComponent(userBox, 0, 0);
-        layoutSearchPanel.setComponentAlignment(userBox, Alignment.MIDDLE_CENTER);
+        searchPanel.addComponent(userBox, 0, 0);
+        searchPanel.setComponentAlignment(userBox, Alignment.MIDDLE_CENTER);
     }
 
     private void removeComponents() {
-        layoutSearchPanel.removeComponent(0, 0);
+        searchPanel.removeComponent(0, 0);
         userBox = null;
         textValueField = null;
     }

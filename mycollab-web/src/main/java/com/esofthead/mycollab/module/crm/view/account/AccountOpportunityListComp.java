@@ -196,26 +196,17 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
 
             opportunityInfo.addComponent(opportunityName);
 
-            Label opportunityAmount = new Label(
-                    "Amount: "
-                            + (opportunity.getAmount() != null ? opportunity
-                            .getAmount() : ""));
-            if (opportunity.getCurrency() != null
-                    && opportunity.getAmount() != null) {
-                opportunityAmount.setValue(opportunityAmount.getValue()
-                        + opportunity.getCurrency().getSymbol());
+            Label opportunityAmount = new Label("Amount: " + (opportunity.getAmount() != null ? opportunity.getAmount() : ""));
+            if (opportunity.getCurrency() != null && opportunity.getAmount() != null) {
+                opportunityAmount.setValue(opportunityAmount.getValue() + opportunity.getCurrency().getSymbol());
             }
             opportunityInfo.addComponent(opportunityAmount);
 
-            Label opportunitySaleStage = new Label(
-                    "Sale Stage: "
-                            + (opportunity.getSalesstage() != null ? opportunity
-                            .getSalesstage() : ""));
+            Label opportunitySaleStage = new Label("Sale Stage: " + (opportunity.getSalesstage() != null ? opportunity.getSalesstage() : ""));
             opportunityInfo.addComponent(opportunitySaleStage);
 
             if (opportunity.getSalesstage() != null) {
-                beanBlock
-                        .addStyleName(colormap.get(opportunity.getSalesstage()));
+                beanBlock.addStyleName(colormap.get(opportunity.getSalesstage()));
             }
 
             ELabel opportunityExpectedCloseDate = new ELabel("Expected Close Date: " +

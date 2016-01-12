@@ -31,8 +31,7 @@ import com.esofthead.mycollab.module.crm.ui.components.EntityImportWindow;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 
-public class OpportunityImportWindow extends
-		EntityImportWindow<SimpleOpportunity> {
+public class OpportunityImportWindow extends EntityImportWindow<SimpleOpportunity> {
 	private static final long serialVersionUID = 1L;
 
 	public OpportunityImportWindow() {

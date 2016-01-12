@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.view.campaign;
 
-import java.util.Arrays;
-
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedItemSelectionWindow;
@@ -28,49 +26,47 @@ import com.esofthead.mycollab.vaadin.events.SearchHandler;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.ui.Button;
 
+import java.util.Arrays;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@SuppressWarnings("serial")
 public class CampaignContactSelectionWindow extends RelatedItemSelectionWindow<SimpleContact, ContactSearchCriteria> {
 
-	public CampaignContactSelectionWindow(
-			CampaignContactListComp associateContactList) {
-		super("Select Contacts", associateContactList);
+    public CampaignContactSelectionWindow(CampaignContactListComp associateContactList) {
+        super("Select Contacts", associateContactList);
+        this.setWidth("900px");
+    }
 
-		this.setWidth("900px");
-	}
+    @Override
+    protected void initUI() {
+        tableItem = new ContactTableDisplay(ContactTableFieldDef.selected(),
+                Arrays.asList(ContactTableFieldDef.name(), ContactTableFieldDef.email(),
+                        ContactTableFieldDef.phoneOffice(), ContactTableFieldDef.account()));
 
-	@Override
-	protected void initUI() {
-		tableItem = new ContactTableDisplay(ContactTableFieldDef.selected(),
-				Arrays.asList(ContactTableFieldDef.name(), ContactTableFieldDef.email(),
-						ContactTableFieldDef.phoneOffice(), ContactTableFieldDef.account()));
+        Button selectBtn = new Button("Select", new Button.ClickListener() {
 
-		Button selectBtn = new Button("Select", new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                close();
+            }
+        });
+        selectBtn.setStyleName(UIConstants.BUTTON_ACTION);
 
-			@Override
-			public void buttonClick(Button.ClickEvent event) {
-				close();
-			}
-		});
-		selectBtn.setStyleName(UIConstants.BUTTON_ACTION);
+        ContactSimpleSearchPanel contactSimpleSearchPanel = new ContactSimpleSearchPanel();
+        contactSimpleSearchPanel.addSearchHandler(new SearchHandler<ContactSearchCriteria>() {
 
-		ContactSimpleSearchPanel contactSimpleSearchPanel = new ContactSimpleSearchPanel();
-		contactSimpleSearchPanel.addSearchHandler(new SearchHandler<ContactSearchCriteria>() {
+            @Override
+            public void onSearch(ContactSearchCriteria criteria) {
+                tableItem.setSearchCriteria(criteria);
+            }
 
-			@Override
-			public void onSearch(ContactSearchCriteria criteria) {
-				tableItem.setSearchCriteria(criteria);
-			}
+        });
 
-		});
-
-		this.bodyContent.addComponent(contactSimpleSearchPanel);
-		this.bodyContent.addComponent(selectBtn);
-		this.bodyContent.addComponent(tableItem);
-	}
+        bodyContent.addComponent(contactSimpleSearchPanel);
+        bodyContent.addComponent(selectBtn);
+        bodyContent.addComponent(tableItem);
+    }
 
 }

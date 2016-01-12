@@ -38,30 +38,23 @@ import com.vaadin.ui.Table.ColumnGenerator;
 import java.util.List;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
-public class ContactTableDisplay
-        extends
-        DefaultPagedBeanTable<ContactService, ContactSearchCriteria, SimpleContact> {
+public class ContactTableDisplay extends DefaultPagedBeanTable<ContactService, ContactSearchCriteria, SimpleContact> {
     private static final long serialVersionUID = 1L;
 
     public ContactTableDisplay(List<TableViewField> displayColumns) {
         this(null, displayColumns);
     }
 
-    public ContactTableDisplay(TableViewField requiredColumn,
-                               List<TableViewField> displayColumns) {
+    public ContactTableDisplay(TableViewField requiredColumn, List<TableViewField> displayColumns) {
         this(null, requiredColumn, displayColumns);
 
     }
 
-    public ContactTableDisplay(String viewId, TableViewField requiredColumn,
-                               List<TableViewField> displayColumns) {
-        super(ApplicationContextUtil.getSpringBean(ContactService.class),
-                SimpleContact.class, viewId, requiredColumn, displayColumns);
+    public ContactTableDisplay(String viewId, TableViewField requiredColumn, List<TableViewField> displayColumns) {
+        super(ApplicationContextUtil.getSpringBean(ContactService.class), SimpleContact.class, viewId, requiredColumn, displayColumns);
 
         addGeneratedColumn("selected", new Table.ColumnGenerator() {
             private static final long serialVersionUID = 1L;
@@ -70,16 +63,14 @@ public class ContactTableDisplay
             public Object generateCell(final Table source, final Object itemId,
                                        final Object columnId) {
                 final SimpleContact contact = getBeanByIndex(itemId);
-                final CheckBoxDecor cb = new CheckBoxDecor("", contact
-                        .isSelected());
+                final CheckBoxDecor cb = new CheckBoxDecor("", contact.isSelected());
                 cb.addValueChangeListener(new ValueChangeListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
                     public void valueChange(ValueChangeEvent event) {
                         ContactTableDisplay.this.fireSelectItemEvent(contact);
-                        fireTableEvent(new TableClickEvent(
-                                ContactTableDisplay.this, contact, "selected"));
+                        fireTableEvent(new TableClickEvent(ContactTableDisplay.this, contact, "selected"));
 
                     }
                 });
@@ -97,9 +88,7 @@ public class ContactTableDisplay
                                        final Object columnId) {
                 final SimpleContact contact = getBeanByIndex(itemId);
 
-                LabelLink b = new LabelLink(contact.getContactName(),
-                        CrmLinkBuilder.generateContactPreviewLinkFull(contact
-                                .getId()));
+                LabelLink b = new LabelLink(contact.getContactName(), CrmLinkBuilder.generateContactPreviewLinkFull(contact.getId()));
                 b.setDescription(CrmTooltipGenerator.generateToolTipContact(
                         AppContext.getUserLocale(), contact,
                         AppContext.getSiteUrl(), AppContext.getUserTimezone()));
@@ -114,8 +103,7 @@ public class ContactTableDisplay
             public com.vaadin.ui.Component generateCell(final Table source,
                                                         final Object itemId, final Object columnId) {
                 final SimpleContact contact = getBeanByIndex(itemId);
-                return new Label(AppContext.formatDateTime(contact
-                        .getCreatedtime()));
+                return new Label(AppContext.formatDateTime(contact.getCreatedtime()));
 
             }
         });
@@ -140,10 +128,7 @@ public class ContactTableDisplay
                 final SimpleContact contact = getBeanByIndex(itemId);
                 if (contact.getAccountName() != null) {
 
-                    LabelLink b = new LabelLink(contact.getAccountName(),
-                            CrmLinkBuilder
-                                    .generateAccountPreviewLinkFull(contact
-                                            .getAccountid()));
+                    LabelLink b = new LabelLink(contact.getAccountName(), CrmLinkBuilder.generateAccountPreviewLinkFull(contact.getAccountid()));
                     return b;
                 } else {
                     return new Label();
@@ -169,9 +154,7 @@ public class ContactTableDisplay
             public com.vaadin.ui.Component generateCell(final Table source,
                                                         final Object itemId, final Object columnId) {
                 final SimpleContact contact = getBeanByIndex(itemId);
-                return new UserLink(contact.getAssignuser(), contact
-                        .getAssignUserAvatarId(), contact
-                        .getAssignUserFullName());
+                return new UserLink(contact.getAssignuser(), contact.getAssignUserAvatarId(), contact.getAssignUserFullName());
             }
         });
 

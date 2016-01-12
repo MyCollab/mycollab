@@ -16,30 +16,28 @@
  */
 package com.esofthead.mycollab.module.crm.view.account;
 
-import java.util.Arrays;
-import java.util.Collection;
-
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.vaadin.web.ui.table.CustomizedTableWindow;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class AccountListCustomizeWindow extends CustomizedTableWindow {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public AccountListCustomizeWindow(String viewId, AccountTableDisplay table) {
-		super(viewId, table);
-	}
+    public AccountListCustomizeWindow(String viewId, AccountTableDisplay table) {
+        super(viewId, table);
+    }
 
-	protected Collection<TableViewField> getAvailableColumns() {
-		return Arrays.asList(AccountTableFieldDef.accountname(),
-				AccountTableFieldDef.assignUser(), AccountTableFieldDef.city(),
-				AccountTableFieldDef.email(), AccountTableFieldDef.phoneoffice(),
-				AccountTableFieldDef.website(), AccountTableFieldDef.type(),
-				AccountTableFieldDef.ownership(), AccountTableFieldDef.fax());
-	}
+    protected Collection<TableViewField> getAvailableColumns() {
+        return Arrays.asList(AccountTableFieldDef.accountname(),
+                AccountTableFieldDef.assignUser(), AccountTableFieldDef.city(),
+                AccountTableFieldDef.email(), AccountTableFieldDef.phoneoffice(),
+                AccountTableFieldDef.website(), AccountTableFieldDef.type(),
+                AccountTableFieldDef.ownership(), AccountTableFieldDef.fax());
+    }
 }

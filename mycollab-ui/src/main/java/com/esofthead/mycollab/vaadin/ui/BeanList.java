@@ -93,7 +93,6 @@ public class BeanList<SearchService extends ISearchableService<S>, S extends Sea
         contentLayout.removeComponent(row);
     }
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
     private RowDisplayHandler<T> constructRowDisplayHandler() {
         RowDisplayHandler<T> rowHandler;
         try {
@@ -115,7 +114,6 @@ public class BeanList<SearchService extends ISearchableService<S>, S extends Sea
         return setSearchRequest(searchRequest);
     }
 
-    @SuppressWarnings("unchecked")
     public int setSearchRequest(SearchRequest<S> searchRequest) {
         List<T> currentListData = searchService.findPagableListByCriteria(searchRequest);
         loadItems(currentListData);
@@ -159,7 +157,6 @@ public class BeanList<SearchService extends ISearchableService<S>, S extends Sea
      * @author MyCollab Ltd.
      * @since 1.0
      */
-    @SuppressWarnings("rawtypes")
     public static abstract class RowDisplayHandler<T> implements Serializable {
         private static final long serialVersionUID = 1L;
 

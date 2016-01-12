@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.view.campaign;
 
-import java.util.Arrays;
-
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedItemSelectionWindow;
@@ -28,51 +26,47 @@ import com.esofthead.mycollab.vaadin.events.SearchHandler;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.ui.Button;
 
+import java.util.Arrays;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class CampaignAccountSelectionWindow extends
-RelatedItemSelectionWindow<SimpleAccount, AccountSearchCriteria> {
+public class CampaignAccountSelectionWindow extends RelatedItemSelectionWindow<SimpleAccount, AccountSearchCriteria> {
+    private static final long serialVersionUID = 1L;
 
-	private static final long serialVersionUID = 1L;
+    public CampaignAccountSelectionWindow(CampaignAccountListComp associateAccountList) {
+        super("Select Accounts", associateAccountList);
+        this.setWidth("900px");
+    }
 
-	public CampaignAccountSelectionWindow(
-			CampaignAccountListComp associateAccountList) {
-		super("Select Accounts", associateAccountList);
+    @Override
+    protected void initUI() {
+        tableItem = new AccountTableDisplay(AccountTableFieldDef.selected(),
+                Arrays.asList(AccountTableFieldDef.accountname(),
+                        AccountTableFieldDef.phoneoffice(),
+                        AccountTableFieldDef.email(), AccountTableFieldDef.city()));
 
-		this.setWidth("900px");
-	}
+        Button selectBtn = new Button("Select", new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-	@Override
-	protected void initUI() {
-		tableItem = new AccountTableDisplay(AccountTableFieldDef.selected(),
-				Arrays.asList(AccountTableFieldDef.accountname(),
-						AccountTableFieldDef.phoneoffice(),
-						AccountTableFieldDef.email(), AccountTableFieldDef.city()));
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                close();
+            }
+        });
+        selectBtn.setStyleName(UIConstants.BUTTON_ACTION);
 
-		Button selectBtn = new Button("Select", new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+        AccountSimpleSearchPanel accountSimpleSearchPanel = new AccountSimpleSearchPanel();
+        accountSimpleSearchPanel.addSearchHandler(new SearchHandler<AccountSearchCriteria>() {
 
-			@Override
-			public void buttonClick(Button.ClickEvent event) {
-				close();
-			}
-		});
-		selectBtn.setStyleName(UIConstants.BUTTON_ACTION);
+            @Override
+            public void onSearch(AccountSearchCriteria criteria) {
+                tableItem.setSearchCriteria(criteria);
+            }
 
-		AccountSimpleSearchPanel accountSimpleSearchPanel = new AccountSimpleSearchPanel();
-		accountSimpleSearchPanel
-		.addSearchHandler(new SearchHandler<AccountSearchCriteria>() {
+        });
 
-			@Override
-			public void onSearch(AccountSearchCriteria criteria) {
-				tableItem.setSearchCriteria(criteria);
-			}
-
-		});
-
-		this.bodyContent.with(accountSimpleSearchPanel, selectBtn, tableItem);
-	}
+        this.bodyContent.with(accountSimpleSearchPanel, selectBtn, tableItem);
+    }
 }

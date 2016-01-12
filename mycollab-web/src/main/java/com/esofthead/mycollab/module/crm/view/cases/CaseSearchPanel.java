@@ -29,7 +29,7 @@ import com.esofthead.mycollab.module.crm.view.account.AccountSelectionField;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserListSelect;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.esofthead.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.web.ui.DynamicQueryParamLayout;
 import com.esofthead.mycollab.vaadin.web.ui.ShortcutExtension;
@@ -122,13 +122,11 @@ public class CaseSearchPanel extends DefaultGenericSearchPanel<CaseSearchCriteri
         }
     }
 
-    @SuppressWarnings("rawtypes")
     private class CaseBasicSearchLayout extends BasicSearchLayout {
         private static final long serialVersionUID = 1L;
         private TextField subjectField;
         private CheckBox myItemCheckbox;
 
-        @SuppressWarnings("unchecked")
         public CaseBasicSearchLayout() {
             super(CaseSearchPanel.this);
         }
@@ -138,14 +136,12 @@ public class CaseSearchPanel extends DefaultGenericSearchPanel<CaseSearchCriteri
             return CaseSearchPanel.this.constructHeader();
         }
 
-        @SuppressWarnings("serial")
         @Override
         public ComponentContainer constructBody() {
             MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
 
             subjectField = ShortcutExtension.installShortcutAction(new TextField(),
-                    new ShortcutListener("CaseSearchField", ShortcutAction.KeyCode.ENTER,
-                            null) {
+                    new ShortcutListener("CaseSearchField", ShortcutAction.KeyCode.ENTER, null) {
                         @Override
                         public void handleAction(Object o, Object o1) {
                             callSearchAction();

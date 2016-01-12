@@ -21,13 +21,11 @@ import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.IFormAddView;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
 public interface CampaignAddView extends IFormAddView<SimpleCampaign> {
 
-	HasEditFormHandlers<SimpleCampaign> getEditFormHandlers();
+    HasEditFormHandlers<SimpleCampaign> getEditFormHandlers();
 
 }

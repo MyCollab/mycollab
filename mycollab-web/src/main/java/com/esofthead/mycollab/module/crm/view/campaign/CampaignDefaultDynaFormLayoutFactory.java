@@ -17,12 +17,7 @@
 package com.esofthead.mycollab.module.crm.view.campaign;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.form.view.builder.CurrencyDynaFieldBuilder;
-import com.esofthead.mycollab.form.view.builder.DateDynaFieldBuilder;
-import com.esofthead.mycollab.form.view.builder.DynaSectionBuilder;
-import com.esofthead.mycollab.form.view.builder.NumberDynaFieldBuilder;
-import com.esofthead.mycollab.form.view.builder.TextAreaDynaFieldBuilder;
-import com.esofthead.mycollab.form.view.builder.TextDynaFieldBuilder;
+import com.esofthead.mycollab.form.view.builder.*;
 import com.esofthead.mycollab.form.view.builder.type.DynaForm;
 import com.esofthead.mycollab.form.view.builder.type.DynaSection;
 import com.esofthead.mycollab.form.view.builder.type.DynaSection.LayoutType;
@@ -30,122 +25,87 @@ import com.esofthead.mycollab.module.crm.i18n.CampaignI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class CampaignDefaultDynaFormLayoutFactory {
-	public static final DynaForm defaultForm;
+    public static final DynaForm defaultForm;
 
-	static {
-		defaultForm = new DynaForm();
+    static {
+        defaultForm = new DynaForm();
 
-		DynaSection campaignSection = new DynaSectionBuilder()
-				.layoutType(LayoutType.TWO_COLUMN)
-				.orderIndex(0)
-				.header(AppContext
-						.getMessage(CampaignI18nEnum.SECTION_CAMPAIGN_INFORMATION))
-				.build();
+        DynaSection campaignSection = new DynaSectionBuilder().layoutType(LayoutType.TWO_COLUMN).orderIndex(0)
+                .header(AppContext.getMessage(CampaignI18nEnum.SECTION_CAMPAIGN_INFORMATION))
+                .build();
 
-		campaignSection
-				.addField(new TextDynaFieldBuilder()
-						.fieldName("campaignname")
-						.displayName(
-								AppContext
-										.getMessage(CampaignI18nEnum.FORM_CAMPAIGN_NAME))
-						.mandatory(true).fieldIndex(0).build());
+        campaignSection.addField(new TextDynaFieldBuilder().fieldName("campaignname")
+                .displayName(AppContext.getMessage(CampaignI18nEnum.FORM_CAMPAIGN_NAME))
+                .mandatory(true).fieldIndex(0).build());
 
-		campaignSection.addField(new TextDynaFieldBuilder()
-				.fieldName("status")
-				.displayName(
-						AppContext.getMessage(CampaignI18nEnum.FORM_STATUS))
-				.fieldIndex(1).build());
+        campaignSection.addField(new TextDynaFieldBuilder().fieldName("status")
+                .displayName(AppContext.getMessage(CampaignI18nEnum.FORM_STATUS))
+                .fieldIndex(1).build());
 
-		campaignSection
-				.addField(new DateDynaFieldBuilder()
-						.fieldName("startdate")
-						.displayName(
-								AppContext
-										.getMessage(CampaignI18nEnum.FORM_START_DATE))
-						.fieldIndex(2).build());
+        campaignSection.addField(new DateDynaFieldBuilder().fieldName("startdate")
+                .displayName(AppContext.getMessage(CampaignI18nEnum.FORM_START_DATE))
+                .fieldIndex(2).build());
 
-		campaignSection.addField(new TextDynaFieldBuilder().fieldName("type")
-				.displayName(AppContext.getMessage(CampaignI18nEnum.FORM_TYPE))
-				.fieldIndex(3).build());
+        campaignSection.addField(new TextDynaFieldBuilder().fieldName("type")
+                .displayName(AppContext.getMessage(CampaignI18nEnum.FORM_TYPE))
+                .fieldIndex(3).build());
 
-		campaignSection.addField(new DateDynaFieldBuilder()
-				.fieldName("enddate")
-				.displayName(
-						AppContext.getMessage(CampaignI18nEnum.FORM_END_DATE))
-				.fieldIndex(4).build());
+        campaignSection.addField(new DateDynaFieldBuilder()
+                .fieldName("enddate")
+                .displayName(
+                        AppContext.getMessage(CampaignI18nEnum.FORM_END_DATE))
+                .fieldIndex(4).build());
 
-		campaignSection.addField(new TextDynaFieldBuilder()
-				.fieldName("assignuser")
-				.displayName(
-						AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE))
-				.fieldIndex(5).build());
+        campaignSection.addField(new TextDynaFieldBuilder().fieldName("assignuser")
+                .displayName(AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE))
+                .fieldIndex(5).build());
 
-		defaultForm.addSection(campaignSection);
+        defaultForm.addSection(campaignSection);
 
-		DynaSection goalSection = new DynaSectionBuilder()
-				.layoutType(LayoutType.TWO_COLUMN).orderIndex(1)
-				.header(AppContext.getMessage(CampaignI18nEnum.SECTION_GOAL))
-				.build();
+        DynaSection goalSection = new DynaSectionBuilder().layoutType(LayoutType.TWO_COLUMN).orderIndex(1)
+                .header(AppContext.getMessage(CampaignI18nEnum.SECTION_GOAL))
+                .build();
 
-		goalSection.addField(new CurrencyDynaFieldBuilder()
-				.fieldName("currencyid")
-				.displayName(
-						AppContext.getMessage(CampaignI18nEnum.FORM_CURRENCY))
-				.fieldIndex(0).build());
+        goalSection.addField(new CurrencyDynaFieldBuilder()
+                .fieldName("currencyid")
+                .displayName(
+                        AppContext.getMessage(CampaignI18nEnum.FORM_CURRENCY))
+                .fieldIndex(0).build());
 
-		goalSection
-				.addField(new NumberDynaFieldBuilder()
-						.fieldName("expectedcost")
-						.displayName(
-								AppContext
-										.getMessage(CampaignI18nEnum.FORM_EXPECTED_COST))
-						.fieldIndex(2).build());
+        goalSection.addField(new NumberDynaFieldBuilder().fieldName("expectedcost")
+                .displayName(AppContext.getMessage(CampaignI18nEnum.FORM_EXPECTED_COST))
+                .fieldIndex(2).build());
 
-		goalSection.addField(new NumberDynaFieldBuilder()
-				.fieldName("budget")
-				.displayName(
-						AppContext.getMessage(CampaignI18nEnum.FORM_BUDGET))
-				.fieldIndex(3).build());
+        goalSection.addField(new NumberDynaFieldBuilder().fieldName("budget")
+                .displayName(AppContext.getMessage(CampaignI18nEnum.FORM_BUDGET))
+                .fieldIndex(3).build());
 
-		goalSection
-				.addField(new NumberDynaFieldBuilder()
-						.fieldName("expectedrevenue")
-						.displayName(
-								AppContext
-										.getMessage(CampaignI18nEnum.FORM_EXPECTED_REVENUE))
-						.fieldIndex(4).build());
+        goalSection.addField(new NumberDynaFieldBuilder().fieldName("expectedrevenue")
+                .displayName(AppContext.getMessage(CampaignI18nEnum.FORM_EXPECTED_REVENUE))
+                .fieldIndex(4).build());
 
-		goalSection.addField(new NumberDynaFieldBuilder()
-				.fieldName("actualcost")
-				.displayName(
-						AppContext
-								.getMessage(CampaignI18nEnum.FORM_ACTUAL_COST))
-				.fieldIndex(5).build());
+        goalSection.addField(new NumberDynaFieldBuilder().fieldName("actualcost")
+                .displayName(AppContext.getMessage(CampaignI18nEnum.FORM_ACTUAL_COST))
+                .fieldIndex(5).build());
 
-		defaultForm.addSection(goalSection);
+        defaultForm.addSection(goalSection);
 
-		DynaSection descSection = new DynaSectionBuilder()
-				.layoutType(LayoutType.ONE_COLUMN)
-				.orderIndex(2)
-				.header(AppContext
-						.getMessage(CampaignI18nEnum.SECTION_DESCRIPTION))
-				.build();
+        DynaSection descSection = new DynaSectionBuilder().layoutType(LayoutType.ONE_COLUMN).orderIndex(2)
+                .header(AppContext.getMessage(CampaignI18nEnum.SECTION_DESCRIPTION))
+                .build();
 
-		descSection.addField(new TextAreaDynaFieldBuilder()
-				.fieldName("description")
-				.displayName(
-						AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION))
-				.fieldIndex(0).build());
+        descSection.addField(new TextAreaDynaFieldBuilder().fieldName("description")
+                .displayName(AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION))
+                .fieldIndex(0).build());
 
-		defaultForm.addSection(descSection);
-	}
+        defaultForm.addSection(descSection);
+    }
 
-	public static DynaForm getForm() {
-		return defaultForm;
-	}
+    public static DynaForm getForm() {
+        return defaultForm;
+    }
 }

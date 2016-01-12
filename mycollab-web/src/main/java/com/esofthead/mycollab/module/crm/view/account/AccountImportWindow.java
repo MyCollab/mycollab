@@ -16,9 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.view.account;
 
-import java.util.Arrays;
-import java.util.List;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.iexporter.CSVObjectEntityConverter.FieldMapperDef;
@@ -31,57 +28,54 @@ import com.esofthead.mycollab.module.crm.ui.components.EntityImportWindow;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class AccountImportWindow extends EntityImportWindow<Account> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public AccountImportWindow() {
-		super(false, "Import Accounts", ApplicationContextUtil
-				.getSpringBean(AccountService.class), Account.class);
-	}
+    public AccountImportWindow() {
+        super(false, "Import Accounts", ApplicationContextUtil.getSpringBean(AccountService.class), Account.class);
+    }
 
-	@Override
-	protected List<FieldMapperDef> constructCSVFieldMapper() {
-		FieldMapperDef[] fields = {
-				new FieldMapperDef("accountname", "Account Name"),
-				new FieldMapperDef("website", "Website"),
-				new FieldMapperDef("phoneoffice",
-						AppContext
-								.getMessage(AccountI18nEnum.FORM_OFFICE_PHONE)),
-				new FieldMapperDef("fax", "Fax"),
-				new FieldMapperDef("alternatephone", "Alternate Phone"),
-				new FieldMapperDef("annualrevenue", "Annual Revenue"),
-				new FieldMapperDef("billingaddress", "Billing Address"),
-				new FieldMapperDef("city", "City"),
-				new FieldMapperDef("postalcode", "Postal Code"),
-				new FieldMapperDef("state", "State"),
-				new FieldMapperDef("email", "Email"),
-				new FieldMapperDef("ownership", "Ownership"),
-				new FieldMapperDef("shippingaddress", "Shipping Address"),
-				new FieldMapperDef("shippingcity", "Shipping City"),
-				new FieldMapperDef("shippingpostalcode", "Shipping Postal Code"),
-				new FieldMapperDef("shippingstate", "Shipping State"),
-				new FieldMapperDef("numemployees", "Number Employees"),
-				new FieldMapperDef("assignuser",
-						AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)),
-				new FieldMapperDef("type", "Type"),
-				new FieldMapperDef("industry", "Industry"),
-				new FieldMapperDef("billingcountry", "Billing Country"),
-				new FieldMapperDef("shippingcountry", "Shipping Country"),
-				new FieldMapperDef("description", "Description") };
-		return Arrays.asList(fields);
-	}
+    @Override
+    protected List<FieldMapperDef> constructCSVFieldMapper() {
+        FieldMapperDef[] fields = {
+                new FieldMapperDef("accountname", "Account Name"),
+                new FieldMapperDef("website", "Website"),
+                new FieldMapperDef("phoneoffice", AppContext.getMessage(AccountI18nEnum.FORM_OFFICE_PHONE)),
+                new FieldMapperDef("fax", "Fax"),
+                new FieldMapperDef("alternatephone", "Alternate Phone"),
+                new FieldMapperDef("annualrevenue", "Annual Revenue"),
+                new FieldMapperDef("billingaddress", "Billing Address"),
+                new FieldMapperDef("city", "City"),
+                new FieldMapperDef("postalcode", "Postal Code"),
+                new FieldMapperDef("state", "State"),
+                new FieldMapperDef("email", "Email"),
+                new FieldMapperDef("ownership", "Ownership"),
+                new FieldMapperDef("shippingaddress", "Shipping Address"),
+                new FieldMapperDef("shippingcity", "Shipping City"),
+                new FieldMapperDef("shippingpostalcode", "Shipping Postal Code"),
+                new FieldMapperDef("shippingstate", "Shipping State"),
+                new FieldMapperDef("numemployees", "Number Employees"),
+                new FieldMapperDef("assignuser", AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)),
+                new FieldMapperDef("type", "Type"),
+                new FieldMapperDef("industry", "Industry"),
+                new FieldMapperDef("billingcountry", "Billing Country"),
+                new FieldMapperDef("shippingcountry", "Shipping Country"),
+                new FieldMapperDef("description", "Description")};
+        return Arrays.asList(fields);
+    }
 
-	@Override
-	protected void reloadWhenBackToListView() {
-		EventBusFactory.getInstance().post(
-				new AccountEvent.GotoList(AccountListView.class,
-						new AccountSearchCriteria()));
-	}
+    @Override
+    protected void reloadWhenBackToListView() {
+        EventBusFactory.getInstance().post(
+                new AccountEvent.GotoList(AccountListView.class,
+                        new AccountSearchCriteria()));
+    }
 
 }

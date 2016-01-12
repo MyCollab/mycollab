@@ -38,7 +38,6 @@ import com.vaadin.ui.Component;
  * @author MyCollab Ltd.
  * @since 4.4.0
  */
-
 @ViewComponent
 public class CrmContainerViewImpl extends AbstractMobileTabPageView implements CrmContainerView {
     private static final long serialVersionUID = 5251742381187041492L;

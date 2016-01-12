@@ -31,7 +31,7 @@ import com.esofthead.mycollab.module.crm.ui.components.ComponentUtils;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserListSelect;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.esofthead.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.web.ui.DynamicQueryParamLayout;
 import com.esofthead.mycollab.vaadin.web.ui.ShortcutExtension;
@@ -48,7 +48,6 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@SuppressWarnings("serial")
 public class LeadSearchPanel extends DefaultGenericSearchPanel<LeadSearchCriteria> {
     private static final long serialVersionUID = 1L;
 
@@ -81,7 +80,6 @@ public class LeadSearchPanel extends DefaultGenericSearchPanel<LeadSearchCriteri
         this.addHeaderRight(createLeadBtn);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     protected BasicSearchLayout<LeadSearchCriteria> createBasicSearchLayout() {
         return new LeadBasicSearchLayout();
@@ -92,12 +90,10 @@ public class LeadSearchPanel extends DefaultGenericSearchPanel<LeadSearchCriteri
         return new LeadAdvancedSearchLayout();
     }
 
-    @SuppressWarnings("rawtypes")
     private class LeadBasicSearchLayout extends BasicSearchLayout {
         private TextField nameField;
         private CheckBox myItemCheckbox;
 
-        @SuppressWarnings("unchecked")
         public LeadBasicSearchLayout() {
             super(LeadSearchPanel.this);
         }
@@ -122,7 +118,7 @@ public class LeadSearchPanel extends DefaultGenericSearchPanel<LeadSearchCriteri
             nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
             layout.with(nameField).withAlign(nameField, Alignment.MIDDLE_CENTER);
 
-            this.myItemCheckbox = new CheckBox(AppContext.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
+            myItemCheckbox = new CheckBox(AppContext.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
             layout.with(myItemCheckbox).withAlign(myItemCheckbox, Alignment.MIDDLE_CENTER);
 
             Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
@@ -132,7 +128,7 @@ public class LeadSearchPanel extends DefaultGenericSearchPanel<LeadSearchCriteri
             searchBtn.addClickListener(new Button.ClickListener() {
                 @Override
                 public void buttonClick(final ClickEvent event) {
-                    LeadBasicSearchLayout.this.callSearchAction();
+                    callSearchAction();
                 }
             });
             layout.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_LEFT);
@@ -142,19 +138,18 @@ public class LeadSearchPanel extends DefaultGenericSearchPanel<LeadSearchCriteri
             cancelBtn.addClickListener(new Button.ClickListener() {
                 @Override
                 public void buttonClick(final ClickEvent event) {
-                    LeadBasicSearchLayout.this.nameField.setValue("");
+                    nameField.setValue("");
                 }
             });
             layout.with(cancelBtn).withAlign(cancelBtn, Alignment.MIDDLE_CENTER);
 
-            Button advancedSearchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
-                    new Button.ClickListener() {
+            Button advancedSearchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH), new Button.ClickListener() {
 
-                        @Override
-                        public void buttonClick(final ClickEvent event) {
-                            LeadSearchPanel.this.moveToAdvancedSearchLayout();
-                        }
-                    });
+                @Override
+                public void buttonClick(final ClickEvent event) {
+                    moveToAdvancedSearchLayout();
+                }
+            });
             advancedSearchBtn.setStyleName(UIConstants.BUTTON_LINK);
             layout.with(advancedSearchBtn).withAlign(advancedSearchBtn, Alignment.MIDDLE_CENTER);
             return layout;
@@ -165,11 +160,11 @@ public class LeadSearchPanel extends DefaultGenericSearchPanel<LeadSearchCriteri
             LeadSearchCriteria searchCriteria = new LeadSearchCriteria();
             searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
 
-            if (StringUtils.isNotBlank(this.nameField.getValue().trim())) {
-                searchCriteria.setLeadName(new StringSearchField(this.nameField.getValue()));
+            if (StringUtils.isNotBlank(nameField.getValue().trim())) {
+                searchCriteria.setLeadName(new StringSearchField(nameField.getValue()));
             }
 
-            if (this.myItemCheckbox.getValue()) {
+            if (myItemCheckbox.getValue()) {
                 searchCriteria.setAssignUsers(new SetSearchField<>(AppContext.getUsername()));
             } else {
                 searchCriteria.setAssignUsers(null);
@@ -201,7 +196,7 @@ public class LeadSearchPanel extends DefaultGenericSearchPanel<LeadSearchCriteri
 
         @Override
         protected Component buildSelectionComp(String fieldId) {
-            if ("lead-assignuser" .equals(fieldId)) {
+            if ("lead-assignuser".equals(fieldId)) {
                 return new ActiveUserListSelect();
             }
             return null;

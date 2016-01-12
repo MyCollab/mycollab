@@ -51,7 +51,6 @@ import java.nio.charset.StandardCharsets;
  * @author MyCollab Ltd
  * @since 5.1.1
  */
-@SuppressWarnings("serial")
 public class JFreeChartWrapper extends Embedded {
 
     public enum RenderingMode {

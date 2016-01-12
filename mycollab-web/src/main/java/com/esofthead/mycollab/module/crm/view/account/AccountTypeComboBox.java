@@ -20,18 +20,16 @@ import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
 import com.esofthead.mycollab.vaadin.web.ui.I18nValueComboBox;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class AccountTypeComboBox extends I18nValueComboBox {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public AccountTypeComboBox() {
-		super();
-		setCaption(null);
-		this.loadData(CrmDataTypeFactory.getAccountTypeList());
-	}
+    public AccountTypeComboBox() {
+        super();
+        setCaption(null);
+        this.loadData(CrmDataTypeFactory.getAccountTypeList());
+    }
 
 }

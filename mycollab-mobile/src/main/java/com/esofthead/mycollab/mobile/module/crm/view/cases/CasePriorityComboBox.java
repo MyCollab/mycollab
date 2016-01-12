@@ -20,17 +20,15 @@ import com.esofthead.mycollab.mobile.ui.ValueComboBox;
 import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
 public class CasePriorityComboBox extends ValueComboBox {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public CasePriorityComboBox() {
-		super();
-		setCaption(null);
-		this.loadData(CrmDataTypeFactory.getCasesPriorityList());
-	}
+    public CasePriorityComboBox() {
+        super();
+        setCaption(null);
+        this.loadData(CrmDataTypeFactory.getCasesPriorityList());
+    }
 }

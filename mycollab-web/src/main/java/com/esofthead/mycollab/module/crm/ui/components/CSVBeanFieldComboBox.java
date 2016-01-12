@@ -16,29 +16,24 @@
  */
 package com.esofthead.mycollab.module.crm.ui.components;
 
-import java.util.List;
-
 import com.esofthead.mycollab.iexporter.CSVObjectEntityConverter.FieldMapperDef;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.ComboBox;
 
+import java.util.List;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class CSVBeanFieldComboBox extends ComboBox {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public CSVBeanFieldComboBox(List<FieldMapperDef> fields) {
+    public CSVBeanFieldComboBox(List<FieldMapperDef> fields) {
+        BeanItemContainer<FieldMapperDef> beanItemContainer = new BeanItemContainer(FieldMapperDef.class, fields);
 
-		@SuppressWarnings({ "unchecked", "rawtypes" })
-		BeanItemContainer<FieldMapperDef> beanItemContainer = new BeanItemContainer(
-				FieldMapperDef.class, fields);
-
-		this.setContainerDataSource(beanItemContainer);
-		this.setItemCaptionMode(ItemCaptionMode.PROPERTY);
-		this.setItemCaptionPropertyId("description");
-	}
+        this.setContainerDataSource(beanItemContainer);
+        this.setItemCaptionMode(ItemCaptionMode.PROPERTY);
+        this.setItemCaptionPropertyId("description");
+    }
 }

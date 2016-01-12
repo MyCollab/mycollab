@@ -39,7 +39,6 @@ import org.apache.commons.lang3.StringUtils;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@SuppressWarnings("serial")
 public class CampaignSimpleSearchPanel extends GenericSearchPanel<CampaignSearchCriteria> {
     private CampaignSearchCriteria searchCriteria;
     private TextField textValueField;
@@ -77,8 +76,7 @@ public class CampaignSimpleSearchPanel extends GenericSearchPanel<CampaignSearch
         layoutSearchPane.setComponentAlignment(group, Alignment.MIDDLE_CENTER);
         addTextFieldSearch();
 
-        Button searchBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
+        Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
         searchBtn.setStyleName(UIConstants.BUTTON_ACTION);
         searchBtn.setIcon(FontAwesome.SEARCH);
         searchBtn.addClickListener(new Button.ClickListener() {
@@ -88,8 +86,7 @@ public class CampaignSimpleSearchPanel extends GenericSearchPanel<CampaignSearch
             }
         });
         layoutSearchPane.addComponent(searchBtn, 2, 0);
-        layoutSearchPane.setComponentAlignment(searchBtn,
-                Alignment.MIDDLE_CENTER);
+        layoutSearchPane.setComponentAlignment(searchBtn, Alignment.MIDDLE_CENTER);
         this.setCompositionRoot(layoutSearchPane);
     }
 
@@ -103,9 +100,7 @@ public class CampaignSimpleSearchPanel extends GenericSearchPanel<CampaignSearch
                 String strSearch = textValueField.getValue();
                 if (StringUtils.isNotBlank(strSearch)) {
                     if (searchType.equals("Campaign Name")) {
-                        searchCriteria
-                                .setCampaignName(new StringSearchField(
-                                        SearchField.AND, strSearch));
+                        searchCriteria.setCampaignName(new StringSearchField(SearchField.AND, strSearch));
                     }
                 }
             }
@@ -132,8 +127,7 @@ public class CampaignSimpleSearchPanel extends GenericSearchPanel<CampaignSearch
         dateSearchField = new DateSelectionField();
         dateSearchField.setDateFormat(AppContext.getUserDateFormat().getDateFormat());
         layoutSearchPane.addComponent(dateSearchField, 0, 0);
-        layoutSearchPane.setComponentAlignment(dateSearchField,
-                Alignment.MIDDLE_CENTER);
+        layoutSearchPane.setComponentAlignment(dateSearchField, Alignment.MIDDLE_CENTER);
     }
 
     private void removeComponents() {

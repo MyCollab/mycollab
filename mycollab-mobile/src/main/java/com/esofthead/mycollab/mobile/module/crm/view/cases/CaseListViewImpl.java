@@ -29,44 +29,37 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.0
- * 
  */
-
 @ViewComponent
-public class CaseListViewImpl extends
-		AbstractListViewComp<CaseSearchCriteria, SimpleCase> implements
-		CaseListView {
-	private static final long serialVersionUID = -2790165346072368795L;
+public class CaseListViewImpl extends AbstractListViewComp<CaseSearchCriteria, SimpleCase> implements CaseListView {
+    private static final long serialVersionUID = -2790165346072368795L;
 
-	public CaseListViewImpl() {
-		super();
+    public CaseListViewImpl() {
+        super();
+        setCaption(AppContext.getMessage(CaseI18nEnum.VIEW_NEW_TITLE));
+    }
 
-		setCaption(AppContext.getMessage(CaseI18nEnum.VIEW_NEW_TITLE));
-	}
+    @Override
+    protected AbstractPagedBeanList<CaseSearchCriteria, SimpleCase> createBeanTable() {
+        CaseListDisplay caseListDisplay = new CaseListDisplay();
+        return caseListDisplay;
+    }
 
-	@Override
-	protected AbstractPagedBeanList<CaseSearchCriteria, SimpleCase> createBeanTable() {
-		CaseListDisplay caseListDisplay = new CaseListDisplay();
-		return caseListDisplay;
-	}
+    @Override
+    protected Component createRightComponent() {
+        Button addCase = new Button();
+        addCase.addClickListener(new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-	@Override
-	protected Component createRightComponent() {
-		Button addCase = new Button();
-		addCase.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void buttonClick(Button.ClickEvent arg0) {
-				EventBusFactory.getInstance().post(
-						new CaseEvent.GotoAdd(this, null));
-			}
-		});
-		addCase.setStyleName("add-btn");
-		return addCase;
-	}
+            @Override
+            public void buttonClick(Button.ClickEvent arg0) {
+                EventBusFactory.getInstance().post(new CaseEvent.GotoAdd(this, null));
+            }
+        });
+        addCase.setStyleName("add-btn");
+        return addCase;
+    }
 
 }

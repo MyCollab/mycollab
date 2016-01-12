@@ -35,8 +35,7 @@ import com.vaadin.ui.Component;
  * @author MyCollab Inc.
  * @since 4.3.1
  */
-public class ContactOpportunitySelectionView extends
-        AbstractRelatedItemSelectionView<SimpleOpportunity, OpportunitySearchCriteria> {
+public class ContactOpportunitySelectionView extends AbstractRelatedItemSelectionView<SimpleOpportunity, OpportunitySearchCriteria> {
     private static final long serialVersionUID = -238551162632570679L;
 
     public ContactOpportunitySelectionView(AbstractRelatedListView<SimpleOpportunity, OpportunitySearchCriteria> relatedListView) {

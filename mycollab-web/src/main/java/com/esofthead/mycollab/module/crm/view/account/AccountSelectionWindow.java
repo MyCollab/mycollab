@@ -52,7 +52,6 @@ public class AccountSelectionWindow extends Window {
 
     public void show() {
         MVerticalLayout layout = new MVerticalLayout();
-
         createAccountList();
 
         AccountSimpleSearchPanel accountSimpleSearchPanel = new AccountSimpleSearchPanel();
@@ -71,7 +70,6 @@ public class AccountSelectionWindow extends Window {
         center();
     }
 
-    @SuppressWarnings("serial")
     private void createAccountList() {
         tableItem = new AccountTableDisplay(Arrays.asList(
                 AccountTableFieldDef.accountname(), AccountTableFieldDef.city(),

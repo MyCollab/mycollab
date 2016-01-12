@@ -33,7 +33,7 @@ import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.esofthead.mycollab.vaadin.web.ui.SplitButton;
@@ -49,16 +49,13 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @author MyCollab Ltd.
  * @since 4.0
  */
-public class ContactOpportunityListComp
-        extends
-        RelatedListComp2<OpportunityService, OpportunitySearchCriteria, SimpleOpportunity> {
+public class ContactOpportunityListComp extends RelatedListComp2<OpportunityService, OpportunitySearchCriteria, SimpleOpportunity> {
     private static final long serialVersionUID = 8849210168154580096L;
 
     private Contact contact;
 
     public ContactOpportunityListComp() {
-        super(ApplicationContextUtil.getSpringBean(OpportunityService.class),
-                20);
+        super(ApplicationContextUtil.getSpringBean(OpportunityService.class), 20);
         this.setBlockDisplayHandler(new ContactOpportunityBlockDisplay());
     }
 
@@ -68,44 +65,38 @@ public class ContactOpportunityListComp
         controlsBtnWrap.setWidth("100%");
         final SplitButton controlsBtn = new SplitButton();
         controlsBtn.addStyleName(UIConstants.BUTTON_ACTION);
-        controlsBtn.setCaption(AppContext
-                .getMessage(OpportunityI18nEnum.BUTTON_NEW_OPPORTUNITY));
+        controlsBtn.setCaption(AppContext.getMessage(OpportunityI18nEnum.BUTTON_NEW_OPPORTUNITY));
         controlsBtn.setIcon(FontAwesome.PLUS);
-        controlsBtn
-                .addClickListener(new SplitButton.SplitButtonClickListener() {
-                    private static final long serialVersionUID = 1L;
+        controlsBtn.addClickListener(new SplitButton.SplitButtonClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void splitButtonClick(
-                            SplitButton.SplitButtonClickEvent event) {
-                        fireNewRelatedItem("");
-                    }
-                });
+            @Override
+            public void splitButtonClick(
+                    SplitButton.SplitButtonClickEvent event) {
+                fireNewRelatedItem("");
+            }
+        });
         controlsBtn.setSizeUndefined();
-        Button selectBtn = new Button("Select from existing opportunities",
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        Button selectBtn = new Button("Select from existing opportunities", new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(Button.ClickEvent event) {
-                        ContactOpportunitySelectionWindow opportunitiesWindow = new ContactOpportunitySelectionWindow(
-                                ContactOpportunityListComp.this);
-                        OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
-                        criteria.setSaccountid(new NumberSearchField(AppContext
-                                .getAccountId()));
-                        UI.getCurrent().addWindow(opportunitiesWindow);
-                        opportunitiesWindow.setSearchCriteria(criteria);
-                        controlsBtn.setPopupVisible(false);
-                    }
-                });
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                ContactOpportunitySelectionWindow opportunitiesWindow = new ContactOpportunitySelectionWindow(
+                        ContactOpportunityListComp.this);
+                OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
+                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                UI.getCurrent().addWindow(opportunitiesWindow);
+                opportunitiesWindow.setSearchCriteria(criteria);
+                controlsBtn.setPopupVisible(false);
+            }
+        });
         selectBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.OPPORTUNITY));
         OptionPopupContent buttonControlsLayout = new OptionPopupContent();
         buttonControlsLayout.addOption(selectBtn);
         controlsBtn.setContent(buttonControlsLayout);
 
-        controlsBtn.setEnabled(AppContext
-                .canWrite(RolePermissionCollections.CRM_OPPORTUNITY));
-
+        controlsBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY));
         controlsBtnWrap.addComponent(controlsBtn);
         controlsBtnWrap.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
         return controlsBtnWrap;
@@ -128,12 +119,10 @@ public class ContactOpportunityListComp
         loadOpportunities();
     }
 
-    public class ContactOpportunityBlockDisplay implements
-            BlockDisplayHandler<SimpleOpportunity> {
+    public class ContactOpportunityBlockDisplay implements BlockDisplayHandler<SimpleOpportunity> {
 
         @Override
-        public Component generateBlock(final SimpleOpportunity opportunity,
-                                       int blockIndex) {
+        public Component generateBlock(final SimpleOpportunity opportunity, int blockIndex) {
             CssLayout beanBlock = new CssLayout();
             beanBlock.addStyleName("bean-block");
             beanBlock.setWidth("350px");
@@ -194,8 +183,8 @@ public class ContactOpportunityListComp
             opportunityInfo.addComponent(opportunityName);
 
             Label opportunityAmount = new Label("Amount: "
-                            + (opportunity.getAmount() != null ? opportunity
-                            .getAmount() : ""));
+                    + (opportunity.getAmount() != null ? opportunity
+                    .getAmount() : ""));
             if (opportunity.getCurrency() != null && opportunity.getAmount() != null) {
                 opportunityAmount.setValue(opportunityAmount.getValue()
                         + opportunity.getCurrency().getSymbol());
@@ -208,11 +197,8 @@ public class ContactOpportunityListComp
                             .getSalesstage() : ""));
             opportunityInfo.addComponent(opportunitySaleStage);
 
-            ELabel opportunityExpectedCloseDate = new ELabel(
-                    "Expected Closed Date: " +
-                            AppContext
-                                    .formatPrettyTime(opportunity
-                                            .getExpectedcloseddate())).withDescription(AppContext.formatDate(opportunity
+            ELabel opportunityExpectedCloseDate = new ELabel("Expected Closed Date: " +
+                    AppContext.formatPrettyTime(opportunity.getExpectedcloseddate())).withDescription(AppContext.formatDate(opportunity
                     .getExpectedcloseddate()));
             opportunityInfo.addComponent(opportunityExpectedCloseDate);
 

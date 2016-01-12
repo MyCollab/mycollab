@@ -26,8 +26,8 @@ import com.esofthead.mycollab.module.crm.ui.components.ComponentUtils;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
+import com.esofthead.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
 import com.esofthead.mycollab.vaadin.web.ui.table.IPagedBeanTable.TableClickEvent;
 import com.esofthead.mycollab.vaadin.web.ui.table.IPagedBeanTable.TableClickListener;
@@ -39,91 +39,82 @@ import org.vaadin.viritin.button.MButton;
 import java.util.Arrays;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
 @ViewComponent
 public class CaseListViewImpl extends AbstractListItemComp<CaseSearchCriteria, SimpleCase> implements CaseListView {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Override
-	protected void buildExtraControls() {
-		MButton customizeViewBtn = ComponentUtils.createCustomizeViewButton().withListener(new Button.ClickListener() {
+    @Override
+    protected void buildExtraControls() {
+        MButton customizeViewBtn = ComponentUtils.createCustomizeViewButton().withListener(new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
-                UI.getCurrent().addWindow(
-                        new CaseListCustomizeWindow(CaseListView.VIEW_DEF_ID,
-                                tableItem));
+                UI.getCurrent().addWindow(new CaseListCustomizeWindow(CaseListView.VIEW_DEF_ID, tableItem));
             }
         });
-		this.addExtraButton(customizeViewBtn);
+        this.addExtraButton(customizeViewBtn);
 
-		MButton importBtn = ComponentUtils.createImportEntitiesButton().withListener(new Button.ClickListener() {
+        MButton importBtn = ComponentUtils.createImportEntitiesButton().withListener(new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
                 UI.getCurrent().addWindow(new CaseImportWindow());
             }
         });
-		importBtn.setEnabled(AppContext
-				.canWrite(RolePermissionCollections.CRM_CASE));
+        importBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CASE));
+        this.addExtraButton(importBtn);
 
-		this.addExtraButton(importBtn);
+    }
 
-	}
+    @Override
+    protected DefaultGenericSearchPanel<CaseSearchCriteria> createSearchPanel() {
+        return new CaseSearchPanel();
+    }
 
-	@Override
-	protected DefaultGenericSearchPanel<CaseSearchCriteria> createSearchPanel() {
-		return new CaseSearchPanel();
-	}
+    @Override
+    protected AbstractPagedBeanTable<CaseSearchCriteria, SimpleCase> createBeanTable() {
+        CaseTableDisplay caseTableDisplay = new CaseTableDisplay(
+                CaseListView.VIEW_DEF_ID, CaseTableFieldDef.selected(),
+                Arrays.asList(CaseTableFieldDef.subject(),
+                        CaseTableFieldDef.account(), CaseTableFieldDef.priority(),
+                        CaseTableFieldDef.status(), CaseTableFieldDef.assignUser(),
+                        CaseTableFieldDef.createdTime()));
 
-	@Override
-	protected AbstractPagedBeanTable<CaseSearchCriteria, SimpleCase> createBeanTable() {
-		CaseTableDisplay caseTableDisplay = new CaseTableDisplay(
-				CaseListView.VIEW_DEF_ID, CaseTableFieldDef.selected(),
-				Arrays.asList(CaseTableFieldDef.subject(),
-						CaseTableFieldDef.account(), CaseTableFieldDef.priority(),
-						CaseTableFieldDef.status(), CaseTableFieldDef.assignUser(),
-						CaseTableFieldDef.createdTime()));
+        caseTableDisplay.addTableListener(new TableClickListener() {
+            private static final long serialVersionUID = 1L;
 
-		caseTableDisplay.addTableListener(new TableClickListener() {
-			private static final long serialVersionUID = 1L;
+            @Override
+            public void itemClick(final TableClickEvent event) {
+                final SimpleCase cases = (SimpleCase) event.getData();
+                if ("subject".equals(event.getFieldName())) {
+                    EventBusFactory.getInstance().post(new CaseEvent.GotoRead(this, cases.getId()));
+                } else if ("accountName".equals(event.getFieldName())) {
+                    EventBusFactory.getInstance().post(new AccountEvent.GotoRead(this, cases.getAccountid()));
+                }
+            }
+        });
 
-			@Override
-			public void itemClick(final TableClickEvent event) {
-				final SimpleCase cases = (SimpleCase) event.getData();
-				if ("subject".equals(event.getFieldName())) {
-					EventBusFactory.getInstance().post(
-							new CaseEvent.GotoRead(this, cases.getId()));
-				} else if ("accountName".equals(event.getFieldName())) {
-					EventBusFactory.getInstance().post(
-							new AccountEvent.GotoRead(this, cases
-									.getAccountid()));
-				}
-			}
-		});
+        return caseTableDisplay;
+    }
 
-		return caseTableDisplay;
-	}
+    @Override
+    protected DefaultMassItemActionHandlerContainer createActionControls() {
+        DefaultMassItemActionHandlerContainer container = new DefaultMassItemActionHandlerContainer();
 
-	@Override
-	protected DefaultMassItemActionHandlerContainer createActionControls() {
-		DefaultMassItemActionHandlerContainer container = new DefaultMassItemActionHandlerContainer();
+        if (AppContext.canAccess(RolePermissionCollections.CRM_CASE)) {
+            container.addDeleteActionItem();
+        }
 
-		if (AppContext.canAccess(RolePermissionCollections.CRM_CASE)) {
-			container.addDeleteActionItem();
-		}
+        container.addMailActionItem();
+        container.addDownloadPdfActionItem();
+        container.addDownloadExcelActionItem();
+        container.addDownloadCsvActionItem();
 
-		container.addMailActionItem();
-		container.addDownloadPdfActionItem();
-		container.addDownloadExcelActionItem();
-		container.addDownloadCsvActionItem();
+        if (AppContext.canWrite(RolePermissionCollections.CRM_CASE)) {
+            container.addMassUpdateActionItem();
+        }
 
-		if (AppContext.canWrite(RolePermissionCollections.CRM_CASE)) {
-			container.addMassUpdateActionItem();
-		}
-
-		return container;
-	}
+        return container;
+    }
 }

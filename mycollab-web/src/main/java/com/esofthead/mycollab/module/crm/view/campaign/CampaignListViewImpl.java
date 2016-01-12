@@ -25,8 +25,8 @@ import com.esofthead.mycollab.module.crm.ui.components.ComponentUtils;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
+import com.esofthead.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
 import com.esofthead.mycollab.vaadin.web.ui.table.IPagedBeanTable.TableClickEvent;
 import com.esofthead.mycollab.vaadin.web.ui.table.IPagedBeanTable.TableClickListener;
@@ -38,14 +38,11 @@ import org.vaadin.viritin.button.MButton;
 import java.util.Arrays;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
 @ViewComponent
-public class CampaignListViewImpl extends AbstractListItemComp<CampaignSearchCriteria, SimpleCampaign>
-        implements CampaignListView {
+public class CampaignListViewImpl extends AbstractListItemComp<CampaignSearchCriteria, SimpleCampaign> implements CampaignListView {
     private static final long serialVersionUID = 1L;
 
     @Override
@@ -54,8 +51,7 @@ public class CampaignListViewImpl extends AbstractListItemComp<CampaignSearchCri
             @Override
             public void buttonClick(ClickEvent clickEvent) {
                 UI.getCurrent().addWindow(
-                        new CampaignListCustomizeWindow(
-                                CampaignListView.VIEW_DEF_ID, tableItem));
+                        new CampaignListCustomizeWindow(CampaignListView.VIEW_DEF_ID, tableItem));
             }
         });
         this.addExtraButton(customizeViewBtn);
@@ -66,8 +62,7 @@ public class CampaignListViewImpl extends AbstractListItemComp<CampaignSearchCri
                 UI.getCurrent().addWindow(new CampaignImportWindow());
             }
         });
-        importBtn.setEnabled(AppContext
-                .canWrite(RolePermissionCollections.CRM_CAMPAIGN));
+        importBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CAMPAIGN));
         this.addExtraButton(importBtn);
 
     }
@@ -93,8 +88,7 @@ public class CampaignListViewImpl extends AbstractListItemComp<CampaignSearchCri
 
             @Override
             public void itemClick(final TableClickEvent event) {
-                final SimpleCampaign campaign = (SimpleCampaign) event
-                        .getData();
+                final SimpleCampaign campaign = (SimpleCampaign) event.getData();
                 if ("campaignname".equals(event.getFieldName())) {
                     EventBusFactory.getInstance()
                             .post(new CampaignEvent.GotoRead(CampaignListViewImpl.this, campaign.getId()));

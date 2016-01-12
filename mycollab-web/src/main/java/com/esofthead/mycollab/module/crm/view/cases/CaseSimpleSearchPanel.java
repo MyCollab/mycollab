@@ -44,7 +44,6 @@ import org.apache.commons.lang3.StringUtils;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@SuppressWarnings("serial")
 public class CaseSimpleSearchPanel extends GenericSearchPanel<CaseSearchCriteria> {
     private CaseSearchCriteria searchCriteria;
     private TextField textValueField;
@@ -76,8 +75,7 @@ public class CaseSimpleSearchPanel extends GenericSearchPanel<CaseSearchCriteria
                     addTextFieldSearch();
                 } else if (searchType.equals("Status")) {
                     addTextFieldSearch();
-                } else if (searchType.equals(AppContext
-                        .getMessage(GenericI18Enum.FORM_ASSIGNEE))) {
+                } else if (searchType.equals(AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE))) {
                     addUserListSelectField();
                 }
             }
@@ -87,8 +85,7 @@ public class CaseSimpleSearchPanel extends GenericSearchPanel<CaseSearchCriteria
         layoutSearchPane.setComponentAlignment(group, Alignment.MIDDLE_CENTER);
         addTextFieldSearch();
 
-        Button searchBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
+        Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
         searchBtn.setStyleName(UIConstants.BUTTON_ACTION);
         searchBtn.setIcon(FontAwesome.SEARCH);
         searchBtn.addClickListener(new Button.ClickListener() {
@@ -104,8 +101,7 @@ public class CaseSimpleSearchPanel extends GenericSearchPanel<CaseSearchCriteria
 
     private void doSearch() {
         searchCriteria = new CaseSearchCriteria();
-        searchCriteria.setSaccountid(new NumberSearchField(
-                SearchField.AND, AppContext.getAccountId()));
+        searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
 
         String searchType = (String) group.getValue();
         if (StringUtils.isNotBlank(searchType)) {
@@ -113,9 +109,7 @@ public class CaseSimpleSearchPanel extends GenericSearchPanel<CaseSearchCriteria
                 String strSearch = textValueField.getValue();
                 if (StringUtils.isNotBlank(strSearch)) {
                     if (searchType.equals("Subject")) {
-                        searchCriteria
-                                .setSubject(new StringSearchField(
-                                        SearchField.AND, strSearch));
+                        searchCriteria.setSubject(new StringSearchField(SearchField.AND, strSearch));
                     } else if (searchType.equals("Status")) {
                         searchCriteria.setStatuses(new SetSearchField<>(strSearch));
                     }

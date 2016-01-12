@@ -49,8 +49,7 @@ public class MassUpdateCampaignWindow extends MassUpdateWindow<CampaignWithBLOBs
 
     @Override
     protected AbstractBeanFieldGroupEditFieldFactory<CampaignWithBLOBs> buildBeanFormFieldFactory() {
-        return new CampaignEditFormFieldFactory<>(updateForm,
-                false);
+        return new CampaignEditFormFieldFactory<>(updateForm, false);
     }
 
     private class MassUpdateContactFormLayoutFactory implements IFormLayoutFactory {
@@ -64,8 +63,7 @@ public class MassUpdateCampaignWindow extends MassUpdateWindow<CampaignWithBLOBs
             final FormContainer formLayout = new FormContainer();
 
             informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
-            formLayout.addSection(AppContext.getMessage(CampaignI18nEnum.SECTION_CAMPAIGN_INFORMATION),
-                    informationLayout.getLayout());
+            formLayout.addSection(AppContext.getMessage(CampaignI18nEnum.SECTION_CAMPAIGN_INFORMATION), informationLayout.getLayout());
 
             campaignGoal = GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
             formLayout.addSection(AppContext.getMessage(CampaignI18nEnum.SECTION_GOAL), campaignGoal.getLayout());

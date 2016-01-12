@@ -85,10 +85,8 @@ public class OpportunityReadPresenter extends CrmGenericPresenter<OpportunityRea
                             @Override
                             public void onClose(ConfirmDialog dialog) {
                                 if (dialog.isConfirmed()) {
-                                    OpportunityService OpportunityService = ApplicationContextUtil
-                                            .getSpringBean(OpportunityService.class);
-                                    OpportunityService.removeWithSession(data,
-                                            AppContext.getUsername(), AppContext.getAccountId());
+                                    OpportunityService OpportunityService = ApplicationContextUtil.getSpringBean(OpportunityService.class);
+                                    OpportunityService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
                                     EventBusFactory.getInstance().post(new OpportunityEvent.GotoList(this, null));
                                 }
                             }
