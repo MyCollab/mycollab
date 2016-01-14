@@ -25,7 +25,6 @@ import com.esofthead.mycollab.mobile.ui.UIConstants;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
 import com.esofthead.mycollab.module.project.i18n.MessageI18nEnum;
@@ -63,12 +62,13 @@ public class MessageReadViewImpl extends AbstractMobilePageView implements Messa
 
     @Override
     public void previewItem(SimpleMessage message) {
-        mainLayout.removeAllComponents();
         this.bean = message;
+    }
 
-        HorizontalLayout messageBlock = new HorizontalLayout();
-        messageBlock.setStyleName("message-block");
-        Image userAvatarImg = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(message.getPostedUserAvatarId(), 32);
+    private void displayItem() {
+        mainLayout.removeAllComponents();
+        MHorizontalLayout messageBlock = new MHorizontalLayout().withSpacing(false).withFullWidth().withStyleName("message-block");
+        Image userAvatarImg = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(bean.getPostedUserAvatarId(), 32);
         userAvatarImg.setStyleName("user-avatar");
         messageBlock.addComponent(userAvatarImg);
 
@@ -77,39 +77,29 @@ public class MessageReadViewImpl extends AbstractMobilePageView implements Messa
 
         MHorizontalLayout metadataRow = new MHorizontalLayout().withFullWidth();
 
-        ELabel userNameLbl = new ELabel(message.getFullPostedUserName()).withStyleName(UIConstants.META_INFO);
+        ELabel userNameLbl = new ELabel(bean.getFullPostedUserName()).withStyleName(UIConstants.META_INFO);
         userNameLbl.addStyleName(UIConstants.TRUNCATE);
         CssLayout userNameWrap = new CssLayout(userNameLbl);
 
-        ELabel messageTimePost = new ELabel().prettyDateTime(message.getPosteddate()).withStyleName(UIConstants.META_INFO).withWidthUndefined();
+        ELabel messageTimePost = new ELabel().prettyDateTime(bean.getPosteddate()).withStyleName(UIConstants.META_INFO).withWidthUndefined();
         metadataRow.with(userNameWrap, messageTimePost).withAlign(messageTimePost, Alignment.TOP_RIGHT).expand(userNameWrap);
 
         rightCol.addComponent(metadataRow);
 
-        HorizontalLayout titleRow = new HorizontalLayout();
+        CssLayout titleRow = new CssLayout();
         titleRow.setWidth("100%");
         titleRow.setStyleName("title-row");
-        Label messageTitle = new Label(message.getTitle());
+        Label messageTitle = new Label(bean.getTitle());
         messageTitle.setStyleName("message-title");
         titleRow.addComponent(messageTitle);
-        titleRow.setExpandRatio(messageTitle, 1.0f);
-
-        if (message.getCommentsCount() > 0) {
-            Label msgCommentCount = new Label(String.valueOf(message.getCommentsCount()));
-            msgCommentCount.setStyleName("comment-count");
-            msgCommentCount.setWidthUndefined();
-            titleRow.addComponent(msgCommentCount);
-            titleRow.addStyleName("has-comment");
-            titleRow.setComponentAlignment(messageTitle, Alignment.MIDDLE_LEFT);
-        }
         rightCol.addComponent(titleRow);
 
-        Label messageContent = new Label(StringUtils.trimHtmlTags(message.getMessage()));
+        Label messageContent = new Label(StringUtils.trimHtmlTags(bean.getMessage()));
         rightCol.addComponent(messageContent);
 
         ResourceService attachmentService = ApplicationContextUtil.getSpringBean(ResourceService.class);
         List<Content> attachments = attachmentService.getContents(AttachmentUtils.getProjectEntityAttachmentPath(
-                AppContext.getAccountId(), message.getProjectid(), ProjectTypeConstants.MESSAGE, "" + message.getId()));
+                AppContext.getAccountId(), bean.getProjectid(), ProjectTypeConstants.MESSAGE, "" + bean.getId()));
         if (CollectionUtils.isNotEmpty(attachments)) {
             CssLayout attachmentPanel = new CssLayout();
             attachmentPanel.setStyleName("attachment-panel");
@@ -121,21 +111,25 @@ public class MessageReadViewImpl extends AbstractMobilePageView implements Messa
             rightCol.addComponent(attachmentPanel);
         }
 
-        messageBlock.addComponent(rightCol);
-        messageBlock.setExpandRatio(rightCol, 1.0f);
-        messageBlock.setWidth("100%");
+        messageBlock.with(rightCol).expand(rightCol);
         mainLayout.addComponent(messageBlock);
 
         Label commentTitleLbl = new Label();
         Component section = FormSectionBuilder.build(FontAwesome.COMMENT, commentTitleLbl);
-        MessageCommentListDisplay commentDisplay = new MessageCommentListDisplay(ProjectTypeConstants.MESSAGE,
-                CurrentProjectVariables.getProjectId(), true);
-        int numComments = commentDisplay.loadComments("" + message.getId());
+        MessageCommentListDisplay commentDisplay = new MessageCommentListDisplay(ProjectTypeConstants.MESSAGE, bean
+                .getId() + "", bean.getProjectid(), true);
+        int numComments = commentDisplay.getNumComments();
         commentTitleLbl.setValue(AppContext.getMessage(GenericI18Enum.TAB_COMMENT, numComments));
 
-        this.setToolbar(commentDisplay.getCommentBox());
         mainLayout.addComponent(section);
         mainLayout.addComponent(commentDisplay);
+        this.setToolbar(commentDisplay.getCommentBox());
+    }
+
+    @Override
+    protected void onBecomingVisible() {
+        super.onBecomingVisible();
+        displayItem();
     }
 
     @Override

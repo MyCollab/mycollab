@@ -20,7 +20,7 @@ import com.esofthead.mycollab.common.domain.SimpleComment;
 import com.esofthead.mycollab.common.domain.criteria.CommentSearchCriteria;
 import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.mobile.module.project.ui.ProjectCommentInput;
+import com.esofthead.mycollab.mobile.module.project.ui.ProjectCommentRequestComp;
 import com.esofthead.mycollab.mobile.ui.MobileAttachmentUtils;
 import com.esofthead.mycollab.mobile.ui.UIConstants;
 import com.esofthead.mycollab.module.ecm.domain.Content;
@@ -45,20 +45,21 @@ public class MessageCommentListDisplay extends VerticalLayout implements Reloada
     private String type;
     private String typeId;
     private Integer numComments;
-    private ProjectCommentInput commentBox;
+    private ProjectCommentRequestComp commentBox;
 
-    public MessageCommentListDisplay(final String type, final Integer extraTypeId, final boolean isDisplayCommentInput) {
+    public MessageCommentListDisplay(final String type, String typeId, final Integer extraTypeId, final boolean
+            isDisplayCommentInput) {
         this.setStyleName("comment-list");
         this.setMargin(new MarginInfo(true, false, false, false));
         this.type = type;
+        this.typeId = typeId;
         if (isDisplayCommentInput) {
-            commentBox = new ProjectCommentInput(this, type, extraTypeId);
+            commentBox = new ProjectCommentRequestComp(type, typeId, extraTypeId);
         }
 
         commentList = new BeanList<>(ApplicationContextUtil.getSpringBean(CommentService.class), CommentRowDisplayHandler.class);
         commentList.setDisplayEmptyListText(false);
         this.addComponent(commentList);
-
         displayCommentList();
     }
 
@@ -74,12 +75,12 @@ public class MessageCommentListDisplay extends VerticalLayout implements Reloada
         return numComments;
     }
 
-    public int loadComments(final String typeId) {
-        this.typeId = typeId;
-        if (commentBox != null) {
-            commentBox.setTypeAndId(typeId);
-        }
-        return displayCommentList();
+    public int getNumComments() {
+        final CommentSearchCriteria searchCriteria = new CommentSearchCriteria();
+        searchCriteria.setType(new StringSearchField(type));
+        searchCriteria.setTypeid(new StringSearchField(typeId));
+        CommentService commentService = ApplicationContextUtil.getSpringBean(CommentService.class);
+        return commentService.getTotalCount(searchCriteria);
     }
 
     @Override
@@ -133,7 +134,7 @@ public class MessageCommentListDisplay extends VerticalLayout implements Reloada
 
     }
 
-    public ProjectCommentInput getCommentBox() {
+    public ProjectCommentRequestComp getCommentBox() {
         return this.commentBox;
     }
 }

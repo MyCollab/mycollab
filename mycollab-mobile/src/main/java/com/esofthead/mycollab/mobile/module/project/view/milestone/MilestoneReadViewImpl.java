@@ -58,7 +58,7 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
 
     @Override
     public HasPreviewFormHandlers<SimpleMilestone> getPreviewFormHandlers() {
-        return this.previewForm;
+        return previewForm;
     }
 
     @Override
@@ -89,19 +89,19 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
 
     @Override
     protected AbstractBeanFieldGroupViewFieldFactory<SimpleMilestone> initBeanFormFieldFactory() {
-        return new MilestoneFormFieldFactory(this.previewForm);
+        return new MilestoneFormFieldFactory(previewForm);
     }
 
     @Override
     protected ComponentContainer createButtonControls() {
-        return new ProjectPreviewFormControlsGenerator<>(this.previewForm).createButtonControls(ProjectRolePermissionCollections.MILESTONES);
+        return new ProjectPreviewFormControlsGenerator<>(previewForm).createButtonControls(ProjectRolePermissionCollections.MILESTONES);
     }
 
     @Override
     protected ComponentContainer createBottomPanel() {
         MVerticalLayout toolbarLayout = new MVerticalLayout().withSpacing(false).withMargin(false);
         toolbarLayout.setDefaultComponentAlignment(Alignment.TOP_LEFT);
-        relatedComments = new CommentNavigationButton(ProjectTypeConstants.MILESTONE);
+        relatedComments = new CommentNavigationButton(ProjectTypeConstants.MILESTONE, beanItem.getId() + "");
         Component commentSection = FormSectionBuilder.build(FontAwesome.COMMENT, relatedComments);
         toolbarLayout.addComponent(commentSection);
         issueNavigatorButton = new IssueNavigatorButton();

@@ -38,6 +38,10 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 public class TaskListViewImpl extends AbstractListPageView<TaskSearchCriteria, SimpleTask> implements TaskListView {
     private static final long serialVersionUID = -3705209608075399509L;
 
+    public TaskListViewImpl() {
+        this.setCaption(AppContext.getMessage(TaskI18nEnum.M_VIEW_LIST_TITLE));
+    }
+
     @Override
     protected AbstractPagedBeanList<TaskSearchCriteria, SimpleTask> createBeanList() {
         return new TaskListDisplay();

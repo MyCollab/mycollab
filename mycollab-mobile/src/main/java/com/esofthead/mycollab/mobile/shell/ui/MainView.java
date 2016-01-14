@@ -37,10 +37,6 @@ public class MainView extends AbstractMobileMainView {
 
     public MainView() {
         super();
-        initUI();
-    }
-
-    private void initUI() {
         this.setSizeFull();
 
         MVerticalLayout contentLayout = new MVerticalLayout().withStyleName("content-wrapper").withWidth("320px");

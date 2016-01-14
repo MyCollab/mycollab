@@ -44,32 +44,32 @@ public abstract class AbstractEditItemComp<B> extends AbstractMobilePageView imp
 
     public AbstractEditItemComp() {
         super();
-        this.editForm = new AdvancedEditBeanForm<>();
-        this.setContent(this.editForm);
+        editForm = new AdvancedEditBeanForm<>();
+        this.setContent(editForm);
 
-        this.saveBtn = new Button(AppContext.getMessage(GenericI18Enum.M_BUTTON_DONE), new Button.ClickListener() {
+        saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 if (editForm.validateForm())
                     editForm.fireSaveForm();
             }
         });
-        this.setRightComponent(this.saveBtn);
+        this.setRightComponent(saveBtn);
     }
 
     @Override
     public void editItem(final B item) {
         this.beanItem = item;
-        this.editForm.setFormLayoutFactory(new FormLayoutFactory());
-        this.editForm.setBeanFormFieldFactory(initBeanFormFieldFactory());
-        this.editForm.setBean(item);
+        editForm.setFormLayoutFactory(new FormLayoutFactory());
+        editForm.setBeanFormFieldFactory(initBeanFormFieldFactory());
+        editForm.setBean(item);
 
         this.setCaption(initFormTitle());
     }
 
     @Override
     public HasEditFormHandlers<B> getEditFormHandlers() {
-        return this.editForm;
+        return editForm;
     }
 
     class FormLayoutFactory implements IWrappedFormLayoutFactory {

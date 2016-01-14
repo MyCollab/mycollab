@@ -33,9 +33,10 @@ public class CommentNavigationButton extends NavigationButton {
     private String type;
     private String typeId;
 
-    public CommentNavigationButton(String typeVal) {
+    public CommentNavigationButton(String typeVal, String typeIdVal) {
         super(AppContext.getMessage(GenericI18Enum.TAB_COMMENT, 0));
         this.type = typeVal;
+        this.typeId = typeIdVal;
         this.addClickListener(new NavigationButtonClickListener() {
             @Override
             public void buttonClick(NavigationButtonClickEvent event) {

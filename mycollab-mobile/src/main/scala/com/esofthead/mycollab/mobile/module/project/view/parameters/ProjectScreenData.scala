@@ -31,7 +31,7 @@ object ProjectScreenData {
 
   class Edit(param: Integer) extends ScreenData[Integer](param) {}
 
-  class ViewActivities() extends ScreenData[AnyRef](null) {}
+  class ViewActivities(param: Integer) extends ScreenData[AnyRef](null) {}
 
   class GotoDashboard() extends ScreenData[AnyRef](null) {}
 

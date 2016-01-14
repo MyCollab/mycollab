@@ -46,12 +46,10 @@ public class AllActivityStreamPresenter extends AbstractListPresenter<AllActivit
     protected void onGo(ComponentContainer navigator, ScreenData<?> data) {
         super.onGo(navigator, data);
         ProjectService prjService = ApplicationContextUtil.getSpringBean(ProjectService.class);
-        List<Integer> prjKeys = prjService.getProjectKeysUserInvolved(
-                AppContext.getUsername(), AppContext.getAccountId());
+        List<Integer> prjKeys = prjService.getProjectKeysUserInvolved(AppContext.getUsername(), AppContext.getAccountId());
         ActivityStreamSearchCriteria searchCriteria = new ActivityStreamSearchCriteria();
         searchCriteria.setModuleSet(new SetSearchField<>(ModuleNameConstants.PRJ));
         searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-
         searchCriteria.setExtraTypeIds(new SetSearchField<>(prjKeys.toArray(new Integer[0])));
         doSearch(searchCriteria);
         AppContext.addFragment("project/activities/", AppContext.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES));

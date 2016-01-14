@@ -40,11 +40,6 @@ public class UIUtils {
         return null;
     }
 
-    public static String getBrowserWidthInPixels() {
-        int windowWidth = UI.getCurrent().getPage().getBrowserWindowWidth();
-        return windowWidth + "px";
-    }
-
     public static Integer getBrowserWidth() {
         int windowWidth = UI.getCurrent().getPage().getBrowserWindowWidth();
         return windowWidth;

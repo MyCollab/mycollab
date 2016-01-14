@@ -37,8 +37,14 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractMobilePageView 
     private CssLayout content;
 
     public AbstractPreviewItemComp() {
-        content = new CssLayout();
         previewForm = initPreviewForm();
+    }
+
+    public void previewItem(final B item) {
+        this.beanItem = item;
+        this.setCaption(initFormTitle());
+
+        content = new CssLayout();
         content.addComponent(previewForm);
 
         editBtn = new NavigationBarQuickMenu();
@@ -53,11 +59,6 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractMobilePageView 
             content.addComponent(toolbarContent);
         }
         this.setContent(content);
-    }
-
-    public void previewItem(final B item) {
-        this.beanItem = item;
-        this.setCaption(initFormTitle());
 
         previewForm.setFormLayoutFactory(initFormLayoutFactory());
         previewForm.setBeanFormFieldFactory(initBeanFormFieldFactory());

@@ -170,7 +170,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
         MVerticalLayout toolbarLayout = new MVerticalLayout().withSpacing(false).withMargin(false);
         toolbarLayout.setDefaultComponentAlignment(Alignment.TOP_LEFT);
 
-        relatedComments = new CommentNavigationButton(ProjectTypeConstants.TASK);
+        relatedComments = new CommentNavigationButton(ProjectTypeConstants.TASK, beanItem.getId() + "");
         Component section = FormSectionBuilder.build(FontAwesome.COMMENT, relatedComments);
         toolbarLayout.addComponent(section);
 

@@ -29,7 +29,6 @@ import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Label;
 import org.vaadin.thomas.slidemenu.SlideMenu;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -52,39 +51,39 @@ public class ProjectListViewImpl extends AbstractListPageView<ProjectSearchCrite
 
     @Override
     protected void buildNavigateMenu() {
-        Label l = new Label("Views:");
-        l.addStyleName(SlideMenu.STYLENAME_SECTIONLABEL);
-        getMenu().addComponent(l);
+        addSection("Views:");
 
         // Buttons with styling (slightly smaller with left-aligned text)
         Button activityBtn = new Button("Activities", new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                getMenu().close();
+                closeMenu();
+                EventBusFactory.getInstance().post(new ProjectEvent.AllActivities(this, null));
             }
         });
         activityBtn.setIcon(FontAwesome.INBOX);
-        activityBtn.addStyleName(SlideMenu.STYLENAME_BUTTON);
-        getMenu().addComponent(activityBtn);
+        addMenuItem(activityBtn);
 
         Button prjBtn = new Button("Projects", new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                getMenu().close();
+                closeMenu();
+                EventBusFactory.getInstance().post(new ProjectEvent.GotoProjectList(this, null));
             }
         });
         prjBtn.setIcon(FontAwesome.BUILDING);
-        prjBtn.addStyleName(SlideMenu.STYLENAME_BUTTON);
-        getMenu().addComponent(prjBtn);
+        addMenuItem(prjBtn);
 
-        l = new Label("Settings:");
-        l.addStyleName(SlideMenu.STYLENAME_SECTIONLABEL);
-        getMenu().addComponent(l);
+        addSection("Settings:");
 
-        Button logoutBtn = new Button("Logout");
+        Button logoutBtn = new Button("Logout", new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                closeMenu();
+            }
+        });
         logoutBtn.setIcon(FontAwesome.SIGN_OUT);
-        logoutBtn.addStyleName(SlideMenu.STYLENAME_BUTTON);
-        getMenu().addComponent(logoutBtn);
+        addMenuItem(logoutBtn);
     }
 
     @Override

@@ -24,6 +24,7 @@ public class UIConstants {
     public static final String BUTTON_ACTION = "action-btn";
     public static final String BUTTON_OPTION = "option-btn";
     public static final String BUTTON_DANGER = "danger-btn";
+    public static final String BUTTON_LINK = "link";
     public static final String LINK_COMPLETED = "completed";
     public static final String LINK_OVERDUE = "overdue";
     public static final String STATUS_DISABLED = "disabled";
@@ -36,4 +37,5 @@ public class UIConstants {
     public static final String TRUNCATE = "truncate";
 
     public static final String GRIDFORM_STANDARD = "colored-gridlayout";
+    public static final String FULL_WIDTH_COMP = "full-width-comp";
 }

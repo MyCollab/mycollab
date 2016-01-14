@@ -1,4 +1,5 @@
 .section {
+	width: 100%;
 	padding: 10px 5px 10px 5px;
 	border-bottom: 1px solid $my-separator-color;
 }
@@ -8,7 +9,12 @@
 	font-weight: 500;
 }
 
+.section .v-touchkit-navbutton {
+	width: 100% !important;
+}
+
 .section {
+	width: 100%;
 	padding: 10px 5px 10px 5px;
 	border-bottom: 1px solid #e5e5e5;
 }
@@ -16,6 +22,10 @@
 .section .v-label {
 	font-size: 20px;
 	font-weight: 500;
+}
+
+.section .v-touchkit-navbutton {
+	width: 100% !important;
 }
 
 .meta-info {
@@ -42,6 +52,10 @@ a {
 	white-space: nowrap !important;
 	overflow: hidden !important;
 	text-overflow: ellipsis;
+}
+
+.v-gridlayout.colored-gridlayout {
+	width: 100%;
 }
 
 .v-gridlayout.colored-gridlayout .gridform-caption, .v-gridlayout.colored-gridlayout .gridform-field {
@@ -99,6 +113,25 @@ a {
 	border-bottom: none !important;
 }
 
+.v-touchkit-navview-wrapper, .v-touchkit-navpanel, .v-scrollable {
+	overflow-x: hidden !important;
+}
+
+.v-touchkit-navbar-caption {
+	font-size: smaller;
+}
+
+.v-touchkit-navbar-caption span {
+	display: block;
+	white-space: nowrap !important;
+	overflow: hidden !important;
+	text-overflow: ellipsis;
+}
+
+.v-touchkit-navbar .v-navbar-quickmenu-button {
+	font-size: 20px !important;
+}
+
 .navigation-button-wrap .v-icon {
 	padding-right: 10px;
 }
@@ -133,6 +166,10 @@ a {
 	box-shadow: none !important;
 }
 
+.full-width-comp {
+	width: 100%;
+}
+
 .comment-input  > div > .v-horizontallayout {
 	width: 100%;
 }
@@ -140,18 +177,6 @@ a {
 .comment-input input[type="text"] {
 	width: 100%;
 	height: 100%;
-}
-
-.comment-input .submit-btn {
-	background-color: transparent;
-}
-
-.v-touchkit-navbar-caption {
-	font-size: smaller;
-}
-
-.v-touchkit-navbar .v-navbar-quickmenu-button {
-	font-size: 20px !important;
 }
 
 .attachment-preview-view {
@@ -345,6 +370,11 @@ body {
 	font-weight: bold;
 	font-size: 1.2rem;
 	text-align: center;
+}
+
+.activity-cell {
+	border-bottom: 1px solid #e5e5e5;
+	padding: 5px;
 }
 
 .bug-blocker .v-icon, .v-filterselect-item-bug-blocker .v-icon {

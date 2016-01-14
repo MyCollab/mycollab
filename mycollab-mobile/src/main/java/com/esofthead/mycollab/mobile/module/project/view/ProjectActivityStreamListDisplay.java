@@ -18,26 +18,30 @@ package com.esofthead.mycollab.mobile.module.project.view;
 
 import com.esofthead.mycollab.common.ActivityStreamConstants;
 import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent;
-import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectMemberScreenData;
-import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectScreenData;
+import com.esofthead.mycollab.configuration.StorageFactory;
+import com.esofthead.mycollab.core.utils.StringUtils;
+import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.esofthead.mycollab.mobile.ui.FormSectionBuilder;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ProjectActivityStream;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.ProjectTypeI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectActivityStreamService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
+import com.esofthead.mycollab.module.project.ui.components.ProjectAuditLogStreamGenerator;
+import com.esofthead.mycollab.module.project.view.ProjectLocalizationTypeMap;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Text;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.Label;
 import org.apache.commons.lang3.time.DateUtils;
-import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -77,7 +81,9 @@ public class ProjectActivityStreamListDisplay extends AbstractPagedBeanList<Acti
                 currentDate = item.getCreatedtime();
             }
             final Component row = getRowDisplayHandler().generateRow(item, i);
-            listContainer.addComponent(row);
+            if (row != null) {
+                listContainer.addComponent(row);
+            }
             i++;
         }
     }
@@ -85,74 +91,61 @@ public class ProjectActivityStreamListDisplay extends AbstractPagedBeanList<Acti
     private static class ActivityStreamRowHandler implements RowDisplayHandler<ProjectActivityStream> {
 
         @Override
-        public Component generateRow(final ProjectActivityStream activity, int rowIndex) {
-            MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%");
-            layout.addStyleName("activity-row");
-
-            Label typeIcon = new Label("<span aria-hidden=\"true\" data-icon=\""
-                    + ProjectAssetsManager.toHexString(activity.getType()) + "\"></span>");
-            typeIcon.setWidthUndefined();
-            typeIcon.setContentMode(ContentMode.HTML);
-            typeIcon.setStyleName("activity-type");
-
-            layout.addComponent(typeIcon);
-
-            VerticalLayout rightCol = new VerticalLayout();
-            rightCol.setWidth("100%");
-            Label streamItem = new Label(generateItemLink(activity));
-            streamItem.setStyleName("activity-item");
-            streamItem.setContentMode(ContentMode.HTML);
-            rightCol.addComponent(streamItem);
-
-            CssLayout detailRow = new CssLayout();
-            detailRow.setWidthUndefined();
-            detailRow.setStyleName("activity-detail-row");
-
-            Label streamDetail = new Label();
-            streamDetail.setWidthUndefined();
-            streamDetail.setStyleName("activity-detail");
-            if (ActivityStreamConstants.ACTION_CREATE.equals(activity.getAction())) {
-                streamDetail.setValue(AppContext
-                        .getMessage(ProjectCommonI18nEnum.M_FEED_USER_ACTIVITY_CREATE_ACTION_TITLE));
-            } else if (ActivityStreamConstants.ACTION_UPDATE.equals(activity.getAction())) {
-                streamDetail.setValue(AppContext.getMessage(ProjectCommonI18nEnum.M_FEED_USER_ACTIVITY_UPDATE_ACTION_TITLE));
+        public Component generateRow(final ProjectActivityStream activityStream, int rowIndex) {
+            CssLayout layout = new CssLayout();
+            layout.addStyleName("activity-cell");
+            ProjectTypeI18nEnum typeEnum = ProjectLocalizationTypeMap.getType(activityStream.getType());
+            if (typeEnum == null) {
+                return null;
             }
-            detailRow.addComponent(streamDetail);
-            Button activityUser = new Button(activity.getCreatedUserFullName(), new Button.ClickListener() {
-                private static final long serialVersionUID = 719162256058709352L;
-
-                @Override
-                public void buttonClick(Button.ClickEvent event) {
-                    PageActionChain chain = new PageActionChain(new ProjectScreenData.Goto(activity.getProjectId()),
-                            new ProjectMemberScreenData.Read(activity.getCreateduser()));
-                    EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
+            String itemType = AppContext.getMessage(typeEnum);
+            String assigneeParam = buildAssigneeValue(activityStream);
+            String itemParam = buildItemValue(activityStream);
+            StringBuilder content = new StringBuilder();
+            if (ActivityStreamConstants.ACTION_CREATE.equals(activityStream.getAction())) {
+                content.append(AppContext.getMessage(ProjectCommonI18nEnum.FEED_USER_ACTIVITY_CREATE_ACTION_TITLE,
+                        assigneeParam, itemType, itemParam));
+            } else if (ActivityStreamConstants.ACTION_UPDATE.equals(activityStream.getAction())) {
+                content.append(AppContext.getMessage(ProjectCommonI18nEnum.FEED_USER_ACTIVITY_UPDATE_ACTION_TITLE,
+                        assigneeParam, itemType, itemParam));
+                if (activityStream.getAssoAuditLog() != null) {
+                    content.append(ProjectAuditLogStreamGenerator.generatorDetailChangeOfActivity(activityStream));
                 }
-            });
-            activityUser.setStyleName("link");
-            detailRow.addComponent(activityUser);
-            rightCol.addComponent(detailRow);
-
-            layout.addComponent(rightCol);
-            layout.setExpandRatio(rightCol, 1.0f);
-
+            } else if (ActivityStreamConstants.ACTION_COMMENT.equals(activityStream.getAction())) {
+                content.append(AppContext.getMessage(ProjectCommonI18nEnum.FEED_USER_ACTIVITY_COMMENT_ACTION_TITLE,
+                        assigneeParam, itemType, itemParam));
+                if (activityStream.getAssoAuditLog() != null) {
+                    content.append("<p><ul><li>\"").append(activityStream.getAssoAuditLog().getChangeset()).append("\"</li></ul></p>");
+                }
+            }
+            Label actionLbl = new Label(content.toString(), ContentMode.HTML);
+            layout.addComponent(actionLbl);
             return layout;
         }
 
     }
 
-    private static String generateItemLink(ProjectActivityStream stream) {
+    private static String buildAssigneeValue(ProjectActivityStream activity) {
+        Img userAvatar = new Img("", StorageFactory.getInstance().getAvatarPath(activity.getCreatedUserAvatarId(), 16));
+        A userLink = new A(ProjectLinkBuilder.generateProjectMemberFullLink(activity.getExtratypeid(), activity
+                .getCreateduser())).appendText(StringUtils.trim(activity.getCreatedUserFullName(), 30, true));
+        return new DivLessFormatter().appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink).write();
+    }
+
+    private static String buildItemValue(ProjectActivityStream activity) {
+        Text image = new Text(ProjectAssetsManager.getAsset(activity.getType()).getHtml());
         A itemLink = new A();
-        if (ProjectTypeConstants.TASK.equals(stream.getType()) || ProjectTypeConstants.BUG.equals(stream.getType())) {
+        if (ProjectTypeConstants.TASK.equals(activity.getType()) || ProjectTypeConstants.BUG.equals(activity.getType())) {
             itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
-                    stream.getProjectShortName(), stream.getExtratypeid(),
-                    stream.getType(), stream.getItemKey() + ""));
+                    activity.getProjectShortName(), activity.getExtratypeid(),
+                    activity.getType(), activity.getItemKey() + ""));
         } else {
             itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
-                    stream.getProjectShortName(), stream.getExtratypeid(),
-                    stream.getType(), stream.getTypeid()));
+                    activity.getProjectShortName(), activity.getExtratypeid(),
+                    activity.getType(), activity.getTypeid()));
         }
-        itemLink.appendText(stream.getNamefield());
-        return itemLink.write();
+        itemLink.appendText(StringUtils.trim(activity.getNamefield(), 30, true));
+        return new DivLessFormatter().appendChild(image, DivLessFormatter.EMPTY_SPACE(), itemLink).write();
     }
 
 }

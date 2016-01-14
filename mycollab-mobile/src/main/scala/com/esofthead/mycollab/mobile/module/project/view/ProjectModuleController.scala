@@ -27,7 +27,7 @@ import com.esofthead.mycollab.mobile.module.project.events._
 import com.esofthead.mycollab.mobile.module.project.view.bug.BugPresenter
 import com.esofthead.mycollab.mobile.module.project.view.message.MessagePresenter
 import com.esofthead.mycollab.mobile.module.project.view.milestone.MilestonePresenter
-import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectScreenData.Add
+import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectScreenData.{ViewActivities, Add}
 import com.esofthead.mycollab.mobile.module.project.view.parameters._
 import com.esofthead.mycollab.mobile.module.project.view.settings.ProjectUserPresenter
 import com.esofthead.mycollab.mobile.module.project.view.task.TaskPresenter
@@ -108,7 +108,7 @@ class ProjectModuleController(val navManager: NavigationManager) extends Abstrac
     this.register(new ApplicationEventListener[ProjectEvent.MyProjectActivities]() {
       @Subscribe def handle(event: ProjectEvent.MyProjectActivities) {
         val presenter: ProjectActivityStreamPresenter = PresenterResolver.getPresenter(classOf[ProjectActivityStreamPresenter])
-        presenter.go(navManager, event.getData.asInstanceOf[ProjectScreenData.ViewActivities])
+        presenter.go(navManager,new ViewActivities(event.getData.asInstanceOf[Integer]))
       }
     })
   }

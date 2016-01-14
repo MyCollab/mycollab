@@ -45,7 +45,7 @@ public class ProjectCommentListView extends AbstractMobilePageView implements Re
     private String type;
     private String typeId;
     private Integer numComments;
-    private ProjectCommentInput commentBox;
+    private ProjectCommentRequestComp commentBox;
 
     public ProjectCommentListView(String type, String typeId, Integer extraTypeId, boolean isDisplayCommentInput) {
         this.addStyleName("comment-list");
@@ -56,7 +56,7 @@ public class ProjectCommentListView extends AbstractMobilePageView implements Re
         commentList.setDisplayEmptyListText(false);
         this.setContent(commentList);
         if (isDisplayCommentInput) {
-            commentBox = new ProjectCommentInput(this, type, extraTypeId);
+            commentBox = new ProjectCommentRequestComp(type, typeId, extraTypeId);
             this.setToolbar(commentBox);
         }
         displayCommentList();
@@ -75,6 +75,12 @@ public class ProjectCommentListView extends AbstractMobilePageView implements Re
     }
 
     @Override
+    protected void onBecomingVisible() {
+        super.onBecomingVisible();
+        displayCommentList();
+    }
+
+    @Override
     public void reload() {
         displayCommentList();
     }
@@ -84,8 +90,7 @@ public class ProjectCommentListView extends AbstractMobilePageView implements Re
 
         @Override
         public Component generateRow(SimpleComment comment, int rowIndex) {
-            MHorizontalLayout commentBlock = new MHorizontalLayout().withSpacing(false);
-            commentBlock.setStyleName("comment-block");
+            MHorizontalLayout commentBlock = new MHorizontalLayout().withSpacing(false).withFullWidth().withStyleName("comment-block");
             Image userAvatarImg = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(comment.getOwnerAvatarId(), 32);
             userAvatarImg.setStyleName("user-avatar");
             commentBlock.addComponent(userAvatarImg);
@@ -121,9 +126,7 @@ public class ProjectCommentListView extends AbstractMobilePageView implements Re
                 rightCol.addComponent(attachmentPanel);
             }
 
-            commentBlock.addComponent(rightCol);
-            commentBlock.setExpandRatio(rightCol, 1.0f);
-            commentBlock.setWidth("100%");
+            commentBlock.with(rightCol).expand(rightCol);
             return commentBlock;
         }
     }

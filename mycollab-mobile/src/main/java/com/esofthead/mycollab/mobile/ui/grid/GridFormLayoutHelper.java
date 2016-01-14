@@ -55,7 +55,7 @@ public class GridFormLayoutHelper implements Serializable {
 
     public static GridFormLayoutHelper defaultFormLayoutHelper(int columns, int rows) {
         GridFormLayoutHelper helper = new GridFormLayoutHelper(columns, rows, "100%", "150px", Alignment.TOP_LEFT);
-        helper.getLayout().setWidth(UIUtils.getBrowserWidthInPixels());
+        helper.getLayout().setWidth("100%");
         helper.getLayout().addStyleName(UIConstants.GRIDFORM_STANDARD);
         return helper;
     }

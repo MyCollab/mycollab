@@ -38,7 +38,6 @@ import java.util.*;
  * @author MyCollab Ltd.
  * @since 4.5.3
  */
-@SuppressWarnings({"rawtypes", "unused"})
 public class ProjectFormAttachmentUploadField extends CustomField {
     private static final long serialVersionUID = 1L;
     protected MultiUpload attachmentBtn;

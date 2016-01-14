@@ -36,10 +36,6 @@ public class ProjectLoginViewImpl extends AbstractMobileMainView implements Proj
     private static final long serialVersionUID = 2079094611178305339L;
 
     public ProjectLoginViewImpl() {
-        initUI();
-    }
-
-    private void initUI() {
         this.setStyleName("login-view");
         this.setSizeFull();
 
@@ -88,11 +84,6 @@ public class ProjectLoginViewImpl extends AbstractMobileMainView implements Proj
         signInBtn.setWidth("100%");
         signInBtn.addStyleName(UIConstants.BUTTON_ACTION);
         contentLayout.addComponent(signInBtn);
-
-        Button createAccountBtn = new Button("Create Account");
-        createAccountBtn.setWidth("100%");
-        createAccountBtn.addStyleName(UIConstants.BUTTON_OPTION);
-        contentLayout.addComponent(createAccountBtn);
 
         this.addComponent(contentLayout);
     }

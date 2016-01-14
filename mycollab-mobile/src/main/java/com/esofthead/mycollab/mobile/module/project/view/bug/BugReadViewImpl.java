@@ -252,9 +252,9 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
 
     @Override
     protected ComponentContainer createBottomPanel() {
-        MVerticalLayout toolbarLayout = new MVerticalLayout().withSpacing(false).withMargin(false);
+        MVerticalLayout toolbarLayout = new MVerticalLayout().withFullWidth().withSpacing(false).withMargin(false);
         toolbarLayout.setDefaultComponentAlignment(Alignment.TOP_LEFT);
-        relatedComments = new CommentNavigationButton(ProjectTypeConstants.BUG);
+        relatedComments = new CommentNavigationButton(ProjectTypeConstants.BUG, beanItem.getId() + "");
         Component section = FormSectionBuilder.build(FontAwesome.COMMENT, relatedComments);
         toolbarLayout.addComponent(section);
         bugTimeLogComp = new BugTimeLogComp();

@@ -23,21 +23,19 @@ import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 3.0
- * 
  */
 public class LoginPresenter extends AbstractPresenter<LoginView> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public LoginPresenter() {
-		super(LoginView.class);
-	}
+    public LoginPresenter() {
+        super(LoginView.class);
+    }
 
-	@Override
-	protected void onGo(ComponentContainer navigationManager, ScreenData<?> data) {
-		((NavigationManager) navigationManager).navigateTo(view.getWidget());
-		AppContext.addFragment("user/login", "Login Page");
-	}
+    @Override
+    protected void onGo(ComponentContainer navigationManager, ScreenData<?> data) {
+        ((NavigationManager) navigationManager).navigateTo(view.getWidget());
+        AppContext.addFragment("user/login", "Login Page");
+    }
 }

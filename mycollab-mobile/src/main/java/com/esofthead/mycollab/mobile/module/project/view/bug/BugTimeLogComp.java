@@ -100,8 +100,7 @@ public class BugTimeLogComp extends TimeLogComp<SimpleBug> {
             item.setLogforday(forDate);
             item.setIsbillable(isBillable);
 
-            itemTimeLoggingService.saveWithSession(item,
-                    AppContext.getUsername());
+            itemTimeLoggingService.saveWithSession(item, AppContext.getUsername());
         }
 
         @Override

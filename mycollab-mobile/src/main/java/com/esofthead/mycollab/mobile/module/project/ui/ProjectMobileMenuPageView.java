@@ -17,17 +17,12 @@
 package com.esofthead.mycollab.mobile.module.project.ui;
 
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.mobile.module.project.events.MessageEvent;
-import com.esofthead.mycollab.mobile.module.project.events.MilestoneEvent;
-import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent;
-import com.esofthead.mycollab.mobile.module.project.events.ProjectMemberEvent;
+import com.esofthead.mycollab.mobile.module.project.events.*;
 import com.esofthead.mycollab.mobile.ui.AbstractMobileMenuPageView;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Label;
-import org.vaadin.thomas.slidemenu.SlideMenu;
 
 /**
  * @author MyCollab Ltd
@@ -36,80 +31,89 @@ import org.vaadin.thomas.slidemenu.SlideMenu;
 public class ProjectMobileMenuPageView extends AbstractMobileMenuPageView {
     @Override
     protected void buildNavigateMenu() {
-
-        // Section labels have a bolded style
-        Label l = new Label("Views:");
-        l.addStyleName(SlideMenu.STYLENAME_SECTIONLABEL);
-        getMenu().addComponent(l);
+        addSection("Views:");
 
         Button prjButton = new Button("Projects", new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                getMenu().close();
+                closeMenu();
                 EventBusFactory.getInstance().post(new ProjectEvent.GotoProjectList(this, null));
             }
         });
         prjButton.setIcon(FontAwesome.BUILDING);
-        prjButton.addStyleName(SlideMenu.STYLENAME_BUTTON);
-        getMenu().addComponent(prjButton);
+        addMenuItem(prjButton);
 
         // Buttons with styling (slightly smaller with left-aligned text)
         Button activityBtn = new Button("Activities", new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                getMenu().close();
+                closeMenu();
                 EventBusFactory.getInstance().post(new ProjectEvent.MyProjectActivities(this, null));
             }
         });
         activityBtn.setIcon(FontAwesome.INBOX);
-        activityBtn.addStyleName(SlideMenu.STYLENAME_BUTTON);
-        getMenu().addComponent(activityBtn);
+        addMenuItem(activityBtn);
 
         // add more buttons for a more realistic look.
         Button messageBtn = new Button("Messages", new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                getMenu().close();
+                closeMenu();
                 EventBusFactory.getInstance().post(new MessageEvent.GotoList(this, null));
             }
         });
         messageBtn.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.MESSAGE));
-        messageBtn.addStyleName(SlideMenu.STYLENAME_BUTTON);
-        getMenu().addComponent(messageBtn);
+        addMenuItem(messageBtn);
 
         Button phaseBtn = new Button("Phases", new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                getMenu().close();
+                closeMenu();
                 EventBusFactory.getInstance().post(new MilestoneEvent.GotoList(this, null));
             }
         });
-        phaseBtn.addStyleName(SlideMenu.STYLENAME_BUTTON);
         phaseBtn.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE));
-        getMenu().addComponent(phaseBtn);
+        addMenuItem(phaseBtn);
 
-        Button ticketBtn = new Button("Tickets");
-        ticketBtn.addStyleName(SlideMenu.STYLENAME_BUTTON);
-        ticketBtn.setIcon(FontAwesome.TICKET);
-        getMenu().addComponent(ticketBtn);
+        Button taskBtn = new Button("Tasks", new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                closeMenu();
+                EventBusFactory.getInstance().post(new TaskEvent.GotoList(this, null));
+            }
+        });
+        taskBtn.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK));
+        addMenuItem(taskBtn);
+
+        Button bugBtn = new Button("Bugs", new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                closeMenu();
+                EventBusFactory.getInstance().post(new BugEvent.GotoList(this, null));
+            }
+        });
+        bugBtn.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG));
+        addMenuItem(bugBtn);
 
         Button userBtn = new Button("Users", new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
+                closeMenu();
                 EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null));
             }
         });
         userBtn.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.MEMBER));
-        userBtn.addStyleName(SlideMenu.STYLENAME_BUTTON);
-        getMenu().addComponent(userBtn);
+        addMenuItem(userBtn);
 
-        l = new Label("Settings:");
-        l.addStyleName(SlideMenu.STYLENAME_SECTIONLABEL);
-        getMenu().addComponent(l);
+        addSection("Settings:");
 
-        Button logoutBtn = new Button("Logout");
+        Button logoutBtn = new Button("Logout", new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                closeMenu();
+            }
+        });
         logoutBtn.setIcon(FontAwesome.SIGN_OUT);
-        logoutBtn.addStyleName(SlideMenu.STYLENAME_BUTTON);
-        getMenu().addComponent(logoutBtn);
+        addMenuItem(logoutBtn);
     }
 }

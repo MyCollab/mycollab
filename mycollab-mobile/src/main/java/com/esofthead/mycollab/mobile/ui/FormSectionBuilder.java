@@ -31,14 +31,13 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  */
 public class FormSectionBuilder {
     public static final MHorizontalLayout build(FontAwesome icon, Component comp) {
-        MHorizontalLayout layout = new MHorizontalLayout().withStyleName(UIConstants.FORM_SECTION);
+        MHorizontalLayout layout = new MHorizontalLayout().withFullWidth().withStyleName(UIConstants.FORM_SECTION);
         layout.with(new ELabel(icon.getHtml(), ContentMode.HTML).withWidthUndefined(), comp).expand(comp);
-        layout.setWidth(UIUtils.getBrowserWidthInPixels());
         return layout;
     }
 
     public static final MCssLayout build(String title) {
         Label header = new Label(title);
-        return new MCssLayout(header).withStyleName(UIConstants.FORM_SECTION);
+        return new MCssLayout(header).withFullWidth().withStyleName(UIConstants.FORM_SECTION);
     }
 }

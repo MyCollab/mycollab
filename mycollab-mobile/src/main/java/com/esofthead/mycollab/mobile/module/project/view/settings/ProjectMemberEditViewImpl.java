@@ -19,6 +19,7 @@ package com.esofthead.mycollab.mobile.module.project.view.settings;
 import com.esofthead.mycollab.common.i18n.SecurityI18nEnum;
 import com.esofthead.mycollab.mobile.ui.AbstractEditItemComp;
 import com.esofthead.mycollab.mobile.ui.FormSectionBuilder;
+import com.esofthead.mycollab.mobile.ui.UIConstants;
 import com.esofthead.mycollab.mobile.ui.grid.GridFormLayoutHelper;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
@@ -107,7 +108,7 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
         public ComponentContainer getLayout() {
             final VerticalLayout layout = new VerticalLayout();
             layout.setMargin(false);
-            layout.setWidth(UIUtils.getBrowserWidthInPixels());
+            layout.addStyleName(UIConstants.FULL_WIDTH_COMP);
             layout.addComponent(FormSectionBuilder.build(AppContext.getMessage(ProjectMemberI18nEnum.FORM_INFORMATION_SECTION)));
 
             informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 2);

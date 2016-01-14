@@ -49,7 +49,6 @@ public class ProjectActivityStreamPresenter extends AbstractListPresenter<Projec
             ActivityStreamSearchCriteria searchCriteria = new ActivityStreamSearchCriteria();
             searchCriteria.setModuleSet(new SetSearchField<>(ModuleNameConstants.PRJ));
             searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-
             searchCriteria.setExtraTypeIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
             doSearch(searchCriteria);
             AppContext.addFragment("project/activities/" + GenericLinkUtils.encodeParam(CurrentProjectVariables.getProjectId()),

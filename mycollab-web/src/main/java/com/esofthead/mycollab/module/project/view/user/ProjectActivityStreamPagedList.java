@@ -48,8 +48,8 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.apache.commons.lang3.time.DateUtils;
-import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.peter.buttongroup.ButtonGroup;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.Calendar;
 import java.util.*;
@@ -112,7 +112,7 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Activi
                     feedBlocksPut(currentDate, itemCreatedDate, currentFeedBlock);
                     currentDate = itemCreatedDate;
                 }
-                StringBuffer content = new StringBuffer();
+                StringBuilder content = new StringBuilder();
                 ProjectTypeI18nEnum typeEnum = ProjectLocalizationTypeMap.getType(activityStream.getType());
                 if (typeEnum == null) {
                     continue;
@@ -136,7 +136,6 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Activi
                     if (activityStream.getAssoAuditLog() != null) {
                         content.append("<p><ul><li>\"").append(activityStream.getAssoAuditLog().getChangeset()).append("\"</li></ul></p>");
                     }
-
                 }
                 Label actionLbl = new Label(content.toString(), ContentMode.HTML);
                 CssLayout streamWrapper = new CssLayout();

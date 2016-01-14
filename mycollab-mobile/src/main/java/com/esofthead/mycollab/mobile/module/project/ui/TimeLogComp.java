@@ -16,19 +16,17 @@
  */
 package com.esofthead.mycollab.mobile.module.project.ui;
 
-import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.mobile.ui.FormSectionBuilder;
+import com.esofthead.mycollab.mobile.ui.UIConstants;
 import com.esofthead.mycollab.mobile.ui.grid.GridFormLayoutHelper;
 import com.esofthead.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.esofthead.mycollab.module.project.service.ItemTimeLoggingService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.VerticalLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -42,6 +40,8 @@ public abstract class TimeLogComp<V extends ValuedBean> extends VerticalLayout {
 
     protected TimeLogComp() {
         this.itemTimeLoggingService = ApplicationContextUtil.getSpringBean(ItemTimeLoggingService.class);
+        this.setWidth("100%");
+        this.setStyleName(UIConstants.FULL_WIDTH_COMP);
     }
 
     public void displayTime(final V bean) {
@@ -50,20 +50,19 @@ public abstract class TimeLogComp<V extends ValuedBean> extends VerticalLayout {
         Label dateInfoHeader = new Label(AppContext.getMessage(TimeTrackingI18nEnum.SUB_INFO_TIME));
         MHorizontalLayout header = FormSectionBuilder.build(FontAwesome.CLOCK_O, dateInfoHeader);
 
-        if (hasEditPermission()) {
-            Button editBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(ClickEvent event) {
-                    showEditTimeView(bean);
-                }
-            });
-            editBtn.setStyleName("link");
-            editBtn.setHtmlContentAllowed(true);
-            header.addComponent(editBtn);
-            header.setComponentAlignment(editBtn, Alignment.BOTTOM_LEFT);
-        }
+//        if (hasEditPermission()) {
+//            Button editBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), new Button.ClickListener() {
+//                private static final long serialVersionUID = 1L;
+//
+//                @Override
+//                public void buttonClick(ClickEvent event) {
+//                    showEditTimeView(bean);
+//                }
+//            });
+//            editBtn.setStyleName(UIConstants.BUTTON_LINK);
+//            header.addComponent(editBtn);
+//            header.setComponentAlignment(editBtn, Alignment.TOP_RIGHT);
+//        }
 
         this.addComponent(header);
 
