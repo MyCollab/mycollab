@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.core.arguments;
 
+import com.esofthead.mycollab.core.utils.StringUtils;
+
 /**
  * @author MyCollab Ltd.
  * @since 1.0
@@ -26,14 +28,10 @@ public class StringSearchField extends SearchField {
     private String value;
 
     public StringSearchField() {
-        this("");
+        this(AND, "");
     }
 
-    public StringSearchField(String value) {
-        this(SearchField.AND, value);
-    }
-
-    public StringSearchField(String oper, String value) {
+    private StringSearchField(String oper, String value) {
         this.operation = oper;
         this.value = value;
     }
@@ -47,6 +45,10 @@ public class StringSearchField extends SearchField {
     }
 
     public static StringSearchField and(String value) {
-        return new StringSearchField(AND, value);
+        if (StringUtils.isNotBlank(value)) {
+            return new StringSearchField(AND, value);
+        } else {
+            return null;
+        }
     }
 }

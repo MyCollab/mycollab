@@ -16,17 +16,23 @@
  */
 package com.esofthead.mycollab.mobile.module.project
 
-import com.esofthead.mycollab.common.UrlTokenizer
+import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteria
+import com.esofthead.mycollab.common.{ModuleNameConstants, UrlTokenizer}
+import com.esofthead.mycollab.core.arguments.{NumberSearchField, SetSearchField}
 import com.esofthead.mycollab.eventmanager.EventBusFactory
 import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent
 import com.esofthead.mycollab.mobile.module.project.view.bug.BugUrlResolver
 import com.esofthead.mycollab.mobile.module.project.view.message.MessageUrlResolver
 import com.esofthead.mycollab.mobile.module.project.view.milestone.MilestoneUrlResolver
 import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectScreenData
+import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectScreenData.AllActivities
 import com.esofthead.mycollab.mobile.module.project.view.settings.UserUrlResolver
-import com.esofthead.mycollab.mobile.module.project.view.task.TaskModuleUrlResolver
+import com.esofthead.mycollab.mobile.module.project.view.task.TaskUrlResolver
 import com.esofthead.mycollab.mobile.shell.ModuleHelper
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent
+import com.esofthead.mycollab.module.project.service.ProjectService
+import com.esofthead.mycollab.spring.ApplicationContextUtil
+import com.esofthead.mycollab.vaadin.AppContext
 import com.esofthead.mycollab.vaadin.mvp.{PageActionChain, UrlResolver}
 
 /**
@@ -39,7 +45,7 @@ class ProjectUrlResolver extends UrlResolver {
     this.addSubResolver("activities", new ActivityUrlResolver)
     this.addSubResolver("message", new MessageUrlResolver)
     this.addSubResolver("milestone", new MilestoneUrlResolver)
-    this.addSubResolver("task", new TaskModuleUrlResolver)
+    this.addSubResolver("task", new TaskUrlResolver)
     this.addSubResolver("bug", new BugUrlResolver)
     this.addSubResolver("user", new UserUrlResolver)
     return this
@@ -47,7 +53,7 @@ class ProjectUrlResolver extends UrlResolver {
 
   override def handle(params: String*) {
     if (!ModuleHelper.isCurrentProjectModule) {
-      EventBusFactory.getInstance.post(new ShellEvent.GotoProjectModule(this, null))
+      EventBusFactory.getInstance.post(new ShellEvent.GotoProjectModule(this, params))
     }
     else {
       super.handle(params: _*)
@@ -69,8 +75,8 @@ class ProjectUrlResolver extends UrlResolver {
         EventBusFactory.getInstance.post(new ShellEvent.GotoProjectModule(this, null))
       }
       else {
-        val projectId: Int = new UrlTokenizer(params(0)).getInt
-        val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId), new ProjectScreenData.GotoDashboard)
+        val projectId = new UrlTokenizer(params(0)).getInt
+        val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new ProjectScreenData.GotoDashboard)
         EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
       }
     }
@@ -78,13 +84,24 @@ class ProjectUrlResolver extends UrlResolver {
 
   class ActivityUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      if (params.length > 0) {
-        EventBusFactory.getInstance.post(new ProjectEvent.AllActivities(this, new ProjectScreenData.AllActivities))
+      if (params.length == 0) {
+        val prjService = ApplicationContextUtil.getSpringBean(classOf[ProjectService])
+        val prjKeys = prjService.getProjectKeysUserInvolved(AppContext.getUsername(), AppContext.getAccountId())
+        val searchCriteria = new ActivityStreamSearchCriteria()
+        searchCriteria.setModuleSet(new SetSearchField(ModuleNameConstants.PRJ))
+        searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()))
+        searchCriteria.setExtraTypeIds(new SetSearchField(prjKeys))
+
+        val data = new AllActivities(searchCriteria)
+        EventBusFactory.getInstance.post(new ProjectEvent.AllActivities(this, data))
       }
       else {
         val projectId: Int = new UrlTokenizer(params(0)).getInt
-        val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId), new
-            ProjectScreenData.ViewActivities(projectId))
+        val searchCriteria = new ActivityStreamSearchCriteria()
+        searchCriteria.setModuleSet(new SetSearchField(ModuleNameConstants.PRJ));
+        searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()))
+        searchCriteria.setExtraTypeIds(new SetSearchField(projectId))
+        val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new ProjectScreenData.ProjectActivities(searchCriteria))
         EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
       }
     }

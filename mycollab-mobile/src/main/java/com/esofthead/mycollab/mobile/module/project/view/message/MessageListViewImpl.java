@@ -16,10 +16,14 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.message;
 
+import com.esofthead.mycollab.core.arguments.SetSearchField;
+import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.events.MessageEvent;
 import com.esofthead.mycollab.mobile.module.project.ui.AbstractListPageView;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
+import com.esofthead.mycollab.mobile.ui.SearchInputField;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
 import com.esofthead.mycollab.module.project.domain.criteria.MessageSearchCriteria;
 import com.esofthead.mycollab.module.project.i18n.MessageI18nEnum;
@@ -47,8 +51,20 @@ public class MessageListViewImpl extends AbstractListPageView<MessageSearchCrite
 
     @Override
     protected AbstractPagedBeanList<MessageSearchCriteria, SimpleMessage> createBeanList() {
-        MessageListDisplay messageListDisplay = new MessageListDisplay();
-        return messageListDisplay;
+        return new MessageListDisplay();
+    }
+
+    @Override
+    protected SearchInputField<MessageSearchCriteria> createSearchField() {
+        return new SearchInputField<MessageSearchCriteria>() {
+            @Override
+            protected MessageSearchCriteria fillUpSearchCriteria(String value) {
+                MessageSearchCriteria searchCriteria = new MessageSearchCriteria();
+                searchCriteria.setProjectids(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
+                searchCriteria.setTitle(StringSearchField.and(value));
+                return searchCriteria;
+            }
+        };
     }
 
     @Override

@@ -68,7 +68,7 @@ public class OpportunityServiceTest extends IntergrationServiceTest {
         OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
         criteria.setAccountId(new NumberSearchField(1));
         criteria.setCampaignId(new NumberSearchField(1));
-        criteria.setOpportunityName(new StringSearchField("aa"));
+        criteria.setOpportunityName(StringSearchField.and("aa"));
         criteria.setSaccountid(new NumberSearchField(1));
         return criteria;
     }

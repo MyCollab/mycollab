@@ -33,8 +33,7 @@ import java.util.EventListener;
  * @author MyCollab Ltd.
  * @since 2.0
  */
-public interface IPagedBeanTable<S extends SearchCriteria, T> extends
-        HasSelectableItemHandlers<T>, HasPagableHandlers, Component {
+public interface IPagedBeanTable<S extends SearchCriteria, T> extends HasSelectableItemHandlers<T>, HasPagableHandlers, Component {
 
     int setSearchCriteria(S searchCriteria);
 
@@ -49,8 +48,7 @@ public interface IPagedBeanTable<S extends SearchCriteria, T> extends
     void refresh();
 
     interface TableClickListener extends EventListener, Serializable {
-        Method itemClickMethod = ReflectTools.findMethod(
-                TableClickListener.class, "itemClick", TableClickEvent.class);
+        Method itemClickMethod = ReflectTools.findMethod(TableClickListener.class, "itemClick", TableClickEvent.class);
 
         void itemClick(TableClickEvent event);
     }

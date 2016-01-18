@@ -16,11 +16,16 @@
  */
 package com.esofthead.mycollab.mobile.module.user.view;
 
+import com.esofthead.mycollab.mobile.MobileApplication;
+import com.esofthead.mycollab.mobile.module.user.events.UserEvent;
 import com.esofthead.mycollab.mobile.mvp.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
+import com.esofthead.mycollab.vaadin.mvp.ViewEvent;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.UI;
 
 /**
  * @author MyCollab Ltd.
@@ -34,8 +39,21 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
     }
 
     @Override
+    protected void postInitView() {
+        view.addViewListener(new PageView.ViewListener<UserEvent.PlainLogin>() {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void receiveEvent(ViewEvent<UserEvent.PlainLogin> event) {
+                UserEvent.PlainLogin data = (UserEvent.PlainLogin) event.getData();
+                ((MobileApplication) UI.getCurrent()).doLogin(data.getUsername(), data.getPassword(), data.isRememberMe());
+            }
+        });
+    }
+
+    @Override
     protected void onGo(ComponentContainer navigationManager, ScreenData<?> data) {
         ((NavigationManager) navigationManager).navigateTo(view.getWidget());
-        AppContext.addFragment("user/login", "Login Page");
+        AppContext.addFragment("", "Login Page");
     }
 }

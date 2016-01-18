@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.mobile.module.project.view;
 
 import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectScreenData;
-import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
+import com.esofthead.mycollab.mobile.module.project.view.AbstractProjectPresenter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -31,7 +31,7 @@ import com.vaadin.ui.ComponentContainer;
  * @author MyCollab Ltd.
  * @since 4.4.0
  */
-public class ProjectDashboardPresenter extends AbstractMobilePresenter<ProjectDashboardView> {
+public class ProjectDashboardPresenter extends AbstractProjectPresenter<ProjectDashboardView> {
     private static final long serialVersionUID = -2645763046888609751L;
 
     public ProjectDashboardPresenter() {

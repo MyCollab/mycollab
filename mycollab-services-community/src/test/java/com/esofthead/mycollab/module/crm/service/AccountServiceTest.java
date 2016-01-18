@@ -45,7 +45,7 @@ public class AccountServiceTest extends IntergrationServiceTest {
 
     private AccountSearchCriteria getCriteria() {
         AccountSearchCriteria criteria = new AccountSearchCriteria();
-        criteria.setAccountname(new StringSearchField(SearchField.AND, "xy"));
+        criteria.setAccountname(StringSearchField.and("xy"));
         criteria.setAssignUsers(new SetSearchField<>("hai79", "linhduong"));
         criteria.setIndustries(new SetSearchField<>("a", "b"));
         criteria.setTypes(new SetSearchField<>("a", "b"));
@@ -77,15 +77,12 @@ public class AccountServiceTest extends IntergrationServiceTest {
     @Test
     public void testSearchAnyPhoneField() {
         AccountSearchCriteria criteria = new AccountSearchCriteria();
-        criteria.setAnyPhone(new StringSearchField(SearchField.AND, "111"));
+        criteria.setAnyPhone(StringSearchField.and("111"));
         criteria.setSaccountid(new NumberSearchField(1));
+        List<SimpleAccount> accounts = accountService.findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 
-        List<SimpleAccount> accounts = accountService
-                .findPagableListByCriteria(new SearchRequest<>(
-                        criteria, 0, Integer.MAX_VALUE));
         assertThat(accounts.size()).isEqualTo(2);
-        assertThat(accounts).extracting("id", "accountname", "industry")
-                .contains(tuple(1, "xyz", "a"), tuple(2, "xyz1", "b"));
+        assertThat(accounts).extracting("id", "accountname", "industry").contains(tuple(1, "xyz", "a"), tuple(2, "xyz1", "b"));
     }
 
     @SuppressWarnings("unchecked")
@@ -93,7 +90,7 @@ public class AccountServiceTest extends IntergrationServiceTest {
     @Test
     public void testSearchAnyMailField() {
         AccountSearchCriteria criteria = new AccountSearchCriteria();
-        criteria.setAnyMail(new StringSearchField(SearchField.AND, "abc"));
+        criteria.setAnyMail(StringSearchField.and("abc"));
         criteria.setSaccountid(new NumberSearchField(1));
 
         List<SimpleAccount> accounts = accountService
@@ -167,8 +164,7 @@ public class AccountServiceTest extends IntergrationServiceTest {
     @DataSet
     public void testSearchWebsite() {
         AccountSearchCriteria criteria = new AccountSearchCriteria();
-        criteria.setWebsite(new StringSearchField(SearchField.AND,
-                "http://www.esofthead.com"));
+        criteria.setWebsite(StringSearchField.and("http://www.esofthead.com"));
         criteria.setSaccountid(new NumberSearchField(1));
 
         List<SimpleAccount> accounts = accountService.findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
@@ -183,7 +179,7 @@ public class AccountServiceTest extends IntergrationServiceTest {
     @DataSet
     public void tesSearchAnyAddress() {
         AccountSearchCriteria criteria = new AccountSearchCriteria();
-        criteria.setAnyAddress(new StringSearchField(SearchField.AND, "123"));
+        criteria.setAnyAddress(StringSearchField.and("123"));
         criteria.setSaccountid(new NumberSearchField(1));
 
         List<SimpleAccount> accounts = accountService.findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
@@ -197,7 +193,7 @@ public class AccountServiceTest extends IntergrationServiceTest {
     @DataSet
     public void tesSearchAnyCity() {
         AccountSearchCriteria criteria = new AccountSearchCriteria();
-        criteria.setAnyCity(new StringSearchField(SearchField.AND, "ha noi"));
+        criteria.setAnyCity(StringSearchField.and("ha noi"));
         criteria.setSaccountid(new NumberSearchField(1));
 
         List<SimpleAccount> accounts = accountService.findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
@@ -211,7 +207,7 @@ public class AccountServiceTest extends IntergrationServiceTest {
     @DataSet
     public void testAssignUser() {
         AccountSearchCriteria criteria = new AccountSearchCriteria();
-        criteria.setAssignUser(new StringSearchField(SearchField.AND, "hai79"));
+        criteria.setAssignUser(StringSearchField.and("hai79"));
         criteria.setSaccountid(new NumberSearchField(1));
 
         List<SimpleAccount> accounts = accountService.findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
@@ -225,7 +221,7 @@ public class AccountServiceTest extends IntergrationServiceTest {
     @DataSet
     public void testSearchByAssignUserName() {
         AccountSearchCriteria criteria = new AccountSearchCriteria();
-        criteria.setAssignUser(new StringSearchField("hai79"));
+        criteria.setAssignUser(StringSearchField.and("hai79"));
         criteria.setSaccountid(new NumberSearchField(1));
 
         List<SimpleAccount> accounts = accountService

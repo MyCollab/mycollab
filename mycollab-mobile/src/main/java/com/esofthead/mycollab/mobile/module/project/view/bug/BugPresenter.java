@@ -19,7 +19,7 @@ package com.esofthead.mycollab.mobile.module.project.view.bug;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.BugScreenData;
 import com.esofthead.mycollab.mobile.mvp.AbstractPresenter;
-import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
+import com.esofthead.mycollab.mobile.module.project.view.AbstractProjectPresenter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
@@ -31,7 +31,7 @@ import com.vaadin.ui.ComponentContainer;
  * @author MyCollab Ltd.
  * @since 4.5.2
  */
-public class BugPresenter extends AbstractMobilePresenter<BugContainer> {
+public class BugPresenter extends AbstractProjectPresenter<BugContainer> {
     private static final long serialVersionUID = -7398666868034973815L;
 
     public BugPresenter() {

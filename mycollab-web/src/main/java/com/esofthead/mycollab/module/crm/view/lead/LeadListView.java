@@ -18,13 +18,13 @@ package com.esofthead.mycollab.module.crm.view.lead;
 
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
-import com.esofthead.mycollab.vaadin.web.ui.ListView;
+import com.esofthead.mycollab.vaadin.web.ui.IListView;
 
 /**
  * @author MyCollab Ltd
  * @since 1.0.0
  */
-public interface LeadListView extends ListView<LeadSearchCriteria, SimpleLead> {
+public interface LeadListView extends IListView<LeadSearchCriteria, SimpleLead> {
 
     String VIEW_DEF_ID = "crm-lead-list";
 }

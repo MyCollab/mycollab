@@ -80,7 +80,7 @@ public class ProjectMembersWidget extends Depot {
     public void showInformation() {
         ProjectMemberSearchCriteria searchCriteria = new ProjectMemberSearchCriteria();
         searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-        searchCriteria.setStatus(new StringSearchField(ProjectMemberStatusConstants.ACTIVE));
+        searchCriteria.setStatus(StringSearchField.and(ProjectMemberStatusConstants.ACTIVE));
         memberList.setSearchCriteria(searchCriteria);
         this.setTitle(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_MEMBERS_TITLE, memberList.getTotalCount()));
     }

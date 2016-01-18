@@ -42,7 +42,6 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  * @author MyCollab Ltd.
  * @since 4.4.0
  */
-
 @ViewComponent
 public class ProjectDashboardViewImpl extends ProjectMobileMenuPageView implements ProjectDashboardView {
     private static final long serialVersionUID = 2364544271302929730L;

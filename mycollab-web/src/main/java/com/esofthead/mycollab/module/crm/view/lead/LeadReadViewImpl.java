@@ -160,7 +160,7 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead> implem
     protected void displayActivities() {
         ActivitySearchCriteria criteria = new ActivitySearchCriteria();
         criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-        criteria.setType(new StringSearchField(CrmTypeConstants.LEAD));
+        criteria.setType(StringSearchField.and(CrmTypeConstants.LEAD));
         criteria.setTypeid(new NumberSearchField(beanItem.getId()));
         associateActivityList.setSearchCriteria(criteria);
     }

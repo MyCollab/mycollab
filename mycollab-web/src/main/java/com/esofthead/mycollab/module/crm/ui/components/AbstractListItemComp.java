@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.crm.ui.components;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.web.ui.ListView;
+import com.esofthead.mycollab.vaadin.web.ui.IListView;
 import com.esofthead.mycollab.vaadin.events.HasMassItemActionHandler;
 import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSelectableItemHandlers;
@@ -43,7 +43,7 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  * @author MyCollab Ltd.
  * @since 3.0
  */
-public abstract class AbstractListItemComp<S extends SearchCriteria, B> extends AbstractPageView implements ListView<S, B> {
+public abstract class AbstractListItemComp<S extends SearchCriteria, B> extends AbstractPageView implements IListView<S, B> {
     private static final long serialVersionUID = 1L;
 
     protected MVerticalLayout contentLayout;
@@ -72,7 +72,6 @@ public abstract class AbstractListItemComp<S extends SearchCriteria, B> extends 
 
     private ComponentContainer buildControlsLayout() {
         MHorizontalLayout viewControlsLayout = new MHorizontalLayout().withWidth("100%");
-
         viewControlsLayout.addStyleName(UIConstants.TABLE_ACTION_CONTROLS);
 
         selectOptionButton = new SelectionOptionButton(tableItem);

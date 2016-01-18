@@ -446,7 +446,7 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
                 val criteria: ProjectMemberSearchCriteria = new ProjectMemberSearchCriteria
                 criteria.setProjectId(new NumberSearchField(project.getId))
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId))
-                criteria.setStatus(new StringSearchField(ProjectMemberStatusConstants.ACTIVE))
+                criteria.setStatus(StringSearchField.and(ProjectMemberStatusConstants.ACTIVE))
                 val presenter = PresenterResolver.getPresenter(classOf[UserSettingPresenter])
                 presenter.go(projectView, new ProjectMemberScreenData.Search(criteria))
             }

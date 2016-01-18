@@ -109,7 +109,7 @@ public class CaseSimpleSearchPanel extends GenericSearchPanel<CaseSearchCriteria
                 String strSearch = textValueField.getValue();
                 if (StringUtils.isNotBlank(strSearch)) {
                     if (searchType.equals("Subject")) {
-                        searchCriteria.setSubject(new StringSearchField(SearchField.AND, strSearch));
+                        searchCriteria.setSubject(StringSearchField.and(strSearch));
                     } else if (searchType.equals("Status")) {
                         searchCriteria.setStatuses(new SetSearchField<>(strSearch));
                     }

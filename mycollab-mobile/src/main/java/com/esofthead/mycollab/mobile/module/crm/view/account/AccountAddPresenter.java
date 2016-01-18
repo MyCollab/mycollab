@@ -21,7 +21,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.AccountEvent;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
-import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
+import com.esofthead.mycollab.mobile.module.crm.view.AbstractCrmPresenter;
 import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.service.AccountService;
@@ -37,7 +37,7 @@ import com.vaadin.ui.ComponentContainer;
  * @author MyCollab Ltd.
  * @since 4.0
  */
-public class AccountAddPresenter extends AbstractMobilePresenter<AccountAddView> {
+public class AccountAddPresenter extends AbstractCrmPresenter<AccountAddView> {
     private static final long serialVersionUID = -3664699848882470039L;
 
     public AccountAddPresenter() {

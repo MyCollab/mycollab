@@ -131,10 +131,10 @@ public class ProjectModule extends AbstractPageView implements IDesktopModule {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 ProjectSearchCriteria searchCriteria = new ProjectSearchCriteria();
-                searchCriteria.setInvolvedMember(new StringSearchField(AppContext.getUsername()));
+                searchCriteria.setInvolvedMember(StringSearchField.and(AppContext.getUsername()));
                 searchCriteria.setProjectStatuses(new SetSearchField<>(
                         new String[]{OptionI18nEnum.StatusI18nEnum.Open.name()}));
-                searchCriteria.setProjectName(new StringSearchField(searchField.getValue()));
+                searchCriteria.setProjectName(StringSearchField.and(searchField.getValue()));
                 int count = projectList.setSearchCriteria(searchCriteria);
                 titleLbl.setValue(AppContext.getMessage(
                         ProjectCommonI18nEnum.WIDGET_ACTIVE_PROJECTS_TITLE, count));
@@ -157,7 +157,7 @@ public class ProjectModule extends AbstractPageView implements IDesktopModule {
             public void popupVisibilityChange(PopupButton.PopupVisibilityEvent event) {
                 if (event.isPopupVisible()) {
                     ProjectSearchCriteria searchCriteria = new ProjectSearchCriteria();
-                    searchCriteria.setInvolvedMember(new StringSearchField(AppContext.getUsername()));
+                    searchCriteria.setInvolvedMember(StringSearchField.and(AppContext.getUsername()));
                     searchCriteria.setProjectStatuses(new SetSearchField<>(new String[]{OptionI18nEnum.StatusI18nEnum.Open.name()}));
                     int count = projectList.setSearchCriteria(searchCriteria);
                     titleLbl.setValue(AppContext.getMessage(

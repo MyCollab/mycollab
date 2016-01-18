@@ -282,7 +282,7 @@ public class DesktopApplication extends MyCollabUI {
         BillingAccountService billingAccountService = ApplicationContextUtil.getSpringBean(BillingAccountService.class);
 
         SimpleBillingAccount billingAccount = billingAccountService.getBillingAccountById(AppContext.getAccountId());
-        LOG.debug(String.format("Get billing account successfully: %s", BeanUtility.printBeanObj(billingAccount)));
+        LOG.info(String.format("Get billing account successfully: %s", BeanUtility.printBeanObj(billingAccount)));
         AppContext.getInstance().setSessionVariables(user, billingAccount);
 
         UserAccountMapper userAccountMapper = ApplicationContextUtil.getSpringBean(UserAccountMapper.class);
@@ -315,13 +315,13 @@ public class DesktopApplication extends MyCollabUI {
         }
     }
 
-    public void rememberPassword(String username, String password) {
+    private void rememberPassword(String username, String password) {
         String storeVal = username + "$" + PasswordEncryptHelper.encryptText(password);
-        BrowserCookie.setCookie(DesktopApplication.NAME_COOKIE, storeVal);
+        BrowserCookie.setCookie(NAME_COOKIE, storeVal);
     }
 
     public void unsetRememberPassword() {
-        BrowserCookie.setCookie(DesktopApplication.NAME_COOKIE, "");
+        BrowserCookie.setCookie(NAME_COOKIE, "");
     }
 
     private class ShellErrorHandler {

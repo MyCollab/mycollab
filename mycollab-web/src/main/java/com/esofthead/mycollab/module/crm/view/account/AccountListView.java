@@ -18,12 +18,12 @@ package com.esofthead.mycollab.module.crm.view.account;
 
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
-import com.esofthead.mycollab.vaadin.web.ui.ListView;
+import com.esofthead.mycollab.vaadin.web.ui.IListView;
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public interface AccountListView extends ListView<AccountSearchCriteria, SimpleAccount> {
+public interface AccountListView extends IListView<AccountSearchCriteria, SimpleAccount> {
     String VIEW_DEF_ID = "crm-account-list";
 }

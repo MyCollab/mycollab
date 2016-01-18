@@ -30,6 +30,11 @@ public interface HasSearchHandlers<S extends SearchCriteria> {
     void addSearchHandler(SearchHandler<S> handler);
 
     /**
+     * @param criteria
+     */
+    void notifySearchHandler(final S criteria);
+
+    /**
      * @param totalCountNumber
      */
     void setTotalCountNumber(int totalCountNumber);

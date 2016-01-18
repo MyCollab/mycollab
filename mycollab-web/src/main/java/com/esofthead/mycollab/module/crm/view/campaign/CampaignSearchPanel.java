@@ -171,7 +171,7 @@ public class CampaignSearchPanel extends DefaultGenericSearchPanel<CampaignSearc
             searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
 
             if (StringUtils.isNotBlank(this.nameField.getValue().toString())) {
-                searchCriteria.setCampaignName(new StringSearchField(SearchField.AND, this.nameField.getValue()));
+                searchCriteria.setCampaignName(StringSearchField.and(this.nameField.getValue()));
             }
 
             if (this.myItemCheckbox.getValue()) {

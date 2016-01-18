@@ -289,7 +289,7 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
         private void doSearch() {
             messageSearchCriteria = new MessageSearchCriteria();
             messageSearchCriteria.setProjectids(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-            messageSearchCriteria.setMessage(new StringSearchField(nameField.getValue()));
+            messageSearchCriteria.setMessage(StringSearchField.and(nameField.getValue()));
             notifySearchHandler(messageSearchCriteria);
         }
     }

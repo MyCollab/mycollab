@@ -108,9 +108,9 @@ public class ComponentServiceTest extends IntergrationServiceTest {
 	public void testFindByCriteria() {
 		ComponentSearchCriteria criteria = getCriteria();
 		criteria.setId(new NumberSearchField(2));
-		criteria.setComponentName(new StringSearchField("com 2"));
-		criteria.setStatus(new StringSearchField("Closed"));
-		criteria.setUserlead(new StringSearchField("nghiemle"));
+		criteria.setComponentName(StringSearchField.and("com 2"));
+		criteria.setStatus(StringSearchField.and("Closed"));
+		criteria.setUserlead(StringSearchField.and("nghiemle"));
 
 		List<SimpleComponent> components = componentService
 				.findPagableListByCriteria(new SearchRequest<>(

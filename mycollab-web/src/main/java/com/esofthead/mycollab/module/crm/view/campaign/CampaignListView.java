@@ -18,12 +18,12 @@ package com.esofthead.mycollab.module.crm.view.campaign;
 
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
-import com.esofthead.mycollab.vaadin.web.ui.ListView;
+import com.esofthead.mycollab.vaadin.web.ui.IListView;
 
 /**
  * @author MyCollab Ltd
  * @since 1.0.0
  */
-public interface CampaignListView extends ListView<CampaignSearchCriteria, SimpleCampaign> {
+public interface CampaignListView extends IListView<CampaignSearchCriteria, SimpleCampaign> {
     String VIEW_DEF_ID = "crm-campaign-list";
 }

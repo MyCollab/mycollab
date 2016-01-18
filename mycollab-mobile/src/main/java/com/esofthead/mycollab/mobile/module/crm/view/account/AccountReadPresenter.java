@@ -21,7 +21,7 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.*;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
-import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
+import com.esofthead.mycollab.mobile.module.crm.view.AbstractCrmPresenter;
 import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
@@ -48,7 +48,7 @@ import java.util.Set;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class AccountReadPresenter extends AbstractMobilePresenter<AccountReadView> {
+public class AccountReadPresenter extends AbstractCrmPresenter<AccountReadView> {
     private static final long serialVersionUID = 1L;
 
     public AccountReadPresenter() {

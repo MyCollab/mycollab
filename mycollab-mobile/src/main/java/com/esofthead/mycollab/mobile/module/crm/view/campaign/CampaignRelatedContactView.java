@@ -51,7 +51,7 @@ public class CampaignRelatedContactView extends AbstractRelatedListView<SimpleCo
         final ContactSearchCriteria searchCriteria = new ContactSearchCriteria();
         searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
         searchCriteria.setCampaignId(new NumberSearchField(SearchField.AND, this.campaign.getId()));
-        this.itemList.setSearchCriteria(searchCriteria);
+        this.itemList.search(searchCriteria);
     }
 
     public void displayContacts(SimpleCampaign campaign) {

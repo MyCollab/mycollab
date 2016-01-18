@@ -73,8 +73,8 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements Pro
     private void initContent() {
         this.removeAllComponents();
 
-        this.roleComboBox = new ProjectRoleComboBox();
-        this.roleComboBox.addValueChangeListener(new ValueChangeListener() {
+        roleComboBox = new ProjectRoleComboBox();
+        roleComboBox.addValueChangeListener(new ValueChangeListener() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -84,9 +84,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements Pro
             }
         });
 
-        AddViewLayout userAddLayout = new AddViewLayout(AppContext.getMessage(ProjectMemberI18nEnum.FORM_INVITE_MEMBERS),
-                FontAwesome.USER);
-
+        AddViewLayout userAddLayout = new AddViewLayout(AppContext.getMessage(ProjectMemberI18nEnum.FORM_INVITE_MEMBERS), FontAwesome.USER);
         userAddLayout.addHeaderRight(createButtonControls());
 
         GridFormLayoutHelper informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
@@ -117,7 +115,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements Pro
                 roleId = (Integer) roleComboBox.getValue();
                 BeanItem<SimpleProjectRole> item = (BeanItem<SimpleProjectRole>) roleComboBox.getItem(roleId);
                 String roleName = (item != null) ? item.getBean().getRolename() : "";
-                ProjectMemberInviteViewImpl.this.fireEvent(new ViewEvent<>(ProjectMemberInviteViewImpl.this,
+                ProjectMemberInviteViewImpl.this.fireEvent(new ViewEvent<>(this,
                         new InviteProjectMembers(inviteUserTokenField.getInviteEmails(), roleId, roleName, messageArea.getValue())));
 
             }
@@ -171,8 +169,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements Pro
         } else {
             for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
                 final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
-                projectFormHelper.addComponent(new Label(AppContext
-                        .getMessage(SecurityI18nEnum.ACCESS)), permissionPath, 0, i);
+                projectFormHelper.addComponent(new Label(AppContext.getMessage(SecurityI18nEnum.ACCESS)), permissionPath, 0, i);
             }
         }
     }

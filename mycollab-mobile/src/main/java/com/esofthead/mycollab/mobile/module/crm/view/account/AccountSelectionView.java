@@ -59,7 +59,7 @@ public class AccountSelectionView extends AbstractSelectionView<Account> {
         searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
                 AppContext.getAccountId()));
 
-        itemList.setSearchCriteria(searchCriteria);
+        itemList.search(searchCriteria);
 
         SimpleAccount clearAccount = new SimpleAccount();
         itemList.getListContainer().addComponentAsFirst(

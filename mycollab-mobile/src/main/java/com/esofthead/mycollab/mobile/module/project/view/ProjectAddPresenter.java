@@ -19,7 +19,6 @@ package com.esofthead.mycollab.mobile.module.project.view;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent;
-import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -34,7 +33,7 @@ import com.vaadin.ui.ComponentContainer;
  * @author MyCollab Ltd
  * @since 5.2.5
  */
-public class ProjectAddPresenter extends AbstractMobilePresenter<ProjectAddView> {
+public class ProjectAddPresenter extends AbstractProjectPresenter<ProjectAddView> {
     public ProjectAddPresenter() {
         super(ProjectAddView.class);
     }

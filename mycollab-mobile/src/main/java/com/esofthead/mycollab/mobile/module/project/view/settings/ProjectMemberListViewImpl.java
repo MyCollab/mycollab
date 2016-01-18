@@ -20,6 +20,7 @@ import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.events.ProjectMemberEvent;
 import com.esofthead.mycollab.mobile.module.project.ui.AbstractListPageView;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
+import com.esofthead.mycollab.mobile.ui.SearchInputField;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
 import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
@@ -46,6 +47,11 @@ public class ProjectMemberListViewImpl extends AbstractListPageView<ProjectMembe
     @Override
     protected AbstractPagedBeanList<ProjectMemberSearchCriteria, SimpleProjectMember> createBeanList() {
         return new ProjectMemberListDisplay();
+    }
+
+    @Override
+    protected SearchInputField<ProjectMemberSearchCriteria> createSearchField() {
+        return null;
     }
 
     @Override

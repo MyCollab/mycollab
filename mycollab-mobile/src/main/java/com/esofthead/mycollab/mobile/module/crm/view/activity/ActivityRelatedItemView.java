@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.mobile.module.crm.view.activity;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.mobile.ui.AbstractRelatedListView;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
@@ -31,7 +30,6 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.VerticalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
@@ -58,9 +56,9 @@ public class ActivityRelatedItemView extends AbstractRelatedListView<SimpleActiv
     private void loadActivities() {
         ActivitySearchCriteria criteria = new ActivitySearchCriteria();
         criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-        criteria.setType(new StringSearchField(SearchField.AND, this.type));
+        criteria.setType(StringSearchField.and(type));
         criteria.setTypeid(new NumberSearchField(this.beanId));
-        this.itemList.setSearchCriteria(criteria);
+        this.itemList.search(criteria);
     }
 
     private void initUI() {

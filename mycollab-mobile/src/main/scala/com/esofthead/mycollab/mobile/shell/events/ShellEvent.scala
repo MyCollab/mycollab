@@ -24,8 +24,7 @@ import com.esofthead.mycollab.eventmanager.ApplicationEvent
  */
 object ShellEvent {
 
-    @SerialVersionUID(-551175801973985055L)
-    class GotoLoginView(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+    class GotoLoginView(source: AnyRef) extends ApplicationEvent(source, null) {}
 
     class GotoMainPage(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
@@ -38,4 +37,6 @@ object ShellEvent {
     class PushView(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
     class NavigateBack(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+
+    class LogOut(source: AnyRef) extends ApplicationEvent(source, null) {}
 }

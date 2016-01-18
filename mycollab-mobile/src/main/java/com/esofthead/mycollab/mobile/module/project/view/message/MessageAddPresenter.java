@@ -19,7 +19,7 @@ package com.esofthead.mycollab.mobile.module.project.view.message;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.ui.form.field.ProjectFormAttachmentUploadField;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
-import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
+import com.esofthead.mycollab.mobile.module.project.view.AbstractProjectPresenter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -38,7 +38,7 @@ import com.vaadin.ui.ComponentContainer;
  * @author MyCollab Ltd.
  * @since 4.5.0
  */
-public class MessageAddPresenter extends AbstractMobilePresenter<MessageAddView> {
+public class MessageAddPresenter extends AbstractProjectPresenter<MessageAddView> {
     private static final long serialVersionUID = -6518878184021039341L;
 
     public MessageAddPresenter() {

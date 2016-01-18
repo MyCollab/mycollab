@@ -17,23 +17,37 @@
 package com.esofthead.mycollab.mobile;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
 import com.esofthead.mycollab.core.IgnoreException;
 import com.esofthead.mycollab.core.MyCollabVersion;
 import com.esofthead.mycollab.core.SessionExpireException;
 import com.esofthead.mycollab.core.UserInvalidInputException;
+import com.esofthead.mycollab.core.utils.BeanUtility;
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.mobile.shell.ShellController;
+import com.esofthead.mycollab.mobile.module.user.view.LoginPresenter;
 import com.esofthead.mycollab.mobile.shell.ShellUrlResolver;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
+import com.esofthead.mycollab.mobile.shell.view.ShellController;
 import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
 import com.esofthead.mycollab.module.billing.UsageExceedBillingPlanException;
+import com.esofthead.mycollab.module.user.dao.UserAccountMapper;
+import com.esofthead.mycollab.module.user.domain.SimpleBillingAccount;
+import com.esofthead.mycollab.module.user.domain.SimpleUser;
+import com.esofthead.mycollab.module.user.domain.UserAccount;
+import com.esofthead.mycollab.module.user.domain.UserAccountExample;
+import com.esofthead.mycollab.module.user.service.BillingAccountService;
+import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.MyCollabUI;
 import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
+import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.ThemeManager;
 import com.esofthead.mycollab.vaadin.ui.service.GoogleAnalyticsService;
+import com.vaadin.addon.touchkit.extensions.LocalStorage;
+import com.vaadin.addon.touchkit.extensions.LocalStorageCallback;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Viewport;
@@ -50,6 +64,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
+import java.util.GregorianCalendar;
 
 /**
  * @author MyCollab Ltd.
@@ -60,18 +75,15 @@ import java.util.Collection;
 @Widgetset("com.esofthead.mycollab.widgetset.MyCollabMobileWidgetSet")
 public class MobileApplication extends MyCollabUI {
     private static final long serialVersionUID = 1L;
-
-    public static final String LOGIN_DATA = "m_login";
-
     private static final Logger LOG = LoggerFactory.getLogger(MobileApplication.class);
 
+    public static final String NAME_COOKIE = "mycollab";
     public static final ShellUrlResolver rootUrlResolver = new ShellUrlResolver();
 
     @Override
     protected void init(VaadinRequest request) {
         GoogleAnalyticsService googleAnalyticsService = ApplicationContextUtil.getSpringBean(GoogleAnalyticsService.class);
         googleAnalyticsService.registerUI(this);
-        LOG.debug("Init mycollab mobile application {}", this.toString());
 
         VaadinSession.getCurrent().setErrorHandler(new DefaultErrorHandler() {
             private static final long serialVersionUID = 1L;
@@ -96,7 +108,6 @@ public class MobileApplication extends MyCollabUI {
                     NotificationUtil.showWarningNotification(AppContext.getMessage(GenericI18Enum.ERROR_USER_INPUT_MESSAGE,
                             invalidException.getMessage()));
                 } else {
-
                     UsageExceedBillingPlanException usageBillingException = (UsageExceedBillingPlanException) getExceptionType(
                             e, UsageExceedBillingPlanException.class);
                     if (usageBillingException != null) {
@@ -161,7 +172,26 @@ public class MobileApplication extends MyCollabUI {
                 enter(event.getUriFragment());
             }
         });
-        enter(initialUrl);
+        detectAutoLogin();
+    }
+
+    private void detectAutoLogin() {
+        LocalStorage.detectValue(NAME_COOKIE, new LocalStorageCallback() {
+            @Override
+            public void onSuccess(String value) {
+                if (StringUtils.isNotBlank(value)) {
+                    String[] loginParams = value.split("\\$");
+                    doLogin(loginParams[0], PasswordEncryptHelper.decryptText(loginParams[1]), false);
+                } else {
+                    EventBusFactory.getInstance().post(new ShellEvent.GotoLoginView(this));
+                }
+            }
+
+            @Override
+            public void onFailure(FailureEvent failureEvent) {
+                EventBusFactory.getInstance().post(new ShellEvent.GotoLoginView(this));
+            }
+        });
     }
 
     private void enter(String uriFragement) {
@@ -176,6 +206,34 @@ public class MobileApplication extends MyCollabUI {
         ControllerRegistry.addController(new ShellController(manager));
     }
 
+    public void doLogin(String username, String password, boolean isRememberPassword) {
+        UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
+        SimpleUser user = userService.authentication(username, password, AppContext.getSubDomain(), false);
+
+        if (isRememberPassword) {
+            rememberPassword(username, password);
+        }
+
+        BillingAccountService billingAccountService = ApplicationContextUtil.getSpringBean(BillingAccountService.class);
+
+        SimpleBillingAccount billingAccount = billingAccountService.getBillingAccountById(AppContext.getAccountId());
+        LOG.debug(String.format("Get billing account successfully: %s", BeanUtility.printBeanObj(billingAccount)));
+        AppContext.getInstance().setSessionVariables(user, billingAccount);
+
+        UserAccountMapper userAccountMapper = ApplicationContextUtil.getSpringBean(UserAccountMapper.class);
+        UserAccount userAccount = new UserAccount();
+        userAccount.setLastaccessedtime(new GregorianCalendar().getTime());
+        UserAccountExample ex = new UserAccountExample();
+        ex.createCriteria().andAccountidEqualTo(billingAccount.getId()).andUsernameEqualTo(user.getUsername());
+        userAccountMapper.updateByExampleSelective(userAccount, ex);
+        EventBusFactory.getInstance().post(new ShellEvent.GotoMainPage(this, null));
+    }
+
+    private void rememberPassword(String username, String password) {
+        String storeVal = username + "$" + PasswordEncryptHelper.encryptText(password);
+        LocalStorage.get().put(NAME_COOKIE, storeVal);
+    }
+
     private static Throwable getExceptionType(Throwable e, Class<? extends Throwable> exceptionType) {
         if (exceptionType.isAssignableFrom(e.getClass())) {
             return e;
@@ -186,4 +244,26 @@ public class MobileApplication extends MyCollabUI {
         }
     }
 
+    public void redirectToLoginView() {
+        clearSession();
+        AppContext.addFragment("", "Login Page");
+        // clear cookie remember username/password if any
+        this.unsetRememberPassword();
+
+        NavigationManager navigationManager = (NavigationManager) this.getContent();
+        navigationManager.getViewStack().empty();
+        LoginPresenter presenter = PresenterResolver.getPresenter(LoginPresenter.class);
+        presenter.go(navigationManager, null);
+    }
+
+    private void clearSession() {
+        if (currentContext != null) {
+            currentContext.clearSessionVariables();
+            initialUrl = "";
+        }
+    }
+
+    private void unsetRememberPassword() {
+        LocalStorage.get().put(NAME_COOKIE, "");
+    }
 }

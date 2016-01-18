@@ -84,7 +84,7 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount> 
     protected void displayActivities() {
         ActivitySearchCriteria criteria = new ActivitySearchCriteria();
         criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-        criteria.setType(new StringSearchField(SearchField.AND, CrmTypeConstants.ACCOUNT));
+        criteria.setType(StringSearchField.and(CrmTypeConstants.ACCOUNT));
         criteria.setTypeid(new NumberSearchField(beanItem.getId()));
         associateActivityList.setSearchCriteria(criteria);
     }

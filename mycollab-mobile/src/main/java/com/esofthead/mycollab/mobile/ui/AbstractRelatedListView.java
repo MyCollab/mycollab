@@ -72,7 +72,7 @@ public abstract class AbstractRelatedListView<T, S extends SearchCriteria> exten
     }
 
     public void setSearchCriteria(final S criteria) {
-        itemList.setSearchCriteria(criteria);
+        itemList.search(criteria);
     }
 
     public void setSelectedItems(final Set<T> selectedItems) {

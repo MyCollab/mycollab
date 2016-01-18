@@ -41,7 +41,7 @@ public class ProjectLinkGenerator {
     }
 
     public static String generateTaskPreviewLink(Integer taskkey, String prjShortName) {
-        return String.format("project/task/task/preview/%s-%d", prjShortName, taskkey);
+        return String.format("project/task/preview/%s-%d", prjShortName, taskkey);
     }
 
     public static String generateTaskPreviewFullLink(String siteUrl, Integer taskKey, String prjShortName) {
@@ -49,7 +49,7 @@ public class ProjectLinkGenerator {
     }
 
     public static String generateTaskEditLink(Integer taskkey, String prjShortName) {
-        return String.format("project/task/task/edit/%s-%d", prjShortName, taskkey);
+        return String.format("project/task/edit/%s-%d", prjShortName, taskkey);
     }
 
     public static String generateMilestonesLink(Integer projectId) {

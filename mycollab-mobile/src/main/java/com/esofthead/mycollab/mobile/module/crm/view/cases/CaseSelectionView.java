@@ -56,7 +56,7 @@ public class CaseSelectionView extends AbstractSelectionView<SimpleCase> {
     public void load() {
         searchCriteria = new CaseSearchCriteria();
         searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
-        itemList.setSearchCriteria(searchCriteria);
+        itemList.search(searchCriteria);
         SimpleCase clearCase = new SimpleCase();
         itemList.getListContainer().addComponentAsFirst(rowHandler.generateRow(clearCase, 0));
     }

@@ -30,7 +30,7 @@ import com.esofthead.mycollab.module.crm.ui.components.ComponentUtils;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserListSelect;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.esofthead.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.web.ui.DynamicQueryParamLayout;
 import com.esofthead.mycollab.vaadin.web.ui.ShortcutExtension;
@@ -47,7 +47,6 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@SuppressWarnings("serial")
 public class AccountSearchPanel extends DefaultGenericSearchPanel<AccountSearchCriteria> {
 
     private static Param[] paramFields = new Param[]{
@@ -187,9 +186,9 @@ public class AccountSearchPanel extends DefaultGenericSearchPanel<AccountSearchC
         protected AccountSearchCriteria fillUpSearchCriteria() {
             AccountSearchCriteria searchCriteria = new AccountSearchCriteria();
             searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
-            searchCriteria.setAccountname(new StringSearchField(SearchField.AND, this.nameField.getValue().trim()));
-            if (this.myItemCheckbox.getValue()) {
-                searchCriteria.setAssignUser(new StringSearchField(SearchField.AND, AppContext.getUsername()));
+            searchCriteria.setAccountname(StringSearchField.and(this.nameField.getValue().trim()));
+            if (myItemCheckbox.getValue()) {
+                searchCriteria.setAssignUser(StringSearchField.and(AppContext.getUsername()));
             } else {
                 searchCriteria.setAssignUsers(null);
             }

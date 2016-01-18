@@ -21,10 +21,12 @@ import com.esofthead.mycollab.mobile.MobileApplication;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewEvent;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 
 import java.io.Serializable;
@@ -40,6 +42,10 @@ public abstract class AbstractMobilePageView extends NavigationView implements P
         super();
         if (this.getLeftComponent() != null && this.getLeftComponent() instanceof NavigationButton) {
             this.getLeftComponent().setCaption(AppContext.getMessage(GenericI18Enum.M_BUTTON_BACK));
+        }
+
+        if (this.getLeftComponent() == null) {
+            this.setLeftComponent(new ELabel("").withWidth("72px"));
         }
     }
 

@@ -24,7 +24,7 @@ import com.esofthead.mycollab.mobile.module.crm.events.ContactEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.LeadEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.OpportunityEvent;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
-import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
+import com.esofthead.mycollab.mobile.module.crm.view.AbstractCrmPresenter;
 import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
@@ -51,7 +51,7 @@ import java.util.Set;
  * @author MyCollab Ltd.
  * @since 4.1
  */
-public class OpportunityReadPresenter extends AbstractMobilePresenter<OpportunityReadView> {
+public class OpportunityReadPresenter extends AbstractCrmPresenter<OpportunityReadView> {
     private static final long serialVersionUID = -1981281467054000670L;
 
     public OpportunityReadPresenter() {

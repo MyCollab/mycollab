@@ -44,7 +44,8 @@ Version 5.2.5
 -----------------------------
 **Library Upgrades**
 
-* Vaadin 7.6.0
+* Vaadin 7.6.1
+* Other libraries
 
 **Improvements & New Features**
 

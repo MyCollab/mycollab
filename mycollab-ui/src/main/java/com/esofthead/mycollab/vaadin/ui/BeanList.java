@@ -48,36 +48,18 @@ public class BeanList<SearchService extends ISearchableService<S>, S extends Sea
     private static final Logger LOG = LoggerFactory.getLogger(BeanList.class);
 
     protected SearchService searchService;
-
-    private Object parentComponent;
     private Class<? extends RowDisplayHandler<T>> rowDisplayHandler;
     private Layout contentLayout;
     private boolean isDisplayEmptyListText = true;
 
-    public BeanList(Object parentComponent, SearchService searchService, Class<? extends RowDisplayHandler<T>> rowDisplayHandler) {
-        this(parentComponent, searchService, rowDisplayHandler, null);
-    }
 
     public BeanList(SearchService searchService, Class<? extends RowDisplayHandler<T>> rowDisplayHandler) {
-        this(null, searchService, rowDisplayHandler);
-    }
-
-    public BeanList(Object parentComponent, SearchService searchService, Class<? extends RowDisplayHandler<T>> rowDisplayHandler,
-                    Layout contentLayout) {
-        this.parentComponent = parentComponent;
         this.searchService = searchService;
         this.rowDisplayHandler = rowDisplayHandler;
 
-        if (contentLayout != null) {
-            this.contentLayout = contentLayout;
-
-        } else {
-            this.contentLayout = new CssLayout();
-            this.contentLayout.setWidth("100%");
-        }
-
+        this.contentLayout = new CssLayout();
+        this.contentLayout.setWidth("100%");
         this.setCompositionRoot(this.contentLayout);
-
         this.setStyleName("bean-list");
     }
 
@@ -98,7 +80,7 @@ public class BeanList<SearchService extends ISearchableService<S>, S extends Sea
         try {
             if (rowDisplayHandler.getEnclosingClass() != null && !Modifier.isStatic(rowDisplayHandler.getModifiers())) {
                 Constructor constructor = rowDisplayHandler.getDeclaredConstructor(rowDisplayHandler.getEnclosingClass());
-                rowHandler = (RowDisplayHandler<T>) constructor.newInstance(parentComponent);
+                rowHandler = (RowDisplayHandler<T>) constructor.newInstance();
             } else {
                 rowHandler = rowDisplayHandler.newInstance();
             }

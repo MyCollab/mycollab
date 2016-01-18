@@ -16,16 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.tuple;
-
-import java.util.List;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
@@ -33,54 +23,55 @@ import com.esofthead.mycollab.module.project.domain.SimpleProblem;
 import com.esofthead.mycollab.module.project.domain.criteria.ProblemSearchCriteria;
 import com.esofthead.mycollab.test.DataSet;
 import com.esofthead.mycollab.test.service.IntergrationServiceTest;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ProblemServiceTest extends IntergrationServiceTest {
 
-	@Autowired
-	protected ProblemService problemService;
+    @Autowired
+    protected ProblemService problemService;
 
-	@SuppressWarnings("unchecked")
-	@DataSet
-	@Test
-	public void testGetListIssues() {
-		List<SimpleProblem> problems = problemService
-				.findPagableListByCriteria(new SearchRequest<ProblemSearchCriteria>(
-						null, 0, Integer.MAX_VALUE));
-		assertThat(problems.size()).isEqualTo(3);
-		assertThat(problems).extracting("id", "issuename").contains(
-				tuple(1, "a"), tuple(2, "b"), tuple(3, "c"));
-	}
+    @SuppressWarnings("unchecked")
+    @DataSet
+    @Test
+    public void testGetListIssues() {
+        List<SimpleProblem> problems = problemService.findPagableListByCriteria(new SearchRequest<ProblemSearchCriteria>(null, 0, Integer.MAX_VALUE));
 
-	@SuppressWarnings("unchecked")
-	@DataSet
-	@Test
-	public void testSearchIssuesByName() {
-		ProblemSearchCriteria criteria = new ProblemSearchCriteria();
-		criteria.setProblemname(new StringSearchField(StringSearchField.AND,
-				"a"));
-		criteria.setSaccountid(new NumberSearchField(1));
-		List<SimpleProblem> problems = problemService
-				.findPagableListByCriteria(new SearchRequest<>(
-						criteria, 0, Integer.MAX_VALUE));
-		assertThat(problems.size()).isEqualTo(1);
-		assertThat(problems).extracting("id", "issuename").contains(
-				tuple(1, "a"));
-	}
+        assertThat(problems.size()).isEqualTo(3);
+        assertThat(problems).extracting("id", "issuename").contains(tuple(1, "a"), tuple(2, "b"), tuple(3, "c"));
+    }
 
-	@SuppressWarnings("unchecked")
-	@DataSet
-	@Test
-	public void testgetTotalCount() {
-		ProblemSearchCriteria criteria = new ProblemSearchCriteria();
-		criteria.setSaccountid(null);
-		criteria.setProblemname(new StringSearchField(StringSearchField.AND,
-				"a"));
-		List<SimpleProblem> problems = problemService
-				.findPagableListByCriteria(new SearchRequest<>(
-						criteria, 0, Integer.MAX_VALUE));
-		assertThat(problems.size()).isEqualTo(1);
-		assertThat(problems).extracting("id", "issuename").contains(
-				tuple(1, "a"));
-	}
+    @SuppressWarnings("unchecked")
+    @DataSet
+    @Test
+    public void testSearchIssuesByName() {
+        ProblemSearchCriteria criteria = new ProblemSearchCriteria();
+        criteria.setProblemname(StringSearchField.and("a"));
+        criteria.setSaccountid(new NumberSearchField(1));
+
+        List<SimpleProblem> problems = problemService.findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        assertThat(problems.size()).isEqualTo(1);
+        assertThat(problems).extracting("id", "issuename").contains(tuple(1, "a"));
+    }
+
+    @SuppressWarnings("unchecked")
+    @DataSet
+    @Test
+    public void testgetTotalCount() {
+        ProblemSearchCriteria criteria = new ProblemSearchCriteria();
+        criteria.setSaccountid(null);
+        criteria.setProblemname(StringSearchField.and("a"));
+        List<SimpleProblem> problems = problemService.findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+
+        assertThat(problems.size()).isEqualTo(1);
+        assertThat(problems).extracting("id", "issuename").contains(tuple(1, "a"));
+    }
 }

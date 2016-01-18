@@ -150,8 +150,8 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
         try {
             MonitorSearchCriteria criteria = new MonitorSearchCriteria();
             criteria.setTypeId(new NumberSearchField((Integer) PropertyUtils.getProperty(bean, "id")));
-            criteria.setType(new StringSearchField(type));
-            criteria.setUser(new StringSearchField(username));
+            criteria.setType(StringSearchField.and(type));
+            criteria.setUser(StringSearchField.and(username));
             monitorItemService.removeByCriteria(criteria, AppContext.getAccountId());
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             LOG.error("Error", e);
@@ -194,7 +194,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
             this.addStyleName("scrollable-container");
             ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
             criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-            criteria.setStatus(new StringSearchField(ProjectMemberStatusConstants.ACTIVE));
+            criteria.setStatus(StringSearchField.and(ProjectMemberStatusConstants.ACTIVE));
 
             ProjectMemberService projectMemberService = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
             projectMembers = projectMemberService.findPagableListByCriteria(new SearchRequest<>(

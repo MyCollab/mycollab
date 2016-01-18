@@ -30,6 +30,7 @@ import com.esofthead.mycollab.vaadin.ui.Hr;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.addon.touchkit.ui.Switch;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 
 import java.util.GregorianCalendar;
@@ -64,16 +65,17 @@ public class MessageAddViewImpl extends AbstractMobilePageView implements Messag
         this.setContent(content);
 
         VerticalLayout addFormLayout = new VerticalLayout();
+        addFormLayout.setMargin(true);
         addFormLayout.setStyleName("addform-layout");
         addFormLayout.setWidth("100%");
-
-        addFormLayout.addComponent(new Hr());
 
         subjectField = new TextField();
         subjectField.setStyleName("title-field");
         subjectField.setWidth("100%");
         subjectField.setInputPrompt(AppContext.getMessage(MessageI18nEnum.FORM_TITLE));
         addFormLayout.addComponent(subjectField);
+
+        addFormLayout.addComponent(new Hr());
 
         contentField = new TextArea();
         contentField.setStyleName("content-field");

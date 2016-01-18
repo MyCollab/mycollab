@@ -20,7 +20,7 @@ import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.events.ProjectMemberEvent;
-import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
+import com.esofthead.mycollab.mobile.module.project.view.AbstractProjectPresenter;
 import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -38,7 +38,7 @@ import com.vaadin.ui.UI;
  * @author MyCollab Ltd.
  * @since 4.5.2
  */
-public class ProjectMemberReadPresenter extends AbstractMobilePresenter<ProjectMemberReadView> {
+public class ProjectMemberReadPresenter extends AbstractProjectPresenter<ProjectMemberReadView> {
     private static final long serialVersionUID = 1287812620895443711L;
 
     public ProjectMemberReadPresenter() {

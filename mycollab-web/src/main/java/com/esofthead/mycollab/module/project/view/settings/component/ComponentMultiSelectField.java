@@ -47,7 +47,7 @@ public class ComponentMultiSelectField extends MultiSelectComp {
     @Override
     protected List<Component> createData() {
         ComponentSearchCriteria searchCriteria = new ComponentSearchCriteria();
-        searchCriteria.setStatus(new StringSearchField("Open"));
+        searchCriteria.setStatus(StringSearchField.and("Open"));
 
         searchCriteria.setProjectid(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
 

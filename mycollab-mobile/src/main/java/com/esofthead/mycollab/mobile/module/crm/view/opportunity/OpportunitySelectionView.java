@@ -56,7 +56,7 @@ public class OpportunitySelectionView extends AbstractSelectionView<SimpleOpport
     public void load() {
         searchCriteria = new OpportunitySearchCriteria();
         searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
-        itemList.setSearchCriteria(searchCriteria);
+        itemList.search(searchCriteria);
         SimpleOpportunity clearOpportunity = new SimpleOpportunity();
         itemList.getListContainer().addComponentAsFirst(rowHandler.generateRow(clearOpportunity, 0));
     }

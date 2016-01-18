@@ -52,7 +52,7 @@ public class ProjectMemberMultiSelectComp extends MultiSelectComp<SimpleProjectM
     protected List<SimpleProjectMember> createData() {
         ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
         criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-        criteria.setStatus(new StringSearchField(ProjectMemberStatusConstants.ACTIVE));
+        criteria.setStatus(StringSearchField.and(ProjectMemberStatusConstants.ACTIVE));
 
         ProjectMemberService projectMemberService = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
         List<SimpleProjectMember> items = projectMemberService.findPagableListByCriteria(new SearchRequest<>(

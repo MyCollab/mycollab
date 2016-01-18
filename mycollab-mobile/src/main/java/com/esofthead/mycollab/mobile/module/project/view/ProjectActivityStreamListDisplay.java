@@ -58,7 +58,7 @@ public class ProjectActivityStreamListDisplay extends AbstractPagedBeanList<Acti
 
     public ProjectActivityStreamListDisplay() {
         super(new ActivityStreamRowHandler(), 20);
-        this.projectActivityStreamService = ApplicationContextUtil.getSpringBean(ProjectActivityStreamService.class);
+        projectActivityStreamService = ApplicationContextUtil.getSpringBean(ProjectActivityStreamService.class);
     }
 
     @Override

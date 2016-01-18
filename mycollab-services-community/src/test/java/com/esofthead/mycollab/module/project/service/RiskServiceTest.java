@@ -60,7 +60,7 @@ public class RiskServiceTest extends IntergrationServiceTest {
 	@Test
 	public void testSearchRisksByName() {
 		RiskSearchCriteria criteria = new RiskSearchCriteria();
-		criteria.setRiskname(new StringSearchField(SearchField.AND, "a"));
+		criteria.setRiskname(StringSearchField.and("a"));
 		criteria.setSaccountid(new NumberSearchField(1));
 		List<SimpleRisk> risks = riskService
 				.findPagableListByCriteria(new SearchRequest<>(

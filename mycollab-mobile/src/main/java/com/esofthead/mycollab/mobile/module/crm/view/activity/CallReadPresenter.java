@@ -21,7 +21,7 @@ import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent;
-import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
+import com.esofthead.mycollab.mobile.module.crm.view.AbstractCrmPresenter;
 import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.domain.CallWithBLOBs;
@@ -41,7 +41,7 @@ import com.vaadin.ui.UI;
  * @author MyCollab Ltd.
  * @since 4.1
  */
-public class CallReadPresenter extends AbstractMobilePresenter<CallReadView> {
+public class CallReadPresenter extends AbstractCrmPresenter<CallReadView> {
     private static final long serialVersionUID = 9005269894958445146L;
 
     public CallReadPresenter() {

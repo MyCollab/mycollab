@@ -18,28 +18,26 @@ package com.esofthead.mycollab.mobile.ui;
 
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
+import com.esofthead.mycollab.mobile.mvp.AbstractPresenter;
 
 /**
- * 
- * @author MyCollab Ltd.
- * @since 4.5.0
- * 
  * @param <V>
  * @param <S>
  * @param <B>
+ * @author MyCollab Ltd.
+ * @since 4.5.0
  */
-public abstract class AbstractListPresenter<V extends IListView<S, B>, S extends SearchCriteria, B extends ValuedBean> extends AbstractMobilePresenter<V> {
-	private static final long serialVersionUID = -2202567598255893303L;
+public abstract class AbstractListPresenter<V extends IListView<S, B>, S extends SearchCriteria, B extends ValuedBean> extends AbstractPresenter<V> {
+    private static final long serialVersionUID = -2202567598255893303L;
 
-	protected S searchCriteria;
+    protected S searchCriteria;
 
-	public AbstractListPresenter(Class<V> viewClass) {
-		super(viewClass);
-	}
+    public AbstractListPresenter(Class<V> viewClass) {
+        super(viewClass);
+    }
 
-	public void doSearch(S searchCriteria) {
-		this.searchCriteria = searchCriteria;
-		view.getPagedBeanTable().setSearchCriteria(searchCriteria);
-	}
-
+    public void doSearch(S searchCriteria) {
+        this.searchCriteria = searchCriteria;
+        view.getPagedBeanTable().search(searchCriteria);
+    }
 }

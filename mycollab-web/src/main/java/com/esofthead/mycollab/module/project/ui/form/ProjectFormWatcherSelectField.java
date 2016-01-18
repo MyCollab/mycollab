@@ -175,7 +175,7 @@ public class ProjectFormWatcherSelectField<V extends ValuedBean> extends
 		criteria.setProjectId(new NumberSearchField(CurrentProjectVariables
 				.getProjectId()));
 		criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-		criteria.setStatus(new StringSearchField(
+		criteria.setStatus(StringSearchField.and(
 				ProjectMemberStatusConstants.ACTIVE));
 		return memberService
 				.findPagableListByCriteria(new SearchRequest<ProjectMemberSearchCriteria>(
@@ -188,7 +188,7 @@ public class ProjectFormWatcherSelectField<V extends ValuedBean> extends
 		}
 		MonitorSearchCriteria criteria = new MonitorSearchCriteria();
 		criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-		criteria.setType(new StringSearchField(type));
+		criteria.setType(StringSearchField.and(type));
 		criteria.setTypeId(new NumberSearchField(typeId));
 		return monitorItemService
 				.findPagableListByCriteria(new SearchRequest<MonitorSearchCriteria>(

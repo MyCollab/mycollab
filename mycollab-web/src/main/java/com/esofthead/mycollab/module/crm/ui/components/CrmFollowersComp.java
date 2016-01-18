@@ -186,7 +186,7 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
         try {
             MonitorSearchCriteria criteria = new MonitorSearchCriteria();
             criteria.setTypeId(new NumberSearchField((Number) PropertyUtils.getProperty(bean, "id")));
-            criteria.setType(new StringSearchField(type));
+            criteria.setType(StringSearchField.and(type));
             return monitorItemService.getTotalCount(criteria);
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             LOG.error("Error", e);
@@ -215,8 +215,8 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
             MonitorSearchCriteria criteria = new MonitorSearchCriteria();
             criteria.setTypeId(new NumberSearchField((Number) PropertyUtils
                     .getProperty(bean, "id")));
-            criteria.setType(new StringSearchField(type));
-            criteria.setUser(new StringSearchField(username));
+            criteria.setType(StringSearchField.and(type));
+            criteria.setUser(StringSearchField.and(username));
             monitorItemService.removeByCriteria(criteria,
                     AppContext.getAccountId());
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
@@ -352,7 +352,7 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
             try {
                 MonitorSearchCriteria searchCriteria = new MonitorSearchCriteria();
                 searchCriteria.setTypeId(new NumberSearchField((Number) PropertyUtils.getProperty(bean, "id")));
-                searchCriteria.setType(new StringSearchField(type));
+                searchCriteria.setType(StringSearchField.and(type));
                 tableItem.setSearchCriteria(searchCriteria);
             } catch (IllegalAccessException | InvocationTargetException
                     | NoSuchMethodException e) {

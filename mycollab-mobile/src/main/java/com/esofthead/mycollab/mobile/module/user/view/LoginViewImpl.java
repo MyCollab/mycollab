@@ -16,13 +16,17 @@
  */
 package com.esofthead.mycollab.mobile.module.user.view;
 
-import com.esofthead.mycollab.mobile.shell.ShellController;
+import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.mobile.module.user.events.UserEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractMobileMainView;
 import com.esofthead.mycollab.mobile.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.mvp.ViewEvent;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.vaadin.addon.touchkit.ui.EmailField;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.*;
+import org.vaadin.jouni.dom.Dom;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
@@ -42,9 +46,8 @@ public class LoginViewImpl extends AbstractMobileMainView implements LoginView {
         this.setStyleName("login-view");
         this.setSizeFull();
 
-        MVerticalLayout contentLayout = new MVerticalLayout().withStyleName("content-wrapper");
+        MVerticalLayout contentLayout = new MVerticalLayout().withStyleName("content-wrapper").withFullWidth();
         contentLayout.setDefaultComponentAlignment(Alignment.TOP_CENTER);
-        contentLayout.setWidth("320px");
 
         Image mainLogo = new Image(null, new ThemeResource("icons/logo_m.png"));
         contentLayout.addComponent(mainLogo);
@@ -54,24 +57,18 @@ public class LoginViewImpl extends AbstractMobileMainView implements LoginView {
         contentLayout.addComponent(introText);
 
         CssLayout welcomeTextWrapper = new CssLayout();
-        welcomeTextWrapper.setStyleName("welcometext-wrapper");
-        welcomeTextWrapper.setWidth("100%");
-        welcomeTextWrapper.setHeight("15px");
-        Label welcomeText = new Label("Welcome Back!");
-        welcomeText.setWidth("150px");
+        ELabel welcomeText = new ELabel("Welcome Back!").withStyleName("h1");
         welcomeTextWrapper.addComponent(welcomeText);
         contentLayout.addComponent(welcomeTextWrapper);
 
         final EmailField emailField = new EmailField();
         emailField.setWidth("100%");
-        emailField.setInputPrompt("E-mail Address");
-        emailField.setStyleName("email-input");
+        new Dom(emailField).setAttribute("placeholder", "Email address");
         contentLayout.addComponent(emailField);
 
         final PasswordField pwdField = new PasswordField();
         pwdField.setWidth("100%");
-        pwdField.setInputPrompt("Password");
-        pwdField.setStyleName("password-input");
+        new Dom(pwdField).setAttribute("placeholder", "Password");
         contentLayout.addComponent(pwdField);
 
         final CheckBox rememberPassword = new CheckBox();
@@ -80,23 +77,20 @@ public class LoginViewImpl extends AbstractMobileMainView implements LoginView {
         rememberPassword.setValue(true);
         contentLayout.addComponent(rememberPassword);
 
-        Button signInBtn = new Button("Sign In");
-        signInBtn.setWidth("100%");
-        signInBtn.addStyleName(UIConstants.BUTTON_ACTION);
-        signInBtn.addClickListener(new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
+        Button signInBtn = new Button("Sign In", new Button.ClickListener() {
             @Override
-            public void buttonClick(Button.ClickEvent event) {
-                ShellController.doLogin(emailField.getValue(), pwdField.getValue(), rememberPassword.getValue());
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                try {
+                    LoginViewImpl.this.fireEvent(new ViewEvent<>(LoginViewImpl.this, new UserEvent.PlainLogin(
+                            emailField.getValue(), pwdField.getValue(), rememberPassword.getValue())));
+                } catch (Exception e) {
+                    throw new MyCollabException(e);
+                }
             }
         });
+        signInBtn.setWidth("100%");
+        signInBtn.addStyleName(UIConstants.BUTTON_ACTION);
         contentLayout.addComponent(signInBtn);
-
-        Button createAccountBtn = new Button("Create Account");
-        createAccountBtn.setWidth("100%");
-        createAccountBtn.addStyleName(UIConstants.BUTTON_OPTION);
-        contentLayout.addComponent(createAccountBtn);
 
         this.addComponent(contentLayout);
     }

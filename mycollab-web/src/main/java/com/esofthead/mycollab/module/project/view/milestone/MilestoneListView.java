@@ -17,18 +17,16 @@
 
 package com.esofthead.mycollab.module.project.view.milestone;
 
-import java.util.List;
-
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
-import com.esofthead.mycollab.vaadin.web.ui.ListView;
+import com.esofthead.mycollab.vaadin.web.ui.IListView;
+
+import java.util.List;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public interface MilestoneListView extends
-		ListView<MilestoneSearchCriteria, SimpleMilestone> {
-	void displayMilestones(List<SimpleMilestone> milestones);
+public interface MilestoneListView extends IListView<MilestoneSearchCriteria, SimpleMilestone> {
+    void displayMilestones(List<SimpleMilestone> milestones);
 }

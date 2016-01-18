@@ -20,7 +20,6 @@ import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.mobile.MobileApplication;
 import com.esofthead.mycollab.mobile.module.crm.CrmModuleScreenData;
 import com.esofthead.mycollab.mobile.shell.ModuleHelper;
-import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -33,7 +32,7 @@ import java.util.Arrays;
  * @author MyCollab Ltd.
  * @since 4.4.0
  */
-public class CrmContainerPresenter extends AbstractMobilePresenter<CrmContainerView> {
+public class CrmContainerPresenter extends AbstractCrmPresenter<CrmContainerView> {
     private static final long serialVersionUID = -2422488836026839744L;
 
     public CrmContainerPresenter() {

@@ -57,8 +57,7 @@ public class ProjectMemberServiceTest extends IntergrationServiceTest {
     @DataSet
     @Test
     public void testGetMembersNotInProject() {
-        List<SimpleUser> users = projectMemberService
-                .getUsersNotInProject(1, 1);
+        List<SimpleUser> users = projectMemberService.getUsersNotInProject(1, 1);
 
         assertThat(users.size()).isEqualTo(2);
         assertThat(users).extracting("username").contains("user2", "user3");
@@ -67,11 +66,10 @@ public class ProjectMemberServiceTest extends IntergrationServiceTest {
     @DataSet
     @Test
     public void testGetProjectMembersInProjects() {
-        List<SimpleUser> users = projectMemberService.getActiveUsersInProjects(
-                Arrays.asList(1, 2), 1);
+        List<SimpleUser> users = projectMemberService.getActiveUsersInProjects(Arrays.asList(1, 2), 1);
+
         assertThat(users.size()).isEqualTo(3);
-        assertThat(users).extracting("username").contains("user1", "user2",
-                "user3");
+        assertThat(users).extracting("username").contains("user1", "user2", "user3");
     }
 
     @DataSet

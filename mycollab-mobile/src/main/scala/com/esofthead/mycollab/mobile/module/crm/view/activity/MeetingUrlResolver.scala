@@ -39,14 +39,14 @@ class MeetingUrlResolver extends CrmUrlResolver {
 
     class MeetingEditUrlResolver extends CrmUrlResolver {
         protected override def handlePage(params: String*) {
-            val meetingId: Int = new UrlTokenizer(params(0)).getInt
+            val meetingId = new UrlTokenizer(params(0)).getInt
             EventBusFactory.getInstance.post(new ActivityEvent.MeetingEdit(this, meetingId))
         }
     }
 
     class MeetingPreviewUrlResolver extends CrmUrlResolver {
         protected override def handlePage(params: String*) {
-            val accountId: Int = new UrlTokenizer(params(0)).getInt
+            val accountId = new UrlTokenizer(params(0)).getInt
             EventBusFactory.getInstance.post(new ActivityEvent.MeetingRead(this, accountId))
         }
     }

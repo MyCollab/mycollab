@@ -172,7 +172,7 @@ public class OpportunityReadViewImpl extends AbstractPreviewItemComp<SimpleOppor
     protected void displayActivities() {
         ActivitySearchCriteria criteria = new ActivitySearchCriteria();
         criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-        criteria.setType(new StringSearchField(SearchField.AND, CrmTypeConstants.OPPORTUNITY));
+        criteria.setType(StringSearchField.and(CrmTypeConstants.OPPORTUNITY));
         criteria.setTypeid(new NumberSearchField(beanItem.getId()));
         associateActivityList.setSearchCriteria(criteria);
     }

@@ -45,7 +45,7 @@ public class VersionListSelect extends ListSelect {
 		this.setMultiSelect(true);
 
 		VersionSearchCriteria searchCriteria = new VersionSearchCriteria();
-		searchCriteria.setStatus(new StringSearchField(StatusI18nEnum.Open
+		searchCriteria.setStatus(StringSearchField.and(StatusI18nEnum.Open
 				.name()));
 
 		searchCriteria.setProjectId(new NumberSearchField(SearchField.AND,

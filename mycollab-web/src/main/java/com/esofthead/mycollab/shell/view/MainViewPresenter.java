@@ -53,17 +53,13 @@ public class MainViewPresenter extends AbstractPresenter<MainView> {
         } else {
             SimpleUser pref = AppContext.getUser();
             if (ModuleNameConstants.CRM.equals(pref.getLastModuleVisit())) {
-                EventBusFactory.getInstance().post(
-                        new ShellEvent.GotoCrmModule(this, null));
+                EventBusFactory.getInstance().post(new ShellEvent.GotoCrmModule(this, null));
             } else if (ModuleNameConstants.ACCOUNT.equals(pref.getLastModuleVisit())) {
-                EventBusFactory.getInstance().post(
-                        new ShellEvent.GotoUserAccountModule(this, null));
+                EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, null));
             } else if (ModuleNameConstants.FILE.equals(pref.getLastModuleVisit())) {
-                EventBusFactory.getInstance().post(
-                        new ShellEvent.GotoFileModule(this, null));
+                EventBusFactory.getInstance().post(new ShellEvent.GotoFileModule(this, null));
             } else {
-                EventBusFactory.getInstance().post(
-                        new ShellEvent.GotoProjectModule(this, null));
+                EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, null));
             }
         }
     }

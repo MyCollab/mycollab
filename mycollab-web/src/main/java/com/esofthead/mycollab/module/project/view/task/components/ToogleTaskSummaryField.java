@@ -101,9 +101,9 @@ public class ToogleTaskSummaryField extends CssLayout {
     }
 
     private void updateFieldValue(TextField editField) {
-        ToogleTaskSummaryField.this.removeComponent(editField);
-        ToogleTaskSummaryField.this.addComponent(taskLinkLbl);
-        ToogleTaskSummaryField.this.addStyleName("editable-field");
+        removeComponent(editField);
+        addComponent(taskLinkLbl);
+        addStyleName("editable-field");
         String newValue = editField.getValue();
         if (StringUtils.isNotBlank(newValue) && !newValue.equals(task.getTaskname())) {
             task.setTaskname(newValue);

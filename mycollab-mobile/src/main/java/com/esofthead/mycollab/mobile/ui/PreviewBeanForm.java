@@ -34,8 +34,6 @@ public interface PreviewBeanForm<B> extends HasPreviewFormHandlers<B> {
 
     void fireEditForm(B bean);
 
-    void showHistory();
-
     void fireCancelForm(B bean);
 
     void fireDeleteForm(B bean);

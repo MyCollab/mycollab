@@ -196,15 +196,16 @@ public class FileBreadcrumb extends Breadcrumb implements CacheableComponent, Ha
 
     @Override
     public void addSearchHandler(final SearchHandler<FileSearchCriteria> handler) {
-        if (this.handers == null) {
-            this.handers = new ArrayList<>();
+        if (handers == null) {
+            handers = new ArrayList<>();
         }
-        this.handers.add(handler);
+        handers.add(handler);
     }
 
-    private void notifySearchHandler(final FileSearchCriteria criteria) {
-        if (this.handers != null) {
-            for (SearchHandler<FileSearchCriteria> handler : this.handers) {
+    @Override
+    public void notifySearchHandler(final FileSearchCriteria criteria) {
+        if (handers != null) {
+            for (SearchHandler<FileSearchCriteria> handler : handers) {
                 handler.onSearch(criteria);
             }
         }

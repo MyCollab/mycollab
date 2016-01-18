@@ -54,7 +54,7 @@ public class TaskStatusComponent extends Depot {
             public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
                 boolean selectMyItemsOnly = myItemsOnly.getValue();
                 if (selectMyItemsOnly) {
-                    searchCriteria.setAssignUser(new StringSearchField(AppContext.getUsername()));
+                    searchCriteria.setAssignUser(StringSearchField.and(AppContext.getUsername()));
                 } else {
                     searchCriteria.setAssignUser(null);
                 }

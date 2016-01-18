@@ -42,11 +42,11 @@ class UserUrlResolver extends ProjectUrlResolver {
 
     private class ListUrlResolver extends ProjectUrlResolver {
         protected override def handlePage(params: String*) {
-            val projectId: Int = new UrlTokenizer(params(0)).getInt
-            val memberSearchCriteria: ProjectMemberSearchCriteria = new ProjectMemberSearchCriteria
+            val projectId = new UrlTokenizer(params(0)).getInt
+            val memberSearchCriteria = new ProjectMemberSearchCriteria
             memberSearchCriteria.setProjectId(new NumberSearchField(projectId))
-            memberSearchCriteria.setStatus(new StringSearchField(ProjectMemberStatusConstants.ACTIVE))
-            val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId), new ProjectMemberScreenData.Search(memberSearchCriteria))
+            memberSearchCriteria.setStatus(StringSearchField.and(ProjectMemberStatusConstants.ACTIVE))
+            val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new ProjectMemberScreenData.Search(memberSearchCriteria))
             EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
         }
     }
@@ -63,21 +63,21 @@ class UserUrlResolver extends ProjectUrlResolver {
 
     private class EditUrlResolver extends ProjectUrlResolver {
         protected override def handlePage(params: String*) {
-            val token: UrlTokenizer = new UrlTokenizer(params(0))
-            val projectId: Int = token.getInt
-            val memberId: Int = token.getInt
-            val memberService: ProjectMemberService = ApplicationContextUtil.getSpringBean(classOf[ProjectMemberService])
-            val member: SimpleProjectMember = memberService.findById(memberId, AppContext.getAccountId)
-            val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId), new ProjectMemberScreenData.Edit(member))
+            val token = new UrlTokenizer(params(0))
+            val projectId = token.getInt
+            val memberId = token.getInt
+            val memberService = ApplicationContextUtil.getSpringBean(classOf[ProjectMemberService])
+            val member = memberService.findById(memberId, AppContext.getAccountId)
+            val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new ProjectMemberScreenData.Edit(member))
             EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
         }
     }
 
     private class InviteUrlResolver extends ProjectUrlResolver {
         protected override def handlePage(params: String*) {
-            val token: UrlTokenizer = new UrlTokenizer(params(0))
-            val projectId: Int = token.getInt
-            val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId), new ProjectMemberScreenData.InviteProjectMembers)
+            val token = new UrlTokenizer(params(0))
+            val projectId = token.getInt
+            val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new ProjectMemberScreenData.InviteProjectMembers)
             EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
         }
     }

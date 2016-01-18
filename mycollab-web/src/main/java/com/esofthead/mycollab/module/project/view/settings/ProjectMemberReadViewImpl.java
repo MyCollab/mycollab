@@ -135,7 +135,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
 
         ActivityStreamSearchCriteria searchCriteria = new ActivityStreamSearchCriteria();
         searchCriteria.setModuleSet(new SetSearchField<>(ModuleNameConstants.PRJ));
-        searchCriteria.setCreatedUser(new StringSearchField(previewForm.getBean().getUsername()));
+        searchCriteria.setCreatedUser(StringSearchField.and(previewForm.getBean().getUsername()));
         searchCriteria.setExtraTypeIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
         searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
         activityStreamList.setSearchCriteria(searchCriteria);
@@ -332,7 +332,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
         private void showOpenAssignments() {
             searchCriteria = new ProjectGenericTaskSearchCriteria();
             searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-            searchCriteria.setAssignUser(new StringSearchField(beanItem.getUsername()));
+            searchCriteria.setAssignUser(StringSearchField.and(beanItem.getUsername()));
             searchCriteria.setIsOpenned(new SearchField());
             updateSearchResult();
         }

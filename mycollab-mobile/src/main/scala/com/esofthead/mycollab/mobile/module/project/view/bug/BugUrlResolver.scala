@@ -44,25 +44,24 @@ class BugUrlResolver extends ProjectUrlResolver {
 
   private class DashboardUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      val projectId: Int = new UrlTokenizer(params(0)).getInt
-      val criteria: BugSearchCriteria = new BugSearchCriteria
+      val projectId = new UrlTokenizer(params(0)).getInt
+      val criteria = new BugSearchCriteria
       criteria.setProjectId(new NumberSearchField(projectId))
       criteria.setStatuses(new SetSearchField[String](BugStatus.InProgress.name, BugStatus.Open.name, BugStatus.ReOpened.name))
-      val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId),
-        new BugScreenData.Search(criteria))
+      val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new BugScreenData.Search(criteria))
       EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
 
   private class PreviewUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      var projectId: Int = 0
-      var bugId: Int = 0
+      var projectId = 0
+      var bugId = 0
       if (ProjectLinkParams.isValidParam(params(0))) {
-        val prjShortName: String = ProjectLinkParams.getProjectShortName(params(0))
-        val itemKey: Int = ProjectLinkParams.getItemKey(params(0))
-        val bugService: BugService = ApplicationContextUtil.getSpringBean(classOf[BugService])
-        val bug: SimpleBug = bugService.findByProjectAndBugKey(itemKey, prjShortName, AppContext.getAccountId)
+        val prjShortName = ProjectLinkParams.getProjectShortName(params(0))
+        val itemKey = ProjectLinkParams.getItemKey(params(0))
+        val bugService = ApplicationContextUtil.getSpringBean(classOf[BugService])
+        val bug = bugService.findByProjectAndBugKey(itemKey, prjShortName, AppContext.getAccountId)
         if (bug != null) {
           projectId = bug.getProjectid
           bugId = bug.getId
@@ -74,7 +73,7 @@ class BugUrlResolver extends ProjectUrlResolver {
       else {
         throw new MyCollabException("Invalid bug link %s".format(params(0)))
       }
-      val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId), new BugScreenData.Read(bugId))
+      val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new BugScreenData.Read(bugId))
       EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
@@ -83,9 +82,9 @@ class BugUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
       var bug: SimpleBug = null
       if (ProjectLinkParams.isValidParam(params(0))) {
-        val prjShortName: String = ProjectLinkParams.getProjectShortName(params(0))
-        val itemKey: Int = ProjectLinkParams.getItemKey(params(0))
-        val bugService: BugService = ApplicationContextUtil.getSpringBean(classOf[BugService])
+        val prjShortName = ProjectLinkParams.getProjectShortName(params(0))
+        val itemKey = ProjectLinkParams.getItemKey(params(0))
+        val bugService = ApplicationContextUtil.getSpringBean(classOf[BugService])
         bug = bugService.findByProjectAndBugKey(itemKey, prjShortName, AppContext.getAccountId)
       }
       else {
@@ -94,19 +93,16 @@ class BugUrlResolver extends ProjectUrlResolver {
       if (bug == null) {
         throw new ResourceNotFoundException
       }
-      val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(bug.getProjectid),
-        new BugScreenData.Edit(bug))
+      val chain = new PageActionChain(new ProjectScreenData.Goto(bug.getProjectid), new BugScreenData.Edit(bug))
       EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
 
   private class AddUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      val projectId: Int = new UrlTokenizer(params(0)).getInt
-      val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId),
-        new BugScreenData.Add(new SimpleBug))
+      val projectId = new UrlTokenizer(params(0)).getInt
+      val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new BugScreenData.Add(new SimpleBug))
       EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
-
 }

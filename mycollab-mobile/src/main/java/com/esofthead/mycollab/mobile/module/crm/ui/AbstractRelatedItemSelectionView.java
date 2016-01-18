@@ -61,7 +61,7 @@ public abstract class AbstractRelatedItemSelectionView<T, S extends SearchCriter
     protected abstract void initUI();
 
     public void setSearchCriteria(S criteria) {
-        itemList.setSearchCriteria(criteria);
+        itemList.search(criteria);
     }
 
     protected class SelectableButton extends Button {

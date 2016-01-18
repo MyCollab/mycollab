@@ -18,7 +18,9 @@ package com.esofthead.mycollab.mobile.module.project.ui;
 
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.events.*;
+import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractMobileMenuPageView;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.vaadin.server.FontAwesome;
@@ -31,6 +33,7 @@ import com.vaadin.ui.Button;
 public class ProjectMobileMenuPageView extends AbstractMobileMenuPageView {
     @Override
     protected void buildNavigateMenu() {
+        getMenu().setWidth("80%");
         addSection("Views:");
 
         Button prjButton = new Button("Projects", new Button.ClickListener() {
@@ -48,7 +51,7 @@ public class ProjectMobileMenuPageView extends AbstractMobileMenuPageView {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 closeMenu();
-                EventBusFactory.getInstance().post(new ProjectEvent.MyProjectActivities(this, null));
+                EventBusFactory.getInstance().post(new ProjectEvent.MyProjectActivities(this, CurrentProjectVariables.getProjectId()));
             }
         });
         activityBtn.setIcon(FontAwesome.INBOX);
@@ -111,6 +114,7 @@ public class ProjectMobileMenuPageView extends AbstractMobileMenuPageView {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 closeMenu();
+                EventBusFactory.getInstance().post(new ShellEvent.LogOut(this));
             }
         });
         logoutBtn.setIcon(FontAwesome.SIGN_OUT);

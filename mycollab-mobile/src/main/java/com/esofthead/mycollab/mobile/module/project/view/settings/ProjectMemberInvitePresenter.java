@@ -20,7 +20,7 @@ import com.esofthead.mycollab.common.GenericLinkUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.events.ProjectMemberEvent;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
-import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
+import com.esofthead.mycollab.mobile.module.project.view.AbstractProjectPresenter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
@@ -40,7 +40,7 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 4.5.2
  */
-public class ProjectMemberInvitePresenter extends AbstractMobilePresenter<ProjectMemberInviteView> {
+public class ProjectMemberInvitePresenter extends AbstractProjectPresenter<ProjectMemberInviteView> {
     private static final long serialVersionUID = 1L;
 
     public ProjectMemberInvitePresenter() {
@@ -53,8 +53,7 @@ public class ProjectMemberInvitePresenter extends AbstractMobilePresenter<Projec
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void receiveEvent(
-                    ViewEvent<ProjectMemberEvent.InviteProjectMembers> event) {
+            public void receiveEvent(ViewEvent<ProjectMemberEvent.InviteProjectMembers> event) {
                 ProjectMemberEvent.InviteProjectMembers inviteMembers = (ProjectMemberEvent.InviteProjectMembers) event.getData();
                 ProjectMemberService projectMemberService = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
                 List<String> inviteEmails = inviteMembers.getInviteEmails();

@@ -76,10 +76,6 @@ public class ProjectCommentInputView extends AbstractMobilePageView {
         typeId = typeIdVal;
         extraTypeId = extraTypeIdVal;
 
-        statusWrapper = new CssLayout();
-        statusWrapper.setWidth("100%");
-        statusWrapper.setStyleName("upload-status-wrap");
-
         prepareUploadField();
 
         commentInput = new TextArea();
@@ -115,85 +111,15 @@ public class ProjectCommentInputView extends AbstractMobilePageView {
     }
 
     private void prepareUploadField() {
+        statusWrapper = new CssLayout();
+        statusWrapper.setWidth("100%");
+        statusWrapper.setStyleName("upload-status-wrap");
         receiver = createReceiver();
 
         uploadField = new MultiUpload();
-        uploadField.setButtonCaption("File");
+        uploadField.setButtonCaption("Click to upload");
         uploadField.setImmediate(true);
-
-        MultiUploadHandler handler = new MultiUploadHandler() {
-            private LinkedList<ProgressBar> indicators;
-
-            @Override
-            public void streamingStarted(StreamVariable.StreamingStartEvent event) {
-            }
-
-            @Override
-            public void streamingFinished(StreamVariable.StreamingEndEvent event) {
-                String fileName = event.getFileName();
-                int index = fileName.lastIndexOf(".");
-                if (index > 0) {
-                    String fileExt = fileName.substring(index + 1, fileName.length());
-                    fileName = MobileAttachmentUtils.ATTACHMENT_NAME_PREFIX + System.currentTimeMillis() + "." + fileExt;
-                }
-
-                if (!indicators.isEmpty()) {
-                    statusWrapper.replaceComponent(indicators.remove(0), createAttachmentRow(fileName));
-                }
-
-                File file = receiver.getFile();
-
-                receiveFile(file, fileName, event.getMimeType(), event.getBytesReceived());
-                receiver.setValue(null);
-            }
-
-            @Override
-            public void streamingFailed(StreamVariable.StreamingErrorEvent event) {
-                if (!indicators.isEmpty()) {
-                    Label uploadResult = new Label("Upload failed! File: " + event.getFileName());
-                    uploadResult.setStyleName("upload-status");
-                    statusWrapper.replaceComponent(indicators.remove(0), uploadResult);
-                }
-            }
-
-            @Override
-            public void onProgress(StreamVariable.StreamingProgressEvent event) {
-                long readBytes = event.getBytesReceived();
-                long contentLength = event.getContentLength();
-                float f = (float) readBytes / (float) contentLength;
-                indicators.get(0).setValue(f);
-            }
-
-            @Override
-            public OutputStream getOutputStream() {
-                MultiUpload.FileDetail next = uploadField.getPendingFileNames().iterator().next();
-                return receiver.receiveUpload(next.getFileName(), next.getMimeType());
-            }
-
-            @Override
-            public void filesQueued(Collection<MultiUpload.FileDetail> pendingFileNames) {
-                UI.getCurrent().setPollInterval(500);
-                if (indicators == null) {
-                    indicators = new LinkedList<>();
-                }
-                for (MultiUpload.FileDetail f : pendingFileNames) {
-                    ProgressBar pi = new ProgressBar();
-                    pi.setValue(0f);
-                    pi.setStyleName("upload-progress");
-                    pi.setWidth("100%");
-                    statusWrapper.addComponent(pi);
-                    pi.setEnabled(true);
-                    pi.setVisible(true);
-                    indicators.add(pi);
-                }
-            }
-
-            @Override
-            public boolean isInterrupted() {
-                return false;
-            }
-        };
-        uploadField.setHandler(handler);
+        uploadField.setHandler(new MobileUploadHandler());
     }
 
     private Component createAttachmentRow(String fileName) {
@@ -229,7 +155,6 @@ public class ProjectCommentInputView extends AbstractMobilePageView {
                     if ("jpg".equalsIgnoreCase(fileExt) || "png".equalsIgnoreCase(fileExt)) {
                         try {
                             BufferedImage bufferedImage = ImageIO.read(file);
-
                             int imgHeight = bufferedImage.getHeight();
                             int imgWidth = bufferedImage.getWidth();
 
@@ -242,8 +167,7 @@ public class ProjectCommentInputView extends AbstractMobilePageView {
                             float scaleX = Math.min(destHeight / imgHeight, 1);
                             float scaleY = Math.min(destWidth / imgWidth, 1);
                             scale = Math.min(scaleX, scaleY);
-                            scaledImage = ImageUtil.scaleImage(bufferedImage,
-                                    scale);
+                            scaledImage = ImageUtil.scaleImage(bufferedImage, scale);
 
                             ByteArrayOutputStream outStream = new ByteArrayOutputStream();
                             ImageIO.write(scaledImage, fileExt, outStream);
@@ -267,7 +191,7 @@ public class ProjectCommentInputView extends AbstractMobilePageView {
         }
     }
 
-    protected FileBuffer createReceiver() {
+    private FileBuffer createReceiver() {
         FileBuffer receiver = new FileBuffer(UploadField.FieldType.FILE) {
             private static final long serialVersionUID = 1L;
 
@@ -280,15 +204,86 @@ public class ProjectCommentInputView extends AbstractMobilePageView {
         return receiver;
     }
 
-    public void receiveFile(File file, String fileName, String mimeType, long length) {
+    private void receiveFile(File file, String fileName, String mimeType, long length) {
         if (fileStores == null) {
             fileStores = new HashMap<>();
         }
         if (fileStores.containsKey(fileName)) {
             NotificationUtil.showWarningNotification("File " + fileName + " is already existed.");
         } else {
-            LOG.debug("Store file " + fileName + " in path " + file.getAbsolutePath() + " is exist: " + file.exists());
             fileStores.put(fileName, file);
+        }
+    }
+
+    private class MobileUploadHandler implements MultiUploadHandler {
+        private LinkedList<ProgressBar> indicators;
+
+        @Override
+        public void streamingStarted(StreamVariable.StreamingStartEvent event) {
+        }
+
+        @Override
+        public void streamingFinished(StreamVariable.StreamingEndEvent event) {
+            String fileName = event.getFileName();
+            int index = fileName.lastIndexOf(".");
+            if (index > 0) {
+                String fileExt = fileName.substring(index + 1, fileName.length());
+                fileName = MobileAttachmentUtils.ATTACHMENT_NAME_PREFIX + System.currentTimeMillis() + "." + fileExt;
+            }
+
+            if (!indicators.isEmpty()) {
+                statusWrapper.replaceComponent(indicators.remove(0), createAttachmentRow(fileName));
+            }
+
+            File file = receiver.getFile();
+            receiveFile(file, fileName, event.getMimeType(), event.getBytesReceived());
+            receiver.setValue(null);
+        }
+
+        @Override
+        public void streamingFailed(StreamVariable.StreamingErrorEvent event) {
+            if (!indicators.isEmpty()) {
+                Label uploadResult = new Label("Upload failed! File: " + event.getFileName());
+                uploadResult.setStyleName("upload-status");
+                statusWrapper.replaceComponent(indicators.remove(0), uploadResult);
+            }
+        }
+
+        @Override
+        public void onProgress(StreamVariable.StreamingProgressEvent event) {
+            long readBytes = event.getBytesReceived();
+            long contentLength = event.getContentLength();
+            float f = (float) readBytes / (float) contentLength;
+            indicators.get(0).setValue(f);
+        }
+
+        @Override
+        public OutputStream getOutputStream() {
+            MultiUpload.FileDetail next = uploadField.getPendingFileNames().iterator().next();
+            return receiver.receiveUpload(next.getFileName(), next.getMimeType());
+        }
+
+        @Override
+        public void filesQueued(Collection<MultiUpload.FileDetail> pendingFileNames) {
+            UI.getCurrent().setPollInterval(500);
+            if (indicators == null) {
+                indicators = new LinkedList<>();
+            }
+            for (MultiUpload.FileDetail f : pendingFileNames) {
+                ProgressBar pi = new ProgressBar();
+                pi.setValue(0f);
+                pi.setStyleName("upload-progress");
+                pi.setWidth("100%");
+                statusWrapper.addComponent(pi);
+                pi.setEnabled(true);
+                pi.setVisible(true);
+                indicators.add(pi);
+            }
+        }
+
+        @Override
+        public boolean isInterrupted() {
+            return false;
         }
     }
 

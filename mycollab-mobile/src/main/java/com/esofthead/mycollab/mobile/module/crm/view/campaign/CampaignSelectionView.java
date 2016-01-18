@@ -57,7 +57,7 @@ public class CampaignSelectionView extends AbstractSelectionView<CampaignWithBLO
     public void load() {
         searchCriteria = new CampaignSearchCriteria();
         searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
-        itemList.setSearchCriteria(searchCriteria);
+        itemList.search(searchCriteria);
         SimpleCampaign clearCampaign = new SimpleCampaign();
         itemList.getListContainer().addComponentAsFirst(rowHandler.generateRow(clearCampaign, 0));
     }

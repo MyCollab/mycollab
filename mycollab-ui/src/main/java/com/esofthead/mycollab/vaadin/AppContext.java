@@ -94,15 +94,10 @@ public class AppContext implements Serializable {
      * you have two different account ids in system may cause abnormal issues
      */
     private Integer accountId = null;
-
     private transient IMessageConveyor messageHelper;
-
     private Locale userLocale = Locale.US;
-
     private IDateFormat dateFormat;
-
-    private static GoogleAnalyticsService googleAnalyticsService = ApplicationContextUtil.getSpringBean
-            (GoogleAnalyticsService.class);
+    private static GoogleAnalyticsService googleAnalyticsService = ApplicationContextUtil.getSpringBean(GoogleAnalyticsService.class);
 
     public AppContext() {
         MyCollabSession.putVariable("context", this);
@@ -137,8 +132,7 @@ public class AppContext implements Serializable {
             UserAccount userAccount = new UserAccount();
             userAccount.setLastmodulevisit(moduleName);
             UserAccountExample ex = new UserAccountExample();
-            ex.createCriteria().andAccountidEqualTo(AppContext
-                    .getAccountId()).andUsernameEqualTo(AppContext.getUsername());
+            ex.createCriteria().andAccountidEqualTo(AppContext.getAccountId()).andUsernameEqualTo(AppContext.getUsername());
             userAccountMapper.updateByExampleSelective(userAccount, ex);
         } catch (Exception e) {
             LOG.error("There is error when try to update user preference for last module visit", e);

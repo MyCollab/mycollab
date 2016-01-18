@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.crm.view.activity;
 
 import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
-import com.esofthead.mycollab.vaadin.web.ui.ListView;
+import com.esofthead.mycollab.vaadin.web.ui.IListView;
 
 /**
  * 
@@ -27,5 +27,5 @@ import com.esofthead.mycollab.vaadin.web.ui.ListView;
  * 
  */
 public interface ActivityListView extends
-		ListView<ActivitySearchCriteria, SimpleActivity> {
+		IListView<ActivitySearchCriteria, SimpleActivity> {
 }

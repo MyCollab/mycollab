@@ -381,7 +381,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
         this.addLink(new Button(AppContext.getMessage(BreadcrumbI18nEnum.TASKS), new GotoTaskAssignmentDashboard()));
         this.setLinkEnabled(true, 1);
         this.addLink(new Button(AppContext.getMessage(BreadcrumbI18nEnum.FRA_TASK_NEW)));
-        AppContext.addFragment("project/task/task/add/" + UrlEncodeDecoder.encode(project.getId()),
+        AppContext.addFragment("project/task/add/" + UrlEncodeDecoder.encode(project.getId()),
                 AppContext.getMessage(BreadcrumbI18nEnum.FRA_TASK_NEW));
     }
 

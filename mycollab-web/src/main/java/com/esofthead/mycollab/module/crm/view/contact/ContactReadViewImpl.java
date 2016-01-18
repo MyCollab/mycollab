@@ -90,7 +90,7 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact> 
     protected void displayActivities() {
         final ActivitySearchCriteria criteria = new ActivitySearchCriteria();
         criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-        criteria.setType(new StringSearchField(SearchField.AND, CrmTypeConstants.CONTACT));
+        criteria.setType(StringSearchField.and(CrmTypeConstants.CONTACT));
         criteria.setTypeid(new NumberSearchField(this.beanItem.getId()));
         this.associateActivityList.setSearchCriteria(criteria);
     }

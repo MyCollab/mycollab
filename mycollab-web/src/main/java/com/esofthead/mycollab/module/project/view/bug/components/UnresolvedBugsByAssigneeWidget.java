@@ -101,7 +101,7 @@ public class UnresolvedBugsByAssigneeWidget extends DepotWithChart {
 
                 @Override
                 public void buttonClick(final ClickEvent event) {
-                    searchCriteria.setAssignuser(new StringSearchField(assignee));
+                    searchCriteria.setAssignuser(StringSearchField.and(assignee));
                     EventBusFactory.getInstance().post(new BugEvent.SearchRequest(this, searchCriteria));
                 }
             });

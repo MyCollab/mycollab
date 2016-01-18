@@ -48,59 +48,45 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B> extends
     public AbstractPagedBeanList(RowDisplayHandler<B> rowDisplayHandler) {
         super();
         setSizeFull();
+        this.rowDisplayHandler = rowDisplayHandler;
         InfiniteScrollLayout scrollLayout = InfiniteScrollLayout.extend(this);
         scrollLayout.addScrollListener(new InfiniteScrollLayout.ScrollReachBottomListener() {
-
             @Override
             public void onReachBottom() {
                 loadMore();
             }
         });
-
-        this.rowDisplayHandler = rowDisplayHandler;
-
         listContainer = new CssLayout();
         this.addComponent(listContainer);
     }
 
     public AbstractPagedBeanList(RowDisplayHandler<B> rowDisplayHandler, int defaultNumberSearchItems) {
         this(rowDisplayHandler);
-        this.displayNumItems = defaultNumberSearchItems;
-    }
-
-    public int currentViewCount() {
-        return this.currentViewCount;
-    }
-
-    public int totalItemsCount() {
-        return this.totalCount;
-    }
-
-    public void setDisplayNumItems(int value) {
-        this.displayNumItems = value;
+        displayNumItems = defaultNumberSearchItems;
     }
 
     @Override
-    public List<B> getCurrentDataList() {
-        return currentListData;
+    public void search(final S searchCriteria) {
+        currentPage = 1;
+        searchRequest = new SearchRequest<>(searchCriteria, currentPage, displayNumItems);
+        doSearch();
     }
 
     @Override
-    public void setSearchCriteria(final S searchCriteria) {
-        this.currentPage = 1;
-        this.searchRequest = new SearchRequest<>(searchCriteria, this.currentPage, this.displayNumItems);
-        this.doSearch();
+    public void setSearchCriteria(S searchCriteria) {
+        currentPage = 1;
+        searchRequest = new SearchRequest<>(searchCriteria, currentPage, displayNumItems);
     }
 
     public SearchRequest<S> getSearchRequest() {
-        return this.searchRequest;
+        return searchRequest;
     }
 
     @Override
     public void refresh() {
-        this.currentPage = 1;
-        this.searchRequest.setCurrentPage(this.currentPage);
-        this.doSearch();
+        currentPage = 1;
+        searchRequest.setCurrentPage(currentPage);
+        doSearch();
     }
 
     abstract protected int queryTotalCount();
@@ -108,14 +94,14 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B> extends
     abstract protected List<B> queryCurrentData();
 
     protected void doSearch() {
-        this.totalCount = this.queryTotalCount();
-        this.totalPage = (this.totalCount - 1) / this.searchRequest.getNumberOfItems() + 1;
-        if (this.searchRequest.getCurrentPage() > this.totalPage) {
-            this.searchRequest.setCurrentPage(this.totalPage);
+        totalCount = this.queryTotalCount();
+        this.totalPage = (totalCount - 1) / searchRequest.getNumberOfItems() + 1;
+        if (searchRequest.getCurrentPage() > this.totalPage) {
+            searchRequest.setCurrentPage(this.totalPage);
         }
 
-        this.currentListData = this.queryCurrentData();
-        this.currentViewCount = this.currentListData.size();
+        currentListData = this.queryCurrentData();
+        currentViewCount = currentListData.size();
 
         listContainer.removeAllComponents();
 
@@ -133,19 +119,22 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B> extends
     }
 
     protected void loadMore() {
-        this.currentPage += 1;
-        this.searchRequest.setCurrentPage(this.currentPage);
+        currentPage += 1;
+        searchRequest.setCurrentPage(currentPage);
         List<B> currentData = this.queryCurrentData();
-        if (this.currentListData == null)
-            this.currentListData = new ArrayList<>();
-        this.currentListData.addAll(currentData);
-        this.currentViewCount += this.currentListData.size();
+        if (currentListData == null)
+            currentListData = new ArrayList<>();
+        currentListData.addAll(currentData);
+        currentViewCount += currentListData.size();
 
         int i = currentViewCount + 1;
         for (final B item : currentData) {
             final Component row = rowDisplayHandler.generateRow(item, i);
-            listContainer.addComponent(row);
-            listContainer.addComponent(new Hr());
+            if (row != null) {
+                listContainer.addComponent(row);
+                listContainer.addComponent(new Hr());
+            }
+
             i++;
         }
     }

@@ -159,8 +159,8 @@ public class BugStatusTrendChartWidget extends Depot {
         }
 
         void display(TimelineTrackingSearchCriteria searchCriteria) {
-            searchCriteria.setType(new StringSearchField(ProjectTypeConstants.BUG));
-            searchCriteria.setFieldgroup(new StringSearchField("status"));
+            searchCriteria.setType(StringSearchField.and(ProjectTypeConstants.BUG));
+            searchCriteria.setFieldgroup(StringSearchField.and("status"));
             this.searchCriteria = searchCriteria;
             LocalDate endDate = new LocalDate(new GregorianCalendar().getTime());
             LocalDate startDate = endDate.minusDays(30);

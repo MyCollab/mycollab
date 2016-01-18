@@ -19,7 +19,7 @@ package com.esofthead.mycollab.mobile.module.project.view.bug;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.events.BugEvent;
-import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
+import com.esofthead.mycollab.mobile.module.project.view.AbstractProjectPresenter;
 import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
@@ -38,7 +38,7 @@ import com.vaadin.ui.UI;
  * @author MyCollab Ltd.
  * @since 4.5.2
  */
-public class BugReadPresenter extends AbstractMobilePresenter<BugReadView> {
+public class BugReadPresenter extends AbstractProjectPresenter<BugReadView> {
     private static final long serialVersionUID = -1031817390942006096L;
 
     public BugReadPresenter() {

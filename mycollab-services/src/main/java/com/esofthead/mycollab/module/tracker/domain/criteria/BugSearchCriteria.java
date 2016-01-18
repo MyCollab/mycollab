@@ -35,10 +35,11 @@ import java.util.Collection;
 public class BugSearchCriteria extends SearchCriteria {
     private static final long serialVersionUID = 1L;
 
-    public static final Param p_textDesc = new CompositionStringParam("bug-textDesc",
+    public static final CompositionStringParam p_textDesc = new CompositionStringParam("bug-textDesc",
             BugI18nEnum.FORM_ANY_TEXT, new StringParam[]{
             new StringParam("", null, "m_tracker_bug", "summary"),
-            new StringParam("", null, "m_tracker_bug", "detail")});
+            new StringParam("", null, "m_tracker_bug", "detail"),
+            new StringParam("", null, "m_tracker_bug", "environment")});
 
     public static final Param p_createdtime = new DateParam("bug-createdtime",
             GenericI18Enum.FORM_CREATED_TIME, "m_tracker_bug", "createdTime");

@@ -56,7 +56,7 @@ public class LeadSelectionView extends AbstractSelectionView<SimpleLead> {
     public void load() {
         searchCriteria = new LeadSearchCriteria();
         searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
-        itemList.setSearchCriteria(searchCriteria);
+        itemList.search(searchCriteria);
         SimpleLead clearLead = new SimpleLead();
         itemList.getListContainer().addComponentAsFirst(rowHandler.generateRow(clearLead, 0));
     }

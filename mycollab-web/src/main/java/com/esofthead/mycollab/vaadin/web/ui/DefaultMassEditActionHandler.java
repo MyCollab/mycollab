@@ -68,7 +68,7 @@ public abstract class DefaultMassEditActionHandler implements MassItemActionHand
     @SuppressWarnings("unchecked")
     @Override
     public StreamResource buildStreamResource(ReportExportType exportType) {
-        AbstractPagedBeanTable pagedBeanTable = ((ListView) presenter.getView()).getPagedBeanTable();
+        AbstractPagedBeanTable pagedBeanTable = ((IListView) presenter.getView()).getPagedBeanTable();
         final Map<String, Object> parameters = new HashMap<>();
         parameters.put("siteUrl", AppContext.getSiteUrl());
         parameters.put(SimpleReportTemplateExecutor.CRITERIA, presenter.searchCriteria);

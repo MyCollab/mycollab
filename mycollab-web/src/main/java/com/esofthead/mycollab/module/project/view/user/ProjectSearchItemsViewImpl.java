@@ -79,7 +79,7 @@ public class ProjectSearchItemsViewImpl extends AbstractPageView implements Proj
         layout.with(headerLbl, searchItemsTable);
         ProjectGenericItemSearchCriteria criteria = new ProjectGenericItemSearchCriteria();
         criteria.setPrjKeys(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-        criteria.setTxtValue(new StringSearchField(value));
+        criteria.setTxtValue(StringSearchField.and(value));
         int foundNum = searchItemsTable.setSearchCriteria(criteria);
         headerLbl.setValue(String.format(headerTitle, value, foundNum));
     }

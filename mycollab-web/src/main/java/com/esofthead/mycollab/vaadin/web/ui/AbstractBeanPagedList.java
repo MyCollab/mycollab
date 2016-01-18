@@ -80,8 +80,7 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T> extends
         controlBar.setWidth("100%");
         this.controlBarWrapper.addComponent(controlBar);
 
-        pageManagement = new MHorizontalLayout();
-        pageManagement.setWidth(null);
+        pageManagement = new MHorizontalLayout().withWidth(null);
 
         // defined layout here ---------------------------
 

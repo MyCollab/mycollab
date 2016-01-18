@@ -100,7 +100,7 @@ public class ProjectMemberReadPresenter extends AbstractPresenter<ProjectMemberR
                 criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-                criteria.setStatus(new StringSearchField(ProjectMemberStatusConstants.ACTIVE));
+                criteria.setStatus(StringSearchField.and(ProjectMemberStatusConstants.ACTIVE));
 
                 Integer nextId = projectMemberService.getNextItemKey(criteria);
                 if (nextId != null) {
@@ -117,7 +117,7 @@ public class ProjectMemberReadPresenter extends AbstractPresenter<ProjectMemberR
                 ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
                 criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
-                criteria.setStatus(new StringSearchField(ProjectMemberStatusConstants.ACTIVE));
+                criteria.setStatus(StringSearchField.and(ProjectMemberStatusConstants.ACTIVE));
 
                 Integer nextId = projectMemberService.getPreviousItemKey(criteria);
                 if (nextId != null) {

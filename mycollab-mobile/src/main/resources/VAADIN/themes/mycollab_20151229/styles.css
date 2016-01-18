@@ -113,8 +113,12 @@ a {
 	border-bottom: none !important;
 }
 
-.v-touchkit-navview-wrapper, .v-touchkit-navpanel, .v-scrollable {
+.v-touchkit-navview-wrapper, .v-touchkit-navpanel, .v-scrollable, body {
 	overflow-x: hidden !important;
+}
+
+.v-touchkit-navpanel-wrapper {
+	background-color: white;
 }
 
 .v-touchkit-navbar-caption {
@@ -126,6 +130,18 @@ a {
 	white-space: nowrap !important;
 	overflow: hidden !important;
 	text-overflow: ellipsis;
+}
+
+.v-touchkit-navbar-left, .v-touchkit-navbar-right {
+	width: 68px !important;
+}
+
+.v-touchkit-navbar-right {
+	text-align: right !important;
+}
+
+.v-touchkit-navbar .v-button-wrap {
+	text-align: left;
 }
 
 .v-touchkit-navbar .v-navbar-quickmenu-button {
@@ -166,6 +182,10 @@ a {
 	box-shadow: none !important;
 }
 
+.slidemenu .modalcurtain {
+	width: 100% !important;
+}
+
 .full-width-comp {
 	width: 100%;
 }
@@ -177,6 +197,65 @@ a {
 .comment-input input[type="text"] {
 	width: 100%;
 	height: 100%;
+}
+
+input.searchinputfield {
+	width: 100%;
+	height: 35px;
+	border-bottom: 1px solid #e5e5e5;
+	text-align: center;
+}
+
+input.searchinputfield::-webkit-input-placeholder::before {
+	font-family: fontAwesome;
+	content: "\f002";
+	color: #999;
+}
+
+input.searchinputfield::-moz-placeholder::before {
+	font-family: fontAwesome;
+	content: "\f002";
+	color: #999;
+}
+
+input.searchinputfield:-ms-input-placeholder::before {
+	font-family: fontAwesome;
+	content: "\f002";
+	color: #999;
+}
+
+input.searchinputfield:-moz-placeholder::before {
+	font-family: fontAwesome;
+	content: "\f002";
+	color: #999;
+}
+
+.v-slot-searchinputfield .resetbuttonfortextfield-resetbutton {
+	top: -7pt;
+}
+
+::-webkit-input-placeholder {
+	color: #999;
+}
+
+:-moz-placeholder {
+	color: #999;
+}
+
+::-moz-placeholder {
+	color: #999;
+}
+
+:-ms-input-placeholder {
+	color: #999;
+}
+
+::-ms-input-placeholder {
+	color: #999;
+}
+
+:placeholder-shown {
+	color: #999;
 }
 
 .attachment-preview-view {
@@ -306,10 +385,6 @@ body {
 	text-align: center;
 }
 
-.content-wrapper .welcometext-wrapper {
-	background: url("icons/welcometext_bg.png") repeat-x left center #f5f5f5;
-}
-
 .content-wrapper .welcometext-wrapper .v-label {
 	display: block;
 	margin: 0 auto;
@@ -318,14 +393,6 @@ body {
 	font-size: 1.6rem;
 	color: #2692db;
 	border: none;
-}
-
-.login-view {
-	overflow: auto;
-}
-
-.login-view .v-textfield {
-	color: #222222;
 }
 
 .attachment-panel .v-label.attachment-name {

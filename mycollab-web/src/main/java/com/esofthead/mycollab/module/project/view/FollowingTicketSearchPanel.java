@@ -169,7 +169,7 @@ public class FollowingTicketSearchPanel extends DefaultGenericSearchPanel<Follow
         @SuppressWarnings("unchecked")
         protected SearchCriteria fillUpSearchCriteria() {
             FollowingTicketSearchCriteria searchCriteria = new FollowingTicketSearchCriteria();
-            searchCriteria.setUser(new StringSearchField(AppContext.getUsername()));
+            searchCriteria.setUser(StringSearchField.and(AppContext.getUsername()));
 
             List<String> types = new ArrayList<>();
             if (this.taskSelect.getValue()) {
@@ -192,7 +192,7 @@ public class FollowingTicketSearchPanel extends DefaultGenericSearchPanel<Follow
             }
 
             String summary = summaryField.getValue().trim();
-            searchCriteria.setSummary(new StringSearchField(StringUtils.isEmpty(summary) ? "" : summary));
+            searchCriteria.setSummary(StringSearchField.and(StringUtils.isEmpty(summary) ? "" : summary));
 
             Collection<Integer> selectedProjects = (Collection<Integer>) projectField.getValue();
             if (CollectionUtils.isNotEmpty(selectedProjects)) {

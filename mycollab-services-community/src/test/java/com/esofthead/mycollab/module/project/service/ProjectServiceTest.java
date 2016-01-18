@@ -89,7 +89,7 @@ public class ProjectServiceTest extends IntergrationServiceTest {
     @Test
     public void testGetListProjectsByUsername() {
         ProjectSearchCriteria criteria = new ProjectSearchCriteria();
-        criteria.setInvolvedMember(new StringSearchField(SearchField.AND,
+        criteria.setInvolvedMember(StringSearchField.and(
                 "admin"));
         criteria.setSaccountid(new NumberSearchField(1));
 

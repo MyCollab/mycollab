@@ -211,7 +211,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
         if (CollectionUtils.isNotEmpty(prjKeys)) {
             ProjectGenericItemSearchCriteria searchCriteria = new ProjectGenericItemSearchCriteria();
             searchCriteria.setPrjKeys(new SetSearchField<>(prjKeys.toArray(new Integer[prjKeys.size()])));
-            searchCriteria.setTxtValue(new StringSearchField(value));
+            searchCriteria.setTxtValue(StringSearchField.and(value));
 
             DefaultBeanPagedList<ProjectGenericItemService, ProjectGenericItemSearchCriteria, ProjectGenericItem>
                     searchItemsTable = new DefaultBeanPagedList<>(ApplicationContextUtil.getSpringBean(ProjectGenericItemService.class), new

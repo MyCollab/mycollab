@@ -31,7 +31,6 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 2.0
  */
-@SuppressWarnings("serial")
 public abstract class GenericSearchPanel<S extends SearchCriteria> extends CustomComponent implements HasSearchHandlers<S> {
     private List<SearchHandler<S>> searchHandlers;
     private Component headerRight;
@@ -44,6 +43,7 @@ public abstract class GenericSearchPanel<S extends SearchCriteria> extends Custo
         searchHandlers.add(handler);
     }
 
+    @Override
     public void notifySearchHandler(final S criteria) {
         if (searchHandlers != null) {
             for (SearchHandler<S> handler : searchHandlers) {

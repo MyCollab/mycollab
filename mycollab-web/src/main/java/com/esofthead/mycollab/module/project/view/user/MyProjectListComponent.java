@@ -64,7 +64,7 @@ public class MyProjectListComponent extends MVerticalLayout {
             @Override
             public void doSearch(String value) {
                 searchCriteria = getAllProjectsSearchCriteria();
-                searchCriteria.setProjectName(new StringSearchField(value));
+                searchCriteria.setProjectName(StringSearchField.and(value));
                 displayResults();
             }
         };
@@ -131,20 +131,20 @@ public class MyProjectListComponent extends MVerticalLayout {
 
     private ProjectSearchCriteria getAllProjectsSearchCriteria() {
         ProjectSearchCriteria prjSearchCriteria = new ProjectSearchCriteria();
-        prjSearchCriteria.setInvolvedMember(new StringSearchField(AppContext.getUsername()));
+        prjSearchCriteria.setInvolvedMember(StringSearchField.and(AppContext.getUsername()));
         return prjSearchCriteria;
     }
 
     private ProjectSearchCriteria getActiveProjectsSearchCriteria() {
         ProjectSearchCriteria prjSearchCriteria = new ProjectSearchCriteria();
-        prjSearchCriteria.setInvolvedMember(new StringSearchField(AppContext.getUsername()));
+        prjSearchCriteria.setInvolvedMember(StringSearchField.and(AppContext.getUsername()));
         prjSearchCriteria.setProjectStatuses(new SetSearchField<>(new String[]{StatusI18nEnum.Open.name()}));
         return prjSearchCriteria;
     }
 
     private ProjectSearchCriteria getArchivedProjectsSearchCriteria() {
         ProjectSearchCriteria prjSearchCriteria = new ProjectSearchCriteria();
-        prjSearchCriteria.setInvolvedMember(new StringSearchField(AppContext.getUsername()));
+        prjSearchCriteria.setInvolvedMember(StringSearchField.and(AppContext.getUsername()));
         prjSearchCriteria.setProjectStatuses(new SetSearchField<>(new String[]{StatusI18nEnum.Archived.name()}));
         return prjSearchCriteria;
     }

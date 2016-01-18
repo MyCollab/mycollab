@@ -72,7 +72,7 @@ public class TaskAssigneeChartWidget extends PieChartWrapper<TaskSearchCriteria>
     @Override
     public void clickLegendItem(String key) {
         TaskSearchCriteria cloneSearchCriteria = BeanUtility.deepClone(searchCriteria);
-        cloneSearchCriteria.setAssignUser(new StringSearchField(key));
+        cloneSearchCriteria.setAssignUser(StringSearchField.and(key));
         EventBusFactory.getInstance().post(new TaskEvent.SearchRequest(this, cloneSearchCriteria));
     }
 }

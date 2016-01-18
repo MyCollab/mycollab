@@ -36,28 +36,28 @@ class MessageUrlResolver extends ProjectUrlResolver {
 
     private class ListUrlResolver extends ProjectUrlResolver {
         protected override def handlePage(params: String*) {
-            val projectId: Int = new UrlTokenizer(params(0)).getInt
-            val messageSearchCriteria: MessageSearchCriteria = new MessageSearchCriteria
+            val projectId = new UrlTokenizer(params(0)).getInt
+            val messageSearchCriteria = new MessageSearchCriteria
             messageSearchCriteria.setProjectids(new SetSearchField[Integer](projectId))
-            val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId), new MessageScreenData.Search(messageSearchCriteria))
+            val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new MessageScreenData.Search(messageSearchCriteria))
             EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
         }
     }
 
     private class PreviewUrlResolver extends ProjectUrlResolver {
         protected override def handlePage(params: String*) {
-            val token: UrlTokenizer = new UrlTokenizer(params(0))
-            val projectId: Int = token.getInt
-            val messageId: Int = token.getInt
-            val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId), new MessageScreenData.Read(messageId))
+            val token = new UrlTokenizer(params(0))
+            val projectId = token.getInt
+            val messageId = token.getInt
+            val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new MessageScreenData.Read(messageId))
             EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
         }
     }
 
     private class AddUrlResolver extends ProjectUrlResolver {
         protected override def handlePage(params: String*) {
-            val projectId: Int = new UrlTokenizer(params(0)).getInt
-            val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId), new MessageScreenData.Add)
+            val projectId = new UrlTokenizer(params(0)).getInt
+            val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new MessageScreenData.Add)
             EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
         }
     }

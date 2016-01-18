@@ -19,6 +19,7 @@ package com.esofthead.mycollab.mobile.module.project.view;
 import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
 import com.esofthead.mycollab.mobile.module.project.ui.AbstractListPageView;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
+import com.esofthead.mycollab.mobile.ui.SearchInputField;
 import com.esofthead.mycollab.module.project.domain.ProjectActivityStream;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -40,6 +41,11 @@ public class ProjectActivityViewImpl extends AbstractListPageView<ActivityStream
     @Override
     protected AbstractPagedBeanList<ActivityStreamSearchCriteria, ProjectActivityStream> createBeanList() {
         return new ProjectActivityStreamListDisplay();
+    }
+
+    @Override
+    protected SearchInputField<ActivityStreamSearchCriteria> createSearchField() {
+        return null;
     }
 
     @Override

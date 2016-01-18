@@ -16,50 +16,49 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view;
 
-import com.esofthead.mycollab.common.ModuleNameConstants;
-import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.mobile.MobileApplication;
-import com.esofthead.mycollab.mobile.shell.ModuleHelper;
-import com.esofthead.mycollab.mobile.ui.AbstractListPresenter;
-import com.esofthead.mycollab.module.project.domain.SimpleProject;
-import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
-import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.core.arguments.SearchCriteria;
+import com.esofthead.mycollab.core.arguments.ValuedBean;
+import com.esofthead.mycollab.mobile.mvp.AbstractPresenter;
+import com.esofthead.mycollab.mobile.ui.IListView;
+import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
+import com.esofthead.mycollab.vaadin.events.SearchHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
+import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.UI;
-
-import java.util.Arrays;
 
 /**
- * @author MyCollab Ltd.
- * @since 4.4.0
+ * @author MyCollab Ltd
+ * @since 5.2.5
  */
-public class ProjectListPresenter extends AbstractListPresenter<ProjectListView, ProjectSearchCriteria, SimpleProject> {
-    private static final long serialVersionUID = 35574182873793474L;
+public abstract class ProjectListPresenter<V extends IListView<S, B>, S extends SearchCriteria, B extends ValuedBean> extends AbstractPresenter<V> {
+    private static final long serialVersionUID = -2202567598255893303L;
 
-    public ProjectListPresenter() {
-        super(ProjectListView.class);
+    protected S searchCriteria;
+
+    public ProjectListPresenter(Class<V> viewClass) {
+        super(viewClass);
+    }
+
+    @Override
+    protected void postInitView() {
+        super.postInitView();
+        HasSearchHandlers<S> searchHandlers = view.getSearchHandlers();
+        if (searchHandlers != null) {
+            searchHandlers.addSearchHandler(new SearchHandler<S>() {
+                @Override
+                public void onSearch(S criteria) {
+                    searchCriteria = criteria;
+                    view.getPagedBeanTable().search(criteria);
+                }
+            });
+        }
     }
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        ModuleHelper.setCurrentModule(view);
-        super.onGo(container, data);
-        doSearch((ProjectSearchCriteria) data.getParams());
-        AppContext.getInstance().updateLastModuleVisit(ModuleNameConstants.PRJ);
-
-        String url = ((MobileApplication) UI.getCurrent()).getInitialUrl();
-        if (url != null && !url.equals("")) {
-            String[] tokens = url.split("/");
-            if (tokens.length > 1) {
-                String[] fragments = Arrays.copyOfRange(tokens, 1, tokens.length);
-                MobileApplication.rootUrlResolver.getSubResolver("project").handle(fragments);
-            }
-        } else {
-            AppContext.addFragment("project/", AppContext.getMessage(GenericI18Enum.MODULE_PROJECT));
-        }
-
-        ((MobileApplication) UI.getCurrent()).setInitialUrl("");
+        NavigationManager currentNav = (NavigationManager) container;
+        this.searchCriteria = (S) data.getParams();
+        view.getPagedBeanTable().setSearchCriteria(searchCriteria);
+        currentNav.navigateTo(view);
     }
-
 }

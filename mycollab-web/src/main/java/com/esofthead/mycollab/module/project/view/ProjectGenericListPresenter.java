@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.project.view;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.vaadin.web.ui.ListSelectionPresenter;
-import com.esofthead.mycollab.vaadin.web.ui.ListView;
+import com.esofthead.mycollab.vaadin.web.ui.IListView;
 import com.esofthead.mycollab.vaadin.mvp.LazyPageView;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -32,12 +32,11 @@ import com.vaadin.ui.ComponentContainer;
  * @since 4.1
  * 
  */
-public abstract class ProjectGenericListPresenter<V extends ListView<S, B>, S extends SearchCriteria, B extends ValuedBean>
+public abstract class ProjectGenericListPresenter<V extends IListView<S, B>, S extends SearchCriteria, B extends ValuedBean>
 		extends ListSelectionPresenter<V, S, B> {
 	private static final long serialVersionUID = 7270489652418186012L;
 
 	private PageView candidateView;
-
 	private Class<? extends PageView> noItemFallbackViewClass;
 
 	public ProjectGenericListPresenter(Class<V> viewClass, Class<? extends PageView> noItemFallbackViewClass) {

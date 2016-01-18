@@ -67,10 +67,10 @@ public class BugServiceTest extends IntergrationServiceTest {
 	@Test
 	public void testSearchDefectsByUserCriteria() {
 		BugSearchCriteria criteria = new BugSearchCriteria();
-		criteria.setAssignuser(new StringSearchField("user1"));
-		criteria.setLoguser(new StringSearchField("admin"));
-		criteria.setSummary(new StringSearchField("summary"));
-		criteria.setDetail(new StringSearchField("detail"));
+		criteria.setAssignuser(StringSearchField.and("user1"));
+		criteria.setLoguser(StringSearchField.and("admin"));
+		criteria.setSummary(StringSearchField.and("summary"));
+		criteria.setDetail(StringSearchField.and("detail"));
 
 		List<SimpleBug> bugs = bugService
 				.findPagableListByCriteria(new SearchRequest<>(

@@ -106,7 +106,7 @@ public class OpportunitySimpleSearchPanel extends GenericSearchPanel<Opportunity
                 String strSearch = textValueField.getValue();
                 if (StringUtils.isNotBlank(strSearch)) {
                     if (searchType.equals("Name")) {
-                        searchCriteria.setOpportunityName(new StringSearchField(strSearch));
+                        searchCriteria.setOpportunityName(StringSearchField.and(strSearch));
                     }
                 }
             }

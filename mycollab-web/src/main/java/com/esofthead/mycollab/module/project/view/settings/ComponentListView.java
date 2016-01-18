@@ -19,13 +19,13 @@ package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.module.tracker.domain.SimpleComponent;
 import com.esofthead.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria;
-import com.esofthead.mycollab.vaadin.web.ui.ListView;
+import com.esofthead.mycollab.vaadin.web.ui.IListView;
 
 /**
  * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public interface ComponentListView extends ListView<ComponentSearchCriteria, SimpleComponent> {
+public interface ComponentListView extends IListView<ComponentSearchCriteria, SimpleComponent> {
 
 }

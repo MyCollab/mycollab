@@ -55,7 +55,7 @@ public class ContactSelectionView extends AbstractSelectionView<SimpleContact> {
     public void load() {
         searchCriteria = new ContactSearchCriteria();
         searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
-        itemList.setSearchCriteria(searchCriteria);
+        itemList.search(searchCriteria);
 
         SimpleContact clearContact = new SimpleContact();
         itemList.getListContainer().addComponentAsFirst(rowHandler.generateRow(clearContact, 0));

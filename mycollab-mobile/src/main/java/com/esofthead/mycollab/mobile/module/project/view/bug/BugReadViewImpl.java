@@ -79,7 +79,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
 
     @Override
     public HasPreviewFormHandlers<SimpleBug> getPreviewFormHandlers() {
-        return this.previewForm;
+        return previewForm;
     }
 
     private void displayWorkflowControl() {
@@ -211,10 +211,10 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                 beanItem.getProjectid(), ProjectTypeConstants.BUG, "" + beanItem.getId()));
         if (CollectionUtils.isNotEmpty(attachments)) {
             attachmentComp = new ProjectAttachmentDisplayComp(attachments);
-            this.previewForm.addComponent(attachmentComp);
+            previewForm.addComponent(attachmentComp);
         } else {
             if (attachmentComp != null) {
-                this.previewForm.removeComponent(attachmentComp);
+                previewForm.removeComponent(attachmentComp);
             }
         }
     }
@@ -237,12 +237,12 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
 
     @Override
     protected AbstractBeanFieldGroupViewFieldFactory<SimpleBug> initBeanFormFieldFactory() {
-        return new BugPreviewBeanFormFieldFactory(this.previewForm);
+        return new BugPreviewBeanFormFieldFactory(previewForm);
     }
 
     @Override
     protected ComponentContainer createButtonControls() {
-        ProjectPreviewFormControlsGenerator<SimpleBug> formControlsGenerator = new ProjectPreviewFormControlsGenerator<>(this.previewForm);
+        ProjectPreviewFormControlsGenerator<SimpleBug> formControlsGenerator = new ProjectPreviewFormControlsGenerator<>(previewForm);
         bugWorkFlowControl = new VerticalLayout();
         bugWorkFlowControl.setWidth("100%");
         bugWorkFlowControl.setSpacing(true);
@@ -254,11 +254,11 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
     protected ComponentContainer createBottomPanel() {
         MVerticalLayout toolbarLayout = new MVerticalLayout().withFullWidth().withSpacing(false).withMargin(false);
         toolbarLayout.setDefaultComponentAlignment(Alignment.TOP_LEFT);
+        bugTimeLogComp = new BugTimeLogComp();
+        toolbarLayout.addComponent(bugTimeLogComp);
         relatedComments = new CommentNavigationButton(ProjectTypeConstants.BUG, beanItem.getId() + "");
         Component section = FormSectionBuilder.build(FontAwesome.COMMENT, relatedComments);
         toolbarLayout.addComponent(section);
-        bugTimeLogComp = new BugTimeLogComp();
-        toolbarLayout.addComponent(bugTimeLogComp);
         return toolbarLayout;
     }
 

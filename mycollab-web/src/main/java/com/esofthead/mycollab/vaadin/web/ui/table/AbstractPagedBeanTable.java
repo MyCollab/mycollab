@@ -90,7 +90,6 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
         this(type, null, requiredColumn, displayColumns);
     }
 
-    @SuppressWarnings("unchecked")
     public AbstractPagedBeanTable(Class<B> type, String viewId, TableViewField requiredColumn, List<TableViewField> displayColumns) {
         if (viewId != null) {
             CustomViewStoreService customViewStoreService = ApplicationContextUtil.getSpringBean(CustomViewStoreService.class);
@@ -219,7 +218,6 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public B getBeanByIndex(final Object itemId) {
         final Container container = tableItem.getContainerDataSource();
         final BeanItem<B> item = (BeanItem<B>) container.getItem(itemId);
@@ -268,7 +266,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
 
                 @Override
                 public void buttonClick(final ClickEvent event) {
-                    AbstractPagedBeanTable.this.pageChange(1);
+                    pageChange(1);
                 }
             });
             firstLink.addStyleName("buttonPaging");

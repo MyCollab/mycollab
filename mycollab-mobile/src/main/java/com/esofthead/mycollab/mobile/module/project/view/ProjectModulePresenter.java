@@ -16,21 +16,21 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view;
 
-import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
+import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.MobileApplication;
 import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent;
-import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
+import com.esofthead.mycollab.mobile.shell.ModuleHelper;
+import com.esofthead.mycollab.mobile.module.project.view.AbstractProjectPresenter;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
-import com.vaadin.addon.touchkit.extensions.LocalStorage;
-import com.vaadin.addon.touchkit.extensions.LocalStorageCallback;
 import com.vaadin.ui.ComponentContainer;
 
 /**
  * @author MyCollab Inc.
  * @since 4.3.1
  */
-public class ProjectModulePresenter extends AbstractMobilePresenter<ProjectModule> {
+public class ProjectModulePresenter extends AbstractProjectPresenter<ProjectModule> {
     private static final long serialVersionUID = 6940806138148601147L;
 
     public ProjectModulePresenter() {
@@ -39,25 +39,15 @@ public class ProjectModulePresenter extends AbstractMobilePresenter<ProjectModul
 
     @Override
     protected void onGo(ComponentContainer navigator, ScreenData<?> data) {
-        LocalStorage.detectValue(MobileApplication.LOGIN_DATA, new LocalStorageCallback() {
-            private static final long serialVersionUID = 3217947479690600476L;
+        ModuleHelper.setCurrentModule(view);
+        AppContext.getInstance().updateLastModuleVisit(ModuleNameConstants.PRJ);
 
-            @Override
-            public void onSuccess(String value) {
-                if (value != null) {
-                    String[] loginParams = value.split("\\$");
-                    EventBusFactory.getInstance().post(new ProjectEvent.PlainLogin(this, new String[]{loginParams[0],
-                            PasswordEncryptHelper.decryptText(loginParams[1]), String.valueOf(false)}));
-
-                } else {
-                    EventBusFactory.getInstance().post(new ProjectEvent.GotoLogin(this, null));
-                }
-            }
-
-            @Override
-            public void onFailure(FailureEvent error) {
-                EventBusFactory.getInstance().post(new ProjectEvent.GotoLogin(this, null));
-            }
-        });
+        String[] params = (String[]) data.getParams();
+        if (params == null || params.length == 0) {
+            EventBusFactory.getInstance().post(new ProjectEvent.GotoProjectList(this, null));
+            AppContext.addFragment("project", "Project");
+        } else {
+            MobileApplication.rootUrlResolver.getSubResolver("project").handle(params);
+        }
     }
 }

@@ -227,7 +227,7 @@ public class LinkIssueWindow extends Window {
                 if ("" .equals(query) || query == null) {
                     return Collections.emptyList();
                 }
-                searchCriteria.setSummary(new StringSearchField(query));
+                searchCriteria.setSummary(StringSearchField.and(query));
                 items = bugService.findPagableListByCriteria(new SearchRequest<>(searchCriteria));
                 return new ArrayList<Object>(items);
             }

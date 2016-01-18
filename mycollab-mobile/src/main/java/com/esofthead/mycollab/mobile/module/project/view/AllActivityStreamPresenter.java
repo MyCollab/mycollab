@@ -16,26 +16,18 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view;
 
-import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.mobile.ui.AbstractListPresenter;
 import com.esofthead.mycollab.module.project.domain.ProjectActivityStream;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
-import com.esofthead.mycollab.module.project.service.ProjectService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.vaadin.ui.ComponentContainer;
-
-import java.util.List;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.5.2
  */
-public class AllActivityStreamPresenter extends AbstractListPresenter<AllActivityView, ActivityStreamSearchCriteria, ProjectActivityStream> {
+public class AllActivityStreamPresenter extends ProjectListPresenter<AllActivityView, ActivityStreamSearchCriteria, ProjectActivityStream> {
     private static final long serialVersionUID = -2089284900326846089L;
 
     public AllActivityStreamPresenter() {
@@ -45,13 +37,6 @@ public class AllActivityStreamPresenter extends AbstractListPresenter<AllActivit
     @Override
     protected void onGo(ComponentContainer navigator, ScreenData<?> data) {
         super.onGo(navigator, data);
-        ProjectService prjService = ApplicationContextUtil.getSpringBean(ProjectService.class);
-        List<Integer> prjKeys = prjService.getProjectKeysUserInvolved(AppContext.getUsername(), AppContext.getAccountId());
-        ActivityStreamSearchCriteria searchCriteria = new ActivityStreamSearchCriteria();
-        searchCriteria.setModuleSet(new SetSearchField<>(ModuleNameConstants.PRJ));
-        searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-        searchCriteria.setExtraTypeIds(new SetSearchField<>(prjKeys.toArray(new Integer[0])));
-        doSearch(searchCriteria);
         AppContext.addFragment("project/activities/", AppContext.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES));
     }
 

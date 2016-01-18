@@ -77,7 +77,7 @@ public class ProjectViewPresenter extends AbstractPresenter<ProjectView> {
         IPresenter<?> presenter;
         if (ClassUtils.instanceOf(pageAction, ProjectScreenData.GotoDashboard.class)) {
             presenter = PresenterResolver.getPresenter(ProjectDashboardPresenter.class);
-        } else if (ClassUtils.instanceOf(pageAction, ProjectScreenData.ViewActivities.class)) {
+        } else if (ClassUtils.instanceOf(pageAction, ProjectScreenData.ProjectActivities.class)) {
             presenter = PresenterResolver.getPresenter(ProjectActivityStreamPresenter.class);
         } else if (ClassUtils.instanceOf(pageAction, MessageScreenData.Read.class, MessageScreenData.Search.class, MessageScreenData.Add.class)) {
             presenter = PresenterResolver.getPresenter(MessagePresenter.class);
@@ -90,7 +90,7 @@ public class ProjectViewPresenter extends AbstractPresenter<ProjectView> {
         } else if (ClassUtils.instanceOf(pageAction, BugScreenData.Search.class, BugScreenData.Add.class,
                 BugScreenData.Read.class, BugScreenData.Edit.class)) {
             presenter = PresenterResolver.getPresenter(BugPresenter.class);
-        } else if (ClassUtils.instanceOf(pageAction, ProjectMemberScreenData.Search.class, ProjectMemberScreenData.Add.class,
+        } else if (ClassUtils.instanceOf(pageAction, ProjectMemberScreenData.Search.class,
                 ProjectMemberScreenData.InviteProjectMembers.class, ProjectMemberScreenData.Read.class, ProjectMemberScreenData.Edit.class)) {
             presenter = PresenterResolver.getPresenter(ProjectUserPresenter.class);
         } else {

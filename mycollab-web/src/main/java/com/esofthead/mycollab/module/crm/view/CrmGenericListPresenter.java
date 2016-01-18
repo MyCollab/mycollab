@@ -22,7 +22,7 @@ import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.web.ui.ListSelectionPresenter;
-import com.esofthead.mycollab.vaadin.web.ui.ListView;
+import com.esofthead.mycollab.vaadin.web.ui.IListView;
 import com.vaadin.ui.ComponentContainer;
 
 /**
@@ -32,7 +32,7 @@ import com.vaadin.ui.ComponentContainer;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public abstract class CrmGenericListPresenter<V extends ListView<S, B>, S extends SearchCriteria, B extends ValuedBean> extends ListSelectionPresenter<V, S, B> {
+public abstract class CrmGenericListPresenter<V extends IListView<S, B>, S extends SearchCriteria, B extends ValuedBean> extends ListSelectionPresenter<V, S, B> {
     private static final long serialVersionUID = 1L;
 
     private PageView candidateView;

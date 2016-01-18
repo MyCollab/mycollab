@@ -221,7 +221,7 @@ public class ProjectMemberServiceImpl extends DefaultService<Integer, ProjectMem
         ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
         criteria.setProjectId(new NumberSearchField(projectId));
         criteria.setSaccountid(new NumberSearchField(sAccountId));
-        criteria.setInvolvedMember(new StringSearchField(username));
+        criteria.setInvolvedMember(StringSearchField.and(username));
         return (getTotalCount(criteria) > 0);
     }
 

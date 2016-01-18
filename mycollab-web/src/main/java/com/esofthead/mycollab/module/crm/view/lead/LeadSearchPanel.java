@@ -161,7 +161,7 @@ public class LeadSearchPanel extends DefaultGenericSearchPanel<LeadSearchCriteri
             searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
 
             if (StringUtils.isNotBlank(nameField.getValue().trim())) {
-                searchCriteria.setLeadName(new StringSearchField(nameField.getValue()));
+                searchCriteria.setLeadName(StringSearchField.and(nameField.getValue()));
             }
 
             if (myItemCheckbox.getValue()) {

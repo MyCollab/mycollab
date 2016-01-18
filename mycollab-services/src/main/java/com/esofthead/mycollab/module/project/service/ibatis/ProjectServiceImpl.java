@@ -225,7 +225,7 @@ public class ProjectServiceImpl extends DefaultService<Integer, Project, Project
     @Override
     public List<Integer> getProjectKeysUserInvolved(String username, Integer sAccountId) {
         ProjectSearchCriteria searchCriteria = new ProjectSearchCriteria();
-        searchCriteria.setInvolvedMember(new StringSearchField(username));
+        searchCriteria.setInvolvedMember(StringSearchField.and(username));
         searchCriteria.setProjectStatuses(new SetSearchField<>(StatusI18nEnum.Open.name()));
         return projectMapperExt.getUserProjectKeys(searchCriteria);
     }
@@ -267,7 +267,7 @@ public class ProjectServiceImpl extends DefaultService<Integer, Project, Project
     @Override
     public Integer getTotalActiveProjectsOfInvolvedUsers(String username, @CacheKey Integer sAccountId) {
         ProjectSearchCriteria criteria = new ProjectSearchCriteria();
-        criteria.setInvolvedMember(new StringSearchField(username));
+        criteria.setInvolvedMember(StringSearchField.and(username));
         criteria.setProjectStatuses(new SetSearchField<>(StatusI18nEnum.Open.name()));
         return projectMapperExt.getTotalCount(criteria);
     }

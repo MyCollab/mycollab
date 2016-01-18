@@ -33,39 +33,36 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.4.0
- *
  */
 @WebServlet(urlPatterns = "/file/*", name = "resourceGetHandler")
 public class ResourceGetHandler extends GenericHttpServlet {
-	private static final Logger LOG = LoggerFactory.getLogger(ResourceGetHandler.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ResourceGetHandler.class);
 
-	@Autowired
-	private ResourceService resourceService;
+    @Autowired
+    private ResourceService resourceService;
 
-	@Override
-	protected void onHandleRequest(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		String path = request.getPathInfo();
-		InputStream inputStream = resourceService.getContentStream(path);
+    @Override
+    protected void onHandleRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String path = request.getPathInfo();
+        InputStream inputStream = resourceService.getContentStream(path);
 
-		if (inputStream != null) {
-			LOG.debug("Get resource {} successfully ", path);
-			response.setHeader("Content-Type", MimeTypesUtil.detectMimeType(path));
-			response.setHeader("Content-Length", String.valueOf(inputStream.available()));
+        if (inputStream != null) {
+            response.setHeader("Content-Type", MimeTypesUtil.detectMimeType(path));
+            response.setHeader("Content-Length", String.valueOf(inputStream.available()));
 
-			try (BufferedInputStream input = new BufferedInputStream(inputStream);
-				 BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream())) {
-				byte[] buffer = new byte[8192];
-				int length;
-				while ((length = input.read(buffer)) > 0) {
-					output.write(buffer, 0, length);
-				}
-			}
-		} else {
-			LOG.error("Can not find resource has path {}", path);
-		}
-	}
+            try (BufferedInputStream input = new BufferedInputStream(inputStream);
+                 BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream())) {
+                byte[] buffer = new byte[8192];
+                int length;
+                while ((length = input.read(buffer)) > 0) {
+                    output.write(buffer, 0, length);
+                }
+            }
+        } else {
+            LOG.error("Can not find resource has path {}", path);
+        }
+    }
 }

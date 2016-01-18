@@ -18,13 +18,13 @@ package com.esofthead.mycollab.module.project.view.bug;
 
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
-import com.esofthead.mycollab.vaadin.web.ui.ListView;
+import com.esofthead.mycollab.vaadin.web.ui.IListView;
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public interface BugListView extends ListView<BugSearchCriteria, SimpleBug> {
+public interface BugListView extends IListView<BugSearchCriteria, SimpleBug> {
 
     String GROUP_DUE_DATE = "Due Date";
     String GROUP_START_DATE = "Start Date";

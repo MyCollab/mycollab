@@ -173,7 +173,7 @@ public class OpportunitySearchPanel extends DefaultGenericSearchPanel<Opportunit
             searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
 
             if (StringUtils.isNotBlank(this.nameField.getValue().trim())) {
-                searchCriteria.setOpportunityName(new StringSearchField(this.nameField.getValue().trim()));
+                searchCriteria.setOpportunityName(StringSearchField.and(this.nameField.getValue().trim()));
             }
 
             if (this.myItemCheckbox.getValue()) {

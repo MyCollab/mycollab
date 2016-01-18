@@ -215,8 +215,7 @@
                 AND m_prj_time_logging.isBillable = '1')) AS T
     </select>
 
-    <select id="getTotalNonBillableHours" parameterType="int"
-            resultType="double" lang="velocity">
+    <select id="getTotalNonBillableHours" parameterType="int" resultType="double" lang="velocity">
         SELECT COALESCE(SUM(timeValue), 0)
         FROM
         (
@@ -235,8 +234,7 @@
             AND m_prj_time_logging.isBillable = '0')) AS T
     </select>
 
-    <select id="getRemainHours" parameterType="int"
-            resultType="double" lang="velocity">
+    <select id="getRemainHours" parameterType="int" resultType="double" lang="velocity">
         SELECT COALESCE(SUM(timeValue), 0)
         FROM
         ((SELECT m_prj_task.remainEstimate AS timeValue

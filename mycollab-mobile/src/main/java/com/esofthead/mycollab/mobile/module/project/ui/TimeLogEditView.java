@@ -183,7 +183,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
     public void loadTimeValue() {
         final ItemTimeLoggingSearchCriteria searchCriteria = this.getItemSearchCriteria();
         searchCriteria.addOrderField(new SearchCriteria.OrderField("logForDay", SearchCriteria.DESC));
-        this.tableItem.setSearchCriteria(searchCriteria);
+        this.tableItem.search(searchCriteria);
         this.setTotalTimeValue();
         this.setUpdateTimeValue();
     }

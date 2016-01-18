@@ -52,7 +52,7 @@ public class ProjectMemberListPresenter extends AbstractPresenter<ProjectMemberL
             if (data.getParams() == null) {
                 criteria = new ProjectMemberSearchCriteria();
                 criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-                criteria.setStatus(new StringSearchField(ProjectMemberStatusConstants.ACTIVE));
+                criteria.setStatus(StringSearchField.and(ProjectMemberStatusConstants.ACTIVE));
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
             } else {
                 criteria = (ProjectMemberSearchCriteria) data.getParams();

@@ -266,12 +266,12 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
     @Override
     public SimpleUser authentication(String username, String password, String subDomain, boolean isPasswordEncrypt) {
         UserSearchCriteria criteria = new UserSearchCriteria();
-        criteria.setUsername(new StringSearchField(username));
+        criteria.setUsername(StringSearchField.and(username));
         criteria.setRegisterStatuses(new SetSearchField<>(RegisterStatusConstants.ACTIVE));
         criteria.setSaccountid(null);
 
         if (deploymentMode.isDemandEdition()) {
-            criteria.setSubdomain(new StringSearchField(subDomain));
+            criteria.setSubdomain(StringSearchField.and(subDomain));
         }
 
         List<SimpleUser> users = findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
@@ -312,7 +312,7 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
     @Override
     public SimpleUser findUserByUserNameInAccount(String username, Integer accountId) {
         UserSearchCriteria criteria = new UserSearchCriteria();
-        criteria.setUsername(new StringSearchField(username));
+        criteria.setUsername(StringSearchField.and(username));
         criteria.setSaccountid(new NumberSearchField(accountId));
 
         List<SimpleUser> users = userMapperExt.findPagableListByCriteria(criteria, new RowBounds(0, Integer.MAX_VALUE));

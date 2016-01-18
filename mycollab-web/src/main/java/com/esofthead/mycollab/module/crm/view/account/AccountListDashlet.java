@@ -85,7 +85,7 @@ public class AccountListDashlet extends Depot {
     public void display() {
         final AccountSearchCriteria criteria = new AccountSearchCriteria();
         criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-        criteria.setAssignUser(new StringSearchField(AppContext.getUsername()));
+        criteria.setAssignUser(StringSearchField.and(AppContext.getUsername()));
         tableItem.setSearchCriteria(criteria);
     }
 }

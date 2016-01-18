@@ -59,8 +59,8 @@ public class CaseServiceTest extends IntergrationServiceTest {
     public void testGetSearchCriteria() {
         CaseSearchCriteria criteria = new CaseSearchCriteria();
         criteria.setAccountId(new NumberSearchField(1));
-        criteria.setAssignUser(new StringSearchField("admin"));
-        criteria.setSubject(new StringSearchField("a"));
+        criteria.setAssignUser(StringSearchField.and("admin"));
+        criteria.setSubject(StringSearchField.and("a"));
         criteria.setSaccountid(new NumberSearchField(1));
 
         List<SimpleCase> cases = caseService.findPagableListByCriteria(

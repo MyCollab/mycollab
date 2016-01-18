@@ -35,7 +35,7 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public abstract class ListSelectionPresenter<V extends ListView<S, B>, S extends SearchCriteria, B extends ValuedBean>
+public abstract class ListSelectionPresenter<V extends IListView<S, B>, S extends SearchCriteria, B extends ValuedBean>
         extends AbstractPresenter<V> {
     private static final long serialVersionUID = 1L;
 

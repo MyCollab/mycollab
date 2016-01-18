@@ -44,7 +44,7 @@ class UserUrlResolver extends ProjectUrlResolver {
             val projectId: Integer = new UrlTokenizer(params(0)).getInt
             val memberSearchCriteria: ProjectMemberSearchCriteria = new ProjectMemberSearchCriteria
             memberSearchCriteria.setProjectId(new NumberSearchField(projectId))
-            memberSearchCriteria.setStatus(new StringSearchField(ProjectMemberStatusConstants.ACTIVE))
+            memberSearchCriteria.setStatus(StringSearchField.and(ProjectMemberStatusConstants.ACTIVE))
             val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId), new ProjectMemberScreenData.Search(memberSearchCriteria))
             EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
         }

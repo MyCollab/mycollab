@@ -26,7 +26,6 @@ import com.esofthead.mycollab.core.arguments.SearchField;
 public class CompositionStringParam extends Param {
     private StringParam[] params;
 
-    @SuppressWarnings("rawtypes")
     public CompositionStringParam(String id, Enum displayName, StringParam... params) {
         this.id = id;
         this.displayName = displayName;

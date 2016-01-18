@@ -38,28 +38,28 @@ class MainViewController(val container: MainView) extends AbstractController {
     private def bind(): Unit = {
         this.register(new ApplicationEventListener[ShellEvent.GotoCrmModule]() {
             @Subscribe def handle(event: ShellEvent.GotoCrmModule) {
-                val crmModulePresenter: CrmModulePresenter = PresenterResolver.getPresenter(classOf[CrmModulePresenter])
-                val screenData: CrmModuleScreenData.GotoModule = new CrmModuleScreenData.GotoModule(ScalaUtils.stringConvertSeqToArray(event.getData))
+                val crmModulePresenter = PresenterResolver.getPresenter(classOf[CrmModulePresenter])
+                val screenData = new CrmModuleScreenData.GotoModule(ScalaUtils.stringConvertSeqToArray(event.getData))
                 crmModulePresenter.go(container, screenData)
             }
         })
         this.register(new ApplicationEventListener[ShellEvent.GotoProjectModule]() {
             @Subscribe def handle(event: ShellEvent.GotoProjectModule) {
-                val prjPresenter: ProjectModulePresenter = PresenterResolver.getPresenter(classOf[ProjectModulePresenter])
-                val screenData: ProjectModuleScreenData.GotoModule = new ProjectModuleScreenData.GotoModule(ScalaUtils.stringConvertSeqToArray(event.getData))
+                val prjPresenter = PresenterResolver.getPresenter(classOf[ProjectModulePresenter])
+                val screenData = new ProjectModuleScreenData.GotoModule(ScalaUtils.stringConvertSeqToArray(event.getData))
                 prjPresenter.go(container, screenData)
             }
         })
         this.register(new ApplicationEventListener[ShellEvent.GotoUserAccountModule]() {
             @Subscribe def handle(event: ShellEvent.GotoUserAccountModule) {
-                val presenter: AccountModulePresenter = PresenterResolver.getPresenter(classOf[AccountModulePresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[AccountModulePresenter])
                 presenter.go(container, new AccountModuleScreenData.GotoModule(ScalaUtils.stringConvertSeqToArray(event.getData)))
             }
         })
         this.register(new ApplicationEventListener[ShellEvent.GotoFileModule]() {
             @Subscribe def handle(event: ShellEvent.GotoFileModule) {
-                val fileModulePresenter: IFileModulePresenter = PresenterResolver.getPresenter(classOf[IFileModulePresenter])
-                val screenData: FileModuleScreenData.GotoModule = new FileModuleScreenData.GotoModule(ScalaUtils.stringConvertSeqToArray(event.getData))
+                val fileModulePresenter = PresenterResolver.getPresenter(classOf[IFileModulePresenter])
+                val screenData = new FileModuleScreenData.GotoModule(ScalaUtils.stringConvertSeqToArray(event.getData))
                 fileModulePresenter.go(container, screenData)
             }
         })

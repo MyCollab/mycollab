@@ -19,13 +19,11 @@ package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.module.project.domain.SimpleProjectRole;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectRoleSearchCriteria;
-import com.esofthead.mycollab.vaadin.web.ui.ListView;
+import com.esofthead.mycollab.vaadin.web.ui.IListView;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public interface ProjectRoleListView extends
-		ListView<ProjectRoleSearchCriteria, SimpleProjectRole> {
+public interface ProjectRoleListView extends IListView<ProjectRoleSearchCriteria, SimpleProjectRole> {
 }

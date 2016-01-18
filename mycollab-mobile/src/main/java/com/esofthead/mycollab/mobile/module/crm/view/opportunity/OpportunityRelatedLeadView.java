@@ -52,7 +52,7 @@ public class OpportunityRelatedLeadView extends AbstractRelatedListView<SimpleLe
         final LeadSearchCriteria searchCriteria = new LeadSearchCriteria();
         searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
         searchCriteria.setOpportunityId(new NumberSearchField(SearchField.AND, opportunity.getId()));
-        this.itemList.setSearchCriteria(searchCriteria);
+        this.itemList.search(searchCriteria);
     }
 
     public void displayLeads(SimpleOpportunity opportunity) {

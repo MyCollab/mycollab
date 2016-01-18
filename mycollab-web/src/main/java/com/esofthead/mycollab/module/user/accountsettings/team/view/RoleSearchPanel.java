@@ -139,7 +139,7 @@ public class RoleSearchPanel extends DefaultGenericSearchPanel<RoleSearchCriteri
         protected SearchCriteria fillUpSearchCriteria() {
             RoleSearchCriteria searchCriteria = new RoleSearchCriteria();
             if (StringUtils.isNotBlank(this.nameField.getValue())) {
-                searchCriteria.setRoleName(new StringSearchField(this.nameField.getValue()));
+                searchCriteria.setRoleName(StringSearchField.and(this.nameField.getValue()));
             }
             return searchCriteria;
         }

@@ -58,8 +58,8 @@ public class MilestoneServiceTest extends IntergrationServiceTest {
         MilestoneSearchCriteria criteria = new MilestoneSearchCriteria();
         criteria.setSaccountid(new NumberSearchField(1));
         criteria.setProjectId(new NumberSearchField(1));
-        criteria.setStatus(new StringSearchField("Open"));
-        criteria.setMilestoneName(new StringSearchField("milestone 1"));
+        criteria.setStatus(StringSearchField.and("Open"));
+        criteria.setMilestoneName(StringSearchField.and("milestone 1"));
 
         List<SimpleMilestone> milestones = itemTimeLoggingService
                 .findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));

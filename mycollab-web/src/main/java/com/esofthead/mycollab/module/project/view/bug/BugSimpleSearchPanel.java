@@ -95,7 +95,7 @@ public class BugSimpleSearchPanel extends GenericSearchPanel<BugSearchCriteria> 
         searchCriteria = new BugSearchCriteria();
         searchCriteria.setProjectId(new NumberSearchField(
                 SearchField.AND, CurrentProjectVariables.getProject().getId()));
-        searchCriteria.setSummary(new StringSearchField(textValueField.getValue().trim()));
+        searchCriteria.setSummary(StringSearchField.and(textValueField.getValue().trim()));
 
         if (chkIsOpenBug.getValue()) {
             searchCriteria.setStatuses(new SetSearchField<>(BugStatus.InProgress.name(), BugStatus.Open.name(), BugStatus.ReOpened.name()));

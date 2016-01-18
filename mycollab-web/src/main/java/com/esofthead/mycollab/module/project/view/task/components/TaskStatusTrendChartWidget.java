@@ -164,8 +164,8 @@ public class TaskStatusTrendChartWidget extends Depot {
         }
 
         void display(TimelineTrackingSearchCriteria searchCriteria) {
-            searchCriteria.setType(new StringSearchField(ProjectTypeConstants.TASK));
-            searchCriteria.setFieldgroup(new StringSearchField("status"));
+            searchCriteria.setType(StringSearchField.and(ProjectTypeConstants.TASK));
+            searchCriteria.setFieldgroup(StringSearchField.and("status"));
             this.searchCriteria = searchCriteria;
             LocalDate endDate = new LocalDate(new GregorianCalendar().getTime());
             LocalDate startDate = endDate.minusDays(30);

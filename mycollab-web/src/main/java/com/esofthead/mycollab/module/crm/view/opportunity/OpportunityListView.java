@@ -18,13 +18,13 @@ package com.esofthead.mycollab.module.crm.view.opportunity;
 
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
-import com.esofthead.mycollab.vaadin.web.ui.ListView;
+import com.esofthead.mycollab.vaadin.web.ui.IListView;
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public interface OpportunityListView extends ListView<OpportunitySearchCriteria, SimpleOpportunity> {
+public interface OpportunityListView extends IListView<OpportunitySearchCriteria, SimpleOpportunity> {
     String VIEW_DEF_ID = "crm-opportunity-list";
 
 }

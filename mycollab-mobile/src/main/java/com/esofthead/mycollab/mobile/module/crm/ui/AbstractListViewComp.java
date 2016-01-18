@@ -20,6 +20,7 @@ import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.mobile.ui.AbstractMobileMenuPageView;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.esofthead.mycollab.mobile.ui.IListView;
+import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
 import com.vaadin.ui.Component;
 
 /**
@@ -44,6 +45,11 @@ public abstract class AbstractListViewComp<S extends SearchCriteria, B> extends 
     @Override
     public AbstractPagedBeanList<S, B> getPagedBeanTable() {
         return this.itemList;
+    }
+
+    @Override
+    public HasSearchHandlers<S> getSearchHandlers() {
+        return null;
     }
 
     @Override

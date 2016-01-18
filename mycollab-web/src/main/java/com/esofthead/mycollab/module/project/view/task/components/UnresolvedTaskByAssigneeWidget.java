@@ -139,7 +139,7 @@ public class UnresolvedTaskByAssigneeWidget extends DepotWithChart {
                 @Override
                 public void buttonClick(final ClickEvent event) {
                     TaskSearchCriteria criteria = BeanUtility.deepClone(searchCriteria);
-                    criteria.setAssignUser(new StringSearchField(assignee));
+                    criteria.setAssignUser(StringSearchField.and(assignee));
                     EventBusFactory.getInstance().post(new TaskEvent.SearchRequest(this, criteria));
                 }
             });

@@ -19,7 +19,7 @@ package com.esofthead.mycollab.mobile.module.project.view.settings;
 import com.esofthead.mycollab.common.GenericLinkUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
-import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
+import com.esofthead.mycollab.mobile.module.project.view.AbstractProjectPresenter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
@@ -35,7 +35,7 @@ import com.vaadin.ui.ComponentContainer;
  * @author MyCollab Ltd.
  * @since 4.5.2
  */
-public class ProjectMemberEditPresenter extends AbstractMobilePresenter<ProjectMemberEditView> {
+public class ProjectMemberEditPresenter extends AbstractProjectPresenter<ProjectMemberEditView> {
     private static final long serialVersionUID = -209370866970403913L;
 
     public ProjectMemberEditPresenter() {

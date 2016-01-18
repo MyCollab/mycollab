@@ -24,22 +24,6 @@ import com.esofthead.mycollab.eventmanager.ApplicationEvent;
  */
 public class CrmEvent {
 
-	public static class GotoLogin extends ApplicationEvent {
-		private static final long serialVersionUID = 5340896213086045388L;
-
-		public GotoLogin(Object source, Object data) {
-			super(source, data);
-		}
-	}
-
-	public static class PlainLogin extends ApplicationEvent {
-		private static final long serialVersionUID = -1722945220088633016L;
-
-		public PlainLogin(Object source, Object data) {
-			super(source, data);
-		}
-	}
-
 	public static class GotoContainer extends ApplicationEvent {
 
 		private static final long serialVersionUID = 4746588959410782216L;

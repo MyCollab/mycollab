@@ -114,8 +114,8 @@ public class VersionServiceTest extends IntergrationServiceTest {
 	public void testFindByCriteria() {
 		VersionSearchCriteria criteria = getCriteria();
 		criteria.setId(new NumberSearchField(2));
-		criteria.setStatus(new StringSearchField("Closed"));
-		criteria.setVersionname(new StringSearchField("2.0.0"));
+		criteria.setStatus(StringSearchField.and("Closed"));
+		criteria.setVersionname(StringSearchField.and("2.0.0"));
 
 		List<SimpleVersion> versions = versionService
 				.findPagableListByCriteria(new SearchRequest<>(

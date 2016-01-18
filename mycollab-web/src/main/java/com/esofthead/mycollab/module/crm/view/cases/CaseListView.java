@@ -18,12 +18,12 @@ package com.esofthead.mycollab.module.crm.view.cases;
 
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
-import com.esofthead.mycollab.vaadin.web.ui.ListView;
+import com.esofthead.mycollab.vaadin.web.ui.IListView;
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public interface CaseListView extends ListView<CaseSearchCriteria, SimpleCase> {
+public interface CaseListView extends IListView<CaseSearchCriteria, SimpleCase> {
     String VIEW_DEF_ID = "crm-case-list";
 }

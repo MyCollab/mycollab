@@ -120,7 +120,7 @@ public class CampaignReadViewImpl extends AbstractPreviewItemComp<SimpleCampaign
     protected void displayActivities() {
         ActivitySearchCriteria criteria = new ActivitySearchCriteria();
         criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-        criteria.setType(new StringSearchField(SearchField.AND, CrmTypeConstants.CAMPAIGN));
+        criteria.setType(StringSearchField.and(CrmTypeConstants.CAMPAIGN));
         criteria.setTypeid(new NumberSearchField(beanItem.getId()));
         associateActivityList.setSearchCriteria(criteria);
     }

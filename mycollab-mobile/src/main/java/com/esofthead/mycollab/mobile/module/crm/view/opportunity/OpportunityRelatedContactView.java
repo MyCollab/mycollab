@@ -51,7 +51,7 @@ public class OpportunityRelatedContactView extends AbstractRelatedListView<Simpl
         final ContactSearchCriteria searchCriteria = new ContactSearchCriteria();
         searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
         searchCriteria.setOpportunityId(new NumberSearchField(SearchField.AND, this.opportunity.getId()));
-        this.itemList.setSearchCriteria(searchCriteria);
+        this.itemList.search(searchCriteria);
     }
 
     public void displayContacts(SimpleOpportunity opportunity) {

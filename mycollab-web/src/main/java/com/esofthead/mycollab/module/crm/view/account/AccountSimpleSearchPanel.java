@@ -113,13 +113,13 @@ public class AccountSimpleSearchPanel extends GenericSearchPanel<AccountSearchCr
                 String strSearch = textValueField.getValue();
                 if (StringUtils.isNotBlank(strSearch)) {
                     if (searchType.equals("Name")) {
-                        searchCriteria.setAccountname(new StringSearchField(SearchField.AND, strSearch));
+                        searchCriteria.setAccountname(StringSearchField.and(strSearch));
                     } else if (searchType.equals("Email")) {
-                        searchCriteria.setAnyMail(new StringSearchField(SearchField.AND, strSearch));
+                        searchCriteria.setAnyMail(StringSearchField.and(strSearch));
                     } else if (searchType.equals("Website")) {
-                        searchCriteria.setWebsite(new StringSearchField(SearchField.AND, strSearch));
+                        searchCriteria.setWebsite(StringSearchField.and(strSearch));
                     } else if (searchType.equals("Phone")) {
-                        searchCriteria.setAnyPhone(new StringSearchField(SearchField.AND, strSearch));
+                        searchCriteria.setAnyPhone(StringSearchField.and(strSearch));
                     }
                 }
             }

@@ -93,7 +93,7 @@ public class UserSettingViewImpl extends AbstractPageView implements UserSetting
                 if (AppContext.getMessage(ProjectCommonI18nEnum.VIEW_USERS).equals(caption)) {
                     ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
                     criteria.setProjectId(new NumberSearchField(project.getId()));
-                    criteria.setStatus(new StringSearchField(ProjectMemberStatusConstants.ACTIVE));
+                    criteria.setStatus(StringSearchField.and(ProjectMemberStatusConstants.ACTIVE));
                     UserSettingViewImpl.this.userPresenter.go(UserSettingViewImpl.this, new ScreenData.Search<>(criteria));
                 } else if (AppContext.getMessage(ProjectCommonI18nEnum.VIEW_ROLES).equals(caption)) {
                     ProjectRoleSearchCriteria criteria = new ProjectRoleSearchCriteria();

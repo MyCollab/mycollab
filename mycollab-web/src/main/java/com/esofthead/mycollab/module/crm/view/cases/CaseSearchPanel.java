@@ -198,7 +198,7 @@ public class CaseSearchPanel extends DefaultGenericSearchPanel<CaseSearchCriteri
             searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
 
             if (StringUtils.isNotBlank(this.subjectField.getValue().trim())) {
-                searchCriteria.setSubject(new StringSearchField(SearchField.AND, this.subjectField.getValue().trim()));
+                searchCriteria.setSubject(StringSearchField.and(this.subjectField.getValue().trim()));
             }
 
             if (this.myItemCheckbox.getValue()) {

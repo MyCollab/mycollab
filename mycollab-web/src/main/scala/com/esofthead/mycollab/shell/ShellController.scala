@@ -35,8 +35,8 @@ class ShellController(container: MainWindowContainer) extends AbstractController
     private def bind() {
         this.register(new ApplicationEventListener[ShellEvent.GotoMainPage]() {
             @Subscribe def handle(event: ShellEvent.GotoMainPage) {
-                val mainViewPresenter: MainViewPresenter = PresenterResolver.getPresenter(classOf[MainViewPresenter])
-                val mainView: MainView = mainViewPresenter.getView
+                val mainViewPresenter = PresenterResolver.getPresenter(classOf[MainViewPresenter])
+                val mainView = mainViewPresenter.getView
                 container.setContent(mainView)
                 container.setStyleName("mainView")
                 mainViewPresenter.go(container, null)
@@ -49,7 +49,7 @@ class ShellController(container: MainWindowContainer) extends AbstractController
         })
         this.register(new ApplicationEventListener[ShellEvent.GotoForgotPasswordPage]() {
             @Subscribe def handle(event: ShellEvent.GotoForgotPasswordPage) {
-                val presenter: ForgotPasswordPresenter = PresenterResolver.getPresenter(classOf[ForgotPasswordPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[ForgotPasswordPresenter])
                 presenter.go(container, null)
             }
         })

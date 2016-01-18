@@ -20,7 +20,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.events.TaskEvent;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
-import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
+import com.esofthead.mycollab.mobile.module.project.view.AbstractProjectPresenter;
 import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
@@ -40,7 +40,7 @@ import com.vaadin.ui.UI;
  * @author MyCollab Ltd.
  * @since 4.5.0
  */
-public class TaskReadPresenter extends AbstractMobilePresenter<TaskReadView> {
+public class TaskReadPresenter extends AbstractProjectPresenter<TaskReadView> {
     private static final long serialVersionUID = 1L;
 
     public TaskReadPresenter() {

@@ -61,8 +61,8 @@ public abstract class SavedFilterComboBox extends CustomField<String> {
         this.sharedQueries = sharedQueries;
 
         SaveSearchResultCriteria searchCriteria = new SaveSearchResultCriteria();
-        searchCriteria.setType(new StringSearchField(type));
-        searchCriteria.setCreateUser(new StringSearchField(AppContext.getUsername()));
+        searchCriteria.setType(StringSearchField.and(type));
+        searchCriteria.setCreateUser(StringSearchField.and(AppContext.getUsername()));
         searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
 
         SaveSearchResultService saveSearchResultService = ApplicationContextUtil.getSpringBean(SaveSearchResultService.class);

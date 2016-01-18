@@ -57,7 +57,7 @@ public class LeadServiceTest extends IntergrationServiceTest {
 
     private LeadSearchCriteria getCriteria() {
         LeadSearchCriteria criteria = new LeadSearchCriteria();
-        criteria.setLeadName(new StringSearchField("Nguyen"));
+        criteria.setLeadName(StringSearchField.and("Nguyen"));
         criteria.setSaccountid(new NumberSearchField(1));
         return criteria;
     }
@@ -67,7 +67,7 @@ public class LeadServiceTest extends IntergrationServiceTest {
     @DataSet
     public void testSearchLeadName() {
         LeadSearchCriteria criteria = new LeadSearchCriteria();
-        criteria.setLeadName(new StringSearchField(SearchField.AND,
+        criteria.setLeadName(StringSearchField.and(
                 "Nguyen Hai"));
         criteria.setSaccountid(new NumberSearchField(1));
 

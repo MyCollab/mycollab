@@ -47,7 +47,7 @@ public class BugTimeLogComp extends TimeLogComp<SimpleBug> {
     protected Double getTotalBillableHours(SimpleBug bean) {
         ItemTimeLoggingSearchCriteria criteria = new ItemTimeLoggingSearchCriteria();
         criteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-        criteria.setType(new StringSearchField(ProjectTypeConstants.BUG));
+        criteria.setType(StringSearchField.and(ProjectTypeConstants.BUG));
         criteria.setTypeId(new NumberSearchField(bean.getId()));
         criteria.setIsBillable(new BooleanSearchField(true));
         return itemTimeLoggingService.getTotalHoursByCriteria(criteria);
@@ -57,7 +57,7 @@ public class BugTimeLogComp extends TimeLogComp<SimpleBug> {
     protected Double getTotalNonBillableHours(SimpleBug bean) {
         ItemTimeLoggingSearchCriteria criteria = new ItemTimeLoggingSearchCriteria();
         criteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-        criteria.setType(new StringSearchField(ProjectTypeConstants.BUG));
+        criteria.setType(StringSearchField.and(ProjectTypeConstants.BUG));
         criteria.setTypeId(new NumberSearchField(bean.getId()));
         criteria.setIsBillable(new BooleanSearchField(false));
         return itemTimeLoggingService.getTotalHoursByCriteria(criteria);
@@ -114,7 +114,7 @@ public class BugTimeLogComp extends TimeLogComp<SimpleBug> {
         protected ItemTimeLoggingSearchCriteria getItemSearchCriteria() {
             ItemTimeLoggingSearchCriteria searchCriteria = new ItemTimeLoggingSearchCriteria();
             searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-            searchCriteria.setType(new StringSearchField(ProjectTypeConstants.BUG));
+            searchCriteria.setType(StringSearchField.and(ProjectTypeConstants.BUG));
             searchCriteria.setTypeId(new NumberSearchField(bean.getId()));
             return searchCriteria;
         }

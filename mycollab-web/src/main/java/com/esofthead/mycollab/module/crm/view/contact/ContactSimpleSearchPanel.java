@@ -108,11 +108,11 @@ public class ContactSimpleSearchPanel extends GenericSearchPanel<ContactSearchCr
                 String strSearch = textValueField.getValue();
                 if (StringUtils.isNotBlank(strSearch)) {
                     if (searchType.equals("Name")) {
-                        searchCriteria.setContactName(new StringSearchField(strSearch));
+                        searchCriteria.setContactName(StringSearchField.and(strSearch));
                     } else if (searchType.equals("Email")) {
-                        searchCriteria.setAnyEmail(new StringSearchField(strSearch));
+                        searchCriteria.setAnyEmail(StringSearchField.and(strSearch));
                     } else if (searchType.equals("Phone")) {
-                        searchCriteria.setAnyPhone(new StringSearchField(strSearch));
+                        searchCriteria.setAnyPhone(StringSearchField.and(strSearch));
                     }
                 }
             }

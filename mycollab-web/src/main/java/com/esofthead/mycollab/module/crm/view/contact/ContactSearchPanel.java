@@ -162,7 +162,7 @@ public class ContactSearchPanel extends DefaultGenericSearchPanel<ContactSearchC
             ContactSearchCriteria searchCriteria = new ContactSearchCriteria();
             searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
             if (StringUtils.isNotBlank(this.nameField.getValue().trim())) {
-                searchCriteria.setContactName(new StringSearchField(SearchField.AND, this.nameField.getValue().trim()));
+                searchCriteria.setContactName(StringSearchField.and(this.nameField.getValue().trim()));
             }
 
             if (this.myItemCheckbox.getValue()) {

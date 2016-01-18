@@ -138,7 +138,7 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase> implem
     protected void displayActivities() {
         ActivitySearchCriteria criteria = new ActivitySearchCriteria();
         criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-        criteria.setType(new StringSearchField(SearchField.AND, CrmTypeConstants.CASE));
+        criteria.setType(StringSearchField.and(CrmTypeConstants.CASE));
         criteria.setTypeid(new NumberSearchField(beanItem.getId()));
         associateActivityList.setSearchCriteria(criteria);
     }

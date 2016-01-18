@@ -740,8 +740,8 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
         @SuppressWarnings("unchecked")
         private void contructComboBox() {
             SaveSearchResultCriteria searchCriteria = new SaveSearchResultCriteria();
-            searchCriteria.setType(new StringSearchField(searchCategory));
-            searchCriteria.setCreateUser(new StringSearchField(AppContext.getUsername()));
+            searchCriteria.setType(StringSearchField.and(searchCategory));
+            searchCriteria.setCreateUser(StringSearchField.and(AppContext.getUsername()));
             searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
 
             SaveSearchResultService saveSearchResultService = ApplicationContextUtil.getSpringBean(SaveSearchResultService.class);

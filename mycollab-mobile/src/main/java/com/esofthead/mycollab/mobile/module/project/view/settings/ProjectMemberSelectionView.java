@@ -72,7 +72,7 @@ public class ProjectMemberSelectionView extends AbstractSelectionView<SimpleProj
         searchCriteria = new ProjectMemberSearchCriteria();
         searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
         searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-        memberListDisplay.setSearchCriteria(searchCriteria);
+        memberListDisplay.search(searchCriteria);
         SimpleProjectMember blankMember = new SimpleProjectMember();
         memberListDisplay.getListContainer().addComponentAsFirst(rowDisplayHandler.generateRow(blankMember, 0));
     }
@@ -103,12 +103,11 @@ public class ProjectMemberSelectionView extends AbstractSelectionView<SimpleProj
 
             A memberLink = new A(ProjectLinkBuilder.generateProjectMemberFullLink(CurrentProjectVariables
                     .getProjectId(), member.getUsername())).appendText(member.getDisplayName());
-            Label memberLbl = new ELabel(memberLink.write(), ContentMode.HTML)
+            Label memberLbl = new ELabel(member.getDisplayName(), ContentMode.HTML)
                     .withWidthUndefined();
             memberInfoLayout.addComponent(new MCssLayout(memberLbl).withFullWidth());
 
-            Label memberEmailLabel = new Label(String.format("<a href='mailto:%s'>%s</a>", member.getUsername(),
-                    member.getUsername()), ContentMode.HTML);
+            Label memberEmailLabel = new Label(member.getUsername());
             memberEmailLabel.addStyleName(UIConstants.META_INFO);
             memberInfoLayout.addComponent(memberEmailLabel);
 

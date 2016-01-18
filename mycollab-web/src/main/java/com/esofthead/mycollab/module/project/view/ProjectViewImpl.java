@@ -158,7 +158,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
                     } else if (ProjectTypeConstants.MEMBER.equals(caption)) {
                         ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
                         criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-                        criteria.setStatus(new StringSearchField(ProjectMemberStatusConstants.ACTIVE));
+                        criteria.setStatus(StringSearchField.and(ProjectMemberStatusConstants.ACTIVE));
                         userPresenter.go(ProjectViewImpl.this, new ProjectMemberScreenData.Search(criteria));
                     } else if (ProjectTypeConstants.TIME.equals(caption)) {
                         ItemTimeLoggingSearchCriteria searchCriteria = new ItemTimeLoggingSearchCriteria();
@@ -195,7 +195,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
             if (project.getContextask() == null || project.getContextask()) {
                 ProjectMemberSearchCriteria searchCriteria = new ProjectMemberSearchCriteria();
                 searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-                searchCriteria.setStatus(new StringSearchField(ProjectMemberStatusConstants.ACTIVE));
+                searchCriteria.setStatus(StringSearchField.and(ProjectMemberStatusConstants.ACTIVE));
                 ProjectMemberService prjMemberService = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
                 int totalMembers = prjMemberService.getTotalCount(searchCriteria);
                 if (totalMembers < 2) {

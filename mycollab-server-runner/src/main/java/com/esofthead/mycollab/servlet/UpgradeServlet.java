@@ -18,7 +18,7 @@ package com.esofthead.mycollab.servlet;
 
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.utils.FileUtils;
-import com.esofthead.mycollab.jetty.ServerInstance;
+import com.esofthead.mycollab.server.jetty.ServerInstance;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 

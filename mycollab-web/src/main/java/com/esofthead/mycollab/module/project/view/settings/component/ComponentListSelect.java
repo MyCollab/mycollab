@@ -45,7 +45,7 @@ public class ComponentListSelect extends ListSelect {
 		this.setMultiSelect(true);
 
 		ComponentSearchCriteria searchCriteria = new ComponentSearchCriteria();
-		searchCriteria.setStatus(new StringSearchField(StatusI18nEnum.Open
+		searchCriteria.setStatus(StringSearchField.and(StatusI18nEnum.Open
 				.name()));
 
 		searchCriteria.setProjectid(new NumberSearchField(SearchField.AND,

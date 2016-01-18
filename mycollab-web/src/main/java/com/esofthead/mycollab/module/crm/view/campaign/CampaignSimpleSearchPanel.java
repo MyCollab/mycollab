@@ -100,7 +100,7 @@ public class CampaignSimpleSearchPanel extends GenericSearchPanel<CampaignSearch
                 String strSearch = textValueField.getValue();
                 if (StringUtils.isNotBlank(strSearch)) {
                     if (searchType.equals("Campaign Name")) {
-                        searchCriteria.setCampaignName(new StringSearchField(SearchField.AND, strSearch));
+                        searchCriteria.setCampaignName(StringSearchField.and(strSearch));
                     }
                 }
             }

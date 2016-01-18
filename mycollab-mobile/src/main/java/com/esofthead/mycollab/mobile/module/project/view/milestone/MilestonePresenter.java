@@ -19,7 +19,7 @@ package com.esofthead.mycollab.mobile.module.project.view.milestone;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.MilestoneScreenData;
 import com.esofthead.mycollab.mobile.mvp.AbstractPresenter;
-import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
+import com.esofthead.mycollab.mobile.module.project.view.AbstractProjectPresenter;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.vaadin.ui.ComponentContainer;
@@ -28,7 +28,7 @@ import com.vaadin.ui.ComponentContainer;
  * @author MyCollab Ltd.
  * @since 4.5.2
  */
-public class MilestonePresenter extends AbstractMobilePresenter<MilestoneContainer> {
+public class MilestonePresenter extends AbstractProjectPresenter<MilestoneContainer> {
     private static final long serialVersionUID = 5263058263047835714L;
 
     public MilestonePresenter() {

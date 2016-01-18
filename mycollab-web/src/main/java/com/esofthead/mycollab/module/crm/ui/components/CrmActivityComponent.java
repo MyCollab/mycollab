@@ -133,15 +133,15 @@ public class CrmActivityComponent extends MVerticalLayout implements ReloadableC
         }
 
         final CommentSearchCriteria commentCriteria = new CommentSearchCriteria();
-        commentCriteria.setType(new StringSearchField(type));
-        commentCriteria.setTypeid(new StringSearchField(typeId));
+        commentCriteria.setType(StringSearchField.and(type));
+        commentCriteria.setTypeid(StringSearchField.and(typeId));
         final int commentCount = commentService.getTotalCount(commentCriteria);
 
         final AuditLogSearchCriteria logCriteria = new AuditLogSearchCriteria();
         logCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-        logCriteria.setModule(new StringSearchField(ModuleNameConstants.CRM));
-        logCriteria.setType(new StringSearchField(type));
-        logCriteria.setTypeid(new StringSearchField(typeId));
+        logCriteria.setModule(StringSearchField.and(ModuleNameConstants.CRM));
+        logCriteria.setType(StringSearchField.and(type));
+        logCriteria.setTypeid(StringSearchField.and(typeId));
         final int logCount = auditLogService.getTotalCount(logCriteria);
         setTotalNums(commentCount + logCount);
 

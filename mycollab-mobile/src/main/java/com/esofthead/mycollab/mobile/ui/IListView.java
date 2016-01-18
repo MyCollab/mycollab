@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.mobile.ui;
 
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
+import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 
 /**
@@ -28,4 +29,6 @@ import com.esofthead.mycollab.vaadin.mvp.PageView;
 public interface IListView<S extends SearchCriteria, B> extends PageView {
 
     AbstractPagedBeanList<S, B> getPagedBeanTable();
+
+    HasSearchHandlers<S> getSearchHandlers();
 }

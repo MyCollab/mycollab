@@ -64,8 +64,8 @@ public class CampaignServiceTest extends IntergrationServiceTest {
 
     private CampaignSearchCriteria getCriteria() {
         CampaignSearchCriteria criteria = new CampaignSearchCriteria();
-        criteria.setAssignUser(new StringSearchField("hai79"));
-        criteria.setCampaignName(new StringSearchField("A"));
+        criteria.setAssignUser(StringSearchField.and("hai79"));
+        criteria.setCampaignName(StringSearchField.and("A"));
         criteria.setSaccountid(new NumberSearchField(1));
         criteria.setAssignUsers(new SetSearchField<>("hai79", "linh"));
         criteria.setStatuses(new SetSearchField<>("a", "b"));

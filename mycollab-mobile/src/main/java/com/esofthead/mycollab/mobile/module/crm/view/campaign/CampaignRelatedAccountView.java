@@ -56,7 +56,7 @@ public class CampaignRelatedAccountView extends AbstractRelatedListView<SimpleAc
         AccountSearchCriteria searchCriteria = new AccountSearchCriteria();
         searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
         searchCriteria.setCampaignId(new NumberSearchField(SearchField.AND, this.campaign.getId()));
-        this.itemList.setSearchCriteria(searchCriteria);
+        this.itemList.search(searchCriteria);
     }
 
     @Override

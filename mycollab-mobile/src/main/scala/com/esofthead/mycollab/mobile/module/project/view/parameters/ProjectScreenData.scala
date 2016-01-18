@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.parameters
 
+import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteria
 import com.esofthead.mycollab.module.project.domain.SimpleProject
 import com.esofthead.mycollab.vaadin.mvp.ScreenData
 
@@ -31,10 +32,10 @@ object ProjectScreenData {
 
   class Edit(param: Integer) extends ScreenData[Integer](param) {}
 
-  class ViewActivities(param: Integer) extends ScreenData[AnyRef](null) {}
+  class ProjectActivities(param: ActivityStreamSearchCriteria) extends ScreenData[ActivityStreamSearchCriteria](param) {}
 
   class GotoDashboard() extends ScreenData[AnyRef](null) {}
 
-  class AllActivities() extends ScreenData[AnyRef](null) {}
+  class AllActivities(param: ActivityStreamSearchCriteria) extends ScreenData[ActivityStreamSearchCriteria](param) {}
 
 }

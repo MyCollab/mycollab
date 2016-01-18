@@ -50,7 +50,7 @@ public class ProjectFollowingTicketServiceTest extends IntergrationServiceTest {
         FollowingTicketSearchCriteria criteria = new FollowingTicketSearchCriteria();
         criteria.setExtraTypeIds(new SetSearchField<>(1, 2));
         criteria.setSaccountid(new NumberSearchField(1));
-        criteria.setUser(new StringSearchField("hainguyen@esofthead.com"));
+        criteria.setUser(StringSearchField.and("hainguyen@esofthead.com"));
         return criteria;
     }
 
@@ -88,7 +88,7 @@ public class ProjectFollowingTicketServiceTest extends IntergrationServiceTest {
     public void testGetListProjectFollowingTicketBySummary()
             throws ParseException {
         FollowingTicketSearchCriteria criteria = getCriteria();
-        criteria.setSummary(new StringSearchField("1"));
+        criteria.setSummary(StringSearchField.and("1"));
         List<FollowingTicket> projectFollowingTickets = projectFollowingTicketService
                 .findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
         assertThat(projectFollowingTickets).extracting("type", "summary", "monitorDate").contains(
@@ -126,7 +126,7 @@ public class ProjectFollowingTicketServiceTest extends IntergrationServiceTest {
     @Test
     public void testGetListProjectFollowingTicketOfTask() throws ParseException {
         FollowingTicketSearchCriteria criteria = getCriteria();
-        criteria.setType(new StringSearchField("Project-Task"));
+        criteria.setType(StringSearchField.and("Project-Task"));
         List<FollowingTicket> projectFollowingTickets = projectFollowingTicketService
                 .findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
         assertThat(projectFollowingTickets).extracting("type", "summary",
@@ -143,7 +143,7 @@ public class ProjectFollowingTicketServiceTest extends IntergrationServiceTest {
     @Test
     public void testGetListProjectFollowingTicketOfRisk() throws ParseException {
         FollowingTicketSearchCriteria criteria = getCriteria();
-        criteria.setType(new StringSearchField("Project-Risk"));
+        criteria.setType(StringSearchField.and("Project-Risk"));
         List<FollowingTicket> projectFollowingTickets = projectFollowingTicketService
                 .findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 
@@ -162,7 +162,7 @@ public class ProjectFollowingTicketServiceTest extends IntergrationServiceTest {
     public void testGetListProjectFollowingTicketOfProblem()
             throws ParseException {
         FollowingTicketSearchCriteria criteria = getCriteria();
-        criteria.setType(new StringSearchField("Project-Problem"));
+        criteria.setType(StringSearchField.and("Project-Problem"));
         List<FollowingTicket> projectFollowingTickets = projectFollowingTicketService
                 .findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 
@@ -180,7 +180,7 @@ public class ProjectFollowingTicketServiceTest extends IntergrationServiceTest {
     @Test
     public void testGetListProjectFollowingTicketOfBug() throws ParseException {
         FollowingTicketSearchCriteria criteria = getCriteria();
-        criteria.setType(new StringSearchField("Project-Bug"));
+        criteria.setType(StringSearchField.and("Project-Bug"));
         List<FollowingTicket> projectFollowingTickets = projectFollowingTicketService
                 .findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 

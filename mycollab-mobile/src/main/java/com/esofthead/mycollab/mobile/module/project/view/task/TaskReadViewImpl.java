@@ -74,7 +74,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
 
     @Override
     public HasPreviewFormHandlers<SimpleTask> getPreviewFormHandlers() {
-        return this.previewForm;
+        return previewForm;
     }
 
     @Override
@@ -89,22 +89,22 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
         relatedComments.displayTotalComments(beanItem.getId() + "");
 
         taskTimeLogComp.displayTime(beanItem);
-        this.previewForm.addComponent(taskTimeLogComp);
+        previewForm.addComponent(taskTimeLogComp);
 
         ResourceService resourceService = ApplicationContextUtil.getSpringBean(ResourceService.class);
         List<Content> attachments = resourceService.getContents(AttachmentUtils.getProjectEntityAttachmentPath(AppContext.getAccountId(),
                 beanItem.getProjectid(), ProjectTypeConstants.TASK, "" + beanItem.getId()));
         if (CollectionUtils.isNotEmpty(attachments)) {
             attachmentComp = new ProjectAttachmentDisplayComp(attachments);
-            this.previewForm.addComponent(attachmentComp);
-        } else if (attachmentComp != null && attachmentComp.getParent().equals(this.previewForm)) {
-            this.previewForm.removeComponent(attachmentComp);
+            previewForm.addComponent(attachmentComp);
+        } else if (attachmentComp != null && attachmentComp.getParent().equals(previewForm)) {
+            previewForm.removeComponent(attachmentComp);
         }
     }
 
     @Override
     protected String initFormTitle() {
-        return this.beanItem.getTaskname();
+        return beanItem.getTaskname();
     }
 
     @Override
@@ -119,7 +119,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
 
     @Override
     protected AbstractBeanFieldGroupViewFieldFactory<SimpleTask> initBeanFormFieldFactory() {
-        return new ReadFormFieldFactory(this.previewForm);
+        return new ReadFormFieldFactory(previewForm);
     }
 
     @Override
@@ -211,11 +211,13 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
                     return field;
                 }
             } else if (Task.Field.milestoneid.equalTo(propertyId)) {
-                A milestoneLink = new A(ProjectLinkBuilder.generateMilestonePreviewFullLink
-                        (CurrentProjectVariables.getProjectId(), beanItem.getMilestoneid())).appendText(beanItem.getMilestoneName());
-                Div milestoneDiv = new Div().appendText(ProjectAssetsManager.getAsset(ProjectTypeConstants
-                        .MILESTONE).getHtml()).appendChild(DivLessFormatter.EMPTY_SPACE(), milestoneLink);
-                return new DefaultViewField(milestoneDiv.write(), ContentMode.HTML);
+                if (beanItem.getMilestoneid() != null) {
+                    A milestoneLink = new A(ProjectLinkBuilder.generateMilestonePreviewFullLink
+                            (CurrentProjectVariables.getProjectId(), beanItem.getMilestoneid())).appendText(beanItem.getMilestoneName());
+                    Div milestoneDiv = new Div().appendText(ProjectAssetsManager.getAsset(ProjectTypeConstants
+                            .MILESTONE).getHtml()).appendChild(DivLessFormatter.EMPTY_SPACE(), milestoneLink);
+                    return new DefaultViewField(milestoneDiv.write(), ContentMode.HTML);
+                }
             } else if (propertyId.equals("notes")) {
                 return new RichTextViewField(beanItem.getNotes());
             }

@@ -27,38 +27,33 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
- * @author MyCollab Ltd.
- * @since 4.0
- * 
  * @param <V>
  * @param <S>
  * @param <B>
+ * @author MyCollab Ltd.
+ * @since 4.0
  */
-public abstract class CrmListPresenter<V extends IListView<S, B>, S extends SearchCriteria, B extends ValuedBean>
-		extends AbstractListPresenter<V, S, B> {
-	private static final long serialVersionUID = -8215491621059981765L;
+public abstract class CrmListPresenter<V extends IListView<S, B>, S extends SearchCriteria, B extends ValuedBean> extends AbstractListPresenter<V, S, B> {
+    private static final long serialVersionUID = -8215491621059981765L;
 
-	public CrmListPresenter(Class<V> viewClass) {
-		super(viewClass);
-	}
+    public CrmListPresenter(Class<V> viewClass) {
+        super(viewClass);
+    }
 
-	@SuppressWarnings("unchecked")
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		Component targetView;
-		NavigationManager currentNav = (NavigationManager) container;
+    @SuppressWarnings("unchecked")
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        Component targetView;
+        NavigationManager currentNav = (NavigationManager) container;
 
-		if (view.getParent() != null && view.getParent() instanceof AbstractMobileTabPageView) {
-			targetView = view.getParent();
-			((AbstractMobileTabPageView) view.getParent()).setSelectedTab(view.getWidget());
-		} else {
-			targetView = view;
-		}
+        if (view.getParent() != null && view.getParent() instanceof AbstractMobileTabPageView) {
+            targetView = view.getParent();
+            ((AbstractMobileTabPageView) view.getParent()).setSelectedTab(view.getWidget());
+        } else {
+            targetView = view;
+        }
 
-		currentNav.navigateTo(targetView);
-
-		doSearch((S) data.getParams());
-	}
-
+        currentNav.navigateTo(targetView);
+        doSearch((S) data.getParams());
+    }
 }

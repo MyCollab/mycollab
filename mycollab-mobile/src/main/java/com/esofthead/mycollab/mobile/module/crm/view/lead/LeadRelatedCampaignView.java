@@ -51,7 +51,7 @@ public class LeadRelatedCampaignView extends AbstractRelatedListView<SimpleCampa
         final CampaignSearchCriteria searchCriteria = new CampaignSearchCriteria();
         searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
         searchCriteria.setLeadId(new NumberSearchField(SearchField.AND, this.lead.getId()));
-        this.itemList.setSearchCriteria(searchCriteria);
+        this.itemList.search(searchCriteria);
     }
 
     public void displayCampaign(SimpleLead lead) {

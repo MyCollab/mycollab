@@ -65,8 +65,7 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Activi
 
     public ProjectActivityStreamPagedList() {
         super(null, 20);
-        this.projectActivityStreamService = ApplicationContextUtil.getSpringBean(ProjectActivityStreamService.class);
-
+        projectActivityStreamService = ApplicationContextUtil.getSpringBean(ProjectActivityStreamService.class);
     }
 
     @Override
@@ -233,7 +232,7 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Activi
 
             @Override
             public void buttonClick(ClickEvent event) {
-                ProjectActivityStreamPagedList.this.pageChange(ProjectActivityStreamPagedList.this.currentPage - 1);
+                pageChange(currentPage - 1);
             }
         });
         if (currentPage == 1) {
@@ -247,7 +246,7 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Activi
 
             @Override
             public void buttonClick(ClickEvent event) {
-                ProjectActivityStreamPagedList.this.pageChange(ProjectActivityStreamPagedList.this.currentPage + 1);
+                pageChange(currentPage + 1);
             }
         });
         if (currentPage == totalPage) {

@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.module.tracker.domain.SimpleVersion;
 import com.esofthead.mycollab.module.tracker.domain.criteria.VersionSearchCriteria;
-import com.esofthead.mycollab.vaadin.web.ui.ListView;
+import com.esofthead.mycollab.vaadin.web.ui.IListView;
 
 /**
  * 
@@ -27,6 +27,6 @@ import com.esofthead.mycollab.vaadin.web.ui.ListView;
  * @since 1.0
  */
 public interface VersionListView extends
-		ListView<VersionSearchCriteria, SimpleVersion> {
+		IListView<VersionSearchCriteria, SimpleVersion> {
 
 }

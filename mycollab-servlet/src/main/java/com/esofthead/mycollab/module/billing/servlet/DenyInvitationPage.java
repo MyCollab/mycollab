@@ -90,7 +90,7 @@ public class DenyInvitationPage extends VelocityWebServletRequestHandler {
                         out.println(html);
                     } else if (checkUser.getRegisterstatus().equals(RegisterStatusConstants.VERIFICATING)) {
                         UserSearchCriteria criteria = new UserSearchCriteria();
-                        criteria.setUsername(new StringSearchField(username));
+                        criteria.setUsername(StringSearchField.and(username));
                         criteria.setSaccountid(new NumberSearchField(accountId));
                         userService.pendingUserAccount(username, accountId);
 

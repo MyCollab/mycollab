@@ -87,7 +87,7 @@ public class ContactImportWindow extends EntityImportWindow<Contact> {
     @Override
     protected void reloadWhenBackToListView() {
         ContactSearchCriteria contactSearchCriteria = new ContactSearchCriteria();
-        contactSearchCriteria.setContactName(new StringSearchField(""));
+        contactSearchCriteria.setContactName(StringSearchField.and(""));
         EventBusFactory.getInstance().post(
                 new ContactEvent.GotoList(ContactListView.class,
                         contactSearchCriteria));

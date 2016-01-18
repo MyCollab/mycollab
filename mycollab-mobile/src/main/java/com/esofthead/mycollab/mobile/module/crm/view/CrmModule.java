@@ -23,17 +23,14 @@ import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.ui.UI;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.2
- * 
  */
-
 @ViewComponent
 public class CrmModule extends AbstractMobileMainView {
-	private static final long serialVersionUID = 1741055981807436733L;
+    private static final long serialVersionUID = 1741055981807436733L;
 
-	public CrmModule() {
-		ControllerRegistry.addController(new CrmModuleController((NavigationManager) UI.getCurrent().getContent()));
-	}
+    public CrmModule() {
+        ControllerRegistry.addController(new CrmModuleController((NavigationManager) UI.getCurrent().getContent()));
+    }
 }

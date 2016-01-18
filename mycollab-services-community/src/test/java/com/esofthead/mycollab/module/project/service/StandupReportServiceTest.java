@@ -51,7 +51,7 @@ public class StandupReportServiceTest extends IntergrationServiceTest {
     public void gatherStandupList() {
         StandupReportSearchCriteria criteria = new StandupReportSearchCriteria();
         criteria.setProjectId(new NumberSearchField(1));
-        criteria.setLogBy(new StringSearchField("hainguyen"));
+        criteria.setLogBy(StringSearchField.and("hainguyen"));
         Date d = new GregorianCalendar(2013, 2, 13).getTime();
         criteria.setOnDate(new DateSearchField(d));
         criteria.setSaccountid(new NumberSearchField(1));

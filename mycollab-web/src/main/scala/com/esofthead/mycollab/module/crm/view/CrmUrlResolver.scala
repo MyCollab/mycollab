@@ -68,5 +68,4 @@ class CrmUrlResolver extends UrlResolver {
             EventBusFactory.getInstance.post(new CrmEvent.GotoHome(this, null))
         }
     }
-
 }
