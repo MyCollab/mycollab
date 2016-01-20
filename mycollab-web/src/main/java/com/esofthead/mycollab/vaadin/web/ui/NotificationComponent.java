@@ -17,19 +17,18 @@
 package com.esofthead.mycollab.vaadin.web.ui;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.common.ui.components.notification.*;
+import com.esofthead.mycollab.common.ui.components.notification.ChangeDefaultUsernameNotification;
+import com.esofthead.mycollab.common.ui.components.notification.RequestUploadAvatarNotification;
+import com.esofthead.mycollab.common.ui.components.notification.SmtpSetupNotification;
+import com.esofthead.mycollab.common.ui.components.notification.TimezoneNotification;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.AbstractNotification;
 import com.esofthead.mycollab.core.NewUpdateAvailableNotification;
 import com.esofthead.mycollab.core.NotificationBroadcaster;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.user.domain.SimpleUser;
-import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.shell.events.ShellEvent;
-import com.esofthead.mycollab.shell.view.components.AdRequestWindow;
 import com.esofthead.mycollab.shell.view.components.UpgradeConfirmWindow;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.Hr;
 import com.google.common.eventbus.Subscribe;
@@ -238,31 +237,6 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
             });
             actionBtn.setStyleName(UIConstants.BUTTON_BLOCK);
             wrapper.addComponent(actionBtn);
-        } else if (item instanceof RequestPreviewNotification) {
-            wrapper.addComponent(new Label(FontAwesome.THUMBS_O_UP.getHtml() + " Help us to spread the world",
-                    ContentMode.HTML));
-            Button dismissBtn = new Button("Dismiss", new ClickListener() {
-                @Override
-                public void buttonClick(ClickEvent event) {
-                    SimpleUser user = AppContext.getUser();
-                    user.setRequestad(false);
-                    UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
-                    userService.updateSelectiveWithSession(user, AppContext.getUsername());
-                    notificationContainer.removeComponent(wrapper);
-                    NotificationComponent.this.setPopupVisible(false);
-                }
-            });
-            dismissBtn.setStyleName(UIConstants.BUTTON_BLOCK);
-            wrapper.addComponent(dismissBtn);
-            Button spreadBtn = new Button("I will", new ClickListener() {
-                @Override
-                public void buttonClick(ClickEvent event) {
-                    UI.getCurrent().addWindow(new AdRequestWindow(AppContext.getUser()));
-                    NotificationComponent.this.setPopupVisible(false);
-                }
-            });
-            spreadBtn.setStyleName(UIConstants.BUTTON_BLOCK);
-            wrapper.addComponent(spreadBtn);
         } else {
             LOG.error("Do not render notification " + item);
         }

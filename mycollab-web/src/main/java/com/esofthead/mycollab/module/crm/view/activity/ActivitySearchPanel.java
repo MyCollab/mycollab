@@ -171,7 +171,7 @@ public class ActivitySearchPanel extends DefaultGenericSearchPanel<ActivitySearc
             basicSearchBody.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_LEFT);
 
             Button clearBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
-            clearBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+            clearBtn.setStyleName(UIConstants.BUTTON_OPTION);
             clearBtn.addClickListener(new Button.ClickListener() {
                 @Override
                 public void buttonClick(final Button.ClickEvent event) {

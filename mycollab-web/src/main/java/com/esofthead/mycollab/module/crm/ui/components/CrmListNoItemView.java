@@ -69,7 +69,7 @@ public abstract class CrmListNoItemView extends AbstractPageView {
 		 * @Override public void buttonClick(ClickEvent arg0) {
 		 * UI.getCurrent().addWindow(new CaseImportWindow()); } });
 		 *
-		 * btImportContact.addStyleName(UIConstants.THEME_GRAY_LINK);
+		 * btImportContact.addStyleName(UIConstants.BUTTON_OPTION);
 		 *
 		 *
 		 * links.addComponent(btImportContact);

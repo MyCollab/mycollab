@@ -95,7 +95,7 @@ class PredecessorWindow extends Window {
                 PredecessorWindow.this.close();
             }
         });
-        cancelBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
+        cancelBtn.addStyleName(UIConstants.BUTTON_OPTION);
 
         Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
             @Override

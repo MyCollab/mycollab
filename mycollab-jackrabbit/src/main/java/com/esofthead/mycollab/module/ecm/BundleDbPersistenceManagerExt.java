@@ -21,27 +21,26 @@ import org.apache.jackrabbit.core.persistence.pool.BundleDbPersistenceManager;
 
 /**
  * Customize db persistence of jackrabbit
- * 
+ *
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class BundleDbPersistenceManagerExt extends BundleDbPersistenceManager {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void init(PMContext context) throws Exception {
-		setDriver("javax.naming.InitialContext");
-		setUrl("java:comp/env/jdbc/mycollabdatasource");
+    /**
+     * {@inheritDoc}
+     */
+    public void init(PMContext context) throws Exception {
+        setDriver("javax.naming.InitialContext");
+        setUrl("java:comp/env/jdbc/mycollabdatasource");
 
-		if (getSchemaObjectPrefix() == null) {
-			setSchemaObjectPrefix("ecm_p_workspace");
-		}
+        if (getSchemaObjectPrefix() == null) {
+            setSchemaObjectPrefix("ecm_p_workspace");
+        }
 
-		if (getDatabaseType() == null) {
-			setDatabaseType("mysql");
-		}
-		super.init(context);
-	}
+        if (getDatabaseType() == null) {
+            setDatabaseType("mysql");
+        }
+        super.init(context);
+    }
 }

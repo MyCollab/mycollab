@@ -8,6 +8,7 @@
 <!--    http://www.qos.ch/shop/products/professionalSupport         -->
 <!--                                                                -->
 <configuration>
+
     <!-- Errors were reported during translation. -->
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -18,6 +19,9 @@
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>%5p %c{1}:%L - %m%n</pattern>
         </layout>
+        <filter class="com.esofthead.mycollab.configuration.logging.LogFilter">
+            <level>ERROR</level>
+        </filter>
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>ERROR</level>
         </filter>
@@ -35,6 +39,9 @@
         <encoder>
             <pattern>%d{"HH:mm:ss,SSS"} %5p %c{1}:%L - %m%n</pattern>
         </encoder>
+        <filter class="com.esofthead.mycollab.configuration.logging.LogFilter">
+            <level>ERROR</level>
+        </filter>
     </appender>
     <logger name="org.springframework" level="INFO"/>
     <logger name="com.esofthead" level="INFO"/>

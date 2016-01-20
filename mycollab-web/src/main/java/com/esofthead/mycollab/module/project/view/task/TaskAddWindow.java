@@ -125,7 +125,7 @@ public class TaskAddWindow extends Window {
                         TaskAddWindow.this.close();
                     }
                 });
-                cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+                cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
                 buttonControls.with(updateAllBtn, saveBtn, cancelBtn);
 
                 layout.addComponent(buttonControls);

@@ -141,7 +141,7 @@ public class CampaignSearchPanel extends DefaultGenericSearchPanel<CampaignSearc
             basicSearchBody.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_LEFT);
 
             Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
-            cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+            cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
             cancelBtn.addClickListener(new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;
 

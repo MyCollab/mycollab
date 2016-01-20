@@ -139,7 +139,7 @@ public class LinkIssueWindow extends Window {
                         LinkIssueWindow.this.close();
                     }
                 });
-                cancelBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
+                cancelBtn.addStyleName(UIConstants.BUTTON_OPTION);
 
                 controlsBtn.with(cancelBtn, saveBtn).alignAll(Alignment.MIDDLE_RIGHT);
                 return layout;
@@ -200,7 +200,7 @@ public class LinkIssueWindow extends Window {
             protected Component initContent() {
                 MHorizontalLayout layout = new MHorizontalLayout();
                 Button browseBtn = new Button(FontAwesome.ELLIPSIS_H);
-                browseBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
+                browseBtn.addStyleName(UIConstants.BUTTON_OPTION);
                 browseBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
                 browseBtn.addClickListener(new Button.ClickListener() {
                     @Override

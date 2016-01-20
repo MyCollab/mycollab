@@ -119,10 +119,9 @@
                             <goal>jar</goal>
                         </goals>
                         <configuration>
-                            <finalName>runner</finalName>
                             <archive>
                                 <manifest>
-                                    <mainClass>com.esofthead.mycollab.server.jetty.DefaultServerRunner</mainClass>
+                                    <mainClass>com.esofthead.mycollab.server.DefaultServerRunner</mainClass>
                                 </manifest>
                             </archive>
                         </configuration>
@@ -250,8 +249,8 @@
                         </goals>
                         <configuration>
                             <target>
-                                <copy file="${project.build.directory}/runner.jar"
-                                      tofile="${installer.staging.dir}/runner.jar"/>
+                                <copy file="${project.build.directory}/mycollab-app-community-${project.version}.jar"
+                                      tofile="${installer.staging.dir}/lib/mycollab-app-community-${project.version}.jar"/>
                                 <copy todir="${installer.staging.dir}">
                                     <fileset dir="${izpack.dir.app}"/>
                                 </copy>

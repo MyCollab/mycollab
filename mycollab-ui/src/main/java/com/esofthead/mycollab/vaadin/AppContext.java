@@ -170,7 +170,11 @@ public class AppContext implements Serializable {
     }
 
     public static String getSiteName() {
-        return getInstance().siteName;
+        try {
+            return getInstance().siteName;
+        } catch (Exception e) {
+            return "MyCollab";
+        }
     }
 
     public static Locale getUserLocale() {

@@ -50,8 +50,12 @@ Version 5.2.5
 **Improvements & New Features**
 
 * The new mobile UI revised
+* Minor UI improvements
+* Improve error handling
 
 **Bug Fixes**
+
+* None
 
 
 Version 5.2.4

@@ -26,7 +26,7 @@
     <!-- The info section. The meaning of the tags should be natural ... -->
     <info>
         <appname>MyCollab, the professional open source of Project Management tool</appname>
-        <appversion>5.2.4</appversion>
+        <appversion>5.2.5</appversion>
         <appsubpath>mycollab</appsubpath>
         <authors>
             <author name="MyCollab Ltd" email="support@mycollab.com"/>
@@ -67,7 +67,6 @@
     <packs>
         <pack name="Base" required="yes">
             <description>The MyCollab core files</description>
-            <file src="runner.jar" targetdir="$INSTALL_PATH"/>
             <file src="executor.jar" targetdir="$INSTALL_PATH"/>
             <fileset dir="conf" targetdir="$INSTALL_PATH/conf"/>
             <fileset dir="lib" includes="*" targetdir="$INSTALL_PATH/lib"/>

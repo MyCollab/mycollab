@@ -93,7 +93,7 @@ public class EditFormControlsGenerator<T> implements Serializable {
                 }
             });
             cancelBtn.setIcon(FontAwesome.MINUS);
-            cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+            cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
             layout.addComponent(cancelBtn);
         }
 

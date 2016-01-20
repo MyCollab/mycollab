@@ -419,7 +419,7 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
                         newBugComp = null;
                     }
                 });
-                cancelBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
+                cancelBtn.addStyleName(UIConstants.BUTTON_OPTION);
                 controlsBtn.with(saveBtn, cancelBtn);
                 layout.with(controlsBtn).withAlign(controlsBtn, Alignment.MIDDLE_RIGHT);
                 if (newBugComp != null) {

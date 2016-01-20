@@ -20,16 +20,15 @@ import org.apache.jackrabbit.core.fs.db.DbFileSystem;
 
 /**
  * Db file system of mycollab jackrabbit stora
- * 
+ *
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class DbFileSystemExt extends DbFileSystem {
 
-	public DbFileSystemExt() {
-		this.schema = "mysql";
-		this.driver = "javax.naming.InitialContext";
-		this.url = "java:comp/env/jdbc/mycollabdatasource";
-	}
+    public DbFileSystemExt() {
+        this.schema = "mysql";
+        this.driver = "javax.naming.InitialContext";
+        this.url = "java:comp/env/jdbc/mycollabdatasource";
+    }
 }

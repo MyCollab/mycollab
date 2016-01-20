@@ -101,7 +101,7 @@ public class AddNewColumnWindow extends Window {
                     optionService.saveWithSession(optionVal, AppContext.getUsername());
                 }
                 kanbanView.addColumn(optionVal);
-                AddNewColumnWindow.this.close();
+                close();
             }
         });
         saveBtn.setIcon(FontAwesome.SAVE);
@@ -110,10 +110,10 @@ public class AddNewColumnWindow extends Window {
         Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                AddNewColumnWindow.this.close();
+                close();
             }
         });
-        cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+        cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
 
         MHorizontalLayout controls = new MHorizontalLayout().with(saveBtn, cancelBtn).withMargin(
                 new MarginInfo(false, true, false, false));

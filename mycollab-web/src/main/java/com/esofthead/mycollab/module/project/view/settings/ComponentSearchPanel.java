@@ -132,7 +132,7 @@ public class ComponentSearchPanel extends DefaultGenericSearchPanel<ComponentSea
                     nameField.setValue("");
                 }
             });
-            cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+            cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
             basicSearchBody.with(cancelBtn);
 
             return basicSearchBody;

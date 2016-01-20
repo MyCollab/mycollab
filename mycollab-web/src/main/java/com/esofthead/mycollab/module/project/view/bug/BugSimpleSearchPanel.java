@@ -76,7 +76,7 @@ public class BugSimpleSearchPanel extends GenericSearchPanel<BugSearchCriteria> 
 
         Button clearBtn = new Button(
                 AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
-        clearBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+        clearBtn.setStyleName(UIConstants.BUTTON_OPTION);
         clearBtn.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {

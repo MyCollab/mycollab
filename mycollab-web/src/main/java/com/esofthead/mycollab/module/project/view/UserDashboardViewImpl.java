@@ -26,7 +26,6 @@ import com.esofthead.mycollab.module.project.domain.ProjectGenericItem;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectGenericItemSearchCriteria;
 import com.esofthead.mycollab.module.project.service.ProjectGenericItemService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
-import com.esofthead.mycollab.module.user.AccountLinkGenerator;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.utils.TooltipHelper;
@@ -34,7 +33,9 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
+import com.esofthead.mycollab.vaadin.ui.SafeHtmlLabel;
+import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.esofthead.mycollab.vaadin.web.ui.AbstractBeanPagedList;
 import com.esofthead.mycollab.vaadin.web.ui.DefaultBeanPagedList;
 import com.esofthead.mycollab.vaadin.web.ui.SearchTextField;
@@ -136,26 +137,15 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
         return settingPresenter.getView();
     }
 
-    private CssLayout setupHeader() {
-        CssLayout headerWrapper = new CssLayout();
+    private ComponentContainer setupHeader() {
+        VerticalLayout headerWrapper = new VerticalLayout();
         headerWrapper.setWidth("100%");
         headerWrapper.setStyleName("projectfeed-hdr-wrapper");
 
         MHorizontalLayout header = new MHorizontalLayout().withWidth("100%");
         header.addStyleName("projectfeed-hdr");
 
-        Button avatar = UserAvatarControlFactory.createUserAvatarEmbeddedButton(AppContext.getUserAvatarId(), 32);
-        avatar.addClickListener(new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(final Button.ClickEvent event) {
-                String userFullLinkStr = AccountLinkGenerator.generatePreviewFullUserLink(AppContext.getSiteUrl(),
-                        AppContext.getUsername());
-                getUI().getPage().open(userFullLinkStr, null);
-            }
-        });
-
+        Image avatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(AppContext.getUserAvatarId(), 32);
         header.addComponent(avatar);
 
         MVerticalLayout headerContent = new MVerticalLayout().withMargin(new MarginInfo(false, false, false, true));
@@ -179,6 +169,16 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
         headerContent.with(headerContentTop);
         header.with(headerContent).expand(headerContent);
         headerWrapper.addComponent(header);
+
+        MHorizontalLayout metaInfoLayout = new MHorizontalLayout().with(new ELabel("Email:").withStyleName
+                (UIConstants.LABEL_META_INFO), new ELabel(new A(String.format("mailto:%s", AppContext.getUsername()))
+                .appendText(AppContext.getUsername()).write(), ContentMode.HTML));
+        metaInfoLayout.with(new ELabel("Member since: ").withStyleName(UIConstants.LABEL_META_INFO),
+                new ELabel(AppContext.formatPrettyTime(AppContext.getUser().getRegisteredtime())));
+        metaInfoLayout.with(new ELabel("Logged in: ").withStyleName(UIConstants.LABEL_META_INFO),
+                new ELabel(AppContext.formatPrettyTime(AppContext.getUser().getLastaccessedtime())));
+        metaInfoLayout.alignAll(Alignment.TOP_LEFT);
+        headerWrapper.addComponent(metaInfoLayout);
         return headerWrapper;
     }
 
@@ -187,7 +187,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
     private void displaySearchResult(String value) {
         removeAllComponents();
 
-        CssLayout headerWrapper = setupHeader();
+        Component headerWrapper = setupHeader();
 
         MVerticalLayout layout = new MVerticalLayout().withWidth("100%").withStyleName("searchitems-layout");
         with(headerWrapper, layout).expand(layout);
@@ -287,7 +287,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
                     AskCreateNewProjectWindow.this.close();
                 }
             });
-            skipBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+            skipBtn.setStyleName(UIConstants.BUTTON_OPTION);
             Button createNewBtn = new Button("New Project", new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent event) {

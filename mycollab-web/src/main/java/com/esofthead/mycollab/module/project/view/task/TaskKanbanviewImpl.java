@@ -580,7 +580,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
                         newTaskComp = null;
                     }
                 });
-                cancelBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
+                cancelBtn.addStyleName(UIConstants.BUTTON_OPTION);
                 controlsBtn.with(saveBtn, cancelBtn);
                 layout.with(controlsBtn).withAlign(controlsBtn, Alignment.MIDDLE_RIGHT);
                 if (newTaskComp != null && newTaskComp.getParent() != null) {
@@ -614,7 +614,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
                         RenameColumnWindow.this.close();
                     }
                 });
-                cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+                cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
 
                 Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
                     @Override

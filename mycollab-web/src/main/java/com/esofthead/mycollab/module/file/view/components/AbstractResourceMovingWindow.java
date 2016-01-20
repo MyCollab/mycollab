@@ -233,7 +233,7 @@ public abstract class AbstractResourceMovingWindow extends Window {
                 AbstractResourceMovingWindow.this.close();
             }
         });
-        cancelBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
+        cancelBtn.addStyleName(UIConstants.BUTTON_OPTION);
         controlGroupBtnLayout.addComponent(cancelBtn);
 
         contentLayout.with(controlGroupBtnLayout).withAlign(controlGroupBtnLayout, Alignment.MIDDLE_CENTER);

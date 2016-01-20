@@ -90,7 +90,7 @@ public class ProjectCommentInput extends MHorizontalLayout {
             }
         });
         cancelBtn.setWidthUndefined();
-        cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+        cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
 
         final Button newCommentBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_POST), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;

@@ -98,7 +98,7 @@ public abstract class MassUpdateWindow<B> extends Window {
                 MassUpdateWindow.this.close();
             }
         });
-        closeBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+        closeBtn.setStyleName(UIConstants.BUTTON_OPTION);
 
         Label spacing = new Label();
         controlsLayout.with(spacing, closeBtn, updateBtn).alignAll(Alignment.MIDDLE_RIGHT).expand(spacing);

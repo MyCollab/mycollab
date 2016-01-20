@@ -156,7 +156,7 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
                     BugBasicSearchLayout.this.nameField.setValue("");
                 }
             });
-            cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+            cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
             basicSearchBody.addComponent(cancelBtn);
 
             Button advancedSearchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),

@@ -19,16 +19,14 @@ package com.esofthead.mycollab.module.ecm;
 import org.apache.jackrabbit.core.journal.DatabaseJournal;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class MyCollabDatabaseJournal extends DatabaseJournal {
 
-	public MyCollabDatabaseJournal() {
-		this.setDriver("javax.naming.InitialContext");
-		this.setUrl("java:comp/env/jdbc/mycollabdatasource");
-		this.setDatabaseType("mysql");
-	}
+    public MyCollabDatabaseJournal() {
+        this.setDriver("javax.naming.InitialContext");
+        this.setUrl("java:comp/env/jdbc/mycollabdatasource");
+        this.setDatabaseType("mysql");
+    }
 }

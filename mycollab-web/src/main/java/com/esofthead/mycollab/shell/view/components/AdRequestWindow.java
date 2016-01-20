@@ -45,10 +45,11 @@ public class AdRequestWindow extends Window {
 
         MVerticalLayout content = new MVerticalLayout();
 
-        Label message = new Label("Our development team has spent more than <b>65 man years development " +
-                "effort</b> (the real number) to give this product free to you. " +
-                "If you like our app, please be sure to spread it to the world. It just takes you few minutes for this kindness action. <b>Your help will encourage us to continue develop MyCollab" +
-                " for free </b> and others have a chance to use an useful app as well", ContentMode.HTML);
+        Label message = new Label("Hey <b>" + AppContext.getUser().getDisplayName() + "</b>, you've been " +
+                "using MyCollab for a while now. And we hope you are happy with it. We spent countless hours and money developing this free " +
+                "software for you. If you like it, please write a few words on twitter, blog or our " +
+                "testimonial form. It will help other " +
+                "people find this useful software quickly. <b> Thank you</b>", ContentMode.HTML);
 
         MVerticalLayout shareControls = new MVerticalLayout();
         Label rateSourceforge = new Label(new Div().appendChild(new Text(FontAwesome.THUMBS_O_UP.getHtml()), DivLessFormatter.EMPTY_SPACE(), new A("http://sourceforge.net/projects/mycollab/reviews/new", "_blank")
@@ -62,7 +63,7 @@ public class AdRequestWindow extends Window {
                 new A("https://www.linkedin.com/cws/share?url=https%3A%2F%2Fwww.mycollab.com&original_referer=https%3A%2F%2Fwww.mycollab.com&token=&isFramed=false&lang=en_US", "_blank")
                         .appendText("Share on LinkedIn")).setStyle("color:#006dac").write(), ContentMode.HTML);
 
-        Button testimonialBtn = new Button("Write a testimonial (We will bring it on our website)", new Button.ClickListener() {
+        Button testimonialBtn = new Button("Write a testimonial", new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 AdRequestWindow.this.close();
@@ -76,14 +77,14 @@ public class AdRequestWindow extends Window {
         shareControls.with(rateSourceforge, tweetUs, linkedIn, testimonialBtn);
 
         MHorizontalLayout btnControls = new MHorizontalLayout();
-        Button ignoreBtn = new Button("Ignore", new Button.ClickListener() {
+        Button ignoreBtn = new Button("No, thanks", new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                AdRequestWindow.this.close();
+                close();
                 turnOffAdd(user);
             }
         });
-        ignoreBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
+        ignoreBtn.addStyleName(UIConstants.BUTTON_OPTION);
 
         Button loveBtn = new Button("I did", new Button.ClickListener() {
             @Override

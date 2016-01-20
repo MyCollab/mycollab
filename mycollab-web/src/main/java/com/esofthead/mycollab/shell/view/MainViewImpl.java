@@ -17,13 +17,15 @@
 package com.esofthead.mycollab.shell.view;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.common.ui.components.notification.*;
+import com.esofthead.mycollab.common.ui.components.notification.ChangeDefaultUsernameNotification;
+import com.esofthead.mycollab.common.ui.components.notification.RequestUploadAvatarNotification;
+import com.esofthead.mycollab.common.ui.components.notification.SmtpSetupNotification;
+import com.esofthead.mycollab.common.ui.components.notification.TimezoneNotification;
 import com.esofthead.mycollab.configuration.IDeploymentMode;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.server.jetty.ServerInstance;
 import com.esofthead.mycollab.module.billing.AccountStatusConstants;
 import com.esofthead.mycollab.module.billing.service.BillingService;
 import com.esofthead.mycollab.module.mail.service.ExtMailService;
@@ -33,15 +35,19 @@ import com.esofthead.mycollab.module.user.domain.SimpleBillingAccount;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.ui.SettingAssetsManager;
 import com.esofthead.mycollab.module.user.ui.SettingUIConstants;
+import com.esofthead.mycollab.server.jetty.ServerInstance;
 import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.shell.view.components.AboutWindow;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.web.ui.ModuleHelper;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.AccountAssetsResolver;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
+import com.esofthead.mycollab.vaadin.ui.ThemeManager;
+import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
+import com.esofthead.mycollab.vaadin.web.ui.ModuleHelper;
 import com.esofthead.mycollab.vaadin.web.ui.NotificationComponent;
 import com.esofthead.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.esofthead.mycollab.web.AdWindow;
@@ -96,6 +102,15 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         }
     };
 
+    private ApplicationEventListener<ShellEvent.RequestAd> requestAdHandler = new ApplicationEventListener<ShellEvent.RequestAd>() {
+        @Override
+        @Subscribe
+        public void handle(ShellEvent.RequestAd event) {
+            Object data = event.getData();
+
+        }
+    };
+
     public MainViewImpl() {
         this.setSizeFull();
         ControllerRegistry.addController(new MainViewController(this));
@@ -106,11 +121,13 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
     public void attach() {
         super.attach();
         EventBusFactory.getInstance().register(pageRefreshHandler);
+        EventBusFactory.getInstance().register(requestAdHandler);
     }
 
     @Override
     public void detach() {
         EventBusFactory.getInstance().unregister(pageRefreshHandler);
+        EventBusFactory.getInstance().unregister(requestAdHandler);
         super.detach();
     }
 
@@ -122,6 +139,11 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         bodyLayout.setId("main-body");
         bodyLayout.setSizeFull();
         this.with(createTopMenu(), bodyLayout, createFooter()).expand(bodyLayout);
+    }
+
+    @Override
+    public void insertAddComponent(Component component) {
+
     }
 
     @Override
@@ -310,7 +332,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         accountLayout.addComponent(accountNameLabel);
 
         if (SiteConfiguration.isCommunityEdition()) {
-            Button buyPremiumBtn = new Button(null, new ClickListener() {
+            Button buyPremiumBtn = new Button("Upgrade to Pro edition", new ClickListener() {
                 @Override
                 public void buttonClick(ClickEvent event) {
                     UI.getCurrent().addWindow(new AdWindow());
@@ -346,7 +368,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
             GregorianCalendar tenDaysAgo = new GregorianCalendar();
             tenDaysAgo.add(Calendar.DATE, -10);
             if (Boolean.TRUE.equals(user.getRequestad()) && user.getRegisteredtime().before(tenDaysAgo.getTime())) {
-                EventBusFactory.getInstance().post(new ShellEvent.NewNotification(this, new RequestPreviewNotification()));
+                EventBusFactory.getInstance().post(new ShellEvent.RequestAd(this, null));
             }
         }
 
@@ -381,7 +403,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         userMgtBtn.setIcon(SettingAssetsManager.getAsset(SettingUIConstants.USERS));
         accountPopupContent.addOption(userMgtBtn);
 
-        Button generalSettingBtn = new Button("General", new ClickListener() {
+        Button generalSettingBtn = new Button("Setting", new ClickListener() {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
                 accountMenu.setPopupVisible(false);

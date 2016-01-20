@@ -87,7 +87,7 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends 
                 clearFields();
             }
         });
-        clearBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+        clearBtn.setStyleName(UIConstants.BUTTON_OPTION);
 
         buttonControls.with(clearBtn).withAlign(clearBtn, Alignment.MIDDLE_CENTER);
 

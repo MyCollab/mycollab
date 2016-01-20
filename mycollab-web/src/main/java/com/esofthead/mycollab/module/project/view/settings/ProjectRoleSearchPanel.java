@@ -129,7 +129,7 @@ public class ProjectRoleSearchPanel extends DefaultGenericSearchPanel<ProjectRol
                     ProjectRoleBasicSearchLayout.this.nameField.setValue("");
                 }
             });
-            clearBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+            clearBtn.setStyleName(UIConstants.BUTTON_OPTION);
             basicSearchBody.addComponent(clearBtn);
             return basicSearchBody;
         }

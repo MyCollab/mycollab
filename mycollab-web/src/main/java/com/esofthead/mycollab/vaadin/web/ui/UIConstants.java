@@ -32,7 +32,7 @@ public class UIConstants {
     public static final String TABLE_ACTION_CONTROLS = "table-actionctls";
     public static final String BUTTON_BLOCK = "block";
     public static final String BUTTON_ACTION = "greenbtn";
-    public static final String THEME_GRAY_LINK = "graybtn";
+    public static final String BUTTON_OPTION = "graybtn";
     public static final String BUTTON_DANGER = "redbtn";
     public static final String BUTTON_LINK = "link";
     public static final String THEME_NO_BORDER = "no-border";
@@ -63,7 +63,7 @@ public class UIConstants {
 
     public static final String GRIDFORM_STANDARD = "colored-gridlayout";
     public static final String GRIDFORM_BORDERLESS = "borderless";
-
+    public static final String DEFAULT_COLOR_OPTION = "fdde86";
 
     public static final int TABLE_CONTROL_WIDTH = 30;
     public static final int TABLE_ACTION_CONTROL_WIDTH = 40;

@@ -58,6 +58,7 @@ import com.vaadin.shared.communication.PushMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
+import org.mybatis.spring.MyBatisSystemException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.UncategorizedSQLException;
@@ -148,7 +149,7 @@ public class DesktopApplication extends MyCollabUI {
                 || userAgent.indexOf("msie 7.0") != -1 || userAgent.indexOf("msie 8.0") != -1 || userAgent.indexOf("msie 9.0") != -1;
     }
 
-    private static Class[] systemExceptions = new Class[]{UncategorizedSQLException.class};
+    private static Class[] systemExceptions = new Class[]{UncategorizedSQLException.class, MyBatisSystemException.class};
 
     private void handleException(String userAgent, Throwable e) {
         IgnoreException ignoreException = getExceptionType(e, IgnoreException.class);
@@ -221,7 +222,7 @@ public class DesktopApplication extends MyCollabUI {
         for (Class systemEx : systemExceptions) {
             Exception ex = (Exception) getExceptionType(e, systemEx);
             if (ex != null) {
-                ConfirmDialog dialog = ConfirmDialogExt.show(UI.getCurrent(),
+                ConfirmDialog dialog = ConfirmDialogExt.show(DesktopApplication.this,
                         AppContext.getMessage(GenericI18Enum.WINDOW_ERROR_TITLE, AppContext.getSiteName()),
                         AppContext.getMessage(GenericI18Enum.ERROR_USER_SYSTEM_ERROR, ex.getMessage()),
                         AppContext.getMessage(GenericI18Enum.BUTTON_YES),

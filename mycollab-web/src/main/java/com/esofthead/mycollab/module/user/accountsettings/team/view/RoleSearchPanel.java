@@ -129,7 +129,7 @@ public class RoleSearchPanel extends DefaultGenericSearchPanel<RoleSearchCriteri
                             RoleBasicSearchLayout.this.nameField.setValue("");
                         }
                     });
-            clearBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+            clearBtn.setStyleName(UIConstants.BUTTON_OPTION);
             basicSearchBody.addComponent(clearBtn);
             basicSearchBody.setComponentAlignment(clearBtn, Alignment.MIDDLE_LEFT);
             return basicSearchBody;

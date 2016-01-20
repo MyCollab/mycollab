@@ -210,7 +210,7 @@ public abstract class EntityImportWindow<E> extends Window {
                     EntityImportWindow.this.close();
                 }
             });
-            cancelBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
+            cancelBtn.addStyleName(UIConstants.BUTTON_OPTION);
             controlGroupBtn.with(cancelBtn).withAlign(cancelBtn, Alignment.MIDDLE_CENTER);
 
             layout.with(controlGroupBtn).withAlign(controlGroupBtn, Alignment.MIDDLE_CENTER);

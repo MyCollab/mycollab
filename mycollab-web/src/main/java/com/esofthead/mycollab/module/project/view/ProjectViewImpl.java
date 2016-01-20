@@ -393,7 +393,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
                     AskToAddMoreMembersWindow.this.close();
                 }
             });
-            skipBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+            skipBtn.setStyleName(UIConstants.BUTTON_OPTION);
 
             Button addNewMembersBtn = new Button("Add Members", new ClickListener() {
                 @Override

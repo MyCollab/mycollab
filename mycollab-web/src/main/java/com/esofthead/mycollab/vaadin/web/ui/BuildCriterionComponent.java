@@ -147,7 +147,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                 buildFilterBox(null);
             }
         });
-        cancelBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
+        cancelBtn.addStyleName(UIConstants.BUTTON_OPTION);
         filterBox.addComponent(cancelBtn);
     }
 

@@ -64,7 +64,7 @@ public class RelatedEditItemField extends CustomField<String> implements FieldSe
         itemField.setEnabled(true);
 
         browseBtn = new Button(null, FontAwesome.ELLIPSIS_H);
-        browseBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
+        browseBtn.addStyleName(UIConstants.BUTTON_OPTION);
         browseBtn.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
@@ -100,7 +100,7 @@ public class RelatedEditItemField extends CustomField<String> implements FieldSe
         });
 
         clearBtn = new Button(null, FontAwesome.TRASH_O);
-        clearBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
+        clearBtn.addStyleName(UIConstants.BUTTON_OPTION);
         clearBtn.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {

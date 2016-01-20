@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.server.jetty;
 
 import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.server.GenericServerRunner;
 
 import java.io.File;
 

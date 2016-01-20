@@ -109,7 +109,7 @@ class GroupPageAddWindow extends Window {
                         GroupPageAddWindow.this.close();
                     }
                 });
-                cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+                cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
 
                 Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;

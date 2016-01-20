@@ -147,7 +147,7 @@ public class BugAddWindow extends Window {
                         BugAddWindow.this.close();
                     }
                 });
-                cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+                cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
                 buttonControls.with(updateAllBtn, updateBtn, cancelBtn);
 
                 layout.addComponent(buttonControls);

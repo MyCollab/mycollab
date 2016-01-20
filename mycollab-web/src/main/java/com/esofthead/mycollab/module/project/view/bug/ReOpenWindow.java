@@ -147,7 +147,7 @@ public class ReOpenWindow extends Window {
                         ReOpenWindow.this.close();
                     }
                 });
-                cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+                cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
                 controlsBtn.with(cancelBtn, wonFixBtn);
 
                 layout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);

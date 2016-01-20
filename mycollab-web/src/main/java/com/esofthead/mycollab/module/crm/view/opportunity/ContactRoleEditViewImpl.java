@@ -135,7 +135,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements Contact
             }
         });
         cancelBtn.setIcon(FontAwesome.TIMES);
-        cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+        cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
         buttonWrapper.addComponent(cancelBtn);
 
         layout.addComponent(buttonWrapper);

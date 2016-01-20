@@ -48,7 +48,7 @@ public class ConfirmDialogFactory extends DefaultConfirmDialogFactory {
 		buttons.setHeightUndefined();
 
 		Button cancelBtn = d.getCancelButton();
-		cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+		cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
 		cancelBtn.focus();
 
 		return d;

@@ -791,7 +791,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
                                     QuickCreateEventWindow.this.close();
                                 }
                             });
-                    cancelBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
+                    cancelBtn.addStyleName(UIConstants.BUTTON_OPTION);
                     layout.addComponent(cancelBtn);
                     layout.setComponentAlignment(cancelBtn,
                             Alignment.MIDDLE_CENTER);

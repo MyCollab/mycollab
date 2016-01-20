@@ -80,7 +80,7 @@ public class UpgradeConfirmWindow extends Window {
                 UpgradeConfirmWindow.this.close();
             }
         });
-        skipBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
+        skipBtn.addStyleName(UIConstants.BUTTON_OPTION);
 
         Button autoUpgradeBtn = new Button("Auto Upgrade", new Button.ClickListener() {
             @Override

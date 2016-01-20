@@ -137,6 +137,7 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
                     controlGenerator.removeButtonIndex(0);
                 }
             });
+            resendBtn.addStyleName(UIConstants.BUTTON_OPTION);
             controlGenerator.insertToControlBlock(resendBtn);
         }
 

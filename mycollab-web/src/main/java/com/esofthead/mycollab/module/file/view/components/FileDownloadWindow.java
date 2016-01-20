@@ -125,7 +125,7 @@ public class FileDownloadWindow extends Window {
                 FileDownloadWindow.this.close();
             }
         });
-        cancelBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
+        cancelBtn.addStyleName(UIConstants.BUTTON_OPTION);
         buttonControls.with(cancelBtn).withAlign(cancelBtn, Alignment.MIDDLE_CENTER);
         layout.with(buttonControls).withAlign(buttonControls, Alignment.MIDDLE_CENTER);
         this.setContent(layout);

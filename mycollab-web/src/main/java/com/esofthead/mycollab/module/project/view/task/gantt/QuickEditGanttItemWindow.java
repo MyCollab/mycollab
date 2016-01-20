@@ -122,7 +122,7 @@ public class QuickEditGanttItemWindow extends Window {
                         QuickEditGanttItemWindow.this.close();
                     }
                 });
-                cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+                cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
                 buttonControls.with(updateAllBtn, cancelBtn, updateBtn);
 
                 layout.addComponent(buttonControls);

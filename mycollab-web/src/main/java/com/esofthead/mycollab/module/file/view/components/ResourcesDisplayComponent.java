@@ -684,7 +684,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                     RenameResourceWindow.this.close();
                 }
             });
-            cancelBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
+            cancelBtn.addStyleName(UIConstants.BUTTON_OPTION);
             controlButtons.with(saveBtn, cancelBtn).alignAll(Alignment.MIDDLE_CENTER);
             contentLayout.addComponent(controlButtons);
             contentLayout.setComponentAlignment(controlButtons, Alignment.MIDDLE_CENTER);
@@ -748,7 +748,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                     AddNewFolderWindow.this.close();
                 }
             });
-            cancelBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
+            cancelBtn.addStyleName(UIConstants.BUTTON_OPTION);
             controlsLayout.addComponent(cancelBtn);
             controlsLayout.setComponentAlignment(cancelBtn, Alignment.MIDDLE_RIGHT);
 
@@ -832,7 +832,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                     MultiUploadContentWindow.this.close();
                 }
             });
-            cancelBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
+            cancelBtn.addStyleName(UIConstants.BUTTON_OPTION);
             controlsLayout.addComponent(cancelBtn);
             controlsLayout.setComponentAlignment(cancelBtn, Alignment.MIDDLE_RIGHT);
 

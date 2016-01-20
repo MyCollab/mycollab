@@ -129,7 +129,7 @@ public class VersionSearchPanel extends DefaultGenericSearchPanel<VersionSearchC
                     nameField.setValue("");
                 }
             });
-            cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+            cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
             basicSearchBody.with(cancelBtn);
 
             return basicSearchBody;

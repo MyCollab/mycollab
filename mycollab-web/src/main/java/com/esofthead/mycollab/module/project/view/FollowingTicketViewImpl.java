@@ -75,7 +75,7 @@ public class FollowingTicketViewImpl extends AbstractPageView implements Followi
         });
         exportButtonControl = new SplitButton(exportBtn);
         exportButtonControl.setWidthUndefined();
-        exportButtonControl.addStyleName(UIConstants.THEME_GRAY_LINK);
+        exportButtonControl.addStyleName(UIConstants.BUTTON_OPTION);
         exportButtonControl.setIcon(FontAwesome.EXTERNAL_LINK);
 
         OptionPopupContent popupButtonsControl = new OptionPopupContent();

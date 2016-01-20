@@ -16,7 +16,9 @@
  */
 package com.esofthead.mycollab.shell.view.components;
 
+import com.esofthead.mycollab.configuration.IDeploymentMode;
 import com.esofthead.mycollab.core.MyCollabVersion;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.ui.AssetResource;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.WebResourceIds;
@@ -54,7 +56,13 @@ public class AboutWindow extends Window {
 
         Image about = new Image("", new AssetResource(WebResourceIds._about));
         MVerticalLayout rightPanel = new MVerticalLayout();
-        Label versionLbl = new Label(String.format("MyCollab Community Edition %s", MyCollabVersion.getVersion()));
+        Label versionLbl;
+        IDeploymentMode mode = ApplicationContextUtil.getSpringBean(IDeploymentMode.class);
+        if (mode.isCommunityEdition()) {
+            versionLbl = new Label(String.format("MyCollab Community Edition %s", MyCollabVersion.getVersion()));
+        } else {
+            versionLbl = new Label(String.format("MyCollab Enterprise Edition %s", MyCollabVersion.getVersion()));
+        }
         versionLbl.addStyleName(ValoTheme.LABEL_H2);
         versionLbl.addStyleName(ValoTheme.LABEL_NO_MARGIN);
         Label javaNameLbl = new Label(String.format("%s, %s", System.getProperty("java.vm.name"),

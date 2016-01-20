@@ -134,7 +134,7 @@ public class LeadSearchPanel extends DefaultGenericSearchPanel<LeadSearchCriteri
             layout.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_LEFT);
 
             Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
-            cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+            cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
             cancelBtn.addClickListener(new Button.ClickListener() {
                 @Override
                 public void buttonClick(final ClickEvent event) {

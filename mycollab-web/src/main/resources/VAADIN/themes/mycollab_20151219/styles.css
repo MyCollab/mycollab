@@ -316,6 +316,24 @@
  */
 
 @font-face {
+	font-family: ThemeIcons;
+	font-weight: normal;
+	font-style: normal;
+	src: url(../valo/util/bourbon/css3/../../../../base/fonts/themeicons-webfont.eot);
+	src: url(../valo/util/bourbon/css3/../../../../base/fonts/themeicons-webfont.eot?#iefix) format("embedded-opentype"), url(../valo/util/bourbon/css3/../../../../base/fonts/themeicons-webfont.woff) format("woff"), url(../valo/util/bourbon/css3/../../../../base/fonts/themeicons-webfont.ttf) format("truetype"), url(../valo/util/bourbon/css3/../../../../base/fonts/themeicons-webfont.svg#ThemeIcons) format("svg");
+}
+
+.ThemeIcons {
+	font-family: ThemeIcons;
+	font-style: normal;
+	font-weight: normal;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	display: inline-block;
+	text-align: center;
+}
+
+@font-face {
 	font-family: FontAwesome;
 	font-weight: normal;
 	font-style: normal;
@@ -957,7 +975,7 @@
  */
 
 .v-vaadin-version:after {
-	content: "7.5.6";
+	content: "7.6.1";
 }
 
 .v-widget {
@@ -2651,6 +2669,60 @@ a.v-disabled {
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.05);
 }
 
+.v-reconnect-dialog {
+	color: white;
+	top: 5px;
+	right: 5px;
+	max-width: 100%;
+	border-radius: 0;
+	-webkit-box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.25);
+	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.25);
+	padding: 10px 12px;
+	background-color: #444;
+	background-color: rgba(68, 68, 68, 0.9);
+	line-height: 20px;
+	text-align: center;
+}
+
+.v-reconnect-dialog .text {
+	display: inline-block;
+	padding-left: 10px;
+}
+
+.v-reconnect-dialog .spinner {
+	height: 24px !important;
+	width: 24px !important;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	border: 2px solid rgba(25, 125, 225, 0.2);
+	border-top-color: #197de1;
+	border-right-color: #197de1;
+	border-radius: 100%;
+	-webkit-animation: v-rotate-360 500ms infinite linear;
+	-moz-animation: v-rotate-360 500ms infinite linear;
+	animation: v-rotate-360 500ms infinite linear;
+	pointer-events: none;
+	display: none;
+	vertical-align: middle;
+}
+
+.v-ie8 .v-reconnect-dialog .spinner, .v-ie9 .v-reconnect-dialog .spinner {
+	border: none;
+	border-radius: 4px;
+	background: #fff url(../valo/shared/img/spinner.gif) no-repeat 50% 50%;
+	background-size: 80%;
+}
+
+.v-ie8 .v-reconnect-dialog .spinner {
+	min-width: 30px;
+	min-height: 30px;
+}
+
+.v-reconnect-dialog.active .spinner {
+	display: inline-block;
+}
+
 .v-absolutelayout-wrapper {
 	position: absolute;
 }
@@ -3295,7 +3367,7 @@ a.v-disabled {
 
 :root .v-checkbox > input ~ label:after {
 	content: "\f00c";
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	color: transparent;
 	-webkit-transition: color 100ms;
 	-moz-transition: color 100ms;
@@ -3425,7 +3497,7 @@ a.v-disabled {
 
 :root .v-checkbox-small > input ~ label:after {
 	content: "\f00c";
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	color: transparent;
 	-webkit-transition: color 100ms;
 	-moz-transition: color 100ms;
@@ -3555,7 +3627,7 @@ a.v-disabled {
 
 :root .v-checkbox-large > input ~ label:after {
 	content: "\f00c";
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	color: transparent;
 	-webkit-transition: color 100ms;
 	-moz-transition: color 100ms;
@@ -3646,7 +3718,7 @@ a.v-disabled {
 	transition: box-shadow 180ms, border 180ms;
 	width: 100% !important;
 	height: 100%;
-	padding-right: 35px;
+	padding-right: 30px;
 	border-radius: inherit;
 }
 
@@ -3716,7 +3788,7 @@ a.v-disabled {
 }
 
 .v-filterselect [class$="button"]:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f078";
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -3909,7 +3981,7 @@ a.v-disabled {
 	height: 20px;
 	line-height: 20px;
 	text-align: center;
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	-webkit-transform: scale(0.8);
 	-moz-transform: scale(0.8);
 	-ms-transform: scale(0.8);
@@ -4101,7 +4173,7 @@ a.v-disabled {
 	transition: box-shadow 180ms, border 180ms;
 	width: 100% !important;
 	height: 100%;
-	padding-right: 26px;
+	padding-right: 23px;
 	border-radius: inherit;
 }
 
@@ -4137,7 +4209,7 @@ a.v-disabled {
 }
 
 .v-filterselect-tiny [class$="button"]:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f078";
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -4228,7 +4300,7 @@ a.v-disabled {
 	transition: box-shadow 180ms, border 180ms;
 	width: 100% !important;
 	height: 100%;
-	padding-right: 30px;
+	padding-right: 26px;
 	border-radius: inherit;
 }
 
@@ -4264,7 +4336,7 @@ a.v-disabled {
 }
 
 .v-filterselect-compact [class$="button"]:before, .v-filterselect-small [class$="button"]:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f078";
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -4360,7 +4432,7 @@ a.v-disabled {
 	transition: box-shadow 180ms, border 180ms;
 	width: 100% !important;
 	height: 100%;
-	padding-right: 42px;
+	padding-right: 36px;
 	border-radius: inherit;
 }
 
@@ -4396,7 +4468,7 @@ a.v-disabled {
 }
 
 .v-filterselect-large [class$="button"]:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f078";
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -4488,7 +4560,7 @@ a.v-disabled {
 	transition: box-shadow 180ms, border 180ms;
 	width: 100% !important;
 	height: 100%;
-	padding-right: 55px;
+	padding-right: 47px;
 	border-radius: inherit;
 }
 
@@ -4524,7 +4596,7 @@ a.v-disabled {
 }
 
 .v-filterselect-huge [class$="button"]:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f078";
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -5088,6 +5160,10 @@ a.v-disabled {
 	z-index: 5;
 }
 
+.v-grid-sidebar.v-contextmenu.v-grid-sidebar-popup {
+	right: auto;
+}
+
 .v-grid-sidebar.v-contextmenu .v-grid-sidebar-button {
 	background: transparent;
 	border: none;
@@ -5110,7 +5186,7 @@ a.v-disabled {
 .v-grid-sidebar.v-contextmenu .v-grid-sidebar-button:after {
 	content: "\f0c9";
 	display: block;
-	font-family: FontAwesome, sans-serif;
+	font-family: ThemeIcons, sans-serif;
 	font-size: 12px;
 }
 
@@ -5148,7 +5224,7 @@ a.v-disabled {
 
 .v-grid-cell {
 	background-color: white;
-	padding: 0 10px;
+	padding: 0 15px;
 	line-height: 29px;
 	text-overflow: ellipsis;
 }
@@ -5216,19 +5292,34 @@ a.v-disabled {
 }
 
 .v-grid-header .sort-asc, .v-grid-header .sort-desc {
-	padding-right: 24px;
+	padding-right: 29px;
 }
 
 .v-grid-header .sort-asc:after, .v-grid-header .sort-desc:after {
-	font-family: FontAwesome, sans-serif;
+	font-family: ThemeIcons, sans-serif;
 	content: "\f0de" " " attr(sort-order);
 	position: absolute;
-	right: 10px;
+	right: 15px;
 	font-size: 10px;
 }
 
 .v-grid-header .sort-desc:after {
 	content: "\f0dd" " " attr(sort-order);
+}
+
+.v-grid-column-resize-handle {
+	position: absolute;
+	width: 30px;
+	right: -15px;
+	top: 0px;
+	bottom: 0px;
+	cursor: col-resize;
+	z-index: 10;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 .v-grid-footer td {
@@ -5243,6 +5334,18 @@ a.v-disabled {
 
 .v-grid-footer td:first-child {
 	border-left: none;
+}
+
+.v-grid-header .v-grid-cell, .v-grid-footer .v-grid-cell {
+	overflow: visible;
+}
+
+.v-grid-column-header-content, .v-grid-column-footer-content {
+	width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	line-height: 29px;
+	vertical-align: baseline;
 }
 
 .v-grid-header-deco {
@@ -5305,6 +5408,10 @@ a.v-disabled {
 	box-shadow: 0 0 9px rgba(0, 0, 0, 0.2);
 }
 
+.v-grid-editor.unbuffered .v-grid-editor-footer {
+	width: 100%;
+}
+
 .v-grid-editor-cells {
 	position: relative;
 	white-space: nowrap;
@@ -5332,6 +5439,22 @@ a.v-disabled {
 	display: inline-block;
 }
 
+.v-grid-editor-cells  > div .v-filterselect {
+	padding-left: 0;
+}
+
+.v-grid-editor-cells  > div input[type="text"], .v-grid-editor-cells  > div input[type="text"].v-filterselect-input, .v-grid-editor-cells  > div input[type="password"] {
+	padding-left: 15px;
+}
+
+.v-grid-editor-cells  > div input[type="text"]:not(.v-filterselect-input), .v-grid-editor-cells  > div input[type="password"] {
+	padding-right: 7.5px;
+}
+
+.v-grid-editor-cells  > div input[type="checkbox"] {
+	margin-left: 15px;
+}
+
 .v-grid-editor-cells  > div .v-textfield, .v-grid-editor-cells  > div .v-datefield, .v-grid-editor-cells  > div .v-filterselect {
 	min-width: 100%;
 	max-width: 100%;
@@ -5350,6 +5473,10 @@ a.v-disabled {
 .v-grid-editor-cells  > div .v-select, .v-grid-editor-cells  > div .v-select-select {
 	min-width: 100%;
 	max-width: 100%;
+}
+
+.v-grid-editor-cells  > div.not-editable.v-grid-cell {
+	float: none;
 }
 
 .v-grid-editor-cells .error::before {
@@ -5462,6 +5589,11 @@ a.v-disabled {
 	background-color: #fafafa;
 }
 
+.v-grid.v-disabled {
+	opacity: 0.5;
+	filter: alpha(opacity=50) ;
+}
+
 .v-grid-header .v-grid-cell {
 	background-color: #fafafa;
 	background-image: -webkit-linear-gradient(top, #fafafa 2%, #efefef 98%);
@@ -5545,6 +5677,10 @@ a.v-disabled {
 	vertical-align: middle;
 }
 
+.v-grid-editor-cells > div.not-editable.v-grid-cell {
+	float: none;
+}
+
 .v-grid-editor-cells > div .error::before {
 	border-top: 7px solid #ed473b;
 	border-right: 7px solid transparent;
@@ -5562,6 +5698,10 @@ a.v-disabled {
 	box-shadow: inset 0 1px 0 #f2f2f2;
 }
 
+.v-grid-editor-cells > div input[type="text"].v-datefield-textfield {
+	padding-left: 34.8px;
+}
+
 .v-ie8 .v-grid-editor-cells > div .v-datefield-button {
 	margin-left: 0px;
 }
@@ -5575,15 +5715,19 @@ a.v-disabled {
 }
 
 .v-grid-editor-cells > div .v-select {
-	padding-left: 5px;
-	padding-right: 5px;
+	padding-left: 8px;
+	padding-right: 8px;
 }
 
 .v-grid-editor-cells > div .v-checkbox {
-	margin: 0 5px;
+	margin: 0 8px 0 15px;
 }
 
-.v-grid-editor-cells > div .v-checkbox label {
+.v-grid-editor-cells > div .v-checkbox  > input[type="checkbox"] {
+	margin-left: 0;
+}
+
+.v-grid-editor-cells > div .v-checkbox  > label {
 	white-space: nowrap;
 }
 
@@ -6505,7 +6649,7 @@ a.v-disabled {
 }
 
 .v-datefield [class*="button"]:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f073";
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -6753,22 +6897,22 @@ a.v-disabled {
 }
 
 .v-datefield-popup .v-button-prevyear:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f100";
 }
 
 .v-datefield-popup .v-button-prevmonth:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f104";
 }
 
 .v-datefield-popup .v-button-nextyear:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f101";
 }
 
 .v-datefield-popup .v-button-nextmonth:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f105";
 }
 
@@ -6946,22 +7090,22 @@ td[class*="year"] button.outside-range:hover:before, td[class*="month"] button.o
 }
 
 .v-button-prevyear:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f100";
 }
 
 .v-button-prevmonth:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f104";
 }
 
 .v-button-nextyear:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f101";
 }
 
 .v-button-nextmonth:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f105";
 }
 
@@ -7110,7 +7254,7 @@ td.v-datefield-calendarpanel-time .v-label {
 }
 
 .v-datefield-tiny [class*="button"]:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f073";
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -7225,7 +7369,7 @@ td.v-datefield-calendarpanel-time .v-label {
 }
 
 .v-datefield-compact [class*="button"]:before, .v-datefield-small [class*="button"]:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f073";
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -7345,7 +7489,7 @@ td.v-datefield-calendarpanel-time .v-label {
 }
 
 .v-datefield-large [class*="button"]:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f073";
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -7461,7 +7605,7 @@ td.v-datefield-calendarpanel-time .v-label {
 }
 
 .v-datefield-huge [class*="button"]:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f073";
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -7641,22 +7785,22 @@ td[class*="year"] button.outside-range:hover:before, td[class*="month"] button.o
 }
 
 .v-button-prevyear:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f100";
 }
 
 .v-button-prevmonth:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f104";
 }
 
 .v-button-nextyear:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f101";
 }
 
 .v-button-nextmonth:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f105";
 }
 
@@ -7952,7 +8096,7 @@ td.v-inline-datefield-calendarpanel-time .v-label {
 }
 
 .v-menubar .v-menubar-submenu-indicator  + .v-menubar-menuitem-caption:after {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f078";
 	font-size: 0.7em;
 	vertical-align: 0.15em;
@@ -8036,7 +8180,7 @@ td.v-inline-datefield-calendarpanel-time .v-label {
 .v-menubar-popup .v-menubar-submenu-indicator  + .v-menubar-menuitem-caption:after {
 	position: absolute;
 	right: 8px;
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f054";
 	line-height: 23px;
 }
@@ -8059,7 +8203,7 @@ td.v-inline-datefield-calendarpanel-time .v-label {
 
 .v-menubar-popup [class*="checked"] .v-menubar-menuitem-caption:before {
 	content: "\f00c";
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	position: absolute;
 	left: 8px;
 }
@@ -8246,7 +8390,7 @@ td.v-inline-datefield-calendarpanel-time .v-label {
 
 :root .v-radiobutton > input ~ label:after {
 	content: "\f00c";
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	color: transparent;
 	-webkit-transition: color 100ms;
 	-moz-transition: color 100ms;
@@ -8409,7 +8553,7 @@ td.v-inline-datefield-calendarpanel-time .v-label {
 
 :root .v-select-optiongroup-small .v-checkbox > input ~ label:after {
 	content: "\f00c";
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	color: transparent;
 	-webkit-transition: color 100ms;
 	-moz-transition: color 100ms;
@@ -8538,7 +8682,7 @@ td.v-inline-datefield-calendarpanel-time .v-label {
 
 :root .v-select-optiongroup-small .v-radiobutton > input ~ label:after {
 	content: "\f00c";
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	color: transparent;
 	-webkit-transition: color 100ms;
 	-moz-transition: color 100ms;
@@ -8701,7 +8845,7 @@ td.v-inline-datefield-calendarpanel-time .v-label {
 
 :root .v-select-optiongroup-large .v-checkbox > input ~ label:after {
 	content: "\f00c";
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	color: transparent;
 	-webkit-transition: color 100ms;
 	-moz-transition: color 100ms;
@@ -8830,7 +8974,7 @@ td.v-inline-datefield-calendarpanel-time .v-label {
 
 :root .v-select-optiongroup-large .v-radiobutton > input ~ label:after {
 	content: "\f00c";
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	color: transparent;
 	-webkit-transition: color 100ms;
 	-moz-transition: color 100ms;
@@ -9353,7 +9497,7 @@ td.v-inline-datefield-calendarpanel-time .v-label {
 	margin-left: -1.9em;
 	vertical-align: top;
 	content: "\f0da";
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	text-align: center;
 	background: transparent;
 }
@@ -9379,7 +9523,7 @@ td.v-inline-datefield-calendarpanel-time .v-label {
 
 .v-tree-node-caption > div:before {
 	content: "\f0da";
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	display: inline-block;
 	width: 0.5em;
 	text-align: center;
@@ -9442,12 +9586,12 @@ td.v-inline-datefield-calendarpanel-time .v-label {
 	-o-transform: rotate(90deg);
 	transform: rotate(90deg);
 	content: "\f0da";
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 }
 
 .v-ie8  .v-tree-node-expanded:before {
 	content: "\f0d7";
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 }
 
 .v-tree-node-leaf:before, .v-tree-node-leaf > .v-tree-node-caption > div:before {
@@ -9665,7 +9809,7 @@ td.v-inline-datefield-calendarpanel-time .v-label {
 	border-top: 1px solid #d4d4d4;
 }
 
-.v-table-table tr:first-child td {
+.v-table-table tr:first-child > td {
 	border-top: none;
 }
 
@@ -9725,12 +9869,12 @@ td.v-inline-datefield-calendarpanel-time .v-label {
 
 .v-table-header-cell-asc .v-table-sort-indicator:before {
 	content: "\f0de";
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 }
 
 .v-table-header-cell-desc .v-table-sort-indicator:before {
 	content: "\f0dd";
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 }
 
 [class*="rowheader"] span.v-icon {
@@ -9844,7 +9988,7 @@ td.v-inline-datefield-calendarpanel-time .v-label {
 }
 
 .v-table-column-selector:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f013";
 }
 
@@ -9858,7 +10002,7 @@ td.v-inline-datefield-calendarpanel-time .v-label {
 
 .v-on:before, .v-off:before {
 	content: "\f00c";
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	font-size: 0.9em;
 	margin-right: 5px;
 }
@@ -10122,12 +10266,12 @@ tbody.v-drag-element tr {
 
 .v-treetable-node-closed:before {
 	content: "\f0da";
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 }
 
 .v-treetable-node-open:before {
 	content: "\f0d7";
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 }
 
 .v-splitpanel-horizontal  > div > .v-splitpanel-hsplitter {
@@ -10904,7 +11048,7 @@ tbody.v-drag-element tr {
 }
 
 .v-tabsheet-scroller [class*="Next"]:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f054";
 }
 
@@ -10913,7 +11057,7 @@ tbody.v-drag-element tr {
 }
 
 .v-tabsheet-scroller [class*="Prev"]:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f053";
 }
 
@@ -11171,8 +11315,8 @@ tbody.v-drag-element tr {
 }
 
 .v-colorpicker-popup .resize-button:before {
-	font-family: FontAwesome;
-	content: "\F141";
+	font-family: ThemeIcons;
+	content: "\f141";
 }
 
 .v-colorpicker-popup .resize-button-caption {
@@ -11575,12 +11719,12 @@ tbody.v-drag-element tr {
 }
 
 .v-select-twincol-buttons .v-button-wrap:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f053";
 }
 
 .v-select-twincol-buttons .v-button:first-child .v-button-wrap:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f054";
 }
 
@@ -11650,12 +11794,12 @@ tbody.v-drag-element tr {
 }
 
 .v-calendar-header-week .v-calendar-back:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f053";
 }
 
 .v-calendar-header-week .v-calendar-next:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f054";
 }
 
@@ -12189,7 +12333,7 @@ h1.no-margin, .v-label-h1.no-margin, h2.no-margin, .v-label-h2.no-margin, h3.no-
 }
 
 .v-label-success:before, .v-label-failure:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f00c";
 	margin-right: 0.5em;
 	margin-left: -15px;
@@ -12496,7 +12640,7 @@ h1.no-margin, .v-label-h1.no-margin, h2.no-margin, .v-label-h2.no-margin, h3.no-
 }
 
 .v-richtextarea .gwt-RichTextToolbar-top div:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 }
 
 .v-richtextarea .gwt-RichTextToolbar-top div[title="Toggle Bold"]:before {
@@ -12967,7 +13111,7 @@ h1.no-margin, .v-label-h1.no-margin, h2.no-margin, .v-label-h2.no-margin, h3.no-
 }
 
 .v-Notification.success .v-Notification-caption:before, .v-Notification.failure .v-Notification-caption:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f00c";
 	margin-right: 0.5em;
 }
@@ -13374,32 +13518,32 @@ h1.no-margin, .v-label-h1.no-margin, h2.no-margin, .v-label-h2.no-margin, h3.no-
 	outline: none;
 }
 
-.v-ui.valo-menu-responsive[width-range~="801px-1100px"] .valo-menu-part {
+.valo-menu-responsive[width-range~="801px-1100px"] .valo-menu-part {
 	background-color: #4b4b4b;
 	min-width: 58px;
 	max-width: 87px;
 }
 
-.v-ui.valo-menu-responsive[width-range~="801px-1100px"] .valo-menu-part .valo-menu-title {
+.valo-menu-responsive[width-range~="801px-1100px"] .valo-menu-part .valo-menu-title {
 	font-size: 11px;
 }
 
-.v-ui.valo-menu-responsive[width-range~="801px-1100px"] .valo-menu-part .valo-menu-title .v-label-undef-w {
+.valo-menu-responsive[width-range~="801px-1100px"] .valo-menu-part .valo-menu-title .v-label-undef-w {
 	white-space: normal;
 }
 
-.v-ui.valo-menu-responsive[width-range~="801px-1100px"] .valo-menu-part .v-menubar-user-menu {
+.valo-menu-responsive[width-range~="801px-1100px"] .valo-menu-part .v-menubar-user-menu {
 	margin-left: 0;
 	margin-right: 0;
 	font-size: 10px;
 }
 
-.v-ui.valo-menu-responsive[width-range~="801px-1100px"] .valo-menu-part .v-menubar-user-menu img.v-icon {
+.valo-menu-responsive[width-range~="801px-1100px"] .valo-menu-part .v-menubar-user-menu img.v-icon {
 	width: 22px;
 	height: 22px;
 }
 
-.v-ui.valo-menu-responsive[width-range~="801px-1100px"] .valo-menu-part [class*="subtitle"] {
+.valo-menu-responsive[width-range~="801px-1100px"] .valo-menu-part [class*="subtitle"] {
 	margin: 7px 0 0;
 	padding: 6px 19px 6px 7px;
 	line-height: 1;
@@ -13411,15 +13555,15 @@ h1.no-margin, .v-label-h1.no-margin, h2.no-margin, .v-label-h2.no-margin, h3.no-
 	box-shadow: 0 2px 3px rgba(0, 0, 0, 0.05);
 }
 
-.v-ui.valo-menu-responsive[width-range~="801px-1100px"] .valo-menu-part [class*="subtitle"] [class*="badge"] {
+.valo-menu-responsive[width-range~="801px-1100px"] .valo-menu-part [class*="subtitle"] [class*="badge"] {
 	right: 7px;
 }
 
-.v-ui.valo-menu-responsive[width-range~="801px-1100px"] .valo-menu-part [class*="subtitle"]  + .valo-menu-item {
+.valo-menu-responsive[width-range~="801px-1100px"] .valo-menu-part [class*="subtitle"]  + .valo-menu-item {
 	border-top: none;
 }
 
-.v-ui.valo-menu-responsive[width-range~="801px-1100px"] .valo-menu-part .valo-menu-item {
+.valo-menu-responsive[width-range~="801px-1100px"] .valo-menu-part .valo-menu-item {
 	display: block;
 	font-size: 22px;
 	line-height: 1;
@@ -13428,11 +13572,11 @@ h1.no-margin, .v-label-h1.no-margin, h2.no-margin, .v-label-h2.no-margin, h3.no-
 	border-top: 1px solid #555555;
 }
 
-.v-ui.valo-menu-responsive[width-range~="801px-1100px"] .valo-menu-part .valo-menu-item:first-child {
+.valo-menu-responsive[width-range~="801px-1100px"] .valo-menu-part .valo-menu-item:first-child {
 	border-top: none;
 }
 
-.v-ui.valo-menu-responsive[width-range~="801px-1100px"] .valo-menu-part .valo-menu-item [class*="caption"] {
+.valo-menu-responsive[width-range~="801px-1100px"] .valo-menu-part .valo-menu-item [class*="caption"] {
 	display: block;
 	width: auto;
 	margin: 0.3em 0 0;
@@ -13441,27 +13585,27 @@ h1.no-margin, .v-label-h1.no-margin, h2.no-margin, .v-label-h2.no-margin, h3.no-
 	line-height: 1.3;
 }
 
-.v-ui.valo-menu-responsive[width-range~="801px-1100px"] .valo-menu-part .valo-menu-item .v-icon {
+.valo-menu-responsive[width-range~="801px-1100px"] .valo-menu-part .valo-menu-item .v-icon {
 	margin: 0;
 }
 
-.v-ui.valo-menu-responsive[width-range~="801px-1100px"] .valo-menu-part .valo-menu-item span.v-icon {
+.valo-menu-responsive[width-range~="801px-1100px"] .valo-menu-part .valo-menu-item span.v-icon {
 	opacity: 0.8;
 }
 
-.v-ui.valo-menu-responsive[width-range~="801px-1100px"] .valo-menu-part .valo-menu-item.selected {
+.valo-menu-responsive[width-range~="801px-1100px"] .valo-menu-part .valo-menu-item.selected {
 	background: #434343;
 }
 
-.v-ui.valo-menu-responsive[width-range~="801px-1100px"] .valo-menu-part .valo-menu-item.selected .v-icon {
+.valo-menu-responsive[width-range~="801px-1100px"] .valo-menu-part .valo-menu-item.selected .v-icon {
 	opacity: 1;
 }
 
-.v-ui.valo-menu-responsive[width-range~="801px-1100px"] .valo-menu-part .valo-menu-item.selected [class*="badge"] {
+.valo-menu-responsive[width-range~="801px-1100px"] .valo-menu-part .valo-menu-item.selected [class*="badge"] {
 	border-color: #434343;
 }
 
-.v-ui.valo-menu-responsive[width-range~="801px-1100px"] .valo-menu-part .valo-menu-item [class*="badge"] {
+.valo-menu-responsive[width-range~="801px-1100px"] .valo-menu-part .valo-menu-item [class*="badge"] {
 	padding-left: 3px;
 	padding-right: 3px;
 	top: 6px;
@@ -13469,33 +13613,33 @@ h1.no-margin, .v-label-h1.no-margin, h2.no-margin, .v-label-h2.no-margin, h3.no-
 	border: 2px solid #4b4b4b;
 }
 
-.v-ui.valo-menu-responsive[width-range~="0-800px"] {
+.valo-menu-responsive[width-range~="0-800px"] {
 	padding-top: 29px;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 }
 
-.v-ui.valo-menu-responsive[width-range~="0-800px"] .v-loading-indicator {
+.valo-menu-responsive[width-range~="0-800px"] .v-loading-indicator {
 	top: 29px;
 }
 
-.v-ui.valo-menu-responsive[width-range~="0-800px"]  > .v-widget {
+.valo-menu-responsive[width-range~="0-800px"]  > .v-widget {
 	position: relative !important;
 }
 
-.v-ui.valo-menu-responsive[width-range~="0-800px"] .valo-menu {
+.valo-menu-responsive[width-range~="0-800px"] .valo-menu {
 	border-right: none;
 }
 
-.v-ui.valo-menu-responsive[width-range~="0-800px"] .valo-menu-part {
+.valo-menu-responsive[width-range~="0-800px"] .valo-menu-part {
 	overflow: visible;
 }
 
-.v-ui.valo-menu-responsive[width-range~="0-800px"] .valo-menu-toggle {
+.valo-menu-responsive[width-range~="0-800px"] .valo-menu-toggle {
 	display: inline-block;
 }
 
-.v-ui.valo-menu-responsive[width-range~="0-800px"] .valo-menu-title {
+.valo-menu-responsive[width-range~="0-800px"] .valo-menu-title {
 	position: fixed;
 	z-index: 100;
 	top: 0;
@@ -13507,7 +13651,7 @@ h1.no-margin, .v-label-h1.no-margin, h2.no-margin, .v-label-h2.no-margin, h3.no-
 	-webkit-backface-visibility: hidden;
 }
 
-.v-ui.valo-menu-responsive[width-range~="0-800px"] .valo-menu .v-menubar-user-menu {
+.valo-menu-responsive[width-range~="0-800px"] .valo-menu .v-menubar-user-menu {
 	position: fixed;
 	z-index: 100;
 	top: 0;
@@ -13520,12 +13664,12 @@ h1.no-margin, .v-label-h1.no-margin, h2.no-margin, .v-label-h2.no-margin, h3.no-
 	-webkit-backface-visibility: hidden;
 }
 
-.v-ui.valo-menu-responsive[width-range~="0-800px"] .valo-menu .v-menubar-user-menu .v-menubar-menuitem {
+.valo-menu-responsive[width-range~="0-800px"] .valo-menu .v-menubar-user-menu .v-menubar-menuitem {
 	line-height: 28px;
 	white-space: nowrap;
 }
 
-.v-ui.valo-menu-responsive[width-range~="0-800px"] .valo-menu .v-menubar-user-menu img.v-icon {
+.valo-menu-responsive[width-range~="0-800px"] .valo-menu .v-menubar-user-menu img.v-icon {
 	display: inline-block;
 	margin: 0 5px 0 0;
 	width: 15px;
@@ -13534,7 +13678,7 @@ h1.no-margin, .v-label-h1.no-margin, h2.no-margin, .v-label-h2.no-margin, h3.no-
 	border: none;
 }
 
-.v-ui.valo-menu-responsive[width-range~="0-800px"] .valo-menuitems {
+.valo-menu-responsive[width-range~="0-800px"] .valo-menuitems {
 	height: 100%;
 	background-color: #4b4b4b;
 	background-image: -webkit-linear-gradient(right, #414141 0%, #4b4b4b 7px);
@@ -13545,7 +13689,7 @@ h1.no-margin, .v-label-h1.no-margin, h2.no-margin, .v-label-h2.no-margin, h3.no-
 	border-right: 1px solid #3b3b3b;
 	white-space: nowrap;
 	position: fixed;
-	z-index: 200;
+	z-index: 9000;
 	top: 29px;
 	bottom: 0;
 	height: auto;
@@ -13562,7 +13706,7 @@ h1.no-margin, .v-label-h1.no-margin, h2.no-margin, .v-label-h2.no-margin, h3.no-
 	transition: all 300ms;
 }
 
-.v-ui.valo-menu-responsive[width-range~="0-800px"] .valo-menu-visible .valo-menuitems {
+.valo-menu-responsive[width-range~="0-800px"] .valo-menu-visible .valo-menuitems {
 	-webkit-transform: translatex(0%);
 	-moz-transform: translatex(0%);
 	-ms-transform: translatex(0%);
@@ -13570,11 +13714,11 @@ h1.no-margin, .v-label-h1.no-margin, h2.no-margin, .v-label-h2.no-margin, h3.no-
 	transform: translatex(0%);
 }
 
-.v-ui.valo-menu-responsive[width-range~="0-500px"] .valo-menu-toggle .v-button-caption {
+.valo-menu-responsive[width-range~="0-500px"] .valo-menu-toggle .v-button-caption {
 	display: none;
 }
 
-.v-ui.valo-menu-responsive[width-range~="0-500px"] .valo-menu .v-menubar-user-menu .v-menubar-menuitem-caption {
+.valo-menu-responsive[width-range~="0-500px"] .valo-menu .v-menubar-user-menu .v-menubar-menuitem-caption {
 	display: inline-block;
 	width: 15px;
 	overflow: hidden;
@@ -16191,6 +16335,11 @@ input.v-textfield-pagedtable-pagefield {
 	padding: 2px 5px 2px 5px;
 }
 
+.topNavigation .v-button.ad {
+	color: black;
+	font-weight: normal;
+}
+
 .topNavigation .v-button.ad .v-icon {
 	color: green;
 }
@@ -16658,10 +16807,6 @@ input.v-textfield-errorField {
 
 .addViewLayout .addNewControl.v-margin-left {
 	padding-left: 0px;
-}
-
-.addViewLayout .addViewTopControls .edit-btn .v-horizontallayout-margin {
-	padding: 0px;
 }
 
 .crmContainer .container-wrap .tab-content, .accountViewContainer .container-wrap .tab-content {

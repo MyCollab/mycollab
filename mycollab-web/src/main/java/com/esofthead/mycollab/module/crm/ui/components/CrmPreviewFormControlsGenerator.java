@@ -61,9 +61,9 @@ public class CrmPreviewFormControlsGenerator<T> {
                 });
 
         editButtons.setWidthUndefined();
-        editButtons.addStyleName(UIConstants.THEME_GRAY_LINK);
+        editButtons.addStyleName(UIConstants.BUTTON_OPTION);
         optionBtn = new SplitButton(editButtons);
-        optionBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
+        optionBtn.addStyleName(UIConstants.BUTTON_OPTION);
     }
 
     public void insertToControlBlock(Button button) {

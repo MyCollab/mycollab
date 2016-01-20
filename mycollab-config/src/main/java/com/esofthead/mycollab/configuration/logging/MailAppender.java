@@ -34,11 +34,7 @@ public class MailAppender extends SMTPAppender {
     protected Layout<ILoggingEvent> makeSubjectLayout(String subjectStr) {
         if (subjectStr == null) {
             String version;
-            if (SiteConfiguration.isDemandEdition()) {
-                version = "MyCollab Live";
-            } else {
-                version = "MyCollab " + MyCollabVersion.getVersion();
-            }
+            version = "MyCollab " + MyCollabVersion.getVersion();
             subjectStr = version + " - Error: %logger{20} - %m";
         }
 

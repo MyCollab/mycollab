@@ -185,11 +185,9 @@ public class ThemeManager {
 		/* Vertical Tabsheet */
 
         if (accountTheme.getVtabsheetbg() != null) {
-            extraStyles.append(".vertical-tabsheet .navigator-wrap { background-color: #"
-                    + accountTheme.getVtabsheetbg() + "; }");
+            extraStyles.append(".vertical-tabsheet .navigator-wrap { background-color: #" + accountTheme.getVtabsheetbg() + "; }");
 
-            extraStyles.append(".projectfeed-hdr-wrapper { background-color: #"
-                    + accountTheme.getVtabsheetbg() + "; }");
+            extraStyles.append(".projectfeed-hdr-wrapper { background-color: #" + accountTheme.getVtabsheetbg() + "; }");
 
             extraStyles.append(".project-info { background-color: #" + accountTheme.getVtabsheetbg() + "; }");
 
@@ -209,8 +207,6 @@ public class ThemeManager {
             extraStyles.append(".project-info .v-label { color: #" + accountTheme.getVtabsheettext() + "; }");
 
             extraStyles.append(".project-info .v-label a { color: #" + accountTheme.getVtabsheettext() + "; }");
-
-            extraStyles.append(".projectfeed-hdr-wrapper .v-label { color: #" + accountTheme.getVtabsheettext() + "; }");
 
             extraStyles.append("div.v-csslayout.rightsidebar-layout .sidebar-wrap { color: #" + accountTheme.getVtabsheettext() + "; }");
 

@@ -80,7 +80,7 @@ public class PreviewFormControlsGenerator<T> implements Serializable {
 
         optionBtn = new SplitButton(optionParentBtn);
         optionBtn.setWidthUndefined();
-        optionBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
+        optionBtn.addStyleName(UIConstants.BUTTON_OPTION);
 
 
         if (permissionItem != null) {

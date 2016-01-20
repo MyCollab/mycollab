@@ -98,7 +98,7 @@ public class AccountSelectionField extends CustomField<Integer> implements Field
         accountName.setWidth("100%");
 
         Button browseBtn = new Button(null,FontAwesome.ELLIPSIS_H);
-        browseBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
+        browseBtn.addStyleName(UIConstants.BUTTON_OPTION);
         browseBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
 
         browseBtn.addClickListener(new Button.ClickListener() {
@@ -111,7 +111,7 @@ public class AccountSelectionField extends CustomField<Integer> implements Field
         });
 
         Button clearBtn = new Button(null, FontAwesome.TRASH_O);
-        clearBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
+        clearBtn.addStyleName(UIConstants.BUTTON_OPTION);
         clearBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
         clearBtn.addClickListener(new Button.ClickListener() {
             @Override

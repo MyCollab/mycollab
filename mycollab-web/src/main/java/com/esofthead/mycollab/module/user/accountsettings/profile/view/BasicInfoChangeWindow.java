@@ -110,7 +110,7 @@ class BasicInfoChangeWindow extends Window {
                         BasicInfoChangeWindow.this.close();
                     }
                 });
-        cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+        cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
 
         Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
                 new Button.ClickListener() {

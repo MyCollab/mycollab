@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-server-runner.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.server.jetty;
+package com.esofthead.mycollab.server;
 
 import ch.qos.logback.classic.Level;
 import com.esofthead.mycollab.configuration.ApplicationProperties;
@@ -23,7 +23,7 @@ import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.configuration.logging.LogConfig;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.FileUtils;
-import com.esofthead.mycollab.server.ClientCommunitor;
+import com.esofthead.mycollab.server.jetty.ServerInstance;
 import com.esofthead.mycollab.servlet.*;
 import com.zaxxer.hikari.HikariDataSource;
 import org.eclipse.jetty.annotations.AnnotationConfiguration;
@@ -120,6 +120,10 @@ public abstract class GenericServerRunner {
         execute();
     }
 
+    public GenericServerRunner() {
+        super();
+    }
+
     private void execute() throws Exception {
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
@@ -133,23 +137,17 @@ public abstract class GenericServerRunner {
         boolean alreadySetup = false;
 
         if (!checkConfigFileExist()) {
-            System.err
-                    .println("It seems this is the first time you run MyCollab. For complete installation, you must " +
-                            "open the browser and type address http://<your server name>:"
-                            + port
+            System.err.println("It seems this is the first time you run MyCollab. For complete installation, you must " +
+                            "open the browser and type address http://<your server name>:" + port
                             + " and complete the steps to install MyCollab.");
             installationContextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
             installationContextHandler.setContextPath("/");
 
             installServlet = new InstallationServlet();
             installationContextHandler.addServlet(new ServletHolder(installServlet), "/install");
-            installationContextHandler.addServlet(new ServletHolder(
-                    new DatabaseValidate()), "/validate");
-            installationContextHandler.addServlet(new ServletHolder(
-                    new EmailValidationServlet()), "/emailValidate");
-
-            installationContextHandler.addServlet(new ServletHolder(
-                    new AssetHttpServletRequestHandler()), "/assets/*");
+            installationContextHandler.addServlet(new ServletHolder(new DatabaseValidate()), "/validate");
+            installationContextHandler.addServlet(new ServletHolder(new EmailValidationServlet()), "/emailValidate");
+            installationContextHandler.addServlet(new ServletHolder(new AssetHttpServletRequestHandler()), "/assets/*");
             installationContextHandler.addServlet(new ServletHolder(new SetupServlet()), "/*");
             installationContextHandler.addLifeCycleListener(new ServerLifeCycleListener());
 
@@ -188,7 +186,7 @@ public abstract class GenericServerRunner {
         }
     }
 
-    void upgrade(File upgradeFile) {
+    public void upgrade(File upgradeFile) {
         if (clientCommunitor != null) {
             clientCommunitor.reloadRequest(upgradeFile);
         } else {
@@ -215,8 +213,7 @@ public abstract class GenericServerRunner {
     }
 
     private boolean checkConfigFileExist() {
-        File confFolder = FileUtils.getDesireFile(System.getProperty("user.dir"),
-                "conf", "src/main/conf");
+        File confFolder = FileUtils.getDesireFile(System.getProperty("user.dir"), "conf", "src/main/conf");
         return (confFolder == null) ? false : new File(confFolder, "mycollab.properties").exists();
     }
 
@@ -224,7 +221,6 @@ public abstract class GenericServerRunner {
         SiteConfiguration.loadConfiguration();
         LogConfig.initMyCollabLog();
         String webAppDirLocation = detectWebApp();
-        LOG.debug("Detect web location: {}", webAppDirLocation);
         appContext = buildContext(webAppDirLocation);
         appContext.setClassLoader(Thread.currentThread().getContextClassLoader());
         appContext.setServer(server);

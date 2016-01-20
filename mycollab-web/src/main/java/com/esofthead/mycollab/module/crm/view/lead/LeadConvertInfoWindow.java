@@ -118,7 +118,7 @@ public class LeadConvertInfoWindow extends Window {
                 LeadConvertInfoWindow.this.close();
             }
         });
-        cancelButton.setStyleName(UIConstants.THEME_GRAY_LINK);
+        cancelButton.setStyleName(UIConstants.BUTTON_OPTION);
         layout.addComponent(cancelButton);
         layout.setComponentAlignment(cancelButton, Alignment.MIDDLE_CENTER);
         return layout;

@@ -353,7 +353,7 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
                     MessageListViewImpl.this.setCriteria(searchCriteria);
                 }
             });
-            cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+            cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
             controls.with(cancelBtn).withAlign(cancelBtn, Alignment.TOP_RIGHT);
 
             Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_POST), new Button.ClickListener() {

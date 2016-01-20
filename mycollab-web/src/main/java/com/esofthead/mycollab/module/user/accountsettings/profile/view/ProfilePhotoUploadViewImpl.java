@@ -106,7 +106,7 @@ public class ProfilePhotoUploadViewImpl extends AbstractPageView implements Prof
                         new ProfileEvent.GotoProfileView(ProfilePhotoUploadViewImpl.this, null));
             }
         });
-        cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+        cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
 
         Button acceptBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ACCEPT), new Button.ClickListener() {
             @Override
