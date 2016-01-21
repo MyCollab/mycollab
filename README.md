@@ -7,6 +7,8 @@
 
 MyCollab is the free and open source collaboration tools, it has three existing modules: Project Management, CRM and Document Management. Intuitive UI, rich features, high performance and stable are the advantages compare with various popular tools in the market such as Redmine, Bugzilla, Mantis etc. This open source is included into a trusted commercial product that is deployed on hundreds of companies' servers.
 
+MyCollab does work well on both desktop and mobile devices.
+
 <table>
   <tr>
     <td align="center">
@@ -91,7 +93,7 @@ Please take a look at MyCollab requirements:
 
 ## Installation
 
-The current MyCollab version is 5.2.4 released on 23th December, 2015. This branch focuses in mobile devices, reporting and customize options for on-demand edition.
+The current MyCollab version is 5.2.5 released on 20th January, 2016. This branch focuses in mobile devices, reporting and customize options for on-demand edition.
 
 1. Download MyCollab binary - https://www.mycollab.com/self-hosted/
 2. Follow installation guideline at https://community.mycollab.com/installing-mycollab/
