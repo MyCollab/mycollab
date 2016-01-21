@@ -46,7 +46,7 @@ public class MyCollabServlet extends TouchKitServlet {
         super.servletInitialized();
         TouchKitSettings s = getTouchKitSettings();
         s.getWebAppSettings().setWebAppCapable(true);
-        s.getApplicationCacheSettings().setCacheManifestEnabled(false);
+        s.getApplicationCacheSettings().setCacheManifestEnabled(true);
         String contextPath = getServletConfig().getServletContext().getContextPath();
         s.getApplicationIcons().addApplicationIcon(contextPath + "VAADIN/themes/" + MyCollabVersion
                 .THEME_MOBILE_VERSION + "/icons/icon.png");

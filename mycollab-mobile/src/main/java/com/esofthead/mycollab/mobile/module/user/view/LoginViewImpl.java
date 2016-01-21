@@ -59,7 +59,7 @@ public class LoginViewImpl extends AbstractMobileMainView implements LoginView {
         CssLayout welcomeTextWrapper = new CssLayout();
         ELabel welcomeText = new ELabel("Welcome Back!").withStyleName("h1");
         welcomeTextWrapper.addComponent(welcomeText);
-        contentLayout.addComponent(welcomeTextWrapper);
+        contentLayout.addComponent(welcomeText);
 
         final EmailField emailField = new EmailField();
         emailField.setWidth("100%");

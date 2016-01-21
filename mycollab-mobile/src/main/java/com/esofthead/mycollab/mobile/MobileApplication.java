@@ -48,6 +48,7 @@ import com.esofthead.mycollab.vaadin.ui.ThemeManager;
 import com.esofthead.mycollab.vaadin.ui.service.GoogleAnalyticsService;
 import com.vaadin.addon.touchkit.extensions.LocalStorage;
 import com.vaadin.addon.touchkit.extensions.LocalStorageCallback;
+import com.vaadin.addon.touchkit.extensions.OfflineMode;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Viewport;
@@ -82,6 +83,17 @@ public class MobileApplication extends MyCollabUI {
 
     @Override
     protected void init(VaadinRequest request) {
+        OfflineMode offlineMode = new OfflineMode();
+        offlineMode.extend(this);
+
+        // Maintain the session when the browser app closes
+        offlineMode.setPersistentSessionCookie(true);
+
+
+        // Define the timeout in secs to wait when a server
+        // request is sent before falling back to offline mode
+        offlineMode.setOfflineModeTimeout(15);
+
         GoogleAnalyticsService googleAnalyticsService = ApplicationContextUtil.getSpringBean(GoogleAnalyticsService.class);
         googleAnalyticsService.registerUI(this);
 

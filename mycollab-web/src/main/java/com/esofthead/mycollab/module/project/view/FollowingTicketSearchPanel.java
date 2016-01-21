@@ -27,8 +27,8 @@ import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
+import com.esofthead.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
@@ -202,7 +202,9 @@ public class FollowingTicketSearchPanel extends DefaultGenericSearchPanel<Follow
                 for (SimpleProject project : projects) {
                     keys.add(project.getId());
                 }
-                searchCriteria.setExtraTypeIds(new SetSearchField<>(keys.toArray(new Integer[keys.size()])));
+                if (keys.size() > 0) {
+                    searchCriteria.setExtraTypeIds(new SetSearchField<>(keys.toArray(new Integer[keys.size()])));
+                }
             }
 
             return searchCriteria;

@@ -18,6 +18,7 @@ package com.esofthead.mycollab.community.module.project.view.task;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.StorageFactory;
+import com.esofthead.mycollab.core.utils.NumberUtils;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
@@ -56,7 +57,7 @@ public class TaskPopupFieldFactoryImpl implements TaskPopupFieldFactory {
 
     @Override
     public PopupView createCommentsPopupField(SimpleTask task) {
-        return new PopupFieldBuilder().withCaption(FontAwesome.COMMENT_O.getHtml() + " " + task.getNumComments())
+        return new PopupFieldBuilder().withCaption(FontAwesome.COMMENT_O.getHtml() + " " + NumberUtils.zeroIfNull(task.getNumComments()))
                 .withDescription("Comments").build();
     }
 
@@ -133,19 +134,19 @@ public class TaskPopupFieldFactoryImpl implements TaskPopupFieldFactory {
 
     @Override
     public PopupView createFollowersPopupField(SimpleTask task) {
-        return new PopupFieldBuilder().withCaptionAndIcon(FontAwesome.EYE, "" + task.getNumFollowers())
+        return new PopupFieldBuilder().withCaptionAndIcon(FontAwesome.EYE, "" + NumberUtils.zeroIfNull(task.getNumFollowers()))
                 .withDescription("Followers").build();
     }
 
     @Override
     public PopupView createBillableHoursPopupField(SimpleTask task) {
-        return new PopupFieldBuilder().withCaptionAndIcon(FontAwesome.MONEY, "" + task.getBillableHours())
+        return new PopupFieldBuilder().withCaptionAndIcon(FontAwesome.MONEY, "" + NumberUtils.zeroIfNull(task.getBillableHours()))
                 .withDescription("Billable hours").build();
     }
 
     @Override
     public PopupView createNonBillableHoursPopupField(SimpleTask task) {
-        return new PopupFieldBuilder().withCaptionAndIcon(FontAwesome.GIFT, "" + task.getNonBillableHours())
+        return new PopupFieldBuilder().withCaptionAndIcon(FontAwesome.GIFT, "" + NumberUtils.zeroIfNull(task.getNonBillableHours()))
                 .withDescription("Non billable hours").build();
     }
 }

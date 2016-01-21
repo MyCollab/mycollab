@@ -242,6 +242,27 @@ public class DesktopApplication extends MyCollabUI {
             }
         }
 
+        IllegalStateException asyncNotSupport = getExceptionType(e, IllegalStateException.class);
+        if (asyncNotSupport != null && asyncNotSupport.getMessage().contains("!asyncSupported")) {
+            ConfirmDialog dialog = ConfirmDialogExt.show(DesktopApplication.this,
+                    AppContext.getMessage(GenericI18Enum.WINDOW_ERROR_TITLE, AppContext.getSiteName()),
+                    "Your network does not support websocket! Please contact your network administrator to solve it",
+                    AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                    AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                    new ConfirmDialog.Listener() {
+                        private static final long serialVersionUID = 1L;
+
+                        @Override
+                        public void onClose(ConfirmDialog dialog) {
+
+                        }
+                    });
+            Button okBtn = dialog.getOkButton();
+            BrowserWindowOpener opener = new BrowserWindowOpener("http://support.mycollab.com");
+            opener.extend(okBtn);
+            return;
+        }
+
         LOG.error("Error " + userAgent, e);
         ConfirmDialog dialog = ConfirmDialogExt.show(UI.getCurrent(),
                 AppContext.getMessage(GenericI18Enum.WINDOW_ERROR_TITLE, AppContext.getSiteName()),

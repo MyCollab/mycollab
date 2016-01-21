@@ -72,6 +72,11 @@
         <param-name>heartbeatInterval</param-name>
         <param-value>3000</param-value>
     </context-param>
+    
+    <mime-mapping>
+        <extension>manifest</extension>
+        <mime-type>text/cache-manifest</mime-type>
+    </mime-mapping>
 
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>

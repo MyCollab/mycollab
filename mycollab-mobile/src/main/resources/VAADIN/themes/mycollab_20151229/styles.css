@@ -38,6 +38,12 @@ hr {
 	border-top: 1px solid #e5e5e5;
 }
 
+.h1 {
+	font-weight: 600 !important;
+	font-size: 20px !important;
+	text-align: center !important;
+}
+
 a {
 	color: #0083ce !important;
 	text-decoration: none !important;

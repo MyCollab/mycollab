@@ -16,42 +16,37 @@
  */
 package com.esofthead.mycollab.vaadin.web.ui;
 
+import com.vaadin.ui.Button;
+import com.vaadin.ui.HorizontalLayout;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.dialogs.DefaultConfirmDialogFactory;
 
-import com.vaadin.ui.Button;
-import com.vaadin.ui.HorizontalLayout;
-
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
 public class ConfirmDialogFactory extends DefaultConfirmDialogFactory {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Override
-	public ConfirmDialog create(String caption, String message,
-								String okCaption, String cancelCaption, String notOkCaption) {
-		ConfirmDialog d = super.create(caption, message, okCaption,
-				cancelCaption, notOkCaption);
+    @Override
+    public ConfirmDialog create(String caption, String message, String okCaption, String cancelCaption, String notOkCaption) {
+        ConfirmDialog d = super.create(caption, message, okCaption, cancelCaption, notOkCaption);
 
-		d.getContent().setStyleName("custom-dialog");
-		d.getContent().setHeightUndefined();
-		d.setHeightUndefined();
+        d.getContent().setStyleName("custom-dialog");
+        d.getContent().setHeightUndefined();
+        d.setHeightUndefined();
 
-		Button ok = d.getOkButton();
-		ok.setStyleName(UIConstants.BUTTON_ACTION);
+        Button ok = d.getOkButton();
+        ok.setStyleName(UIConstants.BUTTON_ACTION);
 
-		HorizontalLayout buttons = (HorizontalLayout) ok.getParent();
-		buttons.setHeightUndefined();
+        HorizontalLayout buttons = (HorizontalLayout) ok.getParent();
+        buttons.setHeightUndefined();
 
-		Button cancelBtn = d.getCancelButton();
-		cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
-		cancelBtn.focus();
+        Button cancelBtn = d.getCancelButton();
+        cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
+        cancelBtn.focus();
 
-		return d;
-	}
+        return d;
+    }
 
 }
