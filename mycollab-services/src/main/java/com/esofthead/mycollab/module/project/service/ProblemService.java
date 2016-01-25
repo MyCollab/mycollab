@@ -23,9 +23,12 @@ import com.esofthead.mycollab.module.project.domain.Problem;
 import com.esofthead.mycollab.module.project.domain.SimpleProblem;
 import com.esofthead.mycollab.module.project.domain.criteria.ProblemSearchCriteria;
 
-public interface ProblemService extends
-		IDefaultService<Integer, Problem, ProblemSearchCriteria> {
+/**
+ * @author MyCollab Ltd
+ * @since 1.0.0
+ */
+public interface ProblemService extends IDefaultService<Integer, Problem, ProblemSearchCriteria> {
 
-	@Cacheable
-	SimpleProblem findById(Integer problemId, @CacheKey Integer sAccountId);
+    @Cacheable
+    SimpleProblem findById(Integer problemId, @CacheKey Integer sAccountId);
 }

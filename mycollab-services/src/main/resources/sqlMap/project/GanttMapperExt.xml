@@ -61,7 +61,7 @@
     </resultMap>
 
     <select id="getTaskWithPredecessors" resultMap="ProjectGanttItem" parameterType="map" lang="velocity">
-        SELECT m_prj_project.id AS prjId, m_prj_project.name, m_prj_project.owner AS assignUser,
+        SELECT m_prj_project.id AS prjId, m_prj_project.name, m_prj_project.lead AS assignUser,
         m_prj_project.shortname AS prjKey,m_prj_project.planStartDate AS startDate, m_prj_project.planEndDate AS endDate,
         m_prj_project.projectStatus AS status, m_prj_project.id AS id, m_prj_project.actualStartDate,
         m_prj_project.actualEndDate,m_prj_project.sAccountId, m_prj_project.deadline,

@@ -19,41 +19,39 @@ package com.esofthead.mycollab.core.arguments;
 import java.io.Serializable;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class ValuedBean implements Cloneable, Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@NotBindable
-	private boolean selected = false;
+    @NotBindable
+    private boolean selected = false;
 
-	@NotBindable
-	private Object extraData;
+    @NotBindable
+    private Object extraData;
 
-	public Object getExtraData() {
-		return extraData;
-	}
+    public Object getExtraData() {
+        return extraData;
+    }
 
-	public void setExtraData(Object extraData) {
-		this.extraData = extraData;
-	}
+    public void setExtraData(Object extraData) {
+        this.extraData = extraData;
+    }
 
-	public boolean isSelected() {
-		return selected;
-	}
+    public boolean isSelected() {
+        return selected;
+    }
 
-	public void setSelected(boolean selected) {
-		this.selected = selected;
-	}
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
 
-	public Object copy() {
-		try {
-			return super.clone();
-		} catch (CloneNotSupportedException e) {
-			return null;
-		}
-	}
+    public Object copy() {
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
+    }
 }

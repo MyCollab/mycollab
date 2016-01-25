@@ -21,13 +21,10 @@ import com.esofthead.mycollab.core.persistence.service.ICrudService;
 import com.esofthead.mycollab.module.project.domain.ProjectCustomizeView;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.4.0
- *
  */
 @IgnoreCacheClass
-public interface ProjectCustomizeViewService extends
-		ICrudService<Integer, ProjectCustomizeView> {
+public interface ProjectCustomizeViewService extends ICrudService<Integer, ProjectCustomizeView> {
 
 }

@@ -55,7 +55,7 @@ public class TaskSavedFilterComboBox extends SavedFilterComboBox {
         SearchQueryInfo allTasksQuery = new SearchQueryInfo(ALL_TASKS, "All Tasks", SearchFieldInfo.inCollection
                 (TaskSearchCriteria.p_projectIds, new CurrentProjectIdInjecter()));
 
-        SearchQueryInfo allOpenTaskQuery = new SearchQueryInfo(OPEN_TASKS, "All Open Task", SearchFieldInfo
+        SearchQueryInfo allOpenTaskQuery = new SearchQueryInfo(OPEN_TASKS, "All Open Tasks", SearchFieldInfo
                 .inCollection(TaskSearchCriteria.p_status, new VariableInjecter() {
                     @Override
                     public Object eval() {

@@ -16,21 +16,22 @@
  */
 package com.esofthead.mycollab.module.project.service;
 
-import java.util.List;
-
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.cache.Cacheable;
 import com.esofthead.mycollab.core.persistence.service.ICrudService;
 import com.esofthead.mycollab.module.project.domain.ProjectNotificationSetting;
 
-public interface ProjectNotificationSettingService extends
-		ICrudService<Integer, ProjectNotificationSetting> {
+import java.util.List;
 
-	@Cacheable
-	ProjectNotificationSetting findNotification(String username,
-			Integer projectId, @CacheKey Integer sAccountId);
+/**
+ * @author MyCollab Ltd
+ * @since 4.0.0
+ */
+public interface ProjectNotificationSettingService extends ICrudService<Integer, ProjectNotificationSetting> {
 
-	@Cacheable
-	List<ProjectNotificationSetting> findNotifications(Integer projectId,
-			@CacheKey Integer sAccountId);
+    @Cacheable
+    ProjectNotificationSetting findNotification(String username, Integer projectId, @CacheKey Integer sAccountId);
+
+    @Cacheable
+    List<ProjectNotificationSetting> findNotifications(Integer projectId, @CacheKey Integer sAccountId);
 }

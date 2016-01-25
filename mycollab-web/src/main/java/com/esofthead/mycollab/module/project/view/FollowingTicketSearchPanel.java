@@ -111,10 +111,10 @@ public class FollowingTicketSearchPanel extends DefaultGenericSearchPanel<Follow
             summaryLb.setWidthUndefined();
             selectionLayout.addComponent(summaryLb, 0, 0);
 
-            this.summaryField = new TextField();
-            this.summaryField.setWidth("100%");
-            this.summaryField.setInputPrompt("Query by name");
-            selectionLayout.addComponent(this.summaryField, 1, 0);
+            summaryField = new TextField();
+            summaryField.setWidth("100%");
+            summaryField.setInputPrompt("Query by name");
+            selectionLayout.addComponent(summaryField, 1, 0);
 
             Label typeLb = new Label("Type:");
             typeLb.setWidthUndefined();
@@ -142,23 +142,22 @@ public class FollowingTicketSearchPanel extends DefaultGenericSearchPanel<Follow
             projectLb.setWidthUndefined();
             selectionLayout.addComponent(projectLb, 2, 0);
 
-            this.projectField = new UserInvolvedProjectsListSelect();
-            this.projectField.setWidth("300px");
-            this.projectField.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
-            this.projectField.setNullSelectionAllowed(false);
-            this.projectField.setMultiSelect(true);
-            this.projectField.setRows(4);
-            selectionLayout.addComponent(this.projectField, 3, 0, 3, 1);
+            projectField = new UserInvolvedProjectsListSelect();
+            projectField.setWidth("300px");
+            projectField.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
+            projectField.setNullSelectionAllowed(false);
+            projectField.setMultiSelect(true);
+            projectField.setRows(4);
+            selectionLayout.addComponent(projectField, 3, 0, 3, 1);
 
-            Button queryBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SUBMIT),
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            Button queryBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SUBMIT), new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(final ClickEvent event) {
-                            FollowingTicketSearchPanel.this.doSearch();
-                        }
-                    });
+                @Override
+                public void buttonClick(ClickEvent event) {
+                    doSearch();
+                }
+            });
             queryBtn.setStyleName(UIConstants.BUTTON_ACTION);
             selectionLayout.addComponent(queryBtn, 4, 0);
 

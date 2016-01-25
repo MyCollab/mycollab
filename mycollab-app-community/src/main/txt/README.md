@@ -40,6 +40,13 @@ understanding in a matter of minutes.
 Last changelog
 ==============
 
+Version 5.2.6
+-----------------------------
+**Library Upgrades**
+
+* Jetty 9.2.14.v20151106
+* Other libraries
+
 Version 5.2.5
 -----------------------------
 **Library Upgrades**

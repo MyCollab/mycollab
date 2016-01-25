@@ -26,6 +26,8 @@ import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.license.LicenseInfo;
+import com.esofthead.mycollab.license.LicenseResolver;
 import com.esofthead.mycollab.module.billing.AccountStatusConstants;
 import com.esofthead.mycollab.module.billing.service.BillingService;
 import com.esofthead.mycollab.module.mail.service.ExtMailService;
@@ -35,14 +37,14 @@ import com.esofthead.mycollab.module.user.domain.SimpleBillingAccount;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.ui.SettingAssetsManager;
 import com.esofthead.mycollab.module.user.ui.SettingUIConstants;
-import com.esofthead.mycollab.server.jetty.ServerInstance;
 import com.esofthead.mycollab.shell.events.ShellEvent;
-import com.esofthead.mycollab.shell.view.components.AboutWindow;
+import com.esofthead.mycollab.shell.view.components.AbstractAboutWindow;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.AccountAssetsResolver;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.ThemeManager;
@@ -343,6 +345,25 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
             accountLayout.addComponent(buyPremiumBtn);
         }
 
+        LicenseResolver licenseResolver = ApplicationContextUtil.getSpringBean(LicenseResolver.class);
+        if (licenseResolver != null) {
+            LicenseInfo licenseInfo = licenseResolver.getLicenseInfo();
+            if (licenseInfo != null) {
+                Date now = new GregorianCalendar().getTime();
+                if (licenseInfo.getExpireDate().before(now)) {
+                    Button buyPremiumBtn = new Button("License is expired. Upgrade?", new ClickListener() {
+                        @Override
+                        public void buttonClick(ClickEvent event) {
+                            UI.getCurrent().addWindow(new AdWindow());
+                        }
+                    });
+                    buyPremiumBtn.setIcon(FontAwesome.SHOPPING_CART);
+                    buyPremiumBtn.addStyleName("ad");
+                    accountLayout.addComponent(buyPremiumBtn);
+                }
+            }
+        }
+
         NotificationComponent notificationComponent = new NotificationComponent();
         accountLayout.addComponent(notificationComponent);
         if (AppContext.getUser().getTimezone() == null) {
@@ -456,27 +477,26 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         myAccountBtn.setIcon(SettingAssetsManager.getAsset(SettingUIConstants.BILLING));
         accountPopupContent.addOption(myAccountBtn);
 
-        if (!SiteConfiguration.isDemandEdition()) {
-            accountPopupContent.addSeparator();
-            Button aboutBtn = new Button("About MyCollab", new ClickListener() {
-                @Override
-                public void buttonClick(ClickEvent clickEvent) {
-                    accountMenu.setPopupVisible(false);
-                    ServerInstance.getInstance().preUpgrade();
-                    UI.getCurrent().addWindow(new AboutWindow());
-                }
-            });
-            aboutBtn.setIcon(FontAwesome.INFO_CIRCLE);
-            accountPopupContent.addOption(aboutBtn);
 
-            Button releaseNotesBtn = new Button("Release Notes");
-            ExternalResource releaseNotesRes = new ExternalResource("https://community.mycollab.com/release-notes/");
-            BrowserWindowOpener releaseNotesOpener = new BrowserWindowOpener(releaseNotesRes);
-            releaseNotesOpener.extend(releaseNotesBtn);
+        accountPopupContent.addSeparator();
+        Button aboutBtn = new Button("About MyCollab", new ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent clickEvent) {
+                accountMenu.setPopupVisible(false);
+                Window aboutWindow = ViewManager.getCacheComponent(AbstractAboutWindow.class);
+                UI.getCurrent().addWindow(aboutWindow);
+            }
+        });
+        aboutBtn.setIcon(FontAwesome.INFO_CIRCLE);
+        accountPopupContent.addOption(aboutBtn);
 
-            releaseNotesBtn.setIcon(FontAwesome.BULLHORN);
-            accountPopupContent.addOption(releaseNotesBtn);
-        }
+        Button releaseNotesBtn = new Button("Release Notes");
+        ExternalResource releaseNotesRes = new ExternalResource("https://community.mycollab.com/releases/");
+        BrowserWindowOpener releaseNotesOpener = new BrowserWindowOpener(releaseNotesRes);
+        releaseNotesOpener.extend(releaseNotesBtn);
+
+        releaseNotesBtn.setIcon(FontAwesome.BULLHORN);
+        accountPopupContent.addOption(releaseNotesBtn);
 
         Button signoutBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SIGNOUT), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;

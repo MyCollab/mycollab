@@ -82,7 +82,7 @@ public class MobileApplication extends MyCollabUI {
     public static final ShellUrlResolver rootUrlResolver = new ShellUrlResolver();
 
     @Override
-    protected void init(VaadinRequest request) {
+    protected void doInit(VaadinRequest request) {
         OfflineMode offlineMode = new OfflineMode();
         offlineMode.extend(this);
 
@@ -93,9 +93,6 @@ public class MobileApplication extends MyCollabUI {
         // Define the timeout in secs to wait when a server
         // request is sent before falling back to offline mode
         offlineMode.setOfflineModeTimeout(15);
-
-        GoogleAnalyticsService googleAnalyticsService = ApplicationContextUtil.getSpringBean(GoogleAnalyticsService.class);
-        googleAnalyticsService.registerUI(this);
 
         VaadinSession.getCurrent().setErrorHandler(new DefaultErrorHandler() {
             private static final long serialVersionUID = 1L;

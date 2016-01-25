@@ -14,26 +14,16 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-core.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.core.schedule.recurring;
+package com.esofthead.mycollab.license;
 
-public class MonthlyEventFollowDay implements RecurringEvent {
-	private int numday;
-	private int monthStep;
+/**
+ * @author MyCollab Ltd
+ * @since 5.2.6
+ */
+public interface LicenseResolver {
+    LicenseInfo getLicenseInfo();
 
-	public int getNumday() {
-		return numday;
-	}
+    void checkAndSaveLicenseInfo(String licenseInputText);
 
-	public void setNumday(int numday) {
-		this.numday = numday;
-	}
-
-	public int getMonthStep() {
-		return monthStep;
-	}
-
-	public void setMonthStep(int monthStep) {
-		this.monthStep = monthStep;
-	}
-
+    void checkLicenseInfo(byte[] licenseBytes, boolean isSave);
 }

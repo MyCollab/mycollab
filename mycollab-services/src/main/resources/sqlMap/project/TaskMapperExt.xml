@@ -253,7 +253,6 @@
     <select id="getPrioritySummary" parameterType="TaskSearchCriteria"
             resultMap="com.esofthead.mycollab.common.dao.GroupItemMapper.BaseResultMap"
             lang="velocity">
-
         <![CDATA[
         SELECT m_prj_task.priority AS groupid,
             COUNT(m_prj_task.priority) AS value, '' as groupname
@@ -270,7 +269,6 @@
     <select id="getStatusSummary" parameterType="TaskSearchCriteria"
             resultMap="com.esofthead.mycollab.common.dao.GroupItemMapper.BaseResultMap"
             lang="velocity">
-
         <![CDATA[
         SELECT m_prj_task.status AS groupid,
             COUNT(m_prj_task.status) AS value, '' as groupname

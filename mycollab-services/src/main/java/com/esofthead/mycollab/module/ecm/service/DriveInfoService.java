@@ -22,14 +22,18 @@ import com.esofthead.mycollab.core.cache.Cacheable;
 import com.esofthead.mycollab.core.persistence.service.ICrudService;
 import com.esofthead.mycollab.module.ecm.domain.DriveInfo;
 
+/**
+ * @author MyCollab Ltd
+ * @since 1.0.0
+ */
 public interface DriveInfoService extends ICrudService<Integer, DriveInfo> {
 
-	@CacheEvict
-	void saveOrUpdateDriveInfo(@CacheKey DriveInfo driveInfo);
+    @CacheEvict
+    void saveOrUpdateDriveInfo(@CacheKey DriveInfo driveInfo);
 
-	@Cacheable
-	DriveInfo getDriveInfo(@CacheKey Integer sAccountId);
+    @Cacheable
+    DriveInfo getDriveInfo(@CacheKey Integer sAccountId);
 
-	@Cacheable
-	Long getUsedStorageVolume(@CacheKey Integer sAccountId);
+    @Cacheable
+    Long getUsedStorageVolume(@CacheKey Integer sAccountId);
 }

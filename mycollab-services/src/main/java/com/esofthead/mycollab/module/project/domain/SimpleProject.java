@@ -21,203 +21,203 @@ import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.core.arguments.NotBindable;
 
 public class SimpleProject extends Project {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String ownerName;
+    private String createUserFullName;
 
-	private String accountName;
+    private String accountName;
 
-	private int numOpenBugs;
+    private int numOpenBugs;
 
-	private int numBugs;
+    private int numBugs;
 
-	private int numOpenTasks;
+    private int numOpenTasks;
 
-	private int numTasks;
+    private int numTasks;
 
-	private int numOpenProblems;
+    private int numOpenProblems;
 
-	private int numProblems;
+    private int numProblems;
 
-	private int numOpenRisks;
+    private int numOpenRisks;
 
-	private int numRisks;
+    private int numRisks;
 
-	private int numActiveMembers;
+    private int numActiveMembers;
 
-	private int numClosedPhase;
+    private int numClosedPhase;
 
-	private int numInProgressPhase;
+    private int numInProgressPhase;
 
-	private int numFuturePhase;
+    private int numFuturePhase;
 
-	private double totalBillableHours;
+    private double totalBillableHours;
 
-	private double totalNonBillableHours;
-	
-	@NotBindable
-	private ProjectCustomizeView customizeView;
+    private double totalNonBillableHours;
 
-	@NotBindable
-	private Currency currency;
+    @NotBindable
+    private ProjectCustomizeView customizeView;
 
-	public String getOwnerName() {
-		return ownerName;
-	}
+    @NotBindable
+    private Currency currency;
 
-	public void setOwnerName(String ownerName) {
-		this.ownerName = ownerName;
-	}
+    public String getCreateUserFullName() {
+        return createUserFullName;
+    }
 
-	public String getAccountName() {
-		return accountName;
-	}
+    public void setCreateUserFullName(String createUserFullName) {
+        this.createUserFullName = createUserFullName;
+    }
 
-	public void setAccountName(String accountName) {
-		this.accountName = accountName;
-	}
+    public String getAccountName() {
+        return accountName;
+    }
 
-	public int getNumOpenBugs() {
-		return numOpenBugs;
-	}
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
+    }
 
-	public void setNumOpenBugs(int numOpenBugs) {
-		this.numOpenBugs = numOpenBugs;
-	}
+    public int getNumOpenBugs() {
+        return numOpenBugs;
+    }
 
-	public int getNumBugs() {
-		return numBugs;
-	}
+    public void setNumOpenBugs(int numOpenBugs) {
+        this.numOpenBugs = numOpenBugs;
+    }
 
-	public void setNumBugs(int numBugs) {
-		this.numBugs = numBugs;
-	}
+    public int getNumBugs() {
+        return numBugs;
+    }
 
-	public int getNumOpenTasks() {
-		return numOpenTasks;
-	}
+    public void setNumBugs(int numBugs) {
+        this.numBugs = numBugs;
+    }
 
-	public void setNumOpenTasks(int numOpenTasks) {
-		this.numOpenTasks = numOpenTasks;
-	}
+    public int getNumOpenTasks() {
+        return numOpenTasks;
+    }
 
-	public int getNumTasks() {
-		return numTasks;
-	}
+    public void setNumOpenTasks(int numOpenTasks) {
+        this.numOpenTasks = numOpenTasks;
+    }
 
-	public void setNumTasks(int numTasks) {
-		this.numTasks = numTasks;
-	}
+    public int getNumTasks() {
+        return numTasks;
+    }
 
-	public int getNumOpenProblems() {
-		return numOpenProblems;
-	}
+    public void setNumTasks(int numTasks) {
+        this.numTasks = numTasks;
+    }
 
-	public void setNumOpenProblems(int numOpenProblems) {
-		this.numOpenProblems = numOpenProblems;
-	}
+    public int getNumOpenProblems() {
+        return numOpenProblems;
+    }
 
-	public int getNumProblems() {
-		return numProblems;
-	}
+    public void setNumOpenProblems(int numOpenProblems) {
+        this.numOpenProblems = numOpenProblems;
+    }
 
-	public void setNumProblems(int numProblems) {
-		this.numProblems = numProblems;
-	}
+    public int getNumProblems() {
+        return numProblems;
+    }
 
-	public int getNumOpenRisks() {
-		return numOpenRisks;
-	}
+    public void setNumProblems(int numProblems) {
+        this.numProblems = numProblems;
+    }
 
-	public void setNumOpenRisks(int numOpenRisks) {
-		this.numOpenRisks = numOpenRisks;
-	}
+    public int getNumOpenRisks() {
+        return numOpenRisks;
+    }
 
-	public int getNumRisks() {
-		return numRisks;
-	}
+    public void setNumOpenRisks(int numOpenRisks) {
+        this.numOpenRisks = numOpenRisks;
+    }
 
-	public void setNumRisks(int numRisks) {
-		this.numRisks = numRisks;
-	}
+    public int getNumRisks() {
+        return numRisks;
+    }
 
-	public Currency getCurrency() {
-		return currency;
-	}
+    public void setNumRisks(int numRisks) {
+        this.numRisks = numRisks;
+    }
 
-	public void setCurrency(Currency currency) {
-		this.currency = currency;
-	}
+    public Currency getCurrency() {
+        return currency;
+    }
 
-	public int getNumActiveMembers() {
-		return numActiveMembers;
-	}
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
+    }
 
-	public void setNumActiveMembers(int numActiveMembers) {
-		this.numActiveMembers = numActiveMembers;
-	}
+    public int getNumActiveMembers() {
+        return numActiveMembers;
+    }
 
-	public int getNumClosedPhase() {
-		return numClosedPhase;
-	}
+    public void setNumActiveMembers(int numActiveMembers) {
+        this.numActiveMembers = numActiveMembers;
+    }
 
-	public void setNumClosedPhase(int numClosedPhase) {
-		this.numClosedPhase = numClosedPhase;
-	}
+    public int getNumClosedPhase() {
+        return numClosedPhase;
+    }
 
-	public int getNumInProgressPhase() {
-		return numInProgressPhase;
-	}
+    public void setNumClosedPhase(int numClosedPhase) {
+        this.numClosedPhase = numClosedPhase;
+    }
 
-	public void setNumInProgressPhase(int numInProgressPhase) {
-		this.numInProgressPhase = numInProgressPhase;
-	}
+    public int getNumInProgressPhase() {
+        return numInProgressPhase;
+    }
 
-	public int getNumFuturePhase() {
-		return numFuturePhase;
-	}
+    public void setNumInProgressPhase(int numInProgressPhase) {
+        this.numInProgressPhase = numInProgressPhase;
+    }
 
-	public void setNumFuturePhase(int numFuturePhase) {
-		this.numFuturePhase = numFuturePhase;
-	}
+    public int getNumFuturePhase() {
+        return numFuturePhase;
+    }
 
-	public double getTotalBillableHours() {
-		return totalBillableHours;
-	}
+    public void setNumFuturePhase(int numFuturePhase) {
+        this.numFuturePhase = numFuturePhase;
+    }
 
-	public void setTotalBillableHours(double totalBillableHours) {
-		this.totalBillableHours = totalBillableHours;
-	}
+    public double getTotalBillableHours() {
+        return totalBillableHours;
+    }
 
-	public double getTotalNonBillableHours() {
-		return totalNonBillableHours;
-	}
+    public void setTotalBillableHours(double totalBillableHours) {
+        this.totalBillableHours = totalBillableHours;
+    }
 
-	public void setTotalNonBillableHours(double totalNonBillableHours) {
-		this.totalNonBillableHours = totalNonBillableHours;
-	}
+    public double getTotalNonBillableHours() {
+        return totalNonBillableHours;
+    }
 
-	public boolean isProjectArchived() {
-		return StatusI18nEnum.Archived.name().equals(this.getProjectstatus());
-	}
+    public void setTotalNonBillableHours(double totalNonBillableHours) {
+        this.totalNonBillableHours = totalNonBillableHours;
+    }
 
-	public ProjectCustomizeView getCustomizeView() {
-		return customizeView;
-	}
+    public boolean isProjectArchived() {
+        return StatusI18nEnum.Archived.name().equals(this.getProjectstatus());
+    }
 
-	public void setCustomizeView(ProjectCustomizeView customizeView) {
-		this.customizeView = customizeView;
-	}
+    public ProjectCustomizeView getCustomizeView() {
+        return customizeView;
+    }
 
-	public boolean isArchived() {
-		return StatusI18nEnum.Archived.name().equals(getProjectstatus());
-	}
+    public void setCustomizeView(ProjectCustomizeView customizeView) {
+        this.customizeView = customizeView;
+    }
 
-	public enum Field {
-		totalBillableHours, totalNonBillableHours;
+    public boolean isArchived() {
+        return StatusI18nEnum.Archived.name().equals(getProjectstatus());
+    }
 
-		public boolean equalTo(Object value) {
-			return name().equals(value);
-		}
-	}
+    public enum Field {
+        totalBillableHours, totalNonBillableHours;
+
+        public boolean equalTo(Object value) {
+            return name().equals(value);
+        }
+    }
 }

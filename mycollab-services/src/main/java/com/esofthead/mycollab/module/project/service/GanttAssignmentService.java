@@ -26,6 +26,10 @@ import com.esofthead.mycollab.module.project.domain.TaskPredecessor;
 
 import java.util.List;
 
+/**
+ * @author MyCollab Ltd
+ * @since 5.0.0
+ */
 public interface GanttAssignmentService extends IService {
     @Cacheable
     List<AssignWithPredecessors> getTaskWithPredecessors(List<Integer> projectIds, @CacheKey Integer sAccountId);

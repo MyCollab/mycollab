@@ -19,6 +19,10 @@ package com.esofthead.mycollab.module.project.service;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 import com.esofthead.mycollab.module.project.domain.criteria.FollowingTicketSearchCriteria;
 
+/**
+ * @author MyCollab Ltd
+ * @since 1.0.0
+ */
 public interface ProjectFollowingTicketService extends ISearchableService<FollowingTicketSearchCriteria> {
 
 }

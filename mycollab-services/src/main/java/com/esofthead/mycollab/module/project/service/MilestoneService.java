@@ -26,6 +26,7 @@ import com.esofthead.mycollab.module.project.domain.criteria.MilestoneSearchCrit
 
 /**
  * @author MyCollab Ltd.
+ * @since 1.0.0
  */
 public interface MilestoneService extends IDefaultService<Integer, Milestone, MilestoneSearchCriteria> {
 

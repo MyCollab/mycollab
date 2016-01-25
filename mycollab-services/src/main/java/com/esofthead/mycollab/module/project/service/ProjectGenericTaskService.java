@@ -17,21 +17,18 @@
 
 package com.esofthead.mycollab.module.project.service;
 
-import java.util.List;
-
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 import com.esofthead.mycollab.module.project.domain.ProjectGenericTaskCount;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
 
+import java.util.List;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public interface ProjectGenericTaskService extends
-		ISearchableService<ProjectGenericTaskSearchCriteria> {
+public interface ProjectGenericTaskService extends ISearchableService<ProjectGenericTaskSearchCriteria> {
 
-	List<ProjectGenericTaskCount> findPagableTaskCountListByCriteria(
-			SearchRequest<ProjectGenericTaskSearchCriteria> searchRequest);
+    List<ProjectGenericTaskCount> findPagableTaskCountListByCriteria(SearchRequest<ProjectGenericTaskSearchCriteria> searchRequest);
 }

@@ -25,8 +25,6 @@ import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -39,7 +37,6 @@ import java.util.concurrent.TimeUnit;
  * @since 5.0.4
  */
 public class UpgradeConfirmWindow extends Window {
-    private static Logger LOG = LoggerFactory.getLogger(UpgradeConfirmWindow.class);
 
     private static String headerTemplate = "MyCollab just got better . For the " +
             "enhancements and security purpose, you should upgrade to the latest version";

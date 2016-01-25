@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.ecm;
 
-import org.apache.commons.beanutils.PropertyUtils;
-
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.module.ecm.domain.ExternalContent;
@@ -27,70 +25,59 @@ import com.esofthead.mycollab.module.ecm.domain.Resource;
 import com.esofthead.mycollab.module.ecm.service.DropboxResourceService;
 import com.esofthead.mycollab.module.ecm.service.ExternalResourceService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import org.apache.commons.beanutils.PropertyUtils;
 
 /**
  * Utility class of processing MyCollab resources.
- * 
+ *
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class ResourceUtils {
 
+    /**
+     * @param resourceType
+     * @return
+     */
+    public static ExternalResourceService getExternalResourceService(ResourceType resourceType) {
+        if (ResourceType.Dropbox == resourceType) {
+            return ApplicationContextUtil.getSpringBean(DropboxResourceService.class);
+        } else {
+            throw new MyCollabException("Current support only dropbox resource service");
+        }
+    }
 
-	/**
-	 * 
-	 * @param resourceType
-	 * @return
-	 */
-	public static ExternalResourceService getExternalResourceService(
-			ResourceType resourceType) {
-		if (ResourceType.Dropbox == resourceType) {
-			return ApplicationContextUtil
-					.getSpringBean(DropboxResourceService.class);
-		} else {
-			throw new MyCollabException(
-					"Current support only dropbox resource service");
-		}
-	}
+    /**
+     * @param resource
+     * @return
+     */
+    public static ExternalDrive getExternalDrive(Resource resource) {
+        if (resource instanceof ExternalFolder) {
+            return ((ExternalFolder) resource).getExternalDrive();
+        } else if (resource instanceof ExternalContent) {
+            return ((ExternalContent) resource).getExternalDrive();
+        }
+        return null;
+    }
 
-	/**
-	 * 
-	 * @param resource
-	 * @return
-	 */
-	public static ExternalDrive getExternalDrive(Resource resource) {
-		if (resource instanceof ExternalFolder) {
-			return ((ExternalFolder) resource).getExternalDrive();
-		} else if (resource instanceof ExternalContent) {
-			return ((ExternalContent) resource).getExternalDrive();
-		}
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param resource
-	 * @return
-	 */
-	public static ResourceType getType(Resource resource) {
-		if (!resource.isExternalResource()) {
-			return ResourceType.MyCollab;
-		} else {
-			try {
-				String storageName = (String) PropertyUtils.getProperty(
-						resource, "storageName");
-				if (StorageNames.DROPBOX.equals(storageName)) {
-					return ResourceType.Dropbox;
-				} else {
-					throw new Exception(
-							"Current support only dropbox resource service");
-				}
-			} catch (Exception e) {
-				throw new MyCollabException(
-						"Can not define sotrage name of bean "
-								+ BeanUtility.printBeanObj(resource));
-			}
-		}
-	}
+    /**
+     * @param resource
+     * @return
+     */
+    public static ResourceType getType(Resource resource) {
+        if (!resource.isExternalResource()) {
+            return ResourceType.MyCollab;
+        } else {
+            try {
+                String storageName = (String) PropertyUtils.getProperty(resource, "storageName");
+                if (StorageNames.DROPBOX.equals(storageName)) {
+                    return ResourceType.Dropbox;
+                } else {
+                    throw new Exception("Current support only dropbox resource service");
+                }
+            } catch (Exception e) {
+                throw new MyCollabException("Can not define sotrage name of bean " + BeanUtility.printBeanObj(resource));
+            }
+        }
+    }
 }

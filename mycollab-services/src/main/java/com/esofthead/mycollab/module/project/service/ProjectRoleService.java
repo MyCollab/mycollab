@@ -25,13 +25,15 @@ import com.esofthead.mycollab.module.project.domain.SimpleProjectRole;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectRoleSearchCriteria;
 import com.esofthead.mycollab.security.PermissionMap;
 
-public interface ProjectRoleService extends
-		IDefaultService<Integer, ProjectRole, ProjectRoleSearchCriteria> {
+/**
+ * @author MyCollab Ltd
+ * @since 1.0.0
+ */
+public interface ProjectRoleService extends IDefaultService<Integer, ProjectRole, ProjectRoleSearchCriteria> {
 
-	@CacheEvict
-	void savePermission(Integer projectId, Integer roleId, PermissionMap permissionMap,
-			@CacheKey Integer sAccountId);
+    @CacheEvict
+    void savePermission(Integer projectId, Integer roleId, PermissionMap permissionMap, @CacheKey Integer sAccountId);
 
-	@Cacheable
-	SimpleProjectRole findById(Integer roleId, @CacheKey Integer sAccountId);
+    @Cacheable
+    SimpleProjectRole findById(Integer roleId, @CacheKey Integer sAccountId);
 }

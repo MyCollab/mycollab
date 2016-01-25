@@ -16,20 +16,18 @@
  */
 package com.esofthead.mycollab.module.ecm.service;
 
-import java.util.List;
-
 import com.esofthead.mycollab.cache.IgnoreCacheClass;
 import com.esofthead.mycollab.core.persistence.service.ICrudService;
 import com.esofthead.mycollab.module.ecm.domain.ExternalDrive;
 
+import java.util.List;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 @IgnoreCacheClass
 public interface ExternalDriveService extends ICrudService<Integer, ExternalDrive> {
 
-	List<ExternalDrive> getExternalDrivesOfUser(String username);
+    List<ExternalDrive> getExternalDrivesOfUser(String username);
 }

@@ -1,24 +1,24 @@
 /**
- * This file is part of mycollab-web.
+ * This file is part of mycollab-web-community.
  *
- * mycollab-web is free software: you can redistribute it and/or modify
+ * mycollab-web-community is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * mycollab-web is distributed in the hope that it will be useful,
+ * mycollab-web-community is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
+ * along with mycollab-web-community.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.shell.view.components;
+package com.esofthead.mycollab.community.shell.view.components;
 
-import com.esofthead.mycollab.configuration.IDeploymentMode;
 import com.esofthead.mycollab.core.MyCollabVersion;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.shell.view.components.AbstractAboutWindow;
+import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AssetResource;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.WebResourceIds;
@@ -31,7 +31,6 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -43,7 +42,8 @@ import java.util.GregorianCalendar;
  * @author MyCollab Ltd.
  * @since 5.0.5
  */
-public class AboutWindow extends Window {
+@ViewComponent
+public class AboutWindow extends AbstractAboutWindow {
     public AboutWindow() {
         super("About");
         this.setModal(true);
@@ -56,13 +56,7 @@ public class AboutWindow extends Window {
 
         Image about = new Image("", new AssetResource(WebResourceIds._about));
         MVerticalLayout rightPanel = new MVerticalLayout();
-        Label versionLbl;
-        IDeploymentMode mode = ApplicationContextUtil.getSpringBean(IDeploymentMode.class);
-        if (mode.isCommunityEdition()) {
-            versionLbl = new Label(String.format("MyCollab Community Edition %s", MyCollabVersion.getVersion()));
-        } else {
-            versionLbl = new Label(String.format("MyCollab Enterprise Edition %s", MyCollabVersion.getVersion()));
-        }
+        Label versionLbl = new Label(String.format("MyCollab Community Edition %s", MyCollabVersion.getVersion()));
         versionLbl.addStyleName(ValoTheme.LABEL_H2);
         versionLbl.addStyleName(ValoTheme.LABEL_NO_MARGIN);
         Label javaNameLbl = new Label(String.format("%s, %s", System.getProperty("java.vm.name"),

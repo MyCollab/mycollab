@@ -23,7 +23,11 @@ import com.esofthead.mycollab.module.project.domain.Message;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
 import com.esofthead.mycollab.module.project.domain.criteria.MessageSearchCriteria;
 
+/**
+ * @author MyCollab Ltd
+ * @since 1.0.0
+ */
 public interface MessageService extends IDefaultService<Integer, Message, MessageSearchCriteria> {
-	@Cacheable
-	SimpleMessage findById(Integer messageId, @CacheKey Integer sAccountId);
+    @Cacheable
+    SimpleMessage findById(Integer messageId, @CacheKey Integer sAccountId);
 }

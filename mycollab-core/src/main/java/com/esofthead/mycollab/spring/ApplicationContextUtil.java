@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.spring;
 
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
@@ -52,7 +53,11 @@ public class ApplicationContextUtil implements ApplicationContextAware {
         if (ctx == null) {
             return null;
         }
-        return ctx.getBean(classType);
+        try {
+            return ctx.getBean(classType);
+        } catch (NoSuchBeanDefinitionException e) {
+            return null;
+        }
     }
 
 }

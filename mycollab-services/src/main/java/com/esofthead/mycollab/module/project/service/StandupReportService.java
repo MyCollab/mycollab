@@ -16,9 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.service;
 
-import java.util.Date;
-import java.util.List;
-
 import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.cache.Cacheable;
@@ -28,26 +25,24 @@ import com.esofthead.mycollab.module.project.domain.StandupReportWithBLOBs;
 import com.esofthead.mycollab.module.project.domain.criteria.StandupReportSearchCriteria;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 
+import java.util.Date;
+import java.util.List;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
-public interface StandupReportService extends
-IDefaultService<Integer, StandupReportWithBLOBs, StandupReportSearchCriteria> {
-	@Cacheable
-	SimpleStandupReport findById(Integer standupId, @CacheKey Integer sAccountId);
+public interface StandupReportService extends IDefaultService<Integer, StandupReportWithBLOBs, StandupReportSearchCriteria> {
+    @Cacheable
+    SimpleStandupReport findById(Integer standupId, @CacheKey Integer sAccountId);
 
-	@Cacheable
-	SimpleStandupReport findStandupReportByDateUser(Integer projectId,
-			String username, Date onDate, @CacheKey Integer sAccountId);
+    @Cacheable
+    SimpleStandupReport findStandupReportByDateUser(Integer projectId, String username, Date onDate, @CacheKey Integer sAccountId);
 
-	@Cacheable
-	List<GroupItem> getReportsCount(@CacheKey StandupReportSearchCriteria criteria);
+    @Cacheable
+    List<GroupItem> getReportsCount(@CacheKey StandupReportSearchCriteria criteria);
 
-	@Cacheable
-	List<SimpleUser> findUsersNotDoReportYet(Integer projectId, Date onDate,
-			@CacheKey Integer sAccountId);
+    @Cacheable
+    List<SimpleUser> findUsersNotDoReportYet(Integer projectId, Date onDate, @CacheKey Integer sAccountId);
 
 }
