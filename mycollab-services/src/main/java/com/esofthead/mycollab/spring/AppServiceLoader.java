@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.spring;
 
-import java.io.File;
-
 import com.esofthead.mycollab.core.utils.FileUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,31 +25,31 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 
+import java.io.File;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
 @Configuration
 @Profile("!test")
 public class AppServiceLoader {
-	@Bean(name = "myCollabProperties")
-	public static PropertySourcesPlaceholderConfigurer properties() {
-		PropertySourcesPlaceholderConfigurer pspc = new PropertySourcesPlaceholderConfigurer();
-		Resource[] resources;
+    @Bean(name = "myCollabProperties")
+    public static PropertySourcesPlaceholderConfigurer properties() {
+        PropertySourcesPlaceholderConfigurer pspc = new PropertySourcesPlaceholderConfigurer();
+        Resource[] resources;
 
         File myCollabResourceFile = FileUtils.getDesireFile(System.getProperty("user.dir"),
                 "conf/mycollab.properties", "src/main/conf/mycollab.properties");
 
-		if (myCollabResourceFile != null) {
-			resources = new Resource[] { new FileSystemResource(myCollabResourceFile) };
-		} else {
-			resources = new Resource[] { new ClassPathResource("mycollab.properties", AppServiceLoader.class.getClassLoader()) };
-		}
+        if (myCollabResourceFile != null) {
+            resources = new Resource[]{new FileSystemResource(myCollabResourceFile)};
+        } else {
+            resources = new Resource[]{new ClassPathResource("mycollab.properties", AppServiceLoader.class.getClassLoader())};
+        }
 
-		pspc.setLocations(resources);
-		pspc.setIgnoreUnresolvablePlaceholders(true);
-		return pspc;
-	}
+        pspc.setLocations(resources);
+        pspc.setIgnoreUnresolvablePlaceholders(true);
+        return pspc;
+    }
 }

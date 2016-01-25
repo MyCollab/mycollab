@@ -18,6 +18,7 @@ package com.esofthead.mycollab.core.utils;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.util.UUID;
 
 /**
  * @author MyCollab Ltd
@@ -50,6 +51,6 @@ public class MiscUtils {
             }
         } catch (Exception e) {
         }
-        return null;
+        return UUID.randomUUID().toString();
     }
 }

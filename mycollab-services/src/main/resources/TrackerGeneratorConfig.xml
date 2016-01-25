@@ -11,7 +11,7 @@
         <plugin type="com.esofthead.mybatis.plugin.MyCollabModelFilePlugin" />
 
         <jdbcConnection
-            connectionURL="jdbc:mysql://localhost:3306/mycollab"
+            connectionURL="jdbc:mysql://localhost:3306/mycollab_base"
             driverClass="com.mysql.jdbc.Driver"
             password="esofthead321"
             userId="root" />

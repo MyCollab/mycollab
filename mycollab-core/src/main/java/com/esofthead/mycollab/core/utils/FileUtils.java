@@ -34,6 +34,13 @@ public class FileUtils {
     private static long MB_SIZE = 1024 * 1024;
     private static long GB_SIZE = 1024 * 1024 * 1024;
 
+    public static File getHomeFolder() {
+        String userFolder = System.getProperty("user.home");
+        File homeDir = new File(userFolder + "/.mycollab");
+        FileUtils.mkdirs(homeDir);
+        return homeDir;
+    }
+
     public static String getVolumeDisplay(Long volume) {
         if (volume == null) {
             return "0 Kb";

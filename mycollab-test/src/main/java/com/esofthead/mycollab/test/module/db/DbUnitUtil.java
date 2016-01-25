@@ -16,23 +16,19 @@
  */
 package com.esofthead.mycollab.test.module.db;
 
-import java.io.File;
-import java.io.FileOutputStream;
-
-import javax.sql.DataSource;
-
+import com.esofthead.mycollab.test.service.DataSourceFactoryBean;
 import org.dbunit.database.DatabaseConfig;
 import org.dbunit.database.DatabaseDataSourceConnection;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.xml.FlatDtdDataSet;
 
-import com.esofthead.mycollab.test.service.DataSourceFactoryBean;
+import javax.sql.DataSource;
+import java.io.File;
+import java.io.FileOutputStream;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 public class DbUnitUtil {
 

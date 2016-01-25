@@ -32,9 +32,7 @@ public final class FileStorage extends Storage {
     private File baseContentFolder;
 
     private FileStorage() {
-        String userFolder = System.getProperty("user.home");
-        baseContentFolder = new File(userFolder + "/.mycollab");
-        FileUtils.mkdirs(baseContentFolder);
+        baseContentFolder = FileUtils.getHomeFolder();
         File avatarFolder = new File(baseContentFolder, "avatar");
         File logoFolder = new File(baseContentFolder, "logo");
         FileUtils.mkdirs(avatarFolder);

@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE dataset PUBLIC "-//MyCollab/MyCollab Database Schema//EN" "http://www.mycollab.com/mycollab.dtd">
 <dataset>
-    <s_account id="1" createdTime="2013-04-10 13:29:23"
-        paymentMethod="Credit Card" status="Active" />
-    <s_user username="hai79" firstname="Nguyen" lastname="Hai"
-        email="hainguyen@esofthead.com" />
-    <s_user username="nghiemle" firstname="Nghiem" lastname="Le"
-        email="nghiemle@esofthead.com" />
-    <m_prj_project id="1" name="aaa" sAccountId="1"
-        shortname="aaa" projectStatus="Open" />
+    <s_account id="1" createdTime="2013-04-10 13:29:23" paymentMethod="Credit Card" status="Active" />
+    <s_user username="hai79" firstname="Nguyen" lastname="Hai" email="hainguyen@esofthead.com" />
+    <s_user username="nghiemle" firstname="Nghiem" lastname="Le" email="nghiemle@esofthead.com" />
+    <m_prj_project id="1" name="aaa" sAccountId="1" shortname="aaa" projectStatus="Open" />
 
     <m_tracker_bug summary="summary 1" id="1" projectid="1"
         detail="detail 1" status="Open" resolution="1" assignuser="hai79"
@@ -24,14 +20,10 @@
         assignuser="nghiemle" createdTime="2014-10-01 06:45:22"
         sAccountId="1" />
 
-    <m_tracker_bug_related_item id="1" bugid="1"
-        type="Component" typeid="1" />
-    <m_tracker_bug_related_item id="2" bugid="2"
-        type="Component" typeid="2" />
-    <m_tracker_bug_related_item id="3" bugid="3"
-        type="Component" typeid="3" />
-    <m_tracker_bug_related_item id="4" bugid="4"
-        type="Component" typeid="2" />
+    <m_tracker_bug_related_item id="1" bugid="1" type="Component" typeid="1" />
+    <m_tracker_bug_related_item id="2" bugid="2" type="Component" typeid="2" />
+    <m_tracker_bug_related_item id="3" bugid="3" type="Component" typeid="3" />
+    <m_tracker_bug_related_item id="4" bugid="4" type="Component" typeid="2" />
 
     <m_tracker_component id="1" componentname="com 1"
         projectid="1" sAccountId="1" status="Open" userlead="hai79"

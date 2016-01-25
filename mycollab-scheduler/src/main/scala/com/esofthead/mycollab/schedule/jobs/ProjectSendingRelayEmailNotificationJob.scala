@@ -66,7 +66,7 @@ class ProjectSendingRelayEmailNotificationJob extends GenericQuartzJobBean {
       catch {
         case ex: Exception => LOG.error("Error while sending scheduler command", ex)
       } finally {
-//        relayNotificationMapper.deleteByPrimaryKey(notification.getId)
+        relayNotificationMapper.deleteByPrimaryKey(notification.getId)
       }
     }
   }

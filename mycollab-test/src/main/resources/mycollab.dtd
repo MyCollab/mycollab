@@ -1031,7 +1031,7 @@
 <!ATTLIST m_prj_project
     id CDATA #REQUIRED
     name CDATA #REQUIRED
-    owner CDATA #IMPLIED
+    createUser CDATA #IMPLIED
     account CDATA #IMPLIED
     priority CDATA #IMPLIED
     shortname CDATA #REQUIRED
@@ -1057,6 +1057,7 @@
     deadline CDATA #IMPLIED
     ispublic CDATA #IMPLIED
     istemplate CDATA #IMPLIED
+    lead CDATA #IMPLIED
 >
 
 <!ELEMENT m_prj_risk EMPTY>

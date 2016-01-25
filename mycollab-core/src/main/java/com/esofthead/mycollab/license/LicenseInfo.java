@@ -23,7 +23,7 @@ import java.util.Date;
  * @since 5.2.6
  */
 public class LicenseInfo {
-    private String edition;
+    private LicenseType edition;
 
     private String customerId;
 
@@ -35,11 +35,11 @@ public class LicenseInfo {
 
     private Integer maxUsers = Integer.MAX_VALUE;
 
-    public String getEdition() {
+    public LicenseType getEdition() {
         return edition;
     }
 
-    public void setEdition(String edition) {
+    public void setEdition(LicenseType edition) {
         this.edition = edition;
     }
 
