@@ -18,17 +18,14 @@ package com.esofthead.mycollab.module.project;
 
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class ProjectDataTypeFactory {
 
-	private static String[] PROJECT_TYPE_LIST = new String[] { "Unknown",
-			"Administrative", "Operative" };
+    private static String[] PROJECT_TYPE_LIST = new String[]{"Unknown", "Administrative", "Operative"};
 
-	public static String[] getProjectTypeList() {
-		return PROJECT_TYPE_LIST;
-	}
+    public static String[] getProjectTypeList() {
+        return PROJECT_TYPE_LIST;
+    }
 }

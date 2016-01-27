@@ -53,16 +53,16 @@ import org.springframework.stereotype.Component
     private val mapper = new TaskFieldNameMapper
 
     protected def buildExtraTemplateVariables(context: MailContext[SimpleTask]) {
-        val summary: String = bean.getSubject
-        val summaryLink: String = CrmLinkGenerator.generateTaskPreviewFullLink(siteUrl, bean.getId)
-        val emailNotification: SimpleRelayEmailNotification = context.getEmailNotification
+        val summary = bean.getSubject
+        val summaryLink = CrmLinkGenerator.generateTaskPreviewFullLink(siteUrl, bean.getId)
+        val emailNotification = context.getEmailNotification
         val user: SimpleUser = userService.findUserByUserNameInAccount(emailNotification.getChangeby, context.getSaccountid)
 
         val avatarId = if (user != null) user.getAvatarid else ""
         val userAvatar: Img = LinkUtils.newAvatar(avatarId)
 
-        val makeChangeUser: String = userAvatar.toString + emailNotification.getChangeByUserFullName
-        val actionEnum: Enum[_] = emailNotification.getAction match {
+        val makeChangeUser = userAvatar.toString + emailNotification.getChangeByUserFullName
+        val actionEnum = emailNotification.getAction match {
             case MonitorTypeConstants.CREATE_ACTION => TaskI18nEnum.MAIL_CREATE_ITEM_HEADING
             case MonitorTypeConstants.UPDATE_ACTION => TaskI18nEnum.MAIL_UPDATE_ITEM_HEADING
             case MonitorTypeConstants.ADD_COMMENT_ACTION => TaskI18nEnum.MAIL_COMMENT_ITEM_HEADING
@@ -100,11 +100,11 @@ import org.springframework.stereotype.Component
     class ContactFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldFormat(fieldName, displayName) {
 
         def formatField(context: MailContext[_]): String = {
-            val task: SimpleTask = context.getWrappedBean.asInstanceOf[SimpleTask]
+            val task = context.getWrappedBean.asInstanceOf[SimpleTask]
             if (task.getContactid != null) {
-                val img: Text = new Text(CrmResources.getFontIconHtml(CrmTypeConstants.CONTACT))
-                val contactLink: String = CrmLinkGenerator.generateContactPreviewFullLink(context.siteUrl, task.getContactid)
-                val link: A = FormatUtils.newA(contactLink, task.getContactName)
+                val img = new Text(CrmResources.getFontIconHtml(CrmTypeConstants.CONTACT))
+                val contactLink = CrmLinkGenerator.generateContactPreviewFullLink(context.siteUrl, task.getContactid)
+                val link = FormatUtils.newA(contactLink, task.getContactName)
                 FormatUtils.newLink(img, link).write
             }
             else {
@@ -117,13 +117,13 @@ import org.springframework.stereotype.Component
                 new Span().write
             }
             try {
-                val contactId: Int = value.toInt
-                val contactService: ContactService = ApplicationContextUtil.getSpringBean(classOf[ContactService])
-                val contact: SimpleContact = contactService.findById(contactId, context.getUser.getAccountId)
+                val contactId = value.toInt
+                val contactService = ApplicationContextUtil.getSpringBean(classOf[ContactService])
+                val contact = contactService.findById(contactId, context.getUser.getAccountId)
                 if (contact != null) {
-                    val img: Text = new Text(CrmResources.getFontIconHtml(CrmTypeConstants.CONTACT))
-                    val contactLink: String = CrmLinkGenerator.generateContactPreviewFullLink(context.siteUrl, contact.getId)
-                    val link: A = FormatUtils.newA(contactLink, contact.getDisplayName)
+                    val img = new Text(CrmResources.getFontIconHtml(CrmTypeConstants.CONTACT))
+                    val contactLink = CrmLinkGenerator.generateContactPreviewFullLink(context.siteUrl, contact.getId)
+                    val link = FormatUtils.newA(contactLink, contact.getDisplayName)
                     return FormatUtils.newLink(img, link).write
                 }
             }
@@ -136,13 +136,13 @@ import org.springframework.stereotype.Component
 
     class AssigneeFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldFormat(fieldName, displayName) {
         def formatField(context: MailContext[_]): String = {
-            val task: SimpleTask = context.getWrappedBean.asInstanceOf[SimpleTask]
+            val task = context.getWrappedBean.asInstanceOf[SimpleTask]
             if (task.getAssignuser != null) {
-                val userAvatarLink: String = MailUtils.getAvatarLink(task.getAssignUserAvatarId, 16)
-                val img: Img = FormatUtils.newImg("avatar", userAvatarLink)
-                val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(task.getSaccountid),
+                val userAvatarLink = MailUtils.getAvatarLink(task.getAssignUserAvatarId, 16)
+                val img = FormatUtils.newImg("avatar", userAvatarLink)
+                val userLink = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(task.getSaccountid),
                     task.getAssignuser)
-                val link: A = FormatUtils.newA(userLink, task.getAssignUserFullName)
+                val link = FormatUtils.newA(userLink, task.getAssignUserFullName)
                 FormatUtils.newLink(img, link).write
             }
             else {
@@ -154,14 +154,14 @@ import org.springframework.stereotype.Component
             if (StringUtils.isBlank(value)) {
                 new Span().write
             } else {
-                val userService: UserService = ApplicationContextUtil.getSpringBean(classOf[UserService])
-                val user: SimpleUser = userService.findUserByUserNameInAccount(value, context.getUser.getAccountId)
+                val userService = ApplicationContextUtil.getSpringBean(classOf[UserService])
+                val user = userService.findUserByUserNameInAccount(value, context.getUser.getAccountId)
                 if (user != null) {
-                    val userAvatarLink: String = MailUtils.getAvatarLink(user.getAvatarid, 16)
-                    val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(user.getAccountId),
+                    val userAvatarLink = MailUtils.getAvatarLink(user.getAvatarid, 16)
+                    val userLink = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(user.getAccountId),
                         user.getUsername)
-                    val img: Img = FormatUtils.newImg("avatar", userAvatarLink)
-                    val link: A = FormatUtils.newA(userLink, user.getDisplayName)
+                    val img = FormatUtils.newImg("avatar", userAvatarLink)
+                    val link = FormatUtils.newA(userLink, user.getDisplayName)
                     FormatUtils.newLink(img, link).write
                 } else
                     value

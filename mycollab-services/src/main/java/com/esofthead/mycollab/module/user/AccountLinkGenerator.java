@@ -35,16 +35,11 @@ public class AccountLinkGenerator {
 		return "account/role/preview/" + UrlEncodeDecoder.encode(userRoleId);
 	}
 
-	public static String generatePreviewFullRoleLink(String siteUrl,
-			Integer userRoleId) {
-		return siteUrl + GenericLinkUtils.URL_PREFIX_PARAM
-				+ generateRoleLink(userRoleId);
+	public static String generatePreviewFullRoleLink(String siteUrl, Integer userRoleId) {
+		return siteUrl + GenericLinkUtils.URL_PREFIX_PARAM + generateRoleLink(userRoleId);
 	}
 
-	public static String generatePreviewFullUserLink(String siteUrl,
-			String username) {
-		return siteUrl + GenericLinkUtils.URL_PREFIX_PARAM
-				+ "account/user/preview/"
-				+ GenericLinkUtils.encodeParam(username);
+	public static String generatePreviewFullUserLink(String siteUrl, String username) {
+		return siteUrl + GenericLinkUtils.URL_PREFIX_PARAM + "account/user/preview/" + GenericLinkUtils.encodeParam(username);
 	}
 }

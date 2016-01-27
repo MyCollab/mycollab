@@ -44,7 +44,7 @@ public class ProjectGenericTask implements Serializable {
 
     private Date dueDate;
 
-    private int projectId;
+    private Integer projectId;
 
     private String projectName;
 
@@ -52,13 +52,15 @@ public class ProjectGenericTask implements Serializable {
 
     private String type;
 
-    private int typeId;
+    private Integer typeId;
 
-    private int extraTypeId;
+    private Integer extraTypeId;
 
     private String status;
 
     private Date lastUpdatedTime;
+
+    private Integer sAccountId;
 
     public String getName() {
         return name;
@@ -194,6 +196,14 @@ public class ProjectGenericTask implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Integer getsAccountId() {
+        return sAccountId;
+    }
+
+    public void setsAccountId(Integer sAccountId) {
+        this.sAccountId = sAccountId;
     }
 
     public Date getDueDatePlusOne() {

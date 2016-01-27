@@ -26,19 +26,16 @@ import com.esofthead.mycollab.module.user.domain.criteria.RoleSearchCriteria;
 import com.esofthead.mycollab.security.PermissionMap;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public interface RoleService extends
-		IDefaultService<Integer, Role, RoleSearchCriteria> {
-	@CacheEvict
-	void savePermission(Integer roleId, PermissionMap permissionMap,
-			@CacheKey Integer sAccountId);
+public interface RoleService extends IDefaultService<Integer, Role, RoleSearchCriteria> {
+    @CacheEvict
+    void savePermission(Integer roleId, PermissionMap permissionMap, @CacheKey Integer sAccountId);
 
-	@Cacheable
-	SimpleRole findById(Integer roleId, @CacheKey Integer sAccountId);
+    @Cacheable
+    SimpleRole findById(Integer roleId, @CacheKey Integer sAccountId);
 
-	@Cacheable
-	Integer getSystemRoleId(String systemRoleName, @CacheKey Integer sAccountId);
+    @Cacheable
+    Integer getSystemRoleId(String systemRoleName, @CacheKey Integer sAccountId);
 }

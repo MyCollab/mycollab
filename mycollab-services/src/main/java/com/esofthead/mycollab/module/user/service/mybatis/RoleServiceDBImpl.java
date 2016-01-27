@@ -38,9 +38,7 @@ import java.util.List;
  * @since 1.0
  */
 @Service
-public class RoleServiceDBImpl extends
-        DefaultService<Integer, Role, RoleSearchCriteria> implements
-        RoleService {
+public class RoleServiceDBImpl extends DefaultService<Integer, Role, RoleSearchCriteria> implements RoleService {
 
     @Autowired
     private RoleMapper roleMapper;
@@ -61,8 +59,7 @@ public class RoleServiceDBImpl extends
     }
 
     @Override
-    public void savePermission(Integer roleId, PermissionMap permissionMap,
-                               Integer accountid) {
+    public void savePermission(Integer roleId, PermissionMap permissionMap, Integer accountid) {
         String perVal = permissionMap.toJsonString();
 
         RolePermissionExample ex = new RolePermissionExample();
@@ -86,11 +83,9 @@ public class RoleServiceDBImpl extends
     }
 
     @Override
-    public Integer getSystemRoleId(String systemRoleName,
-                                   @CacheKey Integer sAccountId) {
+    public Integer getSystemRoleId(String systemRoleName, @CacheKey Integer sAccountId) {
         RoleExample ex = new RoleExample();
-        ex.createCriteria().andRolenameEqualTo(systemRoleName)
-                .andIssystemroleEqualTo(Boolean.TRUE);
+        ex.createCriteria().andRolenameEqualTo(systemRoleName).andIssystemroleEqualTo(Boolean.TRUE);
         List<Role> roles = roleMapper.selectByExample(ex);
         if (CollectionUtils.isNotEmpty(roles)) {
             return roles.get(0).getId();

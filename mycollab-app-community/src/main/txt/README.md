@@ -47,6 +47,11 @@ Version 5.2.6
 * Jetty 9.2.14.v20151106
 * Other libraries
 
+**Improvements & New Features**
+
+* Lighter email template
+* Send overdue assignments email
+
 Version 5.2.5
 -----------------------------
 **Library Upgrades**

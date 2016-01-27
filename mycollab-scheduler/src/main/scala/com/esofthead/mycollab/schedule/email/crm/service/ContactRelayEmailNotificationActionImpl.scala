@@ -65,17 +65,17 @@ class ContactRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmai
     override protected def getItemName: String = StringUtils.trim(bean.getContactName, 100)
 
     override protected def buildExtraTemplateVariables(context: MailContext[SimpleContact]): Unit = {
-        val summary: String = bean.getContactName
-        val summaryLink: String = CrmLinkGenerator.generateContactPreviewFullLink(siteUrl, bean.getId)
+        val summary = bean.getContactName
+        val summaryLink = CrmLinkGenerator.generateContactPreviewFullLink(siteUrl, bean.getId)
 
-        val emailNotification: SimpleRelayEmailNotification = context.getEmailNotification
-        val user: SimpleUser = userService.findUserByUserNameInAccount(emailNotification.getChangeby, context.getSaccountid)
+        val emailNotification = context.getEmailNotification
+        val user = userService.findUserByUserNameInAccount(emailNotification.getChangeby, context.getSaccountid)
 
-        val avatarId: String = if (user != null) user.getAvatarid else ""
-        val userAvatar: Img = LinkUtils.newAvatar(avatarId)
+        val avatarId = if (user != null) user.getAvatarid else ""
+        val userAvatar = LinkUtils.newAvatar(avatarId)
 
-        val makeChangeUser: String = userAvatar.toString + emailNotification.getChangeByUserFullName
-        val actionEnum: Enum[_] = emailNotification.getAction match {
+        val makeChangeUser = userAvatar.toString + emailNotification.getChangeByUserFullName
+        val actionEnum = emailNotification.getAction match {
             case MonitorTypeConstants.CREATE_ACTION => ContactI18nEnum.MAIL_CREATE_ITEM_HEADING
             case MonitorTypeConstants.UPDATE_ACTION => ContactI18nEnum.MAIL_UPDATE_ITEM_HEADING
             case MonitorTypeConstants.ADD_COMMENT_ACTION => ContactI18nEnum.MAIL_COMMENT_ITEM_HEADING
@@ -122,13 +122,13 @@ class ContactRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmai
     class AssigneeFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldFormat(fieldName, displayName) {
 
         def formatField(context: MailContext[_]): String = {
-            val contact: SimpleContact = context.getWrappedBean.asInstanceOf[SimpleContact]
+            val contact = context.getWrappedBean.asInstanceOf[SimpleContact]
             if (contact.getAssignuser != null) {
-                val userAvatarLink: String = MailUtils.getAvatarLink(contact.getAssignUserAvatarId, 16)
-                val img: Img = FormatUtils.newImg("avatar", userAvatarLink)
-                val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(
+                val userAvatarLink = MailUtils.getAvatarLink(contact.getAssignUserAvatarId, 16)
+                val img = FormatUtils.newImg("avatar", userAvatarLink)
+                val userLink = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(
                     contact.getSaccountid), contact.getAssignuser)
-                val link: A = FormatUtils.newA(userLink, contact.getAssignUserFullName)
+                val link = FormatUtils.newA(userLink, contact.getAssignUserFullName)
                 FormatUtils.newLink(img, link).write
             }
             else {
@@ -140,14 +140,14 @@ class ContactRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmai
             if (StringUtils.isBlank(value)) {
                 new Span().write
             } else {
-                val userService: UserService = ApplicationContextUtil.getSpringBean(classOf[UserService])
-                val user: SimpleUser = userService.findUserByUserNameInAccount(value, context.getUser.getAccountId)
+                val userService = ApplicationContextUtil.getSpringBean(classOf[UserService])
+                val user = userService.findUserByUserNameInAccount(value, context.getUser.getAccountId)
                 if (user != null) {
-                    val userAvatarLink: String = MailUtils.getAvatarLink(user.getAvatarid, 16)
-                    val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(
+                    val userAvatarLink = MailUtils.getAvatarLink(user.getAvatarid, 16)
+                    val userLink = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(
                         user.getAccountId), user.getUsername)
-                    val img: Img = FormatUtils.newImg("avatar", userAvatarLink)
-                    val link: A = FormatUtils.newA(userLink, user.getDisplayName)
+                    val img = FormatUtils.newImg("avatar", userAvatarLink)
+                    val link = FormatUtils.newA(userLink, user.getDisplayName)
                     FormatUtils.newLink(img, link).write
                 } else
                     value
@@ -158,11 +158,11 @@ class ContactRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmai
     class AccountFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldFormat(fieldName, displayName) {
 
         def formatField(context: MailContext[_]): String = {
-            val contact: SimpleContact = context.getWrappedBean.asInstanceOf[SimpleContact]
+            val contact = context.getWrappedBean.asInstanceOf[SimpleContact]
             if (contact.getAccountid != null) {
-                val img: Text = new Text(CrmResources.getFontIconHtml(CrmTypeConstants.ACCOUNT))
-                val accountLink: String = CrmLinkGenerator.generateAccountPreviewFullLink(context.siteUrl, contact.getAccountid)
-                val link: A = FormatUtils.newA(accountLink, contact.getAccountName)
+                val img = new Text(CrmResources.getFontIconHtml(CrmTypeConstants.ACCOUNT))
+                val accountLink = CrmLinkGenerator.generateAccountPreviewFullLink(context.siteUrl, contact.getAccountid)
+                val link = FormatUtils.newA(accountLink, contact.getAccountName)
                 FormatUtils.newLink(img, link).write
             }
             else {
@@ -175,13 +175,13 @@ class ContactRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmai
                 new Span().write
             }
             try {
-                val accountId: Int = value.toInt
-                val accountService: AccountService = ApplicationContextUtil.getSpringBean(classOf[AccountService])
-                val account: SimpleAccount = accountService.findById(accountId, context.getUser.getAccountId)
+                val accountId = value.toInt
+                val accountService = ApplicationContextUtil.getSpringBean(classOf[AccountService])
+                val account = accountService.findById(accountId, context.getUser.getAccountId)
                 if (account != null) {
-                    val img: Text = new Text(CrmResources.getFontIconHtml(CrmTypeConstants.ACCOUNT))
-                    val accountLink: String = CrmLinkGenerator.generateAccountPreviewFullLink(context.siteUrl, account.getId)
-                    val link: A = FormatUtils.newA(accountLink, account.getAccountname)
+                    val img = new Text(CrmResources.getFontIconHtml(CrmTypeConstants.ACCOUNT))
+                    val accountLink = CrmLinkGenerator.generateAccountPreviewFullLink(context.siteUrl, account.getId)
+                    val link = FormatUtils.newA(accountLink, account.getAccountname)
                     return FormatUtils.newLink(img, link).write
                 }
             }

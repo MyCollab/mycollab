@@ -1,0 +1,20 @@
+<!DOCTYPE dataset PUBLIC "-//MyCollab/MyCollab Database Schema//EN" "http://www.mycollab.com/mycollab.dtd">
+<dataset>
+    <s_account id="1" status="Active" paymentMethod="Credit" subdomain="a"/>
+    <s_account id="2" status="Active" paymentMethod="Credit" subdomain="b"/>
+
+    <m_prj_project id="1" name="Project 1" shortname="1" projectStatus="Active" sAccountId="1"/>
+    <m_prj_project id="2" name="Project 2" shortname="2" projectStatus="Active" sAccountId="1"/>
+    <m_prj_project id="3" name="Project 3" shortname="3" projectStatus="Active" sAccountId="2"/>
+
+    <m_prj_task id="1" taskname="Task 1" percentagecomplete="10" projectid="1" sAccountId="1"
+                deadline="2013-04-10 00:00:00"/>
+    <m_prj_task id="2" taskname="Task 2" percentagecomplete="10" projectid="1" sAccountId="1"
+                deadline="2013-04-10 00:00:00"/>
+    <m_prj_task id="3" taskname="Task 3" percentagecomplete="10" projectid="2" sAccountId="1"
+                deadline="2013-04-10 00:00:00"/>
+    <m_prj_task id="4" taskname="Task 4" percentagecomplete="10" projectid="3" sAccountId="2"
+                deadline="2013-04-10 00:00:00"/>
+    <m_tracker_bug id="1" summary="Bug 1" status="Active" projectid="3" sAccountId="2" bugkey="1"
+                   duedate="2013-04-10 00:00:00"/>
+</dataset>

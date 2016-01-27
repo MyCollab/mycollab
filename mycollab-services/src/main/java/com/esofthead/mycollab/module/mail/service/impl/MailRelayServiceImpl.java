@@ -30,35 +30,32 @@ import java.util.List;
 @Service
 public class MailRelayServiceImpl implements MailRelayService {
 
-	@Autowired
-	private RelayEmailMapper relayEmailMapper;
+    @Autowired
+    private RelayEmailMapper relayEmailMapper;
 
-	@Override
-	public void saveRelayEmail(String[] toNames, String[] toEmails,
-			String subject, String bodyContent) {
-		RelayEmailWithBLOBs relayEmail = new RelayEmailWithBLOBs();
-		relayEmail.setFromemail(SiteConfiguration.getNoReplyEmail());
-		relayEmail.setFromname(SiteConfiguration.getDefaultSiteName());
+    @Override
+    public void saveRelayEmail(String[] toNames, String[] toEmails, String subject, String bodyContent) {
+        RelayEmailWithBLOBs relayEmail = new RelayEmailWithBLOBs();
+        relayEmail.setFromemail(SiteConfiguration.getNoReplyEmail());
+        relayEmail.setFromname(SiteConfiguration.getDefaultSiteName());
 
-		String recipientList = JsonDeSerializer.toJson(new String[][] {
-				toEmails, toNames });
-		relayEmail.setRecipients(recipientList);
-		relayEmail.setSubject(subject);
-		relayEmail.setBodycontent(bodyContent);
-		relayEmail.setSaccountid(1);
+        String recipientList = JsonDeSerializer.toJson(new String[][]{toEmails, toNames});
+        relayEmail.setRecipients(recipientList);
+        relayEmail.setSubject(subject);
+        relayEmail.setBodycontent(bodyContent);
+        relayEmail.setSaccountid(1);
 
-		relayEmailMapper.insert(relayEmail);
-	}
+        relayEmailMapper.insert(relayEmail);
+    }
 
-	@Override
-	public List<RelayEmailWithBLOBs> getRelayEmails() {
-		RelayEmailExample ex = new RelayEmailExample();
-		return relayEmailMapper.selectByExampleWithBLOBs(ex);
-	}
+    @Override
+    public List<RelayEmailWithBLOBs> getRelayEmails() {
+        RelayEmailExample ex = new RelayEmailExample();
+        return relayEmailMapper.selectByExampleWithBLOBs(ex);
+    }
 
-	@Override
-	public void cleanEmails() {
-		relayEmailMapper.deleteByExample(new RelayEmailExample());
-	}
-
+    @Override
+    public void cleanEmails() {
+        relayEmailMapper.deleteByExample(new RelayEmailExample());
+    }
 }

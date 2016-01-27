@@ -63,19 +63,18 @@ class MessageRelayEmailNotificationActionImpl extends SendMailToAllMembersAction
 
     protected def buildExtraTemplateVariables(context: MailContext[SimpleMessage]) {
         val currentProject = new WebItem(bean.getProjectName, ProjectLinkGenerator.generateProjectFullLink(siteUrl, bean.getProjectid))
+        val emailNotification = context.getEmailNotification
 
-        val emailNotification: SimpleRelayEmailNotification = context.getEmailNotification
-
-        val summary: String = bean.getTitle
-        val summaryLink: String = ProjectLinkGenerator.generateMessagePreviewFullLink(siteUrl, bean.getProjectid, bean.getId)
-        val projectMember: SimpleProjectMember = projectMemberService.findMemberByUsername(emailNotification.getChangeby,
+        val summary = bean.getTitle
+        val summaryLink = ProjectLinkGenerator.generateMessagePreviewFullLink(siteUrl, bean.getProjectid, bean.getId)
+        val projectMember = projectMemberService.findMemberByUsername(emailNotification.getChangeby,
             bean.getProjectid, emailNotification.getSaccountid)
 
-        val avatarId: String = if (projectMember != null) projectMember.getMemberAvatarId else ""
-        val userAvatar: Img = LinkUtils.newAvatar(avatarId)
+        val avatarId = if (projectMember != null) projectMember.getMemberAvatarId else ""
+        val userAvatar = LinkUtils.newAvatar(avatarId)
 
-        val makeChangeUser: String = userAvatar.toString + emailNotification.getChangeByUserFullName
-        val actionEnum: Enum[_] = emailNotification.getAction match {
+        val makeChangeUser = userAvatar.toString + emailNotification.getChangeByUserFullName
+        val actionEnum = emailNotification.getAction match {
             case MonitorTypeConstants.CREATE_ACTION => MessageI18nEnum.MAIL_CREATE_ITEM_HEADING
             case MonitorTypeConstants.UPDATE_ACTION => MessageI18nEnum.MAIL_UPDATE_ITEM_HEADING
             case MonitorTypeConstants.ADD_COMMENT_ACTION => MessageI18nEnum.MAIL_COMMENT_ITEM_HEADING

@@ -55,9 +55,6 @@ public class SystemInfoService implements InitializingBean {
                         System.getProperty("os.name"));
                 props.store(new FileOutputStream(sysFile), "");
             }
-
-            RestTemplate restTemplate = new RestTemplate();
-            restTemplate.getForObject("aaa", String.class, props);
         } catch (Exception e) {
             e.printStackTrace();
         }

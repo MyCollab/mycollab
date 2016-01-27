@@ -40,8 +40,7 @@ import static org.assertj.core.api.Assertions.tuple;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ProjectFollowingTicketServiceTest extends IntergrationServiceTest {
 
-    private static final DateFormat DATE_FORMAT = new SimpleDateFormat(
-            "yyyy-MM-dd hh:mm:ss");
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
     @Autowired
     private ProjectFollowingTicketService projectFollowingTicketService;

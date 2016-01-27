@@ -48,10 +48,10 @@ import org.springframework.stereotype.Component
         searchCriteria.setRegisterStatuses(new SetSearchField[String](RegisterStatusConstants.VERIFICATING))
         searchCriteria.setSaccountid(null)
         import scala.collection.JavaConverters._
-        val inviteUsers: List[Any] = userService.findPagableListByCriteria(new
+        val inviteUsers = userService.findPagableListByCriteria(new
                 SearchRequest[UserSearchCriteria](searchCriteria, 0, Integer.MAX_VALUE)).asScala.toList
         for (item <- inviteUsers) {
-            val invitedUser: SimpleUser = item.asInstanceOf[SimpleUser]
+            val invitedUser = item.asInstanceOf[SimpleUser]
             val inviteUserEvent = new SendUserInvitationEvent(invitedUser.getUsername, invitedUser
                 .getInviteUserFullName, invitedUser.getSubdomain, invitedUser.getAccountId)
             asyncEventBus.post(inviteUserEvent)

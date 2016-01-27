@@ -20,10 +20,7 @@ import com.esofthead.mycollab.schedule.AutowiringSpringBeanJobFactory;
 import com.esofthead.mycollab.schedule.QuartzScheduleProperties;
 import com.esofthead.mycollab.schedule.email.user.service.SendUserInvitationEmailJob;
 import com.esofthead.mycollab.schedule.email.user.service.UserSignUpEmailNotificationJob;
-import com.esofthead.mycollab.schedule.jobs.CleanupTimeTrackingCacheDataJob;
-import com.esofthead.mycollab.schedule.jobs.CrmSendingRelayEmailNotificationJob;
-import com.esofthead.mycollab.schedule.jobs.ProjectSendingRelayEmailNotificationJob;
-import com.esofthead.mycollab.schedule.jobs.SendingRelayEmailJob;
+import com.esofthead.mycollab.schedule.jobs.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -67,6 +64,13 @@ public class DefaultScheduleConfiguration {
     }
 
     @Bean
+    public JobDetailFactoryBean projectOverdueAssignmentsNotificationEmailJob() {
+        JobDetailFactoryBean bean = new JobDetailFactoryBean();
+        bean.setJobClass(OverdueProjectAssignmentsNotificationJob.class);
+        return bean;
+    }
+
+    @Bean
     public JobDetailFactoryBean crmSendRelayNotificationEmailJob() {
         JobDetailFactoryBean bean = new JobDetailFactoryBean();
         bean.setJobClass(CrmSendingRelayEmailNotificationJob.class);
@@ -93,6 +97,14 @@ public class DefaultScheduleConfiguration {
         CronTriggerFactoryBean bean = new CronTriggerFactoryBean();
         bean.setJobDetail(projectSendRelayNotificationEmailJob().getObject());
         bean.setCronExpression("0 * * * * ?");
+        return bean;
+    }
+
+    @Bean
+    public CronTriggerFactoryBean projectOverdueAssignmentsNotificationEmailTrigger() {
+        CronTriggerFactoryBean bean = new CronTriggerFactoryBean();
+        bean.setJobDetail(projectOverdueAssignmentsNotificationEmailJob().getObject());
+        bean.setCronExpression("0 0 0 * * ?");
         return bean;
     }
 
@@ -146,8 +158,14 @@ public class DefaultScheduleConfiguration {
         bean.setJobFactory(factory);
         bean.setApplicationContextSchedulerContextKey("applicationContextSchedulerContextKey");
 
-        bean.setTriggers(sendingRelayEmailTrigger().getObject(), projectSendRelayNotificationEmailTrigger().getObject(),
-                crmSendRelayNotificationEmailTrigger().getObject(), sendInviteUserEmailTrigger().getObject(), userSignUpNotificationEmailTrigger().getObject());
+        bean.setTriggers(
+                sendingRelayEmailTrigger().getObject(),
+                projectSendRelayNotificationEmailTrigger().getObject(),
+                projectOverdueAssignmentsNotificationEmailTrigger().getObject(),
+                crmSendRelayNotificationEmailTrigger().getObject(),
+                sendInviteUserEmailTrigger().getObject(),
+                userSignUpNotificationEmailTrigger().getObject()
+        );
         return bean;
     }
 }

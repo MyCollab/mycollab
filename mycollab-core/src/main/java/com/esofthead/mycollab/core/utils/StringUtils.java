@@ -149,7 +149,7 @@ public final class StringUtils {
         if (index > 0) {
             return value.substring(0, index);
         } else {
-            return value;
+            return (value != null) ? value : "";
         }
     }
 

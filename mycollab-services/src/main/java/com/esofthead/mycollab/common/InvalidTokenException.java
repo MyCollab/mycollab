@@ -19,23 +19,21 @@ package com.esofthead.mycollab.common;
 import com.esofthead.mycollab.core.MyCollabException;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.0
- * 
  */
 public class InvalidTokenException extends MyCollabException {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public InvalidTokenException(Throwable e) {
-		super(e);
-	}
+    public InvalidTokenException(Throwable e) {
+        super(e);
+    }
 
-	public InvalidTokenException(String message) {
-		super(message);
-	}
+    public InvalidTokenException(String message) {
+        super(message);
+    }
 
-	public InvalidTokenException(String message, Throwable e) {
-		super(message, e);
-	}
+    public InvalidTokenException(String message, Throwable e) {
+        super(message, e);
+    }
 }

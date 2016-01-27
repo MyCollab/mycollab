@@ -19,7 +19,7 @@
     #end
     
     <table width="800" cellpadding="0" cellspacing="0" border="0" style="margin: 20px auto;">
-       <tr>
+        <tr>
             <td>
                 <div style="padding: 10px 30px;">
                     <img src="${defaultUrls.cdn_url}icons/logo.png" alt="The power productivity tool for your organization" width="130" height="30"
@@ -30,33 +30,28 @@
         <tr>
             <td style="padding: 10px 30px">
                 <p>$actionHeading</p>
-                <p><b>
-                #hyperLink( $summary $summaryLink )
-                </b></p>
+                <p><b>#hyperLink( $summary $summaryLink )</b></p>
                 #if( $mapper )
-                <table width="100%" cellpadding="0" cellspacing="0" border="0" style="font-size: 12px; margin: 10px
-                0px 15px; border-width: 1px 1px 0px 0px; border-style: solid; border-color: rgb(211, 239, 253);">
+                <table width="100%" cellpadding="0" cellspacing="0" border="0" style="font-size: 12px; margin: 20px 0px; border-collapse: collapse;">
                     #set($currentRowElements = 0)
                     #foreach( $key in $mapper.keySet() )
                         #set($fieldFormat=$mapper.getFieldLabel($key))
                         #if ($currentRowElements == 0) 
-                            <tr>
-                                <td style="width: 125px; padding: 10px; background-color: rgb(232, 246, 255);
-                                border-width: 0px 0px 1px 1px; border-style: solid; border-color: rgb(211, 239, 253); vertical-align: top;">$context.getMessage($fieldFormat.displayName)</td>
+                            <tr style="border-bottom: 1px solid $styles.border_color">
+                                <td style="$styles.cell('125px'); color: $styles.meta_color">$context.getMessage($fieldFormat.displayName)</td>
                             #if ($fieldFormat.IsColSpan)
-                                <td style="width: 615px; padding: 10px; border-bottom: 1px solid rgb(211, 239, 253);" colspan="3">$fieldFormat.formatField($context)</td>
+                                <td style="$styles.cell('615px'); color: $styles.meta_color" colspan="3">$fieldFormat.formatField($context)</td>
                             #elseif (!$foreach.hasNext)
-                                <td style="width: 615px; padding: 10px; border-bottom: 1px solid rgb(211, 239, 253);" colspan="3">$fieldFormat.formatField($context)</td>
+                                <td style="$styles.cell('615px'); color: $styles.meta_color" colspan="3">$fieldFormat.formatField($context)</td>
                             #else
-                                <td style="width: 245px; padding: 10px; border-bottom: 1px solid rgb(211, 239, 253);">$fieldFormat.formatField($context)</td>
+                                <td style="$styles.cell('245px')">$fieldFormat.formatField($context)</td>
                                 #set($currentRowElements = $currentRowElements + 1) 
                             #end
                         #else
-                            <td style="width: 125px; padding: 10px; background-color: rgb(232, 246, 255);
-                            border-width: 0px 0px 1px 1px; border-style: solid; border-color: rgb(211, 239, 253); vertical-align: top;">$context.getMessage($fieldFormat.displayName)</td>
-                            <td style="width: 245px; padding: 10px; border-bottom: 1px solid rgb(211, 239, 253);">$fieldFormat.formatField($context)</td>
+                            <td style="$styles.cell('125px'); color: $styles.meta_color">$context.getMessage($fieldFormat.displayName)</td>
+                            <td style="$styles.cell('245px'); color: $styles.meta_color">$fieldFormat.formatField($context)</td>
                             </tr>
-                             #set($currentRowElements = 0)
+                            #set($currentRowElements = 0)
                         #end
                     #end
                 </table>

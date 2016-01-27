@@ -51,22 +51,21 @@ class VersionRelayEmailNotificationActionImpl extends SendMailToAllMembersAction
     private val mapper = new VersionFieldNameMapper
 
     protected def buildExtraTemplateVariables(context: MailContext[SimpleVersion]) {
-        val emailNotification: SimpleRelayEmailNotification = context.getEmailNotification
+        val emailNotification = context.getEmailNotification
 
-        val project: SimpleProject = projectService.findById(bean.getProjectid, emailNotification.getSaccountid)
-        val currentProject = new WebItem(project.getName, ProjectLinkGenerator.generateProjectFullLink(siteUrl, bean
-            .getProjectid))
+        val project = projectService.findById(bean.getProjectid, emailNotification.getSaccountid)
+        val currentProject = new WebItem(project.getName, ProjectLinkGenerator.generateProjectFullLink(siteUrl, bean.getProjectid))
 
-        val summary: String = bean.getVersionname
-        val summaryLink: String = ProjectLinkGenerator.generateBugComponentPreviewFullLink(siteUrl, bean.getProjectid, bean.getId)
-        val projectMember: SimpleProjectMember = projectMemberService.findMemberByUsername(emailNotification.getChangeby,
+        val summary = bean.getVersionname
+        val summaryLink = ProjectLinkGenerator.generateBugComponentPreviewFullLink(siteUrl, bean.getProjectid, bean.getId)
+        val projectMember = projectMemberService.findMemberByUsername(emailNotification.getChangeby,
             bean.getProjectid, emailNotification.getSaccountid)
 
-        val avatarId: String = if (projectMember != null) projectMember.getMemberAvatarId else ""
-        val userAvatar: Img = LinkUtils.newAvatar(avatarId)
+        val avatarId = if (projectMember != null) projectMember.getMemberAvatarId else ""
+        val userAvatar = LinkUtils.newAvatar(avatarId)
 
-        val makeChangeUser: String = userAvatar.toString + emailNotification.getChangeByUserFullName
-        val actionEnum: Enum[_] = emailNotification.getAction match {
+        val makeChangeUser = userAvatar.toString + emailNotification.getChangeByUserFullName
+        val actionEnum = emailNotification.getAction match {
             case MonitorTypeConstants.CREATE_ACTION => VersionI18nEnum.MAIL_CREATE_ITEM_HEADING
             case MonitorTypeConstants.UPDATE_ACTION => VersionI18nEnum.MAIL_UPDATE_ITEM_HEADING
             case MonitorTypeConstants.ADD_COMMENT_ACTION => VersionI18nEnum.MAIL_COMMENT_ITEM_HEADING

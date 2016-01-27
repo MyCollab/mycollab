@@ -31,7 +31,7 @@ object LinkUtils {
 
     def generateUserAcceptLink(subDomain: String, accountId: Integer, username: String): String =
         "%suser/confirm_invite/%s".format(SiteConfiguration.getSiteUrl(subDomain), UrlEncodeDecoder.encode("%s/%s/%s".format(accountId,
-            username, subDomain)));
+            username, subDomain)))
 
     def generateUserDenyLink(subDomain: String, accountId: Integer, username: String, inviterName: String, inviterEmail: String) =
         "%suser/deny_invite/%s".format(SiteConfiguration.getSiteUrl(subDomain), UrlEncodeDecoder.encode("%s/%s/%s/%s/%s".format(accountId,

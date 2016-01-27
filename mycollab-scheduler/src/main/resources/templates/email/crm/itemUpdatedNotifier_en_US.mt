@@ -6,62 +6,53 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 </head>
 <body style="background-color: ${styles.background}; font: ${styles.font}; color: #4e4e4e; padding: 0px 0px;">
-	#macro( hyperLink $displayName $webLink )
-		<a href="$webLink" style="color: ${styles.link_color}; white-space: normal;">$displayName</a>
-	#end
-	
+    #macro( hyperLink $displayName $webLink )
+        <a href="$webLink" style="color: ${styles.link_color}; white-space: normal;">$displayName</a>
+    #end
+    
     <table width="800" cellpadding="0" cellspacing="0" border="0" style="margin: 20px auto;">
-       <tr>
-       		<td>
-       			<div style="padding: 10px 30px;">
-       				<img src="${defaultUrls.cdn_url}icons/logo.png" alt="The power productivity tool for your organization" width="130" height="30"
-       				style="margin: 0px; padding: 0px;">
-       			</div>
-       		</td>			
-		</tr>
+        <tr>
+            <td>
+                <div style="padding: 10px 30px;">
+                    <img src="${defaultUrls.cdn_url}icons/logo.png" alt="The power productivity tool for your organization" width="130" height="30" style="margin: 0px; padding: 0px;">
+                </div>
+            </td>
+        </tr>
         <tr>
             <td style="padding: 10px 30px 0px;">
-				<p>$actionHeading</p>
-				<p>
-				#foreach( $title in $titles )
-					#if( $foreach.count > 1 )
-						<span style="color: rgb(36, 127, 211);">&#9474;</span>
-					#end
-					#hyperLink( $title.displayName $title.webLink )
-				#end
-				</p>
-				<p><b>
-				#hyperLink( $summary $summaryLink )
-				</b></p>
-                <table width="100%" cellpadding="0" cellspacing="0" border="0" style="font-size: 12px; margin: 0px
-                0px 25px;">
-                	<tr>
+                <p>$actionHeading</p>
+                <p>
+                #foreach( $title in $titles )
+                    #if( $foreach.count > 1 )
+                        <span style="color: rgb(36, 127, 211);">&#9474;</span>
+                    #end
+                    #hyperLink( $title.displayName $title.webLink )
+                #end
+                </p>
+                <p><b>
+                #hyperLink( $summary $summaryLink )
+                </b></p>
+                <table width="100%" cellpadding="0" cellspacing="0" border="0" style="font-size: 12px; margin: 0px 0px 25px;">
+                    <tr>
                         <td style="padding: 3px 0px;">
-                    		<p><u><i>Changes:</i></u></p>
-                    		<table border="0" cellspacing="0" style="font-size: 12px; width:100%; border-width: 1px
-                    		1px 0px 0px; border-style: solid; border-color: rgb(211, 239, 253);">
-                    			<tr>
-                    				<td style="font-weight: bold; border-bottom: 1px solid rgb(169, 169, 169); width:240px; padding: 10px; border-width: 0px 0px 1px 1px; border-style: solid; border-color: rgb(211, 239, 253);background-color:#c1e4ff">Field</td>
-                    				<td style="font-weight: bold; border-bottom: 1px solid rgb(169, 169, 169); width:250px; padding: 10px; border-width: 0px 0px 1px 1px; border-style: solid; border-color: rgb(211, 239, 253);background-color:#c1e4ff">Old Value</td>
-                    				<td style="font-weight: bold; border-bottom: 1px solid rgb(169, 169, 169); width:250px; padding: 10px; border-width: 0px 0px 1px 1px; border-style: solid; border-color: rgb(211, 239, 253);background-color:#c1e4ff">New Value</td>
-                    			</tr>
-                    			#foreach ($item in $historyLog.ChangeItems)
-                    				#if ($mapper.hasField($item.field))
-                    				#set($fieldFormat=$mapper.getFieldLabel($item.field))
-                    				<tr>
-                    					<td valign="top" style="width:240px; padding: 10px; background-color: rgb(232, 246, 255); border-width: 0px 0px 1px 1px; border-style: solid; border-color: rgb(211, 239, 253);">
-                    						$context.getMessage($fieldFormat.displayName)
-                    					</td>
-                    					<td valign="top" style="width: 250px ;word-wrap: break-word; white-space: normal; word-break: break-all; padding: 10px; border-width: 0px 0px 1px 1px; border-style: solid; border-color: rgb(211, 239, 253);">
-                    						$fieldFormat.formatField($context, $item.oldvalue)
-                    					</td>
-                    					<td valign="top" style="width: 250px ;word-wrap: break-word; white-space: normal; word-break: break-all; padding: 10px; border-width: 0px 0px 1px 1px; border-style: solid; border-color: rgb(211, 239, 253);">
-                    						$fieldFormat.formatField($context, $item.newvalue)
-                    					</td>
-                    				</tr>
-                    				#end
-                    			#end
-                    		</table>
+                            <p><u><i>Changes:</i></u></p>
+                            <table border="0" cellspacing="0" style="font-size: 12px; width:100%; border-collapse: collapse;">
+                                <tr style="border-bottom: 1px solid $styles.border_color">
+                                    <td style="font-weight: bold; $styles.cell('240px')">Field</td>
+                                    <td style="font-weight: bold; $styles.cell('250px')">Old Value</td>
+                                    <td style="font-weight: bold; $styles.cell('250px')">New Value</td>
+                                </tr>
+                                #foreach ($item in $historyLog.ChangeItems)
+                                    #if ($mapper.hasField($item.field))
+                                    #set($fieldFormat=$mapper.getFieldLabel($item.field))
+                                    <tr style="border-bottom: 1px solid $styles.border_color">
+                                        <td style="$styles.cell('240px'); color: $styles.meta_color">$context.getMessage($fieldFormat.displayName)</td>
+                                        <td style="$styles.cell('250px');">$fieldFormat.formatField($context, $item.oldvalue)</td>
+                                        <td style="$styles.cell('250px');">$fieldFormat.formatField($context, $item.newvalue)</td>
+                                    </tr>
+                                    #end
+                                #end
+                            </table>
                         </td>
                     </tr>
                 </table>

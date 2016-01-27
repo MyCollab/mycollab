@@ -17,18 +17,18 @@
 
 package com.esofthead.mycollab.module.project.service;
 
-import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
-import com.esofthead.mycollab.module.project.domain.ProjectGenericTaskCount;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public interface ProjectGenericTaskService extends ISearchableService<ProjectGenericTaskSearchCriteria> {
+    List<Map> getAccountsHasOverdueAssignments(ProjectGenericTaskSearchCriteria searchCriteria);
 
-    List<ProjectGenericTaskCount> findPagableTaskCountListByCriteria(SearchRequest<ProjectGenericTaskSearchCriteria> searchRequest);
+    List<Integer> getProjectsHasOverdueAssignments(ProjectGenericTaskSearchCriteria searchCriteria);
 }

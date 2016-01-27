@@ -82,13 +82,13 @@ class ProjectMilestoneRelayEmailNotificationActionImpl extends SendMailToAllMemb
     class AssigneeFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldFormat(fieldName, displayName) {
 
         def formatField(context: MailContext[_]): String = {
-            val milestone: SimpleMilestone = context.getWrappedBean.asInstanceOf[SimpleMilestone]
+            val milestone = context.getWrappedBean.asInstanceOf[SimpleMilestone]
             if (milestone.getOwner != null) {
-                val userAvatarLink: String = MailUtils.getAvatarLink(milestone.getOwnerAvatarId, 16)
-                val img: Img = FormatUtils.newImg("avatar", userAvatarLink)
-                val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(milestone.getSaccountid),
+                val userAvatarLink = MailUtils.getAvatarLink(milestone.getOwnerAvatarId, 16)
+                val img = FormatUtils.newImg("avatar", userAvatarLink)
+                val userLink = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(milestone.getSaccountid),
                     milestone.getOwner)
-                val link: A = FormatUtils.newA(userLink, milestone.getOwnerFullName)
+                val link = FormatUtils.newA(userLink, milestone.getOwnerFullName)
                 FormatUtils.newLink(img, link).write
             }
             else {
@@ -100,14 +100,14 @@ class ProjectMilestoneRelayEmailNotificationActionImpl extends SendMailToAllMemb
             if (StringUtils.isBlank(value)) {
                 return new Span().write
             }
-            val userService: UserService = ApplicationContextUtil.getSpringBean(classOf[UserService])
-            val user: SimpleUser = userService.findUserByUserNameInAccount(value, context.getUser.getAccountId)
+            val userService = ApplicationContextUtil.getSpringBean(classOf[UserService])
+            val user = userService.findUserByUserNameInAccount(value, context.getUser.getAccountId)
             if (user != null) {
-                val userAvatarLink: String = MailUtils.getAvatarLink(user.getAvatarid, 16)
-                val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(user.getAccountId),
+                val userAvatarLink = MailUtils.getAvatarLink(user.getAvatarid, 16)
+                val userLink = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(user.getAccountId),
                     user.getUsername)
-                val img: Img = FormatUtils.newImg("avatar", userAvatarLink)
-                val link: A = FormatUtils.newA(userLink, user.getDisplayName)
+                val img = FormatUtils.newImg("avatar", userAvatarLink)
+                val link = FormatUtils.newA(userLink, user.getDisplayName)
                 FormatUtils.newLink(img, link).write
             } else
                 value
@@ -115,22 +115,22 @@ class ProjectMilestoneRelayEmailNotificationActionImpl extends SendMailToAllMemb
     }
 
     override protected def buildExtraTemplateVariables(context: MailContext[SimpleMilestone]) {
-        val emailNotification: SimpleRelayEmailNotification = context.getEmailNotification
-        val relatedProject: SimpleProject = projectService.findById(bean.getProjectid, emailNotification.getSaccountid)
+        val emailNotification = context.getEmailNotification
+        val relatedProject = projectService.findById(bean.getProjectid, emailNotification.getSaccountid)
 
         val currentProject = new WebItem(relatedProject.getName, ProjectLinkGenerator.generateProjectFullLink(siteUrl,
             bean.getProjectid))
 
-        val summary: String = bean.getName
-        val summaryLink: String = ProjectLinkGenerator.generateMilestonePreviewFullLink(siteUrl, bean.getProjectid, bean.getId)
+        val summary = bean.getName
+        val summaryLink = ProjectLinkGenerator.generateMilestonePreviewFullLink(siteUrl, bean.getProjectid, bean.getId)
 
-        val projectMember: SimpleProjectMember = projectMemberService.findMemberByUsername(emailNotification.getChangeby,
+        val projectMember = projectMemberService.findMemberByUsername(emailNotification.getChangeby,
             bean.getProjectid, emailNotification.getSaccountid)
-        val avatarId: String = if (projectMember != null) projectMember.getMemberAvatarId else ""
-        val userAvatar: Img = LinkUtils.newAvatar(avatarId)
+        val avatarId = if (projectMember != null) projectMember.getMemberAvatarId else ""
+        val userAvatar = LinkUtils.newAvatar(avatarId)
 
-        val makeChangeUser: String = userAvatar.toString + emailNotification.getChangeByUserFullName
-        val actionEnum: Enum[_] = emailNotification.getAction match {
+        val makeChangeUser = userAvatar.toString + emailNotification.getChangeByUserFullName
+        val actionEnum = emailNotification.getAction match {
             case MonitorTypeConstants.CREATE_ACTION => MilestoneI18nEnum.MAIL_CREATE_ITEM_HEADING
             case MonitorTypeConstants.UPDATE_ACTION => MilestoneI18nEnum.MAIL_UPDATE_ITEM_HEADING
             case MonitorTypeConstants.ADD_COMMENT_ACTION => MilestoneI18nEnum.MAIL_COMMENT_ITEM_HEADING

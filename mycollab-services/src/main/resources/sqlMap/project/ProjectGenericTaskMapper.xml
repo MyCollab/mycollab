@@ -1,38 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
-	namespace="com.esofthead.mycollab.module.project.dao.ProjectGenericTaskMapper">
-	<resultMap id="BaseResultMap"
-		type="com.esofthead.mycollab.module.project.domain.ProjectGenericTask">
-		<result column="name" jdbcType="VARCHAR" property="name" />
+    namespace="com.esofthead.mycollab.module.project.dao.ProjectGenericTaskMapper">
+    <resultMap id="BaseResultMap"
+        type="com.esofthead.mycollab.module.project.domain.ProjectGenericTask">
+        <result column="name" jdbcType="VARCHAR" property="name" />
         <result column="description" jdbcType="VARCHAR" property="description" />
-		<result column="assignUser" jdbcType="VARCHAR" property="assignUser" />
-		<result column="assignUserFullName" jdbcType="VARCHAR"
-			property="assignUserFullName" />
+        <result column="assignUser" jdbcType="VARCHAR" property="assignUser" />
+        <result column="assignUserFullName" jdbcType="VARCHAR"
+            property="assignUserFullName" />
         <result column="assignUserAvatarId" jdbcType="VARCHAR"
             property="assignUserAvatarId" />
-		<result column="dueDate" jdbcType="TIMESTAMP" property="dueDate" />
-		<result column="projectId" jdbcType="INTEGER" property="projectId" />
-		<result column="projectName" jdbcType="VARCHAR" property="projectName" />
+        <result column="dueDate" jdbcType="TIMESTAMP" property="dueDate" />
+        <result column="projectId" jdbcType="INTEGER" property="projectId" />
+        <result column="projectName" jdbcType="VARCHAR" property="projectName" />
         <result column="projectShortName" jdbcType="VARCHAR" property="projectShortName" />
-		<result column="type" jdbcType="VARCHAR" property="type" />
-		<result column="typeId" jdbcType="INTEGER" property="typeId" />
+        <result column="type" jdbcType="VARCHAR" property="type" />
+        <result column="typeId" jdbcType="INTEGER" property="typeId" />
         <result column="extraTypeId" jdbcType="INTEGER" property="extraTypeId" />
         <result column="status" jdbcType="VARCHAR" property="status" />
-		<result column="lastUpdatedTime" jdbcType="TIMESTAMP" property="lastUpdatedTime" />
-	</resultMap>
+        <result column="lastUpdatedTime" jdbcType="TIMESTAMP" property="lastUpdatedTime" />
+        <result column="sAccountId" jdbcType="INTEGER" property="sAccountId" />
+    </resultMap>
 
-	<resultMap id="BaseResultTaskCountMap"
-		type="com.esofthead.mycollab.module.project.domain.ProjectGenericTaskCount">
-		<result column="assignUser" jdbcType="VARCHAR" property="assignUser" />
-		<result column="assignUserFullName" jdbcType="VARCHAR"
-			property="assignUserFullName" />
-		<result column="projectId" jdbcType="INTEGER" property="projectId" />
-		<result column="projectName" jdbcType="VARCHAR" property="projectName" />
-		<result column="taskCount" jdbcType="INTEGER" property="taskCount" />
-	</resultMap>
+    <resultMap id="BaseResultTaskCountMap"
+        type="com.esofthead.mycollab.module.project.domain.ProjectGenericTaskCount">
+        <result column="assignUser" jdbcType="VARCHAR" property="assignUser" />
+        <result column="assignUserFullName" jdbcType="VARCHAR"
+            property="assignUserFullName" />
+        <result column="projectId" jdbcType="INTEGER" property="projectId" />
+        <result column="projectName" jdbcType="VARCHAR" property="projectName" />
+        <result column="taskCount" jdbcType="INTEGER" property="taskCount" />
+    </resultMap>
 
-	<sql id="queryProblemSearchCriteria">
+    <sql id="queryProblemSearchCriteria">
         <![CDATA[
         #set($searchCriteria = $_parameter.searchCriteria)
         
@@ -73,15 +74,12 @@
         #end
         
          #ifnotnull($searchCriteria.dueDate)
-            ${searchCriteria.dueDate.operation}
-            CAST(m_prj_problem.datedue AS DATE )
-            ${searchCriteria.dueDate.comparison}
-            @{searchCriteria.dueDate.value}
+            ${searchCriteria.dueDate.operation} CAST(m_prj_problem.datedue AS DATE ) ${searchCriteria.dueDate.comparison} @{searchCriteria.dueDate.value}
         #end
         ]]>
-	</sql>
+    </sql>
 
-	<sql id="queryRiskSearchCriteria">
+    <sql id="queryRiskSearchCriteria">
         <![CDATA[
         #set($searchCriteria = $_parameter.searchCriteria)
         
@@ -126,9 +124,9 @@
             @{searchCriteria.dueDate.value}
         #end
         ]]>
-	</sql>
+    </sql>
 
-	<sql id="queryBugSearchCriteria">
+    <sql id="queryBugSearchCriteria">
         <![CDATA[
         #set($searchCriteria = $_parameter.searchCriteria)
         
@@ -179,9 +177,9 @@
             @{searchCriteria.dueDate.value}
         #end
         ]]>
-	</sql>
+    </sql>
 
-	<sql id="queryTaskSearchCriteria">
+    <sql id="queryTaskSearchCriteria">
         <![CDATA[
         #set($searchCriteria = $_parameter.searchCriteria)
         
@@ -234,41 +232,40 @@
             @{searchCriteria.dueDate.value}
         #end
         ]]>
-	</sql>
+    </sql>
 
-	<sql id="selectGenericTaskFromRisk">
-
+    <sql id="selectGenericTaskFromRisk">
     <![CDATA[
           SELECT m_prj_risk.riskname AS name, m_prj_risk.description, m_prj_risk.assigntouser AS assignUser,
             concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS assignUserFullName,
             s_user.avatarId as assignUserAvatarId,
             m_prj_risk.datedue AS dueDate, m_prj_risk.projectid AS projectId, m_prj_project.name AS projectName,
             m_prj_project.shortname AS projectShortName, NULL AS extraTypeId, m_prj_risk.status,
-            'Project-Risk' AS type, m_prj_risk.id AS typeid, m_prj_risk.lastUpdatedTime AS lastUpdatedTime
+            'Project-Risk' AS type, m_prj_risk.id AS typeid, m_prj_risk.lastUpdatedTime AS lastUpdatedTime,
+            m_prj_risk.sAccountId
                  
           FROM m_prj_risk
               LEFT OUTER JOIN s_user ON (m_prj_risk.assigntouser=s_user.username)
               LEFT OUTER JOIN m_prj_project ON (m_prj_risk.projectid=m_prj_project.id AND m_prj_project.projectStatus="Open")
         ]]>
-	</sql>
+    </sql>
 
-	<sql id="selectGenericTaskFromProblem">
-
+    <sql id="selectGenericTaskFromProblem">
     <![CDATA[
           SELECT m_prj_problem.issuename as name, m_prj_problem.description, m_prj_problem.assigntouser as assignUser,
             concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS assignUserFullName,
             s_user.avatarId as assignUserAvatarId,
             m_prj_problem.datedue as dueDate, m_prj_problem.projectid as projectId, m_prj_project.name AS projectName,
             m_prj_project.shortname AS projectShortName, NULL AS extraTypeId, m_prj_problem.status,
-            'Project-Problem' AS type, m_prj_problem.id AS typeId, m_prj_problem.lastUpdatedTime AS lastUpdatedTime
-                 
+            'Project-Problem' AS type, m_prj_problem.id AS typeId, m_prj_problem.lastUpdatedTime AS lastUpdatedTime,
+            m_prj_problem.sAccountId
           FROM m_prj_problem
               LEFT OUTER JOIN s_user ON (m_prj_problem.assigntouser=s_user.username)
               LEFT OUTER JOIN m_prj_project ON (m_prj_problem.projectid=m_prj_project.id AND m_prj_project.projectStatus="Open")
         ]]>
-	</sql>
+    </sql>
 
-	<sql id="selectGenericTaskFromBug">
+    <sql id="selectGenericTaskFromBug">
 
     <![CDATA[
           SELECT m_tracker_bug.summary AS name, m_tracker_bug.description, m_tracker_bug.assignuser AS assignUser,
@@ -276,15 +273,16 @@
                 s_user.avatarId as assignUserAvatarId,
                 m_tracker_bug.duedate AS dueDate, m_tracker_bug.projectid AS projectId, m_prj_project.name AS projectName,
                 m_prj_project.shortname AS projectShortName, m_tracker_bug.bugkey AS extraTypeId, m_tracker_bug.status,
-                'Project-Bug' AS type, m_tracker_bug.id AS typeId, m_tracker_bug.lastUpdatedTime AS lastUpdatedTime
+                'Project-Bug' AS type, m_tracker_bug.id AS typeId, m_tracker_bug.lastUpdatedTime AS lastUpdatedTime,
+                m_tracker_bug.sAccountId
                  
           FROM m_tracker_bug
               LEFT OUTER JOIN s_user ON (m_tracker_bug.assignuser=s_user.username)
               LEFT OUTER JOIN m_prj_project ON (m_tracker_bug.projectid=m_prj_project.id AND m_prj_project.projectStatus="Open")
         ]]>
-	</sql>
+    </sql>
 
-	<sql id="selectGenericTaskFromTask">
+    <sql id="selectGenericTaskFromTask">
 
         <![CDATA[
           SELECT m_prj_task.taskname AS name,  m_prj_task.notes AS description, m_prj_task.assignUser AS assignUser,
@@ -292,119 +290,162 @@
             s_user.avatarId as assignUserAvatarId,
             m_prj_task.deadline AS dueDate, m_prj_task.projectid AS projectId, m_prj_project.name AS projectName,
             m_prj_project.shortname AS projectShortName, m_prj_task.taskkey AS extraTypeId, m_prj_task.status,
-            'Project-Task' AS type, m_prj_task.id AS typeid, m_prj_task.lastUpdatedTime AS lastUpdatedTime
+            'Project-Task' AS type, m_prj_task.id AS typeid, m_prj_task.lastUpdatedTime AS lastUpdatedTime,
+            m_prj_task.sAccountId
           
           FROM m_prj_task
             LEFT OUTER JOIN s_user ON (m_prj_task.assignUser=s_user.username)
             LEFT OUTER JOIN m_prj_project ON (m_prj_task.projectid=m_prj_project.id AND m_prj_project.projectStatus="Open")
         ]]>
-	</sql>
+    </sql>
 
-	<select id="getTotalCountFromProblem" parameterType="ProjectGenericTaskSearchCriteria"
-		resultType="int" lang="velocity">
-		SELECT count(*) as totalCount FROM m_prj_problem
+    <select id="getTotalCountFromProblem" parameterType="ProjectGenericTaskSearchCriteria"
+        resultType="int" lang="velocity">
+        SELECT count(*) as totalCount FROM m_prj_problem
 
-		#ifnotnull($_parameter.searchCriteria)
+        #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
-				<include refid="queryProblemSearchCriteria" />
-			#end
-		#end
-	</select>
+                <include refid="queryProblemSearchCriteria" />
+            #end
+        #end
+    </select>
 
-	<select id="getTotalCountFromRisk" parameterType="ProjectGenericTaskSearchCriteria"
-		resultType="int" lang="velocity">
-		SELECT count(*) as totalCount FROM m_prj_risk
+    <select id="getTotalCountFromRisk" parameterType="ProjectGenericTaskSearchCriteria"
+        resultType="int" lang="velocity">
+        SELECT count(*) as totalCount FROM m_prj_risk
 
-		#ifnotnull($_parameter.searchCriteria)
+        #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
-				<include refid="queryRiskSearchCriteria" />
-			#end
-		#end
-	</select>
+                <include refid="queryRiskSearchCriteria" />
+            #end
+        #end
+    </select>
 
-	<select id="getTotalCountFromBug" parameterType="ProjectGenericTaskSearchCriteria"
-		resultType="int" lang="velocity">
-		SELECT count(*) as totalCount FROM m_tracker_bug
+    <select id="getTotalCountFromBug" parameterType="ProjectGenericTaskSearchCriteria"
+        resultType="int" lang="velocity">
+        SELECT count(*) as totalCount FROM m_tracker_bug
 
-		#ifnotnull($_parameter.searchCriteria)
+        #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
-				<include refid="queryBugSearchCriteria" />
-			#end
-		#end
-	</select>
+                <include refid="queryBugSearchCriteria" />
+            #end
+        #end
+    </select>
 
-	<select id="getTotalCountFromTask" parameterType="ProjectGenericTaskSearchCriteria"
-		resultType="int" lang="velocity">
-		SELECT count(*) as totalCount FROM m_prj_task
+    <select id="getTotalCountFromTask" parameterType="ProjectGenericTaskSearchCriteria"
+        resultType="int" lang="velocity">
+        SELECT count(*) as totalCount FROM m_prj_task
 
-		#ifnotnull($_parameter.searchCriteria)
+        #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
 
-				<include refid="queryTaskSearchCriteria" />
-			#end
-		#end
-	</select>
+                <include refid="queryTaskSearchCriteria" />
+            #end
+        #end
+    </select>
 
-	<sql id="orderStatement">
-		ORDER BY
+    <sql id="orderStatement">
+        ORDER BY
         #ifnotnull($_parameter.searchCriteria.orderFields)
         #repeat(${_parameter.searchCriteria.orderFields} $orderField "" "" "")
         ${orderField.field} ${orderField.direction},
         #end
         #end
         lastUpdatedTime DESC
-	</sql>
+    </sql>
 
-	<select id="findPagableListByCriteria" parameterType="ProjectGenericTaskSearchCriteria"
-		resultMap="BaseResultMap" lang="velocity">
+    <select id="findPagableListByCriteria" parameterType="ProjectGenericTaskSearchCriteria"
+        resultMap="BaseResultMap" lang="velocity">
 
-		(
-		<include refid="selectGenericTaskFromProblem" />
-		#ifnotnull($_parameter.searchCriteria)
+        (
+        <include refid="selectGenericTaskFromProblem" />
+        #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
-				<include refid="queryProblemSearchCriteria" />
-			#end
-		#end
-		)
+                <include refid="queryProblemSearchCriteria" />
+            #end
+        #end
+        )
 
-		UNION
+        UNION
 
-		(
-		<include refid="selectGenericTaskFromRisk" />
-		#ifnotnull($_parameter.searchCriteria)
+        (
+        <include refid="selectGenericTaskFromRisk" />
+        #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
-				<include refid="queryRiskSearchCriteria" />
-			#end
-		#end
-		)
+                <include refid="queryRiskSearchCriteria" />
+            #end
+        #end
+        )
 
-		UNION
+        UNION
 
-		(
-		<include refid="selectGenericTaskFromBug" />
-		#ifnotnull($_parameter.searchCriteria)
+        (
+        <include refid="selectGenericTaskFromBug" />
+        #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
-				<include refid="queryBugSearchCriteria" />
-			#end
-		#end
-		)
+                <include refid="queryBugSearchCriteria" />
+            #end
+        #end
+        )
 
-		UNION
+        UNION
 
-		(
-		<include refid="selectGenericTaskFromTask" />
-		#ifnotnull($_parameter.searchCriteria)
+        (
+        <include refid="selectGenericTaskFromTask" />
+        #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
-				<include refid="queryTaskSearchCriteria" />
-			#end
-		#end
-		)
-		#ifnotnull($_parameter.searchCriteria)
-			<include refid="orderStatement" />
-		#end
-	</select>
+                <include refid="queryTaskSearchCriteria" />
+            #end
+        #end
+        )
+        #ifnotnull($_parameter.searchCriteria)
+            <include refid="orderStatement" />
+        #end
+    </select>
 
-	<sql id="selectGenericTaskCountFromTask">
+    <select id="getAccountsHasOverdueAssignments" parameterType="ProjectGenericTaskSearchCriteria"
+            resultType="map" lang="velocity">
+        SELECT s_account.id, s_account.subdomain
+        FROM s_account
+        WHERE
+          EXISTS (
+            SELECT * FROM m_tracker_bug
+              #trimext("WHERE" "AND|OR")
+                <include refid="queryBugSearchCriteria" />
+              #end
+              AND m_tracker_bug.sAccountId = s_account.id
+          ) OR
+          EXISTS (
+            SELECT * FROM m_prj_task
+              #trimext("WHERE" "AND|OR")
+                <include refid="queryTaskSearchCriteria" />
+              #end
+              AND m_prj_task.sAccountId = s_account.id
+          )
+        ORDER BY s_account.id ASC
+    </select>
+
+    <select id="getProjectsHasOverdueAssignments" parameterType="ProjectGenericTaskSearchCriteria"
+            resultType="Integer" lang="velocity">
+        SELECT m_prj_project.id
+        FROM m_prj_project
+        WHERE
+          EXISTS (
+            SELECT * FROM m_tracker_bug
+            #trimext("WHERE" "AND|OR")
+              <include refid="queryBugSearchCriteria" />
+            #end
+            AND m_tracker_bug.projectid = m_prj_project.id) OR
+          EXISTS (
+            SELECT * FROM m_prj_task
+            #trimext("WHERE" "AND|OR")
+              <include refid="queryTaskSearchCriteria" />
+            #end
+            AND m_prj_task.projectid = m_prj_project.id
+          )
+    </select>
+
+    <sql id="selectGenericTaskCountFromTask">
 
         <![CDATA[
           SELECT m_prj_task.assignUser AS assignUser,
@@ -415,9 +456,9 @@
             LEFT OUTER JOIN s_user ON (m_prj_task.assignUser=s_user.username)
             LEFT OUTER JOIN m_prj_project ON (m_prj_task.projectid=m_prj_project.id AND m_prj_project.projectStatus="Open")
         ]]>
-	</sql>
+    </sql>
 
-	<sql id="selectGenericTaskCountFromBug">
+    <sql id="selectGenericTaskCountFromBug">
 
     <![CDATA[
           SELECT m_tracker_bug.assignuser AS assignUser,
@@ -428,9 +469,9 @@
               LEFT OUTER JOIN s_user ON (m_tracker_bug.assignuser=s_user.username)
               LEFT OUTER JOIN m_prj_project ON (m_tracker_bug.projectid=m_prj_project.id AND m_prj_project.projectStatus="Open")
         ]]>
-	</sql>
+    </sql>
 
-	<sql id="selectGenericTaskCountFromRisk">
+    <sql id="selectGenericTaskCountFromRisk">
 
     <![CDATA[
           SELECT m_prj_risk.assigntouser AS assignUser,
@@ -441,9 +482,9 @@
               LEFT OUTER JOIN s_user ON (m_prj_risk.assigntouser=s_user.username)
               LEFT OUTER JOIN m_prj_project ON (m_prj_risk.projectid=m_prj_project.id AND m_prj_project.projectStatus="Open")
         ]]>
-	</sql>
+    </sql>
 
-	<sql id="selectGenericTaskCountFromProblem">
+    <sql id="selectGenericTaskCountFromProblem">
 
     <![CDATA[
           SELECT m_prj_problem.assigntouser as assignUser, 
@@ -454,58 +495,5 @@
               LEFT OUTER JOIN s_user ON (m_prj_problem.assigntouser=s_user.username)
               LEFT OUTER JOIN m_prj_project ON (m_prj_problem.projectid=m_prj_project.id AND m_prj_project.projectStatus="Open")
         ]]>
-	</sql>
-
-	<select id="findPagableTaskCountListByCriteria" parameterType="ProjectGenericTaskSearchCriteria"
-		resultMap="BaseResultTaskCountMap" lang="velocity">
-
-		SELECT COUNT(*) AS taskCount, agreeT.projectId,
-		agreeT.projectName, agreeT.assignUser, agreeT.assignUserFullName
-		FROM
-		(
-		(
-		<include refid="selectGenericTaskCountFromProblem" />
-		#ifnotnull($_parameter.searchCriteria)
-            #trimext("WHERE" "AND|OR")
-				<include refid="queryProblemSearchCriteria" />
-			#end
-		#end
-		)
-
-		UNION ALL
-
-		(
-		<include refid="selectGenericTaskCountFromRisk" />
-		#ifnotnull($_parameter.searchCriteria)
-            #trimext("WHERE" "AND|OR")
-				<include refid="queryRiskSearchCriteria" />
-			#end
-		#end
-		)
-
-		UNION ALL
-
-		(
-		<include refid="selectGenericTaskCountFromBug" />
-		#ifnotnull($_parameter.searchCriteria)
-            #trimext("WHERE" "AND|OR")
-				<include refid="queryBugSearchCriteria" />
-			#end
-		#end
-		)
-
-		UNION ALL
-
-		(
-		<include refid="selectGenericTaskCountFromTask" />
-		#ifnotnull($_parameter.searchCriteria)
-            #trimext("WHERE" "AND|OR")
-				<include refid="queryTaskSearchCriteria" />
-			#end
-		#end
-		)
-		) AS agreeT
-
-		GROUP BY agreeT.projectId
-	</select>
+    </sql>
 </mapper>

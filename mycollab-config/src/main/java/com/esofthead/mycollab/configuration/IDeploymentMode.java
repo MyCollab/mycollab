@@ -24,4 +24,6 @@ public interface IDeploymentMode {
     boolean isDemandEdition();
 
     boolean isCommunityEdition();
+
+    boolean isPremiumEdition();
 }

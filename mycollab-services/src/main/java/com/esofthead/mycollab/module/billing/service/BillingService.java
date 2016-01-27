@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.billing.service;
 
-import java.util.List;
-
 import com.esofthead.mycollab.common.domain.CustomerFeedbackWithBLOBs;
 import com.esofthead.mycollab.core.cache.CacheEvict;
 import com.esofthead.mycollab.core.cache.CacheKey;
@@ -26,31 +24,31 @@ import com.esofthead.mycollab.core.persistence.service.IService;
 import com.esofthead.mycollab.module.user.domain.BillingAccountWithOwners;
 import com.esofthead.mycollab.module.user.domain.BillingPlan;
 
+import java.util.List;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public interface BillingService extends IService {
 
-	void registerAccount(String subdomain, int billingPlanId, String username,
-			String password, String email, String timezoneId,
-			boolean isEmailVerified);
+    void registerAccount(String subdomain, int billingPlanId, String username,
+                         String password, String email, String timezoneId,
+                         boolean isEmailVerified);
 
-	void cancelAccount(Integer accountid, CustomerFeedbackWithBLOBs feedback);
+    void cancelAccount(Integer accountid, CustomerFeedbackWithBLOBs feedback);
 
-	@Cacheable
-	BillingPlan findBillingPlan(@CacheKey Integer sAccountId);
+    @Cacheable
+    BillingPlan findBillingPlan(@CacheKey Integer sAccountId);
 
-	@CacheEvict
-	void updateBillingPlan(@CacheKey Integer accountId, int newBillingPlanId);
+    @CacheEvict
+    void updateBillingPlan(@CacheKey Integer accountId, int newBillingPlanId);
 
-	List<String> getSubDomainsOfUser(String username);
+    List<String> getSubDomainsOfUser(String username);
 
-	List<BillingPlan> getAvailablePlans();
+    List<BillingPlan> getAvailablePlans();
 
-	BillingPlan getFreeBillingPlan();
+    BillingPlan getFreeBillingPlan();
 
-	List<BillingAccountWithOwners> getTrialAccountsWithOwners();
+    List<BillingAccountWithOwners> getTrialAccountsWithOwners();
 }

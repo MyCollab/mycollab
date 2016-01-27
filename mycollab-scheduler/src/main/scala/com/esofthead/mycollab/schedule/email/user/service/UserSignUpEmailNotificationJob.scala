@@ -59,7 +59,7 @@ class UserSignUpEmailNotificationJob extends GenericQuartzJobBean {
         criteria.setSaccountid(null)
 
         import scala.collection.JavaConverters._
-        val users: List[SimpleUser] = userService.findPagableListByCriteria(new SearchRequest[UserSearchCriteria](criteria,
+        val users = userService.findPagableListByCriteria(new SearchRequest[UserSearchCriteria](criteria,
             0, Integer.MAX_VALUE)).asScala.toList.asInstanceOf[List[SimpleUser]]
         if (users != null && users.nonEmpty) {
             for (user <- users) {

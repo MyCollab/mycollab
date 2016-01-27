@@ -46,13 +46,12 @@ class ProjectSendingRelayEmailNotificationJob extends GenericQuartzJobBean {
 
   def executeJob(context: JobExecutionContext) {
     import scala.collection.JavaConverters._
-    val relayEmaiNotifications: List[ProjectRelayEmailNotification] = projectService.findProjectRelayEmailNotifications.asScala.toList
-    var emailNotificationAction: SendingRelayEmailNotificationAction = null
+    val relayEmaiNotifications = projectService.findProjectRelayEmailNotifications.asScala.toList
     for (notification <- relayEmaiNotifications) {
       try {
         val mailServiceCls = MailServiceMap.service(notification.getType)
         if (mailServiceCls != null) {
-          emailNotificationAction = ApplicationContextUtil.getSpringBean(mailServiceCls)
+          val emailNotificationAction = ApplicationContextUtil.getSpringBean(mailServiceCls)
           if (emailNotificationAction != null) {
             notification.getAction match {
               case MonitorTypeConstants.CREATE_ACTION => emailNotificationAction.sendNotificationForCreateAction(notification)

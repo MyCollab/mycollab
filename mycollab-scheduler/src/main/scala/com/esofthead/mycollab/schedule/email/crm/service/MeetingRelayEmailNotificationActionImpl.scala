@@ -48,16 +48,16 @@ class MeetingRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmai
     private val mapper = new MeetingFieldNameMapper
 
     protected def buildExtraTemplateVariables(context: MailContext[SimpleMeeting]) {
-        val summary: String = bean.getSubject
-        val summaryLink: String = CrmLinkGenerator.generateMeetingPreviewFullLink(siteUrl, bean.getId)
-        val emailNotification: SimpleRelayEmailNotification = context.getEmailNotification
+        val summary = bean.getSubject
+        val summaryLink = CrmLinkGenerator.generateMeetingPreviewFullLink(siteUrl, bean.getId)
+        val emailNotification = context.getEmailNotification
 
-        val user: SimpleUser = userService.findUserByUserNameInAccount(emailNotification.getChangeby, context.getSaccountid)
-        val avatarId: String = if (user != null) user.getAvatarid else ""
-        val userAvatar: Img = LinkUtils.newAvatar(avatarId)
+        val user = userService.findUserByUserNameInAccount(emailNotification.getChangeby, context.getSaccountid)
+        val avatarId = if (user != null) user.getAvatarid else ""
+        val userAvatar = LinkUtils.newAvatar(avatarId)
 
-        val makeChangeUser: String = userAvatar.toString + emailNotification.getChangeByUserFullName
-        val actionEnum: Enum[_] = emailNotification.getAction match {
+        val makeChangeUser = userAvatar.toString + emailNotification.getChangeByUserFullName
+        val actionEnum = emailNotification.getAction match {
             case MonitorTypeConstants.CREATE_ACTION => MeetingI18nEnum.MAIL_CREATE_ITEM_HEADING
             case MonitorTypeConstants.UPDATE_ACTION => MeetingI18nEnum.MAIL_UPDATE_ITEM_HEADING
             case MonitorTypeConstants.ADD_COMMENT_ACTION => MeetingI18nEnum.MAIL_COMMENT_ITEM_HEADING

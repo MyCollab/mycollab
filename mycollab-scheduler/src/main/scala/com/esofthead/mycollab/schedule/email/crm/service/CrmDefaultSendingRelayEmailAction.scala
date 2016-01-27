@@ -49,28 +49,28 @@ abstract class CrmDefaultSendingRelayEmailAction[B] extends SendingRelayEmailNot
     protected var siteUrl: String = null
 
     override def sendNotificationForCreateAction(notification: SimpleRelayEmailNotification): Unit = {
-        val notifiers: List[SimpleUser] = getListNotifyUserWithFilter(notification, MonitorTypeConstants.CREATE_ACTION)
+        val notifiers = getListNotifyUserWithFilter(notification, MonitorTypeConstants.CREATE_ACTION)
         if ((notifiers != null) && notifiers.nonEmpty) {
             onInitAction(notification)
             import scala.collection.JavaConversions._
             for (user <- notifiers) {
-                val notifierFullName: String = user.getDisplayName
+                val notifierFullName = user.getDisplayName
                 if (StringUtils.isBlank(notifierFullName)) {
                     LOG.error("Can not find user {} of notification {}", Array[AnyRef](BeanUtility.printBeanObj(user),
                         BeanUtility.printBeanObj(notification)))
                     return
                 }
-                val context: MailContext[B] = new MailContext[B](notification, user, siteUrl)
+                val context = new MailContext[B](notification, user, siteUrl)
                 bean = getBeanInContext(context)
                 if (bean != null) {
-                    val subject: String = context.getMessage(getCreateSubjectKey, context.getChangeByUserFullName, getItemName)
+                    val subject = context.getMessage(getCreateSubjectKey, context.getChangeByUserFullName, getItemName)
                     context.wrappedBean = bean
                     contentGenerator.putVariable("context", context)
                     contentGenerator.putVariable("mapper", getItemFieldMapper)
                     contentGenerator.putVariable("userName", notifierFullName)
                     buildExtraTemplateVariables(context)
-                    val userMail: MailRecipientField = new MailRecipientField(user.getEmail, user.getUsername)
-                    val recipients: List[MailRecipientField] = List(userMail)
+                    val userMail = new MailRecipientField(user.getEmail, user.getUsername)
+                    val recipients = List(userMail)
                     extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getDefaultSiteName, recipients,
                         null, null, contentGenerator.parseString(subject),
                         contentGenerator.parseFile(getCreateContentPath, context.getLocale, SiteConfiguration.getDefaultLocale), null)
@@ -80,30 +80,30 @@ abstract class CrmDefaultSendingRelayEmailAction[B] extends SendingRelayEmailNot
     }
 
     def sendNotificationForUpdateAction(notification: SimpleRelayEmailNotification) {
-        val notifiers: List[SimpleUser] = getListNotifyUserWithFilter(notification, MonitorTypeConstants.UPDATE_ACTION)
+        val notifiers = getListNotifyUserWithFilter(notification, MonitorTypeConstants.UPDATE_ACTION)
         if ((notifiers != null) && notifiers.nonEmpty) {
             onInitAction(notification)
             import scala.collection.JavaConversions._
             for (user <- notifiers) {
-                val notifierFullName: String = user.getDisplayName
+                val notifierFullName = user.getDisplayName
                 if (notifierFullName == null) {
                     LOG.error("Can not find user {} of notification {}", Array[AnyRef](BeanUtility.printBeanObj(user),
                         BeanUtility.printBeanObj(notification)))
                     return
                 }
                 contentGenerator.putVariable("userName", notifierFullName)
-                val context: MailContext[B] = new MailContext[B](notification, user, siteUrl)
+                val context = new MailContext[B](notification, user, siteUrl)
                 bean = getBeanInContext(context)
                 if (bean != null) {
-                    val subject: String = context.getMessage(getUpdateSubjectKey, context.getChangeByUserFullName, getItemName)
-                    val auditLog: SimpleAuditLog = auditLogService.findLastestLog(context.getTypeid.toInt, context.getSaccountid)
+                    val subject = context.getMessage(getUpdateSubjectKey, context.getChangeByUserFullName, getItemName)
+                    val auditLog = auditLogService.findLastestLog(context.getTypeid.toInt, context.getSaccountid)
                     contentGenerator.putVariable("historyLog", auditLog)
                     context.wrappedBean = bean
                     buildExtraTemplateVariables(context)
                     contentGenerator.putVariable("context", context)
                     contentGenerator.putVariable("mapper", getItemFieldMapper)
-                    val userMail: MailRecipientField = new MailRecipientField(user.getEmail, user.getUsername)
-                    val recipients: List[MailRecipientField] = List(userMail)
+                    val userMail = new MailRecipientField(user.getEmail, user.getUsername)
+                    val recipients = List(userMail)
                     extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getDefaultSiteName, recipients,
                         null, null, contentGenerator.parseString(subject),
                         contentGenerator.parseFile(getUpdateContentPath, context.getLocale, SiteConfiguration.getDefaultLocale), null)
@@ -118,9 +118,8 @@ abstract class CrmDefaultSendingRelayEmailAction[B] extends SendingRelayEmailNot
             onInitAction(notification)
 
             import scala.collection.JavaConversions._
-
             for (user <- notifiers) {
-                val notifierFullName: String = user.getDisplayName
+                val notifierFullName = user.getDisplayName
 
                 breakable {
                     if (notifierFullName == null) {
@@ -132,14 +131,14 @@ abstract class CrmDefaultSendingRelayEmailAction[B] extends SendingRelayEmailNot
 
 
                 contentGenerator.putVariable("userName", notifierFullName)
-                val context: MailContext[B] = new MailContext[B](notification, user, siteUrl)
+                val context = new MailContext[B](notification, user, siteUrl)
                 bean = getBeanInContext(context)
                 context.setWrappedBean(bean)
                 buildExtraTemplateVariables(context)
                 contentGenerator.putVariable("comment", context.getEmailNotification)
-                val subject: String = context.getMessage(getCommentSubjectKey, context.getChangeByUserFullName, getItemName)
-                val userMail: MailRecipientField = new MailRecipientField(user.getEmail, user.getUsername)
-                val recipients: List[MailRecipientField] = List(userMail)
+                val subject = context.getMessage(getCommentSubjectKey, context.getChangeByUserFullName, getItemName)
+                val userMail = new MailRecipientField(user.getEmail, user.getUsername)
+                val recipients = List(userMail)
                 extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getDefaultSiteName, seqAsJavaList
                     (recipients), null, null,
                     contentGenerator.parseString(subject), contentGenerator.parseFile(getNoteContentPath,

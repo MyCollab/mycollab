@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.schedule.email.project.service
 
-import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification
 import com.esofthead.mycollab.common.i18n.GenericI18Enum
 import com.esofthead.mycollab.common.{MonitorTypeConstants, NotificationType}
 import com.esofthead.mycollab.core.utils.StringUtils
@@ -41,188 +40,189 @@ import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Service
 
 /**
- * @author MyCollab Ltd.
- * @since 4.6.0
- */
+  * @author MyCollab Ltd.
+  * @since 4.6.0
+  */
 @Service
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 class ProjectTaskRelayEmailNotificationActionImpl extends SendMailToFollowersAction[SimpleTask] with ProjectTaskRelayEmailNotificationAction {
-    private val LOG = LoggerFactory.getLogger(classOf[ProjectTaskRelayEmailNotificationActionImpl])
+  private val LOG = LoggerFactory.getLogger(classOf[ProjectTaskRelayEmailNotificationActionImpl])
 
-    @Autowired var projectTaskService: ProjectTaskService = _
+  @Autowired var projectTaskService: ProjectTaskService = _
 
-    @Autowired var projectService: ProjectService = _
+  @Autowired var projectService: ProjectService = _
 
-    @Autowired var projectMemberService: ProjectMemberService = _
+  @Autowired var projectMemberService: ProjectMemberService = _
 
-    @Autowired var projectNotificationService: ProjectNotificationSettingService = _
+  @Autowired var projectNotificationService: ProjectNotificationSettingService = _
 
-    private val mapper = new TaskFieldNameMapper
+  private val mapper = new TaskFieldNameMapper
 
-    protected def buildExtraTemplateVariables(context: MailContext[SimpleTask]) {
-        val currentProject = new WebItem(bean.getProjectName, ProjectLinkGenerator.generateProjectFullLink(siteUrl, bean.getProjectid))
+  protected def buildExtraTemplateVariables(context: MailContext[SimpleTask]) {
+    val currentProject = new WebItem(bean.getProjectName, ProjectLinkGenerator.generateProjectFullLink(siteUrl, bean.getProjectid))
 
-        val emailNotification: SimpleRelayEmailNotification = context.getEmailNotification
+    val emailNotification = context.getEmailNotification
 
-        val summary: String = "#" + bean.getTaskkey + " - " + bean.getTaskname
-        val summaryLink: String = ProjectLinkGenerator.generateTaskPreviewFullLink(siteUrl, bean.getTaskkey, bean.getProjectShortname)
-        val projectMember: SimpleProjectMember = projectMemberService.findMemberByUsername(emailNotification.getChangeby, bean.getProjectid, emailNotification.getSaccountid)
+    val summary = "#" + bean.getTaskkey + " - " + bean.getTaskname
+    val summaryLink = ProjectLinkGenerator.generateTaskPreviewFullLink(siteUrl, bean.getTaskkey, bean.getProjectShortname)
+    val projectMember = projectMemberService.findMemberByUsername(emailNotification.getChangeby, bean.getProjectid,
+      emailNotification.getSaccountid)
 
-        val avatarId: String = if (projectMember != null) projectMember.getMemberAvatarId else ""
-        val userAvatar: Img = LinkUtils.newAvatar(avatarId)
+    val avatarId = if (projectMember != null) projectMember.getMemberAvatarId else ""
+    val userAvatar = LinkUtils.newAvatar(avatarId)
 
-        val makeChangeUser: String = userAvatar.toString + emailNotification.getChangeByUserFullName
-        val actionEnum: Enum[_] = emailNotification.getAction match {
-            case MonitorTypeConstants.CREATE_ACTION => TaskI18nEnum.MAIL_CREATE_ITEM_HEADING
-            case MonitorTypeConstants.UPDATE_ACTION => TaskI18nEnum.MAIL_UPDATE_ITEM_HEADING
-            case MonitorTypeConstants.ADD_COMMENT_ACTION => TaskI18nEnum.MAIL_COMMENT_ITEM_HEADING
-        }
-
-        contentGenerator.putVariable("actionHeading", context.getMessage(actionEnum, makeChangeUser))
-        contentGenerator.putVariable("titles", List(currentProject))
-        contentGenerator.putVariable("summary", summary)
-        contentGenerator.putVariable("summaryLink", summaryLink)
+    val makeChangeUser = userAvatar.toString + emailNotification.getChangeByUserFullName
+    val actionEnum = emailNotification.getAction match {
+      case MonitorTypeConstants.CREATE_ACTION => TaskI18nEnum.MAIL_CREATE_ITEM_HEADING
+      case MonitorTypeConstants.UPDATE_ACTION => TaskI18nEnum.MAIL_UPDATE_ITEM_HEADING
+      case MonitorTypeConstants.ADD_COMMENT_ACTION => TaskI18nEnum.MAIL_COMMENT_ITEM_HEADING
     }
 
-    protected def getBeanInContext(context: MailContext[SimpleTask]): SimpleTask = projectTaskService.findById(context.getTypeid.toInt, context.getSaccountid)
+    contentGenerator.putVariable("actionHeading", context.getMessage(actionEnum, makeChangeUser))
+    contentGenerator.putVariable("titles", List(currentProject))
+    contentGenerator.putVariable("summary", summary)
+    contentGenerator.putVariable("summaryLink", summaryLink)
+  }
 
-    protected def getItemName(): String = StringUtils.trim(bean.getTaskname, 100)
+  protected def getBeanInContext(context: MailContext[SimpleTask]): SimpleTask = projectTaskService.findById(context.getTypeid.toInt, context.getSaccountid)
 
-    protected def getCreateSubject(context: MailContext[SimpleTask]): String = context.getMessage(TaskI18nEnum.MAIL_CREATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName())
+  protected def getItemName(): String = StringUtils.trim(bean.getTaskname, 100)
 
-    protected def getUpdateSubject(context: MailContext[SimpleTask]): String = context.getMessage(TaskI18nEnum.MAIL_UPDATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName())
+  protected def getCreateSubject(context: MailContext[SimpleTask]): String = context.getMessage(TaskI18nEnum.MAIL_CREATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName())
 
-    protected def getCommentSubject(context: MailContext[SimpleTask]): String = context.getMessage(TaskI18nEnum.MAIL_COMMENT_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName())
+  protected def getUpdateSubject(context: MailContext[SimpleTask]): String = context.getMessage(TaskI18nEnum.MAIL_UPDATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName())
 
-    protected def getItemFieldMapper: ItemFieldMapper = mapper
+  protected def getCommentSubject(context: MailContext[SimpleTask]): String = context.getMessage(TaskI18nEnum.MAIL_COMMENT_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName())
 
-    protected def getListNotifyUsersWithFilter(notification: ProjectRelayEmailNotification): Set[SimpleUser] = {
-        import scala.collection.JavaConverters._
-        val notificationSettings: List[ProjectNotificationSetting] = projectNotificationService.findNotifications(notification.getProjectId, notification.getSaccountid).asScala.toList
-        var notifyUsers: Set[SimpleUser] = notification.getNotifyUsers.asScala.toSet
+  protected def getItemFieldMapper: ItemFieldMapper = mapper
 
-        if (notificationSettings != null && notificationSettings.size > 0) {
-            for (notificationSetting <- notificationSettings) {
-                if (NotificationType.None.name == notificationSetting.getLevel) {
-                    notifyUsers = notifyUsers.filter(notifyUser => !(notifyUser.getUsername == notificationSetting.getUsername))
+  protected def getListNotifyUsersWithFilter(notification: ProjectRelayEmailNotification): Set[SimpleUser] = {
+    import scala.collection.JavaConverters._
+    val notificationSettings = projectNotificationService.findNotifications(notification.getProjectId, notification.getSaccountid).asScala.toList
+    var notifyUsers = notification.getNotifyUsers.asScala.toSet
+
+    if (notificationSettings != null && notificationSettings.size > 0) {
+      for (notificationSetting <- notificationSettings) {
+        if (NotificationType.None.name == notificationSetting.getLevel) {
+          notifyUsers = notifyUsers.filter(notifyUser => !(notifyUser.getUsername == notificationSetting.getUsername))
+        }
+        else if (NotificationType.Minimal.name == notificationSetting.getLevel) {
+          val findResult = notifyUsers.find(notifyUser => notifyUser.getUsername == notificationSetting.getUsername);
+          findResult match {
+            case None => {
+              val task = projectTaskService.findById(notification.getTypeid.toInt, notification.getSaccountid)
+              if (notificationSetting.getUsername == task.getAssignuser) {
+                val prjMember: SimpleUser = projectMemberService.getActiveUserOfProject(notificationSetting.getUsername,
+                  notificationSetting.getProjectid, notificationSetting.getSaccountid)
+                if (prjMember != null) {
+                  notifyUsers += prjMember
                 }
-                else if (NotificationType.Minimal.name == notificationSetting.getLevel) {
-                    val findResult: Option[SimpleUser] = notifyUsers.find(notifyUser => notifyUser.getUsername == notificationSetting.getUsername);
-                    findResult match {
-                        case None => {
-                            val task: SimpleTask = projectTaskService.findById(notification.getTypeid.toInt, notification.getSaccountid)
-                            if (notificationSetting.getUsername == task.getAssignuser) {
-                                val prjMember: SimpleUser = projectMemberService.getActiveUserOfProject(notificationSetting.getUsername,
-                                    notificationSetting.getProjectid, notificationSetting.getSaccountid)
-                                if (prjMember != null) {
-                                    notifyUsers += prjMember
-                                }
-                            }
-                        }
-                        case Some(user) => {}
-                    }
-                }
-                else if (NotificationType.Full.name == notificationSetting.getLevel) {
-                    val prjMember: SimpleUser = projectMemberService.getActiveUserOfProject(notificationSetting.getUsername,
-                        notificationSetting.getProjectid, notificationSetting.getSaccountid)
-                    if (prjMember != null) {
-                        notifyUsers += prjMember
-                    }
-                }
+              }
             }
+            case Some(user) => {}
+          }
         }
-
-        notifyUsers
+        else if (NotificationType.Full.name == notificationSetting.getLevel) {
+          val prjMember = projectMemberService.getActiveUserOfProject(notificationSetting.getUsername,
+            notificationSetting.getProjectid, notificationSetting.getSaccountid)
+          if (prjMember != null) {
+            notifyUsers += prjMember
+          }
+        }
+      }
     }
 
-    class TaskFieldNameMapper extends ItemFieldMapper {
-        put(Task.Field.taskname, TaskI18nEnum.FORM_TASK_NAME, isColSpan = true)
-        put(Task.Field.startdate, new DateFieldFormat(Task.Field.startdate.name, TaskI18nEnum.FORM_START_DATE))
-        put(Task.Field.actualstartdate, new DateFieldFormat(Task.Field.actualstartdate.name, TaskI18nEnum.FORM_ACTUAL_START_DATE))
-        put(Task.Field.enddate, new DateFieldFormat(Task.Field.enddate.name, TaskI18nEnum.FORM_END_DATE))
-        put(Task.Field.actualenddate, new DateFieldFormat(Task.Field.actualenddate.name, TaskI18nEnum.FORM_ACTUAL_END_DATE))
-        put(Task.Field.deadline, new DateFieldFormat(Task.Field.deadline.name, TaskI18nEnum.FORM_DEADLINE))
-        put(Task.Field.percentagecomplete, TaskI18nEnum.FORM_PERCENTAGE_COMPLETE)
-        put(Task.Field.priority, new I18nFieldFormat(Task.Field.priority.name, TaskI18nEnum.FORM_PRIORITY, classOf[OptionI18nEnum.TaskPriority]))
-        put(Task.Field.assignuser, new AssigneeFieldFormat(Task.Field.assignuser.name, GenericI18Enum.FORM_ASSIGNEE))
-        put(Task.Field.isestimated, TaskI18nEnum.FORM_IS_ESTIMATED)
-        put(Task.Field.remainestimate, TaskI18nEnum.FORM_REMAIN_ESTIMATE)
-        put(Task.Field.milestoneid, new MilestoneFieldFormat(Task.Field.milestoneid.name, TaskI18nEnum.FORM_MILESTONE))
-        put(Task.Field.notes, TaskI18nEnum.FORM_NOTES)
-        put(Task.Field.status, TaskI18nEnum.FORM_STATUS)
+    notifyUsers
+  }
+
+  class TaskFieldNameMapper extends ItemFieldMapper {
+    put(Task.Field.taskname, TaskI18nEnum.FORM_TASK_NAME, isColSpan = true)
+    put(Task.Field.startdate, new DateFieldFormat(Task.Field.startdate.name, TaskI18nEnum.FORM_START_DATE))
+    put(Task.Field.actualstartdate, new DateFieldFormat(Task.Field.actualstartdate.name, TaskI18nEnum.FORM_ACTUAL_START_DATE))
+    put(Task.Field.enddate, new DateFieldFormat(Task.Field.enddate.name, TaskI18nEnum.FORM_END_DATE))
+    put(Task.Field.actualenddate, new DateFieldFormat(Task.Field.actualenddate.name, TaskI18nEnum.FORM_ACTUAL_END_DATE))
+    put(Task.Field.deadline, new DateFieldFormat(Task.Field.deadline.name, TaskI18nEnum.FORM_DEADLINE))
+    put(Task.Field.percentagecomplete, TaskI18nEnum.FORM_PERCENTAGE_COMPLETE)
+    put(Task.Field.priority, new I18nFieldFormat(Task.Field.priority.name, TaskI18nEnum.FORM_PRIORITY, classOf[OptionI18nEnum.TaskPriority]))
+    put(Task.Field.assignuser, new AssigneeFieldFormat(Task.Field.assignuser.name, GenericI18Enum.FORM_ASSIGNEE))
+    put(Task.Field.isestimated, TaskI18nEnum.FORM_IS_ESTIMATED)
+    put(Task.Field.remainestimate, TaskI18nEnum.FORM_REMAIN_ESTIMATE)
+    put(Task.Field.milestoneid, new MilestoneFieldFormat(Task.Field.milestoneid.name, TaskI18nEnum.FORM_MILESTONE))
+    put(Task.Field.notes, TaskI18nEnum.FORM_NOTES)
+    put(Task.Field.status, TaskI18nEnum.FORM_STATUS)
+  }
+
+  class AssigneeFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldFormat(fieldName, displayName) {
+
+    def formatField(context: MailContext[_]): String = {
+      val task: SimpleTask = context.getWrappedBean.asInstanceOf[SimpleTask]
+      if (task.getAssignuser != null) {
+        val userAvatarLink: String = MailUtils.getAvatarLink(task.getAssignUserAvatarId, 16)
+        val img: Img = FormatUtils.newImg("avatar", userAvatarLink)
+        val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(task.getSaccountid), task.getAssignuser)
+        val link: A = FormatUtils.newA(userLink, task.getAssignUserFullName)
+        FormatUtils.newLink(img, link).write
+      }
+      else {
+        new Span().write
+      }
     }
 
-    class AssigneeFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldFormat(fieldName, displayName) {
+    def formatField(context: MailContext[_], value: String): String = {
+      if (StringUtils.isBlank(value)) {
+        new Span().write
+      } else {
+        val userService: UserService = ApplicationContextUtil.getSpringBean(classOf[UserService])
+        val user: SimpleUser = userService.findUserByUserNameInAccount(value, context.getUser.getAccountId)
+        if (user != null) {
+          val userAvatarLink: String = MailUtils.getAvatarLink(user.getAvatarid, 16)
+          val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(user.getAccountId), user.getUsername)
+          val img: Img = FormatUtils.newImg("avatar", userAvatarLink)
+          val link: A = FormatUtils.newA(userLink, user.getDisplayName)
+          FormatUtils.newLink(img, link).write
+        } else
+          value
+      }
+    }
+  }
 
-        def formatField(context: MailContext[_]): String = {
-            val task: SimpleTask = context.getWrappedBean.asInstanceOf[SimpleTask]
-            if (task.getAssignuser != null) {
-                val userAvatarLink: String = MailUtils.getAvatarLink(task.getAssignUserAvatarId, 16)
-                val img: Img = FormatUtils.newImg("avatar", userAvatarLink)
-                val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(task.getSaccountid), task.getAssignuser)
-                val link: A = FormatUtils.newA(userLink, task.getAssignUserFullName)
-                FormatUtils.newLink(img, link).write
-            }
-            else {
-                new Span().write
-            }
-        }
+  class MilestoneFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldFormat(fieldName, displayName) {
 
-        def formatField(context: MailContext[_], value: String): String = {
-            if (StringUtils.isBlank(value)) {
-                new Span().write
-            } else {
-                val userService: UserService = ApplicationContextUtil.getSpringBean(classOf[UserService])
-                val user: SimpleUser = userService.findUserByUserNameInAccount(value, context.getUser.getAccountId)
-                if (user != null) {
-                    val userAvatarLink: String = MailUtils.getAvatarLink(user.getAvatarid, 16)
-                    val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(user.getAccountId), user.getUsername)
-                    val img: Img = FormatUtils.newImg("avatar", userAvatarLink)
-                    val link: A = FormatUtils.newA(userLink, user.getDisplayName)
-                    FormatUtils.newLink(img, link).write
-                } else
-                    value
-            }
-        }
+    def formatField(context: MailContext[_]): String = {
+      val task: SimpleTask = context.getWrappedBean.asInstanceOf[SimpleTask]
+      if (task.getMilestoneid != null) {
+        val img: Text = new Text(ProjectResources.getFontIconHtml(ProjectTypeConstants.MILESTONE));
+        val tasklistlink: String = ProjectLinkGenerator.generateMilestonePreviewFullLink(context.siteUrl, task.getProjectid,
+          task.getMilestoneid)
+        val link: A = FormatUtils.newA(tasklistlink, task.getMilestoneName)
+        FormatUtils.newLink(img, link).write
+      }
+      else {
+        new Span().write
+      }
     }
 
-    class MilestoneFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldFormat(fieldName, displayName) {
-
-        def formatField(context: MailContext[_]): String = {
-            val task: SimpleTask = context.getWrappedBean.asInstanceOf[SimpleTask]
-            if (task.getMilestoneid != null) {
-                val img: Text = new Text(ProjectResources.getFontIconHtml(ProjectTypeConstants.MILESTONE));
-                val tasklistlink: String = ProjectLinkGenerator.generateMilestonePreviewFullLink(context.siteUrl, task.getProjectid,
-                    task.getMilestoneid)
-                val link: A = FormatUtils.newA(tasklistlink, task.getMilestoneName)
-                FormatUtils.newLink(img, link).write
-            }
-            else {
-                new Span().write
-            }
+    def formatField(context: MailContext[_], value: String): String = {
+      if (StringUtils.isBlank(value)) {
+        return new Span().write
+      }
+      try {
+        val milestoneId: Int = value.toInt
+        val milestoneService: MilestoneService = ApplicationContextUtil.getSpringBean(classOf[MilestoneService])
+        val milestone: SimpleMilestone = milestoneService.findById(milestoneId, context.getUser.getAccountId)
+        if (milestone != null) {
+          val img: Text = new Text(ProjectResources.getFontIconHtml(ProjectTypeConstants.MILESTONE));
+          val taskListLink: String = ProjectLinkGenerator.generateMilestonePreviewFullLink(context.siteUrl, milestone
+            .getProjectid, milestone.getId)
+          val link: A = FormatUtils.newA(taskListLink, milestone.getName)
+          return FormatUtils.newLink(img, link).write
         }
-
-        def formatField(context: MailContext[_], value: String): String = {
-            if (StringUtils.isBlank(value)) {
-                return new Span().write
-            }
-            try {
-                val milestoneId: Int = value.toInt
-                val milestoneService: MilestoneService = ApplicationContextUtil.getSpringBean(classOf[MilestoneService])
-                val milestone: SimpleMilestone = milestoneService.findById(milestoneId, context.getUser.getAccountId)
-                if (milestone != null) {
-                    val img: Text = new Text(ProjectResources.getFontIconHtml(ProjectTypeConstants.MILESTONE));
-                    val taskListLink: String = ProjectLinkGenerator.generateMilestonePreviewFullLink(context.siteUrl, milestone
-                        .getProjectid, milestone.getId)
-                    val link: A = FormatUtils.newA(taskListLink, milestone.getName)
-                    return FormatUtils.newLink(img, link).write
-                }
-            }
-            catch {
-                case e: Exception => LOG.error("Error", e)
-            }
-            value
-        }
+      }
+      catch {
+        case e: Exception => LOG.error("Error", e)
+      }
+      value
     }
+  }
 
 }
