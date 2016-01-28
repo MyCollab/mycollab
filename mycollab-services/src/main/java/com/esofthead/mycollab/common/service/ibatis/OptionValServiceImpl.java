@@ -79,14 +79,14 @@ public class OptionValServiceImpl extends DefaultCrudService<Integer, OptionVal>
         String typeVal = record.getTypeval();
         if (Boolean.TRUE.equals(record.getIsdefault())) {
             OptionValExample ex = new OptionValExample();
-            ex.createCriteria().andTypevalEqualTo(typeVal).andSaccountidEqualTo(record.getSaccountid());
+            ex.createCriteria().andTypeEqualTo(record.getType()).andTypevalEqualTo(typeVal).andSaccountidEqualTo(record.getSaccountid());
             if (optionValMapper.countByExample(ex) > 0) {
                 throw new UserInvalidInputException("There is already column name " + typeVal);
             }
         } else {
             OptionValExample ex = new OptionValExample();
-            ex.createCriteria().andTypevalEqualTo(typeVal).andSaccountidEqualTo(record.getSaccountid())
-                    .andIsdefaultEqualTo(Boolean.FALSE);
+            ex.createCriteria().andTypeEqualTo(record.getType()).andTypevalEqualTo(typeVal).andSaccountidEqualTo(record
+                    .getSaccountid()).andIsdefaultEqualTo(Boolean.FALSE);
             if (optionValMapper.countByExample(ex) > 0) {
                 throw new UserInvalidInputException("There is already column name " + typeVal);
             }

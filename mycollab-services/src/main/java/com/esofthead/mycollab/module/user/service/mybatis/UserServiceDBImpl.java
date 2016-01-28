@@ -156,7 +156,12 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
         userAccount.setAccountid(record.getAccountId());
         userAccount.setIsaccountowner((record.getIsAccountOwner() == null) ? Boolean.FALSE : record.getIsAccountOwner());
 
-        userAccount.setRoleid(record.getRoleid());
+        if (record.getRoleid() <= 0) {
+            record.setRoleid(null);
+        } else {
+            userAccount.setRoleid(record.getRoleid());
+        }
+
         userAccount.setUsername(record.getUsername());
         userAccount.setRegisteredtime(new GregorianCalendar().getTime());
         userAccount.setLastaccessedtime(new GregorianCalendar().getTime());

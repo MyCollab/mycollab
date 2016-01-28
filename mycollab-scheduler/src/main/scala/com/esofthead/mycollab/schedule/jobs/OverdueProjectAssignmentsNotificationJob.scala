@@ -19,8 +19,8 @@ package com.esofthead.mycollab.schedule.jobs
 import java.util
 import java.util.Date
 
-import com.esofthead.mycollab.common.{FontAwesomeUtils, NotificationType}
 import com.esofthead.mycollab.common.domain.MailRecipientField
+import com.esofthead.mycollab.common.{FontAwesomeUtils, NotificationType}
 import com.esofthead.mycollab.configuration.{SiteConfiguration, StorageFactory}
 import com.esofthead.mycollab.core.MyCollabException
 import com.esofthead.mycollab.core.arguments.{NumberSearchField, RangeDateSearchField, SetSearchField}
@@ -55,16 +55,19 @@ object OverdueProjectAssignmentsNotificationJob {
       assignment.getType match {
         case ProjectTypeConstants.BUG => new Div().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.BUG)).
           appendChild(DivLessFormatter.EMPTY_SPACE, new A(ProjectLinkGenerator.generateBugPreviewFullLink(SiteConfiguration.getSiteUrl(subdomain),
-          assignment.getExtraTypeId, assignment.getProjectShortName)).appendText(assignment.getName)).write()
+            assignment.getExtraTypeId, assignment.getProjectShortName)).appendText(assignment.getName)).write()
         case ProjectTypeConstants.TASK => new Div().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.TASK)).
           appendChild(DivLessFormatter.EMPTY_SPACE, new A(ProjectLinkGenerator.generateTaskPreviewFullLink(SiteConfiguration.getSiteUrl(subdomain),
-          assignment.getExtraTypeId, assignment.getProjectShortName)).appendText(assignment.getName)).write()
+            assignment.getExtraTypeId, assignment.getProjectShortName)).appendText(assignment.getName)).write()
         case ProjectTypeConstants.RISK => new Div().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.RISK)).
           appendChild(DivLessFormatter.EMPTY_SPACE, new A(ProjectLinkGenerator.generateRiskPreviewFullLink(SiteConfiguration.getSiteUrl(subdomain),
-          assignment.getProjectId, assignment.getTypeId)).appendText(assignment.getName)).write()
+            assignment.getProjectId, assignment.getTypeId)).appendText(assignment.getName)).write()
         case ProjectTypeConstants.PROBLEM => new Div().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.PROBLEM)).
           appendChild(DivLessFormatter.EMPTY_SPACE, new A(ProjectLinkGenerator.generateProblemPreviewFullLink(SiteConfiguration.getSiteUrl(subdomain),
-          assignment.getProjectId, assignment.getTypeId)).appendText(assignment.getName)).write()
+            assignment.getProjectId, assignment.getTypeId)).appendText(assignment.getName)).write()
+        case ProjectTypeConstants.MILESTONE => new Div().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.MILESTONE)).
+          appendChild(DivLessFormatter.EMPTY_SPACE, new A(ProjectLinkGenerator.generateMilestonePreviewFullLink(SiteConfiguration.getSiteUrl(subdomain),
+            assignment.getProjectId, assignment.getTypeId)).appendText(assignment.getName)).write()
         case typeVal => throw new MyCollabException("Do not support type " + typeVal)
       }
     }

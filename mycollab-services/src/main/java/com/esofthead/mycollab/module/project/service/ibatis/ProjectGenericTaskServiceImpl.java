@@ -48,7 +48,8 @@ public class ProjectGenericTaskServiceImpl extends DefaultSearchService<ProjectG
         return projectGenericTaskMapper.getTotalCountFromProblem(criteria)
                 + projectGenericTaskMapper.getTotalCountFromRisk(criteria)
                 + projectGenericTaskMapper.getTotalCountFromBug(criteria)
-                + projectGenericTaskMapper.getTotalCountFromTask(criteria);
+                + projectGenericTaskMapper.getTotalCountFromTask(criteria)
+                + projectGenericTaskMapper.getTotalCountFromMilestone(criteria);
     }
 
     @Override

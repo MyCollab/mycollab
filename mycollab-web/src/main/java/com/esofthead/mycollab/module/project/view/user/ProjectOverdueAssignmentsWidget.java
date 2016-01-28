@@ -72,7 +72,7 @@ public class ProjectOverdueAssignmentsWidget extends Depot {
             }
         };
         this.addHeaderElement(myItemsSelection);
-        this.bodyContent.addComponent(taskList);
+        bodyContent.addComponent(taskList);
     }
 
     public void showOpenAssignments() {

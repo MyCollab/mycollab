@@ -44,29 +44,22 @@ public class MilestoneDefaultFormLayoutFactory {
         mainSection.addField(new TextDynaFieldBuilder().fieldName(Milestone.Field.startdate).displayName(AppContext
                 .getMessage(MilestoneI18nEnum.FORM_START_DATE_FIELD)).fieldIndex(1).build());
 
-        mainSection.addField(new TextDynaFieldBuilder().fieldName(Milestone.Field.actualstartdate).displayName(AppContext
-                .getMessage(MilestoneI18nEnum.FORM_ACTUAL_START_DATE)).fieldIndex(2).build());
-
         mainSection.addField(new TextDynaFieldBuilder().fieldName(Milestone.Field.enddate).displayName(AppContext
-                .getMessage(MilestoneI18nEnum.FORM_END_DATE_FIELD)).fieldIndex(3)
-                .build());
-
-        mainSection.addField(new TextDynaFieldBuilder().fieldName(Milestone.Field.actualenddate).displayName(AppContext
-                .getMessage(MilestoneI18nEnum.FORM_ACTUAL_END_DATE)).fieldIndex(4).build());
+                .getMessage(MilestoneI18nEnum.FORM_END_DATE_FIELD)).fieldIndex(2).build());
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(Milestone.Field.owner).displayName(AppContext
-                .getMessage(GenericI18Enum.FORM_ASSIGNEE)).fieldIndex(5)
+                .getMessage(GenericI18Enum.FORM_ASSIGNEE)).fieldIndex(3)
                 .build());
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(Milestone.Field.status).displayName(AppContext
-                .getMessage(MilestoneI18nEnum.FORM_STATUS_FIELD)).fieldIndex(6)
+                .getMessage(MilestoneI18nEnum.FORM_STATUS_FIELD)).fieldIndex(4)
                 .build());
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(Milestone.Field.description).displayName(AppContext
-                .getMessage(GenericI18Enum.FORM_DESCRIPTION)).fieldIndex(7).colSpan(true).build());
+                .getMessage(GenericI18Enum.FORM_DESCRIPTION)).fieldIndex(5).colSpan(true).build());
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(Milestone.Field.id).displayName(AppContext
-                .getMessage(MilestoneI18nEnum.FORM_ASSIGNMENTS)).fieldIndex(8).colSpan(true).build());
+                .getMessage(MilestoneI18nEnum.FORM_ASSIGNMENTS)).fieldIndex(6).colSpan(true).build());
 
         defaultForm.addSection(mainSection);
     }

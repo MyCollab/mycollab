@@ -118,10 +118,7 @@
         #end
         
         #ifnotnull($searchCriteria.dueDate)
-            ${searchCriteria.dueDate.operation}
-            CAST(m_prj_risk.datedue AS DATE )
-            ${searchCriteria.dueDate.comparison}
-            @{searchCriteria.dueDate.value}
+            ${searchCriteria.dueDate.operation} CAST(m_prj_risk.datedue AS DATE ) ${searchCriteria.dueDate.comparison} @{searchCriteria.dueDate.value}
         #end
         ]]>
     </sql>
@@ -171,10 +168,7 @@
         #end
         
          #ifnotnull($searchCriteria.dueDate)
-            ${searchCriteria.dueDate.operation}
-            CAST(m_tracker_bug.duedate AS DATE )
-            ${searchCriteria.dueDate.comparison}
-            @{searchCriteria.dueDate.value}
+            ${searchCriteria.dueDate.operation} CAST(m_tracker_bug.duedate AS DATE ) ${searchCriteria.dueDate.comparison} @{searchCriteria.dueDate.value}
         #end
         ]]>
     </sql>
@@ -225,11 +219,59 @@
             #end
         #end
         
+        #ifnotnull($searchCriteria.dueDate) ${searchCriteria.dueDate.operation} CAST(m_prj_task.deadline AS DATE) ${searchCriteria.dueDate.comparison} @{searchCriteria.dueDate.value}
+        #end
+        ]]>
+    </sql>
+
+    <sql id="queryMilestoneSearchCriteria">
+        <![CDATA[
+        #set($searchCriteria = $_parameter.searchCriteria)
+
+        #ifnotnull($searchCriteria.name)
+            ${searchCriteria.name.operation} m_prj_milestone.name LIKE '%${searchCriteria.name.value}%'
+        #end
+
+        #ifnotnull($searchCriteria.saccountid)
+            ${searchCriteria.saccountid.operation} m_prj_milestone.sAccountId = @{searchCriteria.saccountid.value,jdbcType=NUMERIC}
+        #end
+
+        #ifnotnull($searchCriteria.projectIds)
+            ${searchCriteria.projectIds.operation} m_prj_milestone.projectid IN
+            #repeat(${searchCriteria.projectIds.values} $projectId "," "(" ")")
+                @{projectId}
+            #end
+        #end
+
+        #ifnotnull($searchCriteria.assignUser)
+            ${searchCriteria.assignUser.operation} m_prj_milestone.owner = @{searchCriteria.assignUser.value}
+        #end
+
+        #ifnotnull($searchCriteria.isOpenned)
+            ${searchCriteria.isOpenned.operation} m_prj_milestone.status NOT IN ('Closed')
+        #end
+
+        #ifnotnull($searchCriteria.dateInRange)
+            ${searchCriteria.dateInRange.operation} ((m_prj_milestone.deadline BETWEEN @{searchCriteria.dateInRange.from} AND @{searchCriteria.dateInRange.to})
+            OR (m_prj_milestone.startdate BETWEEN @{searchCriteria.dateInRange.from} AND @{searchCriteria.dateInRange.to})
+            OR (m_prj_milestone.enddate BETWEEN @{searchCriteria.dateInRange.from} AND @{searchCriteria.dateInRange.to})
+            OR (m_prj_milestone.actualstartdate BETWEEN @{searchCriteria.dateInRange.from} AND @{searchCriteria.dateInRange.to})
+            OR (m_prj_milestone.actualenddate BETWEEN @{searchCriteria.dateInRange.from} AND @{searchCriteria.dateInRange.to}))
+        #end
+
+        #ifnotnull($searchCriteria.milestoneId)
+            ${searchCriteria.milestoneId.operation} m_prj_milestone.id = @{searchCriteria.milestoneId.value}
+        #end
+
+        #ifnotnull($searchCriteria.types)
+            ${searchCriteria.types.operation} "Project-Milestone" IN
+            #repeat(${searchCriteria.types.values} $type "," "(" ")")
+                @{type}
+            #end
+        #end
+
         #ifnotnull($searchCriteria.dueDate)
-            ${searchCriteria.dueDate.operation}
-            CAST(m_prj_task.deadline AS DATE )
-            ${searchCriteria.dueDate.comparison}
-            @{searchCriteria.dueDate.value}
+            ${searchCriteria.dueDate.operation} CAST(m_prj_milestone.enddate AS DATE) ${searchCriteria.dueDate.comparison} @{searchCriteria.dueDate.value}
         #end
         ]]>
     </sql>
@@ -265,8 +307,23 @@
         ]]>
     </sql>
 
-    <sql id="selectGenericTaskFromBug">
+    <sql id="selectGenericTaskFromMilestone">
+        <![CDATA[
+          SELECT m_prj_milestone.name AS name, m_prj_milestone.description AS description, m_prj_milestone.owner AS assignUser,
+            concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS assignUserFullName,
+            s_user.avatarId as assignUserAvatarId,
+            m_prj_milestone.enddate AS dueDate, m_prj_milestone.projectid AS projectId, m_prj_project.name AS projectName,
+            m_prj_project.shortname AS projectShortName, NULL AS extraTypeId, m_prj_milestone.status,
+            'Project-Milestone' AS type, m_prj_milestone.id AS typeid, m_prj_milestone.lastUpdatedTime AS lastUpdatedTime,
+            m_prj_milestone.sAccountId
 
+          FROM m_prj_milestone
+            LEFT OUTER JOIN s_user ON (m_prj_milestone.owner=s_user.username)
+            LEFT OUTER JOIN m_prj_project ON (m_prj_milestone.projectid=m_prj_project.id AND m_prj_project.projectStatus="Open")
+        ]]>
+    </sql>
+
+    <sql id="selectGenericTaskFromBug">
     <![CDATA[
           SELECT m_tracker_bug.summary AS name, m_tracker_bug.description, m_tracker_bug.assignuser AS assignUser,
                 concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS assignUserFullName,
@@ -283,7 +340,6 @@
     </sql>
 
     <sql id="selectGenericTaskFromTask">
-
         <![CDATA[
           SELECT m_prj_task.taskname AS name,  m_prj_task.notes AS description, m_prj_task.assignUser AS assignUser,
             concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS assignUserFullName,
@@ -344,13 +400,24 @@
         #end
     </select>
 
+    <select id="getTotalCountFromMilestone" parameterType="ProjectGenericTaskSearchCriteria"
+            resultType="int" lang="velocity">
+        SELECT count(*) as totalCount FROM m_prj_milestone
+
+        #ifnotnull($_parameter.searchCriteria)
+        #trimext("WHERE" "AND|OR")
+        <include refid="queryMilestoneSearchCriteria" />
+        #end
+        #end
+    </select>
+
     <sql id="orderStatement">
         ORDER BY
-        #ifnotnull($_parameter.searchCriteria.orderFields)
-        #repeat(${_parameter.searchCriteria.orderFields} $orderField "" "" "")
-        ${orderField.field} ${orderField.direction},
-        #end
-        #end
+          #ifnotnull($_parameter.searchCriteria.orderFields)
+            #repeat(${_parameter.searchCriteria.orderFields} $orderField "" "" "")
+              ${orderField.field} ${orderField.direction},
+            #end
+          #end
         lastUpdatedTime DESC
     </sql>
 
@@ -389,7 +456,6 @@
         )
 
         UNION
-
         (
         <include refid="selectGenericTaskFromTask" />
         #ifnotnull($_parameter.searchCriteria)
@@ -398,13 +464,21 @@
             #end
         #end
         )
+        UNION
+        (
+        <include refid="selectGenericTaskFromMilestone" />
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="queryMilestoneSearchCriteria" />
+            #end
+        #end
+        )
         #ifnotnull($_parameter.searchCriteria)
             <include refid="orderStatement" />
         #end
     </select>
 
-    <select id="getAccountsHasOverdueAssignments" parameterType="ProjectGenericTaskSearchCriteria"
-            resultType="map" lang="velocity">
+    <select id="getAccountsHasOverdueAssignments" parameterType="ProjectGenericTaskSearchCriteria" resultType="map" lang="velocity">
         SELECT s_account.id, s_account.subdomain
         FROM s_account
         WHERE
@@ -421,12 +495,32 @@
                 <include refid="queryTaskSearchCriteria" />
               #end
               AND m_prj_task.sAccountId = s_account.id
+          ) OR
+          EXISTS (
+            SELECT * FROM m_prj_milestone
+              #trimext("WHERE" "AND|OR")
+                <include refid="queryMilestoneSearchCriteria" />
+              #end
+              AND m_prj_milestone.sAccountId = s_account.id
+          ) OR
+          EXISTS (
+            SELECT * FROM m_prj_risk
+              #trimext("WHERE" "AND|OR")
+                <include refid="queryRiskSearchCriteria" />
+              #end
+              AND m_prj_risk.sAccountId = s_account.id
+          ) OR
+          EXISTS (
+            SELECT * FROM m_prj_problem
+              #trimext("WHERE" "AND|OR")
+                <include refid="queryProblemSearchCriteria" />
+              #end
+              AND m_prj_problem.sAccountId = s_account.id
           )
         ORDER BY s_account.id ASC
     </select>
 
-    <select id="getProjectsHasOverdueAssignments" parameterType="ProjectGenericTaskSearchCriteria"
-            resultType="Integer" lang="velocity">
+    <select id="getProjectsHasOverdueAssignments" parameterType="ProjectGenericTaskSearchCriteria" resultType="Integer" lang="velocity">
         SELECT m_prj_project.id
         FROM m_prj_project
         WHERE
@@ -442,58 +536,27 @@
               <include refid="queryTaskSearchCriteria" />
             #end
             AND m_prj_task.projectid = m_prj_project.id
+          ) OR
+          EXISTS (
+            SELECT * FROM m_prj_milestone
+              #trimext("WHERE" "AND|OR")
+                <include refid="queryMilestoneSearchCriteria" />
+              #end
+              AND m_prj_milestone.projectid = m_prj_project.id
+          ) OR
+          EXISTS (
+            SELECT * FROM m_prj_risk
+              #trimext("WHERE" "AND|OR")
+                <include refid="queryRiskSearchCriteria" />
+              #end
+              AND m_prj_risk.projectid = m_prj_project.id
+          ) OR
+          EXISTS (
+            SELECT * FROM m_prj_problem
+              #trimext("WHERE" "AND|OR")
+                <include refid="queryProblemSearchCriteria" />
+              #end
+            AND m_prj_problem.projectid = m_prj_project.id
           )
     </select>
-
-    <sql id="selectGenericTaskCountFromTask">
-
-        <![CDATA[
-          SELECT m_prj_task.assignUser AS assignUser,
-            concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS assignUserFullName,
-            m_prj_task.projectid AS projectId, m_prj_project.name AS projectName
-          
-          FROM m_prj_task
-            LEFT OUTER JOIN s_user ON (m_prj_task.assignUser=s_user.username)
-            LEFT OUTER JOIN m_prj_project ON (m_prj_task.projectid=m_prj_project.id AND m_prj_project.projectStatus="Open")
-        ]]>
-    </sql>
-
-    <sql id="selectGenericTaskCountFromBug">
-
-    <![CDATA[
-          SELECT m_tracker_bug.assignuser AS assignUser,
-                concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS assignUserFullName,
-                m_tracker_bug.projectid AS projectId, m_prj_project.name AS projectName
-                 
-          FROM m_tracker_bug
-              LEFT OUTER JOIN s_user ON (m_tracker_bug.assignuser=s_user.username)
-              LEFT OUTER JOIN m_prj_project ON (m_tracker_bug.projectid=m_prj_project.id AND m_prj_project.projectStatus="Open")
-        ]]>
-    </sql>
-
-    <sql id="selectGenericTaskCountFromRisk">
-
-    <![CDATA[
-          SELECT m_prj_risk.assigntouser AS assignUser,
-            concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS assignUserFullName,
-            m_prj_risk.projectid AS projectId, m_prj_project.name AS projectName
-                 
-          FROM m_prj_risk
-              LEFT OUTER JOIN s_user ON (m_prj_risk.assigntouser=s_user.username)
-              LEFT OUTER JOIN m_prj_project ON (m_prj_risk.projectid=m_prj_project.id AND m_prj_project.projectStatus="Open")
-        ]]>
-    </sql>
-
-    <sql id="selectGenericTaskCountFromProblem">
-
-    <![CDATA[
-          SELECT m_prj_problem.assigntouser as assignUser, 
-            concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS assignUserFullName,
-            m_prj_problem.projectid as projectId, m_prj_project.name AS projectName
-                 
-          FROM m_prj_problem
-              LEFT OUTER JOIN s_user ON (m_prj_problem.assigntouser=s_user.username)
-              LEFT OUTER JOIN m_prj_project ON (m_prj_problem.projectid=m_prj_project.id AND m_prj_project.projectStatus="Open")
-        ]]>
-    </sql>
 </mapper>

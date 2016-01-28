@@ -191,6 +191,7 @@ public class DesktopApplication extends MyCollabUI {
         if (invalidException != null) {
             NotificationUtil.showWarningNotification(AppContext.getMessage(
                     GenericI18Enum.ERROR_USER_INPUT_MESSAGE, invalidException.getMessage()));
+            LOG.error("Error", e);
             return;
         }
 
