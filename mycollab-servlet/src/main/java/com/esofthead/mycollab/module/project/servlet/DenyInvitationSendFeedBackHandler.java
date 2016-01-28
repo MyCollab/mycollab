@@ -29,42 +29,36 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 @WebServlet(urlPatterns = "/project/member/feedback/*", name = "denyMemberInvitationFeedbackServlet")
-public class DenyInvitationSendFeedBackHandler extends
-		GenericHttpServlet {
+public class DenyInvitationSendFeedBackHandler extends GenericHttpServlet {
 
-	@Autowired
-	private MailRelayService mailRelayService;
+    @Autowired
+    private MailRelayService mailRelayService;
 
-	@Autowired
-	private ProjectMemberService projectMemberService;
+    @Autowired
+    private ProjectMemberService projectMemberService;
 
-	@Override
-	protected void onHandleRequest(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		String pathInfo = request.getPathInfo();
-		if (pathInfo != null) {
-			String inviterEmail = request.getParameter("inviterEmail");
-			String toEmail = request.getParameter("toEmail");
-			String message = request.getParameter("message");
-			String toName = request.getParameter("toName");
-			String inviterName = request.getParameter("inviterName");
+    @Override
+    protected void onHandleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String pathInfo = request.getPathInfo();
+        if (pathInfo != null) {
+            String inviterEmail = request.getParameter("inviterEmail");
+            String toEmail = request.getParameter("toEmail");
+            String message = request.getParameter("message");
+            String toName = request.getParameter("toName");
+            String inviterName = request.getParameter("inviterName");
 
-			if (inviterName.indexOf("/") != -1) {
-				inviterName = inviterName
-						.substring(0, inviterName.indexOf("/"));
-			}
-			toName = (toName.equals("You")) ? "" : toName;
-			mailRelayService.saveRelayEmail(new String[] { inviterName },
-					new String[] { inviterEmail }, toName + "(" + toEmail + ")"
-							+ " has denied your invitation", message);
-		} else {
-			throw new ResourceNotFoundException();
-		}
-	}
+            if (inviterName.indexOf("/") != -1) {
+                inviterName = inviterName.substring(0, inviterName.indexOf("/"));
+            }
+            toName = (toName.equals("You")) ? "" : toName;
+            mailRelayService.saveRelayEmail(new String[]{inviterName},
+                    new String[]{inviterEmail}, toName + "(" + toEmail + ")" + " has denied your invitation", message);
+        } else {
+            throw new ResourceNotFoundException();
+        }
+    }
 }

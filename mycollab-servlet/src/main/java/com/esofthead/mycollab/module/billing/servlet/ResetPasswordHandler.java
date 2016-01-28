@@ -19,8 +19,8 @@ package com.esofthead.mycollab.module.billing.servlet;
 import com.esofthead.mycollab.common.i18n.ErrorI18nEnum;
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.InvalidPasswordException;
+import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.utils.PasswordCheckerUtil;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.module.user.domain.User;
@@ -35,41 +35,33 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @WebServlet(urlPatterns = "/user/recoverypassword/action/*", name = "updateUserPasswordServlet")
 public class ResetPasswordHandler extends GenericHttpServlet {
 
-	@Autowired
-	private UserService userService;
+    @Autowired
+    private UserService userService;
 
-	@Override
-	protected void onHandleRequest(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+    @Override
+    protected void onHandleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
 
-		String username = request.getParameter("username");
+        try {
+            PasswordCheckerUtil.checkValidPassword(password);
+        } catch (InvalidPasswordException e) {
+            throw new UserInvalidInputException(e.getMessage());
+        }
 
-		String password = request.getParameter("password");
-
-		try {
-			PasswordCheckerUtil.checkValidPassword(password);
-		} catch (InvalidPasswordException e) {
-			throw new UserInvalidInputException(e.getMessage());
-		}
-
-		User user = userService.findUserByUserName(username);
-		if (user == null) {
-			throw new UserInvalidInputException(LocalizationHelper.getMessage(
-					SiteConfiguration.getDefaultLocale(),
-					ErrorI18nEnum.ERROR_USER_IS_NOT_EXISTED, username));
-		} else {
-			user.setPassword(PasswordEncryptHelper
-					.encryptSaltPassword(password));
-
-			userService.updateWithSession(user, username);
-		}
-	}
+        User user = userService.findUserByUserName(username);
+        if (user == null) {
+            throw new UserInvalidInputException(LocalizationHelper.getMessage(SiteConfiguration.getDefaultLocale(),
+                    ErrorI18nEnum.ERROR_USER_IS_NOT_EXISTED, username));
+        } else {
+            user.setPassword(PasswordEncryptHelper.encryptSaltPassword(password));
+            userService.updateWithSession(user, username);
+        }
+    }
 }

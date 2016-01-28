@@ -18,9 +18,9 @@ package com.esofthead.mycollab.module.billing.servlet;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
+import com.esofthead.mycollab.core.InvalidPasswordException;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.UserInvalidInputException;
-import com.esofthead.mycollab.core.InvalidPasswordException;
 import com.esofthead.mycollab.core.utils.PasswordCheckerUtil;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
@@ -41,47 +41,43 @@ import java.io.IOException;
 import java.util.Locale;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @WebServlet(name = "updateUserInfoServlet", urlPatterns = "/user/confirm_invite/update_info/*")
 public class UpdateUserInfoHandler extends GenericHttpServlet {
-	private static final Logger LOG = LoggerFactory.getLogger(UpdateUserInfoHandler.class);
+    private static final Logger LOG = LoggerFactory.getLogger(UpdateUserInfoHandler.class);
 
-	@Autowired
-	private UserMapper userMapper;
+    @Autowired
+    private UserMapper userMapper;
 
-	@Override
-	protected void onHandleRequest(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+    @Override
+    protected void onHandleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String username = request.getParameter("username");
+        int sAccountId = Integer.parseInt(request.getParameter("accountId"));
 
-		String username = request.getParameter("username");
-		int sAccountId = Integer.parseInt(request.getParameter("accountId"));
+        String password = request.getParameter("password");
 
-		String password = request.getParameter("password");
+        try {
+            PasswordCheckerUtil.checkValidPassword(password);
+        } catch (InvalidPasswordException e) {
+            throw new UserInvalidInputException(e.getMessage());
+        }
 
-		try {
-			PasswordCheckerUtil.checkValidPassword(password);
-		} catch (InvalidPasswordException e) {
-			throw new UserInvalidInputException(e.getMessage());
-		}
+        User user = new User();
+        user.setPassword(PasswordEncryptHelper.encryptSaltPassword(password));
+        user.setUsername(username);
 
-		User user = new User();
-		user.setPassword(PasswordEncryptHelper.encryptSaltPassword(password));
-		user.setUsername(username);
+        try {
+            LOG.debug("Update password of user {}", username);
+            UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
+            userService.updateWithSession(user, username);
 
-		try {
-			LOG.debug("Update password of user {}", username);
-			UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
-			userService.updateWithSession(user, username);
-
-			userService.updateUserAccountStatus(username, sAccountId, RegisterStatusConstants.ACTIVE);
-		} catch (Exception e) {
-			LOG.error("Error when update user - userAccount", e);
-			String errMsg = LocalizationHelper.getMessage(Locale.US, GenericI18Enum.ERROR_USER_NOTICE_INFORMATION_MESSAGE);
-			throw new MyCollabException(errMsg);
-		}
-	}
+            userService.updateUserAccountStatus(username, sAccountId, RegisterStatusConstants.ACTIVE);
+        } catch (Exception e) {
+            LOG.error("Error when update user - userAccount", e);
+            String errMsg = LocalizationHelper.getMessage(Locale.US, GenericI18Enum.ERROR_USER_NOTICE_INFORMATION_MESSAGE);
+            throw new MyCollabException(errMsg);
+        }
+    }
 }

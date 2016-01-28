@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.service;
 
-import static org.assertj.core.api.Assertions.*;
-
 import com.esofthead.mycollab.core.arguments.RangeDateSearchField;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
 import com.esofthead.mycollab.test.DataSet;
@@ -30,6 +28,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
 import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.entry;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ProjectGenericTaskServiceTest extends IntergrationServiceTest {
@@ -46,7 +47,7 @@ public class ProjectGenericTaskServiceTest extends IntergrationServiceTest {
         criteria.setDateInRange(rangeDateSearchField);
         List<Map> accounts = projectGenericTaskService.getAccountsHasOverdueAssignments(criteria);
         assertThat(accounts).isNotEmpty().hasSize(2);
-        assertThat(accounts.get(0)).containsExactly(entry("subdomain", "a"), entry("id", 1));
-        assertThat(accounts.get(1)).containsExactly(entry("subdomain", "b"), entry("id", 2));
+        assertThat(accounts.get(0)).contains(entry("subdomain", "a"), entry("id", 1));
+        assertThat(accounts.get(1)).contains(entry("subdomain", "b"), entry("id", 2));
     }
 }

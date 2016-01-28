@@ -32,46 +32,40 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @WebServlet(urlPatterns = "/user/confirm_signup/*", name = "userconfirmsignupServlet")
 public class ConfirmEmailHandler extends GenericHttpServlet {
 
-	@Autowired
-	private UserService userServices;
+    @Autowired
+    private UserService userServices;
 
-	@Override
-	protected void onHandleRequest(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		String pathInfo = request.getPathInfo();
-		try {
-			if (pathInfo != null) {
-				UrlTokenizer urlTokenizer = new UrlTokenizer(pathInfo);
+    @Override
+    protected void onHandleRequest(HttpServletRequest request,
+                                   HttpServletResponse response) throws ServletException, IOException {
+        String pathInfo = request.getPathInfo();
+        try {
+            if (pathInfo != null) {
+                UrlTokenizer urlTokenizer = new UrlTokenizer(pathInfo);
+                String username = urlTokenizer.getString();
+                Integer accountId = urlTokenizer.getInt();
+                SimpleUser user = userServices.findUserByUserNameInAccount(username, accountId);
 
-				String username = urlTokenizer.getString();
-
-				Integer accountId = urlTokenizer.getInt();
-
-				SimpleUser user = userServices.findUserByUserNameInAccount(
-						username, accountId);
-				if (user != null) {
-					user.setStatus(UserStatusConstants.EMAIL_VERIFIED);
-					userServices.updateWithSession(user, username);
-					response.sendRedirect(request.getContextPath() + "/");
-					return;
-				} else {
-					PageGeneratorUtil.responeUserNotExistPage(response,
-							username, request.getContextPath() + "/");
-					return;
-				}
-			} else {
-				throw new ResourceNotFoundException();
-			}
-		} catch (Exception e) {
-			throw new MyCollabException(e);
-		}
-	}
+                if (user != null) {
+                    user.setStatus(UserStatusConstants.EMAIL_VERIFIED);
+                    userServices.updateWithSession(user, username);
+                    response.sendRedirect(request.getContextPath() + "/");
+                    return;
+                } else {
+                    PageGeneratorUtil.responeUserNotExistPage(response, username, request.getContextPath() + "/");
+                    return;
+                }
+            } else {
+                throw new ResourceNotFoundException();
+            }
+        } catch (Exception e) {
+            throw new MyCollabException(e);
+        }
+    }
 }

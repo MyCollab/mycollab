@@ -42,18 +42,15 @@ import java.util.GregorianCalendar;
 @WebServlet(urlPatterns = "/page/upload", name = "pageUploadServlet")
 @MultipartConfig(maxFileSize = 24657920, maxRequestSize = 24657920, fileSizeThreshold = 1024)
 public class FileUploadServlet extends GenericHttpServlet {
-
     private static final Logger LOG = LoggerFactory.getLogger(FileUploadServlet.class);
 
     @Autowired
     private ResourceService resourceService;
 
     @Override
-    protected void onHandleRequest(HttpServletRequest request,
-                                   HttpServletResponse response) throws ServletException, IOException {
+    protected void onHandleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String path = request.getParameter("path");
-
         String ckEditorFuncNum = request.getParameter("CKEditorFuncNum");
 
         // Create path components to save the file

@@ -10,35 +10,34 @@
     background-image: url('${defaultUrls.cdn_url}icons/footer_clouds.png');  background-repeat: no-repeat;
     background-position: bottom right;
 }
-
 </style>
 <title>Deny the invitation</title>
 </head>
 <body>
-	<div id="container">
-		#parse("templates/page/pageHeader.mt")
-		<div id="body" >
-			<div id="spacing"></div>
-			<div id="mainBody">
-				<div id="title">
-					<h1>Your account has already been activated</h1>
-				</div>
-				<hr size="1">
-				<div >
-						Your account has already been activated.
-				</div>
-				<div class="right">
-					<button class="v-button v-button-orangebtn" type="button" onclick="return login();"><span>Login</span></button>
-				</div>
-				#parse("templates/page/pageFooter_en_US.mt")
-			</div>
-		</div>
-	</div>
+    <div id="container">
+        #parse("templates/page/pageHeader.mt")
+        <div id="body" >
+            <div id="spacing"></div>
+            <div id="mainBody">
+                <div id="title">
+                    <h1>Your account has already been activated</h1>
+                </div>
+                <hr size="1">
+                <div >
+                        Your account has already been activated.
+                </div>
+                <div class="right">
+                    <button class="v-button v-button-orangebtn" type="button" onclick="return login();"><span>Login</span></button>
+                </div>
+                #parse("templates/page/pageFooter_en_US.mt")
+            </div>
+        </div>
+    </div>
 </body>
 <script src="${defaultUrls.cdn_url}js/jquery-2.1.4.min.js"></script>
 <script>
-	function login(){
-		window.location.assign("$!loginURL");
-	}
-</script>				
+    function login(){
+        window.location.assign("$!loginURL");
+    }
+</script>                
 </html>

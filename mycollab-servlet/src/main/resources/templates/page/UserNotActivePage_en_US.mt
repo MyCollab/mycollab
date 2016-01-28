@@ -15,29 +15,29 @@
 <title>User is not active</title>
 </head>
 <body style="height: 100%; margin: 0; padding: 0; width: 100%;">
-	<div id="container" style="height:100%;">
-		#parse("templates/page/pageHeader.mt")
-		<div id="body" >
-			<div id="spacing"></div>
-			<div id="mainBody">
-				<div id="title">
-					<h1>Your account is not activated yet</h1>
-				</div>
-				<hr size="1">
-				<div >
-						Your account has not been activated yet. Please click on the link in the email we sent to activate or you can contact our Customer Support team for assistance.
-				</div>
-				<div style="text-align:right;">
-					<button class="v-button v-button-orangebtn" type="button" onclick="return login();">Login</button>
-				</div>
-				#parse("templates/page/pageFooter_en_US.mt")
-		</div>
-	</div>
+    <div id="container" style="height:100%;">
+        #parse("templates/page/pageHeader.mt")
+        <div id="body" >
+            <div id="spacing"></div>
+            <div id="mainBody">
+                <div id="title">
+                    <h1>Your account is not activated yet</h1>
+                </div>
+                <hr size="1">
+                <div >
+                        Your account has not been activated yet. Please click on the link in the email we sent to activate or you can contact our Customer Support team for assistance.
+                </div>
+                <div style="text-align:right;">
+                    <button class="v-button v-button-orangebtn" type="button" onclick="return login();">Login</button>
+                </div>
+                #parse("templates/page/pageFooter_en_US.mt")
+        </div>
+    </div>
 </body>
 <script src="${defaultUrls.cdn_url}js/jquery-2.1.4.min.js"></script>
 <script>
-	function login(){
-		window.location.assign("$!loginURL");
-	}
+    function login(){
+        window.location.assign("$!loginURL");
+    }
 </script>
 </html>

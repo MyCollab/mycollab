@@ -38,8 +38,7 @@ public class UserAvatarHttpServletRequestHandler extends GenericHttpServlet {
     private static final Logger LOG = LoggerFactory.getLogger(UserAvatarHttpServletRequestHandler.class);
 
     @Override
-    protected void onHandleRequest(HttpServletRequest request,
-                                   HttpServletResponse response) throws ServletException, IOException {
+    protected void onHandleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (!StorageFactory.getInstance().isFileStorage()) {
             throw new MyCollabException("This servlet support file system setting only");
         }
@@ -55,13 +54,11 @@ public class UserAvatarHttpServletRequestHandler extends GenericHttpServlet {
                 size = Integer.parseInt(params[2]);
 
                 if (size <= 0) {
-                    LOG.error("Error to get avatar", new MyCollabException(
-                            String.format("Invalid request for avatar %s", path)));
+                    LOG.error("Error to get avatar", new MyCollabException(String.format("Invalid request for avatar %s", path)));
                     return;
                 }
             } else {
-                LOG.error("Error to get avatar", new MyCollabException(
-                        String.format("Invalid request for avatar %s", path)));
+                LOG.error("Error to get avatar", new MyCollabException(String.format("Invalid request for avatar %s", path)));
                 return;
             }
 
@@ -72,11 +69,9 @@ public class UserAvatarHttpServletRequestHandler extends GenericHttpServlet {
                 avatarInputStream = new FileInputStream(avatarFile);
             } else {
                 String userAvatarPath = String.format("assets/icons/default_user_avatar_%d.png", size);
-                avatarInputStream = UserAvatarHttpServletRequestHandler.class
-                        .getClassLoader().getResourceAsStream(userAvatarPath);
+                avatarInputStream = UserAvatarHttpServletRequestHandler.class.getClassLoader().getResourceAsStream(userAvatarPath);
                 if (avatarInputStream == null) {
-                    LOG.error("Error to get avatar", new MyCollabException(
-                            "Invalid request for avatar " + path));
+                    LOG.error("Error to get avatar", new MyCollabException("Invalid request for avatar " + path));
                     return;
                 }
             }

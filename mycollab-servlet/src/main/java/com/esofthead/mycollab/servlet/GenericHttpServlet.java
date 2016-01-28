@@ -38,8 +38,7 @@ public abstract class GenericHttpServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this,
-                config.getServletContext());
+        SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, config.getServletContext());
     }
 
     @Override
@@ -67,6 +66,5 @@ public abstract class GenericHttpServlet extends HttpServlet {
         return SiteConfiguration.getDefaultLocale();
     }
 
-    abstract protected void onHandleRequest(HttpServletRequest request,
-                                            HttpServletResponse response) throws ServletException, IOException;
+    abstract protected void onHandleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 }

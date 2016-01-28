@@ -65,10 +65,8 @@ public class AcceptInvitationPage extends VelocityWebServletRequestHandler {
     private IDeploymentMode deploymentMode;
 
     @Override
-    protected void onHandleRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void onHandleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String pathInfo = request.getPathInfo();
-
         String subDomain = "";
         String loginURL = request.getContextPath() + "/";
 

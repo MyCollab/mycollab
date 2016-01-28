@@ -15,21 +15,21 @@
 <title>Member deny invitation feedback page</title>
 </head>
 <body style="height: 100%; margin: 0; padding: 0; width: 100%;">
-	<div id="container" style="height:100%;">
-		#parse("templates/page/pageHeader.mt")
-		<div id="body" >
-			<div id="spacing"></div>
-			<div id="mainBody">
-				<div id="title">
-					<h1>Please Feedback To Inviter</h1>
-				</div>
-				<hr size="1">
-				<div>
-					Oops! We are sorry because you do not want to join the project '${projectName}'. Could you please drop some lines to tell reason to the inviter?
-					<div style="display: block; padding: 8px 8px 8px 8px;">
+    <div id="container" style="height:100%;">
+        #parse("templates/page/pageHeader.mt")
+        <div id="body" >
+            <div id="spacing"></div>
+            <div id="mainBody">
+                <div id="title">
+                    <h1>Please Feedback To Inviter</h1>
+                </div>
+                <hr size="1">
+                <div>
+                    Oops! We are sorry because you do not want to join the project '${projectName}'. Could you please drop some lines to tell reason to the inviter?
+                    <div style="display: block; padding: 8px 8px 8px 8px;">
                     <textarea id="message" rows="8" style="width:750px;">
                     </textarea>
-                	</div>
+                    </div>
                     <div style="display: block; text-align: right;">
                         <button class="v-button v-button-orangebtn" type="button" onclick="return sendEmailFeedBack();">Send</button>&nbsp&nbsp
                         <button class="v-button v-button-graybtn" type="button" onclick="return skip();">Skip</button>
@@ -39,12 +39,12 @@
                             (*) Reason
                         </span></p>
                     </div>
-				</div>
-				#parse("templates/page/pageFooter_en_US.mt")
-			</div>			
-		</div>
-	</div>
-	<input type="hidden" id="inviterEmail" value="$!inviterEmail">
+                </div>
+                #parse("templates/page/pageFooter_en_US.mt")
+            </div>            
+        </div>
+    </div>
+    <input type="hidden" id="inviterEmail" value="$!inviterEmail">
     <input type="hidden" id="url" value="$!redirectURL">
     <input type="hidden" id="toEmail" value="$!toEmail">
     <input type="hidden" id="toName" value="$!toName">

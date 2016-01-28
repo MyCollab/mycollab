@@ -15,30 +15,30 @@
 <title>The invitation is expired</title>
 </head>
 <body>
-	<div id="container">
-		#parse("templates/page/pageHeader.mt")
-		<div id="body">
-			<div id="spacing"></div>
-			<div id="mainBody">
-				<div id="title">
-					<h1>The invitation is expired</h1>
-				</div>
-				<hr size="1">
-				<div>
-						You can only accept this invitation within 7 days. Please ask your Project Admin to resend the invitation.
-				</div>
-				<div class="right">
-					<button class="v-button v-button-orangebtn" type="button" onclick="return login();">Login</button>
-				</div>
-				#parse("templates/page/pageFooter_en_US.mt")
-			</div>
-		</div>
-	</div>
+    <div id="container">
+        #parse("templates/page/pageHeader.mt")
+        <div id="body">
+            <div id="spacing"></div>
+            <div id="mainBody">
+                <div id="title">
+                    <h1>The invitation is expired</h1>
+                </div>
+                <hr size="1">
+                <div>
+                        You can only accept this invitation within 7 days. Please ask your Project Admin to resend the invitation.
+                </div>
+                <div class="right">
+                    <button class="v-button v-button-orangebtn" type="button" onclick="return login();">Login</button>
+                </div>
+                #parse("templates/page/pageFooter_en_US.mt")
+            </div>
+        </div>
+    </div>
 </body>
 <script src="${defaultUrls.cdn_url}js/jquery-2.1.4.min.js"></script>
 <script>
-	function login(){
-		window.location.assign("$!loginURL");
-	}
+    function login(){
+        window.location.assign("$!loginURL");
+    }
 </script>
 </html>

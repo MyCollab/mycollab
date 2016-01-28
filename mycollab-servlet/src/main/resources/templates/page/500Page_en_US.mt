@@ -15,38 +15,38 @@
 <title>Error</title>
 </head>
 <body style="height: 100%; margin: 0; padding: 0; width: 100%;">
-	<div id="container" style="height:100%;">
-		#parse("templates/page/pageHeader.mt")
-		<div id="body" >
-			<div id="spacing"></div>
-			<div id="mainBody">
-				<div id="title">
-					<h1>Error</h1>
-				</div>
-				<hr size="1">
-				<div id="content" style="padding-top: 20px">
-					<div id="content_left">
-						<div id="exclamation_mark">&#33;</div>
-						<div id="error_display">
-							<div id="error_code">500</div>
-							<div id="error_brief">Something's wrong</div>
-						</div>
-						<div class="clear"></div>
-					</div>
-					<div id="content_right">
-						<div id="error_excuse">
-							An unexpected error has occurred. We apologize for the inconvenience. Our team has been notified and will investigate the issue right away. 
-						</div>
-						<div id="back_to_home" style="padding-left:30px;padding-top:20px;">
-							<a class="v-button v-button-orangebtn" style="text-decoration : none;" href="https://www.mycollab.com">Return to the home page</a>
-						</div>
-						<div class="clear"></div>
-					</div>
-					<div class="clear"></div>
-				</div>
-				#parse("templates/page/pageFooter_en_US.mt")
-				</div>
-		</div>
-	</div>
+    <div id="container" style="height:100%;">
+        #parse("templates/page/pageHeader.mt")
+        <div id="body" >
+            <div id="spacing"></div>
+            <div id="mainBody">
+                <div id="title">
+                    <h1>Error</h1>
+                </div>
+                <hr size="1">
+                <div id="content" style="padding-top: 20px">
+                    <div id="content_left">
+                        <div id="exclamation_mark">&#33;</div>
+                        <div id="error_display">
+                            <div id="error_code">500</div>
+                            <div id="error_brief">Something's wrong</div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div id="content_right">
+                        <div id="error_excuse">
+                            An unexpected error has occurred. We apologize for the inconvenience. Our team has been notified and will investigate the issue right away. 
+                        </div>
+                        <div id="back_to_home" style="padding-left:30px;padding-top:20px;">
+                            <a class="v-button v-button-orangebtn" style="text-decoration : none;" href="https://www.mycollab.com">Return to the home page</a>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                #parse("templates/page/pageFooter_en_US.mt")
+                </div>
+        </div>
+    </div>
 </body>
 </html>

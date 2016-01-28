@@ -67,13 +67,11 @@ public class AcceptProjectInvitationHandler extends VelocityWebServletRequestHan
     private ProjectService projectService;
 
     @Override
-    protected void onHandleRequest(HttpServletRequest request,
-                                   HttpServletResponse response) throws ServletException, IOException {
+    protected void onHandleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String pathInfo = request.getPathInfo();
         if (pathInfo != null) {
             try {
                 UrlTokenizer urlTokenizer = new UrlTokenizer(pathInfo);
-
                 String inviteeEmail = urlTokenizer.getString();
                 int sAccountId = urlTokenizer.getInt();
                 int projectId = urlTokenizer.getInt();
@@ -95,7 +93,6 @@ public class AcceptProjectInvitationHandler extends VelocityWebServletRequestHan
                     context.put("inviterName", inviterName);
 
                     String html = generatePageByTemplate(response.getLocale(), EXPIRE_PAGE, context);
-
                     PrintWriter out = response.getWriter();
                     out.println(html);
                     return;
@@ -108,8 +105,7 @@ public class AcceptProjectInvitationHandler extends VelocityWebServletRequestHan
                 if (user != null) { // there is already user in the current account
                     handleMemberInviteWithExistAccount(siteUrl, inviteeEmail, projectId, sAccountId, projectRoleId, response);
                 } else {
-                    handleOutSideMemberInvite(siteUrl, inviteeEmail, projectId,
-                            sAccountId, projectRoleId, inviterName, response, request);
+                    handleOutSideMemberInvite(siteUrl, inviteeEmail, projectId, sAccountId, projectRoleId, inviterName, response, request);
                 }
             } catch (ResourceNotFoundException e) {
                 throw new ResourceNotFoundException();
@@ -146,8 +142,7 @@ public class AcceptProjectInvitationHandler extends VelocityWebServletRequestHan
                 userAccountMapper.insert(userAccount);
             }
             // search has in table projectMember
-            SimpleProjectMember member = projectMemberService
-                    .findMemberByUsername(username, projectId, sAccountId);
+            SimpleProjectMember member = projectMemberService.findMemberByUsername(username, projectId, sAccountId);
             if (member == null) {
                 ProjectMember projectMember = new ProjectMember();
                 projectMember.setProjectid(projectId);
@@ -176,8 +171,7 @@ public class AcceptProjectInvitationHandler extends VelocityWebServletRequestHan
         String projectLinkURL = ProjectLinkGenerator.generateProjectFullLink(
                 siteUrl, projectId);
 
-        String handelCreateAccountURL = request.getContextPath() + "/"
-                + "project/outside/createAccount/";
+        String handelCreateAccountURL = request.getContextPath() + "/project/outside/createAccount/";
         Map<String, Object> context = new HashMap<>();
         context.put("projectLinkURL", projectLinkURL);
         context.put("email", email);

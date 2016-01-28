@@ -15,31 +15,31 @@
 <title>User not exist page</title>
 </head>
 <body style="height: 100%; margin: 0; padding: 0; width: 100%;">
-	<div id="container" style="height:100%;">
-		#parse("templates/page/pageHeader.mt")
-		<div id="body" >
-			<div id="spacing"></div>
-			<div id="mainBody">
-				<div id="title">
-					<h1>User is not existed</h1>
-				</div>
-				<hr size="1">
-				<div >
-						The user ${username} is not existed in our database system. 
-				</div>
-				<div style="text-align:right;">
-					<button class="v-button v-button-orangebtn" type="button" onclick="return login();">Login</button>
-				</div>
-				#parse("templates/page/pageFooter_en_US.mt")
-			</div>
+    <div id="container" style="height:100%;">
+        #parse("templates/page/pageHeader.mt")
+        <div id="body" >
+            <div id="spacing"></div>
+            <div id="mainBody">
+                <div id="title">
+                    <h1>User is not existed</h1>
+                </div>
+                <hr size="1">
+                <div>
+                        The user ${username} is not existed in our database system. 
+                </div>
+                <div style="text-align:right;">
+                    <button class="v-button v-button-orangebtn" type="button" onclick="return login();">Login</button>
+                </div>
+                #parse("templates/page/pageFooter_en_US.mt")
+            </div>
 
-		</div>
-	</div>
+        </div>
+    </div>
 </body>
 <script src="${defaultUrls.cdn_url}js/jquery-2.1.4.min.js"></script>
 <script>
-	function login(){
-		window.location.assign("$!loginURL");
-	}
+    function login(){
+        window.location.assign("$!loginURL");
+    }
 </script>
 </html>
