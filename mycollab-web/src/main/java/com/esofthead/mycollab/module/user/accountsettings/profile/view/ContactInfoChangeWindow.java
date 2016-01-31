@@ -46,7 +46,6 @@ import java.util.Set;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@SuppressWarnings("serial")
 class ContactInfoChangeWindow extends Window {
     private TextField txtWorkPhone = new TextField();
     private TextField txtHomePhone = new TextField();
@@ -79,16 +78,11 @@ class ContactInfoChangeWindow extends Window {
         passInfo.addComponent(txtTwitter, "Twitter", 0, 3);
         passInfo.addComponent(txtSkype, "Skype", 0, 4);
 
-        this.txtWorkPhone.setValue(this.user.getWorkphone() == null ? ""
-                : this.user.getWorkphone());
-        this.txtHomePhone.setValue(this.user.getHomephone() == null ? ""
-                : this.user.getHomephone());
-        this.txtFaceBook.setValue(this.user.getFacebookaccount() == null ? ""
-                : this.user.getFacebookaccount());
-        this.txtTwitter.setValue(this.user.getTwitteraccount() == null ? ""
-                : this.user.getTwitteraccount());
-        this.txtSkype.setValue(this.user.getSkypecontact() == null ? ""
-                : this.user.getSkypecontact());
+        txtWorkPhone.setValue(user.getWorkphone() == null ? "" : user.getWorkphone());
+        txtHomePhone.setValue(user.getHomephone() == null ? "" : user.getHomephone());
+        txtFaceBook.setValue(user.getFacebookaccount() == null ? "" : user.getFacebookaccount());
+        txtTwitter.setValue(user.getTwitteraccount() == null ? "" : user.getTwitteraccount());
+        txtSkype.setValue(user.getSkypecontact() == null ? "" : user.getSkypecontact());
         mainLayout.addComponent(passInfo.getLayout());
         mainLayout.setComponentAlignment(passInfo.getLayout(), Alignment.TOP_LEFT);
 
@@ -132,11 +126,11 @@ class ContactInfoChangeWindow extends Window {
 
                 if (violation.getPropertyPath() != null && !violation.getPropertyPath().toString().equals("")) {
                     if (violation.getPropertyPath().toString().equals("workphone")) {
-                        this.txtWorkPhone.addStyleName("errorField");
+                        txtWorkPhone.addStyleName("errorField");
                     }
 
                     if (violation.getPropertyPath().toString().equals("homephone")) {
-                        this.txtHomePhone.addStyleName("errorField");
+                        txtHomePhone.addStyleName("errorField");
                     }
                 }
             }
@@ -149,23 +143,22 @@ class ContactInfoChangeWindow extends Window {
     }
 
     private void changeUserInfo() {
-        this.txtWorkPhone.removeStyleName("errorField");
-        this.txtHomePhone.removeStyleName("errorField");
+        txtWorkPhone.removeStyleName("errorField");
+        txtHomePhone.removeStyleName("errorField");
 
-        this.user.setWorkphone(this.txtWorkPhone.getValue());
-        this.user.setHomephone(this.txtHomePhone.getValue());
-        this.user.setFacebookaccount(this.txtFaceBook.getValue());
-        this.user.setTwitteraccount(this.txtTwitter.getValue());
-        this.user.setSkypecontact(this.txtSkype.getValue());
+        user.setWorkphone(txtWorkPhone.getValue());
+        user.setHomephone(txtHomePhone.getValue());
+        user.setFacebookaccount(txtFaceBook.getValue());
+        user.setTwitteraccount(txtTwitter.getValue());
+        user.setSkypecontact(txtSkype.getValue());
 
-        if (validateForm(this.user)) {
+        if (validateForm(user)) {
             UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
-            userService.updateWithSession(this.user, AppContext.getUsername());
+            userService.updateWithSession(user, AppContext.getUsername());
 
             EventBusFactory.getInstance().post(new ProfileEvent.GotoProfileView(ContactInfoChangeWindow.this, null));
             close();
             Page.getCurrent().getJavaScript().execute("window.location.reload();");
         }
-
     }
 }

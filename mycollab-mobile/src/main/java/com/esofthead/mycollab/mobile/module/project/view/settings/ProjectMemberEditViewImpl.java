@@ -188,7 +188,7 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
                 roleComboBox.setValue(value);
                 displayRolePermission((Integer) roleComboBox.getValue());
             } else if (value == null) {
-                if (Boolean.TRUE.equals(beanItem.getIsadmin())) {
+                if (Boolean.TRUE == beanItem.getIsadmin()) {
                     roleComboBox.setValue(-1);
                     displayRolePermission(null);
                 }

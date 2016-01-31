@@ -16,13 +16,12 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import java.io.Serializable;
-
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 
+import java.io.Serializable;
+
 /**
- *
  * @author MyCollab Ltd.
  * @since 2.0
  */

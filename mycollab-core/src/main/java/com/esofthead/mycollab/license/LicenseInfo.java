@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.license;
 
+import org.joda.time.LocalDateTime;
+
 import java.util.Date;
 
 /**
@@ -23,7 +25,6 @@ import java.util.Date;
  * @since 5.2.6
  */
 public class LicenseInfo {
-    private LicenseType edition;
 
     private String customerId;
 
@@ -33,15 +34,9 @@ public class LicenseInfo {
 
     private String licenseOrg;
 
+    private LicenseType licenseType = LicenseType.PRO_TRIAL;
+
     private Integer maxUsers = Integer.MAX_VALUE;
-
-    public LicenseType getEdition() {
-        return edition;
-    }
-
-    public void setEdition(LicenseType edition) {
-        this.edition = edition;
-    }
 
     public String getCustomerId() {
         return customerId;
@@ -81,5 +76,21 @@ public class LicenseInfo {
 
     public void setMaxUsers(Integer maxUsers) {
         this.maxUsers = maxUsers;
+    }
+
+    public LicenseType getLicenseType() {
+        return licenseType;
+    }
+
+    public void setLicenseType(LicenseType licenseType) {
+        this.licenseType = licenseType;
+    }
+
+    public boolean isExpired() {
+        return expireDate.before(new LocalDateTime().toDate());
+    }
+
+    public boolean isTrial() {
+        return LicenseType.PRO_TRIAL == licenseType;
     }
 }

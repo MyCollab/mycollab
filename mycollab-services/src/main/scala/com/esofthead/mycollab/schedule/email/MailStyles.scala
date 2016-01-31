@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.schedule.email
 
+import com.hp.gagawa.java.elements.{Td, Tr, Img}
+
 import scala.collection.mutable._
 
 /**

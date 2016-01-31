@@ -23,11 +23,11 @@ import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.IPreviewView;
 
 /**
- * 
  * @author MyCollab Ltd.
+ * @since 1.0.0
  */
 public interface RoleReadView extends IPreviewView<SimpleRole> {
 
-	HasPreviewFormHandlers<Role> getPreviewFormHandlers();
+    HasPreviewFormHandlers<Role> getPreviewFormHandlers();
 
 }

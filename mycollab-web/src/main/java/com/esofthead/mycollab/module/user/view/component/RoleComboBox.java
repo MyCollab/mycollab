@@ -32,10 +32,8 @@ import java.util.List;
  * @since 1.0
  */
 public class RoleComboBox extends ComboBox {
-
     private static final long serialVersionUID = 1L;
 
-    @SuppressWarnings("unchecked")
     public RoleComboBox() {
         super();
         this.setNullSelectionAllowed(false);

@@ -38,7 +38,6 @@ import com.vaadin.ui.Button.ClickEvent;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@SuppressWarnings("serial")
 public class BugSimpleSearchPanel extends GenericSearchPanel<BugSearchCriteria> {
     private BugSearchCriteria searchCriteria;
     private TextField textValueField;
@@ -57,11 +56,9 @@ public class BugSimpleSearchPanel extends GenericSearchPanel<BugSearchCriteria> 
 
         chkIsOpenBug = new CheckBox("Only Open Bugs");
         layoutSearchPane.addComponent(chkIsOpenBug, 2, 0);
-        layoutSearchPane.setComponentAlignment(chkIsOpenBug,
-                Alignment.MIDDLE_CENTER);
+        layoutSearchPane.setComponentAlignment(chkIsOpenBug, Alignment.MIDDLE_CENTER);
 
-        Button searchBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
+        Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
         searchBtn.setStyleName(UIConstants.BUTTON_ACTION);
         searchBtn.setIcon(FontAwesome.SEARCH);
         searchBtn.addClickListener(new Button.ClickListener() {
@@ -71,11 +68,9 @@ public class BugSimpleSearchPanel extends GenericSearchPanel<BugSearchCriteria> 
             }
         });
         layoutSearchPane.addComponent(searchBtn, 3, 0);
-        layoutSearchPane.setComponentAlignment(searchBtn,
-                Alignment.MIDDLE_CENTER);
+        layoutSearchPane.setComponentAlignment(searchBtn, Alignment.MIDDLE_CENTER);
 
-        Button clearBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
+        Button clearBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
         clearBtn.setStyleName(UIConstants.BUTTON_OPTION);
         clearBtn.addClickListener(new Button.ClickListener() {
             @Override
@@ -85,16 +80,14 @@ public class BugSimpleSearchPanel extends GenericSearchPanel<BugSearchCriteria> 
         });
 
         layoutSearchPane.addComponent(clearBtn, 4, 0);
-        layoutSearchPane.setComponentAlignment(clearBtn,
-                Alignment.MIDDLE_CENTER);
+        layoutSearchPane.setComponentAlignment(clearBtn, Alignment.MIDDLE_CENTER);
 
         this.setCompositionRoot(layoutSearchPane);
     }
 
     private void doSearch() {
         searchCriteria = new BugSearchCriteria();
-        searchCriteria.setProjectId(new NumberSearchField(
-                SearchField.AND, CurrentProjectVariables.getProject().getId()));
+        searchCriteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProject().getId()));
         searchCriteria.setSummary(StringSearchField.and(textValueField.getValue().trim()));
 
         if (chkIsOpenBug.getValue()) {

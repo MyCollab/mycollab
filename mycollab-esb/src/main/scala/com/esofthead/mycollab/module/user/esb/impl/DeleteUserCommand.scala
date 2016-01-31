@@ -27,28 +27,27 @@ import com.esofthead.mycollab.module.project.domain.{ProjectMember, ProjectMembe
 import com.esofthead.mycollab.module.project.service.ProjectMemberService
 import com.esofthead.mycollab.module.user.esb.DeleteUserEvent
 import com.google.common.eventbus.{AllowConcurrentEvents, Subscribe}
-import org.slf4j.{Logger, LoggerFactory}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 /**
- *
- * @author MyCollab Ltd.
- * @since 1.0
- *
- */
+  *
+  * @author MyCollab Ltd.
+  * @since 1.0
+  *
+  */
 @Component class DeleteUserCommand extends GenericCommand {
-    @Autowired private val projectMemberMapper: ProjectMemberMapper = null
+  @Autowired private val projectMemberMapper: ProjectMemberMapper = null
 
-    @AllowConcurrentEvents
-    @Subscribe
-    def execute(event: DeleteUserEvent): Unit = {
-        val ex: ProjectMemberExample = new ProjectMemberExample
-        ex.createCriteria.andStatusIn(Arrays.asList(RegisterStatusConstants.ACTIVE, RegisterStatusConstants.SENT_VERIFICATION_EMAIL,
-            RegisterStatusConstants.VERIFICATING)).andSaccountidEqualTo(event.accountid).andUsernameEqualTo(event.username)
-        val projectMember: ProjectMember = new ProjectMember
-        projectMember.setStatus(ProjectMemberStatusConstants.INACTIVE)
-        projectMemberMapper.updateByExampleSelective(projectMember, ex)
-        asyncEventBus.post(new CleanCacheEvent(event.accountid, Array(classOf[ProjectMemberService])))
-    }
+  @AllowConcurrentEvents
+  @Subscribe
+  def execute(event: DeleteUserEvent): Unit = {
+    val ex: ProjectMemberExample = new ProjectMemberExample
+    ex.createCriteria.andStatusIn(Arrays.asList(RegisterStatusConstants.ACTIVE, RegisterStatusConstants.SENT_VERIFICATION_EMAIL,
+      RegisterStatusConstants.VERIFICATING)).andSaccountidEqualTo(event.accountid).andUsernameEqualTo(event.username)
+    val projectMember: ProjectMember = new ProjectMember
+    projectMember.setStatus(ProjectMemberStatusConstants.INACTIVE)
+    projectMemberMapper.updateByExampleSelective(projectMember, ex)
+    asyncEventBus.post(new CleanCacheEvent(event.accountid, Array(classOf[ProjectMemberService])))
+  }
 }

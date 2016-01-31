@@ -70,7 +70,7 @@
 
     <context-param>
         <param-name>heartbeatInterval</param-name>
-        <param-value>3000</param-value>
+        <param-value>120</param-value>
     </context-param>
     
     <mime-mapping>

@@ -54,7 +54,6 @@ public class ProjectRoleListPresenter extends ListSelectionPresenter<ProjectRole
     @Override
     protected void postInitView() {
         super.postInitView();
-
         projectRoleService = ApplicationContextUtil.getSpringBean(ProjectRoleService.class);
 
         view.getPopupActionHandlers().setMassActionHandler(new DefaultMassEditActionHandler(this) {

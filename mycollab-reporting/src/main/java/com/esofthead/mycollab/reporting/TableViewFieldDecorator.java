@@ -26,11 +26,9 @@ import static net.sf.dynamicreports.report.builder.DynamicReports.cmp;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@SuppressWarnings("serial")
 public class TableViewFieldDecorator extends TableViewField {
     private TableViewField tableField;
 
-    @SuppressWarnings("rawtypes")
     private ComponentBuilder componentBuilder;
 
     TableViewFieldDecorator(TableViewField tableField) {
@@ -66,7 +64,6 @@ public class TableViewFieldDecorator extends TableViewField {
         tableField.setDefaultWidth(defaultWidth);
     }
 
-    @SuppressWarnings("rawtypes")
     public ComponentBuilder getComponentBuilder() {
         if (componentBuilder == null) {
             componentBuilder = cmp.text(new PrimityTypeFieldExpression(tableField.getField())).setWidth(
@@ -75,7 +72,6 @@ public class TableViewFieldDecorator extends TableViewField {
         return componentBuilder;
     }
 
-    @SuppressWarnings("rawtypes")
     public void setComponentBuilder(ComponentBuilder componentBuilder) {
         this.componentBuilder = componentBuilder;
     }

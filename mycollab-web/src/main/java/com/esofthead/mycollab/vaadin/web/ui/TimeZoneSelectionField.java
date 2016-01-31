@@ -29,22 +29,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
-@SuppressWarnings("serial")
 public class TimeZoneSelectionField extends CustomField<String> {
     private boolean isVerticalDisplay = true;
-	private ValueComboBox areaSelection;
-	private ValueComboBox timezoneSelection;
-	private List<String> timezoneAreas = new ArrayList<>();
+    private ValueComboBox areaSelection;
+    private ValueComboBox timezoneSelection;
+    private List<String> timezoneAreas = new ArrayList<>();
 
-	public TimeZoneSelectionField(boolean isVerticalDisplay) {
+    public TimeZoneSelectionField(boolean isVerticalDisplay) {
         this.isVerticalDisplay = isVerticalDisplay;
-		areaSelection = new ValueComboBox(false, TimezoneMapper.AREAS);
-		areaSelection.addValueChangeListener(new Property.ValueChangeListener() {
+        areaSelection = new ValueComboBox(false, TimezoneMapper.AREAS);
+        areaSelection.addValueChangeListener(new Property.ValueChangeListener() {
 
             @Override
             public void valueChange(
@@ -54,18 +51,18 @@ public class TimeZoneSelectionField extends CustomField<String> {
             }
         });
 
-		for (TimezoneExt timezone : TimezoneMapper.timeMap.values()) {
-			if (timezone.getArea().equals(areaSelection.getValue())) {
-				timezoneAreas.add(timezone.getDisplayName());
-			}
-		}
+        for (TimezoneExt timezone : TimezoneMapper.timeMap.values()) {
+            if (timezone.getArea().equals(areaSelection.getValue())) {
+                timezoneAreas.add(timezone.getDisplayName());
+            }
+        }
 
-		String[] arrayTimezone = timezoneAreas.toArray(new String[timezoneAreas.size()]);
-		timezoneSelection = new ValueComboBox(false, arrayTimezone);
-	}
+        String[] arrayTimezone = timezoneAreas.toArray(new String[timezoneAreas.size()]);
+        timezoneSelection = new ValueComboBox(false, arrayTimezone);
+    }
 
-	@Override
-	protected Component initContent() {
+    @Override
+    protected Component initContent() {
         if (isVerticalDisplay) {
             MVerticalLayout layout = new MVerticalLayout().withMargin(false);
             layout.with(areaSelection, timezoneSelection);
@@ -75,38 +72,37 @@ public class TimeZoneSelectionField extends CustomField<String> {
             layout.with(areaSelection, timezoneSelection);
             return layout;
         }
-	}
+    }
 
-	private void setCboTimeZone(String area) {
-		for (TimezoneExt timezone : TimezoneMapper.timeMap.values()) {
-			if (timezone.getArea().trim().equals(area)) {
-				timezoneAreas.add(timezone.getDisplayName());
-			}
-		}
+    private void setCboTimeZone(String area) {
+        for (TimezoneExt timezone : TimezoneMapper.timeMap.values()) {
+            if (timezone.getArea().trim().equals(area)) {
+                timezoneAreas.add(timezone.getDisplayName());
+            }
+        }
 
-		timezoneSelection.removeAllItems();
-		String[] arrayTimezone = timezoneAreas
-				.toArray(new String[timezoneAreas.size()]);
-		timezoneSelection.loadData(arrayTimezone);
-	}
+        timezoneSelection.removeAllItems();
+        String[] arrayTimezone = timezoneAreas.toArray(new String[timezoneAreas.size()]);
+        timezoneSelection.loadData(arrayTimezone);
+    }
 
-	public void setTimeZone(TimezoneExt timeZone) {
-		if (timeZone != null && !timeZone.getArea().equals("")) {
-			areaSelection.select(timeZone.getArea());
-			setCboTimeZone(timeZone.getArea());
-			timezoneSelection.select(timeZone.getDisplayName());
-		}
-	}
+    public void setTimeZone(TimezoneExt timeZone) {
+        if (timeZone != null && !timeZone.getArea().equals("")) {
+            areaSelection.select(timeZone.getArea());
+            setCboTimeZone(timeZone.getArea());
+            timezoneSelection.select(timeZone.getDisplayName());
+        }
+    }
 
-	public TimezoneExt getTimeZone() {
-		for (TimezoneExt timezone : TimezoneMapper.timeMap.values()) {
-			if (timezone.getDisplayName().trim()
-					.equals(timezoneSelection.getValue())) {
-				return timezone;
-			}
-		}
-		return null;
-	}
+    public TimezoneExt getTimeZone() {
+        for (TimezoneExt timezone : TimezoneMapper.timeMap.values()) {
+            if (timezone.getDisplayName().trim()
+                    .equals(timezoneSelection.getValue())) {
+                return timezone;
+            }
+        }
+        return null;
+    }
 
     @Override
     public void setPropertyDataSource(Property newDataSource) {
@@ -126,8 +122,8 @@ public class TimeZoneSelectionField extends CustomField<String> {
         super.commit();
     }
 
-	@Override
-	public Class<String> getType() {
-		return String.class;
-	}
+    @Override
+    public Class<String> getType() {
+        return String.class;
+    }
 }

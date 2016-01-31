@@ -148,7 +148,7 @@ public class CrmColumnBuilderMapper implements InitializingBean {
     private Map<String, MValue> buildCampaignMap() {
         LOG.debug("Build report mapper for crm::campaign module");
         Map<String, MValue> map = new HashMap<>();
-        DRIExpression<String> assigneeTitleExpr = new PrimityTypeFieldExpression("assignUserFullName");
+        DRIExpression<String> assigneeTitleExpr = new PrimityTypeFieldExpression<>("assignUserFullName");
         DRIExpression<String> assigneeHrefExpr = new AbstractSimpleExpression<String>() {
             private static final long serialVersionUID = 1L;
 
@@ -172,9 +172,9 @@ public class CrmColumnBuilderMapper implements InitializingBean {
 
             @Override
             public String evaluate(ReportParameters reportParameters) {
-                Integer campaignid = reportParameters.getFieldValue("id");
+                Integer campaignId = reportParameters.getFieldValue("id");
                 String siteUrl = reportParameters.getParameterValue("siteUrl");
-                return CrmLinkGenerator.generateCampaignPreviewFullLink(siteUrl, campaignid);
+                return CrmLinkGenerator.generateCampaignPreviewFullLink(siteUrl, campaignId);
             }
         };
         map.put("campaignname", new HyperlinkValue(campaignTitleExpr, campaignHrefExpr));
@@ -209,9 +209,9 @@ public class CrmColumnBuilderMapper implements InitializingBean {
 
             @Override
             public String evaluate(ReportParameters reportParameters) {
-                Integer leadid = reportParameters.getFieldValue("id");
+                Integer leadId = reportParameters.getFieldValue("id");
                 String siteUrl = reportParameters.getParameterValue("siteUrl");
-                return CrmLinkGenerator.generateLeadPreviewFullLink(siteUrl, leadid);
+                return CrmLinkGenerator.generateLeadPreviewFullLink(siteUrl, leadId);
             }
         };
         map.put("leadName", new HyperlinkValue(leadTitleExpr, leadHrefExpr));
@@ -246,9 +246,9 @@ public class CrmColumnBuilderMapper implements InitializingBean {
 
             @Override
             public String evaluate(ReportParameters reportParameters) {
-                Integer opportunityid = reportParameters.getFieldValue("id");
+                Integer opportunityId = reportParameters.getFieldValue("id");
                 String siteUrl = reportParameters.getParameterValue("siteUrl");
-                return CrmLinkGenerator.generateOpportunityPreviewFullLink(siteUrl, opportunityid);
+                return CrmLinkGenerator.generateOpportunityPreviewFullLink(siteUrl, opportunityId);
             }
         };
 
@@ -316,9 +316,9 @@ public class CrmColumnBuilderMapper implements InitializingBean {
 
             @Override
             public String evaluate(ReportParameters reportParameters) {
-                Integer caseid = reportParameters.getFieldValue("id");
+                Integer caseId = reportParameters.getFieldValue("id");
                 String siteUrl = reportParameters.getParameterValue("siteUrl");
-                return CrmLinkGenerator.generateCasePreviewFullLink(siteUrl, caseid);
+                return CrmLinkGenerator.generateCasePreviewFullLink(siteUrl, caseId);
             }
         };
         map.put("subject", new HyperlinkValue(caseTitleExpr, caseHrefExpr));

@@ -52,7 +52,6 @@ import java.util.GregorianCalendar;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@SuppressWarnings("serial")
 public class ReOpenWindow extends Window {
     private final SimpleBug bug;
     private VersionMultiSelectField fixedVersionSelect;

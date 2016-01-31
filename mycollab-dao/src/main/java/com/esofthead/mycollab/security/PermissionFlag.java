@@ -18,7 +18,9 @@ package com.esofthead.mycollab.security;
 
 /**
  * Signal interface of Permission flag
- * 
+ *
+ * @author MyCollab Ltd
+ * @since 1.0.0
  */
 public interface PermissionFlag {
 

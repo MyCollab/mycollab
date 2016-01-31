@@ -3,6 +3,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Project Invitation</title>
+<style>
+a {
+  color: $styles.link_color;
+}
+</style>
 </head>
 <body style="background-color: ${styles.background}; font: ${styles.font}; padding: 0px;">
     #macro( linkBlock $webLink $displayName)
@@ -33,14 +38,8 @@
         </div>
     #end
     
-    <table width="700" cellpadding="0" cellspacing="0" border="0" style="margin: 20px auto;">
-        <tr>
-            <td>
-                <div style="padding: 0px 25px;">
-                    <img src="${defaultUrls.cdn_url}icons/logo.png" alt="The power productivity tool for your organization" width="130" height="30" style="margin: 0px; padding: 0px;">
-                </div>
-            </td>
-        </tr>
+    <table width="600" cellpadding="0" cellspacing="0" border="0" style="margin: 20px auto;">
+        #parse("templates/email/logo.mt")
         <tr>
             <td style="padding: 10px 25px;">
                 <div><img src="${defaultUrls.cdn_url}icons/default_user_avatar_16.png" width="16" height="16"

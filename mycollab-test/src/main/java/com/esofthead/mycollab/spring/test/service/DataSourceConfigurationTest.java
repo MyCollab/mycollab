@@ -25,6 +25,10 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import javax.sql.DataSource;
 
+/**
+ * @author MyCollab Ltd
+ * @since 1.0.0
+ */
 @Configuration
 @Profile("test")
 @MapperScan("com.esofthead.mycollab.**.dao")

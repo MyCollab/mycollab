@@ -23,26 +23,21 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1.2
- * 
  */
 public class ColumnBuilderClassMapper {
-	@SuppressWarnings("rawtypes")
-	private static Map<Class, Map<String, MValue>> mapInjection = new ConcurrentHashMap<>();
+    private static Map<Class, Map<String, MValue>> mapInjection = new ConcurrentHashMap<>();
 
-	static {
-		ReportTemplateFactory.getTemplate(SiteConfiguration.getDefaultLocale());
-	}
+    static {
+        ReportTemplateFactory.getTemplate(SiteConfiguration.getDefaultLocale());
+    }
 
-	@SuppressWarnings("rawtypes")
-	public static void put(Class cls, Map<String, MValue> columns) {
-		mapInjection.put(cls, columns);
-	}
+    public static void put(Class cls, Map<String, MValue> columns) {
+        mapInjection.put(cls, columns);
+    }
 
-	@SuppressWarnings("rawtypes")
-	public static Map<String, MValue> getListFieldBuilder(Class cls) {
-		return mapInjection.get(cls);
-	}
+    public static Map<String, MValue> getListFieldBuilder(Class cls) {
+        return mapInjection.get(cls);
+    }
 }

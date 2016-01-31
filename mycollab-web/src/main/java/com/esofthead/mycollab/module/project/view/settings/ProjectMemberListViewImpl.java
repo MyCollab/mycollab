@@ -176,7 +176,7 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
         memberInfo.addComponent(new Hr());
 
         String roleLink = String.format("<a href=\"%s%s%s\"", AppContext.getSiteUrl(), GenericLinkUtils.URL_PREFIX_PARAM,
-                ProjectLinkGenerator.generateRolePreviewLink(member.getProjectid(), member.getProjectRoleId()));
+                ProjectLinkGenerator.generateRolePreviewLink(member.getProjectid(), member.getProjectroleid()));
         Label memberRole = new Label();
         memberRole.setContentMode(ContentMode.HTML);
         if (member.isProjectOwner()) {

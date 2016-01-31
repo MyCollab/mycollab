@@ -14,6 +14,22 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-scheduler.  If not, see <http://www.gnu.org/licenses/>.
  */
+/**
+  * This file is part of mycollab-scheduler.
+  *
+  * mycollab-scheduler is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 3 of the License, or
+  * (at your option) any later version.
+  *
+  * mycollab-scheduler is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with mycollab-scheduler.  If not, see <http://www.gnu.org/licenses/>.
+  */
 package com.esofthead.mycollab.schedule.jobs
 
 import java.util
@@ -23,8 +39,8 @@ import com.esofthead.mycollab.common.domain.MailRecipientField
 import com.esofthead.mycollab.common.{FontAwesomeUtils, NotificationType}
 import com.esofthead.mycollab.configuration.{SiteConfiguration, StorageFactory}
 import com.esofthead.mycollab.core.MyCollabException
-import com.esofthead.mycollab.core.arguments.{NumberSearchField, RangeDateSearchField, SetSearchField}
-import com.esofthead.mycollab.core.utils.DateTimeUtils
+import com.esofthead.mycollab.core.arguments.{SearchField, NumberSearchField, RangeDateSearchField, SetSearchField}
+import com.esofthead.mycollab.core.utils.{BeanUtility, DateTimeUtils}
 import com.esofthead.mycollab.html.DivLessFormatter
 import com.esofthead.mycollab.module.mail.service.{ExtMailService, IContentGenerator}
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria
@@ -37,6 +53,7 @@ import com.esofthead.mycollab.schedule.jobs.OverdueProjectAssignmentsNotificatio
 import com.hp.gagawa.java.elements.{A, Div, Img}
 import org.joda.time.LocalDate
 import org.quartz.{JobExecutionContext, JobExecutionException}
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.config.BeanDefinition
 import org.springframework.context.annotation.Scope
@@ -47,28 +64,36 @@ import org.springframework.stereotype.Component
   * @since 5.2.6
   */
 object OverdueProjectAssignmentsNotificationJob {
+  private val LOG = LoggerFactory.getLogger(classOf[OverdueProjectAssignmentsNotificationJob])
 
   class OverdueAssignmentFormatter {
     def formatDate(date: Date): String = DateTimeUtils.formatDate(date, "yyyy-MM-dd")
 
     def formatLink(subdomain: String, assignment: ProjectGenericTask): String = {
-      assignment.getType match {
-        case ProjectTypeConstants.BUG => new Div().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.BUG)).
-          appendChild(DivLessFormatter.EMPTY_SPACE, new A(ProjectLinkGenerator.generateBugPreviewFullLink(SiteConfiguration.getSiteUrl(subdomain),
-            assignment.getExtraTypeId, assignment.getProjectShortName)).appendText(assignment.getName)).write()
-        case ProjectTypeConstants.TASK => new Div().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.TASK)).
-          appendChild(DivLessFormatter.EMPTY_SPACE, new A(ProjectLinkGenerator.generateTaskPreviewFullLink(SiteConfiguration.getSiteUrl(subdomain),
-            assignment.getExtraTypeId, assignment.getProjectShortName)).appendText(assignment.getName)).write()
-        case ProjectTypeConstants.RISK => new Div().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.RISK)).
-          appendChild(DivLessFormatter.EMPTY_SPACE, new A(ProjectLinkGenerator.generateRiskPreviewFullLink(SiteConfiguration.getSiteUrl(subdomain),
-            assignment.getProjectId, assignment.getTypeId)).appendText(assignment.getName)).write()
-        case ProjectTypeConstants.PROBLEM => new Div().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.PROBLEM)).
-          appendChild(DivLessFormatter.EMPTY_SPACE, new A(ProjectLinkGenerator.generateProblemPreviewFullLink(SiteConfiguration.getSiteUrl(subdomain),
-            assignment.getProjectId, assignment.getTypeId)).appendText(assignment.getName)).write()
-        case ProjectTypeConstants.MILESTONE => new Div().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.MILESTONE)).
-          appendChild(DivLessFormatter.EMPTY_SPACE, new A(ProjectLinkGenerator.generateMilestonePreviewFullLink(SiteConfiguration.getSiteUrl(subdomain),
-            assignment.getProjectId, assignment.getTypeId)).appendText(assignment.getName)).write()
-        case typeVal => throw new MyCollabException("Do not support type " + typeVal)
+      try {
+        assignment.getType match {
+          case ProjectTypeConstants.BUG => new Div().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.BUG)).
+            appendChild(DivLessFormatter.EMPTY_SPACE, new A(ProjectLinkGenerator.generateBugPreviewFullLink(SiteConfiguration.getSiteUrl(subdomain),
+              assignment.getExtraTypeId, assignment.getProjectShortName)).appendText(assignment.getName)).write()
+          case ProjectTypeConstants.TASK => new Div().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.TASK)).
+            appendChild(DivLessFormatter.EMPTY_SPACE, new A(ProjectLinkGenerator.generateTaskPreviewFullLink(SiteConfiguration.getSiteUrl(subdomain),
+              assignment.getExtraTypeId, assignment.getProjectShortName)).appendText(assignment.getName)).write()
+          case ProjectTypeConstants.RISK => new Div().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.RISK)).
+            appendChild(DivLessFormatter.EMPTY_SPACE, new A(ProjectLinkGenerator.generateRiskPreviewFullLink(SiteConfiguration.getSiteUrl(subdomain),
+              assignment.getProjectId, assignment.getTypeId)).appendText(assignment.getName)).write()
+          case ProjectTypeConstants.PROBLEM => new Div().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.PROBLEM)).
+            appendChild(DivLessFormatter.EMPTY_SPACE, new A(ProjectLinkGenerator.generateProblemPreviewFullLink(SiteConfiguration.getSiteUrl(subdomain),
+              assignment.getProjectId, assignment.getTypeId)).appendText(assignment.getName)).write()
+          case ProjectTypeConstants.MILESTONE => new Div().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.MILESTONE)).
+            appendChild(DivLessFormatter.EMPTY_SPACE, new A(ProjectLinkGenerator.generateMilestonePreviewFullLink(SiteConfiguration.getSiteUrl(subdomain),
+              assignment.getProjectId, assignment.getTypeId)).appendText(assignment.getName)).write()
+          case typeVal => throw new MyCollabException("Do not support type " + typeVal)
+        }
+      } catch {
+        case e: Exception => {
+          LOG.error("Error in format assignment", BeanUtility.printBeanObj(assignment))
+          SiteConfiguration.getSiteUrl(subdomain)
+        }
       }
     }
 
@@ -103,6 +128,7 @@ class OverdueProjectAssignmentsNotificationJob extends GenericQuartzJobBean {
     val past = now.minusDays(10000)
     val rangeDate = new RangeDateSearchField(past.toDate, now.toDate)
     searchCriteria.setDateInRange(rangeDate)
+    searchCriteria.setIsOpenned(new SearchField())
     import scala.collection.JavaConverters._
     val accountIds = projectGenericTaskService.getAccountsHasOverdueAssignments(searchCriteria).asScala.toList
     if (accountIds != null) {

@@ -16,31 +16,29 @@
  */
 package com.esofthead.mycollab.reporting;
 
+import com.esofthead.mycollab.common.TableViewField;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import com.esofthead.mycollab.common.TableViewField;
-
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class RpFieldsBuilder {
-	private List<TableViewFieldDecorator> viewFields;
+    private List<TableViewFieldDecorator> viewFields;
 
-	public RpFieldsBuilder(List<TableViewField> fields) {
-		viewFields = new ArrayList<>();
+    public RpFieldsBuilder(List<TableViewField> fields) {
+        viewFields = new ArrayList<>();
 
-		for (TableViewField field : fields) {
-			TableViewFieldDecorator fieldDecorator = new TableViewFieldDecorator(field);
-			viewFields.add(fieldDecorator);
-		}
-	}
+        for (TableViewField field : fields) {
+            TableViewFieldDecorator fieldDecorator = new TableViewFieldDecorator(field);
+            viewFields.add(fieldDecorator);
+        }
+    }
 
-	public List<TableViewFieldDecorator> getFields() {
-		return viewFields;
-	}
+    public List<TableViewFieldDecorator> getFields() {
+        return viewFields;
+    }
 
 }

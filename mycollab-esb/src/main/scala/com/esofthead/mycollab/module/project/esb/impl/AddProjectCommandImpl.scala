@@ -27,31 +27,31 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 /**
- * @author MyCollab Ltd
- * @since 5.1.1
- */
+  * @author MyCollab Ltd
+  * @since 5.1.1
+  */
 @Component class AddProjectCommandImpl extends GenericCommand {
-    @Autowired val optionValMapper: OptionValMapper = null
+  @Autowired val optionValMapper: OptionValMapper = null
 
-    @AllowConcurrentEvents
-    @Subscribe
-    def addProject(event: AddProjectEvent): Unit = {
-        val ex: OptionValExample = new OptionValExample
-        ex.createCriteria().andIsdefaultEqualTo(true).andSaccountidEqualTo(event.accountId)
-        import scala.collection.JavaConversions._
-        val defaultOptions = optionValMapper.selectByExample(ex)
-        for (option <- defaultOptions) {
-            val prjOption = new OptionVal
-            prjOption.setCreatedtime(new GregorianCalendar().getTime)
-            prjOption.setDescription(option.getDescription)
-            prjOption.setExtraid(event.projectId)
-            prjOption.setIsdefault(false)
-            prjOption.setSaccountid(event.accountId)
-            prjOption.setType(option.getType)
-            prjOption.setTypeval(option.getTypeval)
-            prjOption.setRefoption(option.getId)
-            prjOption.setColor("fdde86")
-            optionValMapper.insert(prjOption)
-        }
+  @AllowConcurrentEvents
+  @Subscribe
+  def addProject(event: AddProjectEvent): Unit = {
+    val ex: OptionValExample = new OptionValExample
+    ex.createCriteria().andIsdefaultEqualTo(true).andSaccountidEqualTo(event.accountId)
+    import scala.collection.JavaConversions._
+    val defaultOptions = optionValMapper.selectByExample(ex)
+    for (option <- defaultOptions) {
+      val prjOption = new OptionVal
+      prjOption.setCreatedtime(new GregorianCalendar().getTime)
+      prjOption.setDescription(option.getDescription)
+      prjOption.setExtraid(event.projectId)
+      prjOption.setIsdefault(false)
+      prjOption.setSaccountid(event.accountId)
+      prjOption.setType(option.getType)
+      prjOption.setTypeval(option.getTypeval)
+      prjOption.setRefoption(option.getId)
+      prjOption.setColor("fdde86")
+      optionValMapper.insert(prjOption)
     }
+  }
 }

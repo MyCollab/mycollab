@@ -41,7 +41,6 @@ public class HistoryViewManager {
         history.add(viewState);
     }
 
-    @SuppressWarnings("unchecked")
     public static ViewState back() {
         List<ViewState> history = getViewState();
         if (history.size() >= 2) {

@@ -19,11 +19,9 @@ package com.esofthead.mycollab.vaadin.ui;
 import java.io.Serializable;
 
 /**
- *
+ * @param <B>
  * @author MyCollab Ltd.
  * @since 3.0
- *
- * @param <B>
  */
 public interface IBeanFieldGroupFieldFactory<B> extends Serializable {
 

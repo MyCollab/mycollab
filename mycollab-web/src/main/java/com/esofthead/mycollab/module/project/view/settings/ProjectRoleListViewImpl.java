@@ -111,8 +111,7 @@ public class ProjectRoleListViewImpl extends AbstractPageView implements Project
             public com.vaadin.ui.Component generateCell(Table source, Object itemId, Object columnId) {
                 ProjectRole role = tableItem.getBeanByIndex(itemId);
                 return new LabelLink(role.getRolename(),
-                        ProjectLinkBuilder.generateRolePreviewFullLink(
-                                role.getProjectid(), role.getId()));
+                        ProjectLinkBuilder.generateRolePreviewFullLink(role.getProjectid(), role.getId()));
 
             }
         });

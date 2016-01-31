@@ -22,16 +22,14 @@ import com.vaadin.server.Resource;
 import com.vaadin.ui.Component;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
 public class UserVerticalTabsheet extends VerticalTabsheet {
-	private static final long serialVersionUID = -9095044309853738791L;
+    private static final long serialVersionUID = -9095044309853738791L;
 
-	@Override
-	protected void setDefaulButtonIcon(Component btn, Boolean selected) {
+    @Override
+    protected void setDefaulButtonIcon(Component btn, Boolean selected) {
         ButtonTabImpl btnTabImpl = (ButtonTabImpl) btn;
         String tabId = btnTabImpl.getTabId();
         Resource resource = SettingAssetsManager.getAsset(tabId);

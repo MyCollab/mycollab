@@ -19,11 +19,9 @@ package com.esofthead.mycollab.module.project.view;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public interface ITimeTrackingView extends PageView {
-	void display();
+    void display();
 }

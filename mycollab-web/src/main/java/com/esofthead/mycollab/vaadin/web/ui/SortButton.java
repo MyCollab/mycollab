@@ -20,48 +20,45 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.4.0
- * 
  */
-
 public class SortButton extends Button {
-	private static final long serialVersionUID = 6899070243378436412L;
+    private static final long serialVersionUID = 6899070243378436412L;
 
-	private boolean isDesc = true;
+    private boolean isDesc = true;
 
-	public SortButton() {
-		super();
+    public SortButton() {
+        super();
         this.setIcon(FontAwesome.CARET_DOWN);
-		this.addClickListener(new Button.ClickListener() {
+        this.addClickListener(new Button.ClickListener() {
 
-			private static final long serialVersionUID = 4326727093112639245L;
+            private static final long serialVersionUID = 4326727093112639245L;
 
-			@Override
-			public void buttonClick(Button.ClickEvent event) {
-				SortButton.this.toggleSortOrder();
-			}
-		});
-	}
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                SortButton.this.toggleSortOrder();
+            }
+        });
+    }
 
-	public SortButton(String caption, ClickListener listener) {
-		this();
-		this.setCaption(caption);
-		this.addClickListener(listener);
-	}
+    public SortButton(String caption, ClickListener listener) {
+        this();
+        this.setCaption(caption);
+        this.addClickListener(listener);
+    }
 
-	public void toggleSortOrder() {
-		this.isDesc = !this.isDesc;
-		if (this.isDesc) {
-			this.setIcon(FontAwesome.CARET_DOWN);
-		} else {
-			this.setIcon(FontAwesome.CARET_UP);
-		}
-	}
+    public void toggleSortOrder() {
+        this.isDesc = !this.isDesc;
+        if (this.isDesc) {
+            this.setIcon(FontAwesome.CARET_DOWN);
+        } else {
+            this.setIcon(FontAwesome.CARET_UP);
+        }
+    }
 
-	public boolean isDesc() {
-		return this.isDesc;
-	}
+    public boolean isDesc() {
+        return this.isDesc;
+    }
 
 }

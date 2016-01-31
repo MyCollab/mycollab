@@ -21,10 +21,9 @@ import com.esofthead.mycollab.module.user.domain.criteria.UserSearchCriteria;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public interface UserListView extends PageView {
-	void setSearchCriteria(UserSearchCriteria searchCriteria);
+    void setSearchCriteria(UserSearchCriteria searchCriteria);
 }

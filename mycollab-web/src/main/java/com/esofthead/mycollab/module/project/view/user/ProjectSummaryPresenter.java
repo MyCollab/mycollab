@@ -23,24 +23,22 @@ import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @LoadPolicy(scope = ViewScope.PROTOTYPE)
 public class ProjectSummaryPresenter extends AbstractPresenter<ProjectSummaryView> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public ProjectSummaryPresenter() {
-		super(ProjectSummaryView.class);
-	}
+    public ProjectSummaryPresenter() {
+        super(ProjectSummaryView.class);
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		ProjectDashboardContainer projectViewContainer = (ProjectDashboardContainer) container;
-		projectViewContainer.removeAllComponents();
-		projectViewContainer.addComponent(view.getWidget());
-		view.lazyLoadView();
-	}
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        ProjectDashboardContainer projectViewContainer = (ProjectDashboardContainer) container;
+        projectViewContainer.removeAllComponents();
+        projectViewContainer.addComponent(view.getWidget());
+        view.lazyLoadView();
+    }
 }

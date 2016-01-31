@@ -4,6 +4,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>New item</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+<style>
+a {
+  color: $styles.link_color;
+}
+</style>
 </head>
 <body style="background-color: ${styles.background}; font: ${styles.font}; color: #4e4e4e; padding: 0px;">
     #macro( hyperLink $displayName $webLink )
@@ -18,14 +23,8 @@
         </div>
     #end
     
-    <table width="800" cellpadding="0" cellspacing="0" border="0" style="font-size: 12px; margin: 20px auto;">
-        <tr>
-            <td>
-                <div style="padding: 10px 30px;">
-                    <img src="${defaultUrls.cdn_url}icons/logo.png" alt="The power productivity tool for your organization" width="130" height="30" style="margin: 0px; padding: 0px;">
-                </div>
-            </td>
-        </tr>
+    <table width="600" cellpadding="0" cellspacing="0" border="0" style="font-size: 12px; margin: 20px auto;">
+        #parse("templates/email/logo.mt")
         <tr>
             <td style="padding: 10px 30px;">
                 <p>$actionHeading</p>

@@ -16,21 +16,18 @@
  */
 package com.esofthead.mycollab.module.project.view.page;
 
-import java.util.List;
-
 import com.esofthead.mycollab.module.page.domain.PageResource;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 
+import java.util.List;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.4.0
- *
  */
 public interface PageListView extends PageView {
-	/**
-	 * 
-	 * @param resources
-	 */
-	void displayDefaultPages(List<PageResource> resources);
+    /**
+     * @param resources
+     */
+    void displayDefaultPages(List<PageResource> resources);
 }

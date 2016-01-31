@@ -32,9 +32,9 @@ import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
+import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
-import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
 import org.vaadin.dialogs.ConfirmDialog;
@@ -53,39 +53,38 @@ public class PageReadPresenter extends AbstractPresenter<PageReadView> {
 
     @Override
     protected void postInitView() {
-        view.getPreviewFormHandlers().addFormHandler(
-                new DefaultPreviewFormHandler<Page>() {
-                    @Override
-                    public void onEdit(Page data) {
-                        EventBusFactory.getInstance().post(new PageEvent.GotoEdit(this, data));
-                    }
+        view.getPreviewFormHandlers().addFormHandler(new DefaultPreviewFormHandler<Page>() {
+            @Override
+            public void onEdit(Page data) {
+                EventBusFactory.getInstance().post(new PageEvent.GotoEdit(this, data));
+            }
 
-                    @Override
-                    public void onAdd(Page data) {
-                        EventBusFactory.getInstance().post(new PageEvent.GotoAdd(this, null));
-                    }
+            @Override
+            public void onAdd(Page data) {
+                EventBusFactory.getInstance().post(new PageEvent.GotoAdd(this, null));
+            }
 
-                    @Override
-                    public void onDelete(final Page data) {
-                        ConfirmDialogExt.show(UI.getCurrent(),
-                                AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                                AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                                AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                                AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                                new ConfirmDialog.Listener() {
-                                    private static final long serialVersionUID = 1L;
+            @Override
+            public void onDelete(final Page data) {
+                ConfirmDialogExt.show(UI.getCurrent(),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        new ConfirmDialog.Listener() {
+                            private static final long serialVersionUID = 1L;
 
-                                    @Override
-                                    public void onClose(ConfirmDialog dialog) {
-                                        if (dialog.isConfirmed()) {
-                                            PageService pageService = ApplicationContextUtil.getSpringBean(PageService.class);
-                                            pageService.removeResource(data.getPath());
-                                            EventBusFactory.getInstance().post(new PageEvent.GotoList(this, null));
-                                        }
-                                    }
-                                });
-                    }
-                });
+                            @Override
+                            public void onClose(ConfirmDialog dialog) {
+                                if (dialog.isConfirmed()) {
+                                    PageService pageService = ApplicationContextUtil.getSpringBean(PageService.class);
+                                    pageService.removeResource(data.getPath());
+                                    EventBusFactory.getInstance().post(new PageEvent.GotoList(this, null));
+                                }
+                            }
+                        });
+            }
+        });
     }
 
     @Override
@@ -104,7 +103,5 @@ public class PageReadPresenter extends AbstractPresenter<PageReadView> {
         } else {
             NotificationUtil.showMessagePermissionAlert();
         }
-
     }
-
 }

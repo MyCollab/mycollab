@@ -44,9 +44,8 @@ import com.esofthead.mycollab.vaadin.AsyncInvoker;
 import com.esofthead.mycollab.vaadin.MyCollabUI;
 import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
-import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
-import com.esofthead.mycollab.vaadin.ui.service.GoogleAnalyticsService;
+import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
@@ -65,8 +64,7 @@ import org.springframework.jdbc.UncategorizedSQLException;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.viritin.util.BrowserCookie;
 
-import java.util.Collection;
-import java.util.GregorianCalendar;
+import java.util.*;
 
 import static com.esofthead.mycollab.core.utils.ExceptionUtils.getExceptionType;
 
@@ -86,6 +84,8 @@ public class DesktopApplication extends MyCollabUI {
 
     private MainWindowContainer mainWindowContainer;
 
+    private static List<String> ipLists = new ArrayList<>();
+
     @Override
     protected void doInit(final VaadinRequest request) {
         if (SiteConfiguration.getPullMethod() == SiteConfiguration.PullMethod.push) {
@@ -98,7 +98,7 @@ public class DesktopApplication extends MyCollabUI {
             @Override
             public void error(com.vaadin.server.ErrorEvent event) {
                 Throwable e = event.getThrowable();
-                handleException(request.getHeader("user-agent"), e);
+                handleException(request, e);
             }
         });
 
@@ -146,7 +146,21 @@ public class DesktopApplication extends MyCollabUI {
 
     private static Class[] systemExceptions = new Class[]{UncategorizedSQLException.class, MyBatisSystemException.class};
 
-    private void handleException(String userAgent, Throwable e) {
+    private String printRequest(VaadinRequest request) {
+        StringBuilder requestInfo = new StringBuilder();
+        Enumeration<String> headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String attr = headerNames.nextElement();
+            requestInfo.append(attr + ": " + request.getHeader(attr)).append('\n');
+        }
+        requestInfo.append("Subdomain: " + initialSubDomain).append('\n');
+        requestInfo.append("Remote address: " + request.getRemoteAddr()).append('\n');
+        requestInfo.append("Path info: " + request.getPathInfo()).append('\n');
+        requestInfo.append("Remote host: " + request.getRemoteHost()).append('\n');
+        return requestInfo.toString();
+    }
+
+    private void handleException(VaadinRequest request, Throwable e) {
         IgnoreException ignoreException = getExceptionType(e, IgnoreException.class);
         if (ignoreException != null) {
             return;
@@ -256,10 +270,20 @@ public class DesktopApplication extends MyCollabUI {
             Button okBtn = dialog.getOkButton();
             BrowserWindowOpener opener = new BrowserWindowOpener("http://support.mycollab.com");
             opener.extend(okBtn);
+            if (request != null) {
+                String remoteAddress = request.getRemoteHost();
+                if (remoteAddress != null) {
+                    if (!ipLists.contains(remoteAddress)) {
+                        LOG.error("Async not supported: " + printRequest(request));
+                        ipLists.add(remoteAddress);
+                    }
+                }
+            }
             return;
         }
 
-        LOG.error("Error " + userAgent, e);
+
+        LOG.error("Error ", e);
         ConfirmDialog dialog = ConfirmDialogExt.show(DesktopApplication.this,
                 AppContext.getMessage(GenericI18Enum.WINDOW_ERROR_TITLE, AppContext.getSiteName()),
                 AppContext.getMessage(GenericI18Enum.ERROR_USER_NOTICE_INFORMATION_MESSAGE),
@@ -349,7 +373,7 @@ public class DesktopApplication extends MyCollabUI {
             AsyncInvoker.access(new AsyncInvoker.PageCommand() {
                 @Override
                 public void run() {
-                    handleException("", e);
+                    handleException(null, e);
                 }
             });
         }

@@ -42,8 +42,8 @@ import java.util.List;
  * @author MyCollab Ltd
  * @since 5.2.1
  */
-public class InviteUserTokenField extends CssLayout implements SuggestField.NewItemsHandler,
-        SuggestField.SuggestionHandler, SuggestField.TokenHandler {
+public class InviteUserTokenField extends CssLayout implements SuggestField.NewItemsHandler, SuggestField.SuggestionHandler,
+        SuggestField.TokenHandler {
     private static final long serialVersionUID = 1L;
 
     private List<String> inviteEmails;

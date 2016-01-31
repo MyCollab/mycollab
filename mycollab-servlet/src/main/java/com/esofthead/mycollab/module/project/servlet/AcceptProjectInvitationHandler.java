@@ -25,6 +25,7 @@ import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.domain.ProjectMember;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
+import com.esofthead.mycollab.module.project.esb.NewProjectMemberJoinEvent;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.user.dao.UserAccountMapper;
@@ -33,6 +34,7 @@ import com.esofthead.mycollab.module.user.domain.UserAccount;
 import com.esofthead.mycollab.module.user.domain.UserAccountExample;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.servlet.VelocityWebServletRequestHandler;
+import com.google.common.eventbus.AsyncEventBus;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.ServletException;
@@ -65,6 +67,9 @@ public class AcceptProjectInvitationHandler extends VelocityWebServletRequestHan
 
     @Autowired
     private ProjectService projectService;
+
+    @Autowired
+    private AsyncEventBus asyncEventBus;
 
     @Override
     protected void onHandleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -121,8 +126,7 @@ public class AcceptProjectInvitationHandler extends VelocityWebServletRequestHan
                                                     Integer projectRoleId, HttpServletResponse response) throws IOException {
         // search has in table User account
         UserAccountExample example = new UserAccountExample();
-        example.createCriteria().andUsernameEqualTo(username)
-                .andAccountidEqualTo(sAccountId);
+        example.createCriteria().andUsernameEqualTo(username).andAccountidEqualTo(sAccountId);
 
         Date now = new GregorianCalendar().getTime();
         try {
@@ -156,9 +160,16 @@ public class AcceptProjectInvitationHandler extends VelocityWebServletRequestHan
             } else {
                 member.setStatus(RegisterStatusConstants.ACTIVE);
                 member.setSaccountid(sAccountId);
-                member.setProjectroleid(projectRoleId);
+                if (projectRoleId == -1) {
+                    member.setProjectroleid(null);
+                    member.setIsadmin(true);
+                } else {
+                    member.setProjectroleid(projectRoleId);
+                }
+
                 projectMemberService.updateWithSession(member, "");
             }
+            asyncEventBus.post(new NewProjectMemberJoinEvent(username, projectId, sAccountId, false));
             String projectLink = ProjectLinkGenerator.generateProjectFullLink(siteUrl, projectId);
             response.sendRedirect(projectLink);
         } catch (Exception e) {

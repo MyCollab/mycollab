@@ -18,55 +18,53 @@ package com.esofthead.mycollab.module.project.view;
 
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
-import com.esofthead.mycollab.vaadin.web.ui.ListSelectionPresenter;
-import com.esofthead.mycollab.vaadin.web.ui.IListView;
 import com.esofthead.mycollab.vaadin.mvp.LazyPageView;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
+import com.esofthead.mycollab.vaadin.web.ui.IListView;
+import com.esofthead.mycollab.vaadin.web.ui.ListSelectionPresenter;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
 public abstract class ProjectGenericListPresenter<V extends IListView<S, B>, S extends SearchCriteria, B extends ValuedBean>
-		extends ListSelectionPresenter<V, S, B> {
-	private static final long serialVersionUID = 7270489652418186012L;
+        extends ListSelectionPresenter<V, S, B> {
+    private static final long serialVersionUID = 7270489652418186012L;
 
-	private PageView candidateView;
-	private Class<? extends PageView> noItemFallbackViewClass;
+    private PageView candidateView;
+    private Class<? extends PageView> noItemFallbackViewClass;
 
-	public ProjectGenericListPresenter(Class<V> viewClass, Class<? extends PageView> noItemFallbackViewClass) {
-		super(viewClass);
-		this.noItemFallbackViewClass = noItemFallbackViewClass;
-	}
+    public ProjectGenericListPresenter(Class<V> viewClass, Class<? extends PageView> noItemFallbackViewClass) {
+        super(viewClass);
+        this.noItemFallbackViewClass = noItemFallbackViewClass;
+    }
 
-	@Override
-	public V getView() {
-		super.getView();
-		this.candidateView = view;
-		return view;
-	}
+    @Override
+    public V getView() {
+        super.getView();
+        this.candidateView = view;
+        return view;
+    }
 
-	public void displayListView(ComponentContainer container, ScreenData<?> data) {
-		this.candidateView = view;
-		displayView(container, data);
-	}
+    public void displayListView(ComponentContainer container, ScreenData<?> data) {
+        this.candidateView = view;
+        displayView(container, data);
+    }
 
-	public void displayNoExistItems(ComponentContainer container, ScreenData<?> data) {
-		this.candidateView = ViewManager.getCacheComponent(noItemFallbackViewClass);
-		displayView(container, data);
-	}
+    public void displayNoExistItems(ComponentContainer container, ScreenData<?> data) {
+        this.candidateView = ViewManager.getCacheComponent(noItemFallbackViewClass);
+        displayView(container, data);
+    }
 
-	private void displayView(ComponentContainer container, ScreenData<?> data) {
-		container.removeAllComponents();
-		if (candidateView instanceof LazyPageView) {
-			candidateView.removeAllComponents();
-		}
-		container.addComponent(candidateView);
-	}
+    private void displayView(ComponentContainer container, ScreenData<?> data) {
+        container.removeAllComponents();
+        if (candidateView instanceof LazyPageView) {
+            candidateView.removeAllComponents();
+        }
+        container.addComponent(candidateView);
+    }
 
 }

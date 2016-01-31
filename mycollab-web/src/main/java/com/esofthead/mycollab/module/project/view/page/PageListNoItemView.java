@@ -65,8 +65,7 @@ public class PageListNoItemView extends ProjectListNoItemView {
         return new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                EventBusFactory.getInstance().post(
-                        new PageEvent.GotoAdd(this, null));
+                EventBusFactory.getInstance().post(new PageEvent.GotoAdd(this, null));
             }
         };
     }

@@ -25,28 +25,26 @@ import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @LoadPolicy(scope = ViewScope.PROTOTYPE)
 public class FileDashboardPresenter extends AbstractPresenter<FileDashboardView> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public FileDashboardPresenter() {
-		super(FileDashboardView.class);
-	}
+    public FileDashboardPresenter() {
+        super(FileDashboardView.class);
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		FileContainer projectViewContainer = (FileContainer) container;
-		projectViewContainer.removeAllComponents();
-		projectViewContainer.addComponent(view);
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        FileContainer projectViewContainer = (FileContainer) container;
+        projectViewContainer.removeAllComponents();
+        projectViewContainer.addComponent(view);
 
-		view.displayProjectFiles();
+        view.displayProjectFiles();
 
-		ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
-		breadcrumb.gotoFileList();
-	}
+        ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
+        breadcrumb.gotoFileList();
+    }
 }

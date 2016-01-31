@@ -26,33 +26,31 @@ import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
-public class FilePresenter extends AbstractPresenter<FileContainer>  {
-	private static final long serialVersionUID = 1L;
+public class FilePresenter extends AbstractPresenter<FileContainer> {
+    private static final long serialVersionUID = 1L;
 
-	public FilePresenter() {
-		super(FileContainer.class);
-	}
+    public FilePresenter() {
+        super(FileContainer.class);
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		ProjectView projectViewContainer = (ProjectView) container;
-		projectViewContainer.gotoSubView(ProjectTypeConstants.FILE);
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        ProjectView projectViewContainer = (ProjectView) container;
+        projectViewContainer.gotoSubView(ProjectTypeConstants.FILE);
 
-		view.removeAllComponents();
-		AbstractPresenter<?> presenter;
+        view.removeAllComponents();
+        AbstractPresenter<?> presenter;
 
-		if (data instanceof FileScreenData.GotoDashboard) {
-			presenter = PresenterResolver.getPresenter(FileDashboardPresenter.class);
-		} else {
-			throw new MyCollabException("No support screen data " + data);
-		}
+        if (data instanceof FileScreenData.GotoDashboard) {
+            presenter = PresenterResolver.getPresenter(FileDashboardPresenter.class);
+        } else {
+            throw new MyCollabException("No support screen data " + data);
+        }
 
-		presenter.go(view, data);
-	}
+        presenter.go(view, data);
+    }
 
 }

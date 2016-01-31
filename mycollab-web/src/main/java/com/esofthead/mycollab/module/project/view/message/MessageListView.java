@@ -22,13 +22,11 @@ import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 public interface MessageListView extends PageView {
-	void setCriteria(MessageSearchCriteria criteria);
-	
-	HasEditFormHandlers<Message> getEditFormHandlers();
+    void setCriteria(MessageSearchCriteria criteria);
+
+    HasEditFormHandlers<Message> getEditFormHandlers();
 }

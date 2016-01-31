@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import java.util.List;
-
 import com.esofthead.mycollab.common.domain.Currency;
 import com.esofthead.mycollab.common.service.CurrencyService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -28,11 +26,11 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 
+import java.util.List;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
 public class CurrencyComboBoxField extends CustomField<Integer> {
     private static final long serialVersionUID = 1L;

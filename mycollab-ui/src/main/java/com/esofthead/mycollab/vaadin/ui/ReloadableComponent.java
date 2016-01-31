@@ -17,10 +17,9 @@
 package com.esofthead.mycollab.vaadin.ui;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public interface ReloadableComponent {
-	void reload();
+    void reload();
 }

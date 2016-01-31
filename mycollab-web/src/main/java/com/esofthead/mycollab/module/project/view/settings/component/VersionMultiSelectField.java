@@ -38,7 +38,6 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@SuppressWarnings("rawtypes")
 public class VersionMultiSelectField extends MultiSelectComp {
     private static final long serialVersionUID = 1L;
 

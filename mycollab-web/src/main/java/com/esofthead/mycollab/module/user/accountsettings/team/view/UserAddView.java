@@ -22,13 +22,12 @@ import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.IFormAddView;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public interface UserAddView extends IFormAddView<SimpleUser> {
 
-	HasEditFormHandlers<SimpleUser> getEditFormHandlers();
+    HasEditFormHandlers<SimpleUser> getEditFormHandlers();
 
     void editItem(SimpleUser item, boolean isBasicForm);
 }

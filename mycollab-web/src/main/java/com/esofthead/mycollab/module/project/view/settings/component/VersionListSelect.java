@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.view.settings.component;
 
-import java.util.List;
-
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
@@ -30,37 +28,33 @@ import com.esofthead.mycollab.module.tracker.service.VersionService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.vaadin.ui.ListSelect;
 
+import java.util.List;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.5.0
- *
  */
 public class VersionListSelect extends ListSelect {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@SuppressWarnings("unchecked")
-	public VersionListSelect() {
-		this.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
-		this.setMultiSelect(true);
+    public VersionListSelect() {
+        this.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
+        this.setMultiSelect(true);
 
-		VersionSearchCriteria searchCriteria = new VersionSearchCriteria();
-		searchCriteria.setStatus(StringSearchField.and(StatusI18nEnum.Open
-				.name()));
+        VersionSearchCriteria searchCriteria = new VersionSearchCriteria();
+        searchCriteria.setStatus(StringSearchField.and(StatusI18nEnum.Open.name()));
 
-		searchCriteria.setProjectId(new NumberSearchField(SearchField.AND,
-				CurrentProjectVariables.getProjectId()));
+        searchCriteria.setProjectId(new NumberSearchField(SearchField.AND,
+                CurrentProjectVariables.getProjectId()));
 
-		VersionService versionService = ApplicationContextUtil
-				.getSpringBean(VersionService.class);
-		List<Version> versions = versionService
-				.findPagableListByCriteria(new SearchRequest<>(
-						searchCriteria, 0, Integer.MAX_VALUE));
-		for (Version version : versions) {
-			this.addItem(version.getId());
-			this.setItemCaption(version.getId(), version.getVersionname());
-		}
+        VersionService versionService = ApplicationContextUtil.getSpringBean(VersionService.class);
+        List<Version> versions = versionService
+                .findPagableListByCriteria(new SearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
+        for (Version version : versions) {
+            this.addItem(version.getId());
+            this.setItemCaption(version.getId(), version.getVersionname());
+        }
 
-		this.setRows(4);
-	}
+        this.setRows(4);
+    }
 }

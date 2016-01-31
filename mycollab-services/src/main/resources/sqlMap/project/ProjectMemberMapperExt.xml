@@ -10,7 +10,6 @@
         <result column="memberFullName" jdbcType="VARCHAR" property="memberFullName" />
         <result column="roleName" jdbcType="VARCHAR" property="roleName" />
         <result column="numOpenTasks" jdbcType="INTEGER" property="numOpenTasks" />
-        <result column="projectRoleId" jdbcType="INTEGER" property="projectRoleId" />
         <result column="numOpenBugs" jdbcType="INTEGER" property="numOpenBugs" />
         <result column="projectName" jdbcType="VARCHAR" property="projectName" />
         <result column="email" jdbcType="VARCHAR" property="email" />
@@ -81,7 +80,7 @@
 
     <sql id="selectMember">
         <![CDATA[
-          SELECT m_prj_member.id, m_prj_member.username, m_prj_member.projectId, m_prj_member.joinDate, m_prj_member.projectRoleId, 
+          SELECT m_prj_member.id, m_prj_member.username, m_prj_member.projectId, m_prj_member.joinDate,
                  m_prj_member.isAdmin, m_prj_member.status, m_prj_member.sAccountId, m_prj_project.name AS projectName,
                  concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS memberFullName,
                  m_prj_role.rolename, s_user.email as email, s_user.avatarId AS memberAvatarId, m_prj_role.id as projectRoleId,
@@ -149,7 +148,7 @@
             concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')),  s_user.lastname) AS  memberFullName , s_user.avatarId AS memberAvatarId,
             (SELECT COUNT(*) FROM m_tracker_bug WHERE m_tracker_bug.assignuser=m_prj_member.username AND  m_tracker_bug.projectid=m_prj_member.projectId AND m_tracker_bug.status IN ('Open', 'InProgress', 'Reopenned')) AS numOpenBugs,
             (SELECT COUNT(*) FROM m_prj_task WHERE m_prj_task.assignUser=m_prj_member.username AND m_prj_task.projectid=m_prj_member.projectId AND m_prj_task.status='Open') AS numOpenTasks,
-            s_user_account.lastAccessedTime AS lastAccessTime,
+            s_user_account.lastAccessedTime AS lastAccessTime, m_prj_project.name AS projectName,
             (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = m_prj_member.projectId AND m_prj_time_logging.loguser = m_prj_member.username AND m_prj_time_logging.isBillable=1) AS totalBillableLogTime,
             (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = m_prj_member.projectId AND m_prj_time_logging.loguser = m_prj_member.username AND m_prj_time_logging.isBillable=0) AS totalNonBillableLogTime
         FROM m_prj_member

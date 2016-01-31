@@ -23,13 +23,12 @@ import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.IFormAddView;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public interface ProjectRoleAddView extends IFormAddView<ProjectRole> {
 
-	HasEditFormHandlers<ProjectRole> getEditFormHandlers();
+    HasEditFormHandlers<ProjectRole> getEditFormHandlers();
 
-	PermissionMap getPermissionMap();
+    PermissionMap getPermissionMap();
 }

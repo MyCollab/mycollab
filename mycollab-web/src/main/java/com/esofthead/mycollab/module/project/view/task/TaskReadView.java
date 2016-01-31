@@ -22,10 +22,9 @@ import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.IPreviewView;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public interface TaskReadView extends IPreviewView<SimpleTask> {
-	HasPreviewFormHandlers<SimpleTask> getPreviewFormHandlers();
+    HasPreviewFormHandlers<SimpleTask> getPreviewFormHandlers();
 }

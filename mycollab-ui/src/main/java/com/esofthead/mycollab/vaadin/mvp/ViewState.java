@@ -23,7 +23,6 @@ import com.vaadin.ui.ComponentContainer;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@SuppressWarnings("rawtypes")
 public class ViewState {
     private ComponentContainer container;
     private IPresenter presenter;

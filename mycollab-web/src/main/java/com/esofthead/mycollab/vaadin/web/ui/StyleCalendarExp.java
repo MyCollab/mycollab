@@ -22,6 +22,7 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.vaadin.risto.stylecalendar.DateOptionsGenerator;
 import org.vaadin.risto.stylecalendar.StyleCalendar;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,7 +33,6 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 2.0
  */
-@SuppressWarnings("serial")
 public class StyleCalendarExp extends VerticalLayout {
     private List<Date> selectedDateList = new ArrayList<Date>();
     private StyleCalendar styleCalendar = new StyleCalendar();
@@ -97,8 +97,7 @@ public class StyleCalendarExp extends VerticalLayout {
         layoutControl.setComponentAlignment(lbSelectedDate,
                 Alignment.MIDDLE_CENTER);
 
-        HorizontalLayout layoutButtonNext = new HorizontalLayout();
-        layoutButtonNext.setSpacing(true);
+        MHorizontalLayout layoutButtonNext = new MHorizontalLayout();
         layoutButtonNext.addComponent(btnShowNextMonth);
         layoutButtonNext.setComponentAlignment(btnShowNextMonth,
                 Alignment.MIDDLE_RIGHT);

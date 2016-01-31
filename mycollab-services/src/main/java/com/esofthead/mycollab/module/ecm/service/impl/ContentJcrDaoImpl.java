@@ -220,8 +220,7 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
                         return convertNodeToFolder(node);
                     } else {
                         throw new MyCollabException(
-                                "Resource does not have type be mycollab:folder or mycollab:content. Its path is "
-                                        + node.getPath());
+                                "Resource does not have type be mycollab:folder or mycollab:content. Its path is " + node.getPath());
                     }
                 }
                 return null;

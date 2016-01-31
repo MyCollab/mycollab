@@ -79,9 +79,9 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
         this.removeAllComponents();
         this.addComponent(editUserForm);
         if (isBasicForm) {
-            this.editUserForm.displayBasicForm(user);
+            editUserForm.displayBasicForm(user);
         } else {
-            this.editUserForm.displayAdvancedForm(user);
+            editUserForm.displayAdvancedForm(user);
         }
     }
 
@@ -92,7 +92,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
 
     @Override
     public HasEditFormHandlers<SimpleUser> getEditFormHandlers() {
-        return this.editUserForm;
+        return editUserForm;
     }
 
     private class EditUserForm extends AdvancedEditBeanForm<SimpleUser> {
@@ -146,9 +146,9 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
 
                     @Override
                     public void buttonClick(ClickEvent event) {
-                        EditUserForm.this.setFormBuffered(false);
+                        setFormBuffered(false);
                         editUserForm.displayAdvancedForm(user);
-                        EditUserForm.this.setFormBuffered(true);
+                        setFormBuffered(true);
                     }
                 });
                 moreInfoBtn.addStyleName(UIConstants.BUTTON_LINK);

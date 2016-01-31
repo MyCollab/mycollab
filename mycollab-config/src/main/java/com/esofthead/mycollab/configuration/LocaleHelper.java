@@ -26,10 +26,8 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 4.3.0
- *
  */
 public class LocaleHelper {
     private static Map<Locale, IDateFormat> dateFormats = new HashMap<>();

@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.module.user.ui.components;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.utils.StringUtils;
@@ -39,7 +38,6 @@ import java.util.List;
 public class ActiveUserComboBox extends ComboBox {
     private static final long serialVersionUID = 1L;
 
-    @SuppressWarnings("unchecked")
     public ActiveUserComboBox() {
         this.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
 

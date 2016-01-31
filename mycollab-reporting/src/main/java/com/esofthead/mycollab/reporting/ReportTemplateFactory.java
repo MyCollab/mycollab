@@ -36,7 +36,6 @@ public class ReportTemplateFactory {
         reportMap.put(Locale.US, enReport);
     }
 
-    @SuppressWarnings("unchecked")
     public static AbstractReportTemplate getTemplate(Locale language) {
         AbstractReportTemplate reportTemplate = reportMap.get(language);
         if (reportTemplate != null) {

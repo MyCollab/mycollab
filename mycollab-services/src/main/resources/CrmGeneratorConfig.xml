@@ -31,92 +31,34 @@
                 value="com.esofthead.mycollab.core.persistence.ICrudGenericDAO" />
         </javaClientGenerator>
 
-        <table domainObjectName="Account" schema="mycollab"
-            tableName="m_crm_account" />
-
-        <table domainObjectName="AccountContact" schema="mycollab"
-            tableName="m_crm_accounts_contacts" />
-
-        <table domainObjectName="AccountLead" schema="mycollab"
-            tableName="m_crm_accounts_leads" />
-
-        <table domainObjectName="Campaign" schema="mycollab"
-            tableName="m_crm_campaign" />
-
-        <table domainObjectName="CampaignAccount" schema="mycollab"
-            tableName="m_crm_campaigns_accounts" />
-
-        <table domainObjectName="CampaignContact" schema="mycollab"
-            tableName="m_crm_campaigns_contacts" />
-
-        <table domainObjectName="CampaignLead" schema="mycollab"
-            tableName="m_crm_campaigns_leads" />
-
-        <table domainObjectName="Call" schema="mycollab"
-            tableName="m_crm_call" />
-
-        <table domainObjectName="CrmNotificationSetting" schema="mycollab"
-            tableName="m_crm_notifications" />
-
-        <table domainObjectName="Case" schema="mycollab"
-            tableName="m_crm_case" />
-
-        <table domainObjectName="Contact" schema="mycollab"
-            tableName="m_crm_contact" />
-
-        <table domainObjectName="ContactCase" schema="mycollab"
-            tableName="m_crm_contacts_cases" />
-
-        <table domainObjectName="ContactLead" schema="mycollab"
-            tableName="m_crm_contacts_leads" />
-
-        <table domainObjectName="ContactOpportunity" schema="mycollab"
-            tableName="m_crm_contacts_opportunities" />
-
-        <table domainObjectName="Contract" schema="mycollab"
-            tableName="m_crm_contract" />
-
-        <table domainObjectName="Customer" schema="mycollab"
-            tableName="m_crm_customer" />
-
-        <table domainObjectName="Lead" schema="mycollab"
-            tableName="m_crm_lead" />
-
-        <table domainObjectName="Meeting" schema="mycollab"
-            tableName="m_crm_meeting" />
-
-        <table domainObjectName="MeetingInvitee" schema="mycollab"
-            tableName="m_crm_meeting_invitees" />
-
-        <table domainObjectName="Opportunity" schema="mycollab"
-            tableName="m_crm_opportunity" />
-
-        <table domainObjectName="OpportunityLead" schema="mycollab"
-            tableName="m_crm_opportunities_leads" />
-
-        <table domainObjectName="Note" schema="mycollab"
-            tableName="m_crm_note" />
-
-        <table domainObjectName="Product" schema="mycollab"
-            tableName="m_crm_product" />
-
-        <table domainObjectName="ProductCatalog" schema="mycollab"
-            tableName="m_crm_product_catalog" />
-
-        <table domainObjectName="Quote" schema="mycollab"
-            tableName="m_crm_quote" />
-
-        <table domainObjectName="QuoteProduct" schema="mycollab"
-            tableName="m_crm_quote_product" />
-
-        <table domainObjectName="Target" schema="mycollab"
-            tableName="m_crm_target" />
-
-        <table domainObjectName="TargetGroup" schema="mycollab"
-            tableName="m_crm_target_list" />
-
-        <table domainObjectName="CrmTask" schema="mycollab"
-            tableName="m_crm_task" />
+        <table domainObjectName="Account" schema="mycollab" tableName="m_crm_account" />
+        <table domainObjectName="AccountContact" schema="mycollab" tableName="m_crm_accounts_contacts" />
+        <table domainObjectName="AccountLead" schema="mycollab" tableName="m_crm_accounts_leads" />
+        <table domainObjectName="Campaign" schema="mycollab" tableName="m_crm_campaign" />
+        <table domainObjectName="CampaignAccount" schema="mycollab" tableName="m_crm_campaigns_accounts" />
+        <table domainObjectName="CampaignContact" schema="mycollab" tableName="m_crm_campaigns_contacts" />
+        <table domainObjectName="CampaignLead" schema="mycollab" tableName="m_crm_campaigns_leads" />
+        <table domainObjectName="Call" schema="mycollab" tableName="m_crm_call" />
+        <table domainObjectName="CrmNotificationSetting" schema="mycollab" tableName="m_crm_notifications" />
+        <table domainObjectName="Case" schema="mycollab" tableName="m_crm_case" />
+        <table domainObjectName="Contact" schema="mycollab" tableName="m_crm_contact" />
+        <table domainObjectName="ContactCase" schema="mycollab" tableName="m_crm_contacts_cases" />
+        <table domainObjectName="ContactLead" schema="mycollab" tableName="m_crm_contacts_leads" />
+        <table domainObjectName="ContactOpportunity" schema="mycollab" tableName="m_crm_contacts_opportunities" />
+        <table domainObjectName="Contract" schema="mycollab" tableName="m_crm_contract" />
+        <table domainObjectName="Customer" schema="mycollab" tableName="m_crm_customer" />
+        <table domainObjectName="Lead" schema="mycollab" tableName="m_crm_lead" />
+        <table domainObjectName="Meeting" schema="mycollab" tableName="m_crm_meeting" />
+        <table domainObjectName="MeetingInvitee" schema="mycollab" tableName="m_crm_meeting_invitees" />
+        <table domainObjectName="Opportunity" schema="mycollab" tableName="m_crm_opportunity" />
+        <table domainObjectName="OpportunityLead" schema="mycollab" tableName="m_crm_opportunities_leads" />
+        <table domainObjectName="Product" schema="mycollab" tableName="m_crm_product" />
+        <table domainObjectName="ProductCatalog" schema="mycollab" tableName="m_crm_product_catalog" />
+        <table domainObjectName="Quote" schema="mycollab" tableName="m_crm_quote" />
+        <table domainObjectName="QuoteProduct" schema="mycollab" tableName="m_crm_quote_product" />
+        <table domainObjectName="Target" schema="mycollab" tableName="m_crm_target" />
+        <table domainObjectName="TargetGroup" schema="mycollab" tableName="m_crm_target_list" />
+        <table domainObjectName="CrmTask" schema="mycollab" tableName="m_crm_task" />
     </context>
 
 </generatorConfiguration>

@@ -20,21 +20,24 @@ import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.vaadin.ui.ComponentContainer;
 
-public class ProfilePhotoUploadPresenter extends
-		AbstractPresenter<ProfilePhotoUploadView> {
-	private static final long serialVersionUID = 1L;
+/**
+ * @author MyCollab Ltd
+ * @since 1.0.0
+ */
+public class ProfilePhotoUploadPresenter extends AbstractPresenter<ProfilePhotoUploadView> {
+    private static final long serialVersionUID = 1L;
 
-	public ProfilePhotoUploadPresenter() {
-		super(ProfilePhotoUploadView.class);
-	}
+    public ProfilePhotoUploadPresenter() {
+        super(ProfilePhotoUploadView.class);
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		ProfileContainer profileContainer = (ProfileContainer) container;
-		profileContainer.removeAllComponents();
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        ProfileContainer profileContainer = (ProfileContainer) container;
+        profileContainer.removeAllComponents();
 
-		profileContainer.addComponent(view.getWidget());
-		view.editPhoto((byte[])data.getParams());
-	}
+        profileContainer.addComponent(view.getWidget());
+        view.editPhoto((byte[]) data.getParams());
+    }
 
 }

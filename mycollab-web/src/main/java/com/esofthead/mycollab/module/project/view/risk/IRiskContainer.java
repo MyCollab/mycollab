@@ -18,6 +18,10 @@ package com.esofthead.mycollab.module.project.view.risk;
 
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 
+/**
+ * @author MyCollab Ltd
+ * @since 1.0.0
+ */
 public interface IRiskContainer extends PageView {
 
 }

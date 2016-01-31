@@ -145,10 +145,10 @@ public class TaskAddWindow extends Window {
                     informationLayout.addComponent(field, AppContext.getMessage(TaskI18nEnum.FORM_DEADLINE), 0, 2);
                 } else if (Task.Field.assignuser.equalTo(propertyId)) {
                     informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 1, 2);
-                } else if (Task.Field.duration.equalTo(propertyId)) {
+                } else if (Task.Field.percentagecomplete.equalTo(propertyId)) {
                     informationLayout.addComponent(field, AppContext.getMessage(TaskI18nEnum.FORM_DURATION), 0, 3);
-                } else if (Task.Field.isestimated.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, AppContext.getMessage(TaskI18nEnum.FORM_IS_ESTIMATED), 1, 3);
+                } else if (Task.Field.milestoneid.equalTo(propertyId)) {
+                    informationLayout.addComponent(field, AppContext.getMessage(TaskI18nEnum.FORM_MILESTONE), 1, 3);
                 } else if (Task.Field.notes.equalTo(propertyId)) {
                     informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 4, 2, "100%");
                 } else if (Task.Field.id.equalTo(propertyId)) {

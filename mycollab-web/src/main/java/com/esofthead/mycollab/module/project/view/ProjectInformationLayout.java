@@ -20,54 +20,53 @@ package com.esofthead.mycollab.module.project.view;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 class ProjectInformationLayout implements IFormLayoutFactory {
-	private static final long serialVersionUID = 1L;
-	private GridFormLayoutHelper moreInfoLayout;
+    private static final long serialVersionUID = 1L;
+    private GridFormLayoutHelper moreInfoLayout;
 
-	@Override
-	public void attachField(Object propertyId, final Field<?> field) {
-		if (propertyId.equals("homepage")) {
-			moreInfoLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_HOME_PAGE), 0, 0);
-		} else if (propertyId.equals("projectstatus")) {
-			moreInfoLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_STATUS), 1, 0);
-		} else if (propertyId.equals("planstartdate")) {
-			moreInfoLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_PLAN_START_DATE), 0, 1);
-		} else if (propertyId.equals("currencyid")) {
-			moreInfoLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_CURRENCY), 1, 1);
-		} else if (propertyId.equals("planenddate")) {
-			moreInfoLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_PLAN_END_DATE), 0, 2);
-		} else if (propertyId.equals("defaultbillingrate")) {
-			moreInfoLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_BILLING_RATE), 1, 2);
-		} else if (propertyId.equals("actualstartdate")) {
-			moreInfoLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_ACTUAL_START_DATE), 0, 3);
-		} else if (propertyId.equals("targetbudget")) {
-			moreInfoLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_TARGET_BUDGET), 1, 3);
-		} else if (propertyId.equals("actualenddate")) {
-			moreInfoLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_ACTUAL_END_DATE), 0, 4);
-		} else if (propertyId.equals("actualbudget")) {
-			moreInfoLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_ACTUAL_BUDGET), 1, 4);
-		} else if (propertyId.equals("totalBillableHours")) {
-			moreInfoLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_BILLABLE_HOURS), 0, 5);
-		} else if (propertyId.equals("totalNonBillableHours")) {
-			moreInfoLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_NON_BILLABLE_HOURS), 1, 5);
-		} else if (propertyId.equals("description")) {
-			moreInfoLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 6, 2, "100%");
-		}
-	}
+    @Override
+    public void attachField(Object propertyId, final Field<?> field) {
+        if (propertyId.equals("homepage")) {
+            moreInfoLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_HOME_PAGE), 0, 0);
+        } else if (propertyId.equals("projectstatus")) {
+            moreInfoLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_STATUS), 1, 0);
+        } else if (propertyId.equals("planstartdate")) {
+            moreInfoLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_PLAN_START_DATE), 0, 1);
+        } else if (propertyId.equals("currencyid")) {
+            moreInfoLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_CURRENCY), 1, 1);
+        } else if (propertyId.equals("planenddate")) {
+            moreInfoLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_PLAN_END_DATE), 0, 2);
+        } else if (propertyId.equals("defaultbillingrate")) {
+            moreInfoLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_BILLING_RATE), 1, 2);
+        } else if (propertyId.equals("actualstartdate")) {
+            moreInfoLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_ACTUAL_START_DATE), 0, 3);
+        } else if (propertyId.equals("targetbudget")) {
+            moreInfoLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_TARGET_BUDGET), 1, 3);
+        } else if (propertyId.equals("actualenddate")) {
+            moreInfoLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_ACTUAL_END_DATE), 0, 4);
+        } else if (propertyId.equals("actualbudget")) {
+            moreInfoLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_ACTUAL_BUDGET), 1, 4);
+        } else if (propertyId.equals("totalBillableHours")) {
+            moreInfoLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_BILLABLE_HOURS), 0, 5);
+        } else if (propertyId.equals("totalNonBillableHours")) {
+            moreInfoLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_NON_BILLABLE_HOURS), 1, 5);
+        } else if (propertyId.equals("description")) {
+            moreInfoLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 6, 2, "100%");
+        }
+    }
 
-	@Override
-	public ComponentContainer getLayout() {
-		moreInfoLayout =  GridFormLayoutHelper.defaultFormLayoutHelper(2, 7);
-		return moreInfoLayout.getLayout();
-	}
+    @Override
+    public ComponentContainer getLayout() {
+        moreInfoLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 7);
+        return moreInfoLayout.getLayout();
+    }
 }

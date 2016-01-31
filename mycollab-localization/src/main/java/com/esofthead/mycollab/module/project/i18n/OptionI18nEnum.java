@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.project.i18n;
 import ch.qos.cal10n.BaseName;
 import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
+import com.esofthead.mycollab.i18n.LocalizationHelper;
 
 /**
  * @author MyCollab Ltd.

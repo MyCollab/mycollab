@@ -51,18 +51,15 @@ public class MessagePresenter extends AbstractPresenter<MessageContainer> {
             view.removeAllComponents();
 
             if (data instanceof MessageScreenData.Read) {
-                MessageReadPresenter presenter = PresenterResolver
-                        .getPresenter(MessageReadPresenter.class);
+                MessageReadPresenter presenter = PresenterResolver.getPresenter(MessageReadPresenter.class);
                 presenter.go(view, data);
             } else if (data instanceof MessageScreenData.Search) {
-                MessageListPresenter presenter = PresenterResolver
-                        .getPresenter(MessageListPresenter.class);
+                MessageListPresenter presenter = PresenterResolver.getPresenter(MessageListPresenter.class);
                 presenter.go(view, data);
             } else if (data == null) {
                 MessageSearchCriteria searchCriteria = new MessageSearchCriteria();
                 searchCriteria.setProjectids(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-                MessageListPresenter presenter = PresenterResolver
-                        .getPresenter(MessageListPresenter.class);
+                MessageListPresenter presenter = PresenterResolver.getPresenter(MessageListPresenter.class);
                 presenter.go(view, new ScreenData.Preview<>(searchCriteria));
             }
         } else {

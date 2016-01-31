@@ -17,29 +17,26 @@
 
 package com.esofthead.mycollab.vaadin.web.ui;
 
-import java.io.File;
-
 import org.vaadin.easyuploads.MultiFileUploadExt;
 
+import java.io.File;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
  */
 public interface AttachmentUploadComponent {
 
-	/**
-	 * 
-	 * @param file
-	 * @param fileName
-	 * @param mimeType
-	 * @param length
-	 */
-	void receiveFile(File file, String fileName, String mimeType, long length);
+    /**
+     * @param file
+     * @param fileName
+     * @param mimeType
+     * @param length
+     */
+    void receiveFile(File file, String fileName, String mimeType, long length);
 
-	/**
-	 * 
-	 * @param multiUpload
-	 */
-	void registerMultiUpload(MultiFileUploadExt multiUpload);
+    /**
+     * @param multiUpload
+     */
+    void registerMultiUpload(MultiFileUploadExt multiUpload);
 }

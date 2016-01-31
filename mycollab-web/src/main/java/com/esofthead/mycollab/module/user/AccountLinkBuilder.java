@@ -16,27 +16,20 @@
  */
 package com.esofthead.mycollab.module.user;
 
-import com.esofthead.mycollab.module.user.domain.SimpleUser;
-import com.esofthead.mycollab.module.user.service.UserService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Text;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1.2
- * 
  */
 public class AccountLinkBuilder {
-	public static String generatePreviewFullUserLink(String username) {
-		return AccountLinkGenerator.generatePreviewFullUserLink(
-				AppContext.getSiteUrl(), username);
-	}
+    public static String generatePreviewFullUserLink(String username) {
+        return AccountLinkGenerator.generatePreviewFullUserLink(
+                AppContext.getSiteUrl(), username);
+    }
 
-	public static String generatePreviewFullRoleLink(Integer userRoleId) {
-		return AccountLinkGenerator.generatePreviewFullRoleLink(
-				AppContext.getSiteUrl(), userRoleId);
-	}
+    public static String generatePreviewFullRoleLink(Integer userRoleId) {
+        return AccountLinkGenerator.generatePreviewFullRoleLink(
+                AppContext.getSiteUrl(), userRoleId);
+    }
 }

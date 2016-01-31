@@ -26,9 +26,11 @@ import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.user.dao.UserMapper;
 import com.esofthead.mycollab.module.user.domain.User;
+import com.esofthead.mycollab.module.user.esb.NewUserJoinEvent;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.servlet.GenericHttpServlet;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.google.common.eventbus.AsyncEventBus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,11 +53,13 @@ public class UpdateUserInfoHandler extends GenericHttpServlet {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private AsyncEventBus asyncEventBus;
+
     @Override
     protected void onHandleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
         int sAccountId = Integer.parseInt(request.getParameter("accountId"));
-
         String password = request.getParameter("password");
 
         try {
@@ -72,8 +76,8 @@ public class UpdateUserInfoHandler extends GenericHttpServlet {
             LOG.debug("Update password of user {}", username);
             UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
             userService.updateWithSession(user, username);
-
             userService.updateUserAccountStatus(username, sAccountId, RegisterStatusConstants.ACTIVE);
+            asyncEventBus.post(new NewUserJoinEvent(username, sAccountId));
         } catch (Exception e) {
             LOG.error("Error when update user - userAccount", e);
             String errMsg = LocalizationHelper.getMessage(Locale.US, GenericI18Enum.ERROR_USER_NOTICE_INFORMATION_MESSAGE);

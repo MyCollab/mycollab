@@ -85,6 +85,13 @@ public class DefaultScheduleConfiguration {
     }
 
     @Bean
+    public JobDetailFactoryBean liveInstanceMonitorJob() {
+        JobDetailFactoryBean bean = new JobDetailFactoryBean();
+        bean.setJobClass(LiveInstanceMonitorJob.class);
+        return bean;
+    }
+
+    @Bean
     public CronTriggerFactoryBean sendingRelayEmailTrigger() {
         CronTriggerFactoryBean bean = new CronTriggerFactoryBean();
         bean.setJobDetail(sendRelayEmailJob().getObject());
@@ -133,9 +140,17 @@ public class DefaultScheduleConfiguration {
     }
 
     @Bean
-    public CronTriggerFactoryBean cleanUpTimelineCacheData() {
+    public CronTriggerFactoryBean cleanUpTimelineCacheDataTrigger() {
         CronTriggerFactoryBean bean = new CronTriggerFactoryBean();
         bean.setJobDetail(cleanTimelineTrackingCacheJob().getObject());
+        bean.setCronExpression("0 0 0 * * ?");
+        return bean;
+    }
+
+    @Bean
+    public CronTriggerFactoryBean liveInstanceMonitorTrigger() {
+        CronTriggerFactoryBean bean = new CronTriggerFactoryBean();
+        bean.setJobDetail(liveInstanceMonitorJob().getObject());
         bean.setCronExpression("0 0 0 * * ?");
         return bean;
     }
@@ -164,7 +179,9 @@ public class DefaultScheduleConfiguration {
                 projectOverdueAssignmentsNotificationEmailTrigger().getObject(),
                 crmSendRelayNotificationEmailTrigger().getObject(),
                 sendInviteUserEmailTrigger().getObject(),
-                userSignUpNotificationEmailTrigger().getObject()
+                userSignUpNotificationEmailTrigger().getObject(),
+                cleanUpTimelineCacheDataTrigger().getObject(),
+                liveInstanceMonitorTrigger().getObject()
         );
         return bean;
     }

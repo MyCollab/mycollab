@@ -70,7 +70,10 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
 import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.sliderpanel.SliderPanel;
 import org.vaadin.sliderpanel.SliderPanelBuilder;
@@ -349,9 +352,20 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         if (licenseResolver != null) {
             LicenseInfo licenseInfo = licenseResolver.getLicenseInfo();
             if (licenseInfo != null) {
-                Date now = new GregorianCalendar().getTime();
-                if (licenseInfo.getExpireDate().before(now)) {
+                if (licenseInfo.isExpired()) {
                     Button buyPremiumBtn = new Button("License is expired. Upgrade?", new ClickListener() {
+                        @Override
+                        public void buttonClick(ClickEvent event) {
+                            UI.getCurrent().addWindow(new AdWindow());
+                        }
+                    });
+                    buyPremiumBtn.setIcon(FontAwesome.SHOPPING_CART);
+                    buyPremiumBtn.addStyleName("ad");
+                    accountLayout.addComponent(buyPremiumBtn);
+                } else if (licenseInfo.isTrial()) {
+                    Duration dur = new Duration(new DateTime(), new DateTime(licenseInfo.getExpireDate()));
+                    int days = dur.toStandardDays().getDays();
+                    Button buyPremiumBtn = new Button(String.format("Trial license: %d days left. Buy?", days), new ClickListener() {
                         @Override
                         public void buttonClick(ClickEvent event) {
                             UI.getCurrent().addWindow(new AdWindow());

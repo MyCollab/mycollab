@@ -50,26 +50,21 @@ public class UserPresenter extends AbstractPresenter<UserContainer> {
         groupContainer.gotoSubView("Users");
 
         if (data == null) {
-            UserListPresenter listPresenter = PresenterResolver
-                    .getPresenter(UserListPresenter.class);
+            UserListPresenter listPresenter = PresenterResolver.getPresenter(UserListPresenter.class);
             UserSearchCriteria criteria = new UserSearchCriteria();
-            criteria.setSaccountid(new NumberSearchField(AppContext
-                    .getAccountId()));
+            criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
             criteria.setRegisterStatuses(new SetSearchField<>(RegisterStatusConstants.ACTIVE,
                     RegisterStatusConstants.SENT_VERIFICATION_EMAIL, RegisterStatusConstants.VERIFICATING));
             listPresenter.go(view.getWidget(), new ScreenData.Search<>(criteria));
         } else if (data instanceof UserScreenData.Read) {
-            UserReadPresenter presenter = PresenterResolver
-                    .getPresenter(UserReadPresenter.class);
+            UserReadPresenter presenter = PresenterResolver.getPresenter(UserReadPresenter.class);
             presenter.go(view.getWidget(), data);
         } else if (data instanceof UserScreenData.Search) {
-            UserListPresenter presenter = PresenterResolver
-                    .getPresenter(UserListPresenter.class);
+            UserListPresenter presenter = PresenterResolver.getPresenter(UserListPresenter.class);
             presenter.go(view.getWidget(), data);
         } else if (data instanceof UserScreenData.Add
                 || data instanceof UserScreenData.Edit) {
-            UserAddPresenter presenter = PresenterResolver
-                    .getPresenter(UserAddPresenter.class);
+            UserAddPresenter presenter = PresenterResolver.getPresenter(UserAddPresenter.class);
             presenter.go(view.getWidget(), data);
         }
     }

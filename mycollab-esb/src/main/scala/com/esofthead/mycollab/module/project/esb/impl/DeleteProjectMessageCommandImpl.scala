@@ -28,27 +28,27 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component class DeleteProjectMessageCommandImpl extends GenericCommand {
-    @Autowired private val resourceService: ResourceService = null
-    @Autowired private val commentMapper: CommentMapper = null
+  @Autowired private val resourceService: ResourceService = null
+  @Autowired private val commentMapper: CommentMapper = null
 
-    @AllowConcurrentEvents
-    @Subscribe
-    def removedMessage(event: DeleteProjectMessageEvent): Unit = {
-        for (message <- event.messages) {
-            removeRelatedFiles(event.accountId, message.getProjectid, message.getId)
-            removeRelatedComments(message.getId)
-        }
+  @AllowConcurrentEvents
+  @Subscribe
+  def removedMessage(event: DeleteProjectMessageEvent): Unit = {
+    for (message <- event.messages) {
+      removeRelatedFiles(event.accountId, message.getProjectid, message.getId)
+      removeRelatedComments(message.getId)
     }
+  }
 
-    private def removeRelatedFiles(accountId: Integer, projectId: Integer, messageId: Integer) {
-        val attachmentPath: String = AttachmentUtils.getProjectEntityAttachmentPath(accountId, projectId,
-            ProjectTypeConstants.MESSAGE, "" + messageId)
-        resourceService.removeResource(attachmentPath, "", accountId)
-    }
+  private def removeRelatedFiles(accountId: Integer, projectId: Integer, messageId: Integer) {
+    val attachmentPath: String = AttachmentUtils.getProjectEntityAttachmentPath(accountId, projectId,
+      ProjectTypeConstants.MESSAGE, "" + messageId)
+    resourceService.removeResource(attachmentPath, "", accountId)
+  }
 
-    private def removeRelatedComments(messageId: Integer) {
-        val ex: CommentExample = new CommentExample
-        ex.createCriteria.andTypeEqualTo(ProjectTypeConstants.MESSAGE).andExtratypeidEqualTo(messageId)
-        commentMapper.deleteByExample(ex)
-    }
+  private def removeRelatedComments(messageId: Integer) {
+    val ex: CommentExample = new CommentExample
+    ex.createCriteria.andTypeEqualTo(ProjectTypeConstants.MESSAGE).andExtratypeidEqualTo(messageId)
+    commentMapper.deleteByExample(ex)
+  }
 }

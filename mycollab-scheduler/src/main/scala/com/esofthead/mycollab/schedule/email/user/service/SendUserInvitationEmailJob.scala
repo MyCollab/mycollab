@@ -52,8 +52,8 @@ import org.springframework.stereotype.Component
                 SearchRequest[UserSearchCriteria](searchCriteria, 0, Integer.MAX_VALUE)).asScala.toList
         for (item <- inviteUsers) {
             val invitedUser = item.asInstanceOf[SimpleUser]
-            val inviteUserEvent = new SendUserInvitationEvent(invitedUser.getUsername, invitedUser
-                .getInviteUserFullName, invitedUser.getSubdomain, invitedUser.getAccountId)
+            val inviteUserEvent = new SendUserInvitationEvent(invitedUser.getUsername, invitedUser.getInviteUser,
+                invitedUser.getSubdomain, invitedUser.getAccountId)
             asyncEventBus.post(inviteUserEvent)
         }
     }

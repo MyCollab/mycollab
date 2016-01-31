@@ -35,6 +35,7 @@ public class FontAwesomeUtils {
         resources.put(ProjectTypeConstants.RISK, Integer.toHexString('\uf132'));
         resources.put(ProjectTypeConstants.PROBLEM, Integer.toHexString('\uf071'));
         resources.put(ProjectTypeConstants.MILESTONE, Integer.toHexString('\uf11e'));
+        resources.put(ProjectTypeConstants.PROJECT, Integer.toHexString('\uf133'));
     }
 
     public static String toHtml(String resId) {

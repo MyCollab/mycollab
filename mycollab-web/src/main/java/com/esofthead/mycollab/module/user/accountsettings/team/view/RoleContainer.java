@@ -21,11 +21,10 @@ import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
  */
 @ViewComponent
 public class RoleContainer extends AbstractPageView {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 }

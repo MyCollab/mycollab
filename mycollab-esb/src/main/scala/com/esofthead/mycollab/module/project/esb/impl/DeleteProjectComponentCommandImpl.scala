@@ -28,32 +28,29 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 /**
- * TODO: implement command
- *
- * @author MyCollab Ltd.
- * @since 1.0
- *
- */
+  * @author MyCollab Ltd.
+  * @since 1.0
+  */
 @Component class DeleteProjectComponentCommandImpl extends GenericCommand {
-    @Autowired private val resourceService: ResourceService = null
-    @Autowired private val commentMapper: CommentMapper = null
+  @Autowired private val resourceService: ResourceService = null
+  @Autowired private val commentMapper: CommentMapper = null
 
-    @AllowConcurrentEvents
-    @Subscribe
-    def removedComponent(event: DeleteProjectComponentEvent): Unit = {
-        removeRelatedFiles(event.accountId, event.projectId, event.componentId)
-        removeRelatedComments(event.componentId)
-    }
+  @AllowConcurrentEvents
+  @Subscribe
+  def removedComponent(event: DeleteProjectComponentEvent): Unit = {
+    removeRelatedFiles(event.accountId, event.projectId, event.componentId)
+    removeRelatedComments(event.componentId)
+  }
 
-    private def removeRelatedFiles(accountId: Integer, projectId: Integer, componentId: Integer) {
-        val attachmentPath: String = AttachmentUtils.getProjectEntityAttachmentPath(accountId, projectId,
-            ProjectTypeConstants.BUG_COMPONENT, "" + componentId)
-        resourceService.removeResource(attachmentPath, "", accountId)
-    }
+  private def removeRelatedFiles(accountId: Integer, projectId: Integer, componentId: Integer) {
+    val attachmentPath: String = AttachmentUtils.getProjectEntityAttachmentPath(accountId, projectId,
+      ProjectTypeConstants.BUG_COMPONENT, "" + componentId)
+    resourceService.removeResource(attachmentPath, "", accountId)
+  }
 
-    private def removeRelatedComments(bugId: Integer) {
-        val ex: CommentExample = new CommentExample
-        ex.createCriteria.andTypeEqualTo(ProjectTypeConstants.BUG_COMPONENT).andExtratypeidEqualTo(bugId)
-        commentMapper.deleteByExample(ex)
-    }
+  private def removeRelatedComments(bugId: Integer) {
+    val ex: CommentExample = new CommentExample
+    ex.createCriteria.andTypeEqualTo(ProjectTypeConstants.BUG_COMPONENT).andExtratypeidEqualTo(bugId)
+    commentMapper.deleteByExample(ex)
+  }
 }

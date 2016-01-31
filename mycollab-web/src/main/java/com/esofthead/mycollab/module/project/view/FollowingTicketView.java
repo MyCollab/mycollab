@@ -23,15 +23,13 @@ import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public interface FollowingTicketView extends PageView {
-	void displayTickets();
+    void displayTickets();
 
-	HasSearchHandlers<FollowingTicketSearchCriteria> getSearchHandlers();
+    HasSearchHandlers<FollowingTicketSearchCriteria> getSearchHandlers();
 
-	AbstractPagedBeanTable<FollowingTicketSearchCriteria, FollowingTicket> getPagedBeanTable();
+    AbstractPagedBeanTable<FollowingTicketSearchCriteria, FollowingTicket> getPagedBeanTable();
 }

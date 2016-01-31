@@ -54,7 +54,7 @@ public class CurrentProjectVariables {
         SimpleProjectMember prjMember = prjMemberService.findMemberByUsername(AppContext.getUsername(), project.getId(), AppContext.getAccountId());
         if (prjMember != null) {
             if (!prjMember.isProjectOwner()) {
-                if (prjMember.getProjectRoleId() == null) {
+                if (prjMember.getProjectroleid() == null) {
                     throw new SecureAccessException("You are not belong to this project");
                 }
                 ProjectRolePermissionExample ex = new ProjectRolePermissionExample();

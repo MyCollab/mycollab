@@ -22,7 +22,6 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectRole;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectRoleSearchCriteria;
 import com.esofthead.mycollab.module.project.service.ProjectRoleService;
-import com.esofthead.mycollab.module.user.domain.SimpleRole;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.data.util.BeanContainer;
@@ -39,7 +38,6 @@ public class ProjectRoleComboBox extends ComboBox {
 
     private List<SimpleProjectRole> roleList;
 
-    @SuppressWarnings("unchecked")
     public ProjectRoleComboBox() {
         super();
         this.setImmediate(true);

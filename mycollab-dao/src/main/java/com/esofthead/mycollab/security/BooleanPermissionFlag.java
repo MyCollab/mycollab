@@ -21,6 +21,8 @@ import com.esofthead.mycollab.core.MyCollabException;
 
 /**
  * Boolean permission flag
+ *
+ * @author MyCollab Ltd
  * @version 1.0
  */
 public class BooleanPermissionFlag implements PermissionFlag {

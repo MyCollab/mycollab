@@ -76,13 +76,11 @@ public class RoleSearchPanel extends DefaultGenericSearchPanel<RoleSearchCriteri
         this.addHeaderRight(createBtn);
     }
 
-    @SuppressWarnings("rawtypes")
     private class RoleBasicSearchLayout extends GenericSearchPanel.BasicSearchLayout {
         private static final long serialVersionUID = 1L;
 
         private TextField nameField;
 
-        @SuppressWarnings("unchecked")
         public RoleBasicSearchLayout() {
             super(RoleSearchPanel.this);
         }

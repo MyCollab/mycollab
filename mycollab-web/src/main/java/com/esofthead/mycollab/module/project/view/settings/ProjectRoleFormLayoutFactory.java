@@ -20,16 +20,14 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.project.i18n.ProjectRoleI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.FormContainer;
-import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 public class ProjectRoleFormLayoutFactory implements IFormLayoutFactory {
     private static final long serialVersionUID = 1L;
@@ -39,17 +37,17 @@ public class ProjectRoleFormLayoutFactory implements IFormLayoutFactory {
     public ComponentContainer getLayout() {
         final FormContainer layout = new FormContainer();
 
-        this.informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 2);
-        layout.addSection("Role Information", this.informationLayout.getLayout());
+        informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 2);
+        layout.addSection("Role Information", informationLayout.getLayout());
         return layout;
     }
 
     @Override
     public void attachField(Object propertyId, final Field<?> field) {
         if (propertyId.equals("rolename")) {
-            this.informationLayout.addComponent(field, AppContext.getMessage(ProjectRoleI18nEnum.FORM_NAME), 0, 0);
+            informationLayout.addComponent(field, AppContext.getMessage(ProjectRoleI18nEnum.FORM_NAME), 0, 0);
         } else if (propertyId.equals("description")) {
-            this.informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 1, 2, "100%");
+            informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 1, 2, "100%");
         }
     }
 }

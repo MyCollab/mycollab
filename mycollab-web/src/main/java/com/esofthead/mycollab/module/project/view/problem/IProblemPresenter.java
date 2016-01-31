@@ -18,6 +18,10 @@ package com.esofthead.mycollab.module.project.view.problem;
 
 import com.esofthead.mycollab.vaadin.mvp.IPresenter;
 
+/**
+ * @author MyCollab Ltd
+ * @since 1.0.0
+ */
 public interface IProblemPresenter extends IPresenter<IProblemContainer> {
 
 }

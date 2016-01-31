@@ -17,11 +17,9 @@
 package com.esofthead.mycollab.module.project.view.bug;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public interface IBugCallbackStatusComp {
-	void refreshBugItem();
+    void refreshBugItem();
 }

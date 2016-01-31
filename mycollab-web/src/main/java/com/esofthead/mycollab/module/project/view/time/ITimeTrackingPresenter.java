@@ -19,12 +19,9 @@ package com.esofthead.mycollab.module.project.view.time;
 import com.esofthead.mycollab.vaadin.mvp.IPresenter;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
-public interface ITimeTrackingPresenter extends
-		IPresenter<ITimeTrackingContainer> {
+public interface ITimeTrackingPresenter extends IPresenter<ITimeTrackingContainer> {
 
 }

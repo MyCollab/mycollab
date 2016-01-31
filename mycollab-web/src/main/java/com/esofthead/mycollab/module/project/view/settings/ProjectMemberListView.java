@@ -21,10 +21,9 @@ import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearch
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public interface ProjectMemberListView extends PageView {
-	void setSearchCriteria(ProjectMemberSearchCriteria searchCriteria);
+    void setSearchCriteria(ProjectMemberSearchCriteria searchCriteria);
 }

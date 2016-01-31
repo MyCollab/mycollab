@@ -28,6 +28,9 @@ import javax.validation.Validator;
 /**
  * Static spring application context to retrieve spring bean without in servlet
  * context
+ *
+ * @author MyCollab Ltd
+ * @since 1.0.0
  */
 @Component("appContextUtil")
 public class ApplicationContextUtil implements ApplicationContextAware {

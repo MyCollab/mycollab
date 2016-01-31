@@ -74,10 +74,8 @@ public class TimeTrackingTableDisplay extends DefaultPagedBeanTable<ItemTimeLogg
             @Override
             public com.vaadin.ui.Component generateCell(final Table source,
                                                         final Object itemId, final Object columnId) {
-                SimpleItemTimeLogging timeItem = TimeTrackingTableDisplay.this.getBeanByIndex(itemId);
-
-                return new ProjectUserLink(timeItem.getLoguser(), timeItem
-                        .getLogUserAvatarId(), timeItem.getLogUserFullName());
+                SimpleItemTimeLogging timeItem = getBeanByIndex(itemId);
+                return new ProjectUserLink(timeItem.getLoguser(), timeItem.getLogUserAvatarId(), timeItem.getLogUserFullName());
 
             }
         });
@@ -87,7 +85,7 @@ public class TimeTrackingTableDisplay extends DefaultPagedBeanTable<ItemTimeLogg
 
                     @Override
                     public com.vaadin.ui.Component generateCell(Table source, Object itemId, Object columnId) {
-                        SimpleItemTimeLogging itemLogging = TimeTrackingTableDisplay.this.getBeanByIndex(itemId);
+                        SimpleItemTimeLogging itemLogging = getBeanByIndex(itemId);
 
                         try {
                             VerticalLayout summaryWrapper = new VerticalLayout();
@@ -153,7 +151,7 @@ public class TimeTrackingTableDisplay extends DefaultPagedBeanTable<ItemTimeLogg
 
                     @Override
                     public Object generateCell(Table source, Object itemId, Object columnId) {
-                        SimpleItemTimeLogging itemLogging = TimeTrackingTableDisplay.this.getBeanByIndex(itemId);
+                        SimpleItemTimeLogging itemLogging = getBeanByIndex(itemId);
 
                         LabelLink b = new LabelLink(itemLogging.getProjectName(),
                                 ProjectLinkBuilder.generateProjectFullLink(itemLogging.getProjectid()));
@@ -198,7 +196,7 @@ public class TimeTrackingTableDisplay extends DefaultPagedBeanTable<ItemTimeLogg
                     @Override
                     public Object generateCell(Table source, Object itemId,
                                                Object columnId) {
-                        final SimpleItemTimeLogging itemLogging = TimeTrackingTableDisplay.this.getBeanByIndex(itemId);
+                        final SimpleItemTimeLogging itemLogging = getBeanByIndex(itemId);
 
                         MHorizontalLayout layout = new MHorizontalLayout();
                         Button editBtn = new Button("", new Button.ClickListener() {

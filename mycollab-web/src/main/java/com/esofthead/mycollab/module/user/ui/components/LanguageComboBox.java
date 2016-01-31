@@ -16,34 +16,30 @@
  */
 package com.esofthead.mycollab.module.user.ui.components;
 
-import java.util.List;
-import java.util.Locale;
-
 import com.esofthead.mycollab.common.i18n.LangI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.ui.ComboBox;
 
+import java.util.List;
+import java.util.Locale;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
 public class LanguageComboBox extends ComboBox {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public LanguageComboBox() {
-		super();
-		this.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
+    public LanguageComboBox() {
+        super();
+        this.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
 
-		List<Locale> supportedLanguage = SiteConfiguration
-				.getSupportedLanguages();
-		for (Locale locale : supportedLanguage) {
-			String language = locale.toString();
-			this.addItem(language);
-			this.setItemCaption(language,
-					AppContext.getMessage(LangI18Enum.class, language));
-		}
-	}
+        List<Locale> supportedLanguage = SiteConfiguration.getSupportedLanguages();
+        for (Locale locale : supportedLanguage) {
+            String language = locale.toString();
+            this.addItem(language);
+            this.setItemCaption(language, AppContext.getMessage(LangI18Enum.class, language));
+        }
+    }
 }

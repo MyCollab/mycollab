@@ -25,7 +25,6 @@ import java.io.Serializable;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@SuppressWarnings("serial")
 public abstract class AbstractCssPageView extends VerticalLayout implements PageView, Serializable {
     public AbstractCssPageView() {
         this.setStyleName("page-view");

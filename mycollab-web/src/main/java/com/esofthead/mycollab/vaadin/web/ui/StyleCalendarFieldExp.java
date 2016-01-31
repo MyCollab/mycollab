@@ -23,10 +23,8 @@ import org.vaadin.risto.stylecalendar.StyleCalendarField;
 import java.util.Date;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 4.0
- *
  */
 public class StyleCalendarFieldExp extends StyleCalendarField {
     private static final long serialVersionUID = 1L;

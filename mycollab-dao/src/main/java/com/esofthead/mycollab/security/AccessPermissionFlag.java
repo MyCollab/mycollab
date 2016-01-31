@@ -21,6 +21,7 @@ import com.esofthead.mycollab.common.i18n.SecurityI18nEnum;
 /**
  * Access permission flag
  *
+ * @author MyCollab Ltd
  * @since 1.0
  */
 public class AccessPermissionFlag implements PermissionFlag {

@@ -24,40 +24,39 @@ import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class ProjectUserPresenter extends AbstractPresenter<ProjectUserContainer> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public ProjectUserPresenter() {
-		super(ProjectUserContainer.class);
-	}
+    public ProjectUserPresenter() {
+        super(ProjectUserContainer.class);
+    }
 
-	@Override
-	public void go(ComponentContainer container, ScreenData<?> data) {
-		super.go(container, data, false);
-	}
+    @Override
+    public void go(ComponentContainer container, ScreenData<?> data) {
+        super.go(container, data, false);
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		view.removeAllComponents();
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        view.removeAllComponents();
 
-		AbstractPresenter<?> presenter;
+        AbstractPresenter<?> presenter;
 
-		if (data instanceof ProjectMemberScreenData.Add) {
-			presenter = PresenterResolver.getPresenter(ProjectMemberEditPresenter.class);
-		} else if (data instanceof ProjectMemberScreenData.InviteProjectMembers) {
-			presenter = PresenterResolver.getPresenter(ProjectMemberInvitePresenter.class);
-		} else if (data instanceof ProjectMemberScreenData.InviteProjectMembers) {
-			presenter = PresenterResolver.getPresenter(ProjectMemberInvitePresenter.class);
-		} else if (data instanceof ProjectMemberScreenData.Read) {
-			presenter = PresenterResolver.getPresenter(ProjectMemberReadPresenter.class);
-		} else {
-			presenter = PresenterResolver.getPresenter(ProjectMemberListPresenter.class);
-		}
+        if (data instanceof ProjectMemberScreenData.Add) {
+            presenter = PresenterResolver.getPresenter(ProjectMemberEditPresenter.class);
+        } else if (data instanceof ProjectMemberScreenData.InviteProjectMembers) {
+            presenter = PresenterResolver.getPresenter(ProjectMemberInvitePresenter.class);
+        } else if (data instanceof ProjectMemberScreenData.InviteProjectMembers) {
+            presenter = PresenterResolver.getPresenter(ProjectMemberInvitePresenter.class);
+        } else if (data instanceof ProjectMemberScreenData.Read) {
+            presenter = PresenterResolver.getPresenter(ProjectMemberReadPresenter.class);
+        } else {
+            presenter = PresenterResolver.getPresenter(ProjectMemberListPresenter.class);
+        }
 
-		presenter.go(view, data);
-	}
+        presenter.go(view, data);
+    }
 }

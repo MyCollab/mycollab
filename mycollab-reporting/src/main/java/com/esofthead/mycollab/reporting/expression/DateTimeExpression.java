@@ -38,8 +38,7 @@ public class DateTimeExpression extends SimpleFieldExpression {
     public String evaluate(ReportParameters reportParameters) {
         Locale locale = reportParameters.getLocale();
         Date date = reportParameters.getFieldValue(field);
-        return DateTimeUtils.formatDate(date,
-                LocaleHelper.getDateFormatInstance(locale).getDateTimeFormat());
+        return DateTimeUtils.formatDate(date, LocaleHelper.getDateFormatInstance(locale).getDateTimeFormat());
     }
 
 }

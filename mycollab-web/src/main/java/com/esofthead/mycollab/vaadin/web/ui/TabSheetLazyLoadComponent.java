@@ -17,16 +17,14 @@
 package com.esofthead.mycollab.vaadin.web.ui;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 3.0
- * 
  */
 public class TabSheetLazyLoadComponent extends TabSheetDecorator {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public TabSheetLazyLoadComponent() {
-		super();
-		this.setWidth("100%");
-	}
+    public TabSheetLazyLoadComponent() {
+        super();
+        this.setWidth("100%");
+    }
 }

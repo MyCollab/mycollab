@@ -22,7 +22,6 @@ import com.esofthead.mycollab.module.user.domain.criteria.RoleSearchCriteria;
 import com.esofthead.mycollab.vaadin.web.ui.IListView;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */

@@ -35,6 +35,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * @author MyCollab Ltd.
+ * @since 4.6.0
+ */
 @Configuration
 @Profile("test")
 @Import(DataSourceConfigurationTest.class)

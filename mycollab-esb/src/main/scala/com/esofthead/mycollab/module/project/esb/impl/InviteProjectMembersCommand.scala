@@ -65,7 +65,7 @@ import org.springframework.stereotype.Component
         ProjectLinkGenerator.generateDenyInvitationParams(inviteeEmail, event.sAccountId, event.projectId, user.getEmail,
           event.inviteUser))
       val subject = contentGenerator.parseString(LocalizationHelper.getMessage(SiteConfiguration.getDefaultLocale,
-        ProjectMemberI18nEnum.MAIL_INVITE_USERS_SUBJECT, user.getDisplayName, member.getProjectName))
+        ProjectMemberI18nEnum.MAIL_INVITE_USERS_SUBJECT, member.getProjectName, SiteConfiguration.getDefaultSiteName))
       val content = contentGenerator.parseFile("templates/email/project/memberInvitationNotifier.mt",
         SiteConfiguration.getDefaultLocale)
       val toUser = util.Arrays.asList(new MailRecipientField(inviteeEmail, inviteeEmail))

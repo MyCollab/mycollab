@@ -182,8 +182,9 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
             userAccountMapper.insert(userAccount);
         }
 
-        SendUserInvitationEvent invitationEvent = new SendUserInvitationEvent(record.getUsername(), record
-                .getDisplayName(), record.getSubdomain(), sAccountId);
+        SimpleUser inviterUserEntity = findUserByUserNameInAccount(inviteUser, sAccountId);
+        SendUserInvitationEvent invitationEvent = new SendUserInvitationEvent(record.getUsername(), inviterUserEntity.getUsername(),
+                record.getSubdomain(), sAccountId);
         asyncEventBus.post(invitationEvent);
     }
 

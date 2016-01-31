@@ -29,8 +29,6 @@ import com.vaadin.ui.Window;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -101,7 +99,7 @@ public abstract class MyCollabUI extends UI {
         LicenseResolver licenseResolver = ApplicationContextUtil.getSpringBean(LicenseResolver.class);
         if (licenseResolver != null) {
             LicenseInfo licenseInfo = licenseResolver.getLicenseInfo();
-            if (licenseInfo == null) {
+            if (licenseInfo == null || (licenseInfo.isExpired() && licenseInfo.isTrial())) {
                 Window activateWindow = ViewManager.getCacheComponent(AbstractLicenseActivationWindow.class);
                 UI.getCurrent().addWindow(activateWindow);
             }

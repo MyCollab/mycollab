@@ -30,8 +30,8 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.IEditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.*;
-import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
+import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.vaadin.ui.ComponentContainer;
 
 /**
@@ -64,16 +64,14 @@ public class ComponentAddPresenter extends AbstractPresenter<ComponentAddView> {
             public void onCancel() {
                 ViewState viewState = HistoryViewManager.back();
                 if (viewState instanceof NullViewState) {
-                    EventBusFactory.getInstance().post(
-                            new BugComponentEvent.GotoList(this, null));
+                    EventBusFactory.getInstance().post(new BugComponentEvent.GotoList(this, null));
                 }
             }
 
             @Override
             public void onSaveAndNew(final Component item) {
                 save(item);
-                EventBusFactory.getInstance().post(
-                        new BugComponentEvent.GotoAdd(this, null));
+                EventBusFactory.getInstance().post(new BugComponentEvent.GotoAdd(this, null));
             }
         });
     }

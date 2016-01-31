@@ -29,44 +29,43 @@ import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
  */
 public class UserPermissionManagementPresenter extends AbstractPresenter<UserPermissionManagementView> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public UserPermissionManagementPresenter() {
-		super(UserPermissionManagementView.class);
-	}
+    public UserPermissionManagementPresenter() {
+        super(UserPermissionManagementView.class);
+    }
 
-	@Override
-	public void go(ComponentContainer container, ScreenData<?> data) {
-		super.go(container, data, false);
-	}
+    @Override
+    public void go(ComponentContainer container, ScreenData<?> data) {
+        super.go(container, data, false);
+    }
 
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		AccountModule accountModule = (AccountModule) container;
-		accountModule.gotoSubView(SettingUIConstants.USERS);
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        AccountModule accountModule = (AccountModule) container;
+        accountModule.gotoSubView(SettingUIConstants.USERS);
 
-		AbstractPresenter<?> presenter;
-		if ((data == null) || (data instanceof UserScreenData.Read)
-				|| (data instanceof UserScreenData.Search)
-				|| (data instanceof UserScreenData.Add)
-				|| (data instanceof UserScreenData.Edit)) {
-			presenter = PresenterResolver.getPresenter(UserPresenter.class);
-		} else if ((data instanceof RoleScreenData.Read)
-				|| (data instanceof RoleScreenData.Add)
-				|| (data instanceof RoleScreenData.Edit)
-				|| (data instanceof RoleScreenData.Search)) {
-			presenter = PresenterResolver.getPresenter(RolePresenter.class);
-		} else {
-			throw new MyCollabException("There is no presenter handle data "
-					+ BeanUtility.printBeanObj(data));
-		}
+        AbstractPresenter<?> presenter;
+        if ((data == null) || (data instanceof UserScreenData.Read)
+                || (data instanceof UserScreenData.Search)
+                || (data instanceof UserScreenData.Add)
+                || (data instanceof UserScreenData.Edit)) {
+            presenter = PresenterResolver.getPresenter(UserPresenter.class);
+        } else if ((data instanceof RoleScreenData.Read)
+                || (data instanceof RoleScreenData.Add)
+                || (data instanceof RoleScreenData.Edit)
+                || (data instanceof RoleScreenData.Search)) {
+            presenter = PresenterResolver.getPresenter(RolePresenter.class);
+        } else {
+            throw new MyCollabException("There is no presenter handle data "
+                    + BeanUtility.printBeanObj(data));
+        }
 
-		presenter.go(view.getWidget(), data);
-	}
+        presenter.go(view.getWidget(), data);
+    }
 }

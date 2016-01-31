@@ -41,7 +41,6 @@ public class ProjectMemberListSelect extends ListSelect {
         this(true);
     }
 
-    @SuppressWarnings("unchecked")
     public ProjectMemberListSelect(boolean listActiveMembersOnly) {
         this.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
         this.setNullSelectionAllowed(false);

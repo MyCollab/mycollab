@@ -32,52 +32,50 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 /**
- *
- * @author MyCollab Ltd.
- * @since 1.0
- *
- */
+  * @author MyCollab Ltd.
+  * @since 1.0
+  */
 object DeleteResourcesCommandImpl {
-    private val LOG: Logger = LoggerFactory.getLogger(classOf[DeleteResourcesCommandImpl])
+  private val LOG: Logger = LoggerFactory.getLogger(classOf[DeleteResourcesCommandImpl])
 }
 
 @Component class DeleteResourcesCommandImpl extends GenericCommand {
-    @Autowired private val rawContentService: RawContentService = null
-    @Autowired private val driveInfoService: DriveInfoService = null
+  @Autowired private val rawContentService: RawContentService = null
+  @Autowired private val driveInfoService: DriveInfoService = null
 
-    @AllowConcurrentEvents
-    @Subscribe
-    def removeResource(event: DeleteResourcesEvent): Unit = {
-        if (event.sAccountId == null) {
-            return
-        }
-        val lock: Lock = DistributionLockUtil.getLock("ecm-" + event.sAccountId)
-        try {
-            if (lock.tryLock(1, TimeUnit.HOURS)) {
-                var totalSize: Long = 0
-                val driveInfo: DriveInfo = driveInfoService.getDriveInfo(event.sAccountId)
-                for (path <- event.paths) {
-                    if (StringUtils.isNotBlank(path)) {
-                        totalSize += rawContentService.getSize(path)
-                        rawContentService.removePath(path)
-                    }
-                }
-                if (driveInfo.getUsedvolume == null || (driveInfo.getUsedvolume < totalSize)) {
-                    DeleteResourcesCommandImpl.LOG.error("Inconsistent storage volume site of account {}, used " +
-                        "storage is less than removed storage", event.sAccountId)
-                    driveInfo.setUsedvolume(0L)
-                }
-                else {
-                    driveInfo.setUsedvolume(driveInfo.getUsedvolume - totalSize)
-                }
-                driveInfoService.saveOrUpdateDriveInfo(driveInfo)
-            }
-        }
-        catch {
-            case e: Exception => DeleteResourcesCommandImpl.LOG.error("Error while delete content " + event.paths.mkString, e)
-        } finally {
-            DistributionLockUtil.removeLock("ecm-" + event.sAccountId)
-            lock.unlock
-        }
+  @AllowConcurrentEvents
+  @Subscribe
+  def removeResource(event: DeleteResourcesEvent): Unit = {
+    if (event.sAccountId == null) {
+      return
     }
+    val lock: Lock = DistributionLockUtil.getLock("ecm-" + event.sAccountId)
+    try {
+      if (lock.tryLock(1, TimeUnit.HOURS)) {
+        var totalSize: Long = 0
+        val driveInfo: DriveInfo = driveInfoService.getDriveInfo(event.sAccountId)
+        for (path <- event.paths) {
+          if (StringUtils.isNotBlank(path)) {
+            totalSize += rawContentService.getSize(path)
+            rawContentService.removePath(path)
+          }
+        }
+        if (driveInfo.getUsedvolume == null || (driveInfo.getUsedvolume < totalSize)) {
+          DeleteResourcesCommandImpl.LOG.error("Inconsistent storage volume site of account {}, used " +
+            "storage is less than removed storage", event.sAccountId)
+          driveInfo.setUsedvolume(0L)
+        }
+        else {
+          driveInfo.setUsedvolume(driveInfo.getUsedvolume - totalSize)
+        }
+        driveInfoService.saveOrUpdateDriveInfo(driveInfo)
+      }
+    }
+    catch {
+      case e: Exception => DeleteResourcesCommandImpl.LOG.error("Error while delete content " + event.paths.mkString, e)
+    } finally {
+      DistributionLockUtil.removeLock("ecm-" + event.sAccountId)
+      lock.unlock
+    }
+  }
 }

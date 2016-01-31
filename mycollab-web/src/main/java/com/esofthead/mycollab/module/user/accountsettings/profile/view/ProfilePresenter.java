@@ -26,35 +26,33 @@ import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class ProfilePresenter extends AbstractPresenter<ProfileContainer> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public ProfilePresenter() {
-		super(ProfileContainer.class);
-	}
+    public ProfilePresenter() {
+        super(ProfileContainer.class);
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		AccountModule accountContainer = (AccountModule) container;
-		accountContainer.gotoSubView(SettingUIConstants.PROFILE);
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        AccountModule accountContainer = (AccountModule) container;
+        accountContainer.gotoSubView(SettingUIConstants.PROFILE);
 
-		AbstractPresenter<?> presenter;
-		if (data == null) {
-			presenter = PresenterResolver
-					.getPresenter(ProfileReadPresenter.class);
-		} else if (data instanceof ProfileScreenData.UploadPhoto) {
-			presenter = PresenterResolver
-					.getPresenter(ProfilePhotoUploadPresenter.class);
-		} else {
-			throw new MyCollabException("Do not support screen data");
-		}
+        AbstractPresenter<?> presenter;
+        if (data == null) {
+            presenter = PresenterResolver
+                    .getPresenter(ProfileReadPresenter.class);
+        } else if (data instanceof ProfileScreenData.UploadPhoto) {
+            presenter = PresenterResolver
+                    .getPresenter(ProfilePhotoUploadPresenter.class);
+        } else {
+            throw new MyCollabException("Do not support screen data");
+        }
 
-		presenter.go(view.getWidget(), data);
-	}
+        presenter.go(view.getWidget(), data);
+    }
 
 }

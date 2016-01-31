@@ -21,7 +21,6 @@ package com.esofthead.mycollab.cache.service;
  * @since 5.1.4
  */
 public interface CacheService {
-    String GLOBAL_CACHE = "global";
 
     Object getValue(String group, String key);
 

@@ -26,41 +26,39 @@ import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.4.0
- *
  */
 public class PagePresenter extends AbstractPresenter<PageContainer> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public PagePresenter() {
-		super(PageContainer.class);
-	}
+    public PagePresenter() {
+        super(PageContainer.class);
+    }
 
-	@Override
-	public void go(ComponentContainer container, ScreenData<?> data) {
-		super.go(container, data, false);
-	}
+    @Override
+    public void go(ComponentContainer container, ScreenData<?> data) {
+        super.go(container, data, false);
+    }
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		ProjectView projectViewContainer = (ProjectView) container;
-		projectViewContainer.gotoSubView(ProjectTypeConstants.PAGE);
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        ProjectView projectViewContainer = (ProjectView) container;
+        projectViewContainer.gotoSubView(ProjectTypeConstants.PAGE);
 
-		AbstractPresenter presenter;
-		if (data instanceof PageScreenData.Search) {
-			presenter = PresenterResolver.getPresenter(PageListPresenter.class);
-		} else if (data instanceof PageScreenData.Add || data instanceof PageScreenData.Edit) {
-			presenter = PresenterResolver.getPresenter(PageAddPresenter.class);
-		} else if (data instanceof PageScreenData.Read) {
-			presenter = PresenterResolver.getPresenter(PageReadPresenter.class);
-		} else {
-			throw new MyCollabException("Do not support screen data " + data);
-		}
+        AbstractPresenter presenter;
+        if (data instanceof PageScreenData.Search) {
+            presenter = PresenterResolver.getPresenter(PageListPresenter.class);
+        } else if (data instanceof PageScreenData.Add || data instanceof PageScreenData.Edit) {
+            presenter = PresenterResolver.getPresenter(PageAddPresenter.class);
+        } else if (data instanceof PageScreenData.Read) {
+            presenter = PresenterResolver.getPresenter(PageReadPresenter.class);
+        } else {
+            throw new MyCollabException("Do not support screen data " + data);
+        }
 
-		presenter.go(view, data);
-	}
+        presenter.go(view, data);
+    }
 
 }

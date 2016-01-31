@@ -27,73 +27,67 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.IEditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.*;
-import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
+import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @LoadPolicy(scope = ViewScope.PROTOTYPE)
-public class MessageListPresenter extends AbstractPresenter<MessageListView>
-		implements ListCommand<MessageSearchCriteria> {
-	private static final long serialVersionUID = 1L;
+public class MessageListPresenter extends AbstractPresenter<MessageListView> implements ListCommand<MessageSearchCriteria> {
+    private static final long serialVersionUID = 1L;
 
-	private MessageSearchCriteria searchCriteria;
+    private MessageSearchCriteria searchCriteria;
 
-	public MessageListPresenter() {
-		super(MessageListView.class);
-	}
+    public MessageListPresenter() {
+        super(MessageListView.class);
+    }
 
-	@Override
-	protected void postInitView() {
-		view.getEditFormHandlers().addFormHandler(
-				new IEditFormHandler<Message>() {
-					private static final long serialVersionUID = 1L;
+    @Override
+    protected void postInitView() {
+        view.getEditFormHandlers().addFormHandler(new IEditFormHandler<Message>() {
+            private static final long serialVersionUID = 1L;
 
-					@Override
-					public void onSaveAndNew(Message bean) {
-						// do nothing
-					}
+            @Override
+            public void onSaveAndNew(Message bean) {
+                // do nothing
+            }
 
-					@Override
-					public void onSave(Message message) {
-						MessageService messageService = ApplicationContextUtil
-								.getSpringBean(MessageService.class);
-						messageService.saveWithSession(message,
-								AppContext.getUsername());
-						doSearch(searchCriteria);
-					}
+            @Override
+            public void onSave(Message message) {
+                MessageService messageService = ApplicationContextUtil.getSpringBean(MessageService.class);
+                messageService.saveWithSession(message, AppContext.getUsername());
+                doSearch(searchCriteria);
+            }
 
-					@Override
-					public void onCancel() {
-						// do nothing
-					}
-				});
-	}
+            @Override
+            public void onCancel() {
+                // do nothing
+            }
+        });
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.MESSAGES)) {
-			ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
-			breadCrumb.gotoMessageList();
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.MESSAGES)) {
+            ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
+            breadCrumb.gotoMessageList();
 
-			MessageContainer messageContainer = (MessageContainer) container;
-			messageContainer.navigateToContainer(ProjectTypeConstants.MESSAGE);
-			messageContainer.removeAllComponents();
-			messageContainer.addComponent(view.getWidget());
-			doSearch((MessageSearchCriteria) data.getParams());
-		} else {
-			NotificationUtil.showMessagePermissionAlert();
-		}
-	}
+            MessageContainer messageContainer = (MessageContainer) container;
+            messageContainer.navigateToContainer(ProjectTypeConstants.MESSAGE);
+            messageContainer.removeAllComponents();
+            messageContainer.addComponent(view.getWidget());
+            doSearch((MessageSearchCriteria) data.getParams());
+        } else {
+            NotificationUtil.showMessagePermissionAlert();
+        }
+    }
 
-	@Override
-	public void doSearch(MessageSearchCriteria searchCriteria) {
-		this.searchCriteria = searchCriteria;
-		view.setCriteria(searchCriteria);
-	}
+    @Override
+    public void doSearch(MessageSearchCriteria searchCriteria) {
+        this.searchCriteria = searchCriteria;
+        view.setCriteria(searchCriteria);
+    }
 }

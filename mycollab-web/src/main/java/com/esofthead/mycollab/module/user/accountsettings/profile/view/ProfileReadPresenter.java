@@ -25,28 +25,25 @@ import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class ProfileReadPresenter extends AbstractPresenter<ProfileReadView> {
+    private static final long serialVersionUID = 1L;
 
-	private static final long serialVersionUID = 1L;
+    public ProfileReadPresenter() {
+        super(ProfileReadView.class);
+    }
 
-	public ProfileReadPresenter() {
-		super(ProfileReadView.class);
-	}
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        ProfileContainer profileContainer = (ProfileContainer) container;
+        profileContainer.removeAllComponents();
+        profileContainer.addComponent(view.getWidget());
+        User currentUser = AppContext.getUser();
+        view.previewItem(currentUser);
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		ProfileContainer profileContainer = (ProfileContainer) container;
-		profileContainer.removeAllComponents();
-		profileContainer.addComponent(view.getWidget());
-		User currentUser = AppContext.getUser();
-		view.previewItem(currentUser);
-
-		AccountSettingBreadcrumb breadcrumb = ViewManager.getCacheComponent(AccountSettingBreadcrumb.class);
-		breadcrumb.gotoProfile();
-	}
+        AccountSettingBreadcrumb breadcrumb = ViewManager.getCacheComponent(AccountSettingBreadcrumb.class);
+        breadcrumb.gotoProfile();
+    }
 }

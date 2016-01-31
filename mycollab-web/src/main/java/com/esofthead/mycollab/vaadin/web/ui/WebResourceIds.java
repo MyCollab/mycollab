@@ -57,7 +57,6 @@ public final class WebResourceIds {
   public static final String _16_severity_minor = "icons/16/severity_minor.png";
   public static final String _16_severity_trivial = "icons/16/severity_trivial.png";
   public static final String _about = "icons/about.png";
-  public static final String _calendar_arrows = "icons/calendar_arrows.png";
   public static final String _default_user_avatar_100 = "icons/default_user_avatar_100.png";
   public static final String _default_user_avatar_16 = "icons/default_user_avatar_16.png";
   public static final String _default_user_avatar_22 = "icons/default_user_avatar_22.png";
@@ -76,7 +75,6 @@ public final class WebResourceIds {
   public static final String _footer_clouds = "icons/footer_clouds.png";
   public static final String _lazy_load_icon = "icons/lazy-load-icon.gif";
   public static final String _logo = "icons/logo.png";
-  public static final String _logo_email = "icons/logo_email.png";
   public static final String _logo_mycollab_2 = "icons/logo_mycollab_2.png";
   public static final String _sad_face = "icons/sad_face.png";
 }

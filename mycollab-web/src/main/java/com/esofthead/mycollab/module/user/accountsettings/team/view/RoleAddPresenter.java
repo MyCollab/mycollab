@@ -27,96 +27,89 @@ import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.IEditFormHandler;
-import com.esofthead.mycollab.vaadin.mvp.HistoryViewManager;
-import com.esofthead.mycollab.vaadin.mvp.NullViewState;
-import com.esofthead.mycollab.vaadin.mvp.ScreenData;
-import com.esofthead.mycollab.vaadin.mvp.ViewManager;
-import com.esofthead.mycollab.vaadin.mvp.ViewPermission;
-import com.esofthead.mycollab.vaadin.mvp.ViewState;
-import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
+import com.esofthead.mycollab.vaadin.mvp.*;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
+import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @ViewPermission(permissionId = RolePermissionCollections.ACCOUNT_ROLE, impliedPermissionVal = AccessPermissionFlag.READ_WRITE)
 public class RoleAddPresenter extends AbstractPresenter<RoleAddView> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public RoleAddPresenter() {
-		super(RoleAddView.class);
-	}
+    public RoleAddPresenter() {
+        super(RoleAddView.class);
+    }
 
-	@Override
-	protected void postInitView() {
-		view.getEditFormHandlers().addFormHandler(new IEditFormHandler<Role>() {
-			private static final long serialVersionUID = 1L;
+    @Override
+    protected void postInitView() {
+        view.getEditFormHandlers().addFormHandler(new IEditFormHandler<Role>() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public void onSave(final Role item) {
-				save(item);
-				ViewState viewState = HistoryViewManager.back();
-				if (viewState instanceof NullViewState) {
-					EventBusFactory.getInstance().post(
-							new RoleEvent.GotoList(this, null));
-				}
-			}
+            @Override
+            public void onSave(final Role item) {
+                save(item);
+                ViewState viewState = HistoryViewManager.back();
+                if (viewState instanceof NullViewState) {
+                    EventBusFactory.getInstance().post(new RoleEvent.GotoList(this, null));
+                }
+            }
 
-			@Override
-			public void onCancel() {
-				ViewState viewState = HistoryViewManager.back();
-				if (viewState instanceof NullViewState) {
-					EventBusFactory.getInstance().post(
-							new RoleEvent.GotoList(this, null));
-				}
-			}
+            @Override
+            public void onCancel() {
+                ViewState viewState = HistoryViewManager.back();
+                if (viewState instanceof NullViewState) {
+                    EventBusFactory.getInstance().post(
+                            new RoleEvent.GotoList(this, null));
+                }
+            }
 
-			@Override
-			public void onSaveAndNew(Role item) {
-				save(item);
-				EventBusFactory.getInstance().post(
-						new RoleEvent.GotoAdd(this, null));
-			}
-		});
-	}
+            @Override
+            public void onSaveAndNew(Role item) {
+                save(item);
+                EventBusFactory.getInstance().post(
+                        new RoleEvent.GotoAdd(this, null));
+            }
+        });
+    }
 
-	public void save(Role item) {
-		RoleService roleService = ApplicationContextUtil.getSpringBean(RoleService.class);
-		item.setSaccountid(AppContext.getAccountId());
+    public void save(Role item) {
+        RoleService roleService = ApplicationContextUtil.getSpringBean(RoleService.class);
+        item.setSaccountid(AppContext.getAccountId());
 
-		if (item.getId() == null) {
-			roleService.saveWithSession(item, AppContext.getUsername());
-		} else {
-			roleService.updateWithSession(item, AppContext.getUsername());
-		}
+        if (item.getId() == null) {
+            roleService.saveWithSession(item, AppContext.getUsername());
+        } else {
+            roleService.updateWithSession(item, AppContext.getUsername());
+        }
 
-		roleService.savePermission(item.getId(), view.getPermissionMap(),
-				item.getSaccountid());
+        roleService.savePermission(item.getId(), view.getPermissionMap(),
+                item.getSaccountid());
 
-	}
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		if (AppContext.canWrite(RolePermissionCollections.ACCOUNT_ROLE)) {
-			RoleContainer roleContainer = (RoleContainer) container;
-			roleContainer.removeAllComponents();
-			roleContainer.addComponent(view.getWidget());
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        if (AppContext.canWrite(RolePermissionCollections.ACCOUNT_ROLE)) {
+            RoleContainer roleContainer = (RoleContainer) container;
+            roleContainer.removeAllComponents();
+            roleContainer.addComponent(view.getWidget());
 
-			Role role = (Role) data.getParams();
-			view.editItem(role);
+            Role role = (Role) data.getParams();
+            view.editItem(role);
 
-			AccountSettingBreadcrumb breadcrumb = ViewManager.getCacheComponent(AccountSettingBreadcrumb.class);
+            AccountSettingBreadcrumb breadcrumb = ViewManager.getCacheComponent(AccountSettingBreadcrumb.class);
 
-			if (role.getId() == null) {
-				breadcrumb.gotoRoleAdd();
-			} else {
-				breadcrumb.gotoRoleEdit(role);
-			}
-		} else {
-			NotificationUtil.showMessagePermissionAlert();
-		}
-	}
+            if (role.getId() == null) {
+                breadcrumb.gotoRoleAdd();
+            } else {
+                breadcrumb.gotoRoleEdit(role);
+            }
+        } else {
+            NotificationUtil.showMessagePermissionAlert();
+        }
+    }
 }

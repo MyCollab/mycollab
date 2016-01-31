@@ -30,7 +30,5 @@ public class DeleteColumnWindow extends Window {
         this.setModal(true);
         this.setResizable(false);
         this.center();
-
-
     }
 }

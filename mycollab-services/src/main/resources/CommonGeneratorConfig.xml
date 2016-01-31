@@ -31,53 +31,23 @@
                       value="com.esofthead.mycollab.core.persistence.ICrudGenericDAO"/>
         </javaClientGenerator>
 
-        <table domainObjectName="Currency" schema="mycollab"
-               tableName="s_currency"/>
-
-        <table domainObjectName="MonitorItem" schema="mycollab"
-               tableName="m_monitor_item"/>
-
-        <table domainObjectName="ActivityStream" schema="mycollab"
-               tableName="s_activitystream"/>
-
-        <table domainObjectName="ReportBugIssue" schema="mycollab"
-               tableName="s_report_bug_issue"/>
-
-        <table domainObjectName="Comment" schema="mycollab"
-               tableName="m_comment"/>
-
-        <table domainObjectName="CustomerFeedback" schema="mycollab"
-               tableName="s_customer_feedback"/>
-
-        <table domainObjectName="RelayEmail" schema="mycollab"
-               tableName="s_relay_mail"/>
-
-        <table domainObjectName="RelayEmailNotification" schema="mycollab"
-               tableName="s_relay_email_notification"/>
-
-        <table schema="mycollab" tableName="m_options"
-               domainObjectName="OptionVal"/>
-
-        <table schema="mycollab" tableName="m_audit_log"
-               domainObjectName="AuditLog"/>
-
-        <table schema="mycollab" tableName="s_save_search_result"
-               domainObjectName="SaveSearchResult"/>
-
-        <table schema="mycollab" tableName="s_table_customize_view"
-               domainObjectName="CustomViewStore"/>
-
-        <table schema="mycollab" tableName="s_tag"
-               domainObjectName="Tag"/>
-
-        <table schema="mycollab" tableName="s_favorite"
-               domainObjectName="FavoriteItem"/>
-
-        <table schema="mycollab" tableName="s_timeline_tracking"
-               domainObjectName="TimelineTracking"/>
-
-        <table schema="mycollab" tableName="s_timeline_tracking_cache"
-               domainObjectName="TimelineTrackingCaching"/>
+        <table domainObjectName="Currency" schema="mycollab_base" tableName="s_currency"/>
+        <table domainObjectName="MonitorItem" schema="mycollab_base" tableName="m_monitor_item"/>
+        <table domainObjectName="ActivityStream" schema="mycollab_base" tableName="s_activitystream"/>
+        <table domainObjectName="ReportBugIssue" schema="mycollab_base" tableName="s_report_bug_issue"/>
+        <table domainObjectName="Comment" schema="mycollab_base" tableName="m_comment"/>
+        <table domainObjectName="CustomerFeedback" schema="mycollab_base" tableName="s_customer_feedback"/>
+        <table domainObjectName="RelayEmail" schema="mycollab_base" tableName="s_relay_mail"/>
+        <table domainObjectName="RelayEmailNotification" schema="mycollab_base" tableName="s_relay_email_notification"/>
+        <table schema="mycollab_base" tableName="m_options" domainObjectName="OptionVal"/>
+        <table schema="mycollab_base" tableName="m_audit_log" domainObjectName="AuditLog"/>
+        <table schema="mycollab_base" tableName="s_save_search_result" domainObjectName="SaveSearchResult"/>
+        <table schema="mycollab_base" tableName="s_table_customize_view" domainObjectName="CustomViewStore"/>
+        <table schema="mycollab_base" tableName="s_tag" domainObjectName="Tag"/>
+        <table schema="mycollab_base" tableName="s_favorite" domainObjectName="FavoriteItem"/>
+        <table schema="mycollab_base" tableName="s_timeline_tracking" domainObjectName="TimelineTracking"/>
+        <table schema="mycollab_base" tableName="s_timeline_tracking_cache" domainObjectName="TimelineTrackingCaching"/>
+        <table domainObjectName="LiveInstance" schema="mycollab_base" tableName="s_live_instances" />
     </context>
 
 </generatorConfiguration>

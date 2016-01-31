@@ -19,11 +19,9 @@ package com.esofthead.mycollab.vaadin.resources;
 import com.vaadin.server.StreamResource;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 3.0
- * 
  */
 public interface StreamResourceFactory {
-	StreamResource getStreamResource();
+    StreamResource getStreamResource();
 }

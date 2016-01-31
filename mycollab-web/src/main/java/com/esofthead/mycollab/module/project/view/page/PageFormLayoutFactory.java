@@ -19,48 +19,40 @@ package com.esofthead.mycollab.module.project.view.page;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.project.i18n.Page18InEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.VerticalLayout;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.4.0
- *
  */
 public class PageFormLayoutFactory implements IFormLayoutFactory {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private GridFormLayoutHelper informationLayout;
+    private GridFormLayoutHelper informationLayout;
 
-	@Override
-	public ComponentContainer getLayout() {
-		final VerticalLayout layout = new VerticalLayout();
+    @Override
+    public ComponentContainer getLayout() {
+        final VerticalLayout layout = new VerticalLayout();
 
-		this.informationLayout =  GridFormLayoutHelper.defaultFormLayoutHelper(2, 3);
-		layout.addComponent(this.informationLayout.getLayout());
-		layout.setComponentAlignment(this.informationLayout.getLayout(),
-				Alignment.BOTTOM_CENTER);
-		return layout;
-	}
+        informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 3);
+        layout.addComponent(informationLayout.getLayout());
+        layout.setComponentAlignment(informationLayout.getLayout(), Alignment.BOTTOM_CENTER);
+        return layout;
+    }
 
-	@Override
-	public void attachField(Object propertyId, Field<?> field) {
-		if (propertyId.equals("subject")) {
-			this.informationLayout.addComponent(field,
-					AppContext.getMessage(Page18InEnum.FORM_SUBJECT), 0, 0, 2,
-					"100%");
-		} else if (propertyId.equals("content")) {
-			this.informationLayout.addComponent(field,
-					AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0,
-					1, 2, "100%");
-		} else if (propertyId.equals("status")) {
-			this.informationLayout.addComponent(field,
-					AppContext.getMessage(Page18InEnum.FORM_VISIBILITY), 0, 2);
-		}
-	}
+    @Override
+    public void attachField(Object propertyId, Field<?> field) {
+        if (propertyId.equals("subject")) {
+            informationLayout.addComponent(field, AppContext.getMessage(Page18InEnum.FORM_SUBJECT), 0, 0, 2, "100%");
+        } else if (propertyId.equals("content")) {
+            informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 1, 2, "100%");
+        } else if (propertyId.equals("status")) {
+            informationLayout.addComponent(field, AppContext.getMessage(Page18InEnum.FORM_VISIBILITY), 0, 2);
+        }
+    }
 }

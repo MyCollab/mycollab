@@ -36,7 +36,6 @@ import org.xml.sax.InputSource;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
@@ -77,13 +76,11 @@ public class CommunitySliderContent extends MVerticalLayout {
         }
     }
 
-    public SyndFeed getSyndFeedForUrl(String url) throws MalformedURLException, IOException, IllegalArgumentException, FeedException {
-
+    public SyndFeed getSyndFeedForUrl(String url) throws IOException, IllegalArgumentException, FeedException {
         SyndFeed feed = null;
         InputStream is = null;
 
         try {
-
             URLConnection openConnection = new URL(url).openConnection();
             is = new URL(url).openConnection().getInputStream();
             if ("gzip".equals(openConnection.getContentEncoding())) {

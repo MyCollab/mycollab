@@ -22,11 +22,9 @@ import com.esofthead.mycollab.module.tracker.domain.criteria.VersionSearchCriter
 import com.esofthead.mycollab.vaadin.web.ui.IListView;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public interface VersionListView extends
-		IListView<VersionSearchCriteria, SimpleVersion> {
+public interface VersionListView extends IListView<VersionSearchCriteria, SimpleVersion> {
 
 }

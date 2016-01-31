@@ -149,9 +149,7 @@ public class ResourceServiceImpl implements ResourceService {
             event = new DeleteResourcesEvent(new String[]{path, ((Content) res).getThumbnail()}, deleteUser, sAccountId);
         }
         asyncEventBus.post(event);
-
         contentJcrDao.removeResource(path);
-
     }
 
     @Override

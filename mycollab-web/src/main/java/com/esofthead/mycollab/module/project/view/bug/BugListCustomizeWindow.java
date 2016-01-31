@@ -16,35 +16,33 @@
  */
 package com.esofthead.mycollab.module.project.view.bug;
 
-import java.util.Arrays;
-import java.util.Collection;
-
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
 import com.esofthead.mycollab.vaadin.web.ui.table.CustomizedTableWindow;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class BugListCustomizeWindow extends CustomizedTableWindow {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@SuppressWarnings("rawtypes")
-	public BugListCustomizeWindow(String viewId, AbstractPagedBeanTable table) {
-		super(viewId, table);
-	}
+    @SuppressWarnings("rawtypes")
+    public BugListCustomizeWindow(String viewId, AbstractPagedBeanTable table) {
+        super(viewId, table);
+    }
 
-	@Override
-	protected Collection<TableViewField> getAvailableColumns() {
-		return Arrays.asList(BugTableFieldDef.assignUser(),
-				BugTableFieldDef.createdTime(), BugTableFieldDef.description(),
-				BugTableFieldDef.duedate(), BugTableFieldDef.environment(),
-				BugTableFieldDef.logBy(), BugTableFieldDef.priority(),
-				BugTableFieldDef.resolution(), BugTableFieldDef.status(),
-				BugTableFieldDef.summary());
-	}
+    @Override
+    protected Collection<TableViewField> getAvailableColumns() {
+        return Arrays.asList(BugTableFieldDef.assignUser(),
+                BugTableFieldDef.createdTime(), BugTableFieldDef.description(),
+                BugTableFieldDef.duedate(), BugTableFieldDef.environment(),
+                BugTableFieldDef.logBy(), BugTableFieldDef.priority(),
+                BugTableFieldDef.resolution(), BugTableFieldDef.status(),
+                BugTableFieldDef.summary());
+    }
 
 }

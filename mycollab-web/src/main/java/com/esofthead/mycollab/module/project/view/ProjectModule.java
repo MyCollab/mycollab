@@ -93,17 +93,16 @@ public class ProjectModule extends AbstractPageView implements IDesktopModule {
 
             serviceMenuContainer.with(serviceMenu);
 
-            if (AppContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT)) {
-                Button newPrjBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.BUTTON_NEW_PROJECT), new Button.ClickListener() {
-                    @Override
-                    public void buttonClick(Button.ClickEvent clickEvent) {
-                        UI.getCurrent().addWindow(new ProjectAddWindow());
-                    }
-                });
-                newPrjBtn.addStyleName("add-btn-popup");
-                newPrjBtn.setIcon(FontAwesome.PLUS_CIRCLE);
-                serviceMenuContainer.with(newPrjBtn).withAlign(newPrjBtn, Alignment.MIDDLE_LEFT);
-            }
+            Button newPrjBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.BUTTON_NEW_PROJECT), new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent clickEvent) {
+                    UI.getCurrent().addWindow(new ProjectAddWindow());
+                }
+            });
+            newPrjBtn.addStyleName("add-btn-popup");
+            newPrjBtn.setIcon(FontAwesome.PLUS_CIRCLE);
+            newPrjBtn.setEnabled(AppContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT));
+            serviceMenuContainer.with(newPrjBtn).withAlign(newPrjBtn, Alignment.MIDDLE_LEFT);
 
             Button switchPrjBtn = buildSwitchProjectBtn();
             serviceMenuContainer.with(switchPrjBtn).withAlign(switchPrjBtn, Alignment.MIDDLE_LEFT);

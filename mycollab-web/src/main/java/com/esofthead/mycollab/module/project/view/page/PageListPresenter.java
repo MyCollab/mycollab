@@ -52,8 +52,7 @@ public class PageListPresenter extends AbstractPresenter<PageListView> {
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        if (CurrentProjectVariables
-                .canRead(ProjectRolePermissionCollections.PAGES)) {
+        if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.PAGES)) {
             PageContainer pageContainer = (PageContainer) container;
             pageContainer.navigateToContainer(ProjectTypeConstants.PAGE);
             pageContainer.removeAllComponents();
@@ -64,8 +63,7 @@ public class PageListPresenter extends AbstractPresenter<PageListView> {
             } else {
                 CurrentProjectVariables.setCurrentPagePath(path);
             }
-            List<PageResource> resources = pageService.getResources(path,
-                    AppContext.getUsername());
+            List<PageResource> resources = pageService.getResources(path, AppContext.getUsername());
             if (!CollectionUtils.isEmpty(resources)) {
                 pageContainer.addComponent(view.getWidget());
                 view.displayDefaultPages(resources);
@@ -74,8 +72,7 @@ public class PageListPresenter extends AbstractPresenter<PageListView> {
                 pageContainer.addComponent(alternativeView.getWidget());
             }
 
-            ProjectBreadcrumb breadcrumb = ViewManager
-                    .getCacheComponent(ProjectBreadcrumb.class);
+            ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
             breadcrumb.gotoPageList();
         } else {
             NotificationUtil.showMessagePermissionAlert();

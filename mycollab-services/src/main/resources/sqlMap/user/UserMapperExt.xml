@@ -136,8 +136,7 @@
         #end
     </select>
 
-    <select id="findPagableListByCriteria" resultMap="SimpleUserResult"
-        parameterType="UserSearchCriteria" lang="velocity">
+    <select id="findPagableListByCriteria" resultMap="SimpleUserResult" parameterType="UserSearchCriteria" lang="velocity">
         <include refid="selectUser" />
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -146,8 +145,7 @@
         #end
     </select>
 
-    <delete id="removeByCriteria" parameterType="UserSearchCriteria"
-        lang="velocity">
+    <delete id="removeByCriteria" parameterType="UserSearchCriteria" lang="velocity">
         DELETE FROM s_user
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -156,8 +154,7 @@
         #end
     </delete>
 
-    <select id="findUserByUserName" resultMap="SimpleUserResult"
-        parameterType="java.lang.String" lang="velocity">
+    <select id="findUserByUserName" resultMap="SimpleUserResult" parameterType="java.lang.String" lang="velocity">
         <include refid="selectUser" />
         WHERE s_user.username=@{username}
     </select>
