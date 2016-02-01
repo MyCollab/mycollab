@@ -208,9 +208,16 @@ public class ProjectMemberServiceImpl extends DefaultService<Integer, ProjectMem
         member.setUsername(email);
         member.setJoindate(now);
         member.setSaccountid(sAccountId);
-        member.setIsadmin(false);
+        if (projectRoleId < 0 || projectRoleId == null) {
+            member.setIsadmin(true);
+            member.setProjectroleid(null);
+        } else {
+            member.setIsadmin(false);
+            member.setProjectroleid(projectRoleId);
+        }
+
         member.setStatus(RegisterStatusConstants.ACTIVE);
-        member.setProjectroleid(projectRoleId);
+
         LOG.debug("Start save project member {}", BeanUtility.printBeanObj(member));
 
         saveWithSession(member, "");

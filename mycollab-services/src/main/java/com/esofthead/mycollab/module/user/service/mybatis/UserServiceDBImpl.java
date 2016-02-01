@@ -103,6 +103,12 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
     public void saveUserAccount(SimpleUser record, Integer sAccountId, String inviteUser) {
         billingPlanCheckerService.validateAccountCanCreateNewUser(sAccountId);
 
+        SimpleUser inviterUserEntity = findUserByUserNameInAccount(inviteUser, sAccountId);
+        if (inviterUserEntity == null) {
+            throw new UserInvalidInputException("Can not find user has email " + inviteUser + ". If it is yours, " +
+                    "please logout then login to MyCollab and do the action again");
+        }
+
         // check if user email has already in this account yet
         UserAccountExample userAccountEx = new UserAccountExample();
 
@@ -158,8 +164,10 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
 
         if (record.getRoleid() <= 0) {
             record.setRoleid(null);
+            record.setIsAccountOwner(true);
         } else {
             userAccount.setRoleid(record.getRoleid());
+            userAccount.setIsaccountowner(false);
         }
 
         userAccount.setUsername(record.getUsername());
@@ -182,7 +190,6 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
             userAccountMapper.insert(userAccount);
         }
 
-        SimpleUser inviterUserEntity = findUserByUserNameInAccount(inviteUser, sAccountId);
         SendUserInvitationEvent invitationEvent = new SendUserInvitationEvent(record.getUsername(), inviterUserEntity.getUsername(),
                 record.getSubdomain(), sAccountId);
         asyncEventBus.post(invitationEvent);
