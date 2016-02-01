@@ -16,9 +16,10 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.settings;
 
-import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectMemberScreenData;
-import com.esofthead.mycollab.mobile.mvp.AbstractPresenter;
 import com.esofthead.mycollab.mobile.module.project.view.AbstractProjectPresenter;
+import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectMemberScreenData;
+import com.esofthead.mycollab.mobile.mvp.view.PresenterOptionUtil;
+import com.esofthead.mycollab.vaadin.mvp.IPresenter;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.vaadin.ui.ComponentContainer;
@@ -36,14 +37,14 @@ public class ProjectUserPresenter extends AbstractProjectPresenter<ProjectUserCo
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        AbstractPresenter<?> presenter;
+        IPresenter<?> presenter;
 
         if (data instanceof ProjectMemberScreenData.InviteProjectMembers) {
-            presenter = PresenterResolver.getPresenter(ProjectMemberInvitePresenter.class);
+            presenter = PresenterOptionUtil.getPresenter(IProjectMemberInvitePresenter.class);
         } else if (data instanceof ProjectMemberScreenData.Read) {
             presenter = PresenterResolver.getPresenter(ProjectMemberReadPresenter.class);
         } else if (data instanceof ProjectMemberScreenData.Edit) {
-            presenter = PresenterResolver.getPresenter(ProjectMemberEditPresenter.class);
+            presenter = PresenterOptionUtil.getPresenter(IProjectMemberEditPresenter.class);
         } else {
             presenter = PresenterResolver.getPresenter(ProjectMemberListPresenter.class);
         }

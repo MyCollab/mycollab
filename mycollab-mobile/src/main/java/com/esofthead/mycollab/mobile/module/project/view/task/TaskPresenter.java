@@ -19,8 +19,10 @@ package com.esofthead.mycollab.mobile.module.project.view.task;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.TaskScreenData;
 import com.esofthead.mycollab.mobile.mvp.AbstractPresenter;
+import com.esofthead.mycollab.mobile.mvp.view.PresenterOptionUtil;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.vaadin.mvp.IPresenter;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
@@ -40,14 +42,14 @@ public class TaskPresenter extends AbstractPresenter<TaskContainer> {
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.TASKS)) {
-            AbstractPresenter<?> presenter;
+            IPresenter<?> presenter;
 
             if (data instanceof TaskScreenData.Search) {
                 presenter = PresenterResolver.getPresenter(TaskListPresenter.class);
             } else if (data instanceof TaskScreenData.Read) {
                 presenter = PresenterResolver.getPresenter(TaskReadPresenter.class);
             } else if (data instanceof TaskScreenData.Add || data instanceof TaskScreenData.Edit) {
-                presenter = PresenterResolver.getPresenter(TaskAddPresenter.class);
+                presenter = PresenterOptionUtil.getPresenter(ITaskAddPresenter.class);
             } else {
                 throw new MyCollabException("Do not support param: " + data);
             }

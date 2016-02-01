@@ -38,14 +38,6 @@ public class SearchFieldInfo implements Serializable {
     private String compareOper;
     private VariableInjecter variableInjecter;
 
-    public SearchFieldInfo() {
-        this(SearchField.AND, null, null, null);
-    }
-
-    public SearchFieldInfo(Param param, String compareOper, Object value) {
-        this(SearchField.AND, param, compareOper, value);
-    }
-
     public SearchFieldInfo(String prefixOper, Param param, String compareOper, Object value) {
         this.prefixOper = prefixOper;
         this.param = param;
@@ -59,6 +51,10 @@ public class SearchFieldInfo implements Serializable {
 
     public static SearchFieldInfo inCollection(PropertyListParam param, Object value) {
         return new SearchFieldInfo(SearchField.AND, param, PropertyListParam.BELONG_TO, value);
+    }
+
+    public static SearchFieldInfo inCollection(StringListParam param, Object value) {
+        return new SearchFieldInfo(SearchField.AND, param, StringListParam.IN, value);
     }
 
     public static SearchFieldInfo inDateRange(DateParam param, Object value) {

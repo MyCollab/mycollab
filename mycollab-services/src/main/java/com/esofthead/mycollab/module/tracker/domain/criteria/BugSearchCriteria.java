@@ -68,7 +68,7 @@ public class BugSearchCriteria extends SearchCriteria {
             Arrays.asList(BugSeverity.Critical.name(), BugSeverity.Major.name(),
                     BugSeverity.Minor.name(), BugSeverity.Trivial.name()));
 
-    public static final Param p_status = new StringListParam("bug-status",
+    public static final StringListParam p_status = new StringListParam("bug-status",
             BugI18nEnum.FORM_STATUS, "m_tracker_bug", "status", Arrays.asList(
             BugStatus.Verified.name(), BugStatus.InProgress.name(),
             BugStatus.Open.name(), BugStatus.ReOpened.name(),

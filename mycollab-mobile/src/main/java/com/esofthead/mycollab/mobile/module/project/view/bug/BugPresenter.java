@@ -17,11 +17,12 @@
 package com.esofthead.mycollab.mobile.module.project.view.bug;
 
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.mobile.module.project.view.parameters.BugScreenData;
-import com.esofthead.mycollab.mobile.mvp.AbstractPresenter;
 import com.esofthead.mycollab.mobile.module.project.view.AbstractProjectPresenter;
+import com.esofthead.mycollab.mobile.module.project.view.parameters.BugScreenData;
+import com.esofthead.mycollab.mobile.mvp.view.PresenterOptionUtil;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.vaadin.mvp.IPresenter;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
@@ -41,12 +42,12 @@ public class BugPresenter extends AbstractProjectPresenter<BugContainer> {
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.BUGS)) {
-            AbstractPresenter<?> presenter;
+            IPresenter<?> presenter;
 
             if (data instanceof BugScreenData.Search) {
                 presenter = PresenterResolver.getPresenter(BugListPresenter.class);
             } else if (data instanceof BugScreenData.Add || data instanceof BugScreenData.Edit) {
-                presenter = PresenterResolver.getPresenter(BugAddPresenter.class);
+                presenter = PresenterOptionUtil.getPresenter(IBugAddPresenter.class);
             } else if (data instanceof BugScreenData.Read) {
                 presenter = PresenterResolver.getPresenter(BugReadPresenter.class);
 

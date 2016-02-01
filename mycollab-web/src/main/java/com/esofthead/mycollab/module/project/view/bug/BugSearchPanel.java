@@ -115,7 +115,6 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
             super(BugSearchPanel.this);
         }
 
-        @SuppressWarnings("serial")
         @Override
         public ComponentContainer constructBody() {
             MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
@@ -136,36 +135,31 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
             myItemCheckbox = new CheckBox(AppContext.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
             basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox, Alignment.MIDDLE_CENTER);
 
-            Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
-            searchBtn.setIcon(FontAwesome.SEARCH);
-            searchBtn.setStyleName(UIConstants.BUTTON_ACTION);
-
-            searchBtn.addClickListener(new Button.ClickListener() {
+            Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH), new Button.ClickListener() {
                 @Override
-                public void buttonClick(final ClickEvent event) {
+                public void buttonClick(ClickEvent clickEvent) {
                     callSearchAction();
                 }
             });
+            searchBtn.setIcon(FontAwesome.SEARCH);
             searchBtn.setStyleName(UIConstants.BUTTON_ACTION);
             basicSearchBody.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_LEFT);
 
-            Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
-            cancelBtn.addClickListener(new Button.ClickListener() {
+            Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), new Button.ClickListener() {
                 @Override
-                public void buttonClick(final ClickEvent event) {
-                    BugBasicSearchLayout.this.nameField.setValue("");
+                public void buttonClick(ClickEvent clickEvent) {
+                    nameField.setValue("");
                 }
             });
             cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
             basicSearchBody.addComponent(cancelBtn);
 
-            Button advancedSearchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
-                    new Button.ClickListener() {
-                        @Override
-                        public void buttonClick(final ClickEvent event) {
-                            moveToAdvancedSearchLayout();
-                        }
-                    });
+            Button advancedSearchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH), new Button.ClickListener() {
+                @Override
+                public void buttonClick(final ClickEvent event) {
+                    moveToAdvancedSearchLayout();
+                }
+            });
             advancedSearchBtn.setStyleName(UIConstants.BUTTON_LINK);
             basicSearchBody.with(advancedSearchBtn).withAlign(advancedSearchBtn, Alignment.MIDDLE_CENTER);
 

@@ -17,9 +17,10 @@
 package com.esofthead.mycollab.mobile.module.project.view.milestone;
 
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.mobile.module.project.view.parameters.MilestoneScreenData;
-import com.esofthead.mycollab.mobile.mvp.AbstractPresenter;
 import com.esofthead.mycollab.mobile.module.project.view.AbstractProjectPresenter;
+import com.esofthead.mycollab.mobile.module.project.view.parameters.MilestoneScreenData;
+import com.esofthead.mycollab.mobile.mvp.view.PresenterOptionUtil;
+import com.esofthead.mycollab.vaadin.mvp.IPresenter;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.vaadin.ui.ComponentContainer;
@@ -37,12 +38,12 @@ public class MilestonePresenter extends AbstractProjectPresenter<MilestoneContai
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        AbstractPresenter<?> presenter;
+        IPresenter<?> presenter;
 
         if (data instanceof MilestoneScreenData.Search) {
             presenter = PresenterResolver.getPresenter(MilestoneListPresenter.class);
         } else if (data instanceof MilestoneScreenData.Add || data instanceof MilestoneScreenData.Edit) {
-            presenter = PresenterResolver.getPresenter(MilestoneAddPresenter.class);
+            presenter = PresenterOptionUtil.getPresenter(IMilestoneAddPresenter.class);
         } else if (data instanceof MilestoneScreenData.Read) {
             presenter = PresenterResolver.getPresenter(MilestoneReadPresenter.class);
         } else {

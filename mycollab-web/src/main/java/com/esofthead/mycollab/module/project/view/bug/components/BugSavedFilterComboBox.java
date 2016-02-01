@@ -42,6 +42,7 @@ public class BugSavedFilterComboBox extends SavedFilterComboBox {
     public static final String UPDATE_THIS_WEEK = "UPDATE_THIS_WEEK";
     public static final String NEW_LAST_WEEK = "NEW_LAST_WEEK";
     public static final String UPDATE_LAST_WEEK = "UPDATE_LAST_WEEK";
+    public static final String WAITING_FOR_APPROVAL = "WAITING_FOR_APPROVAL";
 
     public BugSavedFilterComboBox() {
         super(ProjectTypeConstants.BUG);
@@ -49,9 +50,8 @@ public class BugSavedFilterComboBox extends SavedFilterComboBox {
         SearchQueryInfo allBugsQuery = new SearchQueryInfo(ALL_BUGS, "All Bugs", SearchFieldInfo.inCollection
                 (BugSearchCriteria.p_projectIds, new CurrentProjectIdInjecter()));
 
-        SearchQueryInfo allOpenBugsQuery = new SearchQueryInfo(OPEN_BUGS, "All Open Bugs", new SearchFieldInfo(SearchField.AND,
-                new PropertyListParam("bug-status", BugI18nEnum.FORM_STATUS, "m_tracker_bug", "status"), PropertyListParam.BELONG_TO,
-                new VariableInjecter() {
+        SearchQueryInfo allOpenBugsQuery = new SearchQueryInfo(OPEN_BUGS, "All Open Bugs", SearchFieldInfo.inCollection(
+                BugSearchCriteria.p_status, new VariableInjecter() {
                     @Override
                     public Object eval() {
                         return Arrays.asList(BugStatus.InProgress.name(), BugStatus.Open.name(), BugStatus.ReOpened.name());
@@ -92,6 +92,14 @@ public class BugSavedFilterComboBox extends SavedFilterComboBox {
         SearchQueryInfo updateBugsLastWeekQuery = new SearchQueryInfo(UPDATE_LAST_WEEK, "Update Last Week",
                 SearchFieldInfo.inDateRange(BugSearchCriteria.p_lastupdatedtime, VariableInjecter.LAST_WEEK));
 
+        SearchQueryInfo waitForApproveQuery = new SearchQueryInfo(WAITING_FOR_APPROVAL, "Waiting For Approval",
+                SearchFieldInfo.inCollection(BugSearchCriteria.p_status, new VariableInjecter() {
+                    @Override
+                    public Object eval() {
+                        return Arrays.asList(BugStatus.Resolved.name());
+                    }
+                }));
+
         this.addSharedSearchQueryInfo(allBugsQuery);
         this.addSharedSearchQueryInfo(allOpenBugsQuery);
         this.addSharedSearchQueryInfo(overdueTaskQuery);
@@ -100,6 +108,7 @@ public class BugSavedFilterComboBox extends SavedFilterComboBox {
         this.addSharedSearchQueryInfo(updateBugsThisWeekQuery);
         this.addSharedSearchQueryInfo(newBugsLastWeekQuery);
         this.addSharedSearchQueryInfo(updateBugsLastWeekQuery);
+        this.addSharedSearchQueryInfo(waitForApproveQuery);
     }
 
     public void setTotalCountNumber(int countNumber) {

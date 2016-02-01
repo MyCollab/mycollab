@@ -14,18 +14,16 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-ui.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.vaadin.ui;
+package com.esofthead.mycollab.vaadin.mvp;
 
-import com.vaadin.ui.CustomField;
+import com.esofthead.mycollab.core.MyCollabException;
 
 /**
- *
- * @author MyCollab Ltd.
- * @since 3.0
- *
- * @param <T>
+ * @author MyCollab Ltd
+ * @since 5.2.6
  */
-public abstract class CompoundCustomField<T> extends CustomField<T> {
-    private static final long serialVersionUID = 1L;
-
+public class PresenterNotFoundException extends MyCollabException {
+    public PresenterNotFoundException(String message) {
+        super(message);
+    }
 }

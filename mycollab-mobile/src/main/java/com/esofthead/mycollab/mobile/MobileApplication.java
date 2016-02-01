@@ -45,7 +45,6 @@ import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.ThemeManager;
-import com.esofthead.mycollab.vaadin.ui.service.GoogleAnalyticsService;
 import com.vaadin.addon.touchkit.extensions.LocalStorage;
 import com.vaadin.addon.touchkit.extensions.LocalStorageCallback;
 import com.vaadin.addon.touchkit.extensions.OfflineMode;
@@ -216,26 +215,30 @@ public class MobileApplication extends MyCollabUI {
     }
 
     public void doLogin(String username, String password, boolean isRememberPassword) {
-        UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
-        SimpleUser user = userService.authentication(username, password, AppContext.getSubDomain(), false);
+        try {
+            UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
+            SimpleUser user = userService.authentication(username, password, AppContext.getSubDomain(), false);
 
-        if (isRememberPassword) {
-            rememberPassword(username, password);
+            if (isRememberPassword) {
+                rememberPassword(username, password);
+            }
+
+            BillingAccountService billingAccountService = ApplicationContextUtil.getSpringBean(BillingAccountService.class);
+
+            SimpleBillingAccount billingAccount = billingAccountService.getBillingAccountById(AppContext.getAccountId());
+            LOG.debug(String.format("Get billing account successfully: %s", BeanUtility.printBeanObj(billingAccount)));
+            AppContext.getInstance().setSessionVariables(user, billingAccount);
+
+            UserAccountMapper userAccountMapper = ApplicationContextUtil.getSpringBean(UserAccountMapper.class);
+            UserAccount userAccount = new UserAccount();
+            userAccount.setLastaccessedtime(new GregorianCalendar().getTime());
+            UserAccountExample ex = new UserAccountExample();
+            ex.createCriteria().andAccountidEqualTo(billingAccount.getId()).andUsernameEqualTo(user.getUsername());
+            userAccountMapper.updateByExampleSelective(userAccount, ex);
+            EventBusFactory.getInstance().post(new ShellEvent.GotoMainPage(this, null));
+        } catch (Exception e) {
+            EventBusFactory.getInstance().post(new ShellEvent.GotoLoginView(this));
         }
-
-        BillingAccountService billingAccountService = ApplicationContextUtil.getSpringBean(BillingAccountService.class);
-
-        SimpleBillingAccount billingAccount = billingAccountService.getBillingAccountById(AppContext.getAccountId());
-        LOG.debug(String.format("Get billing account successfully: %s", BeanUtility.printBeanObj(billingAccount)));
-        AppContext.getInstance().setSessionVariables(user, billingAccount);
-
-        UserAccountMapper userAccountMapper = ApplicationContextUtil.getSpringBean(UserAccountMapper.class);
-        UserAccount userAccount = new UserAccount();
-        userAccount.setLastaccessedtime(new GregorianCalendar().getTime());
-        UserAccountExample ex = new UserAccountExample();
-        ex.createCriteria().andAccountidEqualTo(billingAccount.getId()).andUsernameEqualTo(user.getUsername());
-        userAccountMapper.updateByExampleSelective(userAccount, ex);
-        EventBusFactory.getInstance().post(new ShellEvent.GotoMainPage(this, null));
     }
 
     private void rememberPassword(String username, String password) {

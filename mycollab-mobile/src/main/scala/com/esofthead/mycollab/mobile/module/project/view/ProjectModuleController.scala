@@ -31,6 +31,7 @@ import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectScree
 import com.esofthead.mycollab.mobile.module.project.view.parameters._
 import com.esofthead.mycollab.mobile.module.project.view.settings.ProjectUserPresenter
 import com.esofthead.mycollab.mobile.module.project.view.task.TaskPresenter
+import com.esofthead.mycollab.mobile.mvp.view.PresenterOptionUtil
 import com.esofthead.mycollab.module.project.domain.criteria._
 import com.esofthead.mycollab.module.project.domain.{SimpleMilestone, SimpleProject, SimpleProjectMember, SimpleTask}
 import com.esofthead.mycollab.module.project.service.ProjectService
@@ -58,7 +59,7 @@ class ProjectModuleController(val navManager: NavigationManager) extends Abstrac
   private def bindProjectEvents() {
     this.register(new ApplicationEventListener[ProjectEvent.GotoAdd]() {
       @Subscribe def handle(event: ProjectEvent.GotoAdd): Unit = {
-        val presenter = PresenterResolver.getPresenter(classOf[ProjectAddPresenter])
+        val presenter = PresenterOptionUtil.getPresenter(classOf[IProjectAddPresenter])
         presenter.go(navManager, new Add(new SimpleProject))
       }
     })

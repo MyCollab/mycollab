@@ -19,9 +19,11 @@ package com.esofthead.mycollab.mobile.module.project.view.message;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.MessageScreenData;
 import com.esofthead.mycollab.mobile.mvp.AbstractPresenter;
+import com.esofthead.mycollab.mobile.mvp.view.PresenterOptionUtil;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.criteria.MessageSearchCriteria;
+import com.esofthead.mycollab.vaadin.mvp.IPresenter;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
@@ -48,7 +50,7 @@ public class MessagePresenter extends AbstractPresenter<MessageContainer> {
                 MessageListPresenter presenter = PresenterResolver.getPresenter(MessageListPresenter.class);
                 presenter.go(container, data);
             } else if (data instanceof MessageScreenData.Add) {
-                MessageAddPresenter presenter = PresenterResolver.getPresenter(MessageAddPresenter.class);
+                IPresenter presenter = PresenterOptionUtil.getPresenter(IMessageAddPresenter.class);
                 presenter.go(container, data);
             } else if (data == null) {
                 MessageSearchCriteria searchCriteria = new MessageSearchCriteria();

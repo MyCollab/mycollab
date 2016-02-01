@@ -60,7 +60,7 @@ public class UnresolvedBugsByStatusWidget extends DepotWithChart {
 
     @Override
     protected void displayChartMode() {
-        this.bodyContent.removeAllComponents();
+        bodyContent.removeAllComponents();
         IStatusSummaryChartWidget statusSummaryChartWidget = ViewManager.getCacheComponent(IStatusSummaryChartWidget.class);
         statusSummaryChartWidget.displayChart(searchCriteria);
         bodyContent.addComponent(statusSummaryChartWidget);
@@ -68,7 +68,7 @@ public class UnresolvedBugsByStatusWidget extends DepotWithChart {
 
     @Override
     protected void displayPlainMode() {
-        this.bodyContent.removeAllComponents();
+        bodyContent.removeAllComponents();
         BugStatusClickListener listener = new BugStatusClickListener();
         if (!groupItems.isEmpty()) {
             for (OptionI18nEnum.BugStatus status : OptionI18nEnum.bug_statuses) {
@@ -86,11 +86,12 @@ public class UnresolvedBugsByStatusWidget extends DepotWithChart {
                         ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount, totalCount - item.getValue(), false);
                         indicator.setWidth("100%");
                         statusLayout.with(statusLink, indicator).expand(indicator);
-                        this.bodyContent.addComponent(statusLayout);
+                        bodyContent.addComponent(statusLayout);
                     }
                 }
 
-                if (!isFound) {
+                if (!isFound && !status.name().equals(OptionI18nEnum.BugStatus.Resolved.name()) &&
+                        !status.name().equals(OptionI18nEnum.BugStatus.Verified.name())) {
                     MHorizontalLayout statusLayout = new MHorizontalLayout().withWidth("100%");
                     statusLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
                     Button statusLink = new ButtonI18nComp(status.name(), status, listener);
@@ -100,7 +101,7 @@ public class UnresolvedBugsByStatusWidget extends DepotWithChart {
                     ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount, totalCount, false);
                     indicator.setWidth("100%");
                     statusLayout.with(statusLink, indicator).expand(indicator);
-                    this.bodyContent.addComponent(statusLayout);
+                    bodyContent.addComponent(statusLayout);
                 }
             }
         }

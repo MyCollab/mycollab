@@ -24,7 +24,7 @@ import java.util.Collection;
  * @author MyCollab Ltd.
  * @since 4.0
  */
-public class PropertyListParam extends ColumnParam {
+public class PropertyListParam<P> extends ColumnParam {
     public static final String BELONG_TO = "belong to";
     public static final String NOT_BELONG_TO = "not belong to";
 
@@ -37,11 +37,11 @@ public class PropertyListParam extends ColumnParam {
         super(id, displayName, table, column);
     }
 
-    public CollectionValueSearchField buildPropertyParamInList(String oper, Collection<?> value) {
+    public CollectionValueSearchField buildPropertyParamInList(String oper, Collection<P> value) {
         return new CollectionValueSearchField(oper, String.format(IN_EXPR, this.getTable(), this.getColumn()), value);
     }
 
-    public CollectionValueSearchField buildPropertyParamNotInList(String oper, Collection<?> value) {
+    public CollectionValueSearchField buildPropertyParamNotInList(String oper, Collection<P> value) {
         return new CollectionValueSearchField(oper, String.format(NOT_IN_EXPR, this.getTable(), this.getColumn()), value);
     }
 }

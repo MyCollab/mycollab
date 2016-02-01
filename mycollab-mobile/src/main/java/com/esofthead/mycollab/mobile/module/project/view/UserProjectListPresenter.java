@@ -18,6 +18,7 @@ package com.esofthead.mycollab.mobile.module.project.view;
 
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.vaadin.ui.ComponentContainer;
 
@@ -35,6 +36,6 @@ public class UserProjectListPresenter extends ProjectListPresenter<UserProjectLi
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         super.onGo(container, data);
-        //TODO: add fragement
+        AppContext.addFragment("project", "Projects");
     }
 }

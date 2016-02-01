@@ -67,13 +67,13 @@ public final class PresenterResolver {
                     value = (P) presenterClassImpl.newInstance();
                 }
             }
-            if (value != null) {
-                return value;
-            } else {
-                throw new MyCollabException("Can not find instance of " + presenterClass);
-            }
         } catch (Exception e) {
             throw new MyCollabException(e);
+        }
+        if (value != null) {
+            return value;
+        } else {
+            throw new PresenterNotFoundException("Can not find instance of " + presenterClass);
         }
     }
 }
