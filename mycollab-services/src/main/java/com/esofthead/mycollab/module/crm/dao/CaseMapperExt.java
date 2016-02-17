@@ -22,8 +22,12 @@ import com.esofthead.mycollab.module.crm.domain.CaseWithBLOBs;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 
-public interface CaseMapperExt extends ISearchableDAO<CaseSearchCriteria> ,
-	IMassUpdateDAO<CaseWithBLOBs, CaseSearchCriteria>{
-	
-	SimpleCase findById(Integer caseId);
+/**
+ * @author MyCollab Ltd
+ * @since 1.0.0
+ */
+public interface CaseMapperExt extends ISearchableDAO<CaseSearchCriteria>,
+        IMassUpdateDAO<CaseWithBLOBs, CaseSearchCriteria> {
+
+    SimpleCase findById(Integer caseId);
 }

@@ -25,7 +25,6 @@ import org.apache.ibatis.annotations.Param;
  * @since 5.0.3
  */
 public interface ProjectGenericItemMapper extends ISearchableDAO<ProjectGenericItemSearchCriteria> {
-    int getTotalCountFromProblem(@Param("searchCriteria") ProjectGenericItemSearchCriteria criteria);
 
     int getTotalCountFromRisk(@Param("searchCriteria") ProjectGenericItemSearchCriteria criteria);
 

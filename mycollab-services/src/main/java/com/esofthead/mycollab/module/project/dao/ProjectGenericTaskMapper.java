@@ -29,7 +29,6 @@ import java.util.Map;
  * @since 1.0
  */
 public interface ProjectGenericTaskMapper extends ISearchableDAO<ProjectGenericTaskSearchCriteria> {
-    Integer getTotalCountFromProblem(@Param("searchCriteria") ProjectGenericTaskSearchCriteria criteria);
 
     Integer getTotalCountFromRisk(@Param("searchCriteria") ProjectGenericTaskSearchCriteria criteria);
 

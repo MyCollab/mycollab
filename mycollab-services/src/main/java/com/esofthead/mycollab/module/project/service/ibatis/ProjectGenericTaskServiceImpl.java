@@ -45,8 +45,7 @@ public class ProjectGenericTaskServiceImpl extends DefaultSearchService<ProjectG
 
     @Override
     public int getTotalCount(ProjectGenericTaskSearchCriteria criteria) {
-        return projectGenericTaskMapper.getTotalCountFromProblem(criteria)
-                + projectGenericTaskMapper.getTotalCountFromRisk(criteria)
+        return projectGenericTaskMapper.getTotalCountFromRisk(criteria)
                 + projectGenericTaskMapper.getTotalCountFromBug(criteria)
                 + projectGenericTaskMapper.getTotalCountFromTask(criteria)
                 + projectGenericTaskMapper.getTotalCountFromMilestone(criteria);

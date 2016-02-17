@@ -24,7 +24,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleTask
 import com.esofthead.mycollab.module.project.events.ProjectEvent
 import com.esofthead.mycollab.module.project.service.ProjectTaskService
 import com.esofthead.mycollab.module.project.view.ProjectUrlResolver
-import com.esofthead.mycollab.module.project.view.parameters.TaskScreenData.{GotoCalendarView, GotoDashboard, GotoGanttChart}
+import com.esofthead.mycollab.module.project.view.parameters.TaskScreenData.GotoDashboard
 import com.esofthead.mycollab.module.project.view.parameters.{ProjectScreenData, TaskScreenData}
 import com.esofthead.mycollab.spring.ApplicationContextUtil
 import com.esofthead.mycollab.vaadin.AppContext
@@ -39,9 +39,7 @@ class ScheduleUrlResolver extends ProjectUrlResolver {
   this.addSubResolver("preview", new ReadUrlResolver)
   this.addSubResolver("add", new AddUrlResolver)
   this.addSubResolver("edit", new EditUrlResolver)
-  this.addSubResolver("gantt", new GanttUrlResolver)
   this.addSubResolver("kanban", new KanbanUrlResolver)
-  this.addSubResolver("calendar", new CalendarUrlResolver)
   this.defaultUrlResolver = new DashboardUrlResolver
 
   private class DashboardUrlResolver extends ProjectUrlResolver {
@@ -57,24 +55,6 @@ class ScheduleUrlResolver extends ProjectUrlResolver {
       val projectId = new UrlTokenizer(params(0)).getInt
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
         new TaskScreenData.GotoKanbanView)
-      EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
-    }
-  }
-
-  private class CalendarUrlResolver extends ProjectUrlResolver {
-    protected override def handlePage(params: String*): Unit = {
-      val projectId = new UrlTokenizer(params(0)).getInt
-      val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
-        new GotoCalendarView)
-      EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
-    }
-  }
-
-  private class GanttUrlResolver extends ProjectUrlResolver {
-    protected override def handlePage(params: String*) {
-      val projectId = new UrlTokenizer(params(0)).getInt
-      val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
-        new GotoGanttChart)
       EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }

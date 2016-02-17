@@ -19,6 +19,10 @@ package com.esofthead.mycollab.module.project.dao;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.module.project.domain.criteria.FollowingTicketSearchCriteria;
 
+/**
+ * @author MyCollab Ltd
+ * @since 1.0.0
+ */
 public interface ProjectFollowingTicketMapperExt extends ISearchableDAO<FollowingTicketSearchCriteria> {
 
 }

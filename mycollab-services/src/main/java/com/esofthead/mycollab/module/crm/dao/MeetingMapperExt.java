@@ -20,6 +20,10 @@ import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.module.crm.domain.SimpleMeeting;
 import com.esofthead.mycollab.module.crm.domain.criteria.MeetingSearchCriteria;
 
+/**
+ * @author MyCollab Ltd
+ * @since 1.0.0
+ */
 public interface MeetingMapperExt extends ISearchableDAO<MeetingSearchCriteria> {
 
     SimpleMeeting findById(Integer meetingId);

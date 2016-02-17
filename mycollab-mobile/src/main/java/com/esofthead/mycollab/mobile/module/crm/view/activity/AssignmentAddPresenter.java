@@ -20,104 +20,88 @@ import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent;
-import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.module.crm.view.AbstractCrmPresenter;
+import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.module.crm.domain.Task;
 import com.esofthead.mycollab.module.crm.service.TaskService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.events.IEditFormHandler;
+import com.esofthead.mycollab.vaadin.events.DefaultEditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
-public class AssignmentAddPresenter extends
-		AbstractCrmPresenter<AssignmentAddView> {
-	private static final long serialVersionUID = -8546619959063314947L;
+public class AssignmentAddPresenter extends AbstractCrmPresenter<AssignmentAddView> {
+    private static final long serialVersionUID = -8546619959063314947L;
 
-	public AssignmentAddPresenter() {
-		super(AssignmentAddView.class);
-	}
+    public AssignmentAddPresenter() {
+        super(AssignmentAddView.class);
+    }
 
-	@Override
-	protected void postInitView() {
-		view.getEditFormHandlers().addFormHandler(new IEditFormHandler<Task>() {
-			private static final long serialVersionUID = 1L;
+    @Override
+    protected void postInitView() {
+        view.getEditFormHandlers().addFormHandler(new DefaultEditFormHandler<Task>() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public void onSave(final Task item) {
-				save(item);
-				EventBusFactory.getInstance().post(
-						new ShellEvent.NavigateBack(this, null));
-			}
+            @Override
+            public void onSave(final Task item) {
+                save(item);
+                EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
+            }
 
-			@Override
-			public void onCancel() {
-			}
+            @Override
+            public void onSaveAndNew(final Task item) {
+                save(item);
+                EventBusFactory.getInstance().post(new ActivityEvent.TaskAdd(this, null));
+            }
+        });
+    }
 
-			@Override
-			public void onSaveAndNew(final Task item) {
-				save(item);
-				EventBusFactory.getInstance().post(
-						new ActivityEvent.TaskAdd(this, null));
-			}
-		});
-	}
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        if (AppContext.canWrite(RolePermissionCollections.CRM_TASK)) {
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		if (AppContext.canWrite(RolePermissionCollections.CRM_TASK)) {
+            Task task;
+            if (data.getParams() instanceof Task) {
+                task = (Task) data.getParams();
+            } else if (data.getParams() instanceof Integer) {
+                TaskService taskService = ApplicationContextUtil.getSpringBean(TaskService.class);
+                task = taskService.findByPrimaryKey((Integer) data.getParams(), AppContext.getAccountId());
+                if (task == null) {
+                    NotificationUtil.showRecordNotExistNotification();
+                    return;
+                }
+            } else {
+                throw new MyCollabException("Do not support param data: " + data);
+            }
 
-			Task task = null;
-			if (data.getParams() instanceof Task) {
-				task = (Task) data.getParams();
-			} else if (data.getParams() instanceof Integer) {
-				TaskService taskService = ApplicationContextUtil
-						.getSpringBean(TaskService.class);
-				task = taskService.findByPrimaryKey((Integer) data.getParams(),
-						AppContext.getAccountId());
-				if (task == null) {
-					NotificationUtil.showRecordNotExistNotification();
-					return;
-				}
-			} else {
-				throw new MyCollabException("Do not support param data: "
-						+ data);
-			}
+            super.onGo(container, data);
+            view.editItem(task);
 
-			super.onGo(container, data);
-			view.editItem(task);
+            if (task.getId() == null) {
+                AppContext.addFragment("crm/activity/task/add/", "Add Activity Task");
+            } else {
+                AppContext.addFragment("crm/activity/task/edit/" + UrlEncodeDecoder.encode(task.getId()),
+                        "Edit Activity Task: " + task.getSubject());
+            }
+        } else {
+            NotificationUtil.showMessagePermissionAlert();
+        }
+    }
 
-			if (task.getId() == null) {
-				AppContext.addFragment("crm/activity/task/add/",
-						"Add Activity Task");
-			} else {
-				AppContext.addFragment("crm/activity/task/edit/"
-						+ UrlEncodeDecoder.encode(task.getId()),
-						"Edit Activity Task: " + task.getSubject());
-			}
-		} else {
-			NotificationUtil.showMessagePermissionAlert();
-		}
-	}
+    public void save(Task item) {
+        TaskService taskService = ApplicationContextUtil.getSpringBean(TaskService.class);
+        item.setSaccountid(AppContext.getAccountId());
+        if (item.getId() == null) {
+            taskService.saveWithSession(item, AppContext.getUsername());
+        } else {
+            taskService.updateWithSession(item, AppContext.getUsername());
+        }
 
-	public void save(Task item) {
-		TaskService taskService = ApplicationContextUtil
-				.getSpringBean(TaskService.class);
-
-		item.setSaccountid(AppContext.getAccountId());
-		if (item.getId() == null) {
-			taskService.saveWithSession(item, AppContext.getUsername());
-		} else {
-			taskService.updateWithSession(item, AppContext.getUsername());
-		}
-
-	}
+    }
 }

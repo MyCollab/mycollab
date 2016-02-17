@@ -18,13 +18,16 @@ package com.esofthead.mycollab.module.project.view.user;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
+import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.arguments.BooleanSearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.utils.NumberUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
@@ -36,18 +39,23 @@ import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.view.ProjectView;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
+import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
+import com.esofthead.mycollab.vaadin.ui.UIUtils;
 import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.esofthead.mycollab.vaadin.web.ui.SearchTextField;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
+import com.google.common.base.MoreObjects;
 import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
 import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Div;
+import com.hp.gagawa.java.elements.Img;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -100,7 +108,16 @@ public class ProjectInfoComponent extends MHorizontalLayout {
         MVerticalLayout headerLayout = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, true));
 
         MHorizontalLayout footer = new MHorizontalLayout();
-        footer.addStyleName("desc");
+        footer.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+        footer.addStyleName(UIConstants.LABEL_META_INFO);
+        if (project.getLead() != null) {
+            Div leadAvatar = new DivLessFormatter().appendChild(new Img("", StorageFactory.getInstance().getAvatarPath
+                    (project.getLeadAvatarId(), 16)), new A(ProjectLinkBuilder.generateProjectMemberFullLink(project.getId(),
+                    project.getLead())).appendText(StringUtils.trim(project.getLeadFullName(), 30, true)))
+                    .setTitle(project.getLeadFullName());
+            ELabel leadLbl = new ELabel("Lead: " + leadAvatar.write(), ContentMode.HTML);
+            footer.addComponent(leadLbl);
+        }
         if (project.getHomepage() != null) {
             ELabel homepageLbl = new ELabel(FontAwesome.WECHAT.getHtml() + " " + new A(project.getHomepage())
                     .appendText(project.getHomepage()).setTarget("_blank").write(), ContentMode.HTML)
@@ -126,6 +143,28 @@ public class ProjectInfoComponent extends MHorizontalLayout {
         nonBillableHoursLbl = new ELabel(FontAwesome.GIFT.getHtml() + " " + project.getTotalNonBillableHours(),
                 ContentMode.HTML).withDescription("Non billable hours").withStyleName(ValoTheme.LABEL_SMALL);
         footer.addComponent(nonBillableHoursLbl);
+
+        Button eventBtn = new Button("Calendar", new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                EventBusFactory.getInstance().post(new ProjectEvent.GotoCalendarView(this));
+            }
+        });
+        eventBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
+        eventBtn.addStyleName(UIConstants.BUTTON_OPTION);
+        eventBtn.setIcon(FontAwesome.CALENDAR);
+        footer.addComponent(eventBtn);
+
+        Button ganttChartBtn = new Button("Gantt", new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                EventBusFactory.getInstance().post(new ProjectEvent.GotoGanttChart(this, null));
+            }
+        });
+        ganttChartBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
+        ganttChartBtn.addStyleName(UIConstants.BUTTON_OPTION);
+        ganttChartBtn.setIcon(FontAwesome.BAR_CHART_O);
+        footer.addComponent(ganttChartBtn);
 
         headerLayout.with(headerLbl, footer);
         this.with(headerLayout).expand(headerLayout);
@@ -229,17 +268,6 @@ public class ProjectInfoComponent extends MHorizontalLayout {
             createRiskBtn.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.RISK));
             popupButtonsControl.addOption(createRiskBtn);
 
-            Button createProblemBtn = new Button(AppContext.getMessage(ProblemI18nEnum.BUTTON_NEW_PROBLEM), new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent event) {
-                    controlsBtn.setPopupVisible(false);
-                    EventBusFactory.getInstance().post(new ProblemEvent.GotoAdd(this, null));
-                }
-            });
-            createProblemBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.PROBLEMS));
-            createProblemBtn.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.PROBLEM));
-            popupButtonsControl.addOption(createProblemBtn);
-
             popupButtonsControl.addSeparator();
             Button inviteMemberBtn = new Button(AppContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEES), new
                     Button.ClickListener() {
@@ -264,6 +292,31 @@ public class ProjectInfoComponent extends MHorizontalLayout {
             popupButtonsControl.addOption(settingBtn);
 
             popupButtonsControl.addSeparator();
+
+            final Button markProjectTemplateBtn = new Button();
+            markProjectTemplateBtn.addClickListener(new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent clickEvent) {
+                    Boolean isTemplate = !MoreObjects.firstNonNull(project.getIstemplate(), Boolean.FALSE);
+                    project.setIstemplate(isTemplate);
+                    ProjectService prjService = ApplicationContextUtil.getSpringBean(ProjectService.class);
+                    prjService.updateWithSession(project, AppContext.getUsername());
+                    if (project.getIstemplate()) {
+                        markProjectTemplateBtn.setCaption("Unmark template");
+                    } else {
+                        markProjectTemplateBtn.setCaption("Mark as Template");
+                    }
+                }
+            });
+            markProjectTemplateBtn.setIcon(FontAwesome.STICKY_NOTE);
+            Boolean isTemplate = MoreObjects.firstNonNull(project.getIstemplate(), Boolean.FALSE);
+            if (isTemplate) {
+                markProjectTemplateBtn.setCaption("Unmark template");
+            } else {
+                markProjectTemplateBtn.setCaption("Mark as Template");
+            }
+            markProjectTemplateBtn.setEnabled(AppContext.canAccess(RolePermissionCollections.CREATE_NEW_PROJECT));
+            popupButtonsControl.addOption(markProjectTemplateBtn);
 
             Button editProjectBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.BUTTON_EDIT_PROJECT), new Button.ClickListener() {
                 @Override

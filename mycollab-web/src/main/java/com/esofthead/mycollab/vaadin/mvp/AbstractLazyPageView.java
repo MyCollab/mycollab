@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.vaadin.mvp;
 
+import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.vaadin.AsyncInvoker;
 import com.hp.gagawa.java.elements.Div;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -46,7 +47,11 @@ public abstract class AbstractLazyPageView extends AbstractPageView implements L
 
                 @Override
                 public void postRun() {
-                    displayView();
+                    try {
+                        displayView();
+                    } catch (Exception e) {
+                        throw new MyCollabException(e);
+                    }
                 }
 
                 @Override

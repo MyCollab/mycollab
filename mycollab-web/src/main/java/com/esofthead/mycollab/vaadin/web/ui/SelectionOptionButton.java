@@ -77,9 +77,9 @@ public class SelectionOptionButton extends SplitButton implements HasSelectionOp
             @Override
             public void buttonClick(final ClickEvent event) {
                 isSelectAll = true;
-                SelectionOptionButton.this.setIcon(FontAwesome.CHECK_SQUARE_O);
+                setIcon(FontAwesome.CHECK_SQUARE_O);
                 fireSelectAll();
-                SelectionOptionButton.this.setPopupVisible(false);
+                setPopupVisible(false);
             }
         });
         selectContent.addOption(selectAllBtn);
@@ -88,9 +88,9 @@ public class SelectionOptionButton extends SplitButton implements HasSelectionOp
             @Override
             public void buttonClick(final ClickEvent event) {
                 isSelectAll = false;
-                SelectionOptionButton.this.setIcon(FontAwesome.CHECK_SQUARE_O);
+                setIcon(FontAwesome.CHECK_SQUARE_O);
                 fireSelectCurrentPage();
-                SelectionOptionButton.this.setPopupVisible(false);
+                setPopupVisible(false);
             }
         });
         selectContent.addOption(selectThisPageBtn);
@@ -99,9 +99,9 @@ public class SelectionOptionButton extends SplitButton implements HasSelectionOp
             @Override
             public void buttonClick(final ClickEvent event) {
                 isSelectAll = false;
-                SelectionOptionButton.this.setIcon(FontAwesome.SQUARE_O);
+                setIcon(FontAwesome.SQUARE_O);
                 fireDeselect();
-                SelectionOptionButton.this.setPopupVisible(false);
+                setPopupVisible(false);
             }
         });
         selectContent.addOption(deSelectBtn);

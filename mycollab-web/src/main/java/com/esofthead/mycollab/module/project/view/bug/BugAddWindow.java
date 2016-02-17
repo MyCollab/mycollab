@@ -20,8 +20,8 @@ import com.esofthead.mycollab.common.domain.MonitorItem;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.MonitorItemService;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.events.AssignmentEvent;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.ProjectSubscribersComp;
@@ -49,7 +49,7 @@ import java.util.List;
  * @since 5.2.0
  */
 public class BugAddWindow extends Window {
-    BugAddWindow(SimpleBug bug) {
+    public BugAddWindow(SimpleBug bug) {
         if (bug.getId() == null) {
             setCaption("New bug");
         } else {
@@ -60,9 +60,6 @@ public class BugAddWindow extends Window {
         this.setResizable(false);
 
         EditForm editForm = new EditForm();
-        bug.setLogby(AppContext.getUsername());
-        bug.setSaccountid(AppContext.getAccountId());
-        bug.setProjectid(CurrentProjectVariables.getProjectId());
         editForm.setBean(bug);
         this.setContent(editForm);
     }
@@ -72,7 +69,7 @@ public class BugAddWindow extends Window {
         @Override
         public void setBean(final SimpleBug item) {
             this.setFormLayoutFactory(new FormLayoutFactory());
-            this.setBeanFormFieldFactory(new BugEditFormFieldFactory(EditForm.this));
+            this.setBeanFormFieldFactory(new BugEditFormFieldFactory(EditForm.this, item.getProjectid()));
             super.setBean(item);
         }
 
@@ -94,7 +91,7 @@ public class BugAddWindow extends Window {
                 Button updateAllBtn = new Button("Update other fields", new Button.ClickListener() {
                     @Override
                     public void buttonClick(Button.ClickEvent clickEvent) {
-                        EventBusFactory.getInstance().post(new BugEvent.GotoAdd(BugAddWindow.this, EditForm.this.bean));
+                        EventBusFactory.getInstance().post(new BugEvent.GotoAdd(BugAddWindow.this, bean));
                         close();
                     }
                 });
@@ -114,10 +111,12 @@ public class BugAddWindow extends Window {
                             }
 
                             ProjectFormAttachmentUploadField uploadField = ((BugEditFormFieldFactory) fieldFactory).getAttachmentUploadField();
-                            uploadField.saveContentsToRepo(CurrentProjectVariables.getProjectId(),
+                            uploadField.saveContentsToRepo(bean.getProjectid(),
                                     ProjectTypeConstants.BUG, bugId);
                             EventBusFactory.getInstance().post(new BugEvent.NewBugAdded(BugAddWindow.this, bugId));
-                            ProjectSubscribersComp subcribersComp = ((BugEditFormFieldFactory) fieldFactory).getSubcribersComp();
+                            EventBusFactory.getInstance().post(new AssignmentEvent.NewAssignmentAdd(BugAddWindow.this,
+                                    ProjectTypeConstants.BUG, bugId));
+                            ProjectSubscribersComp subcribersComp = ((BugEditFormFieldFactory) fieldFactory).getSubscribersComp();
                             List<String> followers = subcribersComp.getFollowers();
                             if (followers.size() > 0) {
                                 List<MonitorItem> monitorItems = new ArrayList<>();
@@ -128,7 +127,7 @@ public class BugAddWindow extends Window {
                                     monitorItem.setType(ProjectTypeConstants.BUG);
                                     monitorItem.setTypeid(bugId);
                                     monitorItem.setUser(follower);
-                                    monitorItem.setExtratypeid(CurrentProjectVariables.getProjectId());
+                                    monitorItem.setExtratypeid(bean.getProjectid());
                                     monitorItems.add(monitorItem);
                                 }
                                 MonitorItemService monitorItemService = ApplicationContextUtil.getSpringBean(MonitorItemService.class);

@@ -104,10 +104,6 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
         billingPlanCheckerService.validateAccountCanCreateNewUser(sAccountId);
 
         SimpleUser inviterUserEntity = findUserByUserNameInAccount(inviteUser, sAccountId);
-        if (inviterUserEntity == null) {
-            throw new UserInvalidInputException("Can not find user has email " + inviteUser + ". If it is yours, " +
-                    "please logout then login to MyCollab and do the action again");
-        }
 
         // check if user email has already in this account yet
         UserAccountExample userAccountEx = new UserAccountExample();
@@ -176,7 +172,6 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
         userAccount.setRegisterstatus(RegisterStatusConstants.SENT_VERIFICATION_EMAIL);
         userAccount.setInviteuser(inviteUser);
 
-        LOG.debug("Check whether user is already in this account with status different than ACTIVE, then change his status");
         userAccountEx = new UserAccountExample();
         if (deploymentMode.isDemandEdition()) {
             userAccountEx.createCriteria().andUsernameEqualTo(record.getEmail()).andAccountidEqualTo(sAccountId);
@@ -190,7 +185,7 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
             userAccountMapper.insert(userAccount);
         }
 
-        SendUserInvitationEvent invitationEvent = new SendUserInvitationEvent(record.getUsername(), inviterUserEntity.getUsername(),
+        SendUserInvitationEvent invitationEvent = new SendUserInvitationEvent(record.getUsername(), inviteUser,
                 record.getSubdomain(), sAccountId);
         asyncEventBus.post(invitationEvent);
     }
@@ -203,8 +198,8 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
             ex.createCriteria().andUsernameEqualTo(record.getEmail());
             int numUsers = userMapper.countByExample(ex);
             if (numUsers > 0) {
-                throw new UserInvalidInputException(
-                        String.format("Email %s is already existed in system. Please choose another email.", record.getEmail()));
+                throw new UserInvalidInputException(String.format("Email %s is already existed in system. Please choose another email.",
+                        record.getEmail()));
             }
         }
 
@@ -218,26 +213,26 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
     @Override
     public void updateUserAccount(SimpleUser record, Integer sAccountId) {
         LOG.debug("Check whether there is exist email in system before");
+        SimpleUser oldUser = findUserByUserNameInAccount(record.getUsername(), sAccountId);
+        if (oldUser != null) {
+            if (Boolean.TRUE.equals(oldUser.getIsAccountOwner()) && Boolean.FALSE.equals(record.getIsAccountOwner())) {
+                UserAccountExample userAccountEx = new UserAccountExample();
+                userAccountEx.createCriteria().andAccountidEqualTo(sAccountId).andIsaccountownerEqualTo(Boolean.TRUE)
+                        .andRegisterstatusEqualTo(RegisterStatusConstants.ACTIVE);
+                if (userAccountMapper.countByExample(userAccountEx) <= 1) {
+                    throw new UserInvalidInputException(String.format("Can not change role of user %s. The reason is " +
+                            "%s is the unique account owner of the current account.", record.getUsername(), record.getUsername()));
+                }
+            }
+        }
+
         if (!record.getUsername().equals(record.getEmail())) {
             UserExample ex = new UserExample();
             ex.createCriteria().andUsernameEqualTo(record.getEmail());
             int numUsers = userMapper.countByExample(ex);
             if (numUsers > 0) {
-                throw new UserInvalidInputException(
-                        String.format("Email %s is already existed in system. Please choose another email.", record.getEmail()));
-            }
-        }
-
-        if (Boolean.TRUE.equals(record.getIsAccountOwner())) {
-            if (record.getRoleid() != null && record.getRoleid() != -1) {
-                UserAccountExample userAccountEx = new UserAccountExample();
-                userAccountEx.createCriteria().andAccountidEqualTo(sAccountId).andIsaccountownerEqualTo(Boolean.TRUE);
-                if (userAccountMapper.countByExample(userAccountEx) == 1) {
-                    throw new UserInvalidInputException(String.format("Can not change role of user %s. The reason is " +
-                            "%s is the unique account owner of the current account.", record.getUsername(), record.getUsername()));
-                } else {
-                    record.setIsAccountOwner(false);
-                }
+                throw new UserInvalidInputException(String.format("Email %s is already existed in system. Please choose another email.",
+                        record.getEmail()));
             }
         }
 

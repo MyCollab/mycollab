@@ -28,16 +28,18 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.ui.form.ProjectFormAttachmentUploadField;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
-import com.esofthead.mycollab.module.project.view.ProjectViewPresenter;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.service.BugRelatedItemService;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.IEditFormHandler;
-import com.esofthead.mycollab.vaadin.mvp.*;
-import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
+import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
+import com.esofthead.mycollab.vaadin.mvp.ScreenData;
+import com.esofthead.mycollab.vaadin.mvp.ViewManager;
+import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
+import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.google.common.eventbus.AsyncEventBus;
 import com.vaadin.ui.ComponentContainer;
 
@@ -70,10 +72,7 @@ public class BugAddPresenter extends AbstractPresenter<BugAddView> {
 
             @Override
             public void onCancel() {
-                ViewState viewState = HistoryViewManager.back();
-                if (viewState.hasPresenters(NullViewState.EmptyPresenter.class, ProjectViewPresenter.class)) {
-                    EventBusFactory.getInstance().post(new BugEvent.GotoList(this, null));
-                }
+                EventBusFactory.getInstance().post(new BugEvent.GotoList(this, null));
             }
 
             @Override

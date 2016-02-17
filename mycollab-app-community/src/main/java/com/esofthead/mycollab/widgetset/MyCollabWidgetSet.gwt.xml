@@ -28,7 +28,7 @@
 
     <inherits name="org.vaadin.peter.buttongroup.ButtonGroupWidgetset" />
 
-    <inherits name="com.lexaden.breadcrumb.gwt.BreadcrumbWidgetset" />
+    <inherits name="com.vaadin.breadcrumb.gwt.BreadcrumbWidgetset" />
 
     <inherits
             name="org.vaadin.tepi.listbuilder.widgetset.ListBuilderWidgetset" />

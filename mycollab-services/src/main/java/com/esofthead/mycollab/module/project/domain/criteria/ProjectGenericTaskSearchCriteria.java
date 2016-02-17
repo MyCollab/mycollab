@@ -42,6 +42,8 @@ public class ProjectGenericTaskSearchCriteria extends SearchCriteria {
 
     private SetSearchField<String> types;
 
+    private SetSearchField<Integer> typeIds;
+
     private SetSearchField<String> tagNames;
 
     public SetSearchField<String> getTagNames() {
@@ -114,5 +116,13 @@ public class ProjectGenericTaskSearchCriteria extends SearchCriteria {
 
     public void setDateInRange(RangeDateSearchField dateInRange) {
         this.dateInRange = dateInRange;
+    }
+
+    public SetSearchField<Integer> getTypeIds() {
+        return typeIds;
+    }
+
+    public void setTypeIds(SetSearchField<Integer> typeIds) {
+        this.typeIds = typeIds;
     }
 }

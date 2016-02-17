@@ -17,13 +17,11 @@
 package com.esofthead.mycollab.vaadin.web.ui.utils;
 
 /**
- * 
  * @author MyCollab
  * @since 1.0
- * 
  */
 public interface LabelStringGenerator {
 
-	String handleText(String value);
+    String handleText(String value);
 
 }

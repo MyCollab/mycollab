@@ -40,6 +40,27 @@ understanding in a matter of minutes.
 Last changelog
 ==============
 
+Version 5.2.7
+-----------------------------
+**Library Upgrades**
+
+* Vaadin 7.6.2
+* MyBatis 3.3.1
+* Other libraries
+
+**Improvements & New Features**
+
+* Display issues, risks in Gantt chart besides tasks, milestones as well
+* Several minor improvements
+* Add lead field to the project
+* [Premium] Support calendar event types are issues, risks, milestones
+
+**Bug Fixes**
+
+* [Mobile] Throws silent exception when display the empty activities in account
+* Throws exception when assign the Project Owner role to the existing user
+* Not display deleted entries in the activity stream
+
 Version 5.2.6
 -----------------------------
 **Library Upgrades**
@@ -58,6 +79,7 @@ Version 5.2.6
 * Can not assign user as the account owner
 * Can not load fonts of reporting
 * [Premium] Display events with no project throws exception
+* [Mobile] Can not redirect the login view when the obsolete password id stored in the local storage
 
 Version 5.2.5
 -----------------------------

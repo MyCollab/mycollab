@@ -23,21 +23,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
-@SuppressWarnings("serial")
 public class EmailTokenField extends CssLayout {
-	private final List<MailRecipientField> lstMailToken = new ArrayList<>();
+    private final List<MailRecipientField> lstMailToken = new ArrayList<>();
 
-	public EmailTokenField() {
-		super();
-	}
+    public EmailTokenField() {
+        super();
+    }
 
-	public List<MailRecipientField> getListRecipient() {
-		return lstMailToken;
-	}
+    public List<MailRecipientField> getListRecipient() {
+        return lstMailToken;
+    }
 
 }

@@ -20,6 +20,10 @@ import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.module.crm.domain.SimpleTask;
 import com.esofthead.mycollab.module.crm.domain.criteria.TodoSearchCriteria;
 
+/**
+ * @author MyCollab Ltd
+ * @since 1.0.0
+ */
 public interface CrmTaskMapperExt extends ISearchableDAO<TodoSearchCriteria> {
-	SimpleTask findById(Integer taskId);
+    SimpleTask findById(Integer taskId);
 }

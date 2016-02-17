@@ -133,7 +133,7 @@ public class ProjectDashboardViewImpl extends ProjectMobileMenuPageView implemen
         projectInfo.addComponent(metaInfo);
 
         int openAssignments = currentProject.getNumOpenBugs() + currentProject.getNumOpenTasks() + currentProject.getNumOpenRisks() + currentProject.getNumOpenRisks();
-        int totalAssignments = currentProject.getNumBugs() + currentProject.getNumTasks() + currentProject.getNumRisks() + currentProject.getNumProblems();
+        int totalAssignments = currentProject.getNumBugs() + currentProject.getNumTasks() + currentProject.getNumRisks();
         ELabel progressInfoLbl;
         if (totalAssignments > 0) {
             progressInfoLbl = new ELabel(String.format("%d of %d issue(s) resolved. Progress (%d%%)",

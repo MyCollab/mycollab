@@ -18,9 +18,13 @@ package com.esofthead.mycollab.community.module.project.view.risk;
 
 import com.esofthead.mycollab.module.project.view.risk.IRiskContainer;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.web.ui.NotPresentedView;
+import com.esofthead.mycollab.vaadin.mvp.NotPresentedView;
 
+/**
+ * @author MyCollab Ltd
+ * @since 1.0.0
+ */
 @ViewComponent
 public class RiskContainer extends NotPresentedView implements IRiskContainer {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 }

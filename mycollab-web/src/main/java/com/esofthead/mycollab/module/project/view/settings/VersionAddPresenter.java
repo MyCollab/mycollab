@@ -61,10 +61,7 @@ public class VersionAddPresenter extends AbstractPresenter<VersionAddView> {
 
             @Override
             public void onCancel() {
-                ViewState viewState = HistoryViewManager.back();
-                if (viewState instanceof NullViewState) {
-                    EventBusFactory.getInstance().post(new BugVersionEvent.GotoList(this, null));
-                }
+                EventBusFactory.getInstance().post(new BugVersionEvent.GotoList(this, null));
             }
 
             @Override

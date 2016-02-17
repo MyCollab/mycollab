@@ -21,6 +21,7 @@ import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.google.common.base.MoreObjects;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -62,6 +63,14 @@ public class ProjectGenericTask implements Serializable {
 
     private Integer sAccountId;
 
+    private Double billableHours;
+
+    private Double nonBillableHours;
+
+    private Date startDate;
+
+    private Date endDate;
+
     public String getName() {
         return name;
     }
@@ -93,6 +102,10 @@ public class ProjectGenericTask implements Serializable {
         return ProjectTypeConstants.TASK.equals(getType());
     }
 
+    public boolean isRisk() {
+        return ProjectTypeConstants.RISK.equals(getType());
+    }
+
     public void setAssignUserFullName(String assignUserFullName) {
         this.assignUserFullName = assignUserFullName;
     }
@@ -105,7 +118,7 @@ public class ProjectGenericTask implements Serializable {
         this.dueDate = dueDate;
     }
 
-    public int getProjectId() {
+    public Integer getProjectId() {
         return projectId;
     }
 
@@ -209,5 +222,53 @@ public class ProjectGenericTask implements Serializable {
     public Date getDueDatePlusOne() {
         Date value = getDueDate();
         return (value != null) ? DateTimeUtils.subtractOrAddDayDuration(value, 1) : null;
+    }
+
+    public Double getBillableHours() {
+        return billableHours;
+    }
+
+    public void setBillableHours(Double billableHours) {
+        this.billableHours = billableHours;
+    }
+
+    public Double getNonBillableHours() {
+        return nonBillableHours;
+    }
+
+    public void setNonBillableHours(Double nonBillableHours) {
+        this.nonBillableHours = nonBillableHours;
+    }
+
+    public Date getStartDate() {
+        if (startDate != null) {
+            return startDate;
+        } else {
+            if (endDate != null && dueDate != null) {
+                return (endDate.before(dueDate)) ? endDate : dueDate;
+            } else {
+                return MoreObjects.firstNonNull(endDate, dueDate);
+            }
+        }
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        if (endDate != null) {
+            return endDate;
+        } else {
+            if (startDate != null && dueDate != null) {
+                return (startDate.before(dueDate)) ? dueDate : startDate;
+            } else {
+                return MoreObjects.firstNonNull(startDate, dueDate);
+            }
+        }
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 }

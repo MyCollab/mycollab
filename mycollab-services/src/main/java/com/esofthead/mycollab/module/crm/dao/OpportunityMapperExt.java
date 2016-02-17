@@ -16,32 +16,29 @@
  */
 package com.esofthead.mycollab.module.crm.dao;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
-
 import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.core.persistence.IMassUpdateDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.module.crm.domain.Opportunity;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
+import org.apache.ibatis.annotations.Param;
 
-public interface OpportunityMapperExt extends
-		ISearchableDAO<OpportunitySearchCriteria>,
-		IMassUpdateDAO<Opportunity, OpportunitySearchCriteria> {
+import java.util.List;
 
-	SimpleOpportunity findById(Integer opportunityId);
+/**
+ * @author MyCollab Ltd
+ * @since 1.0.0
+ */
+public interface OpportunityMapperExt extends ISearchableDAO<OpportunitySearchCriteria>, IMassUpdateDAO<Opportunity, OpportunitySearchCriteria> {
 
-	List<GroupItem> getSalesStageSummary(
-			@Param("searchCriteria") OpportunitySearchCriteria criteria);
+    SimpleOpportunity findById(Integer opportunityId);
 
-	List<GroupItem> getLeadSourcesSummary(
-			@Param("searchCriteria") OpportunitySearchCriteria criteria);
+    List<GroupItem> getSalesStageSummary(@Param("searchCriteria") OpportunitySearchCriteria criteria);
 
-	List<GroupItem> getPipeline(
-			@Param("searchCriteria") OpportunitySearchCriteria criteria);
+    List<GroupItem> getLeadSourcesSummary(@Param("searchCriteria") OpportunitySearchCriteria criteria);
 
-	SimpleOpportunity findOpportunityAssoWithConvertedLead(
-			@Param("leadId") int leadId);
+    List<GroupItem> getPipeline(@Param("searchCriteria") OpportunitySearchCriteria criteria);
+
+    SimpleOpportunity findOpportunityAssoWithConvertedLead(@Param("leadId") int leadId);
 }

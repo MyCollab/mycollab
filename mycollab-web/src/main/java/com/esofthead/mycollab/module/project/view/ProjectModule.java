@@ -117,7 +117,7 @@ public class ProjectModule extends AbstractPageView implements IDesktopModule {
         switchProjectPopup.addStyleName("add-btn-popup");
         switchProjectPopup.setIcon(VaadinIcons.ARROW_CIRCLE_RIGHT_O);
         final ProjectPagedList projectList = new ProjectPagedList();
-        projectList.addStyleName("contentWrapper");
+
         final Label titleLbl = new Label(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_ACTIVE_PROJECTS_TITLE, 0));
         titleLbl.setStyleName(ValoTheme.LABEL_H2);
         OptionPopupContent contentLayout = new OptionPopupContent();
@@ -143,7 +143,7 @@ public class ProjectModule extends AbstractPageView implements IDesktopModule {
         searchBtn.setIcon(FontAwesome.SEARCH);
 
         MHorizontalLayout popupHeader = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true))
-                .withWidth("100%");
+                .withWidth("100%").withStyleName("border-bottom");
         MHorizontalLayout searchPanel = new MHorizontalLayout().withMargin(true);
         searchPanel.with(searchField, searchBtn);
         popupHeader.with(titleLbl, searchPanel).withAlign(titleLbl, Alignment.MIDDLE_LEFT).expand(titleLbl);

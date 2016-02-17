@@ -19,8 +19,13 @@ package com.esofthead.mycollab.schedule.jobs
 import com.esofthead.mycollab.common.domain.LiveInstance
 import com.esofthead.mycollab.core.MyCollabVersion
 import com.esofthead.mycollab.core.utils.MiscUtils
+import com.esofthead.mycollab.module.project.dao.ProjectMapper
+import com.esofthead.mycollab.module.project.domain.ProjectExample
+import com.esofthead.mycollab.module.user.dao.UserMapper
+import com.esofthead.mycollab.module.user.domain.UserExample
 import org.joda.time.DateTime
 import org.quartz.JobExecutionContext
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.config.BeanDefinition
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
@@ -33,7 +38,14 @@ import org.springframework.web.client.RestTemplate
 @Component
 @Scope(BeanDefinition.SCOPE_SINGLETON)
 class LiveInstanceMonitorJob extends GenericQuartzJobBean {
+
+  @Autowired private val projectMapper: ProjectMapper = null
+  @Autowired private val userMapper: UserMapper = null
+
   def executeJob(context: JobExecutionContext): Unit = {
+    val numProjects = projectMapper.countByExample(new ProjectExample)
+    val numUsers = userMapper.countByExample(new UserExample)
+
     val liveInstance = new LiveInstance()
     liveInstance.setAppversion(MyCollabVersion.getVersion())
     liveInstance.setInstalleddate(new DateTime().toDate())
@@ -41,7 +53,9 @@ class LiveInstanceMonitorJob extends GenericQuartzJobBean {
     liveInstance.setSysid(MiscUtils.getMacAddressOfServer())
     liveInstance.setSysproperties(System.getProperty("os.arch") + ":" + System.getProperty("os.name") + ":" +
       System.getProperty("os.name"))
+    liveInstance.setNumprojects(numProjects)
+    liveInstance.setNumusers(numUsers)
     val restTemplate = new RestTemplate()
-    restTemplate.postForObject("https://api.mycollab.com/api/checkInstance", liveInstance, classOf[String])
+    restTemplate.postForObject("http://127.0.0.1:7070/api/checkInstance", liveInstance, classOf[String])
   }
 }

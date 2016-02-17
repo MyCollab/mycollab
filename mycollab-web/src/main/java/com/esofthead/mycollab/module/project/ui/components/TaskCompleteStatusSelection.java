@@ -22,14 +22,13 @@ import com.vaadin.shared.ui.slider.SliderOrientation;
 import com.vaadin.ui.Slider;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class TaskCompleteStatusSelection extends Slider {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public TaskCompleteStatusSelection() {
+    public TaskCompleteStatusSelection() {
         this.setOrientation(SliderOrientation.HORIZONTAL);
         this.setImmediate(true);
         this.setWidth("150px");
@@ -38,12 +37,12 @@ public class TaskCompleteStatusSelection extends Slider {
             public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
                 Double value = TaskCompleteStatusSelection.this.getValue();
                 if (value != null) {
-                    double roundValue = Math.ceil(value/10) * 10;
+                    double roundValue = Math.ceil(value / 10) * 10;
                     TaskCompleteStatusSelection.this.setValue(roundValue);
                 } else {
                     TaskCompleteStatusSelection.this.setValue(0d);
                 }
             }
         });
-	}
+    }
 }

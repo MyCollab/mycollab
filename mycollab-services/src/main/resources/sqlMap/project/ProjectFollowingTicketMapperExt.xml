@@ -35,14 +35,6 @@
         ]]>
 	</sql>
 
-	<sql id="extraQueryProblemSearchCriteria">
-        <![CDATA[
-        #ifnotnull($searchCriteria.summary)
-            ${searchCriteria.summary.operation} m_prj_problem.issuename LIKE '%${searchCriteria.summary.value}%'
-        #end
-        ]]>
-	</sql>
-
 	<sql id="extraQueryRiskSearchCriteria">
         <![CDATA[
         #ifnotnull($searchCriteria.summary)
@@ -78,21 +70,6 @@
             INNER JOIN m_tracker_bug ON (m_monitor_item.type='Project-Bug' AND m_monitor_item.typeid=m_tracker_bug.id)
             INNER JOIN m_prj_project ON (m_prj_project.id=m_monitor_item.extraTypeId)
             INNER JOIN s_user ON (s_user.username=m_tracker_bug.assignuser)
-        ]]>
-	</sql>
-
-	<sql id="selectFollowingTicketOfProblem">
-        <![CDATA[
-        SELECT 'Project-Problem' as type, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
-            m_prj_problem.issuename AS summary, s_user.username AS assignUser,
-            concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as assignUserFullName,
-            s_user.avatarId AS assignUserAvatarId, m_monitor_item.monitor_date AS monitorDate,
-            m_prj_problem.id AS typeId, m_prj_problem.datedue AS dueDate, m_prj_problem.status AS status
-               
-        FROM m_monitor_item
-            INNER JOIN m_prj_problem ON (m_monitor_item.type='Project-Problem' AND m_monitor_item.typeid=m_prj_problem.id)
-            INNER JOIN m_prj_project ON (m_prj_project.id=m_monitor_item.extraTypeId)
-            INNER JOIN s_user ON (s_user.username=m_prj_problem.assigntouser)
         ]]>
 	</sql>
 
@@ -146,17 +123,6 @@
 		)
 		UNION
 		(
-		<include refid="selectFollowingTicketOfProblem" />
-		#ifnotnull($_parameter.searchCriteria)
-		#trimext("WHERE" "AND|OR")
-		<include
-			refid="com.esofthead.mycollab.common.dao.MonitorItemMapperExt.querySearchCriteria" />
-		<include refid="extraQueryProblemSearchCriteria" />
-		#end
-		#end
-		)
-		UNION
-		(
 		<include refid="selectFollowingTicketOfRisk" />
 		#ifnotnull($_parameter.searchCriteria)
 		#trimext("WHERE" "AND|OR")
@@ -191,17 +157,6 @@
 		<include
 			refid="com.esofthead.mycollab.common.dao.MonitorItemMapperExt.querySearchCriteria" />
 		<include refid="extraQueryBugSearchCriteria" />
-		#end
-		#end
-		)
-		UNION
-		(
-		<include refid="selectFollowingTicketOfProblem" />
-		#ifnotnull($_parameter.searchCriteria)
-		#trimext("WHERE" "AND|OR")
-		<include
-			refid="com.esofthead.mycollab.common.dao.MonitorItemMapperExt.querySearchCriteria" />
-		<include refid="extraQueryProblemSearchCriteria" />
 		#end
 		#end
 		)

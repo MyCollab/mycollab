@@ -16,29 +16,26 @@
  */
 package com.esofthead.mycollab.core.persistence.service;
 
-import java.io.Serializable;
-
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.cache.CacheEvict;
 import com.esofthead.mycollab.core.cache.CacheKey;
 
+import java.io.Serializable;
+
 /**
- * 
- * @author MyCollab Ltd.
- * @since 1.0
- * 
  * @param <K>
  * @param <T>
  * @param <S>
+ * @author MyCollab Ltd.
+ * @since 1.0
  */
 public interface IDefaultService<K extends Serializable, T, S extends SearchCriteria>
-		extends ICrudService<K, T>, ISearchableService<S> {
+        extends ICrudService<K, T>, ISearchableService<S> {
 
-	/**
-	 * 
-	 * @param record
-	 * @param searchCriteria
-	 */
-	@CacheEvict
-	void updateBySearchCriteria(T record, @CacheKey S searchCriteria);
+    /**
+     * @param record
+     * @param searchCriteria
+     */
+    @CacheEvict
+    void updateBySearchCriteria(T record, @CacheKey S searchCriteria);
 }

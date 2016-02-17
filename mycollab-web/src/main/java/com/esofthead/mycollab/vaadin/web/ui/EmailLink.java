@@ -20,17 +20,15 @@ import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.Link;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class EmailLink extends Link {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public EmailLink(String email) {
-		super();
-		this.setResource(new ExternalResource("mailto:" + email));
-		this.setCaption(email);
-	}
+    public EmailLink(String email) {
+        super();
+        this.setResource(new ExternalResource("mailto:" + email));
+        this.setCaption(email);
+    }
 }

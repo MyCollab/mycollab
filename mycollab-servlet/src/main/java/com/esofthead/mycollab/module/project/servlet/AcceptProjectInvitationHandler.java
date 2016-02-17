@@ -152,7 +152,12 @@ public class AcceptProjectInvitationHandler extends VelocityWebServletRequestHan
                 projectMember.setProjectid(projectId);
                 projectMember.setUsername(username);
                 projectMember.setJoindate(now);
-                projectMember.setProjectroleid(projectRoleId);
+                if (projectRoleId == -1) {
+                    projectMember.setProjectroleid(null);
+                    projectMember.setIsadmin(true);
+                } else {
+                    projectMember.setProjectroleid(projectRoleId);
+                }
                 projectMember.setSaccountid(sAccountId);
                 projectMember.setIsadmin(false);
                 projectMember.setStatus(RegisterStatusConstants.ACTIVE);

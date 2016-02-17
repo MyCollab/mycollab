@@ -17,30 +17,29 @@
 
 package com.esofthead.mycollab.module.tracker.service;
 
-import java.util.List;
-
 import com.esofthead.mycollab.cache.IgnoreCacheClass;
 import com.esofthead.mycollab.core.persistence.service.IService;
 import com.esofthead.mycollab.module.tracker.domain.Component;
 import com.esofthead.mycollab.module.tracker.domain.Version;
 
+import java.util.List;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @IgnoreCacheClass
 public interface BugRelatedItemService extends IService {
 
-	void saveAffectedVersionsOfBug(Integer bugId, List<Version> versions);
+    void saveAffectedVersionsOfBug(Integer bugId, List<Version> versions);
 
-	void saveFixedVersionsOfBug(Integer bugId, List<Version> versions);
+    void saveFixedVersionsOfBug(Integer bugId, List<Version> versions);
 
-	void saveComponentsOfBug(Integer bugId, List<Component> components);
+    void saveComponentsOfBug(Integer bugId, List<Component> components);
 
-	void updateAfftedVersionsOfBug(Integer bugId, List<Version> versions);
+    void updateAfftedVersionsOfBug(Integer bugId, List<Version> versions);
 
-	void updateFixedVersionsOfBug(Integer bugId, List<Version> versions);
+    void updateFixedVersionsOfBug(Integer bugId, List<Version> versions);
 
-	void updateComponentsOfBug(Integer bugId, List<Component> components);
+    void updateComponentsOfBug(Integer bugId, List<Component> components);
 }

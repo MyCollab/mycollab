@@ -23,6 +23,10 @@ import com.esofthead.mycollab.module.tracker.domain.SimpleRelatedBug;
 
 import java.util.List;
 
+/**
+ * @author MyCollab Ltd
+ * @since 1.0.0
+ */
 @IgnoreCacheClass
 public interface BugRelationService extends ICrudService<Integer, RelatedBug> {
     List<SimpleRelatedBug> findRelatedBugs(Integer bugId);

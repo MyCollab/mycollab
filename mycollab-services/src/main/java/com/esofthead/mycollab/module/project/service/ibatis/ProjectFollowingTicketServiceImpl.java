@@ -29,8 +29,7 @@ import org.springframework.stereotype.Service;
  * @since 1.0
  */
 @Service
-public class ProjectFollowingTicketServiceImpl extends DefaultSearchService<FollowingTicketSearchCriteria> implements
-        ProjectFollowingTicketService {
+public class ProjectFollowingTicketServiceImpl extends DefaultSearchService<FollowingTicketSearchCriteria> implements ProjectFollowingTicketService {
 
     @Autowired
     private ProjectFollowingTicketMapperExt projectFollowingTicketMapperExt;

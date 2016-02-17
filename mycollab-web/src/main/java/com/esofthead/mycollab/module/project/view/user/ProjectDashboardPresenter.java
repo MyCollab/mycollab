@@ -24,11 +24,13 @@ import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.module.project.view.ProjectView;
 import com.esofthead.mycollab.module.project.view.TagListPresenter;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
+import com.esofthead.mycollab.module.project.view.assignments.CalendarPresenter;
+import com.esofthead.mycollab.module.project.view.assignments.GanttChartViewPresenter;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
-import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
+import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.vaadin.ui.ComponentContainer;
 
 /**
@@ -69,6 +71,12 @@ public class ProjectDashboardPresenter extends AbstractPresenter<ProjectDashboar
             presenter.go(view, data);
         } else if (data instanceof ProjectScreenData.SearchItem) {
             ProjectSearchItemPresenter presenter = PresenterResolver.getPresenter(ProjectSearchItemPresenter.class);
+            presenter.go(view, data);
+        } else if (data instanceof ProjectScreenData.GotoGanttChart) {
+            GanttChartViewPresenter presenter = PresenterResolver.getPresenter(GanttChartViewPresenter.class);
+            presenter.go(view, data);
+        } else if (data instanceof ProjectScreenData.GotoCalendarView) {
+            CalendarPresenter presenter = PresenterResolver.getPresenter(CalendarPresenter.class);
             presenter.go(view, data);
         } else {
             if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.PROJECT)) {

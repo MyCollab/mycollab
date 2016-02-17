@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.project.service.ibatis;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.lock.DistributionLockUtil;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.dao.GanttMapperExt;
 import com.esofthead.mycollab.module.project.dao.MilestoneMapper;
 import com.esofthead.mycollab.module.project.dao.PredecessorMapper;
@@ -155,18 +156,16 @@ public class GanttAssignmentServiceImpl implements GanttAssignmentService {
                     try (Connection connection = dataSource.getConnection()) {
                         connection.setAutoCommit(false);
                         PreparedStatement preparedStatement = connection.prepareStatement("UPDATE `m_prj_milestone` SET " +
-                                "name = ?, `startdate` = ?, `enddate` = ?, `actualstartdate`=?,`actualenddate`=?, " +
+                                "name = ?, `startdate` = ?, `enddate` = ?, " +
                                 "`lastUpdatedTime`=?, `owner`=?, `ganttIndex`=? WHERE `id` = ?");
                         for (int i = 0; i < milestoneGanttItems.size(); i++) {
                             preparedStatement.setString(1, milestoneGanttItems.get(i).getName());
                             preparedStatement.setDate(2, getDateWithNullValue(milestoneGanttItems.get(i).getStartDate()));
                             preparedStatement.setDate(3, getDateWithNullValue(milestoneGanttItems.get(i).getEndDate()));
-                            preparedStatement.setDate(4, getDateWithNullValue(milestoneGanttItems.get(i).getActualStartDate()));
-                            preparedStatement.setDate(5, getDateWithNullValue(milestoneGanttItems.get(i).getActualEndDate()));
-                            preparedStatement.setDate(6, new Date(now));
-                            preparedStatement.setString(7, milestoneGanttItems.get(i).getAssignUser());
-                            preparedStatement.setInt(8, milestoneGanttItems.get(i).getGanttIndex());
-                            preparedStatement.setInt(9, milestoneGanttItems.get(i).getId());
+                            preparedStatement.setDate(4, new Date(now));
+                            preparedStatement.setString(5, milestoneGanttItems.get(i).getAssignUser());
+                            preparedStatement.setInt(6, milestoneGanttItems.get(i).getGanttIndex());
+                            preparedStatement.setInt(7, milestoneGanttItems.get(i).getId());
                             preparedStatement.addBatch();
 
                         }
@@ -191,26 +190,28 @@ public class GanttAssignmentServiceImpl implements GanttAssignmentService {
                 if (lock.tryLock(30, TimeUnit.SECONDS)) {
                     try (Connection connection = dataSource.getConnection()) {
                         connection.setAutoCommit(false);
-                        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE `m_prj_task` SET " +
-                                "taskname = ?, `startdate` = ?, `enddate` = ?, `actualStartDate`=?, `actualEndDate`=?, " +
+                        PreparedStatement batchTasksStatement = connection.prepareStatement("UPDATE `m_prj_task` SET " +
+                                "taskname = ?, `startdate` = ?, `enddate` = ?, " +
                                 "`lastUpdatedTime`=?, `percentagecomplete`=?, `assignUser`=?, `ganttindex`=?, " +
                                 "`milestoneId`=?, `parentTaskId`=? WHERE `id` = ?");
                         for (int i = 0; i < taskGanttItems.size(); i++) {
-                            preparedStatement.setString(1, taskGanttItems.get(i).getName());
-                            preparedStatement.setDate(2, getDateWithNullValue(taskGanttItems.get(i).getStartDate()));
-                            preparedStatement.setDate(3, getDateWithNullValue(taskGanttItems.get(i).getEndDate()));
-                            preparedStatement.setDate(4, getDateWithNullValue(taskGanttItems.get(i).getActualStartDate()));
-                            preparedStatement.setDate(5, getDateWithNullValue(taskGanttItems.get(i).getActualEndDate()));
-                            preparedStatement.setDate(6, new Date(now));
-                            preparedStatement.setDouble(7, taskGanttItems.get(i).getProgress());
-                            preparedStatement.setString(8, taskGanttItems.get(i).getAssignUser());
-                            preparedStatement.setInt(9, taskGanttItems.get(i).getGanttIndex());
-                            preparedStatement.setObject(10, taskGanttItems.get(i).getMilestoneId());
-                            preparedStatement.setObject(11, taskGanttItems.get(i).getParentTaskId());
-                            preparedStatement.setInt(12, taskGanttItems.get(i).getId());
-                            preparedStatement.addBatch();
+                            TaskGanttItem ganttItem = taskGanttItems.get(i);
+                            if (ProjectTypeConstants.TASK.equals(ganttItem.getType())) {
+                                batchTasksStatement.setString(1, ganttItem.getName());
+                                batchTasksStatement.setDate(2, getDateWithNullValue(ganttItem.getStartDate()));
+                                batchTasksStatement.setDate(3, getDateWithNullValue(ganttItem.getEndDate()));
+                                batchTasksStatement.setDate(4, new Date(now));
+                                batchTasksStatement.setDouble(5, ganttItem.getProgress());
+                                batchTasksStatement.setString(6, ganttItem.getAssignUser());
+                                batchTasksStatement.setInt(7, ganttItem.getGanttIndex());
+                                batchTasksStatement.setObject(8, ganttItem.getMilestoneId());
+                                batchTasksStatement.setObject(9, ganttItem.getParentTaskId());
+                                batchTasksStatement.setInt(10, ganttItem.getId());
+                                batchTasksStatement.addBatch();
+                            }
+
                         }
-                        preparedStatement.executeBatch();
+                        batchTasksStatement.executeBatch();
                         connection.commit();
                     }
                 }

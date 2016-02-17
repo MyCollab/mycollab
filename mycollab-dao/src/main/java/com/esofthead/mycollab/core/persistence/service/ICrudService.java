@@ -72,7 +72,6 @@ public interface ICrudService<K extends Serializable, T> extends IService {
     T findByPrimaryKey(K primaryKey, @CacheKey Integer sAccountId);
 
     /**
-     *
      * @param item
      * @param username
      * @param sAccountId
@@ -81,7 +80,6 @@ public interface ICrudService<K extends Serializable, T> extends IService {
     void removeWithSession(T item, String username, @CacheKey Integer sAccountId);
 
     /**
-     *
      * @param items
      * @param username
      * @param sAccountId

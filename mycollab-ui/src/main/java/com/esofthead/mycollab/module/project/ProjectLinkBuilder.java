@@ -71,13 +71,6 @@ public class ProjectLinkBuilder {
         return ProjectLinkGenerator.generateRolePreviewFullLink(AppContext.getSiteUrl(), projectId, roleId);
     }
 
-    public static String generateProblemPreviewFullLink(Integer projectId, Integer problemId) {
-        if (projectId == null || problemId == null) {
-            return "";
-        }
-        return ProjectLinkGenerator.generateProblemPreviewFullLink(AppContext.getSiteUrl(), projectId, problemId);
-    }
-
     public static String generateProjectMemberFullLink(Integer projectId, String memberName) {
         return ProjectLinkGenerator.generateProjectMemberFullLink(AppContext.getSiteUrl(), projectId, memberName);
     }
@@ -181,8 +174,6 @@ public class ProjectLinkBuilder {
                 result = ProjectLinkGenerator.generateMessagePreviewLink(projectId, Integer.parseInt(typeId));
             } else if (ProjectTypeConstants.MILESTONE.equals(type)) {
                 result = ProjectLinkGenerator.generateMilestonePreviewLink(projectId, Integer.parseInt(typeId));
-            } else if (ProjectTypeConstants.PROBLEM.equals(type)) {
-                result = ProjectLinkGenerator.generateProblemPreviewLink(projectId, Integer.parseInt(typeId));
             } else if (ProjectTypeConstants.RISK.equals(type)) {
                 result = ProjectLinkGenerator.generateRiskPreviewLink(projectId, Integer.parseInt(typeId));
             } else if (ProjectTypeConstants.TASK.equals(type)) {

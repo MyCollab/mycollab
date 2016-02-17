@@ -16,9 +16,6 @@
 	<m_prj_task sAccountId="1" projectid="1" id="1"
 		percentagecomplete="40" taskname="task1" taskkey="1" />
 
-	<m_prj_problem id="1" description="aaa" issuename="problem a"
-		projectid="1" status="Open" sAccountId="1" datedue="2013-01-23 10:49:49" />
-
 	<m_prj_risk id="1" description="aaa" riskname="b" projectid="1"
 		sAccountId="1" datedue="2013-05-30 15:01:52" />
 

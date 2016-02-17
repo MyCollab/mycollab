@@ -21,7 +21,7 @@ import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.view.bug.BugTimeLogSheet;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.web.ui.NotPresentWindow;
+import com.esofthead.mycollab.vaadin.mvp.NotPresentWindow;
 import com.vaadin.ui.UI;
 
 /**

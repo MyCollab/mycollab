@@ -18,10 +18,10 @@ package com.esofthead.mycollab.module.project.view.milestone;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.Milestone;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
+import com.esofthead.mycollab.module.project.events.AssignmentEvent;
 import com.esofthead.mycollab.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -42,8 +42,8 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @author MyCollab Ltd
  * @since 5.2.0
  */
-class MilestoneAddWindow extends Window {
-    MilestoneAddWindow(final SimpleMilestone milestone) {
+public class MilestoneAddWindow extends Window {
+    public MilestoneAddWindow(final SimpleMilestone milestone) {
         if (milestone.getId() == null) {
             setCaption("New milestone");
         } else {
@@ -78,8 +78,6 @@ class MilestoneAddWindow extends Window {
             public void buttonClick(Button.ClickEvent clickEvent) {
                 if (editBeanForm.validateForm()) {
                     MilestoneService milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
-                    milestone.setProjectid(CurrentProjectVariables.getProjectId());
-                    milestone.setSaccountid(AppContext.getAccountId());
                     Integer milestoneId;
                     if (milestone.getId() == null) {
                         milestoneId = milestoneService.saveWithSession(milestone, AppContext.getUsername());
@@ -89,6 +87,8 @@ class MilestoneAddWindow extends Window {
                     }
 
                     EventBusFactory.getInstance().post(new MilestoneEvent.NewMilestoneAdded(MilestoneAddWindow.this, milestoneId));
+                    EventBusFactory.getInstance().post(new AssignmentEvent.NewAssignmentAdd(MilestoneAddWindow.this,
+                            ProjectTypeConstants.MILESTONE, milestoneId));
                     close();
                 }
             }

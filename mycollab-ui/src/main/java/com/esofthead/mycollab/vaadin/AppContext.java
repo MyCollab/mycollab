@@ -187,8 +187,7 @@ public class AppContext implements Serializable {
 
     public static String getMessage(Enum<?> key, Object... objects) {
         try {
-            return (key != null) ? getInstance().messageHelper.getMessage(key,
-                    objects) : "";
+            return (key != null) ? getInstance().messageHelper.getMessage(key, objects) : "";
         } catch (Exception e) {
             return LocalizationHelper.getMessage(LocalizationHelper.defaultLocale, key, objects);
         }

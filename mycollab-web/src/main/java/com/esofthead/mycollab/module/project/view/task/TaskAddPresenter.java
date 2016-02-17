@@ -67,12 +67,9 @@ public class TaskAddPresenter extends AbstractPresenter<TaskAddView> {
 
             @Override
             public void onCancel() {
-                ViewState viewState = HistoryViewManager.back();
-                if (viewState.hasPresenters(NullViewState.EmptyPresenter.class, ProjectViewPresenter.class)) {
-                    PageActionChain chain = new PageActionChain(new ProjectScreenData.Goto
-                            (CurrentProjectVariables.getProjectId()), new TaskScreenData.GotoDashboard());
-                    EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
-                }
+                PageActionChain chain = new PageActionChain(new ProjectScreenData.Goto
+                        (CurrentProjectVariables.getProjectId()), new TaskScreenData.GotoDashboard());
+                EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
             }
 
             @Override

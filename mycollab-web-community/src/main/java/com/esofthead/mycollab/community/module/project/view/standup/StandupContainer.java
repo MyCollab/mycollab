@@ -18,7 +18,7 @@ package com.esofthead.mycollab.community.module.project.view.standup;
 
 import com.esofthead.mycollab.module.project.view.standup.IStandupContainer;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.web.ui.NotPresentedView;
+import com.esofthead.mycollab.vaadin.mvp.NotPresentedView;
 
 /**
  * 

@@ -25,6 +25,7 @@ import com.esofthead.mycollab.module.project.service.MessageService;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.events.DefaultEditFormHandler;
 import com.esofthead.mycollab.vaadin.events.IEditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.*;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
@@ -47,24 +48,14 @@ public class MessageListPresenter extends AbstractPresenter<MessageListView> imp
 
     @Override
     protected void postInitView() {
-        view.getEditFormHandlers().addFormHandler(new IEditFormHandler<Message>() {
+        view.getEditFormHandlers().addFormHandler(new DefaultEditFormHandler<Message>() {
             private static final long serialVersionUID = 1L;
-
-            @Override
-            public void onSaveAndNew(Message bean) {
-                // do nothing
-            }
 
             @Override
             public void onSave(Message message) {
                 MessageService messageService = ApplicationContextUtil.getSpringBean(MessageService.class);
                 messageService.saveWithSession(message, AppContext.getUsername());
                 doSearch(searchCriteria);
-            }
-
-            @Override
-            public void onCancel() {
-                // do nothing
             }
         });
     }

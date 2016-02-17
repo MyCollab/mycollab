@@ -32,10 +32,12 @@ import com.esofthead.mycollab.module.project.view.settings.component.ProjectRole
 import com.esofthead.mycollab.security.PermissionMap;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.mvp.*;
-import com.esofthead.mycollab.vaadin.web.ui.AddViewLayout;
+import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
+import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.mvp.ViewEvent;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.FormContainer;
+import com.esofthead.mycollab.vaadin.web.ui.AddViewLayout;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -91,7 +93,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements Pro
 
         inviteUserTokenField = new InviteUserTokenField();
         informationLayout.addComponent(new MVerticalLayout(inviteUserTokenField, new ELabel(AppContext.getMessage
-                (ProjectMemberI18nEnum.USER_TOKEN_INVITE_HINT)).withStyleName(UIConstants.LABEL_META_INFO)).withMargin(false),
+                        (ProjectMemberI18nEnum.USER_TOKEN_INVITE_HINT)).withStyleName(UIConstants.LABEL_META_INFO)).withMargin(false),
                 AppContext.getMessage(ProjectMemberI18nEnum.FORM_INVITEES_EMAIL), 0, 0);
         informationLayout.addComponent(roleComboBox, AppContext.getMessage(ProjectMemberI18nEnum.FORM_ROLE), 0, 1);
 
@@ -128,10 +130,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements Pro
 
             @Override
             public void buttonClick(ClickEvent event) {
-                ViewState viewState = HistoryViewManager.back();
-                if (viewState instanceof NullViewState) {
-                    EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null));
-                }
+                EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null));
             }
         });
         cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);

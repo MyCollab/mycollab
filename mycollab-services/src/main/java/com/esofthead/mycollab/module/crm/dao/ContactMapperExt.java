@@ -16,19 +16,20 @@
  */
 package com.esofthead.mycollab.module.crm.dao;
 
-import org.apache.ibatis.annotations.Param;
-
 import com.esofthead.mycollab.core.persistence.IMassUpdateDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.module.crm.domain.Contact;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
+import org.apache.ibatis.annotations.Param;
 
-public interface ContactMapperExt extends
-		ISearchableDAO<ContactSearchCriteria>,
-		IMassUpdateDAO<Contact, ContactSearchCriteria> {
+/**
+ * @author MyCollab Ltd
+ * @since 1.0.0
+ */
+public interface ContactMapperExt extends ISearchableDAO<ContactSearchCriteria>, IMassUpdateDAO<Contact, ContactSearchCriteria> {
 
-	SimpleContact findById(Integer contactId);
+    SimpleContact findById(Integer contactId);
 
-	SimpleContact findContactAssoWithConvertedLead(@Param("leadId") Integer leadId);
+    SimpleContact findContactAssoWithConvertedLead(@Param("leadId") Integer leadId);
 }

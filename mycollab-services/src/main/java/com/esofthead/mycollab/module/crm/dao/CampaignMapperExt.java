@@ -22,9 +22,11 @@ import com.esofthead.mycollab.module.crm.domain.CampaignWithBLOBs;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 
-public interface CampaignMapperExt extends
-		ISearchableDAO<CampaignSearchCriteria>,
-		IMassUpdateDAO<CampaignWithBLOBs, CampaignSearchCriteria> {
+/**
+ * @author MyCollab Ltd
+ * @since 1.0.0
+ */
+public interface CampaignMapperExt extends ISearchableDAO<CampaignSearchCriteria>, IMassUpdateDAO<CampaignWithBLOBs, CampaignSearchCriteria> {
 
-	SimpleCampaign findById(Integer campaignId);
+    SimpleCampaign findById(Integer campaignId);
 }

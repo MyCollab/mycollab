@@ -84,14 +84,6 @@ public class ProjectLinkGenerator {
         return "project/problem/list/" + UrlEncodeDecoder.encode(projectId);
     }
 
-    public static String generateProblemPreviewLink(Integer projectId, Integer problemId) {
-        return "project/problem/preview/" + GenericLinkUtils.encodeParam(projectId, problemId);
-    }
-
-    public static String generateProblemPreviewFullLink(String siteUrl, Integer projectId, Integer problemId) {
-        return siteUrl + GenericLinkUtils.URL_PREFIX_PARAM + generateProblemPreviewLink(projectId, problemId);
-    }
-
     public static String generateProjectMemberFullLink(String siteUrl, Integer projectId, String memberName) {
         if (memberName == null) {
             return "";

@@ -43,8 +43,12 @@ object SendUserInvitationCommand {
 
   class Formatter {
     def formatUser(user: SimpleUser): String = {
-      val img: Img = new Img("", StorageFactory.getInstance().getAvatarPath(user.getAvatarid, 16))
-      new DivLessFormatter().appendChild(img, DivLessFormatter.EMPTY_SPACE, new Text(user.getDisplayName)).write
+      if (user != null) {
+        val img: Img = new Img("", StorageFactory.getInstance().getAvatarPath(user.getAvatarid, 16))
+        new DivLessFormatter().appendChild(img, DivLessFormatter.EMPTY_SPACE, new Text(user.getDisplayName)).write
+      } else {
+        ""
+      }
     }
   }
 

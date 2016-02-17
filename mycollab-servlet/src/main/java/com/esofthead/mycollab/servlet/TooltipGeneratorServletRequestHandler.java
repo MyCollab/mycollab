@@ -97,10 +97,6 @@ public class TooltipGeneratorServletRequestHandler extends GenericHttpServlet {
                 SimpleRisk risk = service.findById(Integer.parseInt(typeId),
                         sAccountId);
                 html = ProjectTooltipGenerator.generateToolTipRisk(locale, risk, siteURL, timeZone);
-            } else if (ProjectTypeConstants.PROBLEM.equals(type)) {
-                ProblemService service = ApplicationContextUtil.getSpringBean(ProblemService.class);
-                SimpleProblem problem = service.findById(Integer.parseInt(typeId), sAccountId);
-                html = ProjectTooltipGenerator.generateToolTipProblem(locale, problem, siteURL, timeZone);
             } else if (ProjectTypeConstants.BUG_VERSION.equals(type)) {
                 VersionService service = ApplicationContextUtil.getSpringBean(VersionService.class);
                 SimpleVersion version = service.findById(Integer.parseInt(typeId), sAccountId);

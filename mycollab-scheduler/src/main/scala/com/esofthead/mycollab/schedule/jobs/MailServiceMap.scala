@@ -35,7 +35,6 @@ object MailServiceMap {
     ProjectTypeConstants.MESSAGE -> classOf[MessageRelayEmailNotificationAction],
     ProjectTypeConstants.MILESTONE -> classOf[ProjectMilestoneRelayEmailNotificationAction],
     ProjectTypeConstants.PAGE -> classOf[ProjectPageRelayEmailNotificationAction],
-    ProjectTypeConstants.PROBLEM -> classOf[ProjectProblemRelayEmailNotificationAction],
     ProjectTypeConstants.PROJECT -> classOf[ProjectRelayEmailNotificationAction],
     ProjectTypeConstants.RISK -> classOf[ProjectRiskRelayEmailNotificationAction],
     ProjectTypeConstants.STANDUP -> classOf[StandupRelayEmailNotificationAction],

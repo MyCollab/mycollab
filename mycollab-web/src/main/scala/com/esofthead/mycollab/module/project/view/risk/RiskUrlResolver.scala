@@ -65,7 +65,7 @@ class RiskUrlResolver extends ProjectUrlResolver {
         protected override def handlePage(params: String*) {
             val projectId: Integer = new UrlTokenizer(params(0)).getInt
             val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId),
-                new RiskScreenData.Add(new Risk))
+                new RiskScreenData.Add(new SimpleRisk))
             EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
         }
     }

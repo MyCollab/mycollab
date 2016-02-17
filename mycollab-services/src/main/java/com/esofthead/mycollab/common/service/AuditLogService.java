@@ -22,12 +22,10 @@ import com.esofthead.mycollab.common.domain.criteria.AuditLogSearchCriteria;
 import com.esofthead.mycollab.core.persistence.service.IDefaultService;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public interface AuditLogService extends IDefaultService<Integer, AuditLog, AuditLogSearchCriteria> {
 
-	SimpleAuditLog findLastestLog(int auditLogId, int sAccountId);
+    SimpleAuditLog findLastestLog(int auditLogId, int sAccountId);
 }

@@ -198,6 +198,8 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
                 if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) {
                     SimpleTask newTask = new SimpleTask();
                     newTask.setProjectid(CurrentProjectVariables.getProjectId());
+                    newTask.setSaccountid(AppContext.getAccountId());
+                    newTask.setLogby(AppContext.getUsername());
                     UI.getCurrent().addWindow(new TaskAddWindow(newTask));
                 }
             }
@@ -213,28 +215,6 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
         advanceDisplayBtn.setIcon(FontAwesome.SITEMAP);
         advanceDisplayBtn.setDescription("Advance View");
 
-        Button calendarBtn = new Button(null, new Button.ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent clickEvent) {
-                EventBusFactory.getInstance().post(new TaskEvent.GotoCalendarView(TaskDashboardViewImpl.this));
-            }
-        });
-        calendarBtn.setWidth("50px");
-        calendarBtn.setDescription("Calendar View");
-        calendarBtn.setIcon(FontAwesome.CALENDAR);
-
-        Button chartDisplayBtn = new Button(null, new Button.ClickListener() {
-            private static final long serialVersionUID = -5707546605789537298L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                displayGanttChartView();
-            }
-        });
-        chartDisplayBtn.setWidth("50px");
-        chartDisplayBtn.setDescription("Display Gantt chart");
-        chartDisplayBtn.setIcon(FontAwesome.BAR_CHART_O);
-
         Button kanbanBtn = new Button(null, new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
@@ -247,9 +227,7 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
 
         ToggleButtonGroup viewButtons = new ToggleButtonGroup();
         viewButtons.addButton(advanceDisplayBtn);
-        viewButtons.addButton(calendarBtn);
         viewButtons.addButton(kanbanBtn);
-        viewButtons.addButton(chartDisplayBtn);
         viewButtons.setDefaultButton(advanceDisplayBtn);
         groupWrapLayout.addComponent(viewButtons);
 
@@ -367,10 +345,6 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
         }
         List<SimpleTask> tasks = projectTaskService.findPagableListByCriteria(new SearchRequest<>(baseCriteria, currentPage + 1, 20));
         taskGroupOrderComponent.insertTasks(tasks);
-    }
-
-    private void displayGanttChartView() {
-        EventBusFactory.getInstance().post(new TaskEvent.GotoGanttChart(this, null));
     }
 
     private void displayKanbanView() {

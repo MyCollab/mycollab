@@ -20,11 +20,15 @@ import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.module.crm.view.account.AccountSelectionField;
 import com.esofthead.mycollab.module.project.domain.Project;
 import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
+import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
+import com.esofthead.mycollab.vaadin.ui.CurrencyComboBoxField;
+import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.web.ui.EditFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.web.ui.I18nValueComboBox;
 import com.vaadin.ui.*;
@@ -130,6 +134,8 @@ public class ProjectAddViewImpl extends AbstractPageView implements ProjectAddVi
                 return tf;
             } else if (Project.Field.account.equalTo(propertyId)) {
                 return new AccountSelectionField();
+            } else if (Project.Field.lead.equalTo(propertyId)) {
+                return new ProjectMemberSelectionField();
             }
 
             return null;

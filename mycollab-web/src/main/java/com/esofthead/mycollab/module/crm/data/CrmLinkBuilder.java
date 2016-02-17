@@ -30,24 +30,21 @@ public class CrmLinkBuilder {
         if (accountId == null) {
             return "";
         }
-        return CrmLinkGenerator.generateAccountPreviewFullLink(
-                AppContext.getSiteUrl(), accountId);
+        return CrmLinkGenerator.generateAccountPreviewFullLink(AppContext.getSiteUrl(), accountId);
     }
 
     public static String generateCampaignPreviewLinkFull(Integer campaignId) {
         if (campaignId == null) {
             return "";
         }
-        return CrmLinkGenerator.generateCampaignPreviewFullLink(
-                AppContext.getSiteUrl(), campaignId);
+        return CrmLinkGenerator.generateCampaignPreviewFullLink(AppContext.getSiteUrl(), campaignId);
     }
 
     public static String generateCasePreviewLinkFull(Integer caseId) {
         if (caseId == null) {
             return "";
         }
-        return CrmLinkGenerator.generateCasePreviewFullLink(
-                AppContext.getSiteUrl(), caseId);
+        return CrmLinkGenerator.generateCasePreviewFullLink(AppContext.getSiteUrl(), caseId);
     }
 
     public static String generateContactPreviewLinkFull(Integer contactId) {
@@ -62,8 +59,7 @@ public class CrmLinkBuilder {
         if (leadId == null) {
             return "";
         }
-        return AppContext.getSiteUrl() + GenericLinkUtils.URL_PREFIX_PARAM
-                + CrmLinkGenerator.generateLeadPreviewLink(leadId);
+        return AppContext.getSiteUrl() + GenericLinkUtils.URL_PREFIX_PARAM + CrmLinkGenerator.generateLeadPreviewLink(leadId);
     }
 
     public static String generateOpportunityPreviewLinkFull(
@@ -71,18 +67,15 @@ public class CrmLinkBuilder {
         if (opportunityId == null) {
             return "";
         }
-        return CrmLinkGenerator.generateOpportunityPreviewFullLink(
-                AppContext.getSiteUrl(), opportunityId);
+        return CrmLinkGenerator.generateOpportunityPreviewFullLink(AppContext.getSiteUrl(), opportunityId);
     }
 
-    public static String generateActivityPreviewLinkFull(String type,
-                                                         Integer typeId) {
+    public static String generateActivityPreviewLinkFull(String type, Integer typeId) {
         if (type == null || typeId == null) {
             return "";
         }
 
-        return CrmLinkGenerator.generateCrmItemFullLink(
-                AppContext.getSiteUrl(), type, typeId);
+        return CrmLinkGenerator.generateCrmItemFullLink(AppContext.getSiteUrl(), type, typeId);
 
     }
 
@@ -90,15 +83,13 @@ public class CrmLinkBuilder {
         if (meetingId == null) {
             return "";
         }
-        return CrmLinkGenerator.generateMeetingPreviewFullLink(
-                AppContext.getSiteUrl(), meetingId);
+        return CrmLinkGenerator.generateMeetingPreviewFullLink(AppContext.getSiteUrl(), meetingId);
     }
 
     public static String generateCallPreviewLinkFul(Integer callId) {
         if (callId == null) {
             return "";
         }
-        return CrmLinkGenerator.generateCallPreviewFullLink(
-                AppContext.getSiteUrl(), callId);
+        return CrmLinkGenerator.generateCallPreviewFullLink(AppContext.getSiteUrl(), callId);
     }
 }

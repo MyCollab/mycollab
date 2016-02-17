@@ -43,7 +43,7 @@
             <level>ERROR</level>
         </filter>
     </appender>
-    <logger name="org.springframework" level="INFO"/>
+    <logger name="org.springframework" leveld="INFO"/>
     <logger name="com.esofthead" level="INFO"/>
     <logger name="java.sql" level="INFO"/>
     <logger name="org.apache.ibatis" level="INFO"/>

@@ -22,13 +22,14 @@ import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.Task;
+import com.esofthead.mycollab.module.project.events.AssignmentEvent;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.field.AttachmentUploadField;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
@@ -53,8 +54,6 @@ public class TaskAddWindow extends Window {
         this.setResizable(false);
 
         EditForm editForm = new EditForm();
-        task.setLogby(AppContext.getUsername());
-        task.setSaccountid(AppContext.getAccountId());
         editForm.setBean(task);
         this.setContent(editForm);
     }
@@ -64,7 +63,7 @@ public class TaskAddWindow extends Window {
         @Override
         public void setBean(final SimpleTask item) {
             this.setFormLayoutFactory(new FormLayoutFactory());
-            this.setBeanFormFieldFactory(new TaskEditFormFieldFactory(EditForm.this));
+            this.setBeanFormFieldFactory(new TaskEditFormFieldFactory(this));
             super.setBean(item);
         }
 
@@ -105,14 +104,14 @@ public class TaskAddWindow extends Window {
                                 taskId = bean.getId();
                             }
 
-                            AttachmentUploadField uploadField = ((TaskEditFormFieldFactory) EditForm.this
-                                    .getFieldFactory()).getAttachmentUploadField();
-                            String attachPath = AttachmentUtils.getProjectEntityAttachmentPath(
-                                    AppContext.getAccountId(), bean.getProjectid(),
+                            AttachmentUploadField uploadField = ((TaskEditFormFieldFactory) getFieldFactory()).getAttachmentUploadField();
+                            String attachPath = AttachmentUtils.getProjectEntityAttachmentPath(AppContext.getAccountId(), bean.getProjectid(),
                                     ProjectTypeConstants.TASK, "" + taskId);
                             uploadField.saveContentsToRepo(attachPath);
                             close();
                             EventBusFactory.getInstance().post(new TaskEvent.NewTaskAdded(TaskAddWindow.this, taskId));
+                            EventBusFactory.getInstance().post(new AssignmentEvent.NewAssignmentAdd(TaskAddWindow.this,
+                                    ProjectTypeConstants.TASK, taskId));
                         }
                     }
                 });
@@ -122,7 +121,7 @@ public class TaskAddWindow extends Window {
                 Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
                     @Override
                     public void buttonClick(Button.ClickEvent clickEvent) {
-                        TaskAddWindow.this.close();
+                        close();
                     }
                 });
                 cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);

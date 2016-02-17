@@ -28,12 +28,14 @@ public class SimpleUser extends User {
     private static final long serialVersionUID = 1L;
 
     private Integer roleid;
+
     @NotBindable
     private String roleName;
 
     @NotBindable
     private PermissionMap permissionMaps;
 
+    @NotBindable
     private Boolean isAccountOwner;
     private String subdomain;
     private Integer accountId;

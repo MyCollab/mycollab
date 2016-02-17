@@ -23,7 +23,6 @@ import com.esofthead.mycollab.module.project.domain.criteria.MilestoneSearchCrit
 import org.apache.ibatis.annotations.Param;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 1.0
  */
@@ -33,7 +32,7 @@ public interface MilestoneMapperExt extends ISearchableDAO<MilestoneSearchCriter
 
     Double getTotalBillableHours(@Param("milestoneid") int milestoneId);
 
-    Double getTotalNonBillableHours(@Param("milestoneid")int milestoneId);
+    Double getTotalNonBillableHours(@Param("milestoneid") int milestoneId);
 
-    Double getRemainHours(@Param("milestoneid")int milestoneId);
+    Double getRemainHours(@Param("milestoneid") int milestoneId);
 }

@@ -19,10 +19,9 @@ package com.esofthead.mycollab.core.arguments;
 import java.io.Serializable;
 
 /**
- *
+ * @param <S>
  * @author MyCollab Ltd.
  * @since 1.0
- * @param <S>
  */
 public class SearchRequest<S extends SearchCriteria> implements Serializable {
     private static final long serialVersionUID = 1L;

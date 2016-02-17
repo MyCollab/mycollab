@@ -37,7 +37,6 @@ public class ProjectAuditLogStreamGenerator {
         auditPrinters.put(ProjectTypeConstants.TASK, new AuditLogPrinter(TaskFieldFormatter.instance()));
         auditPrinters.put(ProjectTypeConstants.MILESTONE, new AuditLogPrinter(MilestoneFieldFormatter.instance()));
         auditPrinters.put(ProjectTypeConstants.RISK, new AuditLogPrinter(RiskFieldFormatter.instance()));
-        auditPrinters.put(ProjectTypeConstants.PROBLEM, new AuditLogPrinter(ProblemFieldFormatter.instance()));
         auditPrinters.put(ProjectTypeConstants.BUG_COMPONENT, new AuditLogPrinter(ComponentFieldFormatter.instance()));
         auditPrinters.put(ProjectTypeConstants.BUG_VERSION, new AuditLogPrinter(VersionFieldFormatter.instance()));
     }

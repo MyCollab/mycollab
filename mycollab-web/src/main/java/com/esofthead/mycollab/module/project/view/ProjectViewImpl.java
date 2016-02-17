@@ -27,7 +27,10 @@ import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.ProjectMemberStatusConstants;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
-import com.esofthead.mycollab.module.project.domain.criteria.*;
+import com.esofthead.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria;
+import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
+import com.esofthead.mycollab.module.project.domain.criteria.RiskSearchCriteria;
+import com.esofthead.mycollab.module.project.domain.criteria.StandupReportSearchCriteria;
 import com.esofthead.mycollab.module.project.events.ProjectMemberEvent;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
@@ -38,7 +41,6 @@ import com.esofthead.mycollab.module.project.view.message.MessagePresenter;
 import com.esofthead.mycollab.module.project.view.milestone.MilestonePresenter;
 import com.esofthead.mycollab.module.project.view.page.PagePresenter;
 import com.esofthead.mycollab.module.project.view.parameters.*;
-import com.esofthead.mycollab.module.project.view.problem.IProblemPresenter;
 import com.esofthead.mycollab.module.project.view.risk.IRiskPresenter;
 import com.esofthead.mycollab.module.project.view.settings.UserSettingPresenter;
 import com.esofthead.mycollab.module.project.view.standup.IStandupPresenter;
@@ -109,7 +111,6 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
         private BugPresenter bugPresenter;
         private PagePresenter pagePresenter;
         private FilePresenter filePresenter;
-        private IProblemPresenter problemPresenter;
         private IRiskPresenter riskPresenter;
         private ITimeTrackingPresenter timePresenter;
         private UserSettingPresenter userPresenter;
@@ -148,11 +149,6 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
                     } else if (ProjectTypeConstants.PAGE.equals(caption)) {
                         pagePresenter.go(ProjectViewImpl.this,
                                 new PageScreenData.Search(CurrentProjectVariables.getBasePagePath()));
-                    } else if (ProjectTypeConstants.PROBLEM.equals(caption)) {
-                        ProblemSearchCriteria searchCriteria = new ProblemSearchCriteria();
-                        searchCriteria.setProjectId(new NumberSearchField(
-                                SearchField.AND, CurrentProjectVariables.getProjectId()));
-                        problemPresenter.go(ProjectViewImpl.this, new ProblemScreenData.Search(searchCriteria));
                     } else if (ProjectTypeConstants.DASHBOARD.equals(caption)) {
                         dashboardPresenter.go(ProjectViewImpl.this, null);
                     } else if (ProjectTypeConstants.MEMBER.equals(caption)) {
@@ -279,14 +275,6 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
                 myProjectTab.removeTab(ProjectTypeConstants.RISK);
             }
 
-            if (CurrentProjectVariables.hasProblemFeature()) {
-                myProjectTab.addTab(constructProjectProblemComponent(), ProjectTypeConstants.PROBLEM, 9,
-                        AppContext.getMessage(ProjectCommonI18nEnum.VIEW_PROBLEM),
-                        GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateProblemsLink(prjId));
-            } else {
-                myProjectTab.removeTab(ProjectTypeConstants.PROBLEM);
-            }
-
             if (CurrentProjectVariables.hasTimeFeature()) {
                 myProjectTab.addTab(constructTimeTrackingComponent(), ProjectTypeConstants.TIME, 10,
                         AppContext.getMessage(ProjectCommonI18nEnum.VIEW_TIME),
@@ -338,11 +326,6 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
         private Component constructProjectRiskComponent() {
             riskPresenter = PresenterResolver.getPresenter(IRiskPresenter.class);
             return riskPresenter.getView();
-        }
-
-        private Component constructProjectProblemComponent() {
-            problemPresenter = PresenterResolver.getPresenter(IProblemPresenter.class);
-            return problemPresenter.getView();
         }
 
         private Component constructTimeTrackingComponent() {

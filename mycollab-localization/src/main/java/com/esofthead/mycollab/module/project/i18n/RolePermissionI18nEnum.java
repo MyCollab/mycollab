@@ -21,18 +21,18 @@ import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
 @BaseName("localization/project-role-permission")
-@LocaleData(value = { @Locale("en-US"), @Locale("ja-JP") }, defaultCharset = "UTF-8")
+@LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
 public enum RolePermissionI18nEnum {
-	Message,
-	Milestone,
-	Task,
-	Bug,
-	Version,
-	Component,
-	Page,
-	Risk,
-	Problem,
-	User,
-	Role,
-	Project
+    Message,
+    Milestone,
+    Task,
+    Bug,
+    Version,
+    Component,
+    Page,
+    Risk,
+    Problem,
+    User,
+    Role,
+    Project
 }

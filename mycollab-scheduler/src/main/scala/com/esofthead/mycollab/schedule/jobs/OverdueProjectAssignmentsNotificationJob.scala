@@ -14,22 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-scheduler.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
-  * This file is part of mycollab-scheduler.
-  *
-  * mycollab-scheduler is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU General Public License as published by
-  * the Free Software Foundation, either version 3 of the License, or
-  * (at your option) any later version.
-  *
-  * mycollab-scheduler is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU General Public License for more details.
-  *
-  * You should have received a copy of the GNU General Public License
-  * along with mycollab-scheduler.  If not, see <http://www.gnu.org/licenses/>.
-  */
 package com.esofthead.mycollab.schedule.jobs
 
 import java.util
@@ -80,9 +64,6 @@ object OverdueProjectAssignmentsNotificationJob {
               assignment.getExtraTypeId, assignment.getProjectShortName)).appendText(assignment.getName)).write()
           case ProjectTypeConstants.RISK => new Div().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.RISK)).
             appendChild(DivLessFormatter.EMPTY_SPACE, new A(ProjectLinkGenerator.generateRiskPreviewFullLink(SiteConfiguration.getSiteUrl(subdomain),
-              assignment.getProjectId, assignment.getTypeId)).appendText(assignment.getName)).write()
-          case ProjectTypeConstants.PROBLEM => new Div().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.PROBLEM)).
-            appendChild(DivLessFormatter.EMPTY_SPACE, new A(ProjectLinkGenerator.generateProblemPreviewFullLink(SiteConfiguration.getSiteUrl(subdomain),
               assignment.getProjectId, assignment.getTypeId)).appendText(assignment.getName)).write()
           case ProjectTypeConstants.MILESTONE => new Div().appendText(FontAwesomeUtils.toHtml(ProjectTypeConstants.MILESTONE)).
             appendChild(DivLessFormatter.EMPTY_SPACE, new A(ProjectLinkGenerator.generateMilestonePreviewFullLink(SiteConfiguration.getSiteUrl(subdomain),

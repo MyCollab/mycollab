@@ -23,9 +23,12 @@ import com.esofthead.mycollab.module.tracker.domain.Component;
 import com.esofthead.mycollab.module.tracker.domain.SimpleComponent;
 import com.esofthead.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria;
 
-
+/**
+ * @author MyCollab Ltd
+ * @since 1.0.0
+ */
 public interface ComponentService extends IDefaultService<Integer, Component, ComponentSearchCriteria> {
 
-	@Cacheable
-	SimpleComponent findById(Integer componentId, @CacheKey Integer sAccountId);
+    @Cacheable
+    SimpleComponent findById(Integer componentId, @CacheKey Integer sAccountId);
 }

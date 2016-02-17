@@ -60,18 +60,13 @@ public class RoleAddPresenter extends AbstractPresenter<RoleAddView> {
 
             @Override
             public void onCancel() {
-                ViewState viewState = HistoryViewManager.back();
-                if (viewState instanceof NullViewState) {
-                    EventBusFactory.getInstance().post(
-                            new RoleEvent.GotoList(this, null));
-                }
+                EventBusFactory.getInstance().post(new RoleEvent.GotoList(this, null));
             }
 
             @Override
             public void onSaveAndNew(Role item) {
                 save(item);
-                EventBusFactory.getInstance().post(
-                        new RoleEvent.GotoAdd(this, null));
+                EventBusFactory.getInstance().post(new RoleEvent.GotoAdd(this, null));
             }
         });
     }
@@ -86,9 +81,7 @@ public class RoleAddPresenter extends AbstractPresenter<RoleAddView> {
             roleService.updateWithSession(item, AppContext.getUsername());
         }
 
-        roleService.savePermission(item.getId(), view.getPermissionMap(),
-                item.getSaccountid());
-
+        roleService.savePermission(item.getId(), view.getPermissionMap(), item.getSaccountid());
     }
 
     @Override

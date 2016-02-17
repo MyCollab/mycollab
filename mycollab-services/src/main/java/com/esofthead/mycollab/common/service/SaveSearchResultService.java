@@ -24,6 +24,5 @@ import com.esofthead.mycollab.core.persistence.service.IDefaultService;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public interface SaveSearchResultService extends
-        IDefaultService<Integer, SaveSearchResultWithBLOBs, SaveSearchResultCriteria> {
+public interface SaveSearchResultService extends IDefaultService<Integer, SaveSearchResultWithBLOBs, SaveSearchResultCriteria> {
 }

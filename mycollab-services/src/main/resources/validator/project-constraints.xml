@@ -110,19 +110,6 @@
         </field>
     </bean>
 
-    <bean class="Problem" ignore-annotations="false">
-        <field name="issuename">
-            <constraint annotation="javax.validation.constraints.NotNull">
-                <message>Name must not be null</message>
-            </constraint>
-        </field>
-        <field name="description">
-            <constraint annotation="javax.validation.constraints.NotNull">
-                <message>Description must not be null</message>
-            </constraint>
-        </field>
-    </bean>
-
     <bean class="ProjectMember" ignore-annotations="false">
         <field name="username">
             <constraint annotation="javax.validation.constraints.NotNull">

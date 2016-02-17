@@ -23,10 +23,8 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Method;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 public class CrmResources {
     private static Logger LOG = LoggerFactory.getLogger(CrmResources.class);

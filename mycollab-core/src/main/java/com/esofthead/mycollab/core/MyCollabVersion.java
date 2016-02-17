@@ -30,7 +30,7 @@ import java.util.regex.Pattern;
  * @since 4.4.0
  */
 public class MyCollabVersion {
-    public static final String THEME_VERSION = "mycollab_20151219";
+    public static final String THEME_VERSION = "mycollab_20160215";
     public static final String THEME_MOBILE_VERSION = "mycollab_20151229";
 
     public static String getVersion() {
@@ -45,7 +45,7 @@ public class MyCollabVersion {
 
             return IOUtils.toString(pricingStream, "UTF-8").replace("\n","");
         } catch (Exception e) {
-            return "5.2.5";
+            return "5.2.7";
         }
     }
 

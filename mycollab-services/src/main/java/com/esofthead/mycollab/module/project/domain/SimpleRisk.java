@@ -37,6 +37,8 @@ public class SimpleRisk extends Risk {
 
     private String projectName;
 
+    private String milestoneName;
+
     public String getProjectName() {
         return projectName;
     }
@@ -95,6 +97,14 @@ public class SimpleRisk extends Risk {
         Date now = DateTimeUtils.getCurrentDateWithoutMS();
         return OptionI18nEnum.StatusI18nEnum.Open.name().equals(getStatus()) && (getDatedue() != null) &&
                 getDatedue().before(now);
+    }
+
+    public String getMilestoneName() {
+        return milestoneName;
+    }
+
+    public void setMilestoneName(String milestoneName) {
+        this.milestoneName = milestoneName;
     }
 
     public enum Field {

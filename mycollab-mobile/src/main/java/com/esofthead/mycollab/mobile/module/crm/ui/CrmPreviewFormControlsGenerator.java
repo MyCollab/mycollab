@@ -53,9 +53,7 @@ public class CrmPreviewFormControlsGenerator<T> {
                 | CLONE_BTN_PRESENTED, permissionItem);
     }
 
-    public VerticalLayout createButtonControls(int buttonEnableFlags,
-                                               final String permissionItem) {
-
+    public VerticalLayout createButtonControls(int buttonEnableFlags, final String permissionItem) {
         boolean canWrite = true;
         boolean canAccess = true;
         if (permissionItem != null) {

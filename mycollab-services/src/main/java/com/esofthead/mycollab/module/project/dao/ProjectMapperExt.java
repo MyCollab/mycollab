@@ -16,11 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.dao;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.session.RowBounds;
-
 import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
 import com.esofthead.mycollab.common.domain.criteria.MonitorSearchCriteria;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
@@ -29,33 +24,32 @@ import com.esofthead.mycollab.module.project.domain.ProjectActivityStream;
 import com.esofthead.mycollab.module.project.domain.ProjectRelayEmailNotification;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
 
+import java.util.List;
+
+/**
+ * @author MyCollab Ltd
+ * @since 1.0.0
+ */
 public interface ProjectMapperExt extends ISearchableDAO<ProjectSearchCriteria> {
 
-	int getTotalActivityStream(
-			@Param("searchCriteria") ActivityStreamSearchCriteria criteria);
+    int getTotalActivityStream(@Param("searchCriteria") ActivityStreamSearchCriteria criteria);
 
-	List<ProjectActivityStream> getProjectActivityStreams(
-			@Param("searchCriteria") ActivityStreamSearchCriteria criteria,
-			RowBounds rowBounds);
+    List<ProjectActivityStream> getProjectActivityStreams(@Param("searchCriteria") ActivityStreamSearchCriteria criteria, RowBounds rowBounds);
 
-	List<Integer> getUserProjectKeys(
-			@Param("searchCriteria") ProjectSearchCriteria criteria);
+    List<Integer> getUserProjectKeys(@Param("searchCriteria") ProjectSearchCriteria criteria);
 
-	List<SimpleProject> getProjectsUserInvolved(
-			@Param("username") String username,
-			@Param("sAccountId") Integer sAccountId);
+    List<SimpleProject> getProjectsUserInvolved(@Param("username") String username, @Param("sAccountId") Integer sAccountId);
 
-	SimpleProject findProjectById(int projectId);
+    SimpleProject findProjectById(int projectId);
 
-	String getSubdomainOfProject(int projectId);
+    String getSubdomainOfProject(int projectId);
 
-	int getTotalFollowingTickets(
-			@Param("searchCriteria") MonitorSearchCriteria searchRequest);
+    int getTotalFollowingTickets(@Param("searchCriteria") MonitorSearchCriteria searchRequest);
 
-	List<FollowingTicket> getProjectFollowingTickets(
-			@Param("searchCriteria") MonitorSearchCriteria searchRequest,
-			RowBounds rowBounds);
+    List<FollowingTicket> getProjectFollowingTickets(@Param("searchCriteria") MonitorSearchCriteria searchRequest, RowBounds rowBounds);
 
-	List<ProjectRelayEmailNotification> findProjectRelayEmailNotifications();
+    List<ProjectRelayEmailNotification> findProjectRelayEmailNotifications();
 }

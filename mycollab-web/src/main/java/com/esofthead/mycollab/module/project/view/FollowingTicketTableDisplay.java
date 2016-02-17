@@ -26,11 +26,14 @@ import com.esofthead.mycollab.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.service.ProjectFollowingTicketService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
-import com.esofthead.mycollab.module.project.view.parameters.*;
+import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
+import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
+import com.esofthead.mycollab.module.project.view.parameters.RiskScreenData;
+import com.esofthead.mycollab.module.project.view.parameters.TaskScreenData;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
-import com.esofthead.mycollab.vaadin.web.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
+import com.esofthead.mycollab.vaadin.web.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.UserLink;
 import com.esofthead.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
@@ -108,31 +111,6 @@ public class FollowingTicketTableDisplay extends DefaultPagedBeanTable<ProjectFo
                             final int projectId = ticket.getProjectId();
                             final int taskId = ticket.getTypeId();
                             final PageActionChain chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new TaskScreenData.Read(taskId));
-                            EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
-                        }
-                    });
-                } else if (ProjectTypeConstants.PROBLEM.equals(ticket.getType())) {
-                    ticketLink.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.PROBLEM));
-
-                    if ("Closed".equals(ticket.getStatus())) {
-                        ticketLink.addStyleName(UIConstants.LINK_COMPLETED);
-                    } else {
-                        if ("Pending".equals(ticket.getStatus())) {
-                            ticketLink.addStyleName(UIConstants.LINK_PENDING);
-                        } else if (ticket.getDueDate() != null && ticket.getDueDate().before(new GregorianCalendar().getTime())) {
-                            ticketLink.addStyleName(UIConstants.LINK_OVERDUE);
-                        }
-                    }
-
-                    ticketLink.addClickListener(new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
-
-                        @Override
-                        public void buttonClick(final ClickEvent event) {
-                            int projectId = ticket.getProjectId();
-                            int problemId = ticket.getTypeId();
-                            PageActionChain chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
-                                    new ProblemScreenData.Read(problemId));
                             EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
                         }
                     });

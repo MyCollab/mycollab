@@ -85,7 +85,7 @@ public class FollowingTicketSearchPanel extends DefaultGenericSearchPanel<Follow
 
         private UserInvolvedProjectsListSelect projectField;
         private TextField summaryField;
-        private CheckBox taskSelect, bugSelect, problemSelect, riskSelect;
+        private CheckBox taskSelect, bugSelect, riskSelect;
 
         @SuppressWarnings("unchecked")
         public FollowingTicketBasicSearchLayout() {
@@ -130,13 +130,10 @@ public class FollowingTicketSearchPanel extends DefaultGenericSearchPanel<Follow
             this.bugSelect = new CheckBox("Bug", true);
             this.bugSelect.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG));
 
-            this.problemSelect = new CheckBox("Problem", true);
-            this.problemSelect.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.PROBLEM));
-
             this.riskSelect = new CheckBox("Risk", true);
             this.riskSelect.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.RISK));
 
-            typeSelectWrapper.with(this.taskSelect, this.bugSelect, this.riskSelect, this.problemSelect);
+            typeSelectWrapper.with(this.taskSelect, this.bugSelect, this.riskSelect);
 
             Label projectLb = new Label("Project:");
             projectLb.setWidthUndefined();
@@ -176,9 +173,6 @@ public class FollowingTicketSearchPanel extends DefaultGenericSearchPanel<Follow
             }
             if (this.bugSelect.getValue()) {
                 types.add(ProjectTypeConstants.BUG);
-            }
-            if (this.problemSelect.getValue()) {
-                types.add(ProjectTypeConstants.PROBLEM);
             }
             if (this.riskSelect.getValue()) {
                 types.add(ProjectTypeConstants.RISK);

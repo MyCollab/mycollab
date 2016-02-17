@@ -62,10 +62,7 @@ public class ComponentAddPresenter extends AbstractPresenter<ComponentAddView> {
 
             @Override
             public void onCancel() {
-                ViewState viewState = HistoryViewManager.back();
-                if (viewState instanceof NullViewState) {
-                    EventBusFactory.getInstance().post(new BugComponentEvent.GotoList(this, null));
-                }
+                EventBusFactory.getInstance().post(new BugComponentEvent.GotoList(this, null));
             }
 
             @Override

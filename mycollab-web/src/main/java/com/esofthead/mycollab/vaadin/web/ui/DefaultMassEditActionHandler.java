@@ -33,7 +33,6 @@ import java.util.Map;
  * @author MyCollab Ltd.
  * @since 2.0
  */
-@SuppressWarnings("rawtypes")
 public abstract class DefaultMassEditActionHandler implements MassItemActionHandler {
     private ListSelectionPresenter presenter;
 

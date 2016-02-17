@@ -33,7 +33,6 @@ public class FontAwesomeUtils {
         resources.put(ProjectTypeConstants.BUG, Integer.toHexString('\uf188'));
         resources.put(ProjectTypeConstants.TASK, Integer.toHexString('\uf0ae'));
         resources.put(ProjectTypeConstants.RISK, Integer.toHexString('\uf132'));
-        resources.put(ProjectTypeConstants.PROBLEM, Integer.toHexString('\uf071'));
         resources.put(ProjectTypeConstants.MILESTONE, Integer.toHexString('\uf11e'));
         resources.put(ProjectTypeConstants.PROJECT, Integer.toHexString('\uf133'));
     }

@@ -35,10 +35,6 @@ public class SimpleProject extends Project {
 
     private int numTasks;
 
-    private int numOpenProblems;
-
-    private int numProblems;
-
     private int numOpenRisks;
 
     private int numRisks;
@@ -54,6 +50,10 @@ public class SimpleProject extends Project {
     private double totalBillableHours;
 
     private double totalNonBillableHours;
+
+    private String leadFullName;
+
+    private String leadAvatarId;
 
     @NotBindable
     private ProjectCustomizeView customizeView;
@@ -107,22 +107,6 @@ public class SimpleProject extends Project {
 
     public void setNumTasks(int numTasks) {
         this.numTasks = numTasks;
-    }
-
-    public int getNumOpenProblems() {
-        return numOpenProblems;
-    }
-
-    public void setNumOpenProblems(int numOpenProblems) {
-        this.numOpenProblems = numOpenProblems;
-    }
-
-    public int getNumProblems() {
-        return numProblems;
-    }
-
-    public void setNumProblems(int numProblems) {
-        this.numProblems = numProblems;
     }
 
     public int getNumOpenRisks() {
@@ -211,6 +195,22 @@ public class SimpleProject extends Project {
 
     public boolean isArchived() {
         return StatusI18nEnum.Archived.name().equals(getProjectstatus());
+    }
+
+    public String getLeadFullName() {
+        return leadFullName;
+    }
+
+    public void setLeadFullName(String leadFullName) {
+        this.leadFullName = leadFullName;
+    }
+
+    public String getLeadAvatarId() {
+        return leadAvatarId;
+    }
+
+    public void setLeadAvatarId(String leadAvatarId) {
+        this.leadAvatarId = leadAvatarId;
     }
 
     public enum Field {

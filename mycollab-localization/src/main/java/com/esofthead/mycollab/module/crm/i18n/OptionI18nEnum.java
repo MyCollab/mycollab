@@ -21,25 +21,23 @@ import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.3.0
- * 
  */
 public class OptionI18nEnum {
 
-	@BaseName("localization/crm-accounttype")
-	@LocaleData(value = { @Locale("en-US"), @Locale("ja-JP") }, defaultCharset = "UTF-8")
-	public enum AccountType {
-		Analyst,
-		Competitor,
-		Customer,
-		Integrator,
-		Investor,
-		Partner,
-		Press,
-		Prospect,
-		Reseller,
-		Other
-	}
+    @BaseName("localization/crm-accounttype")
+    @LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
+    public enum AccountType {
+        Analyst,
+        Competitor,
+        Customer,
+        Integrator,
+        Investor,
+        Partner,
+        Press,
+        Prospect,
+        Reseller,
+        Other
+    }
 }

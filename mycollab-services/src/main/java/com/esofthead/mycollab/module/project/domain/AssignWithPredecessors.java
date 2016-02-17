@@ -28,8 +28,6 @@ import java.util.List;
 public abstract class AssignWithPredecessors {
     private Date startDate;
     private Date endDate;
-    private Date actualStartDate;
-    private Date actualEndDate;
     private Date deadline;
     private String projectName;
     private String name;
@@ -66,22 +64,6 @@ public abstract class AssignWithPredecessors {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
-    }
-
-    public Date getActualStartDate() {
-        return actualStartDate;
-    }
-
-    public void setActualStartDate(Date actualStartDate) {
-        this.actualStartDate = actualStartDate;
-    }
-
-    public Date getActualEndDate() {
-        return actualEndDate;
-    }
-
-    public void setActualEndDate(Date actualEndDate) {
-        this.actualEndDate = actualEndDate;
     }
 
     public Date getDeadline() {
@@ -230,8 +212,6 @@ public abstract class AssignWithPredecessors {
         if (!(o instanceof AssignWithPredecessors)) return false;
 
         AssignWithPredecessors that = (AssignWithPredecessors) o;
-
-        if (ganttIndex != null ? !ganttIndex.equals(that.ganttIndex) : that.ganttIndex != null) return false;
         if (!prjId.equals(that.prjId)) return false;
         if (!type.equals(that.type)) return false;
         return !(id != null ? !id.equals(that.id) : that.id != null);
@@ -240,8 +220,7 @@ public abstract class AssignWithPredecessors {
 
     @Override
     public int hashCode() {
-        int result = ganttIndex != null ? ganttIndex.hashCode() : 0;
-        result = 31 * result + prjId.hashCode();
+        int result = 31 + prjId.hashCode();
         result = 31 * result + type.hashCode();
         result = 31 * result + (id != null ? id.hashCode() : 0);
         return result;

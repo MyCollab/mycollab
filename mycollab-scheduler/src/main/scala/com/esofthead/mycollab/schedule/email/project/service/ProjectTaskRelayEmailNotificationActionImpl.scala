@@ -14,6 +14,22 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-scheduler.  If not, see <http://www.gnu.org/licenses/>.
  */
+/**
+  * This file is part of mycollab-scheduler.
+  *
+  * mycollab-scheduler is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 3 of the License, or
+  * (at your option) any later version.
+  *
+  * mycollab-scheduler is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with mycollab-scheduler.  If not, see <http://www.gnu.org/licenses/>.
+  */
 package com.esofthead.mycollab.schedule.email.project.service
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum
@@ -138,9 +154,7 @@ class ProjectTaskRelayEmailNotificationActionImpl extends SendMailToFollowersAct
   class TaskFieldNameMapper extends ItemFieldMapper {
     put(Task.Field.taskname, TaskI18nEnum.FORM_TASK_NAME, isColSpan = true)
     put(Task.Field.startdate, new DateFieldFormat(Task.Field.startdate.name, TaskI18nEnum.FORM_START_DATE))
-    put(Task.Field.actualstartdate, new DateFieldFormat(Task.Field.actualstartdate.name, TaskI18nEnum.FORM_ACTUAL_START_DATE))
     put(Task.Field.enddate, new DateFieldFormat(Task.Field.enddate.name, TaskI18nEnum.FORM_END_DATE))
-    put(Task.Field.actualenddate, new DateFieldFormat(Task.Field.actualenddate.name, TaskI18nEnum.FORM_ACTUAL_END_DATE))
     put(Task.Field.deadline, new DateFieldFormat(Task.Field.deadline.name, TaskI18nEnum.FORM_DEADLINE))
     put(Task.Field.percentagecomplete, TaskI18nEnum.FORM_PERCENTAGE_COMPLETE)
     put(Task.Field.priority, new I18nFieldFormat(Task.Field.priority.name, TaskI18nEnum.FORM_PRIORITY, classOf[OptionI18nEnum.TaskPriority]))

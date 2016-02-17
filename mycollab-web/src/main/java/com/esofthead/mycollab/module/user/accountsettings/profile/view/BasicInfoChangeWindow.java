@@ -156,16 +156,12 @@ class BasicInfoChangeWindow extends Window {
         this.user.setTimezone(this.timeZoneField.getTimeZone().getId());
 
         MyCollabSession.removeVariable(USER_TIMEZONE);
-        MyCollabSession.putVariable(USER_TIMEZONE, this.timeZoneField
-                .getTimeZone().getTimezone());
+        MyCollabSession.putVariable(USER_TIMEZONE, this.timeZoneField.getTimeZone().getTimezone());
 
-        final UserService userService = ApplicationContextUtil
-                .getSpringBean(UserService.class);
+        final UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
         userService.updateWithSession(this.user, AppContext.getUsername());
 
-        EventBusFactory.getInstance().post(
-                new ProfileEvent.GotoProfileView(BasicInfoChangeWindow.this,
-                        null));
+        EventBusFactory.getInstance().post(new ProfileEvent.GotoProfileView(BasicInfoChangeWindow.this, null));
         BasicInfoChangeWindow.this.close();
         Page.getCurrent().getJavaScript().execute("window.location.reload();");
 

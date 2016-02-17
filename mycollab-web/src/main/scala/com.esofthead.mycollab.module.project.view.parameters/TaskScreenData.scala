@@ -20,23 +20,19 @@ import com.esofthead.mycollab.module.project.domain.Task
 import com.esofthead.mycollab.vaadin.mvp.ScreenData
 
 /**
- * @author MyCollab Ltd.
- * @since 5.0.3
- */
+  * @author MyCollab Ltd.
+  * @since 5.0.3
+  */
 object TaskScreenData {
-    
-    class Read(param: Integer) extends ScreenData[Integer](param) {}
-    
-    class Edit(param: Task) extends ScreenData[Task](param) {}
-    
-    class Add(param: Task) extends ScreenData[Task](param) {}
 
-    class GotoDashboard extends ScreenData {}
-    
-    class GotoGanttChart extends ScreenData {}
-    
-    class GotoKanbanView extends ScreenData {}
+  class Read(param: Integer) extends ScreenData[Integer](param) {}
 
-    class GotoCalendarView extends ScreenData {}
-    
+  class Edit(param: Task) extends ScreenData[Task](param) {}
+
+  class Add(param: Task) extends ScreenData[Task](param) {}
+
+  class GotoDashboard extends ScreenData {}
+
+  class GotoKanbanView extends ScreenData {}
+
 }

@@ -31,7 +31,7 @@ import com.esofthead.mycollab.vaadin.mvp.CacheableComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.web.ui.CommonUIFactory;
 import com.esofthead.mycollab.vaadin.web.ui.utils.LabelStringGenerator;
-import com.lexaden.breadcrumb.Breadcrumb;
+import com.vaadin.breadcrumb.Breadcrumb;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 

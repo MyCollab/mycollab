@@ -16,13 +16,13 @@
  */
 package com.esofthead.mycollab.core.persistence.service;
 
-import java.util.List;
-
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.cache.CacheEvict;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.cache.Cacheable;
+
+import java.util.List;
 
 /**
  * @param <S>

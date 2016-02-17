@@ -37,6 +37,7 @@ import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.B;
 import com.hp.gagawa.java.elements.Div;
+import com.vaadin.server.Page;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
@@ -65,10 +66,7 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
                 save(item);
                 ExtMailService mailService = ApplicationContextUtil.getSpringBean(ExtMailService.class);
                 if (mailService.isMailSetupValid()) {
-                    ViewState viewState = HistoryViewManager.back();
-                    if (viewState instanceof NullViewState) {
-                        EventBusFactory.getInstance().post(new UserEvent.GotoList(this, null));
-                    }
+                    EventBusFactory.getInstance().post(new UserEvent.GotoList(this, null));
                 } else {
                     UI.getCurrent().addWindow(new GetStartedInstructionWindow(item));
                 }
@@ -76,10 +74,7 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
 
             @Override
             public void onCancel() {
-                ViewState viewState = HistoryViewManager.back();
-                if (viewState instanceof NullViewState) {
-                    EventBusFactory.getInstance().post(new UserEvent.GotoList(this, null));
-                }
+                EventBusFactory.getInstance().post(new UserEvent.GotoList(this, null));
             }
 
             @Override
@@ -91,8 +86,13 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
     }
 
     private void save(SimpleUser user) {
+        boolean isRefreshable = false;
+        if (user.getUsername().equals(AppContext.getUsername())) {
+            isRefreshable = true;
+        }
         UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
         user.setAccountId(AppContext.getAccountId());
+        user.setSubdomain(AppContext.getSubDomain());
 
         if (user.getStatus() == null) {
             user.setStatus(UserStatusConstants.EMAIL_VERIFIED_REQUEST);
@@ -105,7 +105,9 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
         } else {
             userService.updateUserAccount(user, AppContext.getAccountId());
         }
-
+        if (isRefreshable) {
+            Page.getCurrent().getJavaScript().execute("window.location.reload();");
+        }
     }
 
     @Override

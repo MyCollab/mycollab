@@ -87,7 +87,7 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Activi
             }
         }
 
-        List<ProjectActivityStream> currentListData = this.projectActivityStreamService.getProjectActivityStreams(searchRequest);
+        List<ProjectActivityStream> currentListData = projectActivityStreamService.getProjectActivityStreams(searchRequest);
         this.listContainer.removeAllComponents();
         Date currentDate = new GregorianCalendar(2100, 1, 1).getTime();
 

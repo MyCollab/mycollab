@@ -196,10 +196,6 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
                 return new DefaultViewField(AppContext.formatDate(beanItem.getStartdate()));
             } else if (propertyId.equals("enddate")) {
                 return new DefaultViewField(AppContext.formatDate(beanItem.getEnddate()));
-            } else if (propertyId.equals("actualstartdate")) {
-                return new DefaultViewField(AppContext.formatDate(beanItem.getActualstartdate()));
-            } else if (propertyId.equals("actualenddate")) {
-                return new DefaultViewField(AppContext.formatDate(beanItem.getActualenddate()));
             } else if (propertyId.equals("deadline")) {
                 return new DefaultViewField(AppContext.formatDate(beanItem.getDeadline()));
             } else if (propertyId.equals("priority")) {

@@ -5,74 +5,35 @@
 <generatorConfiguration>
 
     <context id="MySQL" targetRuntime="MyBatis3">
-
         <plugin type="com.esofthead.mybatis.plugin.MyCollabModelFilePlugin" />
 
         <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/mycollab_base"
-            driverClass="com.mysql.jdbc.Driver" password="esofthead321"
-            userId="root" />
+            driverClass="com.mysql.jdbc.Driver" password="esofthead321" userId="root" />
 
-        <javaModelGenerator
-            targetPackage="com.esofthead.mycollab.module.project.domain"
-            targetProject="src/main/java">
-
-            <property name="rootClass"
-                value="com.esofthead.mycollab.core.arguments.ValuedBean" />
+        <javaModelGenerator targetPackage="com.esofthead.mycollab.module.project.domain" targetProject="src/main/java">
+            <property name="rootClass" value="com.esofthead.mycollab.core.arguments.ValuedBean" />
         </javaModelGenerator>
 
-        <sqlMapGenerator targetPackage="."
-            targetProject="src/main/resources/sqlMap/project" />
+        <sqlMapGenerator targetPackage="." targetProject="src/main/resources/sqlMap/project" />
 
-        <javaClientGenerator targetPackage="com.esofthead.mycollab.module.project.dao"
-            targetProject="src/main/java" type="XMLMAPPER">
-
+        <javaClientGenerator targetPackage="com.esofthead.mycollab.module.project.dao" targetProject="src/main/java" type="XMLMAPPER">
             <property name="exampleMethodVisibility" value="public" />
-
-            <property name="rootInterface"
-                value="com.esofthead.mycollab.core.persistence.ICrudGenericDAO" />
+            <property name="rootInterface" value="com.esofthead.mycollab.core.persistence.ICrudGenericDAO" />
         </javaClientGenerator>
 
-        <table domainObjectName="Message" schema="mycollab"
-            tableName="m_prj_message" />
-
-        <table domainObjectName="Milestone" schema="mycollab"
-            tableName="m_prj_milestone" />
-
-        <table domainObjectName="Problem" schema="mycollab"
-            tableName="m_prj_problem" />
-
-        <table domainObjectName="Project" schema="mycollab"
-            tableName="m_prj_project" />
-
-        <table domainObjectName="ProjectNotificationSetting"
-            schema="mycollab" tableName="m_prj_notifications" />
-
-        <table domainObjectName="Risk" schema="mycollab"
-            tableName="m_prj_risk" />
-
-        <table domainObjectName="StandupReport" schema="mycollab"
-            tableName="m_prj_standup" />
-
-        <table domainObjectName="ProjectRole" schema="mycollab"
-            tableName="m_prj_role" />
-
-        <table domainObjectName="ProjectRolePermission" schema="mycollab"
-            tableName="m_prj_role_permission" />
-
-        <table domainObjectName="ItemTimeLogging" schema="mycollab"
-            tableName="m_prj_time_logging" />
-
-        <table domainObjectName="Task" schema="mycollab"
-            tableName="m_prj_task" />
-
-        <table domainObjectName="ProjectMember" schema="mycollab"
-            tableName="m_prj_member" />
-
-        <table domainObjectName="Predecessor" schema="mycollab"
-               tableName="m_prj_predecessor" />
-
-        <table domainObjectName="ProjectCustomizeView" schema="mycollab"
-            tableName="m_prj_customize_view" />
+        <table domainObjectName="Message" schema="mycollab" tableName="m_prj_message" />
+        <table domainObjectName="Milestone" schema="mycollab" tableName="m_prj_milestone" />
+        <table domainObjectName="Project" schema="mycollab" tableName="m_prj_project" />
+        <table domainObjectName="ProjectNotificationSetting" schema="mycollab" tableName="m_prj_notifications" />
+        <table domainObjectName="Risk" schema="mycollab" tableName="m_prj_risk" />
+        <table domainObjectName="StandupReport" schema="mycollab" tableName="m_prj_standup" />
+        <table domainObjectName="ProjectRole" schema="mycollab" tableName="m_prj_role" />
+        <table domainObjectName="ProjectRolePermission" schema="mycollab" tableName="m_prj_role_permission" />
+        <table domainObjectName="ItemTimeLogging" schema="mycollab" tableName="m_prj_time_logging" />
+        <table domainObjectName="Task" schema="mycollab" tableName="m_prj_task" />
+        <table domainObjectName="ProjectMember" schema="mycollab" tableName="m_prj_member" />
+        <table domainObjectName="Predecessor" schema="mycollab" tableName="m_prj_predecessor" />
+        <table domainObjectName="ProjectCustomizeView" schema="mycollab" tableName="m_prj_customize_view" />
     </context>
 
 </generatorConfiguration>

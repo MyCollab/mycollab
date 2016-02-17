@@ -18,33 +18,31 @@
 package com.esofthead.mycollab.vaadin.web.ui;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
  */
-@SuppressWarnings("serial")
 public class DateSelectionComboBox extends ValueComboBox {
 
-	public static final String EQUAL = "Equals";
-	public static final String NOTON = "Not On";
-	public static final String AFTER = "After";
-	public static final String BEFORE = "Before";
-	public static final String LAST7DAYS = "Last 7 Days";
-	public static final String NEXT7DAYS = "Next 7 Days";
-	public static final String LAST30DAYS = "Last 30 Days";
-	public static final String NEXT30DAYS = "Next 30 Days";
-	public static final String LASTMONTH = "Last Month";
-	public static final String THISMONTH = "This Month";
-	public static final String NEXTMONTH = "Next Month";
-	public static final String LASTYEAR = "Last Year";
-	public static final String THISYEAR = "This Year";
-	public static final String NEXTYEAR = "Next Year";
-	public static final String ISBETWEEN = "Is Between";
+    public static final String EQUAL = "Equals";
+    public static final String NOTON = "Not On";
+    public static final String AFTER = "After";
+    public static final String BEFORE = "Before";
+    public static final String LAST7DAYS = "Last 7 Days";
+    public static final String NEXT7DAYS = "Next 7 Days";
+    public static final String LAST30DAYS = "Last 30 Days";
+    public static final String NEXT30DAYS = "Next 30 Days";
+    public static final String LASTMONTH = "Last Month";
+    public static final String THISMONTH = "This Month";
+    public static final String NEXTMONTH = "Next Month";
+    public static final String LASTYEAR = "Last Year";
+    public static final String THISYEAR = "This Year";
+    public static final String NEXTYEAR = "Next Year";
+    public static final String ISBETWEEN = "Is Between";
 
-	public DateSelectionComboBox() {
-		super();
-		this.loadData(EQUAL, NOTON, AFTER, BEFORE, LAST7DAYS, NEXT7DAYS,
-				LAST30DAYS, NEXT30DAYS, LASTMONTH, THISMONTH, NEXTMONTH,
-				LASTYEAR, THISYEAR, NEXTYEAR, ISBETWEEN);
-	}
+    public DateSelectionComboBox() {
+        super();
+        this.loadData(EQUAL, NOTON, AFTER, BEFORE, LAST7DAYS, NEXT7DAYS,
+                LAST30DAYS, NEXT30DAYS, LASTMONTH, THISMONTH, NEXTMONTH,
+                LASTYEAR, THISYEAR, NEXTYEAR, ISBETWEEN);
+    }
 }

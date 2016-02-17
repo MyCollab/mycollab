@@ -25,11 +25,15 @@ import com.esofthead.mycollab.form.view.builder.TextDynaFieldBuilder;
 import com.esofthead.mycollab.form.view.builder.type.DynaForm;
 import com.esofthead.mycollab.form.view.builder.type.DynaSection;
 import com.esofthead.mycollab.module.crm.view.account.AccountSelectionField;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.Project;
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
+import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
+import com.esofthead.mycollab.module.user.ui.components.ActiveUserComboBox;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
@@ -128,7 +132,13 @@ public class ProjectAddWindow extends Window implements WizardProgressListener {
 
             EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this,
                     new PageActionChain(new ProjectScreenData.Goto(project.getId()))));
-            ProjectAddWindow.this.close();
+            if (project.getLead() != null && !AppContext.getUsername().equals(project.getLead())) {
+                ProjectMemberService projectMemberService = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
+                projectMemberService.inviteProjectMembers(new String[]{project.getLead()}, CurrentProjectVariables.getProjectId(),
+                        -1, AppContext.getUsername(), AppContext.getMessage(ProjectMemberI18nEnum
+                                .MSG_DEFAULT_INVITATION_COMMENT), AppContext.getAccountId());
+            }
+            close();
         }
     }
 
@@ -198,12 +208,14 @@ public class ProjectAddWindow extends Window implements WizardProgressListener {
             mainSection.addField(new TextDynaFieldBuilder().fieldName(Project.Field.projectstatus).displayName
                     (AppContext.getMessage(ProjectI18nEnum.FORM_STATUS)).fieldIndex(4).build());
 
-
             mainSection.addField(new TextDynaFieldBuilder().fieldName(Project.Field.planenddate).displayName
                     (AppContext.getMessage(ProjectI18nEnum.FORM_PLAN_END_DATE)).fieldIndex(5).build());
 
+            mainSection.addField(new TextDynaFieldBuilder().fieldName(Project.Field.lead).displayName
+                    (AppContext.getMessage(ProjectI18nEnum.FORM_LEADER)).fieldIndex(6).build());
+
             mainSection.addField(new TextAreaDynaFieldBuilder().fieldName(Project.Field.description).displayName
-                    (AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION)).fieldIndex(6).colSpan(true).build());
+                    (AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION)).fieldIndex(7).colSpan(true).build());
             defaultForm.addSection(mainSection);
 
             return new DynaFormLayout(defaultForm);
@@ -265,6 +277,8 @@ public class ProjectAddWindow extends Window implements WizardProgressListener {
                     tf.setRequired(true);
                     tf.setRequiredError("Project name must be not null");
                     return tf;
+                } else if (Project.Field.lead.equalTo(propertyId)) {
+                    return new ActiveUserComboBox();
                 }
 
                 return null;

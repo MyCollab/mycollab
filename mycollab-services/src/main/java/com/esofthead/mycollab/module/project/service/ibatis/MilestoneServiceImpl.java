@@ -95,8 +95,7 @@ public class MilestoneServiceImpl extends DefaultService<Integer, Milestone, Mil
     @Override
     public Integer updateWithSession(Milestone record, String username) {
         int result = super.updateWithSession(record, username);
-        asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectService.class,
-                GanttAssignmentService.class}));
+        asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectService.class, GanttAssignmentService.class}));
         return result;
     }
 }

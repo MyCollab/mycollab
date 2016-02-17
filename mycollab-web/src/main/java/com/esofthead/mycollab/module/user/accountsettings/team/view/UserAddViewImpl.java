@@ -361,7 +361,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
         @Override
         public void setPropertyDataSource(Property newDataSource) {
             Object value = newDataSource.getValue();
-            if (value == null) {
+            if (value == null || AppContext.isAdmin()) {
                 Object itemId = roleBox.getItemIds().iterator().next();
                 roleBox.setValue(itemId);
             } else if (value instanceof Integer) {
@@ -375,8 +375,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
             Integer roleId = (Integer) roleBox.getValue();
             if (roleId == -1) {
                 if (!AppContext.isAdmin()) {
-                    throw new UserInvalidInputException("Only the Account Owner can assign the role Account " +
-                            "Owner to the user");
+                    throw new UserInvalidInputException("Only the Account Owner can assign the role Account " + "Owner to the user");
                 } else {
                     user.setIsAccountOwner(Boolean.TRUE);
                     user.setRoleName("Account Owner");

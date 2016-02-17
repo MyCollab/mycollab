@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.view.bug;
 
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
@@ -48,12 +47,12 @@ class BugEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Sim
     private ComponentMultiSelectField componentSelect;
     private VersionMultiSelectField affectedVersionSelect;
     private VersionMultiSelectField fixedVersionSelect;
-    private ProjectSubscribersComp subcribersComp;
+    private ProjectSubscribersComp subscribersComp;
     private ProjectFormAttachmentUploadField attachmentUploadField;
 
-    BugEditFormFieldFactory(GenericBeanForm<SimpleBug> form) {
+    BugEditFormFieldFactory(GenericBeanForm<SimpleBug> form, Integer prjId) {
         super(form);
-        subcribersComp = new ProjectSubscribersComp(false, CurrentProjectVariables.getProjectId(), AppContext.getUsername());
+        subscribersComp = new ProjectSubscribersComp(false, prjId, AppContext.getUsername());
     }
 
     @Override
@@ -76,7 +75,7 @@ class BugEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Sim
                     Property property = valueChangeEvent.getProperty();
                     SimpleProjectMember member = (SimpleProjectMember) property.getValue();
                     if (member != null) {
-                        subcribersComp.addFollower(member.getUsername());
+                        subscribersComp.addFollower(member.getUsername());
                     }
                 }
             });
@@ -125,7 +124,7 @@ class BugEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Sim
         } else if (propertyId.equals("estimatetime") || (propertyId.equals("estimateremaintime"))) {
             return new NumberField();
         } else if (propertyId.equals("selected")) {
-            return subcribersComp;
+            return subscribersComp;
         }
 
         return null;
@@ -143,8 +142,8 @@ class BugEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Sim
         return fixedVersionSelect;
     }
 
-    public ProjectSubscribersComp getSubcribersComp() {
-        return subcribersComp;
+    public ProjectSubscribersComp getSubscribersComp() {
+        return subscribersComp;
     }
 
     public ProjectFormAttachmentUploadField getAttachmentUploadField() {

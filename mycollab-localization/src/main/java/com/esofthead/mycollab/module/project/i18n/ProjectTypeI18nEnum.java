@@ -21,24 +21,20 @@ import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @BaseName("localization/project-type")
-@LocaleData(value = { @Locale("en-US"), @Locale("ja-JP") }, defaultCharset = "UTF-8")
+@LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
 public enum ProjectTypeI18nEnum {
-	PROJECT_ITEM,
-	MESSAGE_ITEM,
-	PHASE_ITEM,
-	TASK_ITEM,
-	TASKGROUP_ITEM,
-	BUG_ITEM,
-	COMPONENT_ITEM,
-	VERSION_ITEM,
-	PAGE_ITEM,
-	RISK_ITEM,
-	PROBLEM_ITEM,
-	STANDUP_ITEM
+    PROJECT_ITEM,
+    MESSAGE_ITEM,
+    PHASE_ITEM,
+    TASK_ITEM,
+    BUG_ITEM,
+    COMPONENT_ITEM,
+    VERSION_ITEM,
+    PAGE_ITEM,
+    RISK_ITEM,
+    STANDUP_ITEM
 }

@@ -25,8 +25,8 @@ import com.esofthead.mycollab.module.project.view.file.ProjectFileUrlResolver
 import com.esofthead.mycollab.module.project.view.message.MessageUrlResolver
 import com.esofthead.mycollab.module.project.view.milestone.MilestoneUrlResolver
 import com.esofthead.mycollab.module.project.view.page.PageUrlResolver
+import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData.{GotoCalendarView, GotoGanttChart}
 import com.esofthead.mycollab.module.project.view.parameters.{MilestoneScreenData, ProjectScreenData}
-import com.esofthead.mycollab.module.project.view.problem.ProblemUrlResolver
 import com.esofthead.mycollab.module.project.view.risk.RiskUrlResolver
 import com.esofthead.mycollab.module.project.view.settings._
 import com.esofthead.mycollab.module.project.view.standup.StandupUrlResolver
@@ -39,120 +39,134 @@ import com.esofthead.mycollab.vaadin.mvp.{PageActionChain, UrlResolver}
 import com.esofthead.mycollab.vaadin.web.ui.ModuleHelper
 
 /**
- * @author MyCollab Ltd
- * @since 5.0.9
- */
+  * @author MyCollab Ltd
+  * @since 5.0.9
+  */
 class ProjectUrlResolver extends UrlResolver {
-    def build: UrlResolver = {
-        this.addSubResolver("dashboard", new ProjectDashboardUrlResolver)
-        this.addSubResolver("edit", new ProjectEditUrlResolver)
-        this.addSubResolver("tag", new ProjectTagUrlResolver)
-        this.addSubResolver("message", new MessageUrlResolver)
-        this.addSubResolver("milestone", new MilestoneUrlResolver)
-        this.addSubResolver("task", new ScheduleUrlResolver)
-        this.addSubResolver("bug", new BugUrlResolver)
-        this.addSubResolver("page", new PageUrlResolver)
-        this.addSubResolver("risk", new RiskUrlResolver)
-        this.addSubResolver("problem", new ProblemUrlResolver)
-        this.addSubResolver("standup", new StandupUrlResolver)
-        this.addSubResolver("user", new UserUrlResolver)
-        this.addSubResolver("role", new RoleUrlResolver)
-        this.addSubResolver("setting", new SettingUrlResolver)
-        this.addSubResolver("time", new TimeUrlResolver)
-        this.addSubResolver("file", new ProjectFileUrlResolver)
-        this.addSubResolver("following", new FollowingTicketsResolver)
-        this.addSubResolver("timetracking", new TimeTrackingResolver)
-        this.addSubResolver("component", new ComponentUrlResolver)
-        this.addSubResolver("version", new VersionUrlResolver)
-        this.addSubResolver("roadmap", new RoadmapUrlResolver)
-        this.addSubResolver("calendar", new CalendarUrlResolver)
-        return this
-    }
+  def build: UrlResolver = {
+    this.addSubResolver("dashboard", new ProjectDashboardUrlResolver)
+    this.addSubResolver("edit", new ProjectEditUrlResolver)
+    this.addSubResolver("tag", new ProjectTagUrlResolver)
+    this.addSubResolver("gantt", new GanttUrlResolver)
+    this.addSubResolver("message", new MessageUrlResolver)
+    this.addSubResolver("milestone", new MilestoneUrlResolver)
+    this.addSubResolver("task", new ScheduleUrlResolver)
+    this.addSubResolver("bug", new BugUrlResolver)
+    this.addSubResolver("page", new PageUrlResolver)
+    this.addSubResolver("risk", new RiskUrlResolver)
+    this.addSubResolver("standup", new StandupUrlResolver)
+    this.addSubResolver("user", new UserUrlResolver)
+    this.addSubResolver("role", new RoleUrlResolver)
+    this.addSubResolver("setting", new SettingUrlResolver)
+    this.addSubResolver("time", new TimeUrlResolver)
+    this.addSubResolver("file", new ProjectFileUrlResolver)
+    this.addSubResolver("following", new FollowingTicketsResolver)
+    this.addSubResolver("timetracking", new TimeTrackingResolver)
+    this.addSubResolver("component", new ComponentUrlResolver)
+    this.addSubResolver("version", new VersionUrlResolver)
+    this.addSubResolver("roadmap", new RoadmapUrlResolver)
+    this.addSubResolver("calendar", new CalendarUrlResolver)
+    return this
+  }
 
-    override def handle(params: String*) {
-        if (!ModuleHelper.isCurrentProjectModule) {
-            EventBusFactory.getInstance.post(new ShellEvent.GotoProjectModule(this, params))
-        }
-        else {
-            super.handle(params: _*)
-        }
+  override def handle(params: String*) {
+    if (!ModuleHelper.isCurrentProjectModule) {
+      EventBusFactory.getInstance.post(new ShellEvent.GotoProjectModule(this, params))
     }
+    else {
+      super.handle(params: _*)
+    }
+  }
 
-    protected def defaultPageErrorHandler {
+  protected def defaultPageErrorHandler {
+    EventBusFactory.getInstance.post(new ShellEvent.GotoProjectModule(this, null))
+  }
+
+  class ProjectTagUrlResolver extends ProjectUrlResolver {
+    protected override def handlePage(params: String*) {
+      val projectId = new UrlTokenizer(params(0)).getInt
+      val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
+        new ProjectScreenData.GotoTagList(null))
+      EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+    }
+  }
+
+  class ProjectDashboardUrlResolver extends ProjectUrlResolver {
+    protected override def handlePage(params: String*) {
+      if (params.length == 0) {
         EventBusFactory.getInstance.post(new ShellEvent.GotoProjectModule(this, null))
+      } else {
+        val projectId = new UrlTokenizer(params(0)).getInt
+        val chain = new PageActionChain(new ProjectScreenData.Goto(projectId))
+        EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+      }
     }
+  }
 
-    class ProjectTagUrlResolver extends ProjectUrlResolver {
-        protected override def handlePage(params: String*) {
-            val projectId = new UrlTokenizer(params(0)).getInt
-            val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
-                new ProjectScreenData.GotoTagList(null))
-            EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+  class ProjectEditUrlResolver extends ProjectUrlResolver {
+    protected override def handlePage(params: String*) {
+      if (params.length == 0) {
+        EventBusFactory.getInstance.post(new ShellEvent.GotoProjectModule(this, null))
+      } else {
+        val projectId = new UrlTokenizer(params(0)).getInt
+        val prjService: ProjectService = ApplicationContextUtil.getSpringBean(classOf[ProjectService])
+        val project = prjService.findById(projectId, AppContext.getAccountId)
+        if (project != null) {
+          val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new ProjectScreenData.Edit(project))
+          EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
         }
+      }
     }
+  }
 
-    class ProjectDashboardUrlResolver extends ProjectUrlResolver {
-        protected override def handlePage(params: String*) {
-            if (params.length == 0) {
-                EventBusFactory.getInstance.post(new ShellEvent.GotoProjectModule(this, null))
-            } else {
-                val projectId = new UrlTokenizer(params(0)).getInt
-                val chain = new PageActionChain(new ProjectScreenData.Goto(projectId))
-                EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
-            }
-        }
+  class RoadmapUrlResolver extends ProjectUrlResolver {
+    protected override def handlePage(params: String*) {
+      if (params.length == 0) {
+        EventBusFactory.getInstance.post(new ShellEvent.GotoProjectModule(this, null))
+      } else {
+        val projectId = new UrlTokenizer(params(0)).getInt
+        val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new MilestoneScreenData.Roadmap())
+        EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+      }
     }
+  }
 
-    class ProjectEditUrlResolver extends ProjectUrlResolver {
-        protected override def handlePage(params: String*) {
-            if (params.length == 0) {
-                EventBusFactory.getInstance.post(new ShellEvent.GotoProjectModule(this, null))
-            } else {
-                val projectId = new UrlTokenizer(params(0)).getInt
-                val prjService: ProjectService = ApplicationContextUtil.getSpringBean(classOf[ProjectService])
-                val project = prjService.findById(projectId, AppContext.getAccountId)
-                if (project != null) {
-                    val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new ProjectScreenData.Edit(project))
-                    EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
-                }
-            }
-        }
+  private class FollowingTicketsResolver extends ProjectUrlResolver {
+    protected override def handlePage(params: String*) {
+      val prjService: ProjectService = ApplicationContextUtil.getSpringBean(classOf[ProjectService])
+      val prjKeys: java.util.List[Integer] = prjService.getProjectKeysUserInvolved(AppContext.getUsername, AppContext.getAccountId)
+      EventBusFactory.getInstance.post(new FollowingTicketEvent.GotoMyFollowingItems(this, prjKeys))
     }
+  }
 
-    class RoadmapUrlResolver extends ProjectUrlResolver {
-        protected override def handlePage(params: String*) {
-            if (params.length == 0) {
-                EventBusFactory.getInstance.post(new ShellEvent.GotoProjectModule(this, null))
-            } else {
-                val projectId = new UrlTokenizer(params(0)).getInt
-                val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new MilestoneScreenData.Roadmap())
-                EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
-            }
-        }
+  private class TimeTrackingResolver extends ProjectUrlResolver {
+    protected override def handlePage(params: String*) {
+      val prjService = ApplicationContextUtil.getSpringBean(classOf[ProjectService])
+      val prjKeys: java.util.List[Integer] = prjService.getProjectKeysUserInvolved(AppContext.getUsername, AppContext.getAccountId)
+      EventBusFactory.getInstance.post(new TimeTrackingEvent.GotoTimeTrackingView(this, prjKeys))
     }
+  }
 
-    private class FollowingTicketsResolver extends ProjectUrlResolver {
-        protected override def handlePage(params: String*) {
-            val prjService: ProjectService = ApplicationContextUtil.getSpringBean(classOf[ProjectService])
-            val prjKeys: java.util.List[Integer] = prjService.getProjectKeysUserInvolved(AppContext.getUsername, AppContext.getAccountId)
-            EventBusFactory.getInstance.post(new FollowingTicketEvent.GotoMyFollowingItems(this, prjKeys))
-        }
+  private class CalendarUrlResolver extends ProjectUrlResolver {
+    protected override def handlePage(params: String*): Unit = {
+      if (params.size > 0) {
+        val projectId = new UrlTokenizer(params(0)).getInt
+        val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new GotoCalendarView)
+        EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+      } else {
+        val prjService = ApplicationContextUtil.getSpringBean(classOf[ProjectService])
+        val prjKeys: java.util.List[Integer] = prjService.getProjectKeysUserInvolved(AppContext.getUsername, AppContext.getAccountId)
+        EventBusFactory.getInstance.post(new CalendarEvent.GotoCalendarView(this, prjKeys))
+      }
     }
+  }
 
-    private class TimeTrackingResolver extends ProjectUrlResolver {
-        protected override def handlePage(params: String*) {
-            val prjService = ApplicationContextUtil.getSpringBean(classOf[ProjectService])
-            val prjKeys: java.util.List[Integer] = prjService.getProjectKeysUserInvolved(AppContext.getUsername, AppContext.getAccountId)
-            EventBusFactory.getInstance.post(new TimeTrackingEvent.GotoTimeTrackingView(this, prjKeys))
-        }
+  private class GanttUrlResolver extends ProjectUrlResolver {
+    protected override def handlePage(params: String*) {
+      val projectId = new UrlTokenizer(params(0)).getInt
+      val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new GotoGanttChart)
+      EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
     }
-
-    private class CalendarUrlResolver extends ProjectUrlResolver {
-        protected override def handlePage(params: String*) {
-            val prjService = ApplicationContextUtil.getSpringBean(classOf[ProjectService])
-            val prjKeys: java.util.List[Integer] = prjService.getProjectKeysUserInvolved(AppContext.getUsername, AppContext.getAccountId)
-            EventBusFactory.getInstance.post(new CalendarEvent.GotoCalendarView(this, prjKeys))
-        }
-    }
+  }
 
 }

@@ -134,23 +134,6 @@
         ]]>
     </sql>
 
-    <sql id="queryProblemSearchCriteria">
-        <![CDATA[
-        #set($searchCriteria = $_parameter.searchCriteria)
-
-        #ifnotnull($searchCriteria.prjKeys)
-            m_prj_problem.projectid IN
-            #repeat(${searchCriteria.prjKeys.values} $projectId "," "(" ")")
-                @{projectId}
-            #end
-        #end
-        #ifnotnull($searchCriteria.txtValue)
-            ${searchCriteria.txtValue.operation} (m_prj_problem.issuename LIKE '%${searchCriteria.txtValue.value}%'
-                OR m_prj_problem.description LIKE '%${searchCriteria.txtValue.value}%')
-        #end
-        ]]>
-    </sql>
-
     <sql id="orderStatement">
         ORDER BY
         #ifnotnull($_parameter.searchCriteria.orderFields)
@@ -247,18 +230,6 @@
         INNER JOIN m_prj_project ON (m_prj_risk.projectid = m_prj_project.id)
     </sql>
 
-    <sql id="selectProblemItem">
-        SELECT 'Project-Problem' AS type, m_prj_problem.id AS typeId, s_user.username AS createdUser,
-        s_user.avatarId AS createdUserAvatarId,
-        concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS createdUserDisplayName,
-        m_prj_problem.createdTime, m_prj_problem.lastUpdatedTime, m_prj_problem.issuename AS summary,
-        m_prj_problem.description, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
-        m_prj_project.shortname AS projectShortName, NULL AS extraTypeId
-        FROM m_prj_problem
-        LEFT OUTER JOIN s_user ON (m_prj_problem.raisedbyuser = s_user.username)
-        INNER JOIN m_prj_project ON (m_prj_problem.projectid = m_prj_project.id)
-    </sql>
-
     <select id="findPagableListByCriteria" parameterType="ProjectGenericItemSearchCriteria"
             resultMap="BaseResultMap" lang="velocity">
         (
@@ -320,15 +291,6 @@
         #ifnotnull($_parameter.searchCriteria)
         #trimext("WHERE" "AND|OR")
         <include refid="queryRiskSearchCriteria"/>
-        #end
-        #end
-        )
-        UNION
-        (
-        <include refid="selectProblemItem"/>
-        #ifnotnull($_parameter.searchCriteria)
-        #trimext("WHERE" "AND|OR")
-        <include refid="queryProblemSearchCriteria"/>
         #end
         #end
         )
@@ -402,16 +364,6 @@
         #ifnotnull($_parameter.searchCriteria)
         #trimext("WHERE" "AND|OR")
         <include refid="queryRiskSearchCriteria" />
-        #end
-        #end
-    </select>
-    <select id="getTotalCountFromProblem" parameterType="ProjectGenericItemSearchCriteria"
-            resultType="int" lang="velocity">
-        SELECT count(*) as totalCount
-        FROM m_prj_problem
-        #ifnotnull($_parameter.searchCriteria)
-        #trimext("WHERE" "AND|OR")
-        <include refid="queryProblemSearchCriteria" />
         #end
         #end
     </select>

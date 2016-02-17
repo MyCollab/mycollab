@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.project.ui.format;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
+import com.esofthead.mycollab.module.project.domain.Risk;
 import com.esofthead.mycollab.module.project.i18n.RiskI18nEnum;
 import com.esofthead.mycollab.utils.FieldGroupFormatter;
 
@@ -37,6 +38,8 @@ public final class RiskFieldFormatter extends FieldGroupFormatter {
         this.generateFieldDisplayHandler("assigntouser", GenericI18Enum.FORM_ASSIGNEE, new ProjectMemberHistoryFieldFormat());
         this.generateFieldDisplayHandler("consequence", RiskI18nEnum.FORM_CONSEQUENCE);
         this.generateFieldDisplayHandler("datedue", RiskI18nEnum.FORM_DATE_DUE, FieldGroupFormatter.DATE_FIELD);
+        this.generateFieldDisplayHandler(Risk.Field.startdate.name(), RiskI18nEnum.FORM_START_DATE, FieldGroupFormatter.DATE_FIELD);
+        this.generateFieldDisplayHandler(Risk.Field.enddate.name(), RiskI18nEnum.FORM_END_DATE, FieldGroupFormatter.DATE_FIELD);
         this.generateFieldDisplayHandler("probalitity", RiskI18nEnum.FORM_PROBABILITY);
         this.generateFieldDisplayHandler("status", RiskI18nEnum.FORM_STATUS, new I18nHistoryFieldFormat(StatusI18nEnum.class));
         this.generateFieldDisplayHandler("level", RiskI18nEnum.FORM_RATING);

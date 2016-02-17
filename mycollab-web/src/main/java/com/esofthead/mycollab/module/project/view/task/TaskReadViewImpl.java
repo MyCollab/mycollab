@@ -50,7 +50,10 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
+import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.web.ui.*;
 import com.esofthead.mycollab.vaadin.web.ui.field.DateViewField;
 import com.esofthead.mycollab.vaadin.web.ui.field.DefaultViewField;
@@ -308,10 +311,6 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
                 return new DateViewField(beanItem.getStartdate());
             } else if (Task.Field.enddate.equalTo(propertyId)) {
                 return new DateViewField(beanItem.getEnddate());
-            } else if (Task.Field.actualstartdate.equalTo(propertyId)) {
-                return new DateViewField(beanItem.getActualstartdate());
-            } else if (Task.Field.actualenddate.equalTo(propertyId)) {
-                return new DateViewField(beanItem.getActualenddate());
             } else if (Task.Field.deadline.equalTo(propertyId)) {
                 return new DateViewField(beanItem.getDeadline());
             } else if (Task.Field.milestoneid.equalTo(propertyId)) {

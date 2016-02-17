@@ -20,6 +20,10 @@ import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
 import com.esofthead.mycollab.module.project.domain.criteria.MessageSearchCriteria;
 
+/**
+ * @author MyCollab Ltd
+ * @since 1.0.0
+ */
 public interface MessageMapperExt extends ISearchableDAO<MessageSearchCriteria> {
     SimpleMessage findMessageById(int messageId);
 }

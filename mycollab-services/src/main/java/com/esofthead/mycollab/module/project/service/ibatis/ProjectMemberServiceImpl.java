@@ -111,19 +111,19 @@ public class ProjectMemberServiceImpl extends DefaultService<Integer, ProjectMem
 
     @Override
     public Integer updateWithSession(ProjectMember member, String username) {
-        if (Boolean.TRUE.equals(member.getIsadmin())) {
-            if (member.getProjectroleid() != null && member.getProjectroleid() != -1) {
+        SimpleProjectMember oldMember = findById(member.getId(), member.getSaccountid());
+        if (oldMember != null) {
+            if (Boolean.FALSE.equals(member.getIsadmin()) && Boolean.TRUE.equals(oldMember.getIsadmin())) {
                 ProjectMemberExample userAccountEx = new ProjectMemberExample();
                 userAccountEx.createCriteria().andUsernameNotIn(Arrays.asList(member.getUsername())).andProjectidEqualTo(member.getProjectid())
                         .andIsadminEqualTo(Boolean.TRUE).andStatusEqualTo(ProjectMemberStatusConstants.ACTIVE);
                 if (projectMemberMapper.countByExample(userAccountEx) == 0) {
                     throw new UserInvalidInputException(String.format("Can not change role of user %s. The reason is " +
                             "%s is the unique account owner of the current project.", member.getUsername(), member.getUsername()));
-                } else {
-                    member.setIsadmin(false);
                 }
             }
         }
+
         return super.updateWithSession(member, username);
     }
 

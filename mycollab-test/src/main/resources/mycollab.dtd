@@ -54,7 +54,6 @@
     m_prj_milestone*,
     m_prj_notifications*,
     m_prj_predecessor*,
-    m_prj_problem*,
     m_prj_project*,
     m_prj_risk*,
     m_prj_role*,
@@ -972,8 +971,6 @@
     status CDATA #REQUIRED
     createduser CDATA #IMPLIED
     prjKey CDATA #IMPLIED
-    actualstartdate CDATA #IMPLIED
-    actualenddate CDATA #IMPLIED
     deadline CDATA #IMPLIED
     ganttIndex CDATA #IMPLIED
 >
@@ -1000,33 +997,6 @@
     descType CDATA #REQUIRED
 >
 
-<!ELEMENT m_prj_problem EMPTY>
-<!ATTLIST m_prj_problem
-    id CDATA #REQUIRED
-    issuename CDATA #REQUIRED
-    description CDATA #IMPLIED
-    projectid CDATA #REQUIRED
-    raisedbyuser CDATA #IMPLIED
-    assigntouser CDATA #IMPLIED
-    impact CDATA #IMPLIED
-    priority CDATA #IMPLIED
-    status CDATA #IMPLIED
-    dateraised CDATA #IMPLIED
-    datedue CDATA #IMPLIED
-    actualstartdate CDATA #IMPLIED
-    actualenddate CDATA #IMPLIED
-    level CDATA #IMPLIED
-    resolution CDATA #IMPLIED
-    state CDATA #IMPLIED
-    problemsource CDATA #IMPLIED
-    createdTime CDATA #IMPLIED
-    lastUpdatedTime CDATA #IMPLIED
-    type CDATA #IMPLIED
-    typeid CDATA #IMPLIED
-    sAccountId CDATA #REQUIRED
-    prjKey CDATA #IMPLIED
->
-
 <!ELEMENT m_prj_project EMPTY>
 <!ATTLIST m_prj_project
     id CDATA #REQUIRED
@@ -1044,8 +1014,6 @@
     projectStatus CDATA #REQUIRED
     description CDATA #IMPLIED
     defaultBillingRate CDATA #IMPLIED
-    actualStartDate CDATA #IMPLIED
-    actualEndDate CDATA #IMPLIED
     defaultOvertimeBillingRate CDATA #IMPLIED
     currencyid CDATA #IMPLIED
     progress CDATA #IMPLIED
@@ -1082,7 +1050,11 @@
     type CDATA #IMPLIED
     typeid CDATA #IMPLIED
     sAccountId CDATA #REQUIRED
-    prjKey CDATA #IMPLIED
+    startDate CDATA #IMPLIED
+    endDate CDATA #IMPLIED
+    milestoneId CDATA #IMPLIED
+    ganttIndex CDATA #IMPLIED
+    percentagecomplete CDATA #IMPLIED
 >
 
 <!ELEMENT m_prj_role EMPTY>
@@ -1131,8 +1103,6 @@
     deadline CDATA #IMPLIED
     notes CDATA #IMPLIED
     taskindex CDATA #IMPLIED
-    actualStartDate CDATA #IMPLIED
-    actualEndDate CDATA #IMPLIED
     createdTime CDATA #IMPLIED
     lastUpdatedTime CDATA #IMPLIED
     assignUser CDATA #IMPLIED
@@ -1212,6 +1182,8 @@
     bugIndex CDATA #IMPLIED
     startdate CDATA #IMPLIED
     enddate CDATA #IMPLIED
+    ganttIndex CDATA #IMPLIED
+    percentagecomplete CDATA #IMPLIED
 >
 
 <!ELEMENT m_tracker_bug_related_item EMPTY>

@@ -47,34 +47,25 @@ public class GenericTaskServiceTest extends IntergrationServiceTest {
     @DataSet
     @Test
     public void testGenericTaskListFindPageable() {
-        List<ProjectGenericTask> tasks = genericTaskService
-                .findPagableListByCriteria(new SearchRequest<ProjectGenericTaskSearchCriteria>(
+        List<ProjectGenericTask> tasks = genericTaskService.findPagableListByCriteria(new SearchRequest<ProjectGenericTaskSearchCriteria>(
                         null, 0, Integer.MAX_VALUE));
-        assertThat(tasks.size()).isEqualTo(4);
-        assertThat(tasks).extracting("type", "name").contains(
-                tuple("Project-Problem", "a"),
-                tuple("Project-Problem", "problem a"),
-                tuple("Project-Risk", "b"), tuple("Project-Bug", "summary 1"));
+        assertThat(tasks.size()).isEqualTo(2);
+        assertThat(tasks).extracting("type", "name").contains(tuple("Project-Risk", "b"), tuple("Project-Bug", "summary 1"));
     }
 
     @SuppressWarnings("unchecked")
     @DataSet
     @Test
     public void testCountTaskOverDue() throws ParseException {
-
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         Date d = df.parse("2014-01-23 10:49:49");
         ProjectGenericTaskSearchCriteria criteria = new ProjectGenericTaskSearchCriteria();
         criteria.setDueDate(new DateSearchField(d));
         criteria.setProjectIds(new SetSearchField<>(1));
         criteria.setSaccountid(new NumberSearchField(1));
-        List<ProjectGenericTask> tasks = genericTaskService
-                .findPagableListByCriteria(new SearchRequest<>(
-                        criteria, 0, Integer.MAX_VALUE));
-        assertThat(tasks.size()).isEqualTo(2);
-        assertThat(tasks).extracting("type", "name").contains(
-                tuple("Project-Problem", "problem a"),
-                tuple("Project-Risk", "b"));
+        List<ProjectGenericTask> tasks = genericTaskService.findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        assertThat(tasks.size()).isEqualTo(1);
+        assertThat(tasks).extracting("type", "name").contains(tuple("Project-Risk", "b"));
     }
 
     @SuppressWarnings("unchecked")
@@ -88,13 +79,9 @@ public class GenericTaskServiceTest extends IntergrationServiceTest {
         criteria.setDueDate(new DateSearchField(d));
         criteria.setProjectIds(new SetSearchField<>(1));
         criteria.setSaccountid(new NumberSearchField(1));
-        List<ProjectGenericTask> taskList = genericTaskService
-                .findPagableListByCriteria(new SearchRequest<>(
-                        criteria, 0, Integer.MAX_VALUE));
+        List<ProjectGenericTask> taskList = genericTaskService.findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 
-        assertThat(taskList.size()).isEqualTo(2);
-        assertThat(taskList).extracting("type", "name").contains(
-                tuple("Project-Problem", "problem a"),
-                tuple("Project-Risk", "b"));
+        assertThat(taskList.size()).isEqualTo(1);
+        assertThat(taskList).extracting("type", "name").contains(tuple("Project-Risk", "b"));
     }
 }

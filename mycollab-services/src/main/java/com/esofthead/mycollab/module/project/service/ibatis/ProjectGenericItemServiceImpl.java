@@ -29,8 +29,7 @@ import org.springframework.stereotype.Service;
  * @since 5.0.3
  */
 @Service
-public class ProjectGenericItemServiceImpl extends DefaultSearchService<ProjectGenericItemSearchCriteria> implements
-        ProjectGenericItemService {
+public class ProjectGenericItemServiceImpl extends DefaultSearchService<ProjectGenericItemSearchCriteria> implements ProjectGenericItemService {
 
     @Autowired
     private ProjectGenericItemMapper projectGenericItemMapper;
@@ -48,7 +47,6 @@ public class ProjectGenericItemServiceImpl extends DefaultSearchService<ProjectG
                 projectGenericItemMapper.getTotalCountFromBug(criteria) +
                 projectGenericItemMapper.getTotalCountFromVersion(criteria) +
                 projectGenericItemMapper.getTotalCountFromComponent(criteria) +
-                projectGenericItemMapper.getTotalCountFromRisk(criteria) +
-                projectGenericItemMapper.getTotalCountFromProblem(criteria);
+                projectGenericItemMapper.getTotalCountFromRisk(criteria);
     }
 }

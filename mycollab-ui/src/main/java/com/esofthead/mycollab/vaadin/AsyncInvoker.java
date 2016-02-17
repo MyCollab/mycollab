@@ -18,12 +18,16 @@ package com.esofthead.mycollab.vaadin;
 
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.vaadin.ui.UI;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author MyCollab Ltd
  * @since 5.2.1
  */
 public class AsyncInvoker {
+    private static Logger LOG = LoggerFactory.getLogger(AsyncInvoker.class);
+
     public static void access(final PageCommand pageCommand) {
         final UI ui = UI.getCurrent();
         pageCommand.setUI(ui);
@@ -40,7 +44,11 @@ public class AsyncInvoker {
                                 pageCommand.postRun();
                             } finally {
                                 pageCommand.cleanUp();
-                                ui.push();
+                                try {
+                                    ui.push();
+                                } catch (Exception e) {
+                                    LOG.error("Error", e);
+                                }
                             }
                         }
                     });

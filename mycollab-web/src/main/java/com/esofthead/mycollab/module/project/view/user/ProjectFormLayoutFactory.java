@@ -22,9 +22,9 @@ import com.esofthead.mycollab.module.project.domain.Project;
 import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.web.ui.AddViewLayout;
 import com.esofthead.mycollab.vaadin.ui.FormContainer;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.web.ui.AddViewLayout;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
@@ -86,10 +86,10 @@ public abstract class ProjectFormLayoutFactory implements IFormLayoutFactory {
         public ComponentContainer getLayout() {
             final FormContainer layout = new FormContainer();
 
-            informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 2);
+            informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 3);
             layout.addSection(AppContext.getMessage(ProjectI18nEnum.SECTION_PROJECT_INFO), informationLayout.getLayout());
 
-            financialLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 5);
+            financialLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 4);
             layout.addSection(AppContext.getMessage(ProjectI18nEnum.SECTION_FINANCE_SCHEDULE), financialLayout.getLayout());
 
             descriptionLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 1);
@@ -107,6 +107,8 @@ public abstract class ProjectFormLayoutFactory implements IFormLayoutFactory {
                 informationLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_SHORT_NAME), 0, 1);
             } else if (propertyId.equals("projectstatus")) {
                 informationLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_STATUS), 1, 1);
+            } else if (Project.Field.lead.equalTo(propertyId)) {
+                informationLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_LEADER), 0, 2);
             } else if (propertyId.equals("planstartdate")) {
                 financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_PLAN_START_DATE), 0, 0);
             } else if (Project.Field.account.equalTo(propertyId)) {
@@ -115,18 +117,14 @@ public abstract class ProjectFormLayoutFactory implements IFormLayoutFactory {
                 financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_PLAN_END_DATE), 0, 1);
             } else if (propertyId.equals("defaultbillingrate")) {
                 financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_BILLING_RATE), 1, 1);
-            } else if (propertyId.equals("actualstartdate")) {
-                financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_ACTUAL_START_DATE), 0, 2);
             } else if (Project.Field.defaultovertimebillingrate.equalTo(propertyId)) {
-                financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_OVERTIME_BILLING_RATE), 1, 2);
-            } else if (propertyId.equals("actualenddate")) {
-                financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_ACTUAL_END_DATE), 0, 3);
+                financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_OVERTIME_BILLING_RATE), 0, 2);
             } else if (Project.Field.targetbudget.equalTo(propertyId)) {
-                financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_TARGET_BUDGET), 1, 3);
+                financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_TARGET_BUDGET), 1, 2);
             } else if (Project.Field.currencyid.equalTo(propertyId)) {
-                financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_CURRENCY), 0, 4);
+                financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_CURRENCY), 0, 3);
             } else if (Project.Field.actualbudget.equalTo(propertyId)) {
-                financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_ACTUAL_BUDGET), 1, 4);
+                financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_ACTUAL_BUDGET), 1, 3);
             } else if (propertyId.equals("description")) {
                 descriptionLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 0, 2, "100%");
             }

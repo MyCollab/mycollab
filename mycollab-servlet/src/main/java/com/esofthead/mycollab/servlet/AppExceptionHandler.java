@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.servlet;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.IDeploymentMode;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
@@ -26,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -98,6 +100,14 @@ public class AppExceptionHandler extends GenericHttpServlet {
 
     private void responsePage500(HttpServletResponse response, Throwable throwable) throws IOException {
         if (throwable != null) {
+            DataIntegrityViolationException integrityViolationException = getExceptionType(throwable,
+                    DataIntegrityViolationException.class);
+            if (integrityViolationException != null) {
+                response.getWriter().println(LocalizationHelper.getMessage(LocalizationHelper.defaultLocale,
+                        GenericI18Enum.ERROR_USER_NOTICE_INFORMATION_MESSAGE));
+                LOG.error("Exception in MyCollab", throwable);
+                return;
+            }
             DataAccessException exception = getExceptionType(throwable, DataAccessException.class);
             if (exception != null) {
                 response.getWriter().println("<h1>Error establishing a database connection</h1>");

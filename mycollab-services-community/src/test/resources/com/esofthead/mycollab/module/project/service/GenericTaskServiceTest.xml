@@ -14,20 +14,11 @@
 	<s_user firstname="a2" lastname="b2" username="user2"
 		email="linhduong@esofthead.com" />
 
-	<m_prj_problem id="1" assigntouser="user1" description="aaa"
-		issuename="a" projectid="1" raisedbyuser="user2" problemsource="source"
-		status="Open" sAccountId="1" datedue="2015-01-23 10:49:49" />
-
-	<m_prj_problem id="2" description="aaa" issuename="problem a"
-		projectid="1" status="Open" sAccountId="1" datedue="2013-01-23 10:49:49" />
-
 	<m_prj_risk id="1" description="aaa" riskname="b" projectid="1"
 		sAccountId="1" datedue="2013-05-30 15:01:52" />
 
 	<m_tracker_bug summary="summary 1" id="1" projectid="1"
 		detail="detail 1" status="1" resolution="1" assignuser="user1" logby="user1"
 		createdTime="2009-01-01 00:00:00" sAccountId="1" duedate="2015-05-30 15:01:52" />
-
-
 
 </dataset>

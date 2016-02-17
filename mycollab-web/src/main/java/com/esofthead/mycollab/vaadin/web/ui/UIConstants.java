@@ -59,8 +59,6 @@ public class UIConstants {
     public static final String LABEL_META_INFO = "meta-info";
     public static final String LABEL_OVERDUE = "overdue";
 
-    public static final String PROGRESS_BAR_MEDIUM = "medium";
-
     public static final String GRIDFORM_STANDARD = "colored-gridlayout";
     public static final String GRIDFORM_BORDERLESS = "borderless";
     public static final String DEFAULT_COLOR_OPTION = "fdde86";

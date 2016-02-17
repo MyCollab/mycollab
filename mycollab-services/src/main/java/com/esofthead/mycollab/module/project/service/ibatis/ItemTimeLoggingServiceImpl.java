@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.service.ibatis;
 
-import com.esofthead.mycollab.cache.CacheUtils;
 import com.esofthead.mycollab.cache.CleanCacheEvent;
 import com.esofthead.mycollab.common.service.ActivityStreamService;
 import com.esofthead.mycollab.core.cache.CacheKey;
@@ -156,8 +155,7 @@ public class ItemTimeLoggingServiceImpl extends DefaultService<Integer, ItemTime
 
     private void cleanCache(Integer sAccountId) {
         asyncEventBus.post(new CleanCacheEvent(sAccountId, new Class[]{ProjectService.class, MilestoneService.class,
-                ProjectTaskService.class, BugService.class, ComponentService.class, VersionService.class, RiskService
-                .class, ProblemService.class
+                ProjectTaskService.class, BugService.class, ComponentService.class, VersionService.class, RiskService.class
         }));
     }
 

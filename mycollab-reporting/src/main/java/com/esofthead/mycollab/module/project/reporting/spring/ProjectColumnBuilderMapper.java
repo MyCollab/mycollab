@@ -56,7 +56,6 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
         ColumnBuilderClassMapper.put(SimpleComponent.class, buildComponentMap());
         ColumnBuilderClassMapper.put(SimpleVersion.class, buildVersionMap());
         ColumnBuilderClassMapper.put(SimpleRisk.class, buildRiskMap());
-        ColumnBuilderClassMapper.put(SimpleProblem.class, buildProblemMap());
         ColumnBuilderClassMapper.put(SimpleProjectRole.class, buildRoleMap());
         ColumnBuilderClassMapper.put(SimpleItemTimeLogging.class, buildTimeTrackingMap());
         ColumnBuilderClassMapper.put(FollowingTicket.class, buildTFollowingTicketMap());
@@ -291,73 +290,6 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
         return map;
     }
 
-    private Map<String, MValue> buildProblemMap() {
-        LOG.debug("Build report mapper for project::problem module");
-
-        Map<String, MValue> map = new HashMap<>();
-        DRIExpression<String> summaryTitleExpr = new PrimityTypeFieldExpression<>(Problem.Field.issuename.name());
-        DRIExpression<String> summaryHrefExpr = new AbstractSimpleExpression<String>() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public String evaluate(ReportParameters reportParameters) {
-                Integer problemId = reportParameters.getFieldValue(Problem.Field.id.name());
-                Integer projectId = reportParameters.getFieldValue(Problem.Field.projectid.name());
-                String siteUrl = reportParameters.getParameterValue("siteUrl");
-                return ProjectLinkGenerator.generateProblemPreviewFullLink(siteUrl, projectId, problemId);
-            }
-        };
-        map.put(Problem.Field.issuename.name(), new HyperlinkValue(summaryTitleExpr, summaryHrefExpr));
-
-        DRIExpression<String> assigneeTitleExpr = new PrimityTypeFieldExpression<>(SimpleProblem.Field.assignedUserFullName.name());
-        DRIExpression<String> assigneeHrefExpr = new AbstractSimpleExpression<String>() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public String evaluate(ReportParameters reportParameters) {
-                String assignUser = reportParameters.getFieldValue(Problem.Field.assigntouser.name());
-                if (assignUser != null) {
-                    String siteUrl = reportParameters.getParameterValue("siteUrl");
-                    return AccountLinkGenerator.generatePreviewFullUserLink(siteUrl, assignUser);
-                }
-
-                return "";
-            }
-        };
-
-        map.put(SimpleProblem.Field.assignedUserFullName.name(), new HyperlinkValue(assigneeTitleExpr, assigneeHrefExpr));
-
-        AbstractSimpleExpression<String> ratingExpr = new AbstractSimpleExpression<String>() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public String evaluate(ReportParameters param) {
-                Double level = param.getFieldValue("level");
-                switch (level.intValue()) {
-                    case 1:
-                        return "images/1.png";
-                    case 2:
-                        return "images/2.png";
-                    case 3:
-                        return "images/3.png";
-                    case 4:
-                        return "images/4.png";
-                    case 5:
-                        return "images/5.png";
-                    default:
-                        return "images/severity_major.png";
-                }
-
-            }
-        };
-        HorizontalListBuilder ratingBuilder = cmp.horizontalList().setFixedWidth(120);
-        ImageBuilder imgBuilder = cmp.image(ratingExpr).setFixedDimension(80, 15);
-        ratingBuilder.add(imgBuilder);
-        map.put(Problem.Field.level.name(), new CompBuilderValue(ratingBuilder));
-        map.put(Problem.Field.datedue.name(), new DateExpression(Problem.Field.datedue.name()));
-        return map;
-    }
-
     private Map<String, MValue> buildRoleMap() {
         LOG.debug("Build report mapper for project::role module");
 
@@ -455,8 +387,6 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
                     return ProjectLinkGenerator.generateBugPreviewFullLink(siteUrl, typeId, projectShortName);
                 } else if (type.equals(ProjectTypeConstants.TASK)) {
                     return ProjectLinkGenerator.generateTaskPreviewFullLink(siteUrl, typeId, projectShortName);
-                } else if (type.equals(ProjectTypeConstants.PROBLEM)) {
-                    return ProjectLinkGenerator.generateProblemPreviewFullLink(siteUrl, projectId, typeId);
                 } else if (type.equals(ProjectTypeConstants.RISK)) {
                     return ProjectLinkGenerator.generateRiskPreviewFullLink(siteUrl, projectId, typeId);
                 }

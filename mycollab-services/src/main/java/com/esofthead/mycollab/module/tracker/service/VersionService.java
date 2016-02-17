@@ -23,8 +23,11 @@ import com.esofthead.mycollab.module.tracker.domain.SimpleVersion;
 import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.module.tracker.domain.criteria.VersionSearchCriteria;
 
-public interface VersionService extends
-		IDefaultService<Integer, Version, VersionSearchCriteria> {
-	@Cacheable
-	SimpleVersion findById(Integer versionId, @CacheKey Integer sAccountId);
+/**
+ * @author MyCollab Ltd
+ * @since 1.0.0
+ */
+public interface VersionService extends IDefaultService<Integer, Version, VersionSearchCriteria> {
+    @Cacheable
+    SimpleVersion findById(Integer versionId, @CacheKey Integer sAccountId);
 }

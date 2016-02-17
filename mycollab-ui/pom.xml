@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.esofthead.mycollab</groupId>
         <artifactId>mycollab-parent-community</artifactId>
-        <version>5.2.6</version>
+        <version>5.2.7</version>
         <relativePath>../mycollab-parent-community/pom.xml</relativePath>
     </parent>
     <packaging>jar</packaging>
@@ -16,31 +16,31 @@
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-core</artifactId>
-            <version>5.2.6</version>
+            <version>5.2.7</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-dao</artifactId>
-            <version>5.2.6</version>
+            <version>5.2.7</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-reporting</artifactId>
-            <version>5.2.6</version>
+            <version>5.2.7</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-localization</artifactId>
-            <version>5.2.6</version>
+            <version>5.2.7</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-services</artifactId>
-            <version>5.2.6</version>
+            <version>5.2.7</version>
         </dependency>
 
         <dependency>
@@ -70,7 +70,7 @@
         <dependency>
             <groupId>org.vaadin</groupId>
             <artifactId>viritin</artifactId>
-            <version>1.42</version>
+            <version>1.44</version>
         </dependency>
 
         <dependency>
@@ -94,7 +94,7 @@
         <dependency>
             <groupId>org.vaadin.addons</groupId>
             <artifactId>loginform</artifactId>
-            <version>0.6.1</version>
+            <version>0.6.2</version>
         </dependency>
 
         <dependency>

@@ -31,8 +31,6 @@ public class ProjectTypeConstants {
 
     public static final String MILESTONE = "Project-Milestone";
 
-    public static final String PROBLEM = "Project-Problem";
-
     public static final String RISK = "Project-Risk";
 
     public static final String BUG = "Project-Bug";

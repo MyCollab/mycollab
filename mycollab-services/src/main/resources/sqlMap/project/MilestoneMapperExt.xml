@@ -107,7 +107,7 @@
         <![CDATA[
             SELECT m_prj_milestone.id, m_prj_milestone.name, m_prj_milestone.description, m_prj_milestone.startdate, m_prj_milestone.enddate, 
                    m_prj_milestone.owner, m_prj_milestone.status, m_prj_milestone.projectid, m_prj_milestone.status, m_prj_milestone.createdTime, 
-                   m_prj_milestone.lastUpdatedTime, m_prj_milestone.actualstartdate, m_prj_milestone.actualenddate,
+                   m_prj_milestone.lastUpdatedTime,
                    m_prj_milestone.sAccountId, m_prj_milestone.createduser, createdUserTbl.avatarId AS createdUserAvatarId,
                    concat(createdUserTbl.firstname, ' ', LTRIM(concat(IFNULL(createdUserTbl.middlename, ''), ' ')), createdUserTbl.lastname) AS createdUserFullName,
                    s_user.avatarId AS ownerAvatarId,

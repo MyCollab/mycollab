@@ -51,11 +51,6 @@ public class ActiveUserComboBox extends ComboBox {
         loadUserList(userList);
     }
 
-    public ActiveUserComboBox(List<SimpleUser> userList) {
-        this.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
-        loadUserList(userList);
-    }
-
     private void loadUserList(List<SimpleUser> userList) {
         for (SimpleUser user : userList) {
             this.addItem(user.getUsername());

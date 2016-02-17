@@ -45,7 +45,10 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.AsyncInvoker;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
+import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.web.ui.DynaFormLayout;
 import com.esofthead.mycollab.vaadin.web.ui.ProjectPreviewFormControlsGenerator;
@@ -170,12 +173,7 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
             } else if (Milestone.Field.enddate.equalTo(propertyId)) {
                 return new DateViewField(milestone.getEnddate());
             } else if (Milestone.Field.owner.equalTo(propertyId)) {
-                return new ProjectUserFormLinkField(milestone.getOwner(),
-                        milestone.getOwnerAvatarId(), milestone.getOwnerFullName());
-            } else if (Milestone.Field.actualstartdate.equalTo(propertyId)) {
-                return new DateViewField(milestone.getActualstartdate());
-            } else if (Milestone.Field.actualenddate.equalTo(propertyId)) {
-                return new DateViewField(milestone.getActualenddate());
+                return new ProjectUserFormLinkField(milestone.getOwner(), milestone.getOwnerAvatarId(), milestone.getOwnerFullName());
             } else if (Milestone.Field.description.equalTo(propertyId)) {
                 return new RichTextViewField(milestone.getDescription());
             } else if (Milestone.Field.status.equalTo(propertyId)) {
@@ -244,17 +242,26 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
                 }
             });
 
-            header.with(openSelection, overdueSelection, spacingLbl1, taskSelection, bugSelection, spacingLbl2)
+            final CheckBox riskSelection = new CheckBox("Risks", true);
+            riskSelection.addValueChangeListener(new Property.ValueChangeListener() {
+                @Override
+                public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
+                    updateTypeSearchStatus(riskSelection.getValue(), ProjectTypeConstants.RISK);
+                }
+            });
+
+            header.with(openSelection, overdueSelection, spacingLbl1, taskSelection, bugSelection, riskSelection, spacingLbl2)
                     .withAlign(openSelection, Alignment.MIDDLE_LEFT).withAlign(overdueSelection, Alignment.MIDDLE_LEFT)
                     .withAlign(taskSelection, Alignment.MIDDLE_LEFT).withAlign(bugSelection, Alignment.MIDDLE_LEFT)
-                    .expand(spacingLbl1, spacingLbl2);
+                    .withAlign(riskSelection, Alignment.MIDDLE_LEFT).expand(spacingLbl1, spacingLbl2);
 
             assignmentsLayout = new MVerticalLayout();
             this.with(header, assignmentsLayout);
             searchCriteria = new ProjectGenericTaskSearchCriteria();
             searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
             searchCriteria.setIsOpenned(new SearchField());
-            searchCriteria.setTypes(new SetSearchField<>(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK));
+            searchCriteria.setTypes(new SetSearchField<>(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK,
+                    ProjectTypeConstants.RISK));
             searchCriteria.setMilestoneId(new NumberSearchField(beanItem.getId()));
             updateSearchStatus();
         }
@@ -288,8 +295,8 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
 
                                 MHorizontalLayout rowComp = new MHorizontalLayout();
                                 rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
-                                rowComp.with(new ELabel(ProjectAssetsManager.getAsset(genericTask.getType()).getHtml
-                                        (), ContentMode.HTML).withWidthUndefined());
+                                rowComp.with(new ELabel(ProjectAssetsManager.getAsset(genericTask.getType()).getHtml(),
+                                        ContentMode.HTML).withWidthUndefined());
                                 String avatarLink = StorageFactory.getInstance().getAvatarPath(genericTask.getAssignUserAvatarId(), 16);
                                 Img img = new Img(genericTask.getAssignUserFullName(), avatarLink).setTitle(genericTask
                                         .getAssignUserFullName());

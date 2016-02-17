@@ -40,7 +40,6 @@ public class ProjectLocalizationTypeMap {
         typeMap.put(ProjectTypeConstants.BUG_VERSION, ProjectTypeI18nEnum.VERSION_ITEM);
         typeMap.put(ProjectTypeConstants.PAGE, ProjectTypeI18nEnum.PAGE_ITEM);
         typeMap.put(ProjectTypeConstants.STANDUP, ProjectTypeI18nEnum.STANDUP_ITEM);
-        typeMap.put(ProjectTypeConstants.PROBLEM, ProjectTypeI18nEnum.PROBLEM_ITEM);
         typeMap.put(ProjectTypeConstants.RISK, ProjectTypeI18nEnum.RISK_ITEM);
     }
 

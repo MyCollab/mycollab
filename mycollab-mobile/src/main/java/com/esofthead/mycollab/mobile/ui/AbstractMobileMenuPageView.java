@@ -39,6 +39,7 @@ import java.io.Serializable;
 public abstract class AbstractMobileMenuPageView extends SlideMenuView implements PageView, Serializable {
     private static final long serialVersionUID = 1L;
 
+
     public AbstractMobileMenuPageView() {
         super();
         if (this.getLeftComponent() != null && this.getLeftComponent() instanceof NavigationButton) {

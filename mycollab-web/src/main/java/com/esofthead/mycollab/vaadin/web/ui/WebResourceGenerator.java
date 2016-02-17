@@ -33,8 +33,7 @@ import static javax.lang.model.element.Modifier.*;
 public class WebResourceGenerator {
     private static String ROOT_PATH = "src/main/resources/assets/icons";
 
-    private static void emitFieldResources(JavaWriter jw, File baseFolder)
-            throws IOException {
+    private static void emitFieldResources(JavaWriter jw, File baseFolder) throws IOException {
         File[] files = baseFolder.listFiles();
         for (File file : files) {
             if (file.isFile()) {

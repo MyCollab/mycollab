@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.bug;
 
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
@@ -110,12 +111,12 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements B
 
     @Override
     protected AbstractBeanFieldGroupEditFieldFactory<SimpleBug> initBeanFormFieldFactory() {
-        editFormFieldFactory = new BugEditFormFieldFactory(editForm);
+        editFormFieldFactory = new BugEditFormFieldFactory(editForm, CurrentProjectVariables.getProjectId());
         return editFormFieldFactory;
     }
 
     @Override
     public List<String> getFollowers() {
-        return editFormFieldFactory.getSubcribersComp().getFollowers();
+        return editFormFieldFactory.getSubscribersComp().getFollowers();
     }
 }

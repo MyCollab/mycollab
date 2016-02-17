@@ -47,7 +47,8 @@ import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
+import com.esofthead.mycollab.vaadin.ui.UIUtils;
 import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.esofthead.mycollab.vaadin.web.ui.ToggleButtonGroup;
@@ -151,26 +152,6 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
         advanceDisplayBtn.setIcon(FontAwesome.SITEMAP);
         advanceDisplayBtn.setDescription("Advance View");
 
-        Button calendarBtn = new Button(null, new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                EventBusFactory.getInstance().post(new TaskEvent.GotoCalendarView(TaskKanbanviewImpl.this));
-            }
-        });
-        calendarBtn.setWidth("50px");
-        calendarBtn.setDescription("Calendar View");
-        calendarBtn.setIcon(FontAwesome.CALENDAR);
-
-        Button chartDisplayBtn = new Button(null, new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-                EventBusFactory.getInstance().post(new TaskEvent.GotoGanttChart(this, null));
-            }
-        });
-        chartDisplayBtn.setWidth("50px");
-        chartDisplayBtn.setDescription("Display Gantt chart");
-        chartDisplayBtn.setIcon(FontAwesome.BAR_CHART_O);
-
         Button kanbanBtn = new Button();
         kanbanBtn.setWidth("50px");
         kanbanBtn.setDescription("Kanban View");
@@ -178,9 +159,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
 
         ToggleButtonGroup viewButtons = new ToggleButtonGroup();
         viewButtons.addButton(advanceDisplayBtn);
-        viewButtons.addButton(calendarBtn);
         viewButtons.addButton(kanbanBtn);
-        viewButtons.addButton(chartDisplayBtn);
         viewButtons.setDefaultButton(kanbanBtn);
         groupWrapLayout.addComponent(viewButtons);
 
