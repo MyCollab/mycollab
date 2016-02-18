@@ -29,11 +29,5 @@ ALTER TABLE `m_tracker_bug`
   ADD COLUMN `percentagecomplete` DOUBLE NULL;
 ALTER TABLE `m_prj_risk`
   ADD COLUMN `percentagecomplete` DOUBLE NULL;
-ALTER TABLE `m_prj_project`
-  ADD CONSTRAINT `FK_m_prj_project_6`
-    FOREIGN KEY (`lead`)
-    REFERENCES `s_user` (`username`)
-    ON DELETE SET NULL
-    ON UPDATE CASCADE;
 ALTER TABLE `m_prj_customize_view`
     DROP COLUMN `displayProblem`;

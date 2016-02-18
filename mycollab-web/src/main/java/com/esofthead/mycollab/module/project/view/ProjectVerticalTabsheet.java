@@ -45,8 +45,8 @@ public class ProjectVerticalTabsheet extends VerticalTabsheet {
     @Override
     public void setNavigatorVisibility(boolean visibility) {
         if (!visibility) {
-            navigatorWrapper.setWidth("70px");
-            navigatorContainer.setWidth("70px");
+            navigatorWrapper.setWidth("60px");
+            navigatorContainer.setWidth("60px");
             this.hideTabsCaption();
 
             toogleBtn.setIcon(FontAwesome.CARET_SQUARE_O_RIGHT);
