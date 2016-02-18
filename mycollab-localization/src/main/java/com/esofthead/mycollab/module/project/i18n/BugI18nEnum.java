@@ -66,7 +66,8 @@ public enum BugI18nEnum {
     FORM_COMMENT,
     FORM_RESOLVED_DATE,
     FORM_ANY_TEXT,
-
+    FORM_START_DATE,
+    FORM_END_DATE,
 
     TAB_COMPONENT,
     TAB_VERSION,

@@ -233,7 +233,7 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
             }
 
             bugLinkLbl.addStyleName(UIConstants.LABEL_WORD_WRAP);
-            PopupView priorityField = popupFieldFactory.createBugPriorityPopupField(bug);
+            PopupView priorityField = popupFieldFactory.createPriorityPopupField(bug);
             headerLayout.with(priorityField, bugLinkLbl).expand(bugLinkLbl);
 
             root.addComponent(headerLayout);
@@ -241,16 +241,22 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
             CssLayout footer = new CssLayout();
 
             // Build footer
-            PopupView commentField = popupFieldFactory.createBugCommentsPopupField(bug);
+            PopupView commentField = popupFieldFactory.createCommentsPopupField(bug);
             footer.addComponent(commentField);
 
             PopupView followerField = popupFieldFactory.createFollowersPopupField(bug);
             footer.addComponent(followerField);
 
-            PopupView deadlineField = popupFieldFactory.createBugDeadlinePopupField(bug);
+            PopupView deadlineField = popupFieldFactory.createDeadlinePopupField(bug);
             footer.addComponent(deadlineField);
 
-            PopupView assigneeField = popupFieldFactory.createBugAssigneePopupField(bug);
+            PopupView startdateField = popupFieldFactory.createStartDatePopupField(bug);
+            footer.addComponent(startdateField);
+
+            PopupView enddateField = popupFieldFactory.createEndDatePopupField(bug);
+            footer.addComponent(enddateField);
+
+            PopupView assigneeField = popupFieldFactory.createAssigneePopupField(bug);
             footer.addComponent(assigneeField);
 
             root.addComponent(footer);
@@ -330,7 +336,7 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
                 }
             });
             new Restrain(dragLayoutContainer).setMinHeight("50px").setMaxHeight((Page.getCurrent()
-                    .getBrowserWindowHeight() - 410) + "px");
+                    .getBrowserWindowHeight() - 450) + "px");
 
             HorizontalLayout headerLayout = new HorizontalLayout();
             headerLayout.setWidth("100%");

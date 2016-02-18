@@ -41,8 +41,7 @@ public class CustomLayoutExt extends CustomLayout {
 
     public static CustomLayout createLayout(String layoutId) {
         try {
-            return new CustomLayout(CustomLayoutExt.class.getClassLoader()
-                    .getResourceAsStream("layouts/" + layoutId + ".html"));
+            return new CustomLayout(CustomLayoutExt.class.getClassLoader().getResourceAsStream("layouts/" + layoutId + ".html"));
         } catch (Exception e) {
             throw new MyCollabException(e);
         }

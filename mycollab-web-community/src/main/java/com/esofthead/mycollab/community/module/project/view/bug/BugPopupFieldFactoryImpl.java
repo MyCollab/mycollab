@@ -32,6 +32,7 @@ import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Span;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.PopupView;
+import org.vaadin.teemu.VaadinIcons;
 
 /**
  * @author MyCollab Ltd
@@ -41,13 +42,13 @@ import com.vaadin.ui.PopupView;
 public class BugPopupFieldFactoryImpl implements BugPopupFieldFactory {
 
     @Override
-    public PopupView createBugPriorityPopupField(SimpleBug bug) {
+    public PopupView createPriorityPopupField(SimpleBug bug) {
         return new PopupFieldBuilder().withCaption(ProjectAssetsManager.getTaskPriorityHtml(bug.getPriority()))
                 .withDescription("Priority").build();
     }
 
     @Override
-    public PopupView createBugAssigneePopupField(SimpleBug bug) {
+    public PopupView createAssigneePopupField(SimpleBug bug) {
         String avatarLink = StorageFactory.getInstance().getAvatarPath(bug.getAssignUserAvatarId(), 16);
         Img img = new Img(bug.getAssignuserFullName(), avatarLink).setTitle(bug.getAssignuserFullName());
         return new PopupFieldBuilder().withCaption(img.write()).withDescription(AppContext.getMessage(GenericI18Enum
@@ -55,7 +56,7 @@ public class BugPopupFieldFactoryImpl implements BugPopupFieldFactory {
     }
 
     @Override
-    public PopupView createBugCommentsPopupField(SimpleBug bug) {
+    public PopupView createCommentsPopupField(SimpleBug bug) {
         if (bug.getNumComments() != null) {
             return new PopupFieldBuilder().withCaptionAndIcon(FontAwesome.COMMENT_O, "" + bug.getNumComments())
                     .withDescription("Comments").build();
@@ -66,7 +67,7 @@ public class BugPopupFieldFactoryImpl implements BugPopupFieldFactory {
     }
 
     @Override
-    public PopupView createBugMilestonePopupField(SimpleBug bug) {
+    public PopupView createMilestonePopupField(SimpleBug bug) {
         if (bug.getMilestoneid() == null) {
             Div divHint = new Div().setCSSClass("nonValue");
             divHint.appendText(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE).getHtml());
@@ -81,13 +82,13 @@ public class BugPopupFieldFactoryImpl implements BugPopupFieldFactory {
     }
 
     @Override
-    public PopupView createBugStatusPopupField(SimpleBug bug) {
+    public PopupView createStatusPopupField(SimpleBug bug) {
         return new PopupFieldBuilder().withCaptionAndIcon(FontAwesome.INFO_CIRCLE, AppContext.getMessage(OptionI18nEnum.BugStatus
                 .class, bug.getStatus())).withDescription(AppContext.getMessage(BugI18nEnum.FORM_STATUS)).build();
     }
 
     @Override
-    public PopupView createBugDeadlinePopupField(SimpleBug bug) {
+    public PopupView createDeadlinePopupField(SimpleBug bug) {
         if (bug.getDueDateRoundPlusOne() == null) {
             Div divHint = new Div().setCSSClass("nonValue");
             divHint.appendText(FontAwesome.CLOCK_O.getHtml());
@@ -102,13 +103,43 @@ public class BugPopupFieldFactoryImpl implements BugPopupFieldFactory {
     }
 
     @Override
-    public PopupView createBugBillableHoursPopupField(SimpleBug bug) {
+    public PopupView createStartDatePopupField(SimpleBug bug) {
+        if (bug.getStartdate() == null) {
+            Div divHint = new Div().setCSSClass("nonValue");
+            divHint.appendText(VaadinIcons.TIME_FORWARD.getHtml());
+            divHint.appendChild(new Span().appendText(" Click to edit").setCSSClass("hide"));
+            return new PopupFieldBuilder().withCaption(divHint.write()).withDescription(AppContext.getMessage
+                    (BugI18nEnum.FORM_START_DATE)).build();
+        } else {
+            return new PopupFieldBuilder().withCaption(String.format("%s %s", VaadinIcons.TIME_FORWARD.getHtml(),
+                    AppContext.formatPrettyTime(bug.getStartdate()))).withDescription(AppContext.getMessage
+                    (BugI18nEnum.FORM_START_DATE)).build();
+        }
+    }
+
+    @Override
+    public PopupView createEndDatePopupField(SimpleBug bug) {
+        if (bug.getEnddate() == null) {
+            Div divHint = new Div().setCSSClass("nonValue");
+            divHint.appendText(VaadinIcons.TIME_BACKWARD.getHtml());
+            divHint.appendChild(new Span().appendText(" Click to edit").setCSSClass("hide"));
+            return new PopupFieldBuilder().withCaption(divHint.write()).withDescription(AppContext.getMessage
+                    (BugI18nEnum.FORM_END_DATE)).build();
+        } else {
+            return new PopupFieldBuilder().withCaption(String.format("%s %s", VaadinIcons.TIME_BACKWARD.getHtml(),
+                    AppContext.formatPrettyTime(bug.getEnddate()))).withDescription(AppContext.getMessage
+                    (BugI18nEnum.FORM_END_DATE)).build();
+        }
+    }
+
+    @Override
+    public PopupView createBillableHoursPopupField(SimpleBug bug) {
         return new PopupFieldBuilder().withCaptionAndIcon(FontAwesome.MONEY, "" + bug.getBillableHours())
                 .withDescription("Billable hours").build();
     }
 
     @Override
-    public PopupView createBugNonbillableHoursPopupField(SimpleBug bug) {
+    public PopupView createNonbillableHoursPopupField(SimpleBug bug) {
         return new PopupFieldBuilder().withCaptionAndIcon(FontAwesome.GIFT, "" + bug.getNonBillableHours())
                 .withDescription("Non billable hours").build();
     }

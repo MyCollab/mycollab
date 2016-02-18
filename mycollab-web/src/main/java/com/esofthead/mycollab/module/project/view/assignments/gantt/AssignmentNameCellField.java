@@ -65,20 +65,7 @@ public class AssignmentNameCellField extends CustomField<String> implements Fiel
 
     @Override
     public void setPropertyDataSource(Property newDataSource) {
-        if (newDataSource != null) {
-            String value = (String) newDataSource.getValue();
-            if (value != null) {
-                if (field.isReadOnly()) {
-                    field.setReadOnly(false);
-                    field.setValue(value);
-                    field.setReadOnly(true);
-                } else {
-                    field.setValue(value);
-                }
-            }
-        }
-
-        super.setPropertyDataSource(newDataSource);
+        field.setPropertyDataSource(newDataSource);
     }
 
     @Override
@@ -96,10 +83,14 @@ public class AssignmentNameCellField extends CustomField<String> implements Fiel
     }
 
     @Override
+    public boolean isModified() {
+        return field.isModified();
+    }
+
+    @Override
     protected Component initContent() {
         MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%");
         layout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-        field.setImmediate(true);
         field.setBuffered(true);
         field.setWidth("100%");
         Label icon = new Label(ProjectAssetsManager.getAsset(type).getHtml(), ContentMode.HTML);

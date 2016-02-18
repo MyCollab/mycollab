@@ -498,9 +498,9 @@ public class GanttTreeTable extends TreeTable {
                     GanttItemWrapper preItemWrapper = beanContainer.prevItemId(ganttItemWrapper);
                     if (preItemWrapper != null && preItemWrapper != ganttItemWrapper.getParent()) {
                         ganttItemWrapper.updateParentRelationship(preItemWrapper);
-                        GanttTreeTable.this.setChildrenAllowed(preItemWrapper, true);
-                        GanttTreeTable.this.setParent(ganttItemWrapper, preItemWrapper);
                         preItemWrapper.calculateDatesByChildTasks();
+                        beanContainer.setChildrenAllowed(preItemWrapper, true);
+                        beanContainer.setParent(ganttItemWrapper, preItemWrapper);
                         GanttTreeTable.this.setCollapsed(preItemWrapper, false);
                         GanttTreeTable.this.refreshRowCache();
                         EventBusFactory.getInstance().post(new GanttEvent.AddGanttItemUpdateToQueue
@@ -522,8 +522,8 @@ public class GanttTreeTable extends TreeTable {
                         // Set all below tasks of taskWrapper have parent is taskWrapper
                         GanttItemWrapper nextItem = (GanttItemWrapper) beanContainer.nextItemId(ganttItemWrapper);
                         while (nextItem != null && nextItem.getParent() == parent) {
-                            beanContainer.setChildrenAllowed(ganttItemWrapper, true);
                             nextItem.updateParentRelationship(ganttItemWrapper);
+                            beanContainer.setChildrenAllowed(ganttItemWrapper, true);
                             beanContainer.setParent(nextItem, ganttItemWrapper);
                             EventBusFactory.getInstance().post(new GanttEvent.AddGanttItemUpdateToQueue(GanttTreeTable.this, nextItem));
                         }
@@ -561,7 +561,7 @@ public class GanttTreeTable extends TreeTable {
                             newTask.setsAccountId(AppContext.getAccountId());
                             GanttItemWrapper newGanttItem = new GanttItemWrapper(gantt, newTask);
                             newGanttItem.setGanttIndex(index + 1);
-                            GanttItemWrapper prevItem = (GanttItemWrapper) beanContainer.prevItemId(ganttItemWrapper);
+                            GanttItemWrapper prevItem = beanContainer.prevItemId(ganttItemWrapper);
                             beanContainer.addItemAfter(prevItem, newGanttItem);
                             gantt.addTask(index, newGanttItem);
                             beanContainer.setChildrenAllowed(newGanttItem, newGanttItem.hasSubTasks());
@@ -631,7 +631,7 @@ public class GanttTreeTable extends TreeTable {
                                 @Override
                                 public void onClose(ConfirmDialog dialog) {
                                     if (dialog.isConfirmed()) {
-                                        removeTask(ganttItemWrapper);
+                                        removeAssignments(ganttItemWrapper);
                                     }
                                 }
                             });
@@ -639,16 +639,15 @@ public class GanttTreeTable extends TreeTable {
             });
         }
 
-        private void removeTask(GanttItemWrapper task) {
+        private void removeAssignments(GanttItemWrapper task) {
             EventBusFactory.getInstance().post(new GanttEvent.DeleteGanttItemUpdateToQueue(GanttTreeTable.this, task));
-            beanContainer.removeItem(task);
             gantt.removeStep(task.getStep());
             gantt.markAsDirtyRecursive();
 
             GanttItemWrapper parentTask = task.getParent();
             if (parentTask != null) {
                 parentTask.removeSubTask(task);
-                GanttTreeTable.this.setChildrenAllowed(parentTask, parentTask.hasSubTasks());
+                beanContainer.setChildrenAllowed(parentTask, parentTask.hasSubTasks());
             }
 
             if (task.hasSubTasks()) {
@@ -656,10 +655,10 @@ public class GanttTreeTable extends TreeTable {
                 while (iter.hasNext()) {
                     GanttItemWrapper subTask = iter.next();
                     iter.remove();
-                    removeTask(subTask);
+                    removeAssignments(subTask);
                 }
             }
-
+            beanContainer.removeItem(task);
             if (parentTask != null) {
                 parentTask.calculateDatesByChildTasks();
             }

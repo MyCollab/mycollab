@@ -26,7 +26,10 @@ import com.esofthead.mycollab.module.project.dao.PredecessorMapper;
 import com.esofthead.mycollab.module.project.dao.TaskMapper;
 import com.esofthead.mycollab.module.project.domain.*;
 import com.esofthead.mycollab.module.project.service.GanttAssignmentService;
+import com.esofthead.mycollab.module.tracker.dao.BugMapper;
+import com.esofthead.mycollab.module.tracker.domain.BugExample;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.google.common.base.MoreObjects;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
@@ -63,19 +66,25 @@ public class GanttAssignmentServiceImpl implements GanttAssignmentService {
         if (CollectionUtils.isNotEmpty(ganttItems)) {
             List<MilestoneGanttItem> milestoneGanttItems = new ArrayList<>();
             List<TaskGanttItem> taskGanttItems = new ArrayList<>();
+            List<TaskGanttItem> bugGanttItems = new ArrayList<>();
+
             for (AssignWithPredecessors ganttItem : ganttItems) {
                 if (ganttItem instanceof MilestoneGanttItem) {
                     milestoneGanttItems.add((MilestoneGanttItem) ganttItem);
                 } else if (ganttItem instanceof TaskGanttItem) {
-                    taskGanttItems.add((TaskGanttItem) ganttItem);
+                    if (ProjectTypeConstants.BUG.equals(ganttItem.getType())) {
+                        bugGanttItems.add((TaskGanttItem) ganttItem);
+                    } else if (ProjectTypeConstants.TASK.equals(ganttItem.getType())) {
+                        taskGanttItems.add((TaskGanttItem) ganttItem);
+                    }
                 } else {
                     throw new MyCollabException("Do not support save gantt item " + ganttItem);
                 }
             }
             massUpdateMilestoneGanttItems(milestoneGanttItems, sAccountId);
             massUpdateTaskGanttItems(taskGanttItems, sAccountId);
+            massUpdateBugGanttItems(bugGanttItems, sAccountId);
         }
-
     }
 
     @Override
@@ -224,11 +233,54 @@ public class GanttAssignmentServiceImpl implements GanttAssignmentService {
         }
     }
 
+    private void massUpdateBugGanttItems(final List<TaskGanttItem> taskGanttItems, Integer sAccountId) {
+        if (CollectionUtils.isNotEmpty(taskGanttItems)) {
+            Lock lock = DistributionLockUtil.getLock("gantt-bug-service" + sAccountId);
+            try {
+                final long now = new GregorianCalendar().getTimeInMillis();
+                if (lock.tryLock(30, TimeUnit.SECONDS)) {
+                    try (Connection connection = dataSource.getConnection()) {
+                        connection.setAutoCommit(false);
+                        PreparedStatement batchTasksStatement = connection.prepareStatement("UPDATE `m_tracker_bug` SET " +
+                                "summary = ?, `startdate` = ?, `enddate` = ?, " +
+                                "`lastUpdatedTime`=?, `percentagecomplete`=?, `assignuser`=?, `ganttindex`=?, " +
+                                "`milestoneId`=? WHERE `id` = ?");
+                        for (int i = 0; i < taskGanttItems.size(); i++) {
+                            TaskGanttItem ganttItem = taskGanttItems.get(i);
+                            if (ProjectTypeConstants.BUG.equals(ganttItem.getType())) {
+                                batchTasksStatement.setString(1, ganttItem.getName());
+                                batchTasksStatement.setDate(2, getDateWithNullValue(ganttItem.getStartDate()));
+                                batchTasksStatement.setDate(3, getDateWithNullValue(ganttItem.getEndDate()));
+                                batchTasksStatement.setDate(4, new Date(now));
+                                batchTasksStatement.setDouble(5, MoreObjects.firstNonNull(ganttItem.getProgress(), 0d));
+                                batchTasksStatement.setString(6, ganttItem.getAssignUser());
+                                batchTasksStatement.setInt(7, ganttItem.getGanttIndex());
+                                batchTasksStatement.setObject(8, ganttItem.getMilestoneId());
+                                batchTasksStatement.setInt(9, ganttItem.getId());
+                                batchTasksStatement.addBatch();
+                            }
+
+                        }
+                        batchTasksStatement.executeBatch();
+                        connection.commit();
+                    }
+                }
+            } catch (Exception e) {
+                throw new MyCollabException(e);
+            } finally {
+                DistributionLockUtil.removeLock("gantt-bug-service" + sAccountId);
+                lock.unlock();
+            }
+        }
+    }
+
     @Override
     public void massDeleteGanttItems(List<AssignWithPredecessors> ganttItems, Integer sAccountId) {
         if (CollectionUtils.isNotEmpty(ganttItems)) {
             List<Integer> milestoneIds = new ArrayList<>();
             List<Integer> taskIds = new ArrayList<>();
+            List<Integer> bugIds = new ArrayList<>();
+
             for (AssignWithPredecessors ganttItem : ganttItems) {
                 if (ganttItem instanceof MilestoneGanttItem) {
                     if (ganttItem.getId() != null) {
@@ -236,8 +288,10 @@ public class GanttAssignmentServiceImpl implements GanttAssignmentService {
                     }
 
                 } else if (ganttItem instanceof TaskGanttItem) {
-                    if (ganttItem.getId() != null) {
+                    if (ProjectTypeConstants.TASK.equals(ganttItem.getType()) && ganttItem.getId() != null) {
                         taskIds.add(ganttItem.getId());
+                    } else if (ProjectTypeConstants.BUG.equals(ganttItem.getType()) && ganttItem.getId() != null) {
+                        bugIds.add(ganttItem.getId());
                     }
                 } else {
                     throw new MyCollabException("Do not support delete gantt item " + ganttItem);
@@ -245,6 +299,7 @@ public class GanttAssignmentServiceImpl implements GanttAssignmentService {
             }
             massDeleteMilestoneGanttItems(milestoneIds);
             massDeleteTaskGanttItems(taskIds);
+            massDeleteBugGanttItems(bugIds);
         }
     }
 
@@ -263,6 +318,15 @@ public class GanttAssignmentServiceImpl implements GanttAssignmentService {
             TaskExample ex = new TaskExample();
             ex.createCriteria().andIdIn(taskIds);
             taskMapper.deleteByExample(ex);
+        }
+    }
+
+    private void massDeleteBugGanttItems(List<Integer> bugIds) {
+        if (CollectionUtils.isNotEmpty(bugIds)) {
+            BugMapper bugMapper = ApplicationContextUtil.getSpringBean(BugMapper.class);
+            BugExample ex = new BugExample();
+            ex.createCriteria().andIdIn(bugIds);
+            bugMapper.deleteByExample(ex);
         }
     }
 

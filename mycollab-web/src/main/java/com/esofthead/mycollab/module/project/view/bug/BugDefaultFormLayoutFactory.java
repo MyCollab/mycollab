@@ -37,65 +37,80 @@ public class BugDefaultFormLayoutFactory {
         defaultForm = new DynaForm();
         DynaSection mainSection = new DynaSectionBuilder().layoutType(DynaSection.LayoutType.TWO_COLUMN).build();
 
+        //Row 1
         mainSection.addField(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.summary)
                 .displayName(AppContext.getMessage(BugI18nEnum.FORM_SUMMARY))
                 .fieldIndex(0).mandatory(true).required(true).colSpan(true).build());
 
+        //Row 2
         mainSection.addField(new TextDynaFieldBuilder()
                 .fieldName(BugWithBLOBs.Field.priority)
                 .displayName(AppContext.getMessage(BugI18nEnum.FORM_PRIORITY))
                 .fieldIndex(1).build());
 
-        mainSection.addField(new TextDynaFieldBuilder().fieldName(SimpleBug.Field.components)
-                .displayName(AppContext.getMessage(BugI18nEnum.FORM_COMPONENTS))
+        mainSection.addField(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.assignuser)
+                .displayName(AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE))
                 .fieldIndex(2).build());
 
+        //Row 3
         mainSection.addField(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.severity)
                 .displayName(AppContext.getMessage(BugI18nEnum.FORM_SEVERITY))
                 .fieldIndex(3).build());
 
-        mainSection.addField(new TextDynaFieldBuilder().fieldName(SimpleBug.Field.affectedVersions)
-                .displayName(AppContext.getMessage(BugI18nEnum.FORM_AFFECTED_VERSIONS))
+        mainSection.addField(new TextDynaFieldBuilder().fieldName(SimpleBug.Field.components)
+                .displayName(AppContext.getMessage(BugI18nEnum.FORM_COMPONENTS))
                 .fieldIndex(4).build());
 
-        mainSection.addField(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.duedate)
-                .displayName(AppContext.getMessage(BugI18nEnum.FORM_DUE_DATE))
+        //Row 4
+        mainSection.addField(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.startdate)
+                .displayName(AppContext.getMessage(BugI18nEnum.FORM_START_DATE))
                 .fieldIndex(5).build());
+
+        mainSection.addField(new TextDynaFieldBuilder().fieldName(SimpleBug.Field.affectedVersions)
+                .displayName(AppContext.getMessage(BugI18nEnum.FORM_AFFECTED_VERSIONS))
+                .fieldIndex(6).build());
+
+
+        mainSection.addField(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.enddate)
+                .displayName(AppContext.getMessage(BugI18nEnum.FORM_END_DATE))
+                .fieldIndex(7).build());
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(SimpleBug.Field.fixedVersions)
                 .displayName(AppContext.getMessage(BugI18nEnum.FORM_FIXED_VERSIONS))
-                .fieldIndex(6).build());
+                .fieldIndex(8).build());
 
-        mainSection.addField(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.assignuser)
-                .displayName(AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE))
-                .fieldIndex(7).build());
+        //Row 5
+        mainSection.addField(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.duedate)
+                .displayName(AppContext.getMessage(BugI18nEnum.FORM_DUE_DATE))
+                .fieldIndex(9).build());
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.milestoneid)
                 .displayName(AppContext.getMessage(BugI18nEnum.FORM_PHASE))
-                .fieldIndex(8).build());
+                .fieldIndex(10).build());
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.estimatetime)
                 .displayName(AppContext.getMessage(BugI18nEnum.FORM_ORIGINAL_ESTIMATE))
-                .fieldIndex(9).build());
+                .fieldIndex(11).build());
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.estimateremaintime)
                 .displayName(AppContext.getMessage(BugI18nEnum.FORM_REMAIN_ESTIMATE))
-                .fieldIndex(10).build());
+                .fieldIndex(12).build());
+
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.environment)
                 .displayName(AppContext.getMessage(BugI18nEnum.FORM_ENVIRONMENT))
-                .fieldIndex(11).colSpan(true).build());
+                .fieldIndex(13).colSpan(true).build());
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.description)
                 .displayName(AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION))
-                .fieldIndex(12).colSpan(true).build());
+                .fieldIndex(14).colSpan(true).build());
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.id)
                 .displayName(AppContext.getMessage(BugI18nEnum.FORM_ATTACHMENT))
-                .fieldIndex(13).colSpan(true).build());
+                .fieldIndex(15).colSpan(true).build());
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(SimpleBug.Field.selected)
-                .displayName("Notifiers").fieldIndex(14).colSpan(true).build());
+                .displayName("Notifiers").fieldIndex(16).colSpan(true).build());
 
         defaultForm.addSection(mainSection);
     }

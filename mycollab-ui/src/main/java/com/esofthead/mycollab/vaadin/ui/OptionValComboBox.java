@@ -19,12 +19,9 @@ package com.esofthead.mycollab.vaadin.ui;
 import com.esofthead.mycollab.common.domain.OptionVal;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.vaadin.data.Property;
 import com.vaadin.data.util.converter.Converter;
 import com.vaadin.ui.AbstractSelect;
 import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CustomField;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,20 +31,18 @@ import java.util.Locale;
  * @author MyCollab Ltd
  * @since 5.1.1
  */
-public class OptionValComboBox extends CustomField {
+public class OptionValComboBox extends ComboBox {
     private Class<? extends Enum> enumCls;
-    private ComboBox valComboBox;
     private List<OptionVal> options = new ArrayList<>();
 
     public OptionValComboBox(Class<? extends Enum> enumCls) {
         super();
-        valComboBox = new ComboBox();
-        valComboBox.setPageLength(20);
-        valComboBox.setNullSelectionAllowed(false);
-        valComboBox.setItemCaptionMode(AbstractSelect.ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
+        this.setPageLength(20);
+        this.setNullSelectionAllowed(false);
+        this.setItemCaptionMode(AbstractSelect.ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
         this.enumCls = enumCls;
 
-        valComboBox.setItemStyleGenerator(new ComboBox.ItemStyleGenerator() {
+        this.setItemStyleGenerator(new ComboBox.ItemStyleGenerator() {
             @Override
             public String getStyle(ComboBox source, Object itemId) {
                 OptionVal option = (OptionVal) itemId;
@@ -57,22 +52,7 @@ public class OptionValComboBox extends CustomField {
                 return null;
             }
         });
-        valComboBox.setConverter(new StringToOptionConverter());
-    }
-
-    @Override
-    public void setPropertyDataSource(Property newDataSource) {
-        valComboBox.setPropertyDataSource(newDataSource);
-    }
-
-    @Override
-    public Property getPropertyDataSource() {
-        return valComboBox.getPropertyDataSource();
-    }
-
-    @Override
-    protected Component initContent() {
-        return valComboBox;
+        this.setConverter(new StringToOptionConverter());
     }
 
     @Override
@@ -85,11 +65,11 @@ public class OptionValComboBox extends CustomField {
         String value = option.getTypeval();
         try {
             Enum anEnum = Enum.valueOf(enumCls, value);
-            valComboBox.addItem(option);
-            valComboBox.setItemCaption(option, StringUtils.trim(AppContext.getMessage(anEnum), 25, true));
+            this.addItem(option);
+            this.setItemCaption(option, StringUtils.trim(AppContext.getMessage(anEnum), 25, true));
         } catch (Exception e) {
-            valComboBox.addItem(option);
-            valComboBox.setItemCaption(option, StringUtils.trim(value, 25, true));
+            this.addItem(option);
+            this.setItemCaption(option, StringUtils.trim(value, 25, true));
         }
     }
 

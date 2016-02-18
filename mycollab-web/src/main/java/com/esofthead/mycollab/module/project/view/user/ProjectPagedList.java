@@ -21,6 +21,7 @@ import com.esofthead.mycollab.core.utils.NumberUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
+import com.esofthead.mycollab.module.project.ProjectTooltipGenerator;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.esofthead.mycollab.module.project.service.ProjectService;
@@ -78,7 +79,10 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
                     ProjectLinkBuilder.generateProjectFullLink(project.getId()));
             projectLbl.addStyleName(ValoTheme.LABEL_BOLD);
             projectLbl.addStyleName(ValoTheme.LABEL_NO_MARGIN);
+            projectLbl.addStyleName("text-ellipsis");
             projectLbl.setWidth("100%");
+            projectLbl.setDescription(ProjectTooltipGenerator.generateToolTipProject(AppContext.getUserLocale(),
+                    project, AppContext.getSiteUrl(), AppContext.getUserTimezone()));
 
             prjHeaderLayout.addComponent(projectLbl);
 

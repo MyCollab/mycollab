@@ -25,8 +25,10 @@ import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.*;
 import com.esofthead.mycollab.module.project.events.GanttEvent;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.google.common.base.MoreObjects;
 import com.hp.gagawa.java.elements.Td;
 import com.hp.gagawa.java.elements.Tr;
 import org.apache.commons.collections.CollectionUtils;
@@ -60,7 +62,7 @@ public class GanttItemWrapper {
 
         if (isMilestone()) {
             subItems = buildSubTasks(gantt, this, (MilestoneGanttItem) task);
-        } else if (isBug() || isTask() || isRisk()){
+        } else if (isBug() || isTask() || isRisk()) {
             subItems = buildSubTasks(gantt, this, (TaskGanttItem) task);
         }
     }
@@ -119,12 +121,7 @@ public class GanttItemWrapper {
         ownStep.setStartDate(startDate.toDate());
         ownStep.setEndDate(endDate.plusDays(1).toDate());
         ownStep.setShowProgress(true);
-
-        if (task.getProgress() == null) {
-            ownStep.setProgress(0);
-        } else {
-            ownStep.setProgress(task.getProgress());
-        }
+        ownStep.setProgress(getPercentageComplete());
     }
 
     public boolean isMilestone() {
@@ -268,7 +265,18 @@ public class GanttItemWrapper {
     }
 
     public Double getPercentageComplete() {
-        return task.getProgress();
+        if (isTask() || isMilestone()) {
+            return MoreObjects.firstNonNull(task.getProgress(), 0d);
+        } else if (isBug()) {
+            if (OptionI18nEnum.BugStatus.Resolved.name().equals(task.getStatus()) || OptionI18nEnum.BugStatus
+                    .Verified.equals(task.getStatus())) {
+                return 100d;
+            } else {
+                return MoreObjects.firstNonNull(task.getProgress(), 0d);
+            }
+        } else {
+            return 0d;
+        }
     }
 
     public void setPercentageComplete(Double percentageComplete) {

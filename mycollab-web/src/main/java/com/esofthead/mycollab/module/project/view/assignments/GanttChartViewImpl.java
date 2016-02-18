@@ -71,6 +71,7 @@ public class GanttChartViewImpl extends AbstractLazyPageView implements GanttCha
         header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
         Label headerText = new Label(FontAwesome.BAR_CHART_O.getHtml() + " Gantt chart", ContentMode.HTML);
         headerText.setStyleName(ValoTheme.LABEL_H2);
+        headerText.addStyleName(ValoTheme.LABEL_NO_MARGIN);
         CssLayout headerWrapper = new CssLayout();
         headerWrapper.addComponent(headerText);
 

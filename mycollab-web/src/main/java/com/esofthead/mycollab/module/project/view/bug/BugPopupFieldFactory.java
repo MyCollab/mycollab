@@ -25,21 +25,25 @@ import com.vaadin.ui.PopupView;
  * @since 5.1.3
  */
 public interface BugPopupFieldFactory extends CacheableComponent {
-    PopupView createBugPriorityPopupField(SimpleBug bug);
+    PopupView createPriorityPopupField(SimpleBug bug);
 
-    PopupView createBugAssigneePopupField(SimpleBug bug);
+    PopupView createAssigneePopupField(SimpleBug bug);
 
-    PopupView createBugCommentsPopupField(SimpleBug bug);
+    PopupView createCommentsPopupField(SimpleBug bug);
 
-    PopupView createBugStatusPopupField(SimpleBug bug);
+    PopupView createStatusPopupField(SimpleBug bug);
 
-    PopupView createBugMilestonePopupField(SimpleBug bug);
+    PopupView createMilestonePopupField(SimpleBug bug);
 
-    PopupView createBugDeadlinePopupField(SimpleBug bug);
+    PopupView createDeadlinePopupField(SimpleBug bug);
 
-    PopupView createBugBillableHoursPopupField(SimpleBug bug);
+    PopupView createStartDatePopupField(SimpleBug bug);
 
-    PopupView createBugNonbillableHoursPopupField(SimpleBug bug);
+    PopupView createEndDatePopupField(SimpleBug bug);
+
+    PopupView createBillableHoursPopupField(SimpleBug bug);
+
+    PopupView createNonbillableHoursPopupField(SimpleBug bug);
 
     PopupView createFollowersPopupField(SimpleBug bug);
 }

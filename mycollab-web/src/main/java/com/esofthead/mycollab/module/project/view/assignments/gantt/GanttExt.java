@@ -38,7 +38,6 @@ import java.util.TimeZone;
  * @since 5.0.8
  */
 public class GanttExt extends Gantt {
-    TimeZoneConstants a;
     private LocalDate minDate, maxDate;
     private GanttItemContainer beanContainer;
 

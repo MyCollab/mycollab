@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.bug;
 
+import com.esofthead.mycollab.cache.CleanCacheEvent;
 import com.esofthead.mycollab.common.domain.MonitorItem;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.MonitorItemService;
@@ -28,6 +29,7 @@ import com.esofthead.mycollab.module.project.ui.components.ProjectSubscribersCom
 import com.esofthead.mycollab.module.project.ui.form.ProjectFormAttachmentUploadField;
 import com.esofthead.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
+import com.esofthead.mycollab.module.tracker.service.BugRelatedItemService;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -35,6 +37,7 @@ import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
+import com.google.common.eventbus.AsyncEventBus;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
@@ -65,7 +68,6 @@ public class BugAddWindow extends Window {
     }
 
     private class EditForm extends AdvancedEditBeanForm<SimpleBug> {
-
         @Override
         public void setBean(final SimpleBug item) {
             this.setFormLayoutFactory(new FormLayoutFactory());
@@ -80,7 +82,7 @@ public class BugAddWindow extends Window {
             @Override
             public ComponentContainer getLayout() {
                 VerticalLayout layout = new VerticalLayout();
-                informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 8);
+                informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 9);
                 informationLayout.getLayout().setMargin(false);
                 informationLayout.getLayout().setSpacing(false);
                 layout.addComponent(informationLayout.getLayout());
@@ -110,13 +112,21 @@ public class BugAddWindow extends Window {
                                 bugId = bean.getId();
                             }
 
-                            ProjectFormAttachmentUploadField uploadField = ((BugEditFormFieldFactory) fieldFactory).getAttachmentUploadField();
+                            AsyncEventBus asyncEventBus = ApplicationContextUtil.getSpringBean(AsyncEventBus.class);
+                            // save component
+                            BugEditFormFieldFactory bugEditFormFieldFactory = (BugEditFormFieldFactory) fieldFactory;
+                            BugRelatedItemService bugRelatedItemService = ApplicationContextUtil.getSpringBean(BugRelatedItemService.class);
+                            bugRelatedItemService.saveAffectedVersionsOfBug(bugId, bugEditFormFieldFactory.getAffectedVersionSelect().getSelectedItems());
+                            bugRelatedItemService.saveComponentsOfBug(bugId, bugEditFormFieldFactory.getComponentSelect().getSelectedItems());
+                            asyncEventBus.post(new CleanCacheEvent(AppContext.getAccountId(), new Class[]{BugService.class}));
+
+                            ProjectFormAttachmentUploadField uploadField = bugEditFormFieldFactory.getAttachmentUploadField();
                             uploadField.saveContentsToRepo(bean.getProjectid(),
                                     ProjectTypeConstants.BUG, bugId);
                             EventBusFactory.getInstance().post(new BugEvent.NewBugAdded(BugAddWindow.this, bugId));
                             EventBusFactory.getInstance().post(new AssignmentEvent.NewAssignmentAdd(BugAddWindow.this,
                                     ProjectTypeConstants.BUG, bugId));
-                            ProjectSubscribersComp subcribersComp = ((BugEditFormFieldFactory) fieldFactory).getSubscribersComp();
+                            ProjectSubscribersComp subcribersComp = bugEditFormFieldFactory.getSubscribersComp();
                             List<String> followers = subcribersComp.getFollowers();
                             if (followers.size() > 0) {
                                 List<MonitorItem> monitorItems = new ArrayList<>();
@@ -166,18 +176,22 @@ public class BugAddWindow extends Window {
                     informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_SEVERITY), 0, 2);
                 } else if (SimpleBug.Field.components.equalTo(propertyId)) {
                     informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_COMPONENTS), 1, 2);
+                } else if (BugWithBLOBs.Field.startdate.equalTo(propertyId)) {
+                    informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_START_DATE), 0, 3);
+                } else if (SimpleBug.Field.affectedVersions.equalTo(propertyId)) {
+                    informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_AFFECTED_VERSIONS), 1, 3);
                 } else if (BugWithBLOBs.Field.duedate.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_DUE_DATE), 0, 3);
+                    informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_DUE_DATE), 0, 4);
                 } else if (BugWithBLOBs.Field.milestoneid.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_PHASE), 1, 3);
+                    informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_PHASE), 1, 4);
                 } else if (BugWithBLOBs.Field.summary.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_SUMMARY), 0, 4, 2, "100%");
+                    informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_SUMMARY), 0, 5, 2, "100%");
                 } else if (BugWithBLOBs.Field.description.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 5, 2, "100%");
+                    informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 6, 2, "100%");
                 } else if (BugWithBLOBs.Field.id.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_ATTACHMENT), 0, 6, 2, "100%");
+                    informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_ATTACHMENT), 0, 7, 2, "100%");
                 } else if (SimpleBug.Field.selected.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, "Notifiers", 0, 7, 2, "100%");
+                    informationLayout.addComponent(field, "Notifiers", 0, 8, 2, "100%");
                 }
             }
         }

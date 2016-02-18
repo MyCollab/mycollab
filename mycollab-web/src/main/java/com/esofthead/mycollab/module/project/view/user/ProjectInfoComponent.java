@@ -26,10 +26,7 @@ import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.html.DivLessFormatter;
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
-import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
-import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.*;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria;
 import com.esofthead.mycollab.module.project.events.*;
@@ -101,9 +98,9 @@ public class ProjectInfoComponent extends MHorizontalLayout {
 
     public ProjectInfoComponent(final SimpleProject project) {
         this.withMargin(true).withStyleName("project-info").withFullWidth();
-        ELabel headerLbl = ELabel.h2(FontAwesome.BUILDING_O.getHtml() + String.format(" %s (%s)", StringUtils.trim(project.getName(), 400, true),
-                project.getShortname()));
-        headerLbl.setDescription(project.getDescription());
+        ELabel headerLbl = ELabel.h2(FontAwesome.BUILDING_O.getHtml() + String.format(" [%s] %s", project.getShortname(), project.getName()));
+        headerLbl.setDescription(ProjectTooltipGenerator.generateToolTipProject(AppContext.getUserLocale(), project,
+                AppContext.getSiteUrl(), AppContext.getUserTimezone()));
         headerLbl.addStyleName("header");
         MVerticalLayout headerLayout = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, true));
 

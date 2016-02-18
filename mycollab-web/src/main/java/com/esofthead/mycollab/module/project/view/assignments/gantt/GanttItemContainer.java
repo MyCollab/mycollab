@@ -68,6 +68,9 @@ public class GanttItemContainer extends BeanItemContainer<GanttItemWrapper> impl
         if (itemId instanceof GanttItemWrapper) {
             GanttItemWrapper removedTask = (GanttItemWrapper) itemId;
             removeAssociatesPredecessorsAndDependents(removedTask);
+            if (removedTask.getParent() == null) {
+                rootItems.remove(removedTask);
+            }
             return super.removeItem(itemId);
         } else {
             throw new MyCollabException("Do not support removing type " + itemId);
