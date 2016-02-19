@@ -87,7 +87,7 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
 
     private void save(SimpleUser user) {
         boolean isRefreshable = false;
-        if (user.getUsername().equals(AppContext.getUsername())) {
+        if (user.getUsername() != null && user.getUsername().equals(AppContext.getUsername())) {
             isRefreshable = true;
         }
         UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);

@@ -40,7 +40,6 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@SuppressWarnings("serial")
 public class PasswordChangeWindow extends Window {
     private PasswordField txtNewPassword;
     private PasswordField txtConfirmPassword;
@@ -112,27 +111,26 @@ public class PasswordChangeWindow extends Window {
     }
 
     private void changePassword() {
+        txtNewPassword.removeStyleName("errorField");
+        txtConfirmPassword.removeStyleName("errorField");
 
-        this.txtNewPassword.removeStyleName("errorField");
-        this.txtConfirmPassword.removeStyleName("errorField");
-
-        if (!this.txtNewPassword.getValue().equals(this.txtConfirmPassword.getValue())) {
+        if (!txtNewPassword.getValue().equals(txtConfirmPassword.getValue())) {
             NotificationUtil.showErrorNotification(AppContext.getMessage(UserI18nEnum.ERROR_PASSWORDS_ARE_NOT_MATCH));
-            this.txtNewPassword.addStyleName("errorField");
-            this.txtConfirmPassword.addStyleName("errorField");
+            txtNewPassword.addStyleName("errorField");
+            txtConfirmPassword.addStyleName("errorField");
             return;
         }
 
         try {
-            PasswordCheckerUtil.checkValidPassword(this.txtNewPassword.getValue());
+            PasswordCheckerUtil.checkValidPassword(txtNewPassword.getValue());
         } catch (InvalidPasswordException e) {
             NotificationUtil.showErrorNotification(e.getMessage());
         }
 
-        this.user.setPassword(PasswordEncryptHelper.encryptSaltPassword(this.txtNewPassword.getValue()));
+        user.setPassword(PasswordEncryptHelper.encryptSaltPassword(txtNewPassword.getValue()));
 
         final UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
-        userService.updateWithSession(this.user, AppContext.getUsername());
+        userService.updateWithSession(user, AppContext.getUsername());
 
         EventBusFactory.getInstance().post(new ProfileEvent.GotoProfileView(PasswordChangeWindow.this, null));
         PasswordChangeWindow.this.close();

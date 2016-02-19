@@ -35,6 +35,12 @@
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity</artifactId>
             <version>1.7</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>sslext</groupId>
+                    <artifactId>sslext</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>

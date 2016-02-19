@@ -66,8 +66,7 @@ public class UpgradeConfirmWindow extends Window {
         content.with(new Label(manualInstallLink.write(), ContentMode.HTML));
 
         Div releaseNoteLink = new Div().appendText("&nbsp;&nbsp;&nbsp;&nbsp;Release Notes: ")
-                .appendChild(new A("https://community.mycollab.com/release-notes/", "_blank")
-                        .appendText("Link"));
+                .appendChild(new A("https://community.mycollab.com/releases/", "_blank").appendText("Link"));
         content.with(new Label(releaseNoteLink.write(), ContentMode.HTML));
 
         MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(true);
@@ -82,7 +81,7 @@ public class UpgradeConfirmWindow extends Window {
         Button autoUpgradeBtn = new Button("Auto Upgrade", new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                UpgradeConfirmWindow.this.close();
+                close();
                 navigateToWaitingUpgradePage();
             }
         });

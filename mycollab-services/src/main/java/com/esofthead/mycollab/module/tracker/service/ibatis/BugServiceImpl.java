@@ -105,8 +105,8 @@ public class BugServiceImpl extends DefaultService<Integer, BugWithBLOBs, BugSea
                 }
                 Integer bugId = super.saveWithSession(record, username);
                 asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectService.class,
-                        ProjectGenericTaskService.class, ProjectMemberService.class, ProjectActivityStreamService
-                        .class, TimelineTrackingService.class}));
+                        ProjectGenericTaskService.class, ProjectMemberService.class, ProjectActivityStreamService.class,
+                        TimelineTrackingService.class}));
 
                 asyncEventBus.post(new TimelineTrackingUpdateEvent(ProjectTypeConstants.BUG, bugId, "status", record.getStatus(),
                         record.getProjectid(), record.getSaccountid()));

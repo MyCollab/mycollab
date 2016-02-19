@@ -374,6 +374,7 @@
                  m_tracker_bug.cus_time_03, m_tracker_bug.cus_time_04, m_tracker_bug.cus_dbl_01, m_tracker_bug.bugindex,
                  m_tracker_bug.cus_dbl_02, m_tracker_bug.cus_dbl_03, m_tracker_bug.projectid, 
                  m_tracker_bug.resolveddate, m_tracker_bug.sAccountId, m_tracker_bug.description, m_tracker_bug.estimateTime,
+                 m_tracker_bug.startdate, m_tracker_bug.enddate,
                  (SELECT count(*)
                     FROM m_comment
                     WHERE m_comment.type='Project-Bug' AND m_comment.typeid=m_tracker_bug.id) AS numComments,

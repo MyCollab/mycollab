@@ -62,22 +62,22 @@ class MilestoneUrlResolver extends ProjectUrlResolver {
 
     private class EditUrlResolver extends ProjectUrlResolver {
         protected override def handlePage(params: String*) {
-            val token: UrlTokenizer = new UrlTokenizer(params(0))
-            val projectId: Int = token.getInt
-            val milestoneid: Int = token.getInt
-            val milestoneService: MilestoneService = ApplicationContextUtil.getSpringBean(classOf[MilestoneService])
-            val milestone: SimpleMilestone = milestoneService.findById(milestoneid, AppContext.getAccountId)
-            val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId), new MilestoneScreenData.Edit(milestone))
+            val token = new UrlTokenizer(params(0))
+            val projectId = token.getInt
+            val milestoneId = token.getInt
+            val milestoneService = ApplicationContextUtil.getSpringBean(classOf[MilestoneService])
+            val milestone = milestoneService.findById(milestoneId, AppContext.getAccountId)
+            val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new MilestoneScreenData.Edit(milestone))
             EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
         }
     }
 
     private class PreviewUrlResolver extends ProjectUrlResolver {
         protected override def handlePage(params: String*) {
-            val token: UrlTokenizer = new UrlTokenizer(params(0))
-            val projectId: Int = token.getInt
-            val milestoneid: Int = token.getInt
-            val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId), new MilestoneScreenData.Read(milestoneid))
+            val token = new UrlTokenizer(params(0))
+            val projectId = token.getInt
+            val milestoneId = token.getInt
+            val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new MilestoneScreenData.Read(milestoneId))
             EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
         }
     }

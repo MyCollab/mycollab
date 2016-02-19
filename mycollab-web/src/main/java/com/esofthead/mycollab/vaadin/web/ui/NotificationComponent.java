@@ -140,7 +140,7 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
                     " is the new MyCollab version " + ((NewUpdateAvailableNotification) item).getVersion(),
                     Notification.Type.TRAY_NOTIFICATION);
             no.setHtmlContentAllowed(true);
-            no.setDelayMsec(3000);
+            no.setDelayMsec(30000);
 
             UI currentUI = getUI();
             if (currentUI != null) {

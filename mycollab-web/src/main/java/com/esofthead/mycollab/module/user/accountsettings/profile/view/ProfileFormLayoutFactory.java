@@ -30,7 +30,6 @@ import com.vaadin.ui.*;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@SuppressWarnings("serial")
 public abstract class ProfileFormLayoutFactory implements IFormLayoutFactory {
     private String title;
     private UserInformationLayout userInformationLayout;
@@ -47,11 +46,11 @@ public abstract class ProfileFormLayoutFactory implements IFormLayoutFactory {
         }
         ReadViewLayout userAddLayout = new DefaultReadViewLayout(this.title);
 
-        this.userInformationLayout = new UserInformationLayout();
-        this.userInformationLayout.getLayout().setWidth("100%");
-        userAddLayout.addBody(this.userInformationLayout.getLayout());
+        userInformationLayout = new UserInformationLayout();
+        userInformationLayout.getLayout().setWidth("100%");
+        userAddLayout.addBody(userInformationLayout.getLayout());
 
-        final Layout bottomPanel = this.createBottomPanel();
+        final Layout bottomPanel = createBottomPanel();
         if (bottomPanel != null) {
             userAddLayout.addBottomControls(bottomPanel);
         }

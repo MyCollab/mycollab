@@ -43,11 +43,9 @@ public class ProfilePresenter extends AbstractPresenter<ProfileContainer> {
 
         AbstractPresenter<?> presenter;
         if (data == null) {
-            presenter = PresenterResolver
-                    .getPresenter(ProfileReadPresenter.class);
+            presenter = PresenterResolver.getPresenter(ProfileReadPresenter.class);
         } else if (data instanceof ProfileScreenData.UploadPhoto) {
-            presenter = PresenterResolver
-                    .getPresenter(ProfilePhotoUploadPresenter.class);
+            presenter = PresenterResolver.getPresenter(ProfilePhotoUploadPresenter.class);
         } else {
             throw new MyCollabException("Do not support screen data");
         }

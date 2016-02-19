@@ -53,7 +53,10 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
+import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.web.ui.*;
 import com.esofthead.mycollab.vaadin.web.ui.field.*;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
@@ -441,31 +444,35 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                 informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_SEVERITY), 0, 3);
             } else if (BugWithBLOBs.Field.resolution.equalTo(propertyId)) {
                 informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_RESOLUTION), 1, 3);
-            } else if (BugWithBLOBs.Field.duedate.equalTo(propertyId)) {
-                informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_DUE_DATE), 0, 4);
+            } else if (BugWithBLOBs.Field.startdate.equalTo(propertyId)) {
+                informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_START_DATE), 0, 4);
             } else if (BugWithBLOBs.Field.createdtime.equalTo(propertyId)) {
                 informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_CREATED_TIME), 1, 4);
+            } else if (BugWithBLOBs.Field.enddate.equalTo(propertyId)) {
+                informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_END_DATE), 0, 5);
             } else if (SimpleBug.Field.loguserFullName.equalTo(propertyId)) {
-                informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_LOG_BY), 0, 5);
+                informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_LOG_BY), 1, 5);
+            } else if (BugWithBLOBs.Field.duedate.equalTo(propertyId)) {
+                informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_DUE_DATE), 0, 6);
             } else if (SimpleBug.Field.assignuserFullName.equalTo(propertyId)) {
-                informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 1, 5);
+                informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 1, 6);
             } else if (SimpleBug.Field.milestoneName.equalTo(propertyId)) {
-                informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_PHASE), 0, 6, 2, "100%");
+                informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_PHASE), 0, 7, 2, "100%");
             } else if (SimpleBug.Field.components.equalTo(propertyId)) {
-                informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_COMPONENTS), 0, 7, 2, "100%");
+                informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_COMPONENTS), 0, 8, 2, "100%");
             } else if (SimpleBug.Field.affectedVersions.equalTo(propertyId)) {
-                informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_AFFECTED_VERSIONS), 0, 8, 2, "100%");
+                informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_AFFECTED_VERSIONS), 0, 9, 2, "100%");
             } else if (SimpleBug.Field.fixedVersions.equalTo(propertyId)) {
-                informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_FIXED_VERSIONS), 0, 9, 2, "100%");
+                informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_FIXED_VERSIONS), 0, 10, 2, "100%");
             } else if (BugWithBLOBs.Field.id.equalTo(propertyId)) {
-                informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_ATTACHMENT), 0, 10, 2, "100%");
+                informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_ATTACHMENT), 0, 11, 2, "100%");
             }
         }
 
         @Override
         public ComponentContainer getLayout() {
             final VerticalLayout layout = new VerticalLayout();
-            informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 11);
+            informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 12);
             layout.addComponent(informationLayout.getLayout());
             layout.setComponentAlignment(informationLayout.getLayout(), Alignment.BOTTOM_CENTER);
             return layout;
@@ -485,6 +492,10 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                 return new DateViewField(beanItem.getDueDateRoundPlusOne());
             } else if (BugWithBLOBs.Field.createdtime.equalTo(propertyId)) {
                 return new DateViewField(beanItem.getCreatedtime());
+            } else if (BugWithBLOBs.Field.startdate.equalTo(propertyId)) {
+                return new DateViewField(beanItem.getStartdate());
+            } else if (BugWithBLOBs.Field.enddate.equalTo(propertyId)) {
+                return new DateViewField(beanItem.getEnddate());
             } else if (SimpleBug.Field.assignuserFullName.equalTo(propertyId)) {
                 return new ProjectUserFormLinkField(beanItem.getAssignuser(), beanItem.getAssignUserAvatarId(),
                         beanItem.getAssignuserFullName());

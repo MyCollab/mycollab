@@ -26,12 +26,12 @@ import com.esofthead.mycollab.vaadin.mvp.ScreenData
   */
 object BugScreenData {
 
-    class Search(param: BugSearchCriteria) extends ScreenData(param) {}
+  class Search(param: BugSearchCriteria) extends ScreenData(param) {}
 
-    class Read(param: Integer) extends ScreenData(param) {}
+  class Read(param: Integer) extends ScreenData(param) {}
 
-    class Add(param: BugWithBLOBs) extends ScreenData(param) {}
+  class Add(param: BugWithBLOBs) extends ScreenData(param) {}
 
-    class Edit(param: BugWithBLOBs) extends ScreenData(param) {}
+  class Edit(param: BugWithBLOBs) extends ScreenData(param) {}
 
 }

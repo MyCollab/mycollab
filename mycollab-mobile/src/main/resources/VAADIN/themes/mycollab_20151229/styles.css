@@ -13,6 +13,17 @@
 	width: 100% !important;
 }
 
+.flex {
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-wrap: wrap;
+	flex-wrap: wrap;
+	-ms-writing-mode: lr-tb;
+}
+
 .section {
 	width: 100%;
 	padding: 10px 5px 10px 5px;
@@ -26,6 +37,17 @@
 
 .section .v-touchkit-navbutton {
 	width: 100% !important;
+}
+
+.flex {
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-wrap: wrap;
+	flex-wrap: wrap;
+	-ms-writing-mode: lr-tb;
 }
 
 .meta-info {
@@ -264,87 +286,6 @@ input.searchinputfield:-moz-placeholder::before {
 	color: #999;
 }
 
-.attachment-preview-view {
-	background-color: black;
-}
-
-.attachment-preview-view .v-touchkit-navbutton-back-btn {
-	background-color: rgba(0, 0, 0, 0.4);
-	background-image: none;
-	padding: 0.4rem 1rem;
-	border: 0.1rem solid white;
-	border-radius: 0.3rem;
-	color: white;
-}
-
-.attachment-preview-view .image-wrap {
-	overflow: scroll;
-	white-space: nowrap;
-}
-
-.attachment-preview-view .image-wrap:before {
-	content: "";
-	display: inline-block;
-	height: 100%;
-	vertical-align: middle;
-}
-
-.attachment-preview-view .image-wrap img {
-	display: inline-block;
-	vertical-align: middle;
-}
-
-.attachment-row .thumbnail-wrap {
-	display: inline-block;
-}
-
-.attachment-row .v-button {
-	text-align: left;
-	color: #0083ce;
-	box-shadow: none;
-	font-size: smaller;
-}
-
-.attachment-display-comp .attachment-row {
-	padding: 0.3rem 0.5rem 0.4rem;
-	border-bottom: 0.1rem solid #e5e5e5;
-}
-
-.attachment-field .v-upload .v-button {
-	font-size: 1.5rem;
-	min-height: inherit;
-	line-height: normal;
-	vertical-align: middle;
-}
-
-.attachment-field .v-upload .v-button .v-button-wrap {
-	padding: 0px;
-}
-
-.attachment-field .v-progressbar.upload-progress {
-	padding: 1.3rem 0.5rem 1.4rem;
-	display: block;
-	background-color: white;
-	border-bottom: 0.1rem solid #e5e5e5;
-}
-
-.attachment-field .v-progressbar.upload-progress .v-progressbar-wrapper {
-	border-color: #e5e5e5;
-}
-
-.attachment-field .v-progressbar.upload-progress .v-progressbar-wrapper .v-progressbar-indicator {
-	background-color: #49a3e1;
-}
-
-.attachment-field .attachment-row {
-	padding: 0.3rem 0.5rem 0.4rem;
-	border-bottom: 0.1rem solid #e5e5e5;
-}
-
-.attachment-field .attachment-row .v-button {
-	color: #0083ce;
-}
-
 * {
 	-webkit-tap-highlight-color: transparent;
 	-webkit-tap-highlight-color: transparent;
@@ -428,6 +369,88 @@ body {
 
 .v-touchkit-navbutton:after {
 	content: "";
+	right: 0px !important;
+}
+
+.attachment-preview-view {
+	background-color: black;
+}
+
+.attachment-preview-view .v-touchkit-navbutton-back-btn {
+	background-color: rgba(0, 0, 0, 0.4);
+	background-image: none;
+	padding: 0.4rem 1rem;
+	border: 0.1rem solid white;
+	border-radius: 0.3rem;
+	color: white;
+}
+
+.attachment-preview-view .image-wrap {
+	overflow: scroll;
+	white-space: nowrap;
+}
+
+.attachment-preview-view .image-wrap:before {
+	content: "";
+	display: inline-block;
+	height: 100%;
+	vertical-align: middle;
+}
+
+.attachment-preview-view .image-wrap img {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.attachment-row .thumbnail-wrap {
+	display: inline-block;
+}
+
+.attachment-row .v-button {
+	text-align: left;
+	color: #0083ce;
+	box-shadow: none;
+	font-size: smaller;
+}
+
+.attachment-display-comp .attachment-row {
+	padding: 0.3rem 0.5rem 0.4rem;
+	border-bottom: 0.1rem solid #e5e5e5;
+}
+
+.attachment-field .v-upload .v-button {
+	font-size: 1.5rem;
+	min-height: inherit;
+	line-height: normal;
+	vertical-align: middle;
+}
+
+.attachment-field .v-upload .v-button .v-button-wrap {
+	padding: 0px;
+}
+
+.attachment-field .v-progressbar.upload-progress {
+	padding: 1.3rem 0.5rem 1.4rem;
+	display: block;
+	background-color: white;
+	border-bottom: 0.1rem solid #e5e5e5;
+}
+
+.attachment-field .v-progressbar.upload-progress .v-progressbar-wrapper {
+	border-color: #e5e5e5;
+}
+
+.attachment-field .v-progressbar.upload-progress .v-progressbar-wrapper .v-progressbar-indicator {
+	background-color: #49a3e1;
+}
+
+.attachment-field .attachment-row {
+	padding: 0.3rem 0.5rem 0.4rem;
+	border-bottom: 0.1rem solid #e5e5e5;
+}
+
+.attachment-field .attachment-row .v-button {
+	color: #0083ce;
 }
 
 .project-dashboard .project-info-layout {

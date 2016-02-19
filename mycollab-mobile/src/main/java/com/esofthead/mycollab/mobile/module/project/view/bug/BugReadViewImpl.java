@@ -273,6 +273,10 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
         protected Field<?> onCreateField(Object propertyId) {
             if (propertyId.equals("duedate")) {
                 return new DateViewField(beanItem.getDuedate());
+            } else if (propertyId.equals("startdate")) {
+                return new DateViewField(beanItem.getStartdate());
+            } else if (propertyId.equals("enddate")) {
+                return new DateViewField(beanItem.getEnddate());
             } else if (propertyId.equals("createdtime")) {
                 return new DateViewField(beanItem.getCreatedtime());
             } else if (propertyId.equals("assignuserFullName")) {
@@ -318,10 +322,6 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                 }
             } else if (propertyId.equals("resolution")) {
                 return new I18nFormViewField(beanItem.getResolution(), BugResolution.class);
-                // } else if (propertyId.equals("id")) {
-                // return new ProjectFormAttachmentDisplayField(
-                // beanItem.getProjectid(),
-                // AttachmentType.PROJECT_BUG_TYPE, beanItem.getId());
             }
             return null;
         }

@@ -135,15 +135,13 @@ public class ProfilePhotoUploadViewImpl extends AbstractPageView implements Prof
 
         previewBox.addComponent(previewBoxRight);
         previewBox.setExpandRatio(previewBoxRight, 1.0f);
-
         this.addComponent(previewBox);
 
         CssLayout cropBox = new CssLayout();
         cropBox.addStyleName(UIConstants.PHOTO_CROPBOX);
         cropBox.setWidth("100%");
         VerticalLayout currentPhotoBox = new VerticalLayout();
-        Resource resource = new ByteArrayImageResource(
-                ImageUtil.convertImageToByteArray(originalImage), "image/png");
+        Resource resource = new ByteArrayImageResource(ImageUtil.convertImageToByteArray(originalImage), "image/png");
         CropField cropField = new CropField(resource);
         cropField.setImmediate(true);
         cropField.setSelectionAspectRatio(1.0f);
@@ -173,20 +171,15 @@ public class ProfilePhotoUploadViewImpl extends AbstractPageView implements Prof
         });
         currentPhotoBox.setWidth("650px");
         currentPhotoBox.setHeight("650px");
-
         currentPhotoBox.addComponent(cropField);
-
         cropBox.addComponent(currentPhotoBox);
 
-        this.addComponent(previewBox);
-        this.addComponent(cropBox);
-        this.setExpandRatio(cropBox, 1.0f);
+        this.with(previewBox, cropBox).expand(cropBox);
     }
 
     private void displayPreviewImage() {
         if (scaleImageData != null && scaleImageData.length > 0) {
-            ByteArrayImageResource previewResource = new ByteArrayImageResource(
-                    scaleImageData, "image/png");
+            ByteArrayImageResource previewResource = new ByteArrayImageResource(scaleImageData, "image/png");
             previewImage.setSource(previewResource);
         }
     }

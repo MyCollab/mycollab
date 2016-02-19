@@ -50,8 +50,6 @@ public class ThemeManager {
                 "!important; }");
         if (accountTheme.getTopmenubg() != null) {
             extraStyles.append(".v-touchkit-navbar { background-color: #" + accountTheme.getTopmenubg() + "; }");
-            extraStyles.append(".project-dashboard .project-info-layout { background-color: "
-                    + ColorUtils.brighterColor("#" + accountTheme.getTopmenubg()) + "; }");
         }
 
         if (accountTheme.getTopmenutext() != null) {
@@ -60,15 +58,13 @@ public class ThemeManager {
             extraStyles.append(".v-touchkit-navbar .v-touchkit-navbutton { color: #" + accountTheme.getTopmenutext() + "; }");
             extraStyles.append(".v-touchkit-navbar .v-touchkit-navbutton:after { color: #" + accountTheme.getTopmenutext() + "; }");
             extraStyles.append(".v-touchkit-navbar .v-navbar-quickmenu-button { color: #" + accountTheme.getTopmenutext() + "; }");
-
-            extraStyles.append(".project-dashboard .project-info-layout { color: #"
-                    + accountTheme.getTopmenutext() + "; }");
         }
 
         if (accountTheme.getVtabsheetbg() != null) {
             extraStyles.append(".section { background-color: #" + accountTheme.getVtabsheetbg() + "; }");
             extraStyles.append(".v-navbar-quickmenu-content { background-color: #" + accountTheme.getVtabsheetbg() + "; }");
             extraStyles.append(".slidemenu .v-window-contents { background-color: #" + accountTheme.getVtabsheetbg() + "; }");
+            extraStyles.append(".project-dashboard .project-info-layout { background-color: #" + accountTheme.getVtabsheetbg() + "; }");
         }
 
         if (accountTheme.getVtabsheettext() != null) {

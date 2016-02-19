@@ -49,11 +49,11 @@ object DeleteResourcesCommandImpl {
     if (event.sAccountId == null) {
       return
     }
-    val lock: Lock = DistributionLockUtil.getLock("ecm-" + event.sAccountId)
+    val lock = DistributionLockUtil.getLock("ecm-" + event.sAccountId)
     try {
       if (lock.tryLock(1, TimeUnit.HOURS)) {
-        var totalSize: Long = 0
-        val driveInfo: DriveInfo = driveInfoService.getDriveInfo(event.sAccountId)
+        var totalSize = 0L
+        val driveInfo = driveInfoService.getDriveInfo(event.sAccountId)
         for (path <- event.paths) {
           if (StringUtils.isNotBlank(path)) {
             totalSize += rawContentService.getSize(path)

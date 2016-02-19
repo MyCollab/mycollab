@@ -88,6 +88,14 @@ public class ProjectDashboardViewImpl extends ProjectMobileMenuPageView implemen
                 EventBusFactory.getInstance().post(new BugEvent.GotoAdd(this, null));
             }
         }));
+
+        content.with(new Button(AppContext.getMessage(RiskI18nEnum.BUTTON_NEW_RISK), new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                EventBusFactory.getInstance().post(new RiskEvent.GotoAdd(this, null));
+            }
+        }));
+
         menu.setContent(content);
         return menu;
     }
@@ -192,6 +200,15 @@ public class ProjectDashboardViewImpl extends ProjectMobileMenuPageView implemen
             }
         });
         btnGroup.addComponent(new NavigationButtonWrap(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG), bugBtn));
+
+        NavigationButton riskBtn = new NavigationButton(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_RISK));
+        riskBtn.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+            @Override
+            public void buttonClick(NavigationButton.NavigationButtonClickEvent event) {
+                EventBusFactory.getInstance().post(new RiskEvent.GotoList(this, null));
+            }
+        });
+        btnGroup.addComponent(new NavigationButtonWrap(ProjectAssetsManager.getAsset(ProjectTypeConstants.RISK), riskBtn));
 
         NavigationButton userBtn = new NavigationButton(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_USERS));
         userBtn.addClickListener(new NavigationButton.NavigationButtonClickListener() {

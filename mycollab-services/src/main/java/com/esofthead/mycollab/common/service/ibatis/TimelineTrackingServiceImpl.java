@@ -52,7 +52,6 @@ import java.util.*;
  */
 @Service
 public class TimelineTrackingServiceImpl extends DefaultCrudService<Integer, TimelineTracking> implements TimelineTrackingService {
-
     private static final Logger LOG = LoggerFactory.getLogger(TimelineTrackingServiceImpl.class);
 
     @Autowired

@@ -101,12 +101,12 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
     protected ComponentContainer createBottomPanel() {
         MVerticalLayout toolbarLayout = new MVerticalLayout().withSpacing(false).withMargin(false);
         toolbarLayout.setDefaultComponentAlignment(Alignment.TOP_LEFT);
-        relatedComments = new CommentNavigationButton(ProjectTypeConstants.MILESTONE, beanItem.getId() + "");
-        Component commentSection = FormSectionBuilder.build(FontAwesome.COMMENT, relatedComments);
-        toolbarLayout.addComponent(commentSection);
         issueNavigatorButton = new IssueNavigatorButton();
         Component issueSection = FormSectionBuilder.build(FontAwesome.TICKET, issueNavigatorButton);
         toolbarLayout.addComponent(issueSection);
+        relatedComments = new CommentNavigationButton(ProjectTypeConstants.MILESTONE, beanItem.getId() + "");
+        Component commentSection = FormSectionBuilder.build(FontAwesome.COMMENT, relatedComments);
+        toolbarLayout.addComponent(commentSection);
         return toolbarLayout;
     }
 

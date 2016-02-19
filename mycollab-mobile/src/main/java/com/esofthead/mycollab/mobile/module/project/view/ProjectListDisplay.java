@@ -82,6 +82,7 @@ public class ProjectListDisplay extends DefaultPagedBeanList<ProjectService, Pro
                 metaDiv.appendChild(0, leadDiv);
                 metaDiv.appendChild(1, DivLessFormatter.EMPTY_SPACE());
             }
+            metaDiv.setCSSClass("flex");
             metaInfo.addComponent(new ELabel(metaDiv.write(), ContentMode.HTML).withStyleName(UIConstants.META_INFO));
             layout.addComponent(metaInfo);
 

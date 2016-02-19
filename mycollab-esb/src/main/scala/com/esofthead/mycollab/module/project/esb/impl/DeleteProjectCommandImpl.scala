@@ -51,29 +51,29 @@ import org.springframework.stereotype.Component
   }
 
   private def deleteProjectActivityStream(projectId: Integer) {
-    val ex: ActivityStreamExample = new ActivityStreamExample
+    val ex = new ActivityStreamExample
     ex.createCriteria.andExtratypeidEqualTo(projectId).andModuleEqualTo(ModuleNameConstants.PRJ)
     activityStreamMapper.deleteByExample(ex)
   }
 
   private def deleteRelatedComments(projectId: Integer) {
-    val ex: CommentExample = new CommentExample
+    val ex = new CommentExample
     ex.createCriteria.andExtratypeidEqualTo(projectId)
     commentMapper.deleteByExample(ex)
   }
 
   private def deleteProjectFiles(accountid: Integer, projectId: Integer) {
-    val rootPath: String = String.format("%d/project/%d", accountid, projectId)
+    val rootPath = String.format("%d/project/%d", accountid, projectId)
     resourceService.removeResource(rootPath, "", accountid)
   }
 
   private def deleteProjectPages(accountid: Integer, projectId: Integer) {
-    val rootPath: String = String.format("%d/project/%d/.page", accountid, projectId)
+    val rootPath = String.format("%d/project/%d/.page", accountid, projectId)
     pageService.removeResource(rootPath)
   }
 
   private def deleteProjectOptions(accountid: Integer, projectId: Integer): Unit = {
-    val ex: OptionValExample = new OptionValExample
+    val ex = new OptionValExample
     ex.createCriteria().andExtraidEqualTo(projectId)
     optionValMapper.deleteByExample(ex)
   }

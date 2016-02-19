@@ -78,7 +78,6 @@ public class TaskStatusTrendChartWidget extends Depot {
     }
 
     private static class TaskStatusChartWrapper extends GenericChartWrapper {
-        private TimelineTrackingSearchCriteria searchCriteria;
         private TimelineTrackingService timelineTrackingService;
         private Map<String, List<GroupItem>> groupItems;
         private TimeSeriesCollection dataset;
@@ -166,7 +165,6 @@ public class TaskStatusTrendChartWidget extends Depot {
         void display(TimelineTrackingSearchCriteria searchCriteria) {
             searchCriteria.setType(StringSearchField.and(ProjectTypeConstants.TASK));
             searchCriteria.setFieldgroup(StringSearchField.and("status"));
-            this.searchCriteria = searchCriteria;
             LocalDate endDate = new LocalDate(new GregorianCalendar().getTime());
             LocalDate startDate = endDate.minusDays(30);
             OptionValService optionValService = ApplicationContextUtil.getSpringBean(OptionValService.class);

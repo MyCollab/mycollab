@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.project.service.ibatis;
 import com.esofthead.mycollab.cache.CleanCacheEvent;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.domain.GroupItem;
+import com.esofthead.mycollab.common.event.TimelineTrackingAdjustIfEntityDeleteEvent;
 import com.esofthead.mycollab.common.event.TimelineTrackingUpdateEvent;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.common.interceptor.aspect.ClassInfo;
@@ -33,6 +34,7 @@ import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.lock.DistributionLockUtil;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.dao.TaskMapper;
@@ -108,14 +110,13 @@ public class ProjectTaskServiceImpl extends DefaultService<Integer, Task, TaskSe
     @Override
     public Integer saveWithSession(Task record, String username) {
         if (record.getPercentagecomplete() == null) {
-            record.setStatus(StatusI18nEnum.Open.name());
             record.setPercentagecomplete(0d);
         }
         if (record.getPercentagecomplete() == 100d) {
             record.setStatus(StatusI18nEnum.Closed.name());
         }
 
-        if (record.getStatus() == null) {
+        if (StringUtils.isBlank(record.getStatus())) {
             record.setStatus(StatusI18nEnum.Open.name());
         }
 
@@ -194,6 +195,13 @@ public class ProjectTaskServiceImpl extends DefaultService<Integer, Task, TaskSe
         DeleteProjectTaskEvent event = new DeleteProjectTaskEvent(items.toArray(new Task[items.size()]),
                 username, accountId);
         asyncEventBus.post(event);
+    }
+
+    @Override
+    public void removeWithSession(Task item, String username, Integer accountId) {
+        super.removeWithSession(item, username, accountId);
+        asyncEventBus.post(new TimelineTrackingAdjustIfEntityDeleteEvent(ProjectTypeConstants.TASK, item.getId(), new
+                String[]{"status"}, item.getProjectid(), item.getSaccountid()));
     }
 
     @Override

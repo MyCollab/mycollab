@@ -45,13 +45,13 @@ import org.springframework.stereotype.Component
   }
 
   private def removeRelatedFiles(accountId: Integer, projectId: Integer, bugId: Integer) {
-    val attachmentPath: String = AttachmentUtils.getProjectEntityAttachmentPath(accountId, projectId,
+    val attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(accountId, projectId,
       ProjectTypeConstants.BUG, "" + bugId)
     resourceService.removeResource(attachmentPath, "", accountId)
   }
 
   private def removeRelatedComments(bugId: Integer) {
-    val ex: CommentExample = new CommentExample
+    val ex = new CommentExample
     ex.createCriteria.andTypeEqualTo(ProjectTypeConstants.BUG).andExtratypeidEqualTo(bugId)
     commentMapper.deleteByExample(ex)
   }

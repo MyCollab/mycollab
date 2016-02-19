@@ -18,18 +18,19 @@ package com.esofthead.mycollab.module.user.accountsettings.profile.view;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.utils.TimezoneMapper;
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
-import com.esofthead.mycollab.module.user.accountsettings.view.events.ProfileEvent;
 import com.esofthead.mycollab.module.user.domain.User;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.module.user.ui.components.LanguageComboBox;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.DateComboboxSelectionField;
+import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
+import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.web.ui.TimeZoneSelectionField;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
+import com.google.common.base.MoreObjects;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.shared.ui.MarginInfo;
@@ -47,7 +48,6 @@ import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.USER_TIMEZONE;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@SuppressWarnings("serial")
 class BasicInfoChangeWindow extends Window {
     private TextField txtFirstName = new TextField();
     private TextField txtLastName = new TextField();
@@ -79,48 +79,40 @@ class BasicInfoChangeWindow extends Window {
         passInfo.addComponent(txtEmail, AppContext.getMessage(UserI18nEnum.FORM_EMAIL), 0, 2);
         this.txtEmail.setRequired(true);
         passInfo.addComponent(birthdayField, AppContext.getMessage(UserI18nEnum.FORM_BIRTHDAY), 0, 3);
-        this.birthdayField.setDate(this.user.getDateofbirth());
+        this.birthdayField.setDate(user.getDateofbirth());
 
         passInfo.addComponent(timeZoneField, AppContext.getMessage(UserI18nEnum.FORM_TIMEZONE), 0, 4);
-        this.timeZoneField.setTimeZone(TimezoneMapper.getTimezoneExt(this.user.getTimezone()));
+        this.timeZoneField.setTimeZone(TimezoneMapper.getTimezoneExt(user.getTimezone()));
 
-        passInfo.addComponent(languageBox,
-                AppContext.getMessage(UserI18nEnum.FORM_LANGUAGE), 0, 5);
-        this.languageBox.setValue(this.user.getLanguage());
+        passInfo.addComponent(languageBox, AppContext.getMessage(UserI18nEnum.FORM_LANGUAGE), 0, 5);
+        this.languageBox.setValue(user.getLanguage());
 
-        this.txtFirstName.setValue(this.user.getFirstname() == null ? ""
-                : this.user.getFirstname());
-        this.txtLastName.setValue(this.user.getLastname() == null ? ""
-                : this.user.getLastname());
-        this.txtEmail.setValue(this.user.getEmail() == null ? "" : this.user
-                .getEmail());
-        this.birthdayField.setValue(this.user.getDateofbirth());
+        this.txtFirstName.setValue(MoreObjects.firstNonNull(user.getFirstname(), ""));
+        this.txtLastName.setValue(MoreObjects.firstNonNull(user.getLastname(), ""));
+        this.txtEmail.setValue(MoreObjects.firstNonNull(user.getEmail(), ""));
+        this.birthdayField.setValue(user.getDateofbirth());
         mainLayout.addComponent(passInfo.getLayout());
-        mainLayout.setComponentAlignment(passInfo.getLayout(),
-                Alignment.TOP_LEFT);
+        mainLayout.setComponentAlignment(passInfo.getLayout(), Alignment.TOP_LEFT);
 
         MHorizontalLayout hlayoutControls = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true));
-        Button cancelBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        BasicInfoChangeWindow.this.close();
-                    }
-                });
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                BasicInfoChangeWindow.this.close();
+            }
+        });
         cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
 
-        Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        changeUserInfo();
-                    }
-                });
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                changeUserInfo();
+            }
+        });
         saveBtn.setStyleName(UIConstants.BUTTON_ACTION);
         saveBtn.setIcon(FontAwesome.SAVE);
 
@@ -142,27 +134,24 @@ class BasicInfoChangeWindow extends Window {
         }
 
         if (this.txtEmail.getValue().equals("")) {
-            NotificationUtil
-                    .showErrorNotification("The email must be not null!");
+            NotificationUtil.showErrorNotification("The email must be not null!");
             this.txtLastName.addStyleName("errorField");
             return;
         }
 
-        this.user.setFirstname(this.txtFirstName.getValue());
-        this.user.setLastname(this.txtLastName.getValue());
-        this.user.setEmail(this.txtEmail.getValue());
-        this.user.setDateofbirth(this.birthdayField.getDate());
-        this.user.setLanguage((String) this.languageBox.getValue());
-        this.user.setTimezone(this.timeZoneField.getTimeZone().getId());
+        user.setFirstname(this.txtFirstName.getValue());
+        user.setLastname(this.txtLastName.getValue());
+        user.setEmail(this.txtEmail.getValue());
+        user.setDateofbirth(this.birthdayField.getDate());
+        user.setLanguage((String) this.languageBox.getValue());
+        user.setTimezone(this.timeZoneField.getTimeZone().getId());
 
         MyCollabSession.removeVariable(USER_TIMEZONE);
         MyCollabSession.putVariable(USER_TIMEZONE, this.timeZoneField.getTimeZone().getTimezone());
 
         final UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
-        userService.updateWithSession(this.user, AppContext.getUsername());
-
-        EventBusFactory.getInstance().post(new ProfileEvent.GotoProfileView(BasicInfoChangeWindow.this, null));
-        BasicInfoChangeWindow.this.close();
+        userService.updateWithSession(user, AppContext.getUsername());
+        close();
         Page.getCurrent().getJavaScript().execute("window.location.reload();");
 
     }

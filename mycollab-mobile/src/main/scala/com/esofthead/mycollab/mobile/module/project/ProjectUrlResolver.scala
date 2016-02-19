@@ -26,6 +26,7 @@ import com.esofthead.mycollab.mobile.module.project.view.message.MessageUrlResol
 import com.esofthead.mycollab.mobile.module.project.view.milestone.MilestoneUrlResolver
 import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectScreenData
 import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectScreenData.AllActivities
+import com.esofthead.mycollab.mobile.module.project.view.risk.RiskUrlResolver
 import com.esofthead.mycollab.mobile.module.project.view.settings.UserUrlResolver
 import com.esofthead.mycollab.mobile.module.project.view.task.TaskUrlResolver
 import com.esofthead.mycollab.mobile.shell.ModuleHelper
@@ -47,6 +48,7 @@ class ProjectUrlResolver extends UrlResolver {
     this.addSubResolver("milestone", new MilestoneUrlResolver)
     this.addSubResolver("task", new TaskUrlResolver)
     this.addSubResolver("bug", new BugUrlResolver)
+    this.addSubResolver("risk", new RiskUrlResolver)
     this.addSubResolver("user", new UserUrlResolver)
     return this
   }

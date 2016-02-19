@@ -36,7 +36,7 @@ import org.springframework.stereotype.Component
   @AllowConcurrentEvents
   @Subscribe
   def addProject(event: AddProjectEvent): Unit = {
-    val ex: OptionValExample = new OptionValExample
+    val ex = new OptionValExample
     ex.createCriteria().andIsdefaultEqualTo(true).andSaccountidEqualTo(event.accountId)
     import scala.collection.JavaConversions._
     val defaultOptions = optionValMapper.selectByExample(ex)

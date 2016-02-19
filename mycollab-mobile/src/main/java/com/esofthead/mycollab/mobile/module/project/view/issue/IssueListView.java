@@ -64,7 +64,8 @@ public class IssueListView extends AbstractMobilePageView {
     private void displayTickets() {
         ProjectGenericTaskSearchCriteria criteria = new ProjectGenericTaskSearchCriteria();
         criteria.setMilestoneId(NumberSearchField.and(milestoneId));
-        criteria.setTypes(new SetSearchField<>(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK));
+        criteria.setTypes(new SetSearchField<>(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK,
+                ProjectTypeConstants.RISK));
         int numTickets = ticketList.setSearchCriteria(criteria);
         this.setCaption(AppContext.getMessage(TicketI18nEnum.M_TICKET_NUM, numTickets));
     }
@@ -82,6 +83,9 @@ public class IssueListView extends AbstractMobilePageView {
             } else if (ProjectTypeConstants.TASK.equals(issue.getType())) {
                 issueLink = new A(ProjectLinkBuilder.generateTaskPreviewFullLink(issue.getExtraTypeId(), issue.getProjectShortName()))
                         .appendText(String.format("[#%s] - %s", issue.getExtraTypeId(), issue.getName()));
+            } else if (ProjectTypeConstants.RISK.equals(issue.getType())) {
+                issueLink = new A(ProjectLinkBuilder.generateRiskPreviewFullLink(issue.getProjectId(), issue.getTypeId()))
+                        .appendText(issue.getName());
             } else {
                 throw new MyCollabException("Do not support issue type " + issue.getType());
             }
@@ -101,8 +105,7 @@ public class IssueListView extends AbstractMobilePageView {
                     CurrentProjectVariables.getProjectId(), issue.getAssignUser()));
             assigneeLink.appendText(issue.getAssignUserFullName());
 
-            ELabel assigneeLbl = new ELabel(AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE) + (issue
-                    .getAssignUserFullName() == null ?
+            ELabel assigneeLbl = new ELabel(AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE) + (issue.getAssignUserFullName() == null ?
                     ":&nbsp;N/A&nbsp;" : ":&nbsp;" + assigneeLink.write()), ContentMode.HTML).withStyleName(UIConstants.META_INFO);
             assigneeLbl.addStyleName(UIConstants.TRUNCATE);
             metaInfoLayout.addComponent(assigneeLbl);

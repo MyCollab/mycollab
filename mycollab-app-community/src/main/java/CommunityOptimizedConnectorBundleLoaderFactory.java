@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-app-community.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 import com.google.gwt.core.ext.typeinfo.JClassType;
 import com.vaadin.server.widgetsetutils.ConnectorBundleLoaderFactory;
 import com.vaadin.shared.ui.Connect;

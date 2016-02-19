@@ -75,7 +75,6 @@ public class BugStatusTrendChartWidget extends Depot {
     }
 
     private static class BugStatusChartWrapper extends GenericChartWrapper {
-        private TimelineTrackingSearchCriteria searchCriteria;
         private TimelineTrackingService timelineTrackingService;
         private Map<String, List<GroupItem>> groupItems;
         private TimeSeriesCollection dataset;
@@ -161,7 +160,6 @@ public class BugStatusTrendChartWidget extends Depot {
         void display(TimelineTrackingSearchCriteria searchCriteria) {
             searchCriteria.setType(StringSearchField.and(ProjectTypeConstants.BUG));
             searchCriteria.setFieldgroup(StringSearchField.and("status"));
-            this.searchCriteria = searchCriteria;
             LocalDate endDate = new LocalDate(new GregorianCalendar().getTime());
             LocalDate startDate = endDate.minusDays(30);
             groupItems = timelineTrackingService.findTimelineItems(Arrays.asList(OptionI18nEnum.BugStatus.InProgress.name(),

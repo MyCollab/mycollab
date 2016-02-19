@@ -27,6 +27,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.web.ui.CountryComboBox;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
+import com.google.common.base.MoreObjects;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.shared.ui.MarginInfo;
@@ -42,7 +43,6 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@SuppressWarnings("serial")
 class AdvancedInfoChangeWindow extends Window {
     private TextField txtWebsite = new TextField();
     private TextField txtCompany = new TextField();
@@ -69,19 +69,13 @@ class AdvancedInfoChangeWindow extends Window {
         passInfo.addComponent(txtCompany, AppContext.getMessage(UserI18nEnum.FORM_COMPANY), 0, 1);
         passInfo.addComponent(cboCountry, AppContext.getMessage(UserI18nEnum.FORM_COUNTRY), 0, 2);
 
-        this.txtWebsite.setValue(this.user.getWebsite() == null ? ""
-                : this.user.getWebsite());
-        this.txtCompany.setValue(this.user.getCompany() == null ? ""
-                : this.user.getCompany());
-        this.cboCountry.setValue(this.user.getCountry() == null ? ""
-                : this.user.getCountry());
+        txtWebsite.setValue(MoreObjects.firstNonNull(user.getWebsite(), ""));
+        txtCompany.setValue(MoreObjects.firstNonNull(user.getCompany(), ""));
+        cboCountry.setValue(MoreObjects.firstNonNull(user.getCountry(), ""));
 
-        mainLayout.addComponent(passInfo.getLayout());
-        mainLayout.setComponentAlignment(passInfo.getLayout(),
-                Alignment.TOP_LEFT);
+        mainLayout.with(passInfo.getLayout()).withAlign(passInfo.getLayout(), Alignment.TOP_LEFT);
 
         MHorizontalLayout hlayoutControls = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true));
-
         Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
@@ -104,24 +98,19 @@ class AdvancedInfoChangeWindow extends Window {
         saveBtn.setIcon(FontAwesome.SAVE);
 
         hlayoutControls.with(saveBtn, cancelBtn).alignAll(Alignment.MIDDLE_CENTER);
-
         mainLayout.with(hlayoutControls).withAlign(hlayoutControls, Alignment.MIDDLE_RIGHT);
-
         this.setModal(true);
         this.setContent(mainLayout);
     }
 
     private void changeInfo() {
-        user.setWebsite(this.txtWebsite.getValue());
-        user.setCompany(this.txtCompany.getValue());
-        user.setCountry((String) this.cboCountry.getValue());
+        user.setWebsite(txtWebsite.getValue());
+        user.setCompany(txtCompany.getValue());
+        user.setCountry((String) cboCountry.getValue());
 
         UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
-        userService.updateWithSession(this.user, AppContext.getUsername());
-
-        EventBusFactory.getInstance().post(new ProfileEvent.GotoProfileView(AdvancedInfoChangeWindow.this, null));
-        AdvancedInfoChangeWindow.this.close();
-
+        userService.updateWithSession(user, AppContext.getUsername());
+        close();
         Page.getCurrent().getJavaScript().execute("window.location.reload();");
     }
 }

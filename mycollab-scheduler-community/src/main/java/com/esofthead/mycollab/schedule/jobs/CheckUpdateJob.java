@@ -68,10 +68,10 @@ public class CheckUpdateJob extends GenericQuartzJobBean {
                 String autoDownloadLink = props.getProperty("autoDownload");
                 String manualDownloadLink = props.getProperty("downloadLink");
                 if (autoDownloadLink != null) {
-                    DownloadMyCollabThread downloadMyCollabThread = new DownloadMyCollabThread(version, autoDownloadLink);
-                    downloadMyCollabThread.start();
-                    isDownloading = true;
                     try {
+                        DownloadMyCollabThread downloadMyCollabThread = new DownloadMyCollabThread(version, autoDownloadLink);
+                        isDownloading = true;
+                        downloadMyCollabThread.start();
                         downloadMyCollabThread.join();
                         File installerFile = downloadMyCollabThread.tmpFile;
                         if (installerFile.exists() && installerFile.isFile() && installerFile.length() > 0) {
@@ -150,7 +150,7 @@ public class CheckUpdateJob extends GenericQuartzJobBean {
                         outputStream.close();
                         inputStream.close();
                         httpConn.disconnect();
-                        LOG.info("Download MyCollab edition successfully");
+                        LOG.info("Download MyCollab edition successfully to " + tmpFile.getAbsolutePath());
                     }
                 } else {
                     LOG.info("Can not download the new MyCollab. Reason is: " + responseCode);

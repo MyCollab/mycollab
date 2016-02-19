@@ -27,6 +27,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
+import com.google.common.base.MoreObjects;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.shared.ui.MarginInfo;
@@ -78,11 +79,11 @@ class ContactInfoChangeWindow extends Window {
         passInfo.addComponent(txtTwitter, "Twitter", 0, 3);
         passInfo.addComponent(txtSkype, "Skype", 0, 4);
 
-        txtWorkPhone.setValue(user.getWorkphone() == null ? "" : user.getWorkphone());
-        txtHomePhone.setValue(user.getHomephone() == null ? "" : user.getHomephone());
-        txtFaceBook.setValue(user.getFacebookaccount() == null ? "" : user.getFacebookaccount());
-        txtTwitter.setValue(user.getTwitteraccount() == null ? "" : user.getTwitteraccount());
-        txtSkype.setValue(user.getSkypecontact() == null ? "" : user.getSkypecontact());
+        txtWorkPhone.setValue(MoreObjects.firstNonNull(user.getWorkphone(), ""));
+        txtHomePhone.setValue(MoreObjects.firstNonNull(user.getHomephone(), ""));
+        txtFaceBook.setValue(MoreObjects.firstNonNull(user.getFacebookaccount(), ""));
+        txtTwitter.setValue(MoreObjects.firstNonNull(user.getTwitteraccount(), ""));
+        txtSkype.setValue(MoreObjects.firstNonNull(user.getSkypecontact(), ""));
         mainLayout.addComponent(passInfo.getLayout());
         mainLayout.setComponentAlignment(passInfo.getLayout(), Alignment.TOP_LEFT);
 
@@ -155,8 +156,6 @@ class ContactInfoChangeWindow extends Window {
         if (validateForm(user)) {
             UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
             userService.updateWithSession(user, AppContext.getUsername());
-
-            EventBusFactory.getInstance().post(new ProfileEvent.GotoProfileView(ContactInfoChangeWindow.this, null));
             close();
             Page.getCurrent().getJavaScript().execute("window.location.reload();");
         }

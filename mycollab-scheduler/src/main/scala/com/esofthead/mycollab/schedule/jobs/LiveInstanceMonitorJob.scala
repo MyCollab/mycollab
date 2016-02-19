@@ -56,6 +56,6 @@ class LiveInstanceMonitorJob extends GenericQuartzJobBean {
     liveInstance.setNumprojects(numProjects)
     liveInstance.setNumusers(numUsers)
     val restTemplate = new RestTemplate()
-    restTemplate.postForObject("http://127.0.0.1:7070/api/checkInstance", liveInstance, classOf[String])
+    restTemplate.postForObject("https://api.mycollab.com/api/checkInstance", liveInstance, classOf[String])
   }
 }

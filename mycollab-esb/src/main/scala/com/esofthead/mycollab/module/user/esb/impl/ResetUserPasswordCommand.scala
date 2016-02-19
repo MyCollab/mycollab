@@ -44,17 +44,17 @@ import org.springframework.stereotype.Component
   @AllowConcurrentEvents
   @Subscribe
   def execute(event: RequestToResetPasswordEvent): Unit = {
-    val username: String = event.username
+    val username = event.username
     if (username != null) {
-      val user: User = userService.findUserByUserName(username)
-      val subDomain: String = "api"
-      val recoveryPasswordURL: String = SiteConfiguration.getSiteUrl(subDomain) + "user/recoverypassword/" +
+      val user = userService.findUserByUserName(username)
+      val subDomain = "api"
+      val recoveryPasswordURL = SiteConfiguration.getSiteUrl(subDomain) + "user/recoverypassword/" +
         UrlEncodeDecoder.encode(username)
       val locale: Locale = LocaleHelper.toLocale(user.getLanguage)
       contentGenerator.putVariable("username", user.getUsername)
       contentGenerator.putVariable("urlRecoveryPassword", recoveryPasswordURL)
-      val recipient: MailRecipientField = new MailRecipientField(user.getEmail, user.getUsername)
-      val lst: List[MailRecipientField] = List[MailRecipientField](recipient)
+      val recipient = new MailRecipientField(user.getEmail, user.getUsername)
+      val lst = List[MailRecipientField](recipient)
       import scala.collection.JavaConversions._
       extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getDefaultSiteName, lst, null, null,
         contentGenerator.parseString(LocalizationHelper.getMessage(locale, UserI18nEnum.MAIL_RECOVERY_PASSWORD_SUBJECT,

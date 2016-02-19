@@ -51,14 +51,14 @@ object SaveContentCommandImpl {
     if (event.sAccountId == null) {
       return
     }
-    val lock: Lock = DistributionLockUtil.getLock("ecm-" + event.sAccountId)
-    var totalSize: Long = event.content.getSize
+    val lock = DistributionLockUtil.getLock("ecm-" + event.sAccountId)
+    var totalSize = event.content.getSize
     if (StringUtils.isNotBlank(event.content.getThumbnail)) {
       totalSize += rawContentService.getSize(event.content.getThumbnail)
     }
     try {
       if (lock.tryLock(1, TimeUnit.HOURS)) {
-        val driveInfo: DriveInfo = driveInfoService.getDriveInfo(event.sAccountId)
+        val driveInfo = driveInfoService.getDriveInfo(event.sAccountId)
         if (driveInfo.getUsedvolume == null) {
           driveInfo.setUsedvolume(totalSize)
         }

@@ -42,10 +42,10 @@ import org.springframework.stereotype.Component
   @AllowConcurrentEvents
   @Subscribe
   def execute(event: DeleteUserEvent): Unit = {
-    val ex: ProjectMemberExample = new ProjectMemberExample
+    val ex = new ProjectMemberExample
     ex.createCriteria.andStatusIn(Arrays.asList(RegisterStatusConstants.ACTIVE, RegisterStatusConstants.SENT_VERIFICATION_EMAIL,
       RegisterStatusConstants.VERIFICATING)).andSaccountidEqualTo(event.accountid).andUsernameEqualTo(event.username)
-    val projectMember: ProjectMember = new ProjectMember
+    val projectMember = new ProjectMember
     projectMember.setStatus(ProjectMemberStatusConstants.INACTIVE)
     projectMemberMapper.updateByExampleSelective(projectMember, ex)
     asyncEventBus.post(new CleanCacheEvent(event.accountid, Array(classOf[ProjectMemberService])))

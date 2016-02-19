@@ -50,21 +50,21 @@ import org.springframework.stereotype.Component
   }
 
   private def removeRelatedFiles(accountId: Integer, projectId: Integer, taskId: Integer) {
-    val attachmentPath: String = AttachmentUtils.getProjectEntityAttachmentPath(accountId, projectId,
+    val attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(accountId, projectId,
       ProjectTypeConstants.TASK, "" + taskId)
     resourceService.removeResource(attachmentPath, "", accountId)
   }
 
   private def removeRelatedComments(taskId: Integer) {
-    val ex: CommentExample = new CommentExample
+    val ex = new CommentExample
     ex.createCriteria.andTypeEqualTo(ProjectTypeConstants.TASK).andExtratypeidEqualTo(taskId)
     commentMapper.deleteByExample(ex)
   }
 
   private def removePredecessorTasks(taskId: Integer): Unit = {
-    val ex: PredecessorExample = new PredecessorExample
+    val ex = new PredecessorExample
     ex.or().andSourceidEqualTo(taskId).andSourcetypeEqualTo(ProjectTypeConstants.TASK)
     ex.or().andDescidEqualTo(taskId).andDesctypeEqualTo(ProjectTypeConstants.TASK)
-    predecessorMapper.deleteByExample(ex);
+    predecessorMapper.deleteByExample(ex)
   }
 }

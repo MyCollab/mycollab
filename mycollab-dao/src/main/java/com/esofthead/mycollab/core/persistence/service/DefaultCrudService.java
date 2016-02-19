@@ -114,7 +114,7 @@ public abstract class DefaultCrudService<K extends Serializable, T> implements I
     }
 
     @Override
-    public final void removeWithSession(T item, String username, Integer accountId) {
+    public void removeWithSession(T item, String username, Integer accountId) {
         massRemoveWithSession(Arrays.asList(item), username, accountId);
     }
 

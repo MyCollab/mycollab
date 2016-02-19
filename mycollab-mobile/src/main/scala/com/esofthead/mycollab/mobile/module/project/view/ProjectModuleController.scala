@@ -14,6 +14,22 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
+/**
+  * This file is part of mycollab-mobile.
+  *
+  * mycollab-mobile is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 3 of the License, or
+  * (at your option) any later version.
+  *
+  * mycollab-mobile is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
+  */
 package com.esofthead.mycollab.mobile.module.project.view
 
 import com.esofthead.mycollab.common.ModuleNameConstants
@@ -29,11 +45,12 @@ import com.esofthead.mycollab.mobile.module.project.view.message.MessagePresente
 import com.esofthead.mycollab.mobile.module.project.view.milestone.MilestonePresenter
 import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectScreenData.{Add, ProjectActivities}
 import com.esofthead.mycollab.mobile.module.project.view.parameters._
+import com.esofthead.mycollab.mobile.module.project.view.risk.IRiskPresenter
 import com.esofthead.mycollab.mobile.module.project.view.settings.ProjectUserPresenter
 import com.esofthead.mycollab.mobile.module.project.view.task.TaskPresenter
 import com.esofthead.mycollab.mobile.mvp.view.PresenterOptionUtil
+import com.esofthead.mycollab.module.project.domain._
 import com.esofthead.mycollab.module.project.domain.criteria._
-import com.esofthead.mycollab.module.project.domain.{SimpleMilestone, SimpleProject, SimpleProjectMember, SimpleTask}
 import com.esofthead.mycollab.module.project.service.ProjectService
 import com.esofthead.mycollab.module.project.{CurrentProjectVariables, ProjectMemberStatusConstants}
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug
@@ -54,6 +71,7 @@ class ProjectModuleController(val navManager: NavigationManager) extends Abstrac
   bindMessageEvents()
   bindMilestoneEvents()
   bindTaskEvents()
+  bindRiskEvents()
   bindMemberEvents()
 
   private def bindProjectEvents() {
@@ -238,6 +256,47 @@ class ProjectModuleController(val navManager: NavigationManager) extends Abstrac
       @Subscribe def handle(event: TaskEvent.GotoAdd) {
         val data = new TaskScreenData.Add(new SimpleTask)
         val presenter = PresenterResolver.getPresenter(classOf[TaskPresenter])
+        presenter.go(navManager, data)
+      }
+    })
+  }
+
+  private def bindRiskEvents() {
+    this.register(new ApplicationEventListener[RiskEvent.GotoList]() {
+      @Subscribe def handle(event: RiskEvent.GotoList) {
+        val params: Any = event.getData
+        val presenter = PresenterOptionUtil.getPresenter(classOf[IRiskPresenter])
+        if (params == null) {
+          val criteria = new RiskSearchCriteria
+          criteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId))
+          presenter.go(navManager, new RiskScreenData.Search(criteria))
+        }
+        else if (params.isInstanceOf[RiskScreenData.Search]) {
+          presenter.go(navManager, params.asInstanceOf[RiskScreenData.Search])
+        }
+        else {
+          throw new MyCollabException("Invalid search parameter: " + BeanUtility.printBeanObj(params))
+        }
+      }
+    })
+    this.register(new ApplicationEventListener[RiskEvent.GotoRead]() {
+      @Subscribe def handle(event: RiskEvent.GotoRead) {
+        val data = new RiskScreenData.Read(event.getData.asInstanceOf[Integer])
+        val presenter = PresenterOptionUtil.getPresenter(classOf[IRiskPresenter])
+        presenter.go(navManager, data)
+      }
+    })
+    this.register(new ApplicationEventListener[RiskEvent.GotoAdd]() {
+      @Subscribe def handle(event: RiskEvent.GotoAdd) {
+        val data = new RiskScreenData.Add(new SimpleRisk)
+        val presenter = PresenterOptionUtil.getPresenter(classOf[IRiskPresenter])
+        presenter.go(navManager, data)
+      }
+    })
+    this.register(new ApplicationEventListener[RiskEvent.GotoEdit]() {
+      @Subscribe def handle(event: RiskEvent.GotoEdit) {
+        val data = new RiskScreenData.Edit(event.getData.asInstanceOf[SimpleRisk])
+        val presenter = PresenterOptionUtil.getPresenter(classOf[IRiskPresenter])
         presenter.go(navManager, data)
       }
     })

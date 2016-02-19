@@ -48,14 +48,14 @@ import org.springframework.stereotype.Component
   @AllowConcurrentEvents
   @Subscribe
   def inviteUsers(event: InviteProjectMembersEvent): Unit = {
-    val project: SimpleProject = projectService.findById(event.projectId, event.sAccountId)
-    val user: SimpleUser = userService.findUserByUserNameInAccount(event.inviteUser, event.sAccountId)
-    val member: SimpleProjectMember = new SimpleProjectMember
+    val project = projectService.findById(event.projectId, event.sAccountId)
+    val user = userService.findUserByUserNameInAccount(event.inviteUser, event.sAccountId)
+    val member = new SimpleProjectMember
     member.setProjectName(project.getName)
     contentGenerator.putVariable("member", member)
     contentGenerator.putVariable("inviteUser", user.getDisplayName)
     contentGenerator.putVariable("inviteMessage", event.inviteMessage)
-    val subDomain: String = projectService.getSubdomainOfProject(event.projectId)
+    val subDomain = projectService.getSubdomainOfProject(event.projectId)
     val date: Date = new Date
     for (inviteeEmail <- event.emails) {
       contentGenerator.putVariable("urlAccept", SiteConfiguration.getSiteUrl(subDomain) + "project/member/invitation/confirm_invite/" +

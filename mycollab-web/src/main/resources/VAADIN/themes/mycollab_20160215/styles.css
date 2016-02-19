@@ -17467,6 +17467,14 @@ div.v-ratingstars-bar {
 	width: 100%;
 }
 
+.v-Notification.tray {
+	background-color: #d9a437;
+}
+
+.v-Notification.tray .v-Notification-description {
+	color: #f7f7f7;
+}
+
 .v-Notification.humanized {
 	background: none;
 	background-color: darkslategray;

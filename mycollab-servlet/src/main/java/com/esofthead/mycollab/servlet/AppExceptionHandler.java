@@ -22,6 +22,7 @@ import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.template.velocity.TemplateContext;
 import com.esofthead.mycollab.template.velocity.service.TemplateEngine;
+import org.eclipse.jetty.http.HttpURI;
 import org.eclipse.jetty.server.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,7 +66,11 @@ public class AppExceptionHandler extends GenericHttpServlet {
 
         try {
             if ((status_code != null && status_code == 404) || ("404".equals(request.getParameter("param")))) {
-                LOG.error("Page 404: " + printRequest(request));
+                HttpURI uri = ((Request) request).getUri();
+                if (uri != null && (uri.getCompletePath().startsWith("/HEARTBEAT") || uri.getCompletePath().startsWith("/APP/global"))) {
+                    return;
+                }
+                LOG.error("Page 404: " + uri);
                 responsePage404(response);
             } else {
                 // Analyze the servlet exception
