@@ -160,6 +160,16 @@ public class AllActivityViewImpl extends AbstractListPageView<ActivityStreamSear
                     content.append("<p><ul><li>\"").append(activityStream.getAssoAuditLog()
                             .getChangeset()).append("\"</li></ul></p>");
                 }
+            } else if (ActivityStreamConstants.ACTION_DELETE.equals(activityStream.getAction())) {
+                if (ProjectTypeConstants.PROJECT.equals(activityStream.getType())) {
+                    content.append(AppContext.getMessage(
+                            ProjectCommonI18nEnum.FEED_USER_ACTIVITY_DELETE_ACTION_TITLE,
+                            assigneeValue, type, projectLink));
+                } else {
+                    content.append(AppContext.getMessage(
+                            ProjectCommonI18nEnum.FEED_PROJECT_USER_ACTIVITY_DELETE_ACTION_TITLE,
+                            assigneeValue, type, itemLink, projectLink));
+                }
             }
 
             Label actionLbl = new Label(content.toString(), ContentMode.HTML);

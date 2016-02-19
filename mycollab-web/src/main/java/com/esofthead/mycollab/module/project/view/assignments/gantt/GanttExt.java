@@ -21,7 +21,6 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.events.GanttEvent;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
-import com.google.gwt.i18n.client.constants.TimeZoneConstants;
 import com.vaadin.server.Page;
 import org.joda.time.LocalDate;
 import org.tltv.gantt.Gantt;

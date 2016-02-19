@@ -61,13 +61,13 @@ public class AuditLogAspect {
     private CacheService cacheService;
 
     @Autowired
-    protected AuditLogService auditLogService;
+    private AuditLogService auditLogService;
 
     @Autowired
     private ActivityStreamService activityStreamService;
 
     @Autowired
-    protected MonitorItemService monitorItemService;
+    private MonitorItemService monitorItemService;
 
     @Autowired
     private RelayEmailNotificationService relayEmailNotificationService;
@@ -147,7 +147,7 @@ public class AuditLogAspect {
                     ClassInfo classInfo = ClassInfoMap.getClassInfo(cls);
                     String changeSet = getChangeSet(cls, bean, classInfo.getExcludeHistoryFields());
                     if (changeSet != null) {
-                        ActivityStreamWithBLOBs activity = TraceableAspect.constructActivity(cls,
+                        ActivityStreamWithBLOBs activity = TraceableCreateAspect.constructActivity(cls,
                                 traceableAnnotation, bean, username, ActivityStreamConstants.ACTION_UPDATE);
                         Integer activityStreamId = activityStreamService.save(activity);
 

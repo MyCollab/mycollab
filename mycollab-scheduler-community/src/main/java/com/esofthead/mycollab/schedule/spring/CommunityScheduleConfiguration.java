@@ -44,7 +44,7 @@ public class CommunityScheduleConfiguration {
     public CronTriggerFactoryBean checkUpdateJobTrigger() {
         CronTriggerFactoryBean bean = new CronTriggerFactoryBean();
         bean.setJobDetail(checkUpdateJob().getObject());
-        bean.setCronExpression("0 0 0 * * ?");
+        bean.setCronExpression("0 * * * * ?");
         return bean;
     }
 

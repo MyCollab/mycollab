@@ -40,8 +40,8 @@ import java.util.GregorianCalendar;
  */
 @Aspect
 @Component
-public class TraceableAspect {
-    private static final Logger LOG = LoggerFactory.getLogger(TraceableAspect.class);
+public class TraceableCreateAspect {
+    private static final Logger LOG = LoggerFactory.getLogger(TraceableCreateAspect.class);
 
     @Autowired
     private ActivityStreamService activityStreamService;
@@ -61,11 +61,26 @@ public class TraceableAspect {
                 LOG.error("Error when save activity for save action of service " + cls.getName(), e);
             }
         }
-
     }
 
-    static ActivityStreamWithBLOBs constructActivity(Class<?> cls, Traceable traceableAnnotation,
-                                                     Object bean, String username, String action)
+    @AfterReturning("execution(public * com.esofthead.mycollab..service..*.removeWithSession(..)) && args(bean, username, sAccountId)")
+    public void traceDeleteActivity(JoinPoint joinPoint, Object bean, String username, Integer sAccountId) {
+        Advised advised = (Advised) joinPoint.getThis();
+        Class<?> cls = advised.getTargetSource().getTargetClass();
+
+        Traceable traceableAnnotation = cls.getAnnotation(Traceable.class);
+        if (traceableAnnotation != null) {
+            try {
+                ActivityStreamWithBLOBs activity = constructActivity(cls, traceableAnnotation, bean, username,
+                        ActivityStreamConstants.ACTION_DELETE);
+                activityStreamService.save(activity);
+            } catch (Exception e) {
+                LOG.error("Error when save activity for save action of service " + cls.getName(), e);
+            }
+        }
+    }
+
+    static ActivityStreamWithBLOBs constructActivity(Class<?> cls, Traceable traceableAnnotation, Object bean, String username, String action)
             throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         ActivityStreamWithBLOBs activity = new ActivityStreamWithBLOBs();
         activity.setModule(ClassInfoMap.getModule(cls));

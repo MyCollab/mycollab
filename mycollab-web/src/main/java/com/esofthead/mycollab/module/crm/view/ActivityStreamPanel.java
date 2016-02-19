@@ -223,13 +223,13 @@ public class ActivityStreamPanel extends CssLayout {
                     content.append(CrmActivityStreamGenerator.generatorDetailChangeOfActivity(activityStream));
                 }
             } else if (ActivityStreamConstants.ACTION_COMMENT.equals(activityStream.getAction())) {
-                content.append(AppContext.getMessage(CrmCommonI18nEnum.WIDGET_ACTIVITY_COMMENT_ACTION,
-                        assigneeValue, itemType, itemValue));
+                content.append(AppContext.getMessage(CrmCommonI18nEnum.WIDGET_ACTIVITY_COMMENT_ACTION, assigneeValue, itemType, itemValue));
                 if (activityStream.getAssoAuditLog() != null) {
-                    content.append("<p><ul><li>\"")
-                            .append(activityStream.getAssoAuditLog().getChangeset())
-                            .append("\"</li></ul></p>");
+                    content.append("<p><ul><li>\"").append(activityStream.getAssoAuditLog().getChangeset()).append("\"</li></ul></p>");
                 }
+            } else if (ActivityStreamConstants.ACTION_DELETE.equals(activityStream.getAction())) {
+                content.append(AppContext.getMessage(CrmCommonI18nEnum.WIDGET_ACTIVITY_DELETE_ACTION,
+                        assigneeValue, itemType, itemValue));
             }
 
             Label activityLink = new Label(content.toString(), ContentMode.HTML);

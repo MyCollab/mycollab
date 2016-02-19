@@ -135,6 +135,9 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Activi
                     if (activityStream.getAssoAuditLog() != null) {
                         content.append("<p><ul><li>\"").append(activityStream.getAssoAuditLog().getChangeset()).append("\"</li></ul></p>");
                     }
+                } else if (ActivityStreamConstants.ACTION_DELETE.equals(activityStream.getAction())) {
+                    content.append(AppContext.getMessage(ProjectCommonI18nEnum.FEED_USER_ACTIVITY_DELETE_ACTION_TITLE,
+                            assigneeParam, itemType, itemParam));
                 }
                 Label actionLbl = new Label(content.toString(), ContentMode.HTML);
                 CssLayout streamWrapper = new CssLayout();

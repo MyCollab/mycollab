@@ -27,9 +27,9 @@ import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
 import com.esofthead.mycollab.module.project.view.UserDashboardView;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.ui.UIUtils;
 import com.esofthead.mycollab.vaadin.web.ui.DefaultBeanPagedList;
 import com.esofthead.mycollab.vaadin.web.ui.Depot;
-import com.esofthead.mycollab.vaadin.ui.UIUtils;
 import com.vaadin.data.Property;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.CssLayout;
@@ -54,12 +54,14 @@ public class UserUnresolvedAssignmentWidget extends Depot {
             @Override
             public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
                 boolean isMyItemsOption = myItemsSelection.getValue();
-                if (isMyItemsOption) {
-                    searchCriteria.setAssignUser(StringSearchField.and(AppContext.getUsername()));
-                } else {
-                    searchCriteria.setAssignUser(null);
+                if (searchCriteria != null) {
+                    if (isMyItemsOption) {
+                        searchCriteria.setAssignUser(StringSearchField.and(AppContext.getUsername()));
+                    } else {
+                        searchCriteria.setAssignUser(null);
+                    }
+                    updateSearchResult();
                 }
-                updateSearchResult();
             }
         });
         taskList = new DefaultBeanPagedList(ApplicationContextUtil.getSpringBean(ProjectGenericTaskService.class),

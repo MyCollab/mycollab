@@ -77,6 +77,16 @@
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-server</artifactId>
             <version>${vaadinVersion}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.vaadin</groupId>
+                    <artifactId>vaadin-sass-compiler</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.vaadin.external.google</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -104,63 +114,4 @@
         </dependency>
     </dependencies>
 
-    <profiles>
-        <profile>
-            <id>dev</id>
-            <activation>
-                <property>
-                    <name>!environment</name>
-                </property>
-            </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>com.vaadin</groupId>
-                    <artifactId>vaadin-server</artifactId>
-                    <version>${vaadinVersion}</version>
-                    <exclusions>
-                        <exclusion>
-                            <groupId>com.vaadin</groupId>
-                            <artifactId>vaadin-sass-compiler</artifactId>
-                        </exclusion>
-                        <exclusion>
-                            <groupId>com.vaadin.external.google</groupId>
-                            <artifactId>guava</artifactId>
-                        </exclusion>
-                    </exclusions>
-                </dependency>
-                <dependency>
-                    <groupId>com.vaadin</groupId>
-                    <artifactId>vaadin-client-compiler</artifactId>
-                    <version>${vaadinVersion}</version>
-                    <scope>provided</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-        <profile>
-            <id>production</id>
-            <activation>
-                <property>
-                    <name>environment</name>
-                    <value>production</value>
-                </property>
-            </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>com.vaadin</groupId>
-                    <artifactId>vaadin-server</artifactId>
-                    <version>${vaadinVersion}</version>
-                    <exclusions>
-                        <exclusion>
-                            <groupId>com.vaadin</groupId>
-                            <artifactId>vaadin-sass-compiler</artifactId>
-                        </exclusion>
-                        <exclusion>
-                            <groupId>com.vaadin.external.google</groupId>
-                            <artifactId>guava</artifactId>
-                        </exclusion>
-                    </exclusions>
-                </dependency>
-            </dependencies>
-        </profile>
-    </profiles>
 </project>

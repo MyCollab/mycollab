@@ -53,6 +53,7 @@ Version 5.2.7
 * Display issues, risks in Gantt chart besides tasks, milestones as well
 * Several minor improvements
 * Add lead field to the project
+* Display delete action in the activity stream
 * Enhance and improve stability of Gantt chart
 * [Premium] Support calendar event types are issues, risks, milestones
 
