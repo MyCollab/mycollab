@@ -31,10 +31,12 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Properties;
+import java.util.zip.ZipFile;
 
 /**
  * @author MyCollab Ltd
@@ -74,11 +76,15 @@ public class CheckUpdateJob extends GenericQuartzJobBean {
                         downloadMyCollabThread.start();
                         downloadMyCollabThread.join();
                         File installerFile = downloadMyCollabThread.tmpFile;
-                        if (installerFile.exists() && installerFile.isFile() && installerFile.length() > 0) {
+                        if (installerFile.exists() && installerFile.isFile() && installerFile.length() > 0 && isValid(installerFile)) {
                             latestFileDownloadedPath = installerFile.getAbsolutePath();
                             NotificationBroadcaster.removeGlobalNotification(NewUpdateAvailableNotification.class);
                             NotificationBroadcaster.broadcast(new NewUpdateAvailableNotification(version, autoDownloadLink, manualDownloadLink,
                                     latestFileDownloadedPath));
+                        } else {
+                            NotificationBroadcaster.removeGlobalNotification(NewUpdateAvailableNotification.class);
+                            NotificationBroadcaster.broadcast(new NewUpdateAvailableNotification(version, null,
+                                    manualDownloadLink, null));
                         }
                     } catch (Exception e) {
                         LOG.error("Exception", e);
@@ -90,6 +96,23 @@ public class CheckUpdateJob extends GenericQuartzJobBean {
                     NotificationBroadcaster.broadcast(new NewUpdateAvailableNotification(version, autoDownloadLink, manualDownloadLink,
                             latestFileDownloadedPath));
                 }
+            }
+        }
+    }
+
+    static boolean isValid(final File file) {
+        ZipFile zipfile = null;
+        try {
+            zipfile = new ZipFile(file);
+            return true;
+        } catch (IOException e) {
+            return false;
+        } finally {
+            try {
+                if (zipfile != null) {
+                    zipfile.close();
+                }
+            } catch (IOException e) {
             }
         }
     }

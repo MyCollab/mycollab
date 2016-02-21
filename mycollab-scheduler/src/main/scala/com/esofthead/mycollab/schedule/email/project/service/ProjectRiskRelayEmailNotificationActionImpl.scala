@@ -46,10 +46,8 @@ import org.springframework.stereotype.Component
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 class ProjectRiskRelayEmailNotificationActionImpl extends SendMailToAllMembersAction[SimpleRisk] with ProjectRiskRelayEmailNotificationAction {
-
     @Autowired var riskService: RiskService = _
     @Autowired var projectService: ProjectService = _
-
     private val mapper = new ProjectFieldNameMapper
 
     override protected def getItemName: String = StringUtils.trim(bean.getRiskname, 100)

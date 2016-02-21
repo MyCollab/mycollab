@@ -40,7 +40,6 @@ import java.sql.DriverManager;
  */
 public class InstallationServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-
     private static final Logger LOG = LoggerFactory.getLogger(InstallationServlet.class);
 
     private boolean waitFlag = true;
@@ -49,8 +48,7 @@ public class InstallationServlet extends HttpServlet {
         this.waitFlag = flag;
     }
 
-    protected void doGet(HttpServletRequest request,
-                         HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         LOG.info("Try to install MyCollab");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Expires", "-1");
@@ -134,7 +132,6 @@ public class InstallationServlet extends HttpServlet {
             FileReader templateReader = new FileReader(templateFile);
 
             StringWriter writer = new StringWriter();
-
             VelocityEngine engine = new VelocityEngine();
             engine.evaluate(templateContext, writer, "log task", templateReader);
 

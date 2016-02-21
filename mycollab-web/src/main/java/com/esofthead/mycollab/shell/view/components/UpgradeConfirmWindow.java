@@ -25,6 +25,8 @@ import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -37,6 +39,7 @@ import java.util.concurrent.TimeUnit;
  * @since 5.0.4
  */
 public class UpgradeConfirmWindow extends Window {
+    private static final Logger LOG = LoggerFactory.getLogger(UpgradeConfirmWindow.class);
 
     private static String headerTemplate = "MyCollab just got better . For the " +
             "enhancements and security purpose, you should upgrade to the latest version";
@@ -64,6 +67,10 @@ public class UpgradeConfirmWindow extends Window {
                 .appendChild(new A(manualDownloadLink, "_blank")
                         .appendText("Download link"));
         content.with(new Label(manualInstallLink.write(), ContentMode.HTML));
+
+        Div manualUpgradeHowtoLink = new Div().appendText("&nbsp;&nbsp;&nbsp;&nbsp;Manual upgrade: ")
+                .appendChild(new A("https://community.mycollab.com/administration/upgrade/", "_blank").appendText("Link"));
+        content.with(new Label(manualUpgradeHowtoLink.write(), ContentMode.HTML));
 
         Div releaseNoteLink = new Div().appendText("&nbsp;&nbsp;&nbsp;&nbsp;Release Notes: ")
                 .appendChild(new A("https://community.mycollab.com/releases/", "_blank").appendText("Link"));
@@ -94,16 +101,18 @@ public class UpgradeConfirmWindow extends Window {
     }
 
     private void navigateToWaitingUpgradePage() {
-        new Thread() {
-            public void run() {
-                if (installerFilePath != null) {
-                    File installerFile = new File(installerFilePath);
-                    if (installerFile.exists()) {
+        if (installerFilePath != null) {
+            final File installerFile = new File(installerFilePath);
+            if (installerFile.exists()) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
                         ServerInstance.getInstance().preUpgrade();
                         final String locUrl = SiteConfiguration.getSiteUrl(AppContext.getSubDomain()) + "it/upgrade";
                         Future<Void> access = currentUI.access(new Runnable() {
                             @Override
                             public void run() {
+                                LOG.info("Redirect to the upgrade page " + locUrl);
                                 currentUI.getPage().setLocation(locUrl);
                                 currentUI.push();
                             }
@@ -114,13 +123,13 @@ public class UpgradeConfirmWindow extends Window {
                             TimeUnit.SECONDS.sleep(5);
                             ServerInstance.getInstance().upgrade(installerFile);
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            LOG.error("Error while upgrade", e);
                         }
                     }
-                } else {
-                    throw new IgnoreException("Can not upgrade MyCollab");
-                }
+                }).start();
             }
-        }.start();
+        } else {
+            throw new IgnoreException("Can not upgrade MyCollab");
+        }
     }
 }

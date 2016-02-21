@@ -33,18 +33,15 @@ import java.io.InputStream;
  * @author MyCollab Ltd.
  * @since 3.0
  */
-
 public class AssetHttpServletRequestHandler extends HttpServlet {
     private static final long serialVersionUID = 1L;
-
     private static final Logger LOG = LoggerFactory.getLogger(AssetHttpServletRequestHandler.class);
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getPathInfo();
         String resourcePath = "assets" + path;
 
-        InputStream inputStream = AssetHttpServletRequestHandler.class
-                .getClassLoader().getResourceAsStream(resourcePath);
+        InputStream inputStream = AssetHttpServletRequestHandler.class.getClassLoader().getResourceAsStream(resourcePath);
 
         if (inputStream == null) {
             resourcePath = "VAADIN/themes/mycollab" + path;

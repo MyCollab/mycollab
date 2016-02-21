@@ -34,13 +34,9 @@ import org.springframework.beans.factory.annotation.Autowired
  */
 abstract class SendMailToAllMembersAction[B] extends SendingRelayEmailNotificationAction {
     @Autowired var extMailService: ExtMailService = _
-
     @Autowired var projectMemberService: ProjectMemberService = _
-
     @Autowired var projectNotificationService: ProjectNotificationSettingService = _
-
     @Autowired var auditLogService: AuditLogService = _
-
     @Autowired protected var contentGenerator: IContentGenerator = _
 
     protected var bean: B = _

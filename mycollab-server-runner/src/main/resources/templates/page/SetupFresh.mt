@@ -231,7 +231,7 @@ h3 {
             <div id="bottom">
                 <p>
                     <a javascrip="void(0);" href="https://www.mycollab.com" style="text-decoration : none;
-                    float:left"><span>&copy; 2015 MyCollab. All rights reserved.</span></a>
+                    float:left"><span>&copy; ${current_year} MyCollab. All rights reserved.</span></a>
 
                     <div style="text-align:right;">
                     <a javascrip="void(0);" href="https://www.mycollab.com/terms" style="text-decoration : none;"><span>Terms of Service</span></a> &nbsp;&nbsp;&nbsp;

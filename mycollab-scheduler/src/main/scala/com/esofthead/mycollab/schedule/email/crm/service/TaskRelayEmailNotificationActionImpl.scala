@@ -49,7 +49,6 @@ import org.springframework.stereotype.Component
     private val LOG = LoggerFactory.getLogger(classOf[TaskRelayEmailNotificationActionImpl])
 
     @Autowired var taskService: TaskService = _
-
     private val mapper = new TaskFieldNameMapper
 
     protected def buildExtraTemplateVariables(context: MailContext[SimpleTask]) {

@@ -28,9 +28,7 @@ import java.util.Properties;
  * @since 5.0.3
  */
 public class InstallUtils {
-
-    public static void checkSMTPConfig(String host, int port, String username,
-                                       String password, boolean auth, boolean isStartTls, boolean isSSL) {
+    public static void checkSMTPConfig(String host, int port, String username, String password, boolean auth, boolean isStartTls, boolean isSSL) {
         try {
             Properties props = new Properties();
             if (auth) {

@@ -29,18 +29,14 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 4.1
- *
  */
 public class DatabaseValidate extends HttpServlet {
     private static final long serialVersionUID = 1L;
-
     private static final Logger LOG = LoggerFactory.getLogger(DatabaseValidate.class);
 
-    protected void doGet(HttpServletRequest request,
-                         HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String databaseName = request.getParameter("databaseName");
         String dbUserName = request.getParameter("dbUserName");
         String dbPassword = request.getParameter("dbPassword");

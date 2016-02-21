@@ -54,7 +54,7 @@ public class ServerInstance {
         return isUpgrading;
     }
 
-    void setIsUpgrading(boolean isUpgrading) {
+    public void setIsUpgrading(boolean isUpgrading) {
         this.isUpgrading = isUpgrading;
     }
 

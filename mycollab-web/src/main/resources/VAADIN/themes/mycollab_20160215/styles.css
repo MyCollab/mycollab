@@ -983,7 +983,7 @@
  */
 
 .v-vaadin-version:after {
-	content: "7.6.2";
+	content: "7.6.3";
 }
 
 .v-widget {
@@ -2204,9 +2204,10 @@ span.block {
 }
 
 .v-csslayout.editable-field:hover::after {
+	margin-left: 5px;
 	float: top;
 	content: "\f044";
-	color: #999;
+	color: black;
 	font-family: FontAwesome;
 }
 
@@ -14746,9 +14747,10 @@ span.block {
 }
 
 .v-csslayout.editable-field:hover::after {
+	margin-left: 5px;
 	float: top;
 	content: "\f044";
-	color: #999;
+	color: black;
 	font-family: FontAwesome;
 }
 

@@ -79,7 +79,7 @@ h3 {
                 <div id="bottom">
                     <p>
                         <a javascrip="void(0);" href="https://www.mycollab.com" style="text-decoration : none;
-                        float:left"><span>Copyright 2015 MyCollab. All rights reserved.</span></a>
+                        float:left"><span>Copyright ${current_year} MyCollab. All rights reserved.</span></a>
 
                         <div style="text-align:right;">
                         <a javascrip="void(0);" href="https://www.mycollab.com/terms" style="text-decoration : none;"><span>Terms of Service</span></a> &nbsp;&nbsp;&nbsp;
@@ -100,10 +100,10 @@ h3 {
     });
     function checkUpgradeReady(){
       var urlPost = "/it/upgrade_status";
-      $.ajax({type: 'GET', url: urlPost,
+      $.ajax({cache:false, type: 'GET', url: urlPost,
         success: function(data) {
           if(data!=null){
-            if(data.length > 0) {
+            if(data == "Still upgrading") {
               setTimeout(checkUpgradeReady, 5000);
             } else {
               alert("MyCollab is upgraded successfully. Redirect to the app?");
@@ -115,7 +115,6 @@ h3 {
           setTimeout(checkUpgradeReady, 5000);
         }
       });
-
     }
 </script>
 </html>

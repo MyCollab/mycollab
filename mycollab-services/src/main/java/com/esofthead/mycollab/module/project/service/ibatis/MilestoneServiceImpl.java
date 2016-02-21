@@ -34,6 +34,7 @@ import com.esofthead.mycollab.module.project.domain.criteria.MilestoneSearchCrit
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.service.GanttAssignmentService;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
+import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.google.common.eventbus.AsyncEventBus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,14 +89,15 @@ public class MilestoneServiceImpl extends DefaultService<Integer, Milestone, Mil
         }
         Integer recordId = super.saveWithSession(record, username);
         asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectService.class,
-                GanttAssignmentService.class}));
+                GanttAssignmentService.class, ProjectGenericTaskService.class}));
         return recordId;
     }
 
     @Override
     public Integer updateWithSession(Milestone record, String username) {
         int result = super.updateWithSession(record, username);
-        asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectService.class, GanttAssignmentService.class}));
+        asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectService.class,
+                GanttAssignmentService.class, ProjectGenericTaskService.class}));
         return result;
     }
 }

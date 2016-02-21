@@ -49,9 +49,7 @@ import org.springframework.stereotype.Service
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 class ComponentRelayEmailNotificationActionImpl extends SendMailToAllMembersAction[SimpleComponent] with ComponentRelayEmailNotificationAction {
     @Autowired var componentService: ComponentService = _
-
     @Autowired var projectService: ProjectService = _
-
     private val mapper: ComponentFieldNameMapper = new ComponentFieldNameMapper
 
     protected def buildExtraTemplateVariables(context: MailContext[SimpleComponent]) {

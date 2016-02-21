@@ -138,8 +138,8 @@ public abstract class GenericServerRunner {
 
         if (!checkConfigFileExist()) {
             System.err.println("It seems this is the first time you run MyCollab. For complete installation, you must " +
-                            "open the browser and type address http://<your server name>:" + port
-                            + " and complete the steps to install MyCollab.");
+                    "open the browser and type address http://<your server name>:" + port
+                    + " and complete the steps to install MyCollab.");
             installationContextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
             installationContextHandler.setContextPath("/");
 
@@ -163,6 +163,7 @@ public abstract class GenericServerRunner {
             upgradeContextHandler.addServlet(new ServletHolder(new UpgradeServlet()), "/upgrade");
             upgradeContextHandler.addServlet(new ServletHolder(new UpgradeStatusServlet()), "/upgrade_status");
             contexts.setHandlers(new Handler[]{upgradeContextHandler, appContext});
+            ServerInstance.getInstance().setIsUpgrading(false);
         }
 
         server.setHandler(contexts);
@@ -325,10 +326,18 @@ public abstract class GenericServerRunner {
 
                         appContext = initWebAppContext();
                         appContext.setClassLoader(GenericServerRunner.class.getClassLoader());
-
                         contexts.addHandler(appContext);
+
+                        ServletContextHandler upgradeContextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
+                        upgradeContextHandler.setServer(server);
+                        upgradeContextHandler.setContextPath("/it");
+                        upgradeContextHandler.addServlet(new ServletHolder(new UpgradeServlet()), "/upgrade");
+                        upgradeContextHandler.addServlet(new ServletHolder(new UpgradeStatusServlet()), "/upgrade_status");
+                        contexts.addHandler(upgradeContextHandler);
+
                         try {
                             appContext.start();
+                            upgradeContextHandler.start();
                         } catch (Exception e) {
                             LOG.error("Error while starting server", e);
                         }

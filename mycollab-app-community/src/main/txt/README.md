@@ -44,7 +44,7 @@ Version 5.2.7
 -----------------------------
 **Library Upgrades**
 
-* Vaadin 7.6.2
+* Vaadin 7.6.3
 * MyBatis 3.3.1
 * Other libraries
 
@@ -55,6 +55,7 @@ Version 5.2.7
 * Add lead field to the project
 * Display delete action in the activity stream
 * Enhance and improve stability of Gantt chart
+* Improve the stability of upgrade process on Windows
 * [Premium] Support calendar event types are issues, risks, milestones
 
 **Bug Fixes**

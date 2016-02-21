@@ -36,7 +36,6 @@ import java.io.PrintWriter;
  */
 public class EmailValidationServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-
     private static final Logger LOG = LoggerFactory.getLogger(EmailValidationServlet.class);
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

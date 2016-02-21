@@ -32,13 +32,10 @@ import org.springframework.beans.factory.annotation.Autowired
   */
 abstract class SendMailToFollowersAction[B] extends SendingRelayEmailNotificationAction {
   @Autowired var extMailService: ExtMailService = _
-
   @Autowired var contentGenerator: IContentGenerator = _
-
   @Autowired var auditLogService: AuditLogService = _
 
   protected var bean: B = _
-
   protected var siteUrl: String = _
 
   def sendNotificationForCreateAction(notification: SimpleRelayEmailNotification) {

@@ -16,10 +16,10 @@
  */
 package com.esofthead.mycollab.servlet;
 
-import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.utils.FileUtils;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
+import org.joda.time.LocalDate;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -50,15 +50,13 @@ public class SetupServlet extends HttpServlet {
         context.put("redirectURL", postUrl);
 
         Map<String, String> defaultUrls = new HashMap<>();
-
         defaultUrls.put("cdn_url", "/assets/");
         defaultUrls.put("app_url", "/");
-
         defaultUrls.put("facebook_url", "https://www.facebook.com/mycollab2");
         defaultUrls.put("google_url", "https://plus.google.com/u/0/b/112053350736358775306/+Mycollab/about/p/pub");
         defaultUrls.put("twitter_url", "https://twitter.com/mycollabdotcom");
-
         context.put("defaultUrls", defaultUrls);
+        context.put("current_year", new LocalDate().getYear());
 
         StringWriter writer = new StringWriter();
         VelocityEngine voEngine = new VelocityEngine();

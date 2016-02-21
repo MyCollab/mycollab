@@ -21,6 +21,7 @@ import com.esofthead.mycollab.core.utils.FileUtils;
 import com.esofthead.mycollab.server.jetty.ServerInstance;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
+import org.joda.time.LocalDate;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -40,8 +41,7 @@ import java.util.Map;
 public class UpgradeServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    protected void doGet(HttpServletRequest request,
-                         HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
         response.setStatus(HttpServletResponse.SC_OK);
 
@@ -57,6 +57,7 @@ public class UpgradeServlet extends HttpServlet {
         defaultUrls.put("linkedin_url", SiteConfiguration.getLinkedinUrl());
         defaultUrls.put("twitter_url", SiteConfiguration.getTwitterUrl());
 
+        context.put("current_year", new LocalDate().getYear());
         context.put("defaultUrls", defaultUrls);
 
         StringWriter writer = new StringWriter();

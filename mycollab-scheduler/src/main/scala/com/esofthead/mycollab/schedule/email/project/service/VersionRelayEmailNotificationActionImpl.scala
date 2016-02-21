@@ -43,11 +43,8 @@ import org.springframework.stereotype.Service
 @Service
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 class VersionRelayEmailNotificationActionImpl extends SendMailToAllMembersAction[SimpleVersion] with VersionRelayEmailNotificationAction {
-
     @Autowired var versionService: VersionService = _
-
     @Autowired var projectService: ProjectService = _
-
     private val mapper = new VersionFieldNameMapper
 
     protected def buildExtraTemplateVariables(context: MailContext[SimpleVersion]) {
