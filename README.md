@@ -3,6 +3,7 @@
 [![Version](https://img.shields.io/badge/Version-5.2.7-brightgreen.svg)](https://community.mycollab.com/)
 [![SourceForge](https://img.shields.io/sourceforge/dt/mycollab.svg)](https://community.mycollab.com/download)
 
+
 ## Introduction
 
 MyCollab is the free and open source collaboration tools, it has three existing modules: Project Management, CRM and Document Management. Intuitive UI, rich features, high performance and stable are the advantages compare with various popular tools in the market such as Redmine, Bugzilla, Mantis etc. This open source is included into a trusted commercial product that is deployed on hundreds of companies' servers.
@@ -12,22 +13,22 @@ MyCollab does work well on both desktop and mobile devices.
 <table>
   <tr>
     <td align="center">
-      <a href="https://c1.staticflickr.com/1/657/23881269156_8ed005bebd_o.png" target="_blank" title="Project Dashboard">
-        <img src="https://c1.staticflickr.com/1/657/23881269156_417b9a3a73.jpg" alt="Project Dashboard">
+      <a href="https://c2.staticflickr.com/2/1474/24801683189_c2164771d9_o.png" target="_blank" title="Project Dashboard">
+        <img src="https://c2.staticflickr.com/2/1474/24801683189_f1e01ca393.jpg" alt="Project Dashboard">
       </a>
       <br />
       <em>Project Dashboard</em>
     </td>
     <td align="center">
-      <a href="https://c2.staticflickr.com/6/5814/23539502829_cb72e85b22_o.png" target="_blank" title="Bug Dashboard">
-        <img src="https://c2.staticflickr.com/6/5814/23539502829_e6b6b75ced.jpg" alt="Bug Dashboard">
+      <a href="https://c2.staticflickr.com/2/1523/25169394215_e0f8f9ae1e_o.png" target="_blank" title="Bug Dashboard">
+        <img src="https://c2.staticflickr.com/2/1523/25169394215_d376815818.jpg" alt="Bug Dashboard">
       </a>
       <br />
       <em>Bug Dashboard</em>
     </td>
     <td align="center">
-    <a href="https://c1.staticflickr.com/1/717/23881278026_710dec7708_o.png" target="_blank" title="Task Dashboard">
-      <img src="https://c1.staticflickr.com/1/717/23881278026_754c1bb71a.jpg" alt="Task Dashboard">
+    <a href="https://c2.staticflickr.com/2/1489/24873759540_8dbec05c8d_o.png" target="_blank" title="Task Dashboard">
+      <img src="https://c2.staticflickr.com/2/1489/24873759540_e9c1fcce8b.jpg" alt="Task Dashboard">
     </a>
       <br />
       <em>Task Dashboard</em>
@@ -35,22 +36,22 @@ MyCollab does work well on both desktop and mobile devices.
   </tr>
   <tr>
     <td align="center">
-    <a href="https://c1.staticflickr.com/1/674/23799062212_61fd9eb3d2_o.png" target="_blank" title="Kanban Board">
-        <img src="https://c1.staticflickr.com/1/674/23799062212_17d9fd1b4c.jpg" alt="Kanban Board">
+    <a href="https://c2.staticflickr.com/2/1682/25143051756_77339705cb_o.png" target="_blank" title="Kanban Board">
+        <img src="https://c2.staticflickr.com/2/1682/25143051756_201c8cce95.jpg" alt="Kanban Board">
       </a>
       <br />
       <em>Kanban Board</em>
     </td>
     <td align="center">
-      <a href="https://c1.staticflickr.com/1/625/23799060562_317cd54928_o.png" target="_blank" title="Calendar">
-        <img src="https://c1.staticflickr.com/1/625/23799060562_23cb477480.jpg" alt="Calendar">
+      <a href="https://c2.staticflickr.com/2/1547/25076141811_d5d242fef5_o.png" target="_blank" title="Calendar">
+        <img src="https://c2.staticflickr.com/2/1547/25076141811_aca9340389.jpg" alt="Calendar">
       </a>
       <br />
-      <em>Calendar</em>
+      <em>Gantt chart</em>
     </td>
     <td align="center">
-      <a href="https://c2.staticflickr.com/6/5792/23907364975_97830df6f3_o.png" target="_blank" title="Milestone">
-        <img src="https://c2.staticflickr.com/6/5792/23907364975_3c215a877d.jpg" alt="Milestone">
+      <a href="https://c2.staticflickr.com/2/1473/25169399515_2d8e210df0_o.png" target="_blank" title="Roadmap">
+        <img src="https://c2.staticflickr.com/2/1473/25169399515_009f65397a.jpg" alt="Milestone">
       </a>
       <br />
       <em>Roadmap</em>
@@ -73,12 +74,13 @@ MyCollab provides the rich set features of Project Management, Customer Manageme
   * Activity stream and audit logging
   * Kanban board
   * Gantt chart
-  * Roadmap and Calendar view
+  * Roadmap view
   * Issues Management
   * Tasks and dependencies management
   * Milestones
   * Time tracking (for premium users only)
-  * Risk/Problem Management (For premium users only)
+  * Risk Management (For premium users only)
+  * Calendar (For premium users only)
   * People and Permission management
   * Reporting
 
