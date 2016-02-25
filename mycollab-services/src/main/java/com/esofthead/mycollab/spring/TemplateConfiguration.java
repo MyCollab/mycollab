@@ -27,7 +27,6 @@ import org.springframework.ui.velocity.VelocityEngineFactoryBean;
  */
 @Configuration
 public class TemplateConfiguration {
-
     @Bean
     public VelocityEngineFactoryBean velocityEngine() {
         VelocityEngineFactoryBean bean = new VelocityEngineFactoryBean();

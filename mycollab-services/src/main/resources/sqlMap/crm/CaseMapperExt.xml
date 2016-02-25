@@ -2,19 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.esofthead.mycollab.module.crm.dao.CaseMapperExt">
     
-    <resultMap id="SimpleCaseResult"
-        type="com.esofthead.mycollab.module.crm.domain.SimpleCase"
+    <resultMap id="SimpleCaseResult" type="com.esofthead.mycollab.module.crm.domain.SimpleCase"
         extends="com.esofthead.mycollab.module.crm.dao.CaseMapper.ResultMapWithBLOBs">
-        <result column="createdUserAvatarId" jdbcType="VARCHAR"
-            property="createdUserAvatarId" />
-        <result column="createdUserFullName" jdbcType="VARCHAR"
-            property="createdUserFullName" />
-        <result column="assignUserAvatarId" property="assignUserAvatarId"
-            jdbcType="VARCHAR" />
-        <result column="assignUserFullName" property="assignUserFullName"
-            jdbcType="VARCHAR" />
-        <result column="accountName" property="accountName"
-            jdbcType="VARCHAR" />
+        <result column="createdUserAvatarId" jdbcType="VARCHAR" property="createdUserAvatarId" />
+        <result column="createdUserFullName" jdbcType="VARCHAR" property="createdUserFullName" />
+        <result column="assignUserAvatarId" property="assignUserAvatarId" jdbcType="VARCHAR" />
+        <result column="assignUserFullName" property="assignUserFullName" jdbcType="VARCHAR" />
+        <result column="accountName" property="accountName" jdbcType="VARCHAR" />
     </resultMap>
 
     <sql id="querySearchCriteria">
@@ -200,22 +194,18 @@
 
     <select id="findById" parameterType="int" resultMap="SimpleCaseResult" lang="velocity">
         <include refid="selectSimpleCase" />
-
         WHERE m_crm_case.id=@{caseId,jdbcType=NUMERIC}
     </select>
 
     <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer" lang="velocity">
         SELECT MIN(id) FROM m_crm_case
-
         #trimext("WHERE" "AND|OR")
             <include refid="queryTotalCountSearchCriteria" />
         #end
     </select>
 
-    <select id="getPreviousItemKey" parameterType="map"
-        resultType="java.lang.Integer" lang="velocity">
+    <select id="getPreviousItemKey" parameterType="map" resultType="java.lang.Integer" lang="velocity">
         SELECT MAX(id) FROM m_crm_case
-
         #trimext("WHERE" "AND|OR")
             <include refid="queryTotalCountSearchCriteria" />
         #end
@@ -223,9 +213,7 @@
 
     <!-- Here for Mass Update -->
     <update id="updateBySearchCriteria" parameterType="map" lang="velocity">
-        <include
-            refid="com.esofthead.mycollab.module.crm.dao.CaseMapper.massUpdateWithSessionSql" />
-
+        <include refid="com.esofthead.mycollab.module.crm.dao.CaseMapper.massUpdateWithSessionSql" />
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
                 <include refid="queryTotalCountSearchCriteria" />

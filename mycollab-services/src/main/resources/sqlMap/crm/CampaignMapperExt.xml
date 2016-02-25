@@ -1,23 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.esofthead.mycollab.module.crm.dao.CampaignMapperExt">
-
-    <resultMap
-        extends="com.esofthead.mycollab.module.crm.dao.CampaignMapper.ResultMapWithBLOBs"
+    <resultMap extends="com.esofthead.mycollab.module.crm.dao.CampaignMapper.ResultMapWithBLOBs"
         id="SimpleCampaignResult" type="com.esofthead.mycollab.module.crm.domain.SimpleCampaign">
-
-        <result column="createdUserAvatarId" jdbcType="VARCHAR"
-            property="createdUserAvatarId" />
-            
-        <result column="createdUserFullName" jdbcType="VARCHAR"
-            property="createdUserFullName" />
-            
-        <result column="assignUserAvatarId" jdbcType="VARCHAR"
-            property="assignUserAvatarId" />
-
-        <result column="assignUserFullName" jdbcType="VARCHAR"
-            property="assignUserFullName" />
-
+        <result column="createdUserAvatarId" jdbcType="VARCHAR" property="createdUserAvatarId" />
+        <result column="createdUserFullName" jdbcType="VARCHAR" property="createdUserFullName" />
+        <result column="assignUserAvatarId" jdbcType="VARCHAR" property="assignUserAvatarId" />
+        <result column="assignUserFullName" jdbcType="VARCHAR" property="assignUserFullName" />
         <association property="currency"
             resultMap="com.esofthead.mycollab.common.dao.CurrencyMapper.BaseResultMap"
             columnPrefix="curr_"></association>
@@ -179,63 +168,49 @@
         DELETE FROM m_crm_campaign
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
-            <include
-                refid="queryTotalCountSearchCriteria" />
+            <include refid="queryTotalCountSearchCriteria" />
             #end    
         #end
     </delete>
 
     <select id="findPagableListByCriteria" parameterType="CampaignSearchCriteria"
         resultMap="SimpleCampaignResult" lang="velocity">
-        <include
-            refid="selectSimpleCampaign" />
+        <include refid="selectSimpleCampaign" />
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
-                <include
-                    refid="querySearchCriteria" />
+                <include refid="querySearchCriteria" />
             #end
         #end
         <include refid="orderStatement" />
         
     </select>
 
-    <select id="findById" parameterType="int" resultMap="SimpleCampaignResult"
-        lang="velocity">
-        <include
-            refid="selectSimpleCampaign" />
-
+    <select id="findById" parameterType="int" resultMap="SimpleCampaignResult" lang="velocity">
+        <include refid="selectSimpleCampaign" />
         WHERE m_crm_campaign.id=@{campaignId,jdbcType=NUMERIC}
     </select>
 
-    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer"
-        lang="velocity">
+    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer" lang="velocity">
         SELECT MIN(id) FROM m_crm_campaign
-
         #trimext("WHERE" "AND|OR")
-            <include
-                refid="queryTotalCountSearchCriteria" />
+            <include refid="queryTotalCountSearchCriteria" />
         #end
     </select>
 
-    <select id="getPreviousItemKey" parameterType="map"
-        resultType="java.lang.Integer" lang="velocity">
+    <select id="getPreviousItemKey" parameterType="map" resultType="java.lang.Integer" lang="velocity">
         SELECT MAX(id) FROM m_crm_campaign
-
         #trimext("WHERE" "AND|OR")
-            <include
-                refid="queryTotalCountSearchCriteria" />
+            <include refid="queryTotalCountSearchCriteria" />
         #end
     </select>
 
     <!-- Here for Mass Update -->
     <update id="updateBySearchCriteria" parameterType="map" lang="velocity">
-        <include
-            refid="com.esofthead.mycollab.module.crm.dao.CampaignMapper.massUpdateWithSessionSql" />
+        <include refid="com.esofthead.mycollab.module.crm.dao.CampaignMapper.massUpdateWithSessionSql" />
 
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
-                <include
-                    refid="queryTotalCountSearchCriteria" />
+                <include refid="queryTotalCountSearchCriteria" />
             #end
         #end
     </update>

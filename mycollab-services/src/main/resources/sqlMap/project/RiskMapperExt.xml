@@ -11,6 +11,7 @@
         <result column="assignToUserAvatarId" property="assignToUserAvatarId" jdbcType="VARCHAR" />
         <result column="assignedToUserFullName" property="assignedToUserFullName" jdbcType="VARCHAR" />
         <result column="projectName" property="projectName" jdbcType="VARCHAR" />
+        <result column="projectShortName" property="projectShortName" jdbcType="VARCHAR" />
         <result column="milestoneName" property="milestoneName" jdbcType="VARCHAR" />
     </resultMap>
 
@@ -88,7 +89,7 @@
                  concat(raisedUser.firstname, ' ', LTRIM(concat(IFNULL(raisedUser.middlename, ''), ' ')), raisedUser.lastname) AS raisedByUserFullName,
                  assignedUser.avatarId AS assignToUserAvatarId,
                  concat(assignedUser.firstname, ' ', LTRIM(concat(IFNULL(assignedUser.middlename, ''), ' ')), assignedUser.lastname) AS assignedToUserFullName, 
-                 m_prj_project.name as projectName, m_prj_risk.milestoneid, m_prj_milestone.name AS milestoneName
+                 m_prj_project.name as projectName, m_prj_project.shortname AS projectShortName, m_prj_risk.milestoneid, m_prj_milestone.name AS milestoneName
           FROM m_prj_risk
               LEFT OUTER JOIN s_user as raisedUser ON (m_prj_risk.raisedbyuser=raisedUser.username)
               LEFT OUTER JOIN s_user as assignedUser ON ( m_prj_risk.assigntouser=assignedUser.username)

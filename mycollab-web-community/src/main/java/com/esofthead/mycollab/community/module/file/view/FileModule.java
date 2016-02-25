@@ -22,7 +22,7 @@ import com.esofthead.mycollab.module.file.view.IFileModule;
 import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.mvp.NotPresentedView;
+import com.esofthead.mycollab.vaadin.mvp.view.NotPresentedView;
 import com.esofthead.mycollab.vaadin.web.ui.ServiceMenu;
 import com.vaadin.ui.Button;
 import org.vaadin.viritin.layouts.MHorizontalLayout;

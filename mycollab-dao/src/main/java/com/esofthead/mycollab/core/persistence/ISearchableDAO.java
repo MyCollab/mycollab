@@ -40,8 +40,7 @@ public interface ISearchableDAO<S extends SearchCriteria> {
      * @param rowBounds
      * @return
      */
-    List findPagableListByCriteria(@Param("searchCriteria") S criteria,
-                                   RowBounds rowBounds);
+    List findPagableListByCriteria(@Param("searchCriteria") S criteria, RowBounds rowBounds);
 
     /**
      * @param criteria

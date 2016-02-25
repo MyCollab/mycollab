@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.project.view.user;
 
 import com.esofthead.mycollab.module.project.view.milestone.MilestoneTimelineWidget;
-import com.esofthead.mycollab.vaadin.mvp.AbstractLazyPageView;
+import com.esofthead.mycollab.vaadin.mvp.view.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.CssLayout;

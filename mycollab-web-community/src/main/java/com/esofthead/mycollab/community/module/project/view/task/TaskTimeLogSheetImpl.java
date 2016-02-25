@@ -21,7 +21,7 @@ import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.view.task.components.TaskTimeLogSheet;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.mvp.NotPresentWindow;
+import com.esofthead.mycollab.vaadin.mvp.view.NotPresentWindow;
 import com.vaadin.ui.UI;
 
 /**

@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web-community.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.vaadin.web.ui.field;
+package com.esofthead.mycollab.community.vaadin.web.ui.field;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.utils.StringUtils;

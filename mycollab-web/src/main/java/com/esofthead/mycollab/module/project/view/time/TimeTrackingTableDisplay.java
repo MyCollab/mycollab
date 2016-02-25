@@ -40,12 +40,9 @@ import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Text;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Table;
 import com.vaadin.ui.Table.ColumnGenerator;
-import com.vaadin.ui.VerticalLayout;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,7 +81,7 @@ public class TimeTrackingTableDisplay extends DefaultPagedBeanTable<ItemTimeLogg
                     private static final long serialVersionUID = 1L;
 
                     @Override
-                    public com.vaadin.ui.Component generateCell(Table source, Object itemId, Object columnId) {
+                    public Component generateCell(Table source, Object itemId, Object columnId) {
                         SimpleItemTimeLogging itemLogging = getBeanByIndex(itemId);
 
                         try {

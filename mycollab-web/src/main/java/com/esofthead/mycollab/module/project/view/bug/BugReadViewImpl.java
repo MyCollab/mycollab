@@ -187,7 +187,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
             navButton.addButton(reopenBtn);
 
             bugWorkflowControl.addComponent(navButton);
-        } else if (BugStatus.Resolved.name().equals(beanItem.getStatus())) {
+        } else if (BugStatus.Resolved.name().equals(beanItem.getStatus()) || BugStatus.WontFix.name().equals(beanItem.getStatus())) {
             bugWorkflowControl.removeAllComponents();
             ButtonGroup navButton = new ButtonGroup();
             Button reopenBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN), new Button.ClickListener() {

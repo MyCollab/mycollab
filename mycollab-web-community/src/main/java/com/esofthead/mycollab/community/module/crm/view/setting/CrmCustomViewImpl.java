@@ -21,7 +21,7 @@ import java.util.List;
 import com.esofthead.mycollab.form.view.builder.type.DynaSection;
 import com.esofthead.mycollab.module.crm.view.setting.ICrmCustomView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.mvp.NotPresentedView;
+import com.esofthead.mycollab.vaadin.mvp.view.NotPresentedView;
 
 /**
  * 

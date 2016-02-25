@@ -5,20 +5,16 @@
     <resultMap id="MilestoneResult"
         extends="com.esofthead.mycollab.module.project.dao.MilestoneMapper.ResultMapWithBLOBs"
         type="com.esofthead.mycollab.module.project.domain.SimpleMilestone">
-        <result column="ownerAvatarId" jdbcType="VARCHAR"
-            property="ownerAvatarId" />
-        <result column="ownerFullName" jdbcType="VARCHAR"
-            property="ownerFullName" />
-        <result column="createdUserAvatarId" jdbcType="VARCHAR"
-            property="createdUserAvatarId" />
-        <result column="createdUserFullName" jdbcType="VARCHAR"
-            property="createdUserFullName" />
-        <result column="numOpenTasks" jdbcType="INTEGER"
-            property="numOpenTasks" />
+        <result column="ownerAvatarId" jdbcType="VARCHAR" property="ownerAvatarId" />
+        <result column="ownerFullName" jdbcType="VARCHAR" property="ownerFullName" />
+        <result column="createdUserAvatarId" jdbcType="VARCHAR" property="createdUserAvatarId" />
+        <result column="createdUserFullName" jdbcType="VARCHAR" property="createdUserFullName" />
+        <result column="numOpenTasks" jdbcType="INTEGER" property="numOpenTasks" />
         <result column="numTasks" jdbcType="INTEGER" property="numTasks" />
         <result column="numOpenBugs" jdbcType="INTEGER" property="numOpenBugs" />
         <result column="numBugs" jdbcType="INTEGER" property="numBugs" />
         <result column="projectName" property="projectName" jdbcType="VARCHAR" />
+        <result column="projectShortName" property="projectShortName" jdbcType="VARCHAR" />
         <result column="totalTaskBillableHours" property="totalTaskBillableHours" jdbcType="DOUBLE"/>
         <result column="totalTaskNonBillableHours" property="totalTaskNonBillableHours" jdbcType="DOUBLE"/>
         <result column="totalBugBillableHours" property="totalBugBillableHours" jdbcType="DOUBLE"/>
@@ -116,7 +112,7 @@
                    (SELECT COUNT(*) FROM m_prj_task WHERE m_prj_task.milestoneId=m_prj_milestone.id AND m_prj_task.status='Open') AS numOpenTasks,
                    (SELECT COUNT(*) FROM m_tracker_bug WHERE m_tracker_bug.milestoneId=m_prj_milestone.id) AS numBugs,
                    (SELECT COUNT(*) FROM m_tracker_bug WHERE m_tracker_bug.milestoneId=m_prj_milestone.id AND m_tracker_bug.status IN ('Open', 'InProgress', 'Reopenned')) AS numOpenBugs,
-                   m_prj_project.name as projectName,
+                   m_prj_project.name as projectName, m_prj_project.shortname AS projectShortName,
                    (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging, m_prj_task WHERE m_prj_time_logging.projectId = m_prj_milestone.projectid
                      AND m_prj_task.milestoneId=m_prj_milestone.id
                      AND m_prj_time_logging.type='Project-Task' AND m_prj_time_logging.typeid=m_prj_task.id AND m_prj_time_logging.isBillable = 1) AS totalTaskBillableHours,

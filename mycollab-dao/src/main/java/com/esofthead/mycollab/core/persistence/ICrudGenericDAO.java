@@ -22,12 +22,10 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- *
- * @author MyCollab Ltd.
- * @since 1.0
- *
  * @param <K>
  * @param <T>
+ * @author MyCollab Ltd.
+ * @since 1.0
  */
 public interface ICrudGenericDAO<K extends Serializable, T> {
 
@@ -43,41 +41,36 @@ public interface ICrudGenericDAO<K extends Serializable, T> {
     int updateByPrimaryKey(T record);
 
     /**
-     *
      * @param record
      * @return
      */
     int updateByPrimaryKeySelective(T record);
 
     /**
-     *
      * @param record
      * @param primaryKeys
      */
-    void massUpdateWithSession(@Param("record") T record,
-                               @Param("primaryKeys") List<K> primaryKeys);
+    void massUpdateWithSession(@Param("record") T record, @Param("primaryKeys") List<K> primaryKeys);
 
     /**
-     * @param id
+     * @param primaryKey
      * @return
      */
     T selectByPrimaryKey(K primaryKey);
 
     /**
-     * @param id
+     * @param primaryKey
      * @return
      */
     int deleteByPrimaryKey(K primaryKey);
 
     /**
-     *
      * @param value
      * @return
      */
     int insertAndReturnKey(T value);
 
     /**
-     *
      * @param keys
      */
     void removeKeysWithSession(List keys);

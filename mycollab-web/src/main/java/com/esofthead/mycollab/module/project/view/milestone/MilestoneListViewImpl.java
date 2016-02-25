@@ -37,7 +37,7 @@ import com.esofthead.mycollab.vaadin.events.HasMassItemActionHandler;
 import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSelectableItemHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSelectionOptionHandlers;
-import com.esofthead.mycollab.vaadin.mvp.AbstractLazyPageView;
+import com.esofthead.mycollab.vaadin.mvp.view.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.*;

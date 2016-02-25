@@ -40,12 +40,9 @@ import java.util.Map;
  */
 public class LocalizationHelper {
     private static final Logger LOG = LoggerFactory.getLogger(LocalizationHelper.class);
-
     private static final Map<Locale, IMessageConveyor> languageMap;
-
-    public static final Locale defaultLocale = Locale.US;
-
     private static IMessageConveyor defaultMessage = new MessageConveyorExt(Locale.US);
+    public static final Locale defaultLocale = Locale.US;
 
     static {
         languageMap = new HashMap<>();
@@ -81,7 +78,6 @@ public class LocalizationHelper {
         }
     }
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
     public static String getMessage(Locale locale, Class cls, String option, Object... objects) {
         if (StringUtils.isBlank(option)) {
             return "";
@@ -94,8 +90,7 @@ public class LocalizationHelper {
             try {
                 return defaultMessage.getMessage(key, objects);
             } catch (Exception e1) {
-                LOG.error("Can not find resource key " + cls + "---" + option,
-                        e);
+                LOG.error("Can not find resource key " + cls + "---" + option, e);
                 return "Undefined";
             }
         }
@@ -112,8 +107,7 @@ public class LocalizationHelper {
         } else {
             int index = fileTemplatePath.indexOf("mt");
             if (index == -1) {
-                throw new MyCollabException("File type is not supported "
-                        + fileTemplatePath);
+                throw new MyCollabException("File type is not supported " + fileTemplatePath);
             }
             filePath = fileTemplatePath.substring(0, index - 1);
             filePath = String.format("%s_%s.mt", filePath, locale);

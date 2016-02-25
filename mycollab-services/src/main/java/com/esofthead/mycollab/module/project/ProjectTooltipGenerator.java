@@ -70,35 +70,39 @@ public class ProjectTooltipGenerator {
     }
 
     public static String generateTooltipEntity(Locale locale, String type, Integer typeId, Integer sAccountId,
-                                               String siteUrl, TimeZone timeZone) {
+                                               String siteUrl, TimeZone timeZone, boolean showProject) {
         if (ProjectTypeConstants.BUG.equals(type)) {
             BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
             SimpleBug bug = bugService.findById(typeId, sAccountId);
-            return generateToolTipBug(locale, bug, siteUrl, timeZone);
+            return generateToolTipBug(locale, bug, siteUrl, timeZone, showProject);
         } else if (ProjectTypeConstants.TASK.equals(type)) {
             ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
             SimpleTask task = taskService.findById(typeId, sAccountId);
-            return generateToolTipTask(locale, task, siteUrl, timeZone);
+            return generateToolTipTask(locale, task, siteUrl, timeZone, showProject);
         } else if (ProjectTypeConstants.MILESTONE.equals(type)) {
             MilestoneService milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
             SimpleMilestone milestone = milestoneService.findById(typeId, sAccountId);
-            return generateToolTipMilestone(locale, milestone, siteUrl, timeZone);
+            return generateToolTipMilestone(locale, milestone, siteUrl, timeZone, showProject);
         } else if (ProjectTypeConstants.RISK.equals(type)) {
             RiskService riskService = ApplicationContextUtil.getSpringBean(RiskService.class);
             SimpleRisk risk = riskService.findById(typeId, sAccountId);
-            return generateToolTipRisk(locale, risk, siteUrl, timeZone);
+            return generateToolTipRisk(locale, risk, siteUrl, timeZone, showProject);
         } else {
             return "";
         }
     }
 
-    public static String generateToolTipTask(Locale locale, SimpleTask task, String siteURL, TimeZone timeZone) {
+    public static String generateToolTipTask(Locale locale, SimpleTask task, String siteURL, TimeZone timeZone,
+                                             boolean showProject) {
         if (task == null) {
             return generateTolltipNull(locale);
         }
         try {
             TooltipBuilder tooltipManager = new TooltipBuilder();
-            tooltipManager.setTitle(task.getTaskname());
+            tooltipManager.appendTitle(task.getTaskname());
+            if (showProject) {
+                tooltipManager.appendTitle(String.format("[%s] %s", task.getProjectShortname(), task.getProjectName()));
+            }
 
             String dateFormat = LocaleHelper.getDateFormatInstance(locale).getDateFormat();
 
@@ -155,14 +159,18 @@ public class ProjectTooltipGenerator {
         }
     }
 
-    public static String generateToolTipBug(Locale locale, SimpleBug bug, String siteURL, TimeZone timeZone) {
+    public static String generateToolTipBug(Locale locale, SimpleBug bug, String siteURL, TimeZone timeZone, boolean showProject) {
         if (bug == null) {
             return generateTolltipNull(locale);
         }
 
         try {
             TooltipBuilder tooltipManager = new TooltipBuilder();
-            tooltipManager.setTitle(bug.getSummary());
+            tooltipManager.appendTitle(bug.getSummary());
+
+            if (showProject) {
+                tooltipManager.appendTitle(String.format("[%s] %s", bug.getProjectShortName(), bug.getProjectname()));
+            }
 
             String dateFormat = LocaleHelper.getDateFormatInstance(locale).getDateFormat();
 
@@ -235,12 +243,17 @@ public class ProjectTooltipGenerator {
         }
     }
 
-    public static String generateToolTipRisk(Locale locale, SimpleRisk risk, String siteURL, TimeZone timeZone) {
+    public static String generateToolTipRisk(Locale locale, SimpleRisk risk, String siteURL, TimeZone timeZone,
+                                             boolean showProject) {
         if (risk == null)
             return generateTolltipNull(locale);
         try {
             TooltipBuilder tooltipManager = new TooltipBuilder();
-            tooltipManager.setTitle(risk.getRiskname());
+            tooltipManager.appendTitle(risk.getRiskname());
+
+            if (showProject) {
+                tooltipManager.appendTitle(String.format("[%s] %s", risk.getProjectShortName(), risk.getProjectName()));
+            }
 
             String dateFormat = LocaleHelper.getDateFormatInstance(locale).getDateFormat();
 
@@ -311,7 +324,7 @@ public class ProjectTooltipGenerator {
             return generateTolltipNull(locale);
         try {
             TooltipBuilder tooltipManager = new TooltipBuilder();
-            tooltipManager.setTitle(version.getVersionname());
+            tooltipManager.appendTitle(version.getVersionname());
 
             String dateFormat = LocaleHelper.getDateFormatInstance(locale).getDateFormat();
 
@@ -344,7 +357,7 @@ public class ProjectTooltipGenerator {
 
         try {
             TooltipBuilder tooltipManager = new TooltipBuilder();
-            tooltipManager.setTitle(component.getComponentname());
+            tooltipManager.appendTitle(component.getComponentname());
 
             Tr trRow2 = new Tr();
             Td cell21 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_DESCRIPTION));
@@ -375,7 +388,7 @@ public class ProjectTooltipGenerator {
 
         try {
             TooltipBuilder tooltipManager = new TooltipBuilder();
-            tooltipManager.setTitle(project.getName());
+            tooltipManager.appendTitle(project.getName());
 
             String dateFormat = LocaleHelper.getDateFormatInstance(locale).getDateFormat();
 
@@ -428,13 +441,19 @@ public class ProjectTooltipGenerator {
         }
     }
 
-    public static String generateToolTipMilestone(Locale locale, SimpleMilestone milestone, String siteURL, TimeZone timeZone) {
+    public static String generateToolTipMilestone(Locale locale, SimpleMilestone milestone, String siteURL, TimeZone
+            timeZone, boolean showProject) {
         if (milestone == null)
             return generateTolltipNull(locale);
 
         try {
             TooltipBuilder tooltipManager = new TooltipBuilder();
-            tooltipManager.setTitle(milestone.getName());
+            tooltipManager.appendTitle(milestone.getName());
+
+            if (showProject) {
+                tooltipManager.appendTitle(String.format("[%s] %s", milestone.getProjectShortName(), milestone.getProjectName
+                        ()));
+            }
 
             String dateFormat = LocaleHelper.getDateFormatInstance(locale).getDateFormat();
 
@@ -534,7 +553,7 @@ public class ProjectTooltipGenerator {
 
         try {
             TooltipBuilder tooltipManager = new TooltipBuilder();
-            tooltipManager.setTitle(page.getSubject());
+            tooltipManager.appendTitle(page.getSubject());
 
             Tr trRow2 = new Tr();
             Td cell21 = new Td().setStyle("vertical-align: top; text-align: left;word-wrap: break-word; white-space: normal;vertical-align: top;")
@@ -556,7 +575,7 @@ public class ProjectTooltipGenerator {
 
         try {
             TooltipBuilder tooltipManager = new TooltipBuilder();
-            tooltipManager.setTitle(message.getTitle());
+            tooltipManager.appendTitle(message.getTitle());
 
             Tr trRow2 = new Tr();
             Td cell21 = new Td().setStyle("vertical-align: top; text-align: left;word-wrap: break-word; white-space: normal;vertical-align: top;")

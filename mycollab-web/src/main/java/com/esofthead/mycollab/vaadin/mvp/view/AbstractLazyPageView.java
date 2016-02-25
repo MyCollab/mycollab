@@ -14,10 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.vaadin.mvp;
+package com.esofthead.mycollab.vaadin.mvp.view;
 
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.vaadin.AsyncInvoker;
+import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
+import com.esofthead.mycollab.vaadin.mvp.LazyPageView;
 import com.hp.gagawa.java.elements.Div;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Label;

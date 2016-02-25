@@ -23,8 +23,8 @@ import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.module.project.view.ProjectView;
 import com.esofthead.mycollab.module.project.view.TagListPresenter;
+import com.esofthead.mycollab.module.project.view.assignments.ICalendarPresenter;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
-import com.esofthead.mycollab.module.project.view.assignments.CalendarPresenter;
 import com.esofthead.mycollab.module.project.view.assignments.GanttChartViewPresenter;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -76,7 +76,7 @@ public class ProjectDashboardPresenter extends AbstractPresenter<ProjectDashboar
             GanttChartViewPresenter presenter = PresenterResolver.getPresenter(GanttChartViewPresenter.class);
             presenter.go(view, data);
         } else if (data instanceof ProjectScreenData.GotoCalendarView) {
-            CalendarPresenter presenter = PresenterResolver.getPresenter(CalendarPresenter.class);
+            ICalendarPresenter presenter = PresenterResolver.getPresenter(ICalendarPresenter.class);
             presenter.go(view, data);
         } else {
             if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.PROJECT)) {

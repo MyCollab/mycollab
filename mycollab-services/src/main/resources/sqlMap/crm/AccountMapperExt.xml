@@ -1,18 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.esofthead.mycollab.module.crm.dao.AccountMapperExt">
-
-    <resultMap
-        extends="com.esofthead.mycollab.module.crm.dao.AccountMapper.ResultMapWithBLOBs"
+    <resultMap extends="com.esofthead.mycollab.module.crm.dao.AccountMapper.ResultMapWithBLOBs"
         id="SimpleAccountResult" type="com.esofthead.mycollab.module.crm.domain.SimpleAccount">
-        <result column="createdUserAvatarId" jdbcType="VARCHAR"
-            property="createdUserAvatarId" />
-        <result column="createdUserFullName" jdbcType="VARCHAR"
-            property="createdUserFullName" />
-        <result column="assignUserAvatarId" jdbcType="VARCHAR"
-            property="assignUserAvatarId" />
-        <result column="assignUserFullName" jdbcType="VARCHAR"
-            property="assignUserFullName" />
+        <result column="createdUserAvatarId" jdbcType="VARCHAR" property="createdUserAvatarId" />
+        <result column="createdUserFullName" jdbcType="VARCHAR" property="createdUserFullName" />
+        <result column="assignUserAvatarId" jdbcType="VARCHAR" property="assignUserAvatarId" />
+        <result column="assignUserFullName" jdbcType="VARCHAR" property="assignUserFullName" />
     </resultMap>
 
 
@@ -202,8 +196,7 @@
         ]]>
     </sql>
 
-    <select id="findPagableListByCriteria" parameterType="AccountSearchCriteria"
-        resultMap="SimpleAccountResult" lang="velocity">
+    <select id="findPagableListByCriteria" parameterType="AccountSearchCriteria" resultMap="SimpleAccountResult" lang="velocity">
         <include refid="selectSimpleAccount" />
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -213,9 +206,7 @@
         <include refid="orderStatement" />
     </select>
 
-    <select id="getTotalCount" parameterType="AccountSearchCriteria"
-        resultType="java.lang.Integer" lang="velocity">
-
+    <select id="getTotalCount" parameterType="AccountSearchCriteria" resultType="java.lang.Integer" lang="velocity">
         SELECT count(*) as totalCount FROM m_crm_account
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -224,8 +215,7 @@
         #end
     </select>
 
-    <delete id="removeByCriteria" parameterType="AccountSearchCriteria"
-        lang="velocity">
+    <delete id="removeByCriteria" parameterType="AccountSearchCriteria" lang="velocity">
         DELETE FROM m_crm_account
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -251,19 +241,15 @@
         ]]>
     </select>
 
-    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer"
-        lang="velocity">
+    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer" lang="velocity">
         SELECT MIN(id) FROM m_crm_account
-
         #trimext("WHERE" "AND|OR")
             <include refid="queryTotalCountSearchCriteria" />
         #end
     </select>
 
-    <select id="getPreviousItemKey" parameterType="map"
-        resultType="java.lang.Integer" lang="velocity">
+    <select id="getPreviousItemKey" parameterType="map" resultType="java.lang.Integer" lang="velocity">
         SELECT MAX(id) FROM m_crm_account
-
         #trimext("WHERE" "AND|OR")
             <include refid="queryTotalCountSearchCriteria" />
         #end
@@ -271,9 +257,7 @@
 
     <!-- Here for Mass Update -->
     <update id="updateBySearchCriteria" parameterType="map" lang="velocity">
-        <include
-            refid="com.esofthead.mycollab.module.crm.dao.AccountMapper.massUpdateWithSessionSql" />
-
+        <include refid="com.esofthead.mycollab.module.crm.dao.AccountMapper.massUpdateWithSessionSql" />
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
                 <include refid="queryTotalCountSearchCriteria" />

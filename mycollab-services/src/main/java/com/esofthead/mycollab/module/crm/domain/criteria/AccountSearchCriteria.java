@@ -55,8 +55,7 @@ public class AccountSearchCriteria extends SearchCriteria {
             "account-lastupdatedtime", GenericI18Enum.FORM_LAST_UPDATED_TIME,
             "m_crm_account", "lastUpdatedTime");
 
-    public static final Param p_anyCity = new CompositionStringParam(
-            "account-anyCity",
+    public static final Param p_anyCity = new CompositionStringParam("account-anyCity",
             AccountI18nEnum.FORM_ANY_CITY,
             new StringParam[]{
                     new StringParam("", null, "m_crm_account", "city"),

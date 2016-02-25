@@ -26,15 +26,15 @@ import com.esofthead.mycollab.vaadin.web.ui.UIConstants
  * @since 5.0.9
  */
 object TaskTableFieldDef {
-    val id: TableViewField = new TableViewField(null, "id", UIConstants.TABLE_CONTROL_WIDTH)
-    val taskname: TableViewField = new TableViewField(TaskI18nEnum.FORM_TASK_NAME, "taskname", UIConstants.TABLE_X_LABEL_WIDTH)
-    val status: TableViewField = new TableViewField(TaskI18nEnum.FORM_STATUS, "status", UIConstants.TABLE_X_LABEL_WIDTH)
-    val startdate: TableViewField = new TableViewField(TaskI18nEnum.FORM_START_DATE, "startdate", UIConstants.TABLE_DATE_WIDTH)
-    val duedate: TableViewField = new TableViewField(TaskI18nEnum.FORM_DEADLINE, "deadline", UIConstants.TABLE_DATE_WIDTH)
-    val percentagecomplete: TableViewField = new TableViewField(TaskI18nEnum.FORM_PERCENTAGE_COMPLETE, "percentagecomplete", UIConstants.TABLE_S_LABEL_WIDTH)
-    val assignee: TableViewField = new TableViewField(GenericI18Enum.FORM_ASSIGNEE, "assignUserFullName", UIConstants.TABLE_X_LABEL_WIDTH)
-    val billableHours: TableViewField = new TableViewField(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS, "billableHours",
+    val id = new TableViewField(null, "id", UIConstants.TABLE_CONTROL_WIDTH)
+    val taskname = new TableViewField(TaskI18nEnum.FORM_TASK_NAME, "taskname", UIConstants.TABLE_X_LABEL_WIDTH)
+    val status = new TableViewField(TaskI18nEnum.FORM_STATUS, "status", UIConstants.TABLE_X_LABEL_WIDTH)
+    val startdate = new TableViewField(TaskI18nEnum.FORM_START_DATE, "startdate", UIConstants.TABLE_DATE_WIDTH)
+    val duedate = new TableViewField(TaskI18nEnum.FORM_DEADLINE, "deadline", UIConstants.TABLE_DATE_WIDTH)
+    val percentagecomplete = new TableViewField(TaskI18nEnum.FORM_PERCENTAGE_COMPLETE, "percentagecomplete", UIConstants.TABLE_S_LABEL_WIDTH)
+    val assignee = new TableViewField(GenericI18Enum.FORM_ASSIGNEE, "assignUserFullName", UIConstants.TABLE_X_LABEL_WIDTH)
+    val billableHours = new TableViewField(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS, "billableHours",
         UIConstants.TABLE_M_LABEL_WIDTH)
-    val nonBillableHours: TableViewField = new TableViewField(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS, "nonBillableHours",
+    val nonBillableHours = new TableViewField(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS, "nonBillableHours",
         UIConstants.TABLE_M_LABEL_WIDTH)
 }

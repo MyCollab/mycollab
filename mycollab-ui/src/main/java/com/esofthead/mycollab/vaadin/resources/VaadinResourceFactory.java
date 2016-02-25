@@ -26,7 +26,7 @@ import com.esofthead.mycollab.vaadin.resources.file.VaadinFileResource;
  * @since 5.1.4
  */
 public class VaadinResourceFactory {
-    private static final String S3_CLS = "com.esofthead.mycollab.vaadin.resources.s3.VaadinS3Resource";
+    private static final String S3_CLS = "com.esofthead.mycollab.ondemand.vaadin.resources.s3.VaadinS3Resource";
 
     private static VaadinResourceFactory _instance = new VaadinResourceFactory();
     private VaadinResource vaadinResource;

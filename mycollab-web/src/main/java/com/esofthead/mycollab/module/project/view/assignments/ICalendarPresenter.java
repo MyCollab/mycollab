@@ -14,23 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.vaadin.mvp;
+package com.esofthead.mycollab.module.project.view.assignments;
 
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Window;
+import com.esofthead.mycollab.vaadin.mvp.IPresenter;
 
 /**
  * @author MyCollab Ltd
- * @since 5.1.4
+ * @since 5.2.8
  */
-@ViewComponent
-public class NotPresentWindow extends Window {
-    public NotPresentWindow() {
-        super("We are sorry");
-        this.setModal(true);
-        this.setResizable(false);
-
-        Component content = new NotPresentedView().withMargin(true);
-        this.setContent(content);
-    }
+public interface ICalendarPresenter extends IPresenter<CalendarView> {
 }

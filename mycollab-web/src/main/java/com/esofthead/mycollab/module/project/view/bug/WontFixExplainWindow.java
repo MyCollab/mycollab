@@ -101,7 +101,7 @@ public class WontFixExplainWindow extends Window {
                     @Override
                     public void buttonClick(ClickEvent event) {
                         if (EditForm.this.validateForm()) {
-                            bug.setStatus(BugStatus.Resolved.name());
+                            bug.setStatus(BugStatus.WontFix.name());
 
                             final String commentValue = commentArea.getValue();
                             if (commentValue != null && !commentValue.trim().equals("")) {

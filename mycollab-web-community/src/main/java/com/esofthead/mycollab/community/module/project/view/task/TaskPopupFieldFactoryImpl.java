@@ -26,7 +26,7 @@ import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.view.task.TaskPopupFieldFactory;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.web.ui.field.PopupFieldBuilder;
+import com.esofthead.mycollab.community.vaadin.web.ui.field.PopupFieldBuilder;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Span;

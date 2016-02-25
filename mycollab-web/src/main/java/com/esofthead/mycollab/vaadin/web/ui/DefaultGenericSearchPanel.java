@@ -45,7 +45,8 @@ public abstract class DefaultGenericSearchPanel<S extends SearchCriteria> extend
 
     abstract protected ComponentContainer buildSearchTitle();
 
-    abstract protected void buildExtraControls();
+    protected void buildExtraControls() {
+    }
 
     protected ComponentContainer constructHeader() {
         if (header == null) {

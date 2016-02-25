@@ -39,7 +39,6 @@ import java.util.List;
  */
 public abstract class DefaultService<K extends Serializable, T, S extends SearchCriteria>
         extends DefaultCrudService<K, T> implements IDefaultService<K, T, S> {
-
     private static final Logger LOG = LoggerFactory.getLogger(DefaultService.class);
 
     public abstract ISearchableDAO<S> getSearchMapper();
@@ -103,5 +102,4 @@ public abstract class DefaultService<K extends Serializable, T, S extends Search
             ((IMassUpdateDAO) searchMapper).updateBySearchCriteria(record, searchCriteria);
         }
     }
-
 }

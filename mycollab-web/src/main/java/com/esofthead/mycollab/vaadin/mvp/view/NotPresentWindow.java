@@ -14,20 +14,24 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.project.view;
+package com.esofthead.mycollab.vaadin.mvp.view;
 
-import com.esofthead.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
-import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
-import com.esofthead.mycollab.vaadin.mvp.PageView;
+import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.Window;
 
 /**
  * @author MyCollab Ltd
- * @since 5.2.1
+ * @since 5.1.4
  */
-public interface ICalendarDashboardView extends PageView {
-    void display();
+@ViewComponent
+public class NotPresentWindow extends Window {
+    public NotPresentWindow() {
+        super("We are sorry");
+        this.setModal(true);
+        this.setResizable(false);
 
-    void queryAssignments(ProjectGenericTaskSearchCriteria criteria);
-
-    HasSearchHandlers<ProjectGenericTaskSearchCriteria> getSearchHandlers();
+        Component content = new NotPresentedView().withMargin(true);
+        this.setContent(content);
+    }
 }

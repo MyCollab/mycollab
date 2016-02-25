@@ -88,10 +88,6 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
         savedFilterComboBox.setTotalCountNumber(countNumber);
     }
 
-    @Override
-    protected void buildExtraControls() {
-    }
-
     public void selectQueryInfo(String queryId) {
         savedFilterComboBox.selectQueryInfo(queryId);
     }

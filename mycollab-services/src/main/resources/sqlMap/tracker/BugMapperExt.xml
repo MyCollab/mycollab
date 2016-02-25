@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.esofthead.mycollab.module.tracker.dao.BugMapperExt">
-
-    <resultMap id="SimpleBugResult"
-        extends="com.esofthead.mycollab.module.tracker.dao.BugMapper.ResultMapWithBLOBs"
+    <resultMap id="SimpleBugResult" extends="com.esofthead.mycollab.module.tracker.dao.BugMapper.ResultMapWithBLOBs"
         type="com.esofthead.mycollab.module.tracker.domain.SimpleBug">
         <result column="loguserFullName" jdbcType="VARCHAR" property="loguserFullName" />
         <result column="loguserAvatarId" jdbcType="VARCHAR" property="loguserAvatarId" />
@@ -415,26 +413,19 @@
         ]]>
     </sql>
 
-    <select id="getBugById" resultMap="SimpleBugResult"
-        resultType="int" lang="velocity">
-
+    <select id="getBugById" resultMap="SimpleBugResult" resultType="int" lang="velocity">
         <include refid="selectBug" />
         WHERE m_tracker_bug.id = @{bugid,jdbcType=NUMERIC}
-
     </select>
     
-    <select id="findByProjectAndBugKey" resultMap="SimpleBugResult"
-        parameterType="map" lang="velocity">
-
+    <select id="findByProjectAndBugKey" resultMap="SimpleBugResult" parameterType="map" lang="velocity">
         <include refid="selectBug" />
         WHERE m_tracker_bug.sAccountId = @{sAccountId,jdbcType=NUMERIC}
             AND m_tracker_bug.bugkey = @{bugkey}
             AND m_prj_project.shortname = @{prjShortName}
-
     </select>
 
-    <select id="getTotalCount" parameterType="BugSearchCriteria"
-        resultType="int" lang="velocity">
+    <select id="getTotalCount" parameterType="BugSearchCriteria" resultType="int" lang="velocity">
         SELECT count(*) as totalCount FROM m_tracker_bug
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -443,9 +434,7 @@
         #end
     </select>
 
-    <select id="findPagableListByCriteria" parameterType="BugSearchCriteria"
-        resultMap="SimpleBugResult" lang="velocity">
-
+    <select id="findPagableListByCriteria" parameterType="BugSearchCriteria" resultMap="SimpleBugResult" lang="velocity">
         <include refid="selectBug" />
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -458,9 +447,9 @@
     <sql id="orderStatement">
         ORDER BY
         #ifnotnull($_parameter.searchCriteria.orderFields)
-        #repeat(${_parameter.searchCriteria.orderFields} $orderField "" "" "")
-        ${orderField.field} ${orderField.direction},
-        #end
+            #repeat(${_parameter.searchCriteria.orderFields} $orderField "" "" "")
+                ${orderField.field} ${orderField.direction},
+            #end
         #end
         m_tracker_bug.lastUpdatedTime DESC
     </sql>
@@ -481,7 +470,6 @@
 
     <select id="getPrioritySummary" parameterType="BugSearchCriteria"
         resultMap="com.esofthead.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
-
         <![CDATA[
         SELECT m_tracker_bug.priority AS groupid,
             COUNT(m_tracker_bug.priority) AS value, '' as groupname
@@ -497,7 +485,6 @@
 
     <select id="getResolutionDefectsSummary" parameterType="BugSearchCriteria"
         resultMap="com.esofthead.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
-
         <![CDATA[
         SELECT m_tracker_bug.resolution AS groupid,
             COUNT(m_tracker_bug.resolution) AS value, '' as groupname
@@ -514,7 +501,6 @@
 
     <select id="getAssignedDefectsSummary" parameterType="BugSearchCriteria"
         resultMap="com.esofthead.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
-
         <![CDATA[
         SELECT m_tracker_bug.assignuser AS groupid,
             COUNT(IFNULL(m_tracker_bug.assignuser, '')) AS value,
@@ -533,7 +519,6 @@
 
     <select id="getReporterDefectsSummary" parameterType="BugSearchCriteria"
         resultMap="com.esofthead.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
-
         <![CDATA[
         SELECT m_tracker_bug.logby AS groupid,
             COUNT(IFNULL(m_tracker_bug.logby,'')) AS value,
@@ -551,7 +536,6 @@
 
     <select id="getComponentDefectsSummary" parameterType="BugSearchCriteria"
         resultMap="com.esofthead.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
-
         <![CDATA[
         SELECT m_tracker_component.id AS groupid,
             COUNT(IFNULL(m_tracker_component.id,'')) AS value,
@@ -584,7 +568,6 @@
 
     <select id="getVersionDefectsSummary" parameterType="BugSearchCriteria"
         resultMap="com.esofthead.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
-
         <![CDATA[
         SELECT m_tracker_version.id AS groupid,
             COUNT(IFNULL(m_tracker_version.id,'')) AS value,
@@ -622,17 +605,14 @@
         ]]>
     </select>
 
-    <resultMap id="BugStatusGroupItemResult"
-        type="com.esofthead.mycollab.module.tracker.domain.BugStatusGroupItem">
+    <resultMap id="BugStatusGroupItemResult" type="com.esofthead.mycollab.module.tracker.domain.BugStatusGroupItem">
         <result column="groupname" jdbcType="VARCHAR" property="groupname" />
         <result column="status" jdbcType="VARCHAR" property="status" />
         <result column="numOpen" jdbcType="INTEGER" property="numOpen" />
-        <result column="numInProgress" jdbcType="INTEGER"
-            property="numInProgress" />
+        <result column="numInProgress" jdbcType="INTEGER" property="numInProgress" />
         <result column="numVerified" jdbcType="INTEGER" property="numVerified" />
         <result column="numResolved" jdbcType="INTEGER" property="numResolved" />
-        <result column="numReOpenned" jdbcType="INTEGER"
-            property="numReOpenned" />
+        <result column="numReOpenned" jdbcType="INTEGER" property="numReOpenned" />
     </resultMap>
 
     <select id="getBugStatusGroupItemBaseComponent"
@@ -671,6 +651,5 @@
                     AND m_tracker_component.id = m_tracker_bug_related_item.typeid) AS numReOpenned                         
         FROM m_tracker_component   
         ]]>
-        
     </select>
 </mapper>

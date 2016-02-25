@@ -46,6 +46,7 @@ public class SimpleMilestone extends Milestone {
     private Double totalBugBillableHours;
     private Double totalBugNonBillableHours;
 
+    private String projectShortName;
     private String projectName;
 
     public String getProjectName() {
@@ -156,6 +157,14 @@ public class SimpleMilestone extends Milestone {
 
     public void setTotalBugNonBillableHours(Double totalBugNonBillableHours) {
         this.totalBugNonBillableHours = totalBugNonBillableHours;
+    }
+
+    public String getProjectShortName() {
+        return projectShortName;
+    }
+
+    public void setProjectShortName(String projectShortName) {
+        this.projectShortName = projectShortName;
     }
 
     public boolean isOverdue() {

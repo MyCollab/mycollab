@@ -1,33 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.esofthead.mycollab.module.crm.dao.EventMapperExt">
-
-
-	<resultMap id="SimpleEventResult"
-		type="com.esofthead.mycollab.module.crm.domain.SimpleActivity">
-
+	<resultMap id="SimpleEventResult" type="com.esofthead.mycollab.module.crm.domain.SimpleActivity">
 		<result column="id" jdbcType="INTEGER" property="id" />
-
 		<result column="status" jdbcType="VARCHAR" property="status" />
-
 		<result column="subject" jdbcType="VARCHAR" property="subject" />
-
 		<result column="eventType" jdbcType="VARCHAR" property="eventType" />
-
 		<result column="type" jdbcType="VARCHAR" property="type" />
-
 		<result column="typeid" jdbcType="INTEGER" property="typeid" />
-
 		<result column="typeName" jdbcType="VARCHAR" property="typeName" />
-
 		<result column="startDate" jdbcType="TIMESTAMP" property="startDate" />
-
 		<result column="endDate" jdbcType="TIMESTAMP" property="endDate" />
-
 		<result column="assignUser" jdbcType="VARCHAR" property="assignUser" />
-
-		<result column="assignUserFullName" jdbcType="VARCHAR"
-			property="assignUserFullName" />
+		<result column="assignUserFullName" jdbcType="VARCHAR" property="assignUserFullName" />
 		<result column="createdTime" jdbcType="TIMESTAMP" property="createdTime" />
 		<result column="lastUpdatedTime" jdbcType="TIMESTAMP" property="lastUpdatedTime" />
 		<result column="description" jdbcType="VARCHAR" property="description" />

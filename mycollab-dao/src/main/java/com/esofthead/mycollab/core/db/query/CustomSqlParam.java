@@ -25,7 +25,6 @@ import java.util.Collection;
  * @since 4.5.0
  */
 public abstract class CustomSqlParam extends Param {
-    @SuppressWarnings("rawtypes")
     public CustomSqlParam(String id, Enum displayName) {
         super(id, displayName);
     }

@@ -16,8 +16,10 @@
  */
 package com.esofthead.mycollab.community.module.project.view.assignments;
 
+import com.esofthead.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
 import com.esofthead.mycollab.module.project.view.assignments.CalendarView;
-import com.esofthead.mycollab.vaadin.mvp.NotPresentedView;
+import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
+import com.esofthead.mycollab.vaadin.mvp.view.NotPresentedView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 
 /**
@@ -27,7 +29,17 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 @ViewComponent
 public class CalendarViewImpl extends NotPresentedView implements CalendarView {
     @Override
-    public void display() {
+    public void lazyLoadView() {
+
+    }
+
+    @Override
+    public HasSearchHandlers<ProjectGenericTaskSearchCriteria> getSearchHandlers() {
+        return null;
+    }
+
+    @Override
+    public void queryAssignments(ProjectGenericTaskSearchCriteria criteria) {
 
     }
 }

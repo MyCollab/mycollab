@@ -15942,6 +15942,12 @@ div.v-button.token-field {
 	padding: 5px;
 }
 
+.v-label.hint {
+	background-color: #8B8B8B;
+	color: #f7f7f7;
+	padding: 5px;
+}
+
 .gantt {
 	background: #fff;
 	overflow: hidden;

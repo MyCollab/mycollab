@@ -14,9 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web-community.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.vaadin;
+package com.esofthead.mycollab.community.vaadin;
 
 import com.esofthead.mycollab.core.MyCollabVersion;
+import com.esofthead.mycollab.vaadin.MyCollabBootstrapListener;
+import com.esofthead.mycollab.vaadin.MyCollabUIProvider;
 import com.vaadin.addon.touchkit.annotations.CacheManifestEnabled;
 import com.vaadin.addon.touchkit.server.TouchKitServlet;
 import com.vaadin.addon.touchkit.settings.TouchKitSettings;

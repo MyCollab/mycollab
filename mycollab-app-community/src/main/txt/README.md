@@ -40,6 +40,17 @@ understanding in a matter of minutes.
 Last changelog
 ==============
 
+Version 5.2.8
+-----------------------------
+
+**Improvements & New Features**
+* [Premium] Revise the Calendar view
+* Add 'Won't Fix' status to bug workflow
+
+**Bug Fixes**
+* [Premium] Export project timelog is failed
+* Delete the selected resource is failed
+
 Version 5.2.7
 -----------------------------
 **Library Upgrades**

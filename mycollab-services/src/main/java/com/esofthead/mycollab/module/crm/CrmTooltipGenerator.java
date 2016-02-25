@@ -72,7 +72,7 @@ public class CrmTooltipGenerator {
 
         try {
             TooltipBuilder tooltipBuilder = new TooltipBuilder();
-            tooltipBuilder.setTitle(account.getAccountname());
+            tooltipBuilder.appendTitle(account.getAccountname());
 
             Tr trRow1 = new Tr();
             Td cell11 = buildCellName(LocalizationHelper.getMessage(locale,
@@ -138,7 +138,7 @@ public class CrmTooltipGenerator {
 
         try {
             TooltipBuilder tooltipBuilder = new TooltipBuilder();
-            tooltipBuilder.setTitle(contact.getContactName());
+            tooltipBuilder.appendTitle(contact.getContactName());
 
             Tr trRow1 = new Tr();
             Td cell11 = buildCellName(LocalizationHelper.getMessage(locale, ContactI18nEnum.FORM_FIRSTNAME));
@@ -214,7 +214,7 @@ public class CrmTooltipGenerator {
 
         try {
             TooltipBuilder tooltipBuilder = new TooltipBuilder();
-            tooltipBuilder.setTitle(campaign.getCampaignname());
+            tooltipBuilder.appendTitle(campaign.getCampaignname());
 
             String dateFormat = LocaleHelper.getDateFormatInstance(locale).getDateFormat();
 
@@ -287,7 +287,7 @@ public class CrmTooltipGenerator {
 
         try {
             TooltipBuilder tooltipManager = new TooltipBuilder();
-            tooltipManager.setTitle(lead.getLeadName());
+            tooltipManager.appendTitle(lead.getLeadName());
 
             Tr trRow1 = new Tr();
             Td cell11 = buildCellName(LocalizationHelper.getMessage(locale, LeadI18nEnum.FORM_FIRSTNAME));
@@ -378,7 +378,7 @@ public class CrmTooltipGenerator {
 
         try {
             TooltipBuilder tooltipManager = new TooltipBuilder();
-            tooltipManager.setTitle(opportunity.getOpportunityname());
+            tooltipManager.appendTitle(opportunity.getOpportunityname());
 
             String dateFormat = LocaleHelper.getDateFormatInstance(locale).getDateFormat();
 
@@ -453,7 +453,7 @@ public class CrmTooltipGenerator {
 
         try {
             TooltipBuilder tooltipManager = new TooltipBuilder();
-            tooltipManager.setTitle(cases.getSubject());
+            tooltipManager.appendTitle(cases.getSubject());
 
             Tr trRow1 = new Tr();
             Td cell11 = buildCellName(LocalizationHelper.getMessage(locale, CaseI18nEnum.FORM_PRIORITY));
@@ -522,7 +522,7 @@ public class CrmTooltipGenerator {
             return generateTolltipNull(locale);
         try {
             TooltipBuilder tooltipManager = new TooltipBuilder();
-            tooltipManager.setTitle(meeting.getSubject());
+            tooltipManager.appendTitle(meeting.getSubject());
 
             String dateTimeFormat = LocaleHelper.getDateFormatInstance(locale).getDateTimeFormat();
 
@@ -565,7 +565,7 @@ public class CrmTooltipGenerator {
             return generateTolltipNull(locale);
         try {
             TooltipBuilder tooltipManager = new TooltipBuilder();
-            tooltipManager.setTitle(call.getSubject());
+            tooltipManager.appendTitle(call.getSubject());
 
             String dateFormat = LocaleHelper.getDateFormatInstance(locale).getDateFormat();
 
@@ -620,7 +620,7 @@ public class CrmTooltipGenerator {
 
         try {
             TooltipBuilder tooltipManager = new TooltipBuilder();
-            tooltipManager.setTitle(task.getSubject());
+            tooltipManager.appendTitle(task.getSubject());
 
             String dateFormat = LocaleHelper.getDateFormatInstance(locale).getDateFormat();
 

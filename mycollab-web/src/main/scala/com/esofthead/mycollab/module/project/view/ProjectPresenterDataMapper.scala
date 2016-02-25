@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.view
 
-import com.esofthead.mycollab.module.project.view.assignments.CalendarPresenter
 import com.esofthead.mycollab.module.project.view.bug.BugPresenter
 import com.esofthead.mycollab.module.project.view.file.FilePresenter
 import com.esofthead.mycollab.module.project.view.message.MessagePresenter

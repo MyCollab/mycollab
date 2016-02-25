@@ -17,12 +17,10 @@
 package com.esofthead.mycollab.module.ecm.esb.impl
 
 import java.util.concurrent.TimeUnit
-import java.util.concurrent.locks.Lock
 
 import com.esofthead.mycollab.core.utils.StringUtils
 import com.esofthead.mycollab.lock.DistributionLockUtil
 import com.esofthead.mycollab.module.GenericCommand
-import com.esofthead.mycollab.module.ecm.domain.DriveInfo
 import com.esofthead.mycollab.module.ecm.esb.DeleteResourcesEvent
 import com.esofthead.mycollab.module.ecm.service.DriveInfoService
 import com.esofthead.mycollab.module.file.service.RawContentService
@@ -61,11 +59,8 @@ object DeleteResourcesCommandImpl {
           }
         }
         if (driveInfo.getUsedvolume == null || (driveInfo.getUsedvolume < totalSize)) {
-          DeleteResourcesCommandImpl.LOG.error("Inconsistent storage volume site of account {}, used " +
-            "storage is less than removed storage", event.sAccountId)
           driveInfo.setUsedvolume(0L)
-        }
-        else {
+        } else {
           driveInfo.setUsedvolume(driveInfo.getUsedvolume - totalSize)
         }
         driveInfoService.saveOrUpdateDriveInfo(driveInfo)

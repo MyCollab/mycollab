@@ -37,7 +37,7 @@ public class TooltipBuilder {
         div.appendChild(table);
     }
 
-    public TooltipBuilder setTitle(String title) {
+    public TooltipBuilder appendTitle(String title) {
         H3 htmlTitle = new H3();
         htmlTitle.setStyle("whitespace: normal; width: 100%; word-wrap: break-word;");
         htmlTitle.appendText(title);

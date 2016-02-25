@@ -16,12 +16,15 @@
  */
 package com.esofthead.mycollab.module.project.view.assignments;
 
-import com.esofthead.mycollab.vaadin.mvp.PageView;
+import com.esofthead.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
+import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
+import com.esofthead.mycollab.vaadin.mvp.LazyPageView;
 
 /**
  * @author MyCollab Ltd
  * @since 5.2.0
  */
-public interface CalendarView extends PageView {
-    void display();
+public interface CalendarView extends LazyPageView {
+    void queryAssignments(ProjectGenericTaskSearchCriteria criteria);
+    HasSearchHandlers<ProjectGenericTaskSearchCriteria> getSearchHandlers();
 }

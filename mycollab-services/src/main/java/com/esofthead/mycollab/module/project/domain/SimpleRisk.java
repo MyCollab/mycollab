@@ -35,6 +35,8 @@ public class SimpleRisk extends Risk {
 
     private String assignedToUserFullName;
 
+    private String projectShortName;
+
     private String projectName;
 
     private String milestoneName;
@@ -105,6 +107,14 @@ public class SimpleRisk extends Risk {
 
     public void setMilestoneName(String milestoneName) {
         this.milestoneName = milestoneName;
+    }
+
+    public String getProjectShortName() {
+        return projectShortName;
+    }
+
+    public void setProjectShortName(String projectShortName) {
+        this.projectShortName = projectShortName;
     }
 
     public enum Field {

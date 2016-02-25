@@ -97,9 +97,9 @@ public class CurrentProjectVariables {
         if (AppContext.isAdmin()) {
             return true;
         }
-        ProjectMember member = (ProjectMember) MyCollabSession.getVariable(PROJECT_MEMBER);
-        if (member != null && member.getIsadmin() != null) {
-            return member.getIsadmin();
+        SimpleProjectMember member = getProjectMember();
+        if (member != null) {
+            return member.isProjectOwner();
         }
         return false;
     }

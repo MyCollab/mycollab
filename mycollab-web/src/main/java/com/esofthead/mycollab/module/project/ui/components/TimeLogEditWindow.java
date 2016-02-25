@@ -104,8 +104,8 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
         constructRemainTimeEntryPanel();
 
         tableItem = new DefaultPagedBeanTable<>(ApplicationContextUtil.getSpringBean(ItemTimeLoggingService.class), SimpleItemTimeLogging.class,
-                Arrays.asList(TimeTableFieldDef.logUser, TimeTableFieldDef.logForDate, TimeTableFieldDef.logValue,
-                        TimeTableFieldDef.billable, new TableViewField(null, "id", UIConstants.TABLE_CONTROL_WIDTH)));
+                Arrays.asList(TimeTableFieldDef.logUser(), TimeTableFieldDef.logForDate(), TimeTableFieldDef.logValue(),
+                        TimeTableFieldDef.billable(), new TableViewField(null, "id", UIConstants.TABLE_CONTROL_WIDTH)));
 
         tableItem.addGeneratedColumn("logUserFullName", new Table.ColumnGenerator() {
             private static final long serialVersionUID = 1L;

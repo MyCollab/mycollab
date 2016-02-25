@@ -91,15 +91,14 @@ public class BugStatusTrendChartWidget extends Depot {
                 Set<String> statuses = groupItems.keySet();
                 for (String status : statuses) {
                     TimeSeries series = new TimeSeries(status);
-                    List<GroupItem> groupItems = this.groupItems.get(status);
-                    for (GroupItem item : groupItems) {
+                    List<GroupItem> items = this.groupItems.get(status);
+                    for (GroupItem item : items) {
                         series.add(new Day(formatter.parseDateTime(item.getGroupname()).toDate()), item.getValue());
                     }
                     dataset.addSeries(series);
                 }
 
-                JFreeChart chart = ChartFactory.createTimeSeriesChart("", "", "", dataset,
-                        false, true, false);
+                JFreeChart chart = ChartFactory.createTimeSeriesChart("", "", "", dataset, false, true, false);
                 chart.setBackgroundPaint(Color.white);
 
                 XYPlot plot = (XYPlot) chart.getPlot();
@@ -164,7 +163,8 @@ public class BugStatusTrendChartWidget extends Depot {
             LocalDate startDate = endDate.minusDays(30);
             groupItems = timelineTrackingService.findTimelineItems(Arrays.asList(OptionI18nEnum.BugStatus.InProgress.name(),
                     OptionI18nEnum.BugStatus.Open.name(), OptionI18nEnum.BugStatus.ReOpened.name(),
-                    OptionI18nEnum.BugStatus.Resolved.name(), OptionI18nEnum.BugStatus.Verified.name()),
+                    OptionI18nEnum.BugStatus.Resolved.name(), OptionI18nEnum.BugStatus.WontFix.name(),
+                    OptionI18nEnum.BugStatus.Verified.name()),
                     startDate.toDate(), endDate.toDate(), searchCriteria);
             displayChart();
         }

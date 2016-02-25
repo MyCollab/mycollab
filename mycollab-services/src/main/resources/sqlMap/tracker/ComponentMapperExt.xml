@@ -1,23 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.esofthead.mycollab.module.tracker.dao.ComponentMapperExt">
-    
-    <resultMap
-        type="com.esofthead.mycollab.module.tracker.domain.SimpleComponent"
+    <resultMap type="com.esofthead.mycollab.module.tracker.domain.SimpleComponent"
         extends="com.esofthead.mycollab.module.tracker.dao.ComponentMapper.ResultMapWithBLOBs"
         id="SimpleComponentResult">
-        <result column="userLeadAvatarId" jdbcType="VARCHAR"
-            property="userLeadAvatarId" />
-        <result column="userLeadFullName" jdbcType="VARCHAR"
-            property="userLeadFullName" />
-        <result column="createdUserAvatarId" jdbcType="VARCHAR"
-            property="createdUserAvatarId" />
-        <result column="createdUserFullName" jdbcType="VARCHAR"
-            property="createdUserFullName" />
+        <result column="userLeadAvatarId" jdbcType="VARCHAR" property="userLeadAvatarId" />
+        <result column="userLeadFullName" jdbcType="VARCHAR" property="userLeadFullName" />
+        <result column="createdUserAvatarId" jdbcType="VARCHAR" property="createdUserAvatarId" />
+        <result column="createdUserFullName" jdbcType="VARCHAR" property="createdUserFullName" />
         <result column="numOpenBugs" jdbcType="INTEGER" property="numOpenBugs" />
         <result column="numBugs" jdbcType="INTEGER" property="numBugs" />
-        <result column="projectName" jdbcType="VARCHAR"
-            property="projectName" />
+        <result column="projectName" jdbcType="VARCHAR" property="projectName" />
     </resultMap>
 
     <sql id="querySearchCriteria">
@@ -76,15 +69,14 @@
     <sql id="orderStatement">
         ORDER BY
         #ifnotnull($_parameter.searchCriteria.orderFields)
-        #repeat(${_parameter.searchCriteria.orderFields} $orderField "" "" "")
-        ${orderField.field} ${orderField.direction},
-        #end
+            #repeat(${_parameter.searchCriteria.orderFields} $orderField "" "" "")
+                ${orderField.field} ${orderField.direction},
+            #end
         #end
         m_tracker_component.lastUpdatedTime DESC
     </sql>
 
-    <select id="getTotalCount" resultType="int"
-        parameterType="ComponentSearchCriteria" lang="velocity">
+    <select id="getTotalCount" resultType="int" parameterType="ComponentSearchCriteria" lang="velocity">
         SELECT count(*) as totalCount FROM m_tracker_component
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -93,8 +85,7 @@
         #end
     </select>
 
-    <select id="findPagableListByCriteria" resultMap="SimpleComponentResult"
-        parameterType="ComponentSearchCriteria" lang="velocity">
+    <select id="findPagableListByCriteria" resultMap="SimpleComponentResult" parameterType="ComponentSearchCriteria" lang="velocity">
         <include refid="selectComponents" />
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -107,13 +98,11 @@
     <select id="findComponentById" parameterType="java.lang.Integer"
         resultMap="SimpleComponentResult" lang="velocity">
         <include refid="selectComponents" />
-
         WHERE m_tracker_component.id=@{componentId, jdbcType=NUMERIC}
     </select>
 
     <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer" lang="velocity">
         SELECT MIN(id) FROM m_tracker_component
-
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
                 <include refid="querySearchCriteria" />
@@ -121,10 +110,8 @@
         #end
     </select>
 
-    <select id="getPreviousItemKey" parameterType="map"
-        resultType="java.lang.Integer" lang="velocity">
+    <select id="getPreviousItemKey" parameterType="map" resultType="java.lang.Integer" lang="velocity">
         SELECT MAX(id) FROM m_tracker_component
-
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
                 <include refid="querySearchCriteria" />
@@ -132,8 +119,7 @@
         #end    
     </select>
 
-    <select id="getTotalBillableHours" parameterType="int"
-            resultType="double" lang="velocity">
+    <select id="getTotalBillableHours" parameterType="int" resultType="double" lang="velocity">
         SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0)
             FROM m_tracker_component, m_tracker_bug, m_tracker_bug_related_item, m_prj_time_logging
             WHERE m_tracker_component.id = @{componentid} AND m_tracker_component.id = m_tracker_bug_related_item.typeid
@@ -142,8 +128,7 @@
                 AND m_prj_time_logging.isBillable = '1'
     </select>
 
-    <select id="getTotalNonBillableHours" parameterType="int"
-            resultType="double" lang="velocity">
+    <select id="getTotalNonBillableHours" parameterType="int" resultType="double" lang="velocity">
         SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0)
             FROM m_tracker_component, m_tracker_bug, m_tracker_bug_related_item, m_prj_time_logging
             WHERE m_tracker_component.id = @{componentid} AND m_tracker_component.id = m_tracker_bug_related_item.typeid
@@ -152,8 +137,7 @@
                 AND m_prj_time_logging.isBillable = '0'
     </select>
 
-    <select id="getRemainHours" parameterType="int"
-            resultType="double" lang="velocity">
+    <select id="getRemainHours" parameterType="int" resultType="double" lang="velocity">
         SELECT COALESCE(SUM(m_tracker_bug.estimateRemainTime), 0)
             FROM m_tracker_bug, m_tracker_bug_related_item
             WHERE m_tracker_bug_related_item.typeid = @{componentid} AND m_tracker_bug_related_item.type = 'Component'

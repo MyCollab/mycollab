@@ -18,7 +18,7 @@ package com.esofthead.mycollab.community.module.project.view.risk;
 
 import com.esofthead.mycollab.module.project.view.risk.IRiskContainer;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.mvp.NotPresentedView;
+import com.esofthead.mycollab.vaadin.mvp.view.NotPresentedView;
 
 /**
  * @author MyCollab Ltd

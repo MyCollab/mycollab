@@ -96,7 +96,7 @@ public class BugSavedFilterComboBox extends SavedFilterComboBox {
                 SearchFieldInfo.inCollection(BugSearchCriteria.p_status, new VariableInjecter() {
                     @Override
                     public Object eval() {
-                        return Arrays.asList(BugStatus.Resolved.name());
+                        return Arrays.asList(BugStatus.Resolved.name(), BugStatus.WontFix.name());
                     }
                 }));
 

@@ -49,7 +49,7 @@ import java.util.List;
  */
 public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteria> {
     private static final long serialVersionUID = 1L;
-    protected TaskSearchCriteria searchCriteria;
+    private TaskSearchCriteria searchCriteria;
 
     private TaskSavedFilterComboBox savedFilterComboBox;
 
@@ -86,10 +86,6 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
     }
 
     @Override
-    protected void buildExtraControls() {
-    }
-
-    @Override
     protected SearchLayout<TaskSearchCriteria> createBasicSearchLayout() {
         return new TaskBasicSearchLayout();
     }
@@ -119,7 +115,7 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
         }
 
         public void setNameField(String value) {
-            this.nameField.setValue(value);
+            nameField.setValue(value);
         }
 
         @Override
@@ -129,12 +125,12 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
             Label nameLbl = new Label("Name:");
             basicSearchBody.with(nameLbl).withAlign(nameLbl, Alignment.MIDDLE_LEFT);
 
-            this.nameField = new TextField();
-            this.nameField.setInputPrompt("Query by task name");
-            this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
+            nameField = new TextField();
+            nameField.setInputPrompt("Query by task name");
+            nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
             basicSearchBody.with(nameField).withAlign(nameField, Alignment.MIDDLE_CENTER);
 
-            this.myItemCheckbox = new CheckBox(AppContext.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
+            myItemCheckbox = new CheckBox(AppContext.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
             basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox, Alignment.MIDDLE_CENTER);
 
             Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
@@ -180,8 +176,8 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
         protected TaskSearchCriteria fillUpSearchCriteria() {
             searchCriteria = new TaskSearchCriteria();
             searchCriteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-            searchCriteria.setTaskName(StringSearchField.and(this.nameField.getValue().trim()));
-            if (this.myItemCheckbox.getValue()) {
+            searchCriteria.setTaskName(StringSearchField.and(nameField.getValue().trim()));
+            if (myItemCheckbox.getValue()) {
                 searchCriteria.setAssignUser(StringSearchField.and(AppContext.getUsername()));
             } else {
                 searchCriteria.setAssignUser(null);

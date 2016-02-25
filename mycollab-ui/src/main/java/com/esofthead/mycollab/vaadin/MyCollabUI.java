@@ -28,6 +28,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -99,7 +100,15 @@ public abstract class MyCollabUI extends UI {
         LicenseResolver licenseResolver = ApplicationContextUtil.getSpringBean(LicenseResolver.class);
         if (licenseResolver != null) {
             LicenseInfo licenseInfo = licenseResolver.getLicenseInfo();
-            if (licenseInfo == null || (licenseInfo.isExpired() && licenseInfo.isTrial())) {
+            if (licenseInfo == null) {
+                RestTemplate restTemplate = new RestTemplate();
+                try {
+                    String licenseRequest = restTemplate.postForObject("http://127.0.0.1:7070/api/register-trial", null, String.class);
+                    licenseResolver.checkAndSaveLicenseInfo(licenseRequest);
+                } catch (Exception e) {
+                    LOG.error("Can not retrieve a trial license", e);
+                }
+            } else if (licenseInfo != null && licenseInfo.isExpired() && licenseInfo.isTrial()) {
                 Window activateWindow = ViewManager.getCacheComponent(AbstractLicenseActivationWindow.class);
                 UI.getCurrent().addWindow(activateWindow);
             }

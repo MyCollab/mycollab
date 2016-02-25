@@ -14,8 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web-community.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.vaadin.ui.service;
+package com.esofthead.mycollab.community.vaadin.ui.service;
 
+import com.esofthead.mycollab.vaadin.ui.service.GoogleAnalyticsService;
 import com.vaadin.ui.UI;
 import org.springframework.stereotype.Service;
 

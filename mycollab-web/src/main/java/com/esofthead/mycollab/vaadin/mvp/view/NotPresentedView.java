@@ -14,11 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.vaadin.mvp;
+package com.esofthead.mycollab.vaadin.mvp.view;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
+import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
@@ -34,6 +35,7 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  * @author MyCollab Ltd.
  * @since 1.0
  */
+@ViewComponent
 public class NotPresentedView extends AbstractPageView {
     private static final long serialVersionUID = 1L;
 

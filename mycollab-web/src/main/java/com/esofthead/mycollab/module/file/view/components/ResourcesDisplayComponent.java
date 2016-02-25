@@ -38,7 +38,9 @@ import com.esofthead.mycollab.vaadin.resources.LazyStreamSource;
 import com.esofthead.mycollab.vaadin.resources.OnDemandFileDownloader;
 import com.esofthead.mycollab.vaadin.resources.StreamDownloadResourceUtil;
 import com.esofthead.mycollab.vaadin.resources.file.FileAssetsUtil;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
+import com.esofthead.mycollab.vaadin.ui.Hr;
+import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.web.ui.*;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.google.common.base.Predicate;
@@ -66,6 +68,7 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -120,7 +123,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
 
             @Override
             public void buttonClick(ClickEvent event) {
-                if (!(Boolean) selectAllBtn.getData()) {
+                if (Boolean.FALSE.equals(selectAllBtn.getData())) {
                     selectAllBtn.setIcon(FontAwesome.CHECK_SQUARE_O);
                     selectAllBtn.setData(true);
                     resourcesContainer.setAllValues(true);
@@ -261,7 +264,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 if (CollectionUtils.isEmpty(selectedResources)) {
                     NotificationUtil.showWarningNotification("Please select at least one item to delete");
                 } else {
-                    deleteResourceAction();
+                    deleteResourceAction(getSelectedResources());
                 }
             }
         });
@@ -294,7 +297,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
         this.resourcesContainer.constructBody(this.baseFolder);
     }
 
-    private void deleteResourceAction() {
+    private void deleteResourceAction(final Collection<Resource> deletedResources) {
         ConfirmDialogExt.show(UI.getCurrent(), AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
                 AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                 AppContext.getMessage(GenericI18Enum.BUTTON_YES),
@@ -304,26 +307,23 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
 
                     @Override
                     public void onClose(final ConfirmDialog dialog) {
-                        Collection<Resource> selectedResources = getSelectedResources();
-                        if (CollectionUtils.isNotEmpty(selectedResources)) {
-                            if (dialog.isConfirmed()) {
-                                for (Resource res : selectedResources) {
-                                    if (res.isExternalResource()) {
-                                        externalResourceService.deleteResource(
-                                                ((ExternalFolder) res).getExternalDrive(), res.getPath());
-                                    } else {
-                                        if (res instanceof Folder) {
-                                            EventBusFactory.getInstance().post(new FileEvent.ResourceRemovedEvent
-                                                    (ResourcesDisplayComponent.this, res));
-                                        }
-                                        resourceService.removeResource(res.getPath(), AppContext.getUsername(),
-                                                AppContext.getAccountId());
+                        if (dialog.isConfirmed()) {
+                            for (Resource res : deletedResources) {
+                                if (res.isExternalResource()) {
+                                    externalResourceService.deleteResource(
+                                            ((ExternalFolder) res).getExternalDrive(), res.getPath());
+                                } else {
+                                    if (res instanceof Folder) {
+                                        EventBusFactory.getInstance().post(new FileEvent.ResourceRemovedEvent
+                                                (ResourcesDisplayComponent.this, res));
                                     }
+                                    resourceService.removeResource(res.getPath(), AppContext.getUsername(),
+                                            AppContext.getAccountId());
                                 }
-
-                                resourcesContainer.constructBody(baseFolder);
-                                NotificationUtil.showNotification("Congrats", "Deleted content successfully.");
                             }
+
+                            resourcesContainer.constructBody(baseFolder);
+                            NotificationUtil.showNotification("Congrats", "Deleted content successfully.");
                         }
                     }
                 });
@@ -439,8 +439,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             CssLayout resIconWrapper = new CssLayout();
             Component resourceIcon = null;
             if (resource instanceof Folder) {
-                resourceIcon = (resource instanceof ExternalFolder) ? new ELabel(FontAwesome.DROPBOX) : new
-                        ELabel(FontAwesome.FOLDER);
+                resourceIcon = (resource instanceof ExternalFolder) ? new ELabel(FontAwesome.DROPBOX) : new ELabel(FontAwesome.FOLDER);
                 resourceIcon.addStyleName("icon-38px");
             } else if (resource instanceof Content) {
                 Content content = (Content) resource;
@@ -599,7 +598,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
 
                 @Override
                 public void buttonClick(ClickEvent event) {
-                    ResourcesDisplayComponent.this.deleteResourceAction();
+                    deleteResourceAction(Arrays.asList(resource));
                 }
             });
             deleteBtn.setIcon(FontAwesome.TRASH_O);

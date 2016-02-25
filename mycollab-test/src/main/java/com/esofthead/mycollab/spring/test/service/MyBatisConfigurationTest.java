@@ -56,26 +56,20 @@ public class MyBatisConfigurationTest {
                 "com.esofthead.mycollab.module.file.domain.criteria;" +
                 "com.esofthead.mycollab.module.project.domain.criteria;" +
                 "com.esofthead.mycollab.module.tracker.domain.criteria;" +
-                "com.esofthead.mycollab.module.user.domain.criteria");
+                "com.esofthead.mycollab.module.user.domain.criteria;" +
+                "com.esofthead.mycollab.ondemand.module.support.domain.criteria");
         sqlSessionFactory.setTypeAliasesSuperType(SearchCriteria.class);
         sqlSessionFactory.setTypeAliases(new Class[]{VelocityDriverDeclare.class});
         sqlSessionFactory.setTypeHandlersPackage("com.esofthead.mybatis.plugin.ext");
         sqlSessionFactory.setMapperLocations(buildBatchMapperResources(
-                "classpath:sqlMap/common/*Mapper.xml",
-                "classpath:sqlMap/common/*MapperExt.xml",
-                "classpath:sqlMap/user/*Mapper.xml",
-                "classpath:sqlMap/user/*MapperExt.xml",
-                "classpath:sqlMap/form/*Mapper.xml",
-                "classpath:sqlMap/form/*MapperExt.xml",
-                "classpath:sqlMap/ecm/*Mapper.xml",
-                "classpath:sqlMap/ecm/*MapperExt.xml",
-                "classpath:sqlMap/crm/*Mapper.xml",
-                "classpath:sqlMap/crm/*MapperExt.xml",
-                "classpath:sqlMap/project/*Mapper.xml",
-                "classpath:sqlMap/project/*MapperExt.xml",
-                "classpath:sqlMap/tracker/*Mapper.xml",
-                "classpath:sqlMap/tracker/*MapperExt.xml",
-                "classpath:sqlMap/support/*Mapper.xml"));
+                "classpath:sqlMap/common/*Mapper*.xml",
+                "classpath:sqlMap/user/*Mapper*.xml",
+                "classpath:sqlMap/form/*Mapper*.xml",
+                "classpath:sqlMap/ecm/*Mapper*.xml",
+                "classpath:sqlMap/crm/*Mapper*.xml",
+                "classpath:sqlMap/project/*Mapper*.xml",
+                "classpath:sqlMap/tracker/*Mapper*.xml",
+                "classpath:sqlMap/support/*Mapper*.xml"));
 
         return sqlSessionFactory.getObject();
     }

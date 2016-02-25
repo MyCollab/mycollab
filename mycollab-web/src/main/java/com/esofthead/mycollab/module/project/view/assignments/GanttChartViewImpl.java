@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.project.view.assignments;
 import com.esofthead.mycollab.module.project.view.ProjectView;
 import com.esofthead.mycollab.module.project.view.assignments.gantt.GanttExt;
 import com.esofthead.mycollab.module.project.view.assignments.gantt.GanttTreeTable;
-import com.esofthead.mycollab.vaadin.mvp.AbstractLazyPageView;
+import com.esofthead.mycollab.vaadin.mvp.view.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.UIUtils;
 import com.esofthead.mycollab.vaadin.web.ui.ValueComboBox;

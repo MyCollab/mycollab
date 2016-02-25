@@ -20,7 +20,6 @@ import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.persistence.VelocityDriverDeclare;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.mybatis.scripting.velocity.VelocityFacade;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,8 +46,6 @@ public class MyBatisConfiguration {
     @Autowired
     DataSourceConfiguration dbConfig;
 
-    VelocityFacade a;
-
     @Bean
     public SqlSessionFactory sqlSessionFactory() throws Exception {
         SqlSessionFactoryBean sqlSessionFactory = new SqlSessionFactoryBean();
@@ -59,26 +56,20 @@ public class MyBatisConfiguration {
                 "com.esofthead.mycollab.module.file.domain.criteria;" +
                 "com.esofthead.mycollab.module.project.domain.criteria;" +
                 "com.esofthead.mycollab.module.tracker.domain.criteria;" +
-                "com.esofthead.mycollab.module.user.domain.criteria");
+                "com.esofthead.mycollab.module.user.domain.criteria;" +
+                "com.esofthead.mycollab.ondemand.module.support.domain.criteria");
         sqlSessionFactory.setTypeAliasesSuperType(SearchCriteria.class);
         sqlSessionFactory.setTypeAliases(new Class[]{VelocityDriverDeclare.class});
         sqlSessionFactory.setTypeHandlersPackage("com.esofthead.mybatis.plugin.ext");
         sqlSessionFactory.setMapperLocations(buildBatchMapperResources(
-                "classpath:sqlMap/common/*Mapper.xml",
-                "classpath:sqlMap/common/*MapperExt.xml",
-                "classpath:sqlMap/user/*Mapper.xml",
-                "classpath:sqlMap/user/*MapperExt.xml",
-                "classpath:sqlMap/form/*Mapper.xml",
-                "classpath:sqlMap/form/*MapperExt.xml",
-                "classpath:sqlMap/ecm/*Mapper.xml",
-                "classpath:sqlMap/ecm/*MapperExt.xml",
-                "classpath:sqlMap/crm/*Mapper.xml",
-                "classpath:sqlMap/crm/*MapperExt.xml",
-                "classpath:sqlMap/project/*Mapper.xml",
-                "classpath:sqlMap/project/*MapperExt.xml",
-                "classpath:sqlMap/tracker/*Mapper.xml",
-                "classpath:sqlMap/tracker/*MapperExt.xml",
-                "classpath:sqlMap/support/*Mapper.xml"));
+                "classpath:sqlMap/common/*Mapper*.xml",
+                "classpath:sqlMap/user/*Mapper*.xml",
+                "classpath:sqlMap/form/*Mapper*.xml",
+                "classpath:sqlMap/ecm/*Mapper*.xml",
+                "classpath:sqlMap/crm/*Mapper*.xml",
+                "classpath:sqlMap/project/*Mapper*.xml",
+                "classpath:sqlMap/tracker/*Mapper*.xml",
+                "classpath:sqlMap/support/*Mapper*.xml"));
 
         return sqlSessionFactory.getObject();
     }

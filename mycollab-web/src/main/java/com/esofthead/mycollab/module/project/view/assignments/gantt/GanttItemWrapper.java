@@ -334,7 +334,7 @@ public class GanttItemWrapper {
 
     String buildTooltip() {
         TooltipBuilder tooltipBuilder = new TooltipBuilder();
-        tooltipBuilder.setTitle(task.getName());
+        tooltipBuilder.appendTitle(task.getName());
         Tr trRow2 = new Tr();
         Td cell21 = buildCellName(AppContext.getMessage(TaskI18nEnum.FORM_START_DATE));
         String startDate = AppContext.formatDate(task.getStartDate());
