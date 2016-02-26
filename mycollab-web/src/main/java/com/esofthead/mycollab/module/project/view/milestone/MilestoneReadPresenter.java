@@ -20,6 +20,7 @@ package com.esofthead.mycollab.module.project.view.milestone;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
+import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -36,9 +37,9 @@ import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
+import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
-import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
 import org.vaadin.dialogs.ConfirmDialog;
@@ -82,8 +83,7 @@ public class MilestoneReadPresenter extends AbstractPresenter<MilestoneReadView>
                             public void onClose(ConfirmDialog dialog) {
                                 if (dialog.isConfirmed()) {
                                     MilestoneService milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
-                                    milestoneService.removeWithSession(data,
-                                            AppContext.getUsername(), AppContext.getAccountId());
+                                    milestoneService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
                                     EventBusFactory.getInstance().post(new MilestoneEvent.GotoList(this, null));
                                 }
                             }
@@ -106,7 +106,7 @@ public class MilestoneReadPresenter extends AbstractPresenter<MilestoneReadView>
             public void gotoNext(SimpleMilestone data) {
                 MilestoneService milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
                 MilestoneSearchCriteria criteria = new MilestoneSearchCriteria();
-                criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+                criteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
                 Integer nextId = milestoneService.getNextItemKey(criteria);
                 if (nextId != null) {
@@ -121,7 +121,7 @@ public class MilestoneReadPresenter extends AbstractPresenter<MilestoneReadView>
             public void gotoPrevious(SimpleMilestone data) {
                 MilestoneService milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
                 MilestoneSearchCriteria criteria = new MilestoneSearchCriteria();
-                criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+                criteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
                 Integer nextId = milestoneService.getPreviousItemKey(criteria);
                 if (nextId != null) {

@@ -58,7 +58,7 @@
       assignUserFullName, s_user.avatarId AS assignUserAvatarId, 'Project' AS type
     FROM m_prj_project
       LEFT OUTER JOIN s_user ON (m_prj_project.lead = s_user.username)
-      LEFT OUTER JOIN m_prj_milestone ON (m_prj_project.id = m_prj_milestone.projectid)
+      LEFT OUTER JOIN m_prj_milestone ON (m_prj_project.id = m_prj_milestone.projectId)
     WHERE m_prj_project.id IN
       #repeat($_parameter.projectIds $projectId "," "(" ")")
         @{projectId}
@@ -68,19 +68,19 @@
   </select>
 
   <select id="selectMilestones" resultMap="MilestoneGanttItem" parameterType="Integer" lang="velocity">
-    SELECT m_prj_milestone.projectid AS prjId, m_prj_milestone.name, m_prj_milestone.owner AS assignUser,
+    SELECT m_prj_milestone.projectId AS prjId, m_prj_milestone.name, m_prj_milestone.owner AS assignUser,
       m_prj_milestone.startdate AS startDate, m_prj_milestone.enddate AS endDate, m_prj_milestone.status,
       m_prj_milestone.id, m_prj_milestone.deadline, m_prj_milestone.ganttindex,
       concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS
       assignUserFullName, s_user.avatarId AS assignUserAvatarId, 'Project-Milestone' AS type
     FROM m_prj_milestone
     LEFT OUTER JOIN s_user ON (m_prj_milestone.owner = s_user.username)
-    WHERE m_prj_milestone.projectid = @{prjId}
+    WHERE m_prj_milestone.projectId = @{prjId}
     ORDER BY ISNULL(m_prj_milestone.ganttindex), m_prj_milestone.ganttindex ASC, m_prj_milestone.startdate ASC, m_prj_milestone.enddate ASC
   </select>
 
   <select id="selectTasksWithMilestone" resultMap="TaskGanttItem" parameterType="Integer" lang="velocity">
-    (SELECT m_prj_task.projectid AS prjId, m_prj_task.taskname AS name, m_prj_task.assignUser,
+    (SELECT m_prj_task.projectId AS prjId, m_prj_task.taskname AS name, m_prj_task.assignUser,
       m_prj_task.startdate AS startDate, m_prj_task.enddate AS endDate, m_prj_task.status,
       m_prj_task.id, m_prj_task.deadline,
       concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS
@@ -104,7 +104,7 @@
       LEFT OUTER JOIN m_prj_task AS dep_task ON (dep_predecessor.sourceId=dep_task.id)
     WHERE m_prj_task.milestoneId = @{id} AND m_prj_task.parentTaskId IS NULL)
     UNION (
-      SELECT m_tracker_bug.projectid AS prjId, m_tracker_bug.summary AS name, m_tracker_bug.assignuser AS assignUser,
+      SELECT m_tracker_bug.projectId AS prjId, m_tracker_bug.summary AS name, m_tracker_bug.assignuser AS assignUser,
         m_tracker_bug.startdate AS startDate, m_tracker_bug.enddate AS endDate, m_tracker_bug.status,
         m_tracker_bug.id, m_tracker_bug.duedate AS deadline,
         concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS
@@ -133,7 +133,7 @@
   </select>
 
   <select id="selectTasksWithoutMilestone" resultMap="TaskGanttItem" parameterType="Integer" lang="velocity">
-    (SELECT m_prj_task.projectid AS prjId, m_prj_task.taskname AS name, m_prj_task.assignUser,
+    (SELECT m_prj_task.projectId AS prjId, m_prj_task.taskname AS name, m_prj_task.assignUser,
       m_prj_task.startdate AS startDate, m_prj_task.enddate AS endDate, m_prj_task.status,
       m_prj_task.id, m_prj_task.deadline,
       concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS
@@ -154,9 +154,9 @@
       LEFT OUTER JOIN m_prj_predecessor AS dep_predecessor ON (m_prj_task.id=dep_predecessor.descId AND
         dep_predecessor.descType='Project-Task')
       LEFT OUTER JOIN m_prj_task AS dep_task ON (dep_predecessor.sourceId=dep_task.id)
-    WHERE m_prj_task.milestoneId IS NULL AND m_prj_task.projectid = @{prjId} AND m_prj_task.parentTaskId IS NULL)
+    WHERE m_prj_task.milestoneId IS NULL AND m_prj_task.projectId = @{prjId} AND m_prj_task.parentTaskId IS NULL)
     UNION (
-    SELECT m_tracker_bug.projectid AS prjId, m_tracker_bug.summary AS name, m_tracker_bug.assignuser AS assignUser,
+    SELECT m_tracker_bug.projectId AS prjId, m_tracker_bug.summary AS name, m_tracker_bug.assignuser AS assignUser,
       m_tracker_bug.startdate AS startDate, m_tracker_bug.enddate AS endDate, m_tracker_bug.status,
       m_tracker_bug.id, m_tracker_bug.duedate AS deadline,
       concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS
@@ -177,13 +177,13 @@
       LEFT OUTER JOIN m_prj_predecessor AS dep_predecessor ON (m_tracker_bug.id=dep_predecessor.descId AND
         dep_predecessor.descType='Project-Bug')
       LEFT OUTER JOIN m_tracker_bug AS dep_task ON (dep_predecessor.sourceId=dep_task.id)
-      WHERE m_tracker_bug.milestoneId IS NULL AND m_tracker_bug.projectid = @{prjId}
+      WHERE m_tracker_bug.milestoneId IS NULL AND m_tracker_bug.projectId = @{prjId}
     )
     ORDER BY ISNULL(ganttindex), ganttindex ASC, startdate ASC, enddate ASC
   </select>
 
   <select id="selectSubTasks" resultMap="TaskGanttItem" lang="velocity">
-    SELECT m_prj_task.projectid AS prjId, m_prj_task.taskname AS name, m_prj_task.assignUser,
+    SELECT m_prj_task.projectId AS prjId, m_prj_task.taskname AS name, m_prj_task.assignUser,
       m_prj_task.startdate AS startDate, m_prj_task.enddate AS endDate, m_prj_task.status,
       m_prj_task.id, m_prj_task.deadline,
       concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS

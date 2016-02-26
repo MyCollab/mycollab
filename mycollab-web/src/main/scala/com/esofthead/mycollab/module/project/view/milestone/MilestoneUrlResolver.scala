@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.project.view.milestone
 
 import com.esofthead.mycollab.common.UrlTokenizer
-import com.esofthead.mycollab.core.arguments.NumberSearchField
+import com.esofthead.mycollab.core.arguments.{SetSearchField, NumberSearchField}
 import com.esofthead.mycollab.eventmanager.EventBusFactory
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone
 import com.esofthead.mycollab.module.project.domain.criteria.MilestoneSearchCriteria
@@ -43,7 +43,7 @@ class MilestoneUrlResolver extends ProjectUrlResolver {
         protected override def handlePage(params: String*) {
             val projectId = new UrlTokenizer(params(0)).getInt
             val milestoneSearchCriteria = new MilestoneSearchCriteria
-            milestoneSearchCriteria.setProjectId(new NumberSearchField(projectId))
+            milestoneSearchCriteria.setProjectIds(new SetSearchField[Integer](projectId))
             val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
                 new MilestoneScreenData.Search(milestoneSearchCriteria))
             EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))

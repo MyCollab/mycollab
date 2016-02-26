@@ -21,6 +21,10 @@ package com.esofthead.mycollab.module.tracker.domain;
  * @since 5.1.0
  */
 public class SimpleRelatedBug {
+    public static final String AFFVERSION = "AffVersion";
+    public static final String FIXVERSION = "FixVersion";
+    public static final String COMPONENT = "Component";
+
     private Integer bugId;
     private Integer bugKey;
     private String bugSummary;

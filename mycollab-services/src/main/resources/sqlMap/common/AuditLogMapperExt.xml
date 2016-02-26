@@ -26,8 +26,8 @@
             ${searchCriteria.type.operation} m_audit_log.type = @{searchCriteria.type.value}
         #end
         
-        #ifnotnull($searchCriteria.typeid)
-            ${searchCriteria.typeid.operation} m_audit_log.typeid = @{searchCriteria.typeid.value}
+        #ifnotnull($searchCriteria.typeId)
+            ${searchCriteria.typeId.operation} m_audit_log.typeId = @{searchCriteria.typeId.value}
         #end
         
         #ifnotnull($searchCriteria.saccountid)
@@ -39,7 +39,7 @@
     <sql id="selectSimpleAuditLog">
         <![CDATA[
         SELECT m_audit_log.id, m_audit_log.object_class, m_audit_log.posteddate, m_audit_log.posteduser, 
-            m_audit_log.sAccountId, m_audit_log.type, m_audit_log.typeid, m_audit_log.module, m_audit_log.changeset,
+            m_audit_log.sAccountId, m_audit_log.type, m_audit_log.typeId, m_audit_log.module, m_audit_log.changeset,
             s_user.avatarId AS postedUserAvatarId,
             concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as postedUserFullName
         FROM m_audit_log
@@ -60,7 +60,7 @@
     <select id="findLatestLog" parameterType="java.lang.Integer" resultMap="SimpleAuditLogResult" lang="velocity">
         <include refid="selectSimpleAuditLog" />
 
-        WHERE m_audit_log.typeid=@{auditLogId, jdbcType=NUMERIC}
+        WHERE m_audit_log.typeId=@{auditLogId, jdbcType=NUMERIC}
         ORDER BY m_audit_log.id DESC
         LIMIT 1
     </select>

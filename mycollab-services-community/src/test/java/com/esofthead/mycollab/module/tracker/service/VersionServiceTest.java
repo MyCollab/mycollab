@@ -42,8 +42,7 @@ import com.esofthead.mycollab.test.service.IntergrationServiceTest;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class VersionServiceTest extends IntergrationServiceTest {
 
-	private static final DateFormat dateformat = new SimpleDateFormat(
-			"yyyy-MM-dd hh:mm:ss");
+	private static final DateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
 	@Autowired
 	protected VersionService versionService;
@@ -67,18 +66,10 @@ public class VersionServiceTest extends IntergrationServiceTest {
 		assertThat(versions).extracting("id", "description", "status",
 				"versionname", "numBugs", "numOpenBugs", "duedate",
 				"createdtime").contains(
-				tuple(4, "Version 4.0.0", "Open", "4.0.0", 0, 0,
-						dateformat.parse("2014-09-17 10:10:10"),
-						dateformat.parse("2014-09-10 10:10:10")),
-				tuple(3, "Version 3.0.0", "Closed", "3.0.0", 1, 1,
-						dateformat.parse("2014-09-15 10:10:10"),
-						dateformat.parse("2014-08-10 10:10:10")),
-				tuple(2, "Version 2.0.0", "Closed", "2.0.0", 2, 1,
-						dateformat.parse("2014-09-12 10:10:10"),
-						dateformat.parse("2014-07-10 10:10:10")),
-				tuple(1, "Version 1.0.0", "Open", "1.0.0", 1, 1,
-						dateformat.parse("2014-09-10 10:10:10"),
-						dateformat.parse("2014-06-10 10:10:10")));
+				tuple(4, "Version 4.0.0", "Open", "4.0.0", 0, 0, dateformat.parse("2014-09-17 10:10:10"), dateformat.parse("2014-09-10 10:10:10")),
+				tuple(3, "Version 3.0.0", "Closed", "3.0.0", 1, 1, dateformat.parse("2014-09-15 10:10:10"), dateformat.parse("2014-08-10 10:10:10")),
+				tuple(2, "Version 2.0.0", "Closed", "2.0.0", 2, 1, dateformat.parse("2014-09-12 10:10:10"), dateformat.parse("2014-07-10 10:10:10")),
+				tuple(1, "Version 1.0.0", "Open", "1.0.0", 1, 1, dateformat.parse("2014-09-10 10:10:10"), dateformat.parse("2014-06-10 10:10:10")));
 	}
 
 	@SuppressWarnings("unchecked")

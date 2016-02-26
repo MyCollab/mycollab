@@ -36,6 +36,7 @@ import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
+import org.vaadin.jouni.restrain.Restrain;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -129,6 +130,8 @@ public class TaskAddWindow extends Window {
 
                 layout.addComponent(buttonControls);
                 layout.setComponentAlignment(buttonControls, Alignment.MIDDLE_RIGHT);
+                layout.addStyleName(UIConstants.SCROLLABLE_CONTAINER);
+                new Restrain(layout).setMaxHeight("600px");
                 return layout;
             }
 

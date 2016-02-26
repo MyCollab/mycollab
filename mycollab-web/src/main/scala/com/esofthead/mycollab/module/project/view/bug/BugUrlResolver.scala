@@ -50,7 +50,7 @@ class BugUrlResolver extends ProjectUrlResolver {
             val criteria: BugSearchCriteria = new BugSearchCriteria
             criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId))
             criteria.setStatuses(new SetSearchField[String](BugStatus.InProgress.name,
-                BugStatus.Open.name, BugStatus.ReOpened.name, BugStatus.Resolved.name))
+                BugStatus.Open.name, BugStatus.ReOpened.name, BugStatus.Resolved.name, BugStatus.WontFix.name()))
             criteria.setProjectId(new NumberSearchField(projectId))
             val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
                 new BugScreenData.Search(criteria))
@@ -114,8 +114,7 @@ class BugUrlResolver extends ProjectUrlResolver {
     private class KanbanUrlResolver extends ProjectUrlResolver {
         protected override def handlePage(params: String*): Unit = {
             val projectId = new UrlTokenizer(params(0)).getInt
-            val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
-                new BugScreenData.GotoKanbanView)
+            val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new BugScreenData.GotoKanbanView)
             EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
         }
     }

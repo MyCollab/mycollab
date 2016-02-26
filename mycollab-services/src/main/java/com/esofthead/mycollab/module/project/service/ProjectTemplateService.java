@@ -23,5 +23,5 @@ import com.esofthead.mycollab.core.persistence.service.IService;
  * @since 5.2.6
  */
 public interface ProjectTemplateService extends IService {
-    void markProjectAsTemplate(Integer projectId);
+    Integer cloneProject(Integer projectId, String newPrjName, String newPrjKey, Integer sAccountId, String username);
 }

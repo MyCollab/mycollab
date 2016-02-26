@@ -39,8 +39,7 @@ import static org.assertj.core.api.Assertions.tuple;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ComponentServiceTest extends IntergrationServiceTest {
 
-    private static final DateFormat dateformat = new SimpleDateFormat(
-            "yyyy-MM-dd hh:mm:ss");
+    private static final DateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
     @Autowired
     protected ComponentService componentService;
@@ -64,14 +63,10 @@ public class ComponentServiceTest extends IntergrationServiceTest {
         assertThat(components).extracting("id", "description", "status",
                 "componentname", "numBugs", "numOpenBugs", "userLeadFullName",
                 "lastupdatedtime").contains(
-                tuple(1, "aaaaaaa", "Open", "com 1", 1, 1, "Nguyen Hai",
-                        dateformat.parse("2014-10-02 06:45:22")),
-                tuple(2, "bbbbbbb", "Closed", "com 2", 2, 1, "Nghiem Le",
-                        dateformat.parse("2014-10-02 07:45:22")),
-                tuple(3, "ccccccc", "Closed", "com 3", 1, 1, "Nguyen Hai",
-                        dateformat.parse("2014-10-03 06:45:22")),
-                tuple(4, "ddddddd", "Open", "com 4", 0, 0, "Nghiem Le",
-                        dateformat.parse("2014-10-02 06:32:22")));
+                tuple(1, "aaaaaaa", "Open", "com 1", 1, 1, "Nguyen Hai", dateformat.parse("2014-10-02 06:45:22")),
+                tuple(2, "bbbbbbb", "Closed", "com 2", 2, 1, "Nghiem Le", dateformat.parse("2014-10-02 07:45:22")),
+                tuple(3, "ccccccc", "Closed", "com 3", 1, 1, "Nguyen Hai", dateformat.parse("2014-10-03 06:45:22")),
+                tuple(4, "ddddddd", "Open", "com 4", 0, 0, "Nghiem Le", dateformat.parse("2014-10-02 06:32:22")));
     }
 
     @SuppressWarnings("unchecked")
@@ -80,7 +75,6 @@ public class ComponentServiceTest extends IntergrationServiceTest {
     public void testTotalCount() {
         List<SimpleComponent> components = componentService
                 .findPagableListByCriteria(new SearchRequest<>(getCriteria(), 0, Integer.MAX_VALUE));
-
         assertThat(components.size()).isEqualTo(4);
     }
 

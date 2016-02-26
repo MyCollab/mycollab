@@ -17,8 +17,8 @@
         <![CDATA[
         #set($searchCriteria = $_parameter.searchCriteria)
          
-        #ifnotnull($searchCriteria.projectid)
-            ${searchCriteria.projectid.operation} m_tracker_component.projectid = @{searchCriteria.projectid.value,jdbcType=NUMERIC}
+        #ifnotnull($searchCriteria.projectId)
+            ${searchCriteria.projectId.operation} m_tracker_component.projectId = @{searchCriteria.projectId.value,jdbcType=NUMERIC}
         #end
         
         #ifnotnull($searchCriteria.userlead)
@@ -41,7 +41,7 @@
     </sql>
     <sql id="selectComponents">
         <![CDATA[
-          SELECT m_tracker_component.id, m_tracker_component.projectid, m_tracker_component.componentname, 
+          SELECT m_tracker_component.id, m_tracker_component.projectId, m_tracker_component.componentname,
                 m_tracker_component.userlead, m_tracker_component.description, 
                 m_tracker_component.sAccountId, m_tracker_component.lastUpdatedTime, m_tracker_component.createdTime, m_tracker_component.status,
                 m_tracker_component.createduser, createdUserTbl.avatarId AS createdUserAvatarId,
@@ -52,17 +52,17 @@
                         FROM m_tracker_bug, m_tracker_bug_related_item 
                         WHERE m_tracker_bug.id=m_tracker_bug_related_item.bugid 
                             AND m_tracker_bug_related_item.type IN ('Component') 
-                            AND m_tracker_bug_related_item.typeid=m_tracker_component.id) AS numBugs,
+                            AND m_tracker_bug_related_item.typeId=m_tracker_component.id) AS numBugs,
                 (SELECT COUNT(*) 
                         FROM m_tracker_bug, m_tracker_bug_related_item 
                         WHERE m_tracker_bug.id=m_tracker_bug_related_item.bugid  AND m_tracker_bug.status IN ('Open', 'InProgress', 'Reopenned')
                             AND m_tracker_bug_related_item.type IN ('Component') 
-                            AND m_tracker_bug_related_item.typeid=m_tracker_component.id) AS numOpenBugs,
+                            AND m_tracker_bug_related_item.typeId=m_tracker_component.id) AS numOpenBugs,
                 m_prj_project.name AS projectName             
         FROM m_tracker_component
         LEFT OUTER JOIN s_user ON (m_tracker_component.userlead=s_user.username)
         LEFT OUTER JOIN s_user AS createdUserTbl ON (m_tracker_component.createduser=createdUserTbl.username)
-        LEFT OUTER JOIN m_prj_project ON (m_tracker_component.projectid=m_prj_project.id)
+        LEFT OUTER JOIN m_prj_project ON (m_tracker_component.projectId=m_prj_project.id)
         ]]>
     </sql>
     
@@ -122,25 +122,25 @@
     <select id="getTotalBillableHours" parameterType="int" resultType="double" lang="velocity">
         SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0)
             FROM m_tracker_component, m_tracker_bug, m_tracker_bug_related_item, m_prj_time_logging
-            WHERE m_tracker_component.id = @{componentid} AND m_tracker_component.id = m_tracker_bug_related_item.typeid
+            WHERE m_tracker_component.id = @{componentid} AND m_tracker_component.id = m_tracker_bug_related_item.typeId
                 AND m_tracker_bug_related_item.type = 'Component' AND m_tracker_bug_related_item.bugid = m_tracker_bug.id
-                AND m_prj_time_logging.typeid =  m_tracker_bug.id  AND m_prj_time_logging.type = 'Project-Bug'
+                AND m_prj_time_logging.typeId =  m_tracker_bug.id  AND m_prj_time_logging.type = 'Project-Bug'
                 AND m_prj_time_logging.isBillable = '1'
     </select>
 
     <select id="getTotalNonBillableHours" parameterType="int" resultType="double" lang="velocity">
         SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0)
             FROM m_tracker_component, m_tracker_bug, m_tracker_bug_related_item, m_prj_time_logging
-            WHERE m_tracker_component.id = @{componentid} AND m_tracker_component.id = m_tracker_bug_related_item.typeid
+            WHERE m_tracker_component.id = @{componentid} AND m_tracker_component.id = m_tracker_bug_related_item.typeId
                 AND m_tracker_bug_related_item.type = 'Component' AND m_tracker_bug_related_item.bugid = m_tracker_bug.id
-                AND m_prj_time_logging.typeid =  m_tracker_bug.id  AND m_prj_time_logging.type = 'Project-Bug'
+                AND m_prj_time_logging.typeId =  m_tracker_bug.id  AND m_prj_time_logging.type = 'Project-Bug'
                 AND m_prj_time_logging.isBillable = '0'
     </select>
 
     <select id="getRemainHours" parameterType="int" resultType="double" lang="velocity">
         SELECT COALESCE(SUM(m_tracker_bug.estimateRemainTime), 0)
             FROM m_tracker_bug, m_tracker_bug_related_item
-            WHERE m_tracker_bug_related_item.typeid = @{componentid} AND m_tracker_bug_related_item.type = 'Component'
+            WHERE m_tracker_bug_related_item.typeId = @{componentid} AND m_tracker_bug_related_item.type = 'Component'
                 AND m_tracker_bug_related_item.bugid = m_tracker_bug.id
     </select>
 </mapper>

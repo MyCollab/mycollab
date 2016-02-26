@@ -17,8 +17,8 @@
 package com.esofthead.mycollab.module.project.view.milestone;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -37,10 +37,11 @@ import com.esofthead.mycollab.vaadin.events.HasMassItemActionHandler;
 import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSelectableItemHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSelectionOptionHandlers;
-import com.esofthead.mycollab.vaadin.mvp.view.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.mvp.view.AbstractLazyPageView;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
+import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.esofthead.mycollab.vaadin.web.ui.ToggleButtonGroup;
@@ -87,7 +88,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
                 public void handle(MilestoneEvent.NewMilestoneAdded event) {
                     MilestoneListViewImpl.this.removeAllComponents();
                     MilestoneSearchCriteria searchCriteria = new MilestoneSearchCriteria();
-                    searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+                    searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
                     MilestoneService milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
                     List<SimpleMilestone> milestoneList = milestoneService.findPagableListByCriteria(new
                             SearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));

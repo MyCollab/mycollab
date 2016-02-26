@@ -7,7 +7,7 @@
 		<result column="subject" jdbcType="VARCHAR" property="subject" />
 		<result column="eventType" jdbcType="VARCHAR" property="eventType" />
 		<result column="type" jdbcType="VARCHAR" property="type" />
-		<result column="typeid" jdbcType="INTEGER" property="typeid" />
+		<result column="typeId" jdbcType="INTEGER" property="typeId" />
 		<result column="typeName" jdbcType="VARCHAR" property="typeName" />
 		<result column="startDate" jdbcType="TIMESTAMP" property="startDate" />
 		<result column="endDate" jdbcType="TIMESTAMP" property="endDate" />
@@ -47,8 +47,8 @@
             ${searchCriteria.type.operation} m_crm_task.type = @{searchCriteria.type.value}
         #end
         
-        #ifnotnull($searchCriteria.typeid)
-            ${searchCriteria.typeid.operation} m_crm_task.typeid = @{searchCriteria.typeid.value}
+        #ifnotnull($searchCriteria.typeId)
+            ${searchCriteria.typeId.operation} m_crm_task.typeId = @{searchCriteria.typeId.value}
         #end
         
         #ifnotnull($searchCriteria.isClosed)
@@ -73,8 +73,8 @@
             ${searchCriteria.type.operation} m_crm_call.type = @{searchCriteria.type.value}
         #end
         
-        #ifnotnull($searchCriteria.typeid)
-            ${searchCriteria.typeid.operation} m_crm_call.typeid = @{searchCriteria.typeid.value}
+        #ifnotnull($searchCriteria.typeId)
+            ${searchCriteria.typeId.operation} m_crm_call.typeId = @{searchCriteria.typeId.value}
         #end
         
         #ifnotnull($searchCriteria.isClosed)
@@ -103,8 +103,8 @@
             ${searchCriteria.type.operation} m_crm_meeting.type = @{searchCriteria.type.value}
         #end
         
-        #ifnotnull($searchCriteria.typeid)
-            ${searchCriteria.typeid.operation} m_crm_meeting.typeid = @{searchCriteria.typeid.value}
+        #ifnotnull($searchCriteria.typeId)
+            ${searchCriteria.typeId.operation} m_crm_meeting.typeId = @{searchCriteria.typeId.value}
         #end
         
         #ifnotnull($searchCriteria.isClosed)
@@ -116,7 +116,7 @@
 	<sql id="selectSimpleEventFromTask">
         <![CDATA[
         SELECT m_crm_task.id, m_crm_task.subject, 'Crm-Task' as eventType, m_crm_task.startdate,
-            m_crm_task.duedate as endDate, m_crm_task.typeid, m_crm_task.description, m_crm_task.createdTime, m_crm_task.createdUser, m_crm_task.sAccountId,
+            m_crm_task.duedate as endDate, m_crm_task.typeId, m_crm_task.description, m_crm_task.createdTime, m_crm_task.createdUser, m_crm_task.sAccountId,
             m_crm_task.status, m_crm_task.assignUser, m_crm_task.type, 'Error' as typeName, m_crm_task.lastUpdatedTime,
             LTRIM(concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname)) as assignUserFullName,
             m_crm_task.priority as priority,
@@ -131,7 +131,7 @@
 
 	<sql id="selectSimpleEventFromCall">
         <![CDATA[
-        SELECT m_crm_call.id, m_crm_call.subject, 'Crm-Call' as eventType, m_crm_call.startdate, m_crm_call.startdate as endDate, m_crm_call.typeid, m_crm_call.description, m_crm_call.createdTime,
+        SELECT m_crm_call.id, m_crm_call.subject, 'Crm-Call' as eventType, m_crm_call.startdate, m_crm_call.startdate as endDate, m_crm_call.typeId, m_crm_call.description, m_crm_call.createdTime,
             m_crm_call.createdUser, m_crm_call.sAccountId, m_crm_call.status, m_crm_call.assignUser, m_crm_call.type, 'Error' as typeName, m_crm_call.lastUpdatedTime,
             LTRIM(concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname)) as assignUserFullName,
             null as priority , null as contactFullName , null as contactId,m_crm_call.durationInSeconds as callDuration, m_crm_call.purpose as callPurpose,
@@ -144,7 +144,7 @@
 	<sql id="selectSimpleEventFromMeeting">
         <![CDATA[
             SELECT m_crm_meeting.id, m_crm_meeting.subject, 'Crm-Meeting' as eventType, m_crm_meeting.startdate,
-                m_crm_meeting.endDate, m_crm_meeting.typeid, m_crm_meeting.description, m_crm_meeting.createdTime, m_crm_meeting.createdUser,
+                m_crm_meeting.endDate, m_crm_meeting.typeId, m_crm_meeting.description, m_crm_meeting.createdTime, m_crm_meeting.createdUser,
                 m_crm_meeting.sAccountId, m_crm_meeting.status, m_crm_meeting.createdUser as assignUser, m_crm_meeting.type, 'Error' as  typeName,
                 m_crm_meeting.lastUpdatedTime, LTRIM(concat(s_user.firstname, LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname)) as assignUserFullName,
                 null as priority,null as contactFullName,null as contactId,null as callDuration, null as callPurpose, null as callResult,

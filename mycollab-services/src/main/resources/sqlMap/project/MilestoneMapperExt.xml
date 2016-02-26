@@ -36,15 +36,11 @@
             #ifnotnull($searchCriteria.status)
                 ${searchCriteria.status.operation} m_prj_milestone.status = @{searchCriteria.status.value}
             #end
-            
-            #ifnotnull($searchCriteria.projectId)
-                ${searchCriteria.projectId.operation} m_prj_milestone.projectid = @{searchCriteria.projectId.value,jdbcType=NUMERIC}
-            #end
 
             #ifnotnull($searchCriteria.projectIds)
-                ${searchCriteria.projectIds.operation} m_prj_milestone.projectid IN
-                #repeat(${searchCriteria.projectIds.values} $projectid "," "(" ")")
-                        @{projectid}
+                ${searchCriteria.projectIds.operation} m_prj_milestone.projectId IN
+                #repeat(${searchCriteria.projectIds.values} $projectId "," "(" ")")
+                        @{projectId}
                 #end
             #end
             
@@ -75,15 +71,11 @@
             #ifnotnull($searchCriteria.status)
                 ${searchCriteria.status.operation} m_prj_milestone.status = @{searchCriteria.status.value}
             #end
-            
-            #ifnotnull($searchCriteria.projectId)
-                ${searchCriteria.projectId.operation} m_prj_milestone.projectid = @{searchCriteria.projectId.value,jdbcType=NUMERIC}
-            #end
 
             #ifnotnull($searchCriteria.projectIds)
-                ${searchCriteria.projectIds.operation} m_prj_milestone.projectid IN
-                #repeat(${searchCriteria.projectIds.values} $projectid "," "(" ")")
-                        @{projectid}
+                ${searchCriteria.projectIds.operation} m_prj_milestone.projectId IN
+                #repeat(${searchCriteria.projectIds.values} $projectId "," "(" ")")
+                        @{projectId}
                 #end
             #end
             
@@ -102,7 +94,7 @@
     <sql id="selectMilestone">
         <![CDATA[
             SELECT m_prj_milestone.id, m_prj_milestone.name, m_prj_milestone.description, m_prj_milestone.startdate, m_prj_milestone.enddate, 
-                   m_prj_milestone.owner, m_prj_milestone.status, m_prj_milestone.projectid, m_prj_milestone.status, m_prj_milestone.createdTime, 
+                   m_prj_milestone.owner, m_prj_milestone.status, m_prj_milestone.projectId, m_prj_milestone.status, m_prj_milestone.createdTime,
                    m_prj_milestone.lastUpdatedTime,
                    m_prj_milestone.sAccountId, m_prj_milestone.createduser, createdUserTbl.avatarId AS createdUserAvatarId,
                    concat(createdUserTbl.firstname, ' ', LTRIM(concat(IFNULL(createdUserTbl.middlename, ''), ' ')), createdUserTbl.lastname) AS createdUserFullName,
@@ -113,20 +105,20 @@
                    (SELECT COUNT(*) FROM m_tracker_bug WHERE m_tracker_bug.milestoneId=m_prj_milestone.id) AS numBugs,
                    (SELECT COUNT(*) FROM m_tracker_bug WHERE m_tracker_bug.milestoneId=m_prj_milestone.id AND m_tracker_bug.status IN ('Open', 'InProgress', 'Reopenned')) AS numOpenBugs,
                    m_prj_project.name as projectName, m_prj_project.shortname AS projectShortName,
-                   (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging, m_prj_task WHERE m_prj_time_logging.projectId = m_prj_milestone.projectid
+                   (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging, m_prj_task WHERE m_prj_time_logging.projectId = m_prj_milestone.projectId
                      AND m_prj_task.milestoneId=m_prj_milestone.id
-                     AND m_prj_time_logging.type='Project-Task' AND m_prj_time_logging.typeid=m_prj_task.id AND m_prj_time_logging.isBillable = 1) AS totalTaskBillableHours,
-                   (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging, m_prj_task WHERE m_prj_time_logging.projectId = m_prj_milestone.projectid
+                     AND m_prj_time_logging.type='Project-Task' AND m_prj_time_logging.typeId=m_prj_task.id AND m_prj_time_logging.isBillable = 1) AS totalTaskBillableHours,
+                   (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging, m_prj_task WHERE m_prj_time_logging.projectId = m_prj_milestone.projectId
                      AND m_prj_task.milestoneId=m_prj_milestone.id
-                     AND m_prj_time_logging.type='Project-Task' AND m_prj_time_logging.typeid=m_prj_task.id AND m_prj_time_logging.isBillable = 0) AS totalTaskNonBillableHours,
-                   (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging, m_tracker_bug WHERE m_prj_time_logging.projectId = m_prj_milestone.projectid
+                     AND m_prj_time_logging.type='Project-Task' AND m_prj_time_logging.typeId=m_prj_task.id AND m_prj_time_logging.isBillable = 0) AS totalTaskNonBillableHours,
+                   (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging, m_tracker_bug WHERE m_prj_time_logging.projectId = m_prj_milestone.projectId
                      AND m_tracker_bug.milestoneId=m_prj_milestone.id
-                     AND m_prj_time_logging.type='Project-Bug' AND m_prj_time_logging.typeid=m_tracker_bug.id AND m_prj_time_logging.isBillable = 1) AS totalBugBillableHours,
-                   (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging, m_tracker_bug WHERE m_prj_time_logging.projectId = m_prj_milestone.projectid
+                     AND m_prj_time_logging.type='Project-Bug' AND m_prj_time_logging.typeId=m_tracker_bug.id AND m_prj_time_logging.isBillable = 1) AS totalBugBillableHours,
+                   (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging, m_tracker_bug WHERE m_prj_time_logging.projectId = m_prj_milestone.projectId
                      AND m_tracker_bug.milestoneId=m_prj_milestone.id
-                     AND m_prj_time_logging.type='Project-Bug' AND m_prj_time_logging.typeid=m_tracker_bug.id AND m_prj_time_logging.isBillable = 0) AS totalBugNonBillableHours
+                     AND m_prj_time_logging.type='Project-Bug' AND m_prj_time_logging.typeId=m_tracker_bug.id AND m_prj_time_logging.isBillable = 0) AS totalBugNonBillableHours
                 FROM m_prj_milestone
-                    INNER JOIN m_prj_project ON (m_prj_milestone.projectid = m_prj_project.id)
+                    INNER JOIN m_prj_project ON (m_prj_milestone.projectId = m_prj_project.id)
                     LEFT OUTER JOIN s_user ON (m_prj_milestone.owner = s_user.username)
                     LEFT OUTER JOIN s_user AS createdUserTbl ON (m_prj_milestone.createduser = createdUserTbl.username)
         ]]>
@@ -199,14 +191,14 @@
         (SELECT m_prj_time_logging.logValue AS timeValue
             FROM m_prj_milestone, m_prj_task, m_prj_time_logging
             WHERE m_prj_milestone.id = @{milestoneid} AND m_prj_task.milestoneId = m_prj_milestone.id
-                AND m_prj_task.id = m_prj_time_logging.typeid
+                AND m_prj_task.id = m_prj_time_logging.typeId
                 AND m_prj_time_logging.type = 'Project-Task'
                 AND m_prj_time_logging.isBillable = '1')
         UNION
         (SELECT m_prj_time_logging.logValue AS timeValue
             FROM m_prj_milestone, m_tracker_bug, m_prj_time_logging
             WHERE m_prj_milestone.id = @{milestoneid} AND m_tracker_bug.milestoneId = m_prj_milestone.id
-                AND m_tracker_bug.id = m_prj_time_logging.typeid
+                AND m_tracker_bug.id = m_prj_time_logging.typeId
                 AND m_prj_time_logging.type = 'Project-Bug'
                 AND m_prj_time_logging.isBillable = '1')) AS T
     </select>
@@ -218,14 +210,14 @@
         (SELECT m_prj_time_logging.logValue AS timeValue
             FROM m_prj_milestone, m_prj_task, m_prj_time_logging
             WHERE m_prj_milestone.id = @{milestoneid} AND m_prj_task.milestoneId = m_prj_milestone.id
-                AND m_prj_task.id = m_prj_time_logging.typeid
+                AND m_prj_task.id = m_prj_time_logging.typeId
                 AND m_prj_time_logging.type = 'Project-Task'
                 AND m_prj_time_logging.isBillable = '0')
         UNION
         (SELECT m_prj_time_logging.logValue AS timeValue
             FROM m_prj_milestone, m_tracker_bug, m_prj_time_logging
             WHERE m_prj_milestone.id = @{milestoneid} AND m_tracker_bug.milestoneId = m_prj_milestone.id
-            AND m_tracker_bug.id = m_prj_time_logging.typeid
+            AND m_tracker_bug.id = m_prj_time_logging.typeId
             AND m_prj_time_logging.type = 'Project-Bug'
             AND m_prj_time_logging.isBillable = '0')) AS T
     </select>

@@ -39,9 +39,9 @@ import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.ComponentUtils;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.mvp.view.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
+import com.esofthead.mycollab.vaadin.mvp.view.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.esofthead.mycollab.vaadin.web.ui.ToggleButtonGroup;
@@ -99,7 +99,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
         createBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
 
         baseCriteria = new MilestoneSearchCriteria();
-        baseCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+        baseCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
         baseCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("startdate",
                 SearchCriteria.DESC), new SearchCriteria.OrderField("enddate", SearchCriteria.DESC)));
         List<SimpleMilestone> milestones = milestoneService.findPagableListByCriteria(new SearchRequest<>(baseCriteria, 0, Integer.MAX_VALUE));

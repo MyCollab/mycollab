@@ -54,12 +54,15 @@ public class AttachmentPanel extends VerticalLayout implements AttachmentUploadC
     private static final Logger LOG = LoggerFactory.getLogger(AttachmentPanel.class);
     private Map<String, File> fileStores;
 
+    private AttachmentDisplayComponent attachmentDisplayComponent;
     private MultiFileUploadExt multiFileUpload;
     private ResourceService resourceService;
 
     public AttachmentPanel() {
         resourceService = ApplicationContextUtil.getSpringBean(ResourceService.class);
         this.setSpacing(true);
+        attachmentDisplayComponent = new AttachmentDisplayComponent();
+        this.addComponent(attachmentDisplayComponent);
     }
 
     @Override
@@ -107,7 +110,7 @@ public class AttachmentPanel extends VerticalLayout implements AttachmentUploadC
         List<Content> attachments = resourceService.getContents(attachmentPath);
         if (CollectionUtils.isNotEmpty(attachments)) {
             for (Content attachment : attachments) {
-                this.addComponent(AttachmentDisplayComponent.constructAttachmentRow(attachment));
+                attachmentDisplayComponent.addAttachmentRow(attachment);
             }
         }
     }

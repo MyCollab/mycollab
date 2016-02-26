@@ -19,35 +19,38 @@ package com.esofthead.mycollab.module.project.domain.criteria;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.core.db.query.NumberParam;
+import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class ProjectSearchCriteria extends SearchCriteria {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private SetSearchField<String> projectStatuses;
-	private StringSearchField involvedMember;
+    public static final NumberParam p_template = new NumberParam("project-template", ProjectI18nEnum.FORM_NAME,
+            "m_prj_project", "istemplate");
+
+    private SetSearchField<String> projectStatuses;
+    private StringSearchField involvedMember;
     private StringSearchField projectName;
 
-	public SetSearchField<String> getProjectStatuses() {
-		return projectStatuses;
-	}
+    public SetSearchField<String> getProjectStatuses() {
+        return projectStatuses;
+    }
 
-	public void setProjectStatuses(SetSearchField<String> projectStatuses) {
-		this.projectStatuses = projectStatuses;
-	}
+    public void setProjectStatuses(SetSearchField<String> projectStatuses) {
+        this.projectStatuses = projectStatuses;
+    }
 
-	public StringSearchField getInvolvedMember() {
-		return involvedMember;
-	}
+    public StringSearchField getInvolvedMember() {
+        return involvedMember;
+    }
 
-	public void setInvolvedMember(StringSearchField involvedMember) {
-		this.involvedMember = involvedMember;
-	}
+    public void setInvolvedMember(StringSearchField involvedMember) {
+        this.involvedMember = involvedMember;
+    }
 
     public StringSearchField getProjectName() {
         return projectName;

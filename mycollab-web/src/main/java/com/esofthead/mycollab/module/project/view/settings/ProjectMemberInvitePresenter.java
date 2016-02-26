@@ -139,7 +139,7 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
 
             MVerticalLayout linksContainer = new MVerticalLayout();
             new Restrain(linksContainer).setMaxHeight("400px");
-            linksContainer.addStyleName("scrollable-container");
+            linksContainer.addStyleName(UIConstants.SCROLLABLE_CONTAINER);
             contentLayout.with(linksContainer);
 
             List<String> inviteEmails = invitation.getEmails();

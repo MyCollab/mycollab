@@ -46,14 +46,18 @@ import java.util.List;
 public class AttachmentDisplayComponent extends CssLayout {
     private static final long serialVersionUID = 1L;
 
-    public AttachmentDisplayComponent(List<Content> attachments) {
+    public AttachmentDisplayComponent() {
         this.setWidth("100%");
+    }
+
+    public AttachmentDisplayComponent(List<Content> attachments) {
+        this();
         for (Content attachment : attachments) {
-            this.addComponent(constructAttachmentRow(attachment));
+            this.addAttachmentRow(attachment);
         }
     }
 
-    public static Component constructAttachmentRow(final Content attachment) {
+    public void addAttachmentRow(final Content attachment) {
         String docName = attachment.getPath();
         int lastIndex = docName.lastIndexOf("/");
         if (lastIndex != -1) {
@@ -138,6 +142,6 @@ public class AttachmentDisplayComponent extends CssLayout {
         downloadBtn.setIcon(FontAwesome.DOWNLOAD);
         downloadBtn.setStyleName("attachment-control");
         attachmentLayout.addComponent(downloadBtn, "right: 9px; top: 9px; z-index: 1;");
-        return attachmentLayout;
+        this.addComponent(attachmentLayout);
     }
 }

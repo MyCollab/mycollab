@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.project.service;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
@@ -47,7 +48,7 @@ public class MilestoneServiceTest extends IntergrationServiceTest {
     private MilestoneSearchCriteria getCriteria() {
         MilestoneSearchCriteria criteria = new MilestoneSearchCriteria();
         criteria.setSaccountid(new NumberSearchField(1));
-        criteria.setProjectId(new NumberSearchField(1));
+        criteria.setProjectIds(new SetSearchField<>(1));
         return criteria;
     }
 
@@ -57,12 +58,11 @@ public class MilestoneServiceTest extends IntergrationServiceTest {
     public void testGetListMilestones() throws ParseException {
         MilestoneSearchCriteria criteria = new MilestoneSearchCriteria();
         criteria.setSaccountid(new NumberSearchField(1));
-        criteria.setProjectId(new NumberSearchField(1));
+        criteria.setProjectIds(new SetSearchField<>(1));
         criteria.setStatus(StringSearchField.and("Open"));
         criteria.setMilestoneName(StringSearchField.and("milestone 1"));
 
-        List<SimpleMilestone> milestones = itemTimeLoggingService
-                .findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<SimpleMilestone> milestones = itemTimeLoggingService.findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 
         assertThat(milestones.size()).isEqualTo(1);
         assertThat(milestones).extracting("id", "description", "createdUserFullName", "createdtime", "ownerFullName",
@@ -82,25 +82,16 @@ public class MilestoneServiceTest extends IntergrationServiceTest {
         assertThat(milestones).extracting("id", "description",
                 "createdUserFullName", "createdtime", "ownerFullName",
                 "numTasks", "numOpenTasks", "numBugs", "numOpenBugs").contains(
-                tuple(4, "milestone no4", "Nghiem Le",
-                        dateformat.parse("2014-10-04 00:00:00"), "Nghiem Le", 0, 0, 3,
-                        3),
-                tuple(3, "milestone no3", "Nghiem Le",
-                        dateformat.parse("2014-10-03 00:00:00"), "Nghiem Le", 0, 0, 1,
-                        1),
-                tuple(2, "milestone no2", "Hai Nguyen",
-                        dateformat.parse("2014-10-02 00:00:00"), "Hai Nguyen", 2, 0, 0,
-                        0),
-                tuple(1, "milestone no1", "Hai Nguyen",
-                        dateformat.parse("2014-10-01 00:00:00"), "Hai Nguyen", 1, 0, 2,
-                        2));
+                tuple(4, "milestone no4", "Nghiem Le", dateformat.parse("2014-10-04 00:00:00"), "Nghiem Le", 0, 0, 3, 3),
+                tuple(3, "milestone no3", "Nghiem Le", dateformat.parse("2014-10-03 00:00:00"), "Nghiem Le", 0, 0, 1, 1),
+                tuple(2, "milestone no2", "Hai Nguyen", dateformat.parse("2014-10-02 00:00:00"), "Hai Nguyen", 2, 0, 0, 0),
+                tuple(1, "milestone no1", "Hai Nguyen", dateformat.parse("2014-10-01 00:00:00"), "Hai Nguyen", 1, 0, 2, 2));
     }
 
     @DataSet
     @Test
     public void testFindMilestoneById() throws ParseException {
         SimpleMilestone milestone = itemTimeLoggingService.findById(1, 1);
-
         assertThat(milestone.getCreatedUserFullName()).isEqualTo("Hai Nguyen");
         assertThat(milestone.getNumOpenBugs()).isEqualTo(2);
     }

@@ -93,7 +93,7 @@
         #end
         
         #ifnotnull($searchCriteria.projectId)
-            ${searchCriteria.projectId.operation} m_tracker_bug.projectid=@{searchCriteria.projectId.value,jdbcType=NUMERIC}
+            ${searchCriteria.projectId.operation} m_tracker_bug.projectId=@{searchCriteria.projectId.value,jdbcType=NUMERIC}
         #end
         
         #ifnotnull($searchCriteria.affectedversionids)
@@ -102,7 +102,7 @@
                 EXISTS (SELECT 1
                 FROM m_tracker_bug_related_item
                 WHERE m_tracker_bug_related_item.type='AffVersion'
-                    AND m_tracker_bug_related_item.typeid=@{affectedversion,jdbcType=NUMERIC}
+                    AND m_tracker_bug_related_item.typeId=@{affectedversion,jdbcType=NUMERIC}
                     AND m_tracker_bug_related_item.bugid=m_tracker_bug.id
                     LIMIT 1)
             #end
@@ -114,7 +114,7 @@
                 EXISTS (SELECT 1
                     FROM m_tracker_bug_related_item
                     WHERE m_tracker_bug_related_item.type='FixVersion'
-                        AND m_tracker_bug_related_item.typeid=@{fixedversion,jdbcType=NUMERIC}
+                        AND m_tracker_bug_related_item.typeId=@{fixedversion,jdbcType=NUMERIC}
                         AND m_tracker_bug_related_item.bugid=m_tracker_bug.id LIMIT 1)
             #end
         #end
@@ -125,14 +125,14 @@
                 EXISTS (SELECT 1
                 FROM m_tracker_bug_related_item
                 WHERE m_tracker_bug_related_item.type='AffVersion'
-                    AND m_tracker_bug_related_item.typeid=@{versionid,jdbcType=NUMERIC}
+                    AND m_tracker_bug_related_item.typeId=@{versionid,jdbcType=NUMERIC}
                     AND m_tracker_bug_related_item.bugid=m_tracker_bug.id
                     LIMIT 1)
                   OR 
                 EXISTS  (SELECT 1
                     FROM m_tracker_bug_related_item
                     WHERE m_tracker_bug_related_item.type='FixVersion'
-                        AND m_tracker_bug_related_item.typeid=@{versionid,jdbcType=NUMERIC}
+                        AND m_tracker_bug_related_item.typeId=@{versionid,jdbcType=NUMERIC}
                         AND m_tracker_bug_related_item.bugid=m_tracker_bug.id
                         LIMIT 1)
             #end
@@ -144,7 +144,7 @@
                 EXISTS (SELECT 1
                     FROM m_tracker_bug_related_item
                     WHERE m_tracker_bug_related_item.type='Component'
-                        AND m_tracker_bug_related_item.typeid=@{componentid,jdbcType=NUMERIC}
+                        AND m_tracker_bug_related_item.typeId=@{componentid,jdbcType=NUMERIC}
                         AND m_tracker_bug_related_item.bugid=m_tracker_bug.id
                         LIMIT 1)
             #end
@@ -258,7 +258,7 @@
         #end
         
         #ifnotnull($searchCriteria.projectId)
-            ${searchCriteria.projectId.operation} m_tracker_bug.projectid = @{searchCriteria.projectId.value}
+            ${searchCriteria.projectId.operation} m_tracker_bug.projectId = @{searchCriteria.projectId.value}
         #end
         
         #ifnotnull($searchCriteria.affectedversionids)
@@ -267,7 +267,7 @@
                 EXISTS (SELECT 1
                 FROM m_tracker_bug_related_item
                 WHERE m_tracker_bug_related_item.type='AffVersion'
-                    AND m_tracker_bug_related_item.typeid=@{affectedversion,jdbcType=NUMERIC}
+                    AND m_tracker_bug_related_item.typeId=@{affectedversion,jdbcType=NUMERIC}
                     AND m_tracker_bug_related_item.bugid=m_tracker_bug.id
                     LIMIT 1)
             #end
@@ -279,7 +279,7 @@
                 EXISTS (SELECT 1
                     FROM m_tracker_bug_related_item
                     WHERE m_tracker_bug_related_item.type='FixVersion'
-                        AND m_tracker_bug_related_item.typeid=@{fixedversion,jdbcType=NUMERIC}
+                        AND m_tracker_bug_related_item.typeId=@{fixedversion,jdbcType=NUMERIC}
                         AND m_tracker_bug_related_item.bugid=m_tracker_bug.id
                         LIMIT 1)
             #end
@@ -291,14 +291,14 @@
                 EXISTS (SELECT 1
                 FROM m_tracker_bug_related_item
                 WHERE m_tracker_bug_related_item.type='AffVersion'
-                    AND m_tracker_bug_related_item.typeid=@{versionid,jdbcType=NUMERIC}
+                    AND m_tracker_bug_related_item.typeId=@{versionid,jdbcType=NUMERIC}
                     AND m_tracker_bug_related_item.bugid=m_tracker_bug.id
                     LIMIT 1)
                   OR 
                 EXISTS (SELECT 1
                     FROM m_tracker_bug_related_item
                     WHERE m_tracker_bug_related_item.type='FixVersion'
-                        AND m_tracker_bug_related_item.typeid=@{versionid,jdbcType=NUMERIC}
+                        AND m_tracker_bug_related_item.typeId=@{versionid,jdbcType=NUMERIC}
                         AND m_tracker_bug_related_item.bugid=m_tracker_bug.id
                         LIMIT 1)
             #end
@@ -310,7 +310,7 @@
                 EXISTS (SELECT 1
                     FROM m_tracker_bug_related_item
                     WHERE m_tracker_bug_related_item.type='Component'
-                        AND m_tracker_bug_related_item.typeid=@{componentid,jdbcType=NUMERIC}
+                        AND m_tracker_bug_related_item.typeId=@{componentid,jdbcType=NUMERIC}
                         AND m_tracker_bug_related_item.bugid=m_tracker_bug.id
                         LIMIT 1)
             #end
@@ -370,44 +370,44 @@
                  m_tracker_bug.cus_str_02, m_tracker_bug.cus_str_03, m_tracker_bug.cus_str_04,
                  m_tracker_bug.cus_str_05, m_tracker_bug.cus_time_01, m_tracker_bug.cus_time_02, 
                  m_tracker_bug.cus_time_03, m_tracker_bug.cus_time_04, m_tracker_bug.cus_dbl_01, m_tracker_bug.bugindex,
-                 m_tracker_bug.cus_dbl_02, m_tracker_bug.cus_dbl_03, m_tracker_bug.projectid, 
+                 m_tracker_bug.cus_dbl_02, m_tracker_bug.cus_dbl_03, m_tracker_bug.projectId,
                  m_tracker_bug.resolveddate, m_tracker_bug.sAccountId, m_tracker_bug.description, m_tracker_bug.estimateTime,
                  m_tracker_bug.startdate, m_tracker_bug.enddate,
                  (SELECT count(*)
                     FROM m_comment
-                    WHERE m_comment.type='Project-Bug' AND m_comment.typeid=m_tracker_bug.id) AS numComments,
+                    WHERE m_comment.type='Project-Bug' AND m_comment.typeId=m_tracker_bug.id) AS numComments,
                  m_tracker_bug.estimateRemainTime, m_tracker_bug.milestoneId, bugkey, milestone.name as milestoneName,
                  concat(assignuserTbl.firstname, ' ', LTRIM(concat(IFNULL(assignuserTbl.middlename, ''), ' ')), assignuserTbl.lastname) as assignuserFullName,
                  assignuserTbl.avatarId AS assignUserAvatarId,
                  concat(loguserTbl.firstname, ' ', LTRIM(concat(IFNULL(loguserTbl.middlename, ''), ' ')), loguserTbl.lastname) as loguserFullName,
                  loguserTbl.avatarId AS loguserAvatarId,
                  m_prj_project.name as projectname, m_prj_project.shortname AS projectShortName,
-                 affectedversion.id as affectedversion_id, affectedversion.projectid as affectedversion_projectid, 
+                 affectedversion.id as affectedversion_id, affectedversion.projectId as affectedversion_projectid,
                  affectedversion.description as affectedversion_description, affectedversion.duedate as affectedversion_duedate, 
                  affectedversion.versionname as affectedversion_versionname, affectedversion.createdUser as affectedversion_createdUser, 
                  affectedversion.createdTime as affectedversion_createdTime, affectedversion.lastUpdatedTime as affectedversion_lastUpdatedTime,
-                 fixedversion.id as fixedversion_id, fixedversion.projectid as fixedversion_projectid, 
+                 fixedversion.id as fixedversion_id, fixedversion.projectId as fixedversion_projectid,
                  fixedversion.description as fixedversion_description, fixedversion.duedate as fixedversion_duedate, 
                  fixedversion.versionname as fixedversion_versionname, fixedversion.createdUser as fixedversion_createdUser, 
                  fixedversion.createdTime as fixedversion_createdTime, fixedversion.lastUpdatedTime as fixedversion_lastUpdatedTime,
-                 component.id as component_id, component.projectid as component_projectid, component.componentname as component_componentname, 
+                 component.id as component_id, component.projectId as component_projectid, component.componentname as component_componentname,
                  component.userlead as component_userlead, component.description as component_description, component.createdUser as component_createdUser, 
                  component.createdTime as component_createdTime, component.lastUpdatedTime as component_lastUpdatedTime,
-                 (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = m_tracker_bug.projectid
-                     AND m_prj_time_logging.type='Project-Bug' AND m_prj_time_logging.typeid=m_tracker_bug.id AND m_prj_time_logging.isBillable = 1) AS billableHours,
-                 (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = m_tracker_bug.projectid
-                     AND m_prj_time_logging.type='Project-Bug' AND m_prj_time_logging.typeid=m_tracker_bug.id AND m_prj_time_logging.isBillable = 0) AS nonBillableHours,
-                 (SELECT COUNT(*) FROM m_monitor_item WHERE m_monitor_item.typeid = m_tracker_bug.id AND m_monitor_item.type = 'Project-Bug') AS numFollowers
+                 (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = m_tracker_bug.projectId
+                     AND m_prj_time_logging.type='Project-Bug' AND m_prj_time_logging.typeId=m_tracker_bug.id AND m_prj_time_logging.isBillable = 1) AS billableHours,
+                 (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = m_tracker_bug.projectId
+                     AND m_prj_time_logging.type='Project-Bug' AND m_prj_time_logging.typeId=m_tracker_bug.id AND m_prj_time_logging.isBillable = 0) AS nonBillableHours,
+                 (SELECT COUNT(*) FROM m_monitor_item WHERE m_monitor_item.typeId = m_tracker_bug.id AND m_monitor_item.type = 'Project-Bug') AS numFollowers
            FROM m_tracker_bug
-               LEFT OUTER JOIN m_prj_project ON (m_tracker_bug.projectid = m_prj_project.id)
+               LEFT OUTER JOIN m_prj_project ON (m_tracker_bug.projectId = m_prj_project.id)
                LEFT OUTER JOIN s_user AS assignuserTbl ON (m_tracker_bug.assignuser=assignuserTbl.username)
                LEFT OUTER JOIN s_user AS loguserTbl ON (m_tracker_bug.logby=loguserTbl.username)
                LEFT OUTER JOIN m_tracker_bug_related_item AS relatedItem1 ON (relatedItem1.bugid = m_tracker_bug.id AND relatedItem1.type='AffVersion')
-               LEFT OUTER JOIN m_tracker_version AS affectedversion ON (affectedversion.id = relatedItem1.typeid)
+               LEFT OUTER JOIN m_tracker_version AS affectedversion ON (affectedversion.id = relatedItem1.typeId)
                LEFT OUTER JOIN m_tracker_bug_related_item AS relatedItem2 ON (relatedItem2.bugid = m_tracker_bug.id AND relatedItem2.type='FixVersion')
-               LEFT OUTER JOIN m_tracker_version AS fixedversion ON (fixedversion.id = relatedItem2.typeid)
+               LEFT OUTER JOIN m_tracker_version AS fixedversion ON (fixedversion.id = relatedItem2.typeId)
                LEFT OUTER JOIN m_tracker_bug_related_item AS relatedItem3 ON (relatedItem3.bugid = m_tracker_bug.id AND relatedItem3.type='Component')
-               LEFT OUTER JOIN m_tracker_component AS component ON (component.id = relatedItem3.typeid)
+               LEFT OUTER JOIN m_tracker_component AS component ON (component.id = relatedItem3.typeId)
                LEFT OUTER JOIN m_prj_milestone AS milestone ON (m_tracker_bug.milestoneId=milestone.id)
                
         ]]>
@@ -543,7 +543,7 @@
         FROM m_tracker_bug
         RIGHT OUTER JOIN m_tracker_bug_related_item ON (m_tracker_bug.id = m_tracker_bug_related_item.bugid) 
         RIGHT OUTER JOIN m_tracker_component ON (m_tracker_bug_related_item.type = 'Component'
-                AND m_tracker_component.id = m_tracker_bug_related_item.typeid)
+                AND m_tracker_component.id = m_tracker_bug_related_item.typeId)
         ]]>
 
         #ifnotnull($_parameter.searchCriteria)
@@ -559,7 +559,7 @@
         SELECT 0 as groupid, COUNT(m_tracker_bug.id) as value, '' as groupname
             FROM m_tracker_bug
             WHERE (SELECT COUNT(*) FROM m_tracker_bug_related_item WHERE m_tracker_bug_related_item.type='Component' 
-                AND m_tracker_bug.id=m_tracker_bug_related_item.typeid) = 0
+                AND m_tracker_bug.id=m_tracker_bug_related_item.typeId) = 0
         ]]>
         #ifnotnull($_parameter.searchCriteria)
             <include refid="querySearchCriteria" />
@@ -575,7 +575,7 @@
         FROM m_tracker_bug
         RIGHT OUTER JOIN m_tracker_related_item ON (CONCAT('bug-', m_tracker_bug.id) = m_tracker_related_item.refkey) 
         RIGHT OUTER JOIN m_tracker_version ON ((m_tracker_related_item.type = 0 || m_tracker_related_item.type =1)
-                AND m_tracker_version.id = m_tracker_related_item.typeid)
+                AND m_tracker_version.id = m_tracker_related_item.typeId)
         ]]>
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -601,7 +601,7 @@
         <![CDATA[
         SELECT MAX(bugkey) 
             FROM m_tracker_bug
-            WHERE m_tracker_bug.projectid=@{projectId, jdbcType=NUMERIC}
+            WHERE m_tracker_bug.projectId=@{projectId, jdbcType=NUMERIC}
         ]]>
     </select>
 
@@ -624,31 +624,31 @@
                 WHERE m_tracker_bug.status="Open" 
                     AND m_tracker_bug.id = m_tracker_bug_related_item.bugid
                     AND m_tracker_bug_related_item.type = 'Component' 
-                    AND m_tracker_component.id = m_tracker_bug_related_item.typeid) AS numOpen,
+                    AND m_tracker_component.id = m_tracker_bug_related_item.typeId) AS numOpen,
              (SELECT COUNT(*) 
                 FROM m_tracker_bug, m_tracker_bug_related_item
                 WHERE m_tracker_bug.status="InProgress" 
                     AND m_tracker_bug.id = m_tracker_bug_related_item.bugid
                     AND m_tracker_bug_related_item.type = 'Component' 
-                    AND m_tracker_component.id = m_tracker_bug_related_item.typeid) AS numInProgress,
+                    AND m_tracker_component.id = m_tracker_bug_related_item.typeId) AS numInProgress,
               (SELECT COUNT(*) 
                 FROM m_tracker_bug, m_tracker_bug_related_item
                 WHERE m_tracker_bug.status="Verified" 
                     AND m_tracker_bug.id = m_tracker_bug_related_item.bugid
                     AND m_tracker_bug_related_item.type = 'Component' 
-                    AND m_tracker_component.id = m_tracker_bug_related_item.typeid) AS numVerified,
+                    AND m_tracker_component.id = m_tracker_bug_related_item.typeId) AS numVerified,
                (SELECT COUNT(*) 
                 FROM m_tracker_bug, m_tracker_bug_related_item
                 WHERE m_tracker_bug.status="Resolved" 
                     AND m_tracker_bug.id = m_tracker_bug_related_item.bugid
                     AND m_tracker_bug_related_item.type = 'Component' 
-                    AND m_tracker_component.id = m_tracker_bug_related_item.typeid) AS numResolved,
+                    AND m_tracker_component.id = m_tracker_bug_related_item.typeId) AS numResolved,
                 (SELECT COUNT(*) 
                 FROM m_tracker_bug, m_tracker_bug_related_item
                 WHERE m_tracker_bug.status="Reopenned" 
                     AND m_tracker_bug.id = m_tracker_bug_related_item.bugid
                     AND m_tracker_bug_related_item.type = 'Component' 
-                    AND m_tracker_component.id = m_tracker_bug_related_item.typeid) AS numReOpenned                         
+                    AND m_tracker_component.id = m_tracker_bug_related_item.typeId) AS numReOpenned
         FROM m_tracker_component   
         ]]>
     </select>

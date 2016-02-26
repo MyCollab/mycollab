@@ -888,7 +888,7 @@
     user CDATA #REQUIRED
     monitor_date CDATA #REQUIRED
     type CDATA #REQUIRED
-    typeid CDATA #REQUIRED
+    typeId CDATA #REQUIRED
     extraTypeId CDATA #IMPLIED
     sAccountId CDATA #REQUIRED
 >
@@ -964,7 +964,7 @@
     enddate CDATA #IMPLIED
     owner CDATA #IMPLIED
     flag CDATA #IMPLIED
-    projectid CDATA #REQUIRED
+    projectId CDATA #REQUIRED
     createdTime CDATA #IMPLIED
     lastUpdatedTime CDATA #IMPLIED
     sAccountId CDATA #REQUIRED
@@ -1033,7 +1033,7 @@
     id CDATA #REQUIRED
     riskname CDATA #REQUIRED
     description CDATA #IMPLIED
-    projectid CDATA #REQUIRED
+    projectId CDATA #REQUIRED
     raisedbyuser CDATA #IMPLIED
     assigntouser CDATA #IMPLIED
     consequence CDATA #IMPLIED
@@ -1047,8 +1047,6 @@
     source CDATA #IMPLIED
     createdTime CDATA #IMPLIED
     lastUpdatedTime CDATA #IMPLIED
-    type CDATA #IMPLIED
-    typeid CDATA #IMPLIED
     sAccountId CDATA #REQUIRED
     startDate CDATA #IMPLIED
     endDate CDATA #IMPLIED
@@ -1063,7 +1061,7 @@
     rolename CDATA #REQUIRED
     description CDATA #IMPLIED
     sAccountId CDATA #REQUIRED
-    projectid CDATA #REQUIRED
+    projectId CDATA #REQUIRED
     isSystemRole CDATA #IMPLIED
 >
 
@@ -1099,7 +1097,7 @@
     priority CDATA #IMPLIED
     duration CDATA #IMPLIED
     isestimated CDATA #IMPLIED
-    projectid CDATA #REQUIRED
+    projectId CDATA #REQUIRED
     deadline CDATA #IMPLIED
     notes CDATA #IMPLIED
     taskindex CDATA #IMPLIED
@@ -1122,7 +1120,7 @@
     id CDATA #REQUIRED
     projectId CDATA #REQUIRED
     type CDATA #IMPLIED
-    typeid CDATA #IMPLIED
+    typeId CDATA #IMPLIED
     note CDATA #IMPLIED
     logValue CDATA #REQUIRED
     loguser CDATA #IMPLIED
@@ -1171,7 +1169,7 @@
     cus_dbl_01 CDATA #IMPLIED
     cus_dbl_02 CDATA #IMPLIED
     cus_dbl_03 CDATA #IMPLIED
-    projectid CDATA #REQUIRED
+    projectId CDATA #REQUIRED
     resolveddate CDATA #IMPLIED
     description CDATA #IMPLIED
     estimateTime CDATA #IMPLIED
@@ -1189,15 +1187,15 @@
 <!ELEMENT m_tracker_bug_related_item EMPTY>
 <!ATTLIST m_tracker_bug_related_item
     id CDATA #REQUIRED
-    bugid CDATA #REQUIRED
+    bugId CDATA #REQUIRED
     type CDATA #REQUIRED
-    typeid CDATA #REQUIRED
+    typeId CDATA #REQUIRED
 >
 
 <!ELEMENT m_tracker_component EMPTY>
 <!ATTLIST m_tracker_component
     id CDATA #REQUIRED
-    projectid CDATA #REQUIRED
+    projectId CDATA #REQUIRED
     componentname CDATA #REQUIRED
     userlead CDATA #IMPLIED
     description CDATA #IMPLIED
@@ -1241,7 +1239,7 @@
 <!ELEMENT m_tracker_version EMPTY>
 <!ATTLIST m_tracker_version
     id CDATA #REQUIRED
-    projectid CDATA #REQUIRED
+    projectId CDATA #REQUIRED
     description CDATA #IMPLIED
     duedate CDATA #IMPLIED
     versionname CDATA #REQUIRED
@@ -1365,7 +1363,7 @@
     id CDATA #REQUIRED
     sAccountId CDATA #REQUIRED
     type CDATA #REQUIRED
-    typeid CDATA #REQUIRED
+    typeId CDATA #REQUIRED
     action CDATA #REQUIRED
     changeBy CDATA #REQUIRED
     changeComment CDATA #IMPLIED
@@ -1435,7 +1433,7 @@
 <!ATTLIST s_timeline_tracking
     id CDATA #REQUIRED
     type CDATA #REQUIRED
-    typeid CDATA #REQUIRED
+    typeId CDATA #REQUIRED
     fieldval CDATA #REQUIRED
     fieldgroup CDATA #REQUIRED
     extratypeid CDATA #IMPLIED

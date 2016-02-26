@@ -36,7 +36,7 @@
         <![CDATA[
         SELECT m_crm_call.id, m_crm_call.subject,
             m_crm_call.startDate, m_crm_call.durationInSeconds,
-            m_crm_call.calltype, m_crm_call.type, m_crm_call.typeid,
+            m_crm_call.calltype, m_crm_call.type, m_crm_call.typeId,
             m_crm_call.lastUpdatedTime,
             m_crm_call.createdTime, m_crm_call.createdUser, m_crm_call.assignUser,
             m_crm_call.description,

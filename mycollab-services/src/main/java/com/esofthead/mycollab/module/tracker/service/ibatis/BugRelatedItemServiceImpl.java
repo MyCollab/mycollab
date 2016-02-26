@@ -18,11 +18,7 @@
 package com.esofthead.mycollab.module.tracker.service.ibatis;
 
 import com.esofthead.mycollab.module.tracker.dao.BugRelatedItemMapper;
-import com.esofthead.mycollab.module.tracker.domain.BugRelatedItem;
-import com.esofthead.mycollab.module.tracker.domain.BugRelatedItemExample;
-import com.esofthead.mycollab.module.tracker.domain.Component;
-import com.esofthead.mycollab.module.tracker.domain.Version;
-import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
+import com.esofthead.mycollab.module.tracker.domain.*;
 import com.esofthead.mycollab.module.tracker.service.BugRelatedItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,7 +44,7 @@ public class BugRelatedItemServiceImpl implements BugRelatedItemService {
             BugRelatedItem relatedItem = new BugRelatedItem();
             relatedItem.setBugid(bugid);
             relatedItem.setTypeid(version.getId());
-            relatedItem.setType(BugSearchCriteria.AFFVERSION);
+            relatedItem.setType(SimpleRelatedBug.AFFVERSION);
             bugRelatedItemMapper.insert(relatedItem);
         }
     }
@@ -63,7 +59,7 @@ public class BugRelatedItemServiceImpl implements BugRelatedItemService {
             BugRelatedItem relatedItem = new BugRelatedItem();
             relatedItem.setBugid(bugid);
             relatedItem.setTypeid(version.getId());
-            relatedItem.setType(BugSearchCriteria.FIXVERSION);
+            relatedItem.setType(SimpleRelatedBug.FIXVERSION);
             bugRelatedItemMapper.insert(relatedItem);
         }
     }
@@ -78,7 +74,7 @@ public class BugRelatedItemServiceImpl implements BugRelatedItemService {
             BugRelatedItem relatedItem = new BugRelatedItem();
             relatedItem.setBugid(bugid);
             relatedItem.setTypeid(component.getId());
-            relatedItem.setType(BugSearchCriteria.COMPONENT);
+            relatedItem.setType(SimpleRelatedBug.COMPONENT);
             bugRelatedItemMapper.insert(relatedItem);
         }
     }
@@ -93,7 +89,7 @@ public class BugRelatedItemServiceImpl implements BugRelatedItemService {
 
     @Override
     public void updateAfftedVersionsOfBug(Integer bugid, List<Version> versions) {
-        deleteTrackerBugRelatedItem(bugid, BugSearchCriteria.AFFVERSION);
+        deleteTrackerBugRelatedItem(bugid, SimpleRelatedBug.AFFVERSION);
         if (versions.size() > 0) {
             insertAffectedVersionsOfBug(bugid, versions);
         }
@@ -101,7 +97,7 @@ public class BugRelatedItemServiceImpl implements BugRelatedItemService {
 
     @Override
     public void updateFixedVersionsOfBug(Integer bugid, List<Version> versions) {
-        deleteTrackerBugRelatedItem(bugid, BugSearchCriteria.FIXVERSION);
+        deleteTrackerBugRelatedItem(bugid, SimpleRelatedBug.FIXVERSION);
         if (versions.size() > 0) {
             insertFixedVersionsOfBug(bugid, versions);
         }
@@ -109,7 +105,7 @@ public class BugRelatedItemServiceImpl implements BugRelatedItemService {
 
     @Override
     public void updateComponentsOfBug(Integer bugid, List<Component> components) {
-        deleteTrackerBugRelatedItem(bugid, BugSearchCriteria.COMPONENT);
+        deleteTrackerBugRelatedItem(bugid, SimpleRelatedBug.COMPONENT);
         if (components.size() > 0) {
             insertComponentsOfBug(bugid, components);
         }

@@ -29,7 +29,7 @@
     <sql id="selectSimpleRelayEmailNotification">
         <![CDATA[
             SELECT s_relay_email_notification.id, s_relay_email_notification.sAccountId, s_relay_email_notification.type, 
-                    s_relay_email_notification.typeid, s_relay_email_notification.action, 
+                    s_relay_email_notification.typeId, s_relay_email_notification.action,
                     s_relay_email_notification.extraTypeId,
                     s_relay_email_notification.changeBy, s_relay_email_notification.changeComment,
                     concat(changeUser.firstname, ' ', LTRIM(IFNULL(changeUser.middlename, '')), changeUser.lastname) as changeByUserFullName,
@@ -37,7 +37,7 @@
                     notifier.email AS notifiers_email, notifier.language AS notifiers_language, s_relay_email_notification.sAccountId AS notifiers_accountId
                 FROM s_relay_email_notification
                     LEFT OUTER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeBy)
-                    LEFT OUTER JOIN m_monitor_item ON (m_monitor_item.typeid=s_relay_email_notification.typeid AND s_relay_email_notification.type=m_monitor_item.type)
+                    LEFT OUTER JOIN m_monitor_item ON (m_monitor_item.typeId=s_relay_email_notification.typeId AND s_relay_email_notification.type=m_monitor_item.type)
                     LEFT OUTER JOIN s_user AS notifier ON (m_monitor_item.user=notifier.username)
         ]]>
     </sql>

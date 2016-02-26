@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.service.ibatis;
 
+import com.esofthead.mycollab.cache.CleanCacheEvent;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.common.interceptor.aspect.ClassInfo;
@@ -110,12 +111,19 @@ public class ProjectServiceImpl extends DefaultService<Integer, Project, Project
     }
 
     @Override
+    public Integer savePlainProject(Project record, String username) {
+        billingPlanCheckerService.validateAccountCanCreateMoreProject(record.getSaccountid());
+        assertExistProjectShortnameInAccount(null, record.getShortname(), record.getSaccountid());
+        Integer projectId = super.saveWithSession(record, username);
+        asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectService.class}));
+        return projectId;
+    }
+
+    @Override
     public Integer saveWithSession(Project record, String username) {
         billingPlanCheckerService.validateAccountCanCreateMoreProject(record.getSaccountid());
-
         assertExistProjectShortnameInAccount(null, record.getShortname(), record.getSaccountid());
-
-        Integer projectId = super.saveWithSession(record, username);
+        Integer projectId = savePlainProject(record, username);
 
         // Add the first user to project
         ProjectMember projectMember = new ProjectMember();
@@ -151,8 +159,7 @@ public class ProjectServiceImpl extends DefaultService<Integer, Project, Project
 
         // add consultant role to project
         LOG.debug("Add consultant role to project {}", record.getName());
-        ProjectRole consultantRole = createProjectRole(projectId,
-                record.getSaccountid(), "Consultant",
+        ProjectRole consultantRole = createProjectRole(projectId, record.getSaccountid(), "Consultant",
                 "Default role for consultant");
         int consultantRoleId = projectRoleService.saveWithSession(consultantRole, username);
 
@@ -181,13 +188,10 @@ public class ProjectServiceImpl extends DefaultService<Integer, Project, Project
 
         PermissionMap permissionMapAdmin = new PermissionMap();
         for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
-            permissionMapAdmin.addPath(
-                    ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i],
+            permissionMapAdmin.addPath(ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i],
                     AccessPermissionFlag.ACCESS);
         }
-        projectRoleService.savePermission(projectId, adminRoleId,
-                permissionMapAdmin, record.getSaccountid());
-
+        projectRoleService.savePermission(projectId, adminRoleId, permissionMapAdmin, record.getSaccountid());
 
         //Do async task to create some post data after project is created
         AddProjectEvent event = new AddProjectEvent(projectId, record.getSaccountid());

@@ -401,7 +401,7 @@ public class ProjectTooltipGenerator {
             trRow1.appendChild(cell11, cell12, cell13, cell14);
 
             Tr trRow2 = new Tr();
-            Td cell21 = buildCellName(LocalizationHelper.getMessage(locale, ProjectI18nEnum.FORM_PLAN_START_DATE));
+            Td cell21 = buildCellName(LocalizationHelper.getMessage(locale, ProjectI18nEnum.FORM_START_DATE));
             String planStartDate = DateTimeUtils.converToStringWithUserTimeZone(project.getPlanstartdate(), dateFormat, timeZone);
             Td cell22 = buildCellValue(planStartDate);
             Td cell23 = buildCellName(LocalizationHelper.getMessage(locale, ProjectI18nEnum.FORM_CURRENCY));
@@ -411,7 +411,7 @@ public class ProjectTooltipGenerator {
             tooltipManager.appendRow(trRow2);
 
             Tr trRow3 = new Tr();
-            Td cell31 = buildCellName(LocalizationHelper.getMessage(locale, ProjectI18nEnum.FORM_PLAN_END_DATE));
+            Td cell31 = buildCellName(LocalizationHelper.getMessage(locale, ProjectI18nEnum.FORM_END_DATE));
             String planEndDate = DateTimeUtils.converToStringWithUserTimeZone(project.getPlanenddate(), dateFormat, timeZone);
             Td cell32 = buildCellValue(planEndDate);
             Td cell33 = buildCellName(LocalizationHelper.getMessage(locale, ProjectI18nEnum.FORM_BILLING_RATE));

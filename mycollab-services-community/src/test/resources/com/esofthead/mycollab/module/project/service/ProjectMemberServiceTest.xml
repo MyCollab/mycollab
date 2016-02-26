@@ -35,7 +35,7 @@
 
     <s_roles rolename="Guest" sAccountId="1" id="1" />
 
-    <m_prj_role projectid="1" rolename="test" sAccountId="1"
+    <m_prj_role projectId="1" rolename="test" sAccountId="1"
         id="1" />
 
     <m_prj_member status="Active" isAdmin="1" projectId="1"

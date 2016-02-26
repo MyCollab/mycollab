@@ -17,9 +17,8 @@
 
 package com.esofthead.mycollab.module.project.view.milestone;
 
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.Milestone;
@@ -51,12 +50,10 @@ public class MilestoneComboBox extends ComboBox {
         MilestoneSearchCriteria criteria = new MilestoneSearchCriteria();
         SimpleProject project = CurrentProjectVariables.getProject();
         if (project != null) {
-            criteria.setProjectId(new NumberSearchField(SearchField.AND, project.getId()));
-
+            criteria.setProjectIds(new SetSearchField<>(project.getId()));
             MilestoneService milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
             List<SimpleMilestone> milestoneList = (List<SimpleMilestone>) milestoneService
                     .findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
-
             Collections.sort(milestoneList, new MilestoneComparator());
 
             for (SimpleMilestone milestone : milestoneList) {
@@ -66,7 +63,6 @@ public class MilestoneComboBox extends ComboBox {
                 this.setItemIcon(milestone.getId(), iconRes);
             }
         }
-
     }
 
     private static class MilestoneComparator implements Comparator<Milestone>, Serializable {

@@ -16,9 +16,9 @@
  */
 package com.esofthead.mycollab.module.project.view.milestone;
 
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
@@ -86,7 +86,7 @@ public class MilestoneTimelineWidget extends MVerticalLayout {
                 (noDateSetMilestone, Alignment.MIDDLE_RIGHT).withAlign(includeClosedMilestone, Alignment.MIDDLE_RIGHT);
 
         MilestoneSearchCriteria searchCriteria = new MilestoneSearchCriteria();
-        searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+        searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
         searchCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField(Milestone.Field.enddate.name(), "ASC")));
         MilestoneService milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
         milestones = milestoneService.findPagableListByCriteria(new SearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));

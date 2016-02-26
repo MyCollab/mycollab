@@ -22,35 +22,31 @@ import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import java.util.List;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class SimpleRelayEmailNotification extends RelayEmailNotificationWithBLOBs {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String changeByUserFullName;
+    private String changeByUserFullName;
+    private List<SimpleUser> notifyUsers;
 
-	private List<SimpleUser> notifyUsers;
+    public String getChangeByUserFullName() {
+        if (changeByUserFullName == null || changeByUserFullName.trim().equals("")) {
+            return StringUtils.extractNameFromEmail(getChangeby());
+        }
+        return changeByUserFullName;
+    }
 
-	public String getChangeByUserFullName() {
-		if (changeByUserFullName == null
-				|| changeByUserFullName.trim().equals("")) {
-			return StringUtils.extractNameFromEmail(getChangeby());
-		}
-		return changeByUserFullName;
-	}
+    public void setChangeByUserFullName(String changeByUserFullName) {
+        this.changeByUserFullName = changeByUserFullName;
+    }
 
-	public void setChangeByUserFullName(String changeByUserFullName) {
-		this.changeByUserFullName = changeByUserFullName;
-	}
+    public List<SimpleUser> getNotifyUsers() {
+        return notifyUsers;
+    }
 
-	public List<SimpleUser> getNotifyUsers() {
-		return notifyUsers;
-	}
-
-	public void setNotifyUsers(List<SimpleUser> notifyUsers) {
-		this.notifyUsers = notifyUsers;
-	}
+    public void setNotifyUsers(List<SimpleUser> notifyUsers) {
+        this.notifyUsers = notifyUsers;
+    }
 }

@@ -33,13 +33,13 @@
     <m_prj_project id="3" name="a" sAccountId="2"
         shortname="aaa" projectStatus="Open" />
 
-    <m_prj_task sAccountId="1" projectid="1" id="1"
+    <m_prj_task sAccountId="1" projectId="1" id="1"
         percentagecomplete="40" taskname="task1" taskkey="1" />
 
-    <m_prj_task sAccountId="1" projectid="1" id="2"
+    <m_prj_task sAccountId="1" projectId="1" id="2"
         percentagecomplete="0" taskname="task2" taskkey="2" />
 
-    <m_prj_task sAccountId="2" projectid="3" id="3"
+    <m_prj_task sAccountId="2" projectId="3" id="3"
         percentagecomplete="0" taskname="task1" taskkey="1" />
 
 </dataset>

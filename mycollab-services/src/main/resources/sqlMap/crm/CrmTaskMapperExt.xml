@@ -33,7 +33,7 @@
                 EXISTS (SELECT 1
                 FROM m_crm_contact 
                 WHERE m_crm_contact.id=@{searchCriteria.contactId.value,jdbcType=NUMERIC} 
-                    AND m_crm_task.typeid=m_crm_contact.id 
+                    AND m_crm_task.typeId=m_crm_contact.id
                     AND m_crm_task.type='Contact'
                     LIMIT 1)
         #end
@@ -43,7 +43,7 @@
                 EXISTS (SELECT 1
                 FROM m_crm_campaign 
                 WHERE m_crm_campaign.id=@{searchCriteria.campaignId.value,jdbcType=NUMERIC} 
-                    AND m_crm_task.typeid=m_crm_campaign.id 
+                    AND m_crm_task.typeId=m_crm_campaign.id
                     AND m_crm_task.type='Campaign'
                     LIMIT 1)
         #end 
@@ -53,7 +53,7 @@
                 EXISTS (SELECT 1
                 FROM m_crm_account 
                 WHERE m_crm_account.id=@{searchCriteria.accountId.value,jdbcType=NUMERIC} 
-                    AND m_crm_task.typeid=m_crm_account.id 
+                    AND m_crm_task.typeId=m_crm_account.id
                     AND m_crm_task.type='Account'
                     LIMIT 1)
         #end
@@ -63,7 +63,7 @@
                 EXISTS (SELECT 1
                 FROM m_crm_target 
                 WHERE m_crm_target.id=@{searchCriteria.targetId.value,jdbcType=NUMERIC} 
-                    AND m_crm_task.typeid=m_crm_target.id 
+                    AND m_crm_task.typeId=m_crm_target.id
                     AND m_crm_task.type='Target'
                     LIMIT 1)
         #end
@@ -73,7 +73,7 @@
                 EXISTS (SELECT 1
                 FROM m_crm_lead 
                 WHERE m_crm_lead.id=@{searchCriteria.leadId.value,jdbcType=NUMERIC} 
-                    AND m_crm_task.typeid=m_crm_lead.id 
+                    AND m_crm_task.typeId=m_crm_lead.id
                     AND m_crm_task.type='Lead'
                     LIMIT 1)
         #end
@@ -83,7 +83,7 @@
                 EXISTS (SELECT 1
                 FROM m_crm_opportunity 
                 WHERE m_crm_opportunity.id=@{searchCriteria.opportunityId.value,jdbcType=NUMERIC} 
-                    AND m_crm_task.typeid=m_crm_opportunity.id 
+                    AND m_crm_task.typeId=m_crm_opportunity.id
                     AND m_crm_task.type='Opportunity'
                     LIMIT 1)
         #end
@@ -93,7 +93,7 @@
             EXISTS (SELECT 1
             FROM m_crm_quote 
             WHERE m_crm_quote.id=@{searchCriteria.quoteId.value,jdbcType=NUMERIC} 
-                AND m_crm_task.typeid=m_crm_quote.id 
+                AND m_crm_task.typeId=m_crm_quote.id
                 AND m_crm_task.type='Quote'
                 LIMIT 1)
         #end
@@ -103,7 +103,7 @@
             EXISTS (SELECT 1
             FROM m_crm_product 
             WHERE m_crm_product.id=@{searchCriteria.productId.value,jdbcType=NUMERIC} 
-                AND m_crm_task.typeid=m_crm_product.id 
+                AND m_crm_task.typeId=m_crm_product.id
                 AND m_crm_task.type='Product'
                 LIMIT 1)
         #end
@@ -113,7 +113,7 @@
             EXISTS (SELECT 1
              FROM m_crm_case 
              WHERE m_crm_case.id=@{searchCriteria.caseId.value,jdbcType=NUMERIC} 
-                 AND m_crm_task.typeid=m_crm_case.id 
+                 AND m_crm_task.typeId=m_crm_case.id
                  AND m_crm_task.type='Case'
                  LIMIT 1)
         #end
@@ -151,7 +151,7 @@
                 EXISTS (SELECT 1
                 FROM m_crm_contact 
                 WHERE m_crm_contact.id=@{searchCriteria.contactId.value,jdbcType=NUMERIC} 
-                    AND m_crm_task.typeid=m_crm_contact.id 
+                    AND m_crm_task.typeId=m_crm_contact.id
                     AND m_crm_task.type='Contact'
                     LIMIT 1)
         #end
@@ -161,7 +161,7 @@
                 EXISTS (SELECT 1
                 FROM m_crm_campaign 
                 WHERE m_crm_campaign.id=@{searchCriteria.campaignId.value,jdbcType=NUMERIC} 
-                    AND m_crm_task.typeid=m_crm_campaign.id 
+                    AND m_crm_task.typeId=m_crm_campaign.id
                     AND m_crm_task.type='Campaign'
                     LIMIT 1)
         #end 
@@ -171,7 +171,7 @@
                 EXISTS (SELECT 1
                 FROM m_crm_account 
                 WHERE m_crm_account.id=@{searchCriteria.accountId.value,jdbcType=NUMERIC} 
-                    AND m_crm_task.typeid=m_crm_account.id 
+                    AND m_crm_task.typeId=m_crm_account.id
                     AND m_crm_task.type='Account'
                     LIMIT 1)
         #end
@@ -181,7 +181,7 @@
                 EXISTS (SELECT 1
                 FROM m_crm_target 
                 WHERE m_crm_target.id=@{searchCriteria.targetId.value,jdbcType=NUMERIC} 
-                    AND m_crm_task.typeid=m_crm_target.id 
+                    AND m_crm_task.typeId=m_crm_target.id
                     AND m_crm_task.type='Target'
                     LIMIT 1)
         #end
@@ -191,7 +191,7 @@
                 EXISTS (SELECT 1
                 FROM m_crm_lead 
                 WHERE m_crm_lead.id=@{searchCriteria.leadId.value,jdbcType=NUMERIC} 
-                    AND m_crm_task.typeid=m_crm_lead.id 
+                    AND m_crm_task.typeId=m_crm_lead.id
                     AND m_crm_task.type='Lead'
                     LIMIT 1)
         #end
@@ -201,7 +201,7 @@
                 EXISTS (SELECT 1
                 FROM m_crm_opportunity 
                 WHERE m_crm_opportunity.id=@{searchCriteria.opportunityId.value,jdbcType=NUMERIC} 
-                    AND m_crm_task.typeid=m_crm_opportunity.id 
+                    AND m_crm_task.typeId=m_crm_opportunity.id
                     AND m_crm_task.type='Opportunity'
                     LIMIT 1)
         #end
@@ -211,7 +211,7 @@
             EXISTS (SELECT 1
             FROM m_crm_quote 
             WHERE m_crm_quote.id=@{searchCriteria.quoteId.value,jdbcType=NUMERIC} 
-                AND m_crm_task.typeid=m_crm_quote.id 
+                AND m_crm_task.typeId=m_crm_quote.id
                 AND m_crm_task.type='Quote'
                 LIMIT 1)
         #end
@@ -221,7 +221,7 @@
             EXISTS (SELECT 1
             FROM m_crm_product 
             WHERE m_crm_product.id=@{searchCriteria.productId.value,jdbcType=NUMERIC} 
-                AND m_crm_task.typeid=m_crm_product.id 
+                AND m_crm_task.typeId=m_crm_product.id
                 AND m_crm_task.type='Product'
                 LIMIT 1)
         #end
@@ -231,7 +231,7 @@
             EXISTS (SELECT 1
              FROM m_crm_case 
              WHERE m_crm_case.id=@{searchCriteria.caseId.value,jdbcType=NUMERIC} 
-                 AND m_crm_task.typeid=m_crm_case.id 
+                 AND m_crm_task.typeId=m_crm_case.id
                  AND m_crm_task.type='Case'
                  LIMIT 1)
         #end
@@ -256,7 +256,7 @@
         <![CDATA[
         SELECT m_crm_task.id, m_crm_task.subject,
             m_crm_task.startdate, m_crm_task.duedate, m_crm_task.contactId,
-            m_crm_task.typeid, m_crm_task.description,
+            m_crm_task.typeId, m_crm_task.description,
             m_crm_task.createdTime, m_crm_task.createdUser,
             m_crm_task.sAccountId, m_crm_task.status, m_crm_task.assignUser,
             m_crm_task.priority, m_crm_task.isClosed,
@@ -307,7 +307,7 @@
     <select id="findPagableListByCriteria" parameterType="TodoSearchCriteria"
         resultMap="SimpleTaskResult" lang="velocity">
         <![CDATA[
-        SELECT m_crm_task.id, m_crm_task.subject, m_crm_task.startdate, m_crm_task.duedate, m_crm_task.contactId, m_crm_task.typeid, 
+        SELECT m_crm_task.id, m_crm_task.subject, m_crm_task.startdate, m_crm_task.duedate, m_crm_task.contactId, m_crm_task.typeId,
                m_crm_task.description, m_crm_task.createdTime, m_crm_task.lastUpdatedTime, m_crm_task.createdUser, m_crm_task.sAccountId, m_crm_task.status, 
                m_crm_task.assignUser, m_crm_task.priority, m_crm_task.type, m_crm_task.isClosed,
                concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as assignUserFullName,
@@ -317,7 +317,7 @@
         FROM m_crm_task 
             LEFT OUTER JOIN s_user ON (m_crm_task.assignUser = s_user.username) 
             LEFT OUTER JOIN m_crm_contact ON (m_crm_contact.id = m_crm_task.contactId) 
-            INNER JOIN m_crm_contact as contact2 ON (m_crm_task.type='Contact' AND m_crm_task.typeid=contact2.id )
+            INNER JOIN m_crm_contact as contact2 ON (m_crm_task.type='Contact' AND m_crm_task.typeId=contact2.id )
         ]]>
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -328,7 +328,7 @@
         UNION ALL
 
         <![CDATA[
-        SELECT m_crm_task.id, m_crm_task.subject, m_crm_task.startdate, m_crm_task.duedate, m_crm_task.contactId, m_crm_task.typeid, 
+        SELECT m_crm_task.id, m_crm_task.subject, m_crm_task.startdate, m_crm_task.duedate, m_crm_task.contactId, m_crm_task.typeId,
                m_crm_task.description, m_crm_task.createdTime, m_crm_task.lastUpdatedTime, m_crm_task.createdUser, m_crm_task.sAccountId, m_crm_task.status, 
                m_crm_task.assignUser, m_crm_task.priority, m_crm_task.type, m_crm_task.isClosed,
                concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastName) as assignUserFullName,
@@ -338,7 +338,7 @@
         FROM m_crm_task 
             LEFT OUTER JOIN s_user ON (m_crm_task.assignUser = s_user.username) 
             LEFT OUTER JOIN m_crm_contact ON (m_crm_contact.id = m_crm_task.contactId) 
-            INNER JOIN m_crm_account ON (m_crm_task.type='Account' AND m_crm_task.typeid=m_crm_account.id )
+            INNER JOIN m_crm_account ON (m_crm_task.type='Account' AND m_crm_task.typeId=m_crm_account.id )
         ]]>
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -348,7 +348,7 @@
 
         UNION ALL
         <![CDATA[
-        SELECT m_crm_task.id, m_crm_task.subject, m_crm_task.startdate, m_crm_task.duedate, m_crm_task.contactId, m_crm_task.typeid, 
+        SELECT m_crm_task.id, m_crm_task.subject, m_crm_task.startdate, m_crm_task.duedate, m_crm_task.contactId, m_crm_task.typeId,
                m_crm_task.description, m_crm_task.createdTime, m_crm_task.lastUpdatedTime, m_crm_task.createdUser, m_crm_task.sAccountId, m_crm_task.status, 
                m_crm_task.assignUser, m_crm_task.priority, m_crm_task.type, m_crm_task.isClosed,
                concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as assignUserFullName,
@@ -358,7 +358,7 @@
         FROM m_crm_task 
             LEFT OUTER JOIN s_user ON (m_crm_task.assignUser = s_user.username) 
             LEFT OUTER JOIN m_crm_contact ON (m_crm_contact.id = m_crm_task.contactId) 
-            INNER JOIN m_crm_campaign ON (m_crm_task.type='Campaign' AND m_crm_task.typeid=m_crm_campaign.id)
+            INNER JOIN m_crm_campaign ON (m_crm_task.type='Campaign' AND m_crm_task.typeId=m_crm_campaign.id)
         ]]>
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -369,7 +369,7 @@
 
         UNION ALL
         <![CDATA[
-        SELECT m_crm_task.id, m_crm_task.subject, m_crm_task.startdate, m_crm_task.duedate, m_crm_task.contactId, m_crm_task.typeid, 
+        SELECT m_crm_task.id, m_crm_task.subject, m_crm_task.startdate, m_crm_task.duedate, m_crm_task.contactId, m_crm_task.typeId,
                m_crm_task.description, m_crm_task.createdTime, m_crm_task.lastUpdatedTime, m_crm_task.createdUser, m_crm_task.sAccountId, m_crm_task.status, 
                m_crm_task.assignUser, m_crm_task.priority, m_crm_task.type, m_crm_task.isClosed,
                concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as assignUserFullName,
@@ -378,7 +378,7 @@
         FROM m_crm_task 
             LEFT OUTER JOIN s_user ON (m_crm_task.assignUser = s_user.username) 
             LEFT OUTER JOIN m_crm_contact ON (m_crm_contact.id = m_crm_task.contactId) 
-            INNER JOIN m_crm_target ON (m_crm_task.type='Target' AND m_crm_task.typeid=m_crm_target.id)
+            INNER JOIN m_crm_target ON (m_crm_task.type='Target' AND m_crm_task.typeId=m_crm_target.id)
         ]]>
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -388,7 +388,7 @@
 
         UNION ALL
         <![CDATA[
-        SELECT m_crm_task.id, m_crm_task.subject, m_crm_task.startdate, m_crm_task.duedate, m_crm_task.contactId, m_crm_task.typeid, 
+        SELECT m_crm_task.id, m_crm_task.subject, m_crm_task.startdate, m_crm_task.duedate, m_crm_task.contactId, m_crm_task.typeId,
                m_crm_task.description, m_crm_task.createdTime, m_crm_task.lastUpdatedTime, m_crm_task.createdUser, m_crm_task.sAccountId, m_crm_task.status, 
                m_crm_task.assignUser, m_crm_task.priority, m_crm_task.type, m_crm_task.isClosed,
                concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as assignUserFullName,
@@ -398,7 +398,7 @@
         FROM m_crm_task 
             LEFT OUTER JOIN s_user ON (m_crm_task.assignUser =  s_user.username) 
             LEFT OUTER JOIN m_crm_contact ON (m_crm_contact.id = m_crm_task.contactId) 
-            INNER JOIN m_crm_lead ON (m_crm_task.type='Lead' AND m_crm_task.typeid=m_crm_lead.id)
+            INNER JOIN m_crm_lead ON (m_crm_task.type='Lead' AND m_crm_task.typeId=m_crm_lead.id)
         ]]>
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -408,7 +408,7 @@
 
         UNION ALL
         <![CDATA[
-        SELECT m_crm_task.id, m_crm_task.subject, m_crm_task.startdate, m_crm_task.duedate, m_crm_task.contactId, m_crm_task.typeid, 
+        SELECT m_crm_task.id, m_crm_task.subject, m_crm_task.startdate, m_crm_task.duedate, m_crm_task.contactId, m_crm_task.typeId,
                m_crm_task.description, m_crm_task.createdTime, m_crm_task.lastUpdatedTime, m_crm_task.createdUser, m_crm_task.sAccountId, m_crm_task.status, 
                m_crm_task.assignUser, m_crm_task.priority, m_crm_task.type, m_crm_task.isClosed,
                concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as assignUserFullName,
@@ -418,7 +418,7 @@
         FROM m_crm_task 
             LEFT OUTER JOIN s_user ON (m_crm_task.assignUser =  s_user.username) 
             LEFT OUTER JOIN m_crm_contact ON (m_crm_contact.id = m_crm_task.contactId) 
-            INNER JOIN m_crm_opportunity ON (m_crm_task.type = 'Opportunity' AND m_crm_task.typeid=m_crm_opportunity.id)
+            INNER JOIN m_crm_opportunity ON (m_crm_task.type = 'Opportunity' AND m_crm_task.typeId=m_crm_opportunity.id)
         ]]>
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -429,7 +429,7 @@
 
         UNION ALL
         <![CDATA[
-        SELECT m_crm_task.id, m_crm_task.subject, m_crm_task.startdate, m_crm_task.duedate, m_crm_task.contactId, m_crm_task.typeid, 
+        SELECT m_crm_task.id, m_crm_task.subject, m_crm_task.startdate, m_crm_task.duedate, m_crm_task.contactId, m_crm_task.typeId,
                m_crm_task.description, m_crm_task.createdTime, m_crm_task.lastUpdatedTime, m_crm_task.createdUser, m_crm_task.sAccountId, m_crm_task.status, 
                m_crm_task.assignUser, m_crm_task.priority, m_crm_task.type, m_crm_task.isClosed,
                concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as assignUserFullName,
@@ -439,7 +439,7 @@
         FROM m_crm_task 
             LEFT OUTER JOIN s_user ON (m_crm_task.assignUser = s_user.username) 
             LEFT OUTER JOIN m_crm_contact ON (m_crm_contact.id = m_crm_task.contactId) 
-            INNER JOIN m_crm_quote ON (m_crm_task.type = 'Quote' AND m_crm_task.typeid=m_crm_quote.id)
+            INNER JOIN m_crm_quote ON (m_crm_task.type = 'Quote' AND m_crm_task.typeId=m_crm_quote.id)
         ]]>
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -450,7 +450,7 @@
 
         UNION ALL
         <![CDATA[
-        SELECT m_crm_task.id, m_crm_task.subject, m_crm_task.startdate, m_crm_task.duedate, m_crm_task.contactId, m_crm_task.typeid, 
+        SELECT m_crm_task.id, m_crm_task.subject, m_crm_task.startdate, m_crm_task.duedate, m_crm_task.contactId, m_crm_task.typeId,
                m_crm_task.description, m_crm_task.createdTime, m_crm_task.lastUpdatedTime, m_crm_task.createdUser, m_crm_task.sAccountId, m_crm_task.status, 
                m_crm_task.assignUser, m_crm_task.priority, m_crm_task.type, m_crm_task.isClosed,
                concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as assignUserFullName,
@@ -460,7 +460,7 @@
         FROM m_crm_task 
             LEFT OUTER JOIN s_user ON (m_crm_task.assignUser = s_user.username) 
             LEFT OUTER JOIN m_crm_contact ON (m_crm_contact.id = m_crm_task.contactId) 
-            INNER JOIN m_crm_product ON (m_crm_task.type = 'Product' AND m_crm_task.typeid=m_crm_product.id)
+            INNER JOIN m_crm_product ON (m_crm_task.type = 'Product' AND m_crm_task.typeId=m_crm_product.id)
         ]]>
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -471,7 +471,7 @@
 
         UNION ALL
         <![CDATA[
-        SELECT m_crm_task.id, m_crm_task.subject, m_crm_task.startdate, m_crm_task.duedate, m_crm_task.contactId, m_crm_task.typeid, 
+        SELECT m_crm_task.id, m_crm_task.subject, m_crm_task.startdate, m_crm_task.duedate, m_crm_task.contactId, m_crm_task.typeId,
                m_crm_task.description, m_crm_task.createdTime, m_crm_task.lastUpdatedTime, m_crm_task.createdUser, m_crm_task.sAccountId, m_crm_task.status, 
                m_crm_task.assignUser, m_crm_task.priority, m_crm_task.type, m_crm_task.isClosed,
                concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as assignUserFullName,
@@ -481,7 +481,7 @@
         FROM m_crm_task 
             LEFT OUTER JOIN s_user ON (m_crm_task.assignUser = s_user.username) 
             LEFT OUTER JOIN m_crm_contact ON (m_crm_contact.id = m_crm_task.contactId) 
-            INNER JOIN m_crm_case ON (m_crm_task.type = 'Case' AND m_crm_task.typeid=m_crm_case.id)
+            INNER JOIN m_crm_case ON (m_crm_task.type = 'Case' AND m_crm_task.typeId=m_crm_case.id)
         ]]>
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -493,7 +493,7 @@
 
         UNION ALL
         <![CDATA[
-        SELECT m_crm_task.id, m_crm_task.subject, m_crm_task.startdate, m_crm_task.duedate, m_crm_task.contactId, m_crm_task.typeid, 
+        SELECT m_crm_task.id, m_crm_task.subject, m_crm_task.startdate, m_crm_task.duedate, m_crm_task.contactId, m_crm_task.typeId,
                m_crm_task.description, m_crm_task.createdTime, m_crm_task.lastUpdatedTime, m_crm_task.createdUser, m_crm_task.sAccountId, m_crm_task.status, 
                m_crm_task.assignUser, m_crm_task.priority, m_crm_task.type, m_crm_task.isClosed,
                concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as assignUserFullName,
@@ -507,7 +507,7 @@
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
                 <include refid="querySearchCriteria" />
-            <![CDATA[AND ((m_crm_task.type IS NULL) OR (m_crm_task.typeid IS NULL))]]>
+            <![CDATA[AND ((m_crm_task.type IS NULL) OR (m_crm_task.typeId IS NULL))]]>
             #end
         #end
         <include refid="orderStatement" />

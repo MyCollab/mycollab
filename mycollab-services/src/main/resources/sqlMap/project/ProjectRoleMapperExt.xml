@@ -27,7 +27,7 @@
         #end
         
         #ifnotnull($searchCriteria.projectId)
-            ${searchCriteria.projectId.operation} m_prj_role.projectid = @{searchCriteria.projectId.value,jdbcType=NUMERIC}
+            ${searchCriteria.projectId.operation} m_prj_role.projectId = @{searchCriteria.projectId.value,jdbcType=NUMERIC}
         #end
         ]]>
     </sql>
@@ -35,7 +35,7 @@
     <sql id="selectSimpleRole">
         <![CDATA[
             SELECT m_prj_role.id, m_prj_role.rolename, m_prj_role.description, m_prj_role.sAccountId, 
-                m_prj_role.projectid, m_prj_role_permission.roleVal AS permissionVal, m_prj_role.isSystemRole
+                m_prj_role.projectId, m_prj_role_permission.roleVal AS permissionVal, m_prj_role.isSystemRole
             FROM m_prj_role
                 LEFT OUTER JOIN m_prj_role_permission ON (m_prj_role_permission.roleid = m_prj_role.id)
         ]]>

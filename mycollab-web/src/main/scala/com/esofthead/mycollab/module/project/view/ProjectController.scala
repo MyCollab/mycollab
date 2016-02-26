@@ -336,7 +336,7 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
     this.register(new ApplicationEventListener[MilestoneEvent.GotoList] {
       @Subscribe def handle(event: MilestoneEvent.GotoList) {
         val criteria = new MilestoneSearchCriteria
-        criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId))
+        criteria.setProjectIds(new SetSearchField[Integer](CurrentProjectVariables.getProjectId))
         val presenter = PresenterResolver.getPresenter(classOf[MilestonePresenter])
         presenter.go(projectView, new MilestoneScreenData.Search(criteria))
       }

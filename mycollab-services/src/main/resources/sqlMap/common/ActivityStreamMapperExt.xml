@@ -93,7 +93,7 @@
                s_activitystream.module, s_user.avatarId AS createdUserAvatarId,
                concat(s_user.firstname, ' ', LTRIM(IFNULL(s_user.middlename, '')), s_user.lastname) as createdUserFullName,
                m_audit_log.id AS log_id, m_audit_log.object_class AS log_object_class, m_audit_log.posteddate AS log_posteddate, m_audit_log.posteduser AS log_posteduser,
-               m_audit_log.sAccountId AS log_sAccountId, m_audit_log.type AS log_type, m_audit_log.typeid AS log_typeid, m_audit_log.module AS log_module,
+               m_audit_log.sAccountId AS log_sAccountId, m_audit_log.type AS log_type, m_audit_log.typeId AS log_typeid, m_audit_log.module AS log_module,
                m_audit_log.changeset AS log_changeset
         FROM s_activitystream
         LEFT OUTER JOIN s_user ON (s_user.username = s_activitystream.createdUser)

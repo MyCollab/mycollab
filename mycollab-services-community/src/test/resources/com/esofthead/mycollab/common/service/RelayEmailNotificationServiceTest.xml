@@ -12,6 +12,6 @@
         registerStatus="Active" username="hainguyen" accountId="1"
         registeredTime="2013-04-10 13:29:23" />
 
-    <s_relay_email_notification typeid="1"
+    <s_relay_email_notification typeId="1"
         sAccountId="1" type="a" action="a" changeBy="hainguyen" id="1" />
 </dataset>

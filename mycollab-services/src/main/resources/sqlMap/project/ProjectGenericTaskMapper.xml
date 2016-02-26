@@ -47,7 +47,7 @@
         #end
         
         #ifnotnull($searchCriteria.projectIds)
-            ${searchCriteria.projectIds.operation} m_prj_risk.projectid IN
+            ${searchCriteria.projectIds.operation} m_prj_risk.projectId IN
             #repeat(${searchCriteria.projectIds.values} $projectId "," "(" ")")
                 @{projectId}
             #end
@@ -105,7 +105,7 @@
         #end
         
         #ifnotnull($searchCriteria.projectIds)
-            ${searchCriteria.projectIds.operation} m_tracker_bug.projectid IN
+            ${searchCriteria.projectIds.operation} m_tracker_bug.projectId IN
             #repeat(${searchCriteria.projectIds.values} $projectId "," "(" ")")
                 @{projectId}
             #end
@@ -162,7 +162,7 @@
         #end
         
         #ifnotnull($searchCriteria.projectIds)
-            ${searchCriteria.projectIds.operation} m_prj_task.projectid IN
+            ${searchCriteria.projectIds.operation} m_prj_task.projectId IN
             #repeat(${searchCriteria.projectIds.values} $projectId "," "(" ")")
                 @{projectId}
             #end
@@ -218,7 +218,7 @@
         #end
 
         #ifnotnull($searchCriteria.projectIds)
-            ${searchCriteria.projectIds.operation} m_prj_milestone.projectid IN
+            ${searchCriteria.projectIds.operation} m_prj_milestone.projectId IN
             #repeat(${searchCriteria.projectIds.values} $projectId "," "(" ")")
                 @{projectId}
             #end
@@ -267,14 +267,14 @@
           SELECT m_prj_risk.riskname AS name, m_prj_risk.description, m_prj_risk.assigntouser AS assignUser,
             concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS assignUserFullName,
             s_user.avatarId as assignUserAvatarId,
-            m_prj_risk.datedue AS dueDate, m_prj_risk.projectid AS projectId, m_prj_project.name AS projectName,
+            m_prj_risk.datedue AS dueDate, m_prj_risk.projectId AS projectId, m_prj_project.name AS projectName,
             m_prj_project.shortname AS projectShortName, NULL AS extraTypeId, m_prj_risk.status,
-            'Project-Risk' AS type, m_prj_risk.id AS typeid, m_prj_risk.lastUpdatedTime AS lastUpdatedTime,
+            'Project-Risk' AS type, m_prj_risk.id AS typeId, m_prj_risk.lastUpdatedTime AS lastUpdatedTime,
             m_prj_risk.sAccountId, m_prj_risk.startDate, m_prj_risk.endDate
                  
           FROM m_prj_risk
               LEFT OUTER JOIN s_user ON (m_prj_risk.assigntouser=s_user.username)
-              LEFT OUTER JOIN m_prj_project ON (m_prj_risk.projectid=m_prj_project.id AND m_prj_project.projectStatus="Open")
+              LEFT OUTER JOIN m_prj_project ON (m_prj_risk.projectId=m_prj_project.id AND m_prj_project.projectStatus="Open")
         ]]>
     </sql>
 
@@ -283,14 +283,14 @@
           SELECT m_prj_milestone.name AS name, m_prj_milestone.description AS description, m_prj_milestone.owner AS assignUser,
             concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS assignUserFullName,
             s_user.avatarId as assignUserAvatarId,
-            m_prj_milestone.enddate AS dueDate, m_prj_milestone.projectid AS projectId, m_prj_project.name AS projectName,
+            m_prj_milestone.enddate AS dueDate, m_prj_milestone.projectId AS projectId, m_prj_project.name AS projectName,
             m_prj_project.shortname AS projectShortName, NULL AS extraTypeId, m_prj_milestone.status,
-            'Project-Milestone' AS type, m_prj_milestone.id AS typeid, m_prj_milestone.lastUpdatedTime AS lastUpdatedTime,
+            'Project-Milestone' AS type, m_prj_milestone.id AS typeId, m_prj_milestone.lastUpdatedTime AS lastUpdatedTime,
             m_prj_milestone.sAccountId, m_prj_milestone.startdate AS startDate, m_prj_milestone.enddate AS endDate
 
           FROM m_prj_milestone
             LEFT OUTER JOIN s_user ON (m_prj_milestone.owner=s_user.username)
-            LEFT OUTER JOIN m_prj_project ON (m_prj_milestone.projectid=m_prj_project.id AND m_prj_project.projectStatus="Open")
+            LEFT OUTER JOIN m_prj_project ON (m_prj_milestone.projectId=m_prj_project.id AND m_prj_project.projectStatus="Open")
         ]]>
     </sql>
 
@@ -299,14 +299,14 @@
           SELECT m_tracker_bug.summary AS name, m_tracker_bug.description, m_tracker_bug.assignuser AS assignUser,
                 concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS assignUserFullName,
                 s_user.avatarId as assignUserAvatarId,
-                m_tracker_bug.duedate AS dueDate, m_tracker_bug.projectid AS projectId, m_prj_project.name AS projectName,
+                m_tracker_bug.duedate AS dueDate, m_tracker_bug.projectId AS projectId, m_prj_project.name AS projectName,
                 m_prj_project.shortname AS projectShortName, m_tracker_bug.bugkey AS extraTypeId, m_tracker_bug.status,
                 'Project-Bug' AS type, m_tracker_bug.id AS typeId, m_tracker_bug.lastUpdatedTime AS lastUpdatedTime,
                 m_tracker_bug.sAccountId, m_tracker_bug.startdate AS startDate, m_tracker_bug.enddate AS endDate
                  
           FROM m_tracker_bug
               LEFT OUTER JOIN s_user ON (m_tracker_bug.assignuser=s_user.username)
-              LEFT OUTER JOIN m_prj_project ON (m_tracker_bug.projectid=m_prj_project.id AND m_prj_project.projectStatus="Open")
+              LEFT OUTER JOIN m_prj_project ON (m_tracker_bug.projectId=m_prj_project.id AND m_prj_project.projectStatus="Open")
         ]]>
     </sql>
 
@@ -315,14 +315,14 @@
           SELECT m_prj_task.taskname AS name,  m_prj_task.notes AS description, m_prj_task.assignUser AS assignUser,
             concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS assignUserFullName,
             s_user.avatarId as assignUserAvatarId,
-            m_prj_task.deadline AS dueDate, m_prj_task.projectid AS projectId, m_prj_project.name AS projectName,
+            m_prj_task.deadline AS dueDate, m_prj_task.projectId AS projectId, m_prj_project.name AS projectName,
             m_prj_project.shortname AS projectShortName, m_prj_task.taskkey AS extraTypeId, m_prj_task.status,
-            'Project-Task' AS type, m_prj_task.id AS typeid, m_prj_task.lastUpdatedTime AS lastUpdatedTime,
+            'Project-Task' AS type, m_prj_task.id AS typeId, m_prj_task.lastUpdatedTime AS lastUpdatedTime,
             m_prj_task.sAccountId, m_prj_task.startdate AS startDate, m_prj_task.enddate AS endDate
           
           FROM m_prj_task
             LEFT OUTER JOIN s_user ON (m_prj_task.assignUser=s_user.username)
-            LEFT OUTER JOIN m_prj_project ON (m_prj_task.projectid=m_prj_project.id AND m_prj_project.projectStatus="Open")
+            LEFT OUTER JOIN m_prj_project ON (m_prj_task.projectId=m_prj_project.id AND m_prj_project.projectStatus="Open")
         ]]>
     </sql>
 
@@ -466,27 +466,27 @@
             #trimext("WHERE" "AND|OR")
               <include refid="queryBugSearchCriteria" />
             #end
-            AND m_tracker_bug.projectid = m_prj_project.id) OR
+            AND m_tracker_bug.projectId = m_prj_project.id) OR
           EXISTS (
             SELECT * FROM m_prj_task
             #trimext("WHERE" "AND|OR")
               <include refid="queryTaskSearchCriteria" />
             #end
-            AND m_prj_task.projectid = m_prj_project.id
+            AND m_prj_task.projectId = m_prj_project.id
           ) OR
           EXISTS (
             SELECT * FROM m_prj_milestone
               #trimext("WHERE" "AND|OR")
                 <include refid="queryMilestoneSearchCriteria" />
               #end
-              AND m_prj_milestone.projectid = m_prj_project.id
+              AND m_prj_milestone.projectId = m_prj_project.id
           ) OR
           EXISTS (
             SELECT * FROM m_prj_risk
               #trimext("WHERE" "AND|OR")
                 <include refid="queryRiskSearchCriteria" />
               #end
-              AND m_prj_risk.projectid = m_prj_project.id
+              AND m_prj_risk.projectId = m_prj_project.id
           )
     </select>
 </mapper>

@@ -21,8 +21,8 @@
             ${searchCriteria.type.operation} m_comment.type = @{searchCriteria.type.value}
         #end
         
-        #ifnotnull($searchCriteria.typeid)
-            ${searchCriteria.typeid.operation} m_comment.typeid = @{searchCriteria.typeid.value}
+        #ifnotnull($searchCriteria.typeId)
+            ${searchCriteria.typeId.operation} m_comment.typeId = @{searchCriteria.typeId.value}
         #end
         ]]>
     </sql>

@@ -16,96 +16,96 @@
 	<m_prj_project id="2" name="b" sAccountId="1" shortname="bbb"
 		projectStatus="Open" />
 
-	<m_prj_task sAccountId="1" projectid="1" id="1"
+	<m_prj_task sAccountId="1" projectId="1" id="1"
 		percentagecomplete="40" taskname="task 1" taskkey="1"
 		assignUser="hainguyen@esofthead.com" />
 
-	<m_prj_task sAccountId="1" projectid="1" id="2"
+	<m_prj_task sAccountId="1" projectId="1" id="2"
 		percentagecomplete="100" taskname="task 2" taskkey="2"
 		assignUser="nghiemle@esofthead.com" />
 
-	<m_prj_task sAccountId="1" projectid="2" id="3"
+	<m_prj_task sAccountId="1" projectId="2" id="3"
 		percentagecomplete="60" taskname="task 3" taskkey="3"
 		assignUser="hainguyen@esofthead.com" />
 
-	<m_prj_task sAccountId="1" projectid="2" id="4"
+	<m_prj_task sAccountId="1" projectId="2" id="4"
 		percentagecomplete="90" taskname="task 4" taskkey="4"
 		assignUser="nghiemle@esofthead.com" />
 
-	<m_tracker_bug sAccountId="1" projectid="1" id="1"
+	<m_tracker_bug sAccountId="1" projectId="1" id="1"
 		summary="bug 1" status="Open" assignuser="hainguyen@esofthead.com" />
 
-	<m_tracker_bug sAccountId="1" projectid="1" id="2"
+	<m_tracker_bug sAccountId="1" projectId="1" id="2"
 		summary="bug 2" status="Closed" assignuser="nghiemle@esofthead.com" />
 
-	<m_tracker_bug sAccountId="1" projectid="2" id="3"
+	<m_tracker_bug sAccountId="1" projectId="2" id="3"
 		summary="bug 3" status="Open" assignuser="hainguyen@esofthead.com" />
 
-	<m_tracker_bug sAccountId="1" projectid="2" id="4"
+	<m_tracker_bug sAccountId="1" projectId="2" id="4"
 		summary="bug 4" status="Closed" assignuser="nghiemle@esofthead.com" />
 
-	<m_prj_risk sAccountId="1" projectid="1" id="1"
+	<m_prj_risk sAccountId="1" projectId="1" id="1"
 		riskname="risk 1" status="Open" assigntouser="hainguyen@esofthead.com" />
 
-	<m_prj_risk sAccountId="1" projectid="1" id="2"
+	<m_prj_risk sAccountId="1" projectId="1" id="2"
 		riskname="risk 2" status="Closed" assigntouser="nghiemle@esofthead.com" />
 
-	<m_prj_risk sAccountId="1" projectid="2" id="3"
+	<m_prj_risk sAccountId="1" projectId="2" id="3"
 		riskname="risk 3" status="Open" assigntouser="hainguyen@esofthead.com" />
 
-	<m_prj_risk sAccountId="1" projectid="2" id="4"
+	<m_prj_risk sAccountId="1" projectId="2" id="4"
 		riskname="risk 4" status="Closed" assigntouser="nghiemle@esofthead.com" />
 
 	<m_monitor_item id="1" monitor_date="2014-10-21 00:00:00"
-		type="Project-Task" typeid="1" extraTypeId="1" sAccountId="1"
+		type="Project-Task" typeId="1" extraTypeId="1" sAccountId="1"
 		user="hainguyen@esofthead.com" />
 
 	<m_monitor_item id="2" monitor_date="2014-10-22 00:00:00"
-		type="Project-Task" typeid="2" extraTypeId="1" sAccountId="1"
+		type="Project-Task" typeId="2" extraTypeId="1" sAccountId="1"
 		user="hainguyen@esofthead.com" />
 
 	<m_monitor_item id="3" monitor_date="2014-10-23 00:00:00"
-		type="Project-Bug" typeid="1" extraTypeId="1" sAccountId="1"
+		type="Project-Bug" typeId="1" extraTypeId="1" sAccountId="1"
 		user="hainguyen@esofthead.com" />
 
 	<m_monitor_item id="4" monitor_date="2014-10-24 00:00:00"
-		type="Project-Bug" typeid="2" extraTypeId="1" sAccountId="1"
+		type="Project-Bug" typeId="2" extraTypeId="1" sAccountId="1"
 		user="hainguyen@esofthead.com" />
 
 	<m_monitor_item id="5" monitor_date="2014-09-21 00:00:00"
-		type="Project-Task" typeid="3" extraTypeId="2" sAccountId="1"
+		type="Project-Task" typeId="3" extraTypeId="2" sAccountId="1"
 		user="hainguyen@esofthead.com" />
 
 	<m_monitor_item id="6" monitor_date="2014-09-22 00:00:00"
-		type="Project-Task" typeid="4" extraTypeId="2" sAccountId="1"
+		type="Project-Task" typeId="4" extraTypeId="2" sAccountId="1"
 		user="hainguyen@esofthead.com" />
 
 	<m_monitor_item id="7" monitor_date="2014-09-23 00:00:00"
-		type="Project-Bug" typeid="3" extraTypeId="2" sAccountId="1"
+		type="Project-Bug" typeId="3" extraTypeId="2" sAccountId="1"
 		user="hainguyen@esofthead.com" />
 
 	<m_monitor_item id="8" monitor_date="2014-09-24 00:00:00"
-		type="Project-Bug" typeid="4" extraTypeId="2" sAccountId="1"
+		type="Project-Bug" typeId="4" extraTypeId="2" sAccountId="1"
 		user="hainguyen@esofthead.com" />
 
 	<m_monitor_item id="11" monitor_date="2014-10-23 00:00:00"
-		type="Project-Risk" typeid="1" extraTypeId="1" sAccountId="1"
+		type="Project-Risk" typeId="1" extraTypeId="1" sAccountId="1"
 		user="hainguyen@esofthead.com" />
 
 	<m_monitor_item id="12" monitor_date="2014-10-24 00:00:00"
-		type="Project-Risk" typeid="2" extraTypeId="1" sAccountId="1"
+		type="Project-Risk" typeId="2" extraTypeId="1" sAccountId="1"
 		user="hainguyen@esofthead.com" />
 
 	<m_monitor_item id="13" monitor_date="2014-09-21 00:00:00"
-		type="Project-Problem" typeid="3" extraTypeId="2" sAccountId="1"
+		type="Project-Problem" typeId="3" extraTypeId="2" sAccountId="1"
 		user="hainguyen@esofthead.com" />
 
 	<m_monitor_item id="15" monitor_date="2014-09-23 00:00:00"
-		type="Project-Risk" typeid="3" extraTypeId="2" sAccountId="1"
+		type="Project-Risk" typeId="3" extraTypeId="2" sAccountId="1"
 		user="hainguyen@esofthead.com" />
 
 	<m_monitor_item id="16" monitor_date="2014-09-24 00:00:00"
-		type="Project-Risk" typeid="4" extraTypeId="2" sAccountId="1"
+		type="Project-Risk" typeId="4" extraTypeId="2" sAccountId="1"
 		user="hainguyen@esofthead.com" />
 
 </dataset>

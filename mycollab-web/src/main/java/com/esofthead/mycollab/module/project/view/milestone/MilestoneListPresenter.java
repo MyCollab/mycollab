@@ -17,8 +17,8 @@
 
 package com.esofthead.mycollab.module.project.view.milestone;
 
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -68,7 +68,7 @@ public class MilestoneListPresenter extends ProjectGenericListPresenter<Mileston
 
             if (data.getParams() == null || !(data.getParams() instanceof MilestoneSearchCriteria)) {
                 searchCriteria = new MilestoneSearchCriteria();
-                searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+                searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
             } else {
                 searchCriteria = (MilestoneSearchCriteria) data.getParams();
             }

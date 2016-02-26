@@ -15,7 +15,7 @@
 	<sql id="selectSimpleMeeting">
         <![CDATA[
         SELECT m_crm_meeting.id, m_crm_meeting.subject,
-            m_crm_meeting.status, m_crm_meeting.type, m_crm_meeting.typeid,
+            m_crm_meeting.status, m_crm_meeting.type, m_crm_meeting.typeId,
             m_crm_meeting.startDate, m_crm_meeting.endDate,
             m_crm_meeting.lastUpdatedTime, m_crm_meeting.createdTime,
             m_crm_meeting.createdUser, m_crm_meeting.sAccountId,

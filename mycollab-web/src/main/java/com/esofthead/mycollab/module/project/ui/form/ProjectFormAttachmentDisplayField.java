@@ -24,39 +24,34 @@ import com.vaadin.ui.CustomField;
 import com.vaadin.ui.Label;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.5.3
- *
  */
-@SuppressWarnings("rawtypes")
 public class ProjectFormAttachmentDisplayField extends CustomField {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private int projectid;
-	private String type;
-	private int typeid;
+    private int projectId;
+    private String type;
+    private int typeId;
 
-	public ProjectFormAttachmentDisplayField(final int projectid,
-			final String type, final int typeid) {
-		this.projectid = projectid;
-		this.type = type;
-		this.typeid = typeid;
-	}
+    public ProjectFormAttachmentDisplayField(final int projectId, final String type, final int typeId) {
+        this.projectId = projectId;
+        this.type = type;
+        this.typeId = typeId;
+    }
 
-	@Override
-	public Class<?> getType() {
-		return Object.class;
-	}
+    @Override
+    public Class<?> getType() {
+        return Object.class;
+    }
 
-	@Override
-	protected Component initContent() {
-		final Component comp = ProjectAttachmentDisplayComponentFactory
-				.getAttachmentDisplayComponent(projectid, type, typeid);
-		if (comp == null || !(comp instanceof AttachmentDisplayComponent)) {
-			return new Label("&nbsp;", ContentMode.HTML);
-		} else {
-			return comp;
-		}
-	}
+    @Override
+    protected Component initContent() {
+        final Component comp = ProjectAttachmentDisplayComponentFactory.getAttachmentDisplayComponent(projectId, type, typeId);
+        if (comp == null || !(comp instanceof AttachmentDisplayComponent)) {
+            return new Label("&nbsp;", ContentMode.HTML);
+        } else {
+            return comp;
+        }
+    }
 }

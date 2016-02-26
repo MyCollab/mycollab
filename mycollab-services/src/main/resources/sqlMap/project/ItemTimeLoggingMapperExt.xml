@@ -26,7 +26,7 @@
         #end
         
         #ifnotnull($searchCriteria.typeId)
-            ${searchCriteria.typeId.operation} m_prj_time_logging.typeid = @{searchCriteria.typeId.value,jdbcType=NUMERIC}
+            ${searchCriteria.typeId.operation} m_prj_time_logging.typeId = @{searchCriteria.typeId.value,jdbcType=NUMERIC}
         #end
         
         #ifnotnull($searchCriteria.isBillable)
@@ -57,7 +57,7 @@
         <![CDATA[
           	SELECT m_prj_time_logging.id, m_prj_time_logging.loguser, m_prj_time_logging.projectId, m_prj_time_logging.createdTime, m_prj_time_logging.lastUpdatedTime, 
                  m_prj_time_logging.logForDay, m_prj_time_logging.isBillable, m_prj_time_logging.createdUser,
-                 m_prj_time_logging.logValue, m_prj_time_logging.note, m_prj_task.id AS typeid, m_prj_time_logging.type, m_prj_task.taskkey AS extraTypeId,
+                 m_prj_time_logging.logValue, m_prj_time_logging.note, m_prj_task.id AS typeId, m_prj_time_logging.type, m_prj_task.taskkey AS extraTypeId,
                  s_user.avatarId AS logUserAvatarId,
                  concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS logUserFullName,
                  m_prj_task.taskname as summary,  m_prj_task.status, m_prj_task.deadline AS dueDate, m_prj_task.percentagecomplete AS percentageComplete,
@@ -65,8 +65,8 @@
                 
             FROM m_prj_time_logging
               LEFT OUTER JOIN s_user ON (m_prj_time_logging.loguser=s_user.username)
-              INNER JOIN m_prj_task ON ( m_prj_time_logging.typeid = m_prj_task.id and m_prj_time_logging.type = "Project-Task" )
-              INNER JOIN m_prj_project ON (m_prj_project.id=m_prj_task.projectid)
+              INNER JOIN m_prj_task ON ( m_prj_time_logging.typeId = m_prj_task.id and m_prj_time_logging.type = "Project-Task" )
+              INNER JOIN m_prj_project ON (m_prj_project.id=m_prj_task.projectId)
         ]]>
     </sql>
 	
@@ -74,7 +74,7 @@
        <![CDATA[
        	SELECT m_prj_time_logging.id, m_prj_time_logging.loguser, m_prj_time_logging.projectId, m_prj_time_logging.createdTime, m_prj_time_logging.lastUpdatedTime, 
                 m_prj_time_logging.logForDay, m_prj_time_logging.isBillable, m_prj_time_logging.createdUser,
-                m_prj_time_logging.logValue, m_prj_time_logging.note, m_tracker_bug.id AS typeid, m_prj_time_logging.type, m_tracker_bug.bugkey AS extraTypeId,
+                m_prj_time_logging.logValue, m_prj_time_logging.note, m_tracker_bug.id AS typeId, m_prj_time_logging.type, m_tracker_bug.bugkey AS extraTypeId,
                 s_user.avatarId AS logUserAvatarId,
                 concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS logUserFullName,
                 m_tracker_bug.summary,  m_tracker_bug.status, m_tracker_bug.duedate AS dueDate, NULL as percentageComplete,
@@ -82,8 +82,8 @@
           
            FROM m_prj_time_logging
              LEFT OUTER JOIN s_user ON (m_prj_time_logging.loguser=s_user.username)
-             INNER JOIN m_tracker_bug ON ( m_prj_time_logging.typeid = m_tracker_bug.id and m_prj_time_logging.type = "Project-Bug" )
-             INNER JOIN m_prj_project ON (m_prj_project.id=m_tracker_bug.projectid)
+             INNER JOIN m_tracker_bug ON ( m_prj_time_logging.typeId = m_tracker_bug.id and m_prj_time_logging.type = "Project-Bug" )
+             INNER JOIN m_prj_project ON (m_prj_project.id=m_tracker_bug.projectId)
        ]]>
     </sql>
 	
@@ -91,7 +91,7 @@
        <![CDATA[
          	SELECT m_prj_time_logging.id, m_prj_time_logging.loguser, m_prj_time_logging.projectId, m_prj_time_logging.createdTime, m_prj_time_logging.lastUpdatedTime, 
                 m_prj_time_logging.logForDay, m_prj_time_logging.isBillable, m_prj_time_logging.createdUser,
-                m_prj_time_logging.logValue, m_prj_time_logging.note, m_prj_time_logging.typeid, m_prj_time_logging.type, NULL  AS extraTypeId,
+                m_prj_time_logging.logValue, m_prj_time_logging.note, m_prj_time_logging.typeId, m_prj_time_logging.type, NULL  AS extraTypeId,
                 s_user.avatarId AS logUserAvatarId,
                 concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS logUserFullName,
                 m_prj_risk.riskname as summary,  m_prj_risk.status, m_prj_risk.datedue AS dueDate, NULL AS percentageComplete,
@@ -99,8 +99,8 @@
                
            FROM m_prj_time_logging
              LEFT OUTER JOIN s_user ON (m_prj_time_logging.loguser=s_user.username)
-             INNER JOIN m_prj_risk ON ( m_prj_time_logging.typeid = m_prj_risk.id and m_prj_time_logging.type = "Project-Risk" )
-             INNER JOIN m_prj_project ON (m_prj_project.id=m_prj_risk.projectid)
+             INNER JOIN m_prj_risk ON ( m_prj_time_logging.typeId = m_prj_risk.id and m_prj_time_logging.type = "Project-Risk" )
+             INNER JOIN m_prj_project ON (m_prj_project.id=m_prj_risk.projectId)
        ]]>
     </sql>
 	
@@ -108,7 +108,7 @@
         <![CDATA[
         SELECT m_prj_time_logging.id, m_prj_time_logging.loguser, m_prj_time_logging.projectId, m_prj_time_logging.createdTime, m_prj_time_logging.lastUpdatedTime, 
                  m_prj_time_logging.logForDay, m_prj_time_logging.isBillable, m_prj_time_logging.createdUser,
-                 m_prj_time_logging.logValue, m_prj_time_logging.note, m_prj_time_logging.typeid, m_prj_time_logging.type, NULL AS extraTypeId,
+                 m_prj_time_logging.logValue, m_prj_time_logging.note, m_prj_time_logging.typeId, m_prj_time_logging.type, NULL AS extraTypeId,
                  s_user.avatarId AS logUserAvatarId,
                  concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS logUserFullName,
                  '' AS summary,  '' AS status, NULL AS dueDate, NULL as percentageComplete,

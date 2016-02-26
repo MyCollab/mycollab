@@ -49,4 +49,6 @@ public interface ProjectService extends IDefaultService<Integer, Project, Projec
     String getSubdomainOfProject(Integer projectId);
 
     List<ProjectRelayEmailNotification> findProjectRelayEmailNotifications();
+
+    Integer savePlainProject(Project record, String username);
 }

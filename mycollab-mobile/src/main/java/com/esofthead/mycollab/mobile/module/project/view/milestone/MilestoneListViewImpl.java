@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.mobile.module.project.view.milestone;
 
 import com.esofthead.mycollab.configuration.StorageFactory;
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
+import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -78,7 +78,7 @@ public class MilestoneListViewImpl extends AbstractListPageView<MilestoneSearchC
             @Override
             protected MilestoneSearchCriteria fillUpSearchCriteria(String value) {
                 MilestoneSearchCriteria searchCriteria = new MilestoneSearchCriteria();
-                searchCriteria.setProjectId(NumberSearchField.and(CurrentProjectVariables.getProjectId()));
+                searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
                 searchCriteria.setMilestoneName(StringSearchField.and(value));
                 return searchCriteria;
             }
@@ -104,7 +104,7 @@ public class MilestoneListViewImpl extends AbstractListPageView<MilestoneSearchC
     public void displayStatus(OptionI18nEnum.MilestoneStatus status) {
         this.status = status;
         MilestoneSearchCriteria searchCriteria = new MilestoneSearchCriteria();
-        searchCriteria.setProjectId(NumberSearchField.and(CurrentProjectVariables.getProjectId()));
+        searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
         searchCriteria.setStatus(StringSearchField.and(status.name()));
         itemList.search(searchCriteria);
         updateTabStatus();

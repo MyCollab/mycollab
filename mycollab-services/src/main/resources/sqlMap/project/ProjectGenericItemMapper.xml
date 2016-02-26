@@ -23,7 +23,7 @@
         #set($searchCriteria = $_parameter.searchCriteria)
 
         #ifnotnull($searchCriteria.prjKeys)
-            m_prj_task.projectid IN
+            m_prj_task.projectId IN
             #repeat(${searchCriteria.prjKeys.values} $projectId "," "(" ")")
                 @{projectId}
             #end
@@ -39,7 +39,7 @@
         #set($searchCriteria = $_parameter.searchCriteria)
 
         #ifnotnull($searchCriteria.prjKeys)
-            m_prj_message.projectid IN
+            m_prj_message.projectId IN
             #repeat(${searchCriteria.prjKeys.values} $projectId "," "(" ")")
                 @{projectId}
             #end
@@ -54,7 +54,7 @@
         #set($searchCriteria = $_parameter.searchCriteria)
 
         #ifnotnull($searchCriteria.prjKeys)
-            m_prj_milestone.projectid IN
+            m_prj_milestone.projectId IN
             #repeat(${searchCriteria.prjKeys.values} $projectId "," "(" ")")
                 @{projectId}
             #end
@@ -70,7 +70,7 @@
         #set($searchCriteria = $_parameter.searchCriteria)
 
         #ifnotnull($searchCriteria.prjKeys)
-            m_tracker_bug.projectid IN
+            m_tracker_bug.projectId IN
             #repeat(${searchCriteria.prjKeys.values} $projectId "," "(" ")")
                 @{projectId}
             #end
@@ -88,7 +88,7 @@
         #set($searchCriteria = $_parameter.searchCriteria)
 
         #ifnotnull($searchCriteria.prjKeys)
-            m_tracker_component.projectid IN
+            m_tracker_component.projectId IN
             #repeat(${searchCriteria.prjKeys.values} $projectId "," "(" ")")
                 @{projectId}
             #end
@@ -105,7 +105,7 @@
         #set($searchCriteria = $_parameter.searchCriteria)
 
         #ifnotnull($searchCriteria.prjKeys)
-            m_tracker_version.projectid IN
+            m_tracker_version.projectId IN
             #repeat(${searchCriteria.prjKeys.values} $projectId "," "(" ")")
                 @{projectId}
             #end
@@ -122,7 +122,7 @@
         #set($searchCriteria = $_parameter.searchCriteria)
 
         #ifnotnull($searchCriteria.prjKeys)
-            m_prj_risk.projectid IN
+            m_prj_risk.projectId IN
             #repeat(${searchCriteria.prjKeys.values} $projectId "," "(" ")")
                 @{projectId}
             #end
@@ -153,7 +153,7 @@
         m_prj_project.shortname AS projectShortName, m_prj_task.id AS extraTypeId
         FROM m_prj_task
         LEFT OUTER JOIN s_user ON (m_prj_task.logBy = s_user.username)
-        INNER JOIN m_prj_project ON (m_prj_task.projectid = m_prj_project.id)
+        INNER JOIN m_prj_project ON (m_prj_task.projectId = m_prj_project.id)
     </sql>
 
     <sql id="selectMessageItem">
@@ -165,7 +165,7 @@
         m_prj_project.shortname AS projectShortName, NULL AS extraTypeId
         FROM m_prj_message
         LEFT OUTER JOIN s_user ON (m_prj_message.posteduser = s_user.username)
-        INNER JOIN m_prj_project ON (m_prj_message.projectid = m_prj_project.id)
+        INNER JOIN m_prj_project ON (m_prj_message.projectId = m_prj_project.id)
     </sql>
 
     <sql id="selectMilestoneItem">
@@ -178,7 +178,7 @@
         m_prj_project.shortname AS projectShortName, NULL AS extraTypeId
         FROM m_prj_milestone
         LEFT OUTER JOIN s_user ON (m_prj_milestone.createduser = s_user.username)
-        INNER JOIN m_prj_project ON (m_prj_milestone.projectid = m_prj_project.id)
+        INNER JOIN m_prj_project ON (m_prj_milestone.projectId = m_prj_project.id)
     </sql>
 
     <sql id="selectBugItem">
@@ -190,7 +190,7 @@
         m_prj_project.shortname AS projectShortName, m_tracker_bug.id AS extraTypeId
         FROM m_tracker_bug
         LEFT OUTER JOIN s_user ON (m_tracker_bug.logby = s_user.username)
-        INNER JOIN m_prj_project ON (m_tracker_bug.projectid = m_prj_project.id)
+        INNER JOIN m_prj_project ON (m_tracker_bug.projectId = m_prj_project.id)
     </sql>
 
     <sql id="selectComponentItem">
@@ -203,7 +203,7 @@
         m_prj_project.shortname AS projectShortName, NULL AS extraTypeId
         FROM m_tracker_component
         LEFT OUTER JOIN s_user ON (m_tracker_component.createdUser = s_user.username)
-        INNER JOIN m_prj_project ON (m_tracker_component.projectid = m_prj_project.id)
+        INNER JOIN m_prj_project ON (m_tracker_component.projectId = m_prj_project.id)
     </sql>
 
     <sql id="selectVersionItem">
@@ -215,7 +215,7 @@
         m_prj_project.shortname AS projectShortName, NULL AS extraTypeId
         FROM m_tracker_version
         LEFT OUTER JOIN s_user ON (m_tracker_version.createdUser = s_user.username)
-        INNER JOIN m_prj_project ON (m_tracker_version.projectid = m_prj_project.id)
+        INNER JOIN m_prj_project ON (m_tracker_version.projectId = m_prj_project.id)
     </sql>
 
     <sql id="selectRiskItem">
@@ -227,7 +227,7 @@
         m_prj_project.shortname AS projectShortName, NULL AS extraTypeId
         FROM m_prj_risk
         LEFT OUTER JOIN s_user ON (m_prj_risk.raisedbyuser = s_user.username)
-        INNER JOIN m_prj_project ON (m_prj_risk.projectid = m_prj_project.id)
+        INNER JOIN m_prj_project ON (m_prj_risk.projectId = m_prj_project.id)
     </sql>
 
     <select id="findPagableListByCriteria" parameterType="ProjectGenericItemSearchCriteria"

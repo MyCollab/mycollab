@@ -147,13 +147,23 @@ public class ProjectAddWindow extends Window implements WizardProgressListener {
         this.close();
     }
 
-    private static class ProjectAddWizard extends Wizard {
+    private class ProjectAddWizard extends Wizard {
         ProjectAddWizard() {
             this.getCancelButton().setStyleName(UIConstants.BUTTON_OPTION);
             this.getBackButton().setStyleName(UIConstants.BUTTON_OPTION);
             this.getNextButton().setStyleName(UIConstants.BUTTON_ACTION);
             this.getFinishButton().setStyleName(UIConstants.BUTTON_ACTION);
             this.footer.setMargin(new MarginInfo(true, true, false, false));
+
+            Button newProjectFromTemplateBtn = new Button("New project from template", new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent clickEvent) {
+                    ProjectAddWindow.this.close();
+                    UI.getCurrent().addWindow(new ProjectAddBaseTemplateWindow());
+                }
+            });
+            newProjectFromTemplateBtn.addStyleName(UIConstants.BUTTON_ACTION);
+            footer.addComponent(newProjectFromTemplateBtn, 0);
         }
 
         @Override
@@ -203,13 +213,13 @@ public class ProjectAddWindow extends Window implements WizardProgressListener {
                     .getMessage(ProjectI18nEnum.FORM_SHORT_NAME)).fieldIndex(2).mandatory(true).required(true).build());
 
             mainSection.addField(new TextDynaFieldBuilder().fieldName(Project.Field.planstartdate).displayName
-                    (AppContext.getMessage(ProjectI18nEnum.FORM_PLAN_START_DATE)).fieldIndex(3).build());
+                    (AppContext.getMessage(ProjectI18nEnum.FORM_START_DATE)).fieldIndex(3).build());
 
             mainSection.addField(new TextDynaFieldBuilder().fieldName(Project.Field.projectstatus).displayName
                     (AppContext.getMessage(ProjectI18nEnum.FORM_STATUS)).fieldIndex(4).build());
 
             mainSection.addField(new TextDynaFieldBuilder().fieldName(Project.Field.planenddate).displayName
-                    (AppContext.getMessage(ProjectI18nEnum.FORM_PLAN_END_DATE)).fieldIndex(5).build());
+                    (AppContext.getMessage(ProjectI18nEnum.FORM_END_DATE)).fieldIndex(5).build());
 
             mainSection.addField(new TextDynaFieldBuilder().fieldName(Project.Field.lead).displayName
                     (AppContext.getMessage(ProjectI18nEnum.FORM_LEADER)).fieldIndex(6).build());

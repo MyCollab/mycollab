@@ -198,10 +198,6 @@ public class BugSearchCriteria extends SearchCriteria {
     private SetSearchField<String> statuses;
     private NumberSearchField projectId;
 
-    public static final String AFFVERSION = "AffVersion";
-    public static final String FIXVERSION = "FixVersion";
-    public static final String COMPONENT = "Component";
-
     public StringSearchField getAssignuser() {
         return assignuser;
     }

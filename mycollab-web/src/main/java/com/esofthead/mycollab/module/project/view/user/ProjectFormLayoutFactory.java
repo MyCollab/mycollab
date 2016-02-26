@@ -110,11 +110,11 @@ public abstract class ProjectFormLayoutFactory implements IFormLayoutFactory {
             } else if (Project.Field.lead.equalTo(propertyId)) {
                 informationLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_LEADER), 0, 2);
             } else if (propertyId.equals("planstartdate")) {
-                financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_PLAN_START_DATE), 0, 0);
+                financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_START_DATE), 0, 0);
             } else if (Project.Field.account.equalTo(propertyId)) {
                 financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_ACCOUNT_NAME), 1, 0);
             } else if (propertyId.equals("planenddate")) {
-                financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_PLAN_END_DATE), 0, 1);
+                financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_END_DATE), 0, 1);
             } else if (propertyId.equals("defaultbillingrate")) {
                 financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_BILLING_RATE), 1, 1);
             } else if (Project.Field.defaultovertimebillingrate.equalTo(propertyId)) {

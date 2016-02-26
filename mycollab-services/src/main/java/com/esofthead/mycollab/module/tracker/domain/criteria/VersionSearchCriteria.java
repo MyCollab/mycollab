@@ -22,16 +22,16 @@ import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 
 /**
- *
  * @author MyCollab Ltd.
+ * @since 1.0.0
  */
 public class VersionSearchCriteria extends SearchCriteria {
     private NumberSearchField projectId;
-    
+
     private NumberSearchField id;
-    
+
     private StringSearchField versionname;
-    
+
     private StringSearchField status;
 
     public NumberSearchField getProjectId() {
@@ -58,11 +58,11 @@ public class VersionSearchCriteria extends SearchCriteria {
         this.versionname = versionname;
     }
 
-	public StringSearchField getStatus() {
-		return status;
-	}
+    public StringSearchField getStatus() {
+        return status;
+    }
 
-	public void setStatus(StringSearchField status) {
-		this.status = status;
-	}
+    public void setStatus(StringSearchField status) {
+        this.status = status;
+    }
 }

@@ -28,14 +28,14 @@
         #end
         
         #ifnotnull($searchCriteria.projectId)
-            ${searchCriteria.projectId.operation} m_tracker_version.projectid = @{searchCriteria.projectId.value,jdbcType=NUMERIC}
+            ${searchCriteria.projectId.operation} m_tracker_version.projectId = @{searchCriteria.projectId.value,jdbcType=NUMERIC}
         #end
         ]]>
     </sql>
 
     <sql id="selectVersion">
     <![CDATA[
-        SELECT  m_tracker_version.id, m_tracker_version.projectid, m_tracker_version.description, 
+        SELECT  m_tracker_version.id, m_tracker_version.projectId, m_tracker_version.description,
                 m_tracker_version.duedate, m_tracker_version.versionname, m_tracker_version.createdUser, 
                 m_tracker_version.sAccountId, m_tracker_version.lastUpdatedTime, 
                 m_tracker_version.createdTime,m_tracker_version.status,
@@ -43,15 +43,15 @@
                         FROM m_tracker_bug, m_tracker_bug_related_item 
                         WHERE m_tracker_bug.id=m_tracker_bug_related_item.bugid 
                             AND m_tracker_bug_related_item.type IN ('AffVersion','Fix Version') 
-                            AND m_tracker_bug_related_item.typeid=m_tracker_version.id) AS numBugs,
+                            AND m_tracker_bug_related_item.typeId=m_tracker_version.id) AS numBugs,
                 (SELECT COUNT(*) 
                         FROM m_tracker_bug, m_tracker_bug_related_item 
                         WHERE m_tracker_bug.id=m_tracker_bug_related_item.bugid  AND m_tracker_bug.status IN ('Open', 'InProgress', 'Reopenned')
                             AND m_tracker_bug_related_item.type IN ('AffVersion','Fix Version') 
-                            AND m_tracker_bug_related_item.typeid=m_tracker_version.id) AS numOpenBugs,
+                            AND m_tracker_bug_related_item.typeId=m_tracker_version.id) AS numOpenBugs,
                 m_prj_project.name AS projectName                        
         FROM m_tracker_version
-            LEFT OUTER JOIN m_prj_project ON (m_tracker_version.projectid=m_prj_project.id)
+            LEFT OUTER JOIN m_prj_project ON (m_tracker_version.projectId=m_prj_project.id)
     ]]>
     </sql>
 
@@ -115,9 +115,9 @@
             resultType="double" lang="velocity">
         SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0)
             FROM m_tracker_version, m_tracker_bug, m_tracker_bug_related_item, m_prj_time_logging
-            WHERE m_tracker_version.id = @{versionid} AND m_tracker_version.id = m_tracker_bug_related_item.typeid
+            WHERE m_tracker_version.id = @{versionid} AND m_tracker_version.id = m_tracker_bug_related_item.typeId
                 AND m_tracker_bug_related_item.type = 'FixVersion' AND m_tracker_bug_related_item.bugid = m_tracker_bug.id
-                AND m_prj_time_logging.typeid =  m_tracker_bug.id  AND m_prj_time_logging.type = 'Project-Bug'
+                AND m_prj_time_logging.typeId =  m_tracker_bug.id  AND m_prj_time_logging.type = 'Project-Bug'
                 AND m_prj_time_logging.isBillable = '1'
     </select>
 
@@ -125,16 +125,16 @@
             resultType="double" lang="velocity">
         SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0)
             FROM m_tracker_version, m_tracker_bug, m_tracker_bug_related_item, m_prj_time_logging
-            WHERE m_tracker_version.id = @{versionid} AND m_tracker_version.id = m_tracker_bug_related_item.typeid
+            WHERE m_tracker_version.id = @{versionid} AND m_tracker_version.id = m_tracker_bug_related_item.typeId
                 AND m_tracker_bug_related_item.type = 'FixVersion' AND m_tracker_bug_related_item.bugid = m_tracker_bug.id
-                AND m_prj_time_logging.typeid =  m_tracker_bug.id  AND m_prj_time_logging.type = 'Project-Bug'
+                AND m_prj_time_logging.typeId =  m_tracker_bug.id  AND m_prj_time_logging.type = 'Project-Bug'
                 AND m_prj_time_logging.isBillable = '0'
     </select>
 
     <select id="getRemainHours" parameterType="int" resultType="double" lang="velocity">
         SELECT COALESCE(SUM(m_tracker_bug.estimateRemainTime), 0)
             FROM m_tracker_bug, m_tracker_bug_related_item
-            WHERE m_tracker_bug_related_item.typeid = @{versionid} AND m_tracker_bug_related_item.type = 'FixVersion'
+            WHERE m_tracker_bug_related_item.typeId = @{versionid} AND m_tracker_bug_related_item.type = 'FixVersion'
                 AND m_tracker_bug_related_item.bugid = m_tracker_bug.id
     </select>
 </mapper>

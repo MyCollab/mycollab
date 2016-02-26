@@ -37,6 +37,7 @@ import com.esofthead.mycollab.vaadin.AsyncInvoker;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
+import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.data.Property;
 import com.vaadin.event.LayoutEvents;
 import com.vaadin.server.FontAwesome;
@@ -191,7 +192,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
 
         ModifyWatcherPopup() {
             new Restrain(this).setMaxHeight("600px");
-            this.addStyleName("scrollable-container");
+            this.addStyleName(UIConstants.SCROLLABLE_CONTAINER);
             ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
             criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
             criteria.setStatus(StringSearchField.and(ProjectMemberStatusConstants.ACTIVE));

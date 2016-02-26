@@ -66,7 +66,6 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@SuppressWarnings("serial")
 @ViewComponent
 public class ProjectViewImpl extends AbstractPageView implements ProjectView {
     private ProjectViewWrap viewWrap;

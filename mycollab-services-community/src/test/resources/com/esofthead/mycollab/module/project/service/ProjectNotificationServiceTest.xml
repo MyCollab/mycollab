@@ -25,18 +25,18 @@
                    projectStatus="Open" homePage="http://esofthead.com" owner="admin"
                    sAccountId="1" />
 
-    <m_prj_task id="1" projectid="1" taskindex="1" taskkey="1"
+    <m_prj_task id="1" projectId="1" taskindex="1" taskkey="1"
                 taskname="taskname1" sAccountId="1" percentagecomplete="20" />
 
-    <m_prj_task id="2" projectid="1" taskindex="1" taskkey="2"
+    <m_prj_task id="2" projectId="1" taskindex="1" taskkey="2"
                 taskname="taskname2" sAccountId="1" percentagecomplete="20" />
 
     <m_tracker_bug status="Open" sAccountId="1" id="1"
-                   projectid="2" summary="AAA" bugkey="20" />
+                   projectId="2" summary="AAA" bugkey="20" />
 
-    <m_monitor_item id="1" monitor_date="2013-04-10 13:29:23" type="Project-Task" typeid="1" sAccountId="1" user="admin"/>
-    <m_monitor_item id="2" monitor_date="2013-04-10 13:29:23" type="Project-Task" typeid="1" sAccountId="1" user="user2"/>
-    <m_monitor_item id="3" monitor_date="2013-04-10 13:29:23" type="Project-Task" typeid="1" sAccountId="1" user="user2"/>
+    <m_monitor_item id="1" monitor_date="2013-04-10 13:29:23" type="Project-Task" typeId="1" sAccountId="1" user="admin"/>
+    <m_monitor_item id="2" monitor_date="2013-04-10 13:29:23" type="Project-Task" typeId="1" sAccountId="1" user="user2"/>
+    <m_monitor_item id="3" monitor_date="2013-04-10 13:29:23" type="Project-Task" typeId="1" sAccountId="1" user="user2"/>
 
-    <s_relay_email_notification id="1" sAccountId="1" type="Project-Task" typeid="1" action="Create" changeBy="admin"/>
+    <s_relay_email_notification id="1" sAccountId="1" type="Project-Task" typeId="1" action="Create" changeBy="admin"/>
 </dataset>

@@ -5,7 +5,6 @@
     <resultMap extends="com.esofthead.mycollab.common.dao.MonitorItemMapper.BaseResultMap"
         id="MonitorItemResult" type="com.esofthead.mycollab.common.domain.SimpleMonitorItem">
         <result column="userFullname" jdbcType="VARCHAR" property="userFullname" />
-
         <result column="userAvatarId" jdbcType="VARCHAR" property="userAvatarId" />
     </resultMap>
 
@@ -14,7 +13,7 @@
         #set($searchCriteria = $_parameter.searchCriteria)
         
         #ifnotnull($searchCriteria.typeId)
-            ${searchCriteria.typeId.operation} m_monitor_item.typeid ${searchCriteria.typeId.compareOperator} @{searchCriteria.typeId.value,jdbcType=NUMERIC}
+            ${searchCriteria.typeId.operation} m_monitor_item.typeId ${searchCriteria.typeId.compareOperator} @{searchCriteria.typeId.value,jdbcType=NUMERIC}
         #end
         
         #ifnotnull($searchCriteria.type)
@@ -44,7 +43,7 @@
 
     <sql id="selectItem">
         <![CDATA[
-          SELECT m_monitor_item.id, m_monitor_item.user, m_monitor_item.monitor_date, m_monitor_item.type, m_monitor_item.typeid, 
+          SELECT m_monitor_item.id, m_monitor_item.user, m_monitor_item.monitor_date, m_monitor_item.type, m_monitor_item.typeId,
                  m_monitor_item.extratypeid,
                  changeUser.avatarId AS userAvatarId,
                  concat(changeUser.firstname, ' ', LTRIM(IFNULL(concat(changeUser.middlename,' '), '')), changeUser.lastname) as userFullname
@@ -74,7 +73,7 @@
     </select>
 
     <insert id="saveMonitorItems">
-        insert into m_monitor_item (id, user, monitor_date, type, typeid, extraTypeId, sAccountId)
+        insert into m_monitor_item (id, user, monitor_date, type, typeId, extraTypeId, sAccountId)
         values
         <foreach collection="monitors" item="monitorItem" separator=",">
             (
@@ -98,7 +97,7 @@
             resultMap="com.esofthead.mycollab.module.user.dao.UserMapperExt.SimpleUserResult" lang="velocity">
         SELECT s_user.firstname, s_user.lastname, s_user.username, s_user.avatarId
         FROM m_monitor_item, s_user
-        WHERE m_monitor_item.type=@{type} AND m_monitor_item.typeid=@{typeId} AND m_monitor_item.user=s_user.username
+        WHERE m_monitor_item.type=@{type} AND m_monitor_item.typeId=@{typeId} AND m_monitor_item.user=s_user.username
 
     </select>
     
