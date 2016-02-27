@@ -78,7 +78,7 @@ public class TaskListViewImpl extends AbstractListPageView<TaskSearchCriteria, S
             @Override
             protected TaskSearchCriteria fillUpSearchCriteria(String value) {
                 TaskSearchCriteria searchCriteria = new TaskSearchCriteria();
-                searchCriteria.setProjectid(NumberSearchField.and(CurrentProjectVariables.getProjectId()));
+                searchCriteria.setProjectId(NumberSearchField.and(CurrentProjectVariables.getProjectId()));
                 searchCriteria.setTaskName(StringSearchField.and(value));
                 return searchCriteria;
             }

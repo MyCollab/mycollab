@@ -5,12 +5,8 @@
     <resultMap id="BaseResultMap"
         extends="com.esofthead.mycollab.common.dao.CommentMapper.ResultMapWithBLOBs"
         type="com.esofthead.mycollab.common.domain.SimpleComment">
-
-        <result column="ownerAvatarId" jdbcType="VARCHAR"
-            property="ownerAvatarId" />
-
-        <result column="ownerFullName" jdbcType="VARCHAR"
-            property="ownerFullName" />
+        <result column="ownerAvatarId" jdbcType="VARCHAR" property="ownerAvatarId" />
+        <result column="ownerFullName" jdbcType="VARCHAR" property="ownerFullName" />
     </resultMap>
 
     <sql id="querySearchCriteria">
@@ -23,6 +19,10 @@
         
         #ifnotnull($searchCriteria.typeId)
             ${searchCriteria.typeId.operation} m_comment.typeId = @{searchCriteria.typeId.value}
+        #end
+
+        #ifnotnull($searchCriteria.saccountid)
+            ${searchCriteria.saccountid.operation} m_comment.sAccountId = @{searchCriteria.saccountid.value,jdbcType=NUMERIC}
         #end
         ]]>
     </sql>

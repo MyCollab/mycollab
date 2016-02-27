@@ -26,6 +26,10 @@
                 @{monitorType}
             #end
         #end
+
+        #ifnotnull($searchCriteria.saccountid)
+            ${searchCriteria.saccountid.operation} m_monitor_item.sAccountId = @{searchCriteria.saccountid.value,jdbcType=NUMERIC}
+        #end
         
         #ifnotnull($searchCriteria.user)
             ${searchCriteria.user.operation} m_monitor_item.user = @{searchCriteria.user.value}

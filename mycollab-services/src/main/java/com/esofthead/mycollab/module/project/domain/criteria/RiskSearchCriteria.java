@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.domain.criteria;
 
-import java.util.Arrays;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
@@ -29,93 +27,93 @@ import com.esofthead.mycollab.core.db.query.PropertyListParam;
 import com.esofthead.mycollab.core.db.query.StringListParam;
 import com.esofthead.mycollab.module.project.i18n.RiskI18nEnum;
 
+import java.util.Arrays;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class RiskSearchCriteria extends SearchCriteria {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public static final Param p_assignee = new PropertyListParam("risk-assignuser",
-			GenericI18Enum.FORM_ASSIGNEE, "m_prj_risk", "assigntouser");
+    public static final Param p_assignee = new PropertyListParam("risk-assignuser",
+            GenericI18Enum.FORM_ASSIGNEE, "m_prj_risk", "assigntouser");
 
-	public static final Param p_raisedUser = new PropertyListParam("risk-raiseduser",
-			RiskI18nEnum.FORM_RAISED_BY, "m_prj_risk", "raisedbyuser");
+    public static final Param p_raisedUser = new PropertyListParam("risk-raiseduser",
+            RiskI18nEnum.FORM_RAISED_BY, "m_prj_risk", "raisedbyuser");
 
-	public static final Param p_duedate = new DateParam("risk-duedate",
-			RiskI18nEnum.FORM_DATE_DUE, "m_prj_risk", "datedue");
+    public static final Param p_duedate = new DateParam("risk-duedate",
+            RiskI18nEnum.FORM_DATE_DUE, "m_prj_risk", "datedue");
 
-	public static final Param p_raiseddate = new DateParam("risk-raiseddate",
-			GenericI18Enum.FORM_CREATED_TIME, "m_prj_risk", "dateraised");
+    public static final Param p_raiseddate = new DateParam("risk-raiseddate",
+            GenericI18Enum.FORM_CREATED_TIME, "m_prj_risk", "dateraised");
 
-	public static final Param p_status = new StringListParam("risk-status",
-			RiskI18nEnum.FORM_STATUS, "m_prj_risk", "status", Arrays.asList(
-					StatusI18nEnum.Open.name(), StatusI18nEnum.Closed.name()));
+    public static final Param p_status = new StringListParam("risk-status",
+            RiskI18nEnum.FORM_STATUS, "m_prj_risk", "status", Arrays.asList(
+            StatusI18nEnum.Open.name(), StatusI18nEnum.Closed.name()));
 
-	public static final Param p_probalitity = new StringListParam("risk-probalitity",
-			RiskI18nEnum.FORM_PROBABILITY, "m_prj_risk", "probalitity",
-			Arrays.asList("Certain", "Likely", "Possible", "Unlikely", "Rare"));
+    public static final Param p_probalitity = new StringListParam("risk-probalitity",
+            RiskI18nEnum.FORM_PROBABILITY, "m_prj_risk", "probalitity",
+            Arrays.asList("Certain", "Likely", "Possible", "Unlikely", "Rare"));
 
-	public static final Param p_consequence = new StringListParam("risk-consequence",
-			RiskI18nEnum.FORM_CONSEQUENCE, "m_prj_risk", "consequence",
-			Arrays.asList("Catastrophic", "Critical", "Marginal", "Negligible"));
+    public static final Param p_consequence = new StringListParam("risk-consequence",
+            RiskI18nEnum.FORM_CONSEQUENCE, "m_prj_risk", "consequence",
+            Arrays.asList("Catastrophic", "Critical", "Marginal", "Negligible"));
 
-	public static final Param p_createdtime = new DateParam("risk-createdtime",
-			GenericI18Enum.FORM_CREATED_TIME, "m_prj_risk", "createdTime");
+    public static final Param p_createdtime = new DateParam("risk-createdtime",
+            GenericI18Enum.FORM_CREATED_TIME, "m_prj_risk", "createdTime");
 
-	public static final Param p_lastupdatedtime = new DateParam(
-			"risk-lastupdatedtime", GenericI18Enum.FORM_LAST_UPDATED_TIME,
-			"m_prj_risk", "lastUpdatedTime");
+    public static final Param p_lastupdatedtime = new DateParam(
+            "risk-lastupdatedtime", GenericI18Enum.FORM_LAST_UPDATED_TIME,
+            "m_prj_risk", "lastUpdatedTime");
 
-	private StringSearchField riskname;
+    private StringSearchField riskname;
 
-	private StringSearchField raisedByUser;
+    private StringSearchField raisedByUser;
 
-	private StringSearchField assignToUser;
+    private StringSearchField assignToUser;
 
-	private NumberSearchField projectId;
+    private NumberSearchField projectId;
 
-	private NumberSearchField id;
+    private NumberSearchField id;
 
-	public StringSearchField getRiskname() {
-		return riskname;
-	}
+    public StringSearchField getRiskname() {
+        return riskname;
+    }
 
-	public void setRiskname(StringSearchField riskname) {
-		this.riskname = riskname;
-	}
+    public void setRiskname(StringSearchField riskname) {
+        this.riskname = riskname;
+    }
 
-	public NumberSearchField getProjectId() {
-		return projectId;
-	}
+    public NumberSearchField getProjectId() {
+        return projectId;
+    }
 
-	public void setProjectId(NumberSearchField projectId) {
-		this.projectId = projectId;
-	}
+    public void setProjectId(NumberSearchField projectId) {
+        this.projectId = projectId;
+    }
 
-	public StringSearchField getRaisedByUser() {
-		return raisedByUser;
-	}
+    public StringSearchField getRaisedByUser() {
+        return raisedByUser;
+    }
 
-	public void setRaisedByUser(StringSearchField raisedByUser) {
-		this.raisedByUser = raisedByUser;
-	}
+    public void setRaisedByUser(StringSearchField raisedByUser) {
+        this.raisedByUser = raisedByUser;
+    }
 
-	public StringSearchField getAssignToUser() {
-		return assignToUser;
-	}
+    public StringSearchField getAssignToUser() {
+        return assignToUser;
+    }
 
-	public void setAssignToUser(StringSearchField assignToUser) {
-		this.assignToUser = assignToUser;
-	}
+    public void setAssignToUser(StringSearchField assignToUser) {
+        this.assignToUser = assignToUser;
+    }
 
-	public void setId(NumberSearchField id) {
-		this.id = id;
-	}
+    public void setId(NumberSearchField id) {
+        this.id = id;
+    }
 
-	public NumberSearchField getId() {
-		return id;
-	}
+    public NumberSearchField getId() {
+        return id;
+    }
 }

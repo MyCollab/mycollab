@@ -84,6 +84,10 @@
         #ifnotnull($searchCriteria.hasParentTask)
             ${searchCriteria.hasParentTask.operation} m_prj_task.parentTaskId IS NULL
         #end
+
+        #ifnotnull($searchCriteria.saccountid)
+            ${searchCriteria.saccountid.operation} m_prj_task.sAccountId = @{searchCriteria.saccountid.value,jdbcType=NUMERIC}
+        #end
         
         #selectExpr($searchCriteria.extraFields)
         ]]>
@@ -138,6 +142,10 @@
 
         #ifnotnull($searchCriteria.hasParentTask)
             ${searchCriteria.hasParentTask.operation} m_prj_task.parentTaskId IS NULL
+        #end
+
+        #ifnotnull($searchCriteria.saccountid)
+            ${searchCriteria.saccountid.operation} m_prj_task.sAccountId = @{searchCriteria.saccountid.value,jdbcType=NUMERIC}
         #end
         
         #totalCountExpr($searchCriteria.extraFields)

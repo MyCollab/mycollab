@@ -69,7 +69,7 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
                 List<SearchFieldInfo> fieldInfos = querySelectEvent.getSearchFieldInfos();
                 TaskSearchCriteria criteria = SearchFieldInfo.buildSearchCriteria(TaskSearchCriteria.class,
                         fieldInfos);
-                criteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+                criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
                 EventBusFactory.getInstance().post(new TaskEvent.SearchRequest(TaskSearchPanel.this, criteria));
             }
         });
@@ -175,7 +175,7 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
         @Override
         protected TaskSearchCriteria fillUpSearchCriteria() {
             searchCriteria = new TaskSearchCriteria();
-            searchCriteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+            searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
             searchCriteria.setTaskName(StringSearchField.and(nameField.getValue().trim()));
             if (myItemCheckbox.getValue()) {
                 searchCriteria.setAssignUser(StringSearchField.and(AppContext.getUsername()));
@@ -229,7 +229,7 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
         @Override
         protected TaskSearchCriteria fillUpSearchCriteria() {
             searchCriteria = super.fillUpSearchCriteria();
-            searchCriteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+            searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
             return searchCriteria;
         }
     }

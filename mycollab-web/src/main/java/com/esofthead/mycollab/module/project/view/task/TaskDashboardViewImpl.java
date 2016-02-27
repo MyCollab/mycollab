@@ -254,7 +254,7 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
 
     public void displayView() {
         baseCriteria = new TaskSearchCriteria();
-        baseCriteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+        baseCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
         OptionValService optionValService = ApplicationContextUtil.getSpringBean(OptionValService.class);
         List<OptionVal> options = optionValService.findOptionValsExcludeClosed(ProjectTypeConstants.TASK,
                 CurrentProjectVariables.getProjectId(), AppContext.getAccountId());

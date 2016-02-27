@@ -216,7 +216,7 @@ class ProjectModuleController(val navManager: NavigationManager) extends Abstrac
     this.register(new ApplicationEventListener[TaskEvent.GotoList]() {
       @Subscribe def handle(event: TaskEvent.GotoList) {
         val criteria = new TaskSearchCriteria
-        criteria.setProjectid(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId))
+        criteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId))
         val data = new TaskScreenData.Search(criteria)
         val presenter = PresenterResolver.getPresenter(classOf[TaskPresenter])
         presenter.go(navManager, data)

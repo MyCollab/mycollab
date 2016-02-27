@@ -61,7 +61,7 @@ public class CommentDisplay extends MVerticalLayout implements ReloadableCompone
 
         CommentSearchCriteria searchCriteria = new CommentSearchCriteria();
         searchCriteria.setType(StringSearchField.and(type));
-        searchCriteria.setTypeid(StringSearchField.and(typeId));
+        searchCriteria.setTypeId(StringSearchField.and(typeId));
         int numComments = commentList.setSearchCriteria(searchCriteria);
 
         Object parentComp = this.getParent();

@@ -31,7 +31,7 @@ public class AuditLogSearchCriteria extends SearchCriteria {
 
     private StringSearchField type;
 
-    private StringSearchField typeid;
+    private StringSearchField typeId;
 
     public StringSearchField getType() {
         return type;
@@ -41,12 +41,12 @@ public class AuditLogSearchCriteria extends SearchCriteria {
         this.type = type;
     }
 
-    public StringSearchField getTypeid() {
-        return typeid;
+    public StringSearchField getTypeId() {
+        return typeId;
     }
 
-    public void setTypeid(StringSearchField typeid) {
-        this.typeid = typeid;
+    public void setTypeId(StringSearchField typeId) {
+        this.typeId = typeId;
     }
 
     public StringSearchField getModule() {

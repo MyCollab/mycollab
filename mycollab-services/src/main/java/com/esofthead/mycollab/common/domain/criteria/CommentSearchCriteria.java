@@ -21,31 +21,29 @@ import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 public class CommentSearchCriteria extends SearchCriteria {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private StringSearchField type;
+    private StringSearchField type;
 
-	private StringSearchField typeid;
+    private StringSearchField typeId;
 
-	public StringSearchField getType() {
-		return type;
-	}
+    public StringSearchField getType() {
+        return type;
+    }
 
-	public void setType(StringSearchField type) {
-		this.type = type;
-	}
+    public void setType(StringSearchField type) {
+        this.type = type;
+    }
 
-	public StringSearchField getTypeid() {
-		return typeid;
-	}
+    public StringSearchField getTypeId() {
+        return typeId;
+    }
 
-	public void setTypeid(StringSearchField typeid) {
-		this.typeid = typeid;
-	}
+    public void setTypeId(StringSearchField typeId) {
+        this.typeId = typeId;
+    }
 }

@@ -47,7 +47,7 @@ class TaskUrlResolver extends ProjectUrlResolver {
       val token = new UrlTokenizer(params(0))
       val projectId = token.getInt
       val criteria = new TaskSearchCriteria
-      criteria.setProjectid(new NumberSearchField(projectId))
+      criteria.setProjectId(new NumberSearchField(projectId))
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new Search(criteria))
       EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
     }

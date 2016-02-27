@@ -118,7 +118,7 @@ public class TaskReadPresenter extends AbstractPresenter<TaskReadView> {
                 ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
 
                 TaskSearchCriteria criteria = new TaskSearchCriteria();
-                criteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+                criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
                 Integer nextId = taskService.getNextItemKey(criteria);
                 if (nextId != null) {
@@ -134,7 +134,7 @@ public class TaskReadPresenter extends AbstractPresenter<TaskReadView> {
                 ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
 
                 TaskSearchCriteria criteria = new TaskSearchCriteria();
-                criteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+                criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
                 Integer nextId = taskService.getNextItemKey(criteria);
                 if (nextId != null) {

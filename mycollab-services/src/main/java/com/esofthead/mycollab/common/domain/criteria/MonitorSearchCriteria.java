@@ -22,61 +22,59 @@ import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 public class MonitorSearchCriteria extends SearchCriteria {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private StringSearchField user;
+    private StringSearchField user;
 
-	private NumberSearchField typeId;
+    private NumberSearchField typeId;
 
-	private StringSearchField type;
+    private StringSearchField type;
 
-	private SetSearchField<String> types;
+    private SetSearchField<String> types;
 
-	private SetSearchField<Integer> extraTypeIds;
+    private SetSearchField<Integer> extraTypeIds;
 
-	public StringSearchField getUser() {
-		return user;
-	}
+    public StringSearchField getUser() {
+        return user;
+    }
 
-	public void setUser(StringSearchField user) {
-		this.user = user;
-	}
+    public void setUser(StringSearchField user) {
+        this.user = user;
+    }
 
-	public NumberSearchField getTypeId() {
-		return typeId;
-	}
+    public NumberSearchField getTypeId() {
+        return typeId;
+    }
 
-	public void setTypeId(NumberSearchField typeId) {
-		this.typeId = typeId;
-	}
+    public void setTypeId(NumberSearchField typeId) {
+        this.typeId = typeId;
+    }
 
-	public StringSearchField getType() {
-		return type;
-	}
+    public StringSearchField getType() {
+        return type;
+    }
 
-	public void setType(StringSearchField type) {
-		this.type = type;
-	}
+    public void setType(StringSearchField type) {
+        this.type = type;
+    }
 
-	public SetSearchField<String> getTypes() {
-		return types;
-	}
+    public SetSearchField<String> getTypes() {
+        return types;
+    }
 
-	public void setTypes(SetSearchField<String> types) {
-		this.types = types;
-	}
+    public void setTypes(SetSearchField<String> types) {
+        this.types = types;
+    }
 
-	public SetSearchField<Integer> getExtraTypeIds() {
-		return extraTypeIds;
-	}
+    public SetSearchField<Integer> getExtraTypeIds() {
+        return extraTypeIds;
+    }
 
-	public void setExtraTypeIds(SetSearchField<Integer> extraTypeIds) {
-		this.extraTypeIds = extraTypeIds;
-	}
+    public void setExtraTypeIds(SetSearchField<Integer> extraTypeIds) {
+        this.extraTypeIds = extraTypeIds;
+    }
 }

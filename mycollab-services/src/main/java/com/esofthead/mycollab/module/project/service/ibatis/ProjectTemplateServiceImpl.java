@@ -147,7 +147,7 @@ public class ProjectTemplateServiceImpl implements ProjectTemplateService {
         LOG.info("Clone project tasks");
         Map<Integer, Integer> taskMapIds = new HashMap<>();
         TaskSearchCriteria searchCriteria = new TaskSearchCriteria();
-        searchCriteria.setProjectid(NumberSearchField.and(projectId));
+        searchCriteria.setProjectId(NumberSearchField.and(projectId));
         List<SimpleTask> tasks = projectTaskService.findPagableListByCriteria(new SearchRequest<>(searchCriteria));
         cloneProjectTasks(newProjectId, milestoneMapIds, taskMapIds, tasks, username);
     }

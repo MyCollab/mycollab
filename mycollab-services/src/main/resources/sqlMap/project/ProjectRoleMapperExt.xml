@@ -2,12 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.esofthead.mycollab.module.project.dao.ProjectRoleMapperExt">
     
-    <resultMap
-        extends="com.esofthead.mycollab.module.project.dao.ProjectRoleMapper.BaseResultMap"
+    <resultMap extends="com.esofthead.mycollab.module.project.dao.ProjectRoleMapper.BaseResultMap"
         id="SimpleRoleResult"
         type="com.esofthead.mycollab.module.project.domain.SimpleProjectRole">
-        <result column="permissionVal" jdbcType="LONGVARCHAR"
-            property="permissionVal" />
+        <result column="permissionVal" jdbcType="LONGVARCHAR" property="permissionVal" />
     </resultMap>
 
     <sql id="querySearchCriteria">
@@ -73,8 +71,7 @@
         #end
     </select>
 
-    <select id="getPreviousItemKey" parameterType="map"
-        resultType="java.lang.Integer" lang="velocity">
+    <select id="getPreviousItemKey" parameterType="map" resultType="java.lang.Integer" lang="velocity">
         SELECT MAX(id) FROM m_prj_role
 
         #trimext("WHERE" "AND|OR")

@@ -5,13 +5,8 @@
     <resultMap id="SimpleAuditLogResult"
         extends="com.esofthead.mycollab.common.dao.AuditLogMapper.ResultMapWithBLOBs"
         type="com.esofthead.mycollab.common.domain.SimpleAuditLog">
-        
-        <result column="postedUserFullName" jdbcType="VARCHAR"
-            property="postedUserFullName" />
-            
-        <result column="postedUserAvatarId" jdbcType="VARCHAR"
-            property="postedUserAvatarId" />
-
+        <result column="postedUserFullName" jdbcType="VARCHAR" property="postedUserFullName" />
+        <result column="postedUserAvatarId" jdbcType="VARCHAR" property="postedUserAvatarId" />
     </resultMap>
 
     <sql id="querySearchCriteria">

@@ -64,7 +64,7 @@ public class TaskSearchCriteria extends SearchCriteria {
     public static final Param p_actualenddate = new DateParam("task-actualenddate",
             TaskI18nEnum.FORM_ACTUAL_END_DATE, "m_prj_task", "actualEndDate");
 
-    private NumberSearchField projectid;
+    private NumberSearchField projectId;
     private NumberSearchField parentTaskId;
     private StringSearchField taskName;
     private DateSearchField dueDate;
@@ -99,14 +99,13 @@ public class TaskSearchCriteria extends SearchCriteria {
         this.statuses = statuses;
     }
 
-    public NumberSearchField getProjectid() {
-        return projectid;
+    public NumberSearchField getProjectId() {
+        return projectId;
     }
 
-    public void setProjectid(NumberSearchField projectid) {
-        this.projectid = projectid;
+    public void setProjectId(NumberSearchField projectId) {
+        this.projectId = projectId;
     }
-
 
     public void setId(NumberSearchField id) {
         this.id = id;

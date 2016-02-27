@@ -53,7 +53,7 @@ public class CommentNavigationButton extends NavigationButton {
         CommentService commentService = ApplicationContextUtil.getSpringBean(CommentService.class);
         CommentSearchCriteria searchCriteria = new CommentSearchCriteria();
         searchCriteria.setType(StringSearchField.and(type));
-        searchCriteria.setTypeid(StringSearchField.and(typeId));
+        searchCriteria.setTypeId(StringSearchField.and(typeId));
         this.setCaption(AppContext.getMessage(GenericI18Enum.TAB_COMMENT, commentService.getTotalCount(searchCriteria)));
     }
 }

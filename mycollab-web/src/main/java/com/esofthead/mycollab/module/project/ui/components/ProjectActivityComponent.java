@@ -130,14 +130,14 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
 
         final CommentSearchCriteria commentCriteria = new CommentSearchCriteria();
         commentCriteria.setType(StringSearchField.and(type));
-        commentCriteria.setTypeid(StringSearchField.and(typeId));
+        commentCriteria.setTypeId(StringSearchField.and(typeId));
         final int commentCount = commentService.getTotalCount(commentCriteria);
 
         final AuditLogSearchCriteria logCriteria = new AuditLogSearchCriteria();
         logCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
         logCriteria.setModule(StringSearchField.and(ModuleNameConstants.PRJ));
         logCriteria.setType(StringSearchField.and(type));
-        logCriteria.setTypeid(StringSearchField.and(typeId));
+        logCriteria.setTypeId(StringSearchField.and(typeId));
         final int logCount = auditLogService.getTotalCount(logCriteria);
         setTotalNums(commentCount + logCount);
 

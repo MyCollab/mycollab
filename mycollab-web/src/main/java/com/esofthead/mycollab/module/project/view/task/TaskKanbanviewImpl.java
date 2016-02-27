@@ -106,7 +106,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
                 public void handle(TaskEvent.SearchRequest event) {
                     TaskSearchCriteria criteria = (TaskSearchCriteria) event.getData();
                     if (criteria != null) {
-                        criteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+                        criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
                         criteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("taskindex", SearchCriteria.ASC)));
                         queryTask(criteria);
                     }
