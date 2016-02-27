@@ -1,79 +1,30 @@
 <assembly
-    xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+        xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
     <id>mycollab-dist</id>
     <formats>
         <format>zip</format>
-        <format>dir</format>
     </formats>
-    <!-- Adds dependencies to zip package under lib directory -->
-    <dependencySets>
-        <dependencySet>
-            <!-- Project artifact is not copied under library directory since 
-                it is added to the root directory of the zip package. -->
-            <useProjectArtifact>false</useProjectArtifact>
-            <outputDirectory>lib</outputDirectory>
-            <unpack>false</unpack>
-        </dependencySet>
-    </dependencySets>
-
     <fileSets>
-        <!-- Adds startup scripts to the root directory of zip package. The 
-            startup scripts are located to src/main/scripts directory as stated by Maven 
-            conventions. -->
-        <fileSet>
-            <directory>${project.build.scriptSourceDirectory}</directory>
-            <outputDirectory>bin</outputDirectory>
-            <includes>
-                <include>*</include>
-            </includes>
-            <filtered>true</filtered>
-            <fileMode>0744</fileMode>
-        </fileSet>
         <!-- adds jar package to the root directory of zip package -->
         <fileSet>
-            <directory>${project.build.directory}</directory>
+            <directory>${project.build.directory}/staging</directory>
             <outputDirectory></outputDirectory>
             <includes>
-                <include>*.jar</include>
+                <include>**</include>
             </includes>
             <excludes>
-                <exclude>*-sources.jar</exclude>
+                <exclude>bin/*.sh</exclude>
             </excludes>
         </fileSet>
-
         <fileSet>
-            <directory>src/main/webapp</directory>
-            <outputDirectory>webapp</outputDirectory>
+            <directory>${project.build.directory}/staging/bin</directory>
+            <outputDirectory>/bin</outputDirectory>
             <includes>
-                <include>**/*</include>
+                <include>*.sh</include>
             </includes>
-        </fileSet>
-
-        <fileSet>
-            <directory>src/main/conf</directory>
-            <outputDirectory>conf</outputDirectory>
-            <includes>
-                <include>**/*.template</include>
-                <include>wrapper.conf</include>
-            </includes>
-        </fileSet>
-
-        <fileSet>
-            <directory>src/main/txt</directory>
-            <outputDirectory></outputDirectory>
-            <includes>
-                <include>**/*.txt</include>
-            </includes>
-        </fileSet>
-
-        <fileSet>
-            <directory>src/main/logs</directory>
-            <outputDirectory>logs</outputDirectory>
-            <includes>
-                <include>**/*</include>
-            </includes>
+            <fileMode>0755</fileMode>
         </fileSet>
     </fileSets>
 </assembly>

@@ -45,7 +45,7 @@ public class MyCollabVersion {
 
             return IOUtils.toString(pricingStream, "UTF-8").replace("\n","");
         } catch (Exception e) {
-            return "5.2.7";
+            return "5.2.8";
         }
     }
 
