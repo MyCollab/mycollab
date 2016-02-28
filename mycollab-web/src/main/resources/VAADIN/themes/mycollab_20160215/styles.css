@@ -1633,6 +1633,10 @@ a.pending {
 	border-top: 0;
 }
 
+.box {
+	border: 1px solid #e5e5e5;
+}
+
 .v-multifileupload-ext .v-verticallayout {
 	display: block;
 }
@@ -14174,6 +14178,10 @@ a.pending {
 .panel-body {
 	border: 1px solid #e5e5e5;
 	border-top: 0;
+}
+
+.box {
+	border: 1px solid #e5e5e5;
 }
 
 .v-multifileupload-ext .v-verticallayout {

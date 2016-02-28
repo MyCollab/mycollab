@@ -30,7 +30,7 @@ public class MilestoneSearchCriteria extends SearchCriteria {
     private static final long serialVersionUID = 1L;
 
     private StringSearchField assignUser;
-    private StringSearchField status;
+    private SetSearchField<String> statuses;
     private SetSearchField<Integer> projectIds;
     private NumberSearchField id;
     private StringSearchField milestoneName;
@@ -43,12 +43,12 @@ public class MilestoneSearchCriteria extends SearchCriteria {
         this.assignUser = assignUser;
     }
 
-    public StringSearchField getStatus() {
-        return status;
+    public SetSearchField<String> getStatuses() {
+        return statuses;
     }
 
-    public void setStatus(StringSearchField status) {
-        this.status = status;
+    public void setStatuses(SetSearchField<String> statuses) {
+        this.statuses = statuses;
     }
 
     public void setId(NumberSearchField id) {

@@ -237,7 +237,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
     }
 
     private void updateClosedMilestoneNumber(int closeMilestones) {
-        closedHeader.setValue(FontAwesome.MINUS.getHtml() + " " +
+        closedHeader.setValue(FontAwesome.MINUS_CIRCLE.getHtml() + " " +
                 AppContext.getMessage(MilestoneI18nEnum.WIDGET_CLOSED_PHASE_TITLE) + " (" + closeMilestones + ")");
     }
 

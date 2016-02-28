@@ -105,7 +105,7 @@ public class MilestoneListViewImpl extends AbstractListPageView<MilestoneSearchC
         this.status = status;
         MilestoneSearchCriteria searchCriteria = new MilestoneSearchCriteria();
         searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-        searchCriteria.setStatus(StringSearchField.and(status.name()));
+        searchCriteria.setStatuses(new SetSearchField<>(status.name()));
         itemList.search(searchCriteria);
         updateTabStatus();
     }

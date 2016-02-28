@@ -21,6 +21,7 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
+import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -33,6 +34,7 @@ import com.esofthead.mycollab.module.project.domain.criteria.MilestoneSearchCrit
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
 import com.esofthead.mycollab.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
@@ -46,8 +48,10 @@ import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.esofthead.mycollab.vaadin.web.ui.ToggleButtonGroup;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
+import com.esofthead.vaadin.floatingcomponent.FloatingComponent;
 import com.google.common.eventbus.Subscribe;
 import com.hp.gagawa.java.elements.Img;
+import com.vaadin.data.Property;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -57,6 +61,7 @@ import org.vaadin.teemu.VaadinIcons;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -69,7 +74,6 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
     private Button createBtn;
 
     private MilestoneService milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
-    private MilestoneSearchCriteria baseCriteria;
 
     private ApplicationEventListener<MilestoneEvent.NewMilestoneAdded> newMilestoneHandler = new
             ApplicationEventListener<MilestoneEvent.NewMilestoneAdded>() {
@@ -80,6 +84,9 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
                     displayView();
                 }
             };
+
+    private MVerticalLayout roadMapView;
+    private VerticalLayout filterPanel;
 
     @Override
     public void attach() {
@@ -98,13 +105,82 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
         initUI();
         createBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
 
-        baseCriteria = new MilestoneSearchCriteria();
+        MilestoneSearchCriteria baseCriteria = new MilestoneSearchCriteria();
         baseCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
         baseCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("startdate",
                 SearchCriteria.DESC), new SearchCriteria.OrderField("enddate", SearchCriteria.DESC)));
-        List<SimpleMilestone> milestones = milestoneService.findPagableListByCriteria(new SearchRequest<>(baseCriteria, 0, Integer.MAX_VALUE));
+        displayMilestones(baseCriteria);
+
+        final MilestoneSearchCriteria tmpCriteria = BeanUtility.deepClone(baseCriteria);
+        tmpCriteria.setStatuses(new SetSearchField<>(OptionI18nEnum.MilestoneStatus.Closed.name()));
+        int totalCloseCount = milestoneService.getTotalCount(tmpCriteria);
+        final CheckBox closeMilestoneSelection = new CheckBox(AppContext.getMessage(MilestoneI18nEnum
+                .WIDGET_CLOSED_PHASE_TITLE) + " (" + totalCloseCount + ")", true);
+        closeMilestoneSelection.setIcon(FontAwesome.MINUS_CIRCLE);
+        filterPanel.addComponent(closeMilestoneSelection);
+
+        tmpCriteria.setStatuses(new SetSearchField<>(OptionI18nEnum.MilestoneStatus.InProgress.name()));
+        int totalInProgressCount = milestoneService.getTotalCount(tmpCriteria);
+        final CheckBox inProgressMilestoneSelection = new CheckBox(AppContext.getMessage(MilestoneI18nEnum
+                .WIDGET_INPROGRESS_PHASE_TITLE) + " (" + totalInProgressCount + ")", true);
+        inProgressMilestoneSelection.setIcon(FontAwesome.SPINNER);
+        filterPanel.addComponent(inProgressMilestoneSelection);
+
+        tmpCriteria.setStatuses(new SetSearchField<>(OptionI18nEnum.MilestoneStatus.Future.name()));
+        int totalFutureCount = milestoneService.getTotalCount(tmpCriteria);
+        final CheckBox futureMilestoneSelection = new CheckBox(AppContext.getMessage(MilestoneI18nEnum
+                .WIDGET_FUTURE_PHASE_TITLE) + " (" + totalFutureCount + ")", true);
+
+        closeMilestoneSelection.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
+            public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
+                displayMilestones(tmpCriteria, closeMilestoneSelection.getValue(), inProgressMilestoneSelection
+                        .getValue(), futureMilestoneSelection.getValue());
+            }
+        });
+        inProgressMilestoneSelection.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
+            public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
+                displayMilestones(tmpCriteria, closeMilestoneSelection.getValue(), inProgressMilestoneSelection
+                        .getValue(), futureMilestoneSelection.getValue());
+            }
+        });
+        futureMilestoneSelection.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
+            public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
+                displayMilestones(tmpCriteria, closeMilestoneSelection.getValue(), inProgressMilestoneSelection
+                        .getValue(), futureMilestoneSelection.getValue());
+            }
+        });
+        futureMilestoneSelection.setIcon(FontAwesome.CLOCK_O);
+        filterPanel.addComponent(futureMilestoneSelection);
+    }
+
+    private void displayMilestones(MilestoneSearchCriteria milestoneSearchCriteria, boolean closeSelection, boolean
+            inProgressSelection, boolean futureSelection) {
+        List<String> statuses = new ArrayList<>();
+        if (closeSelection) {
+            statuses.add(OptionI18nEnum.MilestoneStatus.Closed.name());
+        }
+        if (inProgressSelection) {
+            statuses.add(OptionI18nEnum.MilestoneStatus.InProgress.name());
+        }
+        if (futureSelection) {
+            statuses.add(OptionI18nEnum.MilestoneStatus.Future.name());
+        }
+        if (statuses.size() > 0) {
+            milestoneSearchCriteria.setStatuses(new SetSearchField<>(statuses));
+            displayMilestones(milestoneSearchCriteria);
+        } else {
+            roadMapView.removeAllComponents();
+        }
+    }
+
+    private void displayMilestones(MilestoneSearchCriteria searchCriteria) {
+        roadMapView.removeAllComponents();
+        List<SimpleMilestone> milestones = milestoneService.findPagableListByCriteria(new SearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
         for (SimpleMilestone milestone : milestones) {
-            MilestoneRoadmapViewImpl.this.addComponent(new MilestoneBlock(milestone));
+            roadMapView.addComponent(new MilestoneBlock(milestone));
         }
     }
 
@@ -116,6 +192,11 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
                 .with(headerText, createHeaderRight())
                 .withAlign(headerText, Alignment.MIDDLE_LEFT).expand(headerText);
         this.addComponent(header);
+        roadMapView = new MVerticalLayout();
+        filterPanel = new MVerticalLayout().withWidth("250px").withStyleName("box");
+        FloatingComponent floatingComponent = FloatingComponent.floatThis(filterPanel);
+        floatingComponent.setContainerId("main-body");
+        this.addComponent(new MHorizontalLayout().withFullWidth().with(roadMapView, filterPanel).expand(roadMapView));
     }
 
     private HorizontalLayout createHeaderRight() {

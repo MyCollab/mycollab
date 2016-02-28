@@ -33,8 +33,11 @@
                 ${searchCriteria.assignUser.operation} m_prj_milestone.owner = @{searchCriteria.assignUser.value}
             #end
             
-            #ifnotnull($searchCriteria.status)
-                ${searchCriteria.status.operation} m_prj_milestone.status = @{searchCriteria.status.value}
+            #ifnotnull($searchCriteria.statuses)
+                ${searchCriteria.statuses.operation} m_prj_milestone.status IN
+                #repeat(${searchCriteria.statuses.values} $status "," "(" ")")
+                    @{status}
+                #end
             #end
 
             #ifnotnull($searchCriteria.projectIds)
@@ -68,8 +71,11 @@
                 ${searchCriteria.assignUser.operation} m_prj_milestone.owner = @{searchCriteria.assignUser.value}
             #end
             
-            #ifnotnull($searchCriteria.status)
-                ${searchCriteria.status.operation} m_prj_milestone.status = @{searchCriteria.status.value}
+            #ifnotnull($searchCriteria.statuses)
+                ${searchCriteria.statuses.operation} m_prj_milestone.status IN
+                #repeat(${searchCriteria.statuses.values} $status "," "(" ")")
+                    @{status}
+                #end
             #end
 
             #ifnotnull($searchCriteria.projectIds)
