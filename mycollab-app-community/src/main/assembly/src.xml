@@ -4,7 +4,7 @@
         xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
     <id>mycollab-dist</id>
     <formats>
-        <format>zip</format>
+        <format>dir</format>
     </formats>
     <fileSets>
         <!-- adds jar package to the root directory of zip package -->

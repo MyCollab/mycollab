@@ -48,7 +48,7 @@ public class BugRowRenderer extends MVerticalLayout {
 
     private PopupButton bugSettingPopupBtn;
 
-    BugRowRenderer(final SimpleBug bug) {
+    public BugRowRenderer(final SimpleBug bug) {
         this.bug = bug;
         withSpacing(true).withMargin(false).withWidth("100%").addStyleName("taskrow");
 
@@ -59,7 +59,7 @@ public class BugRowRenderer extends MVerticalLayout {
         bugSettingPopupBtn.setContent(filterBtnLayout);
 
 
-        final ToogleBugSummaryField bugWrapper = new ToogleBugSummaryField(bug);
+        final ToggleBugSummaryField bugWrapper = new ToggleBugSummaryField(bug);
 
         BugPopupFieldFactory popupFieldFactory = ViewManager.getCacheComponent(BugPopupFieldFactory.class);
         MHorizontalLayout headerLayout = new MHorizontalLayout().withWidth("100%").withMargin(new MarginInfo(false,

@@ -38,7 +38,7 @@ import java.util.List;
 public class AuditLogUtil {
     private static Logger LOG = LoggerFactory.getLogger(AuditLogUtil.class);
 
-    static public String getChangeSet(Object oldObj, Object newObj, List<String> excludeFields) {
+    static public String getChangeSet(Object oldObj, Object newObj, List<String> excludeFields, boolean isSelective) {
         Class cl = oldObj.getClass();
         List<AuditChangeItem> changeItems = new ArrayList<>();
 
@@ -61,11 +61,15 @@ public class AuditLogUtil {
                 String newProp = getValue(newPropVal);
 
                 if (!oldProp.equals(newProp)) {
-                    AuditChangeItem changeItem = new AuditChangeItem();
-                    changeItem.setField(fieldName);
-                    changeItem.setNewvalue(newProp);
-                    changeItem.setOldvalue(oldProp);
-                    changeItems.add(changeItem);
+                    if (isSelective && newProp.equals("")) {
+                        continue;
+                    } else {
+                        AuditChangeItem changeItem = new AuditChangeItem();
+                        changeItem.setField(fieldName);
+                        changeItem.setNewvalue(newProp);
+                        changeItem.setOldvalue(oldProp);
+                        changeItems.add(changeItem);
+                    }
                 }
             }
         } catch (Exception e) {

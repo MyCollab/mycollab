@@ -39,10 +39,13 @@ import com.hp.gagawa.java.elements.Span;
 import com.vaadin.data.Property;
 import com.vaadin.event.FieldEvents;
 import com.vaadin.event.LayoutEvents;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.themes.ValoTheme;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.UUID;
 
@@ -50,12 +53,13 @@ import java.util.UUID;
  * @author MyCollab Ltd
  * @since 5.2.3
  */
-public class ToogleGenericTaskSummaryField extends CssLayout {
+public class ToggleGenericTaskSummaryField extends CssLayout {
     private ProjectGenericTask genericTask;
     private ELabel taskLbl;
+    private MHorizontalLayout buttonControls;
     private boolean isRead = true;
 
-    ToogleGenericTaskSummaryField(final ProjectGenericTask genericTask) {
+    ToggleGenericTaskSummaryField(final ProjectGenericTask genericTask) {
         this.genericTask = genericTask;
         this.setWidth("100%");
         taskLbl = new ELabel(buildGenericTaskLink(), ContentMode.HTML).withWidthUndefined();
@@ -63,22 +67,22 @@ public class ToogleGenericTaskSummaryField extends CssLayout {
         taskLbl.addStyleName(UIConstants.LABEL_WORD_WRAP);
         this.addComponent(taskLbl);
         if ((genericTask.isTask() && CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) ||
-                (genericTask.isBug() && CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS))) {
+                (genericTask.isBug() && CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS)) ||
+                (genericTask.isRisk() && CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.RISKS))) {
             this.addStyleName("editable-field");
-            this.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
+            buttonControls = new MHorizontalLayout().withStyleName("toggle").withSpacing(false);
+            Button instantEditBtn = new Button(null, new Button.ClickListener() {
                 @Override
-                public void layoutClick(LayoutEvents.LayoutClickEvent event) {
-                    if (event.getClickedComponent() == taskLbl) {
-                        return;
-                    }
+                public void buttonClick(Button.ClickEvent clickEvent) {
                     if (isRead) {
-                        ToogleGenericTaskSummaryField.this.removeComponent(taskLbl);
+                        ToggleGenericTaskSummaryField.this.removeComponent(taskLbl);
+                        ToggleGenericTaskSummaryField.this.removeComponent(buttonControls);
                         final TextField editField = new TextField();
                         editField.setValue(genericTask.getName());
                         editField.setWidth("100%");
                         editField.focus();
-                        ToogleGenericTaskSummaryField.this.addComponent(editField);
-                        ToogleGenericTaskSummaryField.this.removeStyleName("editable-field");
+                        ToggleGenericTaskSummaryField.this.addComponent(editField);
+                        ToggleGenericTaskSummaryField.this.removeStyleName("editable-field");
                         editField.addValueChangeListener(new Property.ValueChangeListener() {
                             @Override
                             public void valueChange(Property.ValueChangeEvent event) {
@@ -93,15 +97,22 @@ public class ToogleGenericTaskSummaryField extends CssLayout {
                         });
                         isRead = !isRead;
                     }
-
                 }
             });
+            instantEditBtn.setDescription("Edit task name");
+            instantEditBtn.addStyleName(ValoTheme.BUTTON_ICON_ONLY);
+            instantEditBtn.addStyleName(ValoTheme.BUTTON_ICON_ALIGN_TOP);
+            instantEditBtn.setIcon(FontAwesome.EDIT);
+            buttonControls.with(instantEditBtn);
+
+            this.addComponent(buttonControls);
         }
     }
 
     private void updateFieldValue(TextField editField) {
         removeComponent(editField);
         addComponent(taskLbl);
+        addComponent(buttonControls);
         addStyleName("editable-field");
         String newValue = editField.getValue();
         if (StringUtils.isNotBlank(newValue) && !newValue.equals(genericTask.getName())) {

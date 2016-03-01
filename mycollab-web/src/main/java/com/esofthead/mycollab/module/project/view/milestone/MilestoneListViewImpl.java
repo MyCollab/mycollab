@@ -262,10 +262,10 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
             this.addStyleName(UIConstants.MILESTONE_BOX);
             this.setWidth("100%");
 
-            ToogleMilestoneSummaryField toogleMilestoneSummaryField = new ToogleMilestoneSummaryField(milestone, 50);
+            ToggleMilestoneSummaryField toggleMilestoneSummaryField = new ToggleMilestoneSummaryField(milestone, 50);
 
             MHorizontalLayout milestoneHeader = new MHorizontalLayout().withWidth("100%")
-                    .with(toogleMilestoneSummaryField).expand(toogleMilestoneSummaryField);
+                    .with(toggleMilestoneSummaryField).expand(toggleMilestoneSummaryField);
 
             PopupButton taskSettingPopupBtn = new PopupButton();
             taskSettingPopupBtn.setWidth("15px");

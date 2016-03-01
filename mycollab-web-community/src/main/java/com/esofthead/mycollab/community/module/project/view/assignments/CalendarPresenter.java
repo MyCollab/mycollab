@@ -18,6 +18,7 @@ package com.esofthead.mycollab.community.module.project.view.assignments;
 
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.module.project.view.assignments.CalendarView;
+import com.esofthead.mycollab.module.project.view.assignments.ICalendarPresenter;
 import com.esofthead.mycollab.module.project.view.user.ProjectDashboardContainer;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
@@ -28,7 +29,7 @@ import com.vaadin.ui.ComponentContainer;
  * @author MyCollab Ltd
  * @since 5.2.8
  */
-public class CalendarPresenter extends AbstractPresenter<CalendarView> {
+public class CalendarPresenter extends AbstractPresenter<CalendarView> implements ICalendarPresenter {
     public CalendarPresenter() {
         super(CalendarView.class);
     }

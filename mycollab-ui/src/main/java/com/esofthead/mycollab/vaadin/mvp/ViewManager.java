@@ -33,7 +33,6 @@ import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.VIEW_MANAGER_VAL;
  */
 public class ViewManager {
 
-    @SuppressWarnings("unchecked")
     public static <T extends CacheableComponent> T getCacheComponent(final Class<T> viewClass) {
         Map<Class<?>, Object> viewMap = (Map<Class<?>, Object>) MyCollabSession.getVariable(VIEW_MANAGER_VAL);
         if (viewMap == null) {

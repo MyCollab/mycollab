@@ -52,13 +52,15 @@ public class TaskStatusComponent extends Depot {
         myItemsOnly.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-                boolean selectMyItemsOnly = myItemsOnly.getValue();
-                if (selectMyItemsOnly) {
-                    searchCriteria.setAssignUser(StringSearchField.and(AppContext.getUsername()));
-                } else {
-                    searchCriteria.setAssignUser(null);
+                if (searchCriteria != null) {
+                    boolean selectMyItemsOnly = myItemsOnly.getValue();
+                    if (selectMyItemsOnly) {
+                        searchCriteria.setAssignUser(StringSearchField.and(AppContext.getUsername()));
+                    } else {
+                        searchCriteria.setAssignUser(null);
+                    }
+                    taskComponents.setSearchCriteria(searchCriteria);
                 }
-                taskComponents.setSearchCriteria(searchCriteria);
             }
         });
 

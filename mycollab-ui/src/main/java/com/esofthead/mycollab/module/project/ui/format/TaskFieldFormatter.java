@@ -47,8 +47,9 @@ public final class TaskFieldFormatter extends FieldGroupFormatter {
         generateFieldDisplayHandler("isestimated", TaskI18nEnum.FORM_IS_ESTIMATED);
         generateFieldDisplayHandler("remainestimate", TaskI18nEnum.FORM_REMAIN_ESTIMATE);
         generateFieldDisplayHandler("assignuser", GenericI18Enum.FORM_ASSIGNEE, new ProjectMemberHistoryFieldFormat());
-        generateFieldDisplayHandler("milestoneid", TaskI18nEnum.FORM_MILESTONE, new MilestoneHistoryFieldFormat());
+        generateFieldDisplayHandler("milestoneid", TaskI18nEnum.FORM_PHASE, new MilestoneHistoryFieldFormat());
         generateFieldDisplayHandler("percentagecomplete", TaskI18nEnum.FORM_PERCENTAGE_COMPLETE);
+        generateFieldDisplayHandler("parenttaskid", TaskI18nEnum.FORM_PARENT_TASK, new TaskHistoryFieldFormat());
         generateFieldDisplayHandler("notes", TaskI18nEnum.FORM_NOTES);
         generateFieldDisplayHandler(Task.Field.duration.name(), TaskI18nEnum.FORM_DURATION, new DurationFieldFormat());
     }

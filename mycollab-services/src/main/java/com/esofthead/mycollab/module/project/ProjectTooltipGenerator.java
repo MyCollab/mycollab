@@ -132,7 +132,7 @@ public class ProjectTooltipGenerator {
                     : "";
             String assignUserAvatarLink = StorageFactory.getInstance().getAvatarPath(task.getAssignUserAvatarId(), 16);
             Td cell42 = buildCellLink(assignUserLink, assignUserAvatarLink, task.getAssignUserFullName());
-            Td cell43 = buildCellName(LocalizationHelper.getMessage(locale, TaskI18nEnum.FORM_MILESTONE));
+            Td cell43 = buildCellName(LocalizationHelper.getMessage(locale, TaskI18nEnum.FORM_PHASE));
             String taskgroupLink = (task.getMilestoneName() != null) ? ProjectLinkGenerator
                     .generateMilestonePreviewFullLink(siteURL, task.getProjectid(), task.getMilestoneid()) : "";
             Td cell44 = buildCellLink(taskgroupLink, task.getMilestoneName());

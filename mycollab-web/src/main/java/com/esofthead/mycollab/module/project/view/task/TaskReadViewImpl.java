@@ -43,7 +43,7 @@ import com.esofthead.mycollab.module.project.ui.form.ProjectItemViewField;
 import com.esofthead.mycollab.module.project.ui.format.TaskFieldFormatter;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.esofthead.mycollab.module.project.view.task.components.TaskTimeLogSheet;
-import com.esofthead.mycollab.module.project.view.task.components.ToogleTaskSummaryField;
+import com.esofthead.mycollab.module.project.view.task.components.ToggleTaskSummaryField;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -348,7 +348,6 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
         }
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     private class SubTasksComp extends CustomField {
         private static final long serialVersionUID = 1L;
 
@@ -410,8 +409,9 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
             Img avatarImg = new Img(subTask.getAssignUserFullName(), avatarLink).setTitle(subTask.getAssignUserFullName());
             layout.with(new ELabel(avatarImg.write(), ContentMode.HTML).withWidthUndefined());
 
-            final ToogleTaskSummaryField toogleTaskSummaryField = new ToogleTaskSummaryField(subTask);
-            layout.with(toogleTaskSummaryField).expand(toogleTaskSummaryField);
+            final ToggleTaskSummaryField toggleTaskSummaryField = new ToggleTaskSummaryField(subTask, Integer.MAX_VALUE, true);
+
+            layout.with(toggleTaskSummaryField).expand(toggleTaskSummaryField);
 
             checkBox.addValueChangeListener(new ValueChangeListener() {
                 @Override
@@ -421,18 +421,18 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
                     if (selectedFlag) {
                         subTask.setStatus(StatusI18nEnum.Closed.name());
                         subTask.setPercentagecomplete(100d);
-                        toogleTaskSummaryField.closeTask();
+                        toggleTaskSummaryField.closeTask();
                     } else {
                         subTask.setStatus(StatusI18nEnum.Open.name());
                         subTask.setPercentagecomplete(0d);
                         if (subTask.isOverdue()) {
-                            toogleTaskSummaryField.overdueTask();
+                            toggleTaskSummaryField.overdueTask();
                         } else {
-                            toogleTaskSummaryField.reOpenTask();
+                            toggleTaskSummaryField.reOpenTask();
                         }
                     }
                     taskService.updateSelectiveWithSession(subTask, AppContext.getUsername());
-                    toogleTaskSummaryField.updateLabel();
+                    toggleTaskSummaryField.updateLabel();
                 }
             });
             return layout;

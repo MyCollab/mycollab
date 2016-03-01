@@ -103,7 +103,8 @@ public abstract class MyCollabUI extends UI {
             if (licenseInfo == null) {
                 RestTemplate restTemplate = new RestTemplate();
                 try {
-                    String licenseRequest = restTemplate.postForObject("http://127.0.0.1:7070/api/register-trial", null, String.class);
+                    String licenseRequest = restTemplate.postForObject("https://api.mycollab.com/api/register-trial",
+                            null, String.class);
                     licenseResolver.checkAndSaveLicenseInfo(licenseRequest);
                 } catch (Exception e) {
                     LOG.error("Can not retrieve a trial license", e);

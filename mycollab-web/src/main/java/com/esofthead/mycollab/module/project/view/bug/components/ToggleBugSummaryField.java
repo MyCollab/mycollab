@@ -34,10 +34,14 @@ import com.hp.gagawa.java.elements.Span;
 import com.vaadin.data.Property;
 import com.vaadin.event.FieldEvents;
 import com.vaadin.event.LayoutEvents;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.themes.ValoTheme;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.UUID;
 
@@ -45,17 +49,18 @@ import java.util.UUID;
  * @author MyCollab Ltd
  * @since 5.2.3
  */
-public class ToogleBugSummaryField extends CssLayout {
+public class ToggleBugSummaryField extends CssLayout {
     private boolean isRead = true;
     private Label bugLinkLbl;
+    private MHorizontalLayout buttonControls;
     private SimpleBug bug;
     private int maxLength;
 
-    public ToogleBugSummaryField(final SimpleBug bug) {
+    public ToggleBugSummaryField(final SimpleBug bug) {
         this(bug, Integer.MAX_VALUE);
     }
 
-    public ToogleBugSummaryField(final SimpleBug bug, int trimCharacters) {
+    public ToggleBugSummaryField(final SimpleBug bug, int trimCharacters) {
         this.bug = bug;
         this.maxLength = trimCharacters;
         bugLinkLbl = new Label(buildBugLink(), ContentMode.HTML);
@@ -63,22 +68,21 @@ public class ToogleBugSummaryField extends CssLayout {
         bugLinkLbl.addStyleName(UIConstants.LABEL_WORD_WRAP);
         bugLinkLbl.setWidthUndefined();
         this.addComponent(bugLinkLbl);
+        buttonControls = new MHorizontalLayout().withStyleName("toggle").withSpacing(false);
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS)) {
             this.addStyleName("editable-field");
-            this.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
+            Button instantEditBtn = new Button(null, new Button.ClickListener() {
                 @Override
-                public void layoutClick(LayoutEvents.LayoutClickEvent event) {
-                    if (event.getClickedComponent() == bugLinkLbl) {
-                        return;
-                    }
+                public void buttonClick(Button.ClickEvent clickEvent) {
                     if (isRead) {
-                        ToogleBugSummaryField.this.removeComponent(bugLinkLbl);
+                        ToggleBugSummaryField.this.removeComponent(bugLinkLbl);
+                        ToggleBugSummaryField.this.removeComponent(buttonControls);
                         final TextField editField = new TextField();
                         editField.setValue(bug.getSummary());
                         editField.setWidth("100%");
                         editField.focus();
-                        ToogleBugSummaryField.this.addComponent(editField);
-                        ToogleBugSummaryField.this.removeStyleName("editable-field");
+                        ToggleBugSummaryField.this.addComponent(editField);
+                        ToggleBugSummaryField.this.removeStyleName("editable-field");
                         editField.addValueChangeListener(new Property.ValueChangeListener() {
                             @Override
                             public void valueChange(Property.ValueChangeEvent event) {
@@ -93,16 +97,22 @@ public class ToogleBugSummaryField extends CssLayout {
                         });
                         isRead = !isRead;
                     }
-
                 }
             });
+            instantEditBtn.setDescription("Edit task name");
+            instantEditBtn.addStyleName(ValoTheme.BUTTON_ICON_ONLY);
+            instantEditBtn.addStyleName(ValoTheme.BUTTON_ICON_ALIGN_TOP);
+            instantEditBtn.setIcon(FontAwesome.EDIT);
+            buttonControls.with(instantEditBtn);
+            this.addComponent(buttonControls);
         }
     }
 
     private void updateFieldValue(TextField editField) {
-        ToogleBugSummaryField.this.removeComponent(editField);
-        ToogleBugSummaryField.this.addComponent(bugLinkLbl);
-        ToogleBugSummaryField.this.addStyleName("editable-field");
+        ToggleBugSummaryField.this.removeComponent(editField);
+        ToggleBugSummaryField.this.addComponent(bugLinkLbl);
+        ToggleBugSummaryField.this.addComponent(buttonControls);
+        ToggleBugSummaryField.this.addStyleName("editable-field");
         String newValue = editField.getValue();
         if (StringUtils.isNotBlank(newValue) && !newValue.equals(bug.getSummary())) {
             bug.setSummary(newValue);

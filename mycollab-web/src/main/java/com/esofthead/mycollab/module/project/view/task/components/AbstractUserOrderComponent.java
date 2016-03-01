@@ -14,25 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.project.view.bug;
+package com.esofthead.mycollab.module.project.view.task.components;
 
-import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
-import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
-import com.esofthead.mycollab.vaadin.web.ui.IListView;
+import com.esofthead.mycollab.vaadin.mvp.CacheableComponent;
 
 /**
- * @author MyCollab Ltd.
- * @since 1.0
+ * @author MyCollab Ltd
+ * @since 5.2.9
  */
-public interface BugListView extends IListView<BugSearchCriteria, SimpleBug> {
-
-    String GROUP_DUE_DATE = "Due Date";
-    String GROUP_START_DATE = "Start Date";
-    String GROUP_CREATED_DATE = "Created Date";
-    String PLAIN_LIST = "Plain";
-    String GROUP_USER = "User";
-
-    void displayView();
-
-    void queryBug(BugSearchCriteria searchCriteria);
+abstract public class AbstractUserOrderComponent extends TaskGroupOrderComponent implements CacheableComponent {
 }

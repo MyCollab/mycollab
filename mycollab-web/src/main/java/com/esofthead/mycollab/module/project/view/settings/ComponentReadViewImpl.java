@@ -36,7 +36,7 @@ import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
 import com.esofthead.mycollab.module.project.ui.components.ProjectActivityComponent;
 import com.esofthead.mycollab.module.project.ui.components.ProjectMemberLink;
 import com.esofthead.mycollab.module.project.ui.format.ComponentFieldFormatter;
-import com.esofthead.mycollab.module.project.view.bug.components.ToogleBugSummaryField;
+import com.esofthead.mycollab.module.project.view.bug.components.ToggleBugSummaryField;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.esofthead.mycollab.module.tracker.domain.Component;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
@@ -271,7 +271,7 @@ public class ComponentReadViewImpl extends AbstractPreviewItemComp<SimpleCompone
                 List<SimpleBug> bugs = bugService.findPagableListByCriteria(new SearchRequest<>(searchCriteria, i + 1, 20));
                 if (CollectionUtils.isNotEmpty(bugs)) {
                     for (SimpleBug bug : bugs) {
-                        ToogleBugSummaryField toogleBugSummaryField = new ToogleBugSummaryField(bug);
+                        ToggleBugSummaryField toggleBugSummaryField = new ToggleBugSummaryField(bug);
 
                         MHorizontalLayout rowComp = new MHorizontalLayout();
                         rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
@@ -285,7 +285,7 @@ public class ComponentReadViewImpl extends AbstractPreviewItemComp<SimpleCompone
                         rowComp.with(new ELabel(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG).getHtml(), ContentMode.HTML)
                                         .withWidthUndefined(), new ELabel(priorityLink.write(), ContentMode.HTML).withWidthUndefined(),
                                 new ELabel(img.write(), ContentMode.HTML).withWidthUndefined(),
-                                toogleBugSummaryField).expand(toogleBugSummaryField);
+                                toggleBugSummaryField).expand(toggleBugSummaryField);
                         issueLayout.add(rowComp);
                     }
                 }

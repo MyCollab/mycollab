@@ -33,11 +33,14 @@ import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Span;
 import com.vaadin.data.Property;
 import com.vaadin.event.FieldEvents;
-import com.vaadin.event.LayoutEvents;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.themes.ValoTheme;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.UUID;
 
@@ -45,17 +48,18 @@ import java.util.UUID;
  * @author MyCollab Ltd
  * @since 5.2.3
  */
-public class ToogleTaskSummaryField extends CssLayout {
+public class ToggleTaskSummaryField extends CssLayout {
     private boolean isRead = true;
-    private Label taskLinkLbl;
     private SimpleTask task;
     private int maxLength;
+    private Label taskLinkLbl;
+    private MHorizontalLayout buttonControls;
 
-    public ToogleTaskSummaryField(final SimpleTask task) {
-        this(task, Integer.MAX_VALUE);
+    public ToggleTaskSummaryField(final SimpleTask task) {
+        this(task, Integer.MAX_VALUE, false);
     }
 
-    public ToogleTaskSummaryField(final SimpleTask task, int maxLength) {
+    public ToggleTaskSummaryField(final SimpleTask task, int maxLength, boolean canRemoveParentLink) {
         this.setWidth("100%");
         this.maxLength = maxLength;
         this.task = task;
@@ -64,22 +68,22 @@ public class ToogleTaskSummaryField extends CssLayout {
         taskLinkLbl.addStyleName(UIConstants.LABEL_WORD_WRAP);
 
         this.addComponent(taskLinkLbl);
+        buttonControls = new MHorizontalLayout().withStyleName("toggle").withSpacing(false);
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) {
             this.addStyleName("editable-field");
-            this.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
+
+            Button instantEditBtn = new Button(null, new Button.ClickListener() {
                 @Override
-                public void layoutClick(LayoutEvents.LayoutClickEvent event) {
-                    if (event.getClickedComponent() == taskLinkLbl) {
-                        return;
-                    }
+                public void buttonClick(Button.ClickEvent clickEvent) {
                     if (isRead) {
-                        ToogleTaskSummaryField.this.removeComponent(taskLinkLbl);
+                        ToggleTaskSummaryField.this.removeComponent(taskLinkLbl);
+                        ToggleTaskSummaryField.this.removeComponent(buttonControls);
                         final TextField editField = new TextField();
                         editField.setValue(task.getTaskname());
                         editField.setWidth("100%");
                         editField.focus();
-                        ToogleTaskSummaryField.this.addComponent(editField);
-                        ToogleTaskSummaryField.this.removeStyleName("editable-field");
+                        ToggleTaskSummaryField.this.addComponent(editField);
+                        ToggleTaskSummaryField.this.removeStyleName("editable-field");
                         editField.addValueChangeListener(new Property.ValueChangeListener() {
                             @Override
                             public void valueChange(Property.ValueChangeEvent event) {
@@ -94,15 +98,39 @@ public class ToogleTaskSummaryField extends CssLayout {
                         });
                         isRead = !isRead;
                     }
-
                 }
             });
+            instantEditBtn.setDescription("Edit task name");
+            instantEditBtn.addStyleName(ValoTheme.BUTTON_ICON_ONLY);
+            instantEditBtn.addStyleName(ValoTheme.BUTTON_ICON_ALIGN_TOP);
+            instantEditBtn.setIcon(FontAwesome.EDIT);
+            buttonControls.with(instantEditBtn);
+
+            if (canRemoveParentLink) {
+                Button unlinkBtn = new Button(null, new Button.ClickListener() {
+                    @Override
+                    public void buttonClick(Button.ClickEvent clickEvent) {
+                        task.setParenttaskid(null);
+                        ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                        taskService.updateWithSession(task, AppContext.getUsername());
+                        fireEvent(null);
+                    }
+                });
+                unlinkBtn.setIcon(FontAwesome.UNLINK);
+                unlinkBtn.setDescription("Remove parent-child relationship");
+                unlinkBtn.addStyleName(ValoTheme.BUTTON_ICON_ALIGN_TOP);
+                unlinkBtn.addStyleName(ValoTheme.BUTTON_ICON_ONLY);
+                buttonControls.with(unlinkBtn);
+            }
+
+            this.addComponent(buttonControls);
         }
     }
 
     private void updateFieldValue(TextField editField) {
         removeComponent(editField);
         addComponent(taskLinkLbl);
+        addComponent(buttonControls);
         addStyleName("editable-field");
         String newValue = editField.getValue();
         if (StringUtils.isNotBlank(newValue) && !newValue.equals(task.getTaskname())) {

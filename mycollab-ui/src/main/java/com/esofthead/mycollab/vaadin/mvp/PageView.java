@@ -34,8 +34,7 @@ public interface PageView extends ComponentContainer, CacheableComponent {
 
     <E> void addViewListener(ViewListener<E> listener);
 
-    interface
-    ViewListener<E> extends EventListener, Serializable {
+    interface ViewListener<E> extends EventListener, Serializable {
         Method viewInitMethod = ReflectTools.findMethod(ViewListener.class, "receiveEvent", ViewEvent.class);
 
         void receiveEvent(ViewEvent<E> event);

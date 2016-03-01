@@ -21,39 +21,37 @@ import com.esofthead.mycollab.web.CustomLayoutExt;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
 public abstract class ReadViewLayout extends CustomLayoutExt {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public ReadViewLayout() {
-		super("readView");
-	}
+    public ReadViewLayout() {
+        super("readView");
+    }
 
-	public void addHeader(ComponentContainer header) {
-		this.addComponent(header, "readViewHeader");
-	}
+    public void addHeader(ComponentContainer header) {
+        this.addComponent(header, "readViewHeader");
+    }
 
-	public void addBody(ComponentContainer body) {
-		this.addComponent(body, "readViewBody");
-	}
+    public void addBody(ComponentContainer body) {
+        this.addComponent(body, "readViewBody");
+    }
 
-	public void addBottomControls(ComponentContainer bottomControls) {
-		this.addComponent(bottomControls, "readViewBottomControls");
-	}
+    public void addBottomControls(ComponentContainer bottomControls) {
+        this.addComponent(bottomControls, "readViewBottomControls");
+    }
 
-	public void addTitleStyleName(String styleName) {
-		throw new MyCollabException("Must be implemented in the sub class");
-	}
+    public void addTitleStyleName(String styleName) {
+        throw new MyCollabException("Must be implemented in the sub class");
+    }
 
-	public void removeTitleStyleName(String styleName) {
-		throw new MyCollabException("Must be implemented in the sub class");
-	}
+    public void removeTitleStyleName(String styleName) {
+        throw new MyCollabException("Must be implemented in the sub class");
+    }
 
-	public void setTitle(String title) {
-		throw new MyCollabException("Must be implemented in the sub class");
-	}
+    public void setTitle(String title) {
+        throw new MyCollabException("Must be implemented in the sub class");
+    }
 }

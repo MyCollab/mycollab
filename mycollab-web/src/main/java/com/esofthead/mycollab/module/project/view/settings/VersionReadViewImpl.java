@@ -32,7 +32,7 @@ import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemCo
 import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
 import com.esofthead.mycollab.module.project.ui.components.ProjectActivityComponent;
 import com.esofthead.mycollab.module.project.ui.format.VersionFieldFormatter;
-import com.esofthead.mycollab.module.project.view.bug.components.ToogleBugSummaryField;
+import com.esofthead.mycollab.module.project.view.bug.components.ToggleBugSummaryField;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
@@ -257,7 +257,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version> implem
                 List<SimpleBug> bugs = bugService.findPagableListByCriteria(new SearchRequest<>(searchCriteria, i + 1, 20));
                 if (CollectionUtils.isNotEmpty(bugs)) {
                     for (SimpleBug bug : bugs) {
-                        ToogleBugSummaryField toogleBugSummaryField = new ToogleBugSummaryField(bug);
+                        ToggleBugSummaryField toggleBugSummaryField = new ToggleBugSummaryField(bug);
 
                         MHorizontalLayout rowComp = new MHorizontalLayout();
                         rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
@@ -272,7 +272,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version> implem
                         Img img = new Img(bug.getAssignuserFullName(), avatarLink).setTitle(bug.getAssignuserFullName());
                         rowComp.with(new ELabel(img.write(), ContentMode.HTML));
 
-                        rowComp.with(toogleBugSummaryField).expand(toogleBugSummaryField);
+                        rowComp.with(toggleBugSummaryField).expand(toggleBugSummaryField);
                         issueLayout.add(rowComp);
                     }
                 }

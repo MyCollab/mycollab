@@ -301,9 +301,9 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
                                 Img img = new Img(genericTask.getAssignUserFullName(), avatarLink).setTitle(genericTask
                                         .getAssignUserFullName());
 
-                                ToogleGenericTaskSummaryField toogleGenericTaskSummaryField = new ToogleGenericTaskSummaryField(genericTask);
+                                ToggleGenericTaskSummaryField toggleGenericTaskSummaryField = new ToggleGenericTaskSummaryField(genericTask);
                                 rowComp.with(new ELabel(img.write(), ContentMode.HTML).withWidthUndefined(),
-                                        toogleGenericTaskSummaryField).expand(toogleGenericTaskSummaryField);
+                                        toggleGenericTaskSummaryField).expand(toggleGenericTaskSummaryField);
                                 assignmentsLayout.add(rowComp);
                             }
                             this.push();

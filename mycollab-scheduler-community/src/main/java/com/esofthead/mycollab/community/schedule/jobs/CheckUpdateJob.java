@@ -14,11 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-scheduler-community.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.schedule.jobs;
+package com.esofthead.mycollab.community.schedule.jobs;
 
 import com.esofthead.mycollab.core.MyCollabVersion;
 import com.esofthead.mycollab.core.NewUpdateAvailableNotification;
 import com.esofthead.mycollab.core.NotificationBroadcaster;
+import com.esofthead.mycollab.schedule.jobs.GenericQuartzJobBean;
 import com.google.gson.Gson;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;

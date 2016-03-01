@@ -31,7 +31,7 @@ import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.view.ProjectView;
 import com.esofthead.mycollab.module.project.view.bug.components.BugSavedFilterComboBox;
-import com.esofthead.mycollab.module.project.view.bug.components.ToogleBugSummaryField;
+import com.esofthead.mycollab.module.project.view.bug.components.ToggleBugSummaryField;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
@@ -222,7 +222,7 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
 
             BugPopupFieldFactory popupFieldFactory = ViewManager.getCacheComponent(BugPopupFieldFactory.class);
             MHorizontalLayout headerLayout = new MHorizontalLayout();
-            ToogleBugSummaryField bugLinkLbl = new ToogleBugSummaryField(bug, 70);
+            ToggleBugSummaryField bugLinkLbl = new ToggleBugSummaryField(bug, 70);
 
             if (bug.isCompleted()) {
                 bugLinkLbl.addStyleName("completed");

@@ -14,11 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-scheduler-community.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.schedule.spring;
+package com.esofthead.mycollab.community.schedule.spring;
 
 import com.esofthead.mycollab.schedule.AutowiringSpringBeanJobFactory;
 import com.esofthead.mycollab.schedule.QuartzScheduleProperties;
-import com.esofthead.mycollab.schedule.jobs.CheckUpdateJob;
+import com.esofthead.mycollab.community.schedule.jobs.CheckUpdateJob;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;

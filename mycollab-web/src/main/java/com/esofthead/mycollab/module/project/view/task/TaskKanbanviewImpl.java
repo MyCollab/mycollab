@@ -39,7 +39,7 @@ import com.esofthead.mycollab.module.project.view.kanban.AddNewColumnWindow;
 import com.esofthead.mycollab.module.project.view.kanban.DeleteColumnWindow;
 import com.esofthead.mycollab.module.project.view.task.components.TaskSavedFilterComboBox;
 import com.esofthead.mycollab.module.project.view.task.components.TaskSearchPanel;
-import com.esofthead.mycollab.module.project.view.task.components.ToogleTaskSummaryField;
+import com.esofthead.mycollab.module.project.view.task.components.ToggleTaskSummaryField;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.AsyncInvoker;
@@ -311,9 +311,9 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
 
             MHorizontalLayout headerLayout = new MHorizontalLayout();
 
-            ToogleTaskSummaryField toogleTaskSummaryField = new ToogleTaskSummaryField(task, 70);
+            ToggleTaskSummaryField toggleTaskSummaryField = new ToggleTaskSummaryField(task, 70, false);
             PopupView priorityField = popupFieldFactory.createPriorityPopupField(task);
-            headerLayout.with(priorityField, toogleTaskSummaryField).expand(toogleTaskSummaryField);
+            headerLayout.with(priorityField, toggleTaskSummaryField).expand(toggleTaskSummaryField);
 
             root.with(headerLayout);
 

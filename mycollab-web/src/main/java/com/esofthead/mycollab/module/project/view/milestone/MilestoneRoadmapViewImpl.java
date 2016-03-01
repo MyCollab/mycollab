@@ -246,8 +246,8 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
         MilestoneBlock(final SimpleMilestone milestone) {
             this.setStyleName("roadmap-block");
 
-            ToogleMilestoneSummaryField toogleMilestoneSummaryField = new ToogleMilestoneSummaryField(milestone);
-            this.with(toogleMilestoneSummaryField).expand(toogleMilestoneSummaryField);
+            ToggleMilestoneSummaryField toggleMilestoneSummaryField = new ToggleMilestoneSummaryField(milestone);
+            this.with(toggleMilestoneSummaryField).expand(toggleMilestoneSummaryField);
 
             CssLayout metaBlock = new CssLayout();
             MilestonePopupFieldFactory popupFieldFactory = ViewManager.getCacheComponent(MilestonePopupFieldFactory.class);
@@ -295,7 +295,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
                         List<ProjectGenericTask> genericTasks = genericTaskService.findPagableListByCriteria(new
                                 SearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
                         for (ProjectGenericTask genericTask : genericTasks) {
-                            ToogleGenericTaskSummaryField toogleGenericTaskSummaryField = new ToogleGenericTaskSummaryField(genericTask);
+                            ToggleGenericTaskSummaryField toggleGenericTaskSummaryField = new ToggleGenericTaskSummaryField(genericTask);
                             MHorizontalLayout rowComp = new MHorizontalLayout();
                             rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
                             rowComp.with(new ELabel(ProjectAssetsManager.getAsset(genericTask.getType()).getHtml(), ContentMode.HTML).withWidthUndefined());
@@ -304,7 +304,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
                                     .getAssignUserFullName());
                             rowComp.with(new ELabel(img.write(), ContentMode.HTML).withWidthUndefined());
 
-                            rowComp.with(toogleGenericTaskSummaryField).expand(toogleGenericTaskSummaryField);
+                            rowComp.with(toggleGenericTaskSummaryField).expand(toggleGenericTaskSummaryField);
                             issueLayout.addComponent(rowComp);
 
                         }

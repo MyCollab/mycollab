@@ -33,27 +33,31 @@ import com.hp.gagawa.java.elements.Span;
 import com.vaadin.data.Property;
 import com.vaadin.event.FieldEvents;
 import com.vaadin.event.LayoutEvents;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.teemu.VaadinIcons;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
  * @author MyCollab Ltd
  * @since 5.2.3
  */
-public class ToogleMilestoneSummaryField extends CssLayout {
+public class ToggleMilestoneSummaryField extends CssLayout {
     private boolean isRead = true;
     private ELabel milestoneLbl;
+    private MHorizontalLayout buttonControls;
     private SimpleMilestone milestone;
     private int maxLength;
 
-    ToogleMilestoneSummaryField(final SimpleMilestone milestone) {
+    ToggleMilestoneSummaryField(final SimpleMilestone milestone) {
         this(milestone, Integer.MAX_VALUE);
     }
 
-    ToogleMilestoneSummaryField(final SimpleMilestone milestone, int maxLength) {
+    ToggleMilestoneSummaryField(final SimpleMilestone milestone, int maxLength) {
         this.milestone = milestone;
         this.maxLength = maxLength;
         this.setWidth("100%");
@@ -61,22 +65,22 @@ public class ToogleMilestoneSummaryField extends CssLayout {
         milestoneLbl.addStyleName(ValoTheme.LABEL_NO_MARGIN);
         milestoneLbl.addStyleName(UIConstants.LABEL_WORD_WRAP);
         this.addComponent(milestoneLbl);
+        buttonControls = new MHorizontalLayout().withStyleName
+                ("toggle").withSpacing(false);
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES)) {
             this.addStyleName("editable-field");
-            this.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
+            Button instantEditBtn = new Button(null, new Button.ClickListener() {
                 @Override
-                public void layoutClick(LayoutEvents.LayoutClickEvent event) {
-                    if (event.getClickedComponent() == milestoneLbl) {
-                        return;
-                    }
+                public void buttonClick(Button.ClickEvent clickEvent) {
                     if (isRead) {
-                        ToogleMilestoneSummaryField.this.removeComponent(milestoneLbl);
+                        ToggleMilestoneSummaryField.this.removeComponent(milestoneLbl);
+                        ToggleMilestoneSummaryField.this.removeComponent(buttonControls);
                         final TextField editField = new TextField();
                         editField.setValue(milestone.getName());
                         editField.setWidth("100%");
                         editField.focus();
-                        ToogleMilestoneSummaryField.this.addComponent(editField);
-                        ToogleMilestoneSummaryField.this.removeStyleName("editable-field");
+                        ToggleMilestoneSummaryField.this.addComponent(editField);
+                        ToggleMilestoneSummaryField.this.removeStyleName("editable-field");
                         editField.addValueChangeListener(new Property.ValueChangeListener() {
                             @Override
                             public void valueChange(Property.ValueChangeEvent event) {
@@ -91,16 +95,22 @@ public class ToogleMilestoneSummaryField extends CssLayout {
                         });
                         isRead = !isRead;
                     }
-
                 }
             });
+            instantEditBtn.setDescription("Edit task name");
+            instantEditBtn.addStyleName(ValoTheme.BUTTON_ICON_ONLY);
+            instantEditBtn.addStyleName(ValoTheme.BUTTON_ICON_ALIGN_TOP);
+            instantEditBtn.setIcon(FontAwesome.EDIT);
+            buttonControls.with(instantEditBtn);
+            this.addComponent(buttonControls);
         }
     }
 
     private void updateFieldValue(TextField editField) {
-        ToogleMilestoneSummaryField.this.removeComponent(editField);
-        ToogleMilestoneSummaryField.this.addComponent(milestoneLbl);
-        ToogleMilestoneSummaryField.this.addStyleName("editable-field");
+        removeComponent(editField);
+        addComponent(milestoneLbl);
+        addComponent(buttonControls);
+        addStyleName("editable-field");
         String newValue = editField.getValue();
         if (StringUtils.isNotBlank(newValue) && !newValue.equals(milestone.getName())) {
             milestone.setName(newValue);

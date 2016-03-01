@@ -73,7 +73,7 @@ public class TaskDefaultFormLayoutFactory {
                 .fieldIndex(7).build());
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(Task.Field.milestoneid).required(true)
-                .displayName(AppContext.getMessage(TaskI18nEnum.FORM_MILESTONE))
+                .displayName(AppContext.getMessage(TaskI18nEnum.FORM_PHASE))
                 .fieldIndex(8).build());
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(Task.Field.percentagecomplete)

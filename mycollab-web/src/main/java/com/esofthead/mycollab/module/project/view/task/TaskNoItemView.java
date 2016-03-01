@@ -55,7 +55,7 @@ public class TaskNoItemView extends ProjectListNoItemView {
 
     @Override
     protected String actionMessage() {
-        return AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASKGROUP);
+        return AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASK);
     }
 
     @Override
