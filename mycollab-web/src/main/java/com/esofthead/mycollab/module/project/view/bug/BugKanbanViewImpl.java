@@ -110,18 +110,18 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
 
         searchPanel.addHeaderRight(groupWrapLayout);
 
-        Button advanceDisplayBtn = new Button(null, new Button.ClickListener() {
+        Button advanceDisplayBtn = new Button("List", new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 EventBusFactory.getInstance().post(new BugEvent.GotoList(BugKanbanViewImpl.this, null));
             }
         });
-        advanceDisplayBtn.setWidth("50px");
+        advanceDisplayBtn.setWidth("100px");
         advanceDisplayBtn.setIcon(FontAwesome.SITEMAP);
         advanceDisplayBtn.setDescription("Detail");
 
-        Button kanbanBtn = new Button();
-        kanbanBtn.setWidth("50px");
+        Button kanbanBtn = new Button("Kanban");
+        kanbanBtn.setWidth("100px");
         kanbanBtn.setDescription("Kanban View");
         kanbanBtn.setIcon(FontAwesome.TH);
 
@@ -352,7 +352,7 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
             headerLayout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
 
             OptionPopupContent popupContent = new OptionPopupContent();
-            Button addBtn = new Button("Add a bug", new Button.ClickListener() {
+            Button addBtn = new Button("New issue", new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
                     addNewBugComp();
@@ -363,7 +363,7 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
             popupContent.addOption(addBtn);
             controlsBtn.setContent(popupContent);
 
-            Button addNewBtn = new Button("Add a bug", new Button.ClickListener() {
+            Button addNewBtn = new Button("New issue", new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
                     addNewBugComp();

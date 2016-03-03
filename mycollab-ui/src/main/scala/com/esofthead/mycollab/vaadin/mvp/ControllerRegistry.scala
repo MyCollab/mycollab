@@ -27,13 +27,13 @@ import scala.collection.mutable._
   */
 object ControllerRegistry {
   def addController(controller: AbstractController): Unit = {
-    var controllerList: Map[Class[_], AbstractController] = (MyCollabSession.getVariable(CONTROLLER_REGISTRY).
+    var controllerList = (MyCollabSession.getVariable(CONTROLLER_REGISTRY).
       asInstanceOf[Map[Class[_], AbstractController]])
     if (controllerList == null) {
       controllerList = Map().withDefaultValue(null)
       MyCollabSession.putVariable(CONTROLLER_REGISTRY, controllerList)
     }
-    val existingController: AbstractController = controllerList(controller.getClass)
+    val existingController = controllerList(controller.getClass)
     if (existingController != null) {
       existingController.unregisterAll
     }

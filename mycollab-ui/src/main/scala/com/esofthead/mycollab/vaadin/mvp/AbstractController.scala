@@ -22,20 +22,20 @@ import com.google.common.eventbus.EventBus
 import scala.collection.mutable._
 
 /**
- * @author MyCollab Ltd
- * @since 5.0.9
- */
+  * @author MyCollab Ltd
+  * @since 5.0.9
+  */
 @SerialVersionUID(1L)
-class AbstractController extends Serializable{
-    private val eventBus:EventBus = EventBusFactory.getInstance()
-    private val subscribers:Buffer[AnyRef] =  Buffer();
+class AbstractController extends Serializable {
+  private val eventBus: EventBus = EventBusFactory.getInstance()
+  private val subscribers: Buffer[AnyRef] = Buffer();
 
-    def register(subscriber: AnyRef): Unit = {
-        eventBus.register(subscriber)
-        subscribers += subscriber
-    }
+  def register(subscriber: AnyRef): Unit = {
+    eventBus.register(subscriber)
+    subscribers += subscriber
+  }
 
-    def unregisterAll {
-        subscribers.foreach(subscriber => eventBus.unregister(subscriber))
-    }
+  def unregisterAll {
+    subscribers.foreach(subscriber => eventBus.unregister(subscriber))
+  }
 }

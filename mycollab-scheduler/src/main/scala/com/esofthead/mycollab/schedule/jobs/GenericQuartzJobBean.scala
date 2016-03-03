@@ -26,7 +26,7 @@ import org.springframework.scheduling.quartz.QuartzJobBean
   * @since 4.6.0
   */
 abstract class GenericQuartzJobBean extends QuartzJobBean {
-    private val LOG: Logger = LoggerFactory.getLogger(classOf[GenericQuartzJobBean])
+    private val LOG = LoggerFactory.getLogger(classOf[GenericQuartzJobBean])
 
     @throws(classOf[JobExecutionException])
     protected def executeInternal(context: JobExecutionContext) {
@@ -50,5 +50,5 @@ abstract class GenericQuartzJobBean extends QuartzJobBean {
 }
 
 object GenericQuartzJobBean {
-    private var isSendingDbError: Boolean = false
+    private var isSendingDbError = false
 }

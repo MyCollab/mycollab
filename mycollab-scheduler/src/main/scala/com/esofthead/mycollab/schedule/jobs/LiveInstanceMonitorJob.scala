@@ -17,8 +17,8 @@
 package com.esofthead.mycollab.schedule.jobs
 
 import com.esofthead.mycollab.common.domain.LiveInstance
-import com.esofthead.mycollab.core.MyCollabVersion
-import com.esofthead.mycollab.core.utils.MiscUtils
+import com.esofthead.mycollab.core.utils.BeanUtility
+import com.esofthead.mycollab.core.{MyCollabVersion, SystemProperties}
 import com.esofthead.mycollab.module.project.dao.ProjectMapper
 import com.esofthead.mycollab.module.project.domain.ProjectExample
 import com.esofthead.mycollab.module.user.dao.UserMapper
@@ -50,12 +50,13 @@ class LiveInstanceMonitorJob extends GenericQuartzJobBean {
     liveInstance.setAppversion(MyCollabVersion.getVersion())
     liveInstance.setInstalleddate(new DateTime().toDate())
     liveInstance.setJavaversion(System.getProperty("java.version"))
-    liveInstance.setSysid(MiscUtils.getMacAddressOfServer())
+    liveInstance.setSysid(SystemProperties.getId)
     liveInstance.setSysproperties(System.getProperty("os.arch") + ":" + System.getProperty("os.name") + ":" +
       System.getProperty("os.name"))
     liveInstance.setNumprojects(numProjects)
     liveInstance.setNumusers(numUsers)
     val restTemplate = new RestTemplate()
     restTemplate.postForObject("https://api.mycollab.com/api/checkInstance", liveInstance, classOf[String])
+    System.out.println(BeanUtility.printBeanObj(liveInstance))
   }
 }

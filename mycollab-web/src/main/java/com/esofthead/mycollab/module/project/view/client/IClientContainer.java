@@ -14,16 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.project.events
+package com.esofthead.mycollab.module.project.view.client;
 
-import com.esofthead.mycollab.eventmanager.ApplicationEvent
+import com.esofthead.mycollab.vaadin.mvp.PageView;
 
 /**
- * @author MyCollab Ltd.
- * @since 5.0.3
+ * @author MyCollab Ltd
+ * @since 5.2.9
  */
-object FollowingTicketEvent {
-
-    class GotoMyFollowingItems(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
-
+public interface IClientContainer extends PageView {
 }

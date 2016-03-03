@@ -28,7 +28,6 @@ import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
-import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.esofthead.mycollab.vaadin.web.ui.ServiceMenu;
@@ -58,11 +57,6 @@ public class ProjectModule extends AbstractPageView implements IDesktopModule {
         ControllerRegistry.addController(new ProjectModuleController(this));
     }
 
-    public void gotoProjectPage() {
-        UserDashboardPresenter presenter = PresenterResolver.getPresenter(UserDashboardPresenter.class);
-        presenter.go(this, null);
-    }
-
     @Override
     public MHorizontalLayout buildMenu() {
         if (serviceMenuContainer == null) {
@@ -75,19 +69,11 @@ public class ProjectModule extends AbstractPageView implements IDesktopModule {
                     serviceMenu.selectService(0);
                 }
             });
-            serviceMenu.addService("Timesheet", new Button.ClickListener() {
+            serviceMenu.addService("Clients", new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
-                    EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, new String[]{"timetracking"}));
+                    EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, new String[]{"client"}));
                     serviceMenu.selectService(1);
-                }
-            });
-            serviceMenu.addService("Calendar", new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent clickEvent) {
-                    EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, new String[]{"calendar"}));
-                    serviceMenu.selectService(1);
-
                 }
             });
 

@@ -17,6 +17,7 @@
 
 package com.esofthead.mycollab.module.project.view;
 
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
@@ -41,5 +42,6 @@ public class UserDashboardPresenter extends AbstractPresenter<UserDashboardView>
         prjContainer.removeAllComponents();
         prjContainer.addComponent(view);
         view.lazyLoadView();
+        AppContext.addFragment("project", "Project");
     }
 }

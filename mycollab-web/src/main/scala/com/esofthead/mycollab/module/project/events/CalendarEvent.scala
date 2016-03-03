@@ -25,7 +25,5 @@ import com.esofthead.mycollab.module.project.domain.criteria.ProjectGenericTaskS
   */
 object CalendarEvent {
 
-  class GotoCalendarView(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
-
   class SearchRequest(source: AnyRef, data: ProjectGenericTaskSearchCriteria) extends ApplicationEvent(source, data) {};
 }

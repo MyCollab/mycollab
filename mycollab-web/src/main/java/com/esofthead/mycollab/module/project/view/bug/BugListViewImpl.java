@@ -204,18 +204,18 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
         newBugBtn.setStyleName(UIConstants.BUTTON_ACTION);
         groupWrapLayout.addComponent(newBugBtn);
 
-        Button advanceDisplayBtn = new Button();
-        advanceDisplayBtn.setWidth("50px");
+        Button advanceDisplayBtn = new Button("List");
+        advanceDisplayBtn.setWidth("100px");
         advanceDisplayBtn.setIcon(FontAwesome.SITEMAP);
         advanceDisplayBtn.setDescription("Detail");
 
-        Button kanbanBtn = new Button(null, new Button.ClickListener() {
+        Button kanbanBtn = new Button("Kanban", new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
                 displayKanbanView();
             }
         });
-        kanbanBtn.setWidth("50px");
+        kanbanBtn.setWidth("100px");
         kanbanBtn.setDescription("Kanban View");
         kanbanBtn.setIcon(FontAwesome.TH);
 

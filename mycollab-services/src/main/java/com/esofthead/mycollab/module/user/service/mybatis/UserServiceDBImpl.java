@@ -103,8 +103,6 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
     public void saveUserAccount(SimpleUser record, Integer sAccountId, String inviteUser) {
         billingPlanCheckerService.validateAccountCanCreateNewUser(sAccountId);
 
-        SimpleUser inviterUserEntity = findUserByUserNameInAccount(inviteUser, sAccountId);
-
         // check if user email has already in this account yet
         UserAccountExample userAccountEx = new UserAccountExample();
 

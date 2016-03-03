@@ -151,7 +151,7 @@ public class DefaultScheduleConfiguration {
     public CronTriggerFactoryBean liveInstanceMonitorTrigger() {
         CronTriggerFactoryBean bean = new CronTriggerFactoryBean();
         bean.setJobDetail(liveInstanceMonitorJob().getObject());
-        bean.setCronExpression("0 0 7 * * ?");
+        bean.setCronExpression("0 0 6 * * ?");
         return bean;
     }
 

@@ -312,7 +312,7 @@ public class ProjectAddWindow extends Window implements WizardProgressListener {
             DynaForm defaultForm = new DynaForm();
             DynaSection mainSection = new DynaSectionBuilder().layoutType(DynaSection.LayoutType.TWO_COLUMN).build();
 
-            mainSection.addField(new TextDynaFieldBuilder().fieldName(Project.Field.account).displayName(AppContext
+            mainSection.addField(new TextDynaFieldBuilder().fieldName(Project.Field.accountid).displayName(AppContext
                     .getMessage(ProjectI18nEnum.FORM_ACCOUNT_NAME)).fieldIndex(0).colSpan(true).build());
 
             mainSection.addField(new TextDynaFieldBuilder().fieldName(Project.Field.currencyid).displayName
@@ -367,7 +367,7 @@ public class ProjectAddWindow extends Window implements WizardProgressListener {
             protected Field<?> onCreateField(final Object propertyId) {
                 if (Project.Field.currencyid.equalTo(propertyId)) {
                     return new CurrencyComboBoxField();
-                } else if (Project.Field.account.equalTo(propertyId)) {
+                } else if (Project.Field.accountid.equalTo(propertyId)) {
                     return new AccountSelectionField();
                 }
                 return null;

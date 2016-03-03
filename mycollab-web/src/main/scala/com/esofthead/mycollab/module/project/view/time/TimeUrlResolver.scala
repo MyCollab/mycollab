@@ -27,23 +27,24 @@ import com.esofthead.mycollab.module.project.view.parameters.{ProjectScreenData,
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain
 
 /**
- * @author MyCollab Ltd
- * @since 5.0.9
- */
+  * @author MyCollab Ltd
+  * @since 5.0.9
+  */
 class TimeUrlResolver extends ProjectUrlResolver {
-    this.addSubResolver("list", new ListUrlResolver)
+  this.addSubResolver("list", new ListUrlResolver)
 
-    private class ListUrlResolver extends ProjectUrlResolver {
-        protected override def handlePage(params: String*) {
-            val projectId: Integer = new UrlTokenizer(params(0)).getInt
-            val searchCriteria: ItemTimeLoggingSearchCriteria = new ItemTimeLoggingSearchCriteria
-            searchCriteria.setProjectIds(new SetSearchField[Integer](projectId))
-            searchCriteria.addExtraField(DateParam.inRangeDate(ItemTimeLoggingSearchCriteria.p_logDates,
-                VariableInjecter.THIS_WEEK));
-            val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId),
-                new TimeTrackingScreenData.Search(searchCriteria))
-            EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
-        }
+  private class ListUrlResolver extends ProjectUrlResolver {
+    protected override def handlePage(params: String*) {
+      val projectId = new UrlTokenizer(params(0)).getInt
+      val searchCriteria = new ItemTimeLoggingSearchCriteria
+      searchCriteria.setProjectIds(new SetSearchField[Integer](projectId))
+      searchCriteria.addExtraField(DateParam.inRangeDate(ItemTimeLoggingSearchCriteria.p_logDates,
+        VariableInjecter.THIS_WEEK));
+      val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
+        new TimeTrackingScreenData.Search(searchCriteria))
+      EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
     }
+  }
 
 }
+

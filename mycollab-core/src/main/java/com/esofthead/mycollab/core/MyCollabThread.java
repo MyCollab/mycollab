@@ -22,8 +22,8 @@ package com.esofthead.mycollab.core;
  */
 public class MyCollabThread extends Thread {
 
-    public MyCollabThread(Runnable runable) {
-        super(runable);
+    public MyCollabThread(Runnable runnable) {
+        super(runnable);
         setExceptionHandler();
     }
 

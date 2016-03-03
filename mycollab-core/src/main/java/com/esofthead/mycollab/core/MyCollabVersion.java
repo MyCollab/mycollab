@@ -16,12 +16,6 @@
  */
 package com.esofthead.mycollab.core;
 
-import com.esofthead.mycollab.core.utils.FileUtils;
-import org.apache.commons.io.IOUtils;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,19 +28,7 @@ public class MyCollabVersion {
     public static final String THEME_MOBILE_VERSION = "mycollab_20151229";
 
     public static String getVersion() {
-        try {
-            File pricingFile = FileUtils.getDesireFile(System.getProperty("user.dir"), "version", "src/main/conf/version");
-            InputStream pricingStream;
-            if (pricingFile != null) {
-                pricingStream = new FileInputStream(pricingFile);
-            } else {
-                pricingStream = MyCollabVersion.class.getClassLoader().getResourceAsStream("version");
-            }
-
-            return IOUtils.toString(pricingStream, "UTF-8").replace("\n","");
-        } catch (Exception e) {
-            return "5.2.8";
-        }
+        return "5.2.8";
     }
 
     static int[] getVersionNumbers(String ver) {

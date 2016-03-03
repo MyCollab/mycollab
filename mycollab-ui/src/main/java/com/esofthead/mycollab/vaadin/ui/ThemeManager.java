@@ -267,7 +267,7 @@ public class ThemeManager {
             extraStyles.append("div.v-button.token-field { background-color: " + ColorUtils.brighterColor("#" +
                     accountTheme.getActionbtn()) + "; }");
 
-            extraStyles.append("span.block {background-color: " + ColorUtils.brighterColor("#" + accountTheme.getActionbtn()) + ";}");
+            extraStyles.append(".block {background-color: " + ColorUtils.brighterColor("#" + accountTheme.getActionbtn()) + ";}");
 
             extraStyles.append(".v-context-menu-container .v-context-menu .v-context-submenu:hover " +
                     "{background-color:#" + accountTheme.getActionbtn() + ";}");
@@ -295,7 +295,7 @@ public class ThemeManager {
 
             extraStyles.append("div.v-button.token-field { color: #" + accountTheme.getActionbtntext() + "; }");
 
-            extraStyles.append("span.block {color:#" + accountTheme.getActionbtntext() + ";}");
+            extraStyles.append(".block {color:#" + accountTheme.getActionbtntext() + ";}");
 
             extraStyles.append(".v-context-menu-container .v-context-menu .v-context-submenu:hover " +
                     "{color:#" + accountTheme.getActionbtntext() + ";}");

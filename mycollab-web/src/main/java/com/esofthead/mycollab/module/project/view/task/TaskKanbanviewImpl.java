@@ -62,9 +62,13 @@ import com.vaadin.event.dd.acceptcriteria.Not;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.shared.ui.colorpicker.Color;
 import com.vaadin.shared.ui.dd.HorizontalDropLocation;
 import com.vaadin.shared.ui.dd.VerticalDropLocation;
 import com.vaadin.ui.*;
+import com.vaadin.ui.components.colorpicker.ColorChangeEvent;
+import com.vaadin.ui.components.colorpicker.ColorChangeListener;
+import com.vaadin.ui.components.colorpicker.ColorPickerPopup;
 import fi.jasoft.dragdroplayouts.DDHorizontalLayout;
 import fi.jasoft.dragdroplayouts.DDVerticalLayout;
 import fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode;
@@ -121,7 +125,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
         groupWrapLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
         searchPanel.addHeaderRight(groupWrapLayout);
 
-        Button addNewColumnBtn = new Button("Add a new column", new Button.ClickListener() {
+        Button addNewColumnBtn = new Button("New column", new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 UI.getCurrent().addWindow(new AddNewColumnWindow(TaskKanbanviewImpl.this, ProjectTypeConstants.TASK));
@@ -142,18 +146,18 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
         deleteColumBtn.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS));
         deleteColumBtn.setStyleName(UIConstants.BUTTON_DANGER);
 
-        Button advanceDisplayBtn = new Button(null, new Button.ClickListener() {
+        Button advanceDisplayBtn = new Button("List", new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
                 EventBusFactory.getInstance().post(new TaskEvent.GotoDashboard(TaskKanbanviewImpl.this, null));
             }
         });
-        advanceDisplayBtn.setWidth("50px");
+        advanceDisplayBtn.setWidth("100px");
         advanceDisplayBtn.setIcon(FontAwesome.SITEMAP);
         advanceDisplayBtn.setDescription("Advance View");
 
-        Button kanbanBtn = new Button();
-        kanbanBtn.setWidth("50px");
+        Button kanbanBtn = new Button("Kanban");
+        kanbanBtn.setWidth("100px");
         kanbanBtn.setDescription("Kanban View");
         kanbanBtn.setIcon(FontAwesome.TH);
 
@@ -347,7 +351,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
             root = new MVerticalLayout();
             root.setWidth("300px");
             root.addStyleName("kanban-block");
-            String optionId = UUID.randomUUID().toString() + "-" + stage.hashCode();
+            final String optionId = UUID.randomUUID().toString() + "-" + stage.hashCode();
             root.setId(optionId);
             this.setCompositionRoot(root);
             JavaScript.getCurrent().execute("$('#" + optionId + "').css({'background-color':'#" + stage.getColor() + "'});");
@@ -440,9 +444,32 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
                     UI.getCurrent().addWindow(new RenameColumnWindow());
                 }
             });
-            renameColumnBtn.setIcon(FontAwesome.PENCIL);
+            renameColumnBtn.setIcon(FontAwesome.EDIT);
             renameColumnBtn.setEnabled(canExecute);
             popupContent.addOption(renameColumnBtn);
+
+            Button changeColorBtn = new Button("Change color", new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent clickEvent) {
+                    ColumnColorPickerWindow popup = new ColumnColorPickerWindow(Color.CYAN);
+                    UI.getCurrent().addWindow(popup);
+                    popup.addColorChangeListener(new ColorChangeListener() {
+                        @Override
+                        public void colorChanged(ColorChangeEvent colorChangeEvent) {
+                            Color color = colorChangeEvent.getColor();
+                            String colorStr = color.getCSS().substring(1);
+                            OptionValService optionValService = ApplicationContextUtil.getSpringBean(OptionValService.class);
+                            optionVal.setColor(colorStr);
+                            optionValService.updateWithSession(optionVal, AppContext.getUsername());
+                            JavaScript.getCurrent().execute("$('#" + optionId + "').css({'background-color':'#" + colorStr + "'});");
+                        }
+                    });
+                    controlsBtn.setPopupVisible(false);
+                }
+            });
+            changeColorBtn.setIcon(FontAwesome.PENCIL);
+            changeColorBtn.setEnabled(canExecute);
+            popupContent.addOption(changeColorBtn);
 
             Button deleteColumnBtn = new Button("Delete column", new Button.ClickListener() {
                 @Override
@@ -477,7 +504,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
 
             popupContent.addSeparator();
 
-            Button addBtn = new Button("Add a task", new Button.ClickListener() {
+            Button addBtn = new Button("New task", new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
                     controlsBtn.setPopupVisible(false);
@@ -489,7 +516,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
             popupContent.addOption(addBtn);
             controlsBtn.setContent(popupContent);
 
-            Button addNewBtn = new Button("Add a task", new Button.ClickListener() {
+            Button addNewBtn = new Button("New task", new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
                     addNewTaskComp();
@@ -625,6 +652,13 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
                         .with(cancelBtn, saveBtn);
                 content.with(gridFormLayoutHelper.getLayout(), buttonControls).withAlign(buttonControls, Alignment.MIDDLE_RIGHT);
             }
+        }
+    }
+
+    class ColumnColorPickerWindow extends ColorPickerPopup {
+        ColumnColorPickerWindow(Color intialColor) {
+            super(intialColor);
+            this.center();
         }
     }
 }

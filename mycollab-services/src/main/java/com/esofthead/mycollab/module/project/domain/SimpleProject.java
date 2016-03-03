@@ -25,8 +25,6 @@ public class SimpleProject extends Project {
 
     private String createUserFullName;
 
-    private String accountName;
-
     private int numOpenBugs;
 
     private int numBugs;
@@ -55,6 +53,9 @@ public class SimpleProject extends Project {
 
     private String leadAvatarId;
 
+    private String clientName;
+
+
     @NotBindable
     private ProjectCustomizeView customizeView;
 
@@ -67,14 +68,6 @@ public class SimpleProject extends Project {
 
     public void setCreateUserFullName(String createUserFullName) {
         this.createUserFullName = createUserFullName;
-    }
-
-    public String getAccountName() {
-        return accountName;
-    }
-
-    public void setAccountName(String accountName) {
-        this.accountName = accountName;
     }
 
     public int getNumOpenBugs() {
@@ -211,6 +204,14 @@ public class SimpleProject extends Project {
 
     public void setLeadAvatarId(String leadAvatarId) {
         this.leadAvatarId = leadAvatarId;
+    }
+
+    public String getClientName() {
+        return clientName;
+    }
+
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
     }
 
     public enum Field {

@@ -109,6 +109,14 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
                 metaDiv.appendChild(0, leadDiv);
                 metaDiv.appendChild(1, DivLessFormatter.EMPTY_SPACE());
             }
+
+            if (project.getAccountid() != null) {
+                Div accountDiv = new Div().appendText(FontAwesome.INSTITUTION.getHtml() + " ").appendChild(new A("")
+                        .appendText(StringUtils.trim(project.getClientName(), 30, true))).setCSSClass("block")
+                        .setTitle(project.getClientName());
+                metaDiv.appendChild(0, accountDiv);
+                metaDiv.appendChild(1, DivLessFormatter.EMPTY_SPACE());
+            }
             metaDiv.setCSSClass("flex");
             metaInfo.addComponent(new ELabel(metaDiv.write(), ContentMode.HTML).withStyleName(UIConstants
                     .LABEL_META_INFO).withWidthUndefined());

@@ -21,6 +21,7 @@ import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.shell.view.MainView;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
+import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
@@ -46,8 +47,8 @@ public class ProjectModulePresenter extends AbstractPresenter<ProjectModule> {
 
         String[] params = (String[]) data.getParams();
         if (params == null || params.length == 0) {
-            view.gotoProjectPage();
-            AppContext.addFragment("project", "Project");
+            UserDashboardPresenter presenter = PresenterResolver.getPresenter(UserDashboardPresenter.class);
+            presenter.go(view, null);
         } else {
             DesktopApplication.rootUrlResolver.getSubResolver("project").handle(params);
         }

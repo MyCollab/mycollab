@@ -107,6 +107,13 @@ public class ProjectInfoComponent extends MHorizontalLayout {
         MHorizontalLayout footer = new MHorizontalLayout();
         footer.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
         footer.addStyleName(UIConstants.LABEL_META_INFO);
+        if (project.getAccountid() != null) {
+            Button accountBtn = new Button(project.getClientName());
+            accountBtn.setIcon(FontAwesome.INSTITUTION);
+            accountBtn.setStyleName(ValoTheme.BUTTON_SMALL);
+            accountBtn.addStyleName(UIConstants.BUTTON_BLOCK);
+            footer.addComponent(accountBtn);
+        }
         if (project.getLead() != null) {
             Div leadAvatar = new DivLessFormatter().appendChild(new Img("", StorageFactory.getInstance().getAvatarPath
                     (project.getLeadAvatarId(), 16)), new A(ProjectLinkBuilder.generateProjectMemberFullLink(project.getId(),

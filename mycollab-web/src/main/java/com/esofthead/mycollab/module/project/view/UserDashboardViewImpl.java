@@ -30,9 +30,9 @@ import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.mvp.view.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.mvp.view.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.SafeHtmlLabel;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
@@ -69,6 +69,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
     private UserProjectDashboardPresenter userProjectDashboardPresenter;
     private FollowingTicketPresenter followingTicketPresenter;
     private TimeTrackingPresenter timeTrackingPresenter;
+    private ICalendarDashboardPresenter calendarPresenter;
     private SettingPresenter settingPresenter;
 
     public UserDashboardViewImpl() {
@@ -84,6 +85,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
         final TabSheet tabSheet = new TabSheet();
         tabSheet.addTab(buildDashboardComp(), "Dashboard", FontAwesome.DASHBOARD);
         tabSheet.addTab(buildFollowingTicketComp(), "Following Items", FontAwesome.EYE);
+        tabSheet.addTab(buildCalendarComp(), "Calendar", FontAwesome.CALENDAR);
         tabSheet.addTab(buildTimesheetComp(), "Time", FontAwesome.CLOCK_O);
 //        tabSheet.addTab(buildSettingComp(), "Settings", FontAwesome.COG);
         tabSheet.addSelectedTabChangeListener(new TabSheet.SelectedTabChangeListener() {
@@ -98,6 +100,8 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
                     timeTrackingPresenter.onGo(UserDashboardViewImpl.this, null);
                 } else if (comp instanceof SettingView) {
                     settingPresenter.onGo(UserDashboardViewImpl.this, null);
+                } else if (comp instanceof ICalendarDashboardView) {
+                    calendarPresenter.go(UserDashboardViewImpl.this, null);
                 }
             }
         });
@@ -130,6 +134,11 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
     private Component buildTimesheetComp() {
         timeTrackingPresenter = PresenterResolver.getPresenter(TimeTrackingPresenter.class);
         return timeTrackingPresenter.getView();
+    }
+
+    private Component buildCalendarComp() {
+        calendarPresenter = PresenterResolver.getPresenter(ICalendarDashboardPresenter.class);
+        return calendarPresenter.getView();
     }
 
     private Component buildSettingComp() {

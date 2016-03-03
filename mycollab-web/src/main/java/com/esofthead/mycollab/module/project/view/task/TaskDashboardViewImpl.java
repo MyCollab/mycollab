@@ -214,18 +214,18 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
         newTaskBtn.setStyleName(UIConstants.BUTTON_ACTION);
         groupWrapLayout.addComponent(newTaskBtn);
 
-        Button advanceDisplayBtn = new Button();
-        advanceDisplayBtn.setWidth("50px");
+        Button advanceDisplayBtn = new Button("List");
+        advanceDisplayBtn.setWidth("100px");
         advanceDisplayBtn.setIcon(FontAwesome.SITEMAP);
         advanceDisplayBtn.setDescription("Advance View");
 
-        Button kanbanBtn = new Button(null, new Button.ClickListener() {
+        Button kanbanBtn = new Button("Kanban", new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
                 displayKanbanView();
             }
         });
-        kanbanBtn.setWidth("50px");
+        kanbanBtn.setWidth("100px");
         kanbanBtn.setDescription("Kanban View");
         kanbanBtn.setIcon(FontAwesome.TH);
 

@@ -36,9 +36,9 @@ public class CalendarDashboardPresenter extends AbstractPresenter<ICalendarDashb
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        ProjectModule prjContainer = (ProjectModule) container;
-        prjContainer.removeAllComponents();
-        prjContainer.with(view).withAlign(view, Alignment.TOP_CENTER);
+//        ProjectModule prjContainer = (ProjectModule) container;
+//        prjContainer.removeAllComponents();
+//        prjContainer.with(view).withAlign(view, Alignment.TOP_CENTER);
         view.display();
 
         AppContext.addFragment("project/calendar", "Calendar");

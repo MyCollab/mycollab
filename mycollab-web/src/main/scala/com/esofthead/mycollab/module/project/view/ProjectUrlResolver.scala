@@ -14,13 +14,30 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
+/**
+  * This file is part of mycollab-web.
+  *
+  * mycollab-web is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 3 of the License, or
+  * (at your option) any later version.
+  *
+  * mycollab-web is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
+  */
 package com.esofthead.mycollab.module.project.view
 
 import com.esofthead.mycollab.common.UrlTokenizer
 import com.esofthead.mycollab.eventmanager.EventBusFactory
-import com.esofthead.mycollab.module.project.events.{CalendarEvent, FollowingTicketEvent, ProjectEvent, TimeTrackingEvent}
+import com.esofthead.mycollab.module.project.events.ProjectEvent
 import com.esofthead.mycollab.module.project.service.ProjectService
 import com.esofthead.mycollab.module.project.view.bug.BugUrlResolver
+import com.esofthead.mycollab.module.project.view.client.ClientUrlResolver
 import com.esofthead.mycollab.module.project.view.file.ProjectFileUrlResolver
 import com.esofthead.mycollab.module.project.view.message.MessageUrlResolver
 import com.esofthead.mycollab.module.project.view.milestone.MilestoneUrlResolver
@@ -60,12 +77,11 @@ class ProjectUrlResolver extends UrlResolver {
     this.addSubResolver("setting", new SettingUrlResolver)
     this.addSubResolver("time", new TimeUrlResolver)
     this.addSubResolver("file", new ProjectFileUrlResolver)
-    this.addSubResolver("following", new FollowingTicketsResolver)
-    this.addSubResolver("timetracking", new TimeTrackingResolver)
     this.addSubResolver("component", new ComponentUrlResolver)
     this.addSubResolver("version", new VersionUrlResolver)
     this.addSubResolver("roadmap", new RoadmapUrlResolver)
     this.addSubResolver("calendar", new CalendarUrlResolver)
+    this.addSubResolver("client", new ClientUrlResolver)
     return this
   }
 
@@ -109,7 +125,7 @@ class ProjectUrlResolver extends UrlResolver {
         EventBusFactory.getInstance.post(new ShellEvent.GotoProjectModule(this, null))
       } else {
         val projectId = new UrlTokenizer(params(0)).getInt
-        val prjService: ProjectService = ApplicationContextUtil.getSpringBean(classOf[ProjectService])
+        val prjService = ApplicationContextUtil.getSpringBean(classOf[ProjectService])
         val project = prjService.findById(projectId, AppContext.getAccountId)
         if (project != null) {
           val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new ProjectScreenData.Edit(project))
@@ -131,32 +147,12 @@ class ProjectUrlResolver extends UrlResolver {
     }
   }
 
-  private class FollowingTicketsResolver extends ProjectUrlResolver {
-    protected override def handlePage(params: String*) {
-      val prjService: ProjectService = ApplicationContextUtil.getSpringBean(classOf[ProjectService])
-      val prjKeys: java.util.List[Integer] = prjService.getProjectKeysUserInvolved(AppContext.getUsername, AppContext.getAccountId)
-      EventBusFactory.getInstance.post(new FollowingTicketEvent.GotoMyFollowingItems(this, prjKeys))
-    }
-  }
-
-  private class TimeTrackingResolver extends ProjectUrlResolver {
-    protected override def handlePage(params: String*) {
-      val prjService = ApplicationContextUtil.getSpringBean(classOf[ProjectService])
-      val prjKeys: java.util.List[Integer] = prjService.getProjectKeysUserInvolved(AppContext.getUsername, AppContext.getAccountId)
-      EventBusFactory.getInstance.post(new TimeTrackingEvent.GotoTimeTrackingView(this, prjKeys))
-    }
-  }
-
   private class CalendarUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*): Unit = {
       if (params.size > 0) {
         val projectId = new UrlTokenizer(params(0)).getInt
         val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new GotoCalendarView)
         EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
-      } else {
-        val prjService = ApplicationContextUtil.getSpringBean(classOf[ProjectService])
-        val prjKeys: java.util.List[Integer] = prjService.getProjectKeysUserInvolved(AppContext.getUsername, AppContext.getAccountId)
-        EventBusFactory.getInstance.post(new CalendarEvent.GotoCalendarView(this, prjKeys))
       }
     }
   }

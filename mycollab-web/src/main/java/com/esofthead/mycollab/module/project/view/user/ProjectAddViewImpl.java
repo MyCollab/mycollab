@@ -132,7 +132,7 @@ public class ProjectAddViewImpl extends AbstractPageView implements ProjectAddVi
                 tf.setRequired(true);
                 tf.setRequiredError("Please enter a Name");
                 return tf;
-            } else if (Project.Field.account.equalTo(propertyId)) {
+            } else if (Project.Field.accountid.equalTo(propertyId)) {
                 return new AccountSelectionField();
             } else if (Project.Field.lead.equalTo(propertyId)) {
                 return new ProjectMemberSelectionField();

@@ -24,18 +24,17 @@ import com.esofthead.mycollab.module.project.view.parameters.{FileScreenData, Pr
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain
 
 /**
- * @author MyCollab Ltd
- * @since 5.0.9
- */
+  * @author MyCollab Ltd
+  * @since 5.0.9
+  */
 class ProjectFileUrlResolver extends ProjectUrlResolver {
-    this.addSubResolver("dashboard", new ListUrlResolver)
+  this.addSubResolver("dashboard", new ListUrlResolver)
 
-    private class ListUrlResolver extends ProjectUrlResolver {
-        protected override def handlePage(params: String*) {
-            val projectId = new UrlTokenizer(params(0)).getInt
-            val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new FileScreenData.GotoDashboard)
-            EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
-        }
+  private class ListUrlResolver extends ProjectUrlResolver {
+    protected override def handlePage(params: String*) {
+      val projectId = new UrlTokenizer(params(0)).getInt
+      val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new FileScreenData.GotoDashboard)
+      EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
     }
-
+  }
 }
