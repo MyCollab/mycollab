@@ -49,6 +49,7 @@
     m_monitor_item*,
     m_options*,
     m_prj_customize_view*,
+    m_prj_kanban_board*,
     m_prj_member*,
     m_prj_message*,
     m_prj_milestone*,
@@ -925,6 +926,17 @@
     displayFile CDATA #REQUIRED
 >
 
+<!ELEMENT m_prj_kanban_board EMPTY>
+<!ATTLIST m_prj_kanban_board
+    id CDATA #REQUIRED
+    name CDATA #REQUIRED
+    projectId CDATA #REQUIRED
+    sAccountId CDATA #REQUIRED
+    lead CDATA #IMPLIED
+    createdTime CDATA #REQUIRED
+    lastUpdatedTime CDATA #REQUIRED
+>
+
 <!ELEMENT m_prj_member EMPTY>
 <!ATTLIST m_prj_member
     id CDATA #REQUIRED
@@ -1002,7 +1014,7 @@
     id CDATA #REQUIRED
     name CDATA #REQUIRED
     createUser CDATA #IMPLIED
-    account CDATA #IMPLIED
+    accountId CDATA #IMPLIED
     priority CDATA #IMPLIED
     shortname CDATA #REQUIRED
     planStartDate CDATA #IMPLIED
