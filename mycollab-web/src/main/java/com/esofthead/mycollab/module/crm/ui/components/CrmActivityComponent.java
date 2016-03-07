@@ -107,7 +107,7 @@ public class CrmActivityComponent extends MVerticalLayout implements ReloadableC
         });
 
         MHorizontalLayout headerPanel = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true))
-                .withStyleName("section").withWidth("100%")
+                .withStyleName(UIConstants.FORM_SECTION).withWidth("100%")
                 .with(headerLbl, sortDirection).withAlign(headerLbl, Alignment.MIDDLE_LEFT).withAlign(sortDirection, Alignment.MIDDLE_RIGHT);
 
         commentBox = new CrmCommentInput(this, type);
@@ -145,10 +145,8 @@ public class CrmActivityComponent extends MVerticalLayout implements ReloadableC
         final int logCount = auditLogService.getTotalCount(logCriteria);
         setTotalNums(commentCount + logCount);
 
-        List<SimpleComment> comments = commentService.findPagableListByCriteria(new SearchRequest<>
-                (commentCriteria, 0, Integer.MAX_VALUE));
-        List<SimpleAuditLog> auditLogs = auditLogService.findPagableListByCriteria(new SearchRequest<>
-                (logCriteria, 0, Integer.MAX_VALUE));
+        List<SimpleComment> comments = commentService.findPagableListByCriteria(new SearchRequest<>(commentCriteria, 0, Integer.MAX_VALUE));
+        List<SimpleAuditLog> auditLogs = auditLogService.findPagableListByCriteria(new SearchRequest<>(logCriteria, 0, Integer.MAX_VALUE));
         List activities = new ArrayList(commentCount + logCount);
         activities.addAll(comments);
         activities.addAll(auditLogs);
@@ -278,7 +276,7 @@ public class CrmActivityComponent extends MVerticalLayout implements ReloadableC
                 FieldGroupFormatter.FieldDisplayHandler fieldDisplayHandler = groupFormatter.getFieldDisplayHandler(fieldName);
                 if (fieldDisplayHandler != null) {
                     Span fieldBlock = new Span().appendText(AppContext.getMessage(fieldDisplayHandler.getDisplayName
-                            ())).setCSSClass("block");
+                            ())).setCSSClass(UIConstants.BUTTON_BLOCK);
                     Div historyDiv = new Div().appendChild(fieldBlock).appendText(fieldDisplayHandler.getFormat()
                             .toString(item.getOldvalue())).appendText(" " + FontAwesome.LONG_ARROW_RIGHT.getHtml() +
                             " ").appendText(fieldDisplayHandler.getFormat().toString(item.getNewvalue()));

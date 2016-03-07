@@ -64,6 +64,10 @@ public class ProjectLinkGenerator {
         return siteUrl + GenericLinkUtils.URL_PREFIX_PARAM + generateMilestonePreviewLink(projectId, milestoneId);
     }
 
+    public static String generateClientPreviewLink(Integer accountId) {
+        return "project/client/preview/" + UrlEncodeDecoder.encode(accountId);
+    }
+
     public static String generatePagesLink(Integer projectId, String folderPath) {
         return "project/page/list/" + GenericLinkUtils.encodeParam(projectId, folderPath);
     }

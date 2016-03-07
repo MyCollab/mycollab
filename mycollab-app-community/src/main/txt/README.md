@@ -55,6 +55,7 @@ Version 5.3.0
 * [Premium] Option management is added
 * [Premium] New user group for task and bug views
 * [Premium] Can add many kanban boards in a project
+* [Premium] Add client management in project module
 * Related bug is revised
 * Show template icon if the project is the template one
 * Allow to change color column of Kanban board

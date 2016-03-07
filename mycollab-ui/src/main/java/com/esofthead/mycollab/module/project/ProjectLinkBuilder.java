@@ -136,6 +136,11 @@ public class ProjectLinkBuilder {
                 + ProjectLinkGenerator.generateMilestonePreviewLink(projectId, milestoneId);
     }
 
+    public static String generateClientPreviewFullLink(Integer clientId) {
+        return AppContext.getSiteUrl() + GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator
+                .generateClientPreviewLink(clientId);
+    }
+
     public static final String generatePageFolderFullLink(Integer projectId, String folderPath) {
         if (projectId == null || folderPath == null) {
             return "";

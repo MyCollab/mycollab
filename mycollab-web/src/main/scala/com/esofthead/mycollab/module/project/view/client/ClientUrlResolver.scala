@@ -16,10 +16,15 @@
  */
 package com.esofthead.mycollab.module.project.view.client
 
+import com.esofthead.mycollab.common.UrlTokenizer
 import com.esofthead.mycollab.eventmanager.EventBusFactory
-import com.esofthead.mycollab.module.project.events.ClientEvent
+import com.esofthead.mycollab.module.project.domain.SimpleRisk
+import com.esofthead.mycollab.module.project.events.ClientEvent.{GotoAdd, GotoRead}
+import com.esofthead.mycollab.module.project.events.{ProjectEvent, ClientEvent}
 import com.esofthead.mycollab.module.project.view.ProjectUrlResolver
+import com.esofthead.mycollab.module.project.view.parameters.{RiskScreenData, ProjectScreenData}
 import com.esofthead.mycollab.shell.events.ShellEvent
+import com.esofthead.mycollab.vaadin.mvp.PageActionChain
 
 /**
   * @author MyCollab Ltd
@@ -27,10 +32,26 @@ import com.esofthead.mycollab.shell.events.ShellEvent
   */
 class ClientUrlResolver extends ProjectUrlResolver {
   this.addSubResolver("list", new ListUrlResolver)
+  this.addSubResolver("preview", new PreviewUrlResolver)
+  this.addSubResolver("add", new AddUrlResolver)
 
   private class ListUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
       EventBusFactory.getInstance.post(new ClientEvent.GotoList(this, null))
+    }
+  }
+
+  private class PreviewUrlResolver extends ProjectUrlResolver {
+    protected override def handlePage(params: String*) {
+      val token = new UrlTokenizer(params(0))
+      val clientId = token.getInt
+      EventBusFactory.getInstance.post(new GotoRead(this, clientId))
+    }
+  }
+
+  private class AddUrlResolver extends ProjectUrlResolver {
+    protected override def handlePage(params: String*) {
+      EventBusFactory.getInstance.post(new GotoAdd(this, null))
     }
   }
 

@@ -125,7 +125,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
 
         this.addComponent(header);
 
-        watcherLayout = new MCssLayout().withFullWidth().withStyleName("flex");
+        watcherLayout = new MCssLayout().withFullWidth().withStyleName(UIConstants.FLEX_DISPLAY);
         this.addComponent(watcherLayout);
         loadWatchers();
     }

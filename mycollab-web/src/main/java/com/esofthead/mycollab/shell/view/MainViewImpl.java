@@ -73,7 +73,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.joda.time.LocalDate;
-import org.joda.time.LocalDateTime;
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.sliderpanel.SliderPanel;
 import org.vaadin.sliderpanel.SliderPanelBuilder;
@@ -143,6 +142,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         bodyLayout.addStyleName("main-view");
         bodyLayout.setId("main-body");
         bodyLayout.setSizeFull();
+
         this.with(createTopMenu(), bodyLayout, createFooter()).expand(bodyLayout);
     }
 

@@ -29,39 +29,36 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 3.0
- * 
  */
-
 @ViewComponent
 public class AccountListViewImpl extends AbstractListViewComp<AccountSearchCriteria, SimpleAccount> implements AccountListView {
-	private static final long serialVersionUID = -500810154594390148L;
+    private static final long serialVersionUID = -500810154594390148L;
 
-	public AccountListViewImpl() {
-		super();
-		setCaption(AppContext.getMessage(AccountI18nEnum.VIEW_LIST_TITLE));
-	}
+    public AccountListViewImpl() {
+        super();
+        setCaption(AppContext.getMessage(AccountI18nEnum.VIEW_LIST_TITLE));
+    }
 
-	@Override
-	protected AbstractPagedBeanList<AccountSearchCriteria, SimpleAccount> createBeanTable() {
-		AccountListDisplay accountListDisplay = new AccountListDisplay();
-		return accountListDisplay;
-	}
+    @Override
+    protected AbstractPagedBeanList<AccountSearchCriteria, SimpleAccount> createBeanTable() {
+        AccountListDisplay accountListDisplay = new AccountListDisplay();
+        return accountListDisplay;
+    }
 
-	@Override
-	protected Component createRightComponent() {
-		Button addAccount = new Button();
-		addAccount.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+    @Override
+    protected Component createRightComponent() {
+        Button addAccount = new Button();
+        addAccount.addClickListener(new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(Button.ClickEvent arg0) {
-				EventBusFactory.getInstance().post(new AccountEvent.GotoAdd(this, null));
-			}
-		});
-		addAccount.setStyleName("add-btn");
-		return addAccount;
-	}
+            @Override
+            public void buttonClick(Button.ClickEvent arg0) {
+                EventBusFactory.getInstance().post(new AccountEvent.GotoAdd(this, null));
+            }
+        });
+        addAccount.setStyleName("add-btn");
+        return addAccount;
+    }
 }

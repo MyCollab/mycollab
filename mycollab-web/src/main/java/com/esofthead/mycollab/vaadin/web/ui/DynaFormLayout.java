@@ -80,7 +80,7 @@ public class DynaFormLayout implements IDynaFormLayout {
 
             if (StringUtils.isNotBlank(section.getHeader())) {
                 Label header = new Label(section.getHeader());
-                MCssLayout formSection = new MCssLayout(header).withStyleName("section").withFullWidth();
+                MCssLayout formSection = new MCssLayout(header).withStyleName(UIConstants.FORM_SECTION).withFullWidth();
                 layout.addComponent(formSection);
             }
 

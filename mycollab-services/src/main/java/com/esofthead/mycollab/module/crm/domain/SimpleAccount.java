@@ -33,6 +33,8 @@ public class SimpleAccount extends Account {
 
     private String assignUserFullName;
 
+    private Integer numProjects;
+
     public String getCreatedUserAvatarId() {
         return createdUserAvatarId;
     }
@@ -71,6 +73,14 @@ public class SimpleAccount extends Account {
 
     public void setAssignUserFullName(String assignUserFullName) {
         this.assignUserFullName = assignUserFullName;
+    }
+
+    public Integer getNumProjects() {
+        return numProjects;
+    }
+
+    public void setNumProjects(Integer numProjects) {
+        this.numProjects = numProjects;
     }
 
     public enum Field {

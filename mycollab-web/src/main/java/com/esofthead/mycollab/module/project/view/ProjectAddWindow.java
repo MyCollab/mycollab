@@ -66,6 +66,10 @@ public class ProjectAddWindow extends Window implements WizardProgressListener {
     private BillingAccountStep billingAccountStep;
 
     public ProjectAddWindow() {
+        this(new Project());
+    }
+
+    public ProjectAddWindow(Project valuePrj) {
         setCaption(AppContext.getMessage(ProjectI18nEnum.VIEW_NEW_TITLE));
         this.setWidth("900px");
         this.center();
@@ -75,7 +79,7 @@ public class ProjectAddWindow extends Window implements WizardProgressListener {
         MVerticalLayout contentLayout = new MVerticalLayout().withSpacing(false).withMargin(new MarginInfo(false, false, true, false));
         setContent(contentLayout);
 
-        project = new Project();
+        project = valuePrj;
 
         wizard = new ProjectAddWizard();
         infoStep = new GeneralInfoStep();

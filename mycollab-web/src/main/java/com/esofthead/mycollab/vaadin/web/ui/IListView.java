@@ -1,5 +1,3 @@
-package com.esofthead.mycollab.vaadin.web.ui;
-
 /**
  * This file is part of mycollab-web.
  *
@@ -16,6 +14,7 @@ package com.esofthead.mycollab.vaadin.web.ui;
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
+package com.esofthead.mycollab.vaadin.web.ui;
 
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.vaadin.events.HasMassItemActionHandler;

@@ -7,6 +7,7 @@
         <result column="createdUserFullName" jdbcType="VARCHAR" property="createdUserFullName" />
         <result column="assignUserAvatarId" jdbcType="VARCHAR" property="assignUserAvatarId" />
         <result column="assignUserFullName" jdbcType="VARCHAR" property="assignUserFullName" />
+        <result column="numProjects" jdbcType="INTEGER" property="numProjects" />
     </resultMap>
 
 
@@ -177,7 +178,8 @@
                s_user.avatarId AS assignUserAvatarId, 
                LTRIM(concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname)) as assignUserFullName,
                createdUserTabl.avatarId AS createdUserAvatarId,
-               LTRIM(concat(createdUserTabl.firstname, ' ', LTRIM(concat(IFNULL(createdUserTabl.middlename, ''), ' ')), createdUserTabl.lastname)) as createdUserFullName
+               LTRIM(concat(createdUserTabl.firstname, ' ', LTRIM(concat(IFNULL(createdUserTabl.middlename, ''), ' ')), createdUserTabl.lastname)) as createdUserFullName,
+               (SELECT COUNT(*) FROM m_prj_project WHERE m_crm_account.id=m_prj_project.accountId) AS numProjects
         FROM m_crm_account
             LEFT OUTER JOIN s_user ON m_crm_account.assignUser = s_user.username
             LEFT OUTER JOIN s_user AS createdUserTabl ON (m_crm_account.createdUser = createdUserTabl.username)
@@ -192,7 +194,7 @@
                 ${orderField.field} ${orderField.direction},
             #end
         #end
-        m_crm_account.lastUpdatedTime DESC
+        m_crm_account.lastUpdatedTime DESC, m_crm_account.accountName ASC
         ]]>
     </sql>
 

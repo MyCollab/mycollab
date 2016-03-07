@@ -79,7 +79,7 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
                     ProjectLinkBuilder.generateProjectFullLink(project.getId()));
             projectLbl.addStyleName(ValoTheme.LABEL_BOLD);
             projectLbl.addStyleName(ValoTheme.LABEL_NO_MARGIN);
-            projectLbl.addStyleName("text-ellipsis");
+            projectLbl.addStyleName(UIConstants.TEXT_ELLIPSIS);
             projectLbl.setWidth("100%");
             projectLbl.setDescription(ProjectTooltipGenerator.generateToolTipProject(AppContext.getUserLocale(),
                     project, AppContext.getSiteUrl(), AppContext.getUserTimezone()));
@@ -111,13 +111,14 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
             }
 
             if (project.getAccountid() != null) {
-                Div accountDiv = new Div().appendText(FontAwesome.INSTITUTION.getHtml() + " ").appendChild(new A("")
-                        .appendText(StringUtils.trim(project.getClientName(), 30, true))).setCSSClass("block")
+                Div accountDiv = new Div().appendText(FontAwesome.INSTITUTION.getHtml() + " ")
+                        .appendChild(new A(ProjectLinkBuilder.generateClientPreviewFullLink(project.getAccountid()))
+                        .appendText(StringUtils.trim(project.getClientName(), 30, true))).setCSSClass(UIConstants.BUTTON_BLOCK)
                         .setTitle(project.getClientName());
                 metaDiv.appendChild(0, accountDiv);
                 metaDiv.appendChild(1, DivLessFormatter.EMPTY_SPACE());
             }
-            metaDiv.setCSSClass("flex");
+            metaDiv.setCSSClass(UIConstants.FLEX_DISPLAY);
             metaInfo.addComponent(new ELabel(metaDiv.write(), ContentMode.HTML).withStyleName(UIConstants
                     .LABEL_META_INFO).withWidthUndefined());
 

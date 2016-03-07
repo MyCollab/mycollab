@@ -108,9 +108,10 @@ public class ProjectInfoComponent extends MHorizontalLayout {
         footer.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
         footer.addStyleName(UIConstants.LABEL_META_INFO);
         if (project.getAccountid() != null) {
-            Button accountBtn = new Button(project.getClientName());
-            accountBtn.setIcon(FontAwesome.INSTITUTION);
-            accountBtn.setStyleName(ValoTheme.BUTTON_SMALL);
+            Div clientDiv = new Div().appendText(FontAwesome.INSTITUTION.getHtml() + " ").appendChild(new A
+                    (ProjectLinkBuilder.generateClientPreviewFullLink(project.getAccountid()))
+                    .appendText(project.getClientName()));
+            ELabel accountBtn = new ELabel(clientDiv.write(), ContentMode.HTML);
             accountBtn.addStyleName(UIConstants.BUTTON_BLOCK);
             footer.addComponent(accountBtn);
         }

@@ -88,6 +88,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
         tabSheet.addTab(buildCalendarComp(), "Calendar", FontAwesome.CALENDAR);
         tabSheet.addTab(buildTimesheetComp(), "Time", FontAwesome.CLOCK_O);
 //        tabSheet.addTab(buildSettingComp(), "Settings", FontAwesome.COG);
+
         tabSheet.addSelectedTabChangeListener(new TabSheet.SelectedTabChangeListener() {
             @Override
             public void selectedTabChange(TabSheet.SelectedTabChangeEvent event) {
@@ -105,6 +106,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
                 }
             }
         });
+
         this.with(setupHeader(), tabSheet).expand(tabSheet);
         userProjectDashboardPresenter.onGo(UserDashboardViewImpl.this, null);
 

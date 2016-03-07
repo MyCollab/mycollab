@@ -33,10 +33,6 @@ public class AdvancedPreviewBeanForm<B> extends GenericBeanForm<B> implements Ha
 
     private Set<PreviewFormHandler<B>> handlers;
 
-    public AdvancedPreviewBeanForm() {
-        super();
-    }
-
     @Override
     public void addFormHandler(PreviewFormHandler<B> handler) {
         if (handlers == null) {

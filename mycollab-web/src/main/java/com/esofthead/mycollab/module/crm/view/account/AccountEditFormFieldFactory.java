@@ -33,14 +33,14 @@ import com.vaadin.ui.TextField;
  * @author MyCollab Ltd.
  * @since 3.0
  */
-class AccountEditFormFieldFactory<B extends Account> extends AbstractBeanFieldGroupEditFieldFactory<B> {
+public class AccountEditFormFieldFactory<B extends Account> extends AbstractBeanFieldGroupEditFieldFactory<B> {
     private static final long serialVersionUID = 1L;
 
-    AccountEditFormFieldFactory(GenericBeanForm<B> form) {
+    public AccountEditFormFieldFactory(GenericBeanForm<B> form) {
         super(form);
     }
 
-    AccountEditFormFieldFactory(GenericBeanForm<B> form, boolean isValidateForm) {
+    public AccountEditFormFieldFactory(GenericBeanForm<B> form, boolean isValidateForm) {
         super(form, isValidateForm);
     }
 
