@@ -34,9 +34,9 @@ import com.esofthead.mycollab.vaadin.mvp.PageView.ViewListener;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewEvent;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
-import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
-import com.esofthead.mycollab.vaadin.ui.Hr;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
+import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.B;
@@ -167,7 +167,7 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
                 Div denyLink = new Div().appendChild(new Text("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Deny: "), new A().setHref(denyLinkVal).appendText(denyLinkVal));
                 linksContainer.with(new Label(userEmailDiv.write(), ContentMode.HTML), new Label(acceptLinkDiv.write(), ContentMode.HTML),
                         new Label(denyLink.write(), ContentMode.HTML));
-                linksContainer.add(new Hr());
+                linksContainer.add(ELabel.Hr());
             }
 
             MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false));

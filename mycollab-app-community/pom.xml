@@ -101,6 +101,10 @@
                     <groupId>com.vaadin.external.google</groupId>
                     <artifactId>guava</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>javax.validation</groupId>
+                    <artifactId>validation-api</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
 
@@ -197,46 +201,6 @@
                     </execution>
                 </executions>
             </plugin>
-<!--
-            <plugin>
-                <groupId>com.akathist.maven.plugins.launch4j</groupId>
-                <artifactId>launch4j-maven-plugin</artifactId>
-                <version>1.7.8</version>
-                <executions>
-                    <execution>
-                        <id>l4j-clui</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>launch4j</goal>
-                        </goals>
-                        <configuration>
-                            <headerType>gui</headerType>
-                            <jar>${project.build.directory}/MyCollab-Generic-${project.version}.jar</jar>
-                            <outfile>${project.build.directory}/MyCollab-Installer-${project.version}.exe
-                            </outfile>
-                            <downloadUrl>http://java.com/download</downloadUrl>
-                            <icon>src/main/installer-resources/windows/MyCollab.ico</icon>
-                            <jre>
-                                <minVersion>1.7.0</minVersion>
-                                <jdkPreference>preferJre</jdkPreference>
-                            </jre>
-                            <versionInfo>
-                                <fileVersion>${project.version}.0</fileVersion>
-                                <txtFileVersion>${project.version}</txtFileVersion>
-                                <fileDescription>${project.name}</fileDescription>
-                                <copyright>©2015, MyCollab</copyright>
-                                <productVersion>${project.version}.0</productVersion>
-                                <txtProductVersion>${project.version}</txtProductVersion>
-                                <productName>MyCollab</productName>
-                                <companyName>MyCollab</companyName>
-                                <internalName>MyCollab</internalName>
-                                <originalFilename>MyCollab-${project.version}.exe</originalFilename>
-                            </versionInfo>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
@@ -278,40 +242,7 @@
                             </target>
                         </configuration>
                     </execution>
-
-                    <execution>
-                        <id>create-macos-bundle</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <configuration>
-                            <target>
-                                <taskdef name="jarbundler"
-                                         classname="net.sourceforge.jarbundler.JarBundler"
-                                         classpathref="maven.plugin.classpath"/>
-                                <jarbundler dir="target"
-                                            name="MyCollab-MacOS-${project.version}"
-                                            mainclass="com.izforge.izpack.installer.bootstrap.Installer"
-                                            jar="target/MyCollab-Generic-${project.version}.jar"
-                                            copyright="©2015, MyCollab"
-                                            bundleid="com.esofthead.mycollab"
-                                            jvmversion="1.7+"
-                                            icon="src/main/installer-resources/macos/mycollab.icns"
-                                            stubfile="src/main/installer-resources/macos/universalJavaApplicationStub"
-                                            version="${project.version}" build="${project.version} - GA"
-                                            useJavaXKey="true" showplist="true" verbose="true"/>
-                            </target>
-                        </configuration>
-                    </execution>
                 </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.esofthead.mycollab</groupId>
-                        <artifactId>jarbundler</artifactId>
-                        <version>2.4.0</version>
-                    </dependency>
-                </dependencies>
             </plugin>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>

@@ -57,6 +57,9 @@ public class BugSearchCriteria extends SearchCriteria {
     public static final Param p_duedate = new DateParam("bug-duedate",
             BugI18nEnum.FORM_DUE_DATE, "m_tracker_bug", "duedate");
 
+    public static final PropertyListParam<Integer> p_milestones = new PropertyListParam<>("bug-milestones",
+            BugI18nEnum.FORM_PHASE, "m_tracker_bug", "milestoneId");
+
     public static final Param p_priority = new StringListParam("bug-priority",
             BugI18nEnum.FORM_PRIORITY, "m_tracker_bug", "priority",
             Arrays.asList(BugPriority.Blocker.name(),
@@ -84,17 +87,15 @@ public class BugSearchCriteria extends SearchCriteria {
     public static final Param p_components = new BugTypeCustomSql("bug_components",
             BugI18nEnum.FORM_COMPONENTS, "Component");
 
-    public static final PropertyListParam p_assignee = new PropertyListParam("bug-assignuser",
+    public static final PropertyListParam<String> p_assignee = new PropertyListParam<>("bug-assignuser",
             GenericI18Enum.FORM_ASSIGNEE, "m_tracker_bug", "assignuser");
 
     public static final PropertyListParam p_projectIds = new PropertyListParam("bug-projectid", null, "m_tracker_bug",
             "projectid");
 
     private static class BugTypeCustomSql extends CustomSqlParam {
-
         private String type;
 
-        @SuppressWarnings("rawtypes")
         public BugTypeCustomSql(String id, Enum displayName, String type) {
             super(id, displayName);
             this.type = type;
@@ -138,8 +139,7 @@ public class BugSearchCriteria extends SearchCriteria {
         }
 
         @Override
-        public NoValueSearchField buildPropertyParamNotInList(String oper,
-                                                              Collection<?> values) {
+        public NoValueSearchField buildPropertyParamNotInList(String oper, Collection<?> values) {
             if (values == null || values.size() == 0) {
                 return null;
             }
@@ -177,9 +177,7 @@ public class BugSearchCriteria extends SearchCriteria {
     }
 
     private StringSearchField assignuser;
-
     private StringSearchField loguser;
-
     private DateSearchField updatedDate;
 
     private StringSearchField summary;
@@ -192,9 +190,7 @@ public class BugSearchCriteria extends SearchCriteria {
     private SetSearchField<Integer> affectedversionids;
     private SetSearchField<Integer> fixedversionids;
     private SetSearchField<Integer> versionids;
-    private SetSearchField<Integer> milestoneIds;
     private SetSearchField<String> priorities;
-    private SetSearchField<String> severities;
     private SetSearchField<String> statuses;
     private NumberSearchField projectId;
 
@@ -294,14 +290,6 @@ public class BugSearchCriteria extends SearchCriteria {
         this.priorities = priorities;
     }
 
-    public SetSearchField<String> getSeverities() {
-        return severities;
-    }
-
-    public void setSeverities(SetSearchField<String> severities) {
-        this.severities = severities;
-    }
-
     public SetSearchField<String> getStatuses() {
         return statuses;
     }
@@ -324,13 +312,5 @@ public class BugSearchCriteria extends SearchCriteria {
 
     public StringSearchField getDescription() {
         return description;
-    }
-
-    public SetSearchField<Integer> getMilestoneIds() {
-        return milestoneIds;
-    }
-
-    public void setMilestoneIds(SetSearchField<Integer> milestoneIds) {
-        this.milestoneIds = milestoneIds;
     }
 }

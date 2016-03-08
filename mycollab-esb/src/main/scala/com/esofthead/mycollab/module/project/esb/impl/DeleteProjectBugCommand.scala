@@ -16,8 +16,8 @@
  */
 package com.esofthead.mycollab.module.project.esb.impl
 
-import com.esofthead.mycollab.common.dao.CommentMapper
-import com.esofthead.mycollab.common.domain.CommentExample
+import com.esofthead.mycollab.common.dao.{CommentMapper, TagMapper}
+import com.esofthead.mycollab.common.domain.{CommentExample, TagExample}
 import com.esofthead.mycollab.module.GenericCommand
 import com.esofthead.mycollab.module.ecm.service.ResourceService
 import com.esofthead.mycollab.module.file.AttachmentUtils
@@ -34,6 +34,7 @@ import org.springframework.stereotype.Component
 @Component class DeleteProjectBugCommandImpl extends GenericCommand {
   @Autowired private val resourceService: ResourceService = null
   @Autowired private val commentMapper: CommentMapper = null
+  @Autowired private val tagMapper: TagMapper = null
 
   @AllowConcurrentEvents
   @Subscribe
@@ -41,6 +42,7 @@ import org.springframework.stereotype.Component
     for (bug <- event.bugs) {
       removeRelatedFiles(event.accountId, bug.getProjectid, bug.getId)
       removeRelatedComments(bug.getId)
+      removeRelatedTags(bug.getId)
     }
   }
 
@@ -54,5 +56,11 @@ import org.springframework.stereotype.Component
     val ex = new CommentExample
     ex.createCriteria.andTypeEqualTo(ProjectTypeConstants.BUG).andExtratypeidEqualTo(bugId)
     commentMapper.deleteByExample(ex)
+  }
+
+  private def removeRelatedTags(bugId: Integer): Unit = {
+    val ex = new TagExample
+    ex.createCriteria().andTypeEqualTo(ProjectTypeConstants.BUG).andTypeidEqualTo(bugId + "")
+    tagMapper.deleteByExample(ex)
   }
 }

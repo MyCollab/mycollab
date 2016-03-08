@@ -23,6 +23,7 @@ import com.esofthead.mycollab.common.event.TimelineTrackingUpdateEvent;
 import com.esofthead.mycollab.common.interceptor.aspect.ClassInfo;
 import com.esofthead.mycollab.common.interceptor.aspect.ClassInfoMap;
 import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
+import com.esofthead.mycollab.common.service.TagService;
 import com.esofthead.mycollab.common.service.TimelineTrackingService;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.cache.CacheKey;
@@ -145,7 +146,8 @@ public class BugServiceImpl extends DefaultService<Integer, BugWithBLOBs, BugSea
     @Override
     public void massRemoveWithSession(List<BugWithBLOBs> items, String username, Integer accountId) {
         super.massRemoveWithSession(items, username, accountId);
-        asyncEventBus.post(new CleanCacheEvent(accountId, new Class[]{ProjectService.class, ItemTimeLoggingService.class}));
+        asyncEventBus.post(new CleanCacheEvent(accountId, new Class[]{ProjectService.class, ItemTimeLoggingService
+                .class, TagService.class}));
         DeleteProjectBugEvent event = new DeleteProjectBugEvent(items.toArray(new BugWithBLOBs[items.size()]),
                 username, accountId);
         asyncEventBus.post(event);

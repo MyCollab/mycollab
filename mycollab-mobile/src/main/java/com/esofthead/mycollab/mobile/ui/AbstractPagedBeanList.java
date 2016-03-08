@@ -18,7 +18,7 @@ package com.esofthead.mycollab.mobile.ui;
 
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
-import com.esofthead.mycollab.vaadin.ui.Hr;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.vaadin.mobilecomponent.InfiniteScrollLayout;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
@@ -113,7 +113,7 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B> extends
         for (final B item : currentListData) {
             final Component row = rowDisplayHandler.generateRow(item, i);
             listContainer.addComponent(row);
-            listContainer.addComponent(new Hr());
+            listContainer.addComponent(ELabel.Hr());
             i++;
         }
     }
@@ -132,7 +132,7 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B> extends
             final Component row = rowDisplayHandler.generateRow(item, i);
             if (row != null) {
                 listContainer.addComponent(row);
-                listContainer.addComponent(new Hr());
+                listContainer.addComponent(ELabel.Hr());
             }
 
             i++;

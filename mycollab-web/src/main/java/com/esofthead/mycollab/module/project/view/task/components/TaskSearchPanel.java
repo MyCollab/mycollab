@@ -57,7 +57,6 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
             TaskSearchCriteria.p_assignee, TaskSearchCriteria.p_createtime,
             TaskSearchCriteria.p_duedate, TaskSearchCriteria.p_lastupdatedtime,
             TaskSearchCriteria.p_status, TaskSearchCriteria.p_startdate, TaskSearchCriteria.p_enddate,
-            TaskSearchCriteria.p_actualstartdate, TaskSearchCriteria.p_actualenddate,
             TaskSearchCriteria.p_milestoneId, TaskSearchCriteria.p_taskkey};
 
     @Override

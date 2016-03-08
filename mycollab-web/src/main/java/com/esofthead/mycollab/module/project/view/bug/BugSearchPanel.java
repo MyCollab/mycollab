@@ -28,6 +28,7 @@ import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.view.bug.components.BugSavedFilterComboBox;
+import com.esofthead.mycollab.module.project.view.milestone.MilestoneListSelect;
 import com.esofthead.mycollab.module.project.view.settings.component.ComponentListSelect;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberListSelect;
 import com.esofthead.mycollab.module.project.view.settings.component.VersionListSelect;
@@ -58,7 +59,7 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
     private static Param[] paramFields = new Param[]{
             BugSearchCriteria.p_textDesc, BugSearchCriteria.p_priority,
             BugSearchCriteria.p_severity, BugSearchCriteria.p_status,
-            BugSearchCriteria.p_affectedVersions,
+            BugSearchCriteria.p_milestones, BugSearchCriteria.p_affectedVersions,
             BugSearchCriteria.p_fixedVersions, BugSearchCriteria.p_components,
             BugSearchCriteria.p_assignee, BugSearchCriteria.p_resolveddate,
             BugSearchCriteria.p_duedate, BugSearchCriteria.p_createdtime,
@@ -213,6 +214,8 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
                 return new VersionListSelect();
             } else if ("bug_components".equals(fieldId)) {
                 return new ComponentListSelect();
+            } else if ("bug-milestones".equals(fieldId)) {
+                return new MilestoneListSelect();
             }
             return null;
         }

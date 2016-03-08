@@ -143,7 +143,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
     }
 
     private void initUI() {
-        HeaderWithFontAwesome headerText = ComponentUtils.headerH3(ProjectTypeConstants.MILESTONE, AppContext.getMessage
+        HeaderWithFontAwesome headerText = ComponentUtils.headerH2(ProjectTypeConstants.MILESTONE, AppContext.getMessage
                 (MilestoneI18nEnum.VIEW_LIST_TITLE));
 
         MHorizontalLayout header = new MHorizontalLayout().withStyleName("hdr-view").withWidth("100%").withMargin(true)
@@ -170,11 +170,11 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
         createBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
         layout.with(createBtn);
 
-        Button kanbanBtn = new Button();
-        kanbanBtn.setDescription("Kanban View");
+        Button kanbanBtn = new Button("Board");
+        kanbanBtn.setDescription("Board View");
         kanbanBtn.setIcon(FontAwesome.TH);
 
-        Button roadmapBtn = new Button(null, new Button.ClickListener() {
+        Button roadmapBtn = new Button("List", new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
                 EventBusFactory.getInstance().post(new MilestoneEvent.GotoRoadmap(MilestoneListViewImpl.this));

@@ -16,8 +16,8 @@
  */
 package com.esofthead.mycollab.module.project.esb.impl
 
-import com.esofthead.mycollab.common.dao.CommentMapper
-import com.esofthead.mycollab.common.domain.CommentExample
+import com.esofthead.mycollab.common.dao.{TagMapper, CommentMapper}
+import com.esofthead.mycollab.common.domain.{TagExample, CommentExample}
 import com.esofthead.mycollab.module.GenericCommand
 import com.esofthead.mycollab.module.ecm.service.ResourceService
 import com.esofthead.mycollab.module.file.AttachmentUtils
@@ -37,6 +37,7 @@ import org.springframework.stereotype.Component
   @Autowired private val resourceService: ResourceService = null
   @Autowired private val commentMapper: CommentMapper = null
   @Autowired private val predecessorMapper: PredecessorMapper = null
+  @Autowired private val tagMapper: TagMapper = null
 
   @AllowConcurrentEvents
   @Subscribe
@@ -44,6 +45,7 @@ import org.springframework.stereotype.Component
     removeRelatedFiles(event.accountId, event.projectId, event.milestoneId)
     removeRelatedComments(event.milestoneId)
     removePredecessorMilestones(event.milestoneId)
+    removeRelatedTags(event.milestoneId)
   }
 
   private def removeRelatedFiles(accountId: Integer, projectId: Integer, milestoneId: Integer) {
@@ -63,5 +65,11 @@ import org.springframework.stereotype.Component
     ex.or().andSourceidEqualTo(milestoneId).andSourcetypeEqualTo(ProjectTypeConstants.MILESTONE)
     ex.or().andDescidEqualTo(milestoneId).andDesctypeEqualTo(ProjectTypeConstants.MILESTONE)
     predecessorMapper.deleteByExample(ex);
+  }
+
+  private def removeRelatedTags(milestoneId: Integer): Unit = {
+    val ex = new TagExample
+    ex.createCriteria().andTypeEqualTo(ProjectTypeConstants.MILESTONE).andTypeidEqualTo(milestoneId + "")
+    tagMapper.deleteByExample(ex)
   }
 }

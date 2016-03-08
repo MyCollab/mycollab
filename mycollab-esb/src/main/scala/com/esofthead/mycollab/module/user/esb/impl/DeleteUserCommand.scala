@@ -31,10 +31,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 /**
-  *
   * @author MyCollab Ltd.
   * @since 1.0
-  *
   */
 @Component class DeleteUserCommand extends GenericCommand {
   @Autowired private val projectMemberMapper: ProjectMemberMapper = null

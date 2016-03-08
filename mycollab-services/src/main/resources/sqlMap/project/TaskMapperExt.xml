@@ -198,56 +198,48 @@
         ]]>
     </sql>
 
-    <select id="findByProjectAndTaskKey" parameterType="map"
-            resultMap="TaskResult" lang="velocity">
+    <select id="findByProjectAndTaskKey" parameterType="map" resultMap="TaskResult" lang="velocity">
         <include refid="selectTask"/>
         WHERE m_prj_project.shortname = @{prjShortName}
         AND m_prj_task.taskkey = @{taskkey}
         AND m_prj_task.sAccountId = @{sAccountId}
     </select>
 
-    <select id="getTotalCount" resultType="int" parameterType="TaskSearchCriteria"
-            lang="velocity">
+    <select id="getTotalCount" resultType="int" parameterType="TaskSearchCriteria" lang="velocity">
         SELECT count(*) as totalCount FROM m_prj_task
         #ifnotnull($_parameter.searchCriteria)
-        #trimext("WHERE" "AND|OR")
-        <include refid="queryTotalCountSearchCriteria"/>
-        #end
+            #trimext("WHERE" "AND|OR")
+                <include refid="queryTotalCountSearchCriteria"/>
+            #end
         #end
     </select>
 
-    <select id="findPagableListByCriteria" resultMap="TaskResult"
-            parameterType="TaskSearchCriteria" lang="velocity">
+    <select id="findPagableListByCriteria" resultMap="TaskResult" parameterType="TaskSearchCriteria" lang="velocity">
         <include refid="selectTask"/>
         #ifnotnull($_parameter.searchCriteria)
-        #trimext("WHERE" "AND|OR")
-        <include refid="querySearchCriteria"/>
-        #end
+            #trimext("WHERE" "AND|OR")
+                <include refid="querySearchCriteria"/>
+            #end
         #end
         <include refid="orderStatement"/>
     </select>
 
-    <select id="findTaskById" parameterType="java.lang.Integer"
-            resultMap="TaskResult" lang="velocity">
+    <select id="findTaskById" parameterType="java.lang.Integer" resultMap="TaskResult" lang="velocity">
         <include refid="selectTask"/>
-
         WHERE m_prj_task.id=@{taskId, jdbcType=NUMERIC}
     </select>
 
-    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer"
-            lang="velocity">
+    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer" lang="velocity">
         SELECT MIN(id) FROM m_prj_task
-
         #trimext("WHERE" "AND|OR")
-        <include refid="querySearchCriteria"/>
+            <include refid="querySearchCriteria"/>
         #end
     </select>
 
-    <select id="getPreviousItemKey" parameterType="map"
-            resultType="java.lang.Integer" lang="velocity">
+    <select id="getPreviousItemKey" parameterType="map" resultType="java.lang.Integer" lang="velocity">
         SELECT MAX(id) FROM m_prj_task
         #trimext("WHERE" "AND|OR")
-        <include refid="querySearchCriteria"/>
+            <include refid="querySearchCriteria"/>
         #end
     </select>
 
@@ -267,9 +259,9 @@
         FROM m_prj_task
         ]]>
         #ifnotnull($_parameter.searchCriteria)
-        #trimext("WHERE" "AND|OR")
-        <include refid="querySearchCriteria"/>
-        #end
+            #trimext("WHERE" "AND|OR")
+                <include refid="querySearchCriteria"/>
+            #end
         #end
         GROUP BY m_prj_task.priority
     </select>

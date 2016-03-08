@@ -39,7 +39,6 @@ import com.esofthead.mycollab.vaadin.resources.OnDemandFileDownloader;
 import com.esofthead.mycollab.vaadin.resources.StreamDownloadResourceUtil;
 import com.esofthead.mycollab.vaadin.resources.file.FileAssetsUtil;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
-import com.esofthead.mycollab.vaadin.ui.Hr;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.web.ui.*;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
@@ -362,7 +361,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
 
         private void constructBody(Folder currentFolder) {
             this.removeAllComponents();
-            this.addComponent(new Hr());
+            this.addComponent(ELabel.Hr());
 
             if (currentFolder instanceof ExternalFolder) {
                 resources = externalResourceService.getResources(((ExternalFolder) currentFolder).getExternalDrive(),
@@ -398,7 +397,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                         ComponentContainer resContainer = buildResourceRowComp(res);
                         if (resContainer != null) {
                             this.addComponent(buildResourceRowComp(res));
-                            this.addComponent(new Hr());
+                            this.addComponent(ELabel.Hr());
                         }
                     }
                 } else if (resources.size() > pageNavigator.pageItemNum) {
@@ -407,7 +406,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                         ComponentContainer resContainer = buildResourceRowComp(res);
                         if (resContainer != null) {
                             this.addComponent(buildResourceRowComp(res));
-                            this.addComponent(new Hr());
+                            this.addComponent(ELabel.Hr());
                         }
                     }
                     this.with(pageNavigator).withAlign(pageNavigator, Alignment.MIDDLE_CENTER);
@@ -988,7 +987,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 ComponentContainer resContainer = resourcesContainer.buildResourceRowComp(res);
                 if (resContainer != null) {
                     resourcesContainer.addComponent(resContainer);
-                    resourcesContainer.addComponent(new Hr());
+                    resourcesContainer.addComponent(ELabel.Hr());
                 }
             }
             createPageControls();

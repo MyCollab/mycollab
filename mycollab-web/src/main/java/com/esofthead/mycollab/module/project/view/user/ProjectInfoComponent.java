@@ -56,10 +56,7 @@ import com.hp.gagawa.java.elements.Img;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.UI;
+import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.hene.popupbutton.PopupButton;
@@ -104,50 +101,52 @@ public class ProjectInfoComponent extends MHorizontalLayout {
         headerLbl.addStyleName("header");
         MVerticalLayout headerLayout = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, true));
 
-        MHorizontalLayout footer = new MHorizontalLayout();
-        footer.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+        CssLayout footer = new CssLayout();
         footer.addStyleName(UIConstants.LABEL_META_INFO);
-        if (project.getAccountid() != null) {
-            Div clientDiv = new Div().appendText(FontAwesome.INSTITUTION.getHtml() + " ").appendChild(new A
-                    (ProjectLinkBuilder.generateClientPreviewFullLink(project.getAccountid()))
-                    .appendText(project.getClientName()));
-            ELabel accountBtn = new ELabel(clientDiv.write(), ContentMode.HTML);
-            accountBtn.addStyleName(UIConstants.BUTTON_BLOCK);
-            footer.addComponent(accountBtn);
-        }
+        footer.addStyleName(UIConstants.FLEX_DISPLAY);
+
+        ELabel createdTimeLbl = new ELabel(FontAwesome.CLOCK_O.getHtml() + " " + AppContext.formatPrettyTime(project
+                .getCreatedtime()), ContentMode.HTML).withDescription("Created time")
+                .withStyleName(ValoTheme.LABEL_SMALL).withWidthUndefined();
+        footer.addComponents(createdTimeLbl);
+
+        billableHoursLbl = new ELabel(FontAwesome.MONEY.getHtml() + " " + NumberUtils.roundDouble(2, project.getTotalBillableHours()),
+                ContentMode.HTML).withDescription("Billable hours").withStyleName(ValoTheme.LABEL_SMALL).withWidthUndefined();
+        footer.addComponents(ELabel.EMPTY_SPACE(), billableHoursLbl);
+
+        nonBillableHoursLbl = new ELabel(FontAwesome.GIFT.getHtml() + " " + project.getTotalNonBillableHours(),
+                ContentMode.HTML).withDescription("Non billable hours").withStyleName(ValoTheme.LABEL_SMALL).withWidthUndefined();
+        footer.addComponents(ELabel.EMPTY_SPACE(), nonBillableHoursLbl);
+
         if (project.getLead() != null) {
             Div leadAvatar = new DivLessFormatter().appendChild(new Img("", StorageFactory.getInstance().getAvatarPath
                     (project.getLeadAvatarId(), 16)), new A(ProjectLinkBuilder.generateProjectMemberFullLink(project.getId(),
                     project.getLead())).appendText(StringUtils.trim(project.getLeadFullName(), 30, true)))
                     .setTitle(project.getLeadFullName());
-            ELabel leadLbl = new ELabel("Lead: " + leadAvatar.write(), ContentMode.HTML);
-            footer.addComponent(leadLbl);
+            ELabel leadLbl = new ELabel("Lead: " + leadAvatar.write(), ContentMode.HTML).withWidthUndefined();
+            footer.addComponents(ELabel.EMPTY_SPACE(), leadLbl);
         }
         if (project.getHomepage() != null) {
             ELabel homepageLbl = new ELabel(FontAwesome.WECHAT.getHtml() + " " + new A(project.getHomepage())
                     .appendText(project.getHomepage()).setTarget("_blank").write(), ContentMode.HTML)
-                    .withStyleName(ValoTheme.LABEL_SMALL);
+                    .withStyleName(ValoTheme.LABEL_SMALL).withWidthUndefined();
             homepageLbl.setDescription(AppContext.getMessage(ProjectI18nEnum.FORM_HOME_PAGE));
-            footer.addComponent(homepageLbl);
         }
 
         if (project.getNumActiveMembers() > 0) {
-            Label activeMembersLbl = new ELabel(FontAwesome.USERS.getHtml() + " " + project.getNumActiveMembers(),
-                    ContentMode.HTML).withDescription("Active members").withStyleName(ValoTheme.LABEL_SMALL);
-            footer.addComponent(activeMembersLbl);
+            ELabel activeMembersLbl = new ELabel(FontAwesome.USERS.getHtml() + " " + project.getNumActiveMembers(),
+                    ContentMode.HTML).withDescription("Active members").withStyleName(ValoTheme.LABEL_SMALL).withWidthUndefined();
+            footer.addComponents(ELabel.EMPTY_SPACE(), activeMembersLbl);
         }
 
-        Label createdTimeLbl = new ELabel(FontAwesome.CLOCK_O.getHtml() + " " + AppContext.formatPrettyTime(project.getCreatedtime()),
-                ContentMode.HTML).withDescription("Created time").withStyleName(ValoTheme.LABEL_SMALL);
-        footer.add(createdTimeLbl);
-
-        billableHoursLbl = new ELabel(FontAwesome.MONEY.getHtml() + " " + NumberUtils.roundDouble(2, project.getTotalBillableHours()),
-                ContentMode.HTML).withDescription("Billable hours").withStyleName(ValoTheme.LABEL_SMALL);
-        footer.addComponent(billableHoursLbl);
-
-        nonBillableHoursLbl = new ELabel(FontAwesome.GIFT.getHtml() + " " + project.getTotalNonBillableHours(),
-                ContentMode.HTML).withDescription("Non billable hours").withStyleName(ValoTheme.LABEL_SMALL);
-        footer.addComponent(nonBillableHoursLbl);
+        if (project.getAccountid() != null) {
+            Div clientDiv = new Div().appendText(FontAwesome.INSTITUTION.getHtml() + " ").appendChild(new A
+                    (ProjectLinkBuilder.generateClientPreviewFullLink(project.getAccountid()))
+                    .appendText(project.getClientName()));
+            ELabel accountBtn = new ELabel(clientDiv.write(), ContentMode.HTML).withStyleName(UIConstants
+                    .BUTTON_BLOCK).withWidthUndefined();
+            footer.addComponents(ELabel.EMPTY_SPACE(), accountBtn);
+        }
 
         Button eventBtn = new Button("Calendar", new Button.ClickListener() {
             @Override
@@ -158,7 +157,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
         eventBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
         eventBtn.addStyleName(UIConstants.BUTTON_OPTION);
         eventBtn.setIcon(FontAwesome.CALENDAR);
-        footer.addComponent(eventBtn);
+        footer.addComponents(ELabel.EMPTY_SPACE(), eventBtn);
 
         Button ganttChartBtn = new Button("Gantt", new Button.ClickListener() {
             @Override
@@ -169,13 +168,24 @@ public class ProjectInfoComponent extends MHorizontalLayout {
         ganttChartBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
         ganttChartBtn.addStyleName(UIConstants.BUTTON_OPTION);
         ganttChartBtn.setIcon(FontAwesome.BAR_CHART_O);
-        footer.addComponent(ganttChartBtn);
+        footer.addComponents(ELabel.EMPTY_SPACE(), ganttChartBtn);
+
+        Button tagBtn = new Button("Tag", new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                EventBusFactory.getInstance().post(new ProjectEvent.GotoTagListView(this, null));
+            }
+        });
+        tagBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
+        tagBtn.addStyleName(UIConstants.BUTTON_OPTION);
+        tagBtn.setIcon(FontAwesome.TAGS);
+        footer.addComponents(ELabel.EMPTY_SPACE(), tagBtn);
 
         headerLayout.with(headerLbl, footer);
-        this.with(headerLayout).expand(headerLayout);
 
         MHorizontalLayout topPanel = new MHorizontalLayout().withMargin(false);
-        this.with(topPanel).withAlign(topPanel, Alignment.TOP_RIGHT);
+        this.with(headerLayout, topPanel).expand(headerLayout).withAlign(topPanel, Alignment.TOP_RIGHT);
+
         if (project.isProjectArchived()) {
             Button activeProjectBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.BUTTON_ACTIVE_PROJECT), new Button.ClickListener() {
                 @Override
@@ -261,27 +271,25 @@ public class ProjectInfoComponent extends MHorizontalLayout {
             createVersionBtn.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG_VERSION));
             popupButtonsControl.addOption(createVersionBtn);
 
-            Button createRiskBtn = new Button(AppContext.getMessage(RiskI18nEnum.BUTTON_NEW_RISK),
-                    new Button.ClickListener() {
-                        @Override
-                        public void buttonClick(Button.ClickEvent event) {
-                            controlsBtn.setPopupVisible(false);
-                            EventBusFactory.getInstance().post(new RiskEvent.GotoAdd(this, null));
-                        }
-                    });
+            Button createRiskBtn = new Button(AppContext.getMessage(RiskI18nEnum.BUTTON_NEW_RISK), new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent event) {
+                    controlsBtn.setPopupVisible(false);
+                    EventBusFactory.getInstance().post(new RiskEvent.GotoAdd(this, null));
+                }
+            });
             createRiskBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.RISKS));
             createRiskBtn.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.RISK));
             popupButtonsControl.addOption(createRiskBtn);
 
             popupButtonsControl.addSeparator();
-            Button inviteMemberBtn = new Button(AppContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEES), new
-                    Button.ClickListener() {
-                        @Override
-                        public void buttonClick(Button.ClickEvent event) {
-                            controlsBtn.setPopupVisible(false);
-                            EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(this, null));
-                        }
-                    });
+            Button inviteMemberBtn = new Button(AppContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEES), new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent event) {
+                    controlsBtn.setPopupVisible(false);
+                    EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(this, null));
+                }
+            });
             inviteMemberBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS));
             inviteMemberBtn.setIcon(FontAwesome.SEND);
             popupButtonsControl.addOption(inviteMemberBtn);

@@ -199,7 +199,10 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T> extends
                 i++;
             }
         } else {
-            listContainer.addComponent(msgWhenEmptyList());
+            String msg = stringWhenEmptyList();
+            if (msg != null) {
+                listContainer.addComponent(msgWhenEmptyList());
+            }
         }
     }
 

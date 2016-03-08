@@ -218,16 +218,16 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
         createBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
         layout.with(createBtn);
 
-        Button kanbanBtn = new Button(null, new Button.ClickListener() {
+        Button kanbanBtn = new Button("Board", new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 EventBusFactory.getInstance().post(new MilestoneEvent.GotoList(MilestoneRoadmapViewImpl.this, null));
             }
         });
-        kanbanBtn.setDescription("Kanban View");
+        kanbanBtn.setDescription("Board View");
         kanbanBtn.setIcon(FontAwesome.TH);
 
-        Button roadmapBtn = new Button();
+        Button roadmapBtn = new Button("List");
         roadmapBtn.setDescription("Roadmap");
         roadmapBtn.setIcon(VaadinIcons.CUBE);
 

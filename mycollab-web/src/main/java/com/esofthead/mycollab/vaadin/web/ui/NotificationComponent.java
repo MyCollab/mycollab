@@ -30,7 +30,7 @@ import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.shell.view.components.UpgradeConfirmWindow;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.Hr;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.google.common.eventbus.Subscribe;
 import com.hp.gagawa.java.elements.Span;
 import com.vaadin.server.FontAwesome;
@@ -92,7 +92,7 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
                 comp.addStyleName("notification-type-" + item.getType());
                 notificationContainer.addComponent(comp);
                 if (i < notificationItems.size() - 1) {
-                    notificationContainer.addComponent(new Hr());
+                    notificationContainer.addComponent(ELabel.Hr());
                 }
             }
         } else {

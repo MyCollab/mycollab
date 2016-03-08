@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.Hr;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.StreamVariable;
@@ -107,7 +107,7 @@ public class ProjectCommentInputView extends AbstractMobilePageView {
             }
         });
         this.setRightComponent(postBtn);
-        content.with(commentInput, new Hr(), uploadField, statusWrapper);
+        content.with(commentInput, ELabel.Hr(), uploadField, statusWrapper);
     }
 
     private void prepareUploadField() {

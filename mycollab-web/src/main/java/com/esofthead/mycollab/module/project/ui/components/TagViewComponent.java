@@ -19,12 +19,14 @@ package com.esofthead.mycollab.module.project.ui.components;
 import com.esofthead.mycollab.common.domain.Tag;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.TagService;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
+import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
@@ -133,7 +135,8 @@ public class TagViewComponent extends CssLayout {
             return Collections.emptyList();
         }
         suggestedTags = tagService.findTagsInAccount(query, new String[]{ProjectTypeConstants.BUG,
-                ProjectTypeConstants.TASK}, AppContext.getAccountId());
+                        ProjectTypeConstants.TASK, ProjectTypeConstants.MILESTONE, ProjectTypeConstants.RISK},
+                AppContext.getAccountId());
         return new ArrayList<Object>(suggestedTags);
     }
 
@@ -163,7 +166,7 @@ public class TagViewComponent extends CssLayout {
             Button tagLink = new Button(tag.getName(), new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
-//                    EventBusFactory.getInstance().post(new ProjectEvent.GotoTagListView(TagBlock.this, tag));
+                    EventBusFactory.getInstance().post(new ProjectEvent.GotoTagListView(TagBlock.this, tag));
                 }
             });
             tagLink.setStyleName(UIConstants.BUTTON_LINK);

@@ -34,7 +34,6 @@ import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
-import com.esofthead.mycollab.vaadin.ui.Hr;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.esofthead.mycollab.vaadin.web.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
@@ -163,7 +162,7 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
         ELabel memberLinkLbl = new ELabel(memberLink.write(), ContentMode.HTML).withStyleName(ValoTheme.LABEL_H3);
         memberLinkLbl.addStyleName(ValoTheme.LABEL_NO_MARGIN);
         memberInfo.addComponent(memberLinkLbl);
-        memberInfo.addComponent(new Hr());
+        memberInfo.addComponent(ELabel.Hr());
 
         Label memberEmailLabel = new Label(String.format("<a href='mailto:%s'>%s</a>", member.getUsername(),
                 member.getUsername()), ContentMode.HTML);

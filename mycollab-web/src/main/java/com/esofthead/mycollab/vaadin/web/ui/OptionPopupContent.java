@@ -16,8 +16,7 @@
  */
 package com.esofthead.mycollab.vaadin.web.ui;
 
-
-import com.esofthead.mycollab.vaadin.ui.Hr;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.vaadin.ui.*;
 
 /**
@@ -59,7 +58,7 @@ public class OptionPopupContent extends CustomComponent {
     }
 
     public void addSeparator() {
-        ((ComponentContainer) this.getCompositionRoot()).addComponent(new Hr());
+        ((ComponentContainer) this.getCompositionRoot()).addComponent(ELabel.Hr());
     }
 
     public void addSection(String title) {

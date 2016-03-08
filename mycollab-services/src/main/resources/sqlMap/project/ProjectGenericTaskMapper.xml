@@ -68,7 +68,7 @@
             )
         #end
 
-         #ifnotnull($searchCriteria.milestoneId)
+        #ifnotnull($searchCriteria.milestoneId)
             ${searchCriteria.milestoneId.operation} m_prj_risk.milestoneId = @{searchCriteria.milestoneId.value}
         #end
 
@@ -88,6 +88,18 @@
         
         #ifnotnull($searchCriteria.dueDate)
             ${searchCriteria.dueDate.operation} CAST(m_prj_risk.datedue AS DATE ) ${searchCriteria.dueDate.comparison} @{searchCriteria.dueDate.value}
+        #end
+
+        #ifnotnull($searchCriteria.tagNames)
+            ${searchCriteria.tagNames.operation}
+            EXISTS(
+                SELECT 1 FROM s_tag
+                WHERE s_tag.extraTypeId=m_prj_risk.projectId AND s_tag.type='Project-Risk' AND s_tag.typeid=m_prj_risk.id AND
+                    s_tag.name IN
+                #repeat(${searchCriteria.tagNames.values} $tagName "," "(" ")")
+                    @{tagName}
+                #end
+                LIMIT 1)
         #end
         ]]>
     </sql>
@@ -146,6 +158,18 @@
          #ifnotnull($searchCriteria.dueDate)
             ${searchCriteria.dueDate.operation} CAST(m_tracker_bug.duedate AS DATE ) ${searchCriteria.dueDate.comparison} @{searchCriteria.dueDate.value}
         #end
+
+        #ifnotnull($searchCriteria.tagNames)
+            ${searchCriteria.tagNames.operation}
+            EXISTS(
+                SELECT 1 FROM s_tag
+                WHERE s_tag.extraTypeId=m_tracker_bug.projectId AND s_tag.type='Project-Bug' AND s_tag.typeid=m_tracker_bug.id AND
+                    s_tag.name IN
+                #repeat(${searchCriteria.tagNames.values} $tagName "," "(" ")")
+                    @{tagName}
+                #end
+                LIMIT 1)
+        #end
         ]]>
     </sql>
 
@@ -200,7 +224,20 @@
             #end
         #end
         
-        #ifnotnull($searchCriteria.dueDate) ${searchCriteria.dueDate.operation} CAST(m_prj_task.deadline AS DATE) ${searchCriteria.dueDate.comparison} @{searchCriteria.dueDate.value}
+        #ifnotnull($searchCriteria.dueDate)
+            ${searchCriteria.dueDate.operation} CAST(m_prj_task.deadline AS DATE) ${searchCriteria.dueDate.comparison} @{searchCriteria.dueDate.value}
+        #end
+
+        #ifnotnull($searchCriteria.tagNames)
+            ${searchCriteria.tagNames.operation}
+            EXISTS(
+                SELECT 1 FROM s_tag
+                WHERE s_tag.extraTypeId=m_prj_task.projectId AND s_tag.type='Project-Task' AND s_tag.typeid=m_prj_task.id AND
+                    s_tag.name IN
+                #repeat(${searchCriteria.tagNames.values} $tagName "," "(" ")")
+                    @{tagName}
+                #end
+                LIMIT 1)
         #end
         ]]>
     </sql>
@@ -258,6 +295,18 @@
 
         #ifnotnull($searchCriteria.dueDate)
             ${searchCriteria.dueDate.operation} CAST(m_prj_milestone.enddate AS DATE) ${searchCriteria.dueDate.comparison} @{searchCriteria.dueDate.value}
+        #end
+
+        #ifnotnull($searchCriteria.tagNames)
+            ${searchCriteria.tagNames.operation}
+            EXISTS(
+                SELECT 1 FROM s_tag
+                WHERE s_tag.extraTypeId=m_prj_milestone.projectId AND s_tag.type='Project-Milestone' AND s_tag.typeid=m_prj_milestone.id AND
+                    s_tag.name IN
+                #repeat(${searchCriteria.tagNames.values} $tagName "," "(" ")")
+                    @{tagName}
+                #end
+                LIMIT 1)
         #end
         ]]>
     </sql>

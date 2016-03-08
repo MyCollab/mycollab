@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.esofthead.mycollab.common.dao.TagMapperExt">
+    <resultMap id="TagResult" type="com.esofthead.mycollab.common.domain.AggregateTag">
+        <result column="count" jdbcType="INTEGER" property="count" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+    </resultMap>
+
+    <sql id="querySearchCriteria">
+        <![CDATA[
+        #set($searchCriteria = $_parameter.searchCriteria)
+
+        #ifnotnull($searchCriteria.projectId)
+            ${searchCriteria.projectId.operation} s_tag.extraTypeId = ${searchCriteria.projectId.value}
+        #end
+        ]]>
+    </sql>
+    <sql id="selectTag">
+        <![CDATA[
+        SELECT s_tag.name, COUNT(s_tag.name) As count
+        FROM s_tag
+        ]]>
+    </sql>
+    <select id="findPagableListByCriteria" resultMap="TagResult" parameterType="TagSearchCriteria" lang="velocity">
+        <include refid="selectTag"/>
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="querySearchCriteria"/>
+            #end
+        #end
+        GROUP By s_tag.name
+    </select>
+</mapper>

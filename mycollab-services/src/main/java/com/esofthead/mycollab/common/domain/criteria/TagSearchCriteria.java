@@ -16,23 +16,21 @@
  */
 package com.esofthead.mycollab.common.domain.criteria;
 
+import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.core.arguments.SetSearchField;
 
 /**
- * @author MyCollab Ltd.
- * @since 1.0
+ * @author MyCollab Ltd
+ * @since 5.2.9
  */
-public class RelayEmailNotificationSearchCriteria extends SearchCriteria {
-    private static final long serialVersionUID = 1L;
+public class TagSearchCriteria extends SearchCriteria {
+    private NumberSearchField projectId;
 
-    private SetSearchField<String> types;
-
-    public SetSearchField<String> getTypes() {
-        return types;
+    public NumberSearchField getProjectId() {
+        return projectId;
     }
 
-    public void setTypes(SetSearchField<String> types) {
-        this.types = types;
+    public void setProjectId(NumberSearchField projectId) {
+        this.projectId = projectId;
     }
 }

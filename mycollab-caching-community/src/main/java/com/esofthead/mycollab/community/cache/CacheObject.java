@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-caching-community.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.cache;
+package com.esofthead.mycollab.community.cache;
 
 import java.util.Map;
 import java.util.Set;

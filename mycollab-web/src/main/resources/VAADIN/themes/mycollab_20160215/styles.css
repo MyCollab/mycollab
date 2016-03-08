@@ -1628,6 +1628,10 @@ a.pending {
 	border-bottom: 1px solid #e0e0e0;
 }
 
+.border-top {
+	border-top: 1px solid #e0e0e0;
+}
+
 .panel-body {
 	border: 1px solid #e0e0e0;
 	border-top: 0;
@@ -14184,6 +14188,10 @@ a.pending {
 	border-bottom: 1px solid #e0e0e0;
 }
 
+.border-top {
+	border-top: 1px solid #e0e0e0;
+}
+
 .panel-body {
 	border: 1px solid #e0e0e0;
 	border-top: 0;
@@ -15491,19 +15499,11 @@ div.v-csslayout.followers-container .v-checkbox {
 	border-style: solid;
 	border-top-style: none;
 	border-width: 1px;
-	border-color: #c5c5c5;
+	border-color: #e0e0e0;
 }
 
 .v-csslayout.tagcloud .tagbutton {
 	margin: 2px;
-}
-
-.v-csslayout.tagcloud .tagbutton.selected {
-	background-color: blue;
-}
-
-.v-csslayout.tagcloud .tagbutton.nonselected {
-	background-color: red;
 }
 
 .v-label.standup-row-content {

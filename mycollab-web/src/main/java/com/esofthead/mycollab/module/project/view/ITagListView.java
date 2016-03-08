@@ -20,9 +20,9 @@ import com.esofthead.mycollab.common.domain.Tag;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 
 /**
- * @author MyCollab Ltd.
- * @since 5.0.1
+ * @author MyCollab Ltd
+ * @since 5.2.9
  */
-public interface TagListView extends PageView {
+public interface ITagListView extends PageView {
     void displayTags(Tag tag);
 }

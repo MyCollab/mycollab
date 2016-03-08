@@ -93,7 +93,7 @@ public class ProjectMembersWidget extends Depot {
             layout.addComponent(UserAvatarControlFactory.createUserAvatarEmbeddedComponent(member.getMemberAvatarId(), 48));
 
             VerticalLayout content = new VerticalLayout();
-            content.addComponent(new Label(buildAssigneeValue(member), ContentMode.HTML));
+            content.addComponent(new ELabel(buildAssigneeValue(member), ContentMode.HTML).withStyleName(UIConstants.TEXT_ELLIPSIS));
             layout.with(content).expand(content);
 
             CssLayout footer = new CssLayout();
@@ -136,7 +136,7 @@ public class ProjectMembersWidget extends Depot {
                 userLink.appendText(" (Lead)");
             }
 
-            return div.appendChild(userLink, DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid)).write();
+            return div.appendChild(userLink, TooltipHelper.buildDivTooltipEnable(uid)).write();
         }
     }
 }

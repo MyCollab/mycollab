@@ -14,25 +14,29 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-services.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.common.domain.criteria;
-
-import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.core.arguments.SetSearchField;
+package com.esofthead.mycollab.common.domain;
 
 /**
- * @author MyCollab Ltd.
- * @since 1.0
+ * @author MyCollab Ltd
+ * @since 5.2.9
  */
-public class RelayEmailNotificationSearchCriteria extends SearchCriteria {
-    private static final long serialVersionUID = 1L;
+public class AggregateTag {
+    private String name;
+    private Integer count;
 
-    private SetSearchField<String> types;
-
-    public SetSearchField<String> getTypes() {
-        return types;
+    public Integer getCount() {
+        return count;
     }
 
-    public void setTypes(SetSearchField<String> types) {
-        this.types = types;
+    public void setCount(Integer count) {
+        this.count = count;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

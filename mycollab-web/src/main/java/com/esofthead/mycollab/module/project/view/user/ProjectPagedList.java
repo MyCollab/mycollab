@@ -30,7 +30,6 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.AbstractBeanPagedList;
 import com.esofthead.mycollab.vaadin.web.ui.DefaultBeanPagedList;
-import com.esofthead.mycollab.vaadin.web.ui.LabelLink;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
@@ -74,13 +73,9 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
             }
 
             MCssLayout prjHeaderLayout = new MCssLayout().withFullWidth();
-
-            final LabelLink projectLbl = new LabelLink(String.format("[%s] %s", project.getShortname(), project.getName()),
-                    ProjectLinkBuilder.generateProjectFullLink(project.getId()));
-            projectLbl.addStyleName(ValoTheme.LABEL_BOLD);
-            projectLbl.addStyleName(ValoTheme.LABEL_NO_MARGIN);
-            projectLbl.addStyleName(UIConstants.TEXT_ELLIPSIS);
-            projectLbl.setWidth("100%");
+            A projectDiv = new A(ProjectLinkBuilder.generateProjectFullLink(project.getId())).appendText(String.format("[%s] %s", project.getShortname(), project.getName()));
+            ELabel projectLbl = new ELabel(projectDiv.write(), ContentMode.HTML).withStyleName(ValoTheme.LABEL_LARGE,
+                    ValoTheme.LABEL_NO_MARGIN, UIConstants.TEXT_ELLIPSIS).withWidth("100%");
             projectLbl.setDescription(ProjectTooltipGenerator.generateToolTipProject(AppContext.getUserLocale(),
                     project, AppContext.getSiteUrl(), AppContext.getUserTimezone()));
 
@@ -113,7 +108,7 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
             if (project.getAccountid() != null) {
                 Div accountDiv = new Div().appendText(FontAwesome.INSTITUTION.getHtml() + " ")
                         .appendChild(new A(ProjectLinkBuilder.generateClientPreviewFullLink(project.getAccountid()))
-                        .appendText(StringUtils.trim(project.getClientName(), 30, true))).setCSSClass(UIConstants.BUTTON_BLOCK)
+                                .appendText(StringUtils.trim(project.getClientName(), 30, true))).setCSSClass(UIConstants.BUTTON_BLOCK)
                         .setTitle(project.getClientName());
                 metaDiv.appendChild(0, accountDiv);
                 metaDiv.appendChild(1, DivLessFormatter.EMPTY_SPACE());

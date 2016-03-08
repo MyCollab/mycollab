@@ -16,23 +16,26 @@
  */
 package com.esofthead.mycollab.community.module.project.view;
 
-import com.esofthead.mycollab.module.project.view.ICalendarDashboardPresenter;
-import com.esofthead.mycollab.module.project.view.ICalendarDashboardView;
+import com.esofthead.mycollab.module.project.view.ITagListPresenter;
+import com.esofthead.mycollab.module.project.view.ITagListView;
+import com.esofthead.mycollab.module.project.view.user.ProjectDashboardContainer;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.vaadin.ui.ComponentContainer;
 
 /**
  * @author MyCollab Ltd
- * @since 5.2.8
+ * @since 5.2.9
  */
-public class CalendarDashboardPresenter extends AbstractPresenter<ICalendarDashboardView> implements ICalendarDashboardPresenter {
-    public CalendarDashboardPresenter() {
-        super(ICalendarDashboardView.class);
+public class TagListPresenter extends AbstractPresenter<ITagListView> implements ITagListPresenter {
+    public TagListPresenter() {
+        super(ITagListView.class);
     }
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        view.display();
+        ProjectDashboardContainer projectViewContainer = (ProjectDashboardContainer) container;
+        projectViewContainer.removeAllComponents();
+        projectViewContainer.addComponent(view.getWidget());
     }
 }

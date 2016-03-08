@@ -173,22 +173,6 @@
             #end
         #end
         
-        #ifnotnull($searchCriteria.severities)
-            ${searchCriteria.severities.operation}
-            m_tracker_bug.severity IN
-            #repeat(${searchCriteria.severities.values} $severity "," "(" ")")
-                @{severity}
-            #end
-        #end
-        
-        #ifnotnull($searchCriteria.milestoneIds)
-            ${searchCriteria.milestoneIds.operation}
-            m_tracker_bug.milestoneId IN
-            #repeat(${searchCriteria.milestoneIds.values} $milestoneitem "," "(" ")")
-                @{milestoneitem}
-            #end
-        #end
-        
         #totalCountExpr($searchCriteria.extraFields)
         ]]>
     </sql>
@@ -336,22 +320,6 @@
             m_tracker_bug.resolution IN
             #repeat(${searchCriteria.resolutions.values} $resolution "," "(" ")")
                 @{resolution}
-            #end
-        #end
-        
-        #ifnotnull($searchCriteria.severities)
-            ${searchCriteria.severities.operation}
-            m_tracker_bug.severity IN
-            #repeat(${searchCriteria.severities.values} $severity "," "(" ")")
-                @{severity}
-            #end
-        #end
-        
-        #ifnotnull($searchCriteria.milestoneIds)
-            ${searchCriteria.milestoneIds.operation}
-            m_tracker_bug.milestoneId IN
-            #repeat(${searchCriteria.milestoneIds.values} $milestoneitem "," "(" ")")
-                @{milestoneitem}
             #end
         #end
         

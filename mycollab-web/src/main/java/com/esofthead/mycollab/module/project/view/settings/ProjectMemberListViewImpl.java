@@ -35,7 +35,9 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
+import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
+import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.esofthead.mycollab.vaadin.web.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
@@ -97,7 +99,6 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void setSearchCriteria(ProjectMemberSearchCriteria searchCriteria) {
         contentLayout.removeAllComponents();
         ProjectMemberService prjMemberService = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
@@ -166,14 +167,11 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
         blockContent.setComponentAlignment(buttonControls, Alignment.TOP_RIGHT);
 
         A memberLink = new A(ProjectLinkBuilder.generateProjectMemberFullLink(member.getProjectid(), member
-                .getUsername())).appendText(member.getMemberFullName());
-        ELabel memberNameLbl = new ELabel(memberLink.write(), ContentMode.HTML).withStyleName(ValoTheme.LABEL_H3);
-        memberNameLbl.addStyleName(ValoTheme.LABEL_NO_MARGIN);
-        memberNameLbl.setWidth("100%");
+                .getUsername())).appendText(member.getMemberFullName()).setTitle(member.getMemberFullName());
+        ELabel memberNameLbl = new ELabel(memberLink.write(), ContentMode.HTML).withStyleName(ValoTheme.LABEL_H3,
+                ValoTheme.LABEL_NO_MARGIN, UIConstants.TEXT_ELLIPSIS).withWidth("100%");
 
-        MVerticalLayout memberInfo = new MVerticalLayout().withMargin(false);
-        memberInfo.addComponent(memberNameLbl);
-        memberInfo.addComponent(new Hr());
+        MVerticalLayout memberInfo = new MVerticalLayout().withMargin(false).with(memberNameLbl, ELabel.Hr());
 
         String roleLink = String.format("<a href=\"%s%s%s\"", AppContext.getSiteUrl(), GenericLinkUtils.URL_PREFIX_PARAM,
                 ProjectLinkGenerator.generateRolePreviewLink(member.getProjectid(), member.getProjectroleid()));

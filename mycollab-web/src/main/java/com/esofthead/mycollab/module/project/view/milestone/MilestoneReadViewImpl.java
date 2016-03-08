@@ -34,10 +34,7 @@ import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsUtil;
-import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
-import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
-import com.esofthead.mycollab.module.project.ui.components.ProjectActivityComponent;
-import com.esofthead.mycollab.module.project.ui.components.ProjectMemberLink;
+import com.esofthead.mycollab.module.project.ui.components.*;
 import com.esofthead.mycollab.module.project.ui.format.MilestoneFieldFormatter;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -82,6 +79,7 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
     private static final Logger LOG = LoggerFactory.getLogger(MilestoneReadViewImpl.class);
 
     private ProjectActivityComponent activityComponent;
+    private TagViewComponent tagViewComponent;
     private DateInfoComp dateInfoComp;
     private PeopleInfoComp peopleInfoComp;
     private MilestoneTimeLogComp milestoneTimeLogComp;
@@ -99,6 +97,12 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
     protected ComponentContainer createButtonControls() {
         ProjectPreviewFormControlsGenerator<SimpleMilestone> controlsGenerator = new ProjectPreviewFormControlsGenerator<>(previewForm);
         return controlsGenerator.createButtonControls(ProjectRolePermissionCollections.MILESTONES);
+    }
+
+    @Override
+    protected ComponentContainer createExtraControls() {
+        tagViewComponent = new TagViewComponent();
+        return tagViewComponent;
     }
 
     @Override
@@ -128,6 +132,7 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
 
     @Override
     protected void onPreviewItem() {
+        tagViewComponent.display(ProjectTypeConstants.MILESTONE, beanItem.getId());
         activityComponent.loadActivities("" + beanItem.getId());
         dateInfoComp.displayEntryDateTime(beanItem);
         peopleInfoComp.displayEntryPeople(beanItem);

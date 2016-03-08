@@ -14,9 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-caching-community.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.cache.service;
+package com.esofthead.mycollab.community.cache.service;
 
-import com.esofthead.mycollab.cache.CacheObject;
+import com.esofthead.mycollab.cache.service.CacheService;
+import com.esofthead.mycollab.community.cache.CacheObject;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;

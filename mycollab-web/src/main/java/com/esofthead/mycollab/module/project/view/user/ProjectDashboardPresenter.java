@@ -20,12 +20,12 @@ package com.esofthead.mycollab.module.project.view.user;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.view.ITagListPresenter;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.module.project.view.ProjectView;
-import com.esofthead.mycollab.module.project.view.TagListPresenter;
+import com.esofthead.mycollab.module.project.view.assignments.GanttChartViewPresenter;
 import com.esofthead.mycollab.module.project.view.assignments.ICalendarPresenter;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
-import com.esofthead.mycollab.module.project.view.assignments.GanttChartViewPresenter;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
@@ -67,7 +67,7 @@ public class ProjectDashboardPresenter extends AbstractPresenter<ProjectDashboar
                 NotificationUtil.showMessagePermissionAlert();
             }
         } else if (data instanceof ProjectScreenData.GotoTagList) {
-            TagListPresenter presenter = PresenterResolver.getPresenter(TagListPresenter.class);
+            ITagListPresenter presenter = PresenterResolver.getPresenter(ITagListPresenter.class);
             presenter.go(view, data);
         } else if (data instanceof ProjectScreenData.SearchItem) {
             ProjectSearchItemPresenter presenter = PresenterResolver.getPresenter(ProjectSearchItemPresenter.class);

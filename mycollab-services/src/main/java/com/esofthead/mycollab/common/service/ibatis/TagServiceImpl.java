@@ -17,12 +17,17 @@
 package com.esofthead.mycollab.common.service.ibatis;
 
 import com.esofthead.mycollab.common.dao.TagMapper;
+import com.esofthead.mycollab.common.dao.TagMapperExt;
+import com.esofthead.mycollab.common.domain.AggregateTag;
 import com.esofthead.mycollab.common.domain.Tag;
 import com.esofthead.mycollab.common.domain.TagExample;
+import com.esofthead.mycollab.common.domain.criteria.TagSearchCriteria;
 import com.esofthead.mycollab.common.service.TagService;
+import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultCrudService;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +42,9 @@ import java.util.List;
 public class TagServiceImpl extends DefaultCrudService<Integer, Tag> implements TagService {
     @Autowired
     private TagMapper tagMapper;
+
+    @Autowired
+    private TagMapperExt tagMapperExt;
 
     @Override
     public ICrudGenericDAO<Integer, Tag> getCrudMapper() {
@@ -71,9 +79,10 @@ public class TagServiceImpl extends DefaultCrudService<Integer, Tag> implements 
     }
 
     @Override
-    public List<Tag> findTagsInProject(Integer projectId, @CacheKey Integer accountId) {
-        TagExample ex = new TagExample();
-        ex.createCriteria().andExtratypeidEqualTo(projectId).andSaccountidEqualTo(accountId);
-        return tagMapper.selectByExample(ex);
+    public List<AggregateTag> findTagsInProject(Integer projectId, @CacheKey Integer accountId) {
+        TagSearchCriteria searchCriteria = new TagSearchCriteria();
+        searchCriteria.setSaccountid(NumberSearchField.and(accountId));
+        searchCriteria.setProjectId(NumberSearchField.and(projectId));
+        return tagMapperExt.findPagableListByCriteria(searchCriteria, new RowBounds(0, Integer.MAX_VALUE));
     }
 }

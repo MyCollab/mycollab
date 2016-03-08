@@ -21,39 +21,37 @@ import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 public class ActivityStreamSearchCriteria extends SearchCriteria {
-	private static final long serialVersionUID = 1L;
-	
-	private SetSearchField<String> moduleSet;
-	private SetSearchField<Integer> extraTypeIds;
-	private StringSearchField createdUser;
+    private static final long serialVersionUID = 1L;
 
-	public StringSearchField getCreatedUser() {
-		return createdUser;
-	}
+    private SetSearchField<String> moduleSet;
+    private SetSearchField<Integer> extraTypeIds;
+    private StringSearchField createdUser;
 
-	public void setCreatedUser(StringSearchField createdUser) {
-		this.createdUser = createdUser;
-	}
+    public StringSearchField getCreatedUser() {
+        return createdUser;
+    }
 
-	public SetSearchField<String> getModuleSet() {
-		return moduleSet;
-	}
+    public void setCreatedUser(StringSearchField createdUser) {
+        this.createdUser = createdUser;
+    }
 
-	public void setModuleSet(SetSearchField<String> moduleSet) {
-		this.moduleSet = moduleSet;
-	}
+    public SetSearchField<String> getModuleSet() {
+        return moduleSet;
+    }
 
-	public SetSearchField<Integer> getExtraTypeIds() {
-		return extraTypeIds;
-	}
+    public void setModuleSet(SetSearchField<String> moduleSet) {
+        this.moduleSet = moduleSet;
+    }
 
-	public void setExtraTypeIds(SetSearchField<Integer> extraTypeIds) {
-		this.extraTypeIds = extraTypeIds;
-	}
+    public SetSearchField<Integer> getExtraTypeIds() {
+        return extraTypeIds;
+    }
+
+    public void setExtraTypeIds(SetSearchField<Integer> extraTypeIds) {
+        this.extraTypeIds = extraTypeIds;
+    }
 }

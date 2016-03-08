@@ -79,7 +79,7 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
     this.register(new ApplicationEventListener[ProjectEvent.GotoTagListView] {
       @Subscribe def handle(event: ProjectEvent.GotoTagListView) {
         val tag = event.getData.asInstanceOf[Tag]
-        val presenter = PresenterResolver.getPresenter(classOf[UserProjectDashboardPresenter])
+        val presenter = PresenterResolver.getPresenter(classOf[ProjectDashboardPresenter])
         presenter.go(projectView, new ProjectScreenData.GotoTagList(tag))
       }
     })
