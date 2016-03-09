@@ -35,12 +35,12 @@ public class TaskCompleteStatusSelection extends Slider {
         this.addValueChangeListener(new ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-                Double value = TaskCompleteStatusSelection.this.getValue();
+                Double value = getValue();
                 if (value != null) {
                     double roundValue = Math.ceil(value / 10) * 10;
-                    TaskCompleteStatusSelection.this.setValue(roundValue);
+                    setValue(roundValue);
                 } else {
-                    TaskCompleteStatusSelection.this.setValue(0d);
+                    setValue(0d);
                 }
             }
         });

@@ -46,6 +46,9 @@ Version 5.2.9
 
 * Spring framework 4.2.5.RELEASE
 * Jackrabbit 2.12.1
+* Jetty 9.2.15.v20160210
+* Flyway 4.0
+* Commons Collection 4.4.1
 * Other libraries
 
 **Improvements & New Features**
@@ -54,7 +57,6 @@ Version 5.2.9
 * [Premium] Project client management is added
 * [Premium] New user group for task and bug views
 * [Premium] Support tag for phase and risk
-* Related bug is revised
 * Show template icon if the project is the template one
 * Allow to change color column of Kanban board
 * Other minor improvements
@@ -62,7 +64,6 @@ Version 5.2.9
 **Bug Fixes**
 
 * [Premium] Display wrong list of history fields in several special cases
-* Moving resource may causes exception
 
 Version 5.2.8
 -----------------------------

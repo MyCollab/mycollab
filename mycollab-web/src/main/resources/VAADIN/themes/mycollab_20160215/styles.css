@@ -1892,6 +1892,10 @@ a.pending {
 	border-width: 0px;
 }
 
+.feed-block-wrap .feed-block .stream-wrapper ul li {
+	word-break: break-all;
+}
+
 .v-horizontal.feed-block-wrap > .v-expand > .v-spacing {
 	width: 25px;
 }
@@ -14452,6 +14456,10 @@ a.pending {
 	border-width: 0px;
 }
 
+.feed-block-wrap .feed-block .stream-wrapper ul li {
+	word-break: break-all;
+}
+
 .v-horizontal.feed-block-wrap > .v-expand > .v-spacing {
 	width: 25px;
 }
@@ -15296,6 +15304,10 @@ div .addview-layout-body .control-buttons {
 
 .message .message-container .v-verticallayout {
 	display: block;
+}
+
+.message .message-container .v-label.wordWrap {
+	word-break: break-all !important;
 }
 
 .message .message-container:before {
@@ -17598,30 +17610,6 @@ div.v-ratingstars-bar {
 
 .trialEndingNotification .informBlock:first-child {
 	padding-right: 5px;
-}
-
-.stream-wrapper {
-	background-color: #F5F5F5;
-	padding: 5px;
-	border-width: 0px 1px 1px;
-	border-style: solid;
-	border-color: #c5c5c5;
-}
-
-.stream-wrapper  > .v-csslayout-margin {
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	height: 100%;
-}
-
-.stream-wrapper .v-label {
-	line-height: 24px;
-}
-
-.stream-wrapper .v-label img {
-	display: inline-block;
-	vertical-align: top;
 }
 
 .v-label > img {

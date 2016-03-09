@@ -22,12 +22,14 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
+import com.esofthead.mycollab.module.project.ui.components.IGroupComponent;
 import com.esofthead.mycollab.module.project.view.bug.BugPopupFieldFactory;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
+import com.esofthead.mycollab.vaadin.ui.UIUtils;
 import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
@@ -105,9 +107,16 @@ public class BugRowRenderer extends MVerticalLayout {
 
 
     private void deleteBug() {
+        IGroupComponent root = UIUtils.getRoot(this, IGroupComponent.class);
         ComponentContainer parent = (ComponentContainer) this.getParent();
         if (parent != null) {
             parent.removeComponent(this);
+            if (root != null) {
+                ComponentContainer parentRoot = (ComponentContainer) root.getParent();
+                if (parentRoot != null && parent.getComponentCount() == 0) {
+                    parentRoot.removeComponent(root);
+                }
+            }
         }
     }
 

@@ -18,12 +18,12 @@ package com.esofthead.mycollab.module.project.view.task.components;
 
 import com.esofthead.mycollab.core.utils.SortedArrayMap;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
+import com.esofthead.mycollab.module.project.ui.components.IGroupComponent;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.themes.ValoTheme;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
@@ -72,7 +72,7 @@ public class DueDateOrderComponent extends TaskGroupOrderComponent {
         }
     }
 
-    private static class GroupComponent extends VerticalLayout {
+    private static class GroupComponent extends VerticalLayout implements IGroupComponent {
         private CssLayout wrapBody;
         private Label headerLbl;
         private String durationLbl;

@@ -43,7 +43,7 @@ class ComponentUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
       val projectId = new UrlTokenizer(params(0)).getInt
       val componentSearchCriteria = new ComponentSearchCriteria
-      componentSearchCriteria.setProjectid(new NumberSearchField(projectId))
+      componentSearchCriteria.setProjectId(new NumberSearchField(projectId))
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
         new ComponentScreenData.Search(componentSearchCriteria))
       EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))

@@ -25,10 +25,12 @@ import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
+import com.esofthead.mycollab.module.project.ui.components.IGroupComponent;
 import com.esofthead.mycollab.module.project.view.task.TaskPopupFieldFactory;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
+import com.esofthead.mycollab.vaadin.ui.UIUtils;
 import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
@@ -127,9 +129,16 @@ public class TaskRowRenderer extends MVerticalLayout {
     }
 
     private void deleteTask() {
+        IGroupComponent root = UIUtils.getRoot(this, IGroupComponent.class);
         ComponentContainer parent = (ComponentContainer) this.getParent();
         if (parent != null) {
             parent.removeComponent(this);
+            if (root != null) {
+                ComponentContainer parentRoot = (ComponentContainer) root.getParent();
+                if (parentRoot != null && parent.getComponentCount() == 0) {
+                    parentRoot.removeComponent(root);
+                }
+            }
         }
     }
 

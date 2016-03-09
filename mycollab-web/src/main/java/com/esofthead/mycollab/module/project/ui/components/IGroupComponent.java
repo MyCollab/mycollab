@@ -14,17 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.shell.view;
+package com.esofthead.mycollab.module.project.ui.components;
 
-import com.esofthead.mycollab.vaadin.mvp.PageView;
-import com.esofthead.mycollab.web.IDesktopModule;
+import com.vaadin.ui.ComponentContainer;
 
 /**
+ * A markable component can to be removed itself by its parent when the child number is 0
+ *
  * @author MyCollab Ltd
- * @since 5.0.8
+ * @since 5.2.9
  */
-public interface MainView extends PageView {
-    void display();
-
-    void addModule(IDesktopModule module);
+public interface IGroupComponent extends ComponentContainer {
 }

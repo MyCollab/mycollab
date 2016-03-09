@@ -214,13 +214,12 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version> implem
             CheckBox reOpenSelection = new BugStatusCheckbox(OptionI18nEnum.BugStatus.ReOpened, true);
             CheckBox verifiedSelection = new BugStatusCheckbox(OptionI18nEnum.BugStatus.Verified, true);
             CheckBox resolvedSelection = new BugStatusCheckbox(OptionI18nEnum.BugStatus.Resolved, true);
+            CheckBox wontFixSelection = new BugStatusCheckbox(OptionI18nEnum.BugStatus.WontFix, true);
 
             Label spacingLbl1 = new Label("");
 
-            header.with(openSelection, inprogressSelection, reOpenSelection, verifiedSelection, resolvedSelection, spacingLbl1)
-                    .withAlign(openSelection, Alignment.MIDDLE_LEFT).withAlign(inprogressSelection, Alignment.MIDDLE_LEFT)
-                    .withAlign(reOpenSelection, Alignment.MIDDLE_LEFT).withAlign(verifiedSelection, Alignment.MIDDLE_LEFT)
-                    .withAlign(resolvedSelection, Alignment.MIDDLE_LEFT).expand(spacingLbl1);
+            header.with(openSelection, inprogressSelection, reOpenSelection, wontFixSelection, verifiedSelection, resolvedSelection,
+                    spacingLbl1).alignAll(Alignment.MIDDLE_LEFT);
 
             issueLayout = new MVerticalLayout();
 
@@ -229,7 +228,8 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version> implem
             searchCriteria.setVersionids(new SetSearchField<>(beanItem.getId()));
             searchCriteria.setStatuses(new SetSearchField<>(new String[]{OptionI18nEnum.BugStatus.Open.name(),
                     OptionI18nEnum.BugStatus.InProgress.name(), OptionI18nEnum.BugStatus.ReOpened.name(),
-                    OptionI18nEnum.BugStatus.Verified.name(), OptionI18nEnum.BugStatus.Resolved.name()}));
+                    OptionI18nEnum.BugStatus.Verified.name(), OptionI18nEnum.BugStatus.Resolved.name(),
+                    OptionI18nEnum.BugStatus.WontFix.name()}));
             updateSearchStatus();
 
             this.with(header, issueLayout);

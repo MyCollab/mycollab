@@ -261,7 +261,7 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
     this.register(new ApplicationEventListener[BugComponentEvent.GotoList] {
       @Subscribe def handle(event: BugComponentEvent.GotoList) {
         val criteria: ComponentSearchCriteria = new ComponentSearchCriteria
-        criteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId))
+        criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId))
         val presenter = PresenterResolver.getPresenter(classOf[UserSettingPresenter])
         presenter.go(projectView, new ComponentScreenData.Search(criteria))
       }

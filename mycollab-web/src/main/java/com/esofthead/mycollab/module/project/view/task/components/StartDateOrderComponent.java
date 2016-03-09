@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.project.view.task.components;
 
 import com.esofthead.mycollab.core.utils.SortedArrayMap;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
+import com.esofthead.mycollab.module.project.ui.components.IGroupComponent;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.CssLayout;
@@ -71,7 +72,7 @@ public class StartDateOrderComponent extends TaskGroupOrderComponent {
         }
     }
 
-    private static class GroupComponent extends VerticalLayout {
+    private static class GroupComponent extends VerticalLayout implements IGroupComponent {
         private CssLayout wrapBody;
         private Label headerLbl;
 

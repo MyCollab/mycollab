@@ -6,7 +6,7 @@
     <name>mycollab-parent-community</name>
     <groupId>com.esofthead.mycollab</groupId>
     <artifactId>mycollab-parent-community</artifactId>
-    <version>5.2.8</version>
+    <version>5.2.9</version>
     <packaging>pom</packaging>
     <prerequisites>
         <maven>3.0.4</maven>
@@ -18,7 +18,7 @@
         <slf4jVersion>1.7.18</slf4jVersion>
         <servletVersion>3.1.0</servletVersion>
         <vaadinVersion>7.6.3</vaadinVersion>
-        <jettyVersion>9.2.14.v20151106</jettyVersion>
+        <jettyVersion>9.2.15.v20160210</jettyVersion>
         <mysqlVersion>5.1.38</mysqlVersion>
         <junitVersion>4.12</junitVersion>
         <gsonVersion>2.6.2</gsonVersion>
@@ -53,13 +53,13 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
-            <version>1.1.5</version>
+            <version>1.1.6</version>
         </dependency>
 
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.1.5</version>
+            <version>1.1.6</version>
         </dependency>
 
         <dependency>
@@ -71,7 +71,7 @@
         <dependency>
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
-            <version>3.2.1</version>
+            <version>3.2.2</version>
         </dependency>
 
         <dependency>
@@ -230,19 +230,19 @@
         <dependency>
             <groupId>org.ow2.asm</groupId>
             <artifactId>asm</artifactId>
-            <version>5.0.4</version>
+            <version>5.1</version>
         </dependency>
 
         <dependency>
             <groupId>org.ow2.asm</groupId>
             <artifactId>asm-commons</artifactId>
-            <version>5.0.4</version>
+            <version>5.1</version>
         </dependency>
 
         <dependency>
             <groupId>org.ow2.asm</groupId>
             <artifactId>asm-tree</artifactId>
-            <version>5.0.4</version>
+            <version>5.1</version>
         </dependency>
 
         <dependency>
@@ -283,7 +283,7 @@
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
-            <version>2.4.3</version>
+            <version>2.4.4</version>
         </dependency>
 
         <dependency>

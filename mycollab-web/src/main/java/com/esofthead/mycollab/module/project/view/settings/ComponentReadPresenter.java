@@ -89,7 +89,7 @@ public class ComponentReadPresenter extends AbstractPresenter<ComponentReadView>
             public void gotoNext(SimpleComponent data) {
                 ComponentService componentService = ApplicationContextUtil.getSpringBean(ComponentService.class);
                 ComponentSearchCriteria criteria = new ComponentSearchCriteria();
-                criteria.setProjectid(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
+                criteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
                 Integer nextId = componentService.getNextItemKey(criteria);
                 if (nextId != null) {
@@ -104,7 +104,7 @@ public class ComponentReadPresenter extends AbstractPresenter<ComponentReadView>
             public void gotoPrevious(SimpleComponent data) {
                 ComponentService componentService = ApplicationContextUtil.getSpringBean(ComponentService.class);
                 ComponentSearchCriteria criteria = new ComponentSearchCriteria();
-                criteria.setProjectid(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
+                criteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
                 Integer nextId = componentService.getPreviousItemKey(criteria);
                 if (nextId != null) {

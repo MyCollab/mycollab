@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.module.project.view.bug.components;
 
+import com.esofthead.mycollab.core.utils.SortedArrayMap;
+import com.esofthead.mycollab.module.project.ui.components.IGroupComponent;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.vaadin.shared.ui.MarginInfo;
@@ -29,15 +31,13 @@ import org.joda.time.format.DateTimeFormatter;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * @author MyCollab Ltd
  * @since 5.1.1
  */
 public class DueDateOrderComponent extends BugGroupOrderComponent {
-    private Map<DateTime, GroupComponent> dueDateAvailables = new TreeMap<>();
+    private SortedArrayMap<DateTime, GroupComponent> dueDateAvailables = new SortedArrayMap<>();
     private GroupComponent unspecifiedTasks;
 
     @Override
@@ -53,7 +53,12 @@ public class DueDateOrderComponent extends BugGroupOrderComponent {
                 } else {
                     GroupComponent groupComponent = new GroupComponent(monDay);
                     dueDateAvailables.put(monDay, groupComponent);
-                    addComponent(groupComponent);
+                    int index = dueDateAvailables.getKeyIndex(monDay);
+                    if (index > -1) {
+                        addComponent(groupComponent, index);
+                    } else {
+                        addComponent(groupComponent);
+                    }
                     groupComponent.insertTask(bug);
                 }
             } else {
@@ -66,7 +71,7 @@ public class DueDateOrderComponent extends BugGroupOrderComponent {
         }
     }
 
-    private static class GroupComponent extends VerticalLayout {
+    private static class GroupComponent extends VerticalLayout implements IGroupComponent {
         private CssLayout wrapBody;
         private Label headerLbl;
         private String durationLbl;

@@ -47,6 +47,7 @@ import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.google.common.eventbus.Subscribe;
+import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.*;
@@ -73,6 +74,7 @@ import static com.esofthead.mycollab.core.utils.ExceptionUtils.getExceptionType;
  */
 @Theme(MyCollabVersion.THEME_VERSION)
 @Widgetset("com.esofthead.mycollab.widgetset.MyCollabWidgetSet")
+@PreserveOnRefresh
 public class DesktopApplication extends MyCollabUI {
     private static final long serialVersionUID = 1L;
 

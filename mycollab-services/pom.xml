@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.esofthead.mycollab</groupId>
         <artifactId>mycollab-parent-community</artifactId>
-        <version>5.2.8</version>
+        <version>5.2.9</version>
         <relativePath>../mycollab-parent-community/pom.xml</relativePath>
     </parent>
     <packaging>jar</packaging>
@@ -16,43 +16,43 @@
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-caching</artifactId>
-            <version>5.2.8</version>
+            <version>5.2.9</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-core</artifactId>
-            <version>5.2.8</version>
+            <version>5.2.9</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-dao</artifactId>
-            <version>5.2.8</version>
+            <version>5.2.9</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-localization</artifactId>
-            <version>5.2.8</version>
+            <version>5.2.9</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-config</artifactId>
-            <version>5.2.8</version>
+            <version>5.2.9</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-jackrabbit</artifactId>
-            <version>5.2.8</version>
+            <version>5.2.9</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-test</artifactId>
-            <version>5.2.8</version>
+            <version>5.2.9</version>
             <scope>test</scope>
         </dependency>
 
@@ -97,12 +97,6 @@
             <groupId>com.esofthead.mycollab.external</groupId>
             <artifactId>image4j-core</artifactId>
             <version>0.7.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jsoup</groupId>
-            <artifactId>jsoup</artifactId>
-            <version>1.8.1</version>
         </dependency>
 
         <dependency>

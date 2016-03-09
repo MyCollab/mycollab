@@ -203,7 +203,7 @@ public class ProjectTemplateServiceImpl implements ProjectTemplateService {
         LOG.info("Clone project components");
         Map<Integer, Integer> componentMapIds = new HashMap<>();
         ComponentSearchCriteria searchCriteria = new ComponentSearchCriteria();
-        searchCriteria.setProjectid(NumberSearchField.and(projectId));
+        searchCriteria.setProjectId(NumberSearchField.and(projectId));
         List<SimpleComponent> components = componentService.findPagableListByCriteria(new SearchRequest<>(searchCriteria));
         for (SimpleComponent component : components) {
             Integer componentId = component.getId();

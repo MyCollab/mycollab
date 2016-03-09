@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.bug.components;
 
+import com.esofthead.mycollab.module.project.ui.components.IGroupComponent;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.vaadin.shared.ui.MarginInfo;
@@ -66,7 +67,7 @@ public class StartDateOrderComponent extends BugGroupOrderComponent {
         }
     }
 
-    private static class GroupComponent extends VerticalLayout {
+    private static class GroupComponent extends VerticalLayout implements IGroupComponent {
         private CssLayout wrapBody;
         private Label headerLbl;
 

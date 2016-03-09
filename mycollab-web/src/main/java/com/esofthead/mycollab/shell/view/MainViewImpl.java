@@ -147,11 +147,6 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
     }
 
     @Override
-    public void insertAddComponent(Component component) {
-
-    }
-
-    @Override
     public void addModule(IDesktopModule module) {
         headerLayout.removeComponent("serviceMenu");
         ModuleHelper.setCurrentModule(module);

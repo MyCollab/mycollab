@@ -90,8 +90,6 @@ public class CommunitySliderContent extends MVerticalLayout {
             SyndFeedInput input = new SyndFeedInput();
             feed = input.build(source);
 
-        } catch (Exception e) {
-            LOG.error("Exception occured when building the feed object out of the url", e);
         } finally {
             if (is != null) is.close();
         }

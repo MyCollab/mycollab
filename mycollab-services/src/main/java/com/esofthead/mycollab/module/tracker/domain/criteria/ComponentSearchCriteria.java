@@ -22,7 +22,7 @@ import com.esofthead.mycollab.core.arguments.StringSearchField;
 
 public class ComponentSearchCriteria extends SearchCriteria {
 
-    private NumberSearchField projectid;
+    private NumberSearchField projectId;
     private StringSearchField componentName;
     private NumberSearchField id;
     private StringSearchField status;
@@ -36,12 +36,12 @@ public class ComponentSearchCriteria extends SearchCriteria {
 		this.userlead = userlead;
 	}
 
-	public NumberSearchField getProjectid() {
-        return projectid;
+    public NumberSearchField getProjectId() {
+        return projectId;
     }
 
-    public void setProjectid(NumberSearchField projectid) {
-        this.projectid = projectid;
+    public void setProjectId(NumberSearchField projectId) {
+        this.projectId = projectId;
     }
 
     public StringSearchField getComponentName() {

@@ -43,8 +43,7 @@ public class ComponentListSelect extends ListSelect {
 
         ComponentSearchCriteria searchCriteria = new ComponentSearchCriteria();
         searchCriteria.setStatus(StringSearchField.and(StatusI18nEnum.Open.name()));
-
-        searchCriteria.setProjectid(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
+        searchCriteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
 
         ComponentService componentService = ApplicationContextUtil.getSpringBean(ComponentService.class);
         List<Component> components = componentService

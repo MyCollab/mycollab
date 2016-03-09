@@ -38,7 +38,6 @@ import static org.assertj.core.api.Assertions.tuple;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ComponentServiceTest extends IntergrationServiceTest {
-
     private static final DateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
     @Autowired
@@ -46,7 +45,7 @@ public class ComponentServiceTest extends IntergrationServiceTest {
 
     private ComponentSearchCriteria getCriteria() {
         ComponentSearchCriteria criteria = new ComponentSearchCriteria();
-        criteria.setProjectid(new NumberSearchField(1));
+        criteria.setProjectId(new NumberSearchField(1));
         criteria.setSaccountid(new NumberSearchField(1));
         return criteria;
     }

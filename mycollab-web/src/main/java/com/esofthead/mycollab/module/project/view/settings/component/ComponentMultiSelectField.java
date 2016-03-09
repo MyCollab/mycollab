@@ -48,11 +48,9 @@ public class ComponentMultiSelectField extends MultiSelectComp {
     protected List<Component> createData() {
         ComponentSearchCriteria searchCriteria = new ComponentSearchCriteria();
         searchCriteria.setStatus(StringSearchField.and("Open"));
-
-        searchCriteria.setProjectid(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
+        searchCriteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
 
         ComponentService componentService = ApplicationContextUtil.getSpringBean(ComponentService.class);
-
         List<Component> components = componentService.findPagableListByCriteria(new SearchRequest<>(
                 searchCriteria, 0, Integer.MAX_VALUE));
         return components;

@@ -44,8 +44,7 @@ import java.util.UUID;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class GenericTaskTableDisplay extends
-        DefaultPagedBeanTable<ProjectGenericTaskService, ProjectGenericTaskSearchCriteria, ProjectGenericTask> {
+public class GenericTaskTableDisplay extends DefaultPagedBeanTable<ProjectGenericTaskService, ProjectGenericTaskSearchCriteria, ProjectGenericTask> {
     private static final long serialVersionUID = 1L;
 
     public GenericTaskTableDisplay(List<TableViewField> displayColumns) {

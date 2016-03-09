@@ -58,7 +58,7 @@ public class ComponentPresenter extends AbstractPresenter<BugComponentContainer>
             presenter = PresenterResolver.getPresenter(ComponentReadPresenter.class);
         } else if (data == null) {
             ComponentSearchCriteria criteria = new ComponentSearchCriteria();
-            criteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+            criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
             data = new ComponentScreenData.Search(criteria);
             presenter = PresenterResolver.getPresenter(ComponentListPresenter.class);
         } else {
