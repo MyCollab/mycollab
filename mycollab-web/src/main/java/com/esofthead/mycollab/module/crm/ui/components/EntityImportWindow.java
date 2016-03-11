@@ -220,7 +220,7 @@ public abstract class EntityImportWindow<E> extends Window {
         @SuppressWarnings("unchecked")
         private CssLayout fileConfigurationLayout() {
             final CssLayout bodyLayoutWapper = new CssLayout();
-            bodyLayoutWapper.addStyleName(UIConstants.BORDER_BOX_2);
+            bodyLayoutWapper.addStyleName(UIConstants.BOX);
             bodyLayoutWapper.setWidth("100%");
 
             final MHorizontalLayout bodyLayout = new MHorizontalLayout().withMargin(true);
@@ -298,7 +298,7 @@ public abstract class EntityImportWindow<E> extends Window {
             final CssLayout bodyLayoutWapper = new CssLayout();
             bodyLayoutWapper.setWidth("100%");
             bodyLayoutWapper.setHeight("100%");
-            bodyLayoutWapper.addStyleName(UIConstants.BORDER_BOX_2);
+            bodyLayoutWapper.addStyleName(UIConstants.BOX);
 
             final MHorizontalLayout bodyLayout = new MHorizontalLayout()
                     .withSpacing(true).withMargin(true).withHeight("100%");
@@ -358,11 +358,10 @@ public abstract class EntityImportWindow<E> extends Window {
         private final List<FieldMapperDef> contactCrmFields = constructCSVFieldMapper();
         private VerticalLayout messageImportVerticalLayout;
 
-        public MappingCrmConfigurationLayout(final boolean checkboxChecked,
-                                             final File uploadFile) {
+        public MappingCrmConfigurationLayout(final boolean checkboxChecked, final File uploadFile) {
             this.uploadFile = uploadFile;
             this.setWidth("100%");
-            this.addStyleName(UIConstants.BORDER_BOX_2);
+            this.addStyleName(UIConstants.BOX);
 
             final MHorizontalLayout bodyLayout = new MHorizontalLayout()
                     .withMargin(new MarginInfo(false, false, false, true))
@@ -374,8 +373,7 @@ public abstract class EntityImportWindow<E> extends Window {
             titleHorizontal.addComponent(title);
             bodyLayout.addComponent(titleHorizontal);
 
-            columnMappingCrmLayout = new MVerticalLayout().withWidth("100%")
-                    .withMargin(true);
+            columnMappingCrmLayout = new MVerticalLayout().withWidth("100%");
 
             Label infoLabel = new Label("Map the columns to Module fields");
             infoLabel.addStyleName(ValoTheme.LABEL_H4);

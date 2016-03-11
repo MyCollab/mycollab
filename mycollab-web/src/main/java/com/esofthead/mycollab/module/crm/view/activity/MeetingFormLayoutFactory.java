@@ -50,7 +50,7 @@ public abstract class MeetingFormLayoutFactory implements IWrappedFormLayoutFact
         }
         informationLayout = new DynaFormLayout(CrmTypeConstants.MEETING, MeetingDefaultFormLayoutFactory.getForm());
         VerticalLayout body = new VerticalLayout();
-        body.setStyleName(UIConstants.BORDER_BOX_2);
+        body.setStyleName(UIConstants.BOX);
         body.addComponent(informationLayout.getLayout());
         meetingLayout.addBody(body);
 

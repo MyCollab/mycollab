@@ -104,7 +104,6 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractCssPageView {
     public void previewItem(final B item) {
         this.beanItem = item;
         previewLayout.setTitle(initFormTitle());
-        previewLayout.initTitleStyleName();
 
         previewForm.setFormLayoutFactory(initFormLayoutFactory());
         previewForm.setBeanFormFieldFactory(initBeanFormFieldFactory());

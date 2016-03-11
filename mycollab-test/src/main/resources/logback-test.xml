@@ -11,7 +11,7 @@
     <logger name="java.sql" level="INFO"/>
     <logger name="org.apache.ibatis" level="INFO"/>
     <logger name="org.mybatis.spring" level="INFO"/>
-    <logger name="com.esofthead" level="DEBUG"/>
+    <logger name="com.esofthead" level="INFO"/>
     <logger name="org.eclipse.jetty" level="INFO"/>
     <root level="INFO">
         <appender-ref ref="stdout"/>

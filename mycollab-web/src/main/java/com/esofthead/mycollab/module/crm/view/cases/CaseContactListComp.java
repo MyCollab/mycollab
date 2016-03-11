@@ -131,7 +131,7 @@ public class CaseContactListComp extends RelatedListComp2<ContactService, Contac
             blockTop.setSpacing(true);
             CssLayout iconWrap = new CssLayout();
             iconWrap.setStyleName("icon-wrap");
-            ELabel contactAvatar = new ELabel(CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT));
+            ELabel contactAvatar = ELabel.fontIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT));
             iconWrap.addComponent(contactAvatar);
             blockTop.addComponent(iconWrap);
 

@@ -31,7 +31,7 @@ import java.util.Map;
  */
 public interface OptionValService extends ICrudService<Integer, OptionVal> {
 
-    boolean isExistedOptionVal(String type, String typeVal, Integer projectId, Integer sAccountId);
+    boolean isExistedOptionVal(String type, String typeVal, String fieldGroup, Integer projectId, Integer sAccountId);
 
     @Cacheable
     List<OptionVal> findOptionVals(String type, Integer projectId, @CacheKey Integer sAccountId);

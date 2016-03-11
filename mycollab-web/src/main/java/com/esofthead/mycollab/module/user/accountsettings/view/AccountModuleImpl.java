@@ -22,7 +22,6 @@ import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.user.accountsettings.billing.view.IBillingPresenter;
 import com.esofthead.mycollab.module.user.accountsettings.customize.view.ISettingPresenter;
 import com.esofthead.mycollab.module.user.accountsettings.localization.AdminI18nEnum;
-import com.esofthead.mycollab.module.user.accountsettings.localization.SettingCommonI18nEnum;
 import com.esofthead.mycollab.module.user.accountsettings.profile.view.ProfilePresenter;
 import com.esofthead.mycollab.module.user.accountsettings.setup.view.SetupPresenter;
 import com.esofthead.mycollab.module.user.accountsettings.team.view.UserPermissionManagementPresenter;
@@ -40,7 +39,6 @@ import com.esofthead.mycollab.vaadin.web.ui.VerticalTabsheet.TabImpl;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
 import com.vaadin.ui.TabSheet.Tab;
@@ -81,30 +79,16 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
 
         accountTab = new UserVerticalTabsheet();
         accountTab.setSizeFull();
-        accountTab.setNavigatorWidth("220px");
         accountTab.setNavigatorStyleName("sidebar-menu");
         accountTab.setContainerStyleName("tab-content");
-
         VerticalLayout contentWrapper = accountTab.getContentWrapper();
         contentWrapper.addStyleName("main-content");
         contentWrapper.addComponentAsFirst(topPanel);
-
-        VerticalLayout introTextWrap = new VerticalLayout();
-        introTextWrap.setStyleName("intro-text-wrap");
-        introTextWrap.setMargin(new MarginInfo(true, true, false, true));
-        introTextWrap.setWidth("100%");
-        introTextWrap.addComponent(generateIntroText());
-
-        accountTab.getNavigatorWrapper().setWidth("220px");
-        accountTab.getNavigatorWrapper().addComponentAsFirst(introTextWrap);
+        accountTab.setNavigatorWidth("200px");
+        accountTab.getNavigatorWrapper().setWidth("200px");
 
         this.buildComponents();
-
         this.addComponent(accountTab);
-    }
-
-    private Label generateIntroText() {
-        return new Label(AppContext.getMessage(SettingCommonI18nEnum.OPT_ADVER_INFO));
     }
 
     private void buildComponents() {

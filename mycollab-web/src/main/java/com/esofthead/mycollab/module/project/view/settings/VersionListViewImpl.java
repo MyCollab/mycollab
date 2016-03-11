@@ -66,7 +66,7 @@ public class VersionListViewImpl extends AbstractPageView implements VersionList
     private Label selectedItemsNumberLabel = new Label();
 
     public VersionListViewImpl() {
-        this.setMargin(new MarginInfo(false, true, false, true));
+        this.setMargin(new MarginInfo(false, true, true, true));
         this.versionSearchPanel = new VersionSearchPanel();
         this.versionListLayout = new VerticalLayout();
         this.with(versionSearchPanel, versionListLayout);

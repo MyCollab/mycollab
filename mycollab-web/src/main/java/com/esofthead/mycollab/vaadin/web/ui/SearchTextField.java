@@ -45,7 +45,7 @@ public abstract class SearchTextField extends MHorizontalLayout {
 
     public SearchTextField() {
         this.setDefaultComponentAlignment(Alignment.MIDDLE_RIGHT);
-        icon = new ELabel(FontAwesome.SEARCH);
+        icon = ELabel.fontIcon(FontAwesome.SEARCH);
         innerField = new TextField();
         innerField.setImmediate(true);
         innerField.setInputPrompt("Search");

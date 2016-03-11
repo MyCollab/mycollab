@@ -28,7 +28,6 @@ import org.vaadin.easyuploads.MultiFileUploadExt;
  * @author MyCollab Ltd.
  * @since 4.5.3
  */
-@SuppressWarnings("rawtypes")
 public class ProjectFormAttachmentUploadField extends CustomField {
     private static final long serialVersionUID = 1L;
     private MultiFileUploadExt uploadExt;
@@ -38,9 +37,9 @@ public class ProjectFormAttachmentUploadField extends CustomField {
         attachmentPanel = new AttachmentPanel();
     }
 
-    public void getAttachments(int projectId, String type, int typeid) {
+    public void getAttachments(int projectId, String type, int typeId) {
         String attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(AppContext.getAccountId(),
-                projectId, type, "" + typeid);
+                projectId, type, "" + typeId);
         attachmentPanel.getAttachments(attachmentPath);
     }
 
@@ -49,9 +48,9 @@ public class ProjectFormAttachmentUploadField extends CustomField {
         return Object.class;
     }
 
-    public void saveContentsToRepo(int projectid, String type, int typeId) {
+    public void saveContentsToRepo(int projectId, String type, int typeId) {
         String attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(AppContext.getAccountId(),
-                projectid, type, "" + typeId);
+                projectId, type, "" + typeId);
         attachmentPanel.saveContentsToRepo(attachmentPath);
     }
 

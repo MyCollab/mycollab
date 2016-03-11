@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.vaadin.web.ui;
 
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.MarginInfo;
@@ -33,7 +34,7 @@ public class AddViewLayout2 extends VerticalLayout {
     private static final long serialVersionUID = 1L;
 
     private MHorizontalLayout header;
-    private Label titleLbl;
+    private ELabel titleLbl;
     private Resource viewIcon;
     private MVerticalLayout body;
 
@@ -43,8 +44,7 @@ public class AddViewLayout2 extends VerticalLayout {
 
         this.viewIcon = icon;
 
-        header = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false)).withWidth("100%")
-                .withStyleName(UIConstants.HEADER_VIEW);
+        header = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false)).withWidth("100%");
         header.setDefaultComponentAlignment(Alignment.TOP_LEFT);
 
         if (!(icon instanceof FontAwesome)) {
@@ -53,7 +53,7 @@ public class AddViewLayout2 extends VerticalLayout {
             header.with(iconEmbed);
         }
 
-        titleLbl = new Label("", ContentMode.HTML);
+        titleLbl = new ELabel("", ContentMode.HTML).withStyleName(ValoTheme.LABEL_H2, ValoTheme.LABEL_NO_MARGIN);
         header.with(titleLbl).expand(titleLbl);
 
         if (title == null) {
@@ -72,11 +72,6 @@ public class AddViewLayout2 extends VerticalLayout {
 
     public void addTitleStyleName(String style) {
         titleLbl.addStyleName(style);
-    }
-
-    public void initTitleStyleName() {
-        titleLbl.setStyleName(ValoTheme.LABEL_H2);
-        titleLbl.addStyleName(ValoTheme.LABEL_NO_MARGIN);
     }
 
     public void addBody(ComponentContainer bodyContainer) {
@@ -99,6 +94,7 @@ public class AddViewLayout2 extends VerticalLayout {
         } else {
             titleLbl.setValue(viewTitle);
         }
+        titleLbl.setDescription(viewTitle);
     }
 
     public void addHeaderRight(Component headerRight) {

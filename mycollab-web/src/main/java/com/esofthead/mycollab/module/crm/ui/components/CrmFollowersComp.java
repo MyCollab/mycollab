@@ -16,39 +16,40 @@
  */
 package com.esofthead.mycollab.module.crm.ui.components;
 
-import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.common.domain.MonitorItem;
-import com.esofthead.mycollab.common.domain.SimpleMonitorItem;
 import com.esofthead.mycollab.common.domain.criteria.MonitorSearchCriteria;
 import com.esofthead.mycollab.common.i18n.FollowerI18nEnum;
-import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.MonitorItemService;
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.core.arguments.ValuedBean;
+import com.esofthead.mycollab.core.arguments.*;
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
-import com.esofthead.mycollab.module.user.ui.components.ActiveUserMultiSelectComp;
+import com.esofthead.mycollab.module.user.domain.criteria.UserSearchCriteria;
+import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.AsyncInvoker;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
+import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
+import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.web.ui.UserLink;
-import com.esofthead.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
+import com.vaadin.data.Property;
+import com.vaadin.event.LayoutEvents;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Table.ColumnGenerator;
+import com.vaadin.ui.themes.ValoTheme;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.jouni.restrain.Restrain;
+import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -61,24 +62,30 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
     private static final Logger LOG = LoggerFactory.getLogger(CrmFollowersComp.class);
 
     private MonitorItemService monitorItemService;
-    private boolean currentUserFollow;
     private String type;
+    private Integer typeId;
+    private String permissionItem;
+    private List<SimpleUser> followers;
     private V bean;
 
-    private String permissionItem;
-    private Button followersBtn;
+    private CssLayout watcherLayout;
 
     public CrmFollowersComp(String type, String permissionItem) {
         super();
+        withMargin(false);
         monitorItemService = ApplicationContextUtil.getSpringBean(MonitorItemService.class);
         this.type = type;
         this.permissionItem = permissionItem;
-
-        this.withMargin(new MarginInfo(true, false, true, true));
     }
 
     public void displayFollowers(final V bean) {
         this.bean = bean;
+        try {
+            typeId = (Integer) PropertyUtils.getProperty(bean, "id");
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            LOG.error("Error", e);
+            return;
+        }
         this.removeAllComponents();
 
         MHorizontalLayout header = new MHorizontalLayout().withStyleName("info-hdr");
@@ -88,275 +95,160 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
         header.addComponent(followerHeader);
 
         if (hasEditPermission()) {
-            Button editBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
+            final PopupView addPopupView = new PopupView("Modify", new MVerticalLayout());
+            addPopupView.addPopupVisibilityListener(new PopupView.PopupVisibilityListener() {
                 @Override
-                public void buttonClick(ClickEvent event) {
-                    showEditWatchersWindow(bean);
-
+                public void popupVisibilityChange(PopupView.PopupVisibilityEvent event) {
+                    PopupView.Content content = addPopupView.getContent();
+                    if (event.isPopupVisible()) {
+                        MVerticalLayout popupComponent = (MVerticalLayout) content.getPopupComponent();
+                        popupComponent.removeAllComponents();
+                        popupComponent.with(new ELabel("Modify watchers").withStyleName(ValoTheme.LABEL_H3), new ModifyWatcherPopup());
+                    } else {
+                        MVerticalLayout popupComponent = (MVerticalLayout) content.getPopupComponent();
+                        ModifyWatcherPopup popup = (ModifyWatcherPopup) popupComponent.getComponent(1);
+                        List<MonitorItem> unsavedItems = popup.getUnsavedItems();
+                        monitorItemService.saveMonitorItems(unsavedItems);
+                        loadWatchers();
+                    }
                 }
             });
-            editBtn.setStyleName(UIConstants.BUTTON_LINK);
-            header.addComponent(editBtn);
+            header.addComponent(addPopupView);
         }
 
         this.addComponent(header);
-        header.addComponent(new Label("/"));
+        watcherLayout = new MCssLayout().withFullWidth().withStyleName(UIConstants.FLEX_DISPLAY);
+        this.addComponent(watcherLayout);
+        loadWatchers();
+    }
 
-        currentUserFollow = isUserWatching(bean);
-
-        final Button toogleWatching = new Button("");
-        toogleWatching.setStyleName(UIConstants.BUTTON_LINK);
-        toogleWatching.addClickListener(new ClickListener() {
-            private static final long serialVersionUID = 1L;
-
+    private void loadWatchers() {
+        AsyncInvoker.access(new AsyncInvoker.PageCommand() {
             @Override
-            public void buttonClick(ClickEvent event) {
-                if (currentUserFollow) {
-                    unfollowItem(AppContext.getUsername(), bean);
-                    currentUserFollow = false;
-                    toogleWatching.setCaption(AppContext
-                            .getMessage(FollowerI18nEnum.BUTTON_FOLLOW));
-                } else {
-                    followItem(AppContext.getUsername(), bean);
-                    toogleWatching.setCaption(AppContext
-                            .getMessage(FollowerI18nEnum.BUTTON_UNFOLLOW));
-                    currentUserFollow = true;
+            public void run() {
+                watcherLayout.removeAllComponents();
+                followers = monitorItemService.getWatchers(type, typeId);
+                for (SimpleUser follower : followers) {
+                    watcherLayout.addComponent(new FollowerComp(follower));
                 }
-
-                updateTotalFollowers(bean);
             }
         });
-        header.addComponent(toogleWatching);
+    }
 
-        if (currentUserFollow) {
-            toogleWatching.setCaption(AppContext.getMessage(FollowerI18nEnum.BUTTON_UNFOLLOW));
-        } else {
-            toogleWatching.setCaption(AppContext.getMessage(FollowerI18nEnum.BUTTON_FOLLOW));
+    private class FollowerComp extends CssLayout {
+        FollowerComp(final SimpleUser user) {
+            Resource userAvatarBtn = UserAvatarControlFactory.createAvatarResource(user.getAvatarid(), 32);
+            final Label icon = new Label();
+            icon.setIcon(userAvatarBtn);
+            icon.setDescription(user.getDisplayName());
+            icon.setWidthUndefined();
+            addComponent(icon);
+            this.addStyleName("removeable-btn");
+
+            this.setWidthUndefined();
+            this.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
+                @Override
+                public void layoutClick(LayoutEvents.LayoutClickEvent event) {
+                    if (event.getClickedComponent() == icon) {
+                        return;
+                    } else if (!hasEditPermission()) {
+                        NotificationUtil.showMessagePermissionAlert();
+                    } else {
+                        unfollowItem(user.getUsername());
+                        ((ComponentContainer) FollowerComp.this.getParent()).removeComponent(FollowerComp.this);
+                    }
+                }
+            });
         }
-
-        MVerticalLayout layout = new MVerticalLayout().withMargin(new MarginInfo(false, false, false, true)).withWidth("100%");
-
-        addComponent(layout);
-
-        int totalFollowers = getTotalFollowers(bean);
-        followersBtn = new Button(AppContext.getMessage(FollowerI18nEnum.OPT_NUM_FOLLOWERS, totalFollowers), new ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                if (hasReadPermission()) {
-                    showEditWatchersWindow(bean);
-                }
-
-            }
-        });
-        followersBtn.setStyleName(UIConstants.BUTTON_LINK);
-        layout.addComponent(followersBtn);
-    }
-
-    private void updateTotalFollowers(V bean) {
-        int totalFollowers = getTotalFollowers(bean);
-        followersBtn.setCaption(AppContext.getMessage(FollowerI18nEnum.OPT_NUM_FOLLOWERS, totalFollowers));
-    }
-
-    private boolean hasReadPermission() {
-        return AppContext.canRead(permissionItem);
     }
 
     private boolean hasEditPermission() {
         return AppContext.canWrite(permissionItem);
     }
 
-    private void showEditWatchersWindow(V bean) {
-        UI.getCurrent().addWindow(new CompFollowersEditWindow(hasEditPermission()));
-    }
-
-    private boolean isUserWatching(V bean) {
-        try {
-            return monitorItemService.isUserWatchingItem(AppContext.getUsername(), type,
-                    (int) PropertyUtils.getProperty(bean, "id"));
-        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            return false;
-        }
-    }
-
-    private int getTotalFollowers(V bean) {
+    private void unfollowItem(String username) {
         try {
             MonitorSearchCriteria criteria = new MonitorSearchCriteria();
-            criteria.setTypeId(new NumberSearchField((Number) PropertyUtils.getProperty(bean, "id")));
-            criteria.setType(StringSearchField.and(type));
-            return monitorItemService.getTotalCount(criteria);
-        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            LOG.error("Error", e);
-            return 0;
-        }
-    }
-
-    private void followItem(String username, V bean) {
-        try {
-            MonitorItem monitorItem = new MonitorItem();
-            monitorItem.setMonitorDate(new GregorianCalendar().getTime());
-            monitorItem.setType(type);
-            monitorItem.setTypeid((Integer) PropertyUtils.getProperty(bean, "id"));
-            monitorItem.setUser(username);
-            monitorItem.setSaccountid(AppContext.getAccountId());
-            monitorItemService.saveWithSession(monitorItem,
-                    AppContext.getUsername());
-        } catch (IllegalAccessException | InvocationTargetException
-                | NoSuchMethodException e) {
-            LOG.error("Error", e);
-        }
-    }
-
-    private void unfollowItem(String username, V bean) {
-        try {
-            MonitorSearchCriteria criteria = new MonitorSearchCriteria();
-            criteria.setTypeId(new NumberSearchField((Number) PropertyUtils
-                    .getProperty(bean, "id")));
+            criteria.setTypeId(new NumberSearchField((Integer) PropertyUtils.getProperty(bean, "id")));
             criteria.setType(StringSearchField.and(type));
             criteria.setUser(StringSearchField.and(username));
-            monitorItemService.removeByCriteria(criteria,
-                    AppContext.getAccountId());
+            monitorItemService.removeByCriteria(criteria, AppContext.getAccountId());
+            for (SimpleUser user: followers) {
+                if (username.equals(user.getUsername())) {
+                    followers.remove(user);
+                    break;
+                }
+            }
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             LOG.error("Error", e);
         }
     }
 
-    class CompFollowersEditWindow extends Window {
-        private static final long serialVersionUID = 1L;
+    private class ModifyWatcherPopup extends MVerticalLayout {
+        private List<SimpleUser> users;
+        private List<SimpleUser> unsavedUsers = new ArrayList<>();
 
-        private DefaultPagedBeanTable<MonitorItemService, MonitorSearchCriteria, SimpleMonitorItem> tableItem;
+        ModifyWatcherPopup() {
+            new Restrain(this).setMaxHeight("600px");
+            this.addStyleName(UIConstants.SCROLLABLE_CONTAINER);
+            this.setWidth("100%");
+            UserSearchCriteria criteria = new UserSearchCriteria();
+            criteria.setStatuses(new SetSearchField<>("Active"));
 
-        public CompFollowersEditWindow(boolean isEdit) {
-            this.setModal(true);
-            this.setResizable(false);
-            this.setCaption(AppContext.getMessage(FollowerI18nEnum.DIALOG_WATCHERS_TITLE));
-            this.setWidth("600px");
-
-            MVerticalLayout content = new MVerticalLayout();
-            this.setContent(content);
-
-            if (isEdit) {
-                MHorizontalLayout headerPanel = new MHorizontalLayout();
-                content.addComponent(headerPanel);
-
-                final ActiveUserMultiSelectComp memberSelection = new ActiveUserMultiSelectComp();
-                headerPanel.addComponent(memberSelection);
-                Button btnSave = new Button(AppContext.getMessage(FollowerI18nEnum.BUTTON_FOLLOW), new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void buttonClick(ClickEvent event) {
-                        List<SimpleUser> members = memberSelection.getSelectedItems();
-                        for (SimpleUser member : members) {
-                            followItem(member.getUsername(), bean);
-                        }
-
-                        memberSelection.resetComp();
-                        loadMonitorItems();
-                    }
-                });
-
-                btnSave.setStyleName(UIConstants.BUTTON_ACTION);
-                btnSave.setIcon(FontAwesome.PLUS);
-                headerPanel.addComponent(btnSave);
-
-                this.addCloseListener(new CloseListener() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void windowClose(CloseEvent e) {
-                        displayFollowers(bean);
-                    }
-                });
+            UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
+            users = userService.findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+            for (SimpleUser member : users) {
+                this.addComponent(new FollowerRow(member));
             }
-
-            tableItem = new DefaultPagedBeanTable<>(ApplicationContextUtil.getSpringBean(MonitorItemService.class),
-                    SimpleMonitorItem.class,
-                    Arrays.asList(new TableViewField(FollowerI18nEnum.OPT_FOLLOWER_NAME, "user", UIConstants.TABLE_EX_LABEL_WIDTH),
-                            new TableViewField(FollowerI18nEnum.OPT_FOLLOWER_CREATE_DATE, "monitorDate", UIConstants.TABLE_DATE_TIME_WIDTH),
-                            new TableViewField(null, "id", UIConstants.TABLE_CONTROL_WIDTH)));
-
-            tableItem.addGeneratedColumn("user", new Table.ColumnGenerator() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public com.vaadin.ui.Component generateCell(Table source,
-                                                            final Object itemId, Object columnId) {
-                    final SimpleMonitorItem monitorItem = tableItem.getBeanByIndex(itemId);
-
-                    return new UserLink(monitorItem.getUser(), monitorItem
-                            .getUserAvatarId(), monitorItem.getUserFullname());
-
-                }
-            });
-
-            tableItem.addGeneratedColumn("monitorDate", new ColumnGenerator() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public com.vaadin.ui.Component generateCell(Table source,
-                                                            Object itemId, Object columnId) {
-                    final MonitorItem monitorItem = tableItem.getBeanByIndex(itemId);
-                    return new ELabel().prettyDateTime(monitorItem.getMonitorDate());
-                }
-            });
-
-            if (isEdit) {
-                tableItem.addGeneratedColumn("id", new ColumnGenerator() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public Object generateCell(Table source, Object itemId,
-                                               Object columnId) {
-                        final MonitorItem monitorItem = tableItem.getBeanByIndex(itemId);
-
-                        Button deleteBtn = new Button(null, new Button.ClickListener() {
-                            private static final long serialVersionUID = 1L;
-
-                            @Override
-                            public void buttonClick(ClickEvent event) {
-                                MonitorItemService monitorItemService = ApplicationContextUtil.getSpringBean(MonitorItemService.class);
-                                monitorItemService.removeWithSession(monitorItem,
-                                        AppContext.getUsername(), AppContext.getAccountId());
-                                CompFollowersEditWindow.this.loadMonitorItems();
-                            }
-                        });
-                        deleteBtn.setIcon(FontAwesome.TRASH_O);
-                        deleteBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
-                        return deleteBtn;
-                    }
-                });
-            } else {
-                tableItem.addGeneratedColumn("id", new ColumnGenerator() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public Object generateCell(Table source, Object itemId,
-                                               Object columnId) {
-                        return new Label("");
-                    }
-
-                });
-            }
-            tableItem.setWidth("100%");
-
-            content.addComponent(tableItem);
-
-            loadMonitorItems();
         }
 
-        private void loadMonitorItems() {
-            try {
-                MonitorSearchCriteria searchCriteria = new MonitorSearchCriteria();
-                searchCriteria.setTypeId(new NumberSearchField((Number) PropertyUtils.getProperty(bean, "id")));
-                searchCriteria.setType(StringSearchField.and(type));
-                tableItem.setSearchCriteria(searchCriteria);
-            } catch (IllegalAccessException | InvocationTargetException
-                    | NoSuchMethodException e) {
-                LOG.error("Error", e);
+        List<MonitorItem> getUnsavedItems() {
+            List<MonitorItem> items = new ArrayList<>(unsavedUsers.size());
+            for (SimpleUser member : unsavedUsers) {
+                MonitorItem item = new MonitorItem();
+                item.setMonitorDate(new GregorianCalendar().getTime());
+                item.setSaccountid(AppContext.getAccountId());
+                item.setType(type);
+                item.setTypeid(typeId);
+                item.setUser(member.getUsername());
+                items.add(item);
+            }
+            return items;
+        }
+
+        private class FollowerRow extends MHorizontalLayout {
+            private CheckBox isSelectedBox;
+            private boolean isWatching = false;
+
+            private FollowerRow(final SimpleUser member) {
+                isSelectedBox = new CheckBox();
+                Image avatarResource = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(member.getAvatarid(), 16);
+                Label icon = new Label(StringUtils.trim(member.getDisplayName(), 20, true));
+                icon.setDescription(member.getDisplayName());
+                this.with(isSelectedBox, avatarResource, icon);
+                for (SimpleUser follower : followers) {
+                    if (follower.getUsername().equals(member.getUsername())) {
+                        isSelectedBox.setValue(true);
+                        isWatching = true;
+                    }
+                }
+                isSelectedBox.addValueChangeListener(new Property.ValueChangeListener() {
+                    @Override
+                    public void valueChange(Property.ValueChangeEvent event) {
+                        if (isSelectedBox.getValue()) {
+                            if (!isWatching) {
+                                unsavedUsers.add(member);
+                            }
+                        } else {
+                            if (isWatching) {
+                                unfollowItem(member.getUsername());
+                                isWatching = false;
+                            } else {
+                                unsavedUsers.remove(member);
+                            }
+                        }
+                    }
+                });
             }
         }
     }

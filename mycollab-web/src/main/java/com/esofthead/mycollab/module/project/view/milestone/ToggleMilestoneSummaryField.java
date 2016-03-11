@@ -65,8 +65,7 @@ public class ToggleMilestoneSummaryField extends CssLayout {
         milestoneLbl.addStyleName(ValoTheme.LABEL_NO_MARGIN);
         milestoneLbl.addStyleName(UIConstants.LABEL_WORD_WRAP);
         this.addComponent(milestoneLbl);
-        buttonControls = new MHorizontalLayout().withStyleName
-                ("toggle").withSpacing(false);
+        buttonControls = new MHorizontalLayout().withStyleName("toggle").withSpacing(false);
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES)) {
             this.addStyleName("editable-field");
             Button instantEditBtn = new Button(null, new Button.ClickListener() {
@@ -127,8 +126,7 @@ public class ToggleMilestoneSummaryField extends CssLayout {
         milestoneLink.appendText(StringUtils.trim(milestone.getName(), maxLength, true));
 
         Div milestoneDiv = new Div().appendText(VaadinIcons.CALENDAR_BRIEFCASE.getHtml() + " ").appendChild(milestoneLink)
-                .appendText(" (" + AppContext.getMessage(OptionI18nEnum.MilestoneStatus.class, milestone.getStatus())
-                        + ")");
+                .appendText(" (" + AppContext.getMessage(OptionI18nEnum.MilestoneStatus.class, milestone.getStatus()) + ")");
         if (milestone.isOverdue()) {
             milestoneLink.setCSSClass("overdue");
             milestoneDiv.appendChild(new Span().setCSSClass(UIConstants.LABEL_META_INFO).appendText(" - Due in " + AppContext

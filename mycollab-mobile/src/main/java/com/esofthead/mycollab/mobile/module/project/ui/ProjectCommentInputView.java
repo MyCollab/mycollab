@@ -107,7 +107,7 @@ public class ProjectCommentInputView extends AbstractMobilePageView {
             }
         });
         this.setRightComponent(postBtn);
-        content.with(commentInput, ELabel.Hr(), uploadField, statusWrapper);
+        content.with(commentInput, ELabel.hr(), uploadField, statusWrapper);
     }
 
     private void prepareUploadField() {

@@ -55,6 +55,7 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -79,7 +80,6 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
 
         previewForm = initPreviewForm();
         previewForm.setWidth("100%");
-        previewForm.setStyleName("member-preview-form");
 
         bottomLayout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false)).withWidth("100%");
         this.addHeaderRightContent(createButtonControls());
@@ -165,10 +165,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
             MVerticalLayout memberInfo = new MVerticalLayout().withStyleName("member-info")
                     .withMargin(new MarginInfo(false, false, false, true));
 
-            Label memberLink = new Label(beanItem.getMemberFullName());
-            memberLink.setWidth("100%");
-            memberLink.addStyleName("member-name");
-
+            ELabel memberLink = new ELabel(beanItem.getMemberFullName()).withWidth("100%").withStyleName(ValoTheme.LABEL_H3, ValoTheme.LABEL_NO_MARGIN);
             memberInfo.addComponent(memberLink);
 
             String memberRoleLinkPrefix = String.format("<a href=\"%s%s%s\"", AppContext.getSiteUrl(), GenericLinkUtils.URL_PREFIX_PARAM,

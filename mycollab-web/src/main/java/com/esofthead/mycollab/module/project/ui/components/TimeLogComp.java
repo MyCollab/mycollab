@@ -47,7 +47,7 @@ public abstract class TimeLogComp<B extends ValuedBean> extends MVerticalLayout 
 
     protected TimeLogComp() {
         this.itemTimeLoggingService = ApplicationContextUtil.getSpringBean(ItemTimeLoggingService.class);
-        this.withMargin(new MarginInfo(false, false, false, true));
+        this.withMargin(false);
 
         HorizontalLayout header = new MHorizontalLayout().withStyleName("info-hdr");
         header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);

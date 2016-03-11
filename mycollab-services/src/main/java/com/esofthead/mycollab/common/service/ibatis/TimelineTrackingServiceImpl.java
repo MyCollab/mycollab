@@ -25,6 +25,7 @@ import com.esofthead.mycollab.common.domain.criteria.TimelineTrackingSearchCrite
 import com.esofthead.mycollab.common.service.TimelineTrackingService;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
+import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultCrudService;
 import com.google.common.base.Predicate;
@@ -72,7 +73,7 @@ public class TimelineTrackingServiceImpl extends DefaultCrudService<Integer, Tim
     }
 
     @Override
-    public Map<String, List<GroupItem>> findTimelineItems(List<String> groupVals, Date start, Date end,
+    public Map<String, List<GroupItem>> findTimelineItems(String fieldGroup, List<String> groupVals, Date start, Date end,
                                                           TimelineTrackingSearchCriteria criteria) {
         try {
             DateTime startDate = new DateTime(start);
@@ -81,8 +82,8 @@ public class TimelineTrackingServiceImpl extends DefaultCrudService<Integer, Tim
                 throw new UserInvalidInputException("Start date must be greater than end date");
             }
             List<Date> dates = boundDays(startDate, endDate.minusDays(1));
-
             Map<String, List<GroupItem>> items = new HashMap<>();
+            criteria.setFieldgroup(StringSearchField.and(fieldGroup));
             List<GroupItem> cacheTimelineItems = timelineTrackingCachingMapperExt.findTimelineItems(groupVals, dates, criteria);
 
             DateTime calculatedDate = startDate.toDateTime();

@@ -53,8 +53,8 @@ public class ProjectVerticalTabsheet extends VerticalTabsheet {
             toogleBtn.setDescription("Expand menu");
             toogleBtn.setCaption("");
         } else {
-            navigatorWrapper.setWidth("220px");
-            navigatorContainer.setWidth("220px");
+            navigatorWrapper.setWidth("200px");
+            navigatorContainer.setWidth("200px");
             this.showTabsCaption();
 
             toogleBtn.setIcon(FontAwesome.CARET_SQUARE_O_LEFT);

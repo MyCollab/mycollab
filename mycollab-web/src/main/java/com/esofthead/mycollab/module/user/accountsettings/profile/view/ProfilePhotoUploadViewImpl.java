@@ -27,6 +27,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.ByteArrayImageResource;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
@@ -65,7 +66,7 @@ public class ProfilePhotoUploadViewImpl extends AbstractPageView implements Prof
     private byte[] scaleImageData;
 
     public ProfilePhotoUploadViewImpl() {
-        this.setMargin(true);
+        this.withSpacing(true).withMargin(true);
     }
 
     @SuppressWarnings("serial")
@@ -90,7 +91,8 @@ public class ProfilePhotoUploadViewImpl extends AbstractPageView implements Prof
 
         VerticalLayout previewBoxRight = new VerticalLayout();
         previewBoxRight.setMargin(new MarginInfo(false, true, false, true));
-        Label lbPreview = new Label("<p style='margin: 0px;'><strong>To the left is what your profile photo will look like.</strong></p>" +
+        Label lbPreview = new Label("<p style='margin: 0px;'><strong>To the bottom is what your profile photo will " +
+                "look like.</strong></p>" +
                 "<p style='margin-top: 0px;'>To make adjustment, you can drag around and resize the selection square below. " +
                 "When you are happy with your photo, click the &ldquo;Accept&ldquo; button.</p>",
                 ContentMode.HTML);
@@ -138,7 +140,6 @@ public class ProfilePhotoUploadViewImpl extends AbstractPageView implements Prof
         this.addComponent(previewBox);
 
         CssLayout cropBox = new CssLayout();
-        cropBox.addStyleName(UIConstants.PHOTO_CROPBOX);
         cropBox.setWidth("100%");
         VerticalLayout currentPhotoBox = new VerticalLayout();
         Resource resource = new ByteArrayImageResource(ImageUtil.convertImageToByteArray(originalImage), "image/png");
@@ -174,7 +175,7 @@ public class ProfilePhotoUploadViewImpl extends AbstractPageView implements Prof
         currentPhotoBox.addComponent(cropField);
         cropBox.addComponent(currentPhotoBox);
 
-        this.with(previewBox, cropBox).expand(cropBox);
+        this.with(previewBox, ELabel.hr(), cropBox).expand(cropBox);
     }
 
     private void displayPreviewImage() {
@@ -183,5 +184,4 @@ public class ProfilePhotoUploadViewImpl extends AbstractPageView implements Prof
             previewImage.setSource(previewResource);
         }
     }
-
 }

@@ -44,6 +44,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.vaadin.addons</groupId>
+            <artifactId>restrain</artifactId>
+            <version>0.1</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.vaadin.addon</groupId>
             <artifactId>vaadin-touchkit-agpl</artifactId>
             <version>4.1.0</version>

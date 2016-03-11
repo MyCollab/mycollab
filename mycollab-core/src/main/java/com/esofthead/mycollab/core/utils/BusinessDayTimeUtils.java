@@ -31,15 +31,15 @@ public class BusinessDayTimeUtils {
 
     public static LocalDate plusDays(LocalDate refDate, int lagDate) {
         DateCalculator<LocalDate> calc1;
-        boolean isFoward = false;
+        boolean isForward = false;
         if (lagDate >= 0) {
             calc1 = LocalDateKitCalculatorsFactory.forwardCalculator("MyCollab");
-            isFoward = true;
+            isForward = true;
         } else {
             calc1 = LocalDateKitCalculatorsFactory.backwardCalculator("MyCollab");
         }
 
-        if (isFoward) {
+        if (isForward) {
             refDate = refDate.minusDays(1);
             while (calc1.isNonWorkingDay(refDate)) {
                 refDate = refDate.minusDays(1);
@@ -95,7 +95,7 @@ public class BusinessDayTimeUtils {
                     calc1.moveByBusinessDays(1);
                     testDate = calc1.getCurrentBusinessDate();
                     if (!testDate.isEqual(end)) {
-                        LOG.error("Error while calculate duration of " + start + "--" + end);
+//                        LOG.error("Error while calculate duration of " + start + "--" + end);
                     }
                     return candidateDuration + 1;
                 }

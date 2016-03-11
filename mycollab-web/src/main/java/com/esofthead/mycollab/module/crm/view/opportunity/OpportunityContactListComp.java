@@ -167,7 +167,7 @@ public class OpportunityContactListComp extends RelatedListComp2<ContactOpportun
             MHorizontalLayout blockTop = new MHorizontalLayout().withWidth("100%");
             CssLayout iconWrap = new CssLayout();
             iconWrap.setStyleName("icon-wrap");
-            ELabel contactAvatar = new ELabel(CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT));
+            ELabel contactAvatar = ELabel.fontIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT));
             iconWrap.addComponent(contactAvatar);
             blockTop.addComponent(iconWrap);
 

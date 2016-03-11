@@ -30,8 +30,10 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.eclipse.jetty.annotations.AnnotationConfiguration;
 import org.eclipse.jetty.plus.webapp.EnvConfiguration;
 import org.eclipse.jetty.plus.webapp.PlusConfiguration;
+import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -132,7 +134,12 @@ public abstract class GenericServerRunner {
                 LOG.error("There is uncatch exception", e);
             }
         });
-        server = new Server(port);
+        server = new Server();
+        ServerConnector serverConnector = new ServerConnector(server);
+        serverConnector.setIdleTimeout(360000);
+        serverConnector.setPort(port);
+        // Set the connectors
+        server.addConnector(serverConnector);
         contexts = new ContextHandlerCollection();
 
         boolean alreadySetup = false;
@@ -311,8 +318,7 @@ public abstract class GenericServerRunner {
                 @Override
                 public void run() {
                     LOG.debug("Detect root folder webapp");
-                    File confFolder = FileUtils.getDesireFile(System.getProperty("user.dir"),
-                            "conf", "src/main/conf");
+                    File confFolder = FileUtils.getDesireFile(System.getProperty("user.dir"), "conf", "src/main/conf");
 
                     if (confFolder == null) {
                         throw new MyCollabException("Can not detect webapp base folder");

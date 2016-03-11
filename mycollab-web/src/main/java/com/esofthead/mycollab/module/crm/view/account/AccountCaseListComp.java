@@ -150,7 +150,7 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
             MHorizontalLayout blockTop = new MHorizontalLayout();
             CssLayout iconWrap = new CssLayout();
             iconWrap.setStyleName("icon-wrap");
-            ELabel caseIcon = new ELabel(CrmAssetsManager.getAsset(CrmTypeConstants.CASE));
+            ELabel caseIcon = ELabel.fontIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CASE));
             iconWrap.addComponent(caseIcon);
             blockTop.addComponent(iconWrap);
 

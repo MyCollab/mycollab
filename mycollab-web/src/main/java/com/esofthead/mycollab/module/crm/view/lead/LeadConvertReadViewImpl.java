@@ -99,7 +99,6 @@ public class LeadConvertReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
     public void previewItem(SimpleLead item) {
         this.beanItem = item;
         previewLayout.setTitle(initFormTitle());
-        previewLayout.initTitleStyleName();
         displayConvertLeadInfo(item);
         onPreviewItem();
     }

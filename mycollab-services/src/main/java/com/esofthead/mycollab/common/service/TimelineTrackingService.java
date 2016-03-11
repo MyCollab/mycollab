@@ -33,5 +33,6 @@ import java.util.Map;
  */
 public interface TimelineTrackingService extends ICrudService<Integer, TimelineTracking> {
     @Cacheable
-    Map<String, List<GroupItem>> findTimelineItems(List<String> groupVals, Date start, Date end, @CacheKey TimelineTrackingSearchCriteria criteria);
+    Map<String, List<GroupItem>> findTimelineItems(String fieldGroup, List<String> groupVals, Date start, Date end,
+                                                   @CacheKey TimelineTrackingSearchCriteria criteria);
 }

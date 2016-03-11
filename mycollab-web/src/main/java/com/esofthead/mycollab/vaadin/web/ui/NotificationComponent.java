@@ -92,7 +92,7 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
                 comp.addStyleName("notification-type-" + item.getType());
                 notificationContainer.addComponent(comp);
                 if (i < notificationItems.size() - 1) {
-                    notificationContainer.addComponent(ELabel.Hr());
+                    notificationContainer.addComponent(ELabel.hr());
                 }
             }
         } else {

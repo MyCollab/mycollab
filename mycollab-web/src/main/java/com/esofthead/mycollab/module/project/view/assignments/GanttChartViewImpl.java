@@ -66,8 +66,7 @@ public class GanttChartViewImpl extends AbstractLazyPageView implements GanttCha
     }
 
     private void constructUI() {
-        MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(false, false, true, false))
-                .withStyleName("hdr-view").withWidth("100%");
+        MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(false, false, true, false)).withWidth("100%");
         header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
         Label headerText = new Label(FontAwesome.BAR_CHART_O.getHtml() + " Gantt chart", ContentMode.HTML);
         headerText.setStyleName(ValoTheme.LABEL_H2);

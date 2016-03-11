@@ -162,7 +162,7 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
         ELabel memberLinkLbl = new ELabel(memberLink.write(), ContentMode.HTML).withStyleName(ValoTheme.LABEL_H3);
         memberLinkLbl.addStyleName(ValoTheme.LABEL_NO_MARGIN);
         memberInfo.addComponent(memberLinkLbl);
-        memberInfo.addComponent(ELabel.Hr());
+        memberInfo.addComponent(ELabel.hr());
 
         Label memberEmailLabel = new Label(String.format("<a href='mailto:%s'>%s</a>", member.getUsername(),
                 member.getUsername()), ContentMode.HTML);

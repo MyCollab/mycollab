@@ -19,9 +19,13 @@ package com.esofthead.mycollab.vaadin.web.ui.field;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.shared.ui.ui.UIClientRpc;
+import com.vaadin.shared.ui.ui.UIConstants;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.Label;
+import org.vaadin.jouni.restrain.Restrain;
 
 /**
  * @author MyCollab Ltd.
@@ -30,26 +34,20 @@ import com.vaadin.ui.Label;
 public class I18nFormViewField extends CustomField<String> {
     private static final long serialVersionUID = 1L;
 
+    private CssLayout wrapper;
+    private Label label;
     private String key;
-    @SuppressWarnings("rawtypes")
     private Class<? extends Enum> enumClass;
 
-    @SuppressWarnings("rawtypes")
     public I18nFormViewField(final String key, Class<? extends Enum> enumCls) {
         this.key = key;
         this.enumClass = enumCls;
-    }
-
-    @Override
-    public Class<String> getType() {
-        return String.class;
-    }
-
-    @Override
-    protected Component initContent() {
-        Label label = new Label();
-        label.setWidth("100%");
+        wrapper = new CssLayout();
+        wrapper.setWidth("100%");
+        label = new Label();
         label.setContentMode(ContentMode.TEXT);
+        new Restrain(label).setMaxWidth("100%");
+        wrapper.addComponent(label);
 
         if (StringUtils.isNotBlank(key)) {
             try {
@@ -61,7 +59,20 @@ public class I18nFormViewField extends CustomField<String> {
         } else {
             label.setValue("");
         }
+    }
 
-        return label;
+    public I18nFormViewField withStylename(String stylename) {
+        label.addStyleName(stylename);
+        return this;
+    }
+
+    @Override
+    public Class<String> getType() {
+        return String.class;
+    }
+
+    @Override
+    protected Component initContent() {
+        return wrapper;
     }
 }

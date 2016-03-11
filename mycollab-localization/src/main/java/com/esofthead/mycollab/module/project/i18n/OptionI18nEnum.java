@@ -31,7 +31,7 @@ public class OptionI18nEnum {
 
     public static BugStatus[] bug_statuses = {BugStatus.Open,
             BugStatus.InProgress, BugStatus.Verified, BugStatus.Resolved,
-            BugStatus.ReOpened};
+            BugStatus.ReOpened, BugStatus.WontFix};
 
     public static BugPriority[] bug_priorities = {BugPriority.Blocker,
             BugPriority.Critical, BugPriority.Major, BugPriority.Minor,

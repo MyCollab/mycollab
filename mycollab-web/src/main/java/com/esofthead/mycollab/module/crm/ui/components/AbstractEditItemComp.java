@@ -65,7 +65,6 @@ public abstract class AbstractEditItemComp<B> extends AbstractPageView implement
         @Override
         public ComponentContainer getLayout() {
             AddViewLayout2 formAddLayout = new AddViewLayout2(initFormTitle(), initFormIconResource());
-            formAddLayout.initTitleStyleName();
 
             ComponentContainer buttonControls = createButtonControls();
             if (buttonControls != null) {

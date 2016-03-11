@@ -444,7 +444,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
 
         void displayEntryPeople(ValuedBean bean) {
             this.removeAllComponents();
-            this.withMargin(new MarginInfo(false, false, false, true));
+            this.withMargin(false);
 
             Label peopleInfoHeader = new Label(FontAwesome.USER.getHtml() + " " +
                     AppContext.getMessage(ProjectCommonI18nEnum.SUB_INFO_PEOPLE), ContentMode.HTML);

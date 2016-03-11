@@ -64,12 +64,9 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
         super();
         this.setMargin(new MarginInfo(false, true, true, true));
         this.addStyleName("userInfoContainer");
-
-        header = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
+        header = new MHorizontalLayout().withMargin(new MarginInfo(true, false, false, false))
                 .withWidth("100%").withStyleName(UIConstants.HEADER_VIEW);
-
         addComponent(header);
-
         previewForm = new PreviewForm();
         addComponent(previewForm);
     }
@@ -83,7 +80,6 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
         avatarAndPass.addComponent(userAvatar);
 
         MVerticalLayout basicLayout = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, true));
-
         CssLayout userWrapper = new CssLayout();
         String nickName = user.getNickname();
         ELabel userName = ELabel.h2(user.getDisplayName() + (StringUtils.isEmpty(nickName) ? "" : (String.format(" ( " +
@@ -116,9 +112,9 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
         avatarAndPass.with(basicLayout).withAlign(basicLayout, Alignment.TOP_LEFT).expand(basicLayout);
 
         Layout controlButtons = createTopPanel();
-        CssLayout avatarAndPAssWrapper = new CssLayout();
+        CssLayout avatarAndPassWrapper = new CssLayout();
         avatarAndPass.setWidthUndefined();
-        avatarAndPAssWrapper.addComponent(avatarAndPass);
+        avatarAndPassWrapper.addComponent(avatarAndPass);
         header.with(avatarAndPass, controlButtons).withAlign(avatarAndPass, Alignment.TOP_LEFT)
                 .withAlign(controlButtons, Alignment.TOP_RIGHT);
     }

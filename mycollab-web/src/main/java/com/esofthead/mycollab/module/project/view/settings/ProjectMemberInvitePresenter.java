@@ -167,7 +167,7 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
                 Div denyLink = new Div().appendChild(new Text("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Deny: "), new A().setHref(denyLinkVal).appendText(denyLinkVal));
                 linksContainer.with(new Label(userEmailDiv.write(), ContentMode.HTML), new Label(acceptLinkDiv.write(), ContentMode.HTML),
                         new Label(denyLink.write(), ContentMode.HTML));
-                linksContainer.add(ELabel.Hr());
+                linksContainer.add(ELabel.hr());
             }
 
             MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false));

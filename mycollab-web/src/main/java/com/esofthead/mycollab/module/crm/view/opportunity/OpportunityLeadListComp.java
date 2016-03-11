@@ -132,7 +132,7 @@ public class OpportunityLeadListComp extends RelatedListComp2<LeadService, LeadS
             MHorizontalLayout blockTop = new MHorizontalLayout().withWidth("100%");
             CssLayout iconWrap = new CssLayout();
             iconWrap.setStyleName("icon-wrap");
-            ELabel leadAvatar = new ELabel(CrmAssetsManager.getAsset(CrmTypeConstants.LEAD));
+            ELabel leadAvatar = ELabel.fontIcon(CrmAssetsManager.getAsset(CrmTypeConstants.LEAD));
             leadAvatar.addStyleName("icon-48px");
             iconWrap.addComponent(leadAvatar);
             blockTop.addComponent(iconWrap);

@@ -174,8 +174,8 @@ public class TaskStatusTrendChartWidget extends Depot {
             for (OptionVal optionVal : optionVals) {
                 options.add(optionVal.getTypeval());
             }
-            groupItems = timelineTrackingService.findTimelineItems(options,
-                    startDate.toDate(), endDate.toDate(), searchCriteria);
+            groupItems = timelineTrackingService.findTimelineItems("status", options, startDate.toDate(), endDate.toDate(),
+                    searchCriteria);
             displayChart();
         }
     }

@@ -58,7 +58,7 @@ public class OptionPopupContent extends CustomComponent {
     }
 
     public void addSeparator() {
-        ((ComponentContainer) this.getCompositionRoot()).addComponent(ELabel.Hr());
+        ((ComponentContainer) this.getCompositionRoot()).addComponent(ELabel.hr());
     }
 
     public void addSection(String title) {

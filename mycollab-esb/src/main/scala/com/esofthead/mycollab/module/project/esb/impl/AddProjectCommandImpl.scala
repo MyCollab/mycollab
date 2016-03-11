@@ -49,6 +49,7 @@ import org.springframework.stereotype.Component
       prjOption.setSaccountid(event.accountId)
       prjOption.setType(option.getType)
       prjOption.setTypeval(option.getTypeval)
+      prjOption.setFieldgroup(option.getFieldgroup)
       prjOption.setRefoption(option.getId)
       prjOption.setColor("fdde86")
       optionValMapper.insert(prjOption)

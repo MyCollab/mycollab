@@ -287,12 +287,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.vaadin.addons</groupId>
-            <artifactId>restrain</artifactId>
-            <version>0.1</version>
-        </dependency>
-
-        <dependency>
             <groupId>com.squareup</groupId>
             <artifactId>javawriter</artifactId>
             <version>2.5.1</version>

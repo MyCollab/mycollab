@@ -65,7 +65,7 @@ public class ProjectRoleListViewImpl extends AbstractPageView implements Project
     private Label selectedItemsNumberLabel = new Label();
 
     public ProjectRoleListViewImpl() {
-        this.setMargin(new MarginInfo(false, true, false, true));
+        this.setMargin(new MarginInfo(false, true, true, true));
         searchPanel = new ProjectRoleSearchPanel();
         listLayout = new VerticalLayout();
         with(searchPanel, listLayout);

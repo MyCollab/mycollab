@@ -26,8 +26,7 @@ import com.vaadin.ui.Label;
  * @author MyCollab Ltd.
  * @since 4.5.3
  */
-@SuppressWarnings({"rawtypes", "unchecked"})
-public class RichTextViewField extends CustomField {
+public class RichTextViewField extends CustomField<String> {
     private static final long serialVersionUID = 1L;
 
     private String value;
@@ -40,12 +39,12 @@ public class RichTextViewField extends CustomField {
     }
 
     @Override
-    public Class<?> getType() {
+    public Class<String> getType() {
         return String.class;
     }
 
     @Override
-    public Object getValue() {
+    public String getValue() {
         return value;
     }
 

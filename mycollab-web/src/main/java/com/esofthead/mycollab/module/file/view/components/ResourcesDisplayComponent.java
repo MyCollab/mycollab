@@ -361,7 +361,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
 
         private void constructBody(Folder currentFolder) {
             this.removeAllComponents();
-            this.addComponent(ELabel.Hr());
+            this.addComponent(ELabel.hr());
 
             if (currentFolder instanceof ExternalFolder) {
                 resources = externalResourceService.getResources(((ExternalFolder) currentFolder).getExternalDrive(),
@@ -397,7 +397,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                         ComponentContainer resContainer = buildResourceRowComp(res);
                         if (resContainer != null) {
                             this.addComponent(buildResourceRowComp(res));
-                            this.addComponent(ELabel.Hr());
+                            this.addComponent(ELabel.hr());
                         }
                     }
                 } else if (resources.size() > pageNavigator.pageItemNum) {
@@ -406,7 +406,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                         ComponentContainer resContainer = buildResourceRowComp(res);
                         if (resContainer != null) {
                             this.addComponent(buildResourceRowComp(res));
-                            this.addComponent(ELabel.Hr());
+                            this.addComponent(ELabel.hr());
                         }
                     }
                     this.with(pageNavigator).withAlign(pageNavigator, Alignment.MIDDLE_CENTER);
@@ -438,7 +438,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             CssLayout resIconWrapper = new CssLayout();
             Component resourceIcon = null;
             if (resource instanceof Folder) {
-                resourceIcon = (resource instanceof ExternalFolder) ? new ELabel(FontAwesome.DROPBOX) : new ELabel(FontAwesome.FOLDER);
+                resourceIcon = (resource instanceof ExternalFolder) ? ELabel.fontIcon(FontAwesome.DROPBOX) : ELabel.fontIcon(FontAwesome.FOLDER);
                 resourceIcon.addStyleName("icon-38px");
             } else if (resource instanceof Content) {
                 Content content = (Content) resource;
@@ -465,7 +465,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 throw new MyCollabException("Do not support resource file " + resource.getClass());
             }
             if (resourceIcon == null) {
-                resourceIcon = new ELabel(FileAssetsUtil.getFileIconResource(resource.getName()));
+                resourceIcon = ELabel.fontIcon(FileAssetsUtil.getFileIconResource(resource.getName()));
                 resourceIcon.addStyleName("icon-38px");
             }
             resIconWrapper.addComponent(resourceIcon);
@@ -987,7 +987,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 ComponentContainer resContainer = resourcesContainer.buildResourceRowComp(res);
                 if (resContainer != null) {
                     resourcesContainer.addComponent(resContainer);
-                    resourcesContainer.addComponent(ELabel.Hr());
+                    resourcesContainer.addComponent(ELabel.hr());
                 }
             }
             createPageControls();

@@ -44,19 +44,20 @@ Version 5.2.9
 -----------------------------
 **Library Upgrades**
 
+* Vaadin 7.6.4
 * Spring framework 4.2.5.RELEASE
 * Jackrabbit 2.12.1
 * Jetty 9.2.15.v20160210
 * Flyway 4.0
-* Commons Collection 4.4.1
+* Commons Collection 3.2.2
 * Other libraries
 
 **Improvements & New Features**
 
 * [Premium] Tag management is supported
 * [Premium] Project client management is added
-* [Premium] New user group for task and bug views
 * [Premium] Support tag for phase and risk
+* New user group for task and bug views
 * Show template icon if the project is the template one
 * Allow to change color column of Kanban board
 * Other minor improvements
@@ -64,6 +65,8 @@ Version 5.2.9
 **Bug Fixes**
 
 * [Premium] Display wrong list of history fields in several special cases
+* Rename option column may cause the exception in trending chart
+* Websocket timeout error
 
 Version 5.2.8
 -----------------------------

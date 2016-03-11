@@ -66,9 +66,9 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
 
     public ProjectMemberListViewImpl() {
         super();
-        this.setMargin(new MarginInfo(false, true, false, true));
+        this.setMargin(new MarginInfo(false, true, true, true));
         MHorizontalLayout viewHeader = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
-                .withWidth("100%").withStyleName("hdr-view");
+                .withWidth("100%");
         viewHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         HeaderWithFontAwesome headerText = ComponentUtils.headerH2(ProjectTypeConstants.MEMBER,
@@ -171,7 +171,7 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
         ELabel memberNameLbl = new ELabel(memberLink.write(), ContentMode.HTML).withStyleName(ValoTheme.LABEL_H3,
                 ValoTheme.LABEL_NO_MARGIN, UIConstants.TEXT_ELLIPSIS).withWidth("100%");
 
-        MVerticalLayout memberInfo = new MVerticalLayout().withMargin(false).with(memberNameLbl, ELabel.Hr());
+        MVerticalLayout memberInfo = new MVerticalLayout().withMargin(false).with(memberNameLbl, ELabel.hr());
 
         String roleLink = String.format("<a href=\"%s%s%s\"", AppContext.getSiteUrl(), GenericLinkUtils.URL_PREFIX_PARAM,
                 ProjectLinkGenerator.generateRolePreviewLink(member.getProjectid(), member.getProjectroleid()));
@@ -217,7 +217,6 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
                 }
             });
             resendInvitationLink.setStyleName(UIConstants.BUTTON_LINK);
-            resendInvitationLink.addStyleName("member-email");
             waitingNotLayout.addComponent(resendInvitationLink);
             memberInfo.addComponent(waitingNotLayout);
         } else if (RegisterStatusConstants.ACTIVE.equals(member.getStatus())) {
@@ -246,7 +245,6 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
         blockTop.addComponent(memberInfo);
         blockTop.setExpandRatio(memberInfo, 1.0f);
         blockContent.addComponent(blockTop);
-
         blockContent.setWidth("100%");
 
         memberBlock.addComponent(blockContent);

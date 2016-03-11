@@ -16,10 +16,10 @@
  */
 package com.esofthead.mycollab.vaadin.web.ui.field;
 
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
-import com.vaadin.ui.Label;
 
 /**
  * @author MyCollab Ltd.
@@ -28,7 +28,7 @@ import com.vaadin.ui.Label;
 public class DefaultViewField extends CustomField<String> {
     private static final long serialVersionUID = 1L;
 
-    protected Label label;
+    protected ELabel label;
     protected String value;
 
     public DefaultViewField(final String value) {
@@ -37,8 +37,7 @@ public class DefaultViewField extends CustomField<String> {
 
     public DefaultViewField(final String value, final ContentMode contentMode) {
         this.value = value;
-        label = new Label(value);
-        label.setWidth("100%");
+        label = new ELabel(value).withWidth("100%").withStyleName("text-ellipsis").withDescription(value);
         label.setContentMode(contentMode);
     }
 

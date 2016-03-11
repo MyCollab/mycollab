@@ -26,6 +26,7 @@ import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
+import com.google.common.eventbus.AsyncEventBus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +45,9 @@ public class MonitorItemServiceImpl extends DefaultService<Integer, MonitorItem,
 
     @Autowired
     private MonitorItemMapperExt monitorItemMapperExt;
+
+    @Autowired
+    private AsyncEventBus asyncEventBus;
 
     @Override
     public ICrudGenericDAO<Integer, MonitorItem> getCrudMapper() {

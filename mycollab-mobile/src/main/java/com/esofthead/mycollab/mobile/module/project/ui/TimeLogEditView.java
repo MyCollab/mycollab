@@ -156,7 +156,6 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
         totalLayout.addComponent(lbTimeInstructTotal);
         this.totalSpentTimeLbl = new Label("_");
         this.totalSpentTimeLbl.setStyleName("block-value");
-        this.totalSpentTimeLbl.addStyleName("numberTotal");
         totalLayout.addComponent(this.totalSpentTimeLbl);
 
         headerPanel.addComponent(totalLayout);
@@ -174,7 +173,6 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
         updateLayout.addComponent(lbTimeInstructTotal);
         this.remainTimeLbl = new Label("_");
         this.remainTimeLbl.setStyleName("block-value");
-        this.remainTimeLbl.addStyleName("numberTotal");
         updateLayout.addComponent(this.remainTimeLbl);
 
         this.headerPanel.addComponent(updateLayout);

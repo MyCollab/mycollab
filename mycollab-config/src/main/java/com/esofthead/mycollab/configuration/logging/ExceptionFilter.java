@@ -37,6 +37,7 @@ public class ExceptionFilter extends Filter<ILoggingEvent> {
                     Class.forName("com.esofthead.mycollab.core.SessionExpireException"),
                     Class.forName("java.net.SocketTimeoutException"),
                     Class.forName("org.apache.commons.mail.EmailException"),
+                    Class.forName("java.net.SocketTimeoutException"),
                     Class.forName("java.sql.SQLTransientConnectionException")};
         } catch (Exception e) {
         }

@@ -31,6 +31,12 @@ import java.io.*;
 public class LogConfig {
 
     public static void initMyCollabLog() {
+        // Optionally remove existing handlers attached to j.u.l root logger
+//        SLF4JBridgeHandler.removeHandlersForRootLogger();  // (since SLF4J 1.6.5)
+
+        // add SLF4JBridgeHandler to j.u.l's root logger, should be done once during
+        // the initialization phase of your application
+//        SLF4JBridgeHandler.install();
         LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
         loggerContext.reset();
         JoranConfigurator configurator = new JoranConfigurator();

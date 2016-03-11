@@ -169,7 +169,6 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
         buildFilterBox(queryText);
     }
 
-    @SuppressWarnings("unchecked")
     private List<SearchFieldInfo> buildSearchFieldInfos() {
         Iterator<Component> iterator = searchContainer.iterator();
         List<SearchFieldInfo> fieldInfos = new ArrayList<>();
@@ -187,7 +186,6 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
         return null;
     }
 
-    @SuppressWarnings("unchecked")
     public S fillupSearchCriteria() {
         try {
             S searchCriteria = type.newInstance();
@@ -238,7 +236,6 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
 
             indexLbl = new Label(index + "");
             indexLbl.setWidth("70px");
-            indexLbl.addStyleName("index_lbl");
             this.addComponent(indexLbl, 0, 0);
 
             if (index == 1) {
@@ -250,11 +247,9 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                 operatorSelectionBox.setWidth("90px");
                 this.addComponent(operatorSelectionBox, 1, 0);
             }
-
             buildFieldSelectionBox();
 
             valueBox = new MVerticalLayout().withMargin(false).withWidth("300px");
-
             deleteBtn = new Button("", new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;
 
@@ -276,7 +271,6 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
             this.addComponent(compareSelectionBox, 3, 0);
             this.addComponent(valueBox, 4, 0);
             this.addComponent(deleteBtn, 5, 0);
-
         }
 
         private void updateIndex() {
@@ -287,7 +281,6 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
             }
         }
 
-        @SuppressWarnings({"rawtypes", "unchecked"})
         private void fillSearchFieldInfo(SearchFieldInfo searchFieldInfo) {
             String width = "300px";
             if (operatorSelectionBox != null) {
@@ -321,12 +314,11 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                 if (DateParam.BETWEEN.equals(compareItem) || DateParam.NOT_BETWEEN.equals(compareItem)) {
                     DateFieldExt field1 = new DateFieldExt();
                     field1.setValue((Date) Array.get(searchFieldInfo.eval(), 0));
+                    field1.setWidth(width);
                     DateFieldExt field2 = new DateFieldExt();
                     field2.setValue((Date) Array.get(searchFieldInfo.eval(), 1));
-                    field1.setWidth(width);
                     field2.setWidth(width);
-                    valueBox.addComponent(field1);
-                    valueBox.addComponent(field2);
+                    valueBox.with(field1, field2);
                 } else {
                     DateFieldExt field = new DateFieldExt();
                     field.setValue((Date) searchFieldInfo.eval());
@@ -497,7 +489,6 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
             return new SearchFieldInfo(prefixOper, param, compareOper, value);
         }
 
-        @SuppressWarnings("rawtypes")
         private SearchField buildSearchField() {
             Param param = (Param) fieldSelectionBox.getValue();
             String prefixOperation = (operatorSelectionBox != null) ? (String) operatorSelectionBox.getValue() : "AND";
@@ -737,7 +728,6 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
             this.setImmediate(true);
         }
 
-        @SuppressWarnings("unchecked")
         private void contructComboBox() {
             SaveSearchResultCriteria searchCriteria = new SaveSearchResultCriteria();
             searchCriteria.setType(StringSearchField.and(searchCategory));

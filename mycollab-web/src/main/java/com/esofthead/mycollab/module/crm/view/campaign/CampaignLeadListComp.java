@@ -133,7 +133,7 @@ public class CampaignLeadListComp extends RelatedListComp2<LeadService, LeadSear
             MHorizontalLayout blockTop = new MHorizontalLayout();
             CssLayout iconWrap = new CssLayout();
             iconWrap.setStyleName("icon-wrap");
-            ELabel leadAvatar = new ELabel(CrmAssetsManager.getAsset(CrmTypeConstants.LEAD));
+            ELabel leadAvatar = ELabel.fontIcon(CrmAssetsManager.getAsset(CrmTypeConstants.LEAD));
             leadAvatar.addStyleName("icon-48px");
             iconWrap.addComponent(leadAvatar);
             blockTop.addComponent(iconWrap);

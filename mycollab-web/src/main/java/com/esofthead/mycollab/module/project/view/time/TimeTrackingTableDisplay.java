@@ -167,9 +167,9 @@ public class TimeTrackingTableDisplay extends DefaultPagedBeanTable<ItemTimeLogg
                         SimpleItemTimeLogging timeLogging = getBeanByIndex(itemId);
                         ELabel icon;
                         if (timeLogging.getIsbillable()) {
-                            icon = new ELabel(FontAwesome.CHECK);
+                            icon = ELabel.fontIcon(FontAwesome.CHECK);
                         } else {
-                            icon = new ELabel(FontAwesome.TIMES);
+                            icon = ELabel.fontIcon(FontAwesome.TIMES);
                         }
                         return icon;
                     }
@@ -191,8 +191,7 @@ public class TimeTrackingTableDisplay extends DefaultPagedBeanTable<ItemTimeLogg
                     private static final long serialVersionUID = 1L;
 
                     @Override
-                    public Object generateCell(Table source, Object itemId,
-                                               Object columnId) {
+                    public Object generateCell(Table source, Object itemId, Object columnId) {
                         final SimpleItemTimeLogging itemLogging = getBeanByIndex(itemId);
 
                         MHorizontalLayout layout = new MHorizontalLayout();

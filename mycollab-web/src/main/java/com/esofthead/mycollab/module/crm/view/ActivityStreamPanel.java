@@ -106,7 +106,6 @@ public class ActivityStreamPanel extends CssLayout {
             doSearch(true);
         }
 
-        @SuppressWarnings("unchecked")
         private void doSearch(boolean isMoveForward) {
             this.listContainer.removeAllComponents();
 
@@ -196,9 +195,7 @@ public class ActivityStreamPanel extends CssLayout {
         }
 
         private void showItem(final SimpleActivityStream activityStream) {
-
             final Date itemCreatedDate = activityStream.getCreatedtime();
-
             if (!DateUtils.isSameDay(currentDate, itemCreatedDate)) {
                 currentFeedBlock = new CssLayout();
                 currentFeedBlock.setStyleName("feed-block");
@@ -324,7 +321,8 @@ public class ActivityStreamPanel extends CssLayout {
         }
 
         private void feedBlocksPut(Date currentDate, Date nextDate, CssLayout currentBlock) {
-            MHorizontalLayout blockWrapper = new MHorizontalLayout().withWidth("100%").withStyleName("feed-block-wrap");
+            MHorizontalLayout blockWrapper = new MHorizontalLayout().withSpacing(false).withWidth("100%").withStyleName
+                    ("feed-block-wrap");
 
             blockWrapper.setDefaultComponentAlignment(Alignment.TOP_LEFT);
             Calendar cal1 = Calendar.getInstance();

@@ -17,6 +17,10 @@
 package com.esofthead.mycollab.spring;
 
 import com.google.common.eventbus.AsyncEventBus;
+import com.google.common.eventbus.SubscriberExceptionContext;
+import com.google.common.eventbus.SubscriberExceptionHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -28,8 +32,16 @@ import java.util.concurrent.Executors;
  */
 @Configuration
 public class AppEventBus {
+    private static Logger LOG = LoggerFactory.getLogger(AppEventBus.class);
+
     @Bean
     public AsyncEventBus asyncEventBus() {
-        return new AsyncEventBus(Executors.newCachedThreadPool());
+        AsyncEventBus asyncEventBus = new AsyncEventBus(Executors.newCachedThreadPool(), new SubscriberExceptionHandler() {
+            @Override
+            public void handleException(Throwable throwable, SubscriberExceptionContext subscriberExceptionContext) {
+                LOG.error("Error in event bus execution", throwable);
+            }
+        });
+        return asyncEventBus;
     }
 }

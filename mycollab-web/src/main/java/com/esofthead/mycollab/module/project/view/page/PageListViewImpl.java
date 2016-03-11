@@ -34,7 +34,9 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
+import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
+import com.esofthead.mycollab.vaadin.ui.SafeHtmlLabel;
 import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.web.ui.SortButton;
 import com.esofthead.mycollab.vaadin.web.ui.ToggleButtonGroup;
@@ -116,7 +118,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
         this.addComponent(headerLayout);
         initHeader();
 
-        pagesLayout = new MVerticalLayout().withMargin(false).withStyleName("pages-list-layout");
+        pagesLayout = new MVerticalLayout().withMargin(false).withSpacing(false).withStyleName("pages-list-layout");
         this.addComponent(pagesLayout);
     }
 
@@ -233,28 +235,22 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
     }
 
     private Layout displayFolderBlock(final Folder resource) {
-        MHorizontalLayout container = new MHorizontalLayout().withWidth("100%").withStyleName("page-item-block");
+        MVerticalLayout container = new MVerticalLayout().withWidth("100%").withStyleName("page-item-block");
 
-        ELabel iconResource = new ELabel(FontAwesome.FOLDER_OPEN);
-        iconResource.addStyleName("icon-48px");
-
-        VerticalLayout block = new VerticalLayout();
-        block.setWidth("100%");
-        HorizontalLayout headerPanel = new HorizontalLayout();
         A folderHtml = new A(ProjectLinkBuilder.generatePageFolderFullLink(CurrentProjectVariables
-                .getProjectId(), resource.getPath())).appendText(resource.getName());
-        Label folderLink = new Label(folderHtml.write(), ContentMode.HTML);
-        folderLink.addStyleName(ValoTheme.LABEL_H3);
-        headerPanel.addComponent(folderLink);
-        block.addComponent(headerPanel);
-        block.addComponent(new Label(StringUtils.trimHtmlTags(resource.getDescription())));
+                .getProjectId(), resource.getPath())).appendText(FontAwesome.FOLDER_OPEN.getHtml() + " " + resource.getName());
+        ELabel folderLink = ELabel.h3(folderHtml.write());
+        container.addComponent(folderLink);
+        if (StringUtils.isNotBlank(resource.getDescription())) {
+            container.addComponent(new Label(StringUtils.trimHtmlTags(resource.getDescription())));
+        }
 
         Label lastUpdateInfo = new ELabel(AppContext.getMessage(Page18InEnum.LABEL_LAST_UPDATE,
                 ProjectLinkBuilder.generateProjectMemberHtmlLink(CurrentProjectVariables.getProjectId(), resource.getCreatedUser(), true),
                 AppContext.formatPrettyTime(resource.getCreatedTime()
                         .getTime())), ContentMode.HTML).withDescription(AppContext.formatDateTime(resource.getCreatedTime().getTime()));
         lastUpdateInfo.addStyleName(UIConstants.LABEL_META_INFO);
-        block.addComponent(lastUpdateInfo);
+        container.addComponent(lastUpdateInfo);
 
         MHorizontalLayout controlBtns = new MHorizontalLayout();
         Button editBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), new Button.ClickListener() {
@@ -301,43 +297,27 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
         deleteBtn.setIcon(FontAwesome.TRASH_O);
         deleteBtn.addStyleName(UIConstants.BUTTON_LINK);
         deleteBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
-
         controlBtns.addComponent(deleteBtn);
 
-        block.addComponent(controlBtns);
-
-        HorizontalLayout footer = new HorizontalLayout();
-        block.addComponent(footer);
-
-        MHorizontalLayout wrapper = new MHorizontalLayout();
-        wrapper.with(iconResource, block);
-        container.with(wrapper);
+        container.addComponent(controlBtns);
         return container;
     }
 
     private Layout displayPageBlock(final Page resource) {
-        MHorizontalLayout container = new MHorizontalLayout().withWidth("100%").withStyleName("page-item-block");
-
-        ELabel iconResource = new ELabel(FontAwesome.FILE_WORD_O);
-        iconResource.addStyleName("icon-48px");
-
-        MVerticalLayout block = new MVerticalLayout().withSpacing(false).withMargin(new MarginInfo(false, true, false, true)).withWidth("100%");
-        HorizontalLayout headerPanel = new HorizontalLayout();
+        MVerticalLayout container = new MVerticalLayout().withWidth("100%").withStyleName("page-item-block");
         A pageHtml = new A(ProjectLinkBuilder.generatePageFullLink(CurrentProjectVariables.getProjectId(), resource
-                .getPath())).appendText(resource.getSubject());
-        Label pageLink = new Label(pageHtml.write(), ContentMode.HTML);
-        pageLink.addStyleName(ValoTheme.LABEL_H3);
-        headerPanel.addComponent(pageLink);
+                .getPath())).appendText(FontAwesome.FILE_WORD_O.getHtml() + " " + resource.getSubject());
+        ELabel pageLink = ELabel.h3(pageHtml.write());
 
-        block.with(headerPanel, new SafeHtmlLabel(resource.getContent(), 400));
+        container.with(pageLink, new SafeHtmlLabel(resource.getContent(), 400));
 
         Label lastUpdateInfo = new ELabel(AppContext.getMessage(
                 Page18InEnum.LABEL_LAST_UPDATE, ProjectLinkBuilder.generateProjectMemberHtmlLink(
                         CurrentProjectVariables.getProjectId(), resource.getLastUpdatedUser(), true),
-                AppContext.formatPrettyTime(resource.getLastUpdatedTime()
-                        .getTime())), ContentMode.HTML).withDescription(AppContext.formatDateTime(resource.getLastUpdatedTime().getTime()));
+                AppContext.formatPrettyTime(resource.getLastUpdatedTime().getTime())), ContentMode.HTML)
+                .withDescription(AppContext.formatDateTime(resource.getLastUpdatedTime().getTime()));
         lastUpdateInfo.addStyleName(UIConstants.LABEL_META_INFO);
-        block.addComponent(lastUpdateInfo);
+        container.addComponent(lastUpdateInfo);
 
         MHorizontalLayout controlBtns = new MHorizontalLayout();
         Button editBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), new Button.ClickListener() {
@@ -386,11 +366,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
         deleteBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
         controlBtns.addComponent(deleteBtn);
 
-        block.addComponent(controlBtns);
-
-        MHorizontalLayout wrapper = new MHorizontalLayout();
-        wrapper.with(iconResource, block);
-        container.with(wrapper);
+        container.addComponent(controlBtns);
         return container;
     }
 }

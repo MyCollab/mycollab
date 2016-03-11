@@ -22,12 +22,17 @@ import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.utils.TooltipHelper;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
+import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Text;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.Label;
+import org.vaadin.viritin.layouts.MCssLayout;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.UUID;
 
@@ -55,14 +60,14 @@ public class ProjectItemViewField extends CustomField<String> {
         SimpleProject project = CurrentProjectVariables.getProject();
         DivLessFormatter div = new DivLessFormatter();
         String uid = UUID.randomUUID().toString();
-        Text avatarLink = new Text(ProjectAssetsManager.getAsset(type).getHtml());
         A milestoneLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectItemLink(project.getShortname(),
                 project.getId(), type, typeId)).appendText(typeDisplayName);
         milestoneLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, type, typeId + ""));
         milestoneLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
-        div.appendChild(avatarLink, DivLessFormatter.EMPTY_SPACE(), milestoneLink, DivLessFormatter.EMPTY_SPACE(),
-                TooltipHelper.buildDivTooltipEnable(uid));
-        return new Label(div.write(), ContentMode.HTML);
+        div.appendChild(milestoneLink, TooltipHelper.buildDivTooltipEnable(uid));
+        ELabel label = new ELabel(div.write(), ContentMode.HTML).withStyleName(UIConstants.TEXT_ELLIPSIS);
+        return new MHorizontalLayout(new ELabel(ProjectAssetsManager.getAsset(type).getHtml(), ContentMode.HTML).withWidthUndefined(),
+                label).expand(label);
     }
 
     @Override

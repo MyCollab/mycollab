@@ -113,7 +113,7 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B> extends
         for (final B item : currentListData) {
             final Component row = rowDisplayHandler.generateRow(item, i);
             listContainer.addComponent(row);
-            listContainer.addComponent(ELabel.Hr());
+            listContainer.addComponent(ELabel.hr());
             i++;
         }
     }
@@ -132,7 +132,7 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B> extends
             final Component row = rowDisplayHandler.generateRow(item, i);
             if (row != null) {
                 listContainer.addComponent(row);
-                listContainer.addComponent(ELabel.Hr());
+                listContainer.addComponent(ELabel.hr());
             }
 
             i++;

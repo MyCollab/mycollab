@@ -83,6 +83,7 @@ import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.jouni.restrain.Restrain;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+import org.vaadin.viritin.layouts.MWindow;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -128,7 +129,8 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
         Button addNewColumnBtn = new Button("New column", new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                UI.getCurrent().addWindow(new AddNewColumnWindow(TaskKanbanviewImpl.this, ProjectTypeConstants.TASK));
+                UI.getCurrent().addWindow(new AddNewColumnWindow(TaskKanbanviewImpl.this, ProjectTypeConstants.TASK,
+                        "status"));
             }
         });
         addNewColumnBtn.setIcon(FontAwesome.PLUS);
@@ -348,7 +350,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
         public KanbanBlock(final OptionVal stage) {
             this.setHeight("100%");
             this.optionVal = stage;
-            root = new MVerticalLayout();
+            root = new MVerticalLayout().withMargin(false);
             root.setWidth("300px");
             root.addStyleName("kanban-block");
             final String optionId = UUID.randomUUID().toString() + "-" + stage.hashCode();
@@ -489,8 +491,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
                                     public void onClose(ConfirmDialog dialog) {
                                         if (dialog.isConfirmed()) {
                                             optionValService.removeWithSession(stage, AppContext.getUsername(), AppContext.getAccountId());
-                                            ((ComponentContainer) KanbanBlock.this.getParent()).removeComponent
-                                                    (KanbanBlock.this);
+                                            ((ComponentContainer) KanbanBlock.this.getParent()).removeComponent(KanbanBlock.this);
                                         }
                                     }
                                 });
@@ -598,12 +599,10 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
             }
         }
 
-        class RenameColumnWindow extends Window {
+        class RenameColumnWindow extends MWindow {
             public RenameColumnWindow() {
                 super("Rename column");
-                this.setWidth("500px");
-                this.setModal(true);
-                this.setResizable(false);
+                withWidth("500px").withModal(true).withResizable(false);
                 this.center();
 
                 MVerticalLayout content = new MVerticalLayout().withMargin(false);
@@ -627,8 +626,8 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
                     public void buttonClick(Button.ClickEvent event) {
                         if (StringUtils.isNotBlank(columnNameField.getValue())) {
                             OptionValService optionValService = ApplicationContextUtil.getSpringBean(OptionValService.class);
-                            if (optionValService.isExistedOptionVal(ProjectTypeConstants.TASK, columnNameField.getValue(),
-                                    optionVal.getExtraid(), AppContext.getAccountId())) {
+                            if (optionValService.isExistedOptionVal(ProjectTypeConstants.TASK, columnNameField
+                                    .getValue(), "status", optionVal.getExtraid(), AppContext.getAccountId())) {
                                 NotificationUtil.showErrorNotification(String.format("There is already the column " +
                                         "name '%s' in the board", columnNameField.getValue()));
                             } else {

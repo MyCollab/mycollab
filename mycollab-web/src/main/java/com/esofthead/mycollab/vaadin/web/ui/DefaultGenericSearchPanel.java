@@ -53,7 +53,7 @@ public abstract class DefaultGenericSearchPanel<S extends SearchCriteria> extend
             headerText = buildSearchTitle();
             rightComponent = new MHorizontalLayout();
 
-            header = new MHorizontalLayout().withStyleName(UIConstants.HEADER_VIEW).withWidth("100%")
+            header = new MHorizontalLayout().withWidth("100%")
                     .withMargin(new MarginInfo(true, false, true, false));
 
             header.with(headerText, rightComponent).withAlign(headerText, Alignment.MIDDLE_LEFT)

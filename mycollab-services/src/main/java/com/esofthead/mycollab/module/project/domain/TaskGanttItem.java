@@ -16,12 +16,15 @@
  */
 package com.esofthead.mycollab.module.project.domain;
 
-
 import com.esofthead.mycollab.core.arguments.NotBindable;
 import org.apache.commons.collections.CollectionUtils;
 
 import java.util.List;
 
+/**
+ * @author MyCollab Ltd
+ * @since 5.1.3
+ */
 public class TaskGanttItem extends AssignWithPredecessors {
     @NotBindable
     private List<TaskGanttItem> subTasks;
@@ -90,6 +93,5 @@ public class TaskGanttItem extends AssignWithPredecessors {
         newTask.setProjectid(getPrjId());
         newTask.setSaccountid(getsAccountId());
         return newTask;
-
     }
 }

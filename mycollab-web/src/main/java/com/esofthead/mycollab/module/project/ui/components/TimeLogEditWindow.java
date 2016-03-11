@@ -18,7 +18,6 @@ package com.esofthead.mycollab.module.project.ui.components;
 
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -33,20 +32,20 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.DateFieldExt;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
-import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.table.DefaultPagedBeanTable;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Table.ColumnGenerator;
+import com.vaadin.ui.themes.ValoTheme;
+import org.vaadin.viritin.fields.AbstractNumberField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.Arrays;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 /**
  * @author MyCollab Ltd.
@@ -149,7 +148,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
             public Object generateCell(Table source, Object itemId,
                                        Object columnId) {
                 SimpleItemTimeLogging monitorItem = tableItem.getBeanByIndex(itemId);
-                ELabel icon = (monitorItem.getIsbillable()) ? new ELabel(FontAwesome.CHECK) : new ELabel(FontAwesome.TIMES);
+                ELabel icon = (monitorItem.getIsbillable()) ? ELabel.fontIcon(FontAwesome.CHECK) : ELabel.fontIcon(FontAwesome.TIMES);
                 icon.setStyleName(UIConstants.BUTTON_ICON_ONLY);
                 return icon;
             }
@@ -186,19 +185,16 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
     }
 
     private void constructSpentTimeEntryPanel() {
-        VerticalLayout spentTimePanel = new VerticalLayout();
-        spentTimePanel.setSpacing(true);
+        MVerticalLayout spentTimePanel = new MVerticalLayout().withMargin(false);
         headerPanel.addComponent(spentTimePanel);
 
-        final VerticalLayout totalLayout = new VerticalLayout();
-        totalLayout.setMargin(true);
-        totalLayout.addStyleName("boxTotal");
-        totalLayout.setWidth("100%");
+        final MVerticalLayout totalLayout = new MVerticalLayout().withStyleName(UIConstants.BOX);
         spentTimePanel.addComponent(totalLayout);
         Label lbTimeInstructTotal = new Label(AppContext.getMessage(TimeTrackingI18nEnum.OPT_TOTAL_SPENT_HOURS));
         totalLayout.addComponent(lbTimeInstructTotal);
         totalSpentTimeLbl = new Label("_");
-        totalSpentTimeLbl.addStyleName("numberTotal");
+        totalSpentTimeLbl.addStyleName(ValoTheme.LABEL_LARGE);
+        totalSpentTimeLbl.addStyleName(ValoTheme.LABEL_BOLD);
         totalLayout.addComponent(totalSpentTimeLbl);
 
         MHorizontalLayout addLayout = new MHorizontalLayout();
@@ -219,17 +215,12 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 
             @Override
             public void buttonClick(final ClickEvent event) {
-                double d = 0;
-                try {
-                    d = Double.parseDouble(newTimeInputField.getValue());
-                } catch (NumberFormatException e) {
-                    NotificationUtil.showWarningNotification("You must enter a positive number value");
-                }
+                double d = newTimeInputField.getValue();
                 if (d > 0) {
                     hasTimeChange = true;
                     saveTimeInvest();
                     loadTimeValue();
-                    newTimeInputField.setValue("0.0");
+                    newTimeInputField.setValue(0d);
                 }
             }
 
@@ -242,20 +233,17 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
     }
 
     private void constructRemainTimeEntryPanel() {
-        VerticalLayout remainTimePanel = new VerticalLayout();
-        remainTimePanel.setSpacing(true);
+        MVerticalLayout remainTimePanel = new MVerticalLayout().withMargin(false).withSpacing(true);
         headerPanel.addComponent(remainTimePanel);
 
-        final VerticalLayout updateLayout = new VerticalLayout();
-        updateLayout.setMargin(true);
-        updateLayout.addStyleName("boxTotal");
-        updateLayout.setWidth("100%");
+        final MVerticalLayout updateLayout = new MVerticalLayout().withStyleName(UIConstants.BOX);
         remainTimePanel.addComponent(updateLayout);
 
         final Label lbTimeInstructTotal = new Label(AppContext.getMessage(TimeTrackingI18nEnum.OPT_REMAINING_WORK_HOURS));
         updateLayout.addComponent(lbTimeInstructTotal);
         remainTimeLbl = new Label("_");
-        remainTimeLbl.addStyleName("numberTotal");
+        remainTimeLbl.addStyleName(ValoTheme.LABEL_LARGE);
+        remainTimeLbl.addStyleName(ValoTheme.LABEL_BOLD);
         updateLayout.addComponent(remainTimeLbl);
 
         MHorizontalLayout addLayout = new MHorizontalLayout();
@@ -272,22 +260,14 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 
             @Override
             public void buttonClick(final ClickEvent event) {
-                try {
-                    double d = 0;
-                    try {
-                        d = Double.parseDouble(remainTimeInputField.getValue());
-                    } catch (Exception e) {
-                        NotificationUtil.showWarningNotification("You must enter a positive number value");
-                    }
-                    if (d >= 0) {
-                        hasTimeChange = true;
-                        updateTimeRemain();
-                        remainTimeLbl.setValue(remainTimeInputField.getValue());
-                        remainTimeInputField.setValue("0.0");
-                    }
-                } catch (final Exception e) {
-                    remainTimeInputField.setValue("0.0");
+                double d = remainTimeInputField.getValue();
+                if (d >= 0) {
+                    hasTimeChange = true;
+                    updateTimeRemain();
+                    remainTimeLbl.setValue(remainTimeInputField.getValue() + "");
+                    remainTimeInputField.setValue(0d);
                 }
+
             }
         });
 
@@ -305,14 +285,8 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 
     @SuppressWarnings("unchecked")
     private double getTotalInvest() {
-        double total = 0;
         ItemTimeLoggingSearchCriteria searchCriteria = getItemSearchCriteria();
-        List<SimpleItemTimeLogging> listTime = itemTimeLoggingService.findPagableListByCriteria(
-                new SearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
-        for (SimpleItemTimeLogging simpleItemTimeLogging : listTime) {
-            total += simpleItemTimeLogging.getLogvalue();
-        }
-        return total;
+        return itemTimeLoggingService.getTotalHoursByCriteria(searchCriteria);
     }
 
     private void setUpdateTimeValue() {
@@ -328,7 +302,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
     }
 
     protected double getInvestValue() {
-        return Double.parseDouble(newTimeInputField.getValue());
+        return newTimeInputField.getValue();
     }
 
     protected Boolean isBillableHours() {
@@ -351,20 +325,29 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
     protected abstract boolean isEnableAdd();
 
     protected double getUpdateRemainTime() {
-        return Double.parseDouble(remainTimeInputField.getValue());
+        return remainTimeInputField.getValue();
     }
 
-    private class NumericTextField extends TextField {
+    private class NumericTextField extends AbstractNumberField<Double> {
         private static final long serialVersionUID = 1L;
 
         @Override
-        protected void setValue(String newValue, boolean repaintIsNotNeeded) {
+        protected void userInputToValue(String str) {
             try {
-                String d = Double.parseDouble(newValue) + "";
-                super.setValue(d, repaintIsNotNeeded);
+                this.setValue(Double.valueOf(Double.parseDouble(str)));
             } catch (Exception e) {
-                super.setValue("0.0", repaintIsNotNeeded);
+                this.setValue(0d);
             }
+        }
+
+        @Override
+        public Class<? extends Double> getType() {
+            return Double.class;
+        }
+
+        @Override
+        public void setWidth(String width) {
+            tf.setWidth(width);
         }
     }
 }

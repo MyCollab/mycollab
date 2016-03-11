@@ -19,7 +19,6 @@ package com.esofthead.mycollab.module.project.view.task;
 import com.esofthead.mycollab.common.domain.OptionVal;
 import com.esofthead.mycollab.common.domain.criteria.TimelineTrackingSearchCriteria;
 import com.esofthead.mycollab.common.service.OptionValService;
-import com.esofthead.mycollab.configuration.IDeploymentMode;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
@@ -50,10 +49,8 @@ import com.esofthead.mycollab.vaadin.events.HasSelectableItemHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSelectionOptionHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.web.ui.*;
 import com.esofthead.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
-import com.esofthead.mycollab.web.AdWindow;
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.data.Property;
 import com.vaadin.server.FileDownloader;
@@ -322,14 +319,8 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
             baseCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("createdtime", sortDirection)));
             taskGroupOrderComponent = new CreatedDateOrderComponent();
         } else if (GROUP_USER.equals(groupByState)) {
-            IDeploymentMode deploymentMode = ApplicationContextUtil.getSpringBean(IDeploymentMode.class);
-            if (deploymentMode.isCommunityEdition()) {
-                UI.getCurrent().addWindow(new AdWindow());
-                return;
-            } else {
-                baseCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("createdtime", sortDirection)));
-                taskGroupOrderComponent = ViewManager.getCacheComponent(AbstractUserOrderComponent.class);
-            }
+            baseCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("createdtime", sortDirection)));
+            taskGroupOrderComponent = new UserOrderComponent();
         } else {
             throw new MyCollabException("Do not support group view by " + groupByState);
         }

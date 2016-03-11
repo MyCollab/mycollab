@@ -19,7 +19,6 @@ package com.esofthead.mycollab.vaadin.web.ui;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.ui.*;
-import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -44,16 +43,13 @@ public class Depot extends VerticalLayout {
         headerContent = new MHorizontalLayout().withMargin(true).withFullHeight();
         headerContent.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
         headerContent.setVisible(false);
-
         headerContent.setStyleName("header-elements");
         headerContent.setWidthUndefined();
-
         this.addComponent(header);
 
         headerLbl = new Label(title);
-        headerLbl.setStyleName(ValoTheme.LABEL_BOLD);
-        final MHorizontalLayout headerLeft = new MHorizontalLayout(headerLbl).withStyleName("depot-title");
-        headerLeft.setSizeFull();
+        final MHorizontalLayout headerLeft = new MHorizontalLayout(headerLbl).withStyleName("depot-title")
+                .withAlign(headerLbl, Alignment.MIDDLE_LEFT).withFullWidth();
         headerLeft.addLayoutClickListener(new LayoutClickListener() {
             private static final long serialVersionUID = 1L;
 

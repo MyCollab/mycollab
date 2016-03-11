@@ -46,7 +46,7 @@ import java.util.GregorianCalendar;
 public class AddNewColumnWindow extends Window {
     private static final Color DEFAULT_COLOR = Color.decode("#fdde86");
 
-    public AddNewColumnWindow(final IKanbanView kanbanView, final String type) {
+    public AddNewColumnWindow(final IKanbanView kanbanView, final String type, final String fieldGroup) {
         super("Add column");
         this.setWidth("800px");
         this.setModal(true);
@@ -90,6 +90,7 @@ public class AddNewColumnWindow extends Window {
                 optionVal.setSaccountid(AppContext.getAccountId());
                 optionVal.setType(type);
                 optionVal.setTypeval(stageField.getValue());
+                optionVal.setFieldgroup(fieldGroup);
                 OptionValService optionService = ApplicationContextUtil.getSpringBean(OptionValService.class);
                 int optionValId = optionService.saveWithSession(optionVal, AppContext.getUsername());
 
