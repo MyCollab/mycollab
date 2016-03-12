@@ -62,6 +62,7 @@ public class UIConstants {
     public static final String FORM = "form";
     public static final String FORM_SECTION = "section";
 
+    public static final String HOVER_EFFECT_NOT_BOX = "hover-effect-not-box";
     public static final String FLEX_DISPLAY = "flex";
     public static final String SCROLLABLE_CONTAINER = "scrollable-container";
 

@@ -395,7 +395,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
         }
 
         private HorizontalLayout generateSubTaskContent(final SimpleTask subTask) {
-            MHorizontalLayout layout = new MHorizontalLayout();
+            MHorizontalLayout layout = new MHorizontalLayout().withStyleName(UIConstants.HOVER_EFFECT_NOT_BOX);
 
             final CheckBox checkBox = new CheckBox("", subTask.isCompleted());
             checkBox.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));

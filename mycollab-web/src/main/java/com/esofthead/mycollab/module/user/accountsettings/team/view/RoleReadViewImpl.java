@@ -25,9 +25,10 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
+import com.esofthead.mycollab.vaadin.ui.FormContainer;
 import com.esofthead.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
@@ -53,7 +54,7 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
         this.setMargin(new MarginInfo(false, true, true, true));
 
         MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
-                .withWidth("100%").withStyleName(UIConstants.HEADER_VIEW);
+                .withWidth("100%");
         header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         ELabel headerText = ELabel.h3(FontAwesome.USERS.getHtml() + " Detail Role");

@@ -274,7 +274,7 @@ public class ComponentReadViewImpl extends AbstractPreviewItemComp<SimpleCompone
                     for (SimpleBug bug : bugs) {
                         ToggleBugSummaryField toggleBugSummaryField = new ToggleBugSummaryField(bug);
 
-                        MHorizontalLayout rowComp = new MHorizontalLayout();
+                        MHorizontalLayout rowComp = new MHorizontalLayout().withStyleName(UIConstants.HOVER_EFFECT_NOT_BOX);
                         rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
 
                         String bugPriority = bug.getPriority();

@@ -37,7 +37,7 @@ import javax.servlet.annotation.WebServlet;
         {@WebInitParam(name = "closeIdleSessions", value = "true"),
                 @WebInitParam(name = "resourceCacheTime", value = "8640000"),
                 @WebInitParam(name = "maxIdleTime", value = "10000"),
-                @WebInitParam(name = "org.atmosphere.websocket.maxIdleTime", value = "0")})
+                @WebInitParam(name = "org.atmosphere.websocket.maxIdleTime", value = "86400000")})
 @CacheManifestEnabled(false)
 public class MyCollabServlet extends TouchKitServlet {
     private static final long serialVersionUID = 1L;

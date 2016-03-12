@@ -30,9 +30,11 @@ import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.AbstractBeanPagedList;
 import com.esofthead.mycollab.vaadin.web.ui.DefaultBeanPagedList;
 import com.esofthead.mycollab.vaadin.ui.SafeHtmlLabel;
+import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
@@ -87,7 +89,7 @@ public class ProjectSearchItemsViewImpl extends AbstractPageView implements Proj
     private static class ItemRowDisplayHandler implements AbstractBeanPagedList.RowDisplayHandler<ProjectGenericItem> {
         @Override
         public Component generateRow(AbstractBeanPagedList host, ProjectGenericItem item, int rowIndex) {
-            MVerticalLayout layout = new MVerticalLayout().withMargin(new MarginInfo(true, true, false, false))
+            MVerticalLayout layout = new MVerticalLayout().withMargin(true)
                     .withWidth("100%");
             Label link = new Label(ProjectLinkBuilder.generateProjectItemHtmlLinkAndTooltip(item.getProjectShortName(), item
                     .getProjectId(), item.getSummary(), item.getType(), item.getTypeId()), ContentMode.HTML);
@@ -97,7 +99,7 @@ public class ProjectSearchItemsViewImpl extends AbstractPageView implements Proj
                     .getDescription();
             SafeHtmlLabel descLbl = new SafeHtmlLabel(desc);
 
-            Div div = new Div().setStyle("width:100%").setCSSClass("footer");
+            Div div = new Div().setStyle("width:100%");
             Text createdByTxt = new Text("Created by: ");
             Div lastUpdatedOn = new Div().appendChild(new Text("Modified: " + AppContext.formatPrettyTime(item.getLastUpdatedTime
                     ()))).setTitle(AppContext.formatDateTime(item.getLastUpdatedTime())).setStyle("float:right;" +
@@ -118,7 +120,8 @@ public class ProjectSearchItemsViewImpl extends AbstractPageView implements Proj
                         lastUpdatedOn);
             }
 
-            Label footer = new Label(div.write(), ContentMode.HTML);
+            ELabel footer = new ELabel(div.write(), ContentMode.HTML).withStyleName(UIConstants.LABEL_META_INFO)
+                    .withWidth("100%");
             footer.setWidth("100%");
             layout.with(link, descLbl, footer);
             layout.addStyleName("project-item-search-box");

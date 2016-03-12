@@ -65,6 +65,7 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Activi
 
     public ProjectActivityStreamPagedList() {
         super(null, 20);
+        this.setStyleName("project-activity-list");
         projectActivityStreamService = ApplicationContextUtil.getSpringBean(ProjectActivityStreamService.class);
     }
 

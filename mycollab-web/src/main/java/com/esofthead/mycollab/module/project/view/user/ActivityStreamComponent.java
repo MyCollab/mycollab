@@ -64,7 +64,6 @@ public class ActivityStreamComponent extends CssLayout {
     private final ProjectActivityStreamPagedList2 activityStreamList;
 
     public ActivityStreamComponent() {
-        this.setStyleName("project-activity-list");
         this.activityStreamList = new ProjectActivityStreamPagedList2();
     }
 

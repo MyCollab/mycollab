@@ -75,7 +75,7 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
                 .findPagableListByCriteria(new SearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
 
         MHorizontalLayout header = new MHorizontalLayout().withSpacing(false).withMargin(new MarginInfo(true, false, true, false))
-                .withStyleName(UIConstants.HEADER_VIEW).withWidth("100%");
+                .withWidth("100%");
         Button createBtn = new Button("Invite user", new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 

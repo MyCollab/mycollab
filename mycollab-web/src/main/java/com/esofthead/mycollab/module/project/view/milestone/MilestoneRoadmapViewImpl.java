@@ -178,7 +178,8 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
 
     private void displayMilestones(MilestoneSearchCriteria searchCriteria) {
         roadMapView.removeAllComponents();
-        List<SimpleMilestone> milestones = milestoneService.findPagableListByCriteria(new SearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
+        List<SimpleMilestone> milestones = milestoneService.findPagableListByCriteria(new SearchRequest<>(searchCriteria, 0,
+                Integer.MAX_VALUE));
         for (SimpleMilestone milestone : milestones) {
             roadMapView.addComponent(new MilestoneBlock(milestone));
         }

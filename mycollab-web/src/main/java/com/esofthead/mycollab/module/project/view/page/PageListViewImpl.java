@@ -111,7 +111,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
     public PageListViewImpl() {
         this.setMargin(new MarginInfo(false, true, true, true));
 
-        headerLayout = new MHorizontalLayout().withStyleName(UIConstants.HEADER_VIEW).withWidth("100%")
+        headerLayout = new MHorizontalLayout().withWidth("100%")
                 .withMargin(new MarginInfo(true, false, true, false));
         headerLayout.setHeightUndefined();
 

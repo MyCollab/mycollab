@@ -65,7 +65,7 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
         this.setMargin(new MarginInfo(false, true, true, true));
         this.addStyleName("userInfoContainer");
         header = new MHorizontalLayout().withMargin(new MarginInfo(true, false, false, false))
-                .withWidth("100%").withStyleName(UIConstants.HEADER_VIEW);
+                .withWidth("100%");
         addComponent(header);
         previewForm = new PreviewForm();
         addComponent(previewForm);

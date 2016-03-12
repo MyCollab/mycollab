@@ -259,7 +259,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version> implem
                     for (SimpleBug bug : bugs) {
                         ToggleBugSummaryField toggleBugSummaryField = new ToggleBugSummaryField(bug);
 
-                        MHorizontalLayout rowComp = new MHorizontalLayout();
+                        MHorizontalLayout rowComp = new MHorizontalLayout().withStyleName(UIConstants.HOVER_EFFECT_NOT_BOX);
                         rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
                         rowComp.with(new ELabel(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG).getHtml(),
                                 ContentMode.HTML).withWidthUndefined());

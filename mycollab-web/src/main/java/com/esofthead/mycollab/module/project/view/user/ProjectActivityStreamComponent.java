@@ -31,10 +31,6 @@ import com.vaadin.ui.CssLayout;
 public class ProjectActivityStreamComponent extends CssLayout {
     private static final long serialVersionUID = 1L;
 
-    public ProjectActivityStreamComponent() {
-        this.setStyleName("project-activity-list");
-    }
-
     public void showProjectFeeds() {
         this.removeAllComponents();
         ProjectActivityStreamPagedList activityStreamList = new ProjectActivityStreamPagedList();

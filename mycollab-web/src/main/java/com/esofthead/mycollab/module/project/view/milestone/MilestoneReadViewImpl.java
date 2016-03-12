@@ -298,7 +298,7 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
                         if (CollectionUtils.isNotEmpty(genericTasks)) {
                             for (ProjectGenericTask genericTask : genericTasks) {
 
-                                MHorizontalLayout rowComp = new MHorizontalLayout();
+                                MHorizontalLayout rowComp = new MHorizontalLayout().withStyleName(UIConstants.HOVER_EFFECT_NOT_BOX);
                                 rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
                                 rowComp.with(new ELabel(ProjectAssetsManager.getAsset(genericTask.getType()).getHtml(),
                                         ContentMode.HTML).withWidthUndefined());
