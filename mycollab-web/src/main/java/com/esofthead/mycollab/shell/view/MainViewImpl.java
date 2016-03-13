@@ -39,6 +39,7 @@ import com.esofthead.mycollab.module.user.ui.SettingAssetsManager;
 import com.esofthead.mycollab.module.user.ui.SettingUIConstants;
 import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.shell.view.components.AbstractAboutWindow;
+import com.esofthead.mycollab.shell.view.components.AdRequestWindow;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
@@ -106,15 +107,6 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         }
     };
 
-    private ApplicationEventListener<ShellEvent.RequestAd> requestAdHandler = new ApplicationEventListener<ShellEvent.RequestAd>() {
-        @Override
-        @Subscribe
-        public void handle(ShellEvent.RequestAd event) {
-            Object data = event.getData();
-
-        }
-    };
-
     public MainViewImpl() {
         this.setSizeFull();
         ControllerRegistry.addController(new MainViewController(this));
@@ -125,13 +117,11 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
     public void attach() {
         super.attach();
         EventBusFactory.getInstance().register(pageRefreshHandler);
-        EventBusFactory.getInstance().register(requestAdHandler);
     }
 
     @Override
     public void detach() {
         EventBusFactory.getInstance().unregister(pageRefreshHandler);
-        EventBusFactory.getInstance().unregister(requestAdHandler);
         super.detach();
     }
 
@@ -397,8 +387,9 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
             SimpleUser user = AppContext.getUser();
             GregorianCalendar tenDaysAgo = new GregorianCalendar();
             tenDaysAgo.add(Calendar.DATE, -10);
+
             if (Boolean.TRUE.equals(user.getRequestad()) && user.getRegisteredtime().before(tenDaysAgo.getTime())) {
-                EventBusFactory.getInstance().post(new ShellEvent.RequestAd(this, null));
+                UI.getCurrent().addWindow(new AdRequestWindow(user));
             }
         }
 

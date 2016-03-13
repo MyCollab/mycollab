@@ -269,7 +269,7 @@ public class GanttItemWrapper {
             return MoreObjects.firstNonNull(task.getProgress(), 0d);
         } else if (isBug()) {
             if (OptionI18nEnum.BugStatus.Resolved.name().equals(task.getStatus()) || OptionI18nEnum.BugStatus
-                    .Verified.equals(task.getStatus())) {
+                    .Verified.name().equals(task.getStatus())) {
                 return 100d;
             } else {
                 return MoreObjects.firstNonNull(task.getProgress(), 0d);

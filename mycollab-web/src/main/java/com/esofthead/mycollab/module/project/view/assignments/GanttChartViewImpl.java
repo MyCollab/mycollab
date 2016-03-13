@@ -21,6 +21,7 @@ import com.esofthead.mycollab.module.project.view.assignments.gantt.GanttExt;
 import com.esofthead.mycollab.module.project.view.assignments.gantt.GanttTreeTable;
 import com.esofthead.mycollab.vaadin.mvp.view.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.UIUtils;
 import com.esofthead.mycollab.vaadin.web.ui.ValueComboBox;
 import com.vaadin.data.Property;
@@ -68,9 +69,7 @@ public class GanttChartViewImpl extends AbstractLazyPageView implements GanttCha
     private void constructUI() {
         MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(false, false, true, false)).withWidth("100%");
         header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-        Label headerText = new Label(FontAwesome.BAR_CHART_O.getHtml() + " Gantt chart", ContentMode.HTML);
-        headerText.setStyleName(ValoTheme.LABEL_H2);
-        headerText.addStyleName(ValoTheme.LABEL_NO_MARGIN);
+        ELabel headerText = ELabel.h2(FontAwesome.BAR_CHART_O.getHtml() + " Gantt chart");
         CssLayout headerWrapper = new CssLayout();
         headerWrapper.addComponent(headerText);
 

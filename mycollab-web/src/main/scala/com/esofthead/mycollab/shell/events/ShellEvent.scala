@@ -48,6 +48,4 @@ object ShellEvent {
 
   class NewNotification(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
-  class RequestAd(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
-
 }

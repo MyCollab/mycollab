@@ -94,7 +94,7 @@ class ProjectModuleController(val navManager: NavigationManager) extends Abstrac
     })
     this.register(new ApplicationEventListener[ProjectEvent.MyProjectActivities]() {
       @Subscribe def handle(event: ProjectEvent.MyProjectActivities) {
-        val presenter: ProjectActivityStreamPresenter = PresenterResolver.getPresenter(classOf[ProjectActivityStreamPresenter])
+        val presenter = PresenterResolver.getPresenter(classOf[ProjectActivityStreamPresenter])
         val searchCriteria = new ActivityStreamSearchCriteria()
         searchCriteria.setModuleSet(new SetSearchField(ModuleNameConstants.PRJ))
         searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()))
@@ -138,8 +138,8 @@ class ProjectModuleController(val navManager: NavigationManager) extends Abstrac
     })
     this.register(new ApplicationEventListener[BugEvent.GotoEdit]() {
       @Subscribe def handle(event: BugEvent.GotoEdit) {
-        val data: BugScreenData.Edit = new BugScreenData.Edit(event.getData.asInstanceOf[SimpleBug])
-        val presenter: BugPresenter = PresenterResolver.getPresenter(classOf[BugPresenter])
+        val data = new BugScreenData.Edit(event.getData.asInstanceOf[SimpleBug])
+        val presenter = PresenterResolver.getPresenter(classOf[BugPresenter])
         presenter.go(navManager, data)
       }
     })
@@ -175,7 +175,7 @@ class ProjectModuleController(val navManager: NavigationManager) extends Abstrac
     this.register(new ApplicationEventListener[MilestoneEvent.GotoList]() {
       @Subscribe def handle(event: MilestoneEvent.GotoList) {
         val params: Any = event.getData
-        val presenter: MilestonePresenter = PresenterResolver.getPresenter(classOf[MilestonePresenter])
+        val presenter = PresenterResolver.getPresenter(classOf[MilestonePresenter])
         if (params == null) {
           val criteria = new MilestoneSearchCriteria
           criteria.setProjectIds(new SetSearchField[Integer](CurrentProjectVariables.getProjectId))

@@ -61,7 +61,7 @@ class RiskUrlResolver extends ProjectUrlResolver {
 
   private class EditUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      val token: UrlTokenizer = new UrlTokenizer(params(0))
+      val token = new UrlTokenizer(params(0))
       val projectId = token.getInt
       val riskId = token.getInt
       val riskService = ApplicationContextUtil.getSpringBean(classOf[RiskService])

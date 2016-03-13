@@ -1,6 +1,6 @@
 # Free, open source CRM, Document and Project Management software
 [![License](http://img.shields.io/badge/License-GPLv3-orange.svg)](http://www.gnu.org/copyleft/gpl.html) [![Project Stats](https://www.openhub.net/p/mycollab/widgets/project_thin_badge.gif)](https://www.openhub.net/p/mycollab) [![Build](https://travis-ci.org/MyCollab/mycollab.svg)](https://travis-ci.org/MyCollab/mycollab)
-[![Version](https://img.shields.io/badge/Version-5.2.8-brightgreen.svg)](https://community.mycollab.com/)
+[![Version](https://img.shields.io/badge/Version-5.2.9-brightgreen.svg)](https://community.mycollab.com/)
 [![SourceForge](https://img.shields.io/sourceforge/dt/mycollab.svg)](https://community.mycollab.com/download)
 
 
@@ -13,22 +13,22 @@ MyCollab does work well on both desktop and mobile devices.
 <table>
   <tr>
     <td align="center">
-      <a href="https://c2.staticflickr.com/2/1474/24801683189_c2164771d9_o.png" target="_blank" title="Project Dashboard">
-        <img src="https://c2.staticflickr.com/2/1474/24801683189_f1e01ca393.jpg" alt="Project Dashboard">
+      <a href="https://c2.staticflickr.com/2/1647/25461233210_f7c2227ef1_o.png" target="_blank" title="Project Dashboard">
+        <img src="https://c2.staticflickr.com/2/1647/25461233210_f2ae6fa928.jpg" alt="Project Dashboard">
       </a>
       <br />
       <em>Project Dashboard</em>
     </td>
     <td align="center">
-      <a href="https://c2.staticflickr.com/2/1523/25169394215_e0f8f9ae1e_o.png" target="_blank" title="Bug Dashboard">
-        <img src="https://c2.staticflickr.com/2/1523/25169394215_d376815818.jpg" alt="Bug Dashboard">
+      <a href="https://c2.staticflickr.com/2/1452/25131471964_ceae3365d1_o.png" target="_blank" title="Bug Dashboard">
+        <img src="https://c2.staticflickr.com/2/1452/25131471964_670c60e1c6.jpg" alt="Bug Dashboard">
       </a>
       <br />
       <em>Bug Dashboard</em>
     </td>
     <td align="center">
-    <a href="https://c2.staticflickr.com/2/1489/24873759540_8dbec05c8d_o.png" target="_blank" title="Task Dashboard">
-      <img src="https://c2.staticflickr.com/2/1489/24873759540_e9c1fcce8b.jpg" alt="Task Dashboard">
+    <a href="https://c2.staticflickr.com/2/1583/25131478784_b6547d0890_o.png" target="_blank" title="Task Dashboard">
+      <img src="https://c2.staticflickr.com/2/1583/25131478784_f712a39d6c.jpg" alt="Task Dashboard">
     </a>
       <br />
       <em>Task Dashboard</em>
@@ -36,22 +36,22 @@ MyCollab does work well on both desktop and mobile devices.
   </tr>
   <tr>
     <td align="center">
-    <a href="https://c2.staticflickr.com/2/1682/25143051756_77339705cb_o.png" target="_blank" title="Kanban Board">
-        <img src="https://c2.staticflickr.com/2/1682/25143051756_201c8cce95.jpg" alt="Kanban Board">
+    <a href="https://c2.staticflickr.com/2/1494/25135326263_13019efdae_o.png" target="_blank" title="Kanban Board">
+        <img src="https://c2.staticflickr.com/2/1494/25135326263_1ea3bae41b.jpg" alt="Kanban Board">
       </a>
       <br />
       <em>Kanban Board</em>
     </td>
     <td align="center">
-      <a href="https://c2.staticflickr.com/2/1547/25076141811_d5d242fef5_o.png" target="_blank" title="Calendar">
-        <img src="https://c2.staticflickr.com/2/1547/25076141811_aca9340389.jpg" alt="Calendar">
+      <a href="https://c2.staticflickr.com/2/1602/25131473354_67e65fa0b0_o.png" target="_blank" title="Calendar">
+        <img src="https://c2.staticflickr.com/2/1602/25131473354_0fdeef741b.jpg" alt="Calendar">
       </a>
       <br />
       <em>Gantt chart</em>
     </td>
     <td align="center">
-      <a href="https://c2.staticflickr.com/2/1473/25169399515_2d8e210df0_o.png" target="_blank" title="Roadmap">
-        <img src="https://c2.staticflickr.com/2/1473/25169399515_009f65397a.jpg" alt="Milestone">
+      <a href="https://c2.staticflickr.com/2/1716/25735862846_2303143bdf_o.png" target="_blank" title="Roadmap">
+        <img src="https://c2.staticflickr.com/2/1716/25735862846_10cd8d1b7d.jpg" alt="Milestone">
       </a>
       <br />
       <em>Roadmap</em>
@@ -95,7 +95,7 @@ Please take a look at MyCollab requirements:
 
 ## Installation
 
-The current MyCollab version is 5.2.8 released on 29th February, 2016. This branch focuses in mobile devices, reporting and customize options for on-demand edition.
+The current MyCollab version is 5.2.9 released on 14th March, 2016. This branch focuses in mobile devices, reporting and customize options for on-demand edition.
 
 1. Download MyCollab binary - https://www.mycollab.com/self-hosted/
 2. Follow installation guideline at https://community.mycollab.com/installing-mycollab/

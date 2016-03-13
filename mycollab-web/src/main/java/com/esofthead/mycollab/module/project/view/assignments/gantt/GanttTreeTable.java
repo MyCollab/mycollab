@@ -105,7 +105,7 @@ public class GanttTreeTable extends TreeTable {
         this.setColumnHeader("predecessors", "Predecessors");
         this.setColumnWidth("predecessors", 100);
         this.setColumnHeader("percentageComplete", "% Complete");
-        this.setColumnWidth("percentageComplete", 75);
+        this.setColumnWidth("percentageComplete", 90);
         this.setColumnHeader("assignUser", "Assignee");
         this.setColumnWidth("assignUser", 80);
         this.setColumnCollapsingAllowed(true);

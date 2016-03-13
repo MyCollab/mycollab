@@ -56,7 +56,10 @@ import com.hp.gagawa.java.elements.Img;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.hene.popupbutton.PopupButton;
@@ -101,7 +104,8 @@ public class ProjectInfoComponent extends MHorizontalLayout {
         headerLbl.addStyleName("header");
         MVerticalLayout headerLayout = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, true));
 
-        CssLayout footer = new CssLayout();
+        MHorizontalLayout footer = new MHorizontalLayout();
+        footer.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
         footer.addStyleName(UIConstants.LABEL_META_INFO);
         footer.addStyleName(UIConstants.FLEX_DISPLAY);
 
@@ -112,19 +116,20 @@ public class ProjectInfoComponent extends MHorizontalLayout {
 
         billableHoursLbl = new ELabel(FontAwesome.MONEY.getHtml() + " " + NumberUtils.roundDouble(2, project.getTotalBillableHours()),
                 ContentMode.HTML).withDescription("Billable hours").withStyleName(ValoTheme.LABEL_SMALL).withWidthUndefined();
-        footer.addComponents(ELabel.EMPTY_SPACE(), billableHoursLbl);
+        footer.addComponents(billableHoursLbl);
 
         nonBillableHoursLbl = new ELabel(FontAwesome.GIFT.getHtml() + " " + project.getTotalNonBillableHours(),
                 ContentMode.HTML).withDescription("Non billable hours").withStyleName(ValoTheme.LABEL_SMALL).withWidthUndefined();
-        footer.addComponents(ELabel.EMPTY_SPACE(), nonBillableHoursLbl);
+        footer.addComponents(nonBillableHoursLbl);
 
         if (project.getLead() != null) {
             Div leadAvatar = new DivLessFormatter().appendChild(new Img("", StorageFactory.getInstance().getAvatarPath
-                    (project.getLeadAvatarId(), 16)), new A(ProjectLinkBuilder.generateProjectMemberFullLink(project.getId(),
-                    project.getLead())).appendText(StringUtils.trim(project.getLeadFullName(), 30, true)))
+                    (project.getLeadAvatarId(), 16)), DivLessFormatter.EMPTY_SPACE(), new A(ProjectLinkBuilder
+                    .generateProjectMemberFullLink(project.getId(),
+                            project.getLead())).appendText(StringUtils.trim(project.getLeadFullName(), 30, true)))
                     .setTitle(project.getLeadFullName());
             ELabel leadLbl = new ELabel("Lead: " + leadAvatar.write(), ContentMode.HTML).withWidthUndefined();
-            footer.addComponents(ELabel.EMPTY_SPACE(), leadLbl);
+            footer.addComponents(leadLbl);
         }
         if (project.getHomepage() != null) {
             ELabel homepageLbl = new ELabel(FontAwesome.WECHAT.getHtml() + " " + new A(project.getHomepage())
@@ -136,7 +141,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
         if (project.getNumActiveMembers() > 0) {
             ELabel activeMembersLbl = new ELabel(FontAwesome.USERS.getHtml() + " " + project.getNumActiveMembers(),
                     ContentMode.HTML).withDescription("Active members").withStyleName(ValoTheme.LABEL_SMALL).withWidthUndefined();
-            footer.addComponents(ELabel.EMPTY_SPACE(), activeMembersLbl);
+            footer.addComponents(activeMembersLbl);
         }
 
         if (project.getAccountid() != null) {
@@ -145,7 +150,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
                     .appendText(project.getClientName()));
             ELabel accountBtn = new ELabel(clientDiv.write(), ContentMode.HTML).withStyleName(UIConstants
                     .BUTTON_BLOCK).withWidthUndefined();
-            footer.addComponents(ELabel.EMPTY_SPACE(), accountBtn);
+            footer.addComponents(accountBtn);
         }
 
         Button eventBtn = new Button("Calendar", new Button.ClickListener() {
@@ -157,7 +162,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
         eventBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
         eventBtn.addStyleName(UIConstants.BUTTON_OPTION);
         eventBtn.setIcon(FontAwesome.CALENDAR);
-        footer.addComponents(ELabel.EMPTY_SPACE(), eventBtn);
+        footer.addComponents(eventBtn);
 
         Button ganttChartBtn = new Button("Gantt", new Button.ClickListener() {
             @Override
@@ -168,7 +173,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
         ganttChartBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
         ganttChartBtn.addStyleName(UIConstants.BUTTON_OPTION);
         ganttChartBtn.setIcon(FontAwesome.BAR_CHART_O);
-        footer.addComponents(ELabel.EMPTY_SPACE(), ganttChartBtn);
+        footer.addComponents(ganttChartBtn);
 
         Button tagBtn = new Button("Tag", new Button.ClickListener() {
             @Override
@@ -179,7 +184,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
         tagBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
         tagBtn.addStyleName(UIConstants.BUTTON_OPTION);
         tagBtn.setIcon(FontAwesome.TAGS);
-        footer.addComponents(ELabel.EMPTY_SPACE(), tagBtn);
+        footer.addComponents(tagBtn);
 
         headerLayout.with(headerLbl, footer);
 

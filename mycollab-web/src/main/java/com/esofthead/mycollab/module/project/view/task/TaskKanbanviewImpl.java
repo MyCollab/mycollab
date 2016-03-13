@@ -341,21 +341,16 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
         }
     }
 
-    private class KanbanBlock extends CustomComponent {
+    private class KanbanBlock extends MVerticalLayout {
         private OptionVal optionVal;
-        private MVerticalLayout root;
         private DDVerticalLayout dragLayoutContainer;
         private Label header;
 
         public KanbanBlock(final OptionVal stage) {
-            this.setHeight("100%");
+            this.withHeight("100%").withWidth("300px").withStyleName("kanban-block").withMargin(false);
             this.optionVal = stage;
-            root = new MVerticalLayout().withMargin(false);
-            root.setWidth("300px");
-            root.addStyleName("kanban-block");
             final String optionId = UUID.randomUUID().toString() + "-" + stage.hashCode();
-            root.setId(optionId);
-            this.setCompositionRoot(root);
+            this.setId(optionId);
             JavaScript.getCurrent().execute("$('#" + optionId + "').css({'background-color':'#" + stage.getColor() + "'});");
 
             dragLayoutContainer = new DDVerticalLayout();
@@ -526,7 +521,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
             addNewBtn.setIcon(FontAwesome.PLUS);
             addNewBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
             addNewBtn.addStyleName(UIConstants.BUTTON_ACTION);
-            root.with(headerLayout, dragLayoutContainer, addNewBtn);
+            this.with(headerLayout, dragLayoutContainer, addNewBtn);
         }
 
         void addBlockItem(KanbanTaskBlockItem comp) {
