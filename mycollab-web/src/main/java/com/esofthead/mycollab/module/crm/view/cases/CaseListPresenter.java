@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.crm.view.cases;
 
 import com.esofthead.mycollab.common.i18n.ErrorI18nEnum;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.core.SecureAccessException;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.CaseWithBLOBs;
@@ -47,7 +48,8 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class CaseListPresenter extends CrmGenericListPresenter<CaseListView, CaseSearchCriteria, SimpleCase> implements MassUpdateCommand<CaseWithBLOBs> {
+public class CaseListPresenter extends CrmGenericListPresenter<CaseListView, CaseSearchCriteria, SimpleCase>
+        implements MassUpdateCommand<CaseWithBLOBs> {
     private static final long serialVersionUID = 1L;
 
     private CaseService caseService;
@@ -115,7 +117,7 @@ public class CaseListPresenter extends CrmGenericListPresenter<CaseListView, Cas
 
             AppContext.addFragment("crm/cases/list", AppContext.getMessage(CaseI18nEnum.VIEW_LIST_TITLE));
         } else {
-            NotificationUtil.showMessagePermissionAlert();
+            throw new SecureAccessException();
         }
     }
 

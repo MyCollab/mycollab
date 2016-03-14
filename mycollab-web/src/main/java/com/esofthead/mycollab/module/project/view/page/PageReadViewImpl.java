@@ -238,7 +238,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
 
         @Override
         public ComponentContainer getLayout() {
-            layout = new MVerticalLayout().withStyleName("page-read-layout").withWidth("100%");
+            layout = new MVerticalLayout().withStyleName("border-bottom").withWidth("100%");
             return layout;
         }
 

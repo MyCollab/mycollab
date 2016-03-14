@@ -21,23 +21,23 @@ import com.esofthead.mycollab.module.user.accountsettings.view.events.SettingEve
 import com.esofthead.mycollab.module.user.accountsettings.view.events.SettingEvent.GotoTheme
 
 /**
- * @author MyCollab Ltd
- * @since 5.1.0
- */
+  * @author MyCollab Ltd
+  * @since 5.1.0
+  */
 class SettingUrlResolver extends AccountSettingUrlResolver {
-    this.addSubResolver("general", new GeneralUrlResolver)
-    this.addSubResolver("theme", new ThemeUrlResolver)
+  this.addSubResolver("general", new GeneralUrlResolver)
+  this.addSubResolver("theme", new ThemeUrlResolver)
 
-    private class GeneralUrlResolver extends AccountSettingUrlResolver {
-        protected override def handlePage(params: String*) {
-            EventBusFactory.getInstance.post(new SettingEvent.GotoGeneralSetting(this, null))
-        }
+  private class GeneralUrlResolver extends AccountSettingUrlResolver {
+    protected override def handlePage(params: String*) {
+      EventBusFactory.getInstance.post(new SettingEvent.GotoGeneralSetting(this, null))
     }
+  }
 
-    private class ThemeUrlResolver extends AccountSettingUrlResolver {
-        protected override def handlePage(params: String*) {
-            EventBusFactory.getInstance.post(new GotoTheme(SettingUrlResolver.this, null))
-        }
+  private class ThemeUrlResolver extends AccountSettingUrlResolver {
+    protected override def handlePage(params: String*) {
+      EventBusFactory.getInstance.post(new GotoTheme(SettingUrlResolver.this, null))
     }
+  }
 
 }

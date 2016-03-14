@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.crm.view.campaign;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.core.SecureAccessException;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.CampaignWithBLOBs;
@@ -29,11 +30,10 @@ import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.web.ui.DefaultMassEditActionHandler;
 import com.esofthead.mycollab.vaadin.mvp.MassUpdateCommand;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
+import com.esofthead.mycollab.vaadin.web.ui.DefaultMassEditActionHandler;
 import com.esofthead.mycollab.vaadin.web.ui.MailFormWindow;
-import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
 
@@ -45,8 +45,7 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class CampaignListPresenter extends
-        CrmGenericListPresenter<CampaignListView, CampaignSearchCriteria, SimpleCampaign>
+public class CampaignListPresenter extends CrmGenericListPresenter<CampaignListView, CampaignSearchCriteria, SimpleCampaign>
         implements MassUpdateCommand<CampaignWithBLOBs> {
 
     private static final long serialVersionUID = 1L;
@@ -90,6 +89,7 @@ public class CampaignListPresenter extends
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         CrmModule.navigateItem(CrmTypeConstants.CAMPAIGN);
+
         if (AppContext.canRead(RolePermissionCollections.CRM_CAMPAIGN)) {
             searchCriteria = (CampaignSearchCriteria) data.getParams();
             int totalCount = campaignService.getTotalCount(searchCriteria);
@@ -100,10 +100,9 @@ public class CampaignListPresenter extends
                 this.displayNoExistItems(container, data);
             }
 
-            AppContext.addFragment("crm/campaign/list",
-                    AppContext.getMessage(CampaignI18nEnum.VIEW_LIST_TITLE));
+            AppContext.addFragment("crm/campaign/list", AppContext.getMessage(CampaignI18nEnum.VIEW_LIST_TITLE));
         } else {
-            NotificationUtil.showMessagePermissionAlert();
+            throw new SecureAccessException();
         }
     }
 

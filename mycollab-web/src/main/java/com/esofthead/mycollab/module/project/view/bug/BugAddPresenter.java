@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.project.view.bug;
 import com.esofthead.mycollab.cache.CleanCacheEvent;
 import com.esofthead.mycollab.common.domain.MonitorItem;
 import com.esofthead.mycollab.common.service.MonitorItemService;
+import com.esofthead.mycollab.core.SecureAccessException;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -28,6 +29,7 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.ui.form.ProjectFormAttachmentUploadField;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
+import com.esofthead.mycollab.module.project.view.ProjectGenericPresenter;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.service.BugRelatedItemService;
 import com.esofthead.mycollab.module.tracker.service.BugService;
@@ -52,7 +54,7 @@ import java.util.List;
  * @since 1.0
  */
 @LoadPolicy(scope = ViewScope.PROTOTYPE)
-public class BugAddPresenter extends AbstractPresenter<BugAddView> {
+public class BugAddPresenter extends ProjectGenericPresenter<BugAddView> {
     private static final long serialVersionUID = 1L;
 
     public BugAddPresenter() {
@@ -100,7 +102,7 @@ public class BugAddPresenter extends AbstractPresenter<BugAddView> {
                 breadcrumb.gotoBugEdit(bug);
             }
         } else {
-            NotificationUtil.showMessagePermissionAlert();
+            throw new SecureAccessException();
         }
     }
 

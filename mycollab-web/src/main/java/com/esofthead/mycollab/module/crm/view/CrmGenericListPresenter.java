@@ -18,11 +18,13 @@ package com.esofthead.mycollab.module.crm.view;
 
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.module.crm.events.CrmEvent;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
-import com.esofthead.mycollab.vaadin.web.ui.ListSelectionPresenter;
 import com.esofthead.mycollab.vaadin.web.ui.IListView;
+import com.esofthead.mycollab.vaadin.web.ui.ListSelectionPresenter;
 import com.vaadin.ui.ComponentContainer;
 
 /**
@@ -32,7 +34,8 @@ import com.vaadin.ui.ComponentContainer;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public abstract class CrmGenericListPresenter<V extends IListView<S, B>, S extends SearchCriteria, B extends ValuedBean> extends ListSelectionPresenter<V, S, B> {
+public abstract class CrmGenericListPresenter<V extends IListView<S, B>, S extends SearchCriteria, B extends ValuedBean>
+        extends ListSelectionPresenter<V, S, B> {
     private static final long serialVersionUID = 1L;
 
     private PageView candidateView;
@@ -70,4 +73,9 @@ public abstract class CrmGenericListPresenter<V extends IListView<S, B>, S exten
         crmModule.addView(candidateView);
     }
 
+    @Override
+    protected void onErrorStopChain(Throwable throwable) {
+        super.onErrorStopChain(throwable);
+        EventBusFactory.getInstance().post(new CrmEvent.GotoHome(this, null));
+    }
 }

@@ -16,21 +16,21 @@
  */
 package com.esofthead.mycollab.module.project.view.milestone;
 
+import com.esofthead.mycollab.core.SecureAccessException;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
+import com.esofthead.mycollab.module.project.view.ProjectGenericPresenter;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
-import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
-import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 
 /**
  * @author MyCollab Ltd
  * @since 5.2.0
  */
-public class MilestoneRoadmapPresenter extends AbstractPresenter<MilestoneRoadmapView> {
+public class MilestoneRoadmapPresenter extends ProjectGenericPresenter<MilestoneRoadmapView> {
     public MilestoneRoadmapPresenter() {
         super(MilestoneRoadmapView.class);
     }
@@ -47,7 +47,7 @@ public class MilestoneRoadmapPresenter extends AbstractPresenter<MilestoneRoadma
             ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
             breadcrumb.gotoRoadmap();
         } else {
-            NotificationUtil.showMessagePermissionAlert();
+            throw new SecureAccessException();
         }
     }
 }

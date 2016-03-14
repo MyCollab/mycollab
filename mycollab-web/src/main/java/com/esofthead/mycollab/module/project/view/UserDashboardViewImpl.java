@@ -165,8 +165,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
         ELabel headerLabel = ELabel.h2(AppContext.getUser().getDisplayName());
         headerLabel.addStyleName(UIConstants.LABEL_WORD_WRAP);
 
-        MHorizontalLayout headerContentTop = new MHorizontalLayout().withMargin(new MarginInfo(false, false, true,
-                false)).withWidth("100%");
+        MHorizontalLayout headerContentTop = new MHorizontalLayout();
         headerContentTop.with(headerLabel).withAlign(headerLabel, Alignment.TOP_LEFT).expand(headerLabel);
 
         SearchTextField searchTextField = new SearchTextField() {
@@ -197,7 +196,6 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
 
     private void displaySearchResult(String value) {
         removeAllComponents();
-
         Component headerWrapper = setupHeader();
 
         MVerticalLayout layout = new MVerticalLayout().withWidth("100%").withStyleName("searchitems-layout");

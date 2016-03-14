@@ -46,13 +46,13 @@ public class CrmContainerPresenter extends AbstractCrmPresenter<CrmContainerView
         AppContext.getInstance().updateLastModuleVisit(ModuleNameConstants.CRM);
         if (data == null) {
             view.goToAccounts();
-            String url = ((MobileApplication) UI.getCurrent()).getInitialUrl();
+            String url = ((MobileApplication) UI.getCurrent()).getCurrentFragmentUrl();
             if (url != null && !url.equals("")) {
                 String[] tokens = url.split("/");
                 if (tokens.length > 1) {
                     String[] fragments = Arrays.copyOfRange(tokens, 1, tokens.length);
                     MobileApplication.rootUrlResolver.getSubResolver("crm").handle(fragments);
-                    ((MobileApplication) UI.getCurrent()).setInitialUrl("");
+                    ((MobileApplication) UI.getCurrent()).setCurrentFragmentUrl("");
                 }
             }
             return;

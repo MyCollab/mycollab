@@ -69,15 +69,15 @@ public abstract class MyCollabUI extends UI {
     protected AppContext currentContext;
 
     protected String initialSubDomain = "1";
-    protected String initialUrl = "";
+    private String currentFragmentUrl = "";
     private Map<String, Object> attributes = new HashMap<>();
 
-    public String getInitialUrl() {
-        return initialUrl;
+    public String getCurrentFragmentUrl() {
+        return currentFragmentUrl;
     }
 
-    public void setInitialUrl(String value) {
-        this.initialUrl = value;
+    public void setCurrentFragmentUrl(String value) {
+        this.currentFragmentUrl = value;
     }
 
     final protected void postSetupApp(VaadinRequest request) {

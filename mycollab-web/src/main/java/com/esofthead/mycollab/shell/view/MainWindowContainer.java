@@ -18,12 +18,14 @@ package com.esofthead.mycollab.shell.view;
 
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
 import com.esofthead.mycollab.core.UserInvalidInputException;
+import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.view.LoginPresenter;
 import com.esofthead.mycollab.module.user.view.LoginView;
 import com.esofthead.mycollab.shell.ShellController;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
+import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
 import com.esofthead.mycollab.web.DesktopApplication;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
@@ -31,6 +33,8 @@ import com.vaadin.ui.UI;
 import org.vaadin.viritin.util.BrowserCookie;
 
 import java.io.Serializable;
+
+import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.USER_VAL;
 
 /**
  * @author MyCollab Ltd.
@@ -70,7 +74,12 @@ public class MainWindowContainer extends CssLayout {
                             }
                         }
                     } else {
-                        navigateToLoginView();
+                        SimpleUser user = (SimpleUser) MyCollabSession.getSessionVariable(USER_VAL);
+                        if (user != null) {
+                            ((DesktopApplication) UI.getCurrent()).afterDoLogin(user);
+                        } else {
+                            navigateToLoginView();
+                        }
                     }
                 }
             });

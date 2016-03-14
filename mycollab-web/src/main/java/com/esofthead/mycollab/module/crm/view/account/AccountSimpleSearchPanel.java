@@ -44,7 +44,6 @@ import org.apache.commons.lang3.StringUtils;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@SuppressWarnings("serial")
 public class AccountSimpleSearchPanel extends GenericSearchPanel<AccountSearchCriteria> {
     private AccountSearchCriteria searchCriteria;
     private TextField textValueField;

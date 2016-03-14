@@ -18,6 +18,8 @@ package com.esofthead.mycollab.module.crm.view.cases;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.core.ResourceNotFoundException;
+import com.esofthead.mycollab.core.SecureAccessException;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.CaseWithBLOBs;
@@ -34,7 +36,6 @@ import com.esofthead.mycollab.vaadin.mvp.HistoryViewManager;
 import com.esofthead.mycollab.vaadin.mvp.NullViewState;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewState;
-import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 
 /**
@@ -87,8 +88,7 @@ public class CaseAddPresenter extends CrmGenericPresenter<CaseAddView> {
                 cases = caseService.findById((Integer) data.getParams(), AppContext.getAccountId());
             }
             if (cases == null) {
-                NotificationUtil.showRecordNotExistNotification();
-                return;
+                throw new ResourceNotFoundException();
             }
             super.onGo(container, data);
             view.editItem(cases);
@@ -101,14 +101,14 @@ public class CaseAddPresenter extends CrmGenericPresenter<CaseAddView> {
                         AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, "Case", cases.getSubject()));
             }
         } else {
-            NotificationUtil.showMessagePermissionAlert();
+            throw new SecureAccessException();
         }
     }
 
     private int saveCase(CaseWithBLOBs cases) {
         CaseService caseService = ApplicationContextUtil.getSpringBean(CaseService.class);
-
         cases.setSaccountid(AppContext.getAccountId());
+
         if (cases.getId() == null) {
             caseService.saveWithSession(cases, AppContext.getUsername());
         } else {

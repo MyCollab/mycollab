@@ -28,7 +28,6 @@ public abstract class SearchCriteria implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public static final String ASC = "ASC";
-
     public static final String DESC = "DESC";
 
     private List<OrderField> orderFields;

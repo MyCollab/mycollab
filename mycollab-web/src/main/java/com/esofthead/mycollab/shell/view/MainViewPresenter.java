@@ -43,13 +43,13 @@ public class MainViewPresenter extends AbstractPresenter<MainView> {
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         // if user type remember URL, instead of going to main page, to to his
         // url
-        String url = ((DesktopApplication) UI.getCurrent()).getInitialUrl();
+        String url = ((DesktopApplication) UI.getCurrent()).getCurrentFragmentUrl();
         view.display();
         if (!StringUtils.isBlank(url)) {
             if (url.startsWith("/")) {
                 url = url.substring(1);
             }
-            DesktopApplication.rootUrlResolver.navigateByFragement(url);
+            DesktopApplication.rootUrlResolver.resolveFragment(url);
         } else {
             SimpleUser pref = AppContext.getUser();
             if (ModuleNameConstants.CRM.equals(pref.getLastModuleVisit())) {

@@ -36,10 +36,10 @@ class MessageUrlResolver extends ProjectUrlResolver {
   private class ListUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
       val projectId = new UrlTokenizer(params(0)).getInt
-      val messageSearchCriteria = new MessageSearchCriteria
-      messageSearchCriteria.setProjectids(new SetSearchField[Integer](projectId))
+      val searchCriteria = new MessageSearchCriteria
+      searchCriteria.setProjectids(new SetSearchField[Integer](projectId))
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
-        new MessageScreenData.Search(messageSearchCriteria))
+        new MessageScreenData.Search(searchCriteria))
       EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }

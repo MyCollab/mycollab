@@ -16,9 +16,11 @@
  */
 package com.esofthead.mycollab.module.project.view.bug;
 
+import com.esofthead.mycollab.core.SecureAccessException;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
+import com.esofthead.mycollab.module.project.view.ProjectGenericPresenter;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -27,15 +29,13 @@ import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
-import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
-import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 
 /**
  * @author MyCollab Ltd
  * @since 5.1.1
  */
 @LoadPolicy(scope = ViewScope.PROTOTYPE)
-public class BugKanbanPresenter extends AbstractPresenter<BugKanbanView> {
+public class BugKanbanPresenter extends ProjectGenericPresenter<BugKanbanView> {
 
     private BugService bugService;
 
@@ -66,7 +66,7 @@ public class BugKanbanPresenter extends AbstractPresenter<BugKanbanView> {
             ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
             breadCrumb.gotoBugKanbanView();
         } else {
-            NotificationUtil.showMessagePermissionAlert();
+            throw new SecureAccessException();
         }
     }
 

@@ -34,10 +34,10 @@ import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.VIEW_MANAGER_VAL;
 public class ViewManager {
 
     public static <T extends CacheableComponent> T getCacheComponent(final Class<T> viewClass) {
-        Map<Class<?>, Object> viewMap = (Map<Class<?>, Object>) MyCollabSession.getVariable(VIEW_MANAGER_VAL);
+        Map<Class<?>, Object> viewMap = (Map<Class<?>, Object>) MyCollabSession.getCurrentUIVariable(VIEW_MANAGER_VAL);
         if (viewMap == null) {
             viewMap = new HashMap<>();
-            MyCollabSession.putVariable(VIEW_MANAGER_VAL, viewMap);
+            MyCollabSession.putCurrentUIVariable(VIEW_MANAGER_VAL, viewMap);
         }
 
         try {

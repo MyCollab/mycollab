@@ -47,7 +47,6 @@ import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.google.common.eventbus.Subscribe;
-import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.*;
@@ -100,7 +99,7 @@ public class DesktopApplication extends MyCollabUI {
             }
         });
 
-        initialUrl = this.getPage().getUriFragment();
+        setCurrentFragmentUrl(this.getPage().getUriFragment());
         currentContext = new AppContext();
         postSetupApp(request);
 
@@ -299,14 +298,14 @@ public class DesktopApplication extends MyCollabUI {
         opener.extend(okBtn);
     }
 
-    private void enter(String uriFragement) {
-        rootUrlResolver.navigateByFragement(uriFragement);
+    private void enter(String newFragmentUrl) {
+        rootUrlResolver.resolveFragment(newFragmentUrl);
     }
 
     private void clearSession() {
         if (currentContext != null) {
             currentContext.clearSessionVariables();
-            initialUrl = "";
+            setCurrentFragmentUrl("");
         }
     }
 
@@ -318,6 +317,10 @@ public class DesktopApplication extends MyCollabUI {
             rememberPassword(username, password);
         }
 
+        afterDoLogin(user);
+    }
+
+    public void afterDoLogin(SimpleUser user) {
         BillingAccountService billingAccountService = ApplicationContextUtil.getSpringBean(BillingAccountService.class);
 
         SimpleBillingAccount billingAccount = billingAccountService.getBillingAccountById(AppContext.getAccountId());

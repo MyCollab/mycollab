@@ -16,9 +16,9 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import com.esofthead.mycollab.common.SessionIdGenerator;
 import com.esofthead.mycollab.core.SessionExpireException;
 import com.esofthead.mycollab.vaadin.MyCollabUI;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
 
 /**
@@ -26,6 +26,8 @@ import com.vaadin.ui.UI;
  * @since 3.0
  */
 public class MyCollabSession {
+
+    public static final String USER_VAL = "userVal";
 
     public static final String EVENT_BUS_VAL = "eventBusVal";
 
@@ -48,11 +50,35 @@ public class MyCollabSession {
     private MyCollabSession() {
     }
 
+    public static void putSessionVariable(String key, Object value) {
+        try {
+            VaadinSession.getCurrent().setAttribute(key, value);
+        } catch (Exception e) {
+            throw new SessionExpireException("Expire Exception");
+        }
+    }
+
+    public static Object getSessionVariable(String key) {
+        try {
+            return VaadinSession.getCurrent().getAttribute(key);
+        } catch (Exception e) {
+            throw new SessionExpireException("Expire Exception");
+        }
+    }
+
+    public static void removeSessionVariable(String key) {
+        try {
+            VaadinSession.getCurrent().setAttribute(key, null);
+        } catch (Exception e) {
+            throw new SessionExpireException("Expire Exception");
+        }
+    }
+
     /**
      * @param key
      * @param value
      */
-    public static void putVariable(String key, Object value) {
+    public static void putCurrentUIVariable(String key, Object value) {
         try {
             ((MyCollabUI) UI.getCurrent()).setAttribute(key, value);
         } catch (Exception e) {
@@ -63,7 +89,7 @@ public class MyCollabSession {
     /**
      * @param key
      */
-    public static void removeVariable(String key) {
+    public static void removeCurrentUIVariable(String key) {
         try {
             ((MyCollabUI) UI.getCurrent()).setAttribute(key, null);
         } catch (Exception e) {
@@ -75,15 +101,11 @@ public class MyCollabSession {
      * @param key
      * @return
      */
-    public static Object getVariable(String key) {
+    public static Object getCurrentUIVariable(String key) {
         try {
             return ((MyCollabUI) UI.getCurrent()).getAttribute(key);
         } catch (Exception e) {
             throw new SessionExpireException("Expire Exception");
         }
-    }
-
-    public static String getSessionId() {
-        return SessionIdGenerator.getSessionId();
     }
 }

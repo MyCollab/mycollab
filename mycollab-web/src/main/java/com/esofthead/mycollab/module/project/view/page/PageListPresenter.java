@@ -16,20 +16,20 @@
  */
 package com.esofthead.mycollab.module.project.view.page;
 
+import com.esofthead.mycollab.core.SecureAccessException;
 import com.esofthead.mycollab.module.page.domain.PageResource;
 import com.esofthead.mycollab.module.page.service.PageService;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
+import com.esofthead.mycollab.module.project.view.ProjectGenericPresenter;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
-import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
-import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 import org.apache.commons.collections.CollectionUtils;
 
@@ -40,7 +40,7 @@ import java.util.List;
  * @since 4.4.0
  */
 @LoadPolicy(scope = ViewScope.PROTOTYPE)
-public class PageListPresenter extends AbstractPresenter<PageListView> {
+public class PageListPresenter extends ProjectGenericPresenter<PageListView> {
     private static final long serialVersionUID = 1L;
 
     private PageService pageService;
@@ -75,7 +75,7 @@ public class PageListPresenter extends AbstractPresenter<PageListView> {
             ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
             breadcrumb.gotoPageList();
         } else {
-            NotificationUtil.showMessagePermissionAlert();
+            throw new SecureAccessException();
         }
     }
 

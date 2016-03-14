@@ -48,11 +48,7 @@ public class PermissionMap extends ValuedBean {
      */
     public Integer getPermissionFlag(String permissionItem) {
         Object value = perMap.get(permissionItem);
-        if (value == null) {
-            return AccessPermissionFlag.NO_ACCESS;
-        }
-
-        return (Integer) value;
+        return (value == null) ? AccessPermissionFlag.NO_ACCESS : (Integer) value;
     }
 
     /**
@@ -69,11 +65,7 @@ public class PermissionMap extends ValuedBean {
      */
     public boolean canBeYes(String permissionItem) {
         Object value = perMap.get(permissionItem);
-        if (value == null) {
-            return false;
-        } else {
-            return BooleanPermissionFlag.beTrue((Integer) value);
-        }
+        return (value != null) && BooleanPermissionFlag.beTrue((Integer) value);
     }
 
     /**
@@ -82,11 +74,7 @@ public class PermissionMap extends ValuedBean {
      */
     public boolean canBeFalse(String permissionItem) {
         Object value = perMap.get(permissionItem);
-        if (value == null) {
-            return false;
-        } else {
-            return BooleanPermissionFlag.beFalse((Integer) value);
-        }
+        return (value != null) && BooleanPermissionFlag.beFalse((Integer) value);
     }
 
     /**
@@ -95,11 +83,7 @@ public class PermissionMap extends ValuedBean {
      */
     public boolean canRead(String permissionItem) {
         Object value = perMap.get(permissionItem);
-        if (value == null) {
-            return false;
-        } else {
-            return AccessPermissionFlag.canRead((Integer) value);
-        }
+        return (value != null) && AccessPermissionFlag.canRead((Integer) value);
     }
 
     /**
@@ -108,11 +92,7 @@ public class PermissionMap extends ValuedBean {
      */
     public boolean canWrite(String permissionItem) {
         Object value = perMap.get(permissionItem);
-        if (value == null) {
-            return false;
-        } else {
-            return AccessPermissionFlag.canWrite((Integer) value);
-        }
+        return (value != null) && AccessPermissionFlag.canWrite((Integer) value);
     }
 
     /**
@@ -121,11 +101,7 @@ public class PermissionMap extends ValuedBean {
      */
     public boolean canAccess(String permissionItem) {
         Object value = perMap.get(permissionItem);
-        if (value == null) {
-            return false;
-        } else {
-            return AccessPermissionFlag.canAccess((Integer) value);
-        }
+        return (value != null) && AccessPermissionFlag.canAccess((Integer) value);
     }
 
     /**

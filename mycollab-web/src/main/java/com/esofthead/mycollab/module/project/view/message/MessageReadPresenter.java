@@ -18,6 +18,7 @@
 package com.esofthead.mycollab.module.project.view.message;
 
 import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.core.SecureAccessException;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -26,6 +27,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleMessage;
 import com.esofthead.mycollab.module.project.events.MessageEvent;
 import com.esofthead.mycollab.module.project.service.MessageService;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
+import com.esofthead.mycollab.module.project.view.ProjectGenericPresenter;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.PreviewFormHandler;
@@ -33,8 +35,6 @@ import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
-import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
-import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 
 /**
@@ -42,7 +42,7 @@ import com.vaadin.ui.ComponentContainer;
  * @since 1.0
  */
 @LoadPolicy(scope = ViewScope.PROTOTYPE)
-public class MessageReadPresenter extends AbstractPresenter<MessageReadView> {
+public class MessageReadPresenter extends ProjectGenericPresenter<MessageReadView> {
     private static final long serialVersionUID = 1L;
 
     public MessageReadPresenter() {
@@ -112,7 +112,7 @@ public class MessageReadPresenter extends AbstractPresenter<MessageReadView> {
                 throw new MyCollabException("Unhanddle this case yet");
             }
         } else {
-            NotificationUtil.showMessagePermissionAlert();
+            throw new SecureAccessException();
         }
     }
 }

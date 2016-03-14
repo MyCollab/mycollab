@@ -109,15 +109,10 @@ public class ProjectDashboardViewImpl extends ProjectMobileMenuPageView implemen
         projectInfo.setWidth("100%");
         projectInfo.setDefaultComponentAlignment(Alignment.TOP_CENTER);
 
-        ELabel projectIcon = ELabel.h2(FontAwesome.BUILDING_O.getHtml());
-        projectIcon.setStyleName("project-icon");
-        projectIcon.setContentMode(ContentMode.HTML);
-        projectIcon.setWidthUndefined();
+        ELabel projectIcon = ELabel.h2(FontAwesome.BUILDING_O.getHtml()).withStyleName("project-icon").withWidthUndefined();
         projectInfo.addComponent(projectIcon);
 
-        Label projectName = new Label(currentProject.getName());
-        projectName.setWidth("100%");
-        projectName.setStyleName("project-name");
+        ELabel projectName = new ELabel(currentProject.getName()).withWidth("100%").withStyleName("project-name");
         projectInfo.addComponent(projectName);
 
         MHorizontalLayout metaInfo = new MHorizontalLayout();

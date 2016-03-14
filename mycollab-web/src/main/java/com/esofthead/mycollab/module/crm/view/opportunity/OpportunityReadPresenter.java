@@ -17,6 +17,8 @@
 package com.esofthead.mycollab.module.crm.view.opportunity;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.core.ResourceNotFoundException;
+import com.esofthead.mycollab.core.SecureAccessException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
@@ -37,8 +39,8 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.AbstractRelatedListHandler;
-import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
+import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
 import org.vaadin.dialogs.ConfirmDialog;
@@ -227,11 +229,11 @@ public class OpportunityReadPresenter extends CrmGenericPresenter<OpportunityRea
                             AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE, "Opportunity",
                                     opportunity.getOpportunityname()));
                 } else {
-                    NotificationUtil.showRecordNotExistNotification();
+                    throw new ResourceNotFoundException();
                 }
             }
         } else {
-            NotificationUtil.showMessagePermissionAlert();
+            throw new SecureAccessException();
         }
     }
 }

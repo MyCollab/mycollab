@@ -16,21 +16,18 @@
  */
 package com.esofthead.mycollab.module.project.view;
 
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.core.ResourceNotFoundException;
+import com.esofthead.mycollab.core.SecureAccessException;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
-import com.esofthead.mycollab.module.project.view.user.ProjectDashboardPresenter;
-import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.IPresenter;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
-import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
-import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComponentContainer;
 
@@ -38,7 +35,7 @@ import com.vaadin.ui.ComponentContainer;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class ProjectViewPresenter extends AbstractPresenter<ProjectView> {
+public class ProjectViewPresenter extends ProjectGenericPresenter<ProjectView> {
     private static final long serialVersionUID = 1L;
 
     public ProjectViewPresenter() {
@@ -55,7 +52,7 @@ public class ProjectViewPresenter extends AbstractPresenter<ProjectView> {
             SimpleProject project = projectService.findById((Integer) data.getParams(), AppContext.getAccountId());
 
             if (project == null) {
-                NotificationUtil.showRecordNotExistNotification();
+                throw new ResourceNotFoundException();
             } else {
                 ProjectMemberService projectMemberService = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
                 boolean userBelongToProject = projectMemberService.isUserBelongToProject(AppContext.getUsername(),
@@ -64,17 +61,10 @@ public class ProjectViewPresenter extends AbstractPresenter<ProjectView> {
                     CurrentProjectVariables.setProject(project);
                     view.initView(project);
                 } else {
-                    NotificationUtil.showMessagePermissionAlert();
-                    EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, new String[]{}));
+                    throw new SecureAccessException();
                 }
             }
         }
-    }
-
-    @Override
-    protected void onDefaultStopChain() {
-        ProjectDashboardPresenter presenter = PresenterResolver.getPresenter(ProjectDashboardPresenter.class);
-        presenter.go(this.view, null);
     }
 
     @Override

@@ -18,6 +18,8 @@ package com.esofthead.mycollab.module.crm.view.opportunity;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.core.ResourceNotFoundException;
+import com.esofthead.mycollab.core.SecureAccessException;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.Opportunity;
@@ -87,8 +89,7 @@ public class OpportunityAddPresenter extends CrmGenericPresenter<OpportunityAddV
                 opportunity = accountService.findById((Integer) data.getParams(), AppContext.getAccountId());
             }
             if (opportunity == null) {
-                NotificationUtil.showRecordNotExistNotification();
-                return;
+                throw new ResourceNotFoundException();
             }
             super.onGo(container, data);
             view.editItem(opportunity);
@@ -101,7 +102,7 @@ public class OpportunityAddPresenter extends CrmGenericPresenter<OpportunityAddV
                                 opportunity.getOpportunityname()));
             }
         } else {
-            NotificationUtil.showMessagePermissionAlert();
+            throw new SecureAccessException();
         }
     }
 

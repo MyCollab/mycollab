@@ -39,8 +39,8 @@ public class ComponentPresenter extends AbstractPresenter<BugComponentContainer>
     }
 
     @Override
-    public void go(ComponentContainer container, ScreenData<?> data) {
-        super.go(container, data, false);
+    public boolean go(ComponentContainer container, ScreenData<?> data) {
+        return super.go(container, data, false);
     }
 
     @Override

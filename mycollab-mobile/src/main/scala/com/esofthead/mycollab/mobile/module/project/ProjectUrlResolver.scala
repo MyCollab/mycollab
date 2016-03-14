@@ -98,7 +98,7 @@ class ProjectUrlResolver extends UrlResolver {
         EventBusFactory.getInstance.post(new ProjectEvent.AllActivities(this, data))
       }
       else {
-        val projectId: Int = new UrlTokenizer(params(0)).getInt
+        val projectId = new UrlTokenizer(params(0)).getInt
         val searchCriteria = new ActivityStreamSearchCriteria()
         searchCriteria.setModuleSet(new SetSearchField(ModuleNameConstants.PRJ));
         searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()))

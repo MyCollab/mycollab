@@ -99,6 +99,13 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
         presenter.go(projectView, data)
       }
     })
+
+    this.register(new ApplicationEventListener[ProjectEvent.GotoDashboard] {
+      @Subscribe def handle(event: ProjectEvent.GotoDashboard) {
+        val presenter = PresenterResolver.getPresenter(classOf[ProjectDashboardPresenter])
+        presenter.go(projectView, null)
+      }
+    })
   }
 
   private def bindTaskEvents(): Unit = {

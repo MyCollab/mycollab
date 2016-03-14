@@ -18,6 +18,8 @@ package com.esofthead.mycollab.module.crm.view.contact;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.core.ResourceNotFoundException;
+import com.esofthead.mycollab.core.SecureAccessException;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.Contact;
@@ -87,8 +89,7 @@ public class ContactAddPresenter extends CrmGenericPresenter<ContactAddView> {
                 contact = contactService.findById((Integer) data.getParams(), AppContext.getAccountId());
             }
             if (contact == null) {
-                NotificationUtil.showRecordNotExistNotification();
-                return;
+                throw new ResourceNotFoundException();
             }
             super.onGo(container, data);
             view.editItem(contact);
@@ -100,7 +101,7 @@ public class ContactAddPresenter extends CrmGenericPresenter<ContactAddView> {
                         AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, "Contact", contact.getLastname()));
             }
         } else {
-            NotificationUtil.showMessagePermissionAlert();
+            throw new SecureAccessException();
         }
     }
 

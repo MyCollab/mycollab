@@ -38,4 +38,6 @@ object ProjectEvent {
 
   class GotoGanttChart(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
+  class GotoDashboard(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+
 }

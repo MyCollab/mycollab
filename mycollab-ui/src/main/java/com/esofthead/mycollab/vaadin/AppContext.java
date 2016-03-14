@@ -54,6 +54,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.USER_TIMEZONE;
+import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.USER_VAL;
 
 /**
  * The core class that keep user session data while user login to MyCollab
@@ -100,7 +101,7 @@ public class AppContext implements Serializable {
     private static GoogleAnalyticsService googleAnalyticsService = ApplicationContextUtil.getSpringBean(GoogleAnalyticsService.class);
 
     public AppContext() {
-        MyCollabSession.putVariable("context", this);
+        MyCollabSession.putCurrentUIVariable("context", this);
     }
 
     /**
@@ -110,7 +111,7 @@ public class AppContext implements Serializable {
      */
     public static AppContext getInstance() {
         try {
-            AppContext context = (AppContext) MyCollabSession.getVariable("context");
+            AppContext context = (AppContext) MyCollabSession.getCurrentUIVariable("context");
             if (context == null) {
                 throw new SessionExpireException("Session is expired");
             }
@@ -161,12 +162,14 @@ public class AppContext implements Serializable {
         } else {
             timezone = TimezoneMapper.getTimezone(session.getTimezone());
         }
-        MyCollabSession.putVariable(USER_TIMEZONE, timezone);
+        MyCollabSession.putCurrentUIVariable(USER_TIMEZONE, timezone);
+        MyCollabSession.putSessionVariable(USER_VAL, userSession);
     }
 
     public void clearSessionVariables() {
         session = null;
         billingAccount = null;
+        MyCollabSession.removeSessionVariable(USER_VAL);
     }
 
     public static String getSiteName() {
@@ -193,7 +196,6 @@ public class AppContext implements Serializable {
         }
     }
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
     public static String getMessage(Class<? extends Enum> enumCls, String option, Object... objects) {
         try {
             if (option == null)
@@ -202,7 +204,6 @@ public class AppContext implements Serializable {
             Enum key = Enum.valueOf(enumCls, option);
             return getMessage(key, objects);
         } catch (Exception e) {
-//            LOG.debug("Can not find resource key " + option + " and enum class " + enumCls.getName(), e);
             return option;
         }
     }
@@ -224,7 +225,6 @@ public class AppContext implements Serializable {
     public void initDomain(String domain) {
         this.subDomain = domain;
         BillingAccountService billingService = ApplicationContextUtil.getSpringBean(BillingAccountService.class);
-
         BillingAccount account = billingService.getAccountByDomain(domain);
 
         if (account == null) {
@@ -345,7 +345,7 @@ public class AppContext implements Serializable {
         }
 
         PermissionMap permissionMap = getInstance().session.getPermissionMaps();
-        return (permissionMap == null) ? false : permissionMap.canBeYes(permissionItem);
+        return permissionMap != null && permissionMap.canBeYes(permissionItem);
     }
 
     /**
@@ -358,7 +358,7 @@ public class AppContext implements Serializable {
         }
 
         PermissionMap permissionMap = getInstance().session.getPermissionMaps();
-        return (permissionMap == null) ? false : permissionMap.canBeFalse(permissionItem);
+        return permissionMap != null && permissionMap.canBeFalse(permissionItem);
     }
 
     /**
@@ -371,7 +371,7 @@ public class AppContext implements Serializable {
         }
 
         PermissionMap permissionMap = getInstance().session.getPermissionMaps();
-        return (permissionMap == null) ? false : permissionMap.canRead(permissionItem);
+        return permissionMap != null && permissionMap.canRead(permissionItem);
     }
 
     /**
@@ -383,7 +383,7 @@ public class AppContext implements Serializable {
             return true;
         }
         PermissionMap permissionMap = getInstance().session.getPermissionMaps();
-        return (permissionMap == null) ? false : permissionMap.canWrite(permissionItem);
+        return permissionMap != null && permissionMap.canWrite(permissionItem);
     }
 
     /**
@@ -395,7 +395,7 @@ public class AppContext implements Serializable {
             return true;
         }
         PermissionMap permissionMap = getInstance().session.getPermissionMaps();
-        return (permissionMap == null) ? false : permissionMap.canAccess(permissionItem);
+        return permissionMap != null && permissionMap.canAccess(permissionItem);
     }
 
     /**
@@ -414,7 +414,7 @@ public class AppContext implements Serializable {
 
     public static TimeZone getUserTimezone() {
         try {
-            return (TimeZone) MyCollabSession.getVariable(USER_TIMEZONE);
+            return (TimeZone) MyCollabSession.getCurrentUIVariable(USER_TIMEZONE);
         } catch (Exception e) {
             return TimeZone.getDefault();
         }
@@ -426,7 +426,7 @@ public class AppContext implements Serializable {
      */
     public static String formatDateTime(Date date) {
         return DateTimeUtils.formatDate(date, AppContext.getUserDateFormat().getDateTimeFormat(),
-                (TimeZone) MyCollabSession.getVariable(USER_TIMEZONE));
+                (TimeZone) MyCollabSession.getCurrentUIVariable(USER_TIMEZONE));
     }
 
     /**
@@ -435,7 +435,7 @@ public class AppContext implements Serializable {
      */
     public static String formatDate(Date date) {
         return DateTimeUtils.formatDate(date, AppContext.getUserDateFormat().getDateFormat(),
-                (TimeZone) MyCollabSession.getVariable(USER_TIMEZONE));
+                (TimeZone) MyCollabSession.getCurrentUIVariable(USER_TIMEZONE));
     }
 
     /**

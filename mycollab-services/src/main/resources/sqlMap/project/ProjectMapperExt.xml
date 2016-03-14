@@ -187,7 +187,18 @@
             <include refid="querySearchCriteria" />
           #end
         #end
+        <include refid="orderStatement" />
     </select>
+
+    <sql id="orderStatement">
+        ORDER BY
+        #ifnotnull($_parameter.searchCriteria.orderFields)
+            #repeat(${_parameter.searchCriteria.orderFields} $orderField "" "" "")
+                ${orderField.field} ${orderField.direction},
+            #end
+        #end
+        m_prj_project.lastUpdatedTime DESC
+    </sql>
 
     <select id="getProjectActivityStreams" parameterType="ActivityStreamSearchCriteria" resultMap="ActivityStreamResult" lang="velocity">
          (SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId, m_tracker_bug.bugkey AS itemKey, 

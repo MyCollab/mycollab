@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.message;
 
+import com.esofthead.mycollab.core.SecureAccessException;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
@@ -23,13 +24,11 @@ import com.esofthead.mycollab.module.project.domain.Message;
 import com.esofthead.mycollab.module.project.domain.criteria.MessageSearchCriteria;
 import com.esofthead.mycollab.module.project.service.MessageService;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
+import com.esofthead.mycollab.module.project.view.ProjectGenericPresenter;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultEditFormHandler;
-import com.esofthead.mycollab.vaadin.events.IEditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.*;
-import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
-import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.vaadin.ui.ComponentContainer;
 
 /**
@@ -37,7 +36,8 @@ import com.vaadin.ui.ComponentContainer;
  * @since 1.0
  */
 @LoadPolicy(scope = ViewScope.PROTOTYPE)
-public class MessageListPresenter extends AbstractPresenter<MessageListView> implements ListCommand<MessageSearchCriteria> {
+public class MessageListPresenter extends ProjectGenericPresenter<MessageListView> implements
+        ListCommand<MessageSearchCriteria> {
     private static final long serialVersionUID = 1L;
 
     private MessageSearchCriteria searchCriteria;
@@ -72,7 +72,7 @@ public class MessageListPresenter extends AbstractPresenter<MessageListView> imp
             messageContainer.addComponent(view.getWidget());
             doSearch((MessageSearchCriteria) data.getParams());
         } else {
-            NotificationUtil.showMessagePermissionAlert();
+            throw new SecureAccessException();
         }
     }
 

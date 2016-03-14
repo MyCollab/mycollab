@@ -18,6 +18,7 @@
 package com.esofthead.mycollab.module.project.view.user;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
+import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.NumberUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -33,7 +34,8 @@ import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
+import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.esofthead.mycollab.vaadin.web.ui.AbstractBeanPagedList;
 import com.esofthead.mycollab.vaadin.web.ui.DefaultBeanPagedList;
 import com.esofthead.mycollab.vaadin.web.ui.Depot;
@@ -43,10 +45,14 @@ import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Span;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.VerticalLayout;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
+import java.util.Arrays;
 import java.util.UUID;
 
 /**
@@ -57,9 +63,31 @@ public class ProjectMembersWidget extends Depot {
     private static final long serialVersionUID = 1L;
 
     private DefaultBeanPagedList<ProjectMemberService, ProjectMemberSearchCriteria, SimpleProjectMember> memberList;
+    private boolean sortAsc = true;
+    private ProjectMemberSearchCriteria searchCriteria;
 
     public ProjectMembersWidget() {
         super("", new CssLayout());
+        final Button sortBtn = new Button();
+        sortBtn.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                sortAsc = !sortAsc;
+                if (sortAsc) {
+                    sortBtn.setIcon(FontAwesome.SORT_ALPHA_ASC);
+                    searchCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("memberFullName", SearchCriteria.ASC)));
+                } else {
+                    sortBtn.setIcon(FontAwesome.SORT_ALPHA_DESC);
+                    searchCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("memberFullName",
+                            SearchCriteria.DESC)));
+                }
+                memberList.setSearchCriteria(searchCriteria);
+                setTitle(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_MEMBERS_TITLE, memberList.getTotalCount()));
+            }
+        });
+        sortBtn.setIcon(FontAwesome.SORT_ALPHA_ASC);
+        sortBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
+        addHeaderElement(sortBtn);
 
         MButton inviteMemberBtn = new MButton("Invite").withListener(new Button.ClickListener() {
             @Override
@@ -78,9 +106,10 @@ public class ProjectMembersWidget extends Depot {
     }
 
     public void showInformation() {
-        ProjectMemberSearchCriteria searchCriteria = new ProjectMemberSearchCriteria();
+        searchCriteria = new ProjectMemberSearchCriteria();
         searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
         searchCriteria.setStatus(StringSearchField.and(ProjectMemberStatusConstants.ACTIVE));
+        searchCriteria.addOrderField(new SearchCriteria.OrderField("memberFullName", SearchCriteria.ASC));
         memberList.setSearchCriteria(searchCriteria);
         this.setTitle(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_MEMBERS_TITLE, memberList.getTotalCount()));
     }

@@ -18,6 +18,7 @@
 package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
+import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectMemberStatusConstants;
@@ -30,6 +31,8 @@ import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
+
+import java.util.Arrays;
 
 /**
  * @author MyCollab Ltd.
@@ -54,6 +57,7 @@ public class ProjectMemberListPresenter extends AbstractPresenter<ProjectMemberL
                 criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
                 criteria.setStatus(StringSearchField.and(ProjectMemberStatusConstants.ACTIVE));
                 criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                criteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("memberFullName", SearchCriteria.ASC)));
             } else {
                 criteria = (ProjectMemberSearchCriteria) data.getParams();
             }

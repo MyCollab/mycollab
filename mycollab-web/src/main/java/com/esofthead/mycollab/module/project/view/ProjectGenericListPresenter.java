@@ -18,6 +18,8 @@ package com.esofthead.mycollab.module.project.view;
 
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.vaadin.mvp.LazyPageView;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -65,6 +67,12 @@ public abstract class ProjectGenericListPresenter<V extends IListView<S, B>, S e
             candidateView.removeAllComponents();
         }
         container.addComponent(candidateView);
+    }
+
+    @Override
+    protected void onErrorStopChain(Throwable throwable) {
+        super.onErrorStopChain(throwable);
+        EventBusFactory.getInstance().post(new ProjectEvent.GotoDashboard(this, null));
     }
 
 }

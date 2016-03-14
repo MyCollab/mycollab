@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.page;
 
+import com.esofthead.mycollab.core.SecureAccessException;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.page.domain.Page;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -24,13 +25,12 @@ import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.events.PageEvent;
 import com.esofthead.mycollab.module.project.service.ProjectPageService;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
+import com.esofthead.mycollab.module.project.view.ProjectGenericPresenter;
 import com.esofthead.mycollab.module.project.view.ProjectViewPresenter;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.IEditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.*;
-import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
-import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 
 /**
@@ -38,7 +38,7 @@ import com.vaadin.ui.ComponentContainer;
  * @since 4.4.0
  */
 @LoadPolicy(scope = ViewScope.PROTOTYPE)
-public class PageAddPresenter extends AbstractPresenter<PageAddView> {
+public class PageAddPresenter extends ProjectGenericPresenter<PageAddView> {
     private static final long serialVersionUID = 1L;
 
     public PageAddPresenter() {
@@ -91,7 +91,7 @@ public class PageAddPresenter extends AbstractPresenter<PageAddView> {
             }
 
         } else {
-            NotificationUtil.showMessagePermissionAlert();
+            throw new SecureAccessException();
         }
     }
 

@@ -58,14 +58,15 @@ Version 5.2.9
 * [Premium] Project client management is added
 * [Premium] Support tag for phase and risk
 * New user group for task and bug views
-* Show template icon if the project is the template one
 * Allow to change color column of Kanban board
+* Improve error handling page mechanism
 * Other minor improvements
 
 **Bug Fixes**
 
 * [Premium] Display wrong list of history fields in several special cases
-* Rename option column may cause the exception in trending chart
+* [Premium] Save the new project throws error
+* Rename option column may cause the error in trending chart
 * Websocket timeout error
 
 Version 5.2.8

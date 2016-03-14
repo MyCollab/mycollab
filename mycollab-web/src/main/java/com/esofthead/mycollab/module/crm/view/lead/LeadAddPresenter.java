@@ -18,6 +18,8 @@ package com.esofthead.mycollab.module.crm.view.lead;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.core.ResourceNotFoundException;
+import com.esofthead.mycollab.core.SecureAccessException;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.Lead;
@@ -89,8 +91,7 @@ public class LeadAddPresenter extends CrmGenericPresenter<LeadAddView> {
             }
 
             if (lead == null) {
-                NotificationUtil.showRecordNotExistNotification();
-                return;
+                throw new ResourceNotFoundException();
             }
 
             super.onGo(container, data);
@@ -103,7 +104,7 @@ public class LeadAddPresenter extends CrmGenericPresenter<LeadAddView> {
                         AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, "Lead", lead.getLastname()));
             }
         } else {
-            NotificationUtil.showMessagePermissionAlert();
+            throw new SecureAccessException();
         }
 
     }

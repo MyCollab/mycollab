@@ -17,6 +17,8 @@
 package com.esofthead.mycollab.module.crm.view.cases;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.core.ResourceNotFoundException;
+import com.esofthead.mycollab.core.SecureAccessException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
@@ -199,12 +201,11 @@ public class CaseReadPresenter extends CrmGenericPresenter<CaseReadView> {
                     AppContext.addFragment(CrmLinkGenerator.generateCasePreviewLink(cases.getId()),
                             AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE, "Case", cases.getSubject()));
                 } else {
-                    NotificationUtil.showRecordNotExistNotification();
-                    return;
+                    throw new ResourceNotFoundException();
                 }
             }
         } else {
-            NotificationUtil.showMessagePermissionAlert();
+            throw new SecureAccessException();
         }
     }
 }

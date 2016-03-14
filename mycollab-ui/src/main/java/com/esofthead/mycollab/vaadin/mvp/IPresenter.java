@@ -37,14 +37,14 @@ public interface IPresenter<V extends PageView> extends Serializable {
      * @param container
      * @param data
      */
-    void go(ComponentContainer container, ScreenData<?> data);
+    boolean go(ComponentContainer container, ScreenData<?> data);
 
     /**
      * @param container
      * @param data
      * @param isHistoryTrack
      */
-    void go(ComponentContainer container, ScreenData<?> data, boolean isHistoryTrack);
+    boolean go(ComponentContainer container, ScreenData<?> data, boolean isHistoryTrack);
 
     /**
      * @return

@@ -17,6 +17,8 @@
 package com.esofthead.mycollab.module.crm.view.account;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.core.ResourceNotFoundException;
+import com.esofthead.mycollab.core.SecureAccessException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
@@ -240,12 +242,11 @@ public class AccountReadPresenter extends CrmGenericPresenter<AccountReadView> {
                             AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
                                     AppContext.getMessage(CrmCommonI18nEnum.ACCOUNT), account.getAccountname()));
                 } else {
-                    NotificationUtil.showRecordNotExistNotification();
-                    return;
+                    throw new ResourceNotFoundException();
                 }
             }
         } else {
-            NotificationUtil.showMessagePermissionAlert();
+            throw new SecureAccessException();
         }
     }
 }

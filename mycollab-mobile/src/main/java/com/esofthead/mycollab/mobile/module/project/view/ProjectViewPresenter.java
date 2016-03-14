@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view;
 
+import com.esofthead.mycollab.core.ResourceNotFoundException;
 import com.esofthead.mycollab.core.utils.ClassUtils;
 import com.esofthead.mycollab.mobile.module.project.view.bug.BugPresenter;
 import com.esofthead.mycollab.mobile.module.project.view.message.MessagePresenter;
@@ -23,7 +24,6 @@ import com.esofthead.mycollab.mobile.module.project.view.milestone.MilestonePres
 import com.esofthead.mycollab.mobile.module.project.view.parameters.*;
 import com.esofthead.mycollab.mobile.module.project.view.settings.ProjectUserPresenter;
 import com.esofthead.mycollab.mobile.module.project.view.task.TaskPresenter;
-import com.esofthead.mycollab.mobile.mvp.AbstractPresenter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.service.ProjectService;
@@ -33,14 +33,13 @@ import com.esofthead.mycollab.vaadin.mvp.IPresenter;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
-import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.4.0
  */
-public class ProjectViewPresenter extends AbstractPresenter<ProjectView> {
+public class ProjectViewPresenter extends ProjectGenericPresenter<ProjectView> {
     private static final long serialVersionUID = -2509768926569804614L;
 
     public ProjectViewPresenter() {
@@ -57,17 +56,11 @@ public class ProjectViewPresenter extends AbstractPresenter<ProjectView> {
             SimpleProject project = projectService.findById((Integer) data.getParams(), AppContext.getAccountId());
 
             if (project == null) {
-                NotificationUtil.showRecordNotExistNotification();
+                throw new ResourceNotFoundException();
             } else {
                 CurrentProjectVariables.setProject(project);
             }
         }
-    }
-
-    @Override
-    protected void onDefaultStopChain() {
-        ProjectDashboardPresenter presenter = PresenterResolver.getPresenter(ProjectDashboardPresenter.class);
-        presenter.go(null);
     }
 
     @Override
@@ -79,7 +72,8 @@ public class ProjectViewPresenter extends AbstractPresenter<ProjectView> {
             presenter = PresenterResolver.getPresenter(ProjectDashboardPresenter.class);
         } else if (ClassUtils.instanceOf(pageAction, ProjectScreenData.ProjectActivities.class)) {
             presenter = PresenterResolver.getPresenter(ProjectActivityStreamPresenter.class);
-        } else if (ClassUtils.instanceOf(pageAction, MessageScreenData.Read.class, MessageScreenData.Search.class, MessageScreenData.Add.class)) {
+        } else if (ClassUtils.instanceOf(pageAction, MessageScreenData.Read.class, MessageScreenData.Search.class,
+                MessageScreenData.Add.class)) {
             presenter = PresenterResolver.getPresenter(MessagePresenter.class);
         } else if (ClassUtils.instanceOf(pageAction, TaskScreenData.Search.class, TaskScreenData.Read.class,
                 TaskScreenData.Add.class, TaskScreenData.Edit.class)) {

@@ -146,8 +146,8 @@ class BasicInfoChangeWindow extends Window {
         user.setLanguage((String) this.languageBox.getValue());
         user.setTimezone(this.timeZoneField.getTimeZone().getId());
 
-        MyCollabSession.removeVariable(USER_TIMEZONE);
-        MyCollabSession.putVariable(USER_TIMEZONE, this.timeZoneField.getTimeZone().getTimezone());
+        MyCollabSession.removeCurrentUIVariable(USER_TIMEZONE);
+        MyCollabSession.putCurrentUIVariable(USER_TIMEZONE, this.timeZoneField.getTimeZone().getTimezone());
 
         final UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
         userService.updateWithSession(user, AppContext.getUsername());

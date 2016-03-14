@@ -32,7 +32,6 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-
 public class AccountSelectionField extends CustomField<Integer> implements FieldSelection<Account> {
     private static final long serialVersionUID = 1L;
 

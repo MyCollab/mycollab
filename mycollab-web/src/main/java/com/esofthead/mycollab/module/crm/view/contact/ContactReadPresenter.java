@@ -17,6 +17,8 @@
 package com.esofthead.mycollab.module.crm.view.contact;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.core.ResourceNotFoundException;
+import com.esofthead.mycollab.core.SecureAccessException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
@@ -35,8 +37,8 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.AbstractRelatedListHandler;
-import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
+import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
 import org.vaadin.dialogs.ConfirmDialog;
@@ -127,68 +129,64 @@ public class ContactReadPresenter extends CrmGenericPresenter<ContactReadView> {
                 criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
                 Integer nextId = contactService.getPreviousItemKey(criteria);
                 if (nextId != null) {
-                    EventBusFactory.getInstance().post(
-                            new ContactEvent.GotoRead(this, nextId));
+                    EventBusFactory.getInstance().post(new ContactEvent.GotoRead(this, nextId));
                 } else {
                     NotificationUtil.showGotoFirstRecordNotification();
                 }
             }
         });
 
-        view.getRelatedActivityHandlers().addRelatedListHandler(
-                new AbstractRelatedListHandler<SimpleActivity>() {
-                    @Override
-                    public void createNewRelatedItem(String itemId) {
-                        if (itemId.equals("task")) {
-                            SimpleTask task = new SimpleTask();
-                            task.setType(CrmTypeConstants.CONTACT);
-                            task.setTypeid(view.getItem().getId());
-                            EventBusFactory.getInstance().post(new ActivityEvent.TaskEdit(ContactReadPresenter.this, task));
-                        } else if (itemId.equals("meeting")) {
-                            SimpleMeeting meeting = new SimpleMeeting();
-                            meeting.setType(CrmTypeConstants.CONTACT);
-                            meeting.setTypeid(view.getItem().getId());
-                            EventBusFactory.getInstance().post(new ActivityEvent.MeetingEdit(ContactReadPresenter.this, meeting));
-                        } else if (itemId.equals("call")) {
-                            SimpleCall call = new SimpleCall();
-                            call.setType(CrmTypeConstants.CONTACT);
-                            call.setTypeid(view.getItem().getId());
-                            EventBusFactory.getInstance().post(new ActivityEvent.CallEdit(ContactReadPresenter.this, call));
-                        }
+        view.getRelatedActivityHandlers().addRelatedListHandler(new AbstractRelatedListHandler<SimpleActivity>() {
+            @Override
+            public void createNewRelatedItem(String itemId) {
+                if (itemId.equals("task")) {
+                    SimpleTask task = new SimpleTask();
+                    task.setType(CrmTypeConstants.CONTACT);
+                    task.setTypeid(view.getItem().getId());
+                    EventBusFactory.getInstance().post(new ActivityEvent.TaskEdit(ContactReadPresenter.this, task));
+                } else if (itemId.equals("meeting")) {
+                    SimpleMeeting meeting = new SimpleMeeting();
+                    meeting.setType(CrmTypeConstants.CONTACT);
+                    meeting.setTypeid(view.getItem().getId());
+                    EventBusFactory.getInstance().post(new ActivityEvent.MeetingEdit(ContactReadPresenter.this, meeting));
+                } else if (itemId.equals("call")) {
+                    SimpleCall call = new SimpleCall();
+                    call.setType(CrmTypeConstants.CONTACT);
+                    call.setTypeid(view.getItem().getId());
+                    EventBusFactory.getInstance().post(new ActivityEvent.CallEdit(ContactReadPresenter.this, call));
+                }
+            }
+        });
+
+        view.getRelatedOpportunityHandlers().addRelatedListHandler(new AbstractRelatedListHandler<SimpleOpportunity>() {
+            @Override
+            public void createNewRelatedItem(String itemId) {
+                SimpleOpportunity opportunity = new SimpleOpportunity();
+                opportunity.setExtraData(view.getItem());
+                EventBusFactory.getInstance().post(new OpportunityEvent.GotoEdit(this, opportunity));
+            }
+
+            @Override
+            public void selectAssociateItems(Set<SimpleOpportunity> items) {
+                if (items.size() > 0) {
+                    SimpleContact contact = view.getItem();
+                    List<ContactOpportunity> associateOpportunities = new ArrayList<ContactOpportunity>();
+                    for (SimpleOpportunity opportunity : items) {
+                        ContactOpportunity assoOpportunity = new ContactOpportunity();
+                        assoOpportunity.setOpportunityid(opportunity.getId());
+                        assoOpportunity.setContactid(contact.getId());
+                        assoOpportunity.setCreatedtime(new GregorianCalendar().getTime());
+                        associateOpportunities.add(assoOpportunity);
                     }
-                });
 
-        view.getRelatedOpportunityHandlers().addRelatedListHandler(
-                new AbstractRelatedListHandler<SimpleOpportunity>() {
-                    @Override
-                    public void createNewRelatedItem(String itemId) {
-                        SimpleOpportunity opportunity = new SimpleOpportunity();
-                        opportunity.setExtraData(view.getItem());
-                        EventBusFactory.getInstance().post(new OpportunityEvent.GotoEdit(this, opportunity));
-                    }
+                    ContactService contactService = ApplicationContextUtil.getSpringBean(ContactService.class);
+                    contactService.saveContactOpportunityRelationship(
+                            associateOpportunities, AppContext.getAccountId());
 
-                    @Override
-                    public void selectAssociateItems(
-                            Set<SimpleOpportunity> items) {
-                        if (items.size() > 0) {
-                            SimpleContact contact = view.getItem();
-                            List<ContactOpportunity> associateOpportunities = new ArrayList<ContactOpportunity>();
-                            for (SimpleOpportunity opportunity : items) {
-                                ContactOpportunity assoOpportunity = new ContactOpportunity();
-                                assoOpportunity.setOpportunityid(opportunity.getId());
-                                assoOpportunity.setContactid(contact.getId());
-                                assoOpportunity.setCreatedtime(new GregorianCalendar().getTime());
-                                associateOpportunities.add(assoOpportunity);
-                            }
-
-                            ContactService contactService = ApplicationContextUtil.getSpringBean(ContactService.class);
-                            contactService.saveContactOpportunityRelationship(
-                                    associateOpportunities, AppContext.getAccountId());
-
-                            view.getRelatedOpportunityHandlers().refresh();
-                        }
-                    }
-                });
+                    view.getRelatedOpportunityHandlers().refresh();
+                }
+            }
+        });
     }
 
     @Override
@@ -207,13 +205,11 @@ public class ContactReadPresenter extends CrmGenericPresenter<ContactReadView> {
                                     "Contact", contact.getContactName()));
 
                 } else {
-                    NotificationUtil.showRecordNotExistNotification();
-                    return;
+                    throw new ResourceNotFoundException();
                 }
             }
         } else {
-            NotificationUtil.showMessagePermissionAlert();
+            throw new SecureAccessException();
         }
-
     }
 }

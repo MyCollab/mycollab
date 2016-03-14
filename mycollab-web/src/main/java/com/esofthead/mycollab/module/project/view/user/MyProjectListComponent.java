@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.project.view.user;
 
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
+import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
@@ -39,6 +40,8 @@ import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
+import java.util.Arrays;
+
 /**
  * @author MyCollab Ltd.
  * @since 1.0
@@ -51,6 +54,7 @@ public class MyProjectListComponent extends MVerticalLayout {
     private ProjectPagedList projectList;
     private Label titleLbl;
     private Enum currentTitleMsg;
+    private boolean isSortAsc = true;
 
     public MyProjectListComponent() {
         withSpacing(false).withMargin(new MarginInfo(true, false, true, false));
@@ -59,6 +63,26 @@ public class MyProjectListComponent extends MVerticalLayout {
         MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true));
         header.addStyleName("panel-header");
         titleLbl = new Label(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_ACTIVE_PROJECTS_TITLE, 0));
+
+        final Button sortBtn = new Button("");
+        sortBtn.addClickListener(new ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent clickEvent) {
+                isSortAsc = !isSortAsc;
+                if (searchCriteria != null) {
+                    if (isSortAsc) {
+                        sortBtn.setIcon(FontAwesome.SORT_ALPHA_ASC);
+                        searchCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("name", SearchCriteria.ASC)));
+                    } else {
+                        sortBtn.setIcon(FontAwesome.SORT_ALPHA_DESC);
+                        searchCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("name", SearchCriteria.DESC)));
+                    }
+                    displayResults();
+                }
+            }
+        });
+        sortBtn.setIcon(FontAwesome.SORT_ALPHA_ASC);
+        sortBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
 
         final SearchTextField searchTextField = new SearchTextField() {
             @Override
@@ -117,9 +141,7 @@ public class MyProjectListComponent extends MVerticalLayout {
         filterBtnLayout.addOption(archiveProjectsBtn);
         projectsPopup.setContent(filterBtnLayout);
 
-        header.with(titleLbl, searchTextField, projectsPopup).withAlign(titleLbl, Alignment.MIDDLE_LEFT).withAlign
-                (searchTextField, Alignment.MIDDLE_RIGHT)
-                .withAlign(projectsPopup, Alignment.MIDDLE_RIGHT).expand(titleLbl);
+        header.with(titleLbl, sortBtn, searchTextField, projectsPopup).expand(titleLbl).alignAll(Alignment.MIDDLE_LEFT);
 
         this.projectList = new ProjectPagedList();
         this.with(header, projectList);
@@ -132,6 +154,7 @@ public class MyProjectListComponent extends MVerticalLayout {
     private ProjectSearchCriteria getAllProjectsSearchCriteria() {
         ProjectSearchCriteria prjSearchCriteria = new ProjectSearchCriteria();
         prjSearchCriteria.setInvolvedMember(StringSearchField.and(AppContext.getUsername()));
+        prjSearchCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("name", SearchCriteria.ASC)));
         return prjSearchCriteria;
     }
 
@@ -139,6 +162,7 @@ public class MyProjectListComponent extends MVerticalLayout {
         ProjectSearchCriteria prjSearchCriteria = new ProjectSearchCriteria();
         prjSearchCriteria.setInvolvedMember(StringSearchField.and(AppContext.getUsername()));
         prjSearchCriteria.setProjectStatuses(new SetSearchField<>(new String[]{StatusI18nEnum.Open.name()}));
+        prjSearchCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("name", SearchCriteria.ASC)));
         return prjSearchCriteria;
     }
 
@@ -146,6 +170,7 @@ public class MyProjectListComponent extends MVerticalLayout {
         ProjectSearchCriteria prjSearchCriteria = new ProjectSearchCriteria();
         prjSearchCriteria.setInvolvedMember(StringSearchField.and(AppContext.getUsername()));
         prjSearchCriteria.setProjectStatuses(new SetSearchField<>(new String[]{StatusI18nEnum.Archived.name()}));
+        prjSearchCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("name", SearchCriteria.ASC)));
         return prjSearchCriteria;
     }
 

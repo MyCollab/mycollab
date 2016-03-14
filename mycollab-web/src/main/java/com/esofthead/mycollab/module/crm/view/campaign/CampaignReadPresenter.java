@@ -17,6 +17,8 @@
 package com.esofthead.mycollab.module.crm.view.campaign;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.core.ResourceNotFoundException;
+import com.esofthead.mycollab.core.SecureAccessException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
@@ -259,12 +261,11 @@ public class CampaignReadPresenter extends CrmGenericPresenter<CampaignReadView>
                     AppContext.addFragment(CrmLinkGenerator.generateCampaignPreviewLink(campaign.getId()),
                             AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE, "Campaign", campaign.getCampaignname()));
                 } else {
-                    NotificationUtil.showRecordNotExistNotification();
-                    return;
+                    throw new ResourceNotFoundException();
                 }
             }
         } else {
-            NotificationUtil.showMessagePermissionAlert();
+            throw new SecureAccessException();
         }
     }
 }

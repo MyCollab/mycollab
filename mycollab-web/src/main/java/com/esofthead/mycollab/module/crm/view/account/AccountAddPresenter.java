@@ -18,6 +18,8 @@ package com.esofthead.mycollab.module.crm.view.account;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.core.ResourceNotFoundException;
+import com.esofthead.mycollab.core.SecureAccessException;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.Account;
@@ -88,8 +90,7 @@ public class AccountAddPresenter extends CrmGenericPresenter<AccountAddView> {
             }
 
             if (account == null) {
-                NotificationUtil.showRecordNotExistNotification();
-                return;
+                throw new ResourceNotFoundException();
             }
 
             super.onGo(container, data);
@@ -102,7 +103,7 @@ public class AccountAddPresenter extends CrmGenericPresenter<AccountAddView> {
                         AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, "Account", account.getAccountname()));
             }
         } else {
-            NotificationUtil.showMessagePermissionAlert();
+            throw new SecureAccessException();
         }
     }
 

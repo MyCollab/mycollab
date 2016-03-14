@@ -63,10 +63,10 @@ public class HistoryViewManager {
 
     @SuppressWarnings("unchecked")
     private static List<ViewState> getViewState() {
-        List<ViewState> history = (List<ViewState>) MyCollabSession.getVariable(HISTORY_VAL);
+        List<ViewState> history = (List<ViewState>) MyCollabSession.getCurrentUIVariable(HISTORY_VAL);
         if (history == null) {
             history = new ArrayList<>();
-            MyCollabSession.putVariable(HISTORY_VAL, history);
+            MyCollabSession.putCurrentUIVariable(HISTORY_VAL, history);
         }
         return history;
     }

@@ -17,6 +17,8 @@
 package com.esofthead.mycollab.vaadin.web.ui;
 
 import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.core.ResourceNotFoundException;
+import com.esofthead.mycollab.core.SecureAccessException;
 import com.esofthead.mycollab.security.PermissionChecker;
 import com.esofthead.mycollab.security.PermissionMap;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -28,6 +30,8 @@ import com.vaadin.server.ClientConnector;
 import com.vaadin.ui.ComponentContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static com.esofthead.mycollab.core.utils.ExceptionUtils.getExceptionType;
 
 /**
  * @param <V>
@@ -42,7 +46,6 @@ public abstract class AbstractPresenter<V extends PageView> implements IPresente
     protected Class<V> implClass;
     protected V view;
 
-    @SuppressWarnings("unchecked")
     public AbstractPresenter(Class<V> viewClass) {
         this.viewClass = viewClass;
         ComponentScannerService componentScannerService = ApplicationContextUtil.getSpringBean(ComponentScannerService.class);
@@ -92,12 +95,12 @@ public abstract class AbstractPresenter<V extends PageView> implements IPresente
     }
 
     @Override
-    public void go(ComponentContainer container, ScreenData<?> data) {
-        go(container, data, true);
+    public boolean go(ComponentContainer container, ScreenData<?> data) {
+        return go(container, data, true);
     }
 
     @Override
-    public void go(ComponentContainer container, ScreenData<?> data, boolean isHistoryTrack) {
+    public boolean go(ComponentContainer container, ScreenData<?> data, boolean isHistoryTrack) {
         initView();
 
         if (isHistoryTrack) {
@@ -106,15 +109,20 @@ public abstract class AbstractPresenter<V extends PageView> implements IPresente
         }
 
         if (view == null) {
-            NotificationUtil.showMessagePermissionAlert();
+            return false;
         }
 
         if (checkPermissionAccessIfAny()) {
-            onGo(container, data);
+            try {
+                onGo(container, data);
+            } catch (Throwable e) {
+                onErrorStopChain(e);
+                return false;
+            }
         } else {
             NotificationUtil.showMessagePermissionAlert();
         }
-
+        return true;
     }
 
     protected abstract void onGo(ComponentContainer container, ScreenData<?> data);
@@ -133,11 +141,7 @@ public abstract class AbstractPresenter<V extends PageView> implements IPresente
                     return false;
                 } else {
                     Integer value = permissionMap.get(permissionId);
-                    if (value == null) {
-                        return false;
-                    } else {
-                        return PermissionChecker.isImplied(value, impliedPermissionVal);
-                    }
+                    return (value != null) && PermissionChecker.isImplied(value, impliedPermissionVal);
                 }
             }
         } else {
@@ -149,9 +153,9 @@ public abstract class AbstractPresenter<V extends PageView> implements IPresente
     @Override
     public void handleChain(ComponentContainer container, PageActionChain pageActionChain) {
         ScreenData pageAction = pageActionChain.pop();
-        go(container, pageAction);
+        boolean isSuccess = go(container, pageAction);
 
-        if (pageActionChain.hasNext()) {
+        if (pageActionChain.hasNext() && isSuccess) {
             onHandleChain(container, pageActionChain);
         } else {
             onDefaultStopChain();
@@ -160,6 +164,16 @@ public abstract class AbstractPresenter<V extends PageView> implements IPresente
 
     protected void onDefaultStopChain() {
 
+    }
+
+    protected void onErrorStopChain(Throwable throwable) {
+        if (getExceptionType(throwable, ResourceNotFoundException.class) != null) {
+            NotificationUtil.showRecordNotExistNotification();
+        } else if (getExceptionType(throwable, SecureAccessException.class) != null) {
+            NotificationUtil.showMessagePermissionAlert();
+        } else {
+            LOG.error("Exception", throwable);
+        }
     }
 
     protected void onHandleChain(ComponentContainer container, PageActionChain pageActionChain) {

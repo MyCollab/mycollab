@@ -31,16 +31,15 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
+import com.esofthead.mycollab.vaadin.ui.SafeHtmlLabel;
 import com.esofthead.mycollab.vaadin.web.ui.AbstractBeanPagedList;
 import com.esofthead.mycollab.vaadin.web.ui.DefaultBeanPagedList;
-import com.esofthead.mycollab.vaadin.ui.SafeHtmlLabel;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Text;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
@@ -66,19 +65,14 @@ public class ProjectSearchItemsViewImpl extends AbstractPageView implements Proj
     public void displayResults(String value) {
         this.removeAllComponents();
 
-        MVerticalLayout layout = new MVerticalLayout().withWidth("100%");
-        this.addComponent(layout);
-
-        Label headerLbl = new Label("", ContentMode.HTML);
-        headerLbl.addStyleName(ValoTheme.LABEL_H2);
-        headerLbl.addStyleName(ValoTheme.LABEL_NO_MARGIN);
+        ELabel headerLbl = new ELabel("", ContentMode.HTML).withStyleName(ValoTheme.LABEL_H2, ValoTheme.LABEL_NO_MARGIN);
 
         DefaultBeanPagedList<ProjectGenericItemService, ProjectGenericItemSearchCriteria, ProjectGenericItem>
                 searchItemsTable = new DefaultBeanPagedList<>(ApplicationContextUtil.getSpringBean(ProjectGenericItemService.class), new
                 ItemRowDisplayHandler());
         searchItemsTable.setControlStyle("borderlessControl");
 
-        layout.with(headerLbl, searchItemsTable);
+        this.with(headerLbl, searchItemsTable);
         ProjectGenericItemSearchCriteria criteria = new ProjectGenericItemSearchCriteria();
         criteria.setPrjKeys(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
         criteria.setTxtValue(StringSearchField.and(value));
@@ -89,14 +83,11 @@ public class ProjectSearchItemsViewImpl extends AbstractPageView implements Proj
     private static class ItemRowDisplayHandler implements AbstractBeanPagedList.RowDisplayHandler<ProjectGenericItem> {
         @Override
         public Component generateRow(AbstractBeanPagedList host, ProjectGenericItem item, int rowIndex) {
-            MVerticalLayout layout = new MVerticalLayout().withMargin(true)
-                    .withWidth("100%");
-            Label link = new Label(ProjectLinkBuilder.generateProjectItemHtmlLinkAndTooltip(item.getProjectShortName(), item
-                    .getProjectId(), item.getSummary(), item.getType(), item.getTypeId()), ContentMode.HTML);
-            link.setStyleName(ValoTheme.LABEL_H3);
+            MVerticalLayout layout = new MVerticalLayout().withWidth("100%").withStyleName("project-item-search-box");
+            ELabel link = ELabel.h3(ProjectLinkBuilder.generateProjectItemHtmlLinkAndTooltip(item.getProjectShortName(),
+                    item.getProjectId(), item.getSummary(), item.getType(), item.getTypeId()));
 
-            String desc = (StringUtils.isBlank(item.getDescription())) ? "&lt;&lt;No description&gt;&gt;" : item
-                    .getDescription();
+            String desc = (StringUtils.isBlank(item.getDescription())) ? "&lt;&lt;No description&gt;&gt;" : item.getDescription();
             SafeHtmlLabel descLbl = new SafeHtmlLabel(desc);
 
             Div div = new Div().setStyle("width:100%");
@@ -122,9 +113,7 @@ public class ProjectSearchItemsViewImpl extends AbstractPageView implements Proj
 
             ELabel footer = new ELabel(div.write(), ContentMode.HTML).withStyleName(UIConstants.LABEL_META_INFO)
                     .withWidth("100%");
-            footer.setWidth("100%");
             layout.with(link, descLbl, footer);
-            layout.addStyleName("project-item-search-box");
             return layout;
         }
     }

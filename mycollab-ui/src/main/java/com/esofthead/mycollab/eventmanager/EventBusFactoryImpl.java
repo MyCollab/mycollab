@@ -34,11 +34,11 @@ class EventBusFactoryImpl extends EventBusFactory {
 
     @Override
     public EventBus getInstanceInSession() {
-        EventBus eventBus = (EventBus) MyCollabSession.getVariable(EVENT_BUS_VAL);
+        EventBus eventBus = (EventBus) MyCollabSession.getCurrentUIVariable(EVENT_BUS_VAL);
         LOG.debug("Event bus {}", eventBus);
         if (eventBus == null) {
             eventBus = new EventBus(new SubscriberEventBusExceptionHandler());
-            MyCollabSession.putVariable(EVENT_BUS_VAL, eventBus);
+            MyCollabSession.putCurrentUIVariable(EVENT_BUS_VAL, eventBus);
             LOG.debug("Create new event bus {}", eventBus);
         }
         return eventBus;

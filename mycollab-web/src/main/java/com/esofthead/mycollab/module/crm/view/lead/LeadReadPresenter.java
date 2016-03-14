@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.crm.view.lead;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.core.SecureAccessException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
@@ -199,13 +200,12 @@ public class LeadReadPresenter extends CrmGenericPresenter<LeadReadView> {
                 SimpleLead lead = (SimpleLead) data.getParams();
                 super.onGo(container, data);
                 view.previewItem(lead);
-
                 AppContext.addFragment(CrmLinkGenerator.generateLeadPreviewLink(lead.getId()),
                         AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE, "Lead", lead.getLeadName()));
 
             }
         } else {
-            NotificationUtil.showMessagePermissionAlert();
+            throw new SecureAccessException();
         }
     }
 }

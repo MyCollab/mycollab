@@ -43,11 +43,11 @@ public class CurrentProjectVariables {
     private static final String TOOGLE_MENU_FLAG = "toogleProjectMenu";
 
     public static SimpleProject getProject() {
-        return (SimpleProject) MyCollabSession.getVariable(CURRENT_PROJECT);
+        return (SimpleProject) MyCollabSession.getCurrentUIVariable(CURRENT_PROJECT);
     }
 
     public static void setProject(SimpleProject project) {
-        MyCollabSession.putVariable(CURRENT_PROJECT, project);
+        MyCollabSession.putCurrentUIVariable(CURRENT_PROJECT, project);
 
         // get member permission
         ProjectMemberService prjMemberService = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
@@ -78,19 +78,19 @@ public class CurrentProjectVariables {
     }
 
     public static Boolean getProjectToogleMenu() {
-        return (Boolean) MyCollabSession.getVariable(TOOGLE_MENU_FLAG);
+        return (Boolean) MyCollabSession.getCurrentUIVariable(TOOGLE_MENU_FLAG);
     }
 
     public static void setProjectToogleMenu(boolean visibility) {
-        MyCollabSession.putVariable(TOOGLE_MENU_FLAG, new Boolean(visibility));
+        MyCollabSession.putCurrentUIVariable(TOOGLE_MENU_FLAG, new Boolean(visibility));
     }
 
     private static void setProjectMember(SimpleProjectMember prjMember) {
-        MyCollabSession.putVariable(PROJECT_MEMBER, prjMember);
+        MyCollabSession.putCurrentUIVariable(PROJECT_MEMBER, prjMember);
     }
 
     private static SimpleProjectMember getProjectMember() {
-        return (SimpleProjectMember) MyCollabSession.getVariable(PROJECT_MEMBER);
+        return (SimpleProjectMember) MyCollabSession.getCurrentUIVariable(PROJECT_MEMBER);
     }
 
     public static boolean isAdmin() {
@@ -218,7 +218,7 @@ public class CurrentProjectVariables {
     }
 
     public static String getCurrentPagePath() {
-        String path = (String) MyCollabSession.getVariable(CURRENT_PAGE_VAR);
+        String path = (String) MyCollabSession.getCurrentUIVariable(CURRENT_PAGE_VAR);
         if (path == null) {
             path = getBasePagePath();
             setCurrentPagePath(path);
@@ -232,7 +232,7 @@ public class CurrentProjectVariables {
     }
 
     public static void setCurrentPagePath(String path) {
-        MyCollabSession.putVariable(CURRENT_PAGE_VAR, path);
+        MyCollabSession.putCurrentUIVariable(CURRENT_PAGE_VAR, path);
     }
 
     public static int getProjectId() {
