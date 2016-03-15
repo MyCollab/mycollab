@@ -5,6 +5,7 @@
     <id>mycollab-dist</id>
     <formats>
         <format>dir</format>
+        <format>zip</format>
     </formats>
     <fileSets>
         <!-- adds jar package to the root directory of zip package -->
