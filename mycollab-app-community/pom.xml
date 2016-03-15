@@ -155,48 +155,6 @@
                         <configuration>
                             <outputDirectory>${installer.staging.dir}/lib</outputDirectory>
                             <excludeScope>provided</excludeScope>
-                            <!-- this excludes tools.jar, e.g. -->
-                            <excludeArtifactIds>mycustompanels</excludeArtifactIds>
-                            <!-- IMPORTANT: don't copy custom panels
-                                where our application jars live -->
-                            <excludeGroupIds>org.codehaus.izpack</excludeGroupIds>
-                            <!-- IMPORTANT: we don't want to copy
-                                the izpack dependency where our application jars live -->
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <!-- copy izpack custom (custom panels, etc.)
-                            jars to izpack staging custom -->
-                        <id>copy-izpack-dependencies</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${installer.staging.dir}/custom</outputDirectory>
-                            <includeArtifactIds>mycustompanels</includeArtifactIds>
-                            <!-- IMPORTANT: this causes *only* our
-                                custom panels to be copied -->
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.izpack</groupId>
-                <artifactId>izpack-maven-plugin</artifactId>
-                <version>${installer.izpackVersion}</version>
-                <executions>
-                    <execution>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>izpack</goal>
-                        </goals>
-                        <configuration>
-                            <!-- base for relative paths in izpack descriptor -->
-                            <baseDir>${installer.staging.dir}</baseDir>
-                            <mkdirs>true</mkdirs>
-                            <installFile>${installer.staging.dir}/install.xml</installFile>
-                            <finalName>MyCollab-Generic-${project.version}</finalName>
                         </configuration>
                     </execution>
                 </executions>

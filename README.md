@@ -13,22 +13,22 @@ MyCollab does work well on both desktop and mobile devices.
 <table>
   <tr>
     <td align="center">
-      <a href="https://c2.staticflickr.com/2/1647/25461233210_f7c2227ef1_o.png" target="_blank" title="Project Dashboard">
-        <img src="https://c2.staticflickr.com/2/1647/25461233210_f2ae6fa928.jpg" alt="Project Dashboard">
+      <a href="https://c2.staticflickr.com/2/1716/25705101461_e863ff7a5b_o.png" target="_blank" title="Project Dashboard">
+        <img src="https://c2.staticflickr.com/2/1716/25705101461_6c7aa08956.jpg" alt="Project Dashboard">
       </a>
       <br />
       <em>Project Dashboard</em>
     </td>
     <td align="center">
-      <a href="https://c2.staticflickr.com/2/1452/25131471964_ceae3365d1_o.png" target="_blank" title="Bug Dashboard">
-        <img src="https://c2.staticflickr.com/2/1452/25131471964_670c60e1c6.jpg" alt="Bug Dashboard">
+      <a href="https://c2.staticflickr.com/2/1678/25499514810_9f39849bb9_o.png" target="_blank" title="Bug Dashboard">
+        <img src="https://c2.staticflickr.com/2/1678/25499514810_76e589b11b.jpg" alt="Bug Dashboard">
       </a>
       <br />
       <em>Bug Dashboard</em>
     </td>
     <td align="center">
-    <a href="https://c2.staticflickr.com/2/1583/25131478784_b6547d0890_o.png" target="_blank" title="Task Dashboard">
-      <img src="https://c2.staticflickr.com/2/1583/25131478784_f712a39d6c.jpg" alt="Task Dashboard">
+    <a href="https://c2.staticflickr.com/2/1680/25705102981_f9d20ea9c6_o.png" target="_blank" title="Task Dashboard">
+      <img src="https://c2.staticflickr.com/2/1680/25705102981_594b4ddfdc.jpg" alt="Task Dashboard">
     </a>
       <br />
       <em>Task Dashboard</em>
@@ -36,22 +36,22 @@ MyCollab does work well on both desktop and mobile devices.
   </tr>
   <tr>
     <td align="center">
-    <a href="https://c2.staticflickr.com/2/1494/25135326263_13019efdae_o.png" target="_blank" title="Kanban Board">
-        <img src="https://c2.staticflickr.com/2/1494/25135326263_1ea3bae41b.jpg" alt="Kanban Board">
+    <a href="https://c2.staticflickr.com/2/1589/25705100831_2d0cf505c0_o.png" target="_blank" title="Kanban Board">
+        <img src="https://c2.staticflickr.com/2/1589/25705100831_438deda777.jpg" alt="Kanban Board">
       </a>
       <br />
       <em>Kanban Board</em>
     </td>
     <td align="center">
-      <a href="https://c2.staticflickr.com/2/1602/25131473354_67e65fa0b0_o.png" target="_blank" title="Calendar">
-        <img src="https://c2.staticflickr.com/2/1602/25131473354_0fdeef741b.jpg" alt="Calendar">
+      <a href="https://c2.staticflickr.com/2/1711/25679218852_52ce75e571_o.png" target="_blank" title="Gantt Chart">
+        <img src="https://c2.staticflickr.com/2/1711/25679218852_b339ccb6cb.jpg" alt="Gantt Chart">
       </a>
       <br />
-      <em>Gantt chart</em>
+      <em>Gantt Chart</em>
     </td>
     <td align="center">
-      <a href="https://c2.staticflickr.com/2/1716/25735862846_2303143bdf_o.png" target="_blank" title="Roadmap">
-        <img src="https://c2.staticflickr.com/2/1716/25735862846_10cd8d1b7d.jpg" alt="Milestone">
+      <a href="https://c2.staticflickr.com/2/1700/25800195305_3dd58b1caa_o.png" target="_blank" title="Roadmap">
+        <img src="https://c2.staticflickr.com/2/1700/25800195305_69aa2950da.jpg" alt="Roadmap">
       </a>
       <br />
       <em>Roadmap</em>
