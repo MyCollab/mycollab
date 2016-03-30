@@ -17,15 +17,19 @@
 package com.esofthead.mycollab.vaadin;
 
 import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.configuration.Storage;
 import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.MyCollabVersion;
 import com.esofthead.mycollab.module.user.domain.BillingAccount;
 import com.esofthead.mycollab.module.user.service.BillingAccountService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.utils.TooltipHelper;
 import com.vaadin.server.BootstrapFragmentResponse;
 import com.vaadin.server.BootstrapListener;
 import com.vaadin.server.BootstrapPageResponse;
+import org.jsoup.nodes.Element;
+import org.jsoup.parser.Tag;
+
+import static com.esofthead.mycollab.utils.TooltipHelper.TOOLTIP_ID;
 
 /**
  * @author MyCollab Ltd.
@@ -56,6 +60,22 @@ public class MyCollabBootstrapListener implements BootstrapListener {
                 .append(String.format("<script type=\"text/javascript\" src=\"%sjs/jquery-2.1.4.min.js\"></script>",
                         SiteConfiguration.getCdnUrl()));
         response.getDocument().head()
-                .append(String.format("<script type=\"text/javascript\" src=\"%sjs/stickytooltip.js?v=%s\"></script>", SiteConfiguration.getCdnUrl(), MyCollabVersion.getVersion()));
+                .append(String.format("<script type=\"text/javascript\" src=\"%sjs/stickytooltip-1.0.0.js?v=%s\"></script>",
+                        SiteConfiguration.getCdnUrl(), MyCollabVersion.getVersion()));
+
+        Element div1 = response.getDocument().body().appendElement("div");
+        div1.attr("id", "div1" + TOOLTIP_ID);
+        div1.attr("class", "stickytooltip");
+
+        Element div12 = div1.appendElement("div");
+        div12.attr("style", "padding:5px");
+
+        Element div13 = div12.appendElement("div");
+        div13.attr("id", "div13" + TOOLTIP_ID);
+        div13.attr("class", "atip");
+        div13.attr("style", "width:550px");
+
+        Element div14 = div13.appendElement("div");
+        div14.attr("id", "div14" + TOOLTIP_ID);
     }
 }

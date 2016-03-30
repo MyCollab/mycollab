@@ -23,5 +23,5 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/common-security")
 @LocaleData(value = { @Locale("en-US"), @Locale("ja-JP") }, defaultCharset = "UTF-8")
 public enum SecurityI18nEnum {
-	NO_ACCESS, READONLY, READ_WRITE, ACCESS, YES, NO
+	NO_ACCESS, READONLY, READ_WRITE, ACCESS, YES, NO, UNDEFINE
 }

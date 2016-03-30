@@ -25,7 +25,6 @@ import java.util.Map;
  * @since 1.0
  */
 public class ReportTemplateFactory {
-    private static String baseCls = "com.esofthead.mycollab.reporting.ReportTemplate_%s";
 
     private static final AbstractReportTemplate enReport = new ReportTemplate_en_US();
 
@@ -41,6 +40,7 @@ public class ReportTemplateFactory {
         if (reportTemplate != null) {
             return reportTemplate;
         } else {
+            String baseCls = "com.esofthead.mycollab.reporting.ReportTemplate_%s";
             String intendedCls = String.format(baseCls, language.toString());
             try {
                 Class<AbstractReportTemplate> cls = (Class<AbstractReportTemplate>) Class.forName(intendedCls);

@@ -84,10 +84,10 @@ class ProjectModuleController(val navManager: NavigationManager) extends Abstrac
       @Subscribe def handle(event: ProjectEvent.AllActivities) {
         val presenter = PresenterResolver.getPresenter(classOf[AllActivityStreamPresenter])
         val prjService = ApplicationContextUtil.getSpringBean(classOf[ProjectService])
-        val prjKeys = prjService.getProjectKeysUserInvolved(AppContext.getUsername(), AppContext.getAccountId())
+        val prjKeys = prjService.getProjectKeysUserInvolved(AppContext.getUsername, AppContext.getAccountId)
         val searchCriteria = new ActivityStreamSearchCriteria()
         searchCriteria.setModuleSet(new SetSearchField(ModuleNameConstants.PRJ))
-        searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()))
+        searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId))
         searchCriteria.setExtraTypeIds(new SetSearchField(prjKeys))
         presenter.go(navManager, new ProjectScreenData.AllActivities(searchCriteria))
       }
@@ -97,7 +97,7 @@ class ProjectModuleController(val navManager: NavigationManager) extends Abstrac
         val presenter = PresenterResolver.getPresenter(classOf[ProjectActivityStreamPresenter])
         val searchCriteria = new ActivityStreamSearchCriteria()
         searchCriteria.setModuleSet(new SetSearchField(ModuleNameConstants.PRJ))
-        searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()))
+        searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId))
         searchCriteria.setExtraTypeIds(new SetSearchField(event.getData.asInstanceOf[Integer]))
         presenter.go(navManager, new ProjectActivities(searchCriteria))
       }

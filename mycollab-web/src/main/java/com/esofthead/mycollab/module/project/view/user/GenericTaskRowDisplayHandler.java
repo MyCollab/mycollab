@@ -23,8 +23,8 @@ import com.esofthead.mycollab.module.project.domain.ProjectGenericTask;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.web.ui.AbstractBeanPagedList;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
+import com.esofthead.mycollab.vaadin.web.ui.AbstractBeanPagedList;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
@@ -37,7 +37,7 @@ import com.vaadin.ui.Label;
 import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
-import java.util.UUID;
+import static com.esofthead.mycollab.utils.TooltipHelper.TOOLTIP_ID;
 
 /**
  * @author MyCollab Ltd
@@ -49,11 +49,10 @@ public class GenericTaskRowDisplayHandler implements AbstractBeanPagedList.RowDi
         MHorizontalLayout rowComp = new MHorizontalLayout().withStyleName("list-row").withWidth("100%");
         rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
         Div issueDiv = new Div();
-        String uid = UUID.randomUUID().toString();
-        A taskLink = new A().setId("tag" + uid);
 
-        taskLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, genericTask.getType(), genericTask.getTypeId() + ""));
-        taskLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
+        A taskLink = new A().setId("tag" + TOOLTIP_ID);
+        taskLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(genericTask.getType(), genericTask.getTypeId() + ""));
+        taskLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
         if (ProjectTypeConstants.BUG.equals(genericTask.getType()) || ProjectTypeConstants.TASK.equals(genericTask.getType())) {
             taskLink.appendText(String.format("[%s-%d] - %s", genericTask.getProjectShortName(), genericTask.getExtraTypeId(),
                     genericTask.getName()));
@@ -73,8 +72,6 @@ public class GenericTaskRowDisplayHandler implements AbstractBeanPagedList.RowDi
             issueDiv.appendChild(new Span().appendText(" - Due in " + AppContext.formatDuration(genericTask.getDueDate()))
                     .setCSSClass(UIConstants.LABEL_META_INFO));
         }
-
-        issueDiv.appendChild(TooltipHelper.buildDivTooltipEnable(uid));
 
         Label issueLbl = new Label(issueDiv.write(), ContentMode.HTML);
         String avatarLink = StorageFactory.getInstance().getAvatarPath(genericTask.getAssignUserAvatarId(), 16);

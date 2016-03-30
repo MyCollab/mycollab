@@ -29,12 +29,11 @@ import com.vaadin.ui.CustomField;
 public abstract class AbstractSelectionCustomField<T, B> extends CustomField<T> implements FieldSelection<B> {
     private static final long serialVersionUID = 1L;
 
-    private Class<? extends AbstractSelectionView<B>> targetSelectionViewCls;
     protected NavigationButton navButton;
     protected B beanItem;
 
     public AbstractSelectionCustomField(Class<? extends AbstractSelectionView<B>> targetSelectionView) {
-        this.targetSelectionViewCls = targetSelectionView;
+        Class<? extends AbstractSelectionView<B>> targetSelectionViewCls = targetSelectionView;
         try {
             final AbstractSelectionView<B> selectionView = targetSelectionViewCls.newInstance();
             selectionView.setSelectionField(this);

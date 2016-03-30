@@ -104,11 +104,8 @@ public class ResourceMoverImpl implements ResourceMover {
     }
 
     private boolean checkIsTheSameAccountInStorage(Resource srcRes, Resource destRes) {
-        if (ResourceUtils.getType(srcRes) == ResourceUtils.getType(destRes) &&
-                ResourceUtils.getExternalDrive(srcRes).getAccesstoken().equals(ResourceUtils.getExternalDrive(destRes).getAccesstoken())) {
-            return true;
-        }
-        return false;
+        return ResourceUtils.getType(srcRes) == ResourceUtils.getType(destRes) &&
+                ResourceUtils.getExternalDrive(srcRes).getAccesstoken().equals(ResourceUtils.getExternalDrive(destRes).getAccesstoken());
     }
 
     private boolean isDuplicateFileName(Resource srcRes, Resource destRes) {

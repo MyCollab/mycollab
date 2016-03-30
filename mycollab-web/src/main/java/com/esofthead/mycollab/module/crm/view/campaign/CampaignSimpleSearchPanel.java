@@ -40,7 +40,6 @@ import org.apache.commons.lang3.StringUtils;
  * @since 1.0
  */
 public class CampaignSimpleSearchPanel extends GenericSearchPanel<CampaignSearchCriteria> {
-    private CampaignSearchCriteria searchCriteria;
     private TextField textValueField;
     private GridLayout layoutSearchPane;
     private ValueComboBox group;
@@ -91,7 +90,7 @@ public class CampaignSimpleSearchPanel extends GenericSearchPanel<CampaignSearch
     }
 
     private void doSearch() {
-        searchCriteria = new CampaignSearchCriteria();
+        CampaignSearchCriteria searchCriteria = new CampaignSearchCriteria();
         searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
 
         String searchType = (String) group.getValue();

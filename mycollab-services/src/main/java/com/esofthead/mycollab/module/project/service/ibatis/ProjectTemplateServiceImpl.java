@@ -223,7 +223,6 @@ public class ProjectTemplateServiceImpl implements ProjectTemplateService {
         searchCriteria.setProjectId(NumberSearchField.and(projectId));
         List<SimpleBug> bugs = bugService.findPagableListByCriteria(new SearchRequest<>(searchCriteria));
         for (SimpleBug bug : bugs) {
-            Integer bugId = bug.getId();
             bug.setId(null);
             bug.setProjectid(newProjectId);
             bug.setMilestoneid(milestoneMapIds.get(bug.getMilestoneid()));

@@ -40,7 +40,6 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 @ViewComponent
 public class ActivityListViewImpl extends AbstractListViewComp<ActivitySearchCriteria, SimpleActivity> implements ActivityListView {
     private static final long serialVersionUID = -7632616933330982900L;
-    private MVerticalLayout addButtons;
 
     public ActivityListViewImpl() {
         super();
@@ -49,8 +48,7 @@ public class ActivityListViewImpl extends AbstractListViewComp<ActivitySearchCri
 
     @Override
     protected AbstractPagedBeanList<ActivitySearchCriteria, SimpleActivity> createBeanTable() {
-        ActivityListDisplay activityListDisplay = new ActivityListDisplay();
-        return activityListDisplay;
+        return new ActivityListDisplay();
     }
 
     @Override
@@ -58,7 +56,7 @@ public class ActivityListViewImpl extends AbstractListViewComp<ActivitySearchCri
         final NavigationBarQuickMenu addActivity = new NavigationBarQuickMenu();
         addActivity.setStyleName("add-btn");
 
-        addButtons = new MVerticalLayout().withWidth("100%");
+        MVerticalLayout addButtons = new MVerticalLayout().withWidth("100%");
 
         Button addTask = new Button(AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASK), new Button.ClickListener() {
             @Override

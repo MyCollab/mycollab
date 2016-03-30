@@ -39,6 +39,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.GregorianCalendar;
 
 @Service
@@ -82,7 +83,7 @@ public class LeadServiceImpl extends DefaultService<Integer, Lead, LeadSearchCri
             associateLead.setCreatedtime(new GregorianCalendar().getTime());
 
             CampaignService campaignService = ApplicationContextUtil.getSpringBean(CampaignService.class);
-            campaignService.saveCampaignLeadRelationship(Arrays.asList(associateLead), lead.getSaccountid());
+            campaignService.saveCampaignLeadRelationship(Collections.singletonList(associateLead), lead.getSaccountid());
         } else if (lead.getExtraData() != null && lead.getExtraData() instanceof SimpleOpportunity) {
             OpportunityLead associateLead = new OpportunityLead();
             associateLead.setOpportunityid(((SimpleOpportunity) lead.getExtraData()).getId());
@@ -92,7 +93,7 @@ public class LeadServiceImpl extends DefaultService<Integer, Lead, LeadSearchCri
             OpportunityService opportunityService = ApplicationContextUtil
                     .getSpringBean(OpportunityService.class);
             opportunityService.saveOpportunityLeadRelationship(
-                    Arrays.asList(associateLead), lead.getSaccountid());
+                    Collections.singletonList(associateLead), lead.getSaccountid());
         }
         return result;
     }
@@ -121,7 +122,7 @@ public class LeadServiceImpl extends DefaultService<Integer, Lead, LeadSearchCri
         accLead.setLeadid(lead.getId());
         accLead.setIsconvertrel(true);
 
-        accountService.saveAccountLeadRelationship(Arrays.asList(accLead),
+        accountService.saveAccountLeadRelationship(Collections.singletonList(accLead),
                 lead.getSaccountid());
 
         LOG.debug("Create new contact and save it");
@@ -147,7 +148,7 @@ public class LeadServiceImpl extends DefaultService<Integer, Lead, LeadSearchCri
         contactLead.setContactid(contactId);
         contactLead.setLeadid(lead.getId());
         contactLead.setIsconvertrel(true);
-        contactService.saveContactLeadRelationship(Arrays.asList(contactLead),
+        contactService.saveContactLeadRelationship(Collections.singletonList(contactLead),
                 lead.getSaccountid());
 
         if (opportunity != null) {
@@ -162,7 +163,7 @@ public class LeadServiceImpl extends DefaultService<Integer, Lead, LeadSearchCri
             oppContact.setContactid(contactId);
             oppContact.setOpportunityid(opportunityId);
             contactService.saveContactOpportunityRelationship(
-                    Arrays.asList(oppContact), lead.getSaccountid());
+                    Collections.singletonList(oppContact), lead.getSaccountid());
 
             LOG.debug("Create new opportunity lead relationship");
             OpportunityLead oppLead = new OpportunityLead();
@@ -171,7 +172,7 @@ public class LeadServiceImpl extends DefaultService<Integer, Lead, LeadSearchCri
             oppLead.setIsconvertrel(true);
             oppLead.setCreatedtime(new GregorianCalendar().getTime());
             opportunityService.saveOpportunityLeadRelationship(
-                    Arrays.asList(oppLead), lead.getSaccountid());
+                    Collections.singletonList(oppLead), lead.getSaccountid());
         }
 
     }

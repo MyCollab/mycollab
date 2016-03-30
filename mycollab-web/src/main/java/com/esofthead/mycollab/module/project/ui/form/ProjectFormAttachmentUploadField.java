@@ -30,7 +30,6 @@ import org.vaadin.easyuploads.MultiFileUploadExt;
  */
 public class ProjectFormAttachmentUploadField extends CustomField {
     private static final long serialVersionUID = 1L;
-    private MultiFileUploadExt uploadExt;
     private AttachmentPanel attachmentPanel;
 
     public ProjectFormAttachmentUploadField() {
@@ -57,7 +56,7 @@ public class ProjectFormAttachmentUploadField extends CustomField {
     @Override
     protected Component initContent() {
         final VerticalLayout layout = new VerticalLayout();
-        uploadExt = new MultiFileUploadExt(attachmentPanel);
+        MultiFileUploadExt uploadExt = new MultiFileUploadExt(attachmentPanel);
         uploadExt.addComponent(attachmentPanel);
         layout.addComponent(uploadExt);
         return layout;

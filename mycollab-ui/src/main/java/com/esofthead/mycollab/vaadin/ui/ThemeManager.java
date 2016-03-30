@@ -182,9 +182,6 @@ public class ThemeManager {
 
             extraStyles.append(".project-info { background-color: #" + accountTheme.getVtabsheetbg() + "; }");
 
-            extraStyles.append(".v-label.volumeUsageInfo { border-top: 25px solid #" + accountTheme
-                    .getVtabsheetbg() + ";}");
-
             extraStyles.append("div.v-csslayout.rightsidebar-layout .sidebar-wrap { background-color: " + ColorUtils
                     .brighterColor("#" + accountTheme.getVtabsheetbg()) + ";}");
 
@@ -276,6 +273,9 @@ public class ThemeManager {
         if (accountTheme.getActionbtntext() != null) {
             extraStyles.append(".v-button.v-button-greenbtn, .v-button-greenbtn:focus { color: #"
                     + accountTheme.getActionbtntext() + "; }");
+
+            extraStyles.append(".upload-field .v-upload-immediate .v-button, .upload-field .v-upload-immediate " +
+                    ".v-button:focus {color: #" + accountTheme.getActionbtntext() + ";}");
 
             extraStyles.append(".optionPopupContent .action-wrap .v-button-action .v-button-wrap:hover" +
                     " {" + "color: #" + accountTheme.getActionbtntext() + "};");

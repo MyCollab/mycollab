@@ -30,7 +30,6 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.eclipse.jetty.annotations.AnnotationConfiguration;
 import org.eclipse.jetty.plus.webapp.EnvConfiguration;
 import org.eclipse.jetty.plus.webapp.PlusConfiguration;
-import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
@@ -76,7 +75,7 @@ public abstract class GenericServerRunner {
      * @return
      */
     private String detectWebApp() {
-        File webappFolder = FileUtils.getDesireFile(System.getProperty("user.dir"), "webapp", "src/main/webapp");
+        File webappFolder = FileUtils.getDesireFile(FileUtils.getUserFolder(), "webapp", "src/main/webapp");
 
         if (webappFolder == null) {
             throw new MyCollabException("Can not detect webapp base folder");
@@ -223,8 +222,8 @@ public abstract class GenericServerRunner {
     }
 
     private boolean checkConfigFileExist() {
-        File confFolder = FileUtils.getDesireFile(System.getProperty("user.dir"), "conf", "src/main/conf");
-        return (confFolder == null) ? false : new File(confFolder, "mycollab.properties").exists();
+        File confFolder = FileUtils.getDesireFile(FileUtils.getUserFolder(), "conf", "src/main/conf");
+        return confFolder != null && new File(confFolder, "mycollab.properties").exists();
     }
 
     private WebAppContext initWebAppContext() {
@@ -266,7 +265,7 @@ public abstract class GenericServerRunner {
             }
         }
 
-        File libFolder = new File(System.getProperty("user.dir"), "lib");
+        File libFolder = new File(FileUtils.getUserFolder(), "lib");
         if (libFolder.isDirectory()) {
             File[] files = libFolder.listFiles();
             if (files != null) {
@@ -277,11 +276,6 @@ public abstract class GenericServerRunner {
                     }
                 }
             }
-        }
-
-        File runnerJarFile = new File(System.getProperty("user.dir"), "runner.jar");
-        if (runnerJarFile.exists()) {
-            appContext.getMetaData().getWebInfClassesDirs().add(new FileResource(runnerJarFile.toURI()));
         }
 
         // Register a mock DataSource scoped to the webapp
@@ -318,7 +312,7 @@ public abstract class GenericServerRunner {
                 @Override
                 public void run() {
                     LOG.debug("Detect root folder webapp");
-                    File confFolder = FileUtils.getDesireFile(System.getProperty("user.dir"), "conf", "src/main/conf");
+                    File confFolder = FileUtils.getDesireFile(FileUtils.getUserFolder(), "conf", "src/main/conf");
 
                     if (confFolder == null) {
                         throw new MyCollabException("Can not detect webapp base folder");

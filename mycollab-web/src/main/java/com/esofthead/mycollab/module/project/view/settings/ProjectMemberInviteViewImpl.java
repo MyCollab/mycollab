@@ -143,7 +143,8 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements Pro
     private Layout createBottomPanel() {
         FormContainer permissionsPanel = new FormContainer();
 
-        projectFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length);
+        projectFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, ProjectRolePermissionCollections
+                .PROJECT_PERMISSIONS.length / 2 + 1);
         permissionsPanel.addSection(AppContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS), projectFormHelper.getLayout());
         roleId = (Integer) roleComboBox.getValue();
         displayRolePermission(roleId);
@@ -162,13 +163,14 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements Pro
                     String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
                     projectFormHelper.addComponent(new Label(AppContext.getPermissionCaptionValue(
                             permissionMap, permissionPath)), AppContext
-                            .getMessage(RolePermissionI18nEnum.valueOf(permissionPath)), 0, i);
+                            .getMessage(RolePermissionI18nEnum.valueOf(permissionPath)), i%2, i/2);
                 }
             }
         } else {
             for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
                 final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
-                projectFormHelper.addComponent(new Label(AppContext.getMessage(SecurityI18nEnum.ACCESS)), permissionPath, 0, i);
+                projectFormHelper.addComponent(new Label(AppContext.getMessage(SecurityI18nEnum.ACCESS)),
+                        permissionPath, i%2, i/2);
             }
         }
     }

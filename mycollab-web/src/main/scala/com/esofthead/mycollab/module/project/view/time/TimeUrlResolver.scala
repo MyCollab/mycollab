@@ -42,7 +42,7 @@ class TimeUrlResolver extends ProjectUrlResolver {
         VariableInjecter.THIS_WEEK));
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
         new TimeTrackingScreenData.Search(searchCriteria))
-      EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+      EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
 

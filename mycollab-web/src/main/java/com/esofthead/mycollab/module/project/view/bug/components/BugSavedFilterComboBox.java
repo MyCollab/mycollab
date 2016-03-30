@@ -28,6 +28,7 @@ import com.esofthead.mycollab.vaadin.web.ui.SavedFilterComboBox;
 import org.joda.time.LocalDate;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * @author MyCollab Ltd
@@ -76,7 +77,7 @@ public class BugSavedFilterComboBox extends SavedFilterComboBox {
                 (BugSearchCriteria.p_assignee, new VariableInjecter() {
                     @Override
                     public Object eval() {
-                        return Arrays.asList(AppContext.getUsername());
+                        return Collections.singletonList(AppContext.getUsername());
                     }
                 }));
 

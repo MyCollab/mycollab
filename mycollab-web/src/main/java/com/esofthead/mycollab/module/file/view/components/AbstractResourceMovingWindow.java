@@ -36,11 +36,12 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Tree.CollapseEvent;
 import com.vaadin.ui.Tree.ExpandEvent;
 import org.apache.commons.collections.CollectionUtils;
+import org.vaadin.jouni.restrain.Restrain;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
-import java.util.*;
 import java.util.Calendar;
+import java.util.*;
 
 /**
  * @author MyCollab Ltd.
@@ -53,19 +54,21 @@ public abstract class AbstractResourceMovingWindow extends Window {
     private final ExternalResourceService externalResourceService;
     private final ExternalDriveService externalDriveService;
 
-    protected TreeTable folderTree;
+    protected Tree folderTree;
     protected Folder baseFolder;
     private Collection<Resource> movedResources;
     private final ResourceMover resourceMover;
 
-    public AbstractResourceMovingWindow(Resource resource) {
-        this(Arrays.asList(resource));
+    public AbstractResourceMovingWindow(Folder baseFolder, Resource resource) {
+        this(baseFolder, Collections.singletonList(resource));
     }
 
-    public AbstractResourceMovingWindow(Collection<Resource> lstRes) {
+    public AbstractResourceMovingWindow(Folder baseFolder, Collection<Resource> lstRes) {
         super("Move asset(s)");
+        this.baseFolder = baseFolder;
         center();
         this.setWidth("600px");
+        this.setModal(true);
         this.setResizable(false);
         this.movedResources = lstRes;
         this.resourceService = ApplicationContextUtil.getSpringBean(ResourceService.class);
@@ -77,25 +80,21 @@ public abstract class AbstractResourceMovingWindow extends Window {
 
     private void constructBody() {
         MVerticalLayout contentLayout = new MVerticalLayout();
+        new Restrain(contentLayout).setMaxHeight("600px");
         this.setContent(contentLayout);
 
         final HorizontalLayout resourceContainer = new HorizontalLayout();
         resourceContainer.setSizeFull();
 
-        this.folderTree = new TreeTable();
-        this.folderTree.setMultiSelect(false);
-        this.folderTree.setSelectable(true);
-        this.folderTree.setImmediate(true);
-        this.folderTree.addContainerProperty("Name", String.class, "");
-        this.folderTree.addContainerProperty("Date Modified", String.class, "");
-        this.folderTree.setColumnWidth("Date Modified",
-                UIConstants.TABLE_DATE_TIME_WIDTH);
-        this.folderTree.setColumnExpandRatio("Name", 1.0f);
-        this.folderTree.setWidth("100%");
+        folderTree = new Tree();
+        folderTree.setMultiSelect(false);
+        folderTree.setSelectable(true);
+        folderTree.setImmediate(true);
+        folderTree.setWidth("100%");
 
         resourceContainer.addComponent(folderTree);
 
-        this.folderTree.addExpandListener(new Tree.ExpandListener() {
+        folderTree.addExpandListener(new Tree.ExpandListener() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -115,10 +114,7 @@ public abstract class AbstractResourceMovingWindow extends Window {
 
                         externalMapFolder.setCreated(cal);
                         expandFolder.addChild(externalMapFolder);
-
-                        folderTree.addItem(new Object[]{externalMapFolder.getName(),
-                                AppContext.formatDateTime(externalMapFolder.getCreated().getTime())}, externalMapFolder);
-
+                        folderTree.addItem(externalMapFolder);
                         folderTree.setItemIcon(externalMapFolder, FontAwesome.DROPBOX);
                         folderTree.setItemCaption(externalMapFolder, externalMapFolder.getName());
                         folderTree.setParent(externalMapFolder, expandFolder);
@@ -129,10 +125,7 @@ public abstract class AbstractResourceMovingWindow extends Window {
                             ((ExternalFolder) expandFolder).getExternalDrive(), expandFolder.getPath());
                     for (final Folder subFolder : subFolders) {
                         expandFolder.addChild(subFolder);
-                        Date dateTime = ((ExternalFolder) subFolder).getExternalDrive().getCreatedtime();
-
-                        folderTree.addItem(new Object[]{subFolder.getName(), AppContext.formatDateTime(dateTime)}, subFolder);
-
+                        folderTree.addItem(subFolder);
                         folderTree.setItemIcon(subFolder, FontAwesome.DROPBOX);
                         folderTree.setItemCaption(subFolder, subFolder.getName());
                         folderTree.setParent(subFolder, expandFolder);
@@ -146,8 +139,7 @@ public abstract class AbstractResourceMovingWindow extends Window {
                             String subFolderName = subFolder.getName();
                             if (!subFolderName.startsWith(".")) {
                                 expandFolder.addChild(subFolder);
-                                folderTree.addItem(new Object[]{subFolderName,
-                                        AppContext.formatDateTime(subFolder.getCreated().getTime())}, subFolder);
+                                folderTree.addItem(subFolder);
                                 folderTree.setItemIcon(subFolder, FontAwesome.FOLDER);
                                 folderTree.setItemCaption(subFolder, subFolderName);
                                 folderTree.setParent(subFolder, expandFolder);
@@ -158,7 +150,7 @@ public abstract class AbstractResourceMovingWindow extends Window {
             }
         });
 
-        this.folderTree.addCollapseListener(new Tree.CollapseListener() {
+        folderTree.addCollapseListener(new Tree.CollapseListener() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -187,7 +179,7 @@ public abstract class AbstractResourceMovingWindow extends Window {
             }
         });
 
-        this.folderTree.addItemClickListener(new ItemClickEvent.ItemClickListener() {
+        folderTree.addItemClickListener(new ItemClickEvent.ItemClickListener() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -241,5 +233,9 @@ public abstract class AbstractResourceMovingWindow extends Window {
 
     public abstract void displayAfterMoveSuccess(Folder folder, boolean checking);
 
-    protected abstract void displayFiles();
+    private void displayFiles() {
+        folderTree.addItem(baseFolder);
+        folderTree.setItemCaption(baseFolder, "Documents");
+        folderTree.expandItem(baseFolder);
+    }
 }

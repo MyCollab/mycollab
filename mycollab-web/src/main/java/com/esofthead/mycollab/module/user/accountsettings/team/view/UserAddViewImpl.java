@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
-import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.utils.TimezoneMapper;
 import com.esofthead.mycollab.form.view.builder.DynaSectionBuilder;
@@ -30,7 +29,10 @@ import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.domain.User;
 import com.esofthead.mycollab.module.user.service.RoleService;
 import com.esofthead.mycollab.module.user.view.component.RoleComboBox;
-import com.esofthead.mycollab.security.*;
+import com.esofthead.mycollab.security.PermissionDefItem;
+import com.esofthead.mycollab.security.PermissionFlag;
+import com.esofthead.mycollab.security.PermissionMap;
+import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
@@ -146,7 +148,6 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
 
                     @Override
                     public void buttonClick(ClickEvent event) {
-                        setFormBuffered(false);
                         editUserForm.displayAdvancedForm(user);
                         setFormBuffered(true);
                     }
@@ -190,13 +191,13 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
 
             protected ComponentContainer constructPermissionSectionView(String depotTitle, PermissionMap permissionMap,
                                                                         List<PermissionDefItem> defItems) {
-                GridFormLayoutHelper formHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, defItems.size());
+                GridFormLayoutHelper formHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, defItems.size() / 2 + 1);
                 FormContainer permissionsPanel = new FormContainer();
 
                 for (int i = 0; i < defItems.size(); i++) {
                     PermissionDefItem permissionDefItem = defItems.get(i);
                     formHelper.addComponent(new Label(getValueFromPerPath(permissionMap,
-                            permissionDefItem.getKey())), permissionDefItem.getCaption(), 0, i);
+                            permissionDefItem.getKey())), permissionDefItem.getCaption(), i % 2, i / 2);
                 }
                 permissionsPanel.addSection(depotTitle, formHelper.getLayout());
                 return permissionsPanel;
@@ -325,17 +326,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
 
     private static String getValueFromPerPath(PermissionMap permissionMap, String permissionItem) {
         final Integer perVal = permissionMap.get(permissionItem);
-        if (perVal == null) {
-            return "Undefined";
-        } else {
-            if (PermissionChecker.isAccessPermission(perVal)) {
-                return AppContext.getMessage(AccessPermissionFlag.toKey(perVal));
-            } else if (PermissionChecker.isBooleanPermission(perVal)) {
-                return AppContext.getMessage(BooleanPermissionFlag.toKey(perVal));
-            } else {
-                throw new MyCollabException("Do not support permission value " + perVal);
-            }
-        }
+        return AppContext.getMessage(PermissionFlag.toVal(perVal));
     }
 
     private class AdminRoleSelectionField extends CustomField<Integer> {

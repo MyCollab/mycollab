@@ -36,13 +36,13 @@ class UserUrlResolver extends AccountSettingUrlResolver {
 
   private class ListUrlResolver extends AccountSettingUrlResolver {
     protected override def handlePage(params: String*) {
-      EventBusFactory.getInstance.post(new UserEvent.GotoList(ListUrlResolver.this, null))
+      EventBusFactory.getInstance().post(new UserEvent.GotoList(ListUrlResolver.this, null))
     }
   }
 
   private class AddUrlResolver extends AccountSettingUrlResolver {
     protected override def handlePage(params: String*) {
-      EventBusFactory.getInstance.post(new UserEvent.GotoAdd(AddUrlResolver.this, null))
+      EventBusFactory.getInstance().post(new UserEvent.GotoAdd(AddUrlResolver.this, null))
     }
   }
 
@@ -51,14 +51,14 @@ class UserUrlResolver extends AccountSettingUrlResolver {
       val username = new UrlTokenizer(params(0)).getString
       val userService = ApplicationContextUtil.getSpringBean(classOf[UserService])
       val user = userService.findUserByUserNameInAccount(username, AppContext.getAccountId)
-      EventBusFactory.getInstance.post(new UserEvent.GotoEdit(EditUrlResolver.this, user))
+      EventBusFactory.getInstance().post(new UserEvent.GotoEdit(EditUrlResolver.this, user))
     }
   }
 
   private class PreviewUrlResolver extends AccountSettingUrlResolver {
     protected override def handlePage(params: String*) {
       val username = new UrlTokenizer(params(0)).getString
-      EventBusFactory.getInstance.post(new UserEvent.GotoRead(PreviewUrlResolver.this, username))
+      EventBusFactory.getInstance().post(new UserEvent.GotoRead(PreviewUrlResolver.this, username))
     }
   }
 

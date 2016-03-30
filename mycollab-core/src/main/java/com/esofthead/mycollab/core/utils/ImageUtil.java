@@ -46,9 +46,8 @@ public class ImageUtil {
     public static BufferedImage scaleImage(BufferedImage buffImage, float percenScale) {
         float width = buffImage.getWidth() * percenScale;
         float height = buffImage.getHeight() * percenScale;
-        BufferedImage rescaledImage = Scalr.resize(buffImage, Method.BALANCED,
+        return Scalr.resize(buffImage, Method.BALANCED,
                 Mode.AUTOMATIC, (int) width, (int) height);
-        return rescaledImage;
     }
 
     /**

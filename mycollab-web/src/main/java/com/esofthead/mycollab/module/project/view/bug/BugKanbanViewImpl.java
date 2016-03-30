@@ -94,7 +94,7 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
                     BugSearchCriteria criteria = (BugSearchCriteria) event.getData();
                     if (criteria != null) {
                         criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-                        criteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("bugIndex", SearchCriteria.ASC)));
+                        criteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("bugIndex", SearchCriteria.ASC)));
                         queryBug(criteria);
                     }
                 }
@@ -128,7 +128,7 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
         ToggleButtonGroup viewButtons = new ToggleButtonGroup();
         viewButtons.addButton(advanceDisplayBtn);
         viewButtons.addButton(kanbanBtn);
-        viewButtons.setDefaultButton(kanbanBtn);
+        viewButtons.withDefaultButton(kanbanBtn);
         groupWrapLayout.addComponent(viewButtons);
 
         kanbanLayout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false)).withHeight("100%");
@@ -211,7 +211,7 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
         });
     }
 
-    private class KanbanBugBlockItem extends CustomComponent {
+    private static class KanbanBugBlockItem extends CustomComponent {
         private SimpleBug bug;
 
         KanbanBugBlockItem(final SimpleBug bug) {

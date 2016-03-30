@@ -172,11 +172,8 @@ public final class StringUtils {
             else if (value.matches("\\d{3}-\\d{3}-\\d{4}\\s(x|(ext))\\d{3,5}"))
                 return true;
                 // validating phone number where area code is in braces ()
-            else if (value.matches("\\(\\d{3}\\)-\\d{3}-\\d{4}"))
-                return true;
-                // return false if nothing matches the input
-            else
-                return false;
+            else // return false if nothing matches the input
+                return value.matches("\\(\\d{3}\\)-\\d{3}-\\d{4}");
         } else {
             return true;
         }

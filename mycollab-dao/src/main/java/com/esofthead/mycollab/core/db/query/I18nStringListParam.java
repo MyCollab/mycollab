@@ -30,9 +30,6 @@ public class I18nStringListParam extends ColumnParam {
     static final String IN = "in";
     static final String NOT_IN = "not in";
 
-    private static String IN_EXPR = "%s.%s in ";
-    private static String NOT_IN_EXPR = "%s.%s not in ";
-
     public static String[] OPTIONS = {IN, NOT_IN};
 
     private List<? extends Enum<?>> lstValues;
@@ -51,6 +48,7 @@ public class I18nStringListParam extends ColumnParam {
     }
 
     public CollectionValueSearchField buildStringParamInList(String oper, Collection<?> value) {
+        String IN_EXPR = "%s.%s in ";
         return new CollectionValueSearchField(oper, String.format(IN_EXPR, this.getTable(), this.getColumn()), value);
     }
 
@@ -63,6 +61,7 @@ public class I18nStringListParam extends ColumnParam {
     }
 
     public CollectionValueSearchField buildStringParamNotInList(String oper, Collection<?> value) {
+        String NOT_IN_EXPR = "%s.%s not in ";
         return new CollectionValueSearchField(oper, String.format(NOT_IN_EXPR,
                 this.getTable(), this.getColumn()), value);
     }

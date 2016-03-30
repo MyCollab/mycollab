@@ -20,8 +20,6 @@ import com.rits.cloning.Cloner;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-import java.util.Arrays;
-
 /**
  * Utility class to print bean properties. This class is used for debug purpose
  *

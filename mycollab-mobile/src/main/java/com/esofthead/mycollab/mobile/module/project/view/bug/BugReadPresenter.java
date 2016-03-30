@@ -86,11 +86,6 @@ public class BugReadPresenter extends AbstractProjectPresenter<BugReadView> {
                 cloneData.setId(null);
                 EventBusFactory.getInstance().post(new BugEvent.GotoEdit(this, cloneData));
             }
-
-            @Override
-            public void onCancel() {
-                // Do nothing
-            }
         });
     }
 
@@ -108,7 +103,6 @@ public class BugReadPresenter extends AbstractProjectPresenter<BugReadView> {
                             bug.getProjectShortName()), bug.getSummary());
                 } else {
                     NotificationUtil.showRecordNotExistNotification();
-                    return;
                 }
             }
         } else {

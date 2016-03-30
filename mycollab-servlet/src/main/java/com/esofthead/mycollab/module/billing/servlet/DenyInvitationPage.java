@@ -49,9 +49,6 @@ import java.util.Map;
 @WebServlet(name = "denyUserInviteServlet", urlPatterns = "/user/deny_invite/*")
 public class DenyInvitationPage extends VelocityWebServletRequestHandler {
 
-    private static String USER_DENY_FEEDBACK_TEMPLATE = "templates/page/user/UserDenyInvitationPage.mt";
-    private static String USER_HAS_DENIED_PAGE = "templates/page/user/UserDeniedPage.mt";
-
     @Autowired
     private IDeploymentMode deploymentMode;
 
@@ -106,12 +103,14 @@ public class DenyInvitationPage extends VelocityWebServletRequestHandler {
                         context.put("sAccountId", 0);
                         context.put("projectId", 0);
                         context.put("projectRoleId", 0);
+                        String USER_DENY_FEEDBACK_TEMPLATE = "templates/page/user/UserDenyInvitationPage.mt";
                         String html = generatePageByTemplate(response.getLocale(), USER_DENY_FEEDBACK_TEMPLATE, context);
                         PrintWriter out = response.getWriter();
                         out.println(html);
                     } else if (checkUser.getRegisterstatus().equals(RegisterStatusConstants.DELETE)) {
                         Map<String, Object> context = new HashMap<>();
                         context.put("loginURL", request.getContextPath() + "/");
+                        String USER_HAS_DENIED_PAGE = "templates/page/user/UserDeniedPage.mt";
                         String html = generatePageByTemplate(response.getLocale(), USER_HAS_DENIED_PAGE, context);
                         PrintWriter out = response.getWriter();
                         out.println(html);

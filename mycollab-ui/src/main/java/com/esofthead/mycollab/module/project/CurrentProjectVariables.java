@@ -40,7 +40,7 @@ public class CurrentProjectVariables {
     private static final Logger LOG = LoggerFactory.getLogger(CurrentProjectVariables.class);
 
     private static final String CURRENT_PAGE_VAR = "project_page";
-    private static final String TOOGLE_MENU_FLAG = "toogleProjectMenu";
+    private static final String TOGGLE_MENU_FLAG = "toogleProjectMenu";
 
     public static SimpleProject getProject() {
         return (SimpleProject) MyCollabSession.getCurrentUIVariable(CURRENT_PROJECT);
@@ -69,20 +69,20 @@ public class CurrentProjectVariables {
             }
 
             setProjectMember(prjMember);
-            if (getProjectToogleMenu() == null) {
-                setProjectToogleMenu(true);
+            if (getProjectToggleMenu() == null) {
+                setProjectToggleMenu(true);
             }
         } else if (!AppContext.isAdmin()) {
             throw new SecureAccessException("You are not belong to this project");
         }
     }
 
-    public static Boolean getProjectToogleMenu() {
-        return (Boolean) MyCollabSession.getCurrentUIVariable(TOOGLE_MENU_FLAG);
+    public static Boolean getProjectToggleMenu() {
+        return (Boolean) MyCollabSession.getCurrentUIVariable(TOGGLE_MENU_FLAG);
     }
 
-    public static void setProjectToogleMenu(boolean visibility) {
-        MyCollabSession.putCurrentUIVariable(TOOGLE_MENU_FLAG, new Boolean(visibility));
+    public static void setProjectToggleMenu(Boolean visibility) {
+        MyCollabSession.putCurrentUIVariable(TOGGLE_MENU_FLAG,  visibility);
     }
 
     private static void setProjectMember(SimpleProjectMember prjMember) {
@@ -177,6 +177,7 @@ public class CurrentProjectVariables {
             customizeView.setDisplaytask(true);
             customizeView.setDisplaytimelogging(true);
             customizeView.setDisplayfile(true);
+            customizeView.setDisplayinvoice(true);
         }
         return customizeView;
     }
@@ -211,6 +212,10 @@ public class CurrentProjectVariables {
 
     public static boolean hasTimeFeature() {
         return getFeatures().getDisplaytimelogging();
+    }
+
+    public static boolean hasInvoiceFeature() {
+        return Boolean.TRUE.equals(getFeatures().getDisplayinvoice());
     }
 
     public static boolean hasStandupFeature() {

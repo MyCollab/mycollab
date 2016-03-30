@@ -55,31 +55,31 @@ class ProjectUrlResolver extends UrlResolver {
 
   override def handle(params: String*) {
     if (!ModuleHelper.isCurrentProjectModule) {
-      EventBusFactory.getInstance.post(new ShellEvent.GotoProjectModule(this, params))
+      EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, params))
     }
     else {
       super.handle(params: _*)
     }
   }
 
-  protected def defaultPageErrorHandler {
-    EventBusFactory.getInstance.post(new ShellEvent.GotoProjectModule(this, null))
+  protected def defaultPageErrorHandler() {
+    EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, null))
   }
 
   protected override def handlePage(params: String*) {
     super.handlePage(params: _*)
-    EventBusFactory.getInstance.post(new ProjectEvent.GotoProjectList(this, null))
+    EventBusFactory.getInstance().post(new ProjectEvent.GotoProjectList(this, null))
   }
 
   class DashboardUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
       if (params.length == 0) {
-        EventBusFactory.getInstance.post(new ShellEvent.GotoProjectModule(this, null))
+        EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, null))
       }
       else {
         val projectId = new UrlTokenizer(params(0)).getInt
         val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new ProjectScreenData.GotoDashboard)
-        EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+        EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
       }
     }
   }
@@ -88,23 +88,23 @@ class ProjectUrlResolver extends UrlResolver {
     protected override def handlePage(params: String*) {
       if (params.length == 0) {
         val prjService = ApplicationContextUtil.getSpringBean(classOf[ProjectService])
-        val prjKeys = prjService.getProjectKeysUserInvolved(AppContext.getUsername(), AppContext.getAccountId())
+        val prjKeys = prjService.getProjectKeysUserInvolved(AppContext.getUsername, AppContext.getAccountId)
         val searchCriteria = new ActivityStreamSearchCriteria()
         searchCriteria.setModuleSet(new SetSearchField(ModuleNameConstants.PRJ))
-        searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()))
+        searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId))
         searchCriteria.setExtraTypeIds(new SetSearchField(prjKeys))
 
         val data = new AllActivities(searchCriteria)
-        EventBusFactory.getInstance.post(new ProjectEvent.AllActivities(this, data))
+        EventBusFactory.getInstance().post(new ProjectEvent.AllActivities(this, data))
       }
       else {
         val projectId = new UrlTokenizer(params(0)).getInt
         val searchCriteria = new ActivityStreamSearchCriteria()
         searchCriteria.setModuleSet(new SetSearchField(ModuleNameConstants.PRJ));
-        searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()))
+        searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId))
         searchCriteria.setExtraTypeIds(new SetSearchField(projectId))
         val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new ProjectScreenData.ProjectActivities(searchCriteria))
-        EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+        EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
       }
     }
   }

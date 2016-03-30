@@ -100,7 +100,7 @@ public class MilestoneAddWindow extends Window {
         Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                MilestoneAddWindow.this.close();
+                close();
             }
         });
         cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);

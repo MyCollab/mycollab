@@ -79,9 +79,6 @@ public class GanttTreeTable extends TreeTable {
                 }
             };
 
-    //The limit sub tasks should be less than 50, need to be calculated in the future when the project has many tasks
-    private int currentPageLength = 50;
-
     public GanttTreeTable(final GanttExt gantt) {
         super();
         this.gantt = gantt;
@@ -263,6 +260,7 @@ public class GanttTreeTable extends TreeTable {
 
         contextMenu.addContextMenuTableListener(tableListener);
         gantt.setVerticalScrollDelegateTarget(this);
+        int currentPageLength = 50;
         this.setPageLength(currentPageLength);
     }
 
@@ -285,8 +283,7 @@ public class GanttTreeTable extends TreeTable {
     public void loadAssignments() {
         try {
             GanttAssignmentService ganttAssignmentService = ApplicationContextUtil.getSpringBean(GanttAssignmentService.class);
-            final List<AssignWithPredecessors> assignments = ganttAssignmentService.getTaskWithPredecessors(Arrays.asList
-                    (CurrentProjectVariables.getProjectId()), AppContext.getAccountId());
+            final List<AssignWithPredecessors> assignments = ganttAssignmentService.getTaskWithPredecessors(Collections.singletonList(CurrentProjectVariables.getProjectId()), AppContext.getAccountId());
             if (assignments.size() == 1) {
                 ProjectGanttItem projectGanttItem = (ProjectGanttItem) assignments.get(0);
                 List<MilestoneGanttItem> milestoneGanttItems = projectGanttItem.getMilestones();

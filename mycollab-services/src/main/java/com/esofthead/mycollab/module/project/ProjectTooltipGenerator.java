@@ -507,7 +507,6 @@ public class ProjectTooltipGenerator {
             return generateTolltipNull(locale);
 
         try {
-
             String dateFormat = LocaleHelper.getDateFormatInstance(locale).getDateFormat();
             Div div = new Div().setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;");
             H3 name = new H3();

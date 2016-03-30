@@ -51,7 +51,7 @@ public class FileBreadcrumb extends Breadcrumb implements CacheableComponent, Ha
     private String rootFolderPath;
 
     public FileBreadcrumb(String rootFolderPath) {
-        if (org.apache.commons.lang3.StringUtils.isEmpty(rootFolderPath)) {
+        if (StringUtils.isBlank(rootFolderPath)) {
             throw new MyCollabException("Root folder path can not be empty");
         }
         this.rootFolderPath = rootFolderPath;
@@ -73,7 +73,7 @@ public class FileBreadcrumb extends Breadcrumb implements CacheableComponent, Ha
                 notifySearchHandler(criteria);
             }
         }));
-        this.setHeight(25, Unit.PIXELS);
+
 
         this.select(0);
         Button documentBtnLink = generateBreadcrumbLink(AppContext.getMessage(FileI18nEnum.OPT_MY_DOCUMENTS),
@@ -96,7 +96,9 @@ public class FileBreadcrumb extends Breadcrumb implements CacheableComponent, Ha
     void gotoFolder(final Folder folder) {
         initBreadcrumb();
 
-        if (folder instanceof ExternalFolder) {
+        if (folder == null) {
+            throw new MyCollabException("Folder is null");
+        } else if (folder instanceof ExternalFolder) {
             displayExternalFolder((ExternalFolder) folder);
         } else {
             displayMyCollabFolder(folder);
@@ -114,63 +116,109 @@ public class FileBreadcrumb extends Breadcrumb implements CacheableComponent, Ha
             remainPath = remainPath.substring(1);
         }
 
-        final StringBuffer curPath = new StringBuffer("");
-        String[] path = remainPath.split("/");
-        for (int i = 0; i < path.length; i++) {
-            String pathName = path[i];
-            curPath.append(pathName);
-            final String currentFolderPath = curPath.toString();
-
-            Button btn = new Button(StringUtils.trim(pathName, 25, true), new ClickListener() {
+        Button btn1, btn2 = null;
+        int index;
+        if ((index = remainPath.lastIndexOf('/')) != -1) {
+            String pathName = remainPath.substring(index + 1);
+            final String newPath = remainPath.substring(0, index);
+            remainPath = newPath;
+            btn2 = new Button(StringUtils.trim(pathName, 25, true), new ClickListener() {
                 @Override
                 public void buttonClick(ClickEvent clickEvent) {
                     FileSearchCriteria criteria = new FileSearchCriteria();
-                    criteria.setBaseFolder(rootFolderPath + "/" + currentFolderPath.toString());
+                    criteria.setBaseFolder(rootFolderPath + "/" + newPath);
                     criteria.setRootFolder(rootFolderPath);
                     notifySearchHandler(criteria);
                 }
             });
-            btn.setDescription(pathName);
+            btn2.setDescription(pathName);
+        }
 
-            this.select(i + 1);
-            this.addLink(btn);
-            this.setLinkEnabled(true, i + 1);
+        if ((index = remainPath.lastIndexOf('/')) != -1) {
+            String pathName = remainPath.substring(index + 1);
+            final String newPath = remainPath.substring(0, index);
+            btn1 = new Button(StringUtils.trim(pathName, 25, true), new ClickListener() {
+                @Override
+                public void buttonClick(ClickEvent clickEvent) {
+                    FileSearchCriteria criteria = new FileSearchCriteria();
+                    criteria.setBaseFolder(rootFolderPath + "/" + newPath);
+                    criteria.setRootFolder(rootFolderPath);
+                    notifySearchHandler(criteria);
+                }
+            });
+            btn1.setDescription(pathName);
+        } else {
+            final String newPath = remainPath;
+            btn1 = new Button(StringUtils.trim(newPath, 25, true), new ClickListener() {
+                @Override
+                public void buttonClick(ClickEvent clickEvent) {
+                    FileSearchCriteria criteria = new FileSearchCriteria();
+                    criteria.setBaseFolder(rootFolderPath + "/" + newPath);
+                    criteria.setRootFolder(rootFolderPath);
+                    notifySearchHandler(criteria);
+                }
+            });
+            btn1.setDescription(newPath);
+        }
 
-            if (i < path.length - 1) {
-                curPath.append("/");
-            }
+        if (btn1 != null) {
+            addLink(btn1);
+        }
+
+        if (btn2 != null) {
+            addLink(btn2);
+            select(btn2);
         }
     }
 
     private void displayExternalFolder(final ExternalFolder folder) {
-        String folderPath = folder.getPath();
+        String remainPath = folder.getPath();
 
-        final StringBuffer curPath = new StringBuffer("");
-        String[] path = folderPath.split("/");
-        if (path.length == 0) {
-            Button btn = new Button(StringUtils.trim(folder.getExternalDrive().getFoldername(), 25, true));
-            this.addLink(btn);
-            this.select(2);
-            return;
+        Button btn1 = null, btn2 = null;
+        int index;
+        if ((index = remainPath.lastIndexOf('/')) != -1) {
+            if (index == 0) {
+                btn1 = new Button(StringUtils.trim(folder.getExternalDrive().getFoldername(), 25, true), new ClickListener() {
+                    @Override
+                    public void buttonClick(ClickEvent clickEvent) {
+                        FileSearchCriteria criteria = new FileSearchCriteria();
+                        criteria.setBaseFolder("/");
+                        criteria.setRootFolder("/");
+                        criteria.setStorageName(StorageNames.DROPBOX);
+                        criteria.setExternalDrive(folder.getExternalDrive());
+                        notifySearchHandler(criteria);
+                    }
+                });
+            }
+            String pathName = remainPath.substring(index + 1);
+            if (StringUtils.isNotBlank(pathName)) {
+                final String newPath = remainPath.substring(0, index);
+                remainPath = newPath;
+                btn2 = new Button(StringUtils.trim(pathName, 25, true), new ClickListener() {
+                    @Override
+                    public void buttonClick(ClickEvent clickEvent) {
+                        FileSearchCriteria criteria = new FileSearchCriteria();
+                        criteria.setBaseFolder(newPath);
+                        criteria.setRootFolder("/");
+                        criteria.setStorageName(StorageNames.DROPBOX);
+                        criteria.setExternalDrive(folder.getExternalDrive());
+                        notifySearchHandler(criteria);
+                    }
+                });
+                btn2.setDescription(pathName);
+            } else {
+                remainPath = "";
+            }
         }
 
-        for (int i = 0; i < path.length; i++) {
-            String pathName = path[i];
-
-            if (i == 0) {
-                pathName = folder.getExternalDrive().getFoldername();
-                curPath.append("/");
-            } else {
-                curPath.append(pathName);
-            }
-
-            final String buttonPath = curPath.toString();
-
-            Button btn = new Button(StringUtils.trim(pathName, 25, true), new ClickListener() {
+        if ((index = remainPath.lastIndexOf('/')) != -1) {
+            String pathName = remainPath.substring(index + 1);
+            final String newPath = remainPath.substring(0, index);
+            btn1 = new Button(StringUtils.trim(pathName, 25, true), new ClickListener() {
                 @Override
                 public void buttonClick(ClickEvent clickEvent) {
                     FileSearchCriteria criteria = new FileSearchCriteria();
-                    criteria.setBaseFolder(buttonPath);
+                    criteria.setBaseFolder(newPath);
 
                     criteria.setRootFolder("/");
                     criteria.setStorageName(StorageNames.DROPBOX);
@@ -178,14 +226,16 @@ public class FileBreadcrumb extends Breadcrumb implements CacheableComponent, Ha
                     notifySearchHandler(criteria);
                 }
             });
-            btn.setDescription(pathName);
-            this.select(i + 1);
-            this.addLink(btn);
-            this.setLinkEnabled(true, i + 1);
+            btn1.setDescription(pathName);
+        }
 
-            if (i < path.length - 1) {
-                curPath.append("/");
-            }
+        if (btn1 != null) {
+            addLink(btn1);
+        }
+
+        if (btn2 != null) {
+            addLink(btn2);
+            select(btn2);
         }
     }
 

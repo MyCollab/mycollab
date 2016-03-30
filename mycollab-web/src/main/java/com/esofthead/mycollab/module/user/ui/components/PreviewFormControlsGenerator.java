@@ -48,10 +48,6 @@ public class PreviewFormControlsGenerator<T> implements Serializable {
     public static final int NAVIGATOR_BTN_PRESENTED = 32;
 
     private AdvancedPreviewBeanForm<T> previewForm;
-    private Button addBtn;
-    private Button editBtn;
-    private Button deleteBtn;
-    private Button cloneBtn;
 
     private SplitButton optionBtn;
     private OptionPopupContent popupButtonsControl;
@@ -89,7 +85,7 @@ public class PreviewFormControlsGenerator<T> implements Serializable {
             boolean canRead = AppContext.canRead(permissionItem);
 
             if ((buttonEnableFlags & ADD_BTN_PRESENTED) == ADD_BTN_PRESENTED) {
-                addBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADD),
+                Button addBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADD),
                         new Button.ClickListener() {
 
                             private static final long serialVersionUID = 1L;
@@ -108,7 +104,7 @@ public class PreviewFormControlsGenerator<T> implements Serializable {
             }
 
             if ((buttonEnableFlags & EDIT_BTN_PRESENTED) == EDIT_BTN_PRESENTED) {
-                editBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
+                Button editBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
                         new Button.ClickListener() {
 
                             private static final long serialVersionUID = 1L;
@@ -127,7 +123,7 @@ public class PreviewFormControlsGenerator<T> implements Serializable {
             }
 
             if ((buttonEnableFlags & DELETE_BTN_PRESENTED) == DELETE_BTN_PRESENTED) {
-                deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
+                Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
                         new Button.ClickListener() {
 
                             private static final long serialVersionUID = 1L;
@@ -145,7 +141,7 @@ public class PreviewFormControlsGenerator<T> implements Serializable {
             }
 
             if ((buttonEnableFlags & CLONE_BTN_PRESENTED) == CLONE_BTN_PRESENTED) {
-                cloneBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLONE),
+                Button cloneBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLONE),
                         new Button.ClickListener() {
                             private static final long serialVersionUID = 1L;
 

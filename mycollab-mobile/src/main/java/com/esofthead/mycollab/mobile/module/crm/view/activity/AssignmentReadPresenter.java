@@ -141,12 +141,10 @@ public class AssignmentReadPresenter extends
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         if (AppContext.canRead(RolePermissionCollections.CRM_TASK)) {
 
-            SimpleTask task = null;
+            SimpleTask task;
             if (data.getParams() instanceof Integer) {
-                TaskService taskService = ApplicationContextUtil
-                        .getSpringBean(TaskService.class);
-                task = taskService.findById((Integer) data.getParams(),
-                        AppContext.getAccountId());
+                TaskService taskService = ApplicationContextUtil.getSpringBean(TaskService.class);
+                task = taskService.findById((Integer) data.getParams(), AppContext.getAccountId());
                 if (task == null) {
                     NotificationUtil.showRecordNotExistNotification();
                     return;
@@ -157,11 +155,8 @@ public class AssignmentReadPresenter extends
             view.previewItem(task);
             super.onGo(container, data);
 
-            AppContext.addFragment(CrmLinkGenerator
-                    .generateTaskPreviewLink(task.getId()), AppContext
-                    .getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
-                            "Task", task.getSubject()));
-
+            AppContext.addFragment(CrmLinkGenerator.generateTaskPreviewLink(task.getId()),
+                    AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE, "Task", task.getSubject()));
         } else {
             NotificationUtil.showMessagePermissionAlert();
         }

@@ -89,7 +89,7 @@ import org.springframework.stereotype.Component
       }
     } finally {
       DistributionLockUtil.removeLock("timeline-" + event.accountId)
-      lock.unlock
+      lock.unlock()
     }
   }
 }

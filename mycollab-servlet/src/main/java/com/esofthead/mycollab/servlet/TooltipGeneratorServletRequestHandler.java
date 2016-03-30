@@ -163,13 +163,11 @@ public class TooltipGeneratorServletRequestHandler extends GenericHttpServlet {
             response.setContentType("text/html;charset=UTF-8");
             PrintWriter out = response.getWriter();
             out.println(html);
-            return;
         } catch (Exception e) {
             LOG.error("Error while get html tooltip attachForm TooltipGeneratorServletRequestHandler", e);
             String html = null;
             PrintWriter out = response.getWriter();
             out.println(html);
-            return;
         }
     }
 }

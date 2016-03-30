@@ -44,7 +44,6 @@ import org.apache.commons.lang3.StringUtils;
  * @since 1.0
  */
 public class ContactSimpleSearchPanel extends GenericSearchPanel<ContactSearchCriteria> {
-    private ContactSearchCriteria searchCriteria;
     private TextField textValueField;
     private ActiveUserComboBox userBox;
     private ValueComboBox group;
@@ -98,7 +97,7 @@ public class ContactSimpleSearchPanel extends GenericSearchPanel<ContactSearchCr
     }
 
     private void doSearch() {
-        searchCriteria = new ContactSearchCriteria();
+        ContactSearchCriteria searchCriteria = new ContactSearchCriteria();
         searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
 
         String searchType = (String) group.getValue();

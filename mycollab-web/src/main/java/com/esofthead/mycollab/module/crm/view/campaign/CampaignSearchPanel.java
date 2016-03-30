@@ -31,7 +31,7 @@ import com.esofthead.mycollab.module.crm.ui.components.ComponentUtils;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserListSelect;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.esofthead.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.web.ui.DynamicQueryParamLayout;
 import com.esofthead.mycollab.vaadin.web.ui.ShortcutExtension;
@@ -170,11 +170,11 @@ public class CampaignSearchPanel extends DefaultGenericSearchPanel<CampaignSearc
             CampaignSearchCriteria searchCriteria = new CampaignSearchCriteria();
             searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
 
-            if (StringUtils.isNotBlank(this.nameField.getValue().toString())) {
-                searchCriteria.setCampaignName(StringSearchField.and(this.nameField.getValue()));
+            if (StringUtils.isNotBlank(nameField.getValue())) {
+                searchCriteria.setCampaignName(StringSearchField.and(nameField.getValue()));
             }
 
-            if (this.myItemCheckbox.getValue()) {
+            if (myItemCheckbox.getValue()) {
                 searchCriteria.setAssignUsers(new SetSearchField<>(AppContext.getUsername()));
             } else {
                 searchCriteria.setAssignUsers(null);
@@ -207,7 +207,7 @@ public class CampaignSearchPanel extends DefaultGenericSearchPanel<CampaignSearc
 
         @Override
         protected Component buildSelectionComp(String fieldId) {
-            if ("campaign-assignuser" .equals(fieldId)) {
+            if ("campaign-assignuser".equals(fieldId)) {
                 return new ActiveUserListSelect();
             }
             return null;

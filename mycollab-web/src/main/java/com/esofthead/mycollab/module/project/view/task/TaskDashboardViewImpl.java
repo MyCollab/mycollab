@@ -49,7 +49,9 @@ import com.esofthead.mycollab.vaadin.events.HasSelectableItemHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSelectionOptionHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.web.ui.*;
+import com.esofthead.mycollab.vaadin.web.ui.ToggleButtonGroup;
+import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.web.ui.ValueComboBox;
 import com.esofthead.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.data.Property;
@@ -59,13 +61,12 @@ import com.vaadin.server.StreamResource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
+import org.vaadin.peter.buttongroup.ButtonGroup;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author MyCollab Ltd.
@@ -95,7 +96,6 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
     private TaskSearchPanel taskSearchPanel;
     private MVerticalLayout wrapBody;
     private VerticalLayout rightColumn;
-    private MHorizontalLayout mainLayout;
     private TaskGroupOrderComponent taskGroupOrderComponent;
 
     private ApplicationEventListener<TaskEvent.SearchRequest> searchHandler = new
@@ -118,7 +118,7 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
                     final ProjectTaskService projectTaskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
                     SimpleTask task = projectTaskService.findById((Integer) event.getData(), AppContext.getAccountId());
                     if (task != null && taskGroupOrderComponent != null) {
-                        taskGroupOrderComponent.insertTasks(Arrays.asList(task));
+                        taskGroupOrderComponent.insertTasks(Collections.singletonList(task));
                     }
                     displayTaskStatistic();
 
@@ -166,31 +166,20 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
 
         taskSearchPanel.addHeaderRight(groupWrapLayout);
 
-        Button exportBtn = new Button("Export");
-        final SplitButton exportSplitBtn = new SplitButton(exportBtn);
-        exportBtn.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent event) {
-                exportSplitBtn.setPopupVisible(true);
-            }
-        });
-        exportSplitBtn.addStyleName(UIConstants.BUTTON_ACTION);
-        OptionPopupContent popupButtonsControl = new OptionPopupContent();
+        MButton exportPdfBtn = new MButton("").withIcon(FontAwesome.FILE_PDF_O).withStyleName(UIConstants.BUTTON_OPTION)
+                .withDescription("Export to PDF");
+        FileDownloader pdfFileDownloader = new FileDownloader(buildStreamSource(ReportExportType.PDF));
+        pdfFileDownloader.extend(exportPdfBtn);
 
-        Button exportPdfBtn = new Button("PDF");
-        exportPdfBtn.setIcon(FontAwesome.FILE_PDF_O);
-        FileDownloader pdfFileDownloder = new FileDownloader(buildStreamSource(ReportExportType.PDF));
-        pdfFileDownloder.extend(exportPdfBtn);
-        popupButtonsControl.addOption(exportPdfBtn);
-
-        Button exportExcelBtn = new Button("Excel");
-        exportExcelBtn.setIcon(FontAwesome.FILE_EXCEL_O);
+        MButton exportExcelBtn = new MButton("").withIcon(FontAwesome.FILE_EXCEL_O).withStyleName(UIConstants.BUTTON_OPTION).withDescription("Export to Excel");
         FileDownloader excelFileDownloader = new FileDownloader(buildStreamSource(ReportExportType.EXCEL));
         excelFileDownloader.extend(exportExcelBtn);
-        popupButtonsControl.addOption(exportExcelBtn);
 
-        exportSplitBtn.setContent(popupButtonsControl);
-        groupWrapLayout.with(exportSplitBtn);
+        ButtonGroup exportButtonGroup = new ButtonGroup();
+        exportButtonGroup.addButton(exportPdfBtn);
+        exportButtonGroup.addButton(exportExcelBtn);
+
+        groupWrapLayout.with(exportButtonGroup);
 
         Button newTaskBtn = new Button(AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASK), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
@@ -229,10 +218,10 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
         ToggleButtonGroup viewButtons = new ToggleButtonGroup();
         viewButtons.addButton(advanceDisplayBtn);
         viewButtons.addButton(kanbanBtn);
-        viewButtons.setDefaultButton(advanceDisplayBtn);
+        viewButtons.withDefaultButton(advanceDisplayBtn);
         groupWrapLayout.addComponent(viewButtons);
 
-        mainLayout = new MHorizontalLayout().withFullHeight().withFullWidth();
+        MHorizontalLayout mainLayout = new MHorizontalLayout().withFullHeight().withFullWidth();
         wrapBody = new MVerticalLayout().withMargin(new MarginInfo(false, true, true, false));
         rightColumn = new MVerticalLayout().withWidth("370px").withMargin(new MarginInfo(true, false, false, false));
         mainLayout.with(wrapBody, rightColumn).expand(wrapBody);
@@ -307,19 +296,19 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
         wrapBody.removeAllComponents();
 
         if (GROUP_DUE_DATE.equals(groupByState)) {
-            baseCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("deadline", sortDirection)));
+            baseCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("deadline", sortDirection)));
             taskGroupOrderComponent = new DueDateOrderComponent();
         } else if (GROUP_START_DATE.equals(groupByState)) {
-            baseCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("startdate", sortDirection)));
+            baseCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("startdate", sortDirection)));
             taskGroupOrderComponent = new StartDateOrderComponent();
         } else if (PLAIN_LIST.equals(groupByState)) {
-            baseCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("lastupdatedtime", sortDirection)));
+            baseCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("lastupdatedtime", sortDirection)));
             taskGroupOrderComponent = new SimpleListOrderComponent();
         } else if (GROUP_CREATED_DATE.equals(groupByState)) {
-            baseCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("createdtime", sortDirection)));
+            baseCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("createdtime", sortDirection)));
             taskGroupOrderComponent = new CreatedDateOrderComponent();
         } else if (GROUP_USER.equals(groupByState)) {
-            baseCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("createdtime", sortDirection)));
+            baseCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("createdtime", sortDirection)));
             taskGroupOrderComponent = new UserOrderComponent();
         } else {
             throw new MyCollabException("Do not support group view by " + groupByState);

@@ -24,9 +24,8 @@ import com.esofthead.mycollab.module.project.view.page.PagePresenter
 import com.esofthead.mycollab.module.project.view.parameters._
 import com.esofthead.mycollab.module.project.view.risk.IRiskPresenter
 import com.esofthead.mycollab.module.project.view.settings.UserSettingPresenter
-import com.esofthead.mycollab.module.project.view.standup.IStandupPresenter
 import com.esofthead.mycollab.module.project.view.task.TaskPresenter
-import com.esofthead.mycollab.module.project.view.time.ITimeTrackingPresenter
+import com.esofthead.mycollab.module.project.view.time.IFinancePresenter
 import com.esofthead.mycollab.module.project.view.user.ProjectDashboardPresenter
 import com.esofthead.mycollab.vaadin.mvp.{IPresenter, ScreenData}
 
@@ -73,8 +72,8 @@ object ProjectPresenterDataMapper {
     classOf[BugScreenData.GotoKanbanView] -> classOf[BugPresenter])
 
   val standupMapper = Map[Class[_ <: ScreenData[_]], Class[_ <: IPresenter[_]]](
-    classOf[StandupScreenData.Search] -> classOf[IStandupPresenter],
-    classOf[StandupScreenData.Add] -> classOf[IStandupPresenter])
+    classOf[StandupScreenData.Search] -> classOf[ProjectDashboardPresenter],
+    classOf[StandupScreenData.Add] -> classOf[ProjectDashboardPresenter])
 
   val userMapper = Map[Class[_ <: ScreenData[_]], Class[_ <: IPresenter[_]]](
     classOf[ProjectMemberScreenData.Add] -> classOf[UserSettingPresenter],
@@ -95,15 +94,18 @@ object ProjectPresenterDataMapper {
     classOf[VersionScreenData.Search] -> classOf[UserSettingPresenter])
 
   val timeMapper = Map[Class[_ <: ScreenData[_]], Class[_ <: IPresenter[_]]](
-    classOf[TimeTrackingScreenData.Search] -> classOf[ITimeTrackingPresenter])
+    classOf[TimeTrackingScreenData.Search] -> classOf[IFinancePresenter],
+    classOf[InvoiceScreenData.GotoInvoiceList] -> classOf[IFinancePresenter])
 
   val fileMapper = Map[Class[_ <: ScreenData[_]], Class[_ <: IPresenter[_]]](
     classOf[FileScreenData.GotoDashboard] -> classOf[FilePresenter])
 
   val projectMapper = Map[Class[_ <: ScreenData[_]], Class[_ <: IPresenter[_]]](
     classOf[ProjectScreenData.GotoTagList] -> classOf[ProjectDashboardPresenter],
+    classOf[ProjectScreenData.GotoFavorite] -> classOf[ProjectDashboardPresenter],
     classOf[ProjectScreenData.GotoGanttChart] -> classOf[ProjectDashboardPresenter],
     classOf[ProjectScreenData.GotoCalendarView] -> classOf[ProjectDashboardPresenter],
+    classOf[ProjectScreenData.GotoReportConsole] -> classOf[ProjectDashboardPresenter],
     classOf[ProjectScreenData.SearchItem] -> classOf[UserProjectDashboardPresenter],
     classOf[ProjectScreenData.Edit] -> classOf[UserProjectDashboardPresenter])
 

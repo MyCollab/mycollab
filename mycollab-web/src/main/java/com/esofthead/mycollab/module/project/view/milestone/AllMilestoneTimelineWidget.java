@@ -46,9 +46,10 @@ import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
+
+import static com.esofthead.mycollab.utils.TooltipHelper.TOOLTIP_ID;
 
 /**
  * @author MyCollab Ltd
@@ -91,7 +92,7 @@ public class AllMilestoneTimelineWidget extends MVerticalLayout {
         MilestoneSearchCriteria searchCriteria = new MilestoneSearchCriteria();
         UserDashboardView userDashboardView = UIUtils.getRoot(this, UserDashboardView.class);
         searchCriteria.setProjectIds(new SetSearchField<>(userDashboardView.getInvoledProjKeys()));
-        searchCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField(Milestone.Field.enddate.name(), "ASC")));
+        searchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField(Milestone.Field.enddate.name(), "ASC")));
         MilestoneService milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
         milestones = milestoneService.findPagableListByCriteria(new SearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
 
@@ -150,26 +151,22 @@ public class AllMilestoneTimelineWidget extends MVerticalLayout {
             }
             li.appendChild(timestampDiv);
 
-            String projectUid = UUID.randomUUID().toString();
             A projectDiv = new A(ProjectLinkBuilder.generateProjectFullLink(milestone.getProjectid())).appendText
                     (FontAwesome.BUILDING_O.getHtml() + " " + StringUtils.trim(milestone.getProjectName(), 30, true))
-                    .setId("tag" + projectUid);
-            projectDiv.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(projectUid, ProjectTypeConstants.PROJECT,
+                    .setId("tag" + TOOLTIP_ID);
+            projectDiv.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(ProjectTypeConstants.PROJECT,
                     milestone.getProjectid() + ""));
-            projectDiv.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(projectUid));
+            projectDiv.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
 
-
-            String milestoneUid = UUID.randomUUID().toString();
             A milestoneDiv = new A(ProjectLinkBuilder.generateMilestonePreviewFullLink
                     (milestone.getProjectid(), milestone.getId())).appendText(ProjectAssetsManager.getAsset
                     (ProjectTypeConstants.MILESTONE).getHtml() + " " + StringUtils.trim(milestone.getName(), 30, true))
-                    .setId("tag" + milestoneUid);
-            milestoneDiv.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(milestoneUid, ProjectTypeConstants.MILESTONE,
+                    .setId("tag" + TOOLTIP_ID);
+            milestoneDiv.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(ProjectTypeConstants.MILESTONE,
                     milestone.getId() + ""));
-            milestoneDiv.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(milestoneUid));
+            milestoneDiv.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
 
-            Div statusDiv = new Div().setCSSClass("status").appendChild(projectDiv, TooltipHelper
-                    .buildDivTooltipEnable(projectUid), milestoneDiv, TooltipHelper.buildDivTooltipEnable(milestoneUid));
+            Div statusDiv = new Div().setCSSClass("status").appendChild(projectDiv, milestoneDiv);
             li.appendChild(statusDiv);
             ul.appendChild(li);
         }

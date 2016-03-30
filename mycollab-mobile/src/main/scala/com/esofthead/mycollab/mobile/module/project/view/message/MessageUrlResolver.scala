@@ -40,7 +40,7 @@ class MessageUrlResolver extends ProjectUrlResolver {
       val searchCriteria = new MessageSearchCriteria
       searchCriteria.setProjectids(new SetSearchField[Integer](projectId))
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new MessageScreenData.Search(searchCriteria))
-      EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+      EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
 
@@ -50,7 +50,7 @@ class MessageUrlResolver extends ProjectUrlResolver {
       val projectId = token.getInt
       val messageId = token.getInt
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new MessageScreenData.Read(messageId))
-      EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+      EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
 
@@ -58,7 +58,7 @@ class MessageUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
       val projectId = new UrlTokenizer(params(0)).getInt
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new MessageScreenData.Add)
-      EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+      EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
 

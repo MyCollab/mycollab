@@ -18,11 +18,13 @@ package com.esofthead.mycollab.core.db.query;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
+import java.io.Serializable;
+
 /**
  * @author MyCollab Ltd.
  * @since 4.0
  */
-public abstract class Param {
+public abstract class Param implements Serializable {
     protected String id;
     protected Enum<?> displayName;
 

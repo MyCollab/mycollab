@@ -66,7 +66,7 @@ public class AccountTableDisplay extends DefaultPagedBeanTable<AccountService, A
 
                     @Override
                     public void valueChange(ValueChangeEvent event) {
-                        AccountTableDisplay.this.fireSelectItemEvent(account);
+                        fireSelectItemEvent(account);
                         fireTableEvent(new TableClickEvent(AccountTableDisplay.this, account, "selected"));
 
                     }

@@ -21,6 +21,7 @@ import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.domain.ProjectMember;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectRole;
 import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
@@ -35,6 +36,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.web.ui.DoubleField;
 import com.esofthead.mycollab.vaadin.web.ui.EditFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.web.ui.field.DefaultViewField;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
@@ -51,7 +53,6 @@ import com.vaadin.ui.*;
 public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjectMember> implements ProjectMemberEditView {
     private static final long serialVersionUID = 1L;
 
-    private FormContainer permissionsPanel;
     private GridFormLayoutHelper projectFormHelper;
 
     @Override
@@ -105,6 +106,10 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
                 return new AdminRoleSelectionField();
             } else if (propertyId.equals("isadmin")) {
                 return new DummyCustomField<Boolean>();
+            } else if (ProjectMember.Field.billingrate.equalTo(propertyId)) {
+                return new DoubleField();
+            } else if (ProjectMember.Field.overtimebillingrate.equalTo(propertyId)) {
+                return new DoubleField();
             }
             return null;
         }
@@ -123,8 +128,8 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
             VerticalLayout layout = new VerticalLayout();
             layout.addComponent(formLayoutFactory.getLayout());
 
-            permissionsPanel = new FormContainer();
-            projectFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length);
+            FormContainer permissionsPanel = new FormContainer();
+            projectFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, (ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length + 1) / 2);
             permissionsPanel.addSection(AppContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS),
                     projectFormHelper.getLayout());
             layout.addComponent(permissionsPanel);
@@ -154,14 +159,14 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
                     final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
                     projectFormHelper.addComponent(new Label(AppContext.getPermissionCaptionValue(
                             permissionMap, permissionPath)), AppContext.getMessage(RolePermissionI18nEnum
-                            .valueOf(permissionPath)), 0, i);
+                            .valueOf(permissionPath)), i % 2, i / 2);
                 }
             }
         } else {
             for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
                 final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
                 projectFormHelper.addComponent(new Label(AppContext.getMessage(SecurityI18nEnum.ACCESS)),
-                        permissionPath, 0, i);
+                        permissionPath, i % 2, i / 2);
             }
         }
     }

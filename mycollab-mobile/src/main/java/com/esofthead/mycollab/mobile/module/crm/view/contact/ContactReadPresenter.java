@@ -208,7 +208,6 @@ public class ContactReadPresenter extends AbstractCrmPresenter<ContactReadView> 
 
                 } else {
                     NotificationUtil.showRecordNotExistNotification();
-                    return;
                 }
             }
         } else {

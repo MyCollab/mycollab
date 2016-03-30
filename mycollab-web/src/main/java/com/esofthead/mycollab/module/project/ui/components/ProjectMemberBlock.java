@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.module.project.ui.components;
 
 import com.esofthead.mycollab.core.utils.StringUtils;
-import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.utils.TooltipHelper;
@@ -29,7 +28,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
-import java.util.UUID;
+import static com.esofthead.mycollab.utils.TooltipHelper.TOOLTIP_ID;
 
 /**
  * @author MyCollab Ltd.
@@ -38,17 +37,12 @@ import java.util.UUID;
 public class ProjectMemberBlock extends MVerticalLayout {
     public ProjectMemberBlock(String username, String userAvatarId, String displayName) {
         withMargin(false).withWidth("80px");
-
         Image userAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(userAvatarId, 48, displayName);
-
-        String uid = UUID.randomUUID().toString();
-        DivLessFormatter div = new DivLessFormatter();
-        A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(CurrentProjectVariables.getProjectId(),
+        A userLink = new A().setId("tag" + TOOLTIP_ID).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(CurrentProjectVariables.getProjectId(),
                 username)).appendText(StringUtils.trim(displayName, 30, true));
-        userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(uid, username));
-        userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
-        div.appendChild(userLink, DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));
-        Label userLbl = new Label(div.write(), ContentMode.HTML);
+        userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(username));
+        userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
+        Label userLbl = new Label(userLink.write(), ContentMode.HTML);
         userLbl.addStyleName(ValoTheme.LABEL_SMALL);
         with(userAvatar, userLbl);
     }

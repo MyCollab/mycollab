@@ -129,7 +129,6 @@ public class VersionReadPresenter extends AbstractPresenter<VersionReadView> {
                     breadcrumb.gotoVersionRead(version);
                 } else {
                     NotificationUtil.showRecordNotExistNotification();
-                    return;
                 }
             } else {
                 throw new MyCollabException("Unhanddle this case yet");

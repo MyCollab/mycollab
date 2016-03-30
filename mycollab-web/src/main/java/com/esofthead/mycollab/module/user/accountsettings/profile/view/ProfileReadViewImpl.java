@@ -57,7 +57,6 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
     public ProfileReadViewImpl() {
         super();
         this.setMargin(new MarginInfo(false, true, true, true));
-        this.addStyleName("userInfoContainer");
         this.avatarAndPass = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false)).withWidth("100%");
 
         this.formItem = new PreviewForm();

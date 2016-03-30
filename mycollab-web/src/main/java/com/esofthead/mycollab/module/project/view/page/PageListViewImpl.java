@@ -185,7 +185,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
             }
         });
         sortGroup.addButton(sortKindBtn);
-        sortGroup.setDefaultButton(sortDateBtn);
+        sortGroup.withDefaultButton(sortDateBtn);
 
         Button newGroupBtn = new Button(AppContext.getMessage(Page18InEnum.BUTTON_NEW_GROUP), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;

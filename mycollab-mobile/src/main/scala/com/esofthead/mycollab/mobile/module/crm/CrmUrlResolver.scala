@@ -49,7 +49,7 @@ class CrmUrlResolver extends UrlResolver {
 
     override def handle(params: String*) {
         if (!ModuleHelper.isCurrentCrmModule) {
-            EventBusFactory.getInstance.post(new ShellEvent.GotoCrmModule(this, params))
+            EventBusFactory.getInstance().post(new ShellEvent.GotoCrmModule(this, params))
         }
         else {
             super.handle(params:_*)
@@ -58,11 +58,11 @@ class CrmUrlResolver extends UrlResolver {
 
     protected override def handlePage(params: String*) {
         super.handlePage(params:_*)
-        EventBusFactory.getInstance.post(new CrmEvent.GotoContainer(this,
+        EventBusFactory.getInstance().post(new CrmEvent.GotoContainer(this,
             new CrmModuleScreenData.GotoModule(AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_ACCOUNTS_HEADER))))
     }
 
-    protected def defaultPageErrorHandler {
-        EventBusFactory.getInstance.post(new ShellEvent.GotoCrmModule(this, null))
+    protected def defaultPageErrorHandler() {
+        EventBusFactory.getInstance().post(new ShellEvent.GotoCrmModule(this, null))
     }
 }

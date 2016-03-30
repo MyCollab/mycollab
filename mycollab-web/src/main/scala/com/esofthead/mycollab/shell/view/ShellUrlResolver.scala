@@ -40,6 +40,6 @@ class ShellUrlResolver extends UrlResolver {
     }
   }
 
-  protected def defaultPageErrorHandler {
+  protected def defaultPageErrorHandler() {
   }
 }

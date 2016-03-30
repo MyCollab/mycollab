@@ -43,11 +43,8 @@ import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.USER_VAL;
 public class MainWindowContainer extends CssLayout {
     private static final long serialVersionUID = 1L;
 
-    private boolean isAutoLogin;
-
     public MainWindowContainer() {
         this.setCaption(AppContext.getSiteName());
-        isAutoLogin = true;
         ControllerRegistry.addController(new ShellController(this));
         this.setSizeFull();
         this.setDefaultView();
@@ -60,32 +57,56 @@ public class MainWindowContainer extends CssLayout {
 
     private void setDefaultView() {
         // Read previously stored cookie value
-        if (isAutoLogin) {
-            BrowserCookie.detectCookieValue(DesktopApplication.NAME_COOKIE, new CookieCallbackSerilizable() {
-                @Override
-                public void onValueDetected(String value) {
-                    if (value != null && !value.equals("")) {
-                        String[] loginParams = value.split("\\$");
-                        if (loginParams.length == 2) {
-                            try {
-                                ((DesktopApplication) UI.getCurrent()).doLogin(loginParams[0], PasswordEncryptHelper.decryptText(loginParams[1]), false);
-                            } catch (UserInvalidInputException e) {
-                                navigateToLoginView();
-                            }
+        BrowserCookie.detectCookieValue(DesktopApplication.ACCOUNT_COOKIE, new CookieCallbackSerializable() {
+            @Override
+            public void onValueDetected(String value) {
+                if (value != null && !value.equals("")) {
+                    String[] loginParams = value.split("\\$");
+                    if (loginParams.length == 2) {
+                        try {
+                            ((DesktopApplication) UI.getCurrent()).doLogin(loginParams[0], PasswordEncryptHelper.decryptText(loginParams[1]), false);
+                        } catch (UserInvalidInputException e) {
+                            navigateToLoginView();
                         }
                     } else {
+                        navigateToLoginView();
+                    }
+                } else {
+                    try {
                         SimpleUser user = (SimpleUser) MyCollabSession.getSessionVariable(USER_VAL);
                         if (user != null) {
                             ((DesktopApplication) UI.getCurrent()).afterDoLogin(user);
                         } else {
-                            navigateToLoginView();
+                            authenticateWithTempCookieValue();
                         }
+                    } catch (Exception e) {
+                        navigateToLoginView();
                     }
                 }
-            });
-        } else {
-            navigateToLoginView();
-        }
+            }
+        });
+    }
+
+    private void authenticateWithTempCookieValue() {
+        BrowserCookie.detectCookieValue(DesktopApplication.TEMP_ACCOUNT_COOKIE, new CookieCallbackSerializable() {
+            @Override
+            public void onValueDetected(String value) {
+                if (value != null && !value.equals("")) {
+                    String[] loginParams = value.split("\\$");
+                    if (loginParams.length == 2) {
+                        try {
+                            ((DesktopApplication) UI.getCurrent()).doLogin(loginParams[0], PasswordEncryptHelper.decryptText(loginParams[1]), false);
+                        } catch (UserInvalidInputException e) {
+                            navigateToLoginView();
+                        }
+                    } else {
+                        navigateToLoginView();
+                    }
+                } else {
+                    navigateToLoginView();
+                }
+            }
+        });
     }
 
     private void navigateToLoginView() {
@@ -96,11 +117,7 @@ public class MainWindowContainer extends CssLayout {
         this.setContent(loginView.getWidget());
     }
 
-    public void setAutoLogin(boolean isAutoLogin) {
-        this.isAutoLogin = isAutoLogin;
-    }
-
-    interface CookieCallbackSerilizable extends BrowserCookie.Callback, Serializable {
+    interface CookieCallbackSerializable extends BrowserCookie.Callback, Serializable {
 
     }
 }

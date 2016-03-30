@@ -34,7 +34,6 @@ import com.vaadin.ui.Component;
 public class LeadSelectionView extends AbstractSelectionView<SimpleLead> {
     private static final long serialVersionUID = 8715554837844950390L;
 
-    private LeadSearchCriteria searchCriteria;
     private LeadListDisplay itemList;
 
     private LeadRowDisplayHandler rowHandler = new LeadRowDisplayHandler();
@@ -54,7 +53,7 @@ public class LeadSelectionView extends AbstractSelectionView<SimpleLead> {
 
     @Override
     public void load() {
-        searchCriteria = new LeadSearchCriteria();
+        LeadSearchCriteria searchCriteria = new LeadSearchCriteria();
         searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
         itemList.search(searchCriteria);
         SimpleLead clearLead = new SimpleLead();
@@ -65,7 +64,7 @@ public class LeadSelectionView extends AbstractSelectionView<SimpleLead> {
 
         @Override
         public Component generateRow(final SimpleLead lead, int rowIndex) {
-            Button b = new Button(lead.getLeadName(), new Button.ClickListener() {
+            return new Button(lead.getLeadName(), new Button.ClickListener() {
                 private static final long serialVersionUID = 9024530145840868279L;
 
                 @Override
@@ -74,7 +73,6 @@ public class LeadSelectionView extends AbstractSelectionView<SimpleLead> {
                     LeadSelectionView.this.getNavigationManager().navigateBack();
                 }
             });
-            return b;
         }
     }
 }

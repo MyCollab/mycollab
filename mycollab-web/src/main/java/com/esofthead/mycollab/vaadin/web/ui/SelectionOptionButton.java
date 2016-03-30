@@ -36,18 +36,14 @@ public class SelectionOptionButton extends SplitButton implements HasSelectionOp
     private boolean isSelectAll = false;
     private boolean isSelected = false;
 
-    @SuppressWarnings("rawtypes")
-    private final HasSelectableItemHandlers selectableItemHandlers;
-
     private Set<SelectionOptionHandler> handlers;
 
     private final Button selectAllBtn;
     private final Button selectThisPageBtn;
 
-    @SuppressWarnings("serial")
     public SelectionOptionButton(final HasSelectableItemHandlers selectableItemHandlers) {
         super();
-        this.selectableItemHandlers = selectableItemHandlers;
+        HasSelectableItemHandlers selectableItemHandlers1 = selectableItemHandlers;
         addStyleName(UIConstants.BUTTON_ACTION);
         addStyleName(UIConstants.BUTTON_SMALL_PADDING);
         setIcon(FontAwesome.SQUARE_O);
@@ -73,7 +69,7 @@ public class SelectionOptionButton extends SplitButton implements HasSelectionOp
 
         final OptionPopupContent selectContent = new OptionPopupContent();
 
-        selectAllBtn = new ButtonLink("", new Button.ClickListener() {
+        selectAllBtn = new Button("", new Button.ClickListener() {
             @Override
             public void buttonClick(final ClickEvent event) {
                 isSelectAll = true;
@@ -84,7 +80,7 @@ public class SelectionOptionButton extends SplitButton implements HasSelectionOp
         });
         selectContent.addOption(selectAllBtn);
 
-        selectThisPageBtn = new ButtonLink("", new Button.ClickListener() {
+        selectThisPageBtn = new Button("", new Button.ClickListener() {
             @Override
             public void buttonClick(final ClickEvent event) {
                 isSelectAll = false;
@@ -95,7 +91,7 @@ public class SelectionOptionButton extends SplitButton implements HasSelectionOp
         });
         selectContent.addOption(selectThisPageBtn);
 
-        Button deSelectBtn = new ButtonLink("Deselect All", new Button.ClickListener() {
+        Button deSelectBtn = new Button("Deselect All", new Button.ClickListener() {
             @Override
             public void buttonClick(final ClickEvent event) {
                 isSelectAll = false;

@@ -57,8 +57,7 @@ public class AssignmentEditFormFieldFactory extends AbstractBeanFieldGroupEditFi
 			descArea.setNullRepresentation("");
 			return descArea;
 		} else if (propertyId.equals("contactid")) {
-			ContactSelectionField field = new ContactSelectionField();
-			return field;
+			return new ContactSelectionField();
 		} else if (propertyId.equals("subject")) {
 			TextField tf = new TextField();
 

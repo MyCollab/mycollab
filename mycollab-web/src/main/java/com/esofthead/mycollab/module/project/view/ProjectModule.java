@@ -46,6 +46,7 @@ import org.vaadin.teemu.VaadinIcons;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * @author MyCollab Ltd.
@@ -133,10 +134,10 @@ public class ProjectModule extends AbstractPageView implements IDesktopModule {
                     if (searchCriteria != null) {
                         if (isSortAsc) {
                             sortBtn.setIcon(FontAwesome.SORT_ALPHA_ASC);
-                            searchCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("name", SearchCriteria.ASC)));
+                            searchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("name", SearchCriteria.ASC)));
                         } else {
                             sortBtn.setIcon(FontAwesome.SORT_ALPHA_DESC);
-                            searchCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("name", SearchCriteria.DESC)));
+                            searchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("name", SearchCriteria.DESC)));
                         }
                         displayResults();
                     }

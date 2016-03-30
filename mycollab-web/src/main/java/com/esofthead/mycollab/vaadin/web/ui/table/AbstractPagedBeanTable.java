@@ -425,15 +425,15 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
                     S searchCriteria = searchRequest.getSearchCriteria();
                     if (sortColumnId == null) {
                         sortColumnId = propertyId;
-                        searchCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField(propertyId, SearchCriteria.DESC)));
+                        searchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField(propertyId, SearchCriteria.DESC)));
                         isAscending = false;
                     } else if (propertyId.equals(sortColumnId)) {
                         isAscending = !isAscending;
                         String direction = (isAscending) ? SearchCriteria.ASC : SearchCriteria.DESC;
-                        searchCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField(propertyId, direction)));
+                        searchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField(propertyId, direction)));
                     } else {
                         sortColumnId = propertyId;
-                        searchCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField(propertyId, SearchCriteria.DESC)));
+                        searchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField(propertyId, SearchCriteria.DESC)));
                         isAscending = false;
                     }
 

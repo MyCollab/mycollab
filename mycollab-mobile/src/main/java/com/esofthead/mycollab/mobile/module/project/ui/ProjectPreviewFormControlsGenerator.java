@@ -19,7 +19,6 @@ package com.esofthead.mycollab.mobile.module.project.ui;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.mobile.ui.PreviewBeanForm;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
@@ -36,7 +35,6 @@ public class ProjectPreviewFormControlsGenerator<T> {
     public static final int CLONE_BTN_PRESENTED = 8;
     public static final int ASSIGN_BTN_PRESENTED = 16;
 
-    private Button deleteBtn, editBtn, cloneBtn, assignBtn;
     private PreviewBeanForm<T> previewForm;
 
     private MVerticalLayout editButtons;
@@ -63,7 +61,7 @@ public class ProjectPreviewFormControlsGenerator<T> {
         }
 
         if ((buttonEnableFlags & EDIT_BTN_PRESENTED) == EDIT_BTN_PRESENTED) {
-            editBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), new Button.ClickListener() {
+            Button editBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), new Button.ClickListener() {
                 @Override
                 public void buttonClick(ClickEvent clickEvent) {
                     T item = previewForm.getBean();
@@ -75,7 +73,7 @@ public class ProjectPreviewFormControlsGenerator<T> {
         }
 
         if ((buttonEnableFlags & DELETE_BTN_PRESENTED) == DELETE_BTN_PRESENTED) {
-            deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), new Button.ClickListener() {
+            Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;
 
                 @Override
@@ -89,7 +87,7 @@ public class ProjectPreviewFormControlsGenerator<T> {
         }
 
         if ((buttonEnableFlags & CLONE_BTN_PRESENTED) == CLONE_BTN_PRESENTED) {
-            cloneBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLONE), new Button.ClickListener() {
+            Button cloneBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLONE), new Button.ClickListener() {
                 @Override
                 public void buttonClick(ClickEvent clickEvent) {
                     T item = previewForm.getBean();
@@ -101,7 +99,7 @@ public class ProjectPreviewFormControlsGenerator<T> {
         }
 
         if ((buttonEnableFlags & ASSIGN_BTN_PRESENTED) == ASSIGN_BTN_PRESENTED) {
-            assignBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ASSIGN), new Button.ClickListener() {
+            Button assignBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ASSIGN), new Button.ClickListener() {
                 @Override
                 public void buttonClick(ClickEvent clickEvent) {
                     T item = previewForm.getBean();

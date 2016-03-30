@@ -38,6 +38,10 @@ public class ELabel extends Label {
         super(content);
     }
 
+    public ELabel(ContentMode mode) {
+        this("", mode);
+    }
+
     public ELabel(String content, ContentMode mode) {
         super(content, mode);
     }

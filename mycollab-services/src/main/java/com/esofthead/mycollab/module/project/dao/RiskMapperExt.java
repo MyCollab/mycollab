@@ -26,8 +26,7 @@ import com.esofthead.mycollab.module.project.domain.criteria.RiskSearchCriteria;
  * @author MyCollab Ltd
  * @since 1.0.0
  */
-public interface RiskMapperExt extends ISearchableDAO<RiskSearchCriteria>,
-        IMassUpdateDAO<Risk, RiskSearchCriteria> {
+public interface RiskMapperExt extends ISearchableDAO<RiskSearchCriteria>, IMassUpdateDAO<Risk, RiskSearchCriteria> {
 
     SimpleRisk findRiskById(int riskId);
 }

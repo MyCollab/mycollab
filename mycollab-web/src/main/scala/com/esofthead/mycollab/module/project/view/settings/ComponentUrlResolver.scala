@@ -46,7 +46,7 @@ class ComponentUrlResolver extends ProjectUrlResolver {
       componentSearchCriteria.setProjectId(new NumberSearchField(projectId))
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
         new ComponentScreenData.Search(componentSearchCriteria))
-      EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+      EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
 
@@ -55,7 +55,7 @@ class ComponentUrlResolver extends ProjectUrlResolver {
       val projectId = new UrlTokenizer(params(0)).getInt
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
         new ComponentScreenData.Add(new Component))
-      EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+      EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
 
@@ -66,7 +66,7 @@ class ComponentUrlResolver extends ProjectUrlResolver {
       val componentId = token.getInt
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
         new ComponentScreenData.Read(componentId))
-      EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+      EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
 
@@ -78,7 +78,7 @@ class ComponentUrlResolver extends ProjectUrlResolver {
       val componentService = ApplicationContextUtil.getSpringBean(classOf[ComponentService])
       val component = componentService.findById(componentId, AppContext.getAccountId)
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new ComponentScreenData.Edit(component))
-      EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+      EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
 

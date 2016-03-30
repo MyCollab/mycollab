@@ -47,7 +47,7 @@ class PageUrlResolver extends ProjectUrlResolver {
         val pagePath = tokenizer.getRemainValue
         val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
           new PageScreenData.Search(pagePath))
-        EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+        EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
       }
       catch {
         case e: Exception => throw new MyCollabException(e)
@@ -66,11 +66,11 @@ class PageUrlResolver extends ProjectUrlResolver {
         if (page != null) {
           val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
             new PageScreenData.Read(page))
-          EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+          EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
         }
         else {
           val chain = new PageActionChain(new ProjectScreenData.Goto(projectId))
-          EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+          EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
         }
       }
       catch {
@@ -90,11 +90,11 @@ class PageUrlResolver extends ProjectUrlResolver {
         if (page != null) {
           val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
             new PageScreenData.Edit(page))
-          EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+          EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
         }
         else {
           val chain = new PageActionChain(new ProjectScreenData.Goto(projectId))
-          EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+          EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
         }
       }
       catch {
@@ -113,7 +113,7 @@ class PageUrlResolver extends ProjectUrlResolver {
         page.setPath(pagePath + "/" + StringUtils.generateSoftUniqueId)
         val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId),
           new PageScreenData.Add(page))
-        EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+        EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
       }
       catch {
         case e: Exception => throw new MyCollabException(e)

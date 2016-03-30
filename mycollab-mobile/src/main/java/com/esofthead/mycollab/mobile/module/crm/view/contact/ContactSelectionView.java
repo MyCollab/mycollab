@@ -33,7 +33,6 @@ import com.vaadin.ui.Component;
  */
 public class ContactSelectionView extends AbstractSelectionView<SimpleContact> {
     private static final long serialVersionUID = 7742786524816492321L;
-    private ContactSearchCriteria searchCriteria;
     private ContactListDisplay itemList;
 
     private ContactRowDisplayHandler rowHandler = new ContactRowDisplayHandler();
@@ -53,7 +52,7 @@ public class ContactSelectionView extends AbstractSelectionView<SimpleContact> {
 
     @Override
     public void load() {
-        searchCriteria = new ContactSearchCriteria();
+        ContactSearchCriteria searchCriteria = new ContactSearchCriteria();
         searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
         itemList.search(searchCriteria);
 

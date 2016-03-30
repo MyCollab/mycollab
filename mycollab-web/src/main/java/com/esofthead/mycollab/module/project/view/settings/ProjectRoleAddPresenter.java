@@ -17,8 +17,10 @@
 
 package com.esofthead.mycollab.module.project.view.settings;
 
+import com.esofthead.mycollab.core.SecureAccessException;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.ProjectRole;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.events.ProjectRoleEvent;
@@ -91,18 +93,22 @@ public class ProjectRoleAddPresenter extends AbstractPresenter<ProjectRoleAddVie
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        ProjectRoleContainer roleContainer = (ProjectRoleContainer) container;
-        roleContainer.removeAllComponents();
-        roleContainer.addComponent(view.getWidget());
+        if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.ROLES)) {
+            ProjectRoleContainer roleContainer = (ProjectRoleContainer) container;
+            roleContainer.removeAllComponents();
+            roleContainer.addComponent(view.getWidget());
 
-        ProjectRole role = (ProjectRole) data.getParams();
+            ProjectRole role = (ProjectRole) data.getParams();
 
-        view.editItem(role);
-        ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
-        if (role.getId() == null) {
-            breadcrumb.gotoRoleAdd();
+            view.editItem(role);
+            ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
+            if (role.getId() == null) {
+                breadcrumb.gotoRoleAdd();
+            } else {
+                breadcrumb.gotoRoleEdit(role);
+            }
         } else {
-            breadcrumb.gotoRoleEdit(role);
+            throw new SecureAccessException();
         }
     }
 }

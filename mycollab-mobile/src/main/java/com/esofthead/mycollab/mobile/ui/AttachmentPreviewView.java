@@ -33,12 +33,11 @@ public class AttachmentPreviewView extends AbsoluteLayout implements IMobileView
     private static final long serialVersionUID = -6489047489795500038L;
 
     private Resource currentResource;
-    private CssLayout imgWrap;
     private Image previewImage;
     private NavigationButton backBtn;
 
     public AttachmentPreviewView() {
-        imgWrap = new CssLayout();
+        CssLayout imgWrap = new CssLayout();
         imgWrap.setStyleName("image-wrap");
         imgWrap.setSizeFull();
 

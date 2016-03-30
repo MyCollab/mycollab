@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.ecm.domain;
 
-import java.io.OutputStream;
-
 /**
  * @author MyCollab Ltd.
  * @since 1.0

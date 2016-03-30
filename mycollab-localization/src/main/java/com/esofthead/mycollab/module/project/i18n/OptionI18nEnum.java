@@ -46,10 +46,19 @@ public class OptionI18nEnum {
             BugResolution.WaitforVerification, BugResolution.Newissue,
             BugResolution.ReOpen};
 
+    public static InvoiceStatus[] invoiceStatuses = {InvoiceStatus.Paid,
+            InvoiceStatus.Sent, InvoiceStatus.Scheduled};
+
     @BaseName("localization/project-milestone-status")
     @LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
     public enum MilestoneStatus {
         Future, Closed, InProgress
+    }
+
+    @BaseName("localization/project-invoice-status")
+    @LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
+    public enum InvoiceStatus {
+        Paid, Sent, Scheduled, All
     }
 
     @BaseName("localization/project-task-priority")

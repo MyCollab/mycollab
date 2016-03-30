@@ -22,50 +22,59 @@ import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class ProjectMemberSearchCriteria extends SearchCriteria {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private NumberSearchField projectId;
+    private NumberSearchField projectId;
 
-	private NumberSearchField id;
+    private NumberSearchField id;
 
-	private StringSearchField status;
-	
-	private StringSearchField involvedMember;
+    private StringSearchField status;
 
-	public NumberSearchField getId() {
-		return id;
-	}
+    private StringSearchField involvedMember;
 
-	public void setId(NumberSearchField id) {
-		this.id = id;
-	}
+    private StringSearchField memberFullName;
 
-	public NumberSearchField getProjectId() {
-		return projectId;
-	}
+    public NumberSearchField getId() {
+        return id;
+    }
 
-	public void setProjectId(NumberSearchField projectId) {
-		this.projectId = projectId;
-	}
+    public void setId(NumberSearchField id) {
+        this.id = id;
+    }
 
-	public void setStatus(StringSearchField status) {
-		this.status = status;
-	}
+    public NumberSearchField getProjectId() {
+        return projectId;
+    }
 
-	public StringSearchField getStatus() {
-		return status;
-	}
+    public void setProjectId(NumberSearchField projectId) {
+        this.projectId = projectId;
+    }
 
-	public StringSearchField getInvolvedMember() {
-		return involvedMember;
-	}
+    public void setStatus(StringSearchField status) {
+        this.status = status;
+    }
 
-	public void setInvolvedMember(StringSearchField involvedMember) {
-		this.involvedMember = involvedMember;
-	}
+    public StringSearchField getStatus() {
+        return status;
+    }
+
+    public StringSearchField getInvolvedMember() {
+        return involvedMember;
+    }
+
+    public void setInvolvedMember(StringSearchField involvedMember) {
+        this.involvedMember = involvedMember;
+    }
+
+    public StringSearchField getMemberFullName() {
+        return memberFullName;
+    }
+
+    public void setMemberFullName(StringSearchField memberFullName) {
+        this.memberFullName = memberFullName;
+    }
 }

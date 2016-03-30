@@ -46,9 +46,9 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 public class TaskAddWindow extends Window {
     public TaskAddWindow(SimpleTask task) {
         if (task.getId() == null) {
-            setCaption("New task");
+            setCaption(AppContext.getMessage(TaskI18nEnum.FORM_NEW_TASK_TITLE));
         } else {
-            setCaption("Edit task");
+            setCaption(AppContext.getMessage(TaskI18nEnum.FORM_EDIT_TASK_TITLE));
         }
         this.setWidth("800px");
         this.setModal(true);

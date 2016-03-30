@@ -19,13 +19,9 @@ package com.esofthead.mycollab.vaadin.web.ui.field;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.shared.ui.ui.UIClientRpc;
-import com.vaadin.shared.ui.ui.UIConstants;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.Label;
-import org.vaadin.jouni.restrain.Restrain;
 
 /**
  * @author MyCollab Ltd.
@@ -34,20 +30,15 @@ import org.vaadin.jouni.restrain.Restrain;
 public class I18nFormViewField extends CustomField<String> {
     private static final long serialVersionUID = 1L;
 
-    private CssLayout wrapper;
     private Label label;
-    private String key;
-    private Class<? extends Enum> enumClass;
 
     public I18nFormViewField(final String key, Class<? extends Enum> enumCls) {
-        this.key = key;
-        this.enumClass = enumCls;
-        wrapper = new CssLayout();
-        wrapper.setWidth("100%");
+        String key1 = key;
+        Class<? extends Enum> enumClass = enumCls;
         label = new Label();
         label.setContentMode(ContentMode.TEXT);
-        new Restrain(label).setMaxWidth("100%");
-        wrapper.addComponent(label);
+        label.setWidthUndefined();
+        label.addStyleName("wordWrap");
 
         if (StringUtils.isNotBlank(key)) {
             try {
@@ -61,8 +52,8 @@ public class I18nFormViewField extends CustomField<String> {
         }
     }
 
-    public I18nFormViewField withStylename(String stylename) {
-        label.addStyleName(stylename);
+    public I18nFormViewField withStyleName(String styleName) {
+        label.addStyleName(styleName);
         return this;
     }
 
@@ -73,6 +64,6 @@ public class I18nFormViewField extends CustomField<String> {
 
     @Override
     protected Component initContent() {
-        return wrapper;
+        return label;
     }
 }

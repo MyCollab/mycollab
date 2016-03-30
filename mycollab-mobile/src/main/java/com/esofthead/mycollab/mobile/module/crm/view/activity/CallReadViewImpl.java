@@ -28,7 +28,6 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.ui.ComponentContainer;
-import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -43,9 +42,6 @@ public class CallReadViewImpl extends AbstractPreviewItemComp<SimpleCall> implem
         return this.previewForm;
     }
 
-    @Override
-    protected void initRelatedComponents() {
-    }
 
     @Override
     protected void afterPreviewItem() {
@@ -78,8 +74,7 @@ public class CallReadViewImpl extends AbstractPreviewItemComp<SimpleCall> implem
 
     @Override
     protected ComponentContainer createBottomPanel() {
-        MHorizontalLayout toolbarLayout = new MHorizontalLayout();
-        return toolbarLayout;
+        return null;
     }
 
 }

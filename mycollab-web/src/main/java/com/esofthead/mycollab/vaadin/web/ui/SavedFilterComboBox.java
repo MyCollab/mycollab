@@ -81,7 +81,6 @@ public abstract class SavedFilterComboBox extends CustomField<String> {
                 List<SearchFieldInfo> searchFieldInfos = (List<SearchFieldInfo>) fieldInfos.get(0);
                 savedQueries.add(new SearchQueryInfo(searchResultWithBLOBs.getQueryname(), searchFieldInfos));
             } catch (Exception e) {
-                continue;
             }
         }
     }

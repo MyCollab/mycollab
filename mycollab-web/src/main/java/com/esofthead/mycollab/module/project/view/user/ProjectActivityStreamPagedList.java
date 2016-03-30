@@ -52,7 +52,11 @@ import org.vaadin.peter.buttongroup.ButtonGroup;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.Calendar;
-import java.util.*;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
+
+import static com.esofthead.mycollab.utils.TooltipHelper.TOOLTIP_ID;
 
 /**
  * @author MyCollab Ltd.
@@ -153,27 +157,24 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Activi
     }
 
     private String buildAssigneeValue(SimpleActivityStream activityStream) {
-        String uid = UUID.randomUUID().toString();
         DivLessFormatter div = new DivLessFormatter();
         Img userAvatar = new Img("", StorageFactory.getInstance().getAvatarPath(activityStream.getCreatedUserAvatarId(), 16));
-        A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
+        A userLink = new A().setId("tag" + TOOLTIP_ID).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
                 activityStream.getExtratypeid(), activityStream.getCreateduser()));
 
-        userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(uid, activityStream.getCreateduser()));
-        userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
+        userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(activityStream.getCreateduser()));
+        userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
         userLink.appendText(StringUtils.trim(activityStream.getCreatedUserFullName(), 30, true));
 
-        div.appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink, DivLessFormatter.EMPTY_SPACE(),
-                TooltipHelper.buildDivTooltipEnable(uid));
+        div.appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink);
 
         return div.write();
     }
 
     private String buildItemValue(ProjectActivityStream activityStream) {
-        String uid = UUID.randomUUID().toString();
         DivLessFormatter div = new DivLessFormatter();
         Text image = new Text(ProjectAssetsManager.getAsset(activityStream.getType()).getHtml());
-        A itemLink = new A().setId("tag" + uid);
+        A itemLink = new A().setId("tag" + TOOLTIP_ID);
         if (ProjectTypeConstants.TASK.equals(activityStream.getType())
                 || ProjectTypeConstants.BUG.equals(activityStream.getType())) {
             itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
@@ -187,13 +188,12 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Activi
                     activityStream.getTypeid()));
         }
 
-        itemLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, activityStream.getType(),
+        itemLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(activityStream.getType(),
                 activityStream.getTypeid()));
-        itemLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
+        itemLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
         itemLink.appendText(StringUtils.trim(activityStream.getNamefield(), 50, true));
 
-        div.appendChild(image, DivLessFormatter.EMPTY_SPACE(), itemLink, DivLessFormatter.EMPTY_SPACE(),
-                TooltipHelper.buildDivTooltipEnable(uid));
+        div.appendChild(image, DivLessFormatter.EMPTY_SPACE(), itemLink);
         return div.write();
     }
 

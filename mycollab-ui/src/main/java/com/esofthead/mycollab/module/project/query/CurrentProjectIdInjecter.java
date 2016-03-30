@@ -20,6 +20,7 @@ import com.esofthead.mycollab.core.db.query.VariableInjecter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * @author MyCollab Ltd
@@ -28,6 +29,6 @@ import java.util.Arrays;
 public class CurrentProjectIdInjecter implements VariableInjecter {
     @Override
     public Object eval() {
-        return Arrays.asList(CurrentProjectVariables.getProjectId());
+        return Collections.singletonList(CurrentProjectVariables.getProjectId());
     }
 }

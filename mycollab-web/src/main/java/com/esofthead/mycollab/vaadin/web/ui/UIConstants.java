@@ -46,7 +46,6 @@ public class UIConstants {
     public static final String LABEL_WORD_WRAP = "wordWrap";
     public static final String TEXT_ELLIPSIS = "text-ellipsis";
     public static final String BTN_ACTIVE = "btn-group-default";
-    public static final String FULL_BORDER_TABLE = "full-border-table";
     public static final String CONTENT_WRAPPER = "content-wrapper";
     public static final String OPTION_POPUP_CONTENT = "optionPopupContent";
 
@@ -61,10 +60,15 @@ public class UIConstants {
 
     public static final String FORM = "form";
     public static final String FORM_SECTION = "section";
+    public static final String FIELD_NOTE = "field-note";
 
+    public static final String CURSOR_POINTER = "cursor_pointer";
     public static final String HOVER_EFFECT_NOT_BOX = "hover-effect-not-box";
     public static final String FLEX_DISPLAY = "flex";
     public static final String SCROLLABLE_CONTAINER = "scrollable-container";
+
+    public static final String BORDER_LIST = "tasklist";
+    public static final String BORDER_LIST_ROW = "taskrow";
 
     public static final int TABLE_CONTROL_WIDTH = 30;
     public static final int TABLE_ACTION_CONTROL_WIDTH = 40;

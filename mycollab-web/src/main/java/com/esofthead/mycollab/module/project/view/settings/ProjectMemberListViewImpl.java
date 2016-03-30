@@ -18,7 +18,9 @@ package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.common.GenericLinkUtils;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.NumberUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
@@ -40,6 +42,7 @@ import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.esofthead.mycollab.vaadin.web.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
+import com.esofthead.mycollab.vaadin.web.ui.SearchTextField;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Span;
@@ -53,6 +56,7 @@ import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -63,6 +67,9 @@ import java.util.List;
 public class ProjectMemberListViewImpl extends AbstractPageView implements ProjectMemberListView {
     private static final long serialVersionUID = 1L;
     private CssLayout contentLayout;
+    private HeaderWithFontAwesome headerText;
+    private boolean sortAsc = true;
+    private ProjectMemberSearchCriteria searchCriteria;
 
     public ProjectMemberListViewImpl() {
         super();
@@ -71,10 +78,42 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
                 .withWidth("100%");
         viewHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-        HeaderWithFontAwesome headerText = ComponentUtils.headerH2(ProjectTypeConstants.MEMBER,
-                AppContext.getMessage(ProjectMemberI18nEnum.VIEW_LIST_TITLE));
-
+        headerText = ComponentUtils.headerH2(ProjectTypeConstants.MEMBER, AppContext.getMessage(ProjectMemberI18nEnum.VIEW_LIST_TITLE, 0));
         viewHeader.with(headerText).expand(headerText);
+
+        final Button sortBtn = new Button();
+        sortBtn.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                sortAsc = !sortAsc;
+                if (sortAsc) {
+                    sortBtn.setIcon(FontAwesome.SORT_ALPHA_ASC);
+                    displayMembers();
+                } else {
+                    sortBtn.setIcon(FontAwesome.SORT_ALPHA_DESC);
+                    displayMembers();
+                }
+            }
+        });
+        sortBtn.setIcon(FontAwesome.SORT_ALPHA_ASC);
+        sortBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
+        viewHeader.addComponent(sortBtn);
+
+        final SearchTextField searchTextField = new SearchTextField() {
+            @Override
+            public void doSearch(String value) {
+                searchCriteria.setMemberFullName(StringSearchField.and(value));
+                displayMembers();
+            }
+
+            @Override
+            public void emptySearch() {
+                searchCriteria.setMemberFullName(null);
+                displayMembers();
+            }
+        };
+        searchTextField.addStyleName(ValoTheme.TEXTFIELD_SMALL);
+        viewHeader.addComponent(searchTextField);
 
         Button createBtn = new Button(AppContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEES), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
@@ -87,38 +126,47 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
         createBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS));
         createBtn.setStyleName(UIConstants.BUTTON_ACTION);
         createBtn.setIcon(FontAwesome.SEND);
-
         viewHeader.addComponent(createBtn);
 
-        this.addComponent(viewHeader);
+        addComponent(viewHeader);
 
         contentLayout = new CssLayout();
         contentLayout.setWidth("100%");
-
-        this.addComponent(contentLayout);
+        addComponent(contentLayout);
     }
 
     @Override
     public void setSearchCriteria(ProjectMemberSearchCriteria searchCriteria) {
-        contentLayout.removeAllComponents();
-        ProjectMemberService prjMemberService = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
-        List<SimpleProjectMember> memberLists = prjMemberService
-                .findPagableListByCriteria(new SearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
+        this.searchCriteria = searchCriteria;
+        displayMembers();
+    }
 
+    private void displayMembers() {
+        contentLayout.removeAllComponents();
+        if (sortAsc) {
+            searchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("memberFullName", SearchCriteria.ASC)));
+        } else {
+            searchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("memberFullName",
+                    SearchCriteria.DESC)));
+        }
+        ProjectMemberService prjMemberService = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
+        List<SimpleProjectMember> memberLists = prjMemberService.findPagableListByCriteria(new SearchRequest<>(searchCriteria, 0,
+                Integer.MAX_VALUE));
+
+        headerText.updateTitle(AppContext.getMessage(ProjectMemberI18nEnum.VIEW_LIST_TITLE, memberLists.size()));
         for (SimpleProjectMember member : memberLists) {
             contentLayout.addComponent(generateMemberBlock(member));
         }
     }
 
     private Component generateMemberBlock(final SimpleProjectMember member) {
-        CssLayout memberBlock = new CssLayout();
-        memberBlock.addStyleName("member-block");
-
         VerticalLayout blockContent = new VerticalLayout();
+        blockContent.setStyleName("member-block");
+        blockContent.setWidth("350px");
+
         MHorizontalLayout blockTop = new MHorizontalLayout().withWidth("100%");
         Image memberAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(member.getMemberAvatarId(), 100);
         blockTop.addComponent(memberAvatar);
-
 
         MHorizontalLayout buttonControls = new MHorizontalLayout();
         Button editBtn = new Button("", FontAwesome.EDIT);
@@ -168,21 +216,18 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
 
         A memberLink = new A(ProjectLinkBuilder.generateProjectMemberFullLink(member.getProjectid(), member
                 .getUsername())).appendText(member.getMemberFullName()).setTitle(member.getMemberFullName());
-        ELabel memberNameLbl = new ELabel(memberLink.write(), ContentMode.HTML).withStyleName(ValoTheme.LABEL_H3,
-                ValoTheme.LABEL_NO_MARGIN, UIConstants.TEXT_ELLIPSIS).withWidth("100%");
+        ELabel memberNameLbl = ELabel.h3(memberLink.write()).withStyleName(UIConstants.TEXT_ELLIPSIS).withWidth("100%");
 
         MVerticalLayout memberInfo = new MVerticalLayout().withMargin(false).with(memberNameLbl, ELabel.hr());
 
         String roleLink = String.format("<a href=\"%s%s%s\"", AppContext.getSiteUrl(), GenericLinkUtils.URL_PREFIX_PARAM,
                 ProjectLinkGenerator.generateRolePreviewLink(member.getProjectid(), member.getProjectroleid()));
-        Label memberRole = new Label();
-        memberRole.setContentMode(ContentMode.HTML);
+        ELabel memberRole = new ELabel("", ContentMode.HTML).withWidth("100%").withStyleName(UIConstants.TEXT_ELLIPSIS);
         if (member.isProjectOwner()) {
             memberRole.setValue(roleLink + "style=\"color: #B00000;\">" + "Project Owner" + "</a>");
         } else {
             memberRole.setValue(roleLink + "style=\"color:gray;font-size:12px;\">" + member.getRoleName() + "</a>");
         }
-        memberRole.setSizeUndefined();
         memberInfo.addComponent(memberRole);
 
         Label memberEmailLabel = new Label(String.format("<a href='mailto:%s'>%s</a>", member.getUsername(),
@@ -242,12 +287,9 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
         memberInfo.addComponent(memberWorkStatus);
         memberInfo.setWidth("100%");
 
-        blockTop.addComponent(memberInfo);
-        blockTop.setExpandRatio(memberInfo, 1.0f);
+        blockTop.with(memberInfo).expand(memberInfo);
         blockContent.addComponent(blockTop);
-        blockContent.setWidth("100%");
 
-        memberBlock.addComponent(blockContent);
-        return memberBlock;
+        return blockContent;
     }
 }

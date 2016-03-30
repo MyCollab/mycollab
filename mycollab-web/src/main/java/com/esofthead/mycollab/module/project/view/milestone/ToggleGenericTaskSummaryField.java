@@ -38,7 +38,6 @@ import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Span;
 import com.vaadin.data.Property;
 import com.vaadin.event.FieldEvents;
-import com.vaadin.event.LayoutEvents;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
@@ -47,7 +46,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
-import java.util.UUID;
+import static com.esofthead.mycollab.utils.TooltipHelper.TOOLTIP_ID;
 
 /**
  * @author MyCollab Ltd
@@ -147,8 +146,8 @@ public class ToggleGenericTaskSummaryField extends CssLayout {
 
     private String buildGenericTaskLink() {
         Div issueDiv = new Div();
-        String uid = UUID.randomUUID().toString();
-        A taskLink = new A().setId("tag" + uid);
+
+        A taskLink = new A().setId("tag" + TOOLTIP_ID);
         if (genericTask.isBug() || genericTask.isTask()) {
             taskLink.setHref(ProjectLinkBuilder.generateProjectItemLink(genericTask.getProjectShortName(),
                     genericTask.getProjectId(), genericTask.getType(), genericTask.getExtraTypeId() + ""));
@@ -159,8 +158,8 @@ public class ToggleGenericTaskSummaryField extends CssLayout {
             throw new IgnoreException("Not support type: " + genericTask.getType());
         }
 
-        taskLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, genericTask.getType(), genericTask.getTypeId() + ""));
-        taskLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
+        taskLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(genericTask.getType(), genericTask.getTypeId() + ""));
+        taskLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
         if (genericTask.isBug() || genericTask.isTask()) {
             taskLink.appendText(String.format("[#%d] - %s", genericTask.getExtraTypeId(), genericTask.getName()));
         } else if (genericTask.isRisk()) {
@@ -176,7 +175,6 @@ public class ToggleGenericTaskSummaryField extends CssLayout {
             issueDiv.appendChild(new Span().setCSSClass(UIConstants.LABEL_META_INFO).appendText(" - Due in " + AppContext
                     .formatDuration(genericTask.getDueDate())));
         }
-        issueDiv.appendChild(TooltipHelper.buildDivTooltipEnable(uid));
         return issueDiv.write();
     }
 }

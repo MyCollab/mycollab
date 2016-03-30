@@ -55,7 +55,6 @@ public class ResetPasswordUpdatePage extends VelocityWebServletRequestHandler {
                 User user = userService.findUserByUserName(username);
                 if (user == null) {
                     PageGeneratorUtil.responeUserNotExistPage(response, username, request.getContextPath() + "/");
-                    return;
                 } else {
                     String loginURL = (deploymentMode.isDemandEdition())
                             ? ("https://www.mycollab.com/sign-in?username=" + username) : (request.getContextPath() + "/");
@@ -69,7 +68,6 @@ public class ResetPasswordUpdatePage extends VelocityWebServletRequestHandler {
                     String html = generatePageByTemplate(response.getLocale(), "templates/page/user/UserRecoveryPasswordPage.mt", context);
                     PrintWriter out = response.getWriter();
                     out.print(html);
-                    return;
                 }
             } else {
                 throw new ResourceNotFoundException("Can not recover user password with context path is null");

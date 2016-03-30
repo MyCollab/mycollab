@@ -34,7 +34,7 @@ class ActivityUrlResolver extends CrmUrlResolver {
 
     class ActivityListUrlResolver extends CrmUrlResolver {
         protected override def handlePage(params: String*) {
-            EventBusFactory.getInstance.post(new CrmEvent.GotoContainer(this,
+            EventBusFactory.getInstance().post(new CrmEvent.GotoContainer(this,
                 new CrmModuleScreenData.GotoModule(AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER))))
         }
     }

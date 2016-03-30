@@ -64,7 +64,6 @@ public class BugSelectionWindow extends Window {
             public void onSearch(BugSearchCriteria criteria) {
                 tableItem.setSearchCriteria(criteria);
             }
-
         });
         layout.addComponent(contactSimpleSearchPanel);
         createBugList();
@@ -103,7 +102,7 @@ public class BugSelectionWindow extends Window {
                     @Override
                     public void buttonClick(Button.ClickEvent event) {
                         fieldSelection.fireValueChange(bug);
-                        BugSelectionWindow.this.close();
+                        close();
                     }
                 });
 

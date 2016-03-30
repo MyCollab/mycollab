@@ -134,7 +134,8 @@
         m_prj_customize_view.displayTask AS view_displayTask, m_prj_customize_view.displayBug AS view_displayBug,
         m_prj_customize_view.displayStandup AS view_displayStandup,
         m_prj_customize_view.displayRisk AS view_displayRisk, m_prj_customize_view.displayTimeLogging AS view_displayTimeLogging,
-        m_prj_customize_view.displayPage AS view_displayPage, m_prj_customize_view.displayFile AS view_displayFile
+        m_prj_customize_view.displayPage AS view_displayPage, m_prj_customize_view.displayFile AS view_displayFile,
+        m_prj_customize_view.displayInvoice AS view_displayInvoice
         FROM m_prj_project 
             LEFT OUTER JOIN m_crm_account ON (m_crm_account.id=m_prj_project.accountId)
             LEFT OUTER JOIN s_user ON (m_prj_project.createUser = s_user.username)

@@ -88,7 +88,7 @@ public class GridFormLayoutHelper implements Serializable {
         return buildCell(caption, columns, rows, 1, fieldControlWidth, captionAlignment);
     }
 
-    public GridCellWrapper buildCell(String caption, int columns, int rows, int colspan, String width, Alignment alignment) {
+    public GridCellWrapper buildCell(String caption, int columns, int rows, int colSpan, String width, Alignment alignment) {
         if (StringUtils.isNotBlank(caption)) {
             Label captionLbl = new Label(caption);
             MHorizontalLayout captionWrapper = new MHorizontalLayout().withSpacing(false).withMargin(true)
@@ -108,7 +108,7 @@ public class GridFormLayoutHelper implements Serializable {
             fieldWrapper.addStyleName("first-row");
         }
         fieldWrapper.setWidth(width);
-        layout.addComponent(fieldWrapper, 2 * columns + 1, rows, 2 * (columns + colspan - 1) + 1, rows);
+        layout.addComponent(fieldWrapper, 2 * columns + 1, rows, 2 * (columns + colSpan - 1) + 1, rows);
         layout.setColumnExpandRatio(2 * columns + 1, 1.0f);
 
         if (StringUtils.isNotBlank(caption)) {

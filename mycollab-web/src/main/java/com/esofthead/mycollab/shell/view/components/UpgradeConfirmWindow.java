@@ -41,9 +41,6 @@ import java.util.concurrent.TimeUnit;
 public class UpgradeConfirmWindow extends Window {
     private static final Logger LOG = LoggerFactory.getLogger(UpgradeConfirmWindow.class);
 
-    private static String headerTemplate = "MyCollab just got better . For the " +
-            "enhancements and security purpose, you should upgrade to the latest version";
-
     private UI currentUI;
     private String installerFilePath;
 
@@ -60,6 +57,8 @@ public class UpgradeConfirmWindow extends Window {
         MVerticalLayout content = new MVerticalLayout();
         this.setContent(content);
 
+        String headerTemplate = "MyCollab just got better . For the " +
+                "enhancements and security purpose, you should upgrade to the latest version";
         Div titleDiv = new Div().appendText(String.format(headerTemplate, version)).setStyle("font-weight:bold");
         content.with(new Label(titleDiv.write(), ContentMode.HTML));
 

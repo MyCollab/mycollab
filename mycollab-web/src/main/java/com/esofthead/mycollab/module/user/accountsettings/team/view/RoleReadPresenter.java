@@ -70,8 +70,7 @@ public class RoleReadPresenter extends AbstractPresenter<RoleReadView> {
                             role.getRolename()));
                 } else {
                     ConfirmDialogExt.show(UI.getCurrent(),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
-                                    AppContext.getSiteName()),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
                             AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                             AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                             AppContext.getMessage(GenericI18Enum.BUTTON_NO),
@@ -82,8 +81,7 @@ public class RoleReadPresenter extends AbstractPresenter<RoleReadView> {
                                 public void onClose(ConfirmDialog dialog) {
                                     if (dialog.isConfirmed()) {
                                         RoleService roleService = ApplicationContextUtil.getSpringBean(RoleService.class);
-                                        roleService.removeWithSession(role,
-                                                AppContext.getUsername(), AppContext.getAccountId());
+                                        roleService.removeWithSession(role, AppContext.getUsername(), AppContext.getAccountId());
                                         EventBusFactory.getInstance().post(new RoleEvent.GotoList(this, null));
                                     }
                                 }

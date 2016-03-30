@@ -46,7 +46,7 @@ class UserUrlResolver extends ProjectUrlResolver {
       memberSearchCriteria.setProjectId(new NumberSearchField(projectId))
       memberSearchCriteria.setStatus(StringSearchField.and(ProjectMemberStatusConstants.ACTIVE))
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new ProjectMemberScreenData.Search(memberSearchCriteria))
-      EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+      EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
 
@@ -57,7 +57,7 @@ class UserUrlResolver extends ProjectUrlResolver {
       val memberName = token.getString
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
         new ProjectMemberScreenData.Read(memberName))
-      EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+      EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
 
@@ -67,7 +67,7 @@ class UserUrlResolver extends ProjectUrlResolver {
       val projectId = token.getInt
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
         new ProjectMemberScreenData.InviteProjectMembers)
-      EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+      EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
 
@@ -80,7 +80,7 @@ class UserUrlResolver extends ProjectUrlResolver {
       val member = projectMemberService.findById(memberId, AppContext.getAccountId)
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
         new ProjectMemberScreenData.Add(member))
-      EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+      EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
 

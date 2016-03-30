@@ -52,20 +52,20 @@ class CrmUrlResolver extends UrlResolver {
 
   override def handle(params: String*) {
     if (!ModuleHelper.isCurrentCrmModule) {
-      EventBusFactory.getInstance.post(new ShellEvent.GotoCrmModule(this, params))
+      EventBusFactory.getInstance().post(new ShellEvent.GotoCrmModule(this, params))
     }
     else {
       super.handle(params: _*)
     }
   }
 
-  protected def defaultPageErrorHandler {
-    EventBusFactory.getInstance.post(new ShellEvent.GotoCrmModule(this, null))
+  protected def defaultPageErrorHandler() {
+    EventBusFactory.getInstance().post(new ShellEvent.GotoCrmModule(this, null))
   }
 
   class CrmDashboardUrlResolver extends CrmUrlResolver {
     protected override def handlePage(params: String*) {
-      EventBusFactory.getInstance.post(new CrmEvent.GotoHome(this, null))
+      EventBusFactory.getInstance().post(new CrmEvent.GotoHome(this, null))
     }
   }
 

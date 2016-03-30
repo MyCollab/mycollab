@@ -35,7 +35,6 @@ import com.vaadin.ui.Component;
 public class AccountSelectionView extends AbstractSelectionView<Account> {
     private static final long serialVersionUID = 1L;
 
-    private AccountSearchCriteria searchCriteria;
     private AccountListDisplay itemList;
 
     private AccountRowDisplayHandler rowHandler = new AccountRowDisplayHandler();
@@ -55,7 +54,7 @@ public class AccountSelectionView extends AbstractSelectionView<Account> {
 
     @Override
     public void load() {
-        searchCriteria = new AccountSearchCriteria();
+        AccountSearchCriteria searchCriteria = new AccountSearchCriteria();
         searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
                 AppContext.getAccountId()));
 

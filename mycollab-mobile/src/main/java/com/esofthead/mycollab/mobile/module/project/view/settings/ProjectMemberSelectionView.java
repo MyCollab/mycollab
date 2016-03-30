@@ -49,7 +49,6 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 public class ProjectMemberSelectionView extends AbstractSelectionView<SimpleProjectMember> {
     private static final long serialVersionUID = 4392390405558243836L;
 
-    private ProjectMemberSearchCriteria searchCriteria;
     private ProjectMemberListDisplay memberListDisplay;
 
     private MemberRowDisplayHandler rowDisplayHandler = new MemberRowDisplayHandler();
@@ -69,7 +68,7 @@ public class ProjectMemberSelectionView extends AbstractSelectionView<SimpleProj
 
     @Override
     public void load() {
-        searchCriteria = new ProjectMemberSearchCriteria();
+        ProjectMemberSearchCriteria searchCriteria = new ProjectMemberSearchCriteria();
         searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
         searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
         memberListDisplay.search(searchCriteria);

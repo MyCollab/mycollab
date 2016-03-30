@@ -33,7 +33,6 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 public class ProjectSettingViewImpl extends AbstractPageView implements ProjectSettingView {
     private static final long serialVersionUID = 1L;
 
-    private ProjectNotificationSettingViewComponent component;
     private final MHorizontalLayout mainBody;
 
     public ProjectSettingViewImpl() {
@@ -48,7 +47,7 @@ public class ProjectSettingViewImpl extends AbstractPageView implements ProjectS
     @Override
     public void showNotificationSettings(ProjectNotificationSetting notification) {
         mainBody.removeAllComponents();
-        component = new ProjectNotificationSettingViewComponent(notification);
+        ProjectNotificationSettingViewComponent component = new ProjectNotificationSettingViewComponent(notification);
         mainBody.addComponent(component);
     }
 }

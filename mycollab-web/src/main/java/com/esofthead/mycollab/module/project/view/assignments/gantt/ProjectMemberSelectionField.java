@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.project.view.assignments.gantt;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
+import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -40,6 +41,7 @@ class ProjectMemberSelectionField extends ComboBox {
 
         ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
         criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+        criteria.addOrderField(new SearchCriteria.OrderField("memberFullName", SearchCriteria.ASC));
 //        criteria.setStatus(StringSearchField.and(ProjectMemberStatusConstants.ACTIVE));
 
         ProjectMemberService userService = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);

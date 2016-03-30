@@ -29,7 +29,7 @@ public class UserVerticalTabsheet extends VerticalTabsheet {
     private static final long serialVersionUID = -9095044309853738791L;
 
     @Override
-    protected void setDefaulButtonIcon(Component btn, Boolean selected) {
+    protected void setDefaultButtonIcon(Component btn, Boolean selected) {
         ButtonTabImpl btnTabImpl = (ButtonTabImpl) btn;
         String tabId = btnTabImpl.getTabId();
         Resource resource = SettingAssetsManager.getAsset(tabId);

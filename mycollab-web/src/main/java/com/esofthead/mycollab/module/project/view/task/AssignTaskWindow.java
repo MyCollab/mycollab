@@ -52,7 +52,6 @@ import java.util.GregorianCalendar;
 public class AssignTaskWindow extends Window {
     private static final long serialVersionUID = 1L;
     private final Task task;
-    private final EditForm editForm;
 
     public AssignTaskWindow(Task task) {
         super(AppContext.getMessage(TaskI18nEnum.DIALOG_ASSIGN_TASK_TITLE, task.getTaskname()));
@@ -63,7 +62,7 @@ public class AssignTaskWindow extends Window {
         this.setWidth("750px");
         this.setResizable(false);
         this.setModal(true);
-        editForm = new EditForm();
+        EditForm editForm = new EditForm();
         contentLayout.addComponent(editForm);
         editForm.setBean(task);
 

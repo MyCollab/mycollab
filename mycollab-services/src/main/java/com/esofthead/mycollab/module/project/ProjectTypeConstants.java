@@ -49,5 +49,9 @@ public class ProjectTypeConstants {
 
     public static final String TIME = "Project-Time";
 
+    public static final String INVOICE = "Project-Invoice";
+
+    public static final String FINANCE = "Project-Finance";
+
     public static final String MEMBER = "Project-Member";
 }

@@ -98,7 +98,7 @@ class CrmCommentInput extends MHorizontalLayout {
                 comment.setCreatedtime(new GregorianCalendar().getTime());
                 comment.setCreateduser(AppContext.getUsername());
                 comment.setSaccountid(AppContext.getAccountId());
-                comment.setType(type.toString());
+                comment.setType(type);
                 comment.setTypeid(typeId);
 
                 CommentService commentService = ApplicationContextUtil.getSpringBean(CommentService.class);

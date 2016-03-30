@@ -52,7 +52,11 @@ import org.vaadin.peter.buttongroup.ButtonGroup;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.Calendar;
-import java.util.*;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
+
+import static com.esofthead.mycollab.utils.TooltipHelper.TOOLTIP_ID;
 
 /**
  * @author MyCollab Ltd.
@@ -288,35 +292,30 @@ public class ActivityStreamPanel extends CssLayout {
         }
 
         private String buildAssigneeValue(SimpleActivityStream activityStream) {
-            String uid = UUID.randomUUID().toString();
             DivLessFormatter div = new DivLessFormatter();
             Img userAvatar = new Img("", StorageFactory.getInstance().getAvatarPath(activityStream.getCreatedUserAvatarId(), 16));
-            A userLink = new A().setId("tag" + uid).setHref(AccountLinkGenerator.generatePreviewFullUserLink(
+            A userLink = new A().setId("tag" + TOOLTIP_ID).setHref(AccountLinkGenerator.generatePreviewFullUserLink(
                     AppContext.getSiteUrl(), activityStream.getCreateduser())).appendText(StringUtils.trim
                     (activityStream.getCreatedUserFullName(), 30, true));
 
-            userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(uid, activityStream.getCreateduser()));
-            userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
-            div.appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink, DivLessFormatter.EMPTY_SPACE(),
-                    TooltipHelper.buildDivTooltipEnable(uid));
+            userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(activityStream.getCreateduser()));
+            userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
+            div.appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink);
 
             return div.write();
         }
 
         private String buildItemValue(SimpleActivityStream activityStream) {
-            String uid = UUID.randomUUID().toString();
             DivLessFormatter div = new DivLessFormatter();
             Text itemImg = new Text(CrmAssetsManager.getAsset(activityStream.getType()).getHtml());
-            A itemLink = new A().setId("tag" + uid).setHref(CrmLinkGenerator.generateCrmItemLink(
+            A itemLink = new A().setId("tag" + TOOLTIP_ID).setHref(CrmLinkGenerator.generateCrmItemLink(
                     activityStream.getType(), Integer.parseInt(activityStream.getTypeid())));
 
-            itemLink.setAttribute("onmouseover", TooltipHelper.crmHoverJsFunction(uid, activityStream.getType(), activityStream.getTypeid()));
-            itemLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
+            itemLink.setAttribute("onmouseover", TooltipHelper.crmHoverJsFunction(activityStream.getType(), activityStream.getTypeid()));
+            itemLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
             itemLink.appendText(activityStream.getNamefield());
 
-            div.appendChild(itemImg, DivLessFormatter.EMPTY_SPACE(), itemLink, DivLessFormatter.EMPTY_SPACE(),
-                    TooltipHelper.buildDivTooltipEnable(uid));
-
+            div.appendChild(itemImg, DivLessFormatter.EMPTY_SPACE(), itemLink);
             return div.write();
         }
 

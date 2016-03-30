@@ -41,6 +41,7 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * @author MyCollab Ltd.
@@ -72,10 +73,10 @@ public class MyProjectListComponent extends MVerticalLayout {
                 if (searchCriteria != null) {
                     if (isSortAsc) {
                         sortBtn.setIcon(FontAwesome.SORT_ALPHA_ASC);
-                        searchCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("name", SearchCriteria.ASC)));
+                        searchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("name", SearchCriteria.ASC)));
                     } else {
                         sortBtn.setIcon(FontAwesome.SORT_ALPHA_DESC);
-                        searchCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("name", SearchCriteria.DESC)));
+                        searchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("name", SearchCriteria.DESC)));
                     }
                     displayResults();
                 }
@@ -89,6 +90,13 @@ public class MyProjectListComponent extends MVerticalLayout {
             public void doSearch(String value) {
                 searchCriteria = getAllProjectsSearchCriteria();
                 searchCriteria.setProjectName(StringSearchField.and(value));
+                displayResults();
+            }
+
+            @Override
+            public void emptySearch() {
+                searchCriteria = getAllProjectsSearchCriteria();
+                searchCriteria.setProjectName(null);
                 displayResults();
             }
         };
@@ -154,7 +162,7 @@ public class MyProjectListComponent extends MVerticalLayout {
     private ProjectSearchCriteria getAllProjectsSearchCriteria() {
         ProjectSearchCriteria prjSearchCriteria = new ProjectSearchCriteria();
         prjSearchCriteria.setInvolvedMember(StringSearchField.and(AppContext.getUsername()));
-        prjSearchCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("name", SearchCriteria.ASC)));
+        prjSearchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("name", SearchCriteria.ASC)));
         return prjSearchCriteria;
     }
 
@@ -162,7 +170,7 @@ public class MyProjectListComponent extends MVerticalLayout {
         ProjectSearchCriteria prjSearchCriteria = new ProjectSearchCriteria();
         prjSearchCriteria.setInvolvedMember(StringSearchField.and(AppContext.getUsername()));
         prjSearchCriteria.setProjectStatuses(new SetSearchField<>(new String[]{StatusI18nEnum.Open.name()}));
-        prjSearchCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("name", SearchCriteria.ASC)));
+        prjSearchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("name", SearchCriteria.ASC)));
         return prjSearchCriteria;
     }
 
@@ -170,7 +178,7 @@ public class MyProjectListComponent extends MVerticalLayout {
         ProjectSearchCriteria prjSearchCriteria = new ProjectSearchCriteria();
         prjSearchCriteria.setInvolvedMember(StringSearchField.and(AppContext.getUsername()));
         prjSearchCriteria.setProjectStatuses(new SetSearchField<>(new String[]{StatusI18nEnum.Archived.name()}));
-        prjSearchCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("name", SearchCriteria.ASC)));
+        prjSearchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("name", SearchCriteria.ASC)));
         return prjSearchCriteria;
     }
 

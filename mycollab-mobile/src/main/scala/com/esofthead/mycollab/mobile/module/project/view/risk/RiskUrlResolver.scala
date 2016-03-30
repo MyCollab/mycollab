@@ -45,7 +45,7 @@ class RiskUrlResolver extends ProjectUrlResolver {
       val searchCriteria = new RiskSearchCriteria
       searchCriteria.setProjectId(new NumberSearchField(projectId))
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new RiskScreenData.Search(searchCriteria))
-      EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+      EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
 
@@ -55,7 +55,7 @@ class RiskUrlResolver extends ProjectUrlResolver {
       val risk = new SimpleRisk
       risk.setProjectid(projectId)
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new RiskScreenData.Add(risk))
-      EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+      EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
 
@@ -67,7 +67,7 @@ class RiskUrlResolver extends ProjectUrlResolver {
       val riskService = ApplicationContextUtil.getSpringBean(classOf[RiskService])
       val risk = riskService.findById(riskId, AppContext.getAccountId)
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new RiskScreenData.Edit(risk))
-      EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+      EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
 
@@ -77,7 +77,7 @@ class RiskUrlResolver extends ProjectUrlResolver {
       val projectId = token.getInt
       val riskId = token.getInt
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new RiskScreenData.Read(riskId))
-      EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+      EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
 

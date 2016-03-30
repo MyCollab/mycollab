@@ -19,7 +19,7 @@
             #set($searchCriteria = $_parameter.searchCriteria)
             
             #ifnotnull($searchCriteria.displayName)
-                ${searchCriteria.displayName.operation} (concat(s_user.firstname, ' ', LTRIM(IFNULL(s_user.middlename + ' ', '')), s_user.lastname) like '%${searchCriteria.displayName.value}%')
+                ${searchCriteria.displayName.operation} concat(s_user.firstname, ' ', LTRIM(IFNULL(s_user.middlename + ' ', '')), s_user.lastname) like '%${searchCriteria.displayName.value}%'
             #end
             
             #ifnotnull($searchCriteria.username)
@@ -65,7 +65,7 @@
             #set($searchCriteria = $_parameter.searchCriteria)
             
             #ifnotnull($searchCriteria.displayName)
-                ${searchCriteria.displayName.operation} (concat(s_user.firstname, ' ', LTRIM(IFNULL(s_user.middlename + ' ', '')), s_user.lastname) like '%${searchCriteria.displayName.value}%')
+                ${searchCriteria.displayName.operation} concat(s_user.firstname, ' ', LTRIM(IFNULL(s_user.middlename + ' ', '')), s_user.lastname) like '%${searchCriteria.displayName.value}%'
             #end
             
             #ifnotnull($searchCriteria.username)
@@ -114,6 +114,7 @@
             s_user.timezone, s_user.language, s_user.country, s_user.workPhone, s_user.homePhone,
             s_user.facebookAccount, s_user.twitterAccount, s_user.skypeContact,
             s_user.password, s_user.avatarId, s_user.status, s_user.requestAd, s_account.subdomain AS subdomain,
+            concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')),  s_user.lastname) AS  displayName,
             s_roles.rolename AS roleName,  s_user_account.isAccountOwner, s_user_account.roleid, s_user_account.accountId AS accountId, 
             s_user_account.registerStatus, s_user_account.registeredTime, s_user_account.inviteUser, s_user_account.lastAccessedTime,
             s_user_account.lastModuleVisit,
@@ -124,6 +125,16 @@
                 LEFT OUTER JOIN s_roles ON (s_roles.id = s_user_account.roleid)
                 LEFT OUTER JOIN s_user AS inviteUser ON (inviteUser.username=s_user_account.inviteUser)
         ]]>
+    </sql>
+
+    <sql id="orderStatement">
+        ORDER BY
+        #ifnotnull($_parameter.searchCriteria.orderFields)
+            #repeat(${_parameter.searchCriteria.orderFields} $orderField "" "" "")
+                ${orderField.field} ${orderField.direction},
+            #end
+        #end
+        s_user.email DESC
     </sql>
 
     <select id="getTotalCount" resultType="int" parameterType="UserSearchCriteria"
@@ -143,6 +154,7 @@
                 <include refid="querySearchCriteria" />
             #end
         #end
+        <include refid="orderStatement" />
     </select>
 
     <delete id="removeByCriteria" parameterType="UserSearchCriteria" lang="velocity">

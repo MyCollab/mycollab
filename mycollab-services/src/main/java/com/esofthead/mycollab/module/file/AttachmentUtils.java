@@ -45,7 +45,8 @@ public class AttachmentUtils {
                 ProjectTypeConstants.MILESTONE.equals(type)
                 || ProjectTypeConstants.RISK.equals(type) || ProjectTypeConstants.TASK.equals(type)
                 || ProjectTypeConstants.PAGE.equals(type)
-                || ProjectTypeConstants.BUG_COMPONENT.equals(type) || ProjectTypeConstants.BUG_VERSION.equals(type)) {
+                || ProjectTypeConstants.BUG_COMPONENT.equals(type) || ProjectTypeConstants.BUG_VERSION.equals(type)
+                || ProjectTypeConstants.INVOICE.equals(type)) {
             return getProjectEntityCommentAttachmentPath(accountId, extraTypeId, type, typeId, commentId);
         } else if (CrmTypeConstants.ACCOUNT.equals(type) || CrmTypeConstants.CONTACT.equals(type) ||
                 CrmTypeConstants.CAMPAIGN.equals(type) || CrmTypeConstants.LEAD.equals(type) ||

@@ -36,28 +36,28 @@ class CaseUrlResolver extends CrmUrlResolver {
 
     class CaseListUrlResolver extends CrmUrlResolver {
         protected override def handlePage(params: String*) {
-            EventBusFactory.getInstance.post(new CrmEvent.GotoContainer(this,
+            EventBusFactory.getInstance().post(new CrmEvent.GotoContainer(this,
                 new CrmModuleScreenData.GotoModule(AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_CASES_HEADER))))
         }
     }
 
     class CaseAddUrlResolver extends CrmUrlResolver {
         protected override def handlePage(params: String*) {
-            EventBusFactory.getInstance.post(new CaseEvent.GotoAdd(this, new Account))
+            EventBusFactory.getInstance().post(new CaseEvent.GotoAdd(this, new Account))
         }
     }
 
     class CaseEditUrlResolver extends CrmUrlResolver {
         protected override def handlePage(params: String*) {
             val caseId: Int = new UrlTokenizer(params(0)).getInt
-            EventBusFactory.getInstance.post(new CaseEvent.GotoEdit(this, caseId))
+            EventBusFactory.getInstance().post(new CaseEvent.GotoEdit(this, caseId))
         }
     }
 
     class CasePreviewUrlResolver extends CrmUrlResolver {
         protected override def handlePage(params: String*) {
             val caseId: Int = new UrlTokenizer(params(0)).getInt
-            EventBusFactory.getInstance.post(new CaseEvent.GotoRead(this, caseId))
+            EventBusFactory.getInstance().post(new CaseEvent.GotoRead(this, caseId))
         }
     }
 

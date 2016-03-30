@@ -34,7 +34,6 @@ import com.vaadin.ui.Component;
 public class CaseSelectionView extends AbstractSelectionView<SimpleCase> {
     private static final long serialVersionUID = 2092608350938161913L;
 
-    private CaseSearchCriteria searchCriteria;
     private CaseListDisplay itemList;
 
     private CaseRowDisplayHandler rowHandler = new CaseRowDisplayHandler();
@@ -54,7 +53,7 @@ public class CaseSelectionView extends AbstractSelectionView<SimpleCase> {
 
     @Override
     public void load() {
-        searchCriteria = new CaseSearchCriteria();
+        CaseSearchCriteria searchCriteria = new CaseSearchCriteria();
         searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
         itemList.search(searchCriteria);
         SimpleCase clearCase = new SimpleCase();

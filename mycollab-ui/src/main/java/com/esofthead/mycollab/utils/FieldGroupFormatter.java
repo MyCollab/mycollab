@@ -214,8 +214,7 @@ public class FieldGroupFormatter {
 
         @Override
         public String toString(String value) {
-            String content = (StringUtils.isNotBlank(value)) ? AppContext.getMessage(enumCls, value) : "";
-            return content;
+            return (StringUtils.isNotBlank(value)) ? AppContext.getMessage(enumCls, value) : "";
         }
     }
 }

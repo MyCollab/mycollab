@@ -84,8 +84,7 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs> impleme
 
                 return tf;
             } else if (propertyId.equals("assignuser")) {
-                ActiveUserComboBox userBox = new ActiveUserComboBox();
-                return userBox;
+                return new ActiveUserComboBox();
             } else if (propertyId.equals("description")) {
                 TextArea descArea = new TextArea();
                 descArea.setNullRepresentation("");
@@ -95,11 +94,9 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs> impleme
                 resultArea.setNullRepresentation("");
                 return resultArea;
             } else if (propertyId.equals("durationinseconds")) {
-                CallDurationField durationField = new CallDurationField();
-                return durationField;
+                return new CallDurationField();
             } else if (propertyId.equals("purpose")) {
-                CallPurposeComboBox purposeField = new CallPurposeComboBox();
-                return purposeField;
+                return new CallPurposeComboBox();
             } else if (propertyId.equals("status")
                     || propertyId.equals("calltype")) {
                 return callStatusField;
@@ -197,8 +194,7 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs> impleme
             }
 
             if (hourVal != 0 || minutesVal != 0) {
-                int seconds = minutesVal * 60 + hourVal * 3600;
-                return seconds;
+                return minutesVal * 60 + hourVal * 3600;
             }
 
             return 0;

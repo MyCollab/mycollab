@@ -30,18 +30,17 @@ public class PropertyListParam<P> extends ColumnParam {
 
     public static final String[] OPTIONS = {BELONG_TO, NOT_BELONG_TO};
 
-    private static String IN_EXPR = "%s.%s in ";
-    private static String NOT_IN_EXPR = "%s.%s not in ";
-
     public PropertyListParam(String id, Enum<?> displayName, String table, String column) {
         super(id, displayName, table, column);
     }
 
     public CollectionValueSearchField buildPropertyParamInList(String oper, Collection<P> value) {
+        String IN_EXPR = "%s.%s in ";
         return new CollectionValueSearchField(oper, String.format(IN_EXPR, this.getTable(), this.getColumn()), value);
     }
 
     public CollectionValueSearchField buildPropertyParamNotInList(String oper, Collection<P> value) {
+        String NOT_IN_EXPR = "%s.%s not in ";
         return new CollectionValueSearchField(oper, String.format(NOT_IN_EXPR, this.getTable(), this.getColumn()), value);
     }
 }

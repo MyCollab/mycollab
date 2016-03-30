@@ -49,7 +49,7 @@ class TaskUrlResolver extends ProjectUrlResolver {
       val criteria = new TaskSearchCriteria
       criteria.setProjectId(new NumberSearchField(projectId))
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new Search(criteria))
-      EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+      EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
 
@@ -76,7 +76,7 @@ class TaskUrlResolver extends ProjectUrlResolver {
         taskId = tokenizer.getInt
       }
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new TaskScreenData.Read(taskId))
-      EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+      EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
 
@@ -93,7 +93,7 @@ class TaskUrlResolver extends ProjectUrlResolver {
         throw new MyCollabException("Can not find task link " + params(0))
       }
       val chain = new PageActionChain(new ProjectScreenData.Goto(task.getProjectid), new TaskScreenData.Edit(task))
-      EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+      EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
 
@@ -102,7 +102,7 @@ class TaskUrlResolver extends ProjectUrlResolver {
       val token = new UrlTokenizer(params(0))
       val projectId = token.getInt
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new TaskScreenData.Add(new SimpleTask))
-      EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+      EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
 

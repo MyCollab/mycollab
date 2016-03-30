@@ -87,7 +87,6 @@ public class DenyProjectInvitationHandler extends VelocityWebServletRequestHandl
                 String html = generatePageByTemplate(response.getLocale(), REFUSE_MEMBER_DENY_TEMPLATE, context);
                 PrintWriter out = response.getWriter();
                 out.println(html);
-                return;
             } else {
                 String redirectURL = SiteConfiguration.getSiteUrl(subdomain) + "project/member/feedback/";
                 Map<String, Object> context = new HashMap<>();
@@ -104,7 +103,6 @@ public class DenyProjectInvitationHandler extends VelocityWebServletRequestHandl
 
                 PrintWriter out = response.getWriter();
                 out.println(html);
-                return;
             }
 
         } else {

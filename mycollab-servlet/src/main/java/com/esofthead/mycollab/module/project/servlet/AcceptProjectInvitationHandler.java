@@ -20,6 +20,7 @@ import com.esofthead.mycollab.common.UrlTokenizer;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.ResourceNotFoundException;
+import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.domain.ProjectMember;
@@ -124,6 +125,10 @@ public class AcceptProjectInvitationHandler extends VelocityWebServletRequestHan
 
     private void handleMemberInviteWithExistAccount(String siteUrl, String username, Integer projectId, Integer sAccountId,
                                                     Integer projectRoleId, HttpServletResponse response) throws IOException {
+        SimpleProject project = projectService.findById(projectId, sAccountId);
+        if (project == null) {
+            throw new UserInvalidInputException("Project not found");
+        }
         // search has in table User account
         UserAccountExample example = new UserAccountExample();
         example.createCriteria().andUsernameEqualTo(username).andAccountidEqualTo(sAccountId);
@@ -152,6 +157,8 @@ public class AcceptProjectInvitationHandler extends VelocityWebServletRequestHan
                 projectMember.setProjectid(projectId);
                 projectMember.setUsername(username);
                 projectMember.setJoindate(now);
+                projectMember.setBillingrate(project.getDefaultbillingrate());
+                projectMember.setOvertimebillingrate(project.getDefaultovertimebillingrate());
                 if (projectRoleId == -1) {
                     projectMember.setProjectroleid(null);
                     projectMember.setIsadmin(true);
@@ -165,6 +172,12 @@ public class AcceptProjectInvitationHandler extends VelocityWebServletRequestHan
             } else {
                 member.setStatus(RegisterStatusConstants.ACTIVE);
                 member.setSaccountid(sAccountId);
+                if (member.getBillingrate() == null) {
+                    member.setBillingrate(project.getDefaultbillingrate());
+                }
+                if (member.getOvertimebillingrate() == null) {
+                    member.setOvertimebillingrate(project.getDefaultovertimebillingrate());
+                }
                 if (projectRoleId == -1) {
                     member.setProjectroleid(null);
                     member.setIsadmin(true);

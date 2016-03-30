@@ -38,6 +38,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -88,7 +89,7 @@ public class AccountServiceImpl extends DefaultService<Integer, Account, Account
             assoAccount.setCreatedtime(new GregorianCalendar().getTime());
 
             CampaignService campaignService = ApplicationContextUtil.getSpringBean(CampaignService.class);
-            campaignService.saveCampaignAccountRelationship(Arrays.asList(assoAccount), record.getSaccountid());
+            campaignService.saveCampaignAccountRelationship(Collections.singletonList(assoAccount), record.getSaccountid());
         }
         return result;
     }

@@ -59,6 +59,7 @@ import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -230,7 +231,7 @@ public class ProjectTaskServiceImpl extends DefaultService<Integer, Task, TaskSe
         TaskSearchCriteria searchCriteria = new TaskSearchCriteria();
         searchCriteria.setSaccountid(new NumberSearchField(sAccountId));
         searchCriteria.setParentTaskId(new NumberSearchField(parentTaskId));
-        searchCriteria.setOrderFields(Arrays.asList(orderField));
+        searchCriteria.setOrderFields(Collections.singletonList(orderField));
         return taskMapperExt.findPagableListByCriteria(searchCriteria, new RowBounds(0, Integer.MAX_VALUE));
     }
 

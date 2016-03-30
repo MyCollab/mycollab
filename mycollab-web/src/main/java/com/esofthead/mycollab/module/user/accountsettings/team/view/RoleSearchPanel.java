@@ -26,7 +26,7 @@ import com.esofthead.mycollab.module.user.domain.criteria.RoleSearchCriteria;
 import com.esofthead.mycollab.module.user.events.RoleEvent;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.esofthead.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.web.ui.GenericSearchPanel;
 import com.esofthead.mycollab.vaadin.web.ui.ShortcutExtension;
@@ -118,15 +118,14 @@ public class RoleSearchPanel extends DefaultGenericSearchPanel<RoleSearchCriteri
             });
             basicSearchBody.addComponent(searchBtn);
 
-            Button clearBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR),
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            Button clearBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(final Button.ClickEvent event) {
-                            RoleBasicSearchLayout.this.nameField.setValue("");
-                        }
-                    });
+                @Override
+                public void buttonClick(final Button.ClickEvent event) {
+                    nameField.setValue("");
+                }
+            });
             clearBtn.setStyleName(UIConstants.BUTTON_OPTION);
             basicSearchBody.addComponent(clearBtn);
             basicSearchBody.setComponentAlignment(clearBtn, Alignment.MIDDLE_LEFT);

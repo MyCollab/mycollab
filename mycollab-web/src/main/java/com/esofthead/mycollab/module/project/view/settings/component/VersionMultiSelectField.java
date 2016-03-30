@@ -52,8 +52,7 @@ public class VersionMultiSelectField extends MultiSelectComp {
         searchCriteria.setStatus(StringSearchField.and(StatusI18nEnum.Open.name()));
         searchCriteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
         VersionService versionService = ApplicationContextUtil.getSpringBean(VersionService.class);
-        List<Version> versions = versionService.findPagableListByCriteria(new SearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
-        return versions;
+        return versionService.findPagableListByCriteria(new SearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
     }
 
     @Override

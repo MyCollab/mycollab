@@ -40,6 +40,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -92,7 +93,7 @@ public class OpportunityServiceImpl extends DefaultService<Integer, Opportunity,
             ContactService contactService = ApplicationContextUtil
                     .getSpringBean(ContactService.class);
             contactService.saveContactOpportunityRelationship(
-                    Arrays.asList(associateOpportunity),
+                    Collections.singletonList(associateOpportunity),
                     opportunity.getSaccountid());
         }
         return result;

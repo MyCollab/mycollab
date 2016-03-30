@@ -167,6 +167,10 @@ public class ProjectLinkGenerator {
         return "project/time/list/" + UrlEncodeDecoder.encode(projectId);
     }
 
+    public static String generateInvoiceListLink(Integer projectId) {
+        return "project/invoice/list/" + UrlEncodeDecoder.encode(projectId);
+    }
+
     public static String generateRolePreviewLink(Integer projectId, Integer roleId) {
         return "project/role/preview/" + GenericLinkUtils.encodeParam(projectId, roleId);
     }
@@ -175,16 +179,16 @@ public class ProjectLinkGenerator {
         return siteUrl + GenericLinkUtils.URL_PREFIX_PARAM + "project/role/preview/" + GenericLinkUtils.encodeParam(projectId, roleId);
     }
 
-    public static String generateStandUpPreviewLink(Integer projectId, Integer reportId) {
-        return "project/standup/list/" + GenericLinkUtils.encodeParam(projectId);
-    }
-
     public static String generateTimeTrackingPreviewLink(Integer projectId, Integer timeId) {
         return "project/time/list/" + GenericLinkUtils.encodeParam(projectId, timeId);
     }
 
+    public static String generateStandUpPreviewLink(Integer projectId, Integer reportId) {
+        return "project/standup/list/" + GenericLinkUtils.encodeParam(projectId);
+    }
+
     public static String generateStandupDashboardLink(Integer projectId) {
-        return "project/standup/list/" + UrlEncodeDecoder.encode(projectId);
+        return "project/reports/standup/list/" + UrlEncodeDecoder.encode(projectId);
     }
 
     public static String generateProjectCalendarLink(Integer projectId) {

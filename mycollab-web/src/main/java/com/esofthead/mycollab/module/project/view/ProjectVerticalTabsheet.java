@@ -34,7 +34,7 @@ public class ProjectVerticalTabsheet extends VerticalTabsheet {
     private Button toogleBtn;
 
     @Override
-    protected void setDefaulButtonIcon(Component btn, Boolean selected) {
+    protected void setDefaultButtonIcon(Component btn, Boolean selected) {
         ButtonTabImpl btnTabImpl = (ButtonTabImpl) btn;
         String tabId = btnTabImpl.getTabId();
 
@@ -62,20 +62,23 @@ public class ProjectVerticalTabsheet extends VerticalTabsheet {
             toogleBtn.setCaption("Collapse menu");
         }
 
-        CurrentProjectVariables.setProjectToogleMenu(visibility);
+        CurrentProjectVariables.setProjectToggleMenu(visibility);
     }
 
-    public void addToogleNavigatorControl() {
-        toogleBtn = this.addButtonOnNavigatorContainer("button", "Collapse menu", FontAwesome.CARET_SQUARE_O_LEFT);
-        toogleBtn.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-                boolean visibility = CurrentProjectVariables.getProjectToogleMenu();
-                setNavigatorVisibility(!visibility);
-            }
-        });
+    public void addToggleNavigatorControl() {
+        Button btn = this.addButtonOnNavigatorContainer("button", "Collapse menu", FontAwesome.CARET_SQUARE_O_LEFT);
+        if (btn != null) {
+            toogleBtn = btn;
+            toogleBtn.addClickListener(new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent event) {
+                    boolean visibility = CurrentProjectVariables.getProjectToggleMenu();
+                    setNavigatorVisibility(!visibility);
+                }
+            });
+        }
 
-        boolean visibility = CurrentProjectVariables.getProjectToogleMenu();
+        boolean visibility = CurrentProjectVariables.getProjectToggleMenu();
         setNavigatorVisibility(visibility);
     }
 }

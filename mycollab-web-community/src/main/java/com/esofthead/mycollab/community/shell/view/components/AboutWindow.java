@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.community.shell.view.components;
 
 import com.esofthead.mycollab.core.MyCollabVersion;
+import com.esofthead.mycollab.core.utils.FileUtils;
 import com.esofthead.mycollab.shell.view.components.AbstractAboutWindow;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AssetResource;
@@ -45,11 +46,6 @@ import java.util.GregorianCalendar;
 @ViewComponent
 public class AboutWindow extends AbstractAboutWindow {
     public AboutWindow() {
-        super("About");
-        this.setModal(true);
-        this.setResizable(false);
-        this.center();
-        this.setWidth("600px");
 
         MHorizontalLayout content = new MHorizontalLayout().withMargin(true).withWidth("100%");
         this.setContent(content);
@@ -61,6 +57,7 @@ public class AboutWindow extends AbstractAboutWindow {
         versionLbl.addStyleName(ValoTheme.LABEL_NO_MARGIN);
         Label javaNameLbl = new Label(String.format("%s, %s", System.getProperty("java.vm.name"),
                 System.getProperty("java.runtime.version")));
+        Label homeFolderLbl = new Label("Home folder: " + FileUtils.getHomeFolder().getAbsolutePath());
         WebBrowser browser = Page.getCurrent().getWebBrowser();
         Label osLbl = new Label(String.format("%s, %s", System.getProperty("os.name"),
                 browser.getBrowserApplication()));
@@ -71,7 +68,7 @@ public class AboutWindow extends AbstractAboutWindow {
         Label licenseLbl = new Label(licenseDiv.write(), ContentMode.HTML);
         Label copyRightLbl = new Label(String.format("&copy; %s - %s MyCollab Ltd. All rights reserved", "2011",
                 new GregorianCalendar().get(Calendar.YEAR) + ""), ContentMode.HTML);
-        rightPanel.with(versionLbl, javaNameLbl, osLbl, licenseLbl, copyRightLbl)
+        rightPanel.with(versionLbl, javaNameLbl, osLbl, homeFolderLbl, licenseLbl, copyRightLbl)
                 .withAlign(copyRightLbl, Alignment.BOTTOM_LEFT);
         content.with(about, rightPanel).expand(rightPanel);
     }

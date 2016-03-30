@@ -176,6 +176,7 @@ h3 {
                                         <ul>
                                         <li>If you use Gmail, username is &lt;username&gt;@gmail.com</li>
                                         <li>If you use Outlook, username is &lt;username&gt;@outlook.com</li>
+                                        <li>If you use Office365, username is &lt;username&gt;@yourdomainname</li>
                                         <li>Other email, please consult your email service provider</li>
                                         </h4>
                                         </ul>
@@ -198,6 +199,7 @@ h3 {
                                         <tr><td><h4>SMTP server address
                                         <ul><li>If you use Gmail, the value is smtp.gmail.com</li>
                                         <li>If you use Outlook, the value is smtp-mail.outlook.com</li>
+                                        <li>If you use Office365, the value is smtp.office365.com</li>
                                         </ul></h4>
                                         </td></tr>
 
@@ -207,12 +209,12 @@ h3 {
                                         <tr>
                                             <td><input id="smtpPort"/></td>
                                         </tr>
-                                        <tr><td><h4>If you use Gmail or Outlook, the port value is 587.<h4></td></tr>
+                                        <tr><td><h4>If you use Gmail, Outlook or Office365, the port value is 587.<h4></td></tr>
 
                                         <tr>
                                             <td><label for="tls" >STARTTLS:</label><input id="tls" type="checkbox"/> <label for="ssl" >or SSL/TLS: </label><input id="ssl" type="checkbox"/></td>
                                         </tr>
-                                        <tr><td><h4>Some email services like Gmail or Outlook require STARTTLS enables, other services like Yahoo may require TSL/SSL enable<h4>
+                                        <tr><td><h4>Some email services like Gmail, Outlook, Office365 require STARTTLS enables, other services like Yahoo may require TSL/SSL enable<h4>
                                             </td>
                                         </tr>
 
@@ -384,7 +386,7 @@ function updateInfoAction(){
         return;
     }
     $('#setupBtn').html('<img src="${defaultUrls.cdn_url}icons/lazy-load-icon.gif" alt="Pulpit rock" style="height:18px;"><span style="font-size: 15px">&nbsp;&nbsp;Setting up...</span>');
-    $('#setupBtn').after('<p><h3 style=\"color:orange\">Please be patient! It may takes several minutes to set up MyCollab depends on your servers performance. Whenever the install process is completed, the browser redirects automatically to the application home page</h3></p>');
+    $('#setupBtn').after('<p><h3 style=\"color:orange\">Please be patient! It may takes a few minutes to set up MyCollab depends on your servers performance. Whenever the install process is completed, the browser redirects automatically to the application home page</h3></p>');
     var urlPost = "/install";
 
     var tlsStatus = "";

@@ -23,15 +23,23 @@ import com.esofthead.mycollab.module.project.i18n.ProjectRoleI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.RolePermissionI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.module.user.view.component.AccessPermissionComboBox;
+import com.esofthead.mycollab.module.user.view.component.YesNoPermissionComboBox;
 import com.esofthead.mycollab.security.PermissionMap;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
+import com.esofthead.mycollab.vaadin.ui.FormContainer;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.web.ui.EditFormControlsGenerator;
+import com.esofthead.mycollab.vaadin.web.ui.KeyCaptionComboBox;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
-import com.vaadin.ui.*;
+import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.Field;
+import com.vaadin.ui.TextArea;
+import com.vaadin.ui.TextField;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,13 +51,12 @@ import java.util.Map;
 @ViewComponent
 public class ProjectRoleAddViewImpl extends AbstractEditItemComp<ProjectRole> implements ProjectRoleAddView {
     private static final long serialVersionUID = 1L;
-    private final Map<String, AccessPermissionComboBox> permissionControlsMap = new HashMap<>();
+    private final Map<String, KeyCaptionComboBox> permissionControlsMap = new HashMap<>();
 
     @Override
     protected String initFormHeader() {
-        return beanItem.getId() == null ? AppContext
-                .getMessage(ProjectRoleI18nEnum.FORM_NEW_TITLE) : AppContext
-                .getMessage(ProjectRoleI18nEnum.FORM_EDIT_TITLE);
+        return beanItem.getId() == null ? AppContext.getMessage(ProjectRoleI18nEnum.FORM_NEW_TITLE) :
+                AppContext.getMessage(ProjectRoleI18nEnum.FORM_EDIT_TITLE);
     }
 
     @Override
@@ -114,17 +121,22 @@ public class ProjectRoleAddViewImpl extends AbstractEditItemComp<ProjectRole> im
         }
 
         final GridFormLayoutHelper permissionFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(
-                2, ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length);
+                2, (ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length + 1) / 2);
 
         for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
             final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
-            final AccessPermissionComboBox permissionBox = new AccessPermissionComboBox();
+            KeyCaptionComboBox permissionBox;
+            if (ProjectRolePermissionCollections.FINANCE.equals(permissionPath)) {
+                permissionBox = new YesNoPermissionComboBox();
+            } else {
+                permissionBox = new AccessPermissionComboBox();
+            }
 
             final Integer flag = perMap.getPermissionFlag(permissionPath);
             permissionBox.setValue(flag);
             permissionControlsMap.put(permissionPath, permissionBox);
             permissionFormHelper.addComponent(permissionBox,
-                    AppContext.getMessage(RolePermissionI18nEnum.valueOf(permissionPath)), 0, i);
+                    AppContext.getMessage(RolePermissionI18nEnum.valueOf(permissionPath)), i % 2, i / 2);
         }
         permissionsPanel.addSection(AppContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS), permissionFormHelper.getLayout());
 
@@ -134,8 +146,8 @@ public class ProjectRoleAddViewImpl extends AbstractEditItemComp<ProjectRole> im
     @Override
     public PermissionMap getPermissionMap() {
         PermissionMap permissionMap = new PermissionMap();
-        for (Map.Entry<String, AccessPermissionComboBox> entry : permissionControlsMap.entrySet()) {
-            AccessPermissionComboBox permissionBox = entry.getValue();
+        for (Map.Entry<String, KeyCaptionComboBox> entry : permissionControlsMap.entrySet()) {
+            KeyCaptionComboBox permissionBox = entry.getValue();
             Integer perValue = (Integer) permissionBox.getValue();
             permissionMap.addPath(entry.getKey(), perValue);
         }

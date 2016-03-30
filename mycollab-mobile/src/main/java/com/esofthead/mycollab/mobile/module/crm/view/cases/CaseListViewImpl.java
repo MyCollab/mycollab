@@ -43,8 +43,7 @@ public class CaseListViewImpl extends AbstractListViewComp<CaseSearchCriteria, S
 
     @Override
     protected AbstractPagedBeanList<CaseSearchCriteria, SimpleCase> createBeanTable() {
-        CaseListDisplay caseListDisplay = new CaseListDisplay();
-        return caseListDisplay;
+        return new CaseListDisplay();
     }
 
     @Override

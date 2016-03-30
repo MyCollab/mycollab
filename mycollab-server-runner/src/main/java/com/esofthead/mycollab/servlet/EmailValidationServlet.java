@@ -77,7 +77,6 @@ public class EmailValidationServlet extends HttpServlet {
             PrintWriter out = response.getWriter();
             out.write("Cannot establish SMTP connection. Please recheck your config.");
             LOG.warn("Can not login to SMTP", e);
-            return;
         }
     }
 }

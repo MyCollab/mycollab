@@ -80,8 +80,7 @@ public class MyBatisConfiguration {
     private Resource[] buildMapperResources(String resourcePath) throws IOException {
         try {
             ResourcePatternResolver patternResolver = new PathMatchingResourcePatternResolver();
-            Resource[] mappingLocations = patternResolver.getResources(resourcePath);
-            return mappingLocations;
+            return patternResolver.getResources(resourcePath);
         } catch (FileNotFoundException e) {
             return new Resource[0];
         }

@@ -102,19 +102,10 @@ public class CheckUpdateJob extends GenericQuartzJobBean {
     }
 
     static boolean isValid(final File file) {
-        ZipFile zipfile = null;
-        try {
-            zipfile = new ZipFile(file);
+        try (ZipFile zipFile = new ZipFile(file)) {
             return true;
         } catch (IOException e) {
             return false;
-        } finally {
-            try {
-                if (zipfile != null) {
-                    zipfile.close();
-                }
-            } catch (IOException e) {
-            }
         }
     }
 
@@ -178,7 +169,6 @@ public class CheckUpdateJob extends GenericQuartzJobBean {
                     }
                 } else {
                     LOG.info("Can not download the new MyCollab. Reason is: " + responseCode);
-                    return;
                 }
             } catch (Exception e) {
                 LOG.error("Error while download " + downloadLink, e);

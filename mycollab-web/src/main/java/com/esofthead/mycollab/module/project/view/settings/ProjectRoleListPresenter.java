@@ -16,7 +16,10 @@
  */
 package com.esofthead.mycollab.module.project.view.settings;
 
+import com.esofthead.mycollab.core.SecureAccessException;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.ProjectRole;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectRole;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectRoleSearchCriteria;
@@ -25,13 +28,13 @@ import com.esofthead.mycollab.module.project.service.ProjectRoleService;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.web.ui.DefaultMassEditActionHandler;
-import com.esofthead.mycollab.vaadin.web.ui.ListSelectionPresenter;
 import com.esofthead.mycollab.vaadin.events.ViewItemAction;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
-import com.esofthead.mycollab.vaadin.web.ui.MailFormWindow;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
+import com.esofthead.mycollab.vaadin.web.ui.DefaultMassEditActionHandler;
+import com.esofthead.mycollab.vaadin.web.ui.ListSelectionPresenter;
+import com.esofthead.mycollab.vaadin.web.ui.MailFormWindow;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
 
@@ -108,14 +111,18 @@ public class ProjectRoleListPresenter extends ListSelectionPresenter<ProjectRole
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        ProjectRoleContainer roleContainer = (ProjectRoleContainer) container;
-        roleContainer.removeAllComponents();
-        roleContainer.addComponent(view.getWidget());
-        searchCriteria = (ProjectRoleSearchCriteria) data.getParams();
-        doSearch(searchCriteria);
+        if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.ROLES)) {
+            ProjectRoleContainer roleContainer = (ProjectRoleContainer) container;
+            roleContainer.removeAllComponents();
+            roleContainer.addComponent(view.getWidget());
+            searchCriteria = (ProjectRoleSearchCriteria) data.getParams();
+            doSearch(searchCriteria);
 
-        ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
-        breadCrumb.gotoRoleList();
+            ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
+            breadCrumb.gotoRoleList();
+        } else {
+            throw new SecureAccessException();
+        }
     }
 
     @Override

@@ -166,6 +166,10 @@ public abstract class AbstractPresenter<V extends PageView> implements IPresente
 
     }
 
+    protected void onHandleChain(ComponentContainer container, PageActionChain pageActionChain) {
+        throw new UnsupportedOperationException("You need override this method");
+    }
+
     protected void onErrorStopChain(Throwable throwable) {
         if (getExceptionType(throwable, ResourceNotFoundException.class) != null) {
             NotificationUtil.showRecordNotExistNotification();
@@ -174,9 +178,5 @@ public abstract class AbstractPresenter<V extends PageView> implements IPresente
         } else {
             LOG.error("Exception", throwable);
         }
-    }
-
-    protected void onHandleChain(ComponentContainer container, PageActionChain pageActionChain) {
-        throw new UnsupportedOperationException("You need override this method");
     }
 }

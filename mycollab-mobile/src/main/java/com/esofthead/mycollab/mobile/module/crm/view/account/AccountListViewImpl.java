@@ -27,6 +27,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
+import org.vaadin.viritin.button.MButton;
 
 /**
  * @author MyCollab Ltd.
@@ -43,22 +44,16 @@ public class AccountListViewImpl extends AbstractListViewComp<AccountSearchCrite
 
     @Override
     protected AbstractPagedBeanList<AccountSearchCriteria, SimpleAccount> createBeanTable() {
-        AccountListDisplay accountListDisplay = new AccountListDisplay();
-        return accountListDisplay;
+        return new AccountListDisplay();
     }
 
     @Override
     protected Component createRightComponent() {
-        Button addAccount = new Button();
-        addAccount.addClickListener(new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
+        return new MButton("", new Button.ClickListener() {
             @Override
-            public void buttonClick(Button.ClickEvent arg0) {
+            public void buttonClick(Button.ClickEvent clickEvent) {
                 EventBusFactory.getInstance().post(new AccountEvent.GotoAdd(this, null));
             }
-        });
-        addAccount.setStyleName("add-btn");
-        return addAccount;
+        }).withStyleName("add-btn");
     }
 }

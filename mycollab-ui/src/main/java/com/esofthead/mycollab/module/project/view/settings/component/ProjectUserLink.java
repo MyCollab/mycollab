@@ -27,7 +27,7 @@ import com.hp.gagawa.java.elements.Img;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Label;
 
-import java.util.UUID;
+import static com.esofthead.mycollab.utils.TooltipHelper.TOOLTIP_ID;
 
 /**
  * @author MyCollab Ltd.
@@ -42,13 +42,12 @@ public class ProjectUserLink extends Label {
         }
         this.setContentMode(ContentMode.HTML);
         DivLessFormatter div = new DivLessFormatter();
-        String uid = UUID.randomUUID().toString();
         Img avatarLink = new Img("", StorageFactory.getInstance().getAvatarPath(userAvatarId, 16));
-        A memberLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
+        A memberLink = new A().setId("tag" + TOOLTIP_ID).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
                 CurrentProjectVariables.getProjectId(), username)).appendText(StringUtils.trim(displayName, 30, true));
-        memberLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(uid, username));
-        memberLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
-        div.appendChild(avatarLink, DivLessFormatter.EMPTY_SPACE(), memberLink, DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));
+        memberLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(username));
+        memberLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
+        div.appendChild(avatarLink, DivLessFormatter.EMPTY_SPACE(), memberLink);
         this.setValue(div.write());
     }
 }

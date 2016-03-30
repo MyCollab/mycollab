@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.project.view.bug.components;
 
 import com.esofthead.mycollab.common.domain.GroupItem;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -31,10 +32,10 @@ import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
+import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.esofthead.mycollab.vaadin.web.ui.DepotWithChart;
 import com.esofthead.mycollab.vaadin.web.ui.ProgressBarIndicator;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -69,7 +70,7 @@ public class UnresolvedBugsByAssigneeWidget extends DepotWithChart {
                 MHorizontalLayout assigneeLayout = new MHorizontalLayout().withWidth("100%");
                 assigneeLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
                 String assignUser = item.getGroupid();
-                String assignUserFullName = item.getGroupid() == null ? AppContext.getMessage(BugI18nEnum.OPT_UNDEFINED_USER) :
+                String assignUserFullName = item.getGroupid() == null ? AppContext.getMessage(GenericI18Enum.OPT_UNDEFINED) :
                         item.getGroupname();
                 if (assignUserFullName == null || "".equals(assignUserFullName.trim())) {
                     assignUserFullName = StringUtils.extractNameFromEmail(assignUser);

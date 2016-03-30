@@ -70,7 +70,7 @@ object DeleteResourcesCommandImpl {
       case e: Exception => DeleteResourcesCommandImpl.LOG.error("Error while delete content " + event.paths.mkString, e)
     } finally {
       DistributionLockUtil.removeLock("ecm-" + event.sAccountId)
-      lock.unlock
+      lock.unlock()
     }
   }
 }

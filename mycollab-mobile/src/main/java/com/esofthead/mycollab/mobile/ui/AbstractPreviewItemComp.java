@@ -33,8 +33,6 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractMobilePageView 
 
     protected B beanItem;
     protected AdvancedPreviewBeanForm<B> previewForm;
-    private NavigationBarQuickMenu editBtn;
-    private CssLayout content;
 
     public AbstractPreviewItemComp() {
         previewForm = initPreviewForm();
@@ -44,10 +42,10 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractMobilePageView 
         this.beanItem = item;
         this.setCaption(initFormTitle());
 
-        content = new CssLayout();
+        CssLayout content = new CssLayout();
         content.addComponent(previewForm);
 
-        editBtn = new NavigationBarQuickMenu();
+        NavigationBarQuickMenu editBtn = new NavigationBarQuickMenu();
         editBtn.setButtonCaption("...");
         editBtn.setContent(createButtonControls());
         this.setRightComponent(editBtn);

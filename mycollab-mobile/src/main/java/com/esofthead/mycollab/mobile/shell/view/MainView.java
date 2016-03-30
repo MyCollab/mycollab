@@ -79,7 +79,4 @@ public class MainView extends AbstractMobileMainView {
 
         this.addComponent(contentLayout);
     }
-
-    public void display() {
-    }
 }

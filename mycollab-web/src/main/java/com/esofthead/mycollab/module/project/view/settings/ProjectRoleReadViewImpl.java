@@ -24,7 +24,10 @@ import com.esofthead.mycollab.security.PermissionMap;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.FormContainer;
+import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.web.ui.DefaultReadViewLayout;
 import com.esofthead.mycollab.vaadin.web.ui.ProjectPreviewFormControlsGenerator;
@@ -85,7 +88,8 @@ public class ProjectRoleReadViewImpl extends VerticalLayout implements ProjectRo
     protected ComponentContainer createBottomPanel() {
         FormContainer permissionsPanel = new FormContainer();
 
-        projectFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length);
+        projectFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, (ProjectRolePermissionCollections
+                .PROJECT_PERMISSIONS.length + 1) / 2);
         permissionsPanel.addSection(AppContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS), projectFormHelper.getLayout());
 
         return permissionsPanel;
@@ -99,7 +103,7 @@ public class ProjectRoleReadViewImpl extends VerticalLayout implements ProjectRo
             String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
             Enum permissionKey = RolePermissionI18nEnum.valueOf(permissionPath);
             projectFormHelper.addComponent(new Label(AppContext.getPermissionCaptionValue(permissionMap, permissionKey.name())),
-                    AppContext.getMessage(permissionKey), 0, i);
+                    AppContext.getMessage(permissionKey), i % 2, i / 2);
         }
 
     }

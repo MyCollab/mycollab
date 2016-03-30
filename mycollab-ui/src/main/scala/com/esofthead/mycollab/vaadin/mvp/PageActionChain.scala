@@ -34,6 +34,8 @@ class PageActionChain {
 
   def this(param1: ScreenData[_], param2: ScreenData[_]) = this(Array[ScreenData[_]](param1, param2))
 
+  def this(param1: ScreenData[_], param2: ScreenData[_], param3: ScreenData[_]) = this(Array[ScreenData[_]](param1, param2, param3))
+
   def add(pageAction: ScreenData[_]): PageActionChain = {
     chains += pageAction
     return this

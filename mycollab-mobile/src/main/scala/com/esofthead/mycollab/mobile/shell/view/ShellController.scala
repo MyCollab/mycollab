@@ -47,7 +47,7 @@ class ShellController(val mainNav: NavigationManager) extends AbstractController
 
     this.register(new ApplicationEventListener[ShellEvent.LogOut]() {
       @Subscribe def handle(event: ShellEvent.LogOut) {
-        (UI.getCurrent.asInstanceOf[MobileApplication]).redirectToLoginView
+        (UI.getCurrent.asInstanceOf[MobileApplication]).redirectToLoginView()
       }
     })
 
@@ -84,7 +84,7 @@ class ShellController(val mainNav: NavigationManager) extends AbstractController
 
     this.register(new ApplicationEventListener[ShellEvent.NavigateBack]() {
       @Subscribe def handle(event: ShellEvent.NavigateBack) {
-        mainNav.navigateBack
+        mainNav.navigateBack()
       }
     })
   }

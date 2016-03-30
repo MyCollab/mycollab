@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.mobile.ui.grid;
 
 import com.esofthead.mycollab.mobile.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UIUtils;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.GridLayout;

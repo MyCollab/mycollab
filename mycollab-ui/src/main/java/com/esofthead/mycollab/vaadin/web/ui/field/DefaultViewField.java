@@ -25,11 +25,11 @@ import com.vaadin.ui.CustomField;
  * @author MyCollab Ltd.
  * @since 4.5.3
  */
-public class DefaultViewField extends CustomField<String> {
+public final class DefaultViewField extends CustomField<String> {
     private static final long serialVersionUID = 1L;
 
-    protected ELabel label;
-    protected String value;
+    private ELabel label;
+    private String value;
 
     public DefaultViewField(final String value) {
         this(value, ContentMode.TEXT);
@@ -37,8 +37,12 @@ public class DefaultViewField extends CustomField<String> {
 
     public DefaultViewField(final String value, final ContentMode contentMode) {
         this.value = value;
-        label = new ELabel(value).withWidth("100%").withStyleName("text-ellipsis").withDescription(value);
-        label.setContentMode(contentMode);
+        label = new ELabel(value, contentMode).withWidth("100%").withStyleName("wordWrap").withWidthUndefined().withDescription(value);
+    }
+
+    public DefaultViewField withStyleName(String styleName) {
+        label.addStyleName(styleName);
+        return this;
     }
 
     @Override

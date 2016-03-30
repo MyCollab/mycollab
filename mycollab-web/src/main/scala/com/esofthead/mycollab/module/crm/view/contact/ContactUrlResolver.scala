@@ -34,27 +34,27 @@ class ContactUrlResolver extends CrmUrlResolver {
 
   class ListUrlResolver extends CrmUrlResolver {
     protected override def handlePage(params: String*) {
-      EventBusFactory.getInstance.post(new ContactEvent.GotoList(this, null))
+      EventBusFactory.getInstance().post(new ContactEvent.GotoList(this, null))
     }
   }
 
   class AddUrlResolver extends CrmUrlResolver {
     protected override def handlePage(params: String*) {
-      EventBusFactory.getInstance.post(new ContactEvent.GotoAdd(this, new Contact))
+      EventBusFactory.getInstance().post(new ContactEvent.GotoAdd(this, new Contact))
     }
   }
 
   class EditUrlResolver extends CrmUrlResolver {
     protected override def handlePage(params: String*) {
       val contactId = new UrlTokenizer(params(0)).getInt
-      EventBusFactory.getInstance.post(new ContactEvent.GotoEdit(this, contactId))
+      EventBusFactory.getInstance().post(new ContactEvent.GotoEdit(this, contactId))
     }
   }
 
   class PreviewUrlResolver extends CrmUrlResolver {
     protected override def handlePage(params: String*) {
       val contactId = new UrlTokenizer(params(0)).getInt
-      EventBusFactory.getInstance.post(new ContactEvent.GotoRead(this, contactId))
+      EventBusFactory.getInstance().post(new ContactEvent.GotoRead(this, contactId))
     }
   }
 

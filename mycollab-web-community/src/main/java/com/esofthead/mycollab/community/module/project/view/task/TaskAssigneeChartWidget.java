@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.community.module.project.view.task;
 
 import com.esofthead.mycollab.common.domain.GroupItem;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.community.ui.chart.Key;
 import com.esofthead.mycollab.community.ui.chart.PieChartWrapper;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
@@ -25,7 +26,6 @@ import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
-import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.view.task.ITaskAssigneeChartWidget;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -52,7 +52,7 @@ public class TaskAssigneeChartWidget extends PieChartWrapper<TaskSearchCriteria>
         if (!groupItems.isEmpty()) {
             for (GroupItem item : groupItems) {
                 String assignUser = (item.getGroupid() != null) ? item.getGroupid() : "";
-                String assignUserFullName = item.getGroupid() == null ? AppContext.getMessage(BugI18nEnum.OPT_UNDEFINED_USER) :
+                String assignUserFullName = item.getGroupid() == null ? AppContext.getMessage(GenericI18Enum.OPT_UNDEFINED) :
                         item.getGroupname();
                 if (assignUserFullName == null || "".equals(assignUserFullName.trim())) {
                     assignUserFullName = StringUtils.extractNameFromEmail(assignUser);

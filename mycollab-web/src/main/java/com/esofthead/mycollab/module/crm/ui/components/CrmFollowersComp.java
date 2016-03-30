@@ -36,7 +36,6 @@ import com.vaadin.data.Property;
 import com.vaadin.event.LayoutEvents;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
@@ -150,7 +149,6 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
                 @Override
                 public void layoutClick(LayoutEvents.LayoutClickEvent event) {
                     if (event.getClickedComponent() == icon) {
-                        return;
                     } else if (!hasEditPermission()) {
                         NotificationUtil.showMessagePermissionAlert();
                     } else {

@@ -34,7 +34,7 @@ import com.hp.gagawa.java.elements.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.UUID;
+import static com.esofthead.mycollab.utils.TooltipHelper.TOOLTIP_ID;
 
 /**
  * @author MyCollab Ltd.
@@ -77,15 +77,13 @@ public class ProjectLinkBuilder {
 
     public static String generateProjectMemberHtmlLink(Integer projectId, String username, String displayName, String avarId,
                                                        Boolean isDisplayTooltip) {
-        String uid = UUID.randomUUID().toString();
         Img userAvatar = new Img("", StorageFactory.getInstance().getAvatarPath(avarId, 16));
-        A link = new A().setId("tag" + uid).setHref(generateProjectMemberFullLink(projectId,
+        A link = new A().setId("tag" + TOOLTIP_ID).setHref(generateProjectMemberFullLink(projectId,
                 username)).appendText(StringUtils.trim(displayName, 30, true));
         if (isDisplayTooltip) {
-            link.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(uid, username));
-            link.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
-            return new DivLessFormatter().appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), link,
-                    DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid)).write();
+            link.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(username));
+            link.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
+            return new DivLessFormatter().appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), link).write();
         } else {
             return new DivLessFormatter().appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), link).write();
         }
@@ -154,15 +152,18 @@ public class ProjectLinkBuilder {
                 + ProjectLinkGenerator.generatePageRead(projectId, pagePath);
     }
 
+    public static String generateStandupDashboardLink(Integer projectId) {
+        return AppContext.getSiteUrl() + GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator
+                .generateStandupDashboardLink(projectId);
+    }
+
     public static String generateProjectItemHtmlLinkAndTooltip(String prjShortName, Integer projectId, String summary, String type, String typeId) {
-        String uid = UUID.randomUUID().toString();
         Text image = new Text(ProjectAssetsManager.getAsset(type).getHtml());
-        A link = new A().setId("tag" + uid);
+        A link = new A().setId("tag" + TOOLTIP_ID);
         link.setHref(AppContext.getSiteUrl() + generateProjectItemLink(prjShortName, projectId, type, typeId)).appendChild(new Text(summary));
-        link.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, type, typeId));
-        link.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
-        Div div = new DivLessFormatter().appendChild(image, DivLessFormatter.EMPTY_SPACE(), link, DivLessFormatter
-                .EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));
+        link.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(type, typeId));
+        link.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
+        Div div = new DivLessFormatter().appendChild(image, DivLessFormatter.EMPTY_SPACE(), link);
         return div.write();
     }
 

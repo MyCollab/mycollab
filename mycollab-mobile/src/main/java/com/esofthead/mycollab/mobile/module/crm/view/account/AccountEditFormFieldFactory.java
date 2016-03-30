@@ -44,11 +44,9 @@ public class AccountEditFormFieldFactory<B extends Account> extends AbstractBean
     @Override
     protected Field<?> onCreateField(Object propertyId) {
         if ("type".equals(propertyId)) {
-            AccountTypeComboBox accountTypeBox = new AccountTypeComboBox();
-            return accountTypeBox;
+            return new AccountTypeComboBox();
         } else if ("industry".equals(propertyId)) {
-            IndustryComboBox accountIndustryBox = new IndustryComboBox();
-            return accountIndustryBox;
+            return new IndustryComboBox();
         } else if ("assignuser".equals(propertyId)) {
             ActiveUserComboBox userBox = new ActiveUserComboBox();
             userBox.select(attachForm.getBean().getAssignuser());
@@ -58,8 +56,7 @@ public class AccountEditFormFieldFactory<B extends Account> extends AbstractBean
             textArea.setNullRepresentation("");
             return textArea;
         } else if ("billingcountry".equals(propertyId) || "shippingcountry".equals(propertyId)) {
-            CountryComboBox billingCountryComboBox = new CountryComboBox();
-            return billingCountryComboBox;
+            return new CountryComboBox();
         } else if (propertyId.equals("accountname")) {
             TextField tf = new TextField();
             if (isValidateForm) {

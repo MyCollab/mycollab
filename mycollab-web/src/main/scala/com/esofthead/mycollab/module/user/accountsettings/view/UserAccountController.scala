@@ -128,7 +128,7 @@ class UserAccountController(container: AccountModule) extends AbstractController
     })
     this.register(new ApplicationEventListener[RoleEvent.GotoRead]() {
       @Subscribe def handle(event: RoleEvent.GotoRead) {
-        val presenter: UserPermissionManagementPresenter = PresenterResolver.getPresenter(classOf[UserPermissionManagementPresenter])
+        val presenter = PresenterResolver.getPresenter(classOf[UserPermissionManagementPresenter])
         presenter.go(container, new RoleScreenData.Read(event.getData.asInstanceOf[Integer]))
       }
     })

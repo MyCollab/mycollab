@@ -164,7 +164,6 @@ public class TaskReadPresenter extends AbstractPresenter<TaskReadView> {
                     breadCrumb.gotoTaskRead(task);
                 } else {
                     NotificationUtil.showRecordNotExistNotification();
-                    return;
                 }
             }
         } else {

@@ -31,7 +31,6 @@ public class SettingPresenter extends AbstractPresenter<SettingView> {
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        UserDashboardView prjContainer = (UserDashboardView) container;
         view.display();
     }
 }

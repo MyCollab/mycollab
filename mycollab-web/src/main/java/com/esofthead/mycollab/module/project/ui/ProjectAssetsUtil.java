@@ -27,7 +27,7 @@ public class ProjectAssetsUtil {
 
     public static FontAwesome getPhaseIcon(String status) {
         if (OptionI18nEnum.MilestoneStatus.Closed.name().equals(status)) {
-            return FontAwesome.MINUS;
+            return FontAwesome.MINUS_CIRCLE;
         } else if (OptionI18nEnum.MilestoneStatus.Future.name().equals(status)) {
             return FontAwesome.CLOCK_O;
         } else {

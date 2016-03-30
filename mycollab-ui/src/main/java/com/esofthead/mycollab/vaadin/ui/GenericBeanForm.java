@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.vaadin.ui;
 
 import com.esofthead.mycollab.core.MyCollabException;
-import com.vaadin.data.Validator;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Field;
 
@@ -48,10 +47,7 @@ public class GenericBeanForm<B> extends CssLayout {
      */
     public void setFormBuffered(boolean isBuffered) {
         if (fieldFactory != null) {
-            try {
-                fieldFactory.setBuffered(isBuffered);
-            } catch (Validator.InvalidValueException e) {
-            }
+            fieldFactory.setBuffered(isBuffered);
         }
     }
 

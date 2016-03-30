@@ -16,12 +16,34 @@
  */
 package com.esofthead.mycollab.security;
 
+import com.esofthead.mycollab.common.i18n.SecurityI18nEnum;
+
+import static com.esofthead.mycollab.security.AccessPermissionFlag.*;
+import static com.esofthead.mycollab.security.BooleanPermissionFlag.FALSE;
+import static com.esofthead.mycollab.security.BooleanPermissionFlag.TRUE;
+
 /**
  * Signal interface of Permission flag
  *
  * @author MyCollab Ltd
  * @since 1.0.0
  */
-public interface PermissionFlag {
-
+public class PermissionFlag {
+    public static SecurityI18nEnum toVal(Integer flag) {
+        if (flag == null || flag == NO_ACCESS) {
+            return SecurityI18nEnum.NO_ACCESS;
+        } else if (flag == READ_ONLY) {
+            return SecurityI18nEnum.READONLY;
+        } else if (flag == READ_WRITE) {
+            return SecurityI18nEnum.READ_WRITE;
+        } else if (flag == ACCESS) {
+            return SecurityI18nEnum.ACCESS;
+        } else if (flag==TRUE) {
+            return SecurityI18nEnum.YES;
+        } else if (flag == FALSE) {
+            return SecurityI18nEnum.NO;
+        } else {
+            return SecurityI18nEnum.UNDEFINE;
+        }
+    }
 }

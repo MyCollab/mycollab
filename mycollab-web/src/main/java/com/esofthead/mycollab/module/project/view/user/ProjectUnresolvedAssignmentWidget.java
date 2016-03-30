@@ -25,7 +25,7 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.ProjectGenericTask;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
 import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
-import com.esofthead.mycollab.module.project.ui.components.ProjectTaskRowDisplayHandler;
+import com.esofthead.mycollab.module.project.ui.components.GenericTaskRowDisplayHandler;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.web.ui.DefaultBeanPagedList;
@@ -63,7 +63,7 @@ public class ProjectUnresolvedAssignmentWidget extends Depot {
             }
         });
         taskList = new DefaultBeanPagedList(ApplicationContextUtil.getSpringBean(ProjectGenericTaskService.class),
-                new ProjectTaskRowDisplayHandler(), 10) {
+                new GenericTaskRowDisplayHandler(), 10) {
             @Override
             protected String stringWhenEmptyList() {
                 return "No assignment";

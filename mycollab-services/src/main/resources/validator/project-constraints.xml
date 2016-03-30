@@ -7,7 +7,7 @@
     <bean class="Project" ignore-annotations="false">
         <class>
             <constraint
-                annotation="com.esofthead.mycollab.validator.constraints.DateComparision">
+                    annotation="com.esofthead.mycollab.validator.constraints.DateComparision">
                 <message>Plan start date must be less than Plan end date</message>
                 <element name="firstDateField">planstartdate</element>
                 <element name="lastDateField">planenddate</element>
@@ -23,7 +23,7 @@
                 <message>Short name must not be null</message>
             </constraint>
             <constraint
-                annotation="com.esofthead.mycollab.validator.constraints.StringLimitLength">
+                    annotation="com.esofthead.mycollab.validator.constraints.StringLimitLength">
                 <message>Short name must be less than 3 characters, contains only characters and numberics</message>
             </constraint>
         </field>
@@ -42,10 +42,22 @@
         </field>
     </bean>
 
+    <bean class="Invoice" ignore-annotations="false">
+        <field name="issuedate">
+            <constraint annotation="javax.validation.constraints.NotNull">
+                <message>Issue date must not be null</message>
+            </constraint>
+        </field>
+        <field name="noid">
+            <constraint annotation="javax.validation.constraints.NotNull">
+                <message>Invoice No/ID must not be null</message>
+            </constraint>
+        </field>
+    </bean>
+
     <bean class="Milestone" ignore-annotations="false">
         <class>
-            <constraint
-                annotation="com.esofthead.mycollab.validator.constraints.DateComparision">
+            <constraint annotation="com.esofthead.mycollab.validator.constraints.DateComparision">
                 <message>Start date must be less than end date</message>
                 <element name="firstDateField">startdate</element>
                 <element name="lastDateField">enddate</element>
@@ -66,25 +78,25 @@
     <bean class="Task" ignore-annotations="false">
         <class>
             <constraint
-                annotation="com.esofthead.mycollab.validator.constraints.DateComparision">
+                    annotation="com.esofthead.mycollab.validator.constraints.DateComparision">
                 <message>Start date must be less than end date</message>
                 <element name="firstDateField">startdate</element>
                 <element name="lastDateField">enddate</element>
             </constraint>
             <constraint
-                annotation="com.esofthead.mycollab.validator.constraints.DateComparision">
+                    annotation="com.esofthead.mycollab.validator.constraints.DateComparision">
                 <message>Actual start date must be less than actual end date</message>
                 <element name="firstDateField">actualstartdate</element>
                 <element name="lastDateField">actualenddate</element>
             </constraint>
             <constraint
-                annotation="com.esofthead.mycollab.validator.constraints.DateComparision">
+                    annotation="com.esofthead.mycollab.validator.constraints.DateComparision">
                 <message>Start date must be less than deadline date</message>
                 <element name="firstDateField">startdate</element>
                 <element name="lastDateField">deadline</element>
             </constraint>
             <constraint
-                annotation="com.esofthead.mycollab.validator.constraints.DateComparision">
+                    annotation="com.esofthead.mycollab.validator.constraints.DateComparision">
                 <message>End date must be less than deadline date</message>
                 <element name="firstDateField">enddate</element>
                 <element name="lastDateField">deadline</element>

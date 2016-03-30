@@ -14,6 +14,22 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
+/**
+ * This file is part of mycollab-web.
+ * <p>
+ * mycollab-web is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * <p>
+ * mycollab-web is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License
+ * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.esofthead.mycollab.shell.view;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -24,6 +40,7 @@ import com.esofthead.mycollab.common.ui.components.notification.TimezoneNotifica
 import com.esofthead.mycollab.configuration.IDeploymentMode;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.license.LicenseInfo;
@@ -70,7 +87,6 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.joda.time.LocalDate;
@@ -78,6 +94,7 @@ import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.sliderpanel.SliderPanel;
 import org.vaadin.sliderpanel.SliderPanelBuilder;
 import org.vaadin.sliderpanel.client.SliderMode;
+import org.vaadin.sliderpanel.client.SliderPanelListener;
 import org.vaadin.sliderpanel.client.SliderTabPosition;
 import org.vaadin.teemu.VaadinIcons;
 import org.vaadin.viritin.button.MButton;
@@ -147,9 +164,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
 
         IDeploymentMode mode = ApplicationContextUtil.getSpringBean(IDeploymentMode.class);
         if (mode.isCommunityEdition()) {
-            SliderPanel sliderPanel = new SliderPanelBuilder(new CommunitySliderContent())
-                    .caption("Community").flowInContent(true).mode(SliderMode.RIGHT)
-                    .tabPosition(SliderTabPosition.MIDDLE).build();
+            SliderPanel sliderPanel = CommunitySliderPanel.buildCommunitySliderPanel();
             bodyLayout.addComponent(sliderPanel);
         }
         bodyLayout.setExpandRatio(widget, 1.0f);

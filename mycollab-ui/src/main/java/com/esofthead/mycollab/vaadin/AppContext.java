@@ -19,7 +19,6 @@ package com.esofthead.mycollab.vaadin;
 import ch.qos.cal10n.IMessageConveyor;
 import com.esofthead.mycollab.common.i18n.DayI18nEnum;
 import com.esofthead.mycollab.common.i18n.ErrorI18nEnum;
-import com.esofthead.mycollab.common.i18n.SecurityI18nEnum;
 import com.esofthead.mycollab.configuration.LocaleHelper;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.SessionExpireException;
@@ -37,7 +36,7 @@ import com.esofthead.mycollab.module.billing.SubDomainNotExistException;
 import com.esofthead.mycollab.module.user.dao.UserAccountMapper;
 import com.esofthead.mycollab.module.user.domain.*;
 import com.esofthead.mycollab.module.user.service.BillingAccountService;
-import com.esofthead.mycollab.security.AccessPermissionFlag;
+import com.esofthead.mycollab.security.PermissionFlag;
 import com.esofthead.mycollab.security.PermissionMap;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
@@ -409,7 +408,7 @@ public class AppContext implements Serializable {
 
     public static String getPermissionCaptionValue(PermissionMap permissionMap, String permissionItem) {
         Integer perVal = permissionMap.get(permissionItem);
-        return (perVal == null) ? getMessage(SecurityI18nEnum.NO_ACCESS) : AppContext.getMessage(AccessPermissionFlag.toKey(perVal));
+        return AppContext.getMessage(PermissionFlag.toVal(perVal));
     }
 
     public static TimeZone getUserTimezone() {

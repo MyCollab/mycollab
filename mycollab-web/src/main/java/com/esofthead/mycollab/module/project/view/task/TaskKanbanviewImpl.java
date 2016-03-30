@@ -112,7 +112,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
                     TaskSearchCriteria criteria = (TaskSearchCriteria) event.getData();
                     if (criteria != null) {
                         criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-                        criteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("taskindex", SearchCriteria.ASC)));
+                        criteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("taskindex", SearchCriteria.ASC)));
                         queryTask(criteria);
                     }
                 }
@@ -166,7 +166,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
         ToggleButtonGroup viewButtons = new ToggleButtonGroup();
         viewButtons.addButton(advanceDisplayBtn);
         viewButtons.addButton(kanbanBtn);
-        viewButtons.setDefaultButton(kanbanBtn);
+        viewButtons.withDefaultButton(kanbanBtn);
         groupWrapLayout.addComponent(viewButtons);
 
         kanbanLayout = new DDHorizontalLayout();
@@ -304,7 +304,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
         });
     }
 
-    private class KanbanTaskBlockItem extends CustomComponent {
+    private static class KanbanTaskBlockItem extends CustomComponent {
         private SimpleTask task;
 
         KanbanTaskBlockItem(final SimpleTask task) {
@@ -649,9 +649,9 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
         }
     }
 
-    class ColumnColorPickerWindow extends ColorPickerPopup {
-        ColumnColorPickerWindow(Color intialColor) {
-            super(intialColor);
+    private static class ColumnColorPickerWindow extends ColorPickerPopup {
+        ColumnColorPickerWindow(Color initialColor) {
+            super(initialColor);
             this.center();
         }
     }

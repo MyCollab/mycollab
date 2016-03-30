@@ -24,7 +24,11 @@ import com.vaadin.ui.Window;
  * @since 5.2.6
  */
 public abstract class AbstractAboutWindow extends Window implements CacheableComponent {
-    public AbstractAboutWindow(String caption) {
-        super(caption);
+    public AbstractAboutWindow() {
+        super("About");
+        this.setModal(true);
+        this.setResizable(false);
+        this.center();
+        this.setWidth("600px");
     }
 }

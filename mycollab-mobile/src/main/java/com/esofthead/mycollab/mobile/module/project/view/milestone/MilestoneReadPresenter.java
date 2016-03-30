@@ -105,7 +105,6 @@ public class MilestoneReadPresenter extends AbstractProjectPresenter<MilestoneRe
                             milestone.getName());
                 } else {
                     NotificationUtil.showRecordNotExistNotification();
-                    return;
                 }
             } else {
                 throw new MyCollabException("Unhanddle this case yet");

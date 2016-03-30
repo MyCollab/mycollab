@@ -46,7 +46,7 @@ class MilestoneUrlResolver extends ProjectUrlResolver {
       val searchCriteria = new MilestoneSearchCriteria
       searchCriteria.setProjectIds(new SetSearchField[Integer](projectId))
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new Search(searchCriteria))
-      EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+      EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
 
@@ -56,7 +56,7 @@ class MilestoneUrlResolver extends ProjectUrlResolver {
       val milestone = new SimpleMilestone
       milestone.setProjectid(projectId)
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new MilestoneScreenData.Add(milestone))
-      EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+      EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
 
@@ -68,7 +68,7 @@ class MilestoneUrlResolver extends ProjectUrlResolver {
       val milestoneService = ApplicationContextUtil.getSpringBean(classOf[MilestoneService])
       val milestone = milestoneService.findById(milestoneId, AppContext.getAccountId)
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new MilestoneScreenData.Edit(milestone))
-      EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+      EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
 
@@ -78,7 +78,7 @@ class MilestoneUrlResolver extends ProjectUrlResolver {
       val projectId = token.getInt
       val milestoneId = token.getInt
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new MilestoneScreenData.Read(milestoneId))
-      EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+      EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
 

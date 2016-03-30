@@ -55,8 +55,7 @@ class ContactEditFormFieldFactory<B extends Contact> extends AbstractBeanFieldGr
         if (propertyId.equals("firstname") || propertyId.equals("prefix")) {
             return firstNamePrefixField;
         } else if (propertyId.equals("leadsource")) {
-            LeadSourceComboBox leadSource = new LeadSourceComboBox();
-            return leadSource;
+            return new LeadSourceComboBox();
         } else if (propertyId.equals("accountid")) {
             return new AccountSelectionField();
         } else if (propertyId.equals("lastname")) {

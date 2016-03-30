@@ -54,7 +54,7 @@ public class TaskRowRenderer extends MVerticalLayout {
 
     public TaskRowRenderer(final SimpleTask task) {
         this.task = task;
-        withSpacing(true).withMargin(false).withWidth("100%").addStyleName("taskrow");
+        withSpacing(true).withMargin(false).withWidth("100%").addStyleName(UIConstants.BORDER_LIST_ROW);
 
         taskSettingPopupBtn = new PopupButton();
         taskSettingPopupBtn.setIcon(FontAwesome.COGS);

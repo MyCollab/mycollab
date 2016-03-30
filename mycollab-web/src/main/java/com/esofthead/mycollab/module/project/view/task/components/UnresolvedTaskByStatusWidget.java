@@ -115,24 +115,22 @@ public class UnresolvedTaskByStatusWidget extends DepotWithChart {
                 boolean isFound = false;
                 for (GroupItem item : groupItems) {
                     if (optionVal.getTypeval().equals(item.getGroupid())) {
-                        if (optionVal.getTypeval().equals(item.getGroupid())) {
-                            isFound = true;
-                            MHorizontalLayout statusLayout = new MHorizontalLayout().withWidth("100%");
-                            statusLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-                            String statusCaption = AppContext.getMessage(OptionI18nEnum.StatusI18nEnum.class, optionVal.getTypeval());
-                            MButton statusLink = new ButtonI18nComp(optionVal.getTypeval())
-                                    .withCaption(StringUtils.trim(statusCaption, 25, true))
-                                    .withDescription(statusCaption)
-                                    .withListener(listener).withStyleName(UIConstants.BUTTON_LINK).withIcon(FontAwesome.FLAG);
-                            statusLink.setWidth("110px");
+                        isFound = true;
+                        MHorizontalLayout statusLayout = new MHorizontalLayout().withWidth("100%");
+                        statusLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+                        String statusCaption = AppContext.getMessage(OptionI18nEnum.StatusI18nEnum.class, optionVal.getTypeval());
+                        MButton statusLink = new ButtonI18nComp(optionVal.getTypeval())
+                                .withCaption(StringUtils.trim(statusCaption, 25, true))
+                                .withDescription(statusCaption)
+                                .withListener(listener).withStyleName(UIConstants.BUTTON_LINK).withIcon(FontAwesome.FLAG);
+                        statusLink.setWidth("110px");
 
-                            statusLayout.addComponent(statusLink);
-                            ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount, totalCount - item.getValue(), false);
-                            indicator.setWidth("100%");
-                            statusLayout.with(indicator).expand(indicator);
+                        statusLayout.addComponent(statusLink);
+                        ProgressBarIndicator indicator = new ProgressBarIndicator(totalCount, totalCount - item.getValue(), false);
+                        indicator.setWidth("100%");
+                        statusLayout.with(indicator).expand(indicator);
 
-                            this.bodyContent.addComponent(statusLayout);
-                        }
+                        bodyContent.addComponent(statusLayout);
                     }
                 }
                 if (!isFound) {

@@ -42,32 +42,32 @@ class AccountSettingUrlResolver extends UrlResolver {
 
   override def handle(params: String*) {
     if (!ModuleHelper.isCurrentAccountModule) {
-      EventBusFactory.getInstance.post(new ShellEvent.GotoUserAccountModule(this, params))
+      EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, params))
     }
     else {
       super.handle(params: _*)
     }
   }
 
-  protected def defaultPageErrorHandler {
-    EventBusFactory.getInstance.post(new ProfileEvent.GotoProfileView(this, null))
+  protected def defaultPageErrorHandler() {
+    EventBusFactory.getInstance().post(new ProfileEvent.GotoProfileView(this, null))
   }
 
   private class ReadUrlResolver extends AccountSettingUrlResolver {
     protected override def handlePage(params: String*) {
-      EventBusFactory.getInstance.post(new ProfileEvent.GotoProfileView(this, null))
+      EventBusFactory.getInstance().post(new ProfileEvent.GotoProfileView(this, null))
     }
   }
 
   private class BillingUrlResolver extends AccountSettingUrlResolver {
     protected override def handlePage(params: String*) {
-      EventBusFactory.getInstance.post(new AccountBillingEvent.GotoSummary(this, null))
+      EventBusFactory.getInstance().post(new AccountBillingEvent.GotoSummary(this, null))
     }
   }
 
   private class SetupUrlResolver extends AccountSettingUrlResolver {
     protected override def handlePage(params: String*) {
-      EventBusFactory.getInstance.post(new SetupEvent.GotoSetupPage(this, null))
+      EventBusFactory.getInstance().post(new SetupEvent.GotoSetupPage(this, null))
     }
   }
 

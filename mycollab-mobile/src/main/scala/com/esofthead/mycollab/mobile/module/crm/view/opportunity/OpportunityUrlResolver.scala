@@ -36,28 +36,28 @@ class OpportunityUrlResolver extends CrmUrlResolver {
 
     class OpportunityListUrlResolver extends CrmUrlResolver {
         protected override def handlePage(params: String*) {
-            EventBusFactory.getInstance.post(new CrmEvent.GotoContainer(this,
+            EventBusFactory.getInstance().post(new CrmEvent.GotoContainer(this,
                 new CrmModuleScreenData.GotoModule(AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_OPPORTUNTIES_HEADER))))
         }
     }
 
     class OpportunityAddUrlResolver extends CrmUrlResolver {
         protected override def handlePage(params: String*) {
-            EventBusFactory.getInstance.post(new OpportunityEvent.GotoAdd(this, new Account))
+            EventBusFactory.getInstance().post(new OpportunityEvent.GotoAdd(this, new Account))
         }
     }
 
     class OpportunityEditUrlResolver extends CrmUrlResolver {
         protected override def handlePage(params: String*) {
             val opportunintyId: Int = new UrlTokenizer(params(0)).getInt
-            EventBusFactory.getInstance.post(new OpportunityEvent.GotoEdit(this, opportunintyId))
+            EventBusFactory.getInstance().post(new OpportunityEvent.GotoEdit(this, opportunintyId))
         }
     }
 
     class OpportunityPreviewUrlResolver extends CrmUrlResolver {
         protected override def handlePage(params: String*) {
             val opportunintyId: Int = new UrlTokenizer(params(0)).getInt
-            EventBusFactory.getInstance.post(new OpportunityEvent.GotoRead(this, opportunintyId))
+            EventBusFactory.getInstance().post(new OpportunityEvent.GotoRead(this, opportunintyId))
         }
     }
 

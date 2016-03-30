@@ -16,12 +16,14 @@
  */
 package com.esofthead.mycollab.common.service.ibatis;
 
+import com.esofthead.mycollab.cache.CleanCacheEvent;
 import com.esofthead.mycollab.common.dao.FavoriteItemMapper;
 import com.esofthead.mycollab.common.domain.FavoriteItem;
 import com.esofthead.mycollab.common.domain.FavoriteItemExample;
 import com.esofthead.mycollab.common.service.FavoriteItemService;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultCrudService;
+import com.google.common.eventbus.AsyncEventBus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +38,9 @@ import java.util.GregorianCalendar;
 public class FavoriteItemServiceImpl extends DefaultCrudService<Integer, FavoriteItem> implements FavoriteItemService {
     @Autowired
     private FavoriteItemMapper favoriteItemMapper;
+
+    @Autowired
+    private AsyncEventBus asyncEventBus;
 
     @Override
     public ICrudGenericDAO<Integer, FavoriteItem> getCrudMapper() {
@@ -56,6 +61,7 @@ public class FavoriteItemServiceImpl extends DefaultCrudService<Integer, Favorit
             item.setCreatedtime(now);
             favoriteItemMapper.insert(item);
         }
+        asyncEventBus.post(new CleanCacheEvent(item.getSaccountid(), new Class[]{FavoriteItemService.class}));
     }
 
     @Override

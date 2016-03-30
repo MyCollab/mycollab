@@ -249,7 +249,6 @@ public class AccountReadPresenter extends AbstractCrmPresenter<AccountReadView> 
                             AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE, "Account", account.getAccountname()));
                 } else {
                     NotificationUtil.showRecordNotExistNotification();
-                    return;
                 }
             }
         } else {

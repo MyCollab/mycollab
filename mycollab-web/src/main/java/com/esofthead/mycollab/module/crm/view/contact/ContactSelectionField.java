@@ -35,7 +35,6 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
 public class ContactSelectionField extends CustomField<Integer> implements FieldSelection<Contact> {
     private static final long serialVersionUID = 1L;
 
-    private MHorizontalLayout layout;
     private TextField contactName;
     private Button browseBtn;
     private Button clearBtn;
@@ -117,7 +116,7 @@ public class ContactSelectionField extends CustomField<Integer> implements Field
 
     @Override
     protected Component initContent() {
-        layout = new MHorizontalLayout().withWidth("100%");
+        MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%");
         layout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
         layout.with(contactName, browseBtn, clearBtn).expand(contactName);
         return layout;

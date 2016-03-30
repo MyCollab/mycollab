@@ -47,8 +47,8 @@ class LiveInstanceMonitorJob extends GenericQuartzJobBean {
     val numUsers = userMapper.countByExample(new UserExample)
 
     val liveInstance = new LiveInstance()
-    liveInstance.setAppversion(MyCollabVersion.getVersion())
-    liveInstance.setInstalleddate(new DateTime().toDate())
+    liveInstance.setAppversion(MyCollabVersion.getVersion)
+    liveInstance.setInstalleddate(new DateTime().toDate)
     liveInstance.setJavaversion(System.getProperty("java.version"))
     liveInstance.setSysid(SystemProperties.getId)
     liveInstance.setSysproperties(System.getProperty("os.arch") + ":" + System.getProperty("os.name") + ":" +

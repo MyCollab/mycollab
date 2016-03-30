@@ -46,8 +46,8 @@ public class RelatedReadItemField extends CustomField {
     @Override
     protected Component initContent() {
         try {
-            final Integer typeid = (Integer) PropertyUtils.getProperty(RelatedReadItemField.this.bean, "typeid");
-            if (typeid == null) {
+            final Integer typeId = (Integer) PropertyUtils.getProperty(RelatedReadItemField.this.bean, "typeid");
+            if (typeId == null) {
                 return new Label("");
             }
 
@@ -61,14 +61,14 @@ public class RelatedReadItemField extends CustomField {
 
             if (CrmTypeConstants.ACCOUNT.equals(type)) {
                 AccountService accountService = ApplicationContextUtil.getSpringBean(AccountService.class);
-                final SimpleAccount account = accountService.findById(typeid, AppContext.getAccountId());
+                final SimpleAccount account = accountService.findById(typeId, AppContext.getAccountId());
                 if (account != null) {
                     relateItemName = account.getAccountname();
                     relatedLink = CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT);
                 }
             } else if (CrmTypeConstants.CAMPAIGN.equals(type)) {
                 CampaignService campaignService = ApplicationContextUtil.getSpringBean(CampaignService.class);
-                final SimpleCampaign campaign = campaignService.findById(typeid, AppContext.getAccountId());
+                final SimpleCampaign campaign = campaignService.findById(typeId, AppContext.getAccountId());
                 if (campaign != null) {
                     relateItemName = campaign.getCampaignname();
                     relatedLink = CrmAssetsManager.getAsset(CrmTypeConstants.CAMPAIGN);
@@ -76,7 +76,7 @@ public class RelatedReadItemField extends CustomField {
                 }
             } else if (CrmTypeConstants.CONTACT.equals(type)) {
                 ContactService contactService = ApplicationContextUtil.getSpringBean(ContactService.class);
-                final SimpleContact contact = contactService.findById(typeid, AppContext.getAccountId());
+                final SimpleContact contact = contactService.findById(typeId, AppContext.getAccountId());
                 if (contact != null) {
                     relateItemName = contact.getContactName();
                     relatedLink = CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT);
@@ -84,7 +84,7 @@ public class RelatedReadItemField extends CustomField {
                 }
             } else if (CrmTypeConstants.LEAD.equals(type)) {
                 LeadService leadService = ApplicationContextUtil.getSpringBean(LeadService.class);
-                final SimpleLead lead = leadService.findById(typeid, AppContext.getAccountId());
+                final SimpleLead lead = leadService.findById(typeId, AppContext.getAccountId());
                 if (lead != null) {
                     relateItemName = lead.getLeadName();
                     relatedLink = CrmAssetsManager.getAsset(CrmTypeConstants.LEAD);
@@ -92,7 +92,7 @@ public class RelatedReadItemField extends CustomField {
                 }
             } else if (CrmTypeConstants.OPPORTUNITY.equals(type)) {
                 OpportunityService opportunityService = ApplicationContextUtil.getSpringBean(OpportunityService.class);
-                final SimpleOpportunity opportunity = opportunityService.findById(typeid, AppContext.getAccountId());
+                final SimpleOpportunity opportunity = opportunityService.findById(typeId, AppContext.getAccountId());
                 if (opportunity != null) {
                     relateItemName = opportunity.getOpportunityname();
                     relatedLink = CrmAssetsManager.getAsset(CrmTypeConstants.OPPORTUNITY);
@@ -100,14 +100,14 @@ public class RelatedReadItemField extends CustomField {
                 }
             } else if (CrmTypeConstants.CASE.equals(type)) {
                 CaseService caseService = ApplicationContextUtil.getSpringBean(CaseService.class);
-                final SimpleCase cases = caseService.findById(typeid, AppContext.getAccountId());
+                final SimpleCase cases = caseService.findById(typeId, AppContext.getAccountId());
                 if (cases != null) {
                     relateItemName = cases.getSubject();
                     relatedLink = CrmAssetsManager.getAsset(CrmTypeConstants.CASE);
                 }
             }
 
-            LabelLink related = new LabelLink(relateItemName, CrmLinkBuilder.generateActivityPreviewLinkFull(type, typeid));
+            LabelLink related = new LabelLink(relateItemName, CrmLinkBuilder.generateActivityPreviewLinkFull(type, typeId));
             if (relatedLink != null)
                 related.setIconLink(relatedLink);
 

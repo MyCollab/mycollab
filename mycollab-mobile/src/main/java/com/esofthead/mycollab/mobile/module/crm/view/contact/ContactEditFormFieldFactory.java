@@ -52,11 +52,9 @@ class ContactEditFormFieldFactory<B extends Contact> extends AbstractBeanFieldGr
         if (propertyId.equals("firstname") || propertyId.equals("prefix")) {
             return firstNamePrefixField;
         } else if (propertyId.equals("leadsource")) {
-            LeadSourceComboBox leadSource = new LeadSourceComboBox();
-            return leadSource;
+            return new LeadSourceComboBox();
         } else if (propertyId.equals("accountid")) {
-            AccountSelectionField accountField = new AccountSelectionField();
-            return accountField;
+            return new AccountSelectionField();
         } else if (propertyId.equals("lastname")) {
             TextField tf = new TextField();
             if (isValidateForm) {
@@ -74,8 +72,7 @@ class ContactEditFormFieldFactory<B extends Contact> extends AbstractBeanFieldGr
             userBox.select(attachForm.getBean().getAssignuser());
             return userBox;
         } else if (propertyId.equals("primcountry") || propertyId.equals("othercountry")) {
-            CountryComboBox otherCountryComboBox = new CountryComboBox();
-            return otherCountryComboBox;
+            return new CountryComboBox();
         } else if (propertyId.equals("birthday")) {
             return new BirthdayPickerField();
         }

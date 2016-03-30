@@ -101,7 +101,6 @@ public class TaskReadPresenter extends AbstractProjectPresenter<TaskReadView> {
                             task.getProjectShortname()), task.getTaskname());
                 } else {
                     NotificationUtil.showRecordNotExistNotification();
-                    return;
                 }
             }
         } else {

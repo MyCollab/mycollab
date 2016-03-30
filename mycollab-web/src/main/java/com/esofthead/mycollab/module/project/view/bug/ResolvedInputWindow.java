@@ -40,7 +40,6 @@ import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
-import com.vaadin.ui.ComponentContainer;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.GregorianCalendar;
@@ -53,7 +52,6 @@ public class ResolvedInputWindow extends Window {
     private static final long serialVersionUID = 1L;
 
     private final SimpleBug bug;
-    private final EditForm editForm;
     private VersionMultiSelectField fixedVersionSelect;
     private final IBugCallbackStatusComp callbackForm;
 
@@ -65,11 +63,11 @@ public class ResolvedInputWindow extends Window {
         this.setWidth("800px");
         this.setResizable(false);
         this.setModal(true);
-        this.editForm = new EditForm();
-        this.editForm.setBean(bug);
+        EditForm editForm = new EditForm();
+        editForm.setBean(bug);
         VerticalLayout contentLayout = new VerticalLayout();
         contentLayout.setMargin(new MarginInfo(false, false, true, false));
-        contentLayout.addComponent(this.editForm);
+        contentLayout.addComponent(editForm);
         this.setContent(contentLayout);
         this.center();
     }

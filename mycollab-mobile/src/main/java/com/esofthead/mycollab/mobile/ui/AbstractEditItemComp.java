@@ -40,14 +40,12 @@ public abstract class AbstractEditItemComp<B> extends AbstractMobilePageView imp
     protected B beanItem;
     protected AdvancedEditBeanForm<B> editForm;
 
-    private Button saveBtn;
-
     public AbstractEditItemComp() {
         super();
         editForm = new AdvancedEditBeanForm<>();
         this.setContent(editForm);
 
-        saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
+        Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 if (editForm.validateForm())

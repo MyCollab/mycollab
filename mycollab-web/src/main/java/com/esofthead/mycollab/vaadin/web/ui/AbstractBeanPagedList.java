@@ -218,6 +218,31 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T> extends
 
     abstract protected List<T> queryCurrentData();
 
+    public Component insertRowAt(T item, int index) {
+        Component row = rowDisplayHandler.generateRow(this, item, index);
+        listContainer.addComponent(row, index);
+        return row;
+    }
+
+    public T getItemAt(int index) {
+        if (currentListData != null) {
+            try {
+                return currentListData.get(index);
+            } catch (Exception e) {
+                return null;
+            }
+        }
+        return null;
+    }
+
+    public Component getRowAt(int index) {
+        try {
+            return listContainer.getComponent(index);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     public int getTotalCount() {
         return totalCount;
     }
@@ -274,6 +299,17 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T> extends
         searchRequest = new SearchRequest<>(searchCriteria, currentPage, defaultNumberSearchItems);
         doSearch();
         return totalCount;
+    }
+
+    public void removeRow(Component row) {
+        listContainer.removeComponent(row);
+    }
+
+    public void setSelectedRow(Component row) {
+        for (int i = 0; i < listContainer.getComponentCount(); i++) {
+            listContainer.getComponent(i).removeStyleName("selected");
+        }
+        row.addStyleName("selected");
     }
 
     public interface RowDisplayHandler<T> {

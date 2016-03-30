@@ -119,17 +119,12 @@ public class ActivityTableDisplay extends
             private static final long serialVersionUID = 1L;
 
             @Override
-            public com.vaadin.ui.Component generateCell(Table source,
-                                                        final Object itemId, Object columnId) {
+            public com.vaadin.ui.Component generateCell(Table source, final Object itemId, Object columnId) {
                 SimpleActivity simpleEvent = getBeanByIndex(itemId);
 
-                LabelLink b = new LabelLink(
-                        simpleEvent.getSubject(),
-                        CrmLinkBuilder.generateActivityPreviewLinkFull(
+                LabelLink b = new LabelLink(simpleEvent.getSubject(), CrmLinkBuilder.generateActivityPreviewLinkFull(
                                 simpleEvent.getEventType(), simpleEvent.getId()));
-
-                FontAwesome iconLink = CrmAssetsManager.getAsset(simpleEvent
-                        .getEventType());
+                FontAwesome iconLink = CrmAssetsManager.getAsset(simpleEvent.getEventType());
                 b.setIconLink(iconLink);
 
                 if (simpleEvent.isCompleted()) {

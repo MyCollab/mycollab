@@ -33,21 +33,21 @@ class CallUrlResolver extends CrmUrlResolver {
 
     class CallAddUrlResolver extends CrmUrlResolver {
         protected override def handlePage(params: String*) {
-            EventBusFactory.getInstance.post(new ActivityEvent.CallAdd(this, new CallWithBLOBs))
+            EventBusFactory.getInstance().post(new ActivityEvent.CallAdd(this, new CallWithBLOBs))
         }
     }
 
     class CallEditUrlResolver extends CrmUrlResolver {
         protected override def handlePage(params: String*) {
             val meetingId: Int = new UrlTokenizer(params(0)).getInt
-            EventBusFactory.getInstance.post(new ActivityEvent.CallEdit(this, meetingId))
+            EventBusFactory.getInstance().post(new ActivityEvent.CallEdit(this, meetingId))
         }
     }
 
     class CallPreviewUrlResolver extends CrmUrlResolver {
         protected override def handlePage(params: String*) {
             val accountId: Int = new UrlTokenizer(params(0)).getInt
-            EventBusFactory.getInstance.post(new ActivityEvent.CallRead(this, accountId))
+            EventBusFactory.getInstance().post(new ActivityEvent.CallRead(this, accountId))
         }
     }
 

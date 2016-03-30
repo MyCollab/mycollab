@@ -49,8 +49,7 @@ public class CampaignListViewImpl extends
 
 	@Override
 	protected AbstractPagedBeanList<CampaignSearchCriteria, SimpleCampaign> createBeanTable() {
-		CampaignListDisplay campaignListDisplay = new CampaignListDisplay();
-		return campaignListDisplay;
+		return new CampaignListDisplay();
 	}
 
 	@Override
@@ -61,8 +60,7 @@ public class CampaignListViewImpl extends
 
 			@Override
 			public void buttonClick(Button.ClickEvent arg0) {
-				EventBusFactory.getInstance().post(
-						new CampaignEvent.GotoAdd(this, null));
+				EventBusFactory.getInstance().post(new CampaignEvent.GotoAdd(this, null));
 			}
 		});
 		addCampaign.setStyleName("add-btn");

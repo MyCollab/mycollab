@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.common.domain;
 
 import com.esofthead.mycollab.core.db.metadata.Column;
-import com.esofthead.mycollab.core.db.metadata.Table;
 import org.hibernate.validator.constraints.Length;
 
 @SuppressWarnings("ucd")

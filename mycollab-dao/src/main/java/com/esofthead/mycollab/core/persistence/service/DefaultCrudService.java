@@ -25,10 +25,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 
 /**
  * The generic class that serves the basic operations in data access layer:
@@ -115,7 +112,7 @@ public abstract class DefaultCrudService<K extends Serializable, T> implements I
 
     @Override
     public void removeWithSession(T item, String username, Integer accountId) {
-        massRemoveWithSession(Arrays.asList(item), username, accountId);
+        massRemoveWithSession(Collections.singletonList(item), username, accountId);
     }
 
     @Override

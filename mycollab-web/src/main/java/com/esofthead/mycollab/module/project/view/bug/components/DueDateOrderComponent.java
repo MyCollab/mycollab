@@ -20,6 +20,7 @@ import com.esofthead.mycollab.core.utils.SortedArrayMap;
 import com.esofthead.mycollab.module.project.ui.components.IGroupComponent;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
+import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
@@ -101,7 +102,7 @@ public class DueDateOrderComponent extends BugGroupOrderComponent {
         private void initComponent() {
             this.setMargin(new MarginInfo(true, false, true, false));
             wrapBody = new CssLayout();
-            wrapBody.setStyleName("tasklist");
+            wrapBody.setStyleName(UIConstants.BORDER_LIST);
             headerLbl = ELabel.h3("");
             this.addComponent(headerLbl);
             this.addComponent(wrapBody);

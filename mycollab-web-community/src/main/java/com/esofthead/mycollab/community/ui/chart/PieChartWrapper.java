@@ -148,7 +148,7 @@ public abstract class PieChartWrapper<S extends SearchCriteria> extends GenericC
         final List keys = pieDataSet.getKeys();
 
         for (int i = 0; i < keys.size(); i++) {
-            MHorizontalLayout layout = new MHorizontalLayout().withSpacing(false).withMargin(new MarginInfo(false, false, false, true));
+            MHorizontalLayout layout = new MHorizontalLayout().withMargin(new MarginInfo(false, false, false, true));
             layout.addStyleName("inline-block");
             layout.setSizeUndefined();
             layout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);

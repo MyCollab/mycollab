@@ -62,7 +62,7 @@ trait PreviewFormHandler[T] {
   /**
     *
     */
-  def onCancel
+  def onCancel()
 
   /**
     * @param action

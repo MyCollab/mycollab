@@ -122,13 +122,7 @@ public abstract class AbstractPresenter<V extends PageView> implements IPresente
 
         if (pageActionChain.hasNext() && isSuccess) {
             onHandleChain(container, pageActionChain);
-        } else {
-            onDefaultStopChain();
         }
-    }
-
-    protected void onDefaultStopChain() {
-
     }
 
     protected void onErrorStopChain(Throwable throwable) {

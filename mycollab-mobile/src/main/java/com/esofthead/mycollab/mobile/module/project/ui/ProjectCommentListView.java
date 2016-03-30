@@ -44,8 +44,6 @@ public class ProjectCommentListView extends AbstractMobilePageView implements Re
     private final BeanList<CommentService, CommentSearchCriteria, SimpleComment> commentList;
     private String type;
     private String typeId;
-    private Integer numComments;
-    private ProjectCommentRequestComp commentBox;
 
     public ProjectCommentListView(String type, String typeId, Integer extraTypeId, boolean isDisplayCommentInput) {
         this.addStyleName("comment-list");
@@ -55,7 +53,7 @@ public class ProjectCommentListView extends AbstractMobilePageView implements Re
         commentList = new BeanList<>(ApplicationContextUtil.getSpringBean(CommentService.class), CommentRowDisplayHandler.class);
         this.setContent(commentList);
         if (isDisplayCommentInput) {
-            commentBox = new ProjectCommentRequestComp(type, typeId, extraTypeId);
+            ProjectCommentRequestComp commentBox = new ProjectCommentRequestComp(type, typeId, extraTypeId);
             this.setToolbar(commentBox);
         }
         displayCommentList();
@@ -69,7 +67,7 @@ public class ProjectCommentListView extends AbstractMobilePageView implements Re
         CommentSearchCriteria searchCriteria = new CommentSearchCriteria();
         searchCriteria.setType(StringSearchField.and(type));
         searchCriteria.setTypeId(StringSearchField.and(typeId));
-        numComments = commentList.setSearchCriteria(searchCriteria);
+        Integer numComments = commentList.setSearchCriteria(searchCriteria);
         this.setCaption(AppContext.getMessage(GenericI18Enum.TAB_COMMENT, numComments));
     }
 

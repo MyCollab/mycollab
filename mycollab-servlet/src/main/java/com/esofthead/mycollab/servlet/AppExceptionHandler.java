@@ -149,13 +149,13 @@ public class AppExceptionHandler extends GenericHttpServlet {
         } else {
             subDomain = request.getServerName();
         }
-        builder.append("Request: " + ((Request) request).getUri() + "--- Agent: " + request.getHeader("User-Agent") +
-                "-- Sub domain: " + subDomain);
+        builder.append(String.format("Request: %s--- Agent: %s-- Sub domain: %s", ((Request) request).getUri(),
+                request.getHeader("User-Agent"), subDomain));
         builder.append("\n Parameters: ");
         Enumeration<String> params = request.getParameterNames();
         while (params.hasMoreElements()) {
             String param = params.nextElement();
-            builder.append("\n    param: " + param + "----" + request.getParameter(param));
+            builder.append(String.format("\n    param: %s----%s", param, request.getParameter(param)));
         }
         return builder.toString();
     }

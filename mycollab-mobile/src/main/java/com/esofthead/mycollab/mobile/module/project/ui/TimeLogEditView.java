@@ -335,7 +335,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
                 public void buttonClick(final Button.ClickEvent event) {
                     double d = 0;
                     try {
-                        d = Double.parseDouble(newTimeInputField.getValue().toString());
+                        d = Double.parseDouble(newTimeInputField.getValue());
                     } catch (NumberFormatException e) {
                         NewTimeLogEntryWindow.this.close();
                         NotificationUtil.showWarningNotification("You must enter a positive number value");

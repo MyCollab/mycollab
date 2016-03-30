@@ -23,11 +23,9 @@ import com.vaadin.server.StreamResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
+import java.io.*;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * @author MyCollab Ltd
@@ -44,21 +42,64 @@ public abstract class ReportStreamSource implements StreamResource.StreamSource 
 
     @Override
     public InputStream getStream() {
+        final CountDownLatch latch = new CountDownLatch(1);
         final PipedInputStream inStream = new PipedInputStream();
-        final PipedOutputStream outStream = new PipedOutputStream();
+
+        InputStream in = new InputStream() {
+
+            @Override
+            public int read(byte[] b) throws IOException {
+                return inStream.read(b);
+            }
+
+            @Override
+            public int read() throws IOException {
+                return inStream.read();
+            }
+
+            @Override
+            public void close() throws IOException {
+                super.close();
+                latch.countDown();
+            }
+        };
+
+        final PipedOutputStream outputStream = new PipedOutputStream();
         new Thread(new Runnable() {
             @Override
             public void run() {
+                final OutputStream out = new OutputStream() {
+                    @Override
+                    public void write(int b) throws IOException {
+                        outputStream.write(b);
+                    }
+
+                    @Override
+                    public void close() throws IOException {
+                        while (latch.getCount() != 0) {
+                            try {
+                                latch.await();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                                break;
+                            }
+                        }
+                        super.close();
+                    }
+                };
+
                 try {
                     templateExecutor.setParameters(initReportParameters());
                     templateExecutor.initReport();
                     templateExecutor.fillReport();
-                    templateExecutor.outputReport(outStream);
+
+                    templateExecutor.outputReport(out);
                 } catch (Exception e) {
                     EventBusFactory.getInstance().post(new ShellEvent.NotifyErrorEvent(ReportStreamSource.this, e));
                 } finally {
                     try {
-                        outStream.close();
+                        outputStream.close();
+                        out.close();
                     } catch (IOException e) {
                         LOG.error("Try to close reporting stream error", e);
                     }
@@ -66,11 +107,11 @@ public abstract class ReportStreamSource implements StreamResource.StreamSource 
             }
         }).start();
         try {
-            outStream.connect(inStream);
+            outputStream.connect(inStream);
         } catch (IOException e) {
             throw new MyCollabException(e);
         }
-        return inStream;
+        return in;
     }
 
     protected abstract Map<String, Object> initReportParameters();

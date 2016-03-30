@@ -43,15 +43,7 @@ public class SimpleUser extends User {
     private String inviteUser;
     private String lastModuleVisit;
     private String inviteUserFullName;
-
-    public String getDisplayName() {
-        String result = getFirstname() + " " + getLastname();
-        if (StringUtils.isBlank(result)) {
-            String displayName = getUsername();
-            return StringUtils.extractNameFromEmail(displayName);
-        }
-        return result;
-    }
+    private String displayName;
 
     public PermissionMap getPermissionMaps() {
         return permissionMaps;
@@ -131,6 +123,14 @@ public class SimpleUser extends User {
 
     public void setInviteUser(String inviteUser) {
         this.inviteUser = inviteUser;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     public enum Field {

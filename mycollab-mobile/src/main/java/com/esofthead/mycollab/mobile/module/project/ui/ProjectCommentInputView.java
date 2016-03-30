@@ -90,7 +90,7 @@ public class ProjectCommentInputView extends AbstractMobilePageView {
                 comment.setCreatedtime(new GregorianCalendar().getTime());
                 comment.setCreateduser(AppContext.getUsername());
                 comment.setSaccountid(AppContext.getAccountId());
-                comment.setType(type.toString());
+                comment.setType(type);
                 comment.setTypeid("" + typeId);
                 comment.setExtratypeid(extraTypeId);
 

@@ -28,8 +28,7 @@ import java.util.Date;
  * @author MyCollab Ltd.
  * @since 4.5.3
  */
-@SuppressWarnings({"rawtypes", "unchecked"})
-public class DateViewField extends CustomField {
+public class DateViewField extends CustomField<Date> {
     private static final long serialVersionUID = 1L;
 
     private Date date;
@@ -42,8 +41,8 @@ public class DateViewField extends CustomField {
     }
 
     @Override
-    public Class<?> getType() {
-        return Object.class;
+    public Class<? extends Date> getType() {
+        return Date.class;
     }
 
     @Override

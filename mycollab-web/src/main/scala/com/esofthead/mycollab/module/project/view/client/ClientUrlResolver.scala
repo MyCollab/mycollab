@@ -37,7 +37,7 @@ class ClientUrlResolver extends ProjectUrlResolver {
 
   private class ListUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      EventBusFactory.getInstance.post(new ClientEvent.GotoList(this, null))
+      EventBusFactory.getInstance().post(new ClientEvent.GotoList(this, null))
     }
   }
 
@@ -45,17 +45,17 @@ class ClientUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
       val token = new UrlTokenizer(params(0))
       val clientId = token.getInt
-      EventBusFactory.getInstance.post(new GotoRead(this, clientId))
+      EventBusFactory.getInstance().post(new GotoRead(this, clientId))
     }
   }
 
   private class AddUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      EventBusFactory.getInstance.post(new GotoAdd(this, null))
+      EventBusFactory.getInstance().post(new GotoAdd(this, null))
     }
   }
 
   protected override def handlePage(params: String*) {
-    EventBusFactory.getInstance.post(new ClientEvent.GotoList(this, null))
+    EventBusFactory.getInstance().post(new ClientEvent.GotoList(this, null))
   }
 }

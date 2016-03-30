@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.project.view.task.components;
 
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
+import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ import java.util.List;
  */
 public class SimpleListOrderComponent extends TaskGroupOrderComponent {
     public SimpleListOrderComponent() {
-        this.setStyleName("tasklist");
+        this.setStyleName(UIConstants.BORDER_LIST);
     }
 
     @Override

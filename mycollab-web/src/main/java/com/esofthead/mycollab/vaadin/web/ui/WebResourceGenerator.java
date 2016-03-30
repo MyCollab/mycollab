@@ -35,18 +35,20 @@ public class WebResourceGenerator {
 
     private static void emitFieldResources(JavaWriter jw, File baseFolder) throws IOException {
         File[] files = baseFolder.listFiles();
-        for (File file : files) {
-            if (file.isFile()) {
-                String filePath = file.getPath();
-                filePath = filePath.substring(ROOT_PATH.length() + 1);
-                int index = filePath.lastIndexOf('.');
-                if (index < 0) {
-                    throw new RuntimeException("File resource " + filePath + " is not valid");
+        if (files != null) {
+            for (File file : files) {
+                if (file.isFile()) {
+                    String filePath = file.getPath();
+                    filePath = filePath.substring(ROOT_PATH.length() + 1);
+                    int index = filePath.lastIndexOf('.');
+                    if (index < 0) {
+                        throw new RuntimeException("File resource " + filePath + " is not valid");
+                    }
+                    String resourceName = "_" + filePath.substring(0, index).replace('/', '_').replace('-', '_');
+                    jw.emitField("String", resourceName, EnumSet.of(PUBLIC, STATIC, FINAL), "\"icons/" + filePath + "\"");
+                } else {
+                    emitFieldResources(jw, file);
                 }
-                String resourceName = "_" + filePath.substring(0, index).replace('/', '_').replace('-', '_');
-                jw.emitField("String", resourceName, EnumSet.of(PUBLIC, STATIC, FINAL), "\"icons/" + filePath + "\"");
-            } else {
-                emitFieldResources(jw, file);
             }
         }
     }

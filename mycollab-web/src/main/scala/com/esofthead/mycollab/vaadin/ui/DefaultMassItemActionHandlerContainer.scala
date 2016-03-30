@@ -45,13 +45,13 @@ class DefaultMassItemActionHandlerContainer extends MHorizontalLayout with HasMa
      * @param description
      */
     def addActionItem(id: String, resource: Resource, groupId: String, description: String) {
-        var group: ButtonGroup = groupMap(groupId)
+        var group = groupMap(groupId)
         if (group == null) {
             group = new ButtonGroup
             groupMap.put(groupId, group)
             this.addComponent(group)
         }
-        val optionBtn: Button = new Button(null, new Button.ClickListener() {
+        val optionBtn = new Button(null, new Button.ClickListener() {
             def buttonClick(event: Button.ClickEvent) {
                 changeOption(id)
             }
@@ -106,13 +106,13 @@ class DefaultMassItemActionHandlerContainer extends MHorizontalLayout with HasMa
      */
     def addDownloadActionItem(exportType: ReportExportType, resource: Resource, groupId: String, downloadFileName: String,
                               description: String) {
-        var group: ButtonGroup = groupMap(groupId)
+        var group = groupMap(groupId)
         if (group == null) {
             group = new ButtonGroup
             groupMap.put(groupId, group)
             this.addComponent(group)
         }
-        val optionBtn: Button = new Button("")
+        val optionBtn = new Button("")
         val fileDownloader: FileDownloader = new FileDownloader(new StreamResource(new DownloadStreamSource(exportType),
             downloadFileName))
         fileDownloader.extend(optionBtn)

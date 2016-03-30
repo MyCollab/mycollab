@@ -51,7 +51,6 @@ public class TagViewComponent extends CssLayout {
     private int typeId;
 
     private TagService tagService;
-    private List<Tag> suggestedTags;
     private String tagQuery = "";
 
     public TagViewComponent() {
@@ -134,7 +133,7 @@ public class TagViewComponent extends CssLayout {
         if ("".equals(query) || query == null) {
             return Collections.emptyList();
         }
-        suggestedTags = tagService.findTagsInAccount(query, new String[]{ProjectTypeConstants.BUG,
+        List<Tag> suggestedTags = tagService.findTagsInAccount(query, new String[]{ProjectTypeConstants.BUG,
                         ProjectTypeConstants.TASK, ProjectTypeConstants.MILESTONE, ProjectTypeConstants.RISK},
                 AppContext.getAccountId());
         return new ArrayList<Object>(suggestedTags);

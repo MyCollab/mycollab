@@ -36,10 +36,7 @@ import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
-import com.esofthead.mycollab.vaadin.web.ui.AbstractBeanPagedList;
-import com.esofthead.mycollab.vaadin.web.ui.DefaultBeanPagedList;
-import com.esofthead.mycollab.vaadin.web.ui.Depot;
-import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.web.ui.*;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Span;
@@ -49,11 +46,13 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
-import java.util.Arrays;
-import java.util.UUID;
+import java.util.Collections;
+
+import static com.esofthead.mycollab.utils.TooltipHelper.TOOLTIP_ID;
 
 /**
  * @author MyCollab Ltd.
@@ -75,10 +74,10 @@ public class ProjectMembersWidget extends Depot {
                 sortAsc = !sortAsc;
                 if (sortAsc) {
                     sortBtn.setIcon(FontAwesome.SORT_ALPHA_ASC);
-                    searchCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("memberFullName", SearchCriteria.ASC)));
+                    searchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("memberFullName", SearchCriteria.ASC)));
                 } else {
                     sortBtn.setIcon(FontAwesome.SORT_ALPHA_DESC);
-                    searchCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("memberFullName",
+                    searchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("memberFullName",
                             SearchCriteria.DESC)));
                 }
                 memberList.setSearchCriteria(searchCriteria);
@@ -88,6 +87,22 @@ public class ProjectMembersWidget extends Depot {
         sortBtn.setIcon(FontAwesome.SORT_ALPHA_ASC);
         sortBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
         addHeaderElement(sortBtn);
+
+        final SearchTextField searchTextField = new SearchTextField() {
+            @Override
+            public void doSearch(String value) {
+                searchCriteria.setMemberFullName(StringSearchField.and(value));
+                showMembers();
+            }
+
+            @Override
+            public void emptySearch() {
+                searchCriteria.setMemberFullName(null);
+                showMembers();
+            }
+        };
+        searchTextField.addStyleName(ValoTheme.TEXTFIELD_SMALL);
+        addHeaderElement(searchTextField);
 
         MButton inviteMemberBtn = new MButton("Invite").withListener(new Button.ClickListener() {
             @Override
@@ -101,7 +116,7 @@ public class ProjectMembersWidget extends Depot {
         addHeaderElement(inviteMemberBtn);
 
         memberList = new DefaultBeanPagedList<>(ApplicationContextUtil.getSpringBean(ProjectMemberService.class),
-                new MemberRowDisplayHandler());
+                new MemberRowDisplayHandler(), 7);
         bodyContent.addComponent(memberList);
     }
 
@@ -110,6 +125,10 @@ public class ProjectMembersWidget extends Depot {
         searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
         searchCriteria.setStatus(StringSearchField.and(ProjectMemberStatusConstants.ACTIVE));
         searchCriteria.addOrderField(new SearchCriteria.OrderField("memberFullName", SearchCriteria.ASC));
+        showMembers();
+    }
+
+    private void showMembers() {
         memberList.setSearchCriteria(searchCriteria);
         this.setTitle(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_MEMBERS_TITLE, memberList.getTotalCount()));
     }
@@ -152,20 +171,19 @@ public class ProjectMembersWidget extends Depot {
         }
 
         private String buildAssigneeValue(SimpleProjectMember member) {
-            String uid = UUID.randomUUID().toString();
             Div div = new DivLessFormatter();
-            A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
+            A userLink = new A().setId("tag" + TOOLTIP_ID).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
                     member.getProjectid(), member.getUsername()));
 
-            userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(uid, member.getUsername()));
-            userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
+            userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(member.getUsername()));
+            userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
             userLink.appendText(member.getMemberFullName());
 
             if (member.getUsername().equals(CurrentProjectVariables.getProject().getLead())) {
                 userLink.appendText(" (Lead)");
             }
 
-            return div.appendChild(userLink, TooltipHelper.buildDivTooltipEnable(uid)).write();
+            return div.appendChild(userLink).write();
         }
     }
 }

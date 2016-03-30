@@ -18,7 +18,6 @@ package com.esofthead.mycollab.module.project.view.page;
 
 import com.esofthead.mycollab.common.i18n.DayI18nEnum;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.common.i18n.WikiI18nEnum;
 import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.html.DivLessFormatter;
@@ -41,13 +40,12 @@ import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
+import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.esofthead.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.web.ui.ProjectPreviewFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.web.ui.ReadViewLayout;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.web.ui.field.I18nFormViewField;
-import com.esofthead.mycollab.vaadin.web.ui.field.RichTextViewField;
 import com.hp.gagawa.java.elements.*;
 import com.lowagie.text.DocumentException;
 import com.vaadin.data.Property.ValueChangeListener;
@@ -62,6 +60,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 import org.xhtmlrenderer.pdf.ITextRenderer;
@@ -69,7 +68,8 @@ import org.xhtmlrenderer.pdf.ITextRenderer;
 import java.io.*;
 import java.util.Calendar;
 import java.util.List;
-import java.util.UUID;
+
+import static com.esofthead.mycollab.utils.TooltipHelper.TOOLTIP_ID;
 
 /**
  * @author MyCollab Ltd.
@@ -137,22 +137,12 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
 
     @Override
     protected AdvancedPreviewBeanForm<Page> initPreviewForm() {
-        return new AdvancedPreviewBeanForm<>();
-    }
-
-    @Override
-    protected IFormLayoutFactory initFormLayoutFactory() {
-        return new PageReadFormLayout();
+        return new PagePreviewForm();
     }
 
     @Override
     public HasPreviewFormHandlers<Page> getPreviewFormHandlers() {
         return previewForm;
-    }
-
-    @Override
-    protected AbstractBeanFieldGroupViewFieldFactory<Page> initBeanFormFieldFactory() {
-        return new PageReadFormFieldFactory(previewForm);
     }
 
     @Override
@@ -165,8 +155,8 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
                         | ProjectPreviewFormControlsGenerator.DELETE_BTN_PRESENTED,
                 ProjectRolePermissionCollections.PAGES);
 
-        Button exportPdfBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_PDF), FontAwesome.EXTERNAL_LINK);
-        exportPdfBtn.setStyleName(UIConstants.BUTTON_ACTION);
+        MButton exportPdfBtn = new MButton("").withIcon(FontAwesome.FILE_PDF_O).withStyleName(UIConstants
+                .BUTTON_OPTION).withDescription("Export to PDF");
 
         FileDownloader fileDownloader = new FileDownloader(getPDFStream());
         fileDownloader.extend(exportPdfBtn);
@@ -213,43 +203,6 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
         return ProjectTypeConstants.PAGE;
     }
 
-    private static class PageReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<Page> {
-        private static final long serialVersionUID = 1L;
-
-        public PageReadFormFieldFactory(GenericBeanForm<Page> form) {
-            super(form);
-        }
-
-        @Override
-        protected Field<?> onCreateField(java.lang.Object propertyId) {
-            if (propertyId.equals("status")) {
-                return new I18nFormViewField(attachForm.getBean().getStatus(), WikiI18nEnum.class);
-            } else if (propertyId.equals("content")) {
-                return new RichTextViewField(attachForm.getBean().getContent());
-            }
-            return null;
-        }
-    }
-
-    private static class PageReadFormLayout implements IFormLayoutFactory {
-        private static final long serialVersionUID = 1L;
-
-        private MVerticalLayout layout;
-
-        @Override
-        public ComponentContainer getLayout() {
-            layout = new MVerticalLayout().withStyleName("border-bottom").withWidth("100%");
-            return layout;
-        }
-
-        @Override
-        public void attachField(java.lang.Object propertyId, Field<?> field) {
-            if (propertyId.equals("content")) {
-                layout.addComponent(field);
-            }
-        }
-    }
-
     private static class PagePreviewFormLayout extends ReadViewLayout {
         void displayPageInfo(Page beanItem) {
             MVerticalLayout header = new MVerticalLayout().withMargin(false);
@@ -259,19 +212,19 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
             Span lastUpdatedTimeTxt = new Span().appendText(AppContext.getMessage(DayI18nEnum.LAST_UPDATED_ON,
                     AppContext.formatPrettyTime(beanItem.getLastUpdatedTime().getTime())))
                     .setTitle(AppContext.formatDateTime(beanItem.getLastUpdatedTime().getTime()));
-            String uid = UUID.randomUUID().toString();
+
             ProjectMemberService projectMemberService = ApplicationContextUtil
                     .getSpringBean(ProjectMemberService.class);
             SimpleProjectMember member = projectMemberService.findMemberByUsername(beanItem.getCreatedUser(),
                     CurrentProjectVariables.getProjectId(), AppContext.getAccountId());
             if (member != null) {
                 Img userAvatar = new Img("", StorageFactory.getInstance().getAvatarPath(member.getMemberAvatarId(), 16));
-                A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(member
+                A userLink = new A().setId("tag" + TOOLTIP_ID).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(member
                         .getProjectid(), member.getUsername())).appendText(StringUtils.trim(member.getMemberFullName(), 30, true));
-                userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(uid, member.getUsername()));
-                userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
+                userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(member.getUsername()));
+                userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
                 footer.appendChild(lastUpdatedTimeTxt, new Text("&nbsp;-&nbsp;Created by: "), userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink,
-                        DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));
+                        DivLessFormatter.EMPTY_SPACE());
             } else {
                 footer.appendChild(lastUpdatedTimeTxt);
             }

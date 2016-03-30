@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.view.settings.component;
 
-import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 
@@ -44,8 +43,6 @@ public class ProjectUserFormLinkField extends CustomField {
 
     @Override
     protected Component initContent() {
-        ProjectUserLink projectLink = new ProjectUserLink(username, userAvatarId, displayName);
-        projectLink.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
-        return projectLink;
+        return new ProjectUserLink(username, userAvatarId, displayName);
     }
 }

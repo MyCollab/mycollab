@@ -68,8 +68,8 @@ abstract class UrlResolver {
     catch {
       case e: Exception => {
         UrlResolver.LOG.error("Error while navigation", e)
-        defaultPageErrorHandler
-        NotificationUtil.showRecordNotExistNotification
+        defaultPageErrorHandler()
+        NotificationUtil.showRecordNotExistNotification()
       }
     }
   }

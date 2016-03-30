@@ -34,12 +34,14 @@ import com.esofthead.mycollab.module.project.dao.ProjectMemberMapper;
 import com.esofthead.mycollab.module.project.dao.ProjectMemberMapperExt;
 import com.esofthead.mycollab.module.project.domain.ProjectMember;
 import com.esofthead.mycollab.module.project.domain.ProjectMemberExample;
+import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
 import com.esofthead.mycollab.module.project.esb.DeleteProjectMemberEvent;
 import com.esofthead.mycollab.module.project.esb.InviteProjectMembersEvent;
 import com.esofthead.mycollab.module.project.esb.NewProjectMemberJoinEvent;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
+import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.user.UserExistedException;
 import com.esofthead.mycollab.module.user.dao.UserAccountMapper;
 import com.esofthead.mycollab.module.user.dao.UserMapper;
@@ -65,6 +67,9 @@ import java.util.*;
 @Service
 public class ProjectMemberServiceImpl extends DefaultService<Integer, ProjectMember, ProjectMemberSearchCriteria> implements ProjectMemberService {
     private static final Logger LOG = LoggerFactory.getLogger(ProjectMemberServiceImpl.class);
+
+    @Autowired
+    private ProjectService projectService;
 
     @Autowired
     private ProjectMemberMapper projectMemberMapper;
@@ -115,7 +120,7 @@ public class ProjectMemberServiceImpl extends DefaultService<Integer, ProjectMem
         if (oldMember != null) {
             if (Boolean.FALSE.equals(member.getIsadmin()) && Boolean.TRUE.equals(oldMember.getIsadmin())) {
                 ProjectMemberExample userAccountEx = new ProjectMemberExample();
-                userAccountEx.createCriteria().andUsernameNotIn(Arrays.asList(member.getUsername())).andProjectidEqualTo(member.getProjectid())
+                userAccountEx.createCriteria().andUsernameNotIn(Collections.singletonList(member.getUsername())).andProjectidEqualTo(member.getProjectid())
                         .andIsadminEqualTo(Boolean.TRUE).andStatusEqualTo(ProjectMemberStatusConstants.ACTIVE);
                 if (projectMemberMapper.countByExample(userAccountEx) == 0) {
                     throw new UserInvalidInputException(String.format("Can not change role of user %s. The reason is " +
@@ -170,6 +175,10 @@ public class ProjectMemberServiceImpl extends DefaultService<Integer, ProjectMem
     @Override
     public void acceptProjectInvitationByNewUser(String email, String password, Integer projectId,
                                                  Integer projectRoleId, Integer sAccountId) {
+        SimpleProject project = projectService.findById(projectId, sAccountId);
+        if (project == null) {
+            throw new UserInvalidInputException("Project not found");
+        }
         Date now = new GregorianCalendar().getTime();
         try {
             SimpleUser simpleUser = new SimpleUser();
@@ -200,7 +209,6 @@ public class ProjectMemberServiceImpl extends DefaultService<Integer, ProjectMem
         userAccount.setRegisteredtime(now);
         userAccount.setRoleid(systemGuestRoleId);
 
-        LOG.debug("Start save user account {}", BeanUtility.printBeanObj(userAccount));
         userAccountMapper.insert(userAccount);
 
         ProjectMember member = new ProjectMember();
@@ -208,7 +216,9 @@ public class ProjectMemberServiceImpl extends DefaultService<Integer, ProjectMem
         member.setUsername(email);
         member.setJoindate(now);
         member.setSaccountid(sAccountId);
-        if (projectRoleId < 0 || projectRoleId == null) {
+        member.setBillingrate(project.getDefaultbillingrate());
+        member.setOvertimebillingrate(project.getDefaultovertimebillingrate());
+        if (projectRoleId == null || projectRoleId < 0) {
             member.setIsadmin(true);
             member.setProjectroleid(null);
         } else {

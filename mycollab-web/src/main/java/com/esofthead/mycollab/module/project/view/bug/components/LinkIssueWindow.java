@@ -141,7 +141,7 @@ public class LinkIssueWindow extends Window {
                 });
                 cancelBtn.addStyleName(UIConstants.BUTTON_OPTION);
 
-                controlsBtn.with(cancelBtn, saveBtn).alignAll(Alignment.MIDDLE_RIGHT);
+                controlsBtn.with(saveBtn, cancelBtn).alignAll(Alignment.MIDDLE_RIGHT);
                 return layout;
             }
 

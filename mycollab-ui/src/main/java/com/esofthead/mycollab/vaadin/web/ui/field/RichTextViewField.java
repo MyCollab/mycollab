@@ -33,6 +33,7 @@ public class RichTextViewField extends CustomField<String> {
     private Label label;
 
     public RichTextViewField(String value) {
+        this.value = value;
         label = new Label(StringUtils.formatRichText(value), ContentMode.HTML);
         label.setWidth("100%");
         label.addStyleName("wordWrap");

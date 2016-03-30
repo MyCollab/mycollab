@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.project.view.bug.components;
 
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
+import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ import java.util.List;
  */
 public class SimpleListOrderComponent extends BugGroupOrderComponent {
     public SimpleListOrderComponent() {
-        this.setStyleName("tasklist");
+        this.setStyleName(UIConstants.BORDER_LIST);
     }
 
     @Override

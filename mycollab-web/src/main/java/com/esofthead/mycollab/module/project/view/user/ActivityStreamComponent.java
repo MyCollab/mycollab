@@ -50,7 +50,8 @@ import org.slf4j.LoggerFactory;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.UUID;
+
+import static com.esofthead.mycollab.utils.TooltipHelper.TOOLTIP_ID;
 
 /**
  * @author MyCollab Ltd.
@@ -191,27 +192,24 @@ public class ActivityStreamComponent extends CssLayout {
         }
 
         private String buildAssigneeValue(ProjectActivityStream activityStream) {
-            String uid = UUID.randomUUID().toString();
             DivLessFormatter div = new DivLessFormatter();
             Img userAvatar = new Img("", StorageFactory.getInstance().getAvatarPath(activityStream.getCreatedUserAvatarId(), 16));
-            A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
+            A userLink = new A().setId("tag" + TOOLTIP_ID).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
                     activityStream.getExtratypeid(), activityStream.getCreateduser()));
 
-            userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(uid, activityStream.getCreateduser()));
-            userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
+            userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(activityStream.getCreateduser()));
+            userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
             userLink.appendText(StringUtils.trim(activityStream.getCreatedUserFullName(), 30, true));
 
-            div.appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink, DivLessFormatter.EMPTY_SPACE(),
-                    TooltipHelper.buildDivTooltipEnable(uid));
+            div.appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink);
             return div.write();
         }
 
         private String buildItemValue(ProjectActivityStream activityStream) {
-            String uid = UUID.randomUUID().toString();
             DivLessFormatter div = new DivLessFormatter();
             Text itemImg = new Text(ProjectAssetsManager.getAsset(activityStream.getType()).getHtml());
             A itemLink = new A();
-            itemLink.setId("tag" + uid);
+            itemLink.setId("tag" + TOOLTIP_ID);
 
             if (ProjectTypeConstants.TASK.equals(activityStream.getType())
                     || ProjectTypeConstants.BUG.equals(activityStream.getType())) {
@@ -222,27 +220,24 @@ public class ActivityStreamComponent extends CssLayout {
                         activityStream.getExtratypeid(), activityStream.getType(), activityStream.getTypeid()));
             }
 
-            itemLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, activityStream.getType(), activityStream.getTypeid()));
-            itemLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
+            itemLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(activityStream.getType(), activityStream.getTypeid()));
+            itemLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
             itemLink.appendText(StringUtils.trim(activityStream.getNamefield(), 50, true));
 
-            div.appendChild(itemImg, DivLessFormatter.EMPTY_SPACE(), itemLink, DivLessFormatter.EMPTY_SPACE(),
-                    TooltipHelper.buildDivTooltipEnable(uid));
+            div.appendChild(itemImg, DivLessFormatter.EMPTY_SPACE(), itemLink);
             return div.write();
         }
 
         private String buildProjectValue(ProjectActivityStream activityStream) {
-            String uid = UUID.randomUUID().toString();
             DivLessFormatter div = new DivLessFormatter();
             Text prjImg = new Text(ProjectAssetsManager.getAsset(ProjectTypeConstants.PROJECT).getHtml());
-            A prjLink = new A(ProjectLinkBuilder.generateProjectFullLink(activityStream.getProjectId())).setId("tag" + uid);
-            prjLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, ProjectTypeConstants.PROJECT,
+            A prjLink = new A(ProjectLinkBuilder.generateProjectFullLink(activityStream.getProjectId())).setId("tag" + TOOLTIP_ID);
+            prjLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(ProjectTypeConstants.PROJECT,
                     activityStream.getProjectId() + ""));
-            prjLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
+            prjLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
             prjLink.appendText(activityStream.getProjectName());
 
-            div.appendChild(prjImg, DivLessFormatter.EMPTY_SPACE(), prjLink, DivLessFormatter.EMPTY_SPACE(),
-                    TooltipHelper.buildDivTooltipEnable(uid));
+            div.appendChild(prjImg, DivLessFormatter.EMPTY_SPACE(), prjLink);
 
             return div.write();
         }

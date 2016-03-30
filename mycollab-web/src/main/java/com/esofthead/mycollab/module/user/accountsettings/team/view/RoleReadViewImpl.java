@@ -16,11 +16,13 @@
  */
 package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
-import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.module.user.domain.Role;
 import com.esofthead.mycollab.module.user.domain.SimpleRole;
 import com.esofthead.mycollab.module.user.ui.components.PreviewFormControlsGenerator;
-import com.esofthead.mycollab.security.*;
+import com.esofthead.mycollab.security.AccessPermissionFlag;
+import com.esofthead.mycollab.security.PermissionDefItem;
+import com.esofthead.mycollab.security.PermissionMap;
+import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
@@ -47,7 +49,6 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
 
     private AdvancedPreviewBeanForm<Role> previewForm;
     private SimpleRole role;
-    private PreviewFormControlsGenerator<Role> buttonControls;
 
     public RoleReadViewImpl() {
         super();
@@ -71,7 +72,7 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
     }
 
     private Layout createTopPanel() {
-        buttonControls = new PreviewFormControlsGenerator<>(previewForm);
+        PreviewFormControlsGenerator<Role> buttonControls = new PreviewFormControlsGenerator<>(previewForm);
         return buttonControls.createButtonControls(RolePermissionCollections.ACCOUNT_ROLE);
     }
 
@@ -97,28 +98,18 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
 
     private static String getValueFromPerPath(PermissionMap permissionMap, String permissionItem) {
         final Integer perVal = permissionMap.get(permissionItem);
-        if (perVal == null) {
-            return "Undefined";
-        } else {
-            if (PermissionChecker.isAccessPermission(perVal)) {
-                return AppContext.getMessage(AccessPermissionFlag.toKey(perVal));
-            } else if (PermissionChecker.isBooleanPermission(perVal)) {
-                return AppContext.getMessage(BooleanPermissionFlag.toKey(perVal));
-            } else {
-                throw new MyCollabException("Do not support permission value " + perVal);
-            }
-        }
+        return AppContext.getMessage(AccessPermissionFlag.toVal(perVal));
     }
 
     protected ComponentContainer constructPermissionSectionView(String depotTitle, PermissionMap permissionMap,
                                                                 List<PermissionDefItem> defItems) {
-        GridFormLayoutHelper formHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, defItems.size());
+        GridFormLayoutHelper formHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, defItems.size() / 2 + 1);
         FormContainer permissionsPanel = new FormContainer();
 
         for (int i = 0; i < defItems.size(); i++) {
             PermissionDefItem permissionDefItem = defItems.get(i);
             formHelper.addComponent(new Label(getValueFromPerPath(permissionMap,
-                    permissionDefItem.getKey())), permissionDefItem.getCaption(), 0, i);
+                    permissionDefItem.getKey())), permissionDefItem.getCaption(), i % 2, i / 2);
         }
         permissionsPanel.addSection(depotTitle, formHelper.getLayout());
         return permissionsPanel;

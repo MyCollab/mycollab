@@ -35,7 +35,6 @@ import com.vaadin.ui.Component;
 public class CampaignSelectionView extends AbstractSelectionView<CampaignWithBLOBs> {
     private static final long serialVersionUID = 1L;
 
-    private CampaignSearchCriteria searchCriteria;
     private CampaignListDisplay itemList;
 
     private CampaignRowDisplayHandler rowHandler = new CampaignRowDisplayHandler();
@@ -55,7 +54,7 @@ public class CampaignSelectionView extends AbstractSelectionView<CampaignWithBLO
 
     @Override
     public void load() {
-        searchCriteria = new CampaignSearchCriteria();
+        CampaignSearchCriteria searchCriteria = new CampaignSearchCriteria();
         searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
         itemList.search(searchCriteria);
         SimpleCampaign clearCampaign = new SimpleCampaign();
@@ -66,7 +65,7 @@ public class CampaignSelectionView extends AbstractSelectionView<CampaignWithBLO
 
         @Override
         public Component generateRow(final SimpleCampaign campaign, int rowIndex) {
-            Button b = new Button(campaign.getCampaignname(), new Button.ClickListener() {
+            return new Button(campaign.getCampaignname(), new Button.ClickListener() {
                 private static final long serialVersionUID = -2772809360324017746L;
 
                 @Override
@@ -75,7 +74,6 @@ public class CampaignSelectionView extends AbstractSelectionView<CampaignWithBLO
                     CampaignSelectionView.this.getNavigationManager().navigateBack();
                 }
             });
-            return b;
         }
 
     }

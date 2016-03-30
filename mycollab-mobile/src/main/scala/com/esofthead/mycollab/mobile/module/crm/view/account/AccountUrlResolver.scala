@@ -34,27 +34,27 @@ class AccountUrlResolver extends CrmUrlResolver {
 
     class AccountListUrlResolver extends CrmUrlResolver {
         protected override def handlePage(params: String*) {
-            EventBusFactory.getInstance.post(new AccountEvent.GotoList(this, null))
+            EventBusFactory.getInstance().post(new AccountEvent.GotoList(this, null))
         }
     }
 
     class AccountAddUrlResolver extends CrmUrlResolver {
         protected override def handlePage(params: String*) {
-            EventBusFactory.getInstance.post(new AccountEvent.GotoAdd(this, new Account))
+            EventBusFactory.getInstance().post(new AccountEvent.GotoAdd(this, new Account))
         }
     }
 
     class AccountEditUrlResolver extends CrmUrlResolver {
         protected override def handlePage(params: String*) {
             val accountId = new UrlTokenizer(params(0)).getInt
-            EventBusFactory.getInstance.post(new AccountEvent.GotoEdit(this, accountId))
+            EventBusFactory.getInstance().post(new AccountEvent.GotoEdit(this, accountId))
         }
     }
 
     class AccountPreviewUrlResolver extends CrmUrlResolver {
         protected override def handlePage(params: String*) {
             val accountId = new UrlTokenizer(params(0)).getInt
-            EventBusFactory.getInstance.post(new AccountEvent.GotoRead(this, accountId))
+            EventBusFactory.getInstance().post(new AccountEvent.GotoRead(this, accountId))
         }
     }
 }

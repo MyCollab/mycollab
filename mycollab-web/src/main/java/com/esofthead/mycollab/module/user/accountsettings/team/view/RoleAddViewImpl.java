@@ -27,11 +27,13 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
+import com.esofthead.mycollab.vaadin.ui.FormContainer;
+import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.web.ui.AddViewLayout;
 import com.esofthead.mycollab.vaadin.web.ui.EditFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.web.ui.KeyCaptionComboBox;
-import com.esofthead.mycollab.vaadin.web.ui.field.RichTextEditField;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
@@ -135,7 +137,7 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
                 }
 
                 GridFormLayoutHelper crmFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(
-                        2, RolePermissionCollections.CRM_PERMISSIONS_ARR.size());
+                        2, RolePermissionCollections.CRM_PERMISSIONS_ARR.size() / 2 + 1);
 
                 for (int i = 0; i < RolePermissionCollections.CRM_PERMISSIONS_ARR.size(); i++) {
                     PermissionDefItem permissionDefItem = RolePermissionCollections.CRM_PERMISSIONS_ARR.get(i);
@@ -144,7 +146,7 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
                     Integer flag = perMap.getPermissionFlag(permissionDefItem.getKey());
                     permissionBox.setValue(flag);
                     EditForm.this.permissionControlsMap.put(permissionDefItem.getKey(), permissionBox);
-                    crmFormHelper.addComponent(permissionBox, permissionDefItem.getCaption(), 0, i);
+                    crmFormHelper.addComponent(permissionBox, permissionDefItem.getCaption(), i % 2, i / 2);
                 }
 
                 permissionsPanel.addComponent(constructGridLayout(AppContext.getMessage(RoleI18nEnum.SECTION_PROJECT_MANAGEMENT_TITLE),
@@ -161,7 +163,7 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
         }
 
         private ComponentContainer constructGridLayout(String depotTitle, PermissionMap perMap, List<PermissionDefItem> defItems) {
-            GridFormLayoutHelper formHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, defItems.size());
+            GridFormLayoutHelper formHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, defItems.size() / 2 + 1);
             FormContainer permissionsPanel = new FormContainer();
             permissionsPanel.addSection(depotTitle, formHelper.getLayout());
 
@@ -171,7 +173,7 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
                 Integer flag = perMap.getPermissionFlag(permissionDefItem.getKey());
                 permissionBox.setValue(flag);
                 permissionControlsMap.put(permissionDefItem.getKey(), permissionBox);
-                formHelper.addComponent(permissionBox, permissionDefItem.getCaption(), 0, i);
+                formHelper.addComponent(permissionBox, permissionDefItem.getCaption(), i % 2, i / 2);
             }
 
             return permissionsPanel;
@@ -198,7 +200,7 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
             @Override
             protected Field<?> onCreateField(final Object propertyId) {
                 if (propertyId.equals("description")) {
-                    return new RichTextEditField();
+                    return new RichTextArea();
                 } else if (propertyId.equals("rolename")) {
                     TextField tf = new TextField();
                     tf.setNullRepresentation("");

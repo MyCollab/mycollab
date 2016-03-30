@@ -215,7 +215,6 @@ public class CaseReadPresenter extends AbstractCrmPresenter<CaseReadView> {
                                     "Case", cases.getSubject()));
                 } else {
                     NotificationUtil.showRecordNotExistNotification();
-                    return;
                 }
             }
         } else {

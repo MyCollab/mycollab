@@ -30,13 +30,13 @@ class CrmSettingUrlResolver extends CrmUrlResolver {
 
     class NotificationSettingUrlResolver extends CrmUrlResolver {
         protected override def handlePage(params: String*) {
-            EventBusFactory.getInstance.post(new CrmSettingEvent.GotoNotificationSetting(this, null))
+            EventBusFactory.getInstance().post(new CrmSettingEvent.GotoNotificationSetting(this, null))
         }
     }
 
     class CustomLayoutUrlResolver extends CrmUrlResolver {
         protected override def handlePage(params: String*) {
-            EventBusFactory.getInstance.post(new CrmSettingEvent.GotoCustomViewSetting(this, null))
+            EventBusFactory.getInstance().post(new CrmSettingEvent.GotoCustomViewSetting(this, null))
         }
     }
 

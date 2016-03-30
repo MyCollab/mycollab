@@ -36,28 +36,28 @@ class LeadUrlResolver extends CrmUrlResolver {
 
     class LeadListUrlResolver extends CrmUrlResolver {
         protected override def handlePage(params: String*) {
-            EventBusFactory.getInstance.post(new CrmEvent.GotoContainer(this,
+            EventBusFactory.getInstance().post(new CrmEvent.GotoContainer(this,
                 new CrmModuleScreenData.GotoModule(AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_LEADS_HEADER))))
         }
     }
 
     class LeadAddUrlResolver extends CrmUrlResolver {
         protected override def handlePage(params: String*) {
-            EventBusFactory.getInstance.post(new LeadEvent.GotoAdd(this, new Lead))
+            EventBusFactory.getInstance().post(new LeadEvent.GotoAdd(this, new Lead))
         }
     }
 
     class LeadEditUrlResolver extends CrmUrlResolver {
         protected override def handlePage(params: String*) {
             val leadId: Int = new UrlTokenizer(params(0)).getInt
-            EventBusFactory.getInstance.post(new LeadEvent.GotoEdit(this, leadId))
+            EventBusFactory.getInstance().post(new LeadEvent.GotoEdit(this, leadId))
         }
     }
 
     class LeadPreviewUrlResolver extends CrmUrlResolver {
         protected override def handlePage(params: String*) {
             val leadId: Int = new UrlTokenizer(params(0)).getInt
-            EventBusFactory.getInstance.post(new LeadEvent.GotoRead(this, leadId))
+            EventBusFactory.getInstance().post(new LeadEvent.GotoRead(this, leadId))
         }
     }
 

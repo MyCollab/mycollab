@@ -31,6 +31,28 @@
         #ifnotnull($searchCriteria.txtValue)
             ${searchCriteria.txtValue.operation} (m_prj_task.taskname LIKE '%${searchCriteria.txtValue.value}%' OR m_prj_task.notes LIKE '%${searchCriteria.txtValue.value}%')
         #end
+        #ifnotnull($searchCriteria.monitorProjectIds)
+            ${searchCriteria.monitorProjectIds.operation}
+            EXISTS(
+                SELECT 1 FROM s_favorite
+                WHERE m_prj_task.projectId IN
+                    #repeat(${searchCriteria.monitorProjectIds.values} $extraId "," "(" ")")
+                        @{extraId}
+                    #end
+                    AND s_favorite.extraTypeId = m_prj_task.projectId AND s_favorite.type='Project-Task' AND s_favorite.typeid=m_prj_task.id
+                    LIMIT 1)
+        #end
+        #ifnotnull($searchCriteria.tagNames)
+            ${searchCriteria.tagNames.operation}
+            EXISTS(
+                SELECT 1 FROM s_tag
+                WHERE s_tag.extraTypeId=m_prj_task.projectId AND s_tag.type='Project-Task' AND s_tag.typeid=m_prj_task.id AND
+                    s_tag.name IN
+                #repeat(${searchCriteria.tagNames.values} $tagName "," "(" ")")
+                    @{tagName}
+                #end
+                LIMIT 1)
+        #end
         ]]>
     </sql>
 
@@ -47,6 +69,28 @@
         #ifnotnull($searchCriteria.txtValue)
             ${searchCriteria.txtValue.operation} (m_prj_message.title LIKE '%${searchCriteria.txtValue.value}%' OR m_prj_message.message LIKE '%${searchCriteria.txtValue.value}%')
         #end
+        #ifnotnull($searchCriteria.monitorProjectIds)
+            ${searchCriteria.monitorProjectIds.operation}
+            EXISTS(
+                SELECT 1 FROM s_favorite
+                WHERE m_prj_message.projectId IN
+                    #repeat(${searchCriteria.monitorProjectIds.values} $extraId "," "(" ")")
+                        @{extraId}
+                    #end
+                    AND s_favorite.extraTypeId = m_prj_message.projectId AND s_favorite.type='Project-Message' AND s_favorite.typeid=m_prj_message.id
+                    LIMIT 1)
+        #end
+        #ifnotnull($searchCriteria.tagNames)
+            ${searchCriteria.tagNames.operation}
+            EXISTS(
+                SELECT 1 FROM s_tag
+                WHERE s_tag.extraTypeId=m_prj_message.projectId AND s_tag.type='Project-Message' AND s_tag.typeid=m_prj_message.id AND
+                    s_tag.name IN
+                #repeat(${searchCriteria.tagNames.values} $tagName "," "(" ")")
+                    @{tagName}
+                #end
+                LIMIT 1)
+        #end
         ]]>
     </sql>
     <sql id="queryMilestoneSearchCriteria">
@@ -61,6 +105,28 @@
         #end
         #ifnotnull($searchCriteria.txtValue)
             ${searchCriteria.txtValue.operation} (m_prj_milestone.name LIKE '%${searchCriteria.txtValue.value}%' OR m_prj_milestone.description LIKE '%${searchCriteria.txtValue.value}%')
+        #end
+        #ifnotnull($searchCriteria.monitorProjectIds)
+            ${searchCriteria.monitorProjectIds.operation}
+            EXISTS(
+                SELECT 1 FROM s_favorite
+                WHERE m_prj_milestone.projectId IN
+                    #repeat(${searchCriteria.monitorProjectIds.values} $extraId "," "(" ")")
+                        @{extraId}
+                    #end
+                    AND s_favorite.extraTypeId = m_prj_milestone.projectId AND s_favorite.type='Project-Milestone' AND s_favorite.typeid=m_prj_milestone.id
+                    LIMIT 1)
+        #end
+        #ifnotnull($searchCriteria.tagNames)
+            ${searchCriteria.tagNames.operation}
+            EXISTS(
+                SELECT 1 FROM s_tag
+                WHERE s_tag.extraTypeId=m_prj_milestone.projectId AND s_tag.type='Project-Milestone' AND s_tag.typeid=m_prj_milestone.id AND
+                    s_tag.name IN
+                #repeat(${searchCriteria.tagNames.values} $tagName "," "(" ")")
+                    @{tagName}
+                #end
+                LIMIT 1)
         #end
         ]]>
     </sql>
@@ -80,6 +146,28 @@
                 OR m_tracker_bug.environment LIKE '%${searchCriteria.txtValue.value}%'
                 OR m_tracker_bug.description LIKE '%${searchCriteria.txtValue.value}%')
         #end
+        #ifnotnull($searchCriteria.monitorProjectIds)
+            ${searchCriteria.monitorProjectIds.operation}
+            EXISTS(
+                SELECT 1 FROM s_favorite
+                WHERE m_tracker_bug.projectId IN
+                    #repeat(${searchCriteria.monitorProjectIds.values} $extraId "," "(" ")")
+                        @{extraId}
+                    #end
+                    AND s_favorite.extraTypeId = m_tracker_bug.projectId AND s_favorite.type='Project-Bug' AND s_favorite.typeid=m_tracker_bug.id
+                    LIMIT 1)
+        #end
+        #ifnotnull($searchCriteria.tagNames)
+            ${searchCriteria.tagNames.operation}
+            EXISTS(
+                SELECT 1 FROM s_tag
+                WHERE s_tag.extraTypeId=m_tracker_bug.projectId AND s_tag.type='Project-Bug' AND s_tag.typeid=m_tracker_bug.id AND
+                    s_tag.name IN
+                #repeat(${searchCriteria.tagNames.values} $tagName "," "(" ")")
+                    @{tagName}
+                #end
+                LIMIT 1)
+        #end
         ]]>
     </sql>
 
@@ -96,6 +184,28 @@
         #ifnotnull($searchCriteria.txtValue)
             ${searchCriteria.txtValue.operation} (m_tracker_component.componentname LIKE '%${searchCriteria.txtValue.value}%'
                 OR m_tracker_component.description LIKE '%${searchCriteria.txtValue.value}%')
+        #end
+        #ifnotnull($searchCriteria.monitorProjectIds)
+            ${searchCriteria.monitorProjectIds.operation}
+            EXISTS(
+                SELECT 1 FROM s_favorite
+                WHERE m_tracker_component.projectId IN
+                    #repeat(${searchCriteria.monitorProjectIds.values} $extraId "," "(" ")")
+                        @{extraId}
+                    #end
+                    AND s_favorite.extraTypeId = m_tracker_component.projectId AND s_favorite.type='Project-Component' AND s_favorite.typeid=m_tracker_component.id
+                    LIMIT 1)
+        #end
+        #ifnotnull($searchCriteria.tagNames)
+            ${searchCriteria.tagNames.operation}
+            EXISTS(
+                SELECT 1 FROM s_tag
+                WHERE s_tag.extraTypeId=m_tracker_component.projectId AND s_tag.type='Project-Component' AND s_tag.typeid=m_tracker_component.id AND
+                    s_tag.name IN
+                #repeat(${searchCriteria.tagNames.values} $tagName "," "(" ")")
+                    @{tagName}
+                #end
+                LIMIT 1)
         #end
         ]]>
     </sql>
@@ -114,6 +224,28 @@
             ${searchCriteria.txtValue.operation} (m_tracker_version.versionname LIKE '%${searchCriteria.txtValue.value}%'
                 OR m_tracker_version.description LIKE '%${searchCriteria.txtValue.value}%')
         #end
+        #ifnotnull($searchCriteria.monitorProjectIds)
+            ${searchCriteria.monitorProjectIds.operation}
+            EXISTS(
+                SELECT 1 FROM s_favorite
+                WHERE m_tracker_version.projectId IN
+                    #repeat(${searchCriteria.monitorProjectIds.values} $extraId "," "(" ")")
+                        @{extraId}
+                    #end
+                    AND s_favorite.extraTypeId = m_tracker_version.projectId AND s_favorite.type='Project-Version' AND s_favorite.typeid=m_tracker_version.id
+                    LIMIT 1)
+        #end
+        #ifnotnull($searchCriteria.tagNames)
+            ${searchCriteria.tagNames.operation}
+            EXISTS(
+                SELECT 1 FROM s_tag
+                WHERE s_tag.extraTypeId=m_tracker_version.projectId AND s_tag.type='Project-Version' AND s_tag.typeid=m_tracker_version.id AND
+                    s_tag.name IN
+                #repeat(${searchCriteria.tagNames.values} $tagName "," "(" ")")
+                    @{tagName}
+                #end
+                LIMIT 1)
+        #end
         ]]>
     </sql>
 
@@ -131,15 +263,38 @@
             ${searchCriteria.txtValue.operation} (m_prj_risk.riskname LIKE '%${searchCriteria.txtValue.value}%'
                 OR m_prj_risk.description LIKE '%${searchCriteria.txtValue.value}%')
         #end
+
+        #ifnotnull($searchCriteria.monitorProjectIds)
+            ${searchCriteria.monitorProjectIds.operation}
+            EXISTS(
+                SELECT 1 FROM s_favorite
+                WHERE m_prj_risk.projectId IN
+                    #repeat(${searchCriteria.monitorProjectIds.values} $extraId "," "(" ")")
+                        @{extraId}
+                    #end
+                    AND s_favorite.extraTypeId = m_prj_risk.projectId AND s_favorite.type='Project-Risk' AND s_favorite.typeid=m_prj_risk.id
+                    LIMIT 1)
+        #end
+        #ifnotnull($searchCriteria.tagNames)
+            ${searchCriteria.tagNames.operation}
+            EXISTS(
+                SELECT 1 FROM s_tag
+                WHERE s_tag.extraTypeId=m_prj_risk.projectId AND s_tag.type='Project-Risk' AND s_tag.typeid=m_prj_risk.id AND
+                    s_tag.name IN
+                #repeat(${searchCriteria.tagNames.values} $tagName "," "(" ")")
+                    @{tagName}
+                #end
+                LIMIT 1)
+        #end
         ]]>
     </sql>
 
     <sql id="orderStatement">
         ORDER BY
         #ifnotnull($_parameter.searchCriteria.orderFields)
-        #repeat(${_parameter.searchCriteria.orderFields} $orderField "" "" "")
-        ${orderField.field} ${orderField.direction},
-        #end
+            #repeat(${_parameter.searchCriteria.orderFields} $orderField "" "" "")
+                ${orderField.field} ${orderField.direction},
+            #end
         #end
         lastUpdatedTime DESC
     </sql>
@@ -235,63 +390,63 @@
         (
         <include refid="selectTaskItem"/>
         #ifnotnull($_parameter.searchCriteria)
-        #trimext("WHERE" "AND|OR")
-        <include refid="queryTaskSearchCriteria"/>
-        #end
+            #trimext("WHERE" "AND|OR")
+                <include refid="queryTaskSearchCriteria"/>
+            #end
         #end
         )
         UNION
         (
         <include refid="selectMessageItem"/>
         #ifnotnull($_parameter.searchCriteria)
-        #trimext("WHERE" "AND|OR")
-        <include refid="queryMessageSearchCriteria"/>
-        #end
+            #trimext("WHERE" "AND|OR")
+                <include refid="queryMessageSearchCriteria"/>
+            #end
         #end
         )
         UNION
         (
         <include refid="selectMilestoneItem"/>
         #ifnotnull($_parameter.searchCriteria)
-        #trimext("WHERE" "AND|OR")
-        <include refid="queryMilestoneSearchCriteria"/>
-        #end
+            #trimext("WHERE" "AND|OR")
+                <include refid="queryMilestoneSearchCriteria"/>
+            #end
         #end
         )
         UNION
         (
         <include refid="selectBugItem"/>
         #ifnotnull($_parameter.searchCriteria)
-        #trimext("WHERE" "AND|OR")
-        <include refid="queryBugSearchCriteria"/>
-        #end
+            #trimext("WHERE" "AND|OR")
+                <include refid="queryBugSearchCriteria"/>
+            #end
         #end
         )
         UNION
         (
         <include refid="selectVersionItem"/>
         #ifnotnull($_parameter.searchCriteria)
-        #trimext("WHERE" "AND|OR")
-        <include refid="queryVersionSearchCriteria"/>
-        #end
+            #trimext("WHERE" "AND|OR")
+                <include refid="queryVersionSearchCriteria"/>
+            #end
         #end
         )
         UNION
         (
         <include refid="selectComponentItem"/>
         #ifnotnull($_parameter.searchCriteria)
-        #trimext("WHERE" "AND|OR")
-        <include refid="queryComponentSearchCriteria"/>
-        #end
+            #trimext("WHERE" "AND|OR")
+                <include refid="queryComponentSearchCriteria"/>
+            #end
         #end
         )
         UNION
         (
         <include refid="selectRiskItem"/>
         #ifnotnull($_parameter.searchCriteria)
-        #trimext("WHERE" "AND|OR")
-        <include refid="queryRiskSearchCriteria"/>
-        #end
+            #trimext("WHERE" "AND|OR")
+                <include refid="queryRiskSearchCriteria"/>
+            #end
         #end
         )
         <include refid="orderStatement"/>

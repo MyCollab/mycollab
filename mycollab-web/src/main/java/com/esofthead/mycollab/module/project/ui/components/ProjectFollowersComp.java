@@ -20,10 +20,7 @@ import com.esofthead.mycollab.common.domain.MonitorItem;
 import com.esofthead.mycollab.common.domain.criteria.MonitorSearchCriteria;
 import com.esofthead.mycollab.common.i18n.FollowerI18nEnum;
 import com.esofthead.mycollab.common.service.MonitorItemService;
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
-import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.core.arguments.ValuedBean;
+import com.esofthead.mycollab.core.arguments.*;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectMemberStatusConstants;
@@ -179,7 +176,6 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
                 @Override
                 public void layoutClick(LayoutEvents.LayoutClickEvent event) {
                     if (event.getClickedComponent() == icon) {
-                        return;
                     } else if (!hasEditPermission()) {
                         NotificationUtil.showMessagePermissionAlert();
                     } else {
@@ -201,6 +197,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
             ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
             criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
             criteria.setStatus(StringSearchField.and(ProjectMemberStatusConstants.ACTIVE));
+            criteria.addOrderField(new SearchCriteria.OrderField("memberFullName", SearchCriteria.ASC));
 
             ProjectMemberService projectMemberService = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
             projectMembers = projectMemberService.findPagableListByCriteria(new SearchRequest<>(

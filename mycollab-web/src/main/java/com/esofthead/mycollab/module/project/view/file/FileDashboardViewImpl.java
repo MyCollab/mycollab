@@ -16,7 +16,8 @@
  */
 package com.esofthead.mycollab.module.project.view.file;
 
-import com.esofthead.mycollab.module.file.view.components.FileDashboardComponent;
+import com.esofthead.mycollab.module.ecm.domain.Folder;
+import com.esofthead.mycollab.module.file.view.components.ResourcesDisplayComponent;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
@@ -36,9 +37,6 @@ public class FileDashboardViewImpl extends AbstractPageView implements FileDashb
         this.withMargin(new MarginInfo(false, true, false, true)).withWidth("100%");
         int projectId = CurrentProjectVariables.getProjectId();
         String rootPath = String.format("%d/project/%d", AppContext.getAccountId(), projectId);
-
-        FileDashboardComponent dashboardComponent = new FileDashboardComponent(rootPath);
-        this.addComponent(dashboardComponent);
-        dashboardComponent.displayResources();
+        addComponent(new ResourcesDisplayComponent(new Folder(rootPath)));
     }
 }

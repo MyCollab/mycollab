@@ -46,8 +46,6 @@ public class DynaFormLayout implements IFormLayoutFactory {
     private final Map<String, AbstractDynaField> fieldMappings = new HashMap<>();
     private Map<DynaSection, GridFormLayoutHelper> sectionMappings;
 
-    private VerticalLayout layout;
-
     public DynaFormLayout(String moduleName, DynaForm defaultForm) {
         MasterFormService formService = ApplicationContextUtil.getSpringBean(MasterFormService.class);
         DynaForm form = formService.findCustomForm(AppContext.getAccountId(), moduleName);
@@ -85,7 +83,7 @@ public class DynaFormLayout implements IFormLayoutFactory {
 
     @Override
     public ComponentContainer getLayout() {
-        layout = new VerticalLayout();
+        VerticalLayout layout = new VerticalLayout();
         int sectionCount = dynaForm.getSectionCount();
         sectionMappings = new HashMap<>();
 

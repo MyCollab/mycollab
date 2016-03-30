@@ -50,10 +50,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author MyCollab Ltd.
@@ -149,6 +146,8 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
             record.setRegisterstatus(UserStatusConstants.EMAIL_NOT_VERIFIED);
             userMapper.insert(record);
             userAvatarService.uploadDefaultAvatar(record.getUsername());
+        } else {
+            userMapper.updateByExampleSelective(record, userEx);
         }
 
         // save record in s_user_account table
@@ -156,7 +155,7 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
         userAccount.setAccountid(record.getAccountId());
         userAccount.setIsaccountowner((record.getIsAccountOwner() == null) ? Boolean.FALSE : record.getIsAccountOwner());
 
-        if (record.getRoleid() <= 0) {
+        if (record.getRoleid() == null || record.getRoleid() <= 0) {
             record.setRoleid(null);
             record.setIsAccountOwner(true);
         } else {
@@ -331,7 +330,7 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
 
     @Override
     public void pendingUserAccount(String username, Integer accountId) {
-        pendingUserAccounts(Arrays.asList(username), accountId);
+        pendingUserAccounts(Collections.singletonList(username), accountId);
     }
 
     @Override

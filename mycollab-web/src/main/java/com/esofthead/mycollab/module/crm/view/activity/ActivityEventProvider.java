@@ -74,9 +74,7 @@ public class ActivityEventProvider implements CalendarEventProvider {
 
         if (!CollectionUtils.isEmpty(crmEvents)) {
             for (SimpleMeeting crmEvent : crmEvents) {
-                if (crmEvent.getStartdate() == null
-                        || crmEvent.getEnddate() == null) {
-                    continue;
+                if (crmEvent.getStartdate() == null || crmEvent.getEnddate() == null) {
                 } else {
                     CrmEvent event = new CrmEvent();
                     event.setCaption(crmEvent.getSubject());

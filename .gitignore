@@ -24,3 +24,6 @@ mycollab-web/src/main/resources/VAADIN/themes/mycollab/components/_project.scss
 mycollab-web/src/main/resources/VAADIN/themes/mycollab/components/_tooltip.scss
 mycollab-web/src/main/resources/VAADIN/themes/mycollab/components/_button.scss
 *.bak
+mycollab-app-community/src/main/scripts/installService.bat
+mycollab-app-community/src/main/scripts/service.bat
+mycollab-app-community/src/main/scripts/unInstallService.bat

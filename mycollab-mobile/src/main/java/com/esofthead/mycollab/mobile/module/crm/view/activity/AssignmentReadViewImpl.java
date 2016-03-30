@@ -49,10 +49,6 @@ public class AssignmentReadViewImpl extends AbstractPreviewItemComp<SimpleTask> 
     }
 
     @Override
-    protected void initRelatedComponents() {
-    }
-
-    @Override
     protected String initFormTitle() {
         return beanItem.getSubject();
     }

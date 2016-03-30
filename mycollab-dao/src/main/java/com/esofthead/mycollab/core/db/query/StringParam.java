@@ -33,13 +33,6 @@ public class StringParam extends ColumnParam {
     public static final String IS_EMPTY = "is empty";
     public static final String IS_NOT_EMPTY = "is not empty";
 
-    private static String NULL_EXPR = "%s.%s is null";
-    private static String NOT_NULL_EXPR = "%s.%s is not null";
-    private static String EQUAL_EXPR = "%s.%s = ";
-    private static String NOT_EQUAL_EXPR = "%s.%s <> ";
-    private static String LIKE_EXPR = "%s.%s like ";
-    private static String NOT_LIKE_EXPR = "%s.%s not like ";
-
     public static String[] OPTIONS = {IS, IS_NOT, CONTAINS, NOT_CONTAINS, IS_EMPTY, IS_NOT_EMPTY};
 
     @SuppressWarnings("rawtypes")
@@ -67,6 +60,7 @@ public class StringParam extends ColumnParam {
     }
 
     public NoValueSearchField buildStringParamIsNull(String oper) {
+        String NULL_EXPR = "%s.%s is null";
         return new NoValueSearchField(oper, String.format(NULL_EXPR,
                 this.getTable(), this.getColumn()));
     }
@@ -80,6 +74,7 @@ public class StringParam extends ColumnParam {
     }
 
     public NoValueSearchField buildStringParamIsNotNull(String oper) {
+        String NOT_NULL_EXPR = "%s.%s is not null";
         return new NoValueSearchField(oper, String.format(NOT_NULL_EXPR, this.getTable(), this.getColumn()));
     }
 
@@ -92,6 +87,7 @@ public class StringParam extends ColumnParam {
     }
 
     public OneValueSearchField buildStringParamIsEqual(String oper, Object value) {
+        String EQUAL_EXPR = "%s.%s = ";
         return new OneValueSearchField(oper, String.format(EQUAL_EXPR, this.getTable(), this.getColumn()), value);
     }
 
@@ -104,6 +100,7 @@ public class StringParam extends ColumnParam {
     }
 
     public OneValueSearchField buildStringParamIsNotEqual(String oper, Object value) {
+        String NOT_EQUAL_EXPR = "%s.%s <> ";
         return new OneValueSearchField(oper, String.format(NOT_EQUAL_EXPR, this.getTable(), this.getColumn()), value);
     }
 
@@ -117,6 +114,7 @@ public class StringParam extends ColumnParam {
     }
 
     public OneValueSearchField buildStringParamIsLike(String oper, Object value) {
+        String LIKE_EXPR = "%s.%s like ";
         return new OneValueSearchField(oper, String.format(LIKE_EXPR, this.getTable(), this.getColumn()), "%" + value + "%");
     }
 
@@ -129,6 +127,7 @@ public class StringParam extends ColumnParam {
     }
 
     public OneValueSearchField buildStringParamIsNotLike(String oper, Object value) {
+        String NOT_LIKE_EXPR = "%s.%s not like ";
         return new OneValueSearchField(oper, String.format(NOT_LIKE_EXPR,
                 this.getTable(), this.getColumn()), "%" + value + "%");
     }

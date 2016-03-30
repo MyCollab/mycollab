@@ -21,103 +21,123 @@ import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import java.util.Date;
 
 public class SimpleItemTimeLogging extends ItemTimeLogging {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String logUserAvatarId;
+    private String logUserAvatarId;
 
-	private String logUserFullName;
+    private String logUserFullName;
 
-	private String projectName;
+    private Double logUserRate;
 
-	private String projectShortName;
+    private Double logUserOvertimeRate;
 
-	private String summary;
+    private String projectName;
 
-	private Double percentageComplete;
+    private String projectShortName;
 
-	private String status;
+    private String summary;
 
-	private Date dueDate;
+    private Double percentageComplete;
 
-	private int extraTypeId;
+    private String status;
 
-	public String getLogUserFullName() {
-		return logUserFullName;
-	}
+    private Date dueDate;
 
-	public void setLogUserFullName(String logUserFullName) {
-		this.logUserFullName = logUserFullName;
-	}
+    private int extraTypeId;
 
-	public String getProjectName() {
-		return projectName == null ? "" : projectName;
-	}
+    public String getLogUserFullName() {
+        return logUserFullName;
+    }
 
-	public void setProjectName(String projectName) {
-		this.projectName = projectName;
-	}
+    public void setLogUserFullName(String logUserFullName) {
+        this.logUserFullName = logUserFullName;
+    }
 
-	public String getProjectShortName() {
-		return projectShortName == null ? "" : projectShortName;
-	}
+    public String getProjectName() {
+        return projectName == null ? "" : projectName;
+    }
 
-	public void setProjectShortName(String projectShortName) {
-		this.projectShortName = projectShortName;
-	}
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
 
-	public String getSummary() {
-		return summary == null ? "" : summary;
-	}
+    public String getProjectShortName() {
+        return projectShortName == null ? "" : projectShortName;
+    }
 
-	public void setSummary(String summary) {
-		this.summary = summary;
-	}
+    public void setProjectShortName(String projectShortName) {
+        this.projectShortName = projectShortName;
+    }
 
-	public Double getPercentageComplete() {
-		return percentageComplete;
-	}
+    public String getSummary() {
+        return summary == null ? "" : summary;
+    }
 
-	public void setPercentageComplete(Double percentageComplete) {
-		this.percentageComplete = percentageComplete;
-	}
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
 
-	public String getStatus() {
-		return status;
-	}
+    public Double getPercentageComplete() {
+        return percentageComplete;
+    }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public void setPercentageComplete(Double percentageComplete) {
+        this.percentageComplete = percentageComplete;
+    }
 
-	public Date getDueDate() {
-		return dueDate;
-	}
+    public String getStatus() {
+        return status;
+    }
 
-	public void setDueDate(Date dueDate) {
-		this.dueDate = dueDate;
-	}
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
-	public String getLogUserAvatarId() {
-		return logUserAvatarId;
-	}
+    public Date getDueDate() {
+        return dueDate;
+    }
 
-	public void setLogUserAvatarId(String logUserAvatarId) {
-		this.logUserAvatarId = logUserAvatarId;
-	}
+    public void setDueDate(Date dueDate) {
+        this.dueDate = dueDate;
+    }
 
-	public boolean isOverdue() {
-		if (getDueDate() != null) {
-			return getDueDate().before(DateTimeUtils.getCurrentDateWithoutMS());
-		}
+    public String getLogUserAvatarId() {
+        return logUserAvatarId;
+    }
 
-		return false;
-	}
+    public void setLogUserAvatarId(String logUserAvatarId) {
+        this.logUserAvatarId = logUserAvatarId;
+    }
 
-	public int getExtraTypeId() {
-		return extraTypeId;
-	}
+    public Double getLogUserRate() {
+        return logUserRate;
+    }
 
-	public void setExtraTypeId(int extraTypeId) {
-		this.extraTypeId = extraTypeId;
-	}
+    public void setLogUserRate(Double logUserRate) {
+        this.logUserRate = logUserRate;
+    }
+
+    public Double getLogUserOvertimeRate() {
+        return logUserOvertimeRate;
+    }
+
+    public void setLogUserOvertimeRate(Double logUserOvertimeRate) {
+        this.logUserOvertimeRate = logUserOvertimeRate;
+    }
+
+    public boolean isOverdue() {
+        if (getDueDate() != null) {
+            return getDueDate().before(DateTimeUtils.getCurrentDateWithoutMS());
+        }
+
+        return false;
+    }
+
+    public int getExtraTypeId() {
+        return extraTypeId;
+    }
+
+    public void setExtraTypeId(int extraTypeId) {
+        this.extraTypeId = extraTypeId;
+    }
 }

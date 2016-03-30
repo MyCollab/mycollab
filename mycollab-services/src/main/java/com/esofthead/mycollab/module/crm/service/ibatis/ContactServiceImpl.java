@@ -37,6 +37,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -164,7 +165,7 @@ public class ContactServiceImpl extends DefaultService<Integer, Contact, Contact
             CampaignService campaignService = ApplicationContextUtil
                     .getSpringBean(CampaignService.class);
             campaignService.saveCampaignContactRelationship(
-                    Arrays.asList(associateContact), contact.getSaccountid());
+                    Collections.singletonList(associateContact), contact.getSaccountid());
         } else if (contact.getExtraData() != null
                 && contact.getExtraData() instanceof SimpleOpportunity) {
             ContactOpportunity associateContact = new ContactOpportunity();
@@ -174,7 +175,7 @@ public class ContactServiceImpl extends DefaultService<Integer, Contact, Contact
             associateContact.setCreatedtime(new GregorianCalendar().getTime());
 
             this.saveContactOpportunityRelationship(
-                    Arrays.asList(associateContact), contact.getSaccountid());
+                    Collections.singletonList(associateContact), contact.getSaccountid());
         } else if (contact.getExtraData() != null
                 && contact.getExtraData() instanceof SimpleCase) {
             ContactCase associateCase = new ContactCase();
@@ -183,7 +184,7 @@ public class ContactServiceImpl extends DefaultService<Integer, Contact, Contact
                     .getId());
             associateCase.setCreatedtime(new GregorianCalendar().getTime());
 
-            this.saveContactCaseRelationship(Arrays.asList(associateCase),
+            this.saveContactCaseRelationship(Collections.singletonList(associateCase),
                     contact.getSaccountid());
         }
         return result;

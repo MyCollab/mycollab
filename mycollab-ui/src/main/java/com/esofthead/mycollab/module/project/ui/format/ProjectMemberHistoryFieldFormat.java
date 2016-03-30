@@ -24,16 +24,16 @@ import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.utils.HistoryFieldFormat;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.utils.HistoryFieldFormat;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Span;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.UUID;
+import static com.esofthead.mycollab.utils.TooltipHelper.TOOLTIP_ID;
 
 /**
  * @author MyCollab Ltd.
@@ -52,15 +52,13 @@ public final class ProjectMemberHistoryFieldFormat implements HistoryFieldFormat
             UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
             SimpleUser user = userService.findUserByUserNameInAccount(value, AppContext.getAccountId());
             if (user != null) {
-                String uid = UUID.randomUUID().toString();
                 Img userAvatar = new Img("", StorageFactory.getInstance().getAvatarPath(user.getAvatarid(), 16));
-                A link = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink
+                A link = new A().setId("tag" + TOOLTIP_ID).setHref(ProjectLinkBuilder.generateProjectMemberFullLink
                         (CurrentProjectVariables.getProjectId(),
                                 user.getUsername())).appendText(StringUtils.trim(user.getDisplayName(), 30, true));
-                link.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(uid, user.getUsername()));
-                link.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
-                return new DivLessFormatter().appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), link,
-                        DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid)).write();
+                link.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(user.getUsername()));
+                link.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
+                return new DivLessFormatter().appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), link).write();
             }
         } catch (Exception e) {
             LOG.error("Error", e);

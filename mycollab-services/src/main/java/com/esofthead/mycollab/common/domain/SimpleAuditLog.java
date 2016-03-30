@@ -71,10 +71,8 @@ public class SimpleAuditLog extends AuditLog {
     }
 
     private List<AuditChangeItem> parseChangeItems() {
-        List<AuditChangeItem> items = JsonDeSerializer.fromJson(
+        return JsonDeSerializer.fromJson(
                 this.getChangeset(), new TypeToken<List<AuditChangeItem>>() {
                 }.getType());
-
-        return items;
     }
 }

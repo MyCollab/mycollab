@@ -142,7 +142,6 @@ public class ProjectRoleReadPresenter extends AbstractPresenter<ProjectRoleReadV
             SimpleProjectRole role = projectRoleService.findById((Integer) data.getParams(), AppContext.getAccountId());
             if (role == null) {
                 NotificationUtil.showRecordNotExistNotification();
-                return;
             } else {
                 roleContainer.removeAllComponents();
                 roleContainer.addComponent(view.getWidget());

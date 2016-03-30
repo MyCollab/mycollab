@@ -46,7 +46,7 @@ class VersionUrlResolver extends ProjectUrlResolver {
       versionSearchCriteria.setProjectId(new NumberSearchField(projectId))
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
         new VersionScreenData.Search(versionSearchCriteria))
-      EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+      EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
 
@@ -57,7 +57,7 @@ class VersionUrlResolver extends ProjectUrlResolver {
       val versionId = token.getInt
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
         new VersionScreenData.Read(versionId))
-      EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+      EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
 
@@ -70,7 +70,7 @@ class VersionUrlResolver extends ProjectUrlResolver {
       val version = versionService.findById(versionId, AppContext.getAccountId)
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
         new VersionScreenData.Edit(version))
-      EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+      EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
 
@@ -79,7 +79,7 @@ class VersionUrlResolver extends ProjectUrlResolver {
       val projectId = new UrlTokenizer(params(0)).getInt
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
         new VersionScreenData.Add(new Version))
-      EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+      EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
 

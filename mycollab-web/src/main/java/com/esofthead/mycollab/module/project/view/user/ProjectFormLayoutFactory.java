@@ -47,19 +47,17 @@ public abstract class ProjectFormLayoutFactory implements IFormLayoutFactory {
 
     @Override
     public ComponentContainer getLayout() {
-        final AddViewLayout projectAddLayout = new AddViewLayout(this.title,
-                ProjectAssetsManager.getAsset(ProjectTypeConstants.PROJECT));
-
-        this.projectInformationLayout = new ProjectInformationLayout();
+        final AddViewLayout projectAddLayout = new AddViewLayout(title, ProjectAssetsManager.getAsset(ProjectTypeConstants.PROJECT));
+        projectInformationLayout = new ProjectInformationLayout();
 
         final Layout topPanel = this.createTopPanel();
         if (topPanel != null) {
             projectAddLayout.addHeaderRight(topPanel);
         }
 
-        projectAddLayout.addBody(this.projectInformationLayout.getLayout());
+        projectAddLayout.addBody(projectInformationLayout.getLayout());
 
-        final Layout bottomPanel = this.createBottomPanel();
+        final Layout bottomPanel = createBottomPanel();
         if (bottomPanel != null) {
             projectAddLayout.addBottomControls(bottomPanel);
         }
@@ -69,7 +67,7 @@ public abstract class ProjectFormLayoutFactory implements IFormLayoutFactory {
 
     @Override
     public void attachField(Object propertyId, final Field<?> field) {
-        this.projectInformationLayout.attachField(propertyId, field);
+        projectInformationLayout.attachField(propertyId, field);
     }
 
     protected abstract Layout createTopPanel();
@@ -115,14 +113,14 @@ public abstract class ProjectFormLayoutFactory implements IFormLayoutFactory {
                 financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_ACCOUNT_NAME), 1, 0);
             } else if (propertyId.equals("planenddate")) {
                 financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_END_DATE), 0, 1);
-            } else if (propertyId.equals("defaultbillingrate")) {
-                financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_BILLING_RATE), 1, 1);
-            } else if (Project.Field.defaultovertimebillingrate.equalTo(propertyId)) {
-                financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_OVERTIME_BILLING_RATE), 0, 2);
-            } else if (Project.Field.targetbudget.equalTo(propertyId)) {
-                financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_TARGET_BUDGET), 1, 2);
             } else if (Project.Field.currencyid.equalTo(propertyId)) {
-                financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_CURRENCY), 0, 3);
+                financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_CURRENCY), 1, 1);
+            } else if (propertyId.equals("defaultbillingrate")) {
+                financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_BILLING_RATE), 0, 2);
+            } else if (Project.Field.defaultovertimebillingrate.equalTo(propertyId)) {
+                financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_OVERTIME_BILLING_RATE), 1, 2);
+            } else if (Project.Field.targetbudget.equalTo(propertyId)) {
+                financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_TARGET_BUDGET), 0, 3);
             } else if (Project.Field.actualbudget.equalTo(propertyId)) {
                 financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_ACTUAL_BUDGET), 1, 3);
             } else if (propertyId.equals("description")) {

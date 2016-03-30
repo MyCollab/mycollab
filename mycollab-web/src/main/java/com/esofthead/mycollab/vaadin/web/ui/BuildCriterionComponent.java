@@ -58,9 +58,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
     private Class<S> type;
 
     private MHorizontalLayout filterBox;
-    private SavedSearchResultComboBox filterComboBox;
     private MVerticalLayout searchContainer;
-    private MHorizontalLayout controlsBtn;
 
     public BuildCriterionComponent(Param[] paramFields, Class<S> type, String searchCategory) {
         this.paramFields = paramFields;
@@ -82,7 +80,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
         searchContainer = new MVerticalLayout().withMargin(false);
         searchContainer.setDefaultComponentAlignment(Alignment.TOP_LEFT);
 
-        controlsBtn = new MHorizontalLayout().withMargin(true);
+        MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(true);
 
         Button addCriteriaBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADD_CRITERIA), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
@@ -104,7 +102,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
     private void buildFilterBox(String queryname) {
         filterBox.removeAllComponents();
 
-        filterComboBox = new SavedSearchResultComboBox();
+        SavedSearchResultComboBox filterComboBox = new SavedSearchResultComboBox();
         filterBox.addComponent(filterComboBox);
 
         Button saveSearchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_NEW_FILTER), new Button.ClickListener() {

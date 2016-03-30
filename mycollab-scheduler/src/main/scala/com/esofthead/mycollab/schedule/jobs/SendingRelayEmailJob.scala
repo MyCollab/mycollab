@@ -41,7 +41,7 @@ class SendingRelayEmailJob extends GenericQuartzJobBean {
   @Override
   def executeJob(context: JobExecutionContext) {
     val relayEmails = mailRelayService.getRelayEmails
-    mailRelayService.cleanEmails
+    mailRelayService.cleanEmails()
 
     import scala.collection.JavaConversions._
     for (relayEmail <- relayEmails) {

@@ -33,6 +33,7 @@ import org.joda.time.LocalDate;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -88,7 +89,7 @@ public class TaskSavedFilterComboBox extends SavedFilterComboBox {
                 (TaskSearchCriteria.p_assignee, new VariableInjecter() {
                     @Override
                     public Object eval() {
-                        return Arrays.asList(AppContext.getUsername());
+                        return Collections.singletonList(AppContext.getUsername());
                     }
                 }));
 

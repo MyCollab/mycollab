@@ -43,7 +43,7 @@ public class LogConfig {
         InputStream inputStream = LogConfig.class.getClassLoader().getResourceAsStream("logback-test.xml");
         if (inputStream == null) {
             try {
-                File configFile = FileUtils.getDesireFile(System.getProperty("user.dir"), "conf/logback.xml", "src/main/conf/logback.xml");
+                File configFile = FileUtils.getDesireFile(FileUtils.getUserFolder(), "conf/logback.xml", "src/main/conf/logback.xml");
                 if (configFile != null) inputStream = new FileInputStream(configFile);
             } catch (FileNotFoundException e) {
                 inputStream = LogConfig.class.getClassLoader().getResourceAsStream("logback.xml");

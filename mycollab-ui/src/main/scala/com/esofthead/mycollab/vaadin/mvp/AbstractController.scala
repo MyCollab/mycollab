@@ -35,7 +35,7 @@ class AbstractController extends Serializable {
     subscribers += subscriber
   }
 
-  def unregisterAll {
+  def unregisterAll() {
     subscribers.foreach(subscriber => eventBus.unregister(subscriber))
   }
 }

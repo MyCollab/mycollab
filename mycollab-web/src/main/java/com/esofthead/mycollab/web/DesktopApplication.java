@@ -54,6 +54,7 @@ import com.vaadin.server.Page.UriFragmentChangedEvent;
 import com.vaadin.server.Page.UriFragmentChangedListener;
 import com.vaadin.shared.communication.PushMode;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.JavaScript;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import org.mybatis.spring.MyBatisSystemException;
@@ -77,7 +78,8 @@ public class DesktopApplication extends MyCollabUI {
     private static final long serialVersionUID = 1L;
 
     private static final Logger LOG = LoggerFactory.getLogger(DesktopApplication.class);
-    public static final String NAME_COOKIE = "mycollab";
+    public static final String ACCOUNT_COOKIE = "mycollab";
+    public static final String TEMP_ACCOUNT_COOKIE = "temp_account_mycollab";
     public static final ShellUrlResolver rootUrlResolver = new ShellUrlResolver();
 
     private MainWindowContainer mainWindowContainer;
@@ -314,7 +316,9 @@ public class DesktopApplication extends MyCollabUI {
         SimpleUser user = userService.authentication(username, password, AppContext.getSubDomain(), false);
 
         if (isRememberPassword) {
-            rememberPassword(username, password);
+            rememberAccount(username, password);
+        } else {
+            rememberTempAccount(username, password);
         }
 
         afterDoLogin(user);
@@ -324,7 +328,8 @@ public class DesktopApplication extends MyCollabUI {
         BillingAccountService billingAccountService = ApplicationContextUtil.getSpringBean(BillingAccountService.class);
 
         SimpleBillingAccount billingAccount = billingAccountService.getBillingAccountById(AppContext.getAccountId());
-        LOG.info(String.format("Get billing account successfully: %s", BeanUtility.printBeanObj(billingAccount)));
+        LOG.info(String.format("Get billing account successfully: %s", BeanUtility.printBeanObj(billingAccount)) +
+                "-- and user " + BeanUtility.printBeanObj(user));
         AppContext.getInstance().setSessionVariables(user, billingAccount);
 
         UserAccountMapper userAccountMapper = ApplicationContextUtil.getSpringBean(UserAccountMapper.class);
@@ -350,20 +355,27 @@ public class DesktopApplication extends MyCollabUI {
         mainWindowContainer.setStyleName("loginView");
 
         if (loginView.getParent() == null || loginView.getParent() == mainWindowContainer) {
-            mainWindowContainer.setAutoLogin(false);
             mainWindowContainer.setContent(loginView);
         } else {
             presenter.go(mainWindowContainer, null);
         }
     }
 
-    private void rememberPassword(String username, String password) {
+    private void rememberAccount(String username, String password) {
         String storeVal = username + "$" + PasswordEncryptHelper.encryptText(password);
-        BrowserCookie.setCookie(NAME_COOKIE, storeVal);
+        BrowserCookie.setCookie(ACCOUNT_COOKIE, storeVal);
+    }
+
+    private void rememberTempAccount(String username, String password) {
+        String storeVal = username + "$" + PasswordEncryptHelper.encryptText(password);
+        String setCookieVal = String.format("var now = new Date(); now.setTime(now.getTime() + 1 * 1800 * 1000); " +
+                "document.cookie = \"%s=%s; expires=\" + now.toUTCString() + \"; path=/\";", TEMP_ACCOUNT_COOKIE, storeVal);
+        JavaScript.getCurrent().execute(setCookieVal);
     }
 
     public void unsetRememberPassword() {
-        BrowserCookie.setCookie(NAME_COOKIE, "");
+        BrowserCookie.setCookie(ACCOUNT_COOKIE, "");
+        BrowserCookie.setCookie(TEMP_ACCOUNT_COOKIE, "");
     }
 
     private class ShellErrorHandler {

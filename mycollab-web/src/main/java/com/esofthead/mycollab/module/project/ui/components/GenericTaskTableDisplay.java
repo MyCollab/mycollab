@@ -38,7 +38,8 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.Table;
 
 import java.util.List;
-import java.util.UUID;
+
+import static com.esofthead.mycollab.utils.TooltipHelper.TOOLTIP_ID;
 
 /**
  * @author MyCollab Ltd.
@@ -57,10 +58,9 @@ public class GenericTaskTableDisplay extends DefaultPagedBeanTable<ProjectGeneri
             public Component generateCell(Table source, Object itemId, Object columnId) {
                 final ProjectGenericTask task = getBeanByIndex(itemId);
 
-                String uid = UUID.randomUUID().toString();
                 Div div = new DivLessFormatter();
                 Text image = new Text(ProjectAssetsManager.getAsset(task.getType()).getHtml());
-                A itemLink = new A().setId("tag" + uid);
+                A itemLink = new A().setId("tag" + TOOLTIP_ID);
                 if (ProjectTypeConstants.TASK.equals(task.getType()) || ProjectTypeConstants.BUG.equals(task.getType())) {
                     itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(task.getProjectShortName(),
                             task.getProjectId(), task.getType(), task.getExtraTypeId() + ""));
@@ -69,12 +69,11 @@ public class GenericTaskTableDisplay extends DefaultPagedBeanTable<ProjectGeneri
                             task.getProjectId(), task.getType(), task.getTypeId() + ""));
                 }
 
-                itemLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, task.getType(), task.getTypeId() + ""));
-                itemLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
+                itemLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(task.getType(), task.getTypeId() + ""));
+                itemLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
                 itemLink.appendText(task.getName());
 
-                div.appendChild(image, DivLessFormatter.EMPTY_SPACE(), itemLink, DivLessFormatter.EMPTY_SPACE(),
-                        TooltipHelper.buildDivTooltipEnable(uid));
+                div.appendChild(image, DivLessFormatter.EMPTY_SPACE(), itemLink);
 
                 Button assignmentLink = new Button(div.write(), new Button.ClickListener() {
                     @Override

@@ -34,7 +34,6 @@ import com.vaadin.ui.Component;
 public class OpportunitySelectionView extends AbstractSelectionView<SimpleOpportunity> {
     private static final long serialVersionUID = -4651110982471036490L;
 
-    private OpportunitySearchCriteria searchCriteria;
     private OpportunityListDisplay itemList;
 
     private OpportunityRowDisplayHandler rowHandler = new OpportunityRowDisplayHandler();
@@ -54,7 +53,7 @@ public class OpportunitySelectionView extends AbstractSelectionView<SimpleOpport
 
     @Override
     public void load() {
-        searchCriteria = new OpportunitySearchCriteria();
+        OpportunitySearchCriteria searchCriteria = new OpportunitySearchCriteria();
         searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
         itemList.search(searchCriteria);
         SimpleOpportunity clearOpportunity = new SimpleOpportunity();
@@ -65,7 +64,7 @@ public class OpportunitySelectionView extends AbstractSelectionView<SimpleOpport
 
         @Override
         public Component generateRow(final SimpleOpportunity opportunity, int rowIndex) {
-            Button b = new Button(opportunity.getOpportunityname(), new Button.ClickListener() {
+            return new Button(opportunity.getOpportunityname(), new Button.ClickListener() {
                 private static final long serialVersionUID = -8257474042598100147L;
 
                 @Override
@@ -74,7 +73,6 @@ public class OpportunitySelectionView extends AbstractSelectionView<SimpleOpport
                     OpportunitySelectionView.this.getNavigationManager().navigateBack();
                 }
             });
-            return b;
         }
 
     }

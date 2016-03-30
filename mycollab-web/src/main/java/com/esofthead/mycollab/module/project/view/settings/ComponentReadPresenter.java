@@ -132,7 +132,6 @@ public class ComponentReadPresenter extends AbstractPresenter<ComponentReadView>
                     breadcrumb.gotoComponentRead(component);
                 } else {
                     NotificationUtil.showRecordNotExistNotification();
-                    return;
                 }
             } else {
                 throw new MyCollabException("Unhanddle this case yet");

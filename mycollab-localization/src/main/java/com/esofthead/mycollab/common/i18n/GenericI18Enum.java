@@ -129,7 +129,7 @@ public enum GenericI18Enum {
     EXT_NO_ITEM,
 
     OPT_SAVED_FILTER,
-
+    OPT_UNDEFINED,
 
     M_BUTTON_BACK,
     M_BUTTON_SEND,

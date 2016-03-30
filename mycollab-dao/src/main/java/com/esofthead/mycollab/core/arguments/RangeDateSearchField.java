@@ -35,7 +35,7 @@ public class RangeDateSearchField extends SearchField {
         this(SearchField.AND, from, to);
     }
 
-    public RangeDateSearchField(String oper, Date from, Date to) {
+    public RangeDateSearchField(final String oper, final Date from, final Date to) {
         this.operation = oper;
         this.from = from;
         this.to = to;

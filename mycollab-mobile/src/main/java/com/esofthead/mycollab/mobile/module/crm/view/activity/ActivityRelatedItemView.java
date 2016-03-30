@@ -39,7 +39,6 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 public class ActivityRelatedItemView extends AbstractRelatedListView<SimpleActivity, ActivitySearchCriteria> {
     private static final long serialVersionUID = 955474758141391716L;
 
-    private MVerticalLayout addButtons;
     private final String type;
     private Integer beanId;
 
@@ -77,7 +76,7 @@ public class ActivityRelatedItemView extends AbstractRelatedListView<SimpleActiv
         final NavigationBarQuickMenu addActivity = new NavigationBarQuickMenu();
         addActivity.setStyleName("add-btn");
 
-        addButtons = new MVerticalLayout().withWidth("100%");
+        MVerticalLayout addButtons = new MVerticalLayout().withWidth("100%");
 
         Button addTaskBtn = new Button(AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASK), new Button.ClickListener() {
             @Override

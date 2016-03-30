@@ -30,7 +30,6 @@ import com.vaadin.ui.TextField;
 import java.util.Arrays;
 
 /**
- * @param
  * @author MyCollab Ltd.
  * @since 3.0
  */
@@ -81,7 +80,7 @@ public class MilestoneEditFormFieldFactory extends AbstractBeanFieldGroupEditFie
 
             this.setItemIcon(MilestoneStatus.InProgress.name(), FontAwesome.SPINNER);
             this.setItemIcon(MilestoneStatus.Future.name(), FontAwesome.CLOCK_O);
-            this.setItemIcon(MilestoneStatus.Closed.name(), FontAwesome.MINUS);
+            this.setItemIcon(MilestoneStatus.Closed.name(), FontAwesome.MINUS_CIRCLE);
         }
     }
 

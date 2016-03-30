@@ -41,8 +41,7 @@ public class UIUtils {
     }
 
     public static Integer getBrowserWidth() {
-        int windowWidth = UI.getCurrent().getPage().getBrowserWindowWidth();
-        return windowWidth;
+        return UI.getCurrent().getPage().getBrowserWindowWidth();
     }
 
     public static void removeAllWindows() {

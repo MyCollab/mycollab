@@ -34,14 +34,14 @@ class FileUrlResolver extends UrlResolver {
 
     override def handle(params: String*) {
         if (!ModuleHelper.isCurrentFileModule) {
-            EventBusFactory.getInstance.post(new ShellEvent.GotoFileModule(this, params))
+            EventBusFactory.getInstance().post(new ShellEvent.GotoFileModule(this, params))
         }
         else {
             super.handle(params: _*)
         }
     }
 
-    protected def defaultPageErrorHandler {
+    protected def defaultPageErrorHandler() {
     }
 
     class FileListUrlResolver extends CrmUrlResolver {

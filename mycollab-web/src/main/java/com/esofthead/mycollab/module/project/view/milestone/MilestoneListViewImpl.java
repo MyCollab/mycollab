@@ -77,7 +77,6 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
     private CssLayout closeContainer;
     private Label closedHeader;
 
-    private Button createBtn;
 
     private List<SimpleMilestone> milestones;
 
@@ -112,8 +111,6 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
     protected void displayView() {
         initUI();
         constructBody();
-
-        this.createBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
 
         int totalClosedMilestones = 0, totalInprogressMilestones = 0, totalFutureMilestones = 0;
 
@@ -154,7 +151,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
     private HorizontalLayout createHeaderRight() {
         MHorizontalLayout layout = new MHorizontalLayout();
 
-        createBtn = new Button(AppContext.getMessage(MilestoneI18nEnum.BUTTON_NEW_PHASE), new Button.ClickListener() {
+        Button createBtn = new Button(AppContext.getMessage(MilestoneI18nEnum.BUTTON_NEW_PHASE), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -186,7 +183,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
         ToggleButtonGroup viewButtons = new ToggleButtonGroup();
         viewButtons.addButton(roadmapBtn);
         viewButtons.addButton(kanbanBtn);
-        viewButtons.setDefaultButton(kanbanBtn);
+        viewButtons.withDefaultButton(kanbanBtn);
         layout.with(viewButtons);
 
         return layout;

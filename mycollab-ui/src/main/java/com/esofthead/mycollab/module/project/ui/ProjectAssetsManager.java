@@ -43,7 +43,9 @@ public class ProjectAssetsManager {
         resources.put(ProjectTypeConstants.BUG_VERSION, FontAwesome.LEAF);
         resources.put(ProjectTypeConstants.FILE, FontAwesome.BRIEFCASE);
         resources.put(ProjectTypeConstants.RISK, FontAwesome.SHIELD);
+        resources.put(ProjectTypeConstants.FINANCE, FontAwesome.MONEY);
         resources.put(ProjectTypeConstants.TIME, FontAwesome.CLOCK_O);
+        resources.put(ProjectTypeConstants.INVOICE, FontAwesome.CREDIT_CARD);
         resources.put(ProjectTypeConstants.STANDUP, FontAwesome.CUBES);
         resources.put(ProjectTypeConstants.MEMBER, FontAwesome.USERS);
         resources.put(ProjectTypeConstants.PROJECT, FontAwesome.CALENDAR_O);

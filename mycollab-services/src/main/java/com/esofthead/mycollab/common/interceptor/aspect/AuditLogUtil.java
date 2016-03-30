@@ -62,7 +62,6 @@ public class AuditLogUtil {
 
                 if (!oldProp.equals(newProp)) {
                     if (isSelective && newProp.equals("")) {
-                        continue;
                     } else {
                         AuditChangeItem changeItem = new AuditChangeItem();
                         changeItem.setField(fieldName);

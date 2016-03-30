@@ -44,16 +44,16 @@ import com.google.common.eventbus.Subscribe
   * @since 5.0.9
   */
 class CrmController(val container: CrmModule) extends AbstractController {
-  bindCrmEvents
-  bindAccountEvents
-  bindActivityEvents
-  bindCampaignEvents
-  bindContactEvents
-  bindLeadEvents
-  bindOpportunityEvents
-  bindCasesEvents
-  bindDocumentEvents
-  bindSettingEvents
+  bindCrmEvents()
+  bindAccountEvents()
+  bindActivityEvents()
+  bindCampaignEvents()
+  bindContactEvents()
+  bindLeadEvents()
+  bindOpportunityEvents()
+  bindCasesEvents()
+  bindDocumentEvents()
+  bindSettingEvents()
 
   private def bindCrmEvents(): Unit = {
     this.register(new ApplicationEventListener[CrmEvent.GotoHome]() {

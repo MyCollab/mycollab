@@ -57,12 +57,9 @@ public abstract class EntityImportWindow<E> extends Window {
 
     private static final String[] fileType = {"CSV", "VCard"};
 
-    private FileConfigurationLayout fileConfigurationLayout;
-    private MappingCrmConfigurationLayout mappingCrmFieldLayout;
+    //    private MappingCrmConfigurationLayout mappingCrmFieldLayout;
     private boolean isSupportCSV = true;
     private boolean isSupportVCard = false;
-    private ICrudService services;
-    private Class<E> cls;
 
     public EntityImportWindow(boolean isSupportVCard, String title,
                               ICrudService service, Class<E> cls) {
@@ -73,10 +70,10 @@ public abstract class EntityImportWindow<E> extends Window {
         this.setStyleName("entity-import-window");
         this.setModal(true);
         this.isSupportVCard = isSupportVCard;
-        this.services = service;
-        this.cls = cls;
+        ICrudService services = service;
+        Class<E> cls1 = cls;
 
-        fileConfigurationLayout = new FileConfigurationLayout();
+        FileConfigurationLayout fileConfigurationLayout = new FileConfigurationLayout();
         this.setContent(fileConfigurationLayout);
     }
 
@@ -148,9 +145,9 @@ public abstract class EntityImportWindow<E> extends Window {
                         } else if (fileuploadType.equals("csv") && isSupportCSV) {
                             File uploadFile = uploadField.getContentAsFile();
                             if (uploadFile != null) {
-                                mappingCrmFieldLayout = new MappingCrmConfigurationLayout(
-                                        hasHeaderCheckBox.getValue(),
-                                        uploadFile);
+//                                mappingCrmFieldLayout = new MappingCrmConfigurationLayout(
+//                                        hasHeaderCheckBox.getValue(),
+//                                        uploadFile);
                                 // EntityImportWindow.this
                                 // .removeComponent(fileConfigurationLayout);
                                 //

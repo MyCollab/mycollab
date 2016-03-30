@@ -46,7 +46,7 @@ class ScheduleUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
       val projectId = new UrlTokenizer(params(0)).getInt
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new GotoDashboard)
-      EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+      EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
 
@@ -55,7 +55,7 @@ class ScheduleUrlResolver extends ProjectUrlResolver {
       val projectId = new UrlTokenizer(params(0)).getInt
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
         new TaskScreenData.GotoKanbanView)
-      EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+      EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
 
@@ -73,7 +73,7 @@ class ScheduleUrlResolver extends ProjectUrlResolver {
           taskId = task.getId
           val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId),
             new TaskScreenData.Read(taskId))
-          EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+          EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
         }
         else {
           throw new ResourceNotFoundException(String.format("Can not find task with itemKey %d and project %s", itemKey, prjShortName))
@@ -98,7 +98,7 @@ class ScheduleUrlResolver extends ProjectUrlResolver {
       }
       val chain = new PageActionChain(new ProjectScreenData.Goto(task.getProjectid),
         new TaskScreenData.Edit(task))
-      EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+      EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
 
@@ -107,7 +107,7 @@ class ScheduleUrlResolver extends ProjectUrlResolver {
       val projectId = new UrlTokenizer(params(0)).getInt
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
         new TaskScreenData.Add(new SimpleTask))
-      EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+      EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
 

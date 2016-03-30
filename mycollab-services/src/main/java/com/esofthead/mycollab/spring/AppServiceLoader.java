@@ -39,7 +39,7 @@ public class AppServiceLoader {
         PropertySourcesPlaceholderConfigurer pspc = new PropertySourcesPlaceholderConfigurer();
         Resource[] resources;
 
-        File myCollabResourceFile = FileUtils.getDesireFile(System.getProperty("user.dir"),
+        File myCollabResourceFile = FileUtils.getDesireFile(FileUtils.getUserFolder(),
                 "conf/mycollab.properties", "src/main/conf/mycollab.properties");
 
         if (myCollabResourceFile != null) {

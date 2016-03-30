@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.web;
 
-import com.esofthead.mycollab.license.LicenseInfo;
 import com.esofthead.mycollab.license.LicenseResolver;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AbstractLicenseActivationWindow;

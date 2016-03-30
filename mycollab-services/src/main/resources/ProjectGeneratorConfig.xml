@@ -35,6 +35,7 @@
         <table domainObjectName="Predecessor" schema="mycollab" tableName="m_prj_predecessor" />
         <table domainObjectName="ProjectCustomizeView" schema="mycollab" tableName="m_prj_customize_view" />
         <table domainObjectName="KanbanBoard" schema="mycollab" tableName="m_prj_kanban_board" />
+        <table domainObjectName="Invoice" schema="mycollab" tableName="m_prj_invoice" />
     </context>
 
 </generatorConfiguration>

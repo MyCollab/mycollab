@@ -38,14 +38,12 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
-import com.esofthead.mycollab.module.project.ui.components.ComponentUtils;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.mvp.view.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
-import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.esofthead.mycollab.vaadin.web.ui.ToggleButtonGroup;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.vaadin.floatingcomponent.FloatingComponent;
@@ -87,6 +85,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
 
     private MVerticalLayout roadMapView;
     private VerticalLayout filterPanel;
+    private ELabel headerText;
 
     @Override
     public void attach() {
@@ -183,10 +182,13 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
         for (SimpleMilestone milestone : milestones) {
             roadMapView.addComponent(new MilestoneBlock(milestone));
         }
+
+        headerText.setValue(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE).getHtml() + " Roadmap ("
+                + milestones.size() + ")");
     }
 
     private void initUI() {
-        HeaderWithFontAwesome headerText = ComponentUtils.headerH2(ProjectTypeConstants.MILESTONE, "Roadmap");
+        headerText = ELabel.h2("");
 
         MHorizontalLayout header = new MHorizontalLayout()
                 .withStyleName("hdr-view").withWidth("100%").withMargin(true)
@@ -235,7 +237,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
         ToggleButtonGroup viewButtons = new ToggleButtonGroup();
         viewButtons.addButton(roadmapBtn);
         viewButtons.addButton(kanbanBtn);
-        viewButtons.setDefaultButton(roadmapBtn);
+        viewButtons.withDefaultButton(roadmapBtn);
         layout.with(viewButtons);
 
         return layout;

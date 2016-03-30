@@ -42,7 +42,6 @@ import com.vaadin.ui.TabSheet.Tab;
 public class ActivityRootView extends AbstractPageView {
     private static final long serialVersionUID = 1L;
 
-    private final HorizontalLayout root;
     private final VerticalTabsheet activityTabs;
 
     private ActivityCalendarPresenter calendarPresenter;
@@ -57,7 +56,7 @@ public class ActivityRootView extends AbstractPageView {
         contentWrapper.setWidth("100%");
         this.addComponent(contentWrapper);
 
-        root = new HorizontalLayout();
+        HorizontalLayout root = new HorizontalLayout();
         root.setStyleName("menuContent");
 
         activityTabs = new VerticalTabsheet();

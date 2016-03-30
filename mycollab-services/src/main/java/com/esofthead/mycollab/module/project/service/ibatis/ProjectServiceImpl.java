@@ -46,6 +46,7 @@ import com.esofthead.mycollab.module.project.esb.DeleteProjectEvent;
 import com.esofthead.mycollab.module.project.service.ProjectRoleService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.security.AccessPermissionFlag;
+import com.esofthead.mycollab.security.BooleanPermissionFlag;
 import com.esofthead.mycollab.security.PermissionMap;
 import com.google.common.eventbus.AsyncEventBus;
 import org.slf4j.Logger;
@@ -145,14 +146,13 @@ public class ProjectServiceImpl extends DefaultService<Integer, Project, Project
             String permissionName = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
 
             if (permissionName.equals(ProjectRolePermissionCollections.USERS)
-                    || permissionName.equals(ProjectRolePermissionCollections.ROLES)) {
-                permissionMapClient.addPath(
-                        ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i],
-                        AccessPermissionFlag.READ_ONLY);
+                    || permissionName.equals(ProjectRolePermissionCollections.ROLES)
+                    || permissionName.equals(ProjectRolePermissionCollections.TIME)) {
+                permissionMapClient.addPath(permissionName, AccessPermissionFlag.READ_ONLY);
+            } else if (permissionName.equals(ProjectRolePermissionCollections.FINANCE)) {
+                permissionMapClient.addPath(permissionName, BooleanPermissionFlag.TRUE);
             } else {
-                permissionMapClient.addPath(
-                        ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i],
-                        AccessPermissionFlag.READ_ONLY);
+                permissionMapClient.addPath(permissionName, AccessPermissionFlag.READ_ONLY);
             }
         }
         projectRoleService.savePermission(projectId, clientRoleId, permissionMapClient, record.getSaccountid());
@@ -169,13 +169,15 @@ public class ProjectServiceImpl extends DefaultService<Integer, Project, Project
 
             if (permissionName.equals(ProjectRolePermissionCollections.USERS)
                     || permissionName.equals(ProjectRolePermissionCollections.ROLES)) {
-                permissionMapConsultant.addPath(
-                        ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i],
-                        AccessPermissionFlag.READ_ONLY);
+                permissionMapConsultant.addPath(permissionName, AccessPermissionFlag.READ_ONLY);
+            } else if (permissionName.equals(ProjectRolePermissionCollections.TIME)) {
+                permissionMapConsultant.addPath(permissionName, AccessPermissionFlag.READ_WRITE);
+            } else if (permissionName.equals(ProjectRolePermissionCollections.INVOICE)) {
+                permissionMapConsultant.addPath(permissionName, AccessPermissionFlag.NO_ACCESS);
+            } else if (permissionName.equals(ProjectRolePermissionCollections.FINANCE)) {
+                permissionMapConsultant.addPath(permissionName, BooleanPermissionFlag.FALSE);
             } else {
-                permissionMapConsultant.addPath(
-                        ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i],
-                        AccessPermissionFlag.ACCESS);
+                permissionMapConsultant.addPath(permissionName, AccessPermissionFlag.ACCESS);
             }
         }
         projectRoleService.savePermission(projectId, consultantRoleId,
@@ -188,8 +190,12 @@ public class ProjectServiceImpl extends DefaultService<Integer, Project, Project
 
         PermissionMap permissionMapAdmin = new PermissionMap();
         for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
-            permissionMapAdmin.addPath(ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i],
-                    AccessPermissionFlag.ACCESS);
+            String permissionName = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
+            if (permissionName.equals(ProjectRolePermissionCollections.FINANCE)) {
+                permissionMapAdmin.addPath(permissionName, BooleanPermissionFlag.TRUE);
+            } else {
+                permissionMapAdmin.addPath(permissionName, AccessPermissionFlag.ACCESS);
+            }
         }
         projectRoleService.savePermission(projectId, adminRoleId, permissionMapAdmin, record.getSaccountid());
 

@@ -30,13 +30,13 @@ class SettingUrlResolver extends AccountSettingUrlResolver {
 
   private class GeneralUrlResolver extends AccountSettingUrlResolver {
     protected override def handlePage(params: String*) {
-      EventBusFactory.getInstance.post(new SettingEvent.GotoGeneralSetting(this, null))
+      EventBusFactory.getInstance().post(new SettingEvent.GotoGeneralSetting(this, null))
     }
   }
 
   private class ThemeUrlResolver extends AccountSettingUrlResolver {
     protected override def handlePage(params: String*) {
-      EventBusFactory.getInstance.post(new GotoTheme(SettingUrlResolver.this, null))
+      EventBusFactory.getInstance().post(new GotoTheme(SettingUrlResolver.this, null))
     }
   }
 

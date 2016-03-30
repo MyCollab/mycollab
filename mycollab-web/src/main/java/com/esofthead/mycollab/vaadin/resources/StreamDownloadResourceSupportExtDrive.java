@@ -82,7 +82,6 @@ public class StreamDownloadResourceSupportExtDrive implements StreamResource.Str
         }
 
         Thread threadExport = new MyCollabThread(new Runnable() {
-
             @Override
             public void run() {
                 try {
@@ -97,7 +96,6 @@ public class StreamDownloadResourceSupportExtDrive implements StreamResource.Str
         });
 
         threadExport.start();
-
         return inStream;
     }
 

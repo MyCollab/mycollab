@@ -30,6 +30,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -42,7 +43,7 @@ public class GanttTaskServiceTest extends IntergrationServiceTest {
     @Test
     @DataSet
     public void testGetGanttAssignments() {
-        List<AssignWithPredecessors> assignmentWithPredecessors = ganttAssignmentService.getTaskWithPredecessors(Arrays.asList(1), 1);
+        List<AssignWithPredecessors> assignmentWithPredecessors = ganttAssignmentService.getTaskWithPredecessors(Collections.singletonList(1), 1);
         assertThat(assignmentWithPredecessors).hasSize(1);
 
         ProjectGanttItem project = (ProjectGanttItem) assignmentWithPredecessors.get(0);

@@ -233,14 +233,10 @@ public class MailFormWindow extends Window {
                         }
                     }
 
-                    systemMailService.sendHTMLMail(AppContext.getUser()
-                                    .getEmail(), AppContext.getUser()
-                                    .getDisplayName(), tokenFieldMailTo
-                                    .getListRecipient(), tokenFieldMailCc
-                                    .getListRecipient(), tokenFieldMailBcc
-                                    .getListRecipient(), subject.getValue().toString(),
-                            noteArea.getValue().toString(),
-                            emailAttachmentSource);
+                    systemMailService.sendHTMLMail(AppContext.getUser().getEmail(), AppContext.getUser().getDisplayName(),
+                            tokenFieldMailTo.getListRecipient(), tokenFieldMailCc.getListRecipient(),
+                            tokenFieldMailBcc.getListRecipient(), subject.getValue(),
+                            noteArea.getValue(), emailAttachmentSource);
                     MailFormWindow.this.close();
                 } else {
                     NotificationUtil

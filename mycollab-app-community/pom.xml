@@ -7,14 +7,13 @@
     <parent>
         <groupId>com.esofthead.mycollab</groupId>
         <artifactId>mycollab-parent-community</artifactId>
-        <version>5.2.9</version>
+        <version>5.2.10</version>
         <relativePath>../mycollab-parent-community/pom.xml</relativePath>
     </parent>
     <packaging>jar</packaging>
     <properties>
-        <installer.izpackVersion>5.0.6</installer.izpackVersion>
         <installer.staging.dir>${project.build.directory}/staging</installer.staging.dir>
-        <izpack.dir.app>${basedir}/src/main/izpack</izpack.dir.app>
+        <installer.resource.dir.app>${basedir}/src/main/installer-resources</installer.resource.dir.app>
         <staging.dir.app>${installer.staging.dir}</staging.dir.app>
     </properties>
 
@@ -22,7 +21,7 @@
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-server-runner</artifactId>
-            <version>5.2.9</version>
+            <version>5.2.10</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.esofthead.mycollab</groupId>
@@ -34,37 +33,37 @@
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-servlet</artifactId>
-            <version>5.2.9</version>
+            <version>5.2.10</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-services-community</artifactId>
-            <version>5.2.9</version>
+            <version>5.2.10</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-caching-community</artifactId>
-            <version>5.2.9</version>
+            <version>5.2.10</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-scheduler-community</artifactId>
-            <version>5.2.9</version>
+            <version>5.2.10</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-mobile</artifactId>
-            <version>5.2.9</version>
+            <version>5.2.10</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-web-community</artifactId>
-            <version>5.2.9</version>
+            <version>5.2.10</version>
         </dependency>
 
         <dependency>
@@ -175,7 +174,7 @@
                                 <copy file="${project.build.directory}/mycollab-app-community-${project.version}.jar"
                                       tofile="${installer.staging.dir}/lib/mycollab-app-community-${project.version}.jar"/>
                                 <copy todir="${installer.staging.dir}">
-                                    <fileset dir="${izpack.dir.app}"/>
+                                    <fileset dir="${installer.resource.dir.app}"/>
                                 </copy>
                                 <copy todir="${installer.staging.dir}/conf">
                                     <fileset dir="${basedir}/src/main/conf">
@@ -187,9 +186,6 @@
                                 </copy>
                                 <copy todir="${installer.staging.dir}/bin">
                                     <fileset dir="${basedir}/src/main/scripts"/>
-                                </copy>
-                                <copy todir="${installer.staging.dir}/txt">
-                                    <fileset dir="${basedir}/src/main/txt"/>
                                 </copy>
                                 <copy todir="${installer.staging.dir}/webapp">
                                     <fileset dir="${basedir}/src/main/webapp"/>

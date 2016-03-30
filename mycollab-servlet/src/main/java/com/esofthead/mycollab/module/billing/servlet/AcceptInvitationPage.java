@@ -88,7 +88,6 @@ public class AcceptInvitationPage extends VelocityWebServletRequestHandler {
                 User user = userService.findUserByUserName(username);
                 if (user == null) {
                     PageGeneratorUtil.responeUserNotExistPage(response, username, request.getContextPath() + "/");
-                    return;
                 } else {
                     if (!UserStatusConstants.EMAIL_VERIFIED.equals(user.getStatus())) {
                         user.setStatus(UserStatusConstants.EMAIL_VERIFIED);
@@ -99,12 +98,10 @@ public class AcceptInvitationPage extends VelocityWebServletRequestHandler {
 
                     if (userInAccount == null) {
                         PageGeneratorUtil.responeUserNotExistPage(response, username, request.getContextPath() + "/");
-                        return;
                     } else {
                         if (userInAccount.getRegisterstatus().equals(RegisterStatusConstants.ACTIVE)) {
                             LOG.debug("Forward user {} to page {}", user.getUsername(), request.getContextPath());
                             response.sendRedirect(request.getContextPath() + "/");
-                            return;
                         } else {
                             UserAccount userAccount = new UserAccount();
                             userAccount.setRegisterstatus(RegisterStatusConstants.ACTIVE);

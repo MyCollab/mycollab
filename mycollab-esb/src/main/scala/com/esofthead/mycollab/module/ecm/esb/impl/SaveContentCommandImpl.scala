@@ -73,7 +73,7 @@ object SaveContentCommandImpl {
         BeanUtility.printBeanObj(event.content)), e)
     } finally {
       DistributionLockUtil.removeLock("ecm-" + event.sAccountId)
-      lock.unlock
+      lock.unlock()
     }
   }
 }

@@ -29,6 +29,7 @@ import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.esofthead.mycollab.vaadin.ui.CurrencyComboBoxField;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
+import com.esofthead.mycollab.vaadin.web.ui.DoubleField;
 import com.esofthead.mycollab.vaadin.web.ui.EditFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.web.ui.I18nValueComboBox;
 import com.vaadin.ui.*;
@@ -136,6 +137,11 @@ public class ProjectAddViewImpl extends AbstractPageView implements ProjectAddVi
                 return new AccountSelectionField();
             } else if (Project.Field.lead.equalTo(propertyId)) {
                 return new ProjectMemberSelectionField();
+            } else if (Project.Field.defaultbillingrate.equalTo(propertyId)
+                    || Project.Field.defaultovertimebillingrate.equalTo(propertyId)
+                    || Project.Field.targetbudget.equalTo(propertyId)
+                    || Project.Field.actualbudget.equalTo(propertyId)) {
+                return new DoubleField();
             }
 
             return null;

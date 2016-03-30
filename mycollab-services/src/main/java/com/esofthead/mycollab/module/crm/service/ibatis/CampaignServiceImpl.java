@@ -34,6 +34,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -88,7 +89,7 @@ public class CampaignServiceImpl extends DefaultService<Integer, CampaignWithBLO
                     .getId());
             associateLead.setCreatedtime(new GregorianCalendar().getTime());
 
-            this.saveCampaignLeadRelationship(Arrays.asList(associateLead),
+            this.saveCampaignLeadRelationship(Collections.singletonList(associateLead),
                     campaign.getSaccountid());
         }
         return result;

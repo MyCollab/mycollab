@@ -45,14 +45,11 @@ public class OpportunityLeadSelectionView extends AbstractRelatedItemSelectionVi
     protected void initUI() {
         this.itemList = new LeadListDisplay();
         this.itemList.setRowDisplayHandler(new AbstractPagedBeanList.RowDisplayHandler<SimpleLead>() {
-
             @Override
-            public Component generateRow(final SimpleLead obj,
-                                         int rowIndex) {
+            public Component generateRow(final SimpleLead obj, int rowIndex) {
                 final SelectableButton b = new SelectableButton(obj.getLeadName());
                 if (selections.contains(obj)) b.select();
                 b.addClickListener(new Button.ClickListener() {
-
                     private static final long serialVersionUID = -9086838156625853470L;
 
                     @Override

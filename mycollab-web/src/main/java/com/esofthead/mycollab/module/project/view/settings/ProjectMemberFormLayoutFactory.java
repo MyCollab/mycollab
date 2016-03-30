@@ -17,6 +17,8 @@
 
 package com.esofthead.mycollab.module.project.view.settings;
 
+import com.esofthead.mycollab.module.project.domain.ProjectMember;
+import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.FormContainer;
@@ -36,7 +38,7 @@ public class ProjectMemberFormLayoutFactory implements IFormLayoutFactory {
     @Override
     public ComponentContainer getLayout() {
         final FormContainer layout = new FormContainer();
-        informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 2);
+        informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 3);
         layout.addSection(AppContext.getMessage(ProjectMemberI18nEnum.FORM_INFORMATION_SECTION), informationLayout.getLayout());
         return layout;
     }
@@ -44,9 +46,13 @@ public class ProjectMemberFormLayoutFactory implements IFormLayoutFactory {
     @Override
     public void attachField(Object propertyId, final Field<?> field) {
         if (propertyId.equals("memberFullName")) {
-            informationLayout.addComponent(field, AppContext.getMessage(ProjectMemberI18nEnum.FORM_USER), 0, 0);
+            informationLayout.addComponent(field, AppContext.getMessage(ProjectMemberI18nEnum.FORM_USER), 0, 0, 2, "100%");
         } else if (propertyId.equals("projectroleid")) {
-            informationLayout.addComponent(field, AppContext.getMessage(ProjectMemberI18nEnum.FORM_ROLE), 0, 1);
+            informationLayout.addComponent(field, AppContext.getMessage(ProjectMemberI18nEnum.FORM_ROLE), 0, 1, 2, "100%");
+        } else if (ProjectMember.Field.billingrate.equalTo(propertyId)) {
+            informationLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_BILLING_RATE), 0, 2);
+        } else if (ProjectMember.Field.overtimebillingrate.equalTo(propertyId)) {
+            informationLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_OVERTIME_BILLING_RATE), 1, 2);
         }
     }
 }

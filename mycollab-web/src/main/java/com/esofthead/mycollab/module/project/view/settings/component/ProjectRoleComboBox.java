@@ -36,8 +36,6 @@ import java.util.List;
 public class ProjectRoleComboBox extends ComboBox {
     private static final long serialVersionUID = 1L;
 
-    private List<SimpleProjectRole> roleList;
-
     public ProjectRoleComboBox() {
         super();
         this.setImmediate(true);
@@ -48,7 +46,7 @@ public class ProjectRoleComboBox extends ComboBox {
         criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
 
         ProjectRoleService roleService = ApplicationContextUtil.getSpringBean(ProjectRoleService.class);
-        roleList = roleService.findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<SimpleProjectRole> roleList = roleService.findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 
         BeanContainer<String, SimpleProjectRole> beanItem = new BeanContainer<>(SimpleProjectRole.class);
         beanItem.setBeanIdProperty("id");

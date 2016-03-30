@@ -44,7 +44,7 @@ class ShellController(container: MainWindowContainer) extends AbstractController
     })
     this.register(new ApplicationEventListener[ShellEvent.LogOut]() {
       @Subscribe def handle(event: ShellEvent.LogOut) {
-        (UI.getCurrent.asInstanceOf[DesktopApplication]).redirectToLoginView
+        (UI.getCurrent.asInstanceOf[DesktopApplication]).redirectToLoginView()
       }
     })
     this.register(new ApplicationEventListener[ShellEvent.GotoForgotPasswordPage]() {

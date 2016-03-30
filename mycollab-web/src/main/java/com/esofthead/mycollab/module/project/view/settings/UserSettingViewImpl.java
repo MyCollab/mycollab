@@ -61,27 +61,27 @@ public class UserSettingViewImpl extends AbstractPageView implements UserSetting
     }
 
     private void buildComponents() {
-        this.userPresenter = PresenterResolver.getPresenter(ProjectUserPresenter.class);
-        this.myProjectTab.addTab(this.userPresenter.getView(), AppContext.getMessage(ProjectCommonI18nEnum
+        userPresenter = PresenterResolver.getPresenter(ProjectUserPresenter.class);
+        myProjectTab.addTab(userPresenter.getView(), AppContext.getMessage(ProjectCommonI18nEnum
                 .VIEW_USERS), FontAwesome.USERS);
 
-        this.rolePresenter = PresenterResolver.getPresenter(ProjectRolePresenter.class);
-        this.myProjectTab.addTab(this.rolePresenter.getView(), AppContext.getMessage(ProjectCommonI18nEnum
+        rolePresenter = PresenterResolver.getPresenter(ProjectRolePresenter.class);
+        myProjectTab.addTab(rolePresenter.getView(), AppContext.getMessage(ProjectCommonI18nEnum
                 .VIEW_ROLES), FontAwesome.USER_MD);
 
-        this.componentPresenter = PresenterResolver.getPresenter(ComponentPresenter.class);
-        this.myProjectTab.addTab(this.componentPresenter.getView(), AppContext.getMessage(BugI18nEnum.TAB_COMPONENT),
+        componentPresenter = PresenterResolver.getPresenter(ComponentPresenter.class);
+        myProjectTab.addTab(componentPresenter.getView(), AppContext.getMessage(BugI18nEnum.TAB_COMPONENT),
                 ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG_COMPONENT));
 
-        this.versionPresenter = PresenterResolver.getPresenter(VersionPresenter.class);
-        this.myProjectTab.addTab(this.versionPresenter.getView(), AppContext.getMessage(BugI18nEnum.TAB_VERSION),
+        versionPresenter = PresenterResolver.getPresenter(VersionPresenter.class);
+        myProjectTab.addTab(versionPresenter.getView(), AppContext.getMessage(BugI18nEnum.TAB_VERSION),
                 ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG_VERSION));
 
-        this.settingPresenter = PresenterResolver.getPresenter(ProjectSettingPresenter.class);
-        this.myProjectTab.addTab(this.settingPresenter.getView(), AppContext.getMessage(ProjectCommonI18nEnum
+        settingPresenter = PresenterResolver.getPresenter(ProjectSettingPresenter.class);
+        myProjectTab.addTab(settingPresenter.getView(), AppContext.getMessage(ProjectCommonI18nEnum
                 .VIEW_SETTINGS), FontAwesome.COG);
 
-        this.myProjectTab.addSelectedTabChangeListener(new SelectedTabChangeListener() {
+        myProjectTab.addSelectedTabChangeListener(new SelectedTabChangeListener() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -94,11 +94,11 @@ public class UserSettingViewImpl extends AbstractPageView implements UserSetting
                     ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
                     criteria.setProjectId(new NumberSearchField(project.getId()));
                     criteria.setStatus(StringSearchField.and(ProjectMemberStatusConstants.ACTIVE));
-                    UserSettingViewImpl.this.userPresenter.go(UserSettingViewImpl.this, new ScreenData.Search<>(criteria));
+                    userPresenter.go(UserSettingViewImpl.this, new ScreenData.Search<>(criteria));
                 } else if (AppContext.getMessage(ProjectCommonI18nEnum.VIEW_ROLES).equals(caption)) {
                     ProjectRoleSearchCriteria criteria = new ProjectRoleSearchCriteria();
                     criteria.setProjectId(new NumberSearchField(project.getId()));
-                    UserSettingViewImpl.this.rolePresenter.go(UserSettingViewImpl.this, new ProjectRoleScreenData.Search(criteria));
+                    rolePresenter.go(UserSettingViewImpl.this, new ProjectRoleScreenData.Search(criteria));
                 } else if (AppContext.getMessage(ProjectCommonI18nEnum.VIEW_SETTINGS).equals(caption)) {
                     settingPresenter.go(UserSettingViewImpl.this, null);
                 } else if (AppContext.getMessage(BugI18nEnum.TAB_COMPONENT).equals(caption)) {
@@ -113,6 +113,6 @@ public class UserSettingViewImpl extends AbstractPageView implements UserSetting
 
     @Override
     public Component gotoSubView(final String name) {
-        return this.myProjectTab.selectTab(name).getComponent();
+        return myProjectTab.selectTab(name).getComponent();
     }
 }

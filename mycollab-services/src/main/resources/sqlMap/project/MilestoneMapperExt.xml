@@ -43,7 +43,7 @@
             #ifnotnull($searchCriteria.projectIds)
                 ${searchCriteria.projectIds.operation} m_prj_milestone.projectId IN
                 #repeat(${searchCriteria.projectIds.values} $projectId "," "(" ")")
-                        @{projectId}
+                    @{projectId}
                 #end
             #end
             
@@ -81,7 +81,7 @@
             #ifnotnull($searchCriteria.projectIds)
                 ${searchCriteria.projectIds.operation} m_prj_milestone.projectId IN
                 #repeat(${searchCriteria.projectIds.values} $projectId "," "(" ")")
-                        @{projectId}
+                    @{projectId}
                 #end
             #end
             
@@ -163,8 +163,7 @@
         m_prj_milestone.lastUpdatedTime DESC
     </sql>
 
-    <select id="findById" parameterType="java.lang.Integer"
-        resultMap="MilestoneResult" lang="velocity">
+    <select id="findById" parameterType="java.lang.Integer" resultMap="MilestoneResult" lang="velocity">
         <include refid="selectMilestone" />
 
         WHERE m_prj_milestone.id=@{milestoneId, jdbcType=NUMERIC}

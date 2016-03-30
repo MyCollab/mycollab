@@ -44,7 +44,6 @@ public class MessageCommentListDisplay extends VerticalLayout implements Reloada
     private final BeanList<CommentService, CommentSearchCriteria, SimpleComment> commentList;
     private String type;
     private String typeId;
-    private Integer numComments;
     private ProjectCommentRequestComp commentBox;
 
     public MessageCommentListDisplay(final String type, String typeId, final Integer extraTypeId, final boolean
@@ -71,7 +70,7 @@ public class MessageCommentListDisplay extends VerticalLayout implements Reloada
         final CommentSearchCriteria searchCriteria = new CommentSearchCriteria();
         searchCriteria.setType(StringSearchField.and(type));
         searchCriteria.setTypeId(StringSearchField.and(typeId));
-        numComments = commentList.setSearchCriteria(searchCriteria);
+        Integer numComments = commentList.setSearchCriteria(searchCriteria);
         return numComments;
     }
 

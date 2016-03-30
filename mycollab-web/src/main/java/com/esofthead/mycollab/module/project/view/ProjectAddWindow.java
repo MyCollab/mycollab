@@ -38,6 +38,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.web.ui.DoubleField;
 import com.esofthead.mycollab.vaadin.web.ui.DynaFormLayout;
 import com.esofthead.mycollab.vaadin.web.ui.I18nValueComboBox;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
@@ -373,6 +374,10 @@ public class ProjectAddWindow extends Window implements WizardProgressListener {
                     return new CurrencyComboBoxField();
                 } else if (Project.Field.accountid.equalTo(propertyId)) {
                     return new AccountSelectionField();
+                } else if (Project.Field.targetbudget.equalTo(propertyId)
+                        || Project.Field.defaultbillingrate.equalTo(propertyId)
+                        || Project.Field.defaultovertimebillingrate.equalTo(propertyId)) {
+                    return new DoubleField();
                 }
                 return null;
             }

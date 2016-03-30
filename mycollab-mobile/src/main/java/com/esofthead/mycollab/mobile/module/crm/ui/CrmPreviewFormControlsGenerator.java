@@ -34,7 +34,6 @@ public class CrmPreviewFormControlsGenerator<T> {
     public static final int DELETE_BTN_PRESENTED = 4;
     public static final int CLONE_BTN_PRESENTED = 8;
 
-    private Button deleteBtn, editBtn, cloneBtn;
     private AdvancedPreviewBeanForm<T> previewForm;
 
     private MVerticalLayout editButtons;
@@ -62,7 +61,7 @@ public class CrmPreviewFormControlsGenerator<T> {
         }
 
         if ((buttonEnableFlags & EDIT_BTN_PRESENTED) == EDIT_BTN_PRESENTED) {
-            editBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), new Button.ClickListener() {
+            Button editBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), new Button.ClickListener() {
                 @Override
                 public void buttonClick(ClickEvent clickEvent) {
                     final T item = previewForm.getBean();
@@ -76,7 +75,7 @@ public class CrmPreviewFormControlsGenerator<T> {
         }
 
         if ((buttonEnableFlags & DELETE_BTN_PRESENTED) == DELETE_BTN_PRESENTED) {
-            deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), new Button.ClickListener() {
+            Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;
 
                 @Override
@@ -92,7 +91,7 @@ public class CrmPreviewFormControlsGenerator<T> {
         }
 
         if ((buttonEnableFlags & CLONE_BTN_PRESENTED) == CLONE_BTN_PRESENTED) {
-            cloneBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLONE), new Button.ClickListener() {
+            Button cloneBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLONE), new Button.ClickListener() {
                 @Override
                 public void buttonClick(ClickEvent clickEvent) {
                     final T item = previewForm.getBean();

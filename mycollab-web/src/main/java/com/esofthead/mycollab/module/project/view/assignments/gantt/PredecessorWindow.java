@@ -242,7 +242,6 @@ class PredecessorWindow extends Window {
                     @Override
                     public void buttonClick(Button.ClickEvent event) {
                         if (PredecessorsLayout.this.getComponentCount() == 1) {
-                            return;
                         } else {
                             PredecessorsLayout.this.removeComponent(PredecessorInputLayout.this);
                         }

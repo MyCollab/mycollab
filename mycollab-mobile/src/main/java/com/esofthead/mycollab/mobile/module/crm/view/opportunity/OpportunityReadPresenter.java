@@ -260,7 +260,6 @@ public class OpportunityReadPresenter extends AbstractCrmPresenter<OpportunityRe
                                     opportunity.getOpportunityname()));
                 } else {
                     NotificationUtil.showRecordNotExistNotification();
-                    return;
                 }
             }
         } else {

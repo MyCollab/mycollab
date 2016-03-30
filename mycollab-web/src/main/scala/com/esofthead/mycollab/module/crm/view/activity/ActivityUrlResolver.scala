@@ -33,13 +33,13 @@ class ActivityUrlResolver extends CrmUrlResolver {
 
     class ActivityCalendartUrlResolver extends CrmUrlResolver {
         protected override def handlePage(params: String*) {
-            EventBusFactory.getInstance.post(new ActivityEvent.GotoCalendar(this, null))
+            EventBusFactory.getInstance().post(new ActivityEvent.GotoCalendar(this, null))
         }
     }
 
     class ActivityTodoAddUrlResolver extends CrmUrlResolver {
         protected override def handlePage(params: String*) {
-            EventBusFactory.getInstance.post(new ActivityEvent.GotoTodoList(this, null))
+            EventBusFactory.getInstance().post(new ActivityEvent.GotoTodoList(this, null))
         }
     }
 

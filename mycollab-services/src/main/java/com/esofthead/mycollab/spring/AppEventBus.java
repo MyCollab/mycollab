@@ -36,12 +36,11 @@ public class AppEventBus {
 
     @Bean
     public AsyncEventBus asyncEventBus() {
-        AsyncEventBus asyncEventBus = new AsyncEventBus(Executors.newCachedThreadPool(), new SubscriberExceptionHandler() {
+        return new AsyncEventBus(Executors.newCachedThreadPool(), new SubscriberExceptionHandler() {
             @Override
             public void handleException(Throwable throwable, SubscriberExceptionContext subscriberExceptionContext) {
                 LOG.error("Error in event bus execution", throwable);
             }
         });
-        return asyncEventBus;
     }
 }

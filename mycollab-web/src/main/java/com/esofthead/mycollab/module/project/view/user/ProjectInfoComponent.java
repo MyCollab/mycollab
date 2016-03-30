@@ -153,6 +153,28 @@ public class ProjectInfoComponent extends MHorizontalLayout {
             footer.addComponents(accountBtn);
         }
 
+        Button tagBtn = new Button("Tag", new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                EventBusFactory.getInstance().post(new ProjectEvent.GotoTagListView(this, null));
+            }
+        });
+        tagBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
+        tagBtn.addStyleName(UIConstants.BUTTON_OPTION);
+        tagBtn.setIcon(FontAwesome.TAGS);
+        footer.addComponents(tagBtn);
+
+        Button favoriteBtn = new Button("Favorite", new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                EventBusFactory.getInstance().post(new ProjectEvent.GotoFavoriteView(this, null));
+            }
+        });
+        favoriteBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
+        favoriteBtn.addStyleName(UIConstants.BUTTON_OPTION);
+        favoriteBtn.setIcon(FontAwesome.STAR);
+        footer.addComponents(favoriteBtn);
+
         Button eventBtn = new Button("Calendar", new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
@@ -175,16 +197,16 @@ public class ProjectInfoComponent extends MHorizontalLayout {
         ganttChartBtn.setIcon(FontAwesome.BAR_CHART_O);
         footer.addComponents(ganttChartBtn);
 
-        Button tagBtn = new Button("Tag", new Button.ClickListener() {
+        Button reportBtn = new Button("Report", new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                EventBusFactory.getInstance().post(new ProjectEvent.GotoTagListView(this, null));
+                EventBusFactory.getInstance().post(new ProjectEvent.GotoReportConsole(this));
             }
         });
-        tagBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
-        tagBtn.addStyleName(UIConstants.BUTTON_OPTION);
-        tagBtn.setIcon(FontAwesome.TAGS);
-        footer.addComponents(tagBtn);
+        reportBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
+        reportBtn.addStyleName(UIConstants.BUTTON_OPTION);
+        reportBtn.setIcon(FontAwesome.INDUSTRY);
+        footer.addComponents(reportBtn);
 
         headerLayout.with(headerLbl, footer);
 
@@ -213,6 +235,11 @@ public class ProjectInfoComponent extends MHorizontalLayout {
                     if (prjview != null) {
                         prjview.displaySearchResult(value);
                     }
+                }
+
+                @Override
+                public void emptySearch() {
+
                 }
             };
 

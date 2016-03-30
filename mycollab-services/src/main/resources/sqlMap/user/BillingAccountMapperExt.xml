@@ -2,30 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.esofthead.mycollab.module.user.dao.BillingAccountMapperExt">
 
-    <resultMap
-        extends="com.esofthead.mycollab.module.user.dao.BillingAccountMapper.BaseResultMap"
-        id="SimpleBillingAccountResult"
-        type="com.esofthead.mycollab.module.user.domain.SimpleBillingAccount">
-        <association property="billingPlan"
-            javaType="com.esofthead.mycollab.module.user.domain.BillingPlan">
-            <id column="billingPlan_id" jdbcType="INTEGER" property="id" />
-            <result column="billingPlan_billingType" jdbcType="VARCHAR"
-                property="billingtype" />
-            <result column="billingPlan_numUsers" jdbcType="INTEGER"
-                property="numusers" />
-            <result column="billingPlan_volume" jdbcType="INTEGER"
-                property="volume" />
-            <result column="billingPlan_numProjects" jdbcType="INTEGER"
-                property="numprojects" />
-            <result column="billingPlan_pricing" jdbcType="DOUBLE"
-                property="pricing" />
-            <result column="billingPlan_description" jdbcType="VARCHAR"
-                property="description" />
-            <result column="billingPlan_hasBugEnable" jdbcType="BIT"
-                property="hasbugenable" />
-            <result column="billingPlan_hasStandupMeetingEnable"
-                jdbcType="BIT" property="hasstandupmeetingenable" />
-        </association>
+    <resultMap extends="com.esofthead.mycollab.module.user.dao.BillingAccountMapper.BaseResultMap"
+        id="SimpleBillingAccountResult" type="com.esofthead.mycollab.module.user.domain.SimpleBillingAccount">
+        <association property="billingPlan" resultMap="com.esofthead.mycollab.module.user.dao.BillingPlanMapper.BaseResultMap"
+                     columnPrefix="plan_"/>
     </resultMap>
 
     <select id="getBillingAccountById" resultMap="SimpleBillingAccountResult"
@@ -36,13 +16,10 @@
             s_account.pricingEffectFrom, s_account.pricingEffectTo,
             s_account.sitename, s_account.logoPath, s_account.defaultTimezone,
             s_account.logoPath, s_account.faviconPath,
-            s_billing_plan.id AS billingPlan_id, s_billing_plan.billingType AS
-            billingPlan_billingType, s_billing_plan.numUsers AS
-            billingPlan_numUsers, s_billing_plan.volume AS billingPlan_volume, 
-            s_billing_plan.numProjects AS billingPlan_numProjects,
-            s_billing_plan.pricing AS billingPlan_pricing, s_billing_plan.description AS billingPlan_description, s_billing_plan.hasBugEnable AS
-            billingPlan_hasBugEnable,
-            s_billing_plan.hasStandupMeetingEnable AS billingPlan_hasStandupMeetingEnable
+            s_billing_plan.id AS plan_id, s_billing_plan.billingType AS plan_billingType,
+            s_billing_plan.numUsers AS plan_numUsers, s_billing_plan.volume AS plan_volume,
+            s_billing_plan.numProjects AS plan_numProjects,
+            s_billing_plan.pricing AS plan_pricing, s_billing_plan.description AS plan_description
         FROM s_account
             LEFT OUTER JOIN s_billing_plan ON (s_billing_plan.id=s_account.billingPlanId)
         WHERE s_account.id = #{accountId,jdbcType=NUMERIC}
@@ -76,9 +53,7 @@
             billingPlan_billingType, s_billing_plan.numUsers AS
             billingPlan_numUsers, s_billing_plan.volume AS billingPlan_volume, 
             s_billing_plan.numProjects AS billingPlan_numProjects,
-            s_billing_plan.pricing AS billingPlan_pricing, s_billing_plan.description AS billingPlan_description, 
-            s_billing_plan.hasBugEnable AS billingPlan_hasBugEnable,
-            s_billing_plan.hasStandupMeetingEnable AS billingPlan_hasStandupMeetingEnable,
+            s_billing_plan.pricing AS billingPlan_pricing, s_billing_plan.description AS billingPlan_description,
             s_user.username AS owner_username, s_user.email AS owner_email,
             s_user.firstname AS owner_firstname, s_user.lastname AS owner_lastname
         FROM s_account

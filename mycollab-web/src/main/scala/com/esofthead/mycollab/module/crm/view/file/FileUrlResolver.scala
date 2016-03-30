@@ -29,7 +29,7 @@ class FileUrlResolver extends CrmUrlResolver {
 
     class FileDashboardUrlResolver extends CrmUrlResolver {
         protected override def handlePage(params: String*) {
-            EventBusFactory.getInstance.post(new DocumentEvent.GotoDashboard(this, null))
+            EventBusFactory.getInstance().post(new DocumentEvent.GotoDashboard(this, null))
         }
     }
 

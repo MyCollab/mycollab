@@ -31,7 +31,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class DistributionLockUtil {
     @SuppressWarnings({"unchecked", "rawtypes"})
-    private static Map map = Collections.synchronizedMap(new ReferenceMap(AbstractReferenceMap.WEAK, AbstractReferenceMap.WEAK));
+    private static final Map map = Collections.synchronizedMap(new ReferenceMap(AbstractReferenceMap.WEAK, AbstractReferenceMap.WEAK));
 
     public static Lock getLock(String lockName) {
         try {

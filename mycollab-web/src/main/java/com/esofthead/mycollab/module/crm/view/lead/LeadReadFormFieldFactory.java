@@ -26,8 +26,7 @@ import com.vaadin.ui.Field;
  * @author MyCollab Ltd.
  * @since 3.0
  */
-class LeadReadFormFieldFactory extends
-        AbstractBeanFieldGroupViewFieldFactory<SimpleLead> {
+class LeadReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<SimpleLead> {
     private static final long serialVersionUID = 1L;
 
     public LeadReadFormFieldFactory(GenericBeanForm<SimpleLead> form) {
@@ -54,13 +53,9 @@ class LeadReadFormFieldFactory extends
         } else if (propertyId.equals("email")) {
             return new EmailViewField(lead.getEmail());
         } else if (propertyId.equals("accountid")) {
-            LinkViewField field = new LinkViewField(lead.getAccountname(),
-                    null, null);
-
-            return field;
+            return new LinkViewField(lead.getAccountname(), null, null);
         } else if (propertyId.equals("assignuser")) {
-            return new UserLinkViewField(lead.getAssignuser(),
-                    lead.getAssignUserAvatarId(), lead.getAssignUserFullName());
+            return new UserLinkViewField(lead.getAssignuser(), lead.getAssignUserAvatarId(), lead.getAssignUserFullName());
         } else if (propertyId.equals("description")) {
             return new RichTextViewField(lead.getDescription());
         }

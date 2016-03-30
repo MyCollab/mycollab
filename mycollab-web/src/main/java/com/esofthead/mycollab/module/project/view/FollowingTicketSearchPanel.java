@@ -58,13 +58,8 @@ public class FollowingTicketSearchPanel extends DefaultGenericSearchPanel<Follow
         return null;
     }
 
-    @Override
-    protected void buildExtraControls() {
-
-    }
 
     @Override
-    @SuppressWarnings("unchecked")
     protected SearchLayout<FollowingTicketSearchCriteria> createBasicSearchLayout() {
         basicSearchLayout = new FollowingTicketBasicSearchLayout();
         return basicSearchLayout;

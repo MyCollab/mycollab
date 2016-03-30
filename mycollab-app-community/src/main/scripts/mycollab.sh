@@ -24,10 +24,6 @@
 #                   of the catalina startup java process, when start (fork) is
 #                   used
 # -----------------------------------------------------------------------------
-export MYCOLLAB_PORT=8080
-export PROCESS_PORT=12345
-export STOP_KEY=mycollab
-
 # OS specific support.  $var _must_ be set to either true or false.
 cygwin=false
 darwin=false
@@ -160,7 +156,7 @@ if [ "$1" = "--start" ] ; then
   shift
   touch "$MYCOLLAB_OUT"
   cd ..
-  eval \"$_RUNJAVA\" -jar $MYCOLLAB_HOME/executor.jar --port $MYCOLLAB_PORT --process-port $PROCESS_PORT --stop-key $STOP_KEY
+  eval \"$_RUNJAVA\" -jar $MYCOLLAB_HOME/executor.jar
  ####>> "$MYCOLLAB_OUT" 2>&1 "&"
 
   if [ ! -z "$MYCOLLAB_PID" ]; then
@@ -204,7 +200,7 @@ elif [ "$1" = "--stop" ] ; then
   fi
 
   cd ..
-  eval \"$_RUNJAVA\" -jar $MYCOLLAB_HOME/executor.jar --port $MYCOLLAB_PORT --process-port $PROCESS_PORT --stop-key $STOP_KEY --stop
+  eval \"$_RUNJAVA\" -jar $MYCOLLAB_HOME/executor.jar --stop
 
   if [ ! -z "$MYCOLLAB_PID" ]; then
     if [ -f "$MYCOLLAB_PID" ]; then

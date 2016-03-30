@@ -36,6 +36,13 @@ public class ToggleButtonGroup extends ButtonGroup {
         this.addStyleName("toggle-btn-group");
     }
 
+    public ToggleButtonGroup(Button... buttons) {
+        this();
+        for (Button button: buttons) {
+            addButton(button);
+        }
+    }
+
     @Override
     public Button addButton(Button button) {
         super.addButton(button);
@@ -57,7 +64,7 @@ public class ToggleButtonGroup extends ButtonGroup {
         return button;
     }
 
-    public void setDefaultButton(Button button) {
+    public ButtonGroup withDefaultButton(Button button) {
         Iterator<Component> iterator = ToggleButtonGroup.this.iterator();
         while (iterator.hasNext()) {
             Button currentBtn = (Button) iterator.next();
@@ -68,6 +75,7 @@ public class ToggleButtonGroup extends ButtonGroup {
                 currentBtn.removeStyleName(UIConstants.BTN_ACTIVE);
             }
         }
+        return this;
     }
 
 }

@@ -228,7 +228,6 @@ public class LeadReadPresenter extends AbstractCrmPresenter<LeadReadView> {
 
                 } else {
                     NotificationUtil.showRecordNotExistNotification();
-                    return;
                 }
 
             }

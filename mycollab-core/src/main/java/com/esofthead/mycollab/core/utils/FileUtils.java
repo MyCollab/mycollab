@@ -18,6 +18,7 @@ package com.esofthead.mycollab.core.utils;
 
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.UserInvalidInputException;
+import com.google.common.base.MoreObjects;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -30,18 +31,24 @@ import java.util.regex.Pattern;
  * @since 5.0.4
  */
 public class FileUtils {
-    private static long KB_SIZE = 1024;
-    private static long MB_SIZE = 1024 * 1024;
-    private static long GB_SIZE = 1024 * 1024 * 1024;
 
     public static File getHomeFolder() {
         String userFolder = System.getProperty("user.home");
+        System.out.println("User home: " + userFolder);
         File homeDir = new File(userFolder + "/.mycollab");
         FileUtils.mkdirs(homeDir);
         return homeDir;
     }
 
+    public static File getUserFolder() {
+        String userDir = MoreObjects.firstNonNull(System.getProperty("MYCOLLAB_APP_HOME"), System.getProperty("user.dir"));
+        return new File(userDir);
+    }
+
     public static String getVolumeDisplay(Long volume) {
+        long GB_SIZE = 1024 * 1024 * 1024;
+        long MB_SIZE = 1024 * 1024;
+        long KB_SIZE = 1024;
         if (volume == null) {
             return "0 Kb";
         } else if (volume < KB_SIZE) {
@@ -61,7 +68,7 @@ public class FileUtils {
      * @param relativePaths
      * @return null if can not get the folder
      */
-    public static File getDesireFile(String baseFolder, String... relativePaths) {
+    public static File getDesireFile(File baseFolder, String... relativePaths) {
         File file;
         for (String relativePath : relativePaths) {
             file = new File(baseFolder, relativePath);

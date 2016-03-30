@@ -106,7 +106,6 @@ public class ProjectMemberReadPresenter extends AbstractProjectPresenter<Project
                         .getProjectId() + "/" + prjMember.getUsername()), prjMember.getDisplayName());
             } else {
                 NotificationUtil.showRecordNotExistNotification();
-                return;
             }
         } else {
             NotificationUtil.showMessagePermissionAlert();

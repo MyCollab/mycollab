@@ -45,7 +45,6 @@ import org.apache.commons.lang3.StringUtils;
  * @since 1.0
  */
 public class AccountSimpleSearchPanel extends GenericSearchPanel<AccountSearchCriteria> {
-    private AccountSearchCriteria searchCriteria;
     private TextField textValueField;
     private ValueComboBox group;
     private ActiveUserComboBox userBox;
@@ -103,7 +102,7 @@ public class AccountSimpleSearchPanel extends GenericSearchPanel<AccountSearchCr
     }
 
     private void doSearch() {
-        searchCriteria = new AccountSearchCriteria();
+        AccountSearchCriteria searchCriteria = new AccountSearchCriteria();
         searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
 
         String searchType = (String) group.getValue();

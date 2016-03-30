@@ -112,8 +112,8 @@ public class CampaignTableDisplay extends DefaultPagedBeanTable<CampaignService,
             @Override
             public com.vaadin.ui.Component generateCell(Table source, final Object itemId, Object columnId) {
                 final SimpleCampaign campaign = getBeanByIndex(itemId);
-                UserLink b = new UserLink(campaign.getAssignuser(), campaign.getAssignUserAvatarId(), campaign.getAssignUserFullName());
-                return b;
+                return new UserLink(campaign.getAssignuser(), campaign.getAssignUserAvatarId(), campaign
+                        .getAssignUserFullName());
 
             }
         });

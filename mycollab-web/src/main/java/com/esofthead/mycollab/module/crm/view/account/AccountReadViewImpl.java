@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.module.crm.view.account;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
@@ -112,9 +111,9 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount> 
         LeadService leadService = ApplicationContextUtil.getSpringBean(LeadService.class);
         SimpleLead lead = leadService.findConvertedLeadOfAccount(beanItem.getId(), AppContext.getAccountId());
         if (lead != null) {
-            return new StringBuilder().append(beanItem.getAccountname()).append(AppContext.getMessage(
+            return beanItem.getAccountname() + AppContext.getMessage(
                     LeadI18nEnum.CONVERT_FROM_LEAD_TITLE, CrmAssetsManager.getAsset(CrmTypeConstants.LEAD).getHtml(),
-                    CrmLinkGenerator.generateCrmItemLink(CrmTypeConstants.LEAD, lead.getId()), lead.getLeadName())).toString();
+                    CrmLinkGenerator.generateCrmItemLink(CrmTypeConstants.LEAD, lead.getId()), lead.getLeadName());
         } else {
             return beanItem.getAccountname();
         }

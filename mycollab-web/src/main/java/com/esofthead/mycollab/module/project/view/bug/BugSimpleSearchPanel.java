@@ -39,7 +39,6 @@ import com.vaadin.ui.Button.ClickEvent;
  * @since 1.0
  */
 public class BugSimpleSearchPanel extends GenericSearchPanel<BugSearchCriteria> {
-    private BugSearchCriteria searchCriteria;
     private TextField textValueField;
     private GridLayout layoutSearchPane;
     private CheckBox chkIsOpenBug;
@@ -86,7 +85,7 @@ public class BugSimpleSearchPanel extends GenericSearchPanel<BugSearchCriteria> 
     }
 
     private void doSearch() {
-        searchCriteria = new BugSearchCriteria();
+        BugSearchCriteria searchCriteria = new BugSearchCriteria();
         searchCriteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProject().getId()));
         searchCriteria.setSummary(StringSearchField.and(textValueField.getValue().trim()));
 

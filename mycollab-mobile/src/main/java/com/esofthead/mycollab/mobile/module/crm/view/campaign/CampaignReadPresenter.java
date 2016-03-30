@@ -301,7 +301,6 @@ public class CampaignReadPresenter extends AbstractCrmPresenter<CampaignReadView
                                     "Campaign", campaign.getCampaignname()));
                 } else {
                     NotificationUtil.showRecordNotExistNotification();
-                    return;
                 }
             }
         } else {

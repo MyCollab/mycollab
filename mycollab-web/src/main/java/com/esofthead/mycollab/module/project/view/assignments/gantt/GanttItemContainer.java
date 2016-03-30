@@ -59,8 +59,7 @@ public class GanttItemContainer extends BeanItemContainer<GanttItemWrapper> impl
         if (ganttItemWrapper.getParent() == null) {
             rootItems.add(ganttItemWrapper);
         }
-        BeanItem<GanttItemWrapper> item = super.addItem(ganttItemWrapper);
-        return item;
+        return super.addItem(ganttItemWrapper);
     }
 
     @Override
@@ -115,10 +114,7 @@ public class GanttItemContainer extends BeanItemContainer<GanttItemWrapper> impl
     }
 
     public boolean hasCircularRelationship(GanttItemWrapper item1, GanttItemWrapper item2) {
-        if (item1.isAncestor(item2) || item2.isAncestor(item1)) {
-            return true;
-        }
-        return false;
+        return item1.isAncestor(item2) || item2.isAncestor(item1);
     }
 
     @Override
