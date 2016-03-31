@@ -126,6 +126,14 @@ public class SimpleUser extends User {
     }
 
     public String getDisplayName() {
+        if (StringUtils.isBlank(displayName)) {
+            String result = getFirstname() + " " + getLastname();
+            if (StringUtils.isBlank(result)) {
+                String displayName = getUsername();
+                return StringUtils.extractNameFromEmail(displayName);
+            }
+            return result;
+        }
         return displayName;
     }
 

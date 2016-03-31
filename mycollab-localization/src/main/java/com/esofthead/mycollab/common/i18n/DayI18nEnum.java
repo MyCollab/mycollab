@@ -21,21 +21,19 @@ import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1.1
- * 
  */
 @BaseName("localization/common-day")
-@LocaleData(value = { @Locale("en-US"), @Locale("ja-JP") }, defaultCharset = "UTF-8")
+@LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
 public enum DayI18nEnum {
-	LAST_UPDATED_ON,
+    LAST_UPDATED_ON,
 
-	TIME_FORMAT,
-	HOUR_SUFFIX,
-	HOUR_PLURAL_SUFFIX,
-	MINUTE_SUFFIX,
-	MINUTE_PLURAL_SUFFIX,
-	SECOND_SUFFIX,
-	SECOND_PLURAL_SUFFIX
+    TIME_FORMAT,
+    HOUR_SUFFIX,
+    HOUR_PLURAL_SUFFIX,
+    MINUTE_SUFFIX,
+    MINUTE_PLURAL_SUFFIX,
+    SECOND_SUFFIX,
+    SECOND_PLURAL_SUFFIX
 }

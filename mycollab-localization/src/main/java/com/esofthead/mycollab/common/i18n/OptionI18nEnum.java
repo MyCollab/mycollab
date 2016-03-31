@@ -21,17 +21,14 @@ import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.3.3
- *
  */
-@SuppressWarnings("ucd")
 public class OptionI18nEnum {
 
-	@BaseName("localization/common-generic-status")
-	@LocaleData(value = { @Locale("en-US"), @Locale("ja-JP") }, defaultCharset = "UTF-8")
-	public enum StatusI18nEnum {
-		Open, Closed, Archived, Pending, InProgress
-	}
+    @BaseName("localization/common-generic-status")
+    @LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
+    public enum StatusI18nEnum {
+        Open, Closed, Archived, Pending, InProgress
+    }
 }

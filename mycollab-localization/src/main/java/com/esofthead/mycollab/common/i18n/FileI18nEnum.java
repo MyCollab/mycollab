@@ -21,22 +21,20 @@ import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1.1
- * 
  */
 @BaseName("localization/common-file")
-@LocaleData(value = { @Locale("en-US"), @Locale("ja-JP") }, defaultCharset = "UTF-8")
+@LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
 public enum FileI18nEnum {
-	EXCEL,
-	PDF,
-	CSV,
-	IMPORT_FILE,
-	EXPORT_FILE,
-	ATTACH_FILES,
-	NOT_ATTACH_FILE_WARNING,
-	IMPORT_FILE_SUCCESS,
-	CHOOSE_SUPPORT_FILE_TYPES_WARNING,
-	OPT_MY_DOCUMENTS
+    EXCEL,
+    PDF,
+    CSV,
+    IMPORT_FILE,
+    EXPORT_FILE,
+    ATTACH_FILES,
+    NOT_ATTACH_FILE_WARNING,
+    IMPORT_FILE_SUCCESS,
+    CHOOSE_SUPPORT_FILE_TYPES_WARNING,
+    OPT_MY_DOCUMENTS
 }

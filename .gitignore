@@ -27,3 +27,7 @@ mycollab-web/src/main/resources/VAADIN/themes/mycollab/components/_button.scss
 mycollab-app-community/src/main/scripts/installService.bat
 mycollab-app-community/src/main/scripts/service.bat
 mycollab-app-community/src/main/scripts/unInstallService.bat
+mycollab-app-community/src/main/scripts/MyCollab5.exe
+mycollab-app-community/src/main/scripts/MyCollab5amd64.exe
+mycollab-app-community/src/main/scripts/MyCollab5ia64.exe
+mycollab-app-community/src/main/scripts/MyCollab5w.exe
