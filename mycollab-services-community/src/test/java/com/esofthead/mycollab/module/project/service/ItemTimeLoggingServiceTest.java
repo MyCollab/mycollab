@@ -40,8 +40,7 @@ import static org.assertj.core.api.Assertions.tuple;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ItemTimeLoggingServiceTest extends IntergrationServiceTest {
 
-    private static final DateFormat DF = new SimpleDateFormat(
-            "yyyy-MM-dd hh:mm:ss");
+    private static final DateFormat DF = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
     @Autowired
     protected ItemTimeLoggingService itemTimeLoggingService;
@@ -54,24 +53,21 @@ public class ItemTimeLoggingServiceTest extends IntergrationServiceTest {
         return criteria;
     }
 
-    @SuppressWarnings("unchecked")
     @DataSet
     @Test
     public void testGetListItemTimeLoggings() throws ParseException {
         List<ItemTimeLogging> itemTimeLoggings = itemTimeLoggingService
-                .findPagableListByCriteria(new SearchRequest<>(
-                        getCriteria(), 0, Integer.MAX_VALUE));
+                .findPagableListByCriteria(new SearchRequest<>(getCriteria(), 0, Integer.MAX_VALUE));
 
         assertThat(itemTimeLoggings.size()).isEqualTo(2);
         assertThat(itemTimeLoggings).extracting("id", "type", "logforday", "loguser", "summary").contains(
-                tuple(4, null, DF.parse("2014-04-19 13:29:23"), "hai79", ""),
+                tuple(4, "Project-Task", DF.parse("2014-04-19 13:29:23"), "hai79", "task1"),
                 tuple(2, "Project-Bug", DF.parse("2014-06-10 13:29:23"), "nghiemle", "summary 2"));
     }
 
-    @SuppressWarnings("unchecked")
     @DataSet
     @Test
-    public void testgetTotalCount() {
+    public void testGetTotalCount() {
         List<ItemTimeLogging> itemTimeLoggings = itemTimeLoggingService.findPagableListByCriteria(
                 new SearchRequest<>(getCriteria(), 0, Integer.MAX_VALUE));
         assertThat(itemTimeLoggings.size()).isEqualTo(2);

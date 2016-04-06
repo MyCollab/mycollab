@@ -49,6 +49,7 @@
     m_monitor_item*,
     m_options*,
     m_prj_customize_view*,
+    m_prj_invoice*,
     m_prj_kanban_board*,
     m_prj_member*,
     m_prj_message*,
@@ -908,6 +909,7 @@
     isDefault CDATA #REQUIRED
     refOption CDATA #IMPLIED
     color CDATA #REQUIRED
+    fieldgroup CDATA #REQUIRED
 >
 
 <!ELEMENT m_prj_customize_view EMPTY>
@@ -924,6 +926,28 @@
     displayTimeLogging CDATA #REQUIRED
     displayPage CDATA #REQUIRED
     displayFile CDATA #REQUIRED
+    displayInvoice CDATA #REQUIRED
+>
+
+<!ELEMENT m_prj_invoice EMPTY>
+<!ATTLIST m_prj_invoice
+    id CDATA #REQUIRED
+    createdTime CDATA #REQUIRED
+    lastUpdatedTime CDATA #REQUIRED
+    createdUser CDATA #REQUIRED
+    assignUser CDATA #IMPLIED
+    amount CDATA #REQUIRED
+    currentId CDATA #IMPLIED
+    clientId CDATA #IMPLIED
+    contactUserFullName CDATA #IMPLIED
+    sAccountId CDATA #REQUIRED
+    status CDATA #REQUIRED
+    note CDATA #IMPLIED
+    description CDATA #IMPLIED
+    type CDATA #REQUIRED
+    noId CDATA #REQUIRED
+    projectId CDATA #REQUIRED
+    issueDate CDATA #REQUIRED
 >
 
 <!ELEMENT m_prj_kanban_board EMPTY>
@@ -1142,6 +1166,7 @@
     logForDay CDATA #REQUIRED
     isBillable CDATA #REQUIRED
     createdUser CDATA #IMPLIED
+    isOvertime CDATA #IMPLIED
 >
 
 <!ELEMENT m_tracker_bug EMPTY>
@@ -1326,9 +1351,6 @@
     numProjects CDATA #REQUIRED
     pricing CDATA #REQUIRED
     description CDATA #IMPLIED
-    hasBugEnable CDATA #IMPLIED
-    hasStandupMeetingEnable CDATA #IMPLIED
-    hasTimeTracking CDATA #IMPLIED
 >
 
 <!ELEMENT s_country EMPTY>
@@ -1528,9 +1550,8 @@
 
 <!ELEMENT schema_version EMPTY>
 <!ATTLIST schema_version
-    version_rank CDATA #REQUIRED
     installed_rank CDATA #REQUIRED
-    version CDATA #REQUIRED
+    version CDATA #IMPLIED
     description CDATA #REQUIRED
     type CDATA #REQUIRED
     script CDATA #REQUIRED

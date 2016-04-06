@@ -1,47 +1,43 @@
 <!DOCTYPE dataset PUBLIC "-//MyCollab/MyCollab Database Schema//EN" "http://www.mycollab.com/mycollab.dtd">
 <dataset>
 
-	<s_account id="1" createdTime="2013-04-10 13:29:23"
-		paymentMethod="Credit Card" status="Active" />
+    <s_account id="1" createdTime="2013-04-10 13:29:23" paymentMethod="Credit Card" status="Active"/>
 
-	<m_prj_project id="1" name="a" sAccountId="1" shortname="aaa"
-		projectStatus="Open" />
+    <m_prj_project id="1" name="a" sAccountId="1" shortname="aaa" projectStatus="Open"/>
 
-	<s_user firstname="Hai" lastname="Nguyen" username="hai79"
-		email="hainguyen@esofthead.com" />
+    <s_user firstname="Hai" lastname="Nguyen" username="hai79" email="hainguyen@esofthead.com"/>
 
-	<s_user firstname="Nghiem" lastname="Le" username="nghiemle"
-		email="nghiemle@esofthead.com" />
+    <s_user firstname="Nghiem" lastname="Le" username="nghiemle" email="nghiemle@esofthead.com"/>
 
-	<m_prj_task sAccountId="1" projectId="1" id="1"
-		percentagecomplete="40" taskname="task1" taskkey="1" />
+    <m_prj_task sAccountId="1" projectId="1" id="1" percentagecomplete="40" taskname="task1" taskkey="1"/>
 
-	<m_prj_risk id="1" description="aaa" riskname="b" projectId="1"
-		sAccountId="1" datedue="2013-05-30 15:01:52" />
+    <m_prj_risk id="1" description="aaa" riskname="b" projectId="1" sAccountId="1" datedue="2013-05-30 15:01:52"/>
 
-	<m_tracker_bug summary="summary 2" id="1" projectId="1"
-		detail="detail 1" status="1" resolution="1" assignuser="nghiemle"
-		logby="nghiemle" createdTime="2009-01-01 00:00:00" sAccountId="1"
-		duedate="2015-05-30 15:01:52" />
+    <m_prj_member id="1" username="hai79" projectId="1" joinDate="2009-01-01 00:00:00" isAdmin="0" status="Active"
+                  sAccountId="1"/>
+    <m_prj_member id="2" username="nghiemle" projectId="1" joinDate="2009-01-01 00:00:00" isAdmin="1" status="Active"
+                  sAccountId="1"/>
 
-	<m_prj_time_logging id="1" loguser="nghiemle"
-		sAccountId="1" isBillable="1" typeId="1" projectId="1"
-		createdTime="2014-05-10 13:29:23" logForDay="2014-05-10 13:29:23"
-		lastUpdatedTime="2014-05-10 13:29:23" type="Project-Task" logValue="1" />
+    <m_tracker_bug summary="summary 2" id="1" projectId="1" detail="detail 1" status="1" resolution="1" assignuser="nghiemle"
+                   logby="nghiemle" createdTime="2009-01-01 00:00:00" sAccountId="1"
+                   duedate="2015-05-30 15:01:52"/>
 
-	<m_prj_time_logging id="2" loguser="nghiemle"
-		sAccountId="1" isBillable="0" typeId="1" projectId="1"
-		createdTime="2014-06-10 13:29:23" logForDay="2014-06-10 13:29:23"
-		lastUpdatedTime="2014-06-10 13:29:23" type="Project-Bug" logValue="2" />
+    <m_prj_time_logging id="1" loguser="nghiemle" sAccountId="1" isBillable="1" typeId="1" projectId="1"
+                        createdTime="2014-05-10 13:29:23" logForDay="2014-05-10 13:29:23"
+                        lastUpdatedTime="2014-05-10 13:29:23" type="Project-Task" logValue="1"/>
 
-	<m_prj_time_logging id="3" loguser="hai79" typeId="1"
-		sAccountId="1" isBillable="1" projectId="1" createdTime="2014-04-15 13:29:23"
-		logForDay="2014-04-15 13:29:23" lastUpdatedTime="2014-04-15 13:29:23"
-		type="Project-Risk" logValue="3" />
+    <m_prj_time_logging id="2" loguser="nghiemle" sAccountId="1" isBillable="0" typeId="1" projectId="1"
+                        createdTime="2014-06-10 13:29:23" logForDay="2014-06-10 13:29:23"
+                        lastUpdatedTime="2014-06-10 13:29:23" type="Project-Bug" logValue="2"/>
 
-	<m_prj_time_logging id="4" loguser="hai79" typeId="1"
-		sAccountId="1" isBillable="0" projectId="1" createdTime="2014-04-19 13:29:23"
-		logForDay="2014-04-19 13:29:23" lastUpdatedTime="2014-04-19 13:29:23"
-		logValue="4" />
+    <m_prj_time_logging id="3" loguser="hai79" typeId="1"
+                        sAccountId="1" isBillable="1" projectId="1" createdTime="2014-04-15 13:29:23"
+                        logForDay="2014-04-15 13:29:23" lastUpdatedTime="2014-04-15 13:29:23"
+                        type="Project-Risk" logValue="3"/>
+
+    <m_prj_time_logging id="4" loguser="hai79" typeId="1" type="Project-Task"
+                        sAccountId="1" isBillable="0" projectId="1" createdTime="2014-04-19 13:29:23"
+                        logForDay="2014-04-19 13:29:23" lastUpdatedTime="2014-04-19 13:29:23"
+                        logValue="4"/>
 
 </dataset>

@@ -62,7 +62,7 @@ public class RoleSearchPanel extends DefaultGenericSearchPanel<RoleSearchCriteri
 
     @Override
     protected void buildExtraControls() {
-        Button createBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CREATE), new Button.ClickListener() {
+        Button createBtn = new Button(AppContext.getMessage(RoleI18nEnum.BUTTON_NEW_ROLE), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
             @Override
