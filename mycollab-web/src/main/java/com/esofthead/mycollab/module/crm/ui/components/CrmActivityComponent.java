@@ -31,11 +31,13 @@ import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.project.ui.components.ProjectMemberBlock;
-import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.utils.FieldGroupFormatter;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
+import com.esofthead.mycollab.vaadin.ui.ReloadableComponent;
+import com.esofthead.mycollab.vaadin.ui.SafeHtmlLabel;
+import com.esofthead.mycollab.vaadin.ui.registry.AuditLogRegistry;
 import com.esofthead.mycollab.vaadin.web.ui.AttachmentDisplayComponent;
 import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
@@ -86,11 +88,10 @@ public class CrmActivityComponent extends MVerticalLayout implements ReloadableC
         }
     };
 
-    public CrmActivityComponent(String type, FieldGroupFormatter groupFormatter, Class<? extends
-            SendingRelayEmailNotificationAction> emailHandler) {
+    public CrmActivityComponent(String type) {
         withMargin(false).withStyleName("activity-comp");
         this.type = type;
-        this.groupFormatter = groupFormatter;
+        this.groupFormatter = AuditLogRegistry.getFieldGroupFormatter(type);
         headerLbl = new ELabel("Change history");
 
         final OptionGroup sortDirection = new OptionGroup();

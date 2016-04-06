@@ -137,7 +137,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
                 return formAddLayout;
             }
 
-            private Layout createButtonControls() {
+            private ComponentContainer createButtonControls() {
                 return new EditFormControlsGenerator<>(editUserForm).createButtonControls();
             }
 
@@ -268,7 +268,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
                 return formAddLayout;
             }
 
-            private Layout createButtonControls() {
+            private ComponentContainer createButtonControls() {
                 return new EditFormControlsGenerator<>(editUserForm).createButtonControls();
             }
 

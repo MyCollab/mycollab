@@ -123,7 +123,7 @@ public class CrmModule extends AbstractPageView implements IDesktopModule {
                     .TOOLBAR_CASES_HEADER), new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
-                    EventBusFactory.getInstance().post(new CaseEvent.GotoAdd(this, null));
+                    EventBusFactory.getInstance().post(new CaseEvent.GotoList(this, null));
                 }
             });
 

@@ -74,8 +74,7 @@ public abstract class MassUpdateWindow<B> extends Window {
     abstract protected AbstractBeanFieldGroupEditFieldFactory<B> buildBeanFormFieldFactory();
 
     protected ComponentContainer buildButtonControls() {
-        MHorizontalLayout controlsLayout = new MHorizontalLayout().withMargin(true).withStyleName("addNewControl")
-                .withWidth("100%");
+        MHorizontalLayout controlsLayout = new MHorizontalLayout().withMargin(true).withWidth("100%");
 
         updateBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;

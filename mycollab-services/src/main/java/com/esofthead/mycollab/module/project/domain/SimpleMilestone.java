@@ -25,6 +25,7 @@ import java.util.Date;
 
 /**
  * @author MyCollab Ltd.
+ * @since 1.0
  */
 public class SimpleMilestone extends Milestone {
     private static final long serialVersionUID = 1L;
@@ -35,11 +36,11 @@ public class SimpleMilestone extends Milestone {
     private String createdUserAvatarId;
     private String createdUserFullName;
 
-    private int numOpenTasks;
-    private int numTasks;
+    private Integer numOpenTasks;
+    private Integer numTasks;
 
-    private int numOpenBugs;
-    private int numBugs;
+    private Integer numOpenBugs;
+    private Integer numBugs;
 
     private Double totalTaskBillableHours;
     private Double totalTaskNonBillableHours;
@@ -68,35 +69,35 @@ public class SimpleMilestone extends Milestone {
         this.ownerFullName = ownerFullName;
     }
 
-    public int getNumOpenTasks() {
+    public Integer getNumOpenTasks() {
         return numOpenTasks;
     }
 
-    public void setNumOpenTasks(int numOpenTasks) {
+    public void setNumOpenTasks(Integer numOpenTasks) {
         this.numOpenTasks = numOpenTasks;
     }
 
-    public int getNumTasks() {
+    public Integer getNumTasks() {
         return numTasks;
     }
 
-    public void setNumTasks(int numTasks) {
+    public void setNumTasks(Integer numTasks) {
         this.numTasks = numTasks;
     }
 
-    public int getNumOpenBugs() {
+    public Integer getNumOpenBugs() {
         return numOpenBugs;
     }
 
-    public void setNumOpenBugs(int numOpenBugs) {
+    public void setNumOpenBugs(Integer numOpenBugs) {
         this.numOpenBugs = numOpenBugs;
     }
 
-    public int getNumBugs() {
+    public Integer getNumBugs() {
         return numBugs;
     }
 
-    public void setNumBugs(int numBugs) {
+    public void setNumBugs(Integer numBugs) {
         this.numBugs = numBugs;
     }
 
@@ -174,5 +175,12 @@ public class SimpleMilestone extends Milestone {
         }
 
         return false;
+    }
+
+    public enum Field {
+        ownerFullName;
+        public boolean equalTo(Object value) {
+            return name().equals(value);
+        }
     }
 }

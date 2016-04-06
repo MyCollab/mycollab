@@ -29,14 +29,16 @@ import com.esofthead.mycollab.module.crm.events.*;
 import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
 import com.esofthead.mycollab.module.crm.view.CrmModule;
+import com.esofthead.mycollab.reporting.FormReportLayout;
+import com.esofthead.mycollab.reporting.PrintButton;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.AbstractRelatedListHandler;
-import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
+import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
 import org.vaadin.dialogs.ConfirmDialog;
@@ -97,6 +99,13 @@ public class CampaignReadPresenter extends CrmGenericPresenter<CampaignReadView>
                 SimpleCampaign cloneData = (SimpleCampaign) data.copy();
                 cloneData.setId(null);
                 EventBusFactory.getInstance().post(new CampaignEvent.GotoEdit(this, cloneData));
+            }
+
+            @Override
+            public void onPrint(Object source, SimpleCampaign data) {
+                PrintButton btn = (PrintButton) source;
+                btn.doPrint(data, new FormReportLayout(CrmTypeConstants.CAMPAIGN, CampaignWithBLOBs.Field.campaignname.name(),
+                        CampaignDefaultDynaFormLayoutFactory.getForm()));
             }
 
             @Override

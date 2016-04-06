@@ -34,9 +34,11 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractCssPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
+import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
+import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.web.ui.*;
-import com.esofthead.mycollab.vaadin.web.ui.field.RichTextEditField;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.server.FontAwesome;
@@ -837,7 +839,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements Act
                     } else if (propertyId.equals("enddate")) {
                         return new DateTimePickerField();
                     } else if (propertyId.equals("description")) {
-                        return new RichTextEditField();
+                        return new RichTextArea();
                     } else if (propertyId.equals("type")) {
                         RelatedEditItemField field = new RelatedEditItemField(meeting);
                         field.setType(meeting.getType());

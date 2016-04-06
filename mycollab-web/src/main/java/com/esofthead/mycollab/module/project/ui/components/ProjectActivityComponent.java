@@ -34,6 +34,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.utils.FieldGroupFormatter;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.registry.AuditLogRegistry;
 import com.esofthead.mycollab.vaadin.web.ui.AttachmentDisplayComponent;
 import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
@@ -84,10 +85,10 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
         }
     };
 
-    public ProjectActivityComponent(String type, Integer extraTypeId, FieldGroupFormatter groupFormatter) {
+    public ProjectActivityComponent(String type, Integer extraTypeId) {
         withMargin(false).withStyleName("activity-comp");
         this.type = type;
-        this.groupFormatter = groupFormatter;
+        this.groupFormatter = AuditLogRegistry.getFieldGroupFormatter(type);
         headerLbl = new ELabel("Change history");
 
         final OptionGroup sortDirection = new OptionGroup();

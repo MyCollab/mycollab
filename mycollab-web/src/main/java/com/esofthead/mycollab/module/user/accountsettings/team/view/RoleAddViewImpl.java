@@ -121,7 +121,7 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
                 return role.getId() == null ? null : role.getRolename();
             }
 
-            private Layout createButtonControls() {
+            private ComponentContainer createButtonControls() {
                 return new EditFormControlsGenerator<>(RoleAddViewImpl.EditForm.this).createButtonControls();
             }
 

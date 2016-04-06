@@ -20,14 +20,13 @@ import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.CallWithBLOBs;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractEditItemComp;
-import com.esofthead.mycollab.vaadin.web.ui.DynaFormLayout;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedEditItemField;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserComboBox;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.web.ui.DynaFormLayout;
 import com.esofthead.mycollab.vaadin.web.ui.EditFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.web.ui.ValueComboBox;
-import com.esofthead.mycollab.vaadin.web.ui.field.RichTextEditField;
 import com.vaadin.data.Property;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.*;
@@ -99,9 +98,9 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs>
             } else if (propertyId.equals("assignuser")) {
                 return new ActiveUserComboBox();
             } else if (propertyId.equals("description")) {
-                return new RichTextEditField();
+                return new RichTextArea();
             } else if (propertyId.equals("result")) {
-                return new RichTextEditField();
+                return new RichTextArea();
             } else if (propertyId.equals("durationinseconds")) {
                 return new CallDurationField();
             } else if (propertyId.equals("purpose")) {

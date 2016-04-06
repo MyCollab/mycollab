@@ -58,7 +58,7 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
                 .withWidth("100%");
         header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-        ELabel headerText = ELabel.h3(FontAwesome.USERS.getHtml() + " Detail Role");
+        ELabel headerText = ELabel.h2(FontAwesome.USERS.getHtml() + " Detail Role");
         header.with(headerText).expand(headerText);
         this.addComponent(header);
 

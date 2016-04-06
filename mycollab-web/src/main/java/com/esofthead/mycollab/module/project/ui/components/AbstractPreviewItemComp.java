@@ -25,6 +25,7 @@ import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.*;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
@@ -47,7 +48,7 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
 
     protected AdvancedPreviewBeanForm<B> previewForm;
     protected ReadViewLayout previewLayout;
-    protected ComponentContainer header;
+    protected MHorizontalLayout header;
     private MVerticalLayout sidebarContent;
     private MVerticalLayout bodyContent;
     private Button favoriteBtn;
@@ -56,7 +57,7 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
         this(headerText, iconResource, null);
     }
 
-    public AbstractPreviewItemComp(ComponentContainer customHeader, ReadViewLayout layout) {
+    public AbstractPreviewItemComp(MHorizontalLayout customHeader, ReadViewLayout layout) {
         this.header = customHeader;
         this.addComponent(header);
         isDisplaySideBar = false;
@@ -65,13 +66,12 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
     }
 
     public AbstractPreviewItemComp(String headerText, FontAwesome iconResource, ReadViewLayout layout) {
-        ELabel headerLbl = ELabel.h3("");
-        headerLbl.setSizeUndefined();
-
+        ELabel headerLbl = ELabel.h2("").withWidthUndefined();
         this.previewLayout = layout;
 
-        header = new MHorizontalLayout().withSpacing(false).withStyleName("hdr-view").withWidth("100%").withMargin(true);
-        ((MHorizontalLayout) header).setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+        header = new MHorizontalLayout().withStyleName("hdr-view").withWidth("100%").withMargin
+                (new MarginInfo(true, false, true, false));
+        header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         if (iconResource != null) {
             String title = iconResource.getHtml() + " " + headerText;
@@ -89,8 +89,7 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
         });
 
         Label spaceLbl = new Label();
-
-        ((MHorizontalLayout) header).with(headerLbl, favoriteBtn, spaceLbl).expand(spaceLbl);
+        header.with(headerLbl, favoriteBtn, spaceLbl).expand(spaceLbl);
 
         this.addComponent(header);
         ComponentContainer extraComp;
@@ -104,7 +103,7 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
         previewForm = initPreviewForm();
         ComponentContainer actionControls = createButtonControls();
         if (actionControls != null) {
-            actionControls.addStyleName("control-buttons");
+            actionControls.setWidthUndefined();
             addHeaderRightContent(actionControls);
         }
 
@@ -131,7 +130,7 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
             bodyContainer.setSizeFull();
             bodyContainer.addStyleName("readview-body-wrap");
             bodyContent = new MVerticalLayout().withSpacing(false).withFullWidth().withMargin(false).with(previewForm);
-            bodyContainer.addComponent(bodyContent);
+            bodyContainer.addComponent(previewForm);
             previewLayout.addBody(bodyContainer);
         }
 
@@ -209,7 +208,7 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
     }
 
     public void addHeaderRightContent(Component c) {
-        header.addComponent(c);
+        header.with(c).withAlign(c, Alignment.TOP_RIGHT);
     }
 
     public void addToSideBar(Component... components) {

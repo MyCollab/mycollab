@@ -26,13 +26,9 @@ import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedInput;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.themes.ValoTheme;
 import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.vaadin.sliderpanel.SliderPanel;
 import org.vaadin.sliderpanel.SliderPanelBuilder;
 import org.vaadin.sliderpanel.client.SliderMode;
@@ -77,7 +73,7 @@ public class CommunitySliderPanel {
             withWidth("500px").withStyleName("community");
             Div blogLink = new Div().appendText(FontAwesome.INSTITUTION.getHtml() + " ").appendChild(new A("https://www" +
                     ".mycollab.com").appendText("Blog").setTarget("_blank"));
-            with(new ELabel(blogLink.write(), ContentMode.HTML).withStyleName(ValoTheme.LABEL_H2));
+            with(ELabel.h2(blogLink.write()));
             content = new MVerticalLayout();
             with(content);
         }

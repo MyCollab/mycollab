@@ -20,114 +20,112 @@ import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.MeetingWithBLOBs;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractEditItemComp;
-import com.esofthead.mycollab.vaadin.web.ui.DynaFormLayout;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedEditItemField;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.web.ui.DynaFormLayout;
 import com.esofthead.mycollab.vaadin.web.ui.EditFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.web.ui.ValueComboBox;
-import com.esofthead.mycollab.vaadin.web.ui.field.RichTextEditField;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
+import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.TextField;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
 @ViewComponent
 public class MeetingAddViewImpl extends AbstractEditItemComp<MeetingWithBLOBs>
-		implements MeetingAddView {
+        implements MeetingAddView {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Override
-	protected String initFormTitle() {
-		return (beanItem.getId() == null) ? "New Meeting" : beanItem
-				.getSubject();
-	}
+    @Override
+    protected String initFormTitle() {
+        return (beanItem.getId() == null) ? "New Meeting" : beanItem
+                .getSubject();
+    }
 
-	@Override
-	protected Resource initFormIconResource() {
-		return CrmAssetsManager.getAsset(CrmTypeConstants.MEETING);
-	}
+    @Override
+    protected Resource initFormIconResource() {
+        return CrmAssetsManager.getAsset(CrmTypeConstants.MEETING);
+    }
 
-	@Override
-	protected ComponentContainer createButtonControls() {
-		return new EditFormControlsGenerator<>(editForm)
-				.createButtonControls();
-	}
+    @Override
+    protected ComponentContainer createButtonControls() {
+        return new EditFormControlsGenerator<>(editForm)
+                .createButtonControls();
+    }
 
-	@Override
-	protected AdvancedEditBeanForm<MeetingWithBLOBs> initPreviewForm() {
-		return new AdvancedEditBeanForm<>();
-	}
+    @Override
+    protected AdvancedEditBeanForm<MeetingWithBLOBs> initPreviewForm() {
+        return new AdvancedEditBeanForm<>();
+    }
 
-	@Override
-	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new DynaFormLayout(CrmTypeConstants.MEETING,
-				MeetingDefaultFormLayoutFactory.getForm());
-	}
+    @Override
+    protected IFormLayoutFactory initFormLayoutFactory() {
+        return new DynaFormLayout(CrmTypeConstants.MEETING,
+                MeetingDefaultFormLayoutFactory.getForm());
+    }
 
-	@Override
-	protected AbstractBeanFieldGroupEditFieldFactory<MeetingWithBLOBs> initBeanFormFieldFactory() {
-		return new MeetingEditFormFieldFactory(editForm);
-	}
+    @Override
+    protected AbstractBeanFieldGroupEditFieldFactory<MeetingWithBLOBs> initBeanFormFieldFactory() {
+        return new MeetingEditFormFieldFactory(editForm);
+    }
 
-	private static class MeetingEditFormFieldFactory extends
-			AbstractBeanFieldGroupEditFieldFactory<MeetingWithBLOBs> {
-		private static final long serialVersionUID = 1L;
+    private static class MeetingEditFormFieldFactory extends
+            AbstractBeanFieldGroupEditFieldFactory<MeetingWithBLOBs> {
+        private static final long serialVersionUID = 1L;
 
-		MeetingEditFormFieldFactory(GenericBeanForm<MeetingWithBLOBs> form) {
-			super(form);
-		}
+        MeetingEditFormFieldFactory(GenericBeanForm<MeetingWithBLOBs> form) {
+            super(form);
+        }
 
-		@Override
-		protected Field<?> onCreateField(Object propertyId) {
-			if (propertyId.equals("subject")) {
-				TextField tf = new TextField();
-				if (isValidateForm) {
-					tf.setNullRepresentation("");
-					tf.setRequired(true);
-					tf.setRequiredError("Subject must not be null");
-				}
+        @Override
+        protected Field<?> onCreateField(Object propertyId) {
+            if (propertyId.equals("subject")) {
+                TextField tf = new TextField();
+                if (isValidateForm) {
+                    tf.setNullRepresentation("");
+                    tf.setRequired(true);
+                    tf.setRequiredError("Subject must not be null");
+                }
 
-				return tf;
-			} else if (propertyId.equals("status")) {
-				return new MeetingStatusComboBox();
-			} else if (propertyId.equals("startdate")) {
-				return new DateTimePickerField();
-			} else if (propertyId.equals("enddate")) {
-				return new DateTimePickerField();
-			} else if (propertyId.equals("description")) {
-				return new RichTextEditField();
-			} else if (propertyId.equals("type")) {
-				return new RelatedEditItemField(attachForm.getBean());
-			} else if (propertyId.equals("typeid")) {
-				return new DummyCustomField<String>();
-			} else if (propertyId.equals("isrecurrence")) {
-				return null;
-			}
-			return null;
-		}
-	}
+                return tf;
+            } else if (propertyId.equals("status")) {
+                return new MeetingStatusComboBox();
+            } else if (propertyId.equals("startdate")) {
+                return new DateTimePickerField();
+            } else if (propertyId.equals("enddate")) {
+                return new DateTimePickerField();
+            } else if (propertyId.equals("description")) {
+                return new RichTextArea();
+            } else if (propertyId.equals("type")) {
+                return new RelatedEditItemField(attachForm.getBean());
+            } else if (propertyId.equals("typeid")) {
+                return new DummyCustomField<String>();
+            } else if (propertyId.equals("isrecurrence")) {
+                return null;
+            }
+            return null;
+        }
+    }
 
-	@Override
-	public HasEditFormHandlers<MeetingWithBLOBs> getEditFormHandlers() {
-		return editForm;
-	}
+    @Override
+    public HasEditFormHandlers<MeetingWithBLOBs> getEditFormHandlers() {
+        return editForm;
+    }
 
-	private static class MeetingStatusComboBox extends ValueComboBox {
-		private static final long serialVersionUID = 1L;
+    private static class MeetingStatusComboBox extends ValueComboBox {
+        private static final long serialVersionUID = 1L;
 
-		MeetingStatusComboBox() {
-			super();
-			setCaption(null);
-			this.loadData("Planned", "Held", "Not Held");
-		}
-	}
+        MeetingStatusComboBox() {
+            super();
+            setCaption(null);
+            this.loadData("Planned", "Held", "Not Held");
+        }
+    }
 }

@@ -82,6 +82,14 @@ public class AdvancedPreviewBeanForm<B> extends GenericBeanForm<B> implements Ha
         }
     }
 
+    public void firePrintForm(Object source, B bean) {
+        if (handlers != null) {
+            for (PreviewFormHandler<B> handler : handlers) {
+                handler.onPrint(source, bean);
+            }
+        }
+    }
+
     public void fireCloneForm(B bean) {
         if (handlers != null) {
             for (PreviewFormHandler<B> handler : handlers) {

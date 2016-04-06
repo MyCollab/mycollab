@@ -6,7 +6,7 @@
     <name>mycollab-parent-community</name>
     <groupId>com.esofthead.mycollab</groupId>
     <artifactId>mycollab-parent-community</artifactId>
-    <version>5.2.10</version>
+    <version>5.2.11</version>
     <packaging>pom</packaging>
     <prerequisites>
         <maven>3.0.4</maven>
@@ -15,7 +15,7 @@
         <springVersion>4.2.5.RELEASE</springVersion>
         <aspectjVersion>1.8.6</aspectjVersion>
         <javaVersion>1.7</javaVersion>
-        <slf4jVersion>1.7.20</slf4jVersion>
+        <slf4jVersion>1.7.21</slf4jVersion>
         <servletVersion>3.1.0</servletVersion>
         <vaadinVersion>7.6.4</vaadinVersion>
         <jettyVersion>9.2.15.v20160210</jettyVersion>
@@ -75,12 +75,6 @@
         </dependency>
 
         <dependency>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
-            <version>1.10</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-email</artifactId>
             <version>1.4</version>
@@ -108,24 +102,6 @@
             <groupId>commons-configuration</groupId>
             <artifactId>commons-configuration</artifactId>
             <version>1.10</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>4.5.2</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>commons-codec</groupId>
-                    <artifactId>commons-codec</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpcore</artifactId>
-            <version>4.4.4</version>
         </dependency>
 
         <dependency>
@@ -435,6 +411,9 @@
                             <License>GNU Affero General Public License v3</License>
                         </manifestEntries>
                     </archive>
+                    <excludes>
+                        <exclude>rebel.xml</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
         </plugins>

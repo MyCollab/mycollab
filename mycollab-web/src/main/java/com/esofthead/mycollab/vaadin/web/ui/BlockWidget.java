@@ -16,10 +16,9 @@
  */
 package com.esofthead.mycollab.vaadin.web.ui;
 
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
@@ -29,12 +28,11 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 public class BlockWidget extends MVerticalLayout {
     private static final long serialVersionUID = -8503014399083980294L;
 
-    private Label titleLbl;
+    private ELabel titleLbl;
     private CssLayout bodyLayout;
 
     public BlockWidget(String title) {
-        titleLbl = new Label();
-        titleLbl.addStyleName(ValoTheme.LABEL_H2);
+        titleLbl = ELabel.h2("");
         super.addComponent(titleLbl);
 
         bodyLayout = new CssLayout();

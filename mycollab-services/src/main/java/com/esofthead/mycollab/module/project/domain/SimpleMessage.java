@@ -19,17 +19,17 @@ package com.esofthead.mycollab.module.project.domain;
 public class SimpleMessage extends Message {
 
     private static final long serialVersionUID = 1L;
-    private int commentsCount;
+    private Integer commentsCount;
     private String projectName;
     private String messageCategoryName;
     private String postedUserAvatarId;
     private String fullPostedUserName;
 
-    public int getCommentsCount() {
+    public Integer getCommentsCount() {
         return commentsCount;
     }
 
-    public void setCommentsCount(int commentsCount) {
+    public void setCommentsCount(Integer commentsCount) {
         this.commentsCount = commentsCount;
     }
 
@@ -49,19 +49,19 @@ public class SimpleMessage extends Message {
         this.fullPostedUserName = fullPostedUserName;
     }
 
-	public String getProjectName() {
-		return projectName;
-	}
+    public String getProjectName() {
+        return projectName;
+    }
 
-	public void setProjectName(String projectName) {
-		this.projectName = projectName;
-	}
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
 
-	public String getPostedUserAvatarId() {
-		return postedUserAvatarId;
-	}
+    public String getPostedUserAvatarId() {
+        return postedUserAvatarId;
+    }
 
-	public void setPostedUserAvatarId(String postedUserAvatarId) {
-		this.postedUserAvatarId = postedUserAvatarId;
-	}
+    public void setPostedUserAvatarId(String postedUserAvatarId) {
+        this.postedUserAvatarId = postedUserAvatarId;
+    }
 }

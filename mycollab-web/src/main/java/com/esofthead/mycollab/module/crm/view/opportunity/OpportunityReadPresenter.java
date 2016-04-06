@@ -33,6 +33,8 @@ import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
 import com.esofthead.mycollab.module.crm.view.CrmModule;
+import com.esofthead.mycollab.reporting.FormReportLayout;
+import com.esofthead.mycollab.reporting.PrintButton;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -100,6 +102,13 @@ public class OpportunityReadPresenter extends CrmGenericPresenter<OpportunityRea
                 SimpleOpportunity cloneData = (SimpleOpportunity) data.copy();
                 cloneData.setId(null);
                 EventBusFactory.getInstance().post(new OpportunityEvent.GotoEdit(this, cloneData));
+            }
+
+            @Override
+            public void onPrint(Object source, SimpleOpportunity data) {
+                PrintButton btn = (PrintButton) source;
+                btn.doPrint(data, new FormReportLayout(CrmTypeConstants.OPPORTUNITY, Opportunity.Field.opportunityname.name(),
+                        OpportunityDefaultDynaFormLayoutFactory.getForm()));
             }
 
             @Override

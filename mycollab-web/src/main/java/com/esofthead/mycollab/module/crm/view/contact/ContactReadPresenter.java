@@ -31,6 +31,8 @@ import com.esofthead.mycollab.module.crm.events.OpportunityEvent;
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
 import com.esofthead.mycollab.module.crm.view.CrmModule;
+import com.esofthead.mycollab.reporting.FormReportLayout;
+import com.esofthead.mycollab.reporting.PrintButton;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -86,8 +88,7 @@ public class ContactReadPresenter extends CrmGenericPresenter<ContactReadView> {
                             public void onClose(ConfirmDialog dialog) {
                                 if (dialog.isConfirmed()) {
                                     ContactService ContactService = ApplicationContextUtil.getSpringBean(ContactService.class);
-                                    ContactService.removeWithSession(data,
-                                            AppContext.getUsername(), AppContext.getAccountId());
+                                    ContactService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
                                     EventBusFactory.getInstance().post(new ContactEvent.GotoList(this, null));
                                 }
                             }
@@ -99,6 +100,13 @@ public class ContactReadPresenter extends CrmGenericPresenter<ContactReadView> {
                 SimpleContact cloneData = (SimpleContact) data.copy();
                 cloneData.setId(null);
                 EventBusFactory.getInstance().post(new ContactEvent.GotoEdit(this, cloneData));
+            }
+
+            @Override
+            public void onPrint(Object source, SimpleContact data) {
+                PrintButton btn = (PrintButton) source;
+                btn.doPrint(data, new FormReportLayout(CrmTypeConstants.CONTACT, Contact.Field.lastname.name(),
+                        ContactDefaultDynaFormLayoutFactory.getForm()));
             }
 
             @Override

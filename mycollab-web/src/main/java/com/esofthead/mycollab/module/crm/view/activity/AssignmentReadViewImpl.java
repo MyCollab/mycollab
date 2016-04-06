@@ -80,8 +80,7 @@ public class AssignmentReadViewImpl extends AbstractPreviewItemComp<SimpleTask> 
 
     @Override
     protected void initRelatedComponents() {
-        activityComponent = new CrmActivityComponent(CrmTypeConstants.TASK, AssignmentFieldFormatter.instance(),
-                TaskRelayEmailNotificationAction.class);
+        activityComponent = new CrmActivityComponent(CrmTypeConstants.TASK);
 
         MVerticalLayout basicInfo = new MVerticalLayout().withWidth("100%").withStyleName("basic-info");
         CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
@@ -92,8 +91,7 @@ public class AssignmentReadViewImpl extends AbstractPreviewItemComp<SimpleTask> 
 
         navigatorWrapper.addComponentAsFirst(basicInfo);
 
-        previewItemContainer.addTab(previewContent, CrmTypeConstants.DETAIL,
-                AppContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
+        previewItemContainer.addTab(previewContent, CrmTypeConstants.DETAIL, AppContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
         previewItemContainer.selectTab(CrmTypeConstants.DETAIL);
     }
 

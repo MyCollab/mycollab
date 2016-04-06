@@ -31,15 +31,15 @@ import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.*;
-import com.esofthead.mycollab.module.crm.ui.format.LeadFieldFormatter;
 import com.esofthead.mycollab.module.crm.view.activity.ActivityRelatedItemListComp;
-import com.esofthead.mycollab.schedule.email.crm.LeadRelayEmailNotificationAction;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.esofthead.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.web.ui.DynaFormLayout;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
@@ -123,8 +123,7 @@ public class LeadConvertReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
     protected void initRelatedComponents() {
         associateCampaignList = new LeadCampaignListComp();
 
-        activityComponent = new CrmActivityComponent(CrmTypeConstants.LEAD, LeadFieldFormatter.instance(),
-                LeadRelayEmailNotificationAction.class);
+        activityComponent = new CrmActivityComponent(CrmTypeConstants.LEAD);
         associateActivityList = new ActivityRelatedItemListComp(false);
 
         CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();

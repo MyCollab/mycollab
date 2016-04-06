@@ -17,50 +17,59 @@
 package com.esofthead.mycollab.reporting;
 
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.reporting.expression.SimpleFieldExpression;
 import com.esofthead.mycollab.reporting.expression.CompBuilderValue;
 import com.esofthead.mycollab.reporting.expression.HyperlinkValue;
 import com.esofthead.mycollab.reporting.expression.MValue;
-import net.sf.dynamicreports.report.builder.ReportTemplateBuilder;
+import com.esofthead.mycollab.reporting.expression.SimpleFieldExpression;
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
+import net.sf.dynamicreports.report.builder.component.LineBuilder;
+import net.sf.dynamicreports.report.builder.style.PaddingBuilder;
 import net.sf.dynamicreports.report.builder.style.StyleBuilder;
+import net.sf.dynamicreports.report.constant.HorizontalTextAlignment;
+import net.sf.dynamicreports.report.constant.VerticalTextAlignment;
 import net.sf.dynamicreports.report.definition.expression.DRIExpression;
 
-import static net.sf.dynamicreports.report.builder.DynamicReports.cmp;
-import static net.sf.dynamicreports.report.builder.DynamicReports.hyperLink;
+import java.awt.*;
+
+import static net.sf.dynamicreports.report.builder.DynamicReports.*;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.1.2
  */
 public abstract class AbstractReportTemplate {
-    protected StyleBuilder rootStyle;
-    protected StyleBuilder boldStyle;
-    protected StyleBuilder italicStyle;
-    protected StyleBuilder underlineStyle;
-    protected StyleBuilder boldCenteredStyle;
-    protected StyleBuilder boldLeftStyle;
-    protected StyleBuilder bold18CenteredStyle;
-    protected StyleBuilder bold22CenteredStyle;
-    protected StyleBuilder bold12TitleStyle;
-    protected StyleBuilder bold18TitleStyle;
-    protected StyleBuilder columnTitleStyle;
-    protected StyleBuilder columnStyle;
-    protected StyleBuilder bold12CenteredStyle;
-    protected StyleBuilder groupStyle;
-    protected StyleBuilder subtotalStyle;
-    protected ReportTemplateBuilder reportTemplateBuilder;
+    private Color borderColor = new Color(233, 233, 233);
+    private Color metaColor = new Color(153, 153, 153);
 
-    public StyleBuilder getRootStyle() {
-        return rootStyle;
-    }
+    private StyleBuilder rootStyle;
+    private StyleBuilder boldStyle;
+    private StyleBuilder italicStyle;
+    private StyleBuilder underlineStyle;
+    private StyleBuilder boldCenteredStyle;
+    private StyleBuilder h2Style;
+    private StyleBuilder h3Style;
+    private StyleBuilder columnTitleStyle;
+    private StyleBuilder formCaptionStyle;
+    private StyleBuilder borderStyle;
+    private StyleBuilder metaInfoStyle;
 
-    public StyleBuilder getBoldStyle() {
-        return boldStyle;
-    }
+    public AbstractReportTemplate() {
+        rootStyle = stl.style().setPadding(4);
+        boldStyle = stl.style(rootStyle).bold();
+        italicStyle = stl.style(rootStyle).italic();
+        underlineStyle = stl.style(rootStyle).underline();
+        boldCenteredStyle = stl.style(boldStyle).setTextAlignment(HorizontalTextAlignment.LEFT, VerticalTextAlignment.MIDDLE);
+        borderStyle = stl.style(rootStyle).setBorder(stl.pen1Point().setLineColor(borderColor));
+        metaInfoStyle = stl.style(rootStyle).setForegroundColor(metaColor);
+        formCaptionStyle = stl.style(rootStyle).setForegroundColor(metaColor)
+                .setHorizontalTextAlignment(HorizontalTextAlignment.RIGHT).setVerticalTextAlignment(VerticalTextAlignment.TOP);
+        h2Style = stl.style(rootStyle).setFontSize(18);
+        h3Style = stl.style(rootStyle).setFontSize(14);
 
-    public StyleBuilder getItalicStyle() {
-        return italicStyle;
+        PaddingBuilder padding = stl.padding().setLeft(8);
+        columnTitleStyle = stl.style(rootStyle).setVerticalTextAlignment(VerticalTextAlignment.MIDDLE)
+                .setHorizontalTextAlignment(HorizontalTextAlignment.LEFT).setBorder(stl.pen1Point())
+                .setBackgroundColor(Color.LIGHT_GRAY);
     }
 
     public StyleBuilder getUnderlineStyle() {
@@ -71,51 +80,38 @@ public abstract class AbstractReportTemplate {
         return boldCenteredStyle;
     }
 
-    public StyleBuilder getBoldLeftStyle() {
-        return boldLeftStyle;
+    public StyleBuilder getItalicStyle() {
+        return italicStyle;
     }
 
-    public StyleBuilder getBold18CenteredStyle() {
-        return bold18CenteredStyle;
+    public StyleBuilder getBorderStyle() {
+        return borderStyle;
     }
 
-    public StyleBuilder getBold22CenteredStyle() {
-        return bold22CenteredStyle;
+    public StyleBuilder getMetaInfoStyle() {
+        return metaInfoStyle;
     }
 
-    public StyleBuilder getBold12TitleStyle() {
-        return bold12TitleStyle;
+    public StyleBuilder getFormCaptionStyle() {
+        return formCaptionStyle;
     }
 
-    public StyleBuilder getBold18TitleStyle() {
-        return bold18TitleStyle;
+    public StyleBuilder getH2Style() {
+        return h2Style;
+    }
+
+    public StyleBuilder getH3Style() {
+        return h3Style;
+    }
+
+    public Color getBorderColor() {
+        return borderColor;
     }
 
     public StyleBuilder getColumnTitleStyle() {
         return columnTitleStyle;
     }
 
-    public StyleBuilder getColumnStyle() {
-        return columnStyle;
-    }
-
-    public StyleBuilder getBold12CenteredStyle() {
-        return bold12CenteredStyle;
-    }
-
-    public StyleBuilder getGroupStyle() {
-        return groupStyle;
-    }
-
-    public StyleBuilder getSubtotalStyle() {
-        return subtotalStyle;
-    }
-
-    public ReportTemplateBuilder getReportTemplateBuilder() {
-        return reportTemplateBuilder;
-    }
-
-    @SuppressWarnings("rawtypes")
     public ComponentBuilder buildCompBuilder(MValue value) {
         if (value instanceof HyperlinkValue) {
             return buildHyperLink((HyperlinkValue) value);
@@ -128,11 +124,13 @@ public abstract class AbstractReportTemplate {
         }
     }
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    private ComponentBuilder buildHyperLink(HyperlinkValue hyperlink) {
-        ComponentBuilder compBuilder;
+    public LineBuilder line() {
+        return cmp.line().setPen(stl.pen().setLineColor(borderColor));
+    }
 
-        compBuilder = cmp.text(hyperlink.getTitle()).setHyperLink(hyperLink(hyperlink.getHref())).setStyle(underlineStyle);
+    private ComponentBuilder buildHyperLink(HyperlinkValue hyperlink) {
+        ComponentBuilder compBuilder = cmp.text(hyperlink.getTitle()).setHyperLink(hyperLink(hyperlink.getHref()))
+                .setStyle(underlineStyle);
 
         if (hyperlink.getStyle() != null) {
             compBuilder.setStyle(hyperlink.getStyle());
@@ -140,12 +138,10 @@ public abstract class AbstractReportTemplate {
         return compBuilder;
     }
 
-    @SuppressWarnings("rawtypes")
     private ComponentBuilder buildComp(CompBuilderValue compBuilder) {
         return compBuilder.getCompBuilder();
     }
 
-    @SuppressWarnings("rawtypes")
     private ComponentBuilder buildText(DRIExpression<String> expr) {
         return cmp.text(expr).setStyle(rootStyle);
     }

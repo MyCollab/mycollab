@@ -29,7 +29,6 @@ import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
-import com.hp.gagawa.java.elements.Span;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,26 +43,34 @@ public final class ProjectMemberHistoryFieldFormat implements HistoryFieldFormat
 
     @Override
     public String toString(String value) {
+        return toString(value, true, "");
+    }
+
+    @Override
+    public String toString(String value, Boolean displayAsHtml, String msgIfBlank) {
         if (StringUtils.isBlank(value)) {
-            return new Span().write();
+            return msgIfBlank;
         }
 
         try {
             UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
             SimpleUser user = userService.findUserByUserNameInAccount(value, AppContext.getAccountId());
             if (user != null) {
-                Img userAvatar = new Img("", StorageFactory.getInstance().getAvatarPath(user.getAvatarid(), 16));
-                A link = new A().setId("tag" + TOOLTIP_ID).setHref(ProjectLinkBuilder.generateProjectMemberFullLink
-                        (CurrentProjectVariables.getProjectId(),
-                                user.getUsername())).appendText(StringUtils.trim(user.getDisplayName(), 30, true));
-                link.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(user.getUsername()));
-                link.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
-                return new DivLessFormatter().appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), link).write();
+                if (displayAsHtml) {
+                    Img userAvatar = new Img("", StorageFactory.getInstance().getAvatarPath(user.getAvatarid(), 16));
+                    A link = new A().setId("tag" + TOOLTIP_ID).setHref(ProjectLinkBuilder.generateProjectMemberFullLink
+                            (CurrentProjectVariables.getProjectId(),
+                                    user.getUsername())).appendText(StringUtils.trim(user.getDisplayName(), 30, true));
+                    link.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(user.getUsername()));
+                    link.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
+                    return new DivLessFormatter().appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), link).write();
+                } else {
+                    return user.getDisplayName();
+                }
             }
         } catch (Exception e) {
             LOG.error("Error", e);
         }
         return value;
     }
-
 }

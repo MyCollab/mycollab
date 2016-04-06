@@ -92,7 +92,6 @@ public abstract class ReportStreamSource implements StreamResource.StreamSource 
                     templateExecutor.setParameters(initReportParameters());
                     templateExecutor.initReport();
                     templateExecutor.fillReport();
-
                     templateExecutor.outputReport(out);
                 } catch (Exception e) {
                     EventBusFactory.getInstance().post(new ShellEvent.NotifyErrorEvent(ReportStreamSource.this, e));

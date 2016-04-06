@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.ui.format;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
@@ -24,7 +25,6 @@ import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.utils.HistoryFieldFormat;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.hp.gagawa.java.elements.Span;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,8 +38,14 @@ public final class TaskHistoryFieldFormat implements HistoryFieldFormat {
 
     @Override
     public String toString(String value) {
+        return toString(value, true, AppContext.getMessage(GenericI18Enum
+                .FORM_EMPTY));
+    }
+
+    @Override
+    public String toString(String value, Boolean displayAsHtml, String msgIfBlank) {
         if (StringUtils.isBlank(value)) {
-            return new Span().write();
+            return msgIfBlank;
         }
 
         try {
@@ -48,8 +54,12 @@ public final class TaskHistoryFieldFormat implements HistoryFieldFormat {
             SimpleTask task = taskService.findById(taskId, AppContext.getAccountId());
 
             if (task != null) {
-                return ProjectLinkBuilder.generateProjectItemHtmlLinkAndTooltip(CurrentProjectVariables.getShortName(),
-                        task.getProjectid(), task.getTaskname(), ProjectTypeConstants.TASK, task.getId() + "");
+                if (displayAsHtml) {
+                    return ProjectLinkBuilder.generateProjectItemHtmlLinkAndTooltip(CurrentProjectVariables.getShortName(),
+                            task.getProjectid(), task.getTaskname(), ProjectTypeConstants.TASK, task.getId() + "");
+                } else {
+                    return task.getTaskname();
+                }
             } else {
                 return "Deleted task";
             }

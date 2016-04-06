@@ -27,15 +27,15 @@ import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.*;
-import com.esofthead.mycollab.module.crm.ui.format.AccountFieldFormatter;
 import com.esofthead.mycollab.module.crm.view.activity.ActivityRelatedItemListComp;
-import com.esofthead.mycollab.schedule.email.crm.AccountRelayEmailNotificationAction;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.esofthead.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.web.ui.DynaFormLayout;
 import com.vaadin.ui.ComponentContainer;
@@ -126,8 +126,7 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount> 
         associateOpportunityList = new AccountOpportunityListComp();
         associateLeadList = new AccountLeadListComp();
         associateCaseList = new AccountCaseListComp();
-        activityComponent = new CrmActivityComponent(CrmTypeConstants.ACCOUNT,
-                AccountFieldFormatter.instance(), AccountRelayEmailNotificationAction.class);
+        activityComponent = new CrmActivityComponent(CrmTypeConstants.ACCOUNT);
 
         CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
         MVerticalLayout basicInfo = new MVerticalLayout().withWidth("100%").withStyleName("basic-info");

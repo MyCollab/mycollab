@@ -54,8 +54,7 @@ public class CommonTooltipGenerator {
             Tr trRow1 = new Tr().appendChild(new Td().setStyle("width: 110px; vertical-align: top; text-align: right;")
                     .appendText(LocalizationHelper.getMessage(locale, UserI18nEnum.FORM_EMAIL)))
                     .appendChild(new Td().setStyle("vertical-align: top;").appendChild(
-                            new A().setHref("mailto:" + user.getEmail())
-                                    .appendText(StringUtils.trimHtmlTags(user.getEmail()))));
+                            new A().setHref("mailto:" + user.getEmail()).appendText(StringUtils.trimHtmlTags(user.getEmail()))));
 
             Td trRow1_value = new Td().setStyle("width:150px;text-align: right; vertical-align: top;")
                     .appendChild(new Img("", StorageFactory.getInstance().getAvatarPath(user.getAvatarid(), 100)));

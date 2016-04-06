@@ -31,7 +31,6 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.*;
-import com.esofthead.mycollab.module.project.ui.format.BugFieldFormatter;
 import com.esofthead.mycollab.module.project.view.bug.components.LinkIssueWindow;
 import com.esofthead.mycollab.module.tracker.dao.RelatedBugMapper;
 import com.esofthead.mycollab.module.tracker.domain.RelatedBugExample;
@@ -235,8 +234,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
 
     @Override
     protected void initRelatedComponents() {
-        activityComponent = new ProjectActivityComponent(ProjectTypeConstants.BUG, CurrentProjectVariables
-                .getProjectId(), BugFieldFormatter.instance());
+        activityComponent = new ProjectActivityComponent(ProjectTypeConstants.BUG, CurrentProjectVariables.getProjectId());
         dateInfoComp = new DateInfoComp();
         peopleInfoComp = new PeopleInfoComp();
         bugFollowersList = new ProjectFollowersComp<>(ProjectTypeConstants.BUG, ProjectRolePermissionCollections.BUGS);
@@ -269,7 +267,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
 
         void displayBugHeader(final SimpleBug bug) {
             MVerticalLayout header = new MVerticalLayout().withWidth("100%").withMargin(false);
-            titleLbl = ELabel.h2(bug.getSummary());
+            titleLbl = ELabel.h3(bug.getSummary());
             header.with(titleLbl).expand(titleLbl);
             this.addHeader(header);
 
@@ -363,6 +361,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                 ProjectPreviewFormControlsGenerator.ADD_BTN_PRESENTED
                         | ProjectPreviewFormControlsGenerator.DELETE_BTN_PRESENTED
                         | ProjectPreviewFormControlsGenerator.EDIT_BTN_PRESENTED
+                        | ProjectPreviewFormControlsGenerator.PRINT_BTN_PRESENTED
                         | ProjectPreviewFormControlsGenerator.CLONE_BTN_PRESENTED,
                 ProjectRolePermissionCollections.BUGS);
 

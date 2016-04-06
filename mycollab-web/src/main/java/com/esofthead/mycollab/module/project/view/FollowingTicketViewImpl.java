@@ -27,6 +27,7 @@ import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.resources.LazyStreamSource;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.esofthead.mycollab.vaadin.web.ui.SplitButton;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
@@ -36,11 +37,8 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.server.StreamResource;
 import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -53,7 +51,6 @@ public class FollowingTicketViewImpl extends AbstractPageView implements Followi
 
     private SplitButton exportButtonControl;
     private FollowingTicketTableDisplay ticketTable;
-
     private FollowingTicketSearchPanel searchPanel;
 
     public FollowingTicketViewImpl() {
@@ -61,9 +58,7 @@ public class FollowingTicketViewImpl extends AbstractPageView implements Followi
 
         MHorizontalLayout header = new MHorizontalLayout().withWidth("100%");
 
-        Label layoutHeader = new Label(FontAwesome.EYE.getHtml() + " My Following Tickets", ContentMode.HTML);
-        layoutHeader.addStyleName(ValoTheme.LABEL_H2);
-        layoutHeader.setWidthUndefined();
+        ELabel layoutHeader = ELabel.h2(FontAwesome.EYE.getHtml() + " My Following Tickets").withWidthUndefined();
 
         Button exportBtn = new Button("Export", new Button.ClickListener() {
             private static final long serialVersionUID = 1L;

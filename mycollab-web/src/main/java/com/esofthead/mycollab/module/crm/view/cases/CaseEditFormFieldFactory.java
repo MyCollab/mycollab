@@ -21,8 +21,8 @@ import com.esofthead.mycollab.module.crm.view.account.AccountSelectionField;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserComboBox;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.web.ui.field.RichTextEditField;
 import com.vaadin.ui.Field;
+import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.TextField;
 
 /**
@@ -54,9 +54,9 @@ class CaseEditFormFieldFactory<B extends CaseWithBLOBs> extends AbstractBeanFiel
         } else if (propertyId.equals("type")) {
             return new CaseTypeComboBox();
         } else if (propertyId.equals("description")) {
-            return new RichTextEditField();
+            return new RichTextArea();
         } else if (propertyId.equals("resolution")) {
-            return new RichTextEditField();
+            return new RichTextArea();
         } else if (propertyId.equals("accountid")) {
             AccountSelectionField accountField = new AccountSelectionField();
             accountField.setRequired(true);

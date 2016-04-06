@@ -72,18 +72,15 @@ public class ProjectAddViewImpl extends AbstractPageView implements ProjectAddVi
 
         private Layout createButtonControls() {
             final HorizontalLayout controlPanel = new HorizontalLayout();
-            final Layout controlButtons;
+            final ComponentContainer controlButtons;
 
             if (project.getId() == null) {
                 controlButtons = (new EditFormControlsGenerator<>(editForm)).createButtonControls();
             } else {
                 controlButtons = (new EditFormControlsGenerator<>(editForm)).createButtonControls(true, false, true);
             }
-            controlButtons.setSizeUndefined();
             controlPanel.addComponent(controlButtons);
-            controlPanel.setWidthUndefined();
-            controlPanel.setComponentAlignment(controlButtons, Alignment.MIDDLE_CENTER);
-
+            controlPanel.setComponentAlignment(controlButtons, Alignment.TOP_RIGHT);
             return controlPanel;
         }
 

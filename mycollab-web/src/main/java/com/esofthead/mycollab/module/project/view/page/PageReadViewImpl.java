@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.module.project.view.page;
 
 import com.esofthead.mycollab.common.i18n.DayI18nEnum;
-import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.html.DivLessFormatter;
@@ -34,7 +33,6 @@ import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.module.project.ui.components.ComponentUtils;
 import com.esofthead.mycollab.module.project.ui.components.ProjectActivityComponent;
-import com.esofthead.mycollab.module.project.ui.format.BugFieldFormatter;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -53,10 +51,10 @@ import com.vaadin.server.FileDownloader;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.StreamResource;
 import com.vaadin.server.StreamResource.StreamSource;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -92,7 +90,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
     private PageService pageService;
 
     public PageReadViewImpl() {
-        super(new MHorizontalLayout().withMargin(true), new PagePreviewFormLayout());
+        super(new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false)), new PagePreviewFormLayout());
         pageService = ApplicationContextUtil.getSpringBean(PageService.class);
         constructHeader();
     }
@@ -100,12 +98,12 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
     private void constructHeader() {
         pageVersionsSelection = new PageVersionSelectionBox();
 
-        HeaderWithFontAwesome headerLbl = ComponentUtils.headerH3(ProjectTypeConstants.PAGE, AppContext.getMessage
+        HeaderWithFontAwesome headerLbl = ComponentUtils.headerH2(ProjectTypeConstants.PAGE, AppContext.getMessage
                 (Page18InEnum.VIEW_READ_TITLE));
         headerLbl.setWidthUndefined();
 
-        ((MHorizontalLayout) header).addComponent(headerLbl, 0);
-        ((MHorizontalLayout) header).addComponent(pageVersionsSelection, 1);
+        header.addComponent(headerLbl, 0);
+        header.addComponent(pageVersionsSelection, 1);
         ((MHorizontalLayout) header).withWidth("100%").withStyleName("hdr-view").expand(pageVersionsSelection)
                 .alignAll(Alignment.MIDDLE_LEFT);
     }
@@ -117,10 +115,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
 
     @Override
     protected void initRelatedComponents() {
-        commentListComp = new ProjectActivityComponent(ProjectTypeConstants.PAGE, CurrentProjectVariables
-                .getProjectId(), BugFieldFormatter.instance());
-        commentListComp.setWidth("100%");
-        commentListComp.setMargin(true);
+        commentListComp = new ProjectActivityComponent(ProjectTypeConstants.PAGE, CurrentProjectVariables.getProjectId());
     }
 
     @Override
@@ -206,7 +201,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
     private static class PagePreviewFormLayout extends ReadViewLayout {
         void displayPageInfo(Page beanItem) {
             MVerticalLayout header = new MVerticalLayout().withMargin(false);
-            ELabel titleLbl = ELabel.h2(beanItem.getSubject());
+            ELabel titleLbl = ELabel.h3(beanItem.getSubject());
             header.with(titleLbl);
             Div footer = new Div().setStyle("width:100%").setCSSClass(UIConstants.LABEL_META_INFO);
             Span lastUpdatedTimeTxt = new Span().appendText(AppContext.getMessage(DayI18nEnum.LAST_UPDATED_ON,
@@ -246,10 +241,6 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
         public PageVersionSelectionBox() {
             content = new HorizontalLayout();
             this.setCompositionRoot(content);
-        }
-
-        public PageVersionSelectionBox(Component compositionRoot) {
-            super(compositionRoot);
         }
 
         void displayVersions(String path) {

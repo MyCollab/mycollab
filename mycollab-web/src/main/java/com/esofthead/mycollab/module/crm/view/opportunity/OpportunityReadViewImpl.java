@@ -30,15 +30,15 @@ import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.*;
-import com.esofthead.mycollab.module.crm.ui.format.OpportunityFieldFormatter;
 import com.esofthead.mycollab.module.crm.view.activity.ActivityRelatedItemListComp;
-import com.esofthead.mycollab.schedule.email.crm.OpportunityRelayEmailNotificationAction;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.esofthead.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.web.ui.DynaFormLayout;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
@@ -101,7 +101,7 @@ public class OpportunityReadViewImpl extends AbstractPreviewItemComp<SimpleOppor
 
         String saleState = this.beanItem.getSalesstage();
         Date closeDate = this.beanItem.getExpectedcloseddate();
-        if ((!"Closed Won" .equals(saleState) && !"Closed Lost" .equals(saleState))
+        if ((!"Closed Won".equals(saleState) && !"Closed Lost".equals(saleState))
                 && closeDate != null && (closeDate.before(new GregorianCalendar().getTime()))) {
             previewLayout.addTitleStyleName(UIConstants.LABEL_OVERDUE);
         }
@@ -127,8 +127,7 @@ public class OpportunityReadViewImpl extends AbstractPreviewItemComp<SimpleOppor
         associateLeadList = new OpportunityLeadListComp();
         associateActivityList = new ActivityRelatedItemListComp(true);
 
-        activityComponent = new CrmActivityComponent(CrmTypeConstants.OPPORTUNITY, OpportunityFieldFormatter.instance(),
-                OpportunityRelayEmailNotificationAction.class);
+        activityComponent = new CrmActivityComponent(CrmTypeConstants.OPPORTUNITY);
 
         CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
         MVerticalLayout basicInfo = new MVerticalLayout().withWidth("100%").withStyleName("basic-info");

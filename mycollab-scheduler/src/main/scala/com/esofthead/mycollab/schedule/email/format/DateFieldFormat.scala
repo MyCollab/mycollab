@@ -56,7 +56,7 @@ class DateFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldForm
             new Span().write
         }
 
-        DateTimeUtils.converToStringWithUserTimeZone(value, LocaleHelper.getDateFormatInstance(context.getLocale).getDateFormat,
+        DateTimeUtils.convertToStringWithUserTimeZone(value, LocaleHelper.getDateFormatInstance(context.getLocale).getDateFormat,
             context.getTimeZone)
     }
 }

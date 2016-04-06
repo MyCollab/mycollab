@@ -19,7 +19,6 @@ package com.esofthead.mycollab.module.project.ui.format;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
-import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.utils.FieldGroupFormatter;
 
 /**
@@ -30,8 +29,8 @@ public final class BugFieldFormatter extends FieldGroupFormatter {
     private static BugFieldFormatter _instance = new BugFieldFormatter();
 
     private BugFieldFormatter() {
-        generateFieldDisplayHandler("description", GenericI18Enum.FORM_DESCRIPTION);
-        generateFieldDisplayHandler("environment", BugI18nEnum.FORM_ENVIRONMENT);
+        generateFieldDisplayHandler("description", GenericI18Enum.FORM_DESCRIPTION, TRIM_HTMLS);
+        generateFieldDisplayHandler("environment", BugI18nEnum.FORM_ENVIRONMENT, TRIM_HTMLS);
         generateFieldDisplayHandler("summary", BugI18nEnum.FORM_SUMMARY);
         generateFieldDisplayHandler("status", BugI18nEnum.FORM_STATUS,
                 new I18nHistoryFieldFormat(OptionI18nEnum.BugStatus.class));
@@ -42,12 +41,15 @@ public final class BugFieldFormatter extends FieldGroupFormatter {
         generateFieldDisplayHandler("resolution", BugI18nEnum.FORM_RESOLUTION,
                 new I18nHistoryFieldFormat(OptionI18nEnum.BugResolution.class));
         generateFieldDisplayHandler("estimateremaintime", BugI18nEnum.FORM_REMAIN_ESTIMATE);
-        generateFieldDisplayHandler("duedate", BugI18nEnum.FORM_DUE_DATE, FieldGroupFormatter.DATE_FIELD);
-        generateFieldDisplayHandler("createdTime", BugI18nEnum.FORM_CREATED_TIME, FieldGroupFormatter.PRETTY_DATE_TIME_FIELD);
+        generateFieldDisplayHandler("estimatetime", BugI18nEnum.FORM_ORIGINAL_ESTIMATE);
+        generateFieldDisplayHandler("startdate", BugI18nEnum.FORM_START_DATE, DATE_FIELD);
+        generateFieldDisplayHandler("enddate", BugI18nEnum.FORM_END_DATE, DATE_FIELD);
+        generateFieldDisplayHandler("duedate", BugI18nEnum.FORM_DUE_DATE, DATE_FIELD);
+        generateFieldDisplayHandler("createdTime", BugI18nEnum.FORM_CREATED_TIME, PRETTY_DATE_TIME_FIELD);
         generateFieldDisplayHandler("loguserFullName",
                 BugI18nEnum.FORM_LOG_BY, new ProjectMemberHistoryFieldFormat());
         generateFieldDisplayHandler("assignuser", GenericI18Enum.FORM_ASSIGNEE, new ProjectMemberHistoryFieldFormat());
-        generateFieldDisplayHandler("milestoneid", TaskI18nEnum.FORM_PHASE, new MilestoneHistoryFieldFormat());
+        generateFieldDisplayHandler("milestoneid", BugI18nEnum.FORM_PHASE, new MilestoneHistoryFieldFormat());
     }
 
     public static BugFieldFormatter instance() {

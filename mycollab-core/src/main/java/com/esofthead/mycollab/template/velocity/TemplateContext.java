@@ -17,10 +17,6 @@
 package com.esofthead.mycollab.template.velocity;
 
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.tools.Scope;
-import org.apache.velocity.tools.ToolManager;
-import org.apache.velocity.tools.config.EasyFactoryConfiguration;
-import org.apache.velocity.tools.generic.DateTool;
 
 /**
  * Template wrapper of velocity context
@@ -31,18 +27,8 @@ import org.apache.velocity.tools.generic.DateTool;
 public class TemplateContext {
     private final VelocityContext velocityContext;
 
-    private static ToolManager toolManager;
-
-    static {
-        EasyFactoryConfiguration config = new EasyFactoryConfiguration();
-        config.toolbox(Scope.APPLICATION).tool(DateTool.class);
-
-        toolManager = new ToolManager();
-        toolManager.configure(config);
-    }
-
     public TemplateContext() {
-        velocityContext = new VelocityContext(toolManager.createContext());
+        velocityContext = new VelocityContext();
     }
 
     public void put(String key, Object value) {

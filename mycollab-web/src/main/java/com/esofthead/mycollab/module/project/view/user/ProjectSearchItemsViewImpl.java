@@ -29,8 +29,6 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.DefaultBeanPagedList;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.themes.ValoTheme;
 
 /**
  * @author MyCollab Ltd.
@@ -48,7 +46,7 @@ public class ProjectSearchItemsViewImpl extends AbstractPageView implements Proj
     public void displayResults(String value) {
         this.removeAllComponents();
 
-        ELabel headerLbl = new ELabel("", ContentMode.HTML).withStyleName(ValoTheme.LABEL_H2, ValoTheme.LABEL_NO_MARGIN);
+        ELabel headerLbl = ELabel.h2("");
 
         DefaultBeanPagedList<ProjectGenericItemService, ProjectGenericItemSearchCriteria, ProjectGenericItem>
                 searchItemsTable = new DefaultBeanPagedList<>(ApplicationContextUtil.getSpringBean(ProjectGenericItemService.class),

@@ -20,6 +20,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.FileUtils;
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.ecm.StorageNames;
 import com.esofthead.mycollab.module.ecm.domain.*;
@@ -61,7 +62,6 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.dialogs.ConfirmDialog;
@@ -440,7 +440,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             // define the
             // created user so we do not need to display, then we assume the
             // current user is created user
-            if (StringUtils.isEmpty(resource.getCreatedUser())) {
+            if (StringUtils.isBlank(resource.getCreatedUser())) {
                 UserLink usernameLbl = new UserLink(AppContext.getUsername(), AppContext.getUserAvatarId(),
                         AppContext.getUser().getDisplayName());
                 usernameLbl.addStyleName(UIConstants.LABEL_META_INFO);

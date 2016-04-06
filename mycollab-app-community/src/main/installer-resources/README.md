@@ -40,6 +40,27 @@ understanding in a matter of minutes.
 Last changelog
 ==============
 
+Version 5.2.11
+-----------------------------
+**Library Upgrades**
+
+* Joda Time 2.9.3
+* Mybatis spring 1.2.5
+* Other libraries
+
+**Improvements & New Features**
+
+* [Premium] Edit overtime field of time tracking
+* Optimize dependency libraries to reduce the distribution file
+* Support print function
+* Other minor improvements
+
+**Bug Fixes**
+
+* Report still throws error in some machines due to the order of loading jar files. This version remove this issue 
+completely.
+
+
 Version 5.2.10
 -----------------------------
 **Library Upgrades**
@@ -99,12 +120,14 @@ Version 5.2.9
 Version 5.2.8
 -----------------------------
 **Improvements & New Features**
+
 * [Premium] Revise the Calendar view
 * Support project template
 * Add 'Won't Fix' status to bug workflow
 * Other minor improvements
 
 **Bug Fixes**
+
 * [Premium] Export project timelog is failed
 * Delete the selected resource is failed
 

@@ -27,7 +27,6 @@ import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.*;
-import com.esofthead.mycollab.module.project.ui.format.MilestoneFieldFormatter;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -88,8 +87,7 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
 
     @Override
     protected void initRelatedComponents() {
-        activityComponent = new ProjectActivityComponent(ProjectTypeConstants.MILESTONE,
-                CurrentProjectVariables.getProjectId(), MilestoneFieldFormatter.instance());
+        activityComponent = new ProjectActivityComponent(ProjectTypeConstants.MILESTONE, CurrentProjectVariables.getProjectId());
         dateInfoComp = new DateInfoComp();
         peopleInfoComp = new PeopleInfoComp();
         milestoneTimeLogComp = new MilestoneTimeLogComp();

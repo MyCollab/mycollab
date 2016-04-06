@@ -81,8 +81,7 @@ public class CallReadViewImpl extends AbstractPreviewItemComp<SimpleCall> implem
 
     @Override
     protected void initRelatedComponents() {
-        activityComponent = new CrmActivityComponent(CrmTypeConstants.CALL, CallFieldFormatter.instance(),
-                CallRelayEmailNotificationAction.class);
+        activityComponent = new CrmActivityComponent(CrmTypeConstants.CALL);
 
         MVerticalLayout basicInfo = new MVerticalLayout().withWidth("100%").withStyleName("basic-info");
         CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
@@ -92,11 +91,9 @@ public class CallReadViewImpl extends AbstractPreviewItemComp<SimpleCall> implem
 
         followersComp = new CrmFollowersComp<>(CrmTypeConstants.CALL, RolePermissionCollections.CRM_CALL);
         basicInfo.addComponent(followersComp);
-
         navigatorWrapper.addComponentAsFirst(basicInfo);
 
-        previewItemContainer.addTab(previewContent, CrmTypeConstants.DETAIL,
-                AppContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
+        previewItemContainer.addTab(previewContent, CrmTypeConstants.DETAIL, AppContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
         previewItemContainer.selectTab(CrmTypeConstants.DETAIL);
     }
 

@@ -31,6 +31,10 @@ import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.module.project.ui.components.ComponentUtils;
+import com.esofthead.mycollab.reporting.ReportExportType;
+import com.esofthead.mycollab.reporting.ReportStreamSource;
+import com.esofthead.mycollab.reporting.RpFieldsBuilder;
+import com.esofthead.mycollab.reporting.SimpleReportTemplateExecutor;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasMassItemActionHandler;
@@ -49,16 +53,23 @@ import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
 import com.esofthead.mycollab.web.CustomLayoutExt;
 import com.google.common.eventbus.Subscribe;
+import com.vaadin.server.FileDownloader;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.StreamResource;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.hene.popupbutton.PopupButton;
+import org.vaadin.peter.buttongroup.ButtonGroup;
 import org.vaadin.teemu.VaadinIcons;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author MyCollab Ltd.
@@ -76,7 +87,6 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
 
     private CssLayout closeContainer;
     private Label closedHeader;
-
 
     private List<SimpleMilestone> milestones;
 
@@ -167,6 +177,21 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
         createBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
         layout.with(createBtn);
 
+        MButton exportPdfBtn = new MButton("").withIcon(FontAwesome.FILE_PDF_O).withStyleName(UIConstants.BUTTON_OPTION)
+                .withDescription("Export to PDF");
+        FileDownloader pdfFileDownloader = new FileDownloader(buildStreamSource(ReportExportType.PDF));
+        pdfFileDownloader.extend(exportPdfBtn);
+
+        MButton exportExcelBtn = new MButton("").withIcon(FontAwesome.FILE_EXCEL_O).withStyleName(UIConstants.BUTTON_OPTION).withDescription("Export to Excel");
+        FileDownloader excelFileDownloader = new FileDownloader(buildStreamSource(ReportExportType.EXCEL));
+        excelFileDownloader.extend(exportExcelBtn);
+
+        ButtonGroup exportButtonGroup = new ButtonGroup();
+        exportButtonGroup.addButton(exportPdfBtn);
+        exportButtonGroup.addButton(exportExcelBtn);
+
+        layout.with(exportButtonGroup);
+
         Button kanbanBtn = new Button("Board");
         kanbanBtn.setDescription("Board View");
         kanbanBtn.setIcon(FontAwesome.TH);
@@ -231,6 +256,26 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
         bodyContent.addComponent(this.futureContainer, "future-milestones");
 
         this.addComponent(bodyContent);
+    }
+
+    private StreamResource buildStreamSource(ReportExportType exportType) {
+        List fields = Arrays.asList(MilestoneTableFieldDef.milestonename(), MilestoneTableFieldDef.status(),
+                MilestoneTableFieldDef.startdate(), MilestoneTableFieldDef.enddate(), MilestoneTableFieldDef.assignee());
+        SimpleReportTemplateExecutor reportTemplateExecutor = new SimpleReportTemplateExecutor.AllItems<>("Milestones",
+                new RpFieldsBuilder(fields), exportType, SimpleMilestone.class, ApplicationContextUtil.getSpringBean
+                (MilestoneService.class));
+        ReportStreamSource streamSource = new ReportStreamSource(reportTemplateExecutor) {
+            @Override
+            protected Map<String, Object> initReportParameters() {
+                Map<String, Object> parameters = new HashMap<>();
+                parameters.put("siteUrl", AppContext.getSiteUrl());
+                MilestoneSearchCriteria searchCriteria = new MilestoneSearchCriteria();
+                searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
+                parameters.put(SimpleReportTemplateExecutor.CRITERIA, searchCriteria);
+                return parameters;
+            }
+        };
+        return new StreamResource(streamSource, exportType.getDefaultFileName());
     }
 
     private void updateClosedMilestoneNumber(int closeMilestones) {

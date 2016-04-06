@@ -56,7 +56,7 @@ public class PreviewFormControlsGenerator<T> implements Serializable {
 
     public PreviewFormControlsGenerator(AdvancedPreviewBeanForm<T> editForm) {
         this.previewForm = editForm;
-        layout = new MHorizontalLayout().withStyleName("control-buttons");
+        layout = new MHorizontalLayout();
         layout.setSizeUndefined();
         popupButtonsControl = new OptionPopupContent();
         editButtons = new MHorizontalLayout();

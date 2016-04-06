@@ -30,15 +30,14 @@ import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.view.milestone.MilestoneListSelect;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberListSelect;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.web.ui.DynamicQueryParamLayout;
 import com.esofthead.mycollab.vaadin.web.ui.SavedFilterComboBox;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.List;
@@ -72,10 +71,7 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
                 EventBusFactory.getInstance().post(new TaskEvent.SearchRequest(TaskSearchPanel.this, criteria));
             }
         });
-        Label taskIcon = new Label(ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK).getHtml(), ContentMode.HTML);
-        taskIcon.addStyleName(ValoTheme.LABEL_H2);
-        taskIcon.addStyleName(ValoTheme.LABEL_NO_MARGIN);
-        taskIcon.setWidthUndefined();
+        ELabel taskIcon = ELabel.h2(ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK).getHtml()).withWidthUndefined();
         return new MHorizontalLayout(taskIcon, savedFilterComboBox).expand(savedFilterComboBox).alignAll(Alignment.MIDDLE_LEFT);
     }
 

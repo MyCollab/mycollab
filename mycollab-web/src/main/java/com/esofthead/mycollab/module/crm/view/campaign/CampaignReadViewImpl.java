@@ -24,14 +24,14 @@ import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.*;
-import com.esofthead.mycollab.module.crm.ui.format.CampaignFieldFormatter;
 import com.esofthead.mycollab.module.crm.view.activity.ActivityRelatedItemListComp;
-import com.esofthead.mycollab.schedule.email.crm.CampaignRelayEmailNotificationAction;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.esofthead.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.web.ui.DynaFormLayout;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
@@ -86,8 +86,7 @@ public class CampaignReadViewImpl extends AbstractPreviewItemComp<SimpleCampaign
         associateContactList = new CampaignContactListComp();
         associateLeadList = new CampaignLeadListComp();
         associateActivityList = new ActivityRelatedItemListComp(true);
-        activityComponent = new CrmActivityComponent(CrmTypeConstants.CAMPAIGN, CampaignFieldFormatter.instance(),
-                CampaignRelayEmailNotificationAction.class);
+        activityComponent = new CrmActivityComponent(CrmTypeConstants.CAMPAIGN);
 
         MVerticalLayout basicInfo = new MVerticalLayout().withWidth("100%").withStyleName("basic-info");
 
@@ -157,7 +156,7 @@ public class CampaignReadViewImpl extends AbstractPreviewItemComp<SimpleCampaign
 
         Date now = new GregorianCalendar().getTime();
         String status = this.beanItem.getStatus();
-        if (!"Completed" .equals(status) && (this.beanItem.getEnddate() != null && this.beanItem.getEnddate().before(now))) {
+        if (!"Completed".equals(status) && (this.beanItem.getEnddate() != null && this.beanItem.getEnddate().before(now))) {
             previewLayout.addTitleStyleName(UIConstants.LABEL_OVERDUE);
         }
     }

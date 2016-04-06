@@ -18,6 +18,7 @@ package com.esofthead.mycollab.vaadin.web.ui;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.reporting.PrintButton;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
@@ -43,6 +44,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
     public static final int CLONE_BTN_PRESENTED = 16;
     public static final int ASSIGN_BTN_PRESENTED = 32;
     public static final int NAVIGATOR_BTN_PRESENTED = 64;
+    public static final int PRINT_BTN_PRESENTED = 128;
 
     private AdvancedPreviewBeanForm<T> previewForm;
 
@@ -53,11 +55,12 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 
     public ProjectPreviewFormControlsGenerator(AdvancedPreviewBeanForm<T> editForm) {
         this.previewForm = editForm;
-        layout = new MHorizontalLayout().withStyleName("control-buttons");
+        layout = new MHorizontalLayout();
         layout.setSizeUndefined();
+        layout.setDefaultComponentAlignment(Alignment.MIDDLE_RIGHT);
         popupButtonsControl = new OptionPopupContent();
         editButtons = new MHorizontalLayout();
-        editButtons.setDefaultComponentAlignment(Alignment.MIDDLE_RIGHT);
+
     }
 
     public HorizontalLayout createButtonControls(int buttonEnableFlags, String permissionItem) {
@@ -78,6 +81,22 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
             boolean canWrite = CurrentProjectVariables.canWrite(permissionItem);
             boolean canAccess = CurrentProjectVariables.canAccess(permissionItem);
             boolean canRead = CurrentProjectVariables.canRead(permissionItem);
+
+            if ((buttonEnableFlags & ASSIGN_BTN_PRESENTED) == ASSIGN_BTN_PRESENTED) {
+                Button assignBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ASSIGN), new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
+
+                    @Override
+                    public void buttonClick(final ClickEvent event) {
+                        T item = previewForm.getBean();
+                        previewForm.fireAssignForm(item);
+                    }
+                });
+                assignBtn.setIcon(FontAwesome.SHARE);
+                assignBtn.setStyleName(UIConstants.BUTTON_ACTION);
+                editButtons.addComponent(assignBtn);
+                assignBtn.setEnabled(canWrite);
+            }
 
             if ((buttonEnableFlags & ADD_BTN_PRESENTED) == ADD_BTN_PRESENTED) {
                 Button addBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADD), new Button.ClickListener() {
@@ -129,20 +148,21 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
                 editButtons.addComponent(deleteBtn);
             }
 
-            if ((buttonEnableFlags & ASSIGN_BTN_PRESENTED) == ASSIGN_BTN_PRESENTED) {
-                Button assignBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ASSIGN), new Button.ClickListener() {
+            if ((buttonEnableFlags & PRINT_BTN_PRESENTED) == PRINT_BTN_PRESENTED) {
+                final PrintButton printBtn = new PrintButton();
+                printBtn.addClickListener(new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
                     public void buttonClick(final ClickEvent event) {
                         T item = previewForm.getBean();
-                        previewForm.fireAssignForm(item);
+                        previewForm.firePrintForm(printBtn, item);
                     }
                 });
-                assignBtn.setIcon(FontAwesome.SHARE);
-                assignBtn.setStyleName(UIConstants.BUTTON_ACTION);
-                editButtons.addComponent(assignBtn, 0);
-                assignBtn.setEnabled(canWrite);
+                printBtn.setStyleName(UIConstants.BUTTON_OPTION);
+                printBtn.setDescription("Print");
+                printBtn.setEnabled(canRead);
+                editButtons.addComponent(printBtn);
             }
 
             if ((buttonEnableFlags & CLONE_BTN_PRESENTED) == CLONE_BTN_PRESENTED) {
@@ -161,12 +181,13 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
                 popupButtonsControl.addOption(cloneBtn);
             }
 
+            layout.with(editButtons);
+
             if (popupButtonsControl.getComponentCount() > 0) {
                 optionBtn.setContent(popupButtonsControl);
-                editButtons.addComponent(optionBtn);
+                layout.addComponent(optionBtn);
             }
 
-            layout.with(editButtons).withAlign(editButtons, Alignment.MIDDLE_RIGHT);
 
             if ((buttonEnableFlags & NAVIGATOR_BTN_PRESENTED) == NAVIGATOR_BTN_PRESENTED) {
                 ButtonGroup navigationBtns = new ButtonGroup();
@@ -199,10 +220,9 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
                 nextItemBtn.setStyleName(UIConstants.BUTTON_ACTION);
                 nextItemBtn.setDescription(AppContext.getMessage(GenericI18Enum.TOOLTIP_SHOW_NEXT_ITEM));
                 nextItemBtn.setEnabled(canRead);
-
                 navigationBtns.addButton(nextItemBtn);
+
                 layout.addComponent(navigationBtns);
-                layout.setComponentAlignment(navigationBtns, Alignment.MIDDLE_RIGHT);
             }
         }
 
@@ -213,7 +233,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
      * @param comp
      */
     public void insertToControlBlock(Component comp) {
-        editButtons.addComponent(comp, 0);
+        layout.addComponent(comp, 0);
     }
 
     public void addOptionButton(Button button) {
@@ -230,7 +250,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 
     public HorizontalLayout createButtonControls(String permissionItem) {
         return createButtonControls(ADD_BTN_PRESENTED | EDIT_BTN_PRESENTED
-                | DELETE_BTN_PRESENTED | CLONE_BTN_PRESENTED
+                | DELETE_BTN_PRESENTED | PRINT_BTN_PRESENTED | CLONE_BTN_PRESENTED
                 | NAVIGATOR_BTN_PRESENTED, permissionItem);
     }
 }

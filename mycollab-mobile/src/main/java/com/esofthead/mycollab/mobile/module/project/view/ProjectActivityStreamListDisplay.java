@@ -30,10 +30,10 @@ import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectTypeI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectActivityStreamService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
-import com.esofthead.mycollab.module.project.ui.components.ProjectAuditLogStreamGenerator;
 import com.esofthead.mycollab.module.project.view.ProjectLocalizationTypeMap;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.ui.registry.AuditLogRegistry;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Text;
@@ -92,6 +92,7 @@ public class ProjectActivityStreamListDisplay extends AbstractPagedBeanList<Acti
 
         @Override
         public Component generateRow(final ProjectActivityStream activityStream, int rowIndex) {
+            AuditLogRegistry auditLogRegistry = ApplicationContextUtil.getSpringBean(AuditLogRegistry.class);
             CssLayout layout = new CssLayout();
             layout.addStyleName("activity-cell");
             ProjectTypeI18nEnum typeEnum = ProjectLocalizationTypeMap.getType(activityStream.getType());
@@ -109,7 +110,7 @@ public class ProjectActivityStreamListDisplay extends AbstractPagedBeanList<Acti
                 content.append(AppContext.getMessage(ProjectCommonI18nEnum.FEED_USER_ACTIVITY_UPDATE_ACTION_TITLE,
                         assigneeParam, itemType, itemParam));
                 if (activityStream.getAssoAuditLog() != null) {
-                    content.append(ProjectAuditLogStreamGenerator.generatorDetailChangeOfActivity(activityStream));
+                    content.append(auditLogRegistry.generatorDetailChangeOfActivity(activityStream));
                 }
             } else if (ActivityStreamConstants.ACTION_COMMENT.equals(activityStream.getAction())) {
                 content.append(AppContext.getMessage(ProjectCommonI18nEnum.FEED_USER_ACTIVITY_COMMENT_ACTION_TITLE,

@@ -19,13 +19,15 @@ package com.esofthead.mycollab.module.crm.view.lead;
 import com.esofthead.mycollab.module.crm.domain.Lead;
 import com.esofthead.mycollab.module.crm.ui.components.IndustryComboBox;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserComboBox;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.CompoundCustomField;
+import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.web.ui.CountryComboBox;
 import com.esofthead.mycollab.vaadin.web.ui.PrefixNameComboBox;
-import com.esofthead.mycollab.vaadin.web.ui.field.RichTextEditField;
 import com.vaadin.data.Property;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Field;
+import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.TextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
@@ -72,7 +74,7 @@ class LeadEditFormFieldFactory<B extends Lead> extends AbstractBeanFieldGroupEdi
 
             return tf;
         } else if (propertyId.equals("description")) {
-            return new RichTextEditField();
+            return new RichTextArea();
         } else if (propertyId.equals("accountname")) {
             TextField txtField = new TextField();
             if (isValidateForm) {

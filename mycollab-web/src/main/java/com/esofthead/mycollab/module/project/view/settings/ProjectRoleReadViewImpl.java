@@ -54,16 +54,12 @@ public class ProjectRoleReadViewImpl extends VerticalLayout implements ProjectRo
     private GridFormLayoutHelper projectFormHelper;
 
     public ProjectRoleReadViewImpl() {
-        headerText = HeaderWithFontAwesome.h3(FontAwesome.USERS, AppContext.getMessage(ProjectRoleI18nEnum
-                .FORM_READ_TITLE));
+        headerText = HeaderWithFontAwesome.h2(FontAwesome.USERS, AppContext.getMessage(ProjectRoleI18nEnum.FORM_READ_TITLE));
         headerText.setSizeUndefined();
         this.addComponent(constructHeader());
 
         previewForm = initPreviewForm();
         ComponentContainer actionControls = createButtonControls();
-        if (actionControls != null) {
-            actionControls.addStyleName("control-buttons");
-        }
 
         addHeaderRightContent(actionControls);
 

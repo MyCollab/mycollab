@@ -100,7 +100,7 @@ class TaskEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Si
                     DateField startDateField = (DateField) fieldGroup.getField(Task.Field.startdate.name());
                     Date startDateVal = startDateField.getValue();
                     if (duration.intValue() > 0 && startDateVal != null) {
-                        int durationIndays = duration.intValue() / (int) DateTimeUtils.MILISECONDS_IN_A_DAY;
+                        int durationIndays = duration.intValue() / (int) DateTimeUtils.MILLISECONDS_IN_A_DAY;
                         if (durationIndays > 0) {
                             LocalDate startDateJoda = new LocalDate(startDateVal);
                             LocalDate endDateJoda = BusinessDayTimeUtils.plusDays(startDateJoda, durationIndays);

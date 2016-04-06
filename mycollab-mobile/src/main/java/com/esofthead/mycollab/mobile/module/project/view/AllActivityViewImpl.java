@@ -33,10 +33,11 @@ import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ProjectActivityStream;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
-import com.esofthead.mycollab.module.project.ui.components.ProjectAuditLogStreamGenerator;
 import com.esofthead.mycollab.module.project.view.ProjectLocalizationTypeMap;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.ui.registry.AuditLogRegistry;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Text;
@@ -125,6 +126,7 @@ public class AllActivityViewImpl extends AbstractListPageView<ActivityStreamSear
             String itemLink = buildItemValue(activityStream);
             String projectLink = buildProjectValue(activityStream);
             String type = AppContext.getMessage(ProjectLocalizationTypeMap.getType(activityStream.getType()));
+            AuditLogRegistry auditLogRegistry = ApplicationContextUtil.getSpringBean(AuditLogRegistry.class);
 
             if (ActivityStreamConstants.ACTION_CREATE.equals(activityStream.getAction())) {
                 if (ProjectTypeConstants.PROJECT.equals(activityStream.getType())) {
@@ -148,8 +150,7 @@ public class AllActivityViewImpl extends AbstractListPageView<ActivityStreamSear
                             assigneeValue, type, itemLink, projectLink));
                 }
                 if (activityStream.getAssoAuditLog() != null) {
-                    content.append(ProjectAuditLogStreamGenerator
-                            .generatorDetailChangeOfActivity(activityStream));
+                    content.append(auditLogRegistry.generatorDetailChangeOfActivity(activityStream));
                 }
             } else if (ActivityStreamConstants.ACTION_COMMENT.equals(activityStream.getAction())) {
                 content.append(AppContext.getMessage(

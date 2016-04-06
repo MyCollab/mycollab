@@ -39,7 +39,6 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
-import com.vaadin.ui.themes.ValoTheme;
 import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -197,9 +196,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
         with(headerWrapper, layout).expand(layout);
 
         MHorizontalLayout headerComp = new MHorizontalLayout();
-        Label headerLbl = new Label(String.format(headerTitle, value, 0), ContentMode.HTML);
-        headerLbl.addStyleName(ValoTheme.LABEL_H2);
-        headerLbl.addStyleName(ValoTheme.LABEL_NO_MARGIN);
+        ELabel headerLbl = ELabel.h2(String.format(headerTitle, value, 0));
         Button backDashboard = new Button("Back to workboard", new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {

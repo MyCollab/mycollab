@@ -42,7 +42,7 @@ public class DateTimeUtils {
     private static DateTimeZone utcZone = DateTimeZone.UTC;
     private static Map<String, SimpleDateFormat> dateFormats = new HashMap<>();
 
-    public static final long MILISECONDS_IN_A_DAY = 1000 * 60 * 60 * 24;
+    public static final long MILLISECONDS_IN_A_DAY = 1000 * 60 * 60 * 24;
 
     /**
      * Trim hour-minute-second of date instance value to zero.
@@ -70,9 +70,9 @@ public class DateTimeUtils {
         return new Date();
     }
 
-    public static String converToStringWithUserTimeZone(String dateVal, String dateFormat, TimeZone userTimeZone) {
+    public static String convertToStringWithUserTimeZone(String dateVal, String dateFormat, TimeZone userTimeZone) {
         Date date = parseDateByW3C(dateVal);
-        return converToStringWithUserTimeZone(date, dateFormat, userTimeZone);
+        return convertToStringWithUserTimeZone(date, dateFormat, userTimeZone);
     }
 
     /**
@@ -101,7 +101,7 @@ public class DateTimeUtils {
         return "";
     }
 
-    public static String converToStringWithUserTimeZone(Date date, String dateFormat, TimeZone userTimeZone) {
+    public static String convertToStringWithUserTimeZone(Date date, String dateFormat, TimeZone userTimeZone) {
         if (date == null)
             return "";
         return formatDate(date, dateFormat, userTimeZone);

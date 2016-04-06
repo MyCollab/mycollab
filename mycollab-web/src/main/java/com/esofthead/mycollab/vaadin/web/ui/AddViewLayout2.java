@@ -20,9 +20,7 @@ import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
-import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -53,7 +51,7 @@ public class AddViewLayout2 extends VerticalLayout {
             header.with(iconEmbed);
         }
 
-        titleLbl = new ELabel("", ContentMode.HTML).withStyleName(ValoTheme.LABEL_H2, ValoTheme.LABEL_NO_MARGIN);
+        titleLbl = ELabel.h2("");
         header.with(titleLbl).expand(titleLbl);
 
         if (title == null) {
@@ -83,7 +81,6 @@ public class AddViewLayout2 extends VerticalLayout {
     }
 
     public void addControlButtons(Component controlsBtn) {
-        controlsBtn.addStyleName("control-buttons");
         addHeaderRight(controlsBtn);
     }
 

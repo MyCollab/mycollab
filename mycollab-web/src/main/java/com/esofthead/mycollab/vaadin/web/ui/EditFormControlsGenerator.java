@@ -20,10 +20,9 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.ComponentContainer;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.io.Serializable;
@@ -41,16 +40,13 @@ public class EditFormControlsGenerator<T> implements Serializable {
         this.editForm = editForm;
     }
 
-    public HorizontalLayout createButtonControls() {
+    public ComponentContainer createButtonControls() {
         return this.createButtonControls(true, true, true);
     }
 
-    public HorizontalLayout createButtonControls(boolean isSaveBtnVisible, boolean isSaveAndNewBtnVisible,
-                                                 boolean isCancelBtnVisible) {
-        MHorizontalLayout layout = new MHorizontalLayout().withStyleName("addNewControl");
-        layout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-        layout.setSizeUndefined();
-
+    public ComponentContainer createButtonControls(boolean isSaveBtnVisible, boolean isSaveAndNewBtnVisible, boolean
+            isCancelBtnVisible) {
+        MHorizontalLayout layout = new MHorizontalLayout();
         if (isSaveBtnVisible) {
             final Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;

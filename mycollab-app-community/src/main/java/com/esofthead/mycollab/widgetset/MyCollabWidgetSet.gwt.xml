@@ -11,18 +11,13 @@
 
     <inherits name="org.vaadin.teemu.ratingstars.gwt.RatingStarsWidgetset" />
 
-    <inherits name="org.vaadin.peter.contextmenu.ContextmenuWidgetset" />
-
     <inherits name="fi.jasoft.dragdroplayouts.DragDropLayoutsWidgetSet" />
 
-    <inherits
-            name="org.vaadin.openesignforms.ckeditor.widgetset.VaadinCKEditorWidgetset" />
+    <inherits name="org.vaadin.openesignforms.ckeditor.widgetset.VaadinCKEditorWidgetset" />
 
-    <inherits
-            name="org.vaadin.hene.popupbutton.widgetset.PopupbuttonWidgetset" />
+    <inherits name="org.vaadin.hene.popupbutton.widgetset.PopupbuttonWidgetset" />
 
-    <inherits
-            name="org.vaadin.risto.stylecalendar.widgetset.StyleCalendarWidgetset" />
+    <inherits name="org.vaadin.risto.stylecalendar.widgetset.StyleCalendarWidgetset" />
 
     <inherits name="com.vaadin.DefaultWidgetSet" />
 
@@ -30,8 +25,9 @@
 
     <inherits name="com.vaadin.breadcrumb.gwt.BreadcrumbWidgetset" />
 
-    <inherits
-            name="org.vaadin.tepi.listbuilder.widgetset.ListBuilderWidgetset" />
+    <inherits name="com.vaadin.addon.contextmenu.WidgetSet" />
+
+    <inherits name="org.vaadin.tepi.listbuilder.widgetset.ListBuilderWidgetset" />
 
     <inherits name="org.vaadin.easyuploads.Widgetset" />
 

@@ -32,14 +32,16 @@ import com.esofthead.mycollab.module.crm.service.CaseService;
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
 import com.esofthead.mycollab.module.crm.view.CrmModule;
+import com.esofthead.mycollab.reporting.FormReportLayout;
+import com.esofthead.mycollab.reporting.PrintButton;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.AbstractRelatedListHandler;
-import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
+import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
 import org.vaadin.dialogs.ConfirmDialog;
@@ -93,6 +95,13 @@ public class CaseReadPresenter extends CrmGenericPresenter<CaseReadView> {
                                 }
                             }
                         });
+            }
+
+            @Override
+            public void onPrint(Object source, SimpleCase data) {
+                PrintButton btn = (PrintButton) source;
+                btn.doPrint(data, new FormReportLayout(CrmTypeConstants.CASE, CaseWithBLOBs.Field.subject.name(),
+                        CasesDefaultFormLayoutFactory.getForm()));
             }
 
             @Override

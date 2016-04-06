@@ -20,13 +20,16 @@ import com.esofthead.mycollab.module.crm.domain.Contact;
 import com.esofthead.mycollab.module.crm.view.account.AccountSelectionField;
 import com.esofthead.mycollab.module.crm.view.lead.LeadSourceComboBox;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserComboBox;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.CompoundCustomField;
+import com.esofthead.mycollab.vaadin.ui.DateComboboxSelectionField;
+import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.web.ui.CountryComboBox;
 import com.esofthead.mycollab.vaadin.web.ui.PrefixNameComboBox;
-import com.esofthead.mycollab.vaadin.web.ui.field.RichTextEditField;
 import com.vaadin.data.Property;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Field;
+import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.TextField;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
@@ -68,7 +71,7 @@ class ContactEditFormFieldFactory<B extends Contact> extends AbstractBeanFieldGr
 
             return tf;
         } else if (propertyId.equals("description")) {
-            return new RichTextEditField();
+            return new RichTextArea();
         } else if (propertyId.equals("assignuser")) {
             ActiveUserComboBox userBox = new ActiveUserComboBox();
             userBox.select(attachForm.getBean().getAssignuser());

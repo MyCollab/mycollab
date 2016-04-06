@@ -54,6 +54,8 @@ trait PreviewFormHandler[T] {
     */
   def onDelete(data: T)
 
+  def onPrint(source: Object, data: T)
+
   /**
     * @param data
     */

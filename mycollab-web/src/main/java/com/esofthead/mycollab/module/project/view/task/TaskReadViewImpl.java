@@ -30,7 +30,6 @@ import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.*;
-import com.esofthead.mycollab.module.project.ui.format.TaskFieldFormatter;
 import com.esofthead.mycollab.module.project.view.task.components.TaskTimeLogSheet;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.utils.TooltipHelper;
@@ -96,8 +95,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
 
     @Override
     protected void initRelatedComponents() {
-        activityComponent = new ProjectActivityComponent(ProjectTypeConstants.TASK, CurrentProjectVariables.getProjectId(),
-                TaskFieldFormatter.instance());
+        activityComponent = new ProjectActivityComponent(ProjectTypeConstants.TASK, CurrentProjectVariables.getProjectId());
         dateInfoComp = new DateInfoComp();
         peopleInfoComp = new PeopleInfoComp();
         followerSheet = new ProjectFollowersComp<>(ProjectTypeConstants.TASK, ProjectRolePermissionCollections.TASKS);
@@ -153,7 +151,8 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
                         | ProjectPreviewFormControlsGenerator.ASSIGN_BTN_PRESENTED
                         | ProjectPreviewFormControlsGenerator.CLONE_BTN_PRESENTED
                         | ProjectPreviewFormControlsGenerator.DELETE_BTN_PRESENTED
-                        | ProjectPreviewFormControlsGenerator.EDIT_BTN_PRESENTED,
+                        | ProjectPreviewFormControlsGenerator.EDIT_BTN_PRESENTED
+                        | ProjectPreviewFormControlsGenerator.PRINT_BTN_PRESENTED,
                 ProjectRolePermissionCollections.TASKS);
 
         quickActionStatusBtn = new Button("", new Button.ClickListener() {
@@ -213,14 +212,14 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
         void displayTaskHeader(SimpleTask task) {
             if (task.getParenttaskid() == null) {
                 MHorizontalLayout header = new MHorizontalLayout().withWidth("100%");
-                titleLbl = ELabel.h2(task.getTaskname());
+                titleLbl = ELabel.h3(task.getTaskname());
                 header.with(titleLbl).expand(titleLbl);
                 this.addHeader(header);
             } else {
                 MVerticalLayout header = new MVerticalLayout().withMargin(false);
                 Label parentLabel = new Label(buildParentTaskLink(task), ContentMode.HTML);
 
-                titleLbl = ELabel.h2("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + task.getTaskname());
+                titleLbl = ELabel.h3("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + task.getTaskname());
                 header.with(parentLabel, titleLbl);
                 this.addHeader(header);
             }

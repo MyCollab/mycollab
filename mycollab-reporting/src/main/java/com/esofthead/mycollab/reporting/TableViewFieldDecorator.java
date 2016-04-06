@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.reporting;
 
 import com.esofthead.mycollab.common.TableViewField;
-import com.esofthead.mycollab.reporting.expression.PrimityTypeFieldExpression;
+import com.esofthead.mycollab.reporting.expression.PrimaryTypeFieldExpression;
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
 
 import static net.sf.dynamicreports.report.builder.DynamicReports.cmp;
@@ -66,7 +66,7 @@ public class TableViewFieldDecorator extends TableViewField {
 
     public ComponentBuilder getComponentBuilder() {
         if (componentBuilder == null) {
-            componentBuilder = cmp.text(new PrimityTypeFieldExpression(tableField.getField())).setWidth(
+            componentBuilder = cmp.text(new PrimaryTypeFieldExpression(tableField.getField())).setWidth(
                     tableField.getDefaultWidth());
         }
         return componentBuilder;

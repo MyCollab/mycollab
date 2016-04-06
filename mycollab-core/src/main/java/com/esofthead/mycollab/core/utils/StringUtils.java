@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.core.utils;
 
-import org.apache.commons.validator.EmailValidator;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -24,6 +23,8 @@ import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 import org.jsoup.safety.Whitelist;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Random;
@@ -86,7 +87,7 @@ public final class StringUtils {
             return "";
         }
 
-        value = Jsoup.clean(value,relaxed().addTags("img")
+        value = Jsoup.clean(value, relaxed().addTags("img")
                 .addAttributes("img", "align", "alt", "height", "src", "title", "width", "style")
                 .addProtocols("img", "src", "http", "https"));
         Document doc = Jsoup.parse(value);
@@ -125,12 +126,16 @@ public final class StringUtils {
     }
 
     public static String trimHtmlTags(String value) {
+        return trimHtmlTags(value, 200);
+    }
+
+    public static String trimHtmlTags(String value, int limitedCharacters) {
         if (isBlank(value)) {
             return "";
         } else {
             String str = Jsoup.parse(value).text();
-            if (str.length() > 200) {
-                str = str.substring(0, 200);
+            if (str.length() > limitedCharacters) {
+                str = str.substring(0, limitedCharacters);
             }
             return str;
         }
@@ -153,10 +158,20 @@ public final class StringUtils {
         }
     }
 
-    private static EmailValidator emailValidator = EmailValidator.getInstance();
 
     public static boolean isValidEmail(String value) {
-        return emailValidator.isValid(value);
+        boolean isValid = false;
+        try {
+            //
+            // Create InternetAddress object and validated the supplied
+            // address which is this case is an email address.
+            InternetAddress internetAddress = new InternetAddress(value);
+            internetAddress.validate();
+            isValid = true;
+        } catch (AddressException e) {
+            e.printStackTrace();
+        }
+        return isValid;
     }
 
     public static boolean isValidPhoneNumber(String value) {

@@ -34,7 +34,6 @@ public class FileUtils {
 
     public static File getHomeFolder() {
         String userFolder = System.getProperty("user.home");
-        System.out.println("User home: " + userFolder);
         File homeDir = new File(userFolder + "/.mycollab");
         FileUtils.mkdirs(homeDir);
         return homeDir;
@@ -63,7 +62,6 @@ public class FileUtils {
     }
 
     /**
-     *
      * @param baseFolder
      * @param relativePaths
      * @return null if can not get the folder

@@ -27,4 +27,12 @@ public interface HistoryFieldFormat {
      * @return
      */
     String toString(String value);
+
+    /**
+     *
+     * @param value
+     * @param msgIfBlank
+     * @return
+     */
+    String toString(String value, Boolean displayAsHtml, String msgIfBlank);
 }

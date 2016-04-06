@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.crm.view.cases;
 
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
+import com.esofthead.mycollab.module.crm.domain.CaseWithBLOBs;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
@@ -49,11 +50,11 @@ class CaseReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<Si
         } else if (propertyId.equals("email")) {
             return new EmailViewField(cases.getEmail());
         } else if (propertyId.equals("assignuser")) {
-            return new UserLinkViewField(cases.getAssignuser(),
-                    cases.getAssignUserAvatarId(),
-                    cases.getAssignUserFullName());
+            return new UserLinkViewField(cases.getAssignuser(), cases.getAssignUserAvatarId(), cases.getAssignUserFullName());
         } else if (propertyId.equals("description")) {
             return new RichTextViewField(cases.getDescription());
+        } else if (CaseWithBLOBs.Field.resolution.equalTo(propertyId)) {
+            return new RichTextViewField(cases.getResolution());
         }
         return null;
     }

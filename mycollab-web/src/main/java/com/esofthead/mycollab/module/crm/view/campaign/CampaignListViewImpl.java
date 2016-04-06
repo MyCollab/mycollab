@@ -90,8 +90,7 @@ public class CampaignListViewImpl extends AbstractListItemComp<CampaignSearchCri
             public void itemClick(final TableClickEvent event) {
                 final SimpleCampaign campaign = (SimpleCampaign) event.getData();
                 if ("campaignname".equals(event.getFieldName())) {
-                    EventBusFactory.getInstance()
-                            .post(new CampaignEvent.GotoRead(CampaignListViewImpl.this, campaign.getId()));
+                    EventBusFactory.getInstance().post(new CampaignEvent.GotoRead(CampaignListViewImpl.this, campaign.getId()));
                 }
             }
         });

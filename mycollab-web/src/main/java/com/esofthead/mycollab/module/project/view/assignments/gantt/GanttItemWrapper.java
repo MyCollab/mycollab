@@ -218,14 +218,14 @@ public class GanttItemWrapper {
         if (task.getDuration() != null) {
             return task.getDuration();
         } else {
-            return BusinessDayTimeUtils.duration(startDate, endDate) * DateTimeUtils.MILISECONDS_IN_A_DAY;
+            return BusinessDayTimeUtils.duration(startDate, endDate) * DateTimeUtils.MILLISECONDS_IN_A_DAY;
         }
     }
 
     public void setDuration(Long duration) {
         task.setDuration(duration);
         if (startDate != null) {
-            LocalDate expectedEndDate = BusinessDayTimeUtils.plusDays(startDate, (int) (duration.longValue() / DateTimeUtils.MILISECONDS_IN_A_DAY));
+            LocalDate expectedEndDate = BusinessDayTimeUtils.plusDays(startDate, (int) (duration.longValue() / DateTimeUtils.MILLISECONDS_IN_A_DAY));
             setStartAndEndDate(startDate, expectedEndDate, true, true);
         }
     }
@@ -248,7 +248,7 @@ public class GanttItemWrapper {
 
     public void setStartDate(LocalDate date) {
         long duration = getDuration();
-        LocalDate expectedEndDate = BusinessDayTimeUtils.plusDays(date, (int) (duration / DateTimeUtils.MILISECONDS_IN_A_DAY));
+        LocalDate expectedEndDate = BusinessDayTimeUtils.plusDays(date, (int) (duration / DateTimeUtils.MILLISECONDS_IN_A_DAY));
         setStartAndEndDate(date, expectedEndDate, true, true);
     }
 
@@ -309,7 +309,7 @@ public class GanttItemWrapper {
 
         if (hasChange) {
             int duration = BusinessDayTimeUtils.duration(newStartDate, newEndDate);
-            setDuration(duration * DateTimeUtils.MILISECONDS_IN_A_DAY);
+            setDuration(duration * DateTimeUtils.MILLISECONDS_IN_A_DAY);
             onDateChanges(askToCheckPredecessors, requestToCheckDependents);
         }
 

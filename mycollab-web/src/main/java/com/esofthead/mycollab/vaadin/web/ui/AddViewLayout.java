@@ -22,7 +22,6 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
-import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
@@ -41,17 +40,16 @@ public class AddViewLayout extends CustomLayoutExt {
 
         this.viewIcon = viewIcon;
 
-        header = new MHorizontalLayout().withWidth("100%").withMargin(new MarginInfo(true, true, true, false));
+        header = new MHorizontalLayout().withWidth("100%").withMargin(new MarginInfo(true, false, true, false));
         header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-        titleLbl = ELabel.h3("");
-        titleLbl.addStyleName(ValoTheme.LABEL_NO_MARGIN);
+        titleLbl = ELabel.h2("");
 
         if (!(viewIcon instanceof FontAwesome)) {
             Image icon = new Image(null);
             icon.setIcon(viewIcon);
             icon.addStyleName(UIConstants.BUTTON_ICON_ONLY);
-            this.header.with(icon);
+            header.with(icon);
         }
         header.with(titleLbl).expand(titleLbl);
         setHeader(viewTitle);
@@ -68,10 +66,7 @@ public class AddViewLayout extends CustomLayoutExt {
 
     public void addHeaderRight(final ComponentContainer headerRight) {
         header.addComponent(headerRight);
-    }
-
-    public void addTitleStyleName(final String styleName) {
-        titleLbl.addStyleName(styleName);
+        header.setComponentAlignment(headerRight, Alignment.TOP_RIGHT);
     }
 
     public void setHeader(final String viewTitle) {
@@ -87,7 +82,7 @@ public class AddViewLayout extends CustomLayoutExt {
         if (title != null) {
             CssLayout titleWrap = new CssLayout();
             titleWrap.setWidth("100%");
-            titleWrap.addComponent(ELabel.h2(title));
+            titleWrap.addComponent(ELabel.h3(title));
             addComponent(titleWrap, "addViewTitle");
         } else {
             removeComponent("addViewTitle");

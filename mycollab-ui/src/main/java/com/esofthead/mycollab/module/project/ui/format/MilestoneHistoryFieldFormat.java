@@ -16,15 +16,15 @@
  */
 package com.esofthead.mycollab.module.project.ui.format;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
-import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.utils.HistoryFieldFormat;
-import com.hp.gagawa.java.elements.Span;
+import com.esofthead.mycollab.vaadin.AppContext;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,8 +38,13 @@ public final class MilestoneHistoryFieldFormat implements HistoryFieldFormat {
 
     @Override
     public String toString(String value) {
+        return toString(value, true, AppContext.getMessage(GenericI18Enum.FORM_EMPTY));
+    }
+
+    @Override
+    public String toString(String value, Boolean displayAsHtml, String msgIfBlank) {
         if (StringUtils.isBlank(value)) {
-            return new Span().write();
+            return msgIfBlank;
         }
 
         try {
@@ -48,8 +53,12 @@ public final class MilestoneHistoryFieldFormat implements HistoryFieldFormat {
             SimpleMilestone milestone = milestoneService.findById(milestoneId, AppContext.getAccountId());
 
             if (milestone != null) {
-                return ProjectLinkBuilder.generateProjectItemHtmlLinkAndTooltip(CurrentProjectVariables.getShortName(),
-                        milestone.getProjectid(), milestone.getName(), ProjectTypeConstants.MILESTONE, milestone.getId() + "");
+                if (displayAsHtml) {
+                    return ProjectLinkBuilder.generateProjectItemHtmlLinkAndTooltip(CurrentProjectVariables.getShortName(),
+                            milestone.getProjectid(), milestone.getName(), ProjectTypeConstants.MILESTONE, milestone.getId() + "");
+                } else {
+                    return milestone.getName();
+                }
             }
         } catch (Exception e) {
             LOG.error("Error", e);

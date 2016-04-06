@@ -40,6 +40,8 @@ import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.web.ui.field.DefaultViewField;
 import com.esofthead.mycollab.vaadin.web.ui.field.converter.LocalDateConverter;
 import com.google.common.eventbus.Subscribe;
+import com.vaadin.addon.contextmenu.ContextMenu;
+import com.vaadin.addon.contextmenu.MenuItem;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.converter.Converter;
 import com.vaadin.event.FieldEvents;
@@ -51,7 +53,6 @@ import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.dialogs.ConfirmDialog;
-import org.vaadin.peter.contextmenu.ContextMenu;
 
 import java.util.*;
 
@@ -241,24 +242,7 @@ public class GanttTreeTable extends TreeTable {
         });
 
         final GanttContextMenu contextMenu = new GanttContextMenu();
-        contextMenu.setAsContextMenuOf(this);
-        contextMenu.setOpenAutomatically(false);
 
-        ContextMenu.ContextMenuOpenedListener.TableListener tableListener = new ContextMenu.ContextMenuOpenedListener.TableListener() {
-            public void onContextMenuOpenFromRow(ContextMenu.ContextMenuOpenedOnTableRowEvent event) {
-                GanttItemWrapper item = (GanttItemWrapper) event.getItemId();
-                contextMenu.displayContextMenu(item);
-                contextMenu.open(GanttTreeTable.this);
-            }
-
-            public void onContextMenuOpenFromHeader(ContextMenu.ContextMenuOpenedOnTableHeaderEvent event) {
-            }
-
-            public void onContextMenuOpenFromFooter(ContextMenu.ContextMenuOpenedOnTableFooterEvent event) {
-            }
-        };
-
-        contextMenu.addContextMenuTableListener(tableListener);
         gantt.setVerticalScrollDelegateTarget(this);
         int currentPageLength = 50;
         this.setPageLength(currentPageLength);
@@ -448,12 +432,25 @@ public class GanttTreeTable extends TreeTable {
     }
 
     private class GanttContextMenu extends ContextMenu {
-        void displayContextMenu(final GanttItemWrapper ganttItemWrapper) {
-            this.removeAllItems();
-            ContextMenuItem detailMenuItem = this.addItem("Detail", FontAwesome.BARS);
-            detailMenuItem.addItemClickListener(new ContextMenuItemClickListener() {
+        GanttContextMenu() {
+            super(GanttTreeTable.this, true);
+            this.addContextMenuOpenListener(new ContextMenuOpenListener() {
                 @Override
-                public void contextMenuItemClicked(ContextMenuItemClickEvent event) {
+                public void onContextMenuOpen(ContextMenuOpenEvent event) {
+                    TableContextClickEvent tableContextClickEvent = (TableContextClickEvent) event.getContextClickEvent();
+                    GanttItemWrapper itemId = (GanttItemWrapper) tableContextClickEvent.getItemId();
+                    if (itemId != null) {
+                        displayContextMenu(itemId);
+                    }
+                }
+            });
+        }
+
+        void displayContextMenu(final GanttItemWrapper ganttItemWrapper) {
+            this.removeItems();
+            MenuItem detailMenuItem = this.addItem("Detail", new Command() {
+                @Override
+                public void menuSelected(MenuItem menuItem) {
                     if (ganttItemWrapper.isTask()) {
                         if (ganttItemWrapper.getId() == null) {
                             //New task, save then go to the task detail view
@@ -473,12 +470,11 @@ public class GanttTreeTable extends TreeTable {
                     }
                 }
             });
+            detailMenuItem.setIcon(FontAwesome.BARS);
 
-            ContextMenuItem predecessorMenuItem = this.addItem("Predecessors", FontAwesome.MAP_MARKER);
-            predecessorMenuItem.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
-            predecessorMenuItem.addItemClickListener(new ContextMenuItemClickListener() {
+            MenuItem predecessorMenuItem = this.addItem("Predecessors", new Command() {
                 @Override
-                public void contextMenuItemClicked(ContextMenuItemClickEvent contextMenuItemClickEvent) {
+                public void menuSelected(MenuItem menuItem) {
                     if (ganttItemWrapper.isTask()) {
                         UI.getCurrent().addWindow(new PredecessorWindow(GanttTreeTable.this, ganttItemWrapper));
                     } else {
@@ -486,12 +482,12 @@ public class GanttTreeTable extends TreeTable {
                     }
                 }
             });
+            predecessorMenuItem.setIcon(FontAwesome.MAP_MARKER);
+            predecessorMenuItem.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
 
-            ContextMenuItem indentMenuItem = this.addItem("Indent", FontAwesome.INDENT);
-            indentMenuItem.setEnabled(ganttItemWrapper.isIndentable() && CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
-            indentMenuItem.addItemClickListener(new ContextMenuItemClickListener() {
+            MenuItem indentMenuItem = this.addItem("Indent", new Command() {
                 @Override
-                public void contextMenuItemClicked(ContextMenuItemClickEvent contextMenuItemClickEvent) {
+                public void menuSelected(MenuItem menuItem) {
                     GanttItemWrapper preItemWrapper = beanContainer.prevItemId(ganttItemWrapper);
                     if (preItemWrapper != null && preItemWrapper != ganttItemWrapper.getParent()) {
                         ganttItemWrapper.updateParentRelationship(preItemWrapper);
@@ -505,12 +501,12 @@ public class GanttTreeTable extends TreeTable {
                     }
                 }
             });
+            indentMenuItem.setIcon(FontAwesome.INDENT);
+            indentMenuItem.setEnabled(ganttItemWrapper.isIndentable() && CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
 
-            ContextMenuItem outdentMenuItem = this.addItem("Outdent", FontAwesome.OUTDENT);
-            outdentMenuItem.setEnabled(ganttItemWrapper.isOutdentable() && CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
-            outdentMenuItem.addItemClickListener(new ContextMenuItemClickListener() {
+            MenuItem outdentMenuItem = this.addItem("Outdent", new Command() {
                 @Override
-                public void contextMenuItemClicked(ContextMenuItemClickEvent contextMenuItemClickEvent) {
+                public void menuSelected(MenuItem menuItem) {
                     GanttItemWrapper parent = ganttItemWrapper.getParent();
                     if (parent != null) {
                         GanttTreeTable.this.setParent(ganttItemWrapper, parent.getParent());
@@ -541,13 +537,13 @@ public class GanttTreeTable extends TreeTable {
                     }
                 }
             });
+            outdentMenuItem.setIcon(FontAwesome.OUTDENT);
+            outdentMenuItem.setEnabled(ganttItemWrapper.isOutdentable() && CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
 
             if (beanContainer.indexOfId(ganttItemWrapper) > 0) {
-                ContextMenuItem inserRowBeforeMenuItem = this.addItem("Insert row before", FontAwesome.PLUS_CIRCLE);
-                inserRowBeforeMenuItem.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
-                inserRowBeforeMenuItem.addItemClickListener(new ContextMenuItemClickListener() {
+                MenuItem inserRowBeforeMenuItem = this.addItem("Insert row before", new Command() {
                     @Override
-                    public void contextMenuItemClicked(ContextMenuItemClickEvent contextMenuItemClickEvent) {
+                    public void menuSelected(MenuItem menuItem) {
                         int index = beanContainer.indexOfId(ganttItemWrapper);
                         if (index > 0) {
                             TaskGanttItem newTask = new TaskGanttItem();
@@ -575,13 +571,13 @@ public class GanttTreeTable extends TreeTable {
                         GanttTreeTable.this.refreshRowCache();
                     }
                 });
+                inserRowBeforeMenuItem.setIcon(FontAwesome.PLUS_CIRCLE);
+                inserRowBeforeMenuItem.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
             }
 
-            ContextMenuItem insertRowAfterMenuItem = this.addItem("Insert row after", FontAwesome.PLUS_CIRCLE);
-            insertRowAfterMenuItem.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
-            insertRowAfterMenuItem.addItemClickListener(new ContextMenuItemClickListener() {
+            MenuItem insertRowAfterMenuItem = this.addItem("Insert row after", new Command() {
                 @Override
-                public void contextMenuItemClicked(ContextMenuItemClickEvent contextMenuItemClickEvent) {
+                public void menuSelected(MenuItem menuItem) {
                     int index = beanContainer.indexOfId(ganttItemWrapper) + 1;
                     TaskGanttItem newTask = new TaskGanttItem();
                     newTask.setType(ProjectTypeConstants.TASK);
@@ -610,15 +606,14 @@ public class GanttTreeTable extends TreeTable {
                     refreshRowCache();
                 }
             });
+            insertRowAfterMenuItem.setIcon(FontAwesome.PLUS_CIRCLE);
+            insertRowAfterMenuItem.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
 
-            ContextMenuItem deleteRowMenuItem = this.addItem("Delete row", FontAwesome.TRASH_O);
-            deleteRowMenuItem.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS));
-            deleteRowMenuItem.addItemClickListener(new ContextMenuItemClickListener() {
+            MenuItem deleteRowMenuItem = this.addItem("Delete row", new Command() {
                 @Override
-                public void contextMenuItemClicked(ContextMenuItemClickEvent contextMenuItemClickEvent) {
+                public void menuSelected(MenuItem menuItem) {
                     ConfirmDialogExt.show(UI.getCurrent(),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
-                                    AppContext.getSiteName()),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
                             AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_MULTIPLE_ITEMS_MESSAGE),
                             AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                             AppContext.getMessage(GenericI18Enum.BUTTON_NO),
@@ -634,6 +629,8 @@ public class GanttTreeTable extends TreeTable {
                             });
                 }
             });
+            deleteRowMenuItem.setIcon(FontAwesome.TRASH_O);
+            deleteRowMenuItem.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS));
         }
 
         private void removeAssignments(GanttItemWrapper task) {

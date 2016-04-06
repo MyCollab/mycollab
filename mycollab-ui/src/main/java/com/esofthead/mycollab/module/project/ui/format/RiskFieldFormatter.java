@@ -33,17 +33,18 @@ public final class RiskFieldFormatter extends FieldGroupFormatter {
         super();
 
         this.generateFieldDisplayHandler("riskname", RiskI18nEnum.FORM_NAME);
-        this.generateFieldDisplayHandler("description", RiskI18nEnum.FORM_DESCRIPTION);
+        this.generateFieldDisplayHandler("description", RiskI18nEnum.FORM_DESCRIPTION, TRIM_HTMLS);
         this.generateFieldDisplayHandler("raisedbyuser", RiskI18nEnum.FORM_RAISED_BY, new ProjectMemberHistoryFieldFormat());
         this.generateFieldDisplayHandler("assigntouser", GenericI18Enum.FORM_ASSIGNEE, new ProjectMemberHistoryFieldFormat());
         this.generateFieldDisplayHandler("consequence", RiskI18nEnum.FORM_CONSEQUENCE);
-        this.generateFieldDisplayHandler("datedue", RiskI18nEnum.FORM_DATE_DUE, FieldGroupFormatter.DATE_FIELD);
-        this.generateFieldDisplayHandler(Risk.Field.startdate.name(), RiskI18nEnum.FORM_START_DATE, FieldGroupFormatter.DATE_FIELD);
-        this.generateFieldDisplayHandler(Risk.Field.enddate.name(), RiskI18nEnum.FORM_END_DATE, FieldGroupFormatter.DATE_FIELD);
+        this.generateFieldDisplayHandler("datedue", RiskI18nEnum.FORM_DATE_DUE, DATE_FIELD);
+        this.generateFieldDisplayHandler(Risk.Field.startdate.name(), RiskI18nEnum.FORM_START_DATE, DATE_FIELD);
+        this.generateFieldDisplayHandler(Risk.Field.enddate.name(), RiskI18nEnum.FORM_END_DATE, DATE_FIELD);
+        this.generateFieldDisplayHandler(Risk.Field.milestoneid.name(), RiskI18nEnum.FORM_PHASE, new MilestoneHistoryFieldFormat());
         this.generateFieldDisplayHandler("probalitity", RiskI18nEnum.FORM_PROBABILITY);
         this.generateFieldDisplayHandler("status", RiskI18nEnum.FORM_STATUS, new I18nHistoryFieldFormat(StatusI18nEnum.class));
         this.generateFieldDisplayHandler("level", RiskI18nEnum.FORM_RATING);
-        this.generateFieldDisplayHandler("response", RiskI18nEnum.FORM_RESPONSE);
+        this.generateFieldDisplayHandler("response", RiskI18nEnum.FORM_RESPONSE, TRIM_HTMLS);
     }
 
     public static RiskFieldFormatter instance() {

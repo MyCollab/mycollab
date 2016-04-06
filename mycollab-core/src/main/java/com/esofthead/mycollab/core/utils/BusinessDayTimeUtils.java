@@ -71,7 +71,7 @@ public class BusinessDayTimeUtils {
                 candidateDuration -=1;
                 end = calc1.getCurrentBusinessDate();
             }
-            long possibleDurations = (end.toDate().getTime() - start.toDate().getTime()) / DateTimeUtils.MILISECONDS_IN_A_DAY;
+            long possibleDurations = (end.toDate().getTime() - start.toDate().getTime()) / DateTimeUtils.MILLISECONDS_IN_A_DAY;
             int varDays = Math.round((possibleDurations + 1) / 2);
             calc1.setStartDate(start);
             LocalDate testDate;

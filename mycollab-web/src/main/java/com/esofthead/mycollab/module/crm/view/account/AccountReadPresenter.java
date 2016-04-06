@@ -31,6 +31,8 @@ import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
 import com.esofthead.mycollab.module.crm.view.CrmModule;
+import com.esofthead.mycollab.reporting.FormReportLayout;
+import com.esofthead.mycollab.reporting.PrintButton;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -99,6 +101,13 @@ public class AccountReadPresenter extends CrmGenericPresenter<AccountReadView> {
                 Account cloneData = (Account) data.copy();
                 cloneData.setId(null);
                 EventBusFactory.getInstance().post(new AccountEvent.GotoEdit(this, cloneData));
+            }
+
+            @Override
+            public void onPrint(Object source, SimpleAccount data) {
+                PrintButton btn = (PrintButton) source;
+                btn.doPrint(data, new FormReportLayout(CrmTypeConstants.ACCOUNT, Account.Field.accountname.name(),
+                        AccountDefaultDynaFormLayoutFactory.getForm()));
             }
 
             @Override

@@ -24,8 +24,8 @@ import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.hp.gagawa.java.elements.I;
 import com.hp.gagawa.java.elements.Li;
+import com.hp.gagawa.java.elements.Span;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,6 +48,7 @@ public class FieldGroupFormatter {
     public static final String PRETTY_DATE_FIELD = "prettydate";
     public static final String PRETTY_DATE_TIME_FIELD = "prettydatetime";
     public static final String CURRENCY_FIELD = "currency";
+    public static final String TRIM_HTMLS = "trim_htmls";
 
     protected Map<String, FieldDisplayHandler> fieldsFormat = new HashMap<>();
 
@@ -59,6 +60,7 @@ public class FieldGroupFormatter {
         defaultFieldHandlers.put(PRETTY_DATE_FIELD, new PrettyDateHistoryFieldFormat());
         defaultFieldHandlers.put(PRETTY_DATE_TIME_FIELD, new PrettyDateTimeHistoryFieldFormat());
         defaultFieldHandlers.put(CURRENCY_FIELD, new CurrencyHistoryFieldFormat());
+        defaultFieldHandlers.put(TRIM_HTMLS, new TrimHtmlHistoryFieldFormat());
     }
 
     public void generateFieldDisplayHandler(String fieldName, Enum displayName) {
@@ -111,11 +113,36 @@ public class FieldGroupFormatter {
 
         @Override
         public String toString(String value) {
+            return toString(value, true, AppContext.getMessage(GenericI18Enum.FORM_EMPTY));
+        }
+
+        @Override
+        public String toString(String value, Boolean displayAsHtml, String msgIfBlank) {
             String content;
             if (StringUtils.isNotBlank(value)) {
-                content = (value.length() > 200) ? (value.substring(0, 150) + "...") : value;
+                content = (value.length() > 150) ? (value.substring(0, 150) + "...") : value;
             } else {
-                content = AppContext.getMessage(GenericI18Enum.FORM_EMPTY);
+                content = msgIfBlank;
+            }
+
+            return content;
+        }
+    }
+
+    public static final class TrimHtmlHistoryFieldFormat implements HistoryFieldFormat {
+        @Override
+        public String toString(String value) {
+            return toString(value, true, AppContext.getMessage(GenericI18Enum.FORM_EMPTY));
+        }
+
+        @Override
+        public String toString(String value, Boolean displayAsHtml, String msgIfBlank) {
+            String content;
+            if (StringUtils.isNotBlank(value)) {
+                content = StringUtils.trimHtmlTags(value);
+                content = (content.length() > 150) ? (content.substring(0, 150) + "...") : content;
+            } else {
+                content = msgIfBlank;
             }
 
             return content;
@@ -126,13 +153,22 @@ public class FieldGroupFormatter {
 
         @Override
         public String toString(String value) {
+            return toString(value, true, AppContext.getMessage(GenericI18Enum.FORM_EMPTY));
+        }
+
+        @Override
+        public String toString(String value, Boolean displayAsHtml, String msgIfBlank) {
             if (StringUtils.isNotBlank(value)) {
                 Date formatDate = DateTimeUtils.parseDateByW3C(value);
-                I lbl = new I().appendText(AppContext.formatPrettyTime(formatDate));
-                lbl.setTitle(AppContext.formatDate(formatDate));
-                return lbl.write();
+                if (displayAsHtml) {
+                    Span lbl = new Span().appendText(AppContext.formatPrettyTime(formatDate));
+                    lbl.setTitle(AppContext.formatDate(formatDate));
+                    return lbl.write();
+                } else {
+                    return AppContext.formatDate(formatDate);
+                }
             } else {
-                return AppContext.getMessage(GenericI18Enum.FORM_EMPTY);
+                return msgIfBlank;
             }
         }
     }
@@ -141,13 +177,22 @@ public class FieldGroupFormatter {
 
         @Override
         public String toString(String value) {
+            return toString(value, true, AppContext.getMessage(GenericI18Enum.FORM_EMPTY));
+        }
+
+        @Override
+        public String toString(String value, Boolean displayAsHtml, String msgIfBlank) {
             if (StringUtils.isNotBlank(value)) {
                 Date formatDate = DateTimeUtils.parseDateByW3C(value);
-                I lbl = new I().appendText(AppContext.formatPrettyTime(formatDate));
-                lbl.setTitle(AppContext.formatDateTime(formatDate));
-                return lbl.write();
+                if (displayAsHtml) {
+                    Span lbl = new Span().appendText(AppContext.formatPrettyTime(formatDate));
+                    lbl.setTitle(AppContext.formatDateTime(formatDate));
+                    return lbl.write();
+                } else {
+                    return AppContext.formatDateTime(formatDate);
+                }
             } else {
-                return AppContext.getMessage(GenericI18Enum.FORM_EMPTY);
+                return msgIfBlank;
             }
         }
     }
@@ -156,12 +201,17 @@ public class FieldGroupFormatter {
 
         @Override
         public String toString(String value) {
+            return toString(value, true, AppContext.getMessage(GenericI18Enum.FORM_EMPTY));
+        }
+
+        @Override
+        public String toString(String value, Boolean displayAsHtml, String msgIfBlank) {
             String content;
             if (StringUtils.isNotBlank(value)) {
                 Date formatDate = DateTimeUtils.parseDateByW3C(value);
                 content = AppContext.formatDate(formatDate);
             } else {
-                content = AppContext.getMessage(GenericI18Enum.FORM_EMPTY);
+                content = msgIfBlank;
             }
             return content;
         }
@@ -171,12 +221,17 @@ public class FieldGroupFormatter {
 
         @Override
         public String toString(String value) {
+            return toString(value, true, AppContext.getMessage(GenericI18Enum.FORM_EMPTY));
+        }
+
+        @Override
+        public String toString(String value, Boolean displayAsHtml, String msgIfBlank) {
             String content;
             if (StringUtils.isNotBlank(value)) {
                 Date formatDate = DateTimeUtils.parseDateByW3C(value);
                 content = AppContext.formatDateTime(formatDate);
             } else {
-                content = AppContext.getMessage(GenericI18Enum.FORM_EMPTY);
+                content = msgIfBlank;
             }
             return content;
         }
@@ -186,6 +241,11 @@ public class FieldGroupFormatter {
 
         @Override
         public String toString(String value) {
+            return toString(value, true, AppContext.getMessage(GenericI18Enum.FORM_EMPTY));
+        }
+
+        @Override
+        public String toString(String value, Boolean displayAsHtml, String msgIfBlank) {
             String content;
             if (StringUtils.isNotBlank(value)) {
                 try {
@@ -195,10 +255,10 @@ public class FieldGroupFormatter {
                     content = currency.getSymbol();
                 } catch (Exception e) {
                     LOG.error("Error while get currency id" + value, e);
-                    content = AppContext.getMessage(GenericI18Enum.FORM_EMPTY);
+                    content = msgIfBlank;
                 }
             } else {
-                content = AppContext.getMessage(GenericI18Enum.FORM_EMPTY);
+                content = msgIfBlank;
             }
 
             return content;
@@ -214,7 +274,12 @@ public class FieldGroupFormatter {
 
         @Override
         public String toString(String value) {
-            return (StringUtils.isNotBlank(value)) ? AppContext.getMessage(enumCls, value) : "";
+            return toString(value, true, "");
+        }
+
+        @Override
+        public String toString(String value, Boolean displayAsHtml, String msgIfBlank) {
+            return (StringUtils.isNotBlank(value)) ? AppContext.getMessage(enumCls, value) : msgIfBlank;
         }
     }
 }

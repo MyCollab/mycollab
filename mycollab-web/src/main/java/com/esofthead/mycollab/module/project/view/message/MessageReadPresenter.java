@@ -30,7 +30,7 @@ import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.module.project.view.ProjectGenericPresenter;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.events.PreviewFormHandler;
+import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
@@ -51,44 +51,11 @@ public class MessageReadPresenter extends ProjectGenericPresenter<MessageReadVie
 
     @Override
     protected void postInitView() {
-        view.getPreviewFormHandlers().addFormHandler(new PreviewFormHandler<SimpleMessage>() {
-
-            @Override
-            public void onEdit(SimpleMessage data) {
-            }
-
-            @Override
-            public void onDelete(SimpleMessage data) {
-            }
-
-            @Override
-            public void onClone(SimpleMessage data) {
-            }
+        view.getPreviewFormHandlers().addFormHandler(new DefaultPreviewFormHandler<SimpleMessage>() {
 
             @Override
             public void onCancel() {
                 EventBusFactory.getInstance().post(new MessageEvent.GotoList(this, null));
-            }
-
-            @Override
-            public void onAssign(SimpleMessage data) {
-            }
-
-            @Override
-            public void gotoPrevious(SimpleMessage data) {
-            }
-
-            @Override
-            public void gotoNext(SimpleMessage data) {
-            }
-
-            @Override
-            public void onExtraAction(String action, SimpleMessage data) {
-
-            }
-
-            @Override
-            public void onAdd(SimpleMessage data) {
             }
         });
     }

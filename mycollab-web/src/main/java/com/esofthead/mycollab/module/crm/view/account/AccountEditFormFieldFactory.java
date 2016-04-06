@@ -22,10 +22,10 @@ import com.esofthead.mycollab.module.crm.ui.components.IndustryComboBox;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserComboBox;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.web.ui.CountryComboBox;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.web.ui.field.RichTextEditField;
+import com.esofthead.mycollab.vaadin.web.ui.CountryComboBox;
 import com.vaadin.ui.Field;
+import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.TextField;
 
 /**
@@ -55,7 +55,7 @@ public class AccountEditFormFieldFactory<B extends Account> extends AbstractBean
             userBox.select(attachForm.getBean().getAssignuser());
             return userBox;
         } else if (Account.Field.description.equalTo(propertyId)) {
-            return new RichTextEditField();
+            return new RichTextArea();
         } else if (Account.Field.billingcountry.equalTo(propertyId) || Account.Field.shippingcountry.equalTo(propertyId)) {
             return new CountryComboBox();
         } else if (Account.Field.accountname.equalTo(propertyId)) {

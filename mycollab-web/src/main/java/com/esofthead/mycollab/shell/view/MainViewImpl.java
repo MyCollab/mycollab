@@ -92,10 +92,6 @@ import org.joda.time.Duration;
 import org.joda.time.LocalDate;
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.sliderpanel.SliderPanel;
-import org.vaadin.sliderpanel.SliderPanelBuilder;
-import org.vaadin.sliderpanel.client.SliderMode;
-import org.vaadin.sliderpanel.client.SliderPanelListener;
-import org.vaadin.sliderpanel.client.SliderTabPosition;
 import org.vaadin.teemu.VaadinIcons;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -318,7 +314,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
 
                     Date createdTime = billingAccount.getCreatedtime();
                     long timeDeviation = System.currentTimeMillis() - createdTime.getTime();
-                    int daysLeft = (int) Math.floor(timeDeviation / (double) (DateTimeUtils.MILISECONDS_IN_A_DAY));
+                    int daysLeft = (int) Math.floor(timeDeviation / (double) (DateTimeUtils.MILLISECONDS_IN_A_DAY));
                     if (daysLeft > 30) {
                         BillingService billingService = ApplicationContextUtil.getSpringBean(BillingService.class);
                         BillingPlan freeBillingPlan = billingService.getFreeBillingPlan();

@@ -94,7 +94,7 @@ public class SetupViewImpl extends AbstractPageView implements SetupView {
         }
 
         private Layout createButtonControls() {
-            final MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(true).withStyleName("addNewControl");
+            final MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(true);
 
             final Button closeBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE), new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;

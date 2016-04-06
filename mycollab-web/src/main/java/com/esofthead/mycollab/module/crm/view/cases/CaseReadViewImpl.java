@@ -26,14 +26,14 @@ import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.*;
-import com.esofthead.mycollab.module.crm.ui.format.CaseFieldFormatter;
 import com.esofthead.mycollab.module.crm.view.activity.ActivityRelatedItemListComp;
-import com.esofthead.mycollab.schedule.email.crm.CaseRelayEmailNotificationAction;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.esofthead.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.web.ui.DynaFormLayout;
 import com.vaadin.ui.ComponentContainer;
@@ -99,8 +99,7 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase> implem
         associateContactList = new CaseContactListComp();
         associateActivityList = new ActivityRelatedItemListComp(true);
 
-        activityComponent = new CrmActivityComponent(CrmTypeConstants.CASE, CaseFieldFormatter.instance(),
-                CaseRelayEmailNotificationAction.class);
+        activityComponent = new CrmActivityComponent(CrmTypeConstants.CASE);
 
         CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
         MVerticalLayout basicInfo = new MVerticalLayout().withWidth("100%").withStyleName("basic-info");
@@ -116,12 +115,9 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase> implem
 
         navigatorWrapper.addComponentAsFirst(basicInfo);
 
-        previewItemContainer.addTab(previewContent, CrmTypeConstants.DETAIL,
-                AppContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
-        previewItemContainer.addTab(associateContactList, CrmTypeConstants.CONTACT,
-                AppContext.getMessage(CrmCommonI18nEnum.TAB_CONTACT));
-        previewItemContainer.addTab(associateActivityList, CrmTypeConstants.ACTIVITY,
-                AppContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY));
+        previewItemContainer.addTab(previewContent, CrmTypeConstants.DETAIL, AppContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
+        previewItemContainer.addTab(associateContactList, CrmTypeConstants.CONTACT, AppContext.getMessage(CrmCommonI18nEnum.TAB_CONTACT));
+        previewItemContainer.addTab(associateActivityList, CrmTypeConstants.ACTIVITY, AppContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY));
     }
 
     @Override

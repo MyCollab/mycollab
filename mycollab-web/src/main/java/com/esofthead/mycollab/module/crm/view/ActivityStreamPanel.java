@@ -38,6 +38,7 @@ import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.ui.registry.AuditLogRegistry;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
@@ -212,6 +213,7 @@ public class ActivityStreamPanel extends CssLayout {
             String assigneeValue = buildAssigneeValue(activityStream);
             String itemValue = buildItemValue(activityStream);
 
+            AuditLogRegistry auditLogRegistry = ApplicationContextUtil.getSpringBean(AuditLogRegistry.class);
             StringBuffer content = new StringBuffer();
 
             if (ActivityStreamConstants.ACTION_CREATE.equals(activityStream.getAction())) {
@@ -221,7 +223,7 @@ public class ActivityStreamPanel extends CssLayout {
                 content.append(AppContext.getMessage(CrmCommonI18nEnum.WIDGET_ACTIVITY_UPDATE_ACTION,
                         assigneeValue, itemType, itemValue));
                 if (activityStream.getAssoAuditLog() != null) {
-                    content.append(CrmActivityStreamGenerator.generatorDetailChangeOfActivity(activityStream));
+                    content.append(auditLogRegistry.generatorDetailChangeOfActivity(activityStream));
                 }
             } else if (ActivityStreamConstants.ACTION_COMMENT.equals(activityStream.getAction())) {
                 content.append(AppContext.getMessage(CrmCommonI18nEnum.WIDGET_ACTIVITY_COMMENT_ACTION, assigneeValue, itemType, itemValue));

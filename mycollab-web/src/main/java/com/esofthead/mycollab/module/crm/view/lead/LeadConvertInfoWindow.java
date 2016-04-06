@@ -84,7 +84,7 @@ public class LeadConvertInfoWindow extends Window {
     }
 
     private ComponentContainer createButtonControls() {
-        final MHorizontalLayout layout = new MHorizontalLayout().withStyleName("addNewControl");
+        final MHorizontalLayout layout = new MHorizontalLayout();
 
         Button convertButton = new Button(AppContext.getMessage(LeadI18nEnum.BUTTON_CONVERT_LEAD), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;

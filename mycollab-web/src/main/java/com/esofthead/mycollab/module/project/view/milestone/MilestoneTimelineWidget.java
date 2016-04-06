@@ -39,7 +39,6 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -61,8 +60,7 @@ public class MilestoneTimelineWidget extends MVerticalLayout {
         this.addStyleName("tm-container");
 
         MHorizontalLayout headerLayout = new MHorizontalLayout();
-        ELabel titleLbl = new ELabel("Phase Timeline").withStyleName(ValoTheme.LABEL_H2);
-        titleLbl.addStyleName(ValoTheme.LABEL_NO_MARGIN);
+        ELabel titleLbl = ELabel.h2("Phase Timeline");
 
         final CheckBox noDateSetMilestone = new CheckBox("No date set");
         noDateSetMilestone.setValue(false);

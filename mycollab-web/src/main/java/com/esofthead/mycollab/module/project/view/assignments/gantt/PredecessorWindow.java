@@ -31,7 +31,6 @@ import com.vaadin.event.FieldEvents;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.*;
-import com.vaadin.ui.themes.ValoTheme;
 import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.jouni.restrain.Restrain;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -47,7 +46,7 @@ import java.util.List;
  * @since 5.1.3
  */
 class PredecessorWindow extends Window {
-    private static final String ROW_WDITH = "50px";
+    private static final String ROW_WIDTH = "50px";
     private static final String TASK_WIDTH = "300px";
     private static final String PRE_TYPE_WIDTH = "140px";
     private static final String LAG_WIDTH = "80px";
@@ -68,15 +67,15 @@ class PredecessorWindow extends Window {
 
         MVerticalLayout content = new MVerticalLayout();
         this.setContent(content);
-        Label headerLbl = new Label(String.format("Row %d: %s", ganttItemWrapper.getGanttIndex(), ganttItemWrapper.getName()));
-        headerLbl.addStyleName(ValoTheme.LABEL_H2);
+        ELabel headerLbl = ELabel.h2(String.format("Row %d: %s", ganttItemWrapper.getGanttIndex(), ganttItemWrapper
+                .getName())).withStyleName(UIConstants.TEXT_ELLIPSIS);
         content.add(headerLbl);
 
         CssLayout preWrapper = new CssLayout();
         content.with(preWrapper);
 
         MHorizontalLayout headerLayout = new MHorizontalLayout();
-        headerLayout.addComponent(new ELabel("Row").withWidth(ROW_WDITH));
+        headerLayout.addComponent(new ELabel("Row").withWidth(ROW_WIDTH));
         headerLayout.addComponent(new ELabel("Task").withWidth(TASK_WIDTH));
         headerLayout.addComponent(new ELabel("Dependency").withWidth(PRE_TYPE_WIDTH));
         headerLayout.addComponent(new ELabel("Lag").withWidth(LAG_WIDTH));
@@ -163,7 +162,7 @@ class PredecessorWindow extends Window {
 
             PredecessorInputLayout(TaskPredecessor taskPredecessor) {
                 rowField = new TextField();
-                rowField.setWidth(ROW_WDITH);
+                rowField.setWidth(ROW_WIDTH);
                 rowField.addBlurListener(new FieldEvents.BlurListener() {
                     @Override
                     public void blur(FieldEvents.BlurEvent event) {

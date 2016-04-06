@@ -16,53 +16,49 @@
  */
 package com.esofthead.mycollab.module.project.domain;
 
+import com.esofthead.mycollab.core.arguments.NotBindable;
+import com.esofthead.mycollab.core.reporting.NotInReport;
+import com.esofthead.mycollab.security.PermissionMap;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.esofthead.mycollab.core.arguments.NotBindable;
-import com.esofthead.mycollab.core.reporting.NotInReport;
-import com.esofthead.mycollab.security.PermissionMap;
-
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class SimpleProjectRole extends ProjectRole {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(SimpleProjectRole.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SimpleProjectRole.class);
 
-	private String permissionVal;
+    private String permissionVal;
 
-	@NotBindable
-	@NotInReport
-	private PermissionMap permissionMap;
+    @NotBindable
+    @NotInReport
+    private PermissionMap permissionMap;
 
-	public String getPermissionVal() {
-		return permissionVal;
-	}
+    public String getPermissionVal() {
+        return permissionVal;
+    }
 
-	public void setPermissionVal(String permissionVal) {
-		this.permissionVal = permissionVal;
-	}
+    public void setPermissionVal(String permissionVal) {
+        this.permissionVal = permissionVal;
+    }
 
-	public PermissionMap getPermissionMap() {
-		if (permissionMap == null) {
+    public PermissionMap getPermissionMap() {
+        if (permissionMap == null) {
 
-			if (StringUtils.isBlank(permissionVal)) {
-				permissionMap = new PermissionMap();
-			} else {
-				try {
-					permissionMap = PermissionMap.fromJsonString(permissionVal);
-				} catch (Exception e) {
-					LOG.error("Error while get permission", e);
-				}
-			}
-		}
-		return permissionMap;
-	}
+            if (StringUtils.isBlank(permissionVal)) {
+                permissionMap = new PermissionMap();
+            } else {
+                try {
+                    permissionMap = PermissionMap.fromJsonString(permissionVal);
+                } catch (Exception e) {
+                    LOG.error("Error while get permission", e);
+                }
+            }
+        }
+        return permissionMap;
+    }
 }

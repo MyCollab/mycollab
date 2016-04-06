@@ -38,6 +38,10 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
+import com.esofthead.mycollab.reporting.ReportExportType;
+import com.esofthead.mycollab.reporting.ReportStreamSource;
+import com.esofthead.mycollab.reporting.RpFieldsBuilder;
+import com.esofthead.mycollab.reporting.SimpleReportTemplateExecutor;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -50,18 +54,20 @@ import com.esofthead.vaadin.floatingcomponent.FloatingComponent;
 import com.google.common.eventbus.Subscribe;
 import com.hp.gagawa.java.elements.Img;
 import com.vaadin.data.Property;
+import com.vaadin.server.FileDownloader;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.StreamResource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
+import org.vaadin.peter.buttongroup.ButtonGroup;
 import org.vaadin.teemu.VaadinIcons;
+import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author MyCollab Ltd
@@ -86,6 +92,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
     private MVerticalLayout roadMapView;
     private VerticalLayout filterPanel;
     private ELabel headerText;
+    private MilestoneSearchCriteria baseCriteria;
 
     @Override
     public void attach() {
@@ -104,11 +111,11 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
         initUI();
         createBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
 
-        MilestoneSearchCriteria baseCriteria = new MilestoneSearchCriteria();
+        baseCriteria = new MilestoneSearchCriteria();
         baseCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
         baseCriteria.setOrderFields(Arrays.asList(new SearchCriteria.OrderField("startdate",
                 SearchCriteria.DESC), new SearchCriteria.OrderField("enddate", SearchCriteria.DESC)));
-        displayMilestones(baseCriteria);
+        displayMilestones();
 
         final MilestoneSearchCriteria tmpCriteria = BeanUtility.deepClone(baseCriteria);
         tmpCriteria.setStatuses(new SetSearchField<>(OptionI18nEnum.MilestoneStatus.Closed.name()));
@@ -157,6 +164,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
 
     private void displayMilestones(MilestoneSearchCriteria milestoneSearchCriteria, boolean closeSelection, boolean
             inProgressSelection, boolean futureSelection) {
+        baseCriteria = milestoneSearchCriteria;
         List<String> statuses = new ArrayList<>();
         if (closeSelection) {
             statuses.add(OptionI18nEnum.MilestoneStatus.Closed.name());
@@ -168,16 +176,16 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
             statuses.add(OptionI18nEnum.MilestoneStatus.Future.name());
         }
         if (statuses.size() > 0) {
-            milestoneSearchCriteria.setStatuses(new SetSearchField<>(statuses));
-            displayMilestones(milestoneSearchCriteria);
+            baseCriteria.setStatuses(new SetSearchField<>(statuses));
+            displayMilestones();
         } else {
             roadMapView.removeAllComponents();
         }
     }
 
-    private void displayMilestones(MilestoneSearchCriteria searchCriteria) {
+    private void displayMilestones() {
         roadMapView.removeAllComponents();
-        List<SimpleMilestone> milestones = milestoneService.findPagableListByCriteria(new SearchRequest<>(searchCriteria, 0,
+        List<SimpleMilestone> milestones = milestoneService.findPagableListByCriteria(new SearchRequest<>(baseCriteria, 0,
                 Integer.MAX_VALUE));
         for (SimpleMilestone milestone : milestones) {
             roadMapView.addComponent(new MilestoneBlock(milestone));
@@ -221,6 +229,21 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
         createBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
         layout.with(createBtn);
 
+        MButton exportPdfBtn = new MButton("").withIcon(FontAwesome.FILE_PDF_O).withStyleName(UIConstants.BUTTON_OPTION)
+                .withDescription("Export to PDF");
+        FileDownloader pdfFileDownloader = new FileDownloader(buildStreamSource(ReportExportType.PDF));
+        pdfFileDownloader.extend(exportPdfBtn);
+
+        MButton exportExcelBtn = new MButton("").withIcon(FontAwesome.FILE_EXCEL_O).withStyleName(UIConstants.BUTTON_OPTION).withDescription("Export to Excel");
+        FileDownloader excelFileDownloader = new FileDownloader(buildStreamSource(ReportExportType.EXCEL));
+        excelFileDownloader.extend(exportExcelBtn);
+
+        ButtonGroup exportButtonGroup = new ButtonGroup();
+        exportButtonGroup.addButton(exportPdfBtn);
+        exportButtonGroup.addButton(exportExcelBtn);
+
+        layout.with(exportButtonGroup);
+
         Button kanbanBtn = new Button("Board", new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
@@ -241,6 +264,24 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
         layout.with(viewButtons);
 
         return layout;
+    }
+
+    private StreamResource buildStreamSource(ReportExportType exportType) {
+        List fields = Arrays.asList(MilestoneTableFieldDef.milestonename(), MilestoneTableFieldDef.status(),
+                MilestoneTableFieldDef.startdate(), MilestoneTableFieldDef.enddate(), MilestoneTableFieldDef.assignee());
+        SimpleReportTemplateExecutor reportTemplateExecutor = new SimpleReportTemplateExecutor.AllItems<>("Milestones",
+                new RpFieldsBuilder(fields), exportType, SimpleMilestone.class, ApplicationContextUtil.getSpringBean
+                (MilestoneService.class));
+        ReportStreamSource streamSource = new ReportStreamSource(reportTemplateExecutor) {
+            @Override
+            protected Map<String, Object> initReportParameters() {
+                Map<String, Object> parameters = new HashMap<>();
+                parameters.put("siteUrl", AppContext.getSiteUrl());
+                parameters.put(SimpleReportTemplateExecutor.CRITERIA, baseCriteria);
+                return parameters;
+            }
+        };
+        return new StreamResource(streamSource, exportType.getDefaultFileName());
     }
 
     private static class MilestoneBlock extends MVerticalLayout {
