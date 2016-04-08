@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.module.crm.view.account;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
@@ -52,18 +51,6 @@ public class AccountListDashlet extends Depot {
         this.setMargin(new MarginInfo(true, false, false, false));
         tableItem = new AccountTableDisplay(Arrays.asList(AccountTableFieldDef.accountname(),
                 AccountTableFieldDef.phoneoffice(), AccountTableFieldDef.email()));
-
-        tableItem.addTableListener(new TableClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void itemClick(final TableClickEvent event) {
-                final SimpleAccount account = (SimpleAccount) event.getData();
-                if ("accountname".equals(event.getFieldName())) {
-                    EventBusFactory.getInstance().post(new AccountEvent.GotoRead(AccountListDashlet.this, account.getId()));
-                }
-            }
-        });
         bodyContent.addComponent(tableItem);
 
         Button customizeViewBtn = new Button("", new Button.ClickListener() {

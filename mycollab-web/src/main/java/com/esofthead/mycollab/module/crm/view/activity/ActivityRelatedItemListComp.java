@@ -18,19 +18,14 @@
 package com.esofthead.mycollab.module.crm.view.activity;
 
 import com.esofthead.mycollab.common.TableViewField;
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
-import com.esofthead.mycollab.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.module.crm.i18n.ActivityI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.web.ui.table.IPagedBeanTable.TableClickEvent;
-import com.esofthead.mycollab.vaadin.web.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
@@ -107,22 +102,6 @@ public class ActivityRelatedItemListComp extends RelatedListComp<SimpleActivity,
                 UIConstants.TABLE_DATE_TIME_WIDTH), new TableViewField(
                 TaskI18nEnum.TABLE_END_DATE_HEADER, "endDate",
                 UIConstants.TABLE_DATE_TIME_WIDTH)));
-
-        tableItem.addTableListener(new TableClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void itemClick(final TableClickEvent event) {
-                final SimpleActivity simpleEvent = (SimpleActivity) event.getData();
-                if (CrmTypeConstants.TASK.equals(simpleEvent.getEventType())) {
-                    EventBusFactory.getInstance().post(new ActivityEvent.TaskRead(this, simpleEvent.getId()));
-                } else if (CrmTypeConstants.MEETING.equals(simpleEvent.getEventType())) {
-                    EventBusFactory.getInstance().post(new ActivityEvent.MeetingRead(this, simpleEvent.getId()));
-                } else if (CrmTypeConstants.CALL.equals(simpleEvent.getEventType())) {
-                    EventBusFactory.getInstance().post(new ActivityEvent.CallRead(this, simpleEvent.getId()));
-                }
-            }
-        });
 
         this.addComponent(tableItem);
     }

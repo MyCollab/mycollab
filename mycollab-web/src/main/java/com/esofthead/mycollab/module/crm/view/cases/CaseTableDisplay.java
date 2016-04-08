@@ -88,8 +88,7 @@ public class CaseTableDisplay extends DefaultPagedBeanTable<CaseService, CaseSea
                 if (cases.isCompleted()) {
                     b.addStyleName(UIConstants.LINK_COMPLETED);
                 }
-                b.setDescription(CrmTooltipGenerator.generateTooltipCases(
-                        AppContext.getUserLocale(), cases,
+                b.setDescription(CrmTooltipGenerator.generateTooltipCases(AppContext.getUserLocale(), cases,
                         AppContext.getSiteUrl(), AppContext.getUserTimezone()));
                 return b;
             }
@@ -102,31 +101,26 @@ public class CaseTableDisplay extends DefaultPagedBeanTable<CaseService, CaseSea
             public Object generateCell(Table source, Object itemId,
                                        Object columnId) {
                 SimpleCase cases = getBeanByIndex(itemId);
-                return new LabelLink(cases.getAccountName(),
-                        CrmLinkBuilder.generateAccountPreviewLinkFull(cases.getAccountid()));
+                return new LabelLink(cases.getAccountName(), CrmLinkBuilder.generateAccountPreviewLinkFull(cases.getAccountid()));
             }
         });
 
-        this.addGeneratedColumn("assignUserFullName",
-                new Table.ColumnGenerator() {
-                    private static final long serialVersionUID = 1L;
+        this.addGeneratedColumn("assignUserFullName", new Table.ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public com.vaadin.ui.Component generateCell(Table source,
-                                                                final Object itemId, Object columnId) {
-                        SimpleCase cases = getBeanByIndex(itemId);
-                        return new UserLink(cases.getAssignuser(), cases.getAssignUserAvatarId(), cases
-                                .getAssignUserFullName());
+            @Override
+            public com.vaadin.ui.Component generateCell(Table source, final Object itemId, Object columnId) {
+                SimpleCase cases = getBeanByIndex(itemId);
+                return new UserLink(cases.getAssignuser(), cases.getAssignUserAvatarId(), cases.getAssignUserFullName());
 
-                    }
-                });
+            }
+        });
 
         this.addGeneratedColumn("createdtime", new ColumnGenerator() {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public com.vaadin.ui.Component generateCell(Table source,
-                                                        Object itemId, Object columnId) {
+            public com.vaadin.ui.Component generateCell(Table source, Object itemId, Object columnId) {
                 SimpleCase cases = getBeanByIndex(itemId);
                 return new ELabel(AppContext.formatPrettyTime(cases.getCreatedtime())).withDescription(AppContext
                         .formatDateTime(cases.getCreatedtime()));

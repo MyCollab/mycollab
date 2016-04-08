@@ -22,6 +22,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.MassItemActionHandler;
 import com.esofthead.mycollab.vaadin.events.ViewItemAction;
 import com.esofthead.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
+import com.esofthead.mycollab.vaadin.web.ui.table.IPagedBeanTable;
 import com.vaadin.server.StreamResource;
 import com.vaadin.ui.UI;
 import org.vaadin.dialogs.ConfirmDialog;
@@ -66,7 +67,7 @@ public abstract class DefaultMassEditActionHandler implements MassItemActionHand
     @SuppressWarnings("unchecked")
     @Override
     public StreamResource buildStreamResource(ReportExportType exportType) {
-        AbstractPagedBeanTable pagedBeanTable = ((IListView) presenter.getView()).getPagedBeanTable();
+        IPagedBeanTable pagedBeanTable = ((IListView) presenter.getView()).getPagedBeanTable();
         final Map<String, Object> parameters = new HashMap<>();
         parameters.put("siteUrl", AppContext.getSiteUrl());
         parameters.put(SimpleReportTemplateExecutor.CRITERIA, presenter.searchCriteria);

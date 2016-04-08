@@ -39,9 +39,9 @@ public class SimpleProjectMember extends ProjectMember {
     @NotBindable
     private PermissionMap permissionMaps;
 
-    private int numOpenTasks;
+    private Integer numOpenTasks;
 
-    private int numOpenBugs;
+    private Integer numOpenBugs;
 
     private String projectName;
 
@@ -77,19 +77,19 @@ public class SimpleProjectMember extends ProjectMember {
         this.permissionMaps = permissionMaps;
     }
 
-    public int getNumOpenTasks() {
+    public Integer getNumOpenTasks() {
         return numOpenTasks;
     }
 
-    public void setNumOpenTasks(int numOpenTasks) {
+    public void setNumOpenTasks(Integer numOpenTasks) {
         this.numOpenTasks = numOpenTasks;
     }
 
-    public int getNumOpenBugs() {
+    public Integer getNumOpenBugs() {
         return numOpenBugs;
     }
 
-    public void setNumOpenBugs(int numOpenBugs) {
+    public void setNumOpenBugs(Integer numOpenBugs) {
         this.numOpenBugs = numOpenBugs;
     }
 
@@ -150,5 +150,12 @@ public class SimpleProjectMember extends ProjectMember {
 
     public void setTotalNonBillableLogTime(Double totalNonBillableLogTime) {
         this.totalNonBillableLogTime = totalNonBillableLogTime;
+    }
+
+    public enum Field {
+        roleName, memberFullName;
+        public boolean equalTo(Object value) {
+            return name().equals(value);
+        }
     }
 }

@@ -48,9 +48,21 @@
                 @{status}
             #end
         #end
+
+        #ifnotnull($searchCriteria.projectKeys)
+            ${searchCriteria.projectKeys.operation}
+            m_prj_project.id IN
+            #repeat(${searchCriteria.projectKeys.values} $projectId "," "(" ")")
+                @{projectId}
+            #end
+        #end
         
         #ifnotnull($searchCriteria.saccountid)
             ${searchCriteria.saccountid.operation} m_prj_project.sAccountId = @{searchCriteria.saccountid.value,jdbcType=NUMERIC}
+        #end
+
+        #ifnotnull($searchCriteria.accountId)
+            ${searchCriteria.accountId.operation} m_prj_project.accountId = @{searchCriteria.accountId.value,jdbcType=NUMERIC}
         #end
 
         #ifnotnull($searchCriteria.projectName)
@@ -81,9 +93,21 @@
                 @{status}
             #end
         #end
+
+        #ifnotnull($searchCriteria.projectKeys)
+            ${searchCriteria.projectKeys.operation}
+            m_prj_project.id IN
+            #repeat(${searchCriteria.projectKeys.values} $projectId "," "(" ")")
+                @{projectId}
+            #end
+        #end
         
         #ifnotnull($searchCriteria.saccountid)
             ${searchCriteria.saccountid.operation} m_prj_project.sAccountId = @{searchCriteria.saccountid.value,jdbcType=NUMERIC}
+        #end
+
+        #ifnotnull($searchCriteria.accountId)
+            ${searchCriteria.accountId.operation} m_prj_project.accountId = @{searchCriteria.accountId.value,jdbcType=NUMERIC}
         #end
 
         #ifnotnull($searchCriteria.projectName)

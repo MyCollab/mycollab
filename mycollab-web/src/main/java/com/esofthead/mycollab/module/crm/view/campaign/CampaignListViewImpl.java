@@ -83,18 +83,6 @@ public class CampaignListViewImpl extends AbstractListItemComp<CampaignSearchCri
                         CampaignTableFieldDef.endDate(),
                         CampaignTableFieldDef.assignUser()));
 
-        campaignTableDisplay.addTableListener(new TableClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void itemClick(final TableClickEvent event) {
-                final SimpleCampaign campaign = (SimpleCampaign) event.getData();
-                if ("campaignname".equals(event.getFieldName())) {
-                    EventBusFactory.getInstance().post(new CampaignEvent.GotoRead(CampaignListViewImpl.this, campaign.getId()));
-                }
-            }
-        });
-
         return campaignTableDisplay;
     }
 

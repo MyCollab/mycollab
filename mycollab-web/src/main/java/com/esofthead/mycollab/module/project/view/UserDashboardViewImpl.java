@@ -20,6 +20,7 @@ import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.project.domain.ProjectGenericItem;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectGenericItemSearchCriteria;
+import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.esofthead.mycollab.module.project.service.ProjectGenericItemService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.ui.components.GenericItemRowDisplayHandler;
@@ -27,6 +28,7 @@ import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
+import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.view.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
@@ -56,6 +58,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
     private List<Integer> prjKeys;
 
     private UserProjectDashboardPresenter userProjectDashboardPresenter;
+    private ProjectListPresenter projectListPresenter;
     private FollowingTicketPresenter followingTicketPresenter;
     private TimeTrackingPresenter timeTrackingPresenter;
     private ICalendarDashboardPresenter calendarPresenter;
@@ -73,6 +76,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
 
         final TabSheet tabSheet = new TabSheet();
         tabSheet.addTab(buildDashboardComp(), "Dashboard", FontAwesome.DASHBOARD);
+        tabSheet.addTab(buildProjectListComp(), "Projects", FontAwesome.BUILDING_O);
         tabSheet.addTab(buildFollowingTicketComp(), "Following Items", FontAwesome.EYE);
         tabSheet.addTab(buildCalendarComp(), "Calendar", FontAwesome.CALENDAR);
         tabSheet.addTab(buildTimesheetComp(), "Time", FontAwesome.CLOCK_O);
@@ -92,6 +96,10 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
                     settingPresenter.onGo(UserDashboardViewImpl.this, null);
                 } else if (comp instanceof ICalendarDashboardView) {
                     calendarPresenter.go(UserDashboardViewImpl.this, null);
+                } else if (comp instanceof ProjectListView) {
+                    ProjectSearchCriteria searchCriteria = new ProjectSearchCriteria();
+                    searchCriteria.setProjectKeys(new SetSearchField<> (prjKeys));
+                    projectListPresenter.go(UserDashboardViewImpl.this, new ScreenData(searchCriteria));
                 }
             }
         });
@@ -115,6 +123,11 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
     private Component buildDashboardComp() {
         userProjectDashboardPresenter = PresenterResolver.getPresenter(UserProjectDashboardPresenter.class);
         return userProjectDashboardPresenter.getView();
+    }
+
+    private Component buildProjectListComp() {
+        projectListPresenter = PresenterResolver.getPresenter(ProjectListPresenter.class);
+        return projectListPresenter.getView();
     }
 
     private Component buildFollowingTicketComp() {

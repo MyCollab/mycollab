@@ -16,11 +16,17 @@
  */
 package com.esofthead.mycollab.module.project.domain.criteria;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
+import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.core.db.query.NumberParam;
+import com.esofthead.mycollab.core.db.query.*;
+import com.esofthead.mycollab.module.project.domain.Project;
 import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
+
+import java.util.Arrays;
 
 /**
  * @author MyCollab Ltd.
@@ -31,12 +37,20 @@ public class ProjectSearchCriteria extends SearchCriteria {
 
     public static final NumberParam p_template = new NumberParam("project-template", ProjectI18nEnum.FORM_NAME,
             "m_prj_project", "istemplate");
-    public static final NumberParam p_account = new NumberParam("project-account", ProjectI18nEnum.FORM_ACCOUNT_NAME,
-            "m_prj_project", "accountId");
 
+    public static final StringParam p_name = new StringParam("project-name", ProjectI18nEnum.FORM_NAME, "m_prj_project", "name");
+    public static final DateParam p_startdate = new DateParam("project-startdate", ProjectI18nEnum.FORM_START_DATE, "m_prj_project", "planStartDate");
+    public static final DateParam p_enddate = new DateParam("project-enddate", ProjectI18nEnum.FORM_END_DATE, "m_prj_project", "planEndDate");
+    public static final DateParam p_createdtime = new DateParam("project-createdtime", GenericI18Enum.FORM_CREATED_TIME, "m_prj_project", "createdTime");
+    public static final StringListParam p_status = new StringListParam("project-status", ProjectI18nEnum.FORM_STATUS,
+            "m_prj_project", "projectStatus", Arrays.asList(OptionI18nEnum.StatusI18nEnum.Open.name(), OptionI18nEnum
+            .StatusI18nEnum.Closed.name(), OptionI18nEnum.StatusI18nEnum.Archived.name()));
+
+    private SetSearchField<Integer> projectKeys;
     private SetSearchField<String> projectStatuses;
     private StringSearchField involvedMember;
     private StringSearchField projectName;
+    private NumberSearchField accountId;
 
     public SetSearchField<String> getProjectStatuses() {
         return projectStatuses;
@@ -60,5 +74,21 @@ public class ProjectSearchCriteria extends SearchCriteria {
 
     public void setProjectName(StringSearchField projectName) {
         this.projectName = projectName;
+    }
+
+    public SetSearchField<Integer> getProjectKeys() {
+        return projectKeys;
+    }
+
+    public void setProjectKeys(SetSearchField<Integer> projectKeys) {
+        this.projectKeys = projectKeys;
+    }
+
+    public NumberSearchField getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(NumberSearchField accountId) {
+        this.accountId = accountId;
     }
 }

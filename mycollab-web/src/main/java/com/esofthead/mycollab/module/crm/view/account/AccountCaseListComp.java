@@ -21,8 +21,8 @@ import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
-import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
+import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
 import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
@@ -34,10 +34,11 @@ import com.esofthead.mycollab.module.user.AccountLinkGenerator;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.AbstractBeanBlockList;
 import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
+import com.hp.gagawa.java.elements.A;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
@@ -99,10 +100,8 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
         notesWrap.with(noteBlock).expand(noteBlock);
 
         controlsBtnWrap.addComponent(notesWrap);
-
         controlsBtnWrap.setWidth("100%");
         Button createBtn = new Button();
-        createBtn.setSizeUndefined();
         createBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CASE));
         createBtn.addStyleName(UIConstants.BUTTON_ACTION);
         createBtn.setCaption(AppContext.getMessage(CaseI18nEnum.BUTTON_NEW_CASE));
@@ -117,7 +116,7 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
         });
 
         controlsBtnWrap.addComponent(createBtn);
-        controlsBtnWrap.setComponentAlignment(createBtn, Alignment.MIDDLE_RIGHT);
+        controlsBtnWrap.setComponentAlignment(createBtn, Alignment.TOP_RIGHT);
         return controlsBtnWrap;
     }
 
@@ -128,7 +127,6 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
 
     private void loadCases() {
         final CaseSearchCriteria criteria = new CaseSearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
         criteria.setAccountId(new NumberSearchField(SearchField.AND, account.getId()));
         setSearchCriteria(criteria);
     }
@@ -186,21 +184,14 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
             blockContent.addComponent(deleteBtn);
             blockContent.setComponentAlignment(deleteBtn, Alignment.TOP_RIGHT);
 
-            Label caseSubject = new Label(String.format("Subject: <a href='%s%s'>%s</a>",
-                    SiteConfiguration.getSiteUrl(AppContext.getUser().getSubdomain()),
-                    CrmLinkGenerator.generateCrmItemLink(
-                            CrmTypeConstants.CASE, oneCase.getId()), oneCase.getSubject()),
-                    ContentMode.HTML);
-
+            A caseLink = new A(CrmLinkBuilder.generateCasePreviewLinkFull(oneCase.getId())).appendText(oneCase.getSubject());
+            ELabel caseSubject = ELabel.h3(caseLink.write());
             caseInfo.addComponent(caseSubject);
 
-            Label casePriority = new Label("Priority: "
-                    + (oneCase.getPriority() != null ? oneCase.getPriority()
-                    : ""));
+            Label casePriority = new Label("Priority: " + (oneCase.getPriority() != null ? oneCase.getPriority() : ""));
             caseInfo.addComponent(casePriority);
 
-            Label caseStatus = new Label("Status: "
-                    + (oneCase.getStatus() != null ? oneCase.getStatus() : ""));
+            Label caseStatus = new Label("Status: " + (oneCase.getStatus() != null ? oneCase.getStatus() : ""));
             caseInfo.addComponent(caseStatus);
 
             if (oneCase.getStatus() != null) {

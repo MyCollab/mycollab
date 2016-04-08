@@ -27,6 +27,9 @@ import com.esofthead.mycollab.vaadin.web.ui.UIConstants
   * @since 5.2.11
   */
 object MilestoneTableFieldDef {
+  val id = new TableViewField(GenericI18Enum.FORM_PROGRESS, Milestone.Field.id.name(), UIConstants
+    .TABLE_M_LABEL_WIDTH)
+
   val milestonename = new TableViewField(MilestoneI18nEnum.FORM_NAME_FIELD, Milestone.Field.name.name(), UIConstants.TABLE_X_LABEL_WIDTH)
 
   val status = new TableViewField(MilestoneI18nEnum.FORM_STATUS_FIELD, Milestone.Field.status.name(), UIConstants

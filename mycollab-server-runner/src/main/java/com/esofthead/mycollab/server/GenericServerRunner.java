@@ -22,7 +22,6 @@ import com.esofthead.mycollab.configuration.DatabaseConfiguration;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.configuration.logging.LogConfig;
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.core.SystemProperties;
 import com.esofthead.mycollab.core.utils.FileUtils;
 import com.esofthead.mycollab.server.jetty.ServerInstance;
 import com.esofthead.mycollab.servlet.*;
@@ -171,7 +170,6 @@ public abstract class GenericServerRunner {
             upgradeContextHandler.addServlet(new ServletHolder(new UpgradeStatusServlet()), "/upgrade_status");
             contexts.setHandlers(new Handler[]{upgradeContextHandler, appContext});
             ServerInstance.getInstance().setIsUpgrading(false);
-            LOG.info("Run server id " + SystemProperties.getId());
         }
 
         server.setHandler(contexts);

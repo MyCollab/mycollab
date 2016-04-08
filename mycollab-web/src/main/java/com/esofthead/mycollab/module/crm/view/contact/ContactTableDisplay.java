@@ -89,8 +89,7 @@ public class ContactTableDisplay extends DefaultPagedBeanTable<ContactService, C
                 final SimpleContact contact = getBeanByIndex(itemId);
 
                 LabelLink b = new LabelLink(contact.getContactName(), CrmLinkBuilder.generateContactPreviewLinkFull(contact.getId()));
-                b.setDescription(CrmTooltipGenerator.generateToolTipContact(
-                        AppContext.getUserLocale(), contact,
+                b.setDescription(CrmTooltipGenerator.generateToolTipContact(AppContext.getUserLocale(), contact,
                         AppContext.getSiteUrl(), AppContext.getUserTimezone()));
                 return b;
             }
@@ -127,8 +126,8 @@ public class ContactTableDisplay extends DefaultPagedBeanTable<ContactService, C
                                                         final Object itemId, final Object columnId) {
                 final SimpleContact contact = getBeanByIndex(itemId);
                 if (contact.getAccountName() != null) {
-
-                    LabelLink b = new LabelLink(contact.getAccountName(), CrmLinkBuilder.generateAccountPreviewLinkFull(contact.getAccountid()));
+                    LabelLink b = new LabelLink(contact.getAccountName(),
+                            CrmLinkBuilder.generateAccountPreviewLinkFull(contact.getAccountid()));
                     return b;
                 } else {
                     return new Label();

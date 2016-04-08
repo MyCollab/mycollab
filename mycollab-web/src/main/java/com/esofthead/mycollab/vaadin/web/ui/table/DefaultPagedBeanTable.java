@@ -27,6 +27,7 @@ import java.util.List;
  * @param <S>
  * @param <T>
  * @author MyCollab Ltd.
+ * @since 1.0.0
  */
 public class DefaultPagedBeanTable<SearchService extends ISearchableService<S>, S extends SearchCriteria, T>
         extends AbstractPagedBeanTable<S, T> {

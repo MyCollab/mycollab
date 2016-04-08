@@ -23,6 +23,7 @@ import com.esofthead.mycollab.vaadin.events.HasSelectableItemHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSelectionOptionHandlers;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
+import com.esofthead.mycollab.vaadin.web.ui.table.IPagedBeanTable;
 
 /**
  * @param <S>
@@ -43,5 +44,5 @@ public interface IListView<S extends SearchCriteria, B> extends PageView {
 
     HasSelectableItemHandlers<B> getSelectableItemHandlers();
 
-    AbstractPagedBeanTable<S, B> getPagedBeanTable();
+    IPagedBeanTable<S, B> getPagedBeanTable();
 }

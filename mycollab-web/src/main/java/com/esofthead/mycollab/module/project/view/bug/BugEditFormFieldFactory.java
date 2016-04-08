@@ -31,7 +31,7 @@ import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.web.ui.NumberField;
+import com.esofthead.mycollab.vaadin.web.ui.DoubleField;
 import com.vaadin.data.Property;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.RichTextArea;
@@ -122,7 +122,7 @@ class BugEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Sim
             });
             return milestoneBox;
         } else if (propertyId.equals("estimatetime") || (propertyId.equals("estimateremaintime"))) {
-            return new NumberField();
+            return new DoubleField();
         } else if (propertyId.equals("selected")) {
             return subscribersComp;
         }

@@ -92,7 +92,7 @@ public class GridFormLayoutHelper implements Serializable {
         if (StringUtils.isNotBlank(caption)) {
             Label captionLbl = new Label(caption);
             MHorizontalLayout captionWrapper = new MHorizontalLayout().withSpacing(false).withMargin(true)
-                    .withWidth(this.defaultCaptionWidth).withHeight("100%").withStyleName("gridform-caption").with(captionLbl)
+                    .withWidth(defaultCaptionWidth).withHeight("100%").withStyleName("gridform-caption").with(captionLbl)
                     .withAlign(captionLbl, alignment);
             if (columns == 0) {
                 captionWrapper.addStyleName("first-col");
@@ -126,26 +126,6 @@ public class GridFormLayoutHelper implements Serializable {
         return fieldCaptionMappings.get(caption);
     }
 
-    public Component addComponentNoWrapper(Component field, String caption, int columns, int rows) {
-        if (caption != null) {
-            Label l = new Label(caption);
-            l.setWidth(this.defaultCaptionWidth);
-            layout.addComponent(l, 2 * columns, rows);
-            layout.setComponentAlignment(l, this.captionAlignment);
-        }
-        if (!(field instanceof Button))
-            field.setCaption(null);
-
-        if (field instanceof MultiSelectComp) {
-            field.setWidth("200px");
-        } else {
-            field.setWidth(fieldControlWidth);
-        }
-
-        layout.addComponent(field, 2 * columns + 1, rows);
-        layout.setColumnExpandRatio(2 * columns + 1, 1.0f);
-        return field;
-    }
 
     public GridLayout getLayout() {
         return layout;

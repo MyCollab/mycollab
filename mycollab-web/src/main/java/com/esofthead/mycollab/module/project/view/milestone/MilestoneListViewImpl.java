@@ -260,7 +260,8 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
 
     private StreamResource buildStreamSource(ReportExportType exportType) {
         List fields = Arrays.asList(MilestoneTableFieldDef.milestonename(), MilestoneTableFieldDef.status(),
-                MilestoneTableFieldDef.startdate(), MilestoneTableFieldDef.enddate(), MilestoneTableFieldDef.assignee());
+                MilestoneTableFieldDef.startdate(), MilestoneTableFieldDef.enddate(), MilestoneTableFieldDef.id(),
+                MilestoneTableFieldDef.assignee());
         SimpleReportTemplateExecutor reportTemplateExecutor = new SimpleReportTemplateExecutor.AllItems<>("Milestones",
                 new RpFieldsBuilder(fields), exportType, SimpleMilestone.class, ApplicationContextUtil.getSpringBean
                 (MilestoneService.class));
@@ -299,7 +300,6 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
     }
 
     private class MilestoneBox extends CssLayout {
-
         MilestoneBox(final SimpleMilestone milestone) {
             this.addStyleName(UIConstants.MILESTONE_BOX);
             this.setWidth("100%");

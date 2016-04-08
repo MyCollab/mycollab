@@ -176,8 +176,8 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
         private ProjectRoleComboBox roleComboBox;
 
         public AdminRoleSelectionField() {
-            this.roleComboBox = new ProjectRoleComboBox();
-            this.roleComboBox.addValueChangeListener(new Property.ValueChangeListener() {
+            roleComboBox = new ProjectRoleComboBox();
+            roleComboBox.addValueChangeListener(new Property.ValueChangeListener() {
                 private static final long serialVersionUID = 1L;
 
                 @Override

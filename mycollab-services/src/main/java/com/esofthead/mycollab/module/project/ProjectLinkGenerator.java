@@ -22,6 +22,8 @@ import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static com.esofthead.mycollab.common.GenericLinkUtils.URL_PREFIX_PARAM;
+
 /**
  * @author MyCollab Ltd.
  * @since 1.0
@@ -33,7 +35,7 @@ public class ProjectLinkGenerator {
     }
 
     public static String generateProjectFullLink(String siteUrl, Integer projectId) {
-        return siteUrl + GenericLinkUtils.URL_PREFIX_PARAM + generateProjectLink(projectId);
+        return siteUrl + URL_PREFIX_PARAM + generateProjectLink(projectId);
     }
 
     public static String generateTaskDashboardLink(Integer projectId) {
@@ -45,7 +47,7 @@ public class ProjectLinkGenerator {
     }
 
     public static String generateTaskPreviewFullLink(String siteUrl, Integer taskKey, String prjShortName) {
-        return siteUrl + GenericLinkUtils.URL_PREFIX_PARAM + generateTaskPreviewLink(taskKey, prjShortName);
+        return siteUrl + URL_PREFIX_PARAM + generateTaskPreviewLink(taskKey, prjShortName);
     }
 
     public static String generateTaskEditLink(Integer taskkey, String prjShortName) {
@@ -61,11 +63,15 @@ public class ProjectLinkGenerator {
     }
 
     public static String generateMilestonePreviewFullLink(String siteUrl, Integer projectId, Integer milestoneId) {
-        return siteUrl + GenericLinkUtils.URL_PREFIX_PARAM + generateMilestonePreviewLink(projectId, milestoneId);
+        return siteUrl + URL_PREFIX_PARAM + generateMilestonePreviewLink(projectId, milestoneId);
     }
 
     public static String generateClientPreviewLink(Integer accountId) {
         return "project/client/preview/" + UrlEncodeDecoder.encode(accountId);
+    }
+
+    public static String generateClientPreviewFullLink(String siteUrl, Integer accountId) {
+        return siteUrl + URL_PREFIX_PARAM + "project/client/preview/" + UrlEncodeDecoder.encode(accountId);
     }
 
     public static String generatePagesLink(Integer projectId, String folderPath) {
@@ -92,7 +98,7 @@ public class ProjectLinkGenerator {
         if (memberName == null) {
             return "";
         }
-        return siteUrl + GenericLinkUtils.URL_PREFIX_PARAM + "project/user/preview/" + GenericLinkUtils.encodeParam(projectId, memberName);
+        return siteUrl + URL_PREFIX_PARAM + "project/user/preview/" + GenericLinkUtils.encodeParam(projectId, memberName);
     }
 
     public static String generateRisksLink(Integer projectId) {
@@ -104,7 +110,7 @@ public class ProjectLinkGenerator {
     }
 
     public static String generateRiskPreviewFullLink(String siteUrl, Integer projectId, Integer riskId) {
-        return siteUrl + GenericLinkUtils.URL_PREFIX_PARAM + generateRiskPreviewLink(projectId, riskId);
+        return siteUrl + URL_PREFIX_PARAM + generateRiskPreviewLink(projectId, riskId);
     }
 
     public static String generateRiskEditLink(Integer projectId, Integer riskId) {
@@ -128,7 +134,7 @@ public class ProjectLinkGenerator {
     }
 
     public static String generateMessagePreviewFullLink(String siteUrl, Integer projectId, Integer messageId) {
-        return siteUrl + GenericLinkUtils.URL_PREFIX_PARAM + generateMessagePreviewLink(projectId, messageId);
+        return siteUrl + URL_PREFIX_PARAM + generateMessagePreviewLink(projectId, messageId);
     }
 
     public static String generateBugComponentPreviewLink(Integer projectId, Integer componentId) {
@@ -136,7 +142,7 @@ public class ProjectLinkGenerator {
     }
 
     public static String generateBugComponentPreviewFullLink(String siteUrl, Integer projectId, Integer componentId) {
-        return siteUrl + GenericLinkUtils.URL_PREFIX_PARAM + generateBugComponentPreviewLink(projectId, componentId);
+        return siteUrl + URL_PREFIX_PARAM + generateBugComponentPreviewLink(projectId, componentId);
     }
 
     public static String generateBugVersionPreviewLink(Integer projectId, Integer versionId) {
@@ -144,7 +150,7 @@ public class ProjectLinkGenerator {
     }
 
     public static String generateBugVersionPreviewFullLink(String siteUrl, Integer projectId, Integer versionId) {
-        return siteUrl + GenericLinkUtils.URL_PREFIX_PARAM + generateBugVersionPreviewLink(projectId, versionId);
+        return siteUrl + URL_PREFIX_PARAM + generateBugVersionPreviewLink(projectId, versionId);
     }
 
     public static String generateBugPreviewLink(Integer bugKey, String prjShortname) {
@@ -156,7 +162,7 @@ public class ProjectLinkGenerator {
     }
 
     public static String generateBugPreviewFullLink(String siteUrl, Integer bugKey, String prjShortname) {
-        return siteUrl + GenericLinkUtils.URL_PREFIX_PARAM + generateBugPreviewLink(bugKey, prjShortname);
+        return siteUrl + URL_PREFIX_PARAM + generateBugPreviewLink(bugKey, prjShortname);
     }
 
     public static String generateFileDashboardLink(Integer projectId) {
@@ -176,7 +182,7 @@ public class ProjectLinkGenerator {
     }
 
     public static String generateRolePreviewFullLink(String siteUrl, Integer projectId, Integer roleId) {
-        return siteUrl + GenericLinkUtils.URL_PREFIX_PARAM + "project/role/preview/" + GenericLinkUtils.encodeParam(projectId, roleId);
+        return siteUrl + URL_PREFIX_PARAM + "project/role/preview/" + GenericLinkUtils.encodeParam(projectId, roleId);
     }
 
     public static String generateTimeTrackingPreviewLink(Integer projectId, Integer timeId) {

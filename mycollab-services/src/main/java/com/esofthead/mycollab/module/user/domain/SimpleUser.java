@@ -29,7 +29,6 @@ public class SimpleUser extends User {
 
     private Integer roleid;
 
-    @NotBindable
     private String roleName;
 
     @NotBindable
@@ -37,6 +36,7 @@ public class SimpleUser extends User {
 
     @NotBindable
     private Boolean isAccountOwner;
+
     private String subdomain;
     private Integer accountId;
     private String registerstatus;
@@ -142,7 +142,7 @@ public class SimpleUser extends User {
     }
 
     public enum Field {
-        roleid;
+        displayName, roleName, roleid;
 
         public boolean equalTo(Object value) {
             return name().equals(value);

@@ -92,10 +92,8 @@ public class AccountTableDisplay extends DefaultPagedBeanTable<AccountService, A
             @Override
             public Component generateCell(Table source, Object itemId, Object columnId) {
                 SimpleAccount account = getBeanByIndex(itemId);
-                LabelLink b = new LabelLink(account.getAccountname(),
-                        CrmLinkBuilder.generateAccountPreviewLinkFull(account.getId()));
-                b.setDescription(CrmTooltipGenerator.generateToolTipAccount(
-                        AppContext.getUserLocale(), account, AppContext.getSiteUrl()));
+                LabelLink b = new LabelLink(account.getAccountname(), CrmLinkBuilder.generateAccountPreviewLinkFull(account.getId()));
+                b.setDescription(CrmTooltipGenerator.generateToolTipAccount(AppContext.getUserLocale(), account, AppContext.getSiteUrl()));
                 return b;
             }
         });

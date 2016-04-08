@@ -27,7 +27,7 @@ import java.util.Locale;
  * @author MyCollab Ltd.
  * @since 4.1.2
  */
-public class DateExpression extends SimpleFieldExpression implements MValue {
+public class DateExpression extends SimpleFieldExpression {
     private static final long serialVersionUID = 1L;
 
     public DateExpression(String field) {

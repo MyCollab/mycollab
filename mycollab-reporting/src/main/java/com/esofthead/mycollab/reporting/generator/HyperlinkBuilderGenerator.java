@@ -14,21 +14,26 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-reporting.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.reporting.expression;
+package com.esofthead.mycollab.reporting.generator;
 
+import com.esofthead.mycollab.reporting.AbstractReportTemplate;
+import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
 import net.sf.dynamicreports.report.builder.style.StyleBuilder;
 import net.sf.dynamicreports.report.definition.expression.DRIExpression;
+
+import static net.sf.dynamicreports.report.builder.DynamicReports.cmp;
+import static net.sf.dynamicreports.report.builder.DynamicReports.hyperLink;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.3.1
  */
-public class HyperlinkValue implements MValue {
+public class HyperlinkBuilderGenerator implements ComponentBuilderGenerator {
     private DRIExpression title;
     private DRIExpression href;
     private StyleBuilder style;
 
-    public HyperlinkValue(DRIExpression title, DRIExpression href) {
+    public HyperlinkBuilderGenerator(DRIExpression title, DRIExpression href) {
         this.title = title;
         this.href = href;
     }
@@ -45,8 +50,19 @@ public class HyperlinkValue implements MValue {
         return style;
     }
 
-    public HyperlinkValue setStyle(StyleBuilder style) {
+    public HyperlinkBuilderGenerator setStyle(StyleBuilder style) {
         this.style = style;
         return this;
+    }
+
+    @Override
+    public ComponentBuilder getCompBuilder(AbstractReportTemplate reportTemplate) {
+        ComponentBuilder compBuilder = cmp.text(title).setHyperLink(hyperLink(href))
+                .setStyle(reportTemplate.getUnderlineStyle());
+
+        if (style != null) {
+            compBuilder.setStyle(style);
+        }
+        return compBuilder;
     }
 }

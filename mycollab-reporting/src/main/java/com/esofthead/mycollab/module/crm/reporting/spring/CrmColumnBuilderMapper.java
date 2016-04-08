@@ -22,7 +22,13 @@ import com.esofthead.mycollab.module.crm.domain.*;
 import com.esofthead.mycollab.module.user.AccountLinkGenerator;
 import com.esofthead.mycollab.reporting.ColumnBuilderClassMapper;
 import com.esofthead.mycollab.reporting.ReportTemplateFactory;
-import com.esofthead.mycollab.reporting.expression.*;
+import com.esofthead.mycollab.reporting.expression.DateExpression;
+import com.esofthead.mycollab.reporting.expression.DateTimeExpression;
+import com.esofthead.mycollab.reporting.expression.MailExpression;
+import com.esofthead.mycollab.reporting.expression.PrimaryTypeFieldExpression;
+import com.esofthead.mycollab.reporting.generator.ComponentBuilderGenerator;
+import com.esofthead.mycollab.reporting.generator.HyperlinkBuilderGenerator;
+import com.esofthead.mycollab.reporting.generator.SimpleExpressionBuilderGenerator;
 import net.sf.dynamicreports.report.base.expression.AbstractSimpleExpression;
 import net.sf.dynamicreports.report.builder.DynamicReports;
 import net.sf.dynamicreports.report.builder.style.ConditionalStyleBuilder;
@@ -58,10 +64,10 @@ public class CrmColumnBuilderMapper implements InitializingBean {
         ColumnBuilderClassMapper.put(SimpleCase.class, buildCaseMap());
     }
 
-    private Map<String, MValue> buildAccountMap() {
+    private Map<String, ComponentBuilderGenerator> buildAccountMap() {
         LOG.debug("Build report mapper for crm::account module");
 
-        Map<String, MValue> map = new HashMap<>();
+        Map<String, ComponentBuilderGenerator> map = new HashMap<>();
         DRIExpression<String> assigneeTitleExpr = new PrimaryTypeFieldExpression(SimpleAccount.Field.assignUserFullName.name());
         DRIExpression<String> assigneeHrefExpr = new AbstractSimpleExpression<String>() {
             private static final long serialVersionUID = 1L;
@@ -78,7 +84,7 @@ public class CrmColumnBuilderMapper implements InitializingBean {
             }
         };
 
-        map.put(SimpleAccount.Field.assignUserFullName.name(), new HyperlinkValue(assigneeTitleExpr, assigneeHrefExpr));
+        map.put(SimpleAccount.Field.assignUserFullName.name(), new HyperlinkBuilderGenerator(assigneeTitleExpr, assigneeHrefExpr));
 
         DRIExpression<String> accountTitleExpr = new PrimaryTypeFieldExpression(Account.Field.accountname.name());
         DRIExpression<String> accountHrefExpr = new AbstractSimpleExpression<String>() {
@@ -91,13 +97,13 @@ public class CrmColumnBuilderMapper implements InitializingBean {
                 return CrmLinkGenerator.generateAccountPreviewFullLink(siteUrl, accountId);
             }
         };
-        map.put(Account.Field.accountname.name(), new HyperlinkValue(accountTitleExpr, accountHrefExpr));
+        map.put(Account.Field.accountname.name(), new HyperlinkBuilderGenerator(accountTitleExpr, accountHrefExpr));
         return map;
     }
 
-    private Map<String, MValue> buildContactMap() {
+    private Map<String, ComponentBuilderGenerator> buildContactMap() {
         LOG.debug("Build report mapper for crm::contact module");
-        Map<String, MValue> map = new HashMap<>();
+        Map<String, ComponentBuilderGenerator> map = new HashMap<>();
 
         DRIExpression<String> accountTitleExpr = new PrimaryTypeFieldExpression("accountName");
         DRIExpression<String> accountHrefExpr = new AbstractSimpleExpression<String>() {
@@ -110,7 +116,7 @@ public class CrmColumnBuilderMapper implements InitializingBean {
                 return CrmLinkGenerator.generateAccountPreviewFullLink(siteUrl, accountId);
             }
         };
-        map.put("accountName", new HyperlinkValue(accountTitleExpr, accountHrefExpr));
+        map.put("accountName", new HyperlinkBuilderGenerator(accountTitleExpr, accountHrefExpr));
 
         DRIExpression<String> contactTitleExpr = new PrimaryTypeFieldExpression("contactName");
         DRIExpression<String> contactHrefExpr = new AbstractSimpleExpression<String>() {
@@ -123,7 +129,7 @@ public class CrmColumnBuilderMapper implements InitializingBean {
                 return CrmLinkGenerator.generateContactPreviewFullLink(siteUrl, contactid);
             }
         };
-        map.put("contactName", new HyperlinkValue(contactTitleExpr, contactHrefExpr));
+        map.put("contactName", new HyperlinkBuilderGenerator(contactTitleExpr, contactHrefExpr));
 
         DRIExpression<String> assigneeTitleExpr = new PrimaryTypeFieldExpression("assignUserFullName");
         DRIExpression<String> assigneeHrefExpr = new AbstractSimpleExpression<String>() {
@@ -141,13 +147,13 @@ public class CrmColumnBuilderMapper implements InitializingBean {
             }
         };
 
-        map.put("assignUserFullName", new HyperlinkValue(assigneeTitleExpr, assigneeHrefExpr));
+        map.put("assignUserFullName", new HyperlinkBuilderGenerator(assigneeTitleExpr, assigneeHrefExpr));
         return map;
     }
 
-    private Map<String, MValue> buildCampaignMap() {
+    private Map<String, ComponentBuilderGenerator> buildCampaignMap() {
         LOG.debug("Build report mapper for crm::campaign module");
-        Map<String, MValue> map = new HashMap<>();
+        Map<String, ComponentBuilderGenerator> map = new HashMap<>();
         DRIExpression<String> assigneeTitleExpr = new PrimaryTypeFieldExpression<>("assignUserFullName");
         DRIExpression<String> assigneeHrefExpr = new AbstractSimpleExpression<String>() {
             private static final long serialVersionUID = 1L;
@@ -164,7 +170,7 @@ public class CrmColumnBuilderMapper implements InitializingBean {
             }
         };
 
-        map.put("assignUserFullName", new HyperlinkValue(assigneeTitleExpr, assigneeHrefExpr));
+        map.put("assignUserFullName", new HyperlinkBuilderGenerator(assigneeTitleExpr, assigneeHrefExpr));
 
         DRIExpression<String> campaignTitleExpr = new PrimaryTypeFieldExpression("campaignname");
         DRIExpression<String> campaignHrefExpr = new AbstractSimpleExpression<String>() {
@@ -177,14 +183,14 @@ public class CrmColumnBuilderMapper implements InitializingBean {
                 return CrmLinkGenerator.generateCampaignPreviewFullLink(siteUrl, campaignId);
             }
         };
-        map.put("campaignname", new HyperlinkValue(campaignTitleExpr, campaignHrefExpr));
-        map.put("enddate", new DateExpression("enddate"));
+        map.put("campaignname", new HyperlinkBuilderGenerator(campaignTitleExpr, campaignHrefExpr));
+        map.put("enddate", new SimpleExpressionBuilderGenerator(new DateExpression("enddate")));
         return map;
     }
 
-    private Map<String, MValue> buildLeadMap() {
+    private Map<String, ComponentBuilderGenerator> buildLeadMap() {
         LOG.debug("Build report mapper for crm::lead module");
-        Map<String, MValue> map = new HashMap<>();
+        Map<String, ComponentBuilderGenerator> map = new HashMap<>();
         DRIExpression<String> assigneeTitleExpr = new PrimaryTypeFieldExpression("assignUserFullName");
         DRIExpression<String> assigneeHrefExpr = new AbstractSimpleExpression<String>() {
             private static final long serialVersionUID = 1L;
@@ -201,7 +207,7 @@ public class CrmColumnBuilderMapper implements InitializingBean {
             }
         };
 
-        map.put("assignUserFullName", new HyperlinkValue(assigneeTitleExpr, assigneeHrefExpr));
+        map.put("assignUserFullName", new HyperlinkBuilderGenerator(assigneeTitleExpr, assigneeHrefExpr));
 
         DRIExpression<String> leadTitleExpr = new PrimaryTypeFieldExpression("leadName");
         DRIExpression<String> leadHrefExpr = new AbstractSimpleExpression<String>() {
@@ -214,14 +220,14 @@ public class CrmColumnBuilderMapper implements InitializingBean {
                 return CrmLinkGenerator.generateLeadPreviewFullLink(siteUrl, leadId);
             }
         };
-        map.put("leadName", new HyperlinkValue(leadTitleExpr, leadHrefExpr));
-        map.put("email", new MailExpression("email"));
+        map.put("leadName", new HyperlinkBuilderGenerator(leadTitleExpr, leadHrefExpr));
+        map.put("email", new SimpleExpressionBuilderGenerator(new MailExpression("email")));
         return map;
     }
 
-    private Map<String, MValue> buildOpportunityMap() {
+    private Map<String, ComponentBuilderGenerator> buildOpportunityMap() {
         LOG.debug("Build report mapper for crm::opportunity module");
-        Map<String, MValue> map = new HashMap<>();
+        Map<String, ComponentBuilderGenerator> map = new HashMap<>();
         DRIExpression<String> assigneeTitleExpr = new PrimaryTypeFieldExpression("assignUserFullName");
         DRIExpression<String> assigneeHrefExpr = new AbstractSimpleExpression<String>() {
             private static final long serialVersionUID = 1L;
@@ -238,7 +244,7 @@ public class CrmColumnBuilderMapper implements InitializingBean {
             }
         };
 
-        map.put("assignUserFullName", new HyperlinkValue(assigneeTitleExpr, assigneeHrefExpr));
+        map.put("assignUserFullName", new HyperlinkBuilderGenerator(assigneeTitleExpr, assigneeHrefExpr));
 
         DRIExpression<String> opportunityTitleExpr = new PrimaryTypeFieldExpression("opportunityname");
         DRIExpression<String> opportunityHrefExpr = new AbstractSimpleExpression<String>() {
@@ -284,14 +290,14 @@ public class CrmColumnBuilderMapper implements InitializingBean {
                 .getUnderlineStyle()).addConditionalStyle(overDueStyle)
                 .addConditionalStyle(isCompleteStyle);
 
-        map.put("opportunityname", new HyperlinkValue(opportunityTitleExpr, opportunityHrefExpr).setStyle(styleBuilder));
-        map.put("expectedcloseddate", new DateExpression("expectedcloseddate"));
+        map.put("opportunityname", new HyperlinkBuilderGenerator(opportunityTitleExpr, opportunityHrefExpr).setStyle(styleBuilder));
+        map.put("expectedcloseddate", new SimpleExpressionBuilderGenerator(new DateExpression("expectedcloseddate")));
         return map;
     }
 
-    private Map<String, MValue> buildCaseMap() {
+    private Map<String, ComponentBuilderGenerator> buildCaseMap() {
         LOG.debug("Build report mapper for crm::case module");
-        Map<String, MValue> map = new HashMap<>();
+        Map<String, ComponentBuilderGenerator> map = new HashMap<>();
         DRIExpression<String> assigneeTitleExpr = new PrimaryTypeFieldExpression("assignUserFullName");
         DRIExpression<String> assigneeHrefExpr = new AbstractSimpleExpression<String>() {
             private static final long serialVersionUID = 1L;
@@ -308,7 +314,7 @@ public class CrmColumnBuilderMapper implements InitializingBean {
             }
         };
 
-        map.put("assignUserFullName", new HyperlinkValue(assigneeTitleExpr, assigneeHrefExpr));
+        map.put("assignUserFullName", new HyperlinkBuilderGenerator(assigneeTitleExpr, assigneeHrefExpr));
 
         DRIExpression<String> caseTitleExpr = new PrimaryTypeFieldExpression("subject");
         DRIExpression<String> caseHrefExpr = new AbstractSimpleExpression<String>() {
@@ -321,8 +327,8 @@ public class CrmColumnBuilderMapper implements InitializingBean {
                 return CrmLinkGenerator.generateCasePreviewFullLink(siteUrl, caseId);
             }
         };
-        map.put("subject", new HyperlinkValue(caseTitleExpr, caseHrefExpr));
-        map.put("createdtime", new DateTimeExpression("createdtime"));
+        map.put("subject", new HyperlinkBuilderGenerator(caseTitleExpr, caseHrefExpr));
+        map.put("createdtime", new SimpleExpressionBuilderGenerator(new DateTimeExpression("createdtime")));
         return map;
     }
 }

@@ -16,11 +16,8 @@
  */
 package com.esofthead.mycollab.module.crm.view.opportunity;
 
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
-import com.esofthead.mycollab.module.crm.events.AccountEvent;
-import com.esofthead.mycollab.module.crm.events.OpportunityEvent;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractListItemComp;
 import com.esofthead.mycollab.module.crm.ui.components.ComponentUtils;
 import com.esofthead.mycollab.module.crm.view.campaign.CampaignImportWindow;
@@ -30,8 +27,6 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
 import com.esofthead.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
-import com.esofthead.mycollab.vaadin.web.ui.table.IPagedBeanTable.TableClickEvent;
-import com.esofthead.mycollab.vaadin.web.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.UI;
@@ -75,31 +70,12 @@ public class OpportunityListViewImpl extends AbstractListItemComp<OpportunitySea
 
     @Override
     protected AbstractPagedBeanTable<OpportunitySearchCriteria, SimpleOpportunity> createBeanTable() {
-        OpportunityTableDisplay opportunityTableDisplay = new OpportunityTableDisplay(
+        return new OpportunityTableDisplay(
                 OpportunityListView.VIEW_DEF_ID,
                 OpportunityTableFieldDef.selected(), Arrays.asList(
-                OpportunityTableFieldDef.opportunityName(),
-                OpportunityTableFieldDef.accountName(),
-                OpportunityTableFieldDef.saleStage(),
-                OpportunityTableFieldDef.amount(),
-                OpportunityTableFieldDef.expectedCloseDate(),
-                OpportunityTableFieldDef.assignUser()));
-
-        opportunityTableDisplay.addTableListener(new TableClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void itemClick(final TableClickEvent event) {
-                final SimpleOpportunity opportunity = (SimpleOpportunity) event.getData();
-                if (event.getFieldName().equals("opportunityname")) {
-                    EventBusFactory.getInstance().post(new OpportunityEvent.GotoRead(this, opportunity.getId()));
-                } else if (event.getFieldName().equals("accountname")) {
-                    EventBusFactory.getInstance().post(new AccountEvent.GotoRead(this, opportunity.getAccountid()));
-                }
-            }
-        });
-
-        return opportunityTableDisplay;
+                OpportunityTableFieldDef.opportunityName(), OpportunityTableFieldDef.accountName(),
+                OpportunityTableFieldDef.saleStage(), OpportunityTableFieldDef.amount(),
+                OpportunityTableFieldDef.expectedCloseDate(), OpportunityTableFieldDef.assignUser()));
     }
 
     @Override

@@ -24,9 +24,17 @@ import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.SimpleComponent;
 import com.esofthead.mycollab.module.tracker.domain.SimpleVersion;
 import com.esofthead.mycollab.module.user.AccountLinkGenerator;
+import com.esofthead.mycollab.reporting.AbstractReportTemplate;
 import com.esofthead.mycollab.reporting.ColumnBuilderClassMapper;
-import com.esofthead.mycollab.reporting.expression.*;
+import com.esofthead.mycollab.reporting.expression.DateExpression;
+import com.esofthead.mycollab.reporting.expression.HumanTimeExpression;
+import com.esofthead.mycollab.reporting.expression.I18nExpression;
+import com.esofthead.mycollab.reporting.expression.PrimaryTypeFieldExpression;
+import com.esofthead.mycollab.reporting.generator.ComponentBuilderGenerator;
+import com.esofthead.mycollab.reporting.generator.HyperlinkBuilderGenerator;
+import com.esofthead.mycollab.reporting.generator.SimpleExpressionBuilderGenerator;
 import net.sf.dynamicreports.report.base.expression.AbstractSimpleExpression;
+import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
 import net.sf.dynamicreports.report.builder.component.HorizontalListBuilder;
 import net.sf.dynamicreports.report.builder.component.ImageBuilder;
 import net.sf.dynamicreports.report.definition.ReportParameters;
@@ -51,6 +59,7 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
+        ColumnBuilderClassMapper.put(SimpleProject.class, buildProjectMap());
         ColumnBuilderClassMapper.put(SimpleMilestone.class, buildMilestoneMap());
         ColumnBuilderClassMapper.put(SimpleTask.class, buildTaskMap());
         ColumnBuilderClassMapper.put(SimpleBug.class, buildBugMap());
@@ -58,13 +67,65 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
         ColumnBuilderClassMapper.put(SimpleVersion.class, buildVersionMap());
         ColumnBuilderClassMapper.put(SimpleRisk.class, buildRiskMap());
         ColumnBuilderClassMapper.put(SimpleProjectRole.class, buildRoleMap());
+        ColumnBuilderClassMapper.put(SimpleProjectMember.class, buildProjectMemberMap());
         ColumnBuilderClassMapper.put(SimpleItemTimeLogging.class, buildTimeTrackingMap());
         ColumnBuilderClassMapper.put(FollowingTicket.class, buildTFollowingTicketMap());
     }
 
-    private Map<String, MValue> buildMilestoneMap() {
+    private Map<String, ComponentBuilderGenerator> buildProjectMap() {
+        Map<String, ComponentBuilderGenerator> map = new HashMap<>();
+        DRIExpression<String> projectNameExpr = new PrimaryTypeFieldExpression<>(Project.Field.name.name());
+        DRIExpression<String> projectHrefExpr = new AbstractSimpleExpression<String>() {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public String evaluate(ReportParameters reportParameters) {
+                Integer projectId = reportParameters.getFieldValue(Project.Field.id.name());
+                String siteUrl = reportParameters.getParameterValue("siteUrl");
+                return ProjectLinkGenerator.generateProjectFullLink(siteUrl, projectId);
+            }
+        };
+        map.put(Milestone.Field.name.name(), new HyperlinkBuilderGenerator(projectNameExpr, projectHrefExpr));
+
+        DRIExpression<String> leadNameExpr = new PrimaryTypeFieldExpression<>(SimpleProject.Field.leadFullName.name());
+        DRIExpression<String> leadHrefExpr = new AbstractSimpleExpression<String>() {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public String evaluate(ReportParameters reportParameters) {
+                Integer projectId = reportParameters.getFieldValue(Project.Field.id.name());
+                String siteUrl = reportParameters.getParameterValue("siteUrl");
+                String memberName = reportParameters.getParameterValue(Project.Field.lead.name());
+                return ProjectLinkGenerator.generateProjectMemberFullLink(siteUrl, projectId, memberName);
+            }
+        };
+        map.put(Project.Field.lead.name(), new HyperlinkBuilderGenerator(leadNameExpr, leadHrefExpr));
+
+        DRIExpression<String> accountNameExpr = new PrimaryTypeFieldExpression<>(SimpleProject.Field.clientName.name());
+        DRIExpression<String> clientHrefExpr = new AbstractSimpleExpression<String>() {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public String evaluate(ReportParameters reportParameters) {
+                String siteUrl = reportParameters.getParameterValue("siteUrl");
+                Integer accountId = reportParameters.getParameterValue(Project.Field.accountid.name());
+                return ProjectLinkGenerator.generateClientPreviewFullLink(siteUrl, accountId);
+            }
+        };
+        map.put(Project.Field.accountid.name(), new HyperlinkBuilderGenerator(accountNameExpr, clientHrefExpr));
+
+        DRIExpression<String> homePageUrlExpr = new PrimaryTypeFieldExpression<>(Project.Field.homepage.name());
+        map.put(Project.Field.homepage.name(), new HyperlinkBuilderGenerator(homePageUrlExpr, homePageUrlExpr));
+
+        map.put(Project.Field.createdtime.name(), new SimpleExpressionBuilderGenerator(new DateExpression(Project.Field.createdtime.name())));
+        map.put(Project.Field.planstartdate.name(), new SimpleExpressionBuilderGenerator(new DateExpression(Project.Field.planstartdate.name())));
+        map.put(Project.Field.planenddate.name(), new SimpleExpressionBuilderGenerator(new DateExpression(Project.Field.planenddate.name())));
+        return map;
+    }
+
+    private Map<String, ComponentBuilderGenerator> buildMilestoneMap() {
         LOG.debug("Build report mapper for project::milestone module");
-        Map<String, MValue> map = new HashMap<>();
+        Map<String, ComponentBuilderGenerator> map = new HashMap<>();
         DRIExpression<String> milestoneNameExpr = new PrimaryTypeFieldExpression<>(Milestone.Field.name.name());
         DRIExpression<String> milestoneHrefExpr = new AbstractSimpleExpression<String>() {
             private static final long serialVersionUID = 1L;
@@ -77,11 +138,11 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
                 return ProjectLinkGenerator.generateMilestonePreviewFullLink(siteUrl, projectId, milestoneId);
             }
         };
-        map.put(Milestone.Field.name.name(), new HyperlinkValue(milestoneNameExpr, milestoneHrefExpr));
-        map.put(Milestone.Field.status.name(), new I18nExpression("status", com.esofthead.mycollab.common.i18n
-                .OptionI18nEnum.StatusI18nEnum.class));
-        map.put(Milestone.Field.startdate.name(), new DateExpression(Milestone.Field.startdate.name()));
-        map.put(Milestone.Field.enddate.name(), new DateExpression(Milestone.Field.enddate.name()));
+        map.put(Milestone.Field.name.name(), new HyperlinkBuilderGenerator(milestoneNameExpr, milestoneHrefExpr));
+        map.put(Milestone.Field.status.name(), new SimpleExpressionBuilderGenerator(new I18nExpression("status",
+                com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.class)));
+        map.put(Milestone.Field.startdate.name(), new SimpleExpressionBuilderGenerator(new DateExpression(Milestone.Field.startdate.name())));
+        map.put(Milestone.Field.enddate.name(), new SimpleExpressionBuilderGenerator(new DateExpression(Milestone.Field.enddate.name())));
         DRIExpression<String> assigneeTitleExpr = new PrimaryTypeFieldExpression<>(SimpleMilestone.Field.ownerFullName.name());
         DRIExpression<String> assigneeHrefExpr = new AbstractSimpleExpression<String>() {
             private static final long serialVersionUID = 1L;
@@ -98,13 +159,27 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
             }
         };
 
-        map.put(SimpleMilestone.Field.ownerFullName.name(), new HyperlinkValue(assigneeTitleExpr, assigneeHrefExpr));
+        map.put(SimpleMilestone.Field.ownerFullName.name(), new HyperlinkBuilderGenerator(assigneeTitleExpr, assigneeHrefExpr));
+
+        AbstractSimpleExpression<Double> progressExpr = new AbstractSimpleExpression<Double>() {
+            @Override
+            public Double evaluate(ReportParameters reportParameters) {
+                Integer numOpenBugs = reportParameters.getFieldValue(SimpleMilestone.Field.numOpenBugs.name());
+                Integer numBugs = reportParameters.getFieldValue(SimpleMilestone.Field.numBugs.name());
+                Integer numOpenTasks = reportParameters.getFieldValue(SimpleMilestone.Field.numOpenTasks.name());
+                Integer numTasks = reportParameters.getFieldValue(SimpleMilestone.Field.numTasks.name());
+                int openAssignments = numOpenBugs + numOpenTasks;
+                int totalAssignments = numBugs + numTasks;
+                return (totalAssignments > 0) ? ((totalAssignments - openAssignments) * 1d / totalAssignments) * 100d : 100d;
+            }
+        };
+        map.put(Milestone.Field.id.name(), new SimpleExpressionBuilderGenerator(progressExpr));
         return map;
     }
 
-    private Map<String, MValue> buildTaskMap() {
+    private Map<String, ComponentBuilderGenerator> buildTaskMap() {
         LOG.debug("Build report mapper for project::task module");
-        Map<String, MValue> map = new HashMap<>();
+        Map<String, ComponentBuilderGenerator> map = new HashMap<>();
         DRIExpression<String> taskNameTitleExpr = new PrimaryTypeFieldExpression<>(Task.Field.taskname.name());
         DRIExpression<String> taskNameHrefExpr = new AbstractSimpleExpression<String>() {
             private static final long serialVersionUID = 1L;
@@ -117,10 +192,11 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
                 return ProjectLinkGenerator.generateTaskPreviewFullLink(siteUrl, taskKey, projectShortName);
             }
         };
-        map.put(Task.Field.taskname.name(), new HyperlinkValue(taskNameTitleExpr, taskNameHrefExpr));
-        map.put(Task.Field.startdate.name(), new DateExpression(Task.Field.startdate.name()));
-        map.put(Task.Field.deadline.name(), new DateExpression(Task.Field.deadline.name()));
-        map.put(Task.Field.status.name(), new I18nExpression("status", com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.class));
+        map.put(Task.Field.taskname.name(), new HyperlinkBuilderGenerator(taskNameTitleExpr, taskNameHrefExpr));
+        map.put(Task.Field.startdate.name(), new SimpleExpressionBuilderGenerator(new DateExpression(Task.Field.startdate.name())));
+        map.put(Task.Field.deadline.name(), new SimpleExpressionBuilderGenerator(new DateExpression(Task.Field.deadline.name())));
+        map.put(Task.Field.status.name(), new SimpleExpressionBuilderGenerator(new I18nExpression("status",
+                com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.class)));
 
         DRIExpression<String> assigneeTitleExpr = new PrimaryTypeFieldExpression<>(SimpleTask.Field.assignUserFullName.name());
         DRIExpression<String> assigneeHrefExpr = new AbstractSimpleExpression<String>() {
@@ -138,14 +214,14 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
             }
         };
 
-        map.put(SimpleTask.Field.assignUserFullName.name(), new HyperlinkValue(assigneeTitleExpr, assigneeHrefExpr));
+        map.put(SimpleTask.Field.assignUserFullName.name(), new HyperlinkBuilderGenerator(assigneeTitleExpr, assigneeHrefExpr));
         return map;
     }
 
-    private Map<String, MValue> buildBugMap() {
+    private Map<String, ComponentBuilderGenerator> buildBugMap() {
         LOG.debug("Build report mapper for project::bug module");
 
-        Map<String, MValue> map = new HashMap<>();
+        Map<String, ComponentBuilderGenerator> map = new HashMap<>();
         DRIExpression<String> summaryTitleExpr = new PrimaryTypeFieldExpression<>("summary");
         DRIExpression<String> summaryHrefExpr = new AbstractSimpleExpression<String>() {
             private static final long serialVersionUID = 1L;
@@ -158,7 +234,7 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
                 return ProjectLinkGenerator.generateBugPreviewFullLink(siteUrl, bugKey, projectShortName);
             }
         };
-        map.put("summary", new HyperlinkValue(summaryTitleExpr, summaryHrefExpr));
+        map.put("summary", new HyperlinkBuilderGenerator(summaryTitleExpr, summaryHrefExpr));
 
         DRIExpression<String> assigneeTitleExpr = new PrimaryTypeFieldExpression<>("assignuserFullName");
         DRIExpression<String> assigneeHrefExpr = new AbstractSimpleExpression<String>() {
@@ -192,22 +268,22 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
             }
         };
 
-        map.put("severity", new I18nExpression("severity", OptionI18nEnum.BugSeverity.class));
-        map.put("priority", new I18nExpression("priority", OptionI18nEnum.BugPriority.class));
-        map.put("status", new I18nExpression("status", OptionI18nEnum.BugStatus.class));
-        map.put("resolution", new I18nExpression("resolution", OptionI18nEnum.BugResolution.class));
-        map.put("assignuserFullName", new HyperlinkValue(assigneeTitleExpr, assigneeHrefExpr));
-        map.put("loguserFullName", new HyperlinkValue(logUserTitleExpr, logUserHrefExpr));
-        map.put("duedate", new DateExpression("duedate"));
-        map.put("billableHours", new HumanTimeExpression("billableHours"));
-        map.put("nonBillableHours", new HumanTimeExpression("nonBillableHours"));
+        map.put("severity", new SimpleExpressionBuilderGenerator(new I18nExpression("severity", OptionI18nEnum.BugSeverity.class)));
+        map.put("priority", new SimpleExpressionBuilderGenerator(new I18nExpression("priority", OptionI18nEnum.BugPriority.class)));
+        map.put("status", new SimpleExpressionBuilderGenerator(new I18nExpression("status", OptionI18nEnum.BugStatus.class)));
+        map.put("resolution", new SimpleExpressionBuilderGenerator(new I18nExpression("resolution", OptionI18nEnum.BugResolution.class)));
+        map.put("assignuserFullName", new HyperlinkBuilderGenerator(assigneeTitleExpr, assigneeHrefExpr));
+        map.put("loguserFullName", new HyperlinkBuilderGenerator(logUserTitleExpr, logUserHrefExpr));
+        map.put("duedate", new SimpleExpressionBuilderGenerator(new DateExpression("duedate")));
+        map.put("billableHours", new SimpleExpressionBuilderGenerator(new HumanTimeExpression("billableHours")));
+        map.put("nonBillableHours", new SimpleExpressionBuilderGenerator(new HumanTimeExpression("nonBillableHours")));
         return map;
     }
 
-    private Map<String, MValue> buildComponentMap() {
+    private Map<String, ComponentBuilderGenerator> buildComponentMap() {
         LOG.debug("Build report mapper for project::component module");
 
-        Map<String, MValue> map = new HashMap<>();
+        Map<String, ComponentBuilderGenerator> map = new HashMap<>();
         DRIExpression<String> summaryTitleExpr = new PrimaryTypeFieldExpression<>("componentname");
         DRIExpression<String> summaryHrefExpr = new AbstractSimpleExpression<String>() {
             private static final long serialVersionUID = 1L;
@@ -220,7 +296,7 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
                 return ProjectLinkGenerator.generateBugComponentPreviewFullLink(siteUrl, projectId, componentId);
             }
         };
-        map.put("componentname", new HyperlinkValue(summaryTitleExpr, summaryHrefExpr));
+        map.put("componentname", new HyperlinkBuilderGenerator(summaryTitleExpr, summaryHrefExpr));
 
         DRIExpression<String> assigneeTitleExpr = new PrimaryTypeFieldExpression<>("userLeadFullName");
         DRIExpression<String> assigneeHrefExpr = new AbstractSimpleExpression<String>() {
@@ -238,35 +314,53 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
             }
         };
 
-        map.put("userLeadFullName", new HyperlinkValue(assigneeTitleExpr, assigneeHrefExpr));
+        map.put("userLeadFullName", new HyperlinkBuilderGenerator(assigneeTitleExpr, assigneeHrefExpr));
+        AbstractSimpleExpression<Double> progressExpr = new AbstractSimpleExpression<Double>() {
+            @Override
+            public Double evaluate(ReportParameters reportParameters) {
+                Integer numOpenBugs = reportParameters.getFieldValue(SimpleComponent.Field.numOpenBugs.name());
+                Integer numBugs = reportParameters.getFieldValue(SimpleComponent.Field.numBugs.name());
+                return numBugs != null && numBugs != 0 ? ((numBugs - numOpenBugs) * 1d / numBugs) * 100d : 100d;
+            }
+        };
+        map.put("id", new SimpleExpressionBuilderGenerator(progressExpr));
         return map;
     }
 
-    private Map<String, MValue> buildVersionMap() {
+    private Map<String, ComponentBuilderGenerator> buildVersionMap() {
         LOG.debug("Build report mapper for project::version module");
 
-        Map<String, MValue> map = new HashMap<>();
+        Map<String, ComponentBuilderGenerator> map = new HashMap<>();
         DRIExpression<String> summaryTitleExpr = new PrimaryTypeFieldExpression<>("versionname");
         DRIExpression<String> summaryHrefExpr = new AbstractSimpleExpression<String>() {
             private static final long serialVersionUID = 1L;
 
             @Override
             public String evaluate(ReportParameters reportParameters) {
-                Integer versionid = reportParameters.getFieldValue("id");
+                Integer versionId = reportParameters.getFieldValue("id");
                 Integer projectId = reportParameters.getFieldValue("projectid");
                 String siteUrl = reportParameters.getParameterValue("siteUrl");
-                return ProjectLinkGenerator.generateBugVersionPreviewFullLink(siteUrl, projectId, versionid);
+                return ProjectLinkGenerator.generateBugVersionPreviewFullLink(siteUrl, projectId, versionId);
             }
         };
-        map.put("versionname", new HyperlinkValue(summaryTitleExpr, summaryHrefExpr));
-        map.put("duedate", new DateExpression("duedate"));
+        map.put("versionname", new HyperlinkBuilderGenerator(summaryTitleExpr, summaryHrefExpr));
+        map.put("duedate", new SimpleExpressionBuilderGenerator(new DateExpression("duedate")));
+        AbstractSimpleExpression<Double> progressExpr = new AbstractSimpleExpression<Double>() {
+            @Override
+            public Double evaluate(ReportParameters reportParameters) {
+                Integer numOpenBugs = reportParameters.getFieldValue(SimpleVersion.Field.numOpenBugs.name());
+                Integer numBugs = reportParameters.getFieldValue(SimpleVersion.Field.numBugs.name());
+                return numBugs != null && numBugs != 0 ? ((numBugs - numOpenBugs) * 1d / numBugs) * 100d : 100d;
+            }
+        };
+        map.put("id", new SimpleExpressionBuilderGenerator(progressExpr));
         return map;
     }
 
-    private Map<String, MValue> buildRiskMap() {
+    private Map<String, ComponentBuilderGenerator> buildRiskMap() {
         LOG.debug("Build report mapper for project::risk module");
 
-        Map<String, MValue> map = new HashMap<>();
+        Map<String, ComponentBuilderGenerator> map = new HashMap<>();
         DRIExpression<String> summaryTitleExpr = new PrimaryTypeFieldExpression<>(Risk.Field.riskname.name());
         DRIExpression<String> summaryHrefExpr = new AbstractSimpleExpression<String>() {
             private static final long serialVersionUID = 1L;
@@ -279,7 +373,7 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
                 return ProjectLinkGenerator.generateRiskPreviewFullLink(siteUrl, projectId, riskId);
             }
         };
-        map.put(Risk.Field.riskname.name(), new HyperlinkValue(summaryTitleExpr, summaryHrefExpr));
+        map.put(Risk.Field.riskname.name(), new HyperlinkBuilderGenerator(summaryTitleExpr, summaryHrefExpr));
 
         DRIExpression<String> assigneeTitleExpr = new PrimaryTypeFieldExpression<>(SimpleRisk.Field.assignedToUserFullName.name());
         DRIExpression<String> assigneeHrefExpr = new AbstractSimpleExpression<String>() {
@@ -297,7 +391,7 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
             }
         };
 
-        map.put(SimpleRisk.Field.assignedToUserFullName.name(), new HyperlinkValue(assigneeTitleExpr, assigneeHrefExpr));
+        map.put(SimpleRisk.Field.assignedToUserFullName.name(), new HyperlinkBuilderGenerator(assigneeTitleExpr, assigneeHrefExpr));
 
         AbstractSimpleExpression<String> ratingExpr = new AbstractSimpleExpression<String>() {
             private static final long serialVersionUID = 1L;
@@ -322,19 +416,56 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
 
             }
         };
-        HorizontalListBuilder ratingBuilder = cmp.horizontalList().setFixedWidth(120);
+        final HorizontalListBuilder ratingBuilder = cmp.horizontalList().setFixedWidth(120);
         ImageBuilder imgBuilder = cmp.image(ratingExpr).setFixedDimension(80, 15);
         ratingBuilder.add(imgBuilder);
-        map.put(Risk.Field.level.name(), new CompBuilderValue(ratingBuilder));
-        map.put(Risk.Field.datedue.name(), new DateExpression(Risk.Field.datedue.name()));
+        map.put(Risk.Field.level.name(), new ComponentBuilderGenerator() {
+            @Override
+            public ComponentBuilder getCompBuilder(AbstractReportTemplate reportTemplate) {
+                return ratingBuilder;
+            }
+        });
+        map.put(Risk.Field.datedue.name(), new SimpleExpressionBuilderGenerator(new DateExpression(Risk.Field.datedue.name())));
 
         return map;
     }
 
-    private Map<String, MValue> buildRoleMap() {
+    private Map<String, ComponentBuilderGenerator> buildProjectMemberMap() {
+        Map<String, ComponentBuilderGenerator> map = new HashMap<>();
+        DRIExpression<String> memberNameExpr = new PrimaryTypeFieldExpression<>(SimpleProjectMember.Field.memberFullName.name());
+        DRIExpression<String> memberHrefExpr = new AbstractSimpleExpression<String>() {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public String evaluate(ReportParameters reportParameters) {
+                Integer projectId = reportParameters.getFieldValue(ProjectMember.Field.projectid.name());
+                String siteUrl = reportParameters.getParameterValue("siteUrl");
+                String username = reportParameters.getParameterValue(ProjectMember.Field.username.name());
+                return ProjectLinkGenerator.generateProjectMemberFullLink(siteUrl, projectId, username);
+            }
+        };
+        map.put(ProjectMember.Field.username.name(), new HyperlinkBuilderGenerator(memberNameExpr, memberHrefExpr));
+
+        DRIExpression<String> roleNameExpr = new PrimaryTypeFieldExpression<>(SimpleProjectMember.Field.roleName.name());
+        DRIExpression<String> roleHrefExpr = new AbstractSimpleExpression<String>() {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public String evaluate(ReportParameters reportParameters) {
+                Integer projectId = reportParameters.getFieldValue(ProjectMember.Field.projectid.name());
+                String siteUrl = reportParameters.getParameterValue("siteUrl");
+                Integer roleId = reportParameters.getParameterValue(ProjectMember.Field.projectroleid.name());
+                return ProjectLinkGenerator.generateRolePreviewFullLink(siteUrl, projectId, roleId);
+            }
+        };
+        map.put(ProjectMember.Field.projectroleid.name(), new HyperlinkBuilderGenerator(roleNameExpr, roleHrefExpr));
+        return map;
+    }
+
+    private Map<String, ComponentBuilderGenerator> buildRoleMap() {
         LOG.debug("Build report mapper for project::role module");
 
-        Map<String, MValue> map = new HashMap<>();
+        Map<String, ComponentBuilderGenerator> map = new HashMap<>();
         DRIExpression<String> summaryTitleExpr = new PrimaryTypeFieldExpression<>("rolename");
         DRIExpression<String> summaryHrefExpr = new AbstractSimpleExpression<String>() {
             private static final long serialVersionUID = 1L;
@@ -347,14 +478,14 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
                 return ProjectLinkGenerator.generateRolePreviewFullLink(siteUrl, projectId, roleId);
             }
         };
-        map.put("rolename", new HyperlinkValue(summaryTitleExpr, summaryHrefExpr));
+        map.put("rolename", new HyperlinkBuilderGenerator(summaryTitleExpr, summaryHrefExpr));
         return map;
     }
 
-    private Map<String, MValue> buildTimeTrackingMap() {
+    private Map<String, ComponentBuilderGenerator> buildTimeTrackingMap() {
         LOG.debug("Build report mapper for project::timetracking module");
 
-        Map<String, MValue> map = new HashMap<>();
+        Map<String, ComponentBuilderGenerator> map = new HashMap<>();
         DRIExpression<String> logUserTitleExpr = new PrimaryTypeFieldExpression<>("logUserFullName");
         DRIExpression<String> logUserHrefExpr = new AbstractSimpleExpression<String>() {
             private static final long serialVersionUID = 1L;
@@ -371,7 +502,7 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
             }
         };
 
-        map.put("logUserFullName", new HyperlinkValue(logUserTitleExpr, logUserHrefExpr));
+        map.put(SimpleItemTimeLogging.Field.logUserFullName.name(), new HyperlinkBuilderGenerator(logUserTitleExpr, logUserHrefExpr));
 
         DRIExpression<String> projectTitleExpr = new PrimaryTypeFieldExpression<>("projectName");
         DRIExpression<String> projectHrefExpr = new AbstractSimpleExpression<String>() {
@@ -379,7 +510,7 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
 
             @Override
             public String evaluate(ReportParameters reportParameters) {
-                Integer projectId = reportParameters.getFieldValue("projectId");
+                Integer projectId = reportParameters.getFieldValue("projectid");
                 if (projectId != null) {
                     String siteUrl = reportParameters.getParameterValue("siteUrl");
                     return ProjectLinkGenerator.generateProjectFullLink(siteUrl, projectId);
@@ -389,36 +520,41 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
             }
         };
 
-        map.put("projectName", new HyperlinkValue(projectTitleExpr, projectHrefExpr));
-        map.put("logforday", new DateExpression("logforday"));
+        map.put(SimpleItemTimeLogging.Field.projectName.name(), new HyperlinkBuilderGenerator(projectTitleExpr, projectHrefExpr));
+        map.put(ItemTimeLogging.Field.logforday.name(),
+                new SimpleExpressionBuilderGenerator(new DateExpression(ItemTimeLogging.Field.logforday.name())));
+
+        AbstractSimpleExpression<String> overtimeExpr = new AbstractSimpleExpression<String>() {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public String evaluate(ReportParameters param) {
+                Boolean level = param.getFieldValue(ItemTimeLogging.Field.isovertime.name());
+                return (Boolean.TRUE.equals(level)) ? "Yes" : "No";
+            }
+        };
+        map.put(ItemTimeLogging.Field.isovertime.name(), new SimpleExpressionBuilderGenerator(overtimeExpr));
 
         AbstractSimpleExpression<String> billingExpr = new AbstractSimpleExpression<String>() {
             private static final long serialVersionUID = 1L;
 
             @Override
             public String evaluate(ReportParameters param) {
-                Boolean level = param.getFieldValue("isbillable");
-                if (Boolean.TRUE.equals(level)) {
-                    return "images/yes.png";
-                } else {
-                    return "images/no.png";
-                }
+                Boolean level = param.getFieldValue(ItemTimeLogging.Field.isbillable.name());
+                return (Boolean.TRUE.equals(level)) ? "Yes" : "No";
             }
         };
-        HorizontalListBuilder ratingBuilder = cmp.horizontalList().setFixedWidth(120);
-        ImageBuilder imgBuilder = cmp.image(billingExpr).setFixedDimension(80, 15);
-        ratingBuilder.add(imgBuilder);
-        map.put("isbillable", new CompBuilderValue(ratingBuilder));
+        map.put(ItemTimeLogging.Field.isbillable.name(), new SimpleExpressionBuilderGenerator(billingExpr));
 
-        DRIExpression<String> summaryTitleExpr = new PrimaryTypeFieldExpression<>("summary");
-        DRIExpression<String> summaryHrefExpr = new AbstractSimpleExpression<String>() {
+        final DRIExpression<String> summaryTitleExpr = new PrimaryTypeFieldExpression<>(SimpleItemTimeLogging.Field.summary.name());
+        final DRIExpression<String> summaryHrefExpr = new AbstractSimpleExpression<String>() {
             private static final long serialVersionUID = 1L;
 
             @Override
             public String evaluate(ReportParameters reportParameters) {
                 String type = reportParameters.getFieldValue("type");
                 Integer typeId = reportParameters.getFieldValue("typeid");
-                Integer projectId = reportParameters.getFieldValue("projectId");
+                Integer projectId = reportParameters.getFieldValue("projectid");
                 String projectShortName = reportParameters.getFieldValue("projectShortName");
                 String siteUrl = reportParameters.getParameterValue("siteUrl");
 
@@ -434,14 +570,23 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
                 return type;
             }
         };
-        map.put("summary", new HyperlinkValue(summaryTitleExpr, summaryHrefExpr));
+
+        final DRIExpression<String> noteExpr = new PrimaryTypeFieldExpression<>(ItemTimeLogging.Field.note.name());
+
+        map.put(SimpleItemTimeLogging.Field.summary.name(), new ComponentBuilderGenerator() {
+            @Override
+            public ComponentBuilder getCompBuilder(AbstractReportTemplate abstractReportTemplate) {
+                return cmp.verticalList(new HyperlinkBuilderGenerator(summaryTitleExpr, summaryHrefExpr)
+                        .getCompBuilder(abstractReportTemplate), cmp.text(noteExpr));
+            }
+        });
         return map;
     }
 
-    private Map<String, MValue> buildTFollowingTicketMap() {
+    private Map<String, ComponentBuilderGenerator> buildTFollowingTicketMap() {
         LOG.debug("Build report mapper for project::following ticket module");
 
-        Map<String, MValue> map = new HashMap<>();
+        Map<String, ComponentBuilderGenerator> map = new HashMap<>();
         DRIExpression<String> summaryTitleExpr = new PrimaryTypeFieldExpression<>("summary");
         DRIExpression<String> summaryHrefExpr = new AbstractSimpleExpression<String>() {
             private static final long serialVersionUID = 1L;
@@ -463,7 +608,7 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
                 return type;
             }
         };
-        map.put("summary", new HyperlinkValue(summaryTitleExpr, summaryHrefExpr));
+        map.put("summary", new HyperlinkBuilderGenerator(summaryTitleExpr, summaryHrefExpr));
 
         DRIExpression<String> projectTitleExpr = new PrimaryTypeFieldExpression<>("projectName");
         DRIExpression<String> projectHrefExpr = new AbstractSimpleExpression<String>() {
@@ -481,7 +626,7 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
             }
         };
 
-        map.put("projectName", new HyperlinkValue(projectTitleExpr, projectHrefExpr));
+        map.put("projectName", new HyperlinkBuilderGenerator(projectTitleExpr, projectHrefExpr));
 
         DRIExpression<String> logUserTitleExpr = new PrimaryTypeFieldExpression<>("assignUserFullName");
         DRIExpression<String> logUserHrefExpr = new AbstractSimpleExpression<String>() {
@@ -499,8 +644,8 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
             }
         };
 
-        map.put("assignUser", new HyperlinkValue(logUserTitleExpr, logUserHrefExpr));
-        map.put("monitorDate", new DateExpression("monitorDate"));
+        map.put("assignUser", new HyperlinkBuilderGenerator(logUserTitleExpr, logUserHrefExpr));
+        map.put("monitorDate", new SimpleExpressionBuilderGenerator(new DateExpression("monitorDate")));
 
         return map;
     }

@@ -19,15 +19,10 @@ package com.esofthead.mycollab.module.crm.view.lead;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
-import com.esofthead.mycollab.module.crm.events.LeadEvent;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.web.ui.Depot;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.web.ui.table.IPagedBeanTable.TableClickEvent;
-import com.esofthead.mycollab.vaadin.web.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Button;
@@ -52,17 +47,6 @@ public class LeadListDashlet extends Depot {
 
         tableItem = new LeadTableDisplay(Arrays.asList(LeadTableFieldDef.name(),
                 LeadTableFieldDef.email(), LeadTableFieldDef.phoneoffice()));
-
-        tableItem.addTableListener(new TableClickListener() {
-
-            @Override
-            public void itemClick(final TableClickEvent event) {
-                final SimpleLead lead = (SimpleLead) event.getData();
-                if ("leadName".equals(event.getFieldName())) {
-                    EventBusFactory.getInstance().post(new LeadEvent.GotoRead(LeadListDashlet.this, lead.getId()));
-                }
-            }
-        });
         bodyContent.addComponent(tableItem);
 
         Button customizeViewBtn = new Button("", new Button.ClickListener() {

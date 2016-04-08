@@ -14,27 +14,19 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.vaadin.web.ui;
+package com.esofthead.mycollab.module.user.accountsettings.view
 
-import com.vaadin.ui.ComboBox;
+import com.esofthead.mycollab.common.TableViewField
+import com.esofthead.mycollab.common.i18n.GenericI18Enum
+import com.esofthead.mycollab.module.user.accountsettings.localization.RoleI18nEnum
+import com.esofthead.mycollab.vaadin.web.ui.UIConstants
 
 /**
- * @author MyCollab Ltd
- * @since 5.1.3
- */
-public class StyleComboBox extends ComboBox {
-    private String styleName;
-    @Override
-    protected void setInternalValue(Object newValue) {
-        ItemStyleGenerator itemStyleGenerator = this.getItemStyleGenerator();
-        if (itemStyleGenerator != null) {
-            String style = itemStyleGenerator.getStyle(this, newValue);
-            if (styleName != null) {
-                this.removeStyleName(styleName);
-            }
-            styleName = style;
-            this.addStyleName(styleName);
-        }
-        super.setInternalValue(newValue);
-    }
+  * @author MyCollab Ltd
+  * @since 5.2.12
+  */
+object RoleTableFieldDef {
+  val selected = new TableViewField(null, "selected", UIConstants.TABLE_CONTROL_WIDTH)
+  val rolename = new TableViewField(RoleI18nEnum.FORM_NAME, "rolename", UIConstants.TABLE_EX_LABEL_WIDTH)
+  val description = new TableViewField(GenericI18Enum.FORM_DESCRIPTION, "description", UIConstants.TABLE_EX_LABEL_WIDTH)
 }

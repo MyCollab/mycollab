@@ -54,6 +54,7 @@ public enum UserI18nEnum {
     VIEW_DETAIL_USER,
     VIEW_NEW_USER,
 
+    FORM_NAME,
     FORM_FIRST_NAME,
     FORM_LAST_NAME,
     FORM_NICK_NAME,

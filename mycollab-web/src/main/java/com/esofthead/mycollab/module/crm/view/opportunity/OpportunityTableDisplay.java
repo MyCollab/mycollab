@@ -136,7 +136,6 @@ public class OpportunityTableDisplay extends DefaultPagedBeanTable<OpportunitySe
             @Override
             public Object generateCell(Table source, Object itemId, Object columnId) {
                 final SimpleOpportunity opportunity = getBeanByIndex(itemId);
-
                 return new LabelLink(opportunity.getAccountName(), CrmLinkBuilder.generateAccountPreviewLinkFull(opportunity.getAccountid()));
             }
         });

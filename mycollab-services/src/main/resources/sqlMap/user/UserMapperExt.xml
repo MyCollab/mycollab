@@ -75,7 +75,7 @@
             #ifnotnull($searchCriteria.saccountid)
                 ${searchCriteria.saccountid.operation} 
                 EXISTS (SELECT 1
-                    FROM s_user_account 
+                    FROM s_user_account
                     WHERE s_user_account.accountId = @{searchCriteria.saccountid.value,jdbcType=NUMERIC} 
                         AND s_user_account.username=s_user.username LIMIT 1)
             #end
@@ -93,9 +93,9 @@
             #ifnotnull($searchCriteria.registerStatuses)
                 ${searchCriteria.registerStatuses.operation}
                 EXISTS (SELECT 1
-                    FROM s_user_account 
+                    FROM s_user_account
                     WHERE
-                        s_user.username=s_user_account.username AND
+                        s_user.username=s_user_account.username AND s_user_account.accountId = @{searchCriteria.saccountid.value,jdbcType=NUMERIC} AND
                         s_user_account.registerStatus IN
                         #repeat(${searchCriteria.registerStatuses.values} $registerStatus "," "(" ")")
                             @{registerStatus}

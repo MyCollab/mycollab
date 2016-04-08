@@ -61,10 +61,8 @@ public class ActivityTableDisplay extends
         this(null, displayColumns);
     }
 
-    public ActivityTableDisplay(TableViewField requireColumn,
-                                List<TableViewField> displayColumns) {
-        super(ApplicationContextUtil.getSpringBean(EventService.class),
-                SimpleActivity.class, requireColumn, displayColumns);
+    public ActivityTableDisplay(TableViewField requireColumn, List<TableViewField> displayColumns) {
+        super(ApplicationContextUtil.getSpringBean(EventService.class), SimpleActivity.class, requireColumn, displayColumns);
 
         this.addGeneratedColumn("selected", new Table.ColumnGenerator() {
             private static final long serialVersionUID = 1L;
@@ -73,16 +71,14 @@ public class ActivityTableDisplay extends
             public Object generateCell(final Table source, final Object itemId,
                                        Object columnId) {
                 final SimpleActivity simpleEvent = getBeanByIndex(itemId);
-                final CheckBoxDecor cb = new CheckBoxDecor("", simpleEvent
-                        .isSelected());
+                final CheckBoxDecor cb = new CheckBoxDecor("", simpleEvent.isSelected());
                 cb.setImmediate(true);
                 cb.addValueChangeListener(new Property.ValueChangeListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
                     public void valueChange(ValueChangeEvent event) {
-                        ActivityTableDisplay.this
-                                .fireSelectItemEvent(simpleEvent);
+                        fireSelectItemEvent(simpleEvent);
                     }
                 });
 

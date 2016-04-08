@@ -16,10 +16,8 @@
  */
 package com.esofthead.mycollab.module.crm.view.lead;
 
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
-import com.esofthead.mycollab.module.crm.events.LeadEvent;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractListItemComp;
 import com.esofthead.mycollab.module.crm.ui.components.ComponentUtils;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -28,8 +26,6 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
 import com.esofthead.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
-import com.esofthead.mycollab.vaadin.web.ui.table.IPagedBeanTable.TableClickEvent;
-import com.esofthead.mycollab.vaadin.web.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.UI;
@@ -62,8 +58,7 @@ public class LeadListViewImpl extends AbstractListItemComp<LeadSearchCriteria, S
                 UI.getCurrent().addWindow(new LeadImportWindow());
             }
         });
-        importBtn.setEnabled(AppContext
-                .canWrite(RolePermissionCollections.CRM_LEAD));
+        importBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_LEAD));
 
         this.addExtraButton(importBtn);
 
@@ -76,26 +71,12 @@ public class LeadListViewImpl extends AbstractListItemComp<LeadSearchCriteria, S
 
     @Override
     protected AbstractPagedBeanTable<LeadSearchCriteria, SimpleLead> createBeanTable() {
-        LeadTableDisplay leadTableDisplay = new LeadTableDisplay(
+        return new LeadTableDisplay(
                 LeadListView.VIEW_DEF_ID, LeadTableFieldDef.selected(),
                 Arrays.asList(LeadTableFieldDef.name(), LeadTableFieldDef.status(),
                         LeadTableFieldDef.accountName(),
                         LeadTableFieldDef.phoneoffice(), LeadTableFieldDef.email(),
                         LeadTableFieldDef.assignedUser()));
-
-        leadTableDisplay.addTableListener(new TableClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void itemClick(final TableClickEvent event) {
-                final SimpleLead lead = (SimpleLead) event.getData();
-                if ("leadName".equals(event.getFieldName())) {
-                    EventBusFactory.getInstance().post(new LeadEvent.GotoRead(LeadListViewImpl.this, lead.getId()));
-                }
-            }
-        });
-
-        return leadTableDisplay;
     }
 
     @Override

@@ -20,6 +20,7 @@ import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.user.accountsettings.localization.AccountBreadcrumbI18nEnum;
+import com.esofthead.mycollab.module.user.accountsettings.view.events.AccountBillingEvent;
 import com.esofthead.mycollab.module.user.accountsettings.view.events.ProfileEvent;
 import com.esofthead.mycollab.module.user.domain.Role;
 import com.esofthead.mycollab.module.user.domain.SimpleRole;
@@ -79,6 +80,12 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements CacheableCom
 
     public void gotoCancelAccountPage() {
         this.select(0);
+        this.addLink(new Button(AppContext.getMessage(AccountBreadcrumbI18nEnum.VIEW_BILLING), new Button.ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent clickEvent) {
+                EventBusFactory.getInstance().post(new AccountBillingEvent.GotoSummary(this, null));
+            }
+        }));
         this.addLink(new Button(AppContext.getMessage(AccountBreadcrumbI18nEnum.BUTTON_CANCEL_ACCOUNT)));
         AppContext.addFragment("account/cancel_account", "Cancel Account");
     }

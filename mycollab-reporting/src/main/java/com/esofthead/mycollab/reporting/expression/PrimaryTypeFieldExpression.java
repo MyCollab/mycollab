@@ -23,7 +23,7 @@ import net.sf.dynamicreports.report.definition.ReportParameters;
  * @author MyCollab Ltd.
  * @since 4.1.2
  */
-public class PrimaryTypeFieldExpression<T> extends SimpleFieldExpression<T> implements MValue {
+public class PrimaryTypeFieldExpression<T> extends SimpleFieldExpression<T> {
     private static final long serialVersionUID = 1L;
 
     public PrimaryTypeFieldExpression(String field) {

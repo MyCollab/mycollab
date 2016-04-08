@@ -37,14 +37,6 @@ public class UserAvatarControlFactory {
         return embedded;
     }
 
-    public static Button createUserAvatarEmbeddedButton(String avatarId, int size) {
-        Button embedded = new Button();
-        embedded.setIcon(createAvatarResource(avatarId, size));
-        embedded.setStyleName(BaseTheme.BUTTON_LINK);
-        return embedded;
-
-    }
-
     public static Resource createAvatarResource(String avatarId, int size) {
         if (avatarId == null) {
             return new AssetResource(String.format("icons/default_user_avatar_%d.png", size));

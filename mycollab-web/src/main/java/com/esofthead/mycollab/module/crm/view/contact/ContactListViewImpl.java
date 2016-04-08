@@ -16,21 +16,16 @@
  */
 package com.esofthead.mycollab.module.crm.view.contact;
 
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
-import com.esofthead.mycollab.module.crm.events.AccountEvent;
-import com.esofthead.mycollab.module.crm.events.ContactEvent;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractListItemComp;
 import com.esofthead.mycollab.module.crm.ui.components.ComponentUtils;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
+import com.esofthead.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
-import com.esofthead.mycollab.vaadin.web.ui.table.IPagedBeanTable.TableClickEvent;
-import com.esofthead.mycollab.vaadin.web.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.UI;
@@ -74,28 +69,10 @@ public class ContactListViewImpl extends AbstractListItemComp<ContactSearchCrite
 
     @Override
     protected AbstractPagedBeanTable<ContactSearchCriteria, SimpleContact> createBeanTable() {
-        ContactTableDisplay contactTableDisplay = new ContactTableDisplay(
+        return new ContactTableDisplay(
                 ContactListView.VIEW_DEF_ID, ContactTableFieldDef.selected(),
-                Arrays.asList(ContactTableFieldDef.name(),
-                        ContactTableFieldDef.title(),
-                        ContactTableFieldDef.account(),
-                        ContactTableFieldDef.email(),
-                        ContactTableFieldDef.phoneOffice()));
-
-        contactTableDisplay.addTableListener(new TableClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void itemClick(final TableClickEvent event) {
-                final SimpleContact contact = (SimpleContact) event.getData();
-                if ("contactName".equals(event.getFieldName())) {
-                    EventBusFactory.getInstance().post(new ContactEvent.GotoRead(ContactListViewImpl.this, contact.getId()));
-                } else if ("accountName".equals(event.getFieldName())) {
-                    EventBusFactory.getInstance().post(new AccountEvent.GotoRead(ContactListViewImpl.this, contact.getAccountid()));
-                }
-            }
-        });
-        return contactTableDisplay;
+                Arrays.asList(ContactTableFieldDef.name(), ContactTableFieldDef.title(),
+                        ContactTableFieldDef.account(), ContactTableFieldDef.email(), ContactTableFieldDef.phoneOffice()));
     }
 
     @Override

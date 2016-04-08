@@ -101,14 +101,7 @@ public abstract class MyCollabUI extends UI {
         if (licenseResolver != null) {
             LicenseInfo licenseInfo = licenseResolver.getLicenseInfo();
             if (licenseInfo == null) {
-                RestTemplate restTemplate = new RestTemplate();
-                try {
-                    String licenseRequest = restTemplate.postForObject("https://api.mycollab.com/api/register-trial",
-                            null, String.class);
-                    licenseResolver.checkAndSaveLicenseInfo(licenseRequest);
-                } catch (Exception e) {
-                    LOG.error("Can not retrieve a trial license", e);
-                }
+                licenseResolver.acquireALicense();
             } else if (licenseInfo != null && licenseInfo.isExpired() && licenseInfo.isTrial()) {
                 Window activateWindow = ViewManager.getCacheComponent(AbstractLicenseActivationWindow.class);
                 UI.getCurrent().addWindow(activateWindow);

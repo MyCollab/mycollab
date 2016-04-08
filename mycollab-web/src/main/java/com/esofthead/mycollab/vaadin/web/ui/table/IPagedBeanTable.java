@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.vaadin.web.ui.table;
 
+import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.vaadin.events.HasPagableHandlers;
@@ -28,6 +29,7 @@ import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.EventListener;
+import java.util.List;
 
 /**
  * @author MyCollab Ltd.
@@ -42,6 +44,8 @@ public interface IPagedBeanTable<S extends SearchCriteria, T> extends HasSelecta
     void addTableListener(TableClickListener listener);
 
     void addGeneratedColumn(Object id, Table.ColumnGenerator generatedColumn);
+
+    List<TableViewField> getDisplayColumns();
 
     T getBeanByIndex(Object itemId);
 

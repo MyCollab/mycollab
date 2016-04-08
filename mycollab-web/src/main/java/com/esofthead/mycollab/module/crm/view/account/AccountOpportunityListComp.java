@@ -17,12 +17,11 @@
 package com.esofthead.mycollab.module.crm.view.account;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
-import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
+import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
 import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
@@ -33,12 +32,13 @@ import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.AbstractBeanBlockList;
 import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
+import com.google.common.base.MoreObjects;
+import com.hp.gagawa.java.elements.A;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.viritin.button.MButton;
@@ -56,7 +56,6 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
     private static final long serialVersionUID = -2414709814283942446L;
 
     private Account account;
-
     static final Map<String, String> colormap;
 
     static {
@@ -111,13 +110,12 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
                 fireNewRelatedItem("");
             }
         });
-        createBtn.setSizeUndefined();
         createBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY));
         createBtn.addStyleName(UIConstants.BUTTON_ACTION);
         createBtn.setIcon(FontAwesome.PLUS);
 
         controlsBtnWrap.addComponent(createBtn);
-        controlsBtnWrap.setComponentAlignment(createBtn, Alignment.MIDDLE_RIGHT);
+        controlsBtnWrap.setComponentAlignment(createBtn, Alignment.TOP_RIGHT);
         return controlsBtnWrap;
     }
 
@@ -146,7 +144,6 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
             beanBlock.addStyleName("bean-block");
             beanBlock.setWidth("350px");
 
-            VerticalLayout blockContent = new VerticalLayout();
             MHorizontalLayout blockTop = new MHorizontalLayout().withWidth("100%");
             CssLayout iconWrap = new CssLayout();
             iconWrap.setStyleName("icon-wrap");
@@ -183,18 +180,13 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
             });
             btnDelete.addStyleName(UIConstants.BUTTON_ICON_ONLY);
 
+            VerticalLayout blockContent = new VerticalLayout();
             blockContent.addComponent(btnDelete);
             blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);
 
-            Label opportunityName = new Label("Name: <a href='"
-                    + SiteConfiguration.getSiteUrl(AppContext.getUser()
-                    .getSubdomain())
-                    + CrmLinkGenerator.generateCrmItemLink(
-                    CrmTypeConstants.OPPORTUNITY, opportunity.getId())
-                    + "'>" + opportunity.getOpportunityname() + "</a>",
-                    ContentMode.HTML);
-
-            opportunityInfo.addComponent(opportunityName);
+            A opportunityLink = new A(CrmLinkBuilder.generateOpportunityPreviewLinkFull(opportunity.getId()))
+                    .appendText(opportunity.getOpportunityname());
+            opportunityInfo.addComponent(ELabel.h3(opportunityLink.write()));
 
             Label opportunityAmount = new Label("Amount: " + (opportunity.getAmount() != null ? opportunity.getAmount() : ""));
             if (opportunity.getCurrency() != null && opportunity.getAmount() != null) {
@@ -202,7 +194,7 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
             }
             opportunityInfo.addComponent(opportunityAmount);
 
-            Label opportunitySaleStage = new Label("Sale Stage: " + (opportunity.getSalesstage() != null ? opportunity.getSalesstage() : ""));
+            Label opportunitySaleStage = new Label("Sale Stage: " + MoreObjects.firstNonNull(opportunity.getSalesstage(), ""));
             opportunityInfo.addComponent(opportunitySaleStage);
 
             if (opportunity.getSalesstage() != null) {

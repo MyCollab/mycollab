@@ -16,20 +16,16 @@
  */
 package com.esofthead.mycollab.module.crm.view.account;
 
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
-import com.esofthead.mycollab.module.crm.events.AccountEvent;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractListItemComp;
 import com.esofthead.mycollab.module.crm.ui.components.ComponentUtils;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
+import com.esofthead.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
-import com.esofthead.mycollab.vaadin.web.ui.table.IPagedBeanTable.TableClickEvent;
-import com.esofthead.mycollab.vaadin.web.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.UI;
@@ -47,24 +43,11 @@ public class AccountListViewImpl extends AbstractListItemComp<AccountSearchCrite
 
     @Override
     protected AbstractPagedBeanTable<AccountSearchCriteria, SimpleAccount> createBeanTable() {
-        AccountTableDisplay accountTableDisplay = new AccountTableDisplay(
+        return new AccountTableDisplay(
                 AccountListView.VIEW_DEF_ID, AccountTableFieldDef.selected(),
                 Arrays.asList(AccountTableFieldDef.accountname(), AccountTableFieldDef.city(),
                         AccountTableFieldDef.phoneoffice(), AccountTableFieldDef.email(),
                         AccountTableFieldDef.assignUser()));
-
-        accountTableDisplay.addTableListener(new TableClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void itemClick(final TableClickEvent event) {
-                final SimpleAccount account = (SimpleAccount) event.getData();
-                if ("accountname".equals(event.getFieldName())) {
-                    EventBusFactory.getInstance().post(new AccountEvent.GotoRead(AccountListViewImpl.this, account.getId()));
-                }
-            }
-        });
-        return accountTableDisplay;
 
     }
 

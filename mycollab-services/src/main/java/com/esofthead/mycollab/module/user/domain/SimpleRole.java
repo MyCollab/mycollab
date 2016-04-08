@@ -14,59 +14,56 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-services.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.module.user.domain;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.esofthead.mycollab.core.arguments.NotBindable;
 import com.esofthead.mycollab.core.reporting.NotInReport;
 import com.esofthead.mycollab.security.PermissionMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class SimpleRole extends Role {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private static final Logger LOG = LoggerFactory.getLogger(SimpleRole.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SimpleRole.class);
 
-	public static final String ADMIN = "Administrator";
-	public static final String EMPLOYEE = "Employee";
-	public static final String GUEST = "Guest";
+    public static final String ADMIN = "Administrator";
+    public static final String EMPLOYEE = "Employee";
+    public static final String GUEST = "Guest";
 
-	private String permissionVal;
+    private String permissionVal;
 
-	@NotBindable
-	@NotInReport
-	private PermissionMap permissionMap;
+    @NotBindable
+    @NotInReport
+    private PermissionMap permissionMap;
 
-	public String getPermissionVal() {
-		return permissionVal;
-	}
+    public String getPermissionVal() {
+        return permissionVal;
+    }
 
-	public void setPermissionVal(String permissionVal) {
-		this.permissionVal = permissionVal;
-	}
+    public void setPermissionVal(String permissionVal) {
+        this.permissionVal = permissionVal;
+    }
 
-	public PermissionMap getPermissionMap() {
-		if (permissionMap == null) {
+    public PermissionMap getPermissionMap() {
+        if (permissionMap == null) {
 
-			if (permissionVal == null || "".equals(permissionVal)) {
-				permissionMap = new PermissionMap();
-			} else {
-				try {
-					permissionMap = PermissionMap.fromJsonString(permissionVal);
-				} catch (Exception e) {
-					LOG.error("Error while get permission", e);
-				}
-			}
-		}
-		return permissionMap;
-	}
+            if (permissionVal == null || "".equals(permissionVal)) {
+                permissionMap = new PermissionMap();
+            } else {
+                try {
+                    permissionMap = PermissionMap.fromJsonString(permissionVal);
+                } catch (Exception e) {
+                    LOG.error("Error while get permission", e);
+                }
+            }
+        }
+        return permissionMap;
+    }
 
     public boolean isSystemRole() {
         return Boolean.TRUE.equals(getIssystemrole());

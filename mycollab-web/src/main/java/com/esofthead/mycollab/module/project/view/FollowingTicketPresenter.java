@@ -45,7 +45,6 @@ public class FollowingTicketPresenter extends AbstractPresenter<FollowingTicketV
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        UserDashboardView prjContainer = (UserDashboardView) container;
         view.displayTickets();
     }
 }

@@ -34,7 +34,6 @@ import java.util.Set;
  */
 public abstract class RelatedItemSelectionWindow<T, S extends SearchCriteria> extends Window {
     private static final long serialVersionUID = 1L;
-
     private static final String selectedFieldName = "selected";
 
     protected RelatedListComp2 relatedListComp;
@@ -55,7 +54,6 @@ public abstract class RelatedItemSelectionWindow<T, S extends SearchCriteria> ex
         tableItem.addTableListener(new TableClickListener() {
             private static final long serialVersionUID = 1L;
 
-            @SuppressWarnings("unchecked")
             @Override
             public void itemClick(TableClickEvent event) {
                 try {

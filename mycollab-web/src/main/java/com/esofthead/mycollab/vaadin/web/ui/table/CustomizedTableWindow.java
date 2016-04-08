@@ -45,9 +45,8 @@ import java.util.*;
 public abstract class CustomizedTableWindow extends Window {
     private static final long serialVersionUID = 1L;
 
-    private final ListBuilder listBuilder;
-
     private CustomViewStoreService customViewStoreService;
+    private ListBuilder listBuilder;
     private AbstractPagedBeanTable<?, ?> tableItem;
 
     protected String viewId;
@@ -55,7 +54,6 @@ public abstract class CustomizedTableWindow extends Window {
     public CustomizedTableWindow(final String viewId, final AbstractPagedBeanTable<?, ?> table) {
         super("Customize View");
         this.viewId = viewId;
-        this.addStyleName("customize-table-window");
         this.setWidth("400px");
         this.setResizable(false);
         this.setModal(true);
@@ -67,25 +65,22 @@ public abstract class CustomizedTableWindow extends Window {
         final MVerticalLayout contentLayout = new MVerticalLayout();
         this.setContent(contentLayout);
 
-        this.listBuilder = new ListBuilder();
-        this.listBuilder.setImmediate(true);
-        this.listBuilder.setColumns(0);
-        this.listBuilder.setLeftColumnCaption("Available Columns");
-        this.listBuilder.setRightColumnCaption("View Columns");
-        this.listBuilder.setWidth(100, Sizeable.Unit.PERCENTAGE);
-
-        this.listBuilder.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
-        final BeanItemContainer<TableViewField> container = new BeanItemContainer<>(TableViewField.class,
-                this.getAvailableColumns());
-        this.listBuilder.setContainerDataSource(container);
+        listBuilder = new ListBuilder();
+        listBuilder.setImmediate(true);
+        listBuilder.setColumns(0);
+        listBuilder.setLeftColumnCaption("Available Columns");
+        listBuilder.setRightColumnCaption("View Columns");
+        listBuilder.setWidth(100, Sizeable.Unit.PERCENTAGE);
+        listBuilder.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
+        final BeanItemContainer<TableViewField> container = new BeanItemContainer<>(TableViewField.class, this.getAvailableColumns());
+        listBuilder.setContainerDataSource(container);
         Iterator<TableViewField> iterator = getAvailableColumns().iterator();
         while (iterator.hasNext()) {
             TableViewField field = iterator.next();
-            this.listBuilder.setItemCaption(field, AppContext.getMessage(field.getDescKey()));
+            listBuilder.setItemCaption(field, AppContext.getMessage(field.getDescKey()));
         }
         this.setSelectedViewColumns();
-        contentLayout.addComponent(this.listBuilder);
-        contentLayout.setComponentAlignment(listBuilder, Alignment.MIDDLE_CENTER);
+        contentLayout.with(listBuilder).withAlign(listBuilder, Alignment.TOP_CENTER);
 
         Button restoreLink = new Button("Restore to default", new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
@@ -114,8 +109,7 @@ public abstract class CustomizedTableWindow extends Window {
             }
         });
         restoreLink.setStyleName(UIConstants.BUTTON_LINK);
-        contentLayout.addComponent(restoreLink);
-        contentLayout.setComponentAlignment(restoreLink, Alignment.MIDDLE_RIGHT);
+        contentLayout.with(restoreLink).withAlign(restoreLink, Alignment.TOP_RIGHT);
 
         final MHorizontalLayout buttonControls = new MHorizontalLayout();
         final Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
@@ -152,16 +146,14 @@ public abstract class CustomizedTableWindow extends Window {
         cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
         buttonControls.addComponent(cancelBtn);
 
-        contentLayout.addComponent(buttonControls);
-        contentLayout.setComponentAlignment(buttonControls, Alignment.MIDDLE_CENTER);
+        contentLayout.with(buttonControls).withAlign(buttonControls, Alignment.TOP_RIGHT);
     }
 
     @SuppressWarnings("unchecked")
     private void setSelectedViewColumns() {
         final Collection<String> viewColumnIds = this.getViewColumns();
 
-        final BeanItemContainer<TableViewField> container = (BeanItemContainer<TableViewField>) this.listBuilder
-                .getContainerDataSource();
+        final BeanItemContainer<TableViewField> container = (BeanItemContainer<TableViewField>) listBuilder.getContainerDataSource();
         final Collection<TableViewField> itemIds = container.getItemIds();
         final List<TableViewField> selectedColumns = new ArrayList<>();
 
@@ -173,7 +165,7 @@ public abstract class CustomizedTableWindow extends Window {
             }
         }
 
-        this.listBuilder.setValue(selectedColumns);
+        listBuilder.setValue(selectedColumns);
     }
 
     abstract protected Collection<TableViewField> getAvailableColumns();

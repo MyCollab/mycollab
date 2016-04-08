@@ -198,8 +198,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
     private void initUI() {
         headerText = ELabel.h2("");
 
-        MHorizontalLayout header = new MHorizontalLayout()
-                .withStyleName("hdr-view").withWidth("100%").withMargin(true)
+        MHorizontalLayout header = new MHorizontalLayout().withStyleName("hdr-view").withWidth("100%").withMargin(true)
                 .with(headerText, createHeaderRight())
                 .withAlign(headerText, Alignment.MIDDLE_LEFT).expand(headerText);
         this.addComponent(header);
@@ -268,7 +267,8 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
 
     private StreamResource buildStreamSource(ReportExportType exportType) {
         List fields = Arrays.asList(MilestoneTableFieldDef.milestonename(), MilestoneTableFieldDef.status(),
-                MilestoneTableFieldDef.startdate(), MilestoneTableFieldDef.enddate(), MilestoneTableFieldDef.assignee());
+                MilestoneTableFieldDef.startdate(), MilestoneTableFieldDef.enddate(), MilestoneTableFieldDef.id(),
+                MilestoneTableFieldDef.assignee());
         SimpleReportTemplateExecutor reportTemplateExecutor = new SimpleReportTemplateExecutor.AllItems<>("Milestones",
                 new RpFieldsBuilder(fields), exportType, SimpleMilestone.class, ApplicationContextUtil.getSpringBean
                 (MilestoneService.class));

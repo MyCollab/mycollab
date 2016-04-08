@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.reporting;
 
 import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.reporting.expression.MValue;
+import com.esofthead.mycollab.reporting.generator.ComponentBuilderGenerator;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -27,17 +27,17 @@ import java.util.concurrent.ConcurrentHashMap;
  * @since 4.1.2
  */
 public class ColumnBuilderClassMapper {
-    private static Map<Class, Map<String, MValue>> mapInjection = new ConcurrentHashMap<>();
+    private static Map<Class, Map<String, ComponentBuilderGenerator>> mapInjection = new ConcurrentHashMap<>();
 
     static {
         ReportTemplateFactory.getTemplate(SiteConfiguration.getDefaultLocale());
     }
 
-    public static void put(Class cls, Map<String, MValue> columns) {
+    public static void put(Class cls, Map<String, ComponentBuilderGenerator> columns) {
         mapInjection.put(cls, columns);
     }
 
-    public static Map<String, MValue> getListFieldBuilder(Class cls) {
+    public static Map<String, ComponentBuilderGenerator> getListFieldBuilder(Class cls) {
         return mapInjection.get(cls);
     }
 }

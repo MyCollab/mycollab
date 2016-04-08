@@ -56,13 +56,13 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
 
     protected int displayNumItems = SearchRequest.DEFAULT_NUMBER_SEARCH_ITEMS;
     protected Collection<B> currentListData;
+    protected SearchRequest<S> searchRequest;
 
     protected MHorizontalLayout pageManagement;
 
     protected boolean isAscending = true;
     protected Object sortColumnId;
 
-    protected SearchRequest<S> searchRequest;
     protected int currentPage = 1;
     protected int totalPage = 1;
     protected int currentViewCount;
@@ -468,6 +468,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
         return defaultSelectedColumns;
     }
 
+    @Override
     public List<TableViewField> getDisplayColumns() {
         return displayColumns;
     }

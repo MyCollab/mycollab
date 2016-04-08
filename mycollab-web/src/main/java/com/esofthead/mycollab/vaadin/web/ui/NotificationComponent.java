@@ -32,10 +32,13 @@ import com.esofthead.mycollab.shell.view.components.UpgradeConfirmWindow;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.google.common.eventbus.Subscribe;
+import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Span;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.Position;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
+import elemental.json.JsonArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.hene.popupbutton.PopupButton;
@@ -72,6 +75,16 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
 
         // Register to receive broadcasts
         NotificationBroadcaster.register(this);
+        JavaScript.getCurrent().addFunction("com.mycollab.scripts.upgrade",
+                new JavaScriptFunction() {
+                    @Override
+                    public void call(JsonArray arguments) {
+                        String version = arguments.getString(0);
+                        String manualDownloadLink = arguments.getString(1);
+                        String installerFile = arguments.getString(2);
+                        UI.getCurrent().addWindow(new UpgradeConfirmWindow(version, manualDownloadLink, installerFile));
+                    }
+                });
     }
 
     @Override
@@ -136,13 +149,23 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
 
     private void displayTrayNotification(AbstractNotification item) {
         if (item instanceof NewUpdateAvailableNotification) {
-            Notification no = new Notification(AppContext.getMessage(GenericI18Enum.WINDOW_INFORMATION_TITLE), "There" +
-                    " is the new MyCollab version " + ((NewUpdateAvailableNotification) item).getVersion(),
-                    Notification.Type.TRAY_NOTIFICATION);
-            no.setHtmlContentAllowed(true);
-            no.setDelayMsec(30000);
+            NewUpdateAvailableNotification updateNo = (NewUpdateAvailableNotification) item;
+            Notification no;
+            if (AppContext.isAdmin()) {
+                no = new Notification(AppContext.getMessage(GenericI18Enum.WINDOW_INFORMATION_TITLE), "There" +
+                        " is the new MyCollab version " + ((NewUpdateAvailableNotification) item).getVersion() + " "
+                        + new A("javascript:com.mycollab.scripts.upgrade('" + updateNo.getVersion() + "','" + updateNo.getAutoDownloadLink() + "','" + updateNo.getManualDownloadLink() + "')")
+                        .appendText("Upgrade"),
+                        Notification.Type.TRAY_NOTIFICATION);
+            } else {
+                no = new Notification(AppContext.getMessage(GenericI18Enum.WINDOW_INFORMATION_TITLE), "There" +
+                        " is the new MyCollab version " + ((NewUpdateAvailableNotification) item).getVersion(), Notification.Type.TRAY_NOTIFICATION);
+            }
 
-            UI currentUI = getUI();
+            no.setHtmlContentAllowed(true);
+            no.setDelayMsec(300000);
+
+            UI currentUI = UI.getCurrent();
             if (currentUI != null) {
                 if (SiteConfiguration.getPullMethod() == SiteConfiguration.PullMethod.push) {
                     no.show(currentUI.getPage());

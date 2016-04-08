@@ -23,18 +23,9 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/common-follower")
 @LocaleData(value = { @Locale("en-US"), @Locale("ja-JP") }, defaultCharset = "UTF-8")
 public enum FollowerI18nEnum {
-	DIALOG_WATCHERS_TITLE,
-	
-	BUTTON_BACK_TO_WORKBOARD,
-	BUTTON_FOLLOW,
-	BUTTON_UNFOLLOW,
-	
 	FORM_PROJECT_NAME,
 	FORM_SUMMARY,
-	
-	OPT_FOLLOWER_NAME,
+
 	OPT_FOLLOWER_CREATE_DATE,
-	OPT_MY_FOLLOWING_TICKETS,
-	OPT_NUM_FOLLOWERS,
 	OPT_SUB_INFO_WATCHERS,
 }

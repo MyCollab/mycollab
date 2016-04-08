@@ -25,36 +25,35 @@ public class SimpleProject extends Project {
 
     private String createUserFullName;
 
-    private int numOpenBugs;
+    private Integer numOpenBugs;
 
-    private int numBugs;
+    private Integer numBugs;
 
-    private int numOpenTasks;
+    private Integer numOpenTasks;
 
-    private int numTasks;
+    private Integer numTasks;
 
-    private int numOpenRisks;
+    private Integer numOpenRisks;
 
-    private int numRisks;
+    private Integer numRisks;
 
-    private int numActiveMembers;
+    private Integer numActiveMembers;
 
-    private int numClosedPhase;
+    private Integer numClosedPhase;
 
-    private int numInProgressPhase;
+    private Integer numInProgressPhase;
 
-    private int numFuturePhase;
+    private Integer numFuturePhase;
 
-    private double totalBillableHours;
+    private Double totalBillableHours;
 
-    private double totalNonBillableHours;
+    private Double totalNonBillableHours;
 
     private String leadFullName;
 
     private String leadAvatarId;
 
     private String clientName;
-
 
     @NotBindable
     private ProjectCustomizeView customizeView;
@@ -70,52 +69,100 @@ public class SimpleProject extends Project {
         this.createUserFullName = createUserFullName;
     }
 
-    public int getNumOpenBugs() {
+    public Integer getNumOpenBugs() {
         return numOpenBugs;
     }
 
-    public void setNumOpenBugs(int numOpenBugs) {
+    public void setNumOpenBugs(Integer numOpenBugs) {
         this.numOpenBugs = numOpenBugs;
     }
 
-    public int getNumBugs() {
+    public Integer getNumBugs() {
         return numBugs;
     }
 
-    public void setNumBugs(int numBugs) {
+    public void setNumBugs(Integer numBugs) {
         this.numBugs = numBugs;
     }
 
-    public int getNumOpenTasks() {
+    public Integer getNumOpenTasks() {
         return numOpenTasks;
     }
 
-    public void setNumOpenTasks(int numOpenTasks) {
+    public void setNumOpenTasks(Integer numOpenTasks) {
         this.numOpenTasks = numOpenTasks;
     }
 
-    public int getNumTasks() {
+    public Integer getNumTasks() {
         return numTasks;
     }
 
-    public void setNumTasks(int numTasks) {
+    public void setNumTasks(Integer numTasks) {
         this.numTasks = numTasks;
     }
 
-    public int getNumOpenRisks() {
+    public Integer getNumOpenRisks() {
         return numOpenRisks;
     }
 
-    public void setNumOpenRisks(int numOpenRisks) {
+    public void setNumOpenRisks(Integer numOpenRisks) {
         this.numOpenRisks = numOpenRisks;
     }
 
-    public int getNumRisks() {
+    public Integer getNumRisks() {
         return numRisks;
     }
 
-    public void setNumRisks(int numRisks) {
+    public void setNumRisks(Integer numRisks) {
         this.numRisks = numRisks;
+    }
+
+    public Integer getNumActiveMembers() {
+        return numActiveMembers;
+    }
+
+    public void setNumActiveMembers(Integer numActiveMembers) {
+        this.numActiveMembers = numActiveMembers;
+    }
+
+    public Integer getNumClosedPhase() {
+        return numClosedPhase;
+    }
+
+    public void setNumClosedPhase(Integer numClosedPhase) {
+        this.numClosedPhase = numClosedPhase;
+    }
+
+    public Integer getNumInProgressPhase() {
+        return numInProgressPhase;
+    }
+
+    public void setNumInProgressPhase(Integer numInProgressPhase) {
+        this.numInProgressPhase = numInProgressPhase;
+    }
+
+    public Integer getNumFuturePhase() {
+        return numFuturePhase;
+    }
+
+    public void setNumFuturePhase(Integer numFuturePhase) {
+        this.numFuturePhase = numFuturePhase;
+    }
+
+    public Double getTotalBillableHours() {
+        return totalBillableHours;
+    }
+
+    public void setTotalBillableHours(Double totalBillableHours) {
+        this.totalBillableHours = totalBillableHours;
+    }
+
+    public Double getTotalNonBillableHours() {
+        return totalNonBillableHours;
+    }
+
+    public void setTotalNonBillableHours(Double totalNonBillableHours) {
+        this.totalNonBillableHours = totalNonBillableHours;
     }
 
     public Currency getCurrency() {
@@ -124,54 +171,6 @@ public class SimpleProject extends Project {
 
     public void setCurrency(Currency currency) {
         this.currency = currency;
-    }
-
-    public int getNumActiveMembers() {
-        return numActiveMembers;
-    }
-
-    public void setNumActiveMembers(int numActiveMembers) {
-        this.numActiveMembers = numActiveMembers;
-    }
-
-    public int getNumClosedPhase() {
-        return numClosedPhase;
-    }
-
-    public void setNumClosedPhase(int numClosedPhase) {
-        this.numClosedPhase = numClosedPhase;
-    }
-
-    public int getNumInProgressPhase() {
-        return numInProgressPhase;
-    }
-
-    public void setNumInProgressPhase(int numInProgressPhase) {
-        this.numInProgressPhase = numInProgressPhase;
-    }
-
-    public int getNumFuturePhase() {
-        return numFuturePhase;
-    }
-
-    public void setNumFuturePhase(int numFuturePhase) {
-        this.numFuturePhase = numFuturePhase;
-    }
-
-    public double getTotalBillableHours() {
-        return totalBillableHours;
-    }
-
-    public void setTotalBillableHours(double totalBillableHours) {
-        this.totalBillableHours = totalBillableHours;
-    }
-
-    public double getTotalNonBillableHours() {
-        return totalNonBillableHours;
-    }
-
-    public void setTotalNonBillableHours(double totalNonBillableHours) {
-        this.totalNonBillableHours = totalNonBillableHours;
     }
 
     public boolean isProjectArchived() {
@@ -215,7 +214,7 @@ public class SimpleProject extends Project {
     }
 
     public enum Field {
-        totalBillableHours, totalNonBillableHours;
+        leadFullName, totalBillableHours, totalNonBillableHours, clientName;
 
         public boolean equalTo(Object value) {
             return name().equals(value);

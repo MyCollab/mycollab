@@ -95,27 +95,27 @@ public class CrmLinkGenerator {
         return siteUrl + "#" + generateCallPreviewLink(callId);
     }
 
-    public static String generateCrmItemLink(String type, int typeid) {
+    public static String generateCrmItemLink(String type, int typeId) {
         String result = "";
 
         if (CrmTypeConstants.ACCOUNT.equals(type)) {
-            result = generateAccountPreviewLink(typeid);
+            result = generateAccountPreviewLink(typeId);
         } else if (CrmTypeConstants.CAMPAIGN.equals(type)) {
-            result = generateCampaignPreviewLink(typeid);
+            result = generateCampaignPreviewLink(typeId);
         } else if (CrmTypeConstants.CASE.equals(type)) {
-            result = generateCasePreviewLink(typeid);
+            result = generateCasePreviewLink(typeId);
         } else if (CrmTypeConstants.CONTACT.equals(type)) {
-            result = generateContactPreviewLink(typeid);
+            result = generateContactPreviewLink(typeId);
         } else if (CrmTypeConstants.LEAD.equals(type)) {
-            result = generateLeadPreviewLink(typeid);
+            result = generateLeadPreviewLink(typeId);
         } else if (CrmTypeConstants.OPPORTUNITY.equals(type)) {
-            result = generateOpportunityPreviewLink(typeid);
+            result = generateOpportunityPreviewLink(typeId);
         } else if (CrmTypeConstants.TASK.equals(type)) {
-            result = generateTaskPreviewLink(typeid);
+            result = generateTaskPreviewLink(typeId);
         } else if (CrmTypeConstants.MEETING.equals(type)) {
-            result = generateMeetingPreviewLink(typeid);
+            result = generateMeetingPreviewLink(typeId);
         } else if (CrmTypeConstants.CALL.equals(type)) {
-            result = generateCallPreviewLink(typeid);
+            result = generateCallPreviewLink(typeId);
         }
         return "#" + result;
     }

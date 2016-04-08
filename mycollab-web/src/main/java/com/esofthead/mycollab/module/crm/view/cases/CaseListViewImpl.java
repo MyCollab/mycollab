@@ -74,28 +74,12 @@ public class CaseListViewImpl extends AbstractListItemComp<CaseSearchCriteria, S
 
     @Override
     protected AbstractPagedBeanTable<CaseSearchCriteria, SimpleCase> createBeanTable() {
-        CaseTableDisplay caseTableDisplay = new CaseTableDisplay(
+        return new CaseTableDisplay(
                 CaseListView.VIEW_DEF_ID, CaseTableFieldDef.selected(),
                 Arrays.asList(CaseTableFieldDef.subject(),
                         CaseTableFieldDef.account(), CaseTableFieldDef.priority(),
                         CaseTableFieldDef.status(), CaseTableFieldDef.assignUser(),
                         CaseTableFieldDef.createdTime()));
-
-        caseTableDisplay.addTableListener(new TableClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void itemClick(final TableClickEvent event) {
-                final SimpleCase cases = (SimpleCase) event.getData();
-                if ("subject".equals(event.getFieldName())) {
-                    EventBusFactory.getInstance().post(new CaseEvent.GotoRead(this, cases.getId()));
-                } else if ("accountName".equals(event.getFieldName())) {
-                    EventBusFactory.getInstance().post(new AccountEvent.GotoRead(this, cases.getAccountid()));
-                }
-            }
-        });
-
-        return caseTableDisplay;
     }
 
     @Override

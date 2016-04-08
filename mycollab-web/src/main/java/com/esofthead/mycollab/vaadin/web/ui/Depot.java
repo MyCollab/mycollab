@@ -31,7 +31,7 @@ public class Depot extends VerticalLayout {
     private boolean isOpened = true;
     protected MHorizontalLayout header;
     protected Label headerLbl;
-    protected AbstractOrderedLayout headerContent;
+    protected MHorizontalLayout headerContent;
     protected ComponentContainer bodyContent;
 
     public Depot(String title, ComponentContainer content) {
@@ -78,8 +78,7 @@ public class Depot extends VerticalLayout {
 
     public void addHeaderElement(final Component component) {
         if (component != null) {
-            headerContent.addComponent(component);
-            headerContent.setComponentAlignment(component, Alignment.MIDDLE_RIGHT);
+            headerContent.with(component).withAlign(component, Alignment.MIDDLE_RIGHT);
             headerContent.setVisible(true);
         }
     }

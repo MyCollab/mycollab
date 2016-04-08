@@ -43,7 +43,7 @@ public class SimpleItemTimeLogging extends ItemTimeLogging {
 
     private Date dueDate;
 
-    private int extraTypeId;
+    private Integer extraTypeId;
 
     public String getLogUserFullName() {
         return logUserFullName;
@@ -133,11 +133,19 @@ public class SimpleItemTimeLogging extends ItemTimeLogging {
         return false;
     }
 
-    public int getExtraTypeId() {
+    public Integer getExtraTypeId() {
         return extraTypeId;
     }
 
-    public void setExtraTypeId(int extraTypeId) {
+    public void setExtraTypeId(Integer extraTypeId) {
         this.extraTypeId = extraTypeId;
+    }
+
+    public enum Field {
+        summary, projectName, logUserFullName;
+
+        public boolean equalTo(Object value) {
+            return name().equals(value);
+        }
     }
 }

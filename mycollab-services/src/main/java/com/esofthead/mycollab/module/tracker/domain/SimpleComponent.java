@@ -17,81 +17,86 @@
 package com.esofthead.mycollab.module.tracker.domain;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class SimpleComponent extends Component {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String userLeadAvatarId;
+    private String userLeadAvatarId;
 
-	private String userLeadFullName;
-	
-	private String createdUserAvatarId;
-	
-	private String createdUserFullName;
+    private String userLeadFullName;
 
-	private Integer numOpenBugs;
+    private String createdUserAvatarId;
 
-	private Integer numBugs;
+    private String createdUserFullName;
 
-	private String projectName;
+    private Integer numOpenBugs;
 
-	public String getUserLeadFullName() {
-		return userLeadFullName;
-	}
+    private Integer numBugs;
 
-	public void setUserLeadFullName(String userLeadFullName) {
-		this.userLeadFullName = userLeadFullName;
-	}
+    private String projectName;
 
-	public Integer getNumOpenBugs() {
-		return numOpenBugs;
-	}
+    public String getUserLeadFullName() {
+        return userLeadFullName;
+    }
 
-	public void setNumOpenBugs(Integer numOpenBugs) {
-		this.numOpenBugs = numOpenBugs;
-	}
+    public void setUserLeadFullName(String userLeadFullName) {
+        this.userLeadFullName = userLeadFullName;
+    }
 
-	public Integer getNumBugs() {
-		return numBugs;
-	}
+    public Integer getNumOpenBugs() {
+        return numOpenBugs;
+    }
 
-	public void setNumBugs(Integer numBugs) {
-		this.numBugs = numBugs;
-	}
+    public void setNumOpenBugs(Integer numOpenBugs) {
+        this.numOpenBugs = numOpenBugs;
+    }
 
-	public String getUserLeadAvatarId() {
-		return userLeadAvatarId;
-	}
+    public Integer getNumBugs() {
+        return numBugs;
+    }
 
-	public void setUserLeadAvatarId(String userLeadAvatarId) {
-		this.userLeadAvatarId = userLeadAvatarId;
-	}
+    public void setNumBugs(Integer numBugs) {
+        this.numBugs = numBugs;
+    }
 
-	public String getProjectName() {
-		return projectName;
-	}
+    public String getUserLeadAvatarId() {
+        return userLeadAvatarId;
+    }
 
-	public void setProjectName(String projectName) {
-		this.projectName = projectName;
-	}
+    public void setUserLeadAvatarId(String userLeadAvatarId) {
+        this.userLeadAvatarId = userLeadAvatarId;
+    }
 
-	public String getCreatedUserAvatarId() {
-		return createdUserAvatarId;
-	}
+    public String getProjectName() {
+        return projectName;
+    }
 
-	public void setCreatedUserAvatarId(String createdUserAvatarId) {
-		this.createdUserAvatarId = createdUserAvatarId;
-	}
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
 
-	public String getCreatedUserFullName() {
-		return createdUserFullName;
-	}
+    public String getCreatedUserAvatarId() {
+        return createdUserAvatarId;
+    }
 
-	public void setCreatedUserFullName(String createdUserFullName) {
-		this.createdUserFullName = createdUserFullName;
-	}
+    public void setCreatedUserAvatarId(String createdUserAvatarId) {
+        this.createdUserAvatarId = createdUserAvatarId;
+    }
+
+    public String getCreatedUserFullName() {
+        return createdUserFullName;
+    }
+
+    public void setCreatedUserFullName(String createdUserFullName) {
+        this.createdUserFullName = createdUserFullName;
+    }
+
+    public enum Field {
+        numOpenBugs, numBugs;
+        public boolean equalTo(Object value) {
+            return name().equals(value);
+        }
+    }
 }

@@ -30,7 +30,10 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.web.ui.DefaultBeanPagedList;
 import com.esofthead.mycollab.vaadin.web.ui.Depot;
+import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.data.Property;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.CssLayout;
 import org.joda.time.LocalDate;
@@ -69,8 +72,8 @@ public class ProjectUnresolvedAssignmentWidget extends Depot {
                 return "No assignment";
             }
         };
-        this.addHeaderElement(myItemsSelection);
-        this.bodyContent.addComponent(taskList);
+        addHeaderElement(myItemsSelection);
+        bodyContent.addComponent(taskList);
     }
 
     public void displayUnresolvedAssignmentsThisWeek() {
