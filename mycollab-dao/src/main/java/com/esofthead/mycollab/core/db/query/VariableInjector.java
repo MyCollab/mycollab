@@ -24,8 +24,8 @@ import java.util.Date;
  * @author MyCollab Ltd
  * @since 5.2.1
  */
-public interface VariableInjecter {
-    VariableInjecter LAST_WEEK = new VariableInjecter() {
+public interface VariableInjector<T> {
+    VariableInjector LAST_WEEK = new VariableInjector() {
         @Override
         public Object eval() {
             LocalDate date = new LocalDate(new Date());
@@ -36,7 +36,7 @@ public interface VariableInjecter {
         }
     };
 
-    VariableInjecter THIS_WEEK = new VariableInjecter() {
+    VariableInjector THIS_WEEK = new VariableInjector() {
         @Override
         public Object eval() {
             LocalDate date = new LocalDate(new Date());
@@ -46,7 +46,7 @@ public interface VariableInjecter {
         }
     };
 
-    VariableInjecter THIS_MONTH = new VariableInjecter() {
+    VariableInjector THIS_MONTH = new VariableInjector() {
         @Override
         public Object eval() {
             LocalDate date = new LocalDate(new Date());
@@ -57,5 +57,5 @@ public interface VariableInjecter {
     };
 
 
-    Object eval();
+    T eval();
 }

@@ -93,4 +93,12 @@ public class LicenseInfo {
     public boolean isTrial() {
         return LicenseType.PRO_TRIAL == licenseType;
     }
+
+    public boolean isInvalid() {
+        return LicenseType.INVALID == licenseType;
+    }
+
+    public boolean isRequiredALicense() {
+        return isInvalid() || (isExpired() && isTrial());
+    }
 }

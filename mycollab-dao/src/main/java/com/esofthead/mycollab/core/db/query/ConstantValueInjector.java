@@ -20,10 +20,10 @@ package com.esofthead.mycollab.core.db.query;
  * @author MyCollab Ltd
  * @since 5.2.1
  */
-public class ConstantValueInjecter implements VariableInjecter {
+public class ConstantValueInjector implements VariableInjector {
     private Object value;
 
-    public ConstantValueInjecter(Object value) {
+    public ConstantValueInjector(Object value) {
         this.value = value;
     }
 

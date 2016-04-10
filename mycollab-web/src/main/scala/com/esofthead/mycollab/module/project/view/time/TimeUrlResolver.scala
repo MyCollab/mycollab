@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.project.view.time
 
 import com.esofthead.mycollab.common.UrlTokenizer
 import com.esofthead.mycollab.core.arguments.SetSearchField
-import com.esofthead.mycollab.core.db.query.{DateParam, VariableInjecter}
+import com.esofthead.mycollab.core.db.query.{DateParam, VariableInjector}
 import com.esofthead.mycollab.eventmanager.EventBusFactory
 import com.esofthead.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria
 import com.esofthead.mycollab.module.project.events.ProjectEvent
@@ -39,7 +39,7 @@ class TimeUrlResolver extends ProjectUrlResolver {
       val searchCriteria = new ItemTimeLoggingSearchCriteria
       searchCriteria.setProjectIds(new SetSearchField[Integer](projectId))
       searchCriteria.addExtraField(DateParam.inRangeDate(ItemTimeLoggingSearchCriteria.p_logDates,
-        VariableInjecter.THIS_WEEK));
+        VariableInjector.THIS_WEEK));
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
         new TimeTrackingScreenData.Search(searchCriteria))
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))

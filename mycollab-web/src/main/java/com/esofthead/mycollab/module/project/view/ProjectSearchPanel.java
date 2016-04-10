@@ -73,7 +73,7 @@ public class ProjectSearchPanel extends DefaultGenericSearchPanel<ProjectSearchC
         });
         createBtn.setStyleName(UIConstants.BUTTON_ACTION);
         createBtn.setIcon(FontAwesome.PLUS);
-        createBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CREATE_NEW_PROJECT));
+        createBtn.setEnabled(AppContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT));
         this.addHeaderRight(createBtn);
     }
 

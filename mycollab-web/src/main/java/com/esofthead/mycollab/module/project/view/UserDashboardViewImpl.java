@@ -20,7 +20,6 @@ import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.project.domain.ProjectGenericItem;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectGenericItemSearchCriteria;
-import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.esofthead.mycollab.module.project.service.ProjectGenericItemService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.ui.components.GenericItemRowDisplayHandler;
@@ -28,7 +27,6 @@ import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
-import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.view.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
@@ -97,9 +95,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
                 } else if (comp instanceof ICalendarDashboardView) {
                     calendarPresenter.go(UserDashboardViewImpl.this, null);
                 } else if (comp instanceof ProjectListView) {
-                    ProjectSearchCriteria searchCriteria = new ProjectSearchCriteria();
-                    searchCriteria.setProjectKeys(new SetSearchField<> (prjKeys));
-                    projectListPresenter.go(UserDashboardViewImpl.this, new ScreenData(searchCriteria));
+                    projectListPresenter.go(UserDashboardViewImpl.this, null);
                 }
             }
         });

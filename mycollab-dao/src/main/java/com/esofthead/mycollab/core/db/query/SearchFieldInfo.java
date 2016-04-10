@@ -36,16 +36,16 @@ public class SearchFieldInfo implements Serializable {
     private String prefixOper;
     private Param param;
     private String compareOper;
-    private VariableInjecter variableInjecter;
+    private VariableInjector variableInjector;
 
     public SearchFieldInfo(String prefixOper, Param param, String compareOper, Object value) {
         this.prefixOper = prefixOper;
         this.param = param;
         this.compareOper = compareOper;
-        if (value instanceof VariableInjecter) {
-            this.variableInjecter = (VariableInjecter) value;
+        if (value instanceof VariableInjector) {
+            this.variableInjector = (VariableInjector) value;
         } else {
-            variableInjecter = new ConstantValueInjecter(value);
+            variableInjector = new ConstantValueInjector(value);
         }
     }
 
@@ -88,16 +88,16 @@ public class SearchFieldInfo implements Serializable {
         return this;
     }
 
-    public VariableInjecter getVariableInjecter() {
-        return variableInjecter;
+    public VariableInjector getVariableInjector() {
+        return variableInjector;
     }
 
-    public void setVariableInjecter(VariableInjecter variableInjecter) {
-        this.variableInjecter = variableInjecter;
+    public void setVariableInjector(VariableInjector variableInjector) {
+        this.variableInjector = variableInjector;
     }
 
     public Object eval() {
-        return variableInjecter.eval();
+        return variableInjector.eval();
     }
 
     public static <S extends SearchCriteria> S buildSearchCriteria(Class<S> cls, List<SearchFieldInfo> fieldInfos) {

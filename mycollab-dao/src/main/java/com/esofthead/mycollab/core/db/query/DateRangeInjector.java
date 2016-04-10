@@ -22,10 +22,10 @@ import java.util.Date;
  * @author MyCollab Ltd
  * @since 5.2.1
  */
-public class DateRangeInjecter implements VariableInjecter {
+public class DateRangeInjector implements VariableInjector {
     private Date from, to;
 
-    public DateRangeInjecter(Date from, Date to) {
+    public DateRangeInjector(Date from, Date to) {
         this.from = from;
         this.to = to;
     }

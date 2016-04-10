@@ -21,7 +21,7 @@ import com.esofthead.mycollab.core.db.query.*;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
-import com.esofthead.mycollab.module.project.query.CurrentProjectIdInjecter;
+import com.esofthead.mycollab.module.project.query.CurrentProjectIdInjector;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.web.ui.SavedFilterComboBox;
@@ -49,10 +49,10 @@ public class BugSavedFilterComboBox extends SavedFilterComboBox {
         super(ProjectTypeConstants.BUG);
 
         SearchQueryInfo allBugsQuery = new SearchQueryInfo(ALL_BUGS, "All Bugs", SearchFieldInfo.inCollection
-                (BugSearchCriteria.p_projectIds, new CurrentProjectIdInjecter()));
+                (BugSearchCriteria.p_projectIds, new CurrentProjectIdInjector()));
 
         SearchQueryInfo allOpenBugsQuery = new SearchQueryInfo(OPEN_BUGS, "All Open Bugs", SearchFieldInfo.inCollection(
-                BugSearchCriteria.p_status, new VariableInjecter() {
+                BugSearchCriteria.p_status, new VariableInjector() {
                     @Override
                     public Object eval() {
                         return Arrays.asList(BugStatus.InProgress.name(), BugStatus.Open.name(), BugStatus.ReOpened.name());
@@ -60,13 +60,13 @@ public class BugSavedFilterComboBox extends SavedFilterComboBox {
                 }));
 
         SearchQueryInfo overdueTaskQuery = new SearchQueryInfo(OVERDUE_BUGS, "Overdue Bugs", new SearchFieldInfo
-                (SearchField.AND, BugSearchCriteria.p_duedate, DateParam.BEFORE, new VariableInjecter() {
+                (SearchField.AND, BugSearchCriteria.p_duedate, DateParam.BEFORE, new VariableInjector() {
                     @Override
                     public Object eval() {
                         return new LocalDate().toDate();
                     }
                 }), new SearchFieldInfo(SearchField.AND, new StringParam("id-status", BugI18nEnum.FORM_STATUS,
-                "m_tracker_bug", "status"), StringParam.IS_NOT, new VariableInjecter() {
+                "m_tracker_bug", "status"), StringParam.IS_NOT, new VariableInjector() {
             @Override
             public Object eval() {
                 return BugStatus.Verified.name();
@@ -74,7 +74,7 @@ public class BugSavedFilterComboBox extends SavedFilterComboBox {
         }));
 
         SearchQueryInfo myBugsQuery = new SearchQueryInfo(MY_BUGS, "My Bugs", SearchFieldInfo.inCollection
-                (BugSearchCriteria.p_assignee, new VariableInjecter() {
+                (BugSearchCriteria.p_assignee, new VariableInjector() {
                     @Override
                     public Object eval() {
                         return Collections.singletonList(AppContext.getUsername());
@@ -82,19 +82,19 @@ public class BugSavedFilterComboBox extends SavedFilterComboBox {
                 }));
 
         SearchQueryInfo newBugsThisWeekQuery = new SearchQueryInfo(NEW_THIS_WEEK, "New This Week", SearchFieldInfo
-                .inDateRange(BugSearchCriteria.p_createddate, VariableInjecter.THIS_WEEK));
+                .inDateRange(BugSearchCriteria.p_createddate, VariableInjector.THIS_WEEK));
 
         SearchQueryInfo updateBugsThisWeekQuery = new SearchQueryInfo(UPDATE_THIS_WEEK, "Update This Week",
-                SearchFieldInfo.inDateRange(BugSearchCriteria.p_lastupdatedtime, VariableInjecter.THIS_WEEK));
+                SearchFieldInfo.inDateRange(BugSearchCriteria.p_lastupdatedtime, VariableInjector.THIS_WEEK));
 
         SearchQueryInfo newBugsLastWeekQuery = new SearchQueryInfo(NEW_LAST_WEEK, "New Last Week", SearchFieldInfo
-                .inDateRange(BugSearchCriteria.p_createddate, VariableInjecter.LAST_WEEK));
+                .inDateRange(BugSearchCriteria.p_createddate, VariableInjector.LAST_WEEK));
 
         SearchQueryInfo updateBugsLastWeekQuery = new SearchQueryInfo(UPDATE_LAST_WEEK, "Update Last Week",
-                SearchFieldInfo.inDateRange(BugSearchCriteria.p_lastupdatedtime, VariableInjecter.LAST_WEEK));
+                SearchFieldInfo.inDateRange(BugSearchCriteria.p_lastupdatedtime, VariableInjector.LAST_WEEK));
 
         SearchQueryInfo waitForApproveQuery = new SearchQueryInfo(WAITING_FOR_APPROVAL, "Waiting For Approval",
-                SearchFieldInfo.inCollection(BugSearchCriteria.p_status, new VariableInjecter() {
+                SearchFieldInfo.inCollection(BugSearchCriteria.p_status, new VariableInjector() {
                     @Override
                     public Object eval() {
                         return Arrays.asList(BugStatus.Resolved.name(), BugStatus.WontFix.name());

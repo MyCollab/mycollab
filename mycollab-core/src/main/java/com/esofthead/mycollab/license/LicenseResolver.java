@@ -23,8 +23,6 @@ package com.esofthead.mycollab.license;
 public interface LicenseResolver {
     LicenseInfo getLicenseInfo();
 
-    void acquireALicense();
-
     void checkAndSaveLicenseInfo(String licenseInputText);
 
     void checkLicenseInfo(byte[] licenseBytes, boolean isSave);

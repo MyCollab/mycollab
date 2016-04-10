@@ -21,5 +21,5 @@ package com.esofthead.mycollab.license;
  * @since 5.2.6
  */
 public enum LicenseType {
-    PRO, PRO_TRIAL
+    PRO, PRO_TRIAL, INVALID
 }

@@ -22,6 +22,7 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
+import com.esofthead.mycollab.core.db.query.VariableInjector;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -30,14 +31,12 @@ import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
+import com.esofthead.mycollab.module.project.reporting.StreamResourceUtils;
 import com.esofthead.mycollab.module.project.view.bug.components.*;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.reporting.ReportExportType;
-import com.esofthead.mycollab.reporting.ReportStreamSource;
-import com.esofthead.mycollab.reporting.RpFieldsBuilder;
-import com.esofthead.mycollab.reporting.SimpleReportTemplateExecutor;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.AsyncInvoker;
@@ -222,22 +221,12 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
     }
 
     private StreamResource buildStreamSource(ReportExportType exportType) {
-        List fields = Arrays.asList(BugTableFieldDef.summary(), BugTableFieldDef.environment(), BugTableFieldDef.priority(),
-                BugTableFieldDef.severity(), BugTableFieldDef.status(), BugTableFieldDef.resolution(),
-                BugTableFieldDef.logBy(), BugTableFieldDef.duedate(), BugTableFieldDef.assignUser(),
-                BugTableFieldDef.billableHours(), BugTableFieldDef.nonBillableHours());
-        SimpleReportTemplateExecutor reportTemplateExecutor = new SimpleReportTemplateExecutor.AllItems<>("Bugs", new
-                RpFieldsBuilder(fields), exportType, SimpleBug.class, ApplicationContextUtil.getSpringBean(BugService.class));
-        ReportStreamSource streamSource = new ReportStreamSource(reportTemplateExecutor) {
+        return StreamResourceUtils.buildBugStreamResource(exportType, new VariableInjector<BugSearchCriteria>() {
             @Override
-            protected Map<String, Object> initReportParameters() {
-                Map<String, Object> parameters = new HashMap<>();
-                parameters.put("siteUrl", AppContext.getSiteUrl());
-                parameters.put(SimpleReportTemplateExecutor.CRITERIA, baseCriteria);
-                return parameters;
+            public BugSearchCriteria eval() {
+                return baseCriteria;
             }
-        };
-        return new StreamResource(streamSource, exportType.getDefaultFileName());
+        });
     }
 
     @Override

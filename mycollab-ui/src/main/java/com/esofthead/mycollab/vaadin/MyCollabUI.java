@@ -28,7 +28,6 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -100,9 +99,7 @@ public abstract class MyCollabUI extends UI {
         LicenseResolver licenseResolver = ApplicationContextUtil.getSpringBean(LicenseResolver.class);
         if (licenseResolver != null) {
             LicenseInfo licenseInfo = licenseResolver.getLicenseInfo();
-            if (licenseInfo == null) {
-                licenseResolver.acquireALicense();
-            } else if (licenseInfo != null && licenseInfo.isExpired() && licenseInfo.isTrial()) {
+            if (licenseInfo.isRequiredALicense()) {
                 Window activateWindow = ViewManager.getCacheComponent(AbstractLicenseActivationWindow.class);
                 UI.getCurrent().addWindow(activateWindow);
             }

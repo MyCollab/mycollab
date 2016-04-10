@@ -69,7 +69,7 @@ public class UnresolvedTaskByStatusWidget extends DepotWithChart {
                         UI.getCurrent().access(new Runnable() {
                             @Override
                             public void run() {
-                                UnresolvedTaskByStatusWidget.this.setSearchCriteria(searchCriteria);
+                                setSearchCriteria(searchCriteria);
                             }
                         });
                     }

@@ -48,11 +48,11 @@ public class GroupIteratorDataSource<SearchService extends ISearchableService<S>
 
     private int totalItems;
 
-    public GroupIteratorDataSource(SearchService searchService, S searchCriteria) {
+    public GroupIteratorDataSource(SearchService searchService, S searchCriteria, int totalItems) {
         this.searchService = searchService;
         this.searchCriteria = searchCriteria;
 
-        totalItems = searchService.getTotalCount(searchCriteria);
+        this.totalItems = totalItems;
         SearchRequest<S> searchRequest = new SearchRequest<>(searchCriteria, currentPage, ITEMS_PER_PAGE);
         currentData = searchService.findPagableListByCriteria(searchRequest);
     }

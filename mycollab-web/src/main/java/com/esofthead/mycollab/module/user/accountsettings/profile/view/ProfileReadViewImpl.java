@@ -89,8 +89,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
                 }
 
                 if (mimeType.equals("image/png")) {
-                    EventBusFactory.getInstance().post(new ProfileEvent.GotoUploadPhoto(
-                            ProfileReadViewImpl.this, imageData));
+                    EventBusFactory.getInstance().post(new ProfileEvent.GotoUploadPhoto(ProfileReadViewImpl.this, imageData));
                 } else {
                     throw new UserInvalidInputException(
                             "Upload file does not have valid image format. The supported formats are jpg/png");

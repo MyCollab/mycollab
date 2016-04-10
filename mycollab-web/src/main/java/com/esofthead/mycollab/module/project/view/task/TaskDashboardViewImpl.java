@@ -24,6 +24,7 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
+import com.esofthead.mycollab.core.db.query.VariableInjector;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -34,12 +35,10 @@ import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
+import com.esofthead.mycollab.module.project.reporting.StreamResourceUtils;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.view.task.components.*;
 import com.esofthead.mycollab.reporting.ReportExportType;
-import com.esofthead.mycollab.reporting.ReportStreamSource;
-import com.esofthead.mycollab.reporting.RpFieldsBuilder;
-import com.esofthead.mycollab.reporting.SimpleReportTemplateExecutor;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.AsyncInvoker;
@@ -66,7 +65,8 @@ import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author MyCollab Ltd.
@@ -345,21 +345,12 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
     }
 
     private StreamResource buildStreamSource(ReportExportType exportType) {
-        List fields = Arrays.asList(TaskTableFieldDef.taskname(), TaskTableFieldDef.status(), TaskTableFieldDef.duedate(),
-                TaskTableFieldDef.percentagecomplete(), TaskTableFieldDef.startdate(), TaskTableFieldDef.assignee(),
-                TaskTableFieldDef.billableHours(), TaskTableFieldDef.nonBillableHours());
-        SimpleReportTemplateExecutor reportTemplateExecutor = new SimpleReportTemplateExecutor.AllItems<>("Tasks",
-                new RpFieldsBuilder(fields), exportType, SimpleTask.class, ApplicationContextUtil.getSpringBean(ProjectTaskService.class));
-        ReportStreamSource streamSource = new ReportStreamSource(reportTemplateExecutor) {
+        return StreamResourceUtils.buildTaskStreamResource(exportType, new VariableInjector<TaskSearchCriteria>() {
             @Override
-            protected Map<String, Object> initReportParameters() {
-                Map<String, Object> parameters = new HashMap<>();
-                parameters.put("siteUrl", AppContext.getSiteUrl());
-                parameters.put(SimpleReportTemplateExecutor.CRITERIA, baseCriteria);
-                return parameters;
+            public TaskSearchCriteria eval() {
+                return baseCriteria;
             }
-        };
-        return new StreamResource(streamSource, exportType.getDefaultFileName());
+        });
     }
 
     @Override

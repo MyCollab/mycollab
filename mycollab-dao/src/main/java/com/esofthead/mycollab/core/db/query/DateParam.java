@@ -42,8 +42,8 @@ public class DateParam extends ColumnParam {
         super(id, displayName, table, column);
     }
 
-    public static SearchField inRangeDate(DateParam dateParam, VariableInjecter variableInjecter) {
-        Object value = variableInjecter.eval();
+    public static SearchField inRangeDate(DateParam dateParam, VariableInjector variableInjector) {
+        Object value = variableInjector.eval();
         if (value != null) {
             if (value.getClass().isArray()) {
                 return dateParam.buildSearchField(SearchField.AND, BETWEEN, (Date) Array.get(value, 0), (Date) Array.get(value, 1));

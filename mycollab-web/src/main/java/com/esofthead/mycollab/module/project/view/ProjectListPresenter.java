@@ -16,28 +16,20 @@
  */
 package com.esofthead.mycollab.module.project.view;
 
+import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
-import com.esofthead.mycollab.module.project.domain.Project;
-import com.esofthead.mycollab.module.project.domain.Risk;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
-import com.esofthead.mycollab.module.project.domain.SimpleRisk;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
-import com.esofthead.mycollab.module.project.domain.criteria.RiskSearchCriteria;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.events.ViewItemAction;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
-import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.web.ui.DefaultMassEditActionHandler;
 import com.esofthead.mycollab.vaadin.web.ui.ListSelectionPresenter;
-import com.esofthead.mycollab.vaadin.web.ui.MailFormWindow;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.UI;
+import org.apache.commons.collections.CollectionUtils;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * @author MyCollab Ltd
@@ -76,8 +68,17 @@ public class ProjectListPresenter extends ListSelectionPresenter<ProjectListView
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        searchCriteria = (ProjectSearchCriteria) data.getParams();
+        ProjectSearchCriteria searchCriteria = new ProjectSearchCriteria();
         doSearch(searchCriteria);
+    }
+
+    @Override
+    public void doSearch(ProjectSearchCriteria searchCriteria) {
+        Collection<Integer> prjKeys = projectService.getProjectKeysUserInvolved(AppContext.getUsername(), AppContext.getAccountId());
+        if (CollectionUtils.isNotEmpty(prjKeys)) {
+            searchCriteria.setProjectKeys(new SetSearchField<>(prjKeys));
+            super.doSearch(searchCriteria);
+        }
     }
 
     @Override
@@ -87,28 +88,6 @@ public class ProjectListPresenter extends ListSelectionPresenter<ProjectListView
 
     @Override
     protected void deleteSelectedItems() {
-        if (!isSelectAll) {
-            Collection<SimpleProject> currentDataList = view.getPagedBeanTable().getCurrentDataList();
-            List<Project> keyList = new ArrayList<>();
-            for (SimpleProject item : currentDataList) {
-                if (item.isSelected()) {
-                    keyList.add(item);
-                }
-            }
-
-            if (keyList.size() > 0) {
-                projectService.massRemoveWithSession(keyList, AppContext.getUsername(), AppContext.getAccountId());
-            }
-        } else {
-            projectService.removeByCriteria(searchCriteria, AppContext.getAccountId());
-        }
-
-        int totalCount = projectService.getTotalCount(searchCriteria);
-
-        if (totalCount > 0) {
-            doSearch(searchCriteria);
-        } else {
-
-        }
+        throw new UnsupportedOperationException("Not supported");
     }
 }

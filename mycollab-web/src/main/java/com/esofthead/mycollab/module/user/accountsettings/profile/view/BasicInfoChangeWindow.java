@@ -75,22 +75,22 @@ class BasicInfoChangeWindow extends Window {
 
         passInfo.addComponent(txtFirstName, AppContext.getMessage(UserI18nEnum.FORM_FIRST_NAME), 0, 0);
         passInfo.addComponent(txtLastName, AppContext.getMessage(UserI18nEnum.FORM_LAST_NAME), 0, 1);
-        this.txtLastName.setRequired(true);
+        txtLastName.setRequired(true);
         passInfo.addComponent(txtEmail, AppContext.getMessage(UserI18nEnum.FORM_EMAIL), 0, 2);
-        this.txtEmail.setRequired(true);
+        txtEmail.setRequired(true);
         passInfo.addComponent(birthdayField, AppContext.getMessage(UserI18nEnum.FORM_BIRTHDAY), 0, 3);
-        this.birthdayField.setDate(user.getDateofbirth());
+        birthdayField.setDate(user.getDateofbirth());
 
         passInfo.addComponent(timeZoneField, AppContext.getMessage(UserI18nEnum.FORM_TIMEZONE), 0, 4);
-        this.timeZoneField.setTimeZone(TimezoneMapper.getTimezoneExt(user.getTimezone()));
+        timeZoneField.setTimeZone(TimezoneMapper.getTimezoneExt(user.getTimezone()));
 
         passInfo.addComponent(languageBox, AppContext.getMessage(UserI18nEnum.FORM_LANGUAGE), 0, 5);
-        this.languageBox.setValue(user.getLanguage());
+        languageBox.setValue(user.getLanguage());
 
-        this.txtFirstName.setValue(MoreObjects.firstNonNull(user.getFirstname(), ""));
-        this.txtLastName.setValue(MoreObjects.firstNonNull(user.getLastname(), ""));
-        this.txtEmail.setValue(MoreObjects.firstNonNull(user.getEmail(), ""));
-        this.birthdayField.setValue(user.getDateofbirth());
+        txtFirstName.setValue(MoreObjects.firstNonNull(user.getFirstname(), ""));
+        txtLastName.setValue(MoreObjects.firstNonNull(user.getLastname(), ""));
+        txtEmail.setValue(MoreObjects.firstNonNull(user.getEmail(), ""));
+        birthdayField.setValue(user.getDateofbirth());
         mainLayout.addComponent(passInfo.getLayout());
         mainLayout.setComponentAlignment(passInfo.getLayout(), Alignment.TOP_LEFT);
 
@@ -100,7 +100,7 @@ class BasicInfoChangeWindow extends Window {
 
             @Override
             public void buttonClick(final ClickEvent event) {
-                BasicInfoChangeWindow.this.close();
+                close();
             }
         });
         cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
@@ -124,30 +124,30 @@ class BasicInfoChangeWindow extends Window {
     }
 
     private void changeUserInfo() {
-        this.txtLastName.removeStyleName("errorField");
-        this.txtEmail.removeStyleName("errorField");
+        txtLastName.removeStyleName("errorField");
+        txtEmail.removeStyleName("errorField");
 
-        if (this.txtLastName.getValue().equals("")) {
+        if (txtLastName.getValue().equals("")) {
             NotificationUtil.showErrorNotification("The last name must be not null!");
-            this.txtLastName.addStyleName("errorField");
+            txtLastName.addStyleName("errorField");
             return;
         }
 
-        if (this.txtEmail.getValue().equals("")) {
+        if (txtEmail.getValue().equals("")) {
             NotificationUtil.showErrorNotification("The email must be not null!");
-            this.txtLastName.addStyleName("errorField");
+            txtLastName.addStyleName("errorField");
             return;
         }
 
-        user.setFirstname(this.txtFirstName.getValue());
-        user.setLastname(this.txtLastName.getValue());
-        user.setEmail(this.txtEmail.getValue());
-        user.setDateofbirth(this.birthdayField.getDate());
-        user.setLanguage((String) this.languageBox.getValue());
-        user.setTimezone(this.timeZoneField.getTimeZone().getId());
+        user.setFirstname(txtFirstName.getValue());
+        user.setLastname(txtLastName.getValue());
+        user.setEmail(txtEmail.getValue());
+        user.setDateofbirth(birthdayField.getDate());
+        user.setLanguage((String) languageBox.getValue());
+        user.setTimezone(timeZoneField.getTimeZone().getId());
 
         MyCollabSession.removeCurrentUIVariable(USER_TIMEZONE);
-        MyCollabSession.putCurrentUIVariable(USER_TIMEZONE, this.timeZoneField.getTimeZone().getTimezone());
+        MyCollabSession.putCurrentUIVariable(USER_TIMEZONE, timeZoneField.getTimeZone().getTimezone());
 
         final UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
         userService.updateWithSession(user, AppContext.getUsername());

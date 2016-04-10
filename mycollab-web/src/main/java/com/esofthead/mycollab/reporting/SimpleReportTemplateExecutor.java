@@ -27,7 +27,7 @@ import net.sf.dynamicreports.jasper.builder.export.JasperCsvExporterBuilder;
 import net.sf.dynamicreports.jasper.builder.export.JasperXlsxExporterBuilder;
 import net.sf.dynamicreports.jasper.constant.JasperProperty;
 import net.sf.dynamicreports.report.builder.column.ComponentColumnBuilder;
-import net.sf.dynamicreports.report.builder.component.HorizontalListBuilder;
+import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
 import net.sf.dynamicreports.report.constant.PageOrientation;
 import net.sf.dynamicreports.report.constant.PageType;
 import net.sf.dynamicreports.report.definition.datatype.DRIDataType;
@@ -139,15 +139,19 @@ public abstract class SimpleReportTemplateExecutor<T> extends ReportTemplateExec
             throw new IllegalArgumentException("Do not support output type " + outputForm);
         }
 
-        HorizontalListBuilder historyHeader = cmp.horizontalList().add(cmp.text(reportTitle)
-                .setStyle(reportTemplate.getH2Style()));
-        reportBuilder.title(historyHeader, cmp.verticalGap(10));
+        reportBuilder.title(headerCreator(reportTitle), cmp.verticalGap(10));
 
         return reportBuilder;
     }
 
+    protected ComponentBuilder headerCreator(String title) {
+        return cmp.horizontalList().add(cmp.text(title).setStyle(reportTemplate.getH2Style()));
+    }
+
     public static class AllItems<S extends SearchCriteria, T> extends SimpleReportTemplateExecutor<T> {
         private ISearchableService<S> searchService;
+
+        private int totalItems;
 
         public AllItems(String reportTitle, RpFieldsBuilder fieldBuilder, ReportExportType outputForm,
                         Class<T> classType, ISearchableService<S> searchService) {
@@ -155,10 +159,16 @@ public abstract class SimpleReportTemplateExecutor<T> extends ReportTemplateExec
             this.searchService = searchService;
         }
 
+        protected ComponentBuilder headerCreator(String title) {
+            S searchCriteria = (S) parameters.get(CRITERIA);
+            totalItems = searchService.getTotalCount(searchCriteria);
+            return super.headerCreator(title + "(" + totalItems + ")");
+        }
+
         @Override
         protected void fillReport() {
             S searchCriteria = (S) parameters.get(CRITERIA);
-            reportBuilder.setDataSource(new GroupIteratorDataSource(searchService, searchCriteria));
+            reportBuilder.setDataSource(new GroupIteratorDataSource(searchService, searchCriteria, totalItems));
         }
     }
 
@@ -168,6 +178,11 @@ public abstract class SimpleReportTemplateExecutor<T> extends ReportTemplateExec
         public ListData(String reportTitle, RpFieldsBuilder fieldBuilder, ReportExportType outputForm, List<T> data, Class<T> classType) {
             super(reportTitle, fieldBuilder, outputForm, classType);
             this.data = data;
+        }
+
+        protected ComponentBuilder headerCreator(String title) {
+            int totalItems = data.size();
+            return super.headerCreator(title + "(" + totalItems + ")");
         }
 
         @SuppressWarnings({"unchecked", "rawtypes"})

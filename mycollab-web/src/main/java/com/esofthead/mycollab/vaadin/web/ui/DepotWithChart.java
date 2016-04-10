@@ -26,30 +26,31 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  * @since 5.2.0
  */
 public abstract class DepotWithChart extends Depot {
-    private Button toogleViewBtn;
+    private Button toggleViewBtn;
     private boolean isPlainMode = true;
 
     public DepotWithChart() {
         super("", new MVerticalLayout());
-        toogleViewBtn = new Button(null, new Button.ClickListener() {
+
+        toggleViewBtn = new Button(null, new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 isPlainMode = !isPlainMode;
                 if (isPlainMode) {
-                    toogleViewBtn.setIcon(FontAwesome.BAR_CHART_O);
-                    toogleViewBtn.setDescription("Chart mode");
+                    toggleViewBtn.setIcon(FontAwesome.BAR_CHART_O);
+                    toggleViewBtn.setDescription("Chart mode");
                     displayPlainMode();
                 } else {
-                    toogleViewBtn.setIcon(FontAwesome.LIST);
-                    toogleViewBtn.setDescription("Simple mode");
+                    toggleViewBtn.setIcon(FontAwesome.LIST);
+                    toggleViewBtn.setDescription("Simple mode");
                     displayChartMode();
                 }
             }
         });
-        toogleViewBtn.setStyleName(UIConstants.BUTTON_ICON_ONLY);
-        toogleViewBtn.setIcon(FontAwesome.BAR_CHART_O);
-        toogleViewBtn.setDescription("Simple mode");
-        addHeaderElement(toogleViewBtn);
+        toggleViewBtn.setStyleName(UIConstants.BUTTON_ICON_ONLY);
+        toggleViewBtn.setIcon(FontAwesome.BAR_CHART_O);
+        toggleViewBtn.setDescription("Simple mode");
+        addHeaderElement(toggleViewBtn);
         setContentBorder(true);
         this.setMargin(new MarginInfo(false, false, true, false));
     }

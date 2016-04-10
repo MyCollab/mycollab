@@ -22,7 +22,7 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.db.query.DateParam;
-import com.esofthead.mycollab.core.db.query.DateRangeInjecter;
+import com.esofthead.mycollab.core.db.query.DateRangeInjector;
 import com.esofthead.mycollab.module.project.domain.SimpleStandupReport;
 import com.esofthead.mycollab.module.project.domain.criteria.StandupReportSearchCriteria;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
@@ -71,7 +71,7 @@ public class StandupReportServiceTest extends IntergrationServiceTest {
         criteria.setSaccountid(new NumberSearchField(1));
         Date from = new GregorianCalendar(2013, 2, 1).getTime();
         Date to = new GregorianCalendar(2013, 2, 31).getTime();
-        criteria.addExtraField(DateParam.inRangeDate(StandupReportSearchCriteria.p_fordays, new DateRangeInjecter
+        criteria.addExtraField(DateParam.inRangeDate(StandupReportSearchCriteria.p_fordays, new DateRangeInjector
                 (from, to)));
         List<GroupItem> reportsCount = reportService.getReportsCount(criteria);
 

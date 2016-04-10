@@ -16,19 +16,19 @@
  */
 package com.esofthead.mycollab.module.project.query;
 
-import com.esofthead.mycollab.core.db.query.VariableInjecter;
+import com.esofthead.mycollab.core.db.query.VariableInjector;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 
-import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 
 /**
  * @author MyCollab Ltd
  * @since 5.2.1
  */
-public class CurrentProjectIdInjecter implements VariableInjecter {
+public class CurrentProjectIdInjector implements VariableInjector<Collection<Integer>> {
     @Override
-    public Object eval() {
+    public Collection<Integer> eval() {
         return Collections.singletonList(CurrentProjectVariables.getProjectId());
     }
 }
