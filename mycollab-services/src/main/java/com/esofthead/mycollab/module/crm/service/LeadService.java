@@ -26,25 +26,19 @@ import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public interface LeadService extends IDefaultService<Integer, Lead, LeadSearchCriteria> {
-	@Cacheable
-	SimpleLead findById(Integer leadId, @CacheKey Integer sAccountId);
+    @Cacheable
+    SimpleLead findById(Integer leadId, @CacheKey Integer sAccountId);
 
-	@CacheEvict
-	void convertLead(SimpleLead lead, Opportunity opportunity,
-			String convertUser);
+    @CacheEvict
+    void convertLead(SimpleLead lead, Opportunity opportunity, String convertUser);
 
-	SimpleLead findConvertedLeadOfAccount(Integer accountId,
-			@CacheKey Integer sAccountId);
+    SimpleLead findConvertedLeadOfAccount(Integer accountId, @CacheKey Integer sAccountId);
 
-	SimpleLead findConvertedLeadOfContact(Integer contactId,
-			@CacheKey Integer sAccountId);
+    SimpleLead findConvertedLeadOfContact(Integer contactId, @CacheKey Integer sAccountId);
 
-	SimpleLead findConvertedLeadOfOpportunity(Integer opportunity,
-			@CacheKey Integer sAccountId);
+    SimpleLead findConvertedLeadOfOpportunity(Integer opportunity, @CacheKey Integer sAccountId);
 }

@@ -1,33 +1,33 @@
 /**
- * This file is part of mycollab-web-community.
+ * This file is part of mycollab-web.
  *
- * mycollab-web-community is free software: you can redistribute it and/or modify
+ * mycollab-web is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * mycollab-web-community is distributed in the hope that it will be useful,
+ * mycollab-web is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with mycollab-web-community.  If not, see <http://www.gnu.org/licenses/>.
+ * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.community.module.project.view.bug;
+package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.community.ui.chart.Key;
-import com.esofthead.mycollab.community.ui.chart.PieChartWrapper;
+import com.esofthead.mycollab.ui.chart.Key;
+import com.esofthead.mycollab.ui.chart.PieChartWrapper;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.project.events.BugEvent;
-import com.esofthead.mycollab.module.project.view.bug.IBugAssigneeChartWidget;
-import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
-import com.esofthead.mycollab.module.tracker.service.BugService;
+import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
+import com.esofthead.mycollab.module.project.events.TaskEvent;
+import com.esofthead.mycollab.module.project.service.ProjectTaskService;
+import com.esofthead.mycollab.module.project.view.task.ITaskAssigneeChartWidget;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -40,8 +40,8 @@ import java.util.List;
  * @since 5.2.0
  */
 @ViewComponent
-public class BugAssigneeChartWidget extends PieChartWrapper<BugSearchCriteria> implements IBugAssigneeChartWidget {
-    public BugAssigneeChartWidget() {
+public class TaskAssigneeChartWidget extends PieChartWrapper<TaskSearchCriteria> implements ITaskAssigneeChartWidget {
+    public TaskAssigneeChartWidget() {
         super(350, 280);
     }
 
@@ -65,14 +65,14 @@ public class BugAssigneeChartWidget extends PieChartWrapper<BugSearchCriteria> i
 
     @Override
     protected List<GroupItem> loadGroupItems() {
-        BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
-        return bugService.getAssignedDefectsSummary(searchCriteria);
+        ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+        return taskService.getAssignedTasksSummary(searchCriteria);
     }
 
     @Override
     public void clickLegendItem(String key) {
-        BugSearchCriteria cloneSearchCriteria = BeanUtility.deepClone(searchCriteria);
-        cloneSearchCriteria.setAssignuser(StringSearchField.and(key));
-        EventBusFactory.getInstance().post(new BugEvent.GotoList(this, cloneSearchCriteria));
+        TaskSearchCriteria cloneSearchCriteria = BeanUtility.deepClone(searchCriteria);
+        cloneSearchCriteria.setAssignUser(StringSearchField.and(key));
+        EventBusFactory.getInstance().post(new TaskEvent.SearchRequest(this, cloneSearchCriteria));
     }
 }

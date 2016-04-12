@@ -20,10 +20,8 @@ import com.esofthead.mycollab.core.persistence.service.ICrudService;
 import com.esofthead.mycollab.module.crm.domain.Customer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public interface CustomerService extends ICrudService<Integer, Customer> {
 

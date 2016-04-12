@@ -31,3 +31,5 @@ mycollab-app-community/src/main/scripts/MyCollab5.exe
 mycollab-app-community/src/main/scripts/MyCollab5amd64.exe
 mycollab-app-community/src/main/scripts/MyCollab5ia64.exe
 mycollab-app-community/src/main/scripts/MyCollab5w.exe
+WebResourceGenerator.java
+ThemeMobileCompiler.java

@@ -175,9 +175,14 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
         FileDownloader excelFileDownloader = new FileDownloader(buildStreamSource(ReportExportType.EXCEL));
         excelFileDownloader.extend(exportExcelBtn);
 
+        MButton exportCsvBtn = new MButton("").withIcon(FontAwesome.FILE_TEXT_O).withStyleName(UIConstants.BUTTON_OPTION).withDescription("Export to CSV");
+        FileDownloader csvFileDownloader = new FileDownloader(buildStreamSource(ReportExportType.CSV));
+        csvFileDownloader.extend(exportCsvBtn);
+
         ButtonGroup exportButtonGroup = new ButtonGroup();
         exportButtonGroup.addButton(exportPdfBtn);
         exportButtonGroup.addButton(exportExcelBtn);
+        exportButtonGroup.addButton(exportCsvBtn);
 
         groupWrapLayout.with(exportButtonGroup);
 

@@ -58,7 +58,9 @@ public class UrlTokenizer {
     private String getNextToken() {
         int index = remainStrVal.indexOf("/");
         if (index < 0) {
-            return remainStrVal;
+            String result = remainStrVal + "";
+            remainStrVal = "";
+            return result;
         } else {
             String result = remainStrVal.substring(0, index);
             remainStrVal = remainStrVal.substring(index + 1);

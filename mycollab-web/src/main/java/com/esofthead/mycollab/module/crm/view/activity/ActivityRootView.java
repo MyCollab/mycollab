@@ -87,26 +87,16 @@ public class ActivityRootView extends AbstractPageView {
 
                     @Override
                     public void selectedTabChange(SelectedTabChangeEvent event) {
-                        Tab tab = ((VerticalTabsheet) event.getSource())
-                                .getSelectedTab();
+                        Tab tab = ((VerticalTabsheet) event.getSource()).getSelectedTab();
                         String caption = tab.getCaption();
 
-                        if (AppContext.getMessage(
-                                ActivityI18nEnum.TAB_CALENDAR_TITLE).equals(
-                                caption)) {
-                            calendarPresenter.go(ActivityRootView.this,
-                                    new ActivityScreenData.GotoCalendar());
-                        } else if (AppContext.getMessage(
-                                ActivityI18nEnum.TAB_ACTIVITY_TITLE).equals(
-                                caption)) {
+                        if (AppContext.getMessage(ActivityI18nEnum.TAB_CALENDAR_TITLE).equals(caption)) {
+                            calendarPresenter.go(ActivityRootView.this, new ActivityScreenData.GotoCalendar());
+                        } else if (AppContext.getMessage(ActivityI18nEnum.TAB_ACTIVITY_TITLE).equals(caption)) {
                             ActivitySearchCriteria criteria = new ActivitySearchCriteria();
-                            criteria.setSaccountid(new NumberSearchField(
-                                    AppContext.getAccountId()));
-                            eventPresenter.go(ActivityRootView.this,
-                                    new ActivityScreenData.GotoActivityList(
-                                            criteria));
+                            criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                            eventPresenter.go(ActivityRootView.this, new ActivityScreenData.GotoActivityList(criteria));
                         }
-
                     }
                 });
     }
@@ -117,8 +107,7 @@ public class ActivityRootView extends AbstractPageView {
     }
 
     private ComponentContainer constructActivityListView() {
-        eventPresenter = PresenterResolver
-                .getPresenter(ActivityPresenter.class);
+        eventPresenter = PresenterResolver.getPresenter(ActivityPresenter.class);
         return eventPresenter.getView();
     }
 

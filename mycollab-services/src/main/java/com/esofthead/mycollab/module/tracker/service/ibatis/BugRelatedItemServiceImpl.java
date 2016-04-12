@@ -110,5 +110,4 @@ public class BugRelatedItemServiceImpl implements BugRelatedItemService {
             insertComponentsOfBug(bugid, components);
         }
     }
-
 }

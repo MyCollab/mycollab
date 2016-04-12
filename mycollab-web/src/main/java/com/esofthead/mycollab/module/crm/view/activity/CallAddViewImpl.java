@@ -36,8 +36,7 @@ import com.vaadin.ui.*;
  * @since 2.0
  */
 @ViewComponent
-public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs>
-        implements CallAddView {
+public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs> implements CallAddView {
     private static final long serialVersionUID = 1L;
 
     @Override
@@ -52,8 +51,7 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs>
 
     @Override
     protected ComponentContainer createButtonControls() {
-        return new EditFormControlsGenerator<>(editForm)
-                .createButtonControls();
+        return new EditFormControlsGenerator<>(editForm).createButtonControls();
     }
 
     @Override
@@ -63,8 +61,7 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs>
 
     @Override
     protected IFormLayoutFactory initFormLayoutFactory() {
-        return new DynaFormLayout(CrmTypeConstants.CALL,
-                CallDefaultFormLayoutFactory.getForm());
+        return new DynaFormLayout(CrmTypeConstants.CALL, CallDefaultFormLayoutFactory.getForm());
     }
 
     @Override
@@ -72,8 +69,7 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs>
         return new CallEditFormFieldFactory(editForm);
     }
 
-    private class CallEditFormFieldFactory extends
-            AbstractBeanFieldGroupEditFieldFactory<CallWithBLOBs> {
+    private class CallEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<CallWithBLOBs> {
         private static final long serialVersionUID = 1L;
 
         private CallStatusTypeField callStatusField;
@@ -118,7 +114,6 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs>
             return null;
         }
 
-        @SuppressWarnings("rawtypes")
         private class CallStatusTypeField extends CompoundCustomField {
             private static final long serialVersionUID = 1L;
 
@@ -251,10 +246,8 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs>
                 private static final long serialVersionUID = 1L;
 
                 @Override
-                public void valueChange(
-                        com.vaadin.data.Property.ValueChangeEvent event) {
-                    beanItem.setCalltype((String) CallTypeComboBox.this
-                            .getValue());
+                public void valueChange(com.vaadin.data.Property.ValueChangeEvent event) {
+                    beanItem.setCalltype((String) CallTypeComboBox.this.getValue());
                 }
             });
         }
@@ -273,10 +266,8 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs>
                 private static final long serialVersionUID = 1L;
 
                 @Override
-                public void valueChange(
-                        com.vaadin.data.Property.ValueChangeEvent event) {
-                    beanItem.setStatus((String) CallStatusComboBox.this
-                            .getValue());
+                public void valueChange(com.vaadin.data.Property.ValueChangeEvent event) {
+                    beanItem.setStatus((String) CallStatusComboBox.this.getValue());
                 }
             });
         }

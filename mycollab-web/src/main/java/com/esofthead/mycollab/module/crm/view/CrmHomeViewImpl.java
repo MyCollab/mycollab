@@ -20,12 +20,10 @@ import com.esofthead.mycollab.module.crm.view.account.AccountListDashlet;
 import com.esofthead.mycollab.module.crm.view.activity.CallListDashlet;
 import com.esofthead.mycollab.module.crm.view.activity.MeetingListDashlet;
 import com.esofthead.mycollab.module.crm.view.lead.LeadListDashlet;
-import com.esofthead.mycollab.module.crm.view.opportunity.IOpportunityPipelineFunnelChartDashlet;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.mvp.view.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.mvp.ViewManager;
+import com.esofthead.mycollab.vaadin.mvp.view.AbstractLazyPageView;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -38,7 +36,6 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 @SuppressWarnings("serial")
 @ViewComponent
 public class CrmHomeViewImpl extends AbstractLazyPageView implements CrmHomeView {
-    private IOpportunityPipelineFunnelChartDashlet opportunityChartDashlet;
     private AccountListDashlet accountDashlet;
     private MeetingListDashlet meetingDashlet;
     private CallListDashlet callDashlet;
@@ -57,11 +54,6 @@ public class CrmHomeViewImpl extends AbstractLazyPageView implements CrmHomeView
         MHorizontalLayout contentLayout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false)).withWidth("100%");
 
         MVerticalLayout myAssignmentsLayout = new MVerticalLayout().withMargin(new MarginInfo(true, true, true, false));
-
-        if (AppContext.canRead(RolePermissionCollections.CRM_OPPORTUNITY)) {
-            opportunityChartDashlet = ViewManager.getCacheComponent(IOpportunityPipelineFunnelChartDashlet.class);
-            myAssignmentsLayout.addComponent(opportunityChartDashlet);
-        }
 
         if (AppContext.canRead(RolePermissionCollections.CRM_ACCOUNT)) {
             accountDashlet = new AccountListDashlet();
@@ -118,10 +110,6 @@ public class CrmHomeViewImpl extends AbstractLazyPageView implements CrmHomeView
 
         if (leadDashlet != null) {
             leadDashlet.display();
-        }
-
-        if (opportunityChartDashlet != null) {
-            opportunityChartDashlet.display();
         }
 
         if (activityStreamPanel != null) {

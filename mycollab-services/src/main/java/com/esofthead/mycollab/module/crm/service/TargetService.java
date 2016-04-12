@@ -22,12 +22,9 @@ import com.esofthead.mycollab.module.crm.domain.Target;
 import com.esofthead.mycollab.module.crm.domain.criteria.TargetSearchCriteria;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
-public interface TargetService extends
-		IDefaultService<Integer, Target, TargetSearchCriteria> {
-	SimpleTarget findTargetById(int targetId);
+public interface TargetService extends IDefaultService<Integer, Target, TargetSearchCriteria> {
+    SimpleTarget findTargetById(int targetId);
 }

@@ -25,20 +25,19 @@ import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class FinancePresenter extends AbstractPresenter<IFinanceContainer> implements IFinancePresenter {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public FinancePresenter() {
-		super(IFinanceContainer.class);
-	}
+    public FinancePresenter() {
+        super(IFinanceContainer.class);
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		ProjectView projectViewContainer = (ProjectView) container;
-		projectViewContainer.gotoSubView(ProjectTypeConstants.FINANCE);
-	}
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        ProjectView projectViewContainer = (ProjectView) container;
+        projectViewContainer.gotoSubView(ProjectTypeConstants.FINANCE);
+    }
 }

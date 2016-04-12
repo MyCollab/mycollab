@@ -51,8 +51,7 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 2.0
  */
-public class ActivityTableDisplay extends
-        DefaultPagedBeanTable<EventService, ActivitySearchCriteria, SimpleActivity> {
+public class ActivityTableDisplay extends DefaultPagedBeanTable<EventService, ActivitySearchCriteria, SimpleActivity> {
     private static final long serialVersionUID = 1L;
 
     private static final Logger LOG = LoggerFactory.getLogger(ActivityTableDisplay.class);
@@ -68,8 +67,7 @@ public class ActivityTableDisplay extends
             private static final long serialVersionUID = 1L;
 
             @Override
-            public Object generateCell(final Table source, final Object itemId,
-                                       Object columnId) {
+            public Object generateCell(final Table source, final Object itemId, Object columnId) {
                 final SimpleActivity simpleEvent = getBeanByIndex(itemId);
                 final CheckBoxDecor cb = new CheckBoxDecor("", simpleEvent.isSelected());
                 cb.setImmediate(true);
@@ -91,8 +89,7 @@ public class ActivityTableDisplay extends
             private static final long serialVersionUID = 1L;
 
             @Override
-            public com.vaadin.ui.Component generateCell(Table source,
-                                                        Object itemId, Object columnId) {
+            public com.vaadin.ui.Component generateCell(Table source, Object itemId, Object columnId) {
                 SimpleActivity event = getBeanByIndex(itemId);
                 return new ELabel(AppContext.formatPrettyTime(event.getStartDate()))
                         .withDescription(AppContext.formatDateTime(event.getStartDate()));
@@ -106,8 +103,7 @@ public class ActivityTableDisplay extends
             public com.vaadin.ui.Component generateCell(Table source,
                                                         Object itemId, Object columnId) {
                 SimpleActivity event = getBeanByIndex(itemId);
-                return new ELabel(AppContext.formatPrettyTime(event.getEndDate()))
-                        .withDescription(AppContext.formatDateTime(event.getEndDate()));
+                return new ELabel(AppContext.formatPrettyTime(event.getEndDate())).withDescription(AppContext.formatDateTime(event.getEndDate()));
             }
         });
 

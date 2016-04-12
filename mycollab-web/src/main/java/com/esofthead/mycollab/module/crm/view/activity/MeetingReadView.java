@@ -21,12 +21,10 @@ import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.IPreviewView;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public interface MeetingReadView extends IPreviewView<SimpleMeeting> {
-	HasPreviewFormHandlers<SimpleMeeting> getPreviewFormHandlers();
+    HasPreviewFormHandlers<SimpleMeeting> getPreviewFormHandlers();
 
 }

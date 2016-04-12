@@ -1,23 +1,22 @@
 /**
- * This file is part of mycollab-web-community.
+ * This file is part of mycollab-web.
  *
- * mycollab-web-community is free software: you can redistribute it and/or modify
+ * mycollab-web is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * mycollab-web-community is distributed in the hope that it will be useful,
+ * mycollab-web is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with mycollab-web-community.  If not, see <http://www.gnu.org/licenses/>.
+ * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.community.module.crm.view.opportunity;
+package com.esofthead.mycollab.module.crm.view.opportunity;
 
 import com.esofthead.mycollab.common.domain.GroupItem;
-import com.esofthead.mycollab.community.ui.chart.PieChartWrapper;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -25,8 +24,8 @@ import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.module.crm.events.OpportunityEvent;
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
-import com.esofthead.mycollab.module.crm.view.opportunity.IOpportunityLeadSourceDashboard;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.ui.chart.PieChartWrapper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import org.jfree.data.general.DefaultPieDataset;

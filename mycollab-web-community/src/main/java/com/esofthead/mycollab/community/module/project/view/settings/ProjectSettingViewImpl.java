@@ -24,10 +24,8 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 2.0
- *
  */
 @ViewComponent
 public class ProjectSettingViewImpl extends AbstractPageView implements ProjectSettingView {

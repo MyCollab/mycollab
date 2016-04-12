@@ -20,7 +20,9 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.utils.HumanTime;
+import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.eventmanager.EventBusFactory$;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
@@ -46,6 +48,7 @@ import com.esofthead.mycollab.vaadin.web.ui.field.DateViewField;
 import com.esofthead.mycollab.vaadin.web.ui.field.DefaultViewField;
 import com.esofthead.mycollab.vaadin.web.ui.field.I18nFormViewField;
 import com.esofthead.mycollab.vaadin.web.ui.field.RichTextViewField;
+import com.google.common.eventbus.Subscribe;
 import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Span;
 import com.vaadin.data.Property;
@@ -132,11 +135,36 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
     private static class SubTasksComp extends CustomField {
         private static final long serialVersionUID = 1L;
 
+        private ApplicationEventListener<TaskEvent.NewTaskAdded> newTaskAddedHandler = new
+                ApplicationEventListener<TaskEvent.NewTaskAdded>() {
+                    @Override
+                    @Subscribe
+                    public void handle(TaskEvent.NewTaskAdded event) {
+                        final ProjectTaskService projectTaskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                        SimpleTask task = projectTaskService.findById((Integer) event.getData(), AppContext.getAccountId());
+                        if (task != null && tasksLayout != null) {
+                            tasksLayout.addComponent(generateSubTaskContent(task), 0);
+                        }
+                    }
+                };
+
         private VerticalLayout tasksLayout;
         private SimpleTask beanItem;
 
         SubTasksComp(SimpleTask task) {
             this.beanItem = task;
+        }
+
+        @Override
+        public void attach() {
+            EventBusFactory.getInstance().register(newTaskAddedHandler);
+            super.attach();
+        }
+
+        @Override
+        public void detach() {
+            EventBusFactory.getInstance().unregister(newTaskAddedHandler);
+            super.detach();
         }
 
         @Override
@@ -154,7 +182,9 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                     task.setMilestoneid(beanItem.getMilestoneid());
                     task.setParenttaskid(beanItem.getId());
                     task.setPriority(OptionI18nEnum.TaskPriority.Medium.name());
-                    EventBusFactory.getInstance().post(new TaskEvent.GotoAdd(this, task));
+                    task.setProjectid(beanItem.getProjectid());
+                    task.setSaccountid(beanItem.getSaccountid());
+                    UI.getCurrent().addWindow(new TaskAddWindow(task));
 
                 }
             });

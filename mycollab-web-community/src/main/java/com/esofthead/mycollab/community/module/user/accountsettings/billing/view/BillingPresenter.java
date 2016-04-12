@@ -25,24 +25,19 @@ import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
-public class BillingPresenter extends AbstractPresenter<IBillingContainer>
-		implements IBillingPresenter {
-	private static final long serialVersionUID = 1L;
+public class BillingPresenter extends AbstractPresenter<IBillingContainer> implements IBillingPresenter {
+    private static final long serialVersionUID = 1L;
 
-	public BillingPresenter() {
-		super(IBillingContainer.class);
-	}
+    public BillingPresenter() {
+        super(IBillingContainer.class);
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		AccountModule accountContainer = (AccountModule) container;
-
-		accountContainer.gotoSubView(SettingUIConstants.BILLING);
-	}
-
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        AccountModule accountContainer = (AccountModule) container;
+        accountContainer.gotoSubView(SettingUIConstants.BILLING);
+    }
 }

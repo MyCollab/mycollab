@@ -43,7 +43,6 @@ import org.vaadin.dialogs.ConfirmDialog;
  * @since 1.0
  */
 public class CallReadPresenter extends CrmGenericPresenter<CallReadView> {
-
     private static final long serialVersionUID = 1L;
 
     public CallReadPresenter() {
@@ -77,8 +76,7 @@ public class CallReadPresenter extends CrmGenericPresenter<CallReadView> {
                             public void onClose(ConfirmDialog dialog) {
                                 if (dialog.isConfirmed()) {
                                     CallService callService = ApplicationContextUtil.getSpringBean(CallService.class);
-                                    callService.removeWithSession(data,
-                                            AppContext.getUsername(), AppContext.getAccountId());
+                                    callService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
                                     EventBusFactory.getInstance().post(new ActivityEvent.GotoTodoList(this, null));
                                 }
                             }

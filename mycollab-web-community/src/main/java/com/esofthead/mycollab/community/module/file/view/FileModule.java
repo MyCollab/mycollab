@@ -27,6 +27,10 @@ import com.esofthead.mycollab.vaadin.web.ui.ServiceMenu;
 import com.vaadin.ui.Button;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
+/**
+ * @author MyCollab Ltd
+ * @since 1.0.0
+ */
 @ViewComponent
 public class FileModule extends NotPresentedView implements IFileModule {
     private static final long serialVersionUID = 1L;

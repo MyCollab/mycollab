@@ -52,6 +52,7 @@ Version 5.2.12
 * [Premium] Print invoice and send to client
 * [Premium] Allow to upload client logo
 * Allow to upload project logo
+* Can adjust the parent-child relationship of tasks
 * New Project list view
 * Support crowdsourcing translation
 * Other minor improvements

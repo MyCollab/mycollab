@@ -10,26 +10,6 @@ a {
 </style>
 </head>
 <body style="background-color: ${styles.background}; font: ${styles.font}; padding: 0px;">
-    #macro( linkBlock $webLink $displayName)
-        <table style="width: auto; border-collapse: collapse; margin: 10px auto">
-            <tbody>
-                <tr>
-                    <td>
-                        <div style="border: 1px solid ${styles.border_color}; border-radius: 3px">
-                            <table style="width: auto; border-collapse: collapse">
-                                <tr>
-                                    <td style="font: 14px/1.4285714 Arial, sans-serif; padding: 4px 10px; background-color: ${styles.action_color}">
-                                        <a href="$webLink" style="color: white; text-decoration: none; font-weight: bold">$displayName</a>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    #end
-    
     #macro( messageBlock $messageContent )
         <div style="padding: 20px 15px; background-color: rgb(237, 248, 255); position: relative; color: rgb(71, 87, 116); text-align: left; word-wrap: break-word; white-space: normal;">
             <div style="color: rgb(167, 221, 249); font-size: 35px; line-height: 10px; text-align: left;">&ldquo;</div>

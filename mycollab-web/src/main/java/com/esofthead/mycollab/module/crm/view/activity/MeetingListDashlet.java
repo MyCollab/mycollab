@@ -37,8 +37,8 @@ import java.util.Arrays;
 
 /**
  * @author MyCollab Ltd.
+ * @since 1.0.0
  */
-@SuppressWarnings("serial")
 public class MeetingListDashlet extends Depot {
 
     private MeetingTableDisplay tableItem;

@@ -121,7 +121,6 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
         } else {
             quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN));
             quickActionStatusBtn.setIcon(FontAwesome.CIRCLE_O_NOTCH);
-
         }
 
         tagViewComponent.display(ProjectTypeConstants.TASK, beanItem.getId());
@@ -144,8 +143,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
 
     @Override
     protected ComponentContainer createButtonControls() {
-        ProjectPreviewFormControlsGenerator<SimpleTask> taskPreviewForm = new ProjectPreviewFormControlsGenerator<>(
-                previewForm);
+        ProjectPreviewFormControlsGenerator<SimpleTask> taskPreviewForm = new ProjectPreviewFormControlsGenerator<>(previewForm);
         final HorizontalLayout topPanel = taskPreviewForm.createButtonControls(
                 ProjectPreviewFormControlsGenerator.ADD_BTN_PRESENTED
                         | ProjectPreviewFormControlsGenerator.ASSIGN_BTN_PRESENTED

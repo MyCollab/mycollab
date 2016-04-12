@@ -166,9 +166,16 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
         FileDownloader excelFileDownloader = new FileDownloader(buildStreamSource(ReportExportType.EXCEL));
         excelFileDownloader.extend(exportExcelBtn);
 
+        MButton exportCsvBtn = new MButton("").withIcon(FontAwesome.FILE_TEXT_O).withStyleName(UIConstants
+                .BUTTON_OPTION).withDescription("Export to Csv");
+        FileDownloader csvFileDownloader = new FileDownloader(buildStreamSource(ReportExportType.CSV));
+        csvFileDownloader.extend(exportCsvBtn);
+
+
         ButtonGroup exportGroup = new ButtonGroup();
         exportGroup.addButton(exportPdfBtn);
         exportGroup.addButton(exportExcelBtn);
+        exportGroup.addButton(exportCsvBtn);
 
         groupWrapLayout.with(exportGroup);
 

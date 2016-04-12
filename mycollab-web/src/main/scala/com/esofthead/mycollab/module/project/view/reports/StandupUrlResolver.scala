@@ -31,7 +31,7 @@ import com.esofthead.mycollab.module.project.view.parameters.{ProjectScreenData,
 import com.esofthead.mycollab.spring.ApplicationContextUtil
 import com.esofthead.mycollab.vaadin.AppContext
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain
-import org.apache.commons.lang3.time.FastDateFormat
+import org.joda.time.format.DateTimeFormat
 
 /**
   * @author MyCollab Ltd
@@ -41,7 +41,7 @@ class StandupUrlResolver extends ProjectUrlResolver {
   this.addSubResolver("list", new ListUrlResolver)
   this.addSubResolver("add", new PreviewUrlResolver)
 
-  private val simpleDateFormat: FastDateFormat = FastDateFormat.getInstance("MM/dd/yyyy")
+  private val simpleDateFormat = DateTimeFormat.forPattern("MM/dd/yyyy");
 
   /**
     * @param dateVal
@@ -49,7 +49,7 @@ class StandupUrlResolver extends ProjectUrlResolver {
     */
   private def parseDate(dateVal: String): Date = {
     try {
-      return simpleDateFormat.parse(dateVal)
+      return simpleDateFormat.parseDateTime(dateVal).toDate
     }
     catch {
       case e: ParseException => new GregorianCalendar().getTime

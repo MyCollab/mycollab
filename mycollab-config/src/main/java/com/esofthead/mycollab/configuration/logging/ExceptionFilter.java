@@ -38,7 +38,8 @@ public class ExceptionFilter extends Filter<ILoggingEvent> {
                     Class.forName("java.net.SocketTimeoutException"),
                     Class.forName("org.apache.commons.mail.EmailException"),
                     Class.forName("java.net.SocketTimeoutException"),
-                    Class.forName("java.sql.SQLTransientConnectionException")};
+                    Class.forName("java.sql.SQLTransientConnectionException"),
+                    Class.forName("com.mysql.jdbc.exceptions.jdbc4.CommunicationsException")};
         } catch (Exception e) {
         }
     }

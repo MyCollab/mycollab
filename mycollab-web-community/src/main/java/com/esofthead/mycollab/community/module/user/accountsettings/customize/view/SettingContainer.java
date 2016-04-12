@@ -21,14 +21,11 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.view.NotPresentedView;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
 @ViewComponent
-public class SettingContainer extends NotPresentedView implements
-		ISettingContainer {
-	private static final long serialVersionUID = 4147841913888171040L;
+public class SettingContainer extends NotPresentedView implements ISettingContainer {
+    private static final long serialVersionUID = 4147841913888171040L;
 
 }

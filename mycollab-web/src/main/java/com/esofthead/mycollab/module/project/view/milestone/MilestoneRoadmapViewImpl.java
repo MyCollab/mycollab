@@ -237,9 +237,15 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
         FileDownloader excelFileDownloader = new FileDownloader(buildStreamSource(ReportExportType.EXCEL));
         excelFileDownloader.extend(exportExcelBtn);
 
+        MButton exportCsvBtn = new MButton("").withIcon(FontAwesome.FILE_TEXT_O).withStyleName(UIConstants
+                .BUTTON_OPTION).withDescription("Export to Csv");
+        FileDownloader csvFileDownloader = new FileDownloader(buildStreamSource(ReportExportType.CSV));
+        csvFileDownloader.extend(exportCsvBtn);
+
         ButtonGroup exportButtonGroup = new ButtonGroup();
         exportButtonGroup.addButton(exportPdfBtn);
         exportButtonGroup.addButton(exportExcelBtn);
+        exportButtonGroup.addButton(exportCsvBtn);
 
         layout.with(exportButtonGroup);
 

@@ -44,8 +44,8 @@ class CurrencyFieldFormat(fieldName: String, displayName: Enum[_]) extends Field
                 new Span().appendText(value.asInstanceOf[Currency].getSymbol).write
             }
             else {
-                val currencyService: CurrencyService = ApplicationContextUtil.getSpringBean(classOf[CurrencyService])
-                val currency: Currency = currencyService.getCurrency(value.asInstanceOf[Integer])
+                val currencyService = ApplicationContextUtil.getSpringBean(classOf[CurrencyService])
+                val currency = currencyService.getCurrency(value.asInstanceOf[Integer])
                 new Span().appendText(currency.getSymbol).write
             }
         } catch {
@@ -61,9 +61,9 @@ class CurrencyFieldFormat(fieldName: String, displayName: Enum[_]) extends Field
         }
 
         try {
-            val currencyService: CurrencyService = ApplicationContextUtil.getSpringBean(classOf[CurrencyService])
-            val currencyId: Int = value.toInt
-            val currency: Currency = currencyService.findByPrimaryKey(currencyId, context.getUser.getAccountId)
+            val currencyService = ApplicationContextUtil.getSpringBean(classOf[CurrencyService])
+            val currencyId = value.toInt
+            val currency = currencyService.findByPrimaryKey(currencyId, context.getUser.getAccountId)
             if (currency != null) {
                 return currency.getFullname
             }

@@ -139,8 +139,7 @@ public class TaskStatusTrendChartWidget extends Depot {
             final List series = dataset.getSeries();
 
             for (int i = 0; i < series.size(); i++) {
-                final MHorizontalLayout layout = new MHorizontalLayout().
-                        withMargin(new MarginInfo(false, false, false, true));
+                final MHorizontalLayout layout = new MHorizontalLayout().withMargin(new MarginInfo(false, false, false, true));
                 layout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 
                 final TimeSeries key = (TimeSeries) series.get(i);
@@ -172,8 +171,7 @@ public class TaskStatusTrendChartWidget extends Depot {
             for (OptionVal optionVal : optionVals) {
                 options.add(optionVal.getTypeval());
             }
-            groupItems = timelineTrackingService.findTimelineItems("status", options, startDate.toDate(), endDate.toDate(),
-                    searchCriteria);
+            groupItems = timelineTrackingService.findTimelineItems("status", options, startDate.toDate(), endDate.toDate(), searchCriteria);
             displayChart();
         }
     }

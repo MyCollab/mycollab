@@ -24,12 +24,10 @@ import com.esofthead.mycollab.module.crm.domain.Task;
 import com.esofthead.mycollab.module.crm.domain.criteria.TodoSearchCriteria;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public interface TaskService extends IDefaultService<Integer, Task, TodoSearchCriteria> {
-	@Cacheable
-	SimpleTask findById(Integer taskId, @CacheKey Integer sAccountId);
+    @Cacheable
+    SimpleTask findById(Integer taskId, @CacheKey Integer sAccountId);
 }

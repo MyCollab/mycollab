@@ -21,12 +21,9 @@ import com.esofthead.mycollab.module.crm.domain.TargetGroup;
 import com.esofthead.mycollab.module.crm.domain.criteria.TargetGroupSearchCriteria;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
-public interface TargetGroupService extends
-		IDefaultService<Integer, TargetGroup, TargetGroupSearchCriteria> {
+public interface TargetGroupService extends IDefaultService<Integer, TargetGroup, TargetGroupSearchCriteria> {
 
 }

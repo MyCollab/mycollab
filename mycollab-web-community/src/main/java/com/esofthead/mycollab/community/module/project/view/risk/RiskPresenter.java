@@ -25,21 +25,19 @@ import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class RiskPresenter extends AbstractPresenter<IRiskContainer> implements IRiskPresenter {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public RiskPresenter() {
-		super(IRiskContainer.class);
-	}
+    public RiskPresenter() {
+        super(IRiskContainer.class);
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		ProjectView projectViewContainer = (ProjectView) container;
-		projectViewContainer.gotoSubView(ProjectTypeConstants.RISK);
-	}
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        ProjectView projectViewContainer = (ProjectView) container;
+        projectViewContainer.gotoSubView(ProjectTypeConstants.RISK);
+    }
 }

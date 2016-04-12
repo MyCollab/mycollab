@@ -31,6 +31,8 @@ object TaskEvent {
 
   class NewTaskAdded(source: AnyRef, data: Integer) extends ApplicationEvent(source, data) {}
 
+  class RemoveParentRelationship(source: AnyRef, data: Integer) extends ApplicationEvent(source, data) {}
+
   class Search(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
   class GotoDashboard(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}

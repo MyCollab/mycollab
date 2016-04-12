@@ -30,7 +30,7 @@ import org.slf4j.{Logger, LoggerFactory}
 class I18nFieldFormat(fieldName: String, displayName: Enum[_], enumKey: Class[_ <: Enum[_]])
     extends FieldFormat(fieldName, displayName) {
 
-    private val LOG: Logger = LoggerFactory.getLogger(classOf[I18nFieldFormat])
+    private val LOG = LoggerFactory.getLogger(classOf[I18nFieldFormat])
 
     override def formatField(context: MailContext[_]): String = {
         val wrappedBean = context.wrappedBean

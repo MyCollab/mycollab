@@ -11,9 +11,6 @@ a {
 </style>
 </head>
 <body style="background-color: ${styles.background}; font: ${styles.font}; padding: 0px;">
-  #macro( hyperLink $displayName $webLink )
-        <a href="$webLink" style="color: ${styles.link_color}; white-space: normal;">$displayName</a>
-  #end
   <table width="600" cellpadding="0" cellspacing="0" border="0" style="margin: 20px auto;">
     #parse("templates/email/logo.mt")
     <tr>

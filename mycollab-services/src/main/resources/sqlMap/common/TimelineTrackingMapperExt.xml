@@ -3,7 +3,6 @@
 <mapper namespace="com.esofthead.mycollab.common.dao.TimelineTrackingMapperExt">
     <sql id="queryTempSearchCriteria">
         <![CDATA[
-
         #set($searchCriteria = $_parameter.searchCriteria)
 
         #ifnotnull($searchCriteria.saccountid)
@@ -31,7 +30,6 @@
 
     <sql id="querySearchCriteria">
         <![CDATA[
-
         #set($searchCriteria = $_parameter.searchCriteria)
 
         #ifnotnull($searchCriteria.saccountid)
@@ -57,13 +55,12 @@
         ]]>
     </sql>
 
-    <select id="findTimelineItems" parameterType="map"
-            resultType="map" lang="velocity">
+    <select id="findTimelineItems" parameterType="map" resultType="map" lang="velocity">
             #repeat(${_parameter.groupVals} $groupVal "UNION" "" "")
               #repeat(${_parameter.dates} $date "UNION" "" "")
                 SELECT s_timeline_tracking.fieldval AS groupid,
                   (SELECT COALESCE(SUM(temp_tbl.flag), 0) FROM s_timeline_tracking AS temp_tbl WHERE
-                    temp_tbl.fieldval = s_timeline_tracking.fieldval AND temp_tbl.forDay &lt;= @{date}
+                    temp_tbl.fieldval = s_timeline_tracking.fieldval AND temp_tbl.forDay = @{date}
                   <include refid="queryTempSearchCriteria"/>) AS value,
                   DATE_FORMAT(@{date},"%Y-%m-%d") as groupname
                 FROM s_timeline_tracking

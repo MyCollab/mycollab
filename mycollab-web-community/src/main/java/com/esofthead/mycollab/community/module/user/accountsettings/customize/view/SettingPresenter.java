@@ -25,23 +25,19 @@ import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
-public class SettingPresenter extends AbstractPresenter<ISettingContainer>
-		implements ISettingPresenter {
-	private static final long serialVersionUID = -2484673053224403662L;
+public class SettingPresenter extends AbstractPresenter<ISettingContainer> implements ISettingPresenter {
+    private static final long serialVersionUID = -2484673053224403662L;
 
-	public SettingPresenter() {
-		super(ISettingContainer.class);
-	}
+    public SettingPresenter() {
+        super(ISettingContainer.class);
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		AccountModule accountContainer = (AccountModule) container;
-
-		accountContainer.gotoSubView(SettingUIConstants.GENERAL_SETTING);
-	}
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        AccountModule accountContainer = (AccountModule) container;
+        accountContainer.gotoSubView(SettingUIConstants.GENERAL_SETTING);
+    }
 }

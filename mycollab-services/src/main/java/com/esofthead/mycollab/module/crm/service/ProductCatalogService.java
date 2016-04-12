@@ -21,12 +21,9 @@ import com.esofthead.mycollab.module.crm.domain.ProductCatalog;
 import com.esofthead.mycollab.module.crm.domain.criteria.ProductCatalogSearchCriteria;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
-public interface ProductCatalogService extends
-		IDefaultService<Integer, ProductCatalog, ProductCatalogSearchCriteria> {
+public interface ProductCatalogService extends IDefaultService<Integer, ProductCatalog, ProductCatalogSearchCriteria> {
 
 }

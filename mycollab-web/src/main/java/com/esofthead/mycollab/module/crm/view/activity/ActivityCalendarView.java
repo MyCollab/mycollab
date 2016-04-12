@@ -19,10 +19,8 @@ package com.esofthead.mycollab.module.crm.view.activity;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
 public interface ActivityCalendarView extends PageView {
 }

@@ -40,7 +40,6 @@ import com.vaadin.ui.ComponentContainer;
  * @since 2.0
  */
 public class CallAddPresenter extends CrmGenericPresenter<CallAddView> {
-
     private static final long serialVersionUID = 1L;
 
     public CallAddPresenter() {
@@ -116,6 +115,5 @@ public class CallAddPresenter extends CrmGenericPresenter<CallAddView> {
         } else {
             taskService.updateWithSession(item, AppContext.getUsername());
         }
-
     }
 }

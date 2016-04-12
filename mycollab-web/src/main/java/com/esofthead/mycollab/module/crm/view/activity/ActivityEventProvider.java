@@ -43,13 +43,11 @@ import java.util.List;
 public class ActivityEventProvider implements CalendarEventProvider {
     private static final long serialVersionUID = 1L;
 
-    private static final Logger LOG = LoggerFactory
-            .getLogger(ActivityEventProvider.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ActivityEventProvider.class);
     private MeetingService meetingService;
 
     public ActivityEventProvider() {
-        meetingService = ApplicationContextUtil
-                .getSpringBean(MeetingService.class);
+        meetingService = ApplicationContextUtil.getSpringBean(MeetingService.class);
     }
 
     @SuppressWarnings("unchecked")
@@ -58,10 +56,8 @@ public class ActivityEventProvider implements CalendarEventProvider {
         List<CalendarEvent> events = new ArrayList<>();
 
         MeetingSearchCriteria searchCriteria = new MeetingSearchCriteria();
-        searchCriteria.setStartDate(new DateTimeSearchField(SearchField.AND,
-                DateTimeSearchField.GREATERTHANEQUAL, startDate));
-        searchCriteria.setEndDate(new DateTimeSearchField(SearchField.AND,
-                DateTimeSearchField.LESSTHANEQUAL, endDate));
+        searchCriteria.setStartDate(new DateTimeSearchField(SearchField.AND, DateTimeSearchField.GREATERTHANEQUAL, startDate));
+        searchCriteria.setEndDate(new DateTimeSearchField(SearchField.AND, DateTimeSearchField.LESSTHANEQUAL, endDate));
 
         LOG.debug("Get events from: " + startDate + " to " + endDate);
         List<SimpleMeeting> crmEvents = meetingService

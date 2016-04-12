@@ -24,14 +24,11 @@ import com.esofthead.mycollab.module.crm.domain.SimpleMeeting;
 import com.esofthead.mycollab.module.crm.domain.criteria.MeetingSearchCriteria;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
-public interface MeetingService extends
-		IDefaultService<Integer, MeetingWithBLOBs, MeetingSearchCriteria> {
+public interface MeetingService extends IDefaultService<Integer, MeetingWithBLOBs, MeetingSearchCriteria> {
 
-	@Cacheable
-	SimpleMeeting findById(Integer meetingId, @CacheKey Integer sAccountId);
+    @Cacheable
+    SimpleMeeting findById(Integer meetingId, @CacheKey Integer sAccountId);
 }

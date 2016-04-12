@@ -25,25 +25,23 @@ import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
  */
-public class CrmCustomViewPresenter extends AbstractPresenter<ICrmCustomView>
-		implements ICrmCustomViewPresenter {
-	private static final long serialVersionUID = 1L;
+public class CrmCustomViewPresenter extends AbstractPresenter<ICrmCustomView> implements ICrmCustomViewPresenter {
+    private static final long serialVersionUID = 1L;
 
-	public CrmCustomViewPresenter() {
-		super(ICrmCustomView.class);
-	}
+    public CrmCustomViewPresenter() {
+        super(ICrmCustomView.class);
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		CrmSettingContainer settingContainer = (CrmSettingContainer) container;
-		settingContainer.gotoSubView("Custom Layouts");
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        CrmSettingContainer settingContainer = (CrmSettingContainer) container;
+        settingContainer.gotoSubView("Custom Layouts");
 
-		AppContext.addFragment("crm/setting/customlayout", "Custom Layouts");
+        AppContext.addFragment("crm/setting/customlayout", "Custom Layouts");
 
-	}
+    }
 
 }

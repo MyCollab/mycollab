@@ -62,8 +62,7 @@ public class ContactCrmListNoItemView extends CrmListNoItemView {
         return new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
-                EventBusFactory.getInstance().post(
-                        new ContactEvent.GotoAdd(this, null));
+                EventBusFactory.getInstance().post(new ContactEvent.GotoAdd(this, null));
             }
         };
     }

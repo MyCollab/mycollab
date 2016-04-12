@@ -25,10 +25,8 @@ import java.sql.*;
 import java.util.Date;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 @MappedJdbcTypes(JdbcType.TIMESTAMP)
 public class DateTypeHandler extends BaseTypeHandler<Date> {

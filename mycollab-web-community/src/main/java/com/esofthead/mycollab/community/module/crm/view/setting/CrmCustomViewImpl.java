@@ -16,45 +16,43 @@
  */
 package com.esofthead.mycollab.community.module.crm.view.setting;
 
-import java.util.List;
-
 import com.esofthead.mycollab.form.view.builder.type.DynaSection;
 import com.esofthead.mycollab.module.crm.view.setting.ICrmCustomView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.view.NotPresentedView;
 
+import java.util.List;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
  */
 @ViewComponent
-public class CrmCustomViewImpl extends NotPresentedView implements
-		ICrmCustomView {
-	private static final long serialVersionUID = 1L;
+public class CrmCustomViewImpl extends NotPresentedView implements ICrmCustomView {
+    private static final long serialVersionUID = 1L;
 
-	@Override
-	public void display(String moduleName) {
+    @Override
+    public void display(String moduleName) {
 
-	}
+    }
 
-	@Override
-	public void addActiveSection(DynaSection section) {
+    @Override
+    public void addActiveSection(DynaSection section) {
 
-	}
+    }
 
-	@Override
-	public List<DynaSection> getActiveSections() {
-		return null;
-	}
+    @Override
+    public List<DynaSection> getActiveSections() {
+        return null;
+    }
 
-	@Override
-	public String getCandidateTextFieldName() {
-		return null;
-	}
+    @Override
+    public String getCandidateTextFieldName() {
+        return null;
+    }
 
-	@Override
-	public void refreshSectionLayout(DynaSection section) {
+    @Override
+    public void refreshSectionLayout(DynaSection section) {
 
-	}
+    }
 }
