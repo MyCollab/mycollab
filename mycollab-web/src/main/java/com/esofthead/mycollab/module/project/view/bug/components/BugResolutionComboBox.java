@@ -33,7 +33,7 @@ public class BugResolutionComboBox extends I18nValueComboBox {
 
     public static BugResolutionComboBox getInstanceForWontFixWindow() {
         return new BugResolutionComboBox(false, BugResolution.CannotReproduce,
-                BugResolution.Duplicate, BugResolution.Incomplete,
+                BugResolution.Duplicate, BugResolution.Invalid,
                 BugResolution.Won_Fix);
     }
 

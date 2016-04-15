@@ -100,7 +100,7 @@ public class BugAddWindow extends Window {
                 });
                 updateAllBtn.addStyleName(UIConstants.BUTTON_LINK);
 
-                Button updateBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
+                Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
                     @Override
                     public void buttonClick(Button.ClickEvent clickEvent) {
                         if (EditForm.this.validateForm()) {
@@ -148,8 +148,8 @@ public class BugAddWindow extends Window {
                         }
                     }
                 });
-                updateBtn.setIcon(FontAwesome.SAVE);
-                updateBtn.setStyleName(UIConstants.BUTTON_ACTION);
+                saveBtn.setIcon(FontAwesome.SAVE);
+                saveBtn.setStyleName(UIConstants.BUTTON_ACTION);
 
                 Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
                     @Override
@@ -158,7 +158,7 @@ public class BugAddWindow extends Window {
                     }
                 });
                 cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
-                buttonControls.with(updateAllBtn, updateBtn, cancelBtn);
+                buttonControls.with(updateAllBtn, cancelBtn, saveBtn);
 
                 layout.addComponent(buttonControls);
                 layout.setComponentAlignment(buttonControls, Alignment.MIDDLE_RIGHT);

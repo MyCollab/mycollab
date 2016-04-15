@@ -110,8 +110,6 @@ public class OptionValServiceImpl extends DefaultCrudService<Integer, OptionVal>
 
     @Override
     public Integer updateWithSession(OptionVal record, String username) {
-        checkSaveOrUpdateValid(record);
-
         if (Boolean.FALSE.equals(record.getIsdefault())) {
             TimelineTrackingExample timelineTrackingExample = new TimelineTrackingExample();
             timelineTrackingExample.createCriteria().andTypeEqualTo(record.getType()).andFieldvalEqualTo(record.getTypeval())

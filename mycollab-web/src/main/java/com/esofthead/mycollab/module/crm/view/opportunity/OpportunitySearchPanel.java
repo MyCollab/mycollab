@@ -71,8 +71,8 @@ public class OpportunitySearchPanel extends DefaultGenericSearchPanel<Opportunit
     }
 
     @Override
-    protected void buildExtraControls() {
-        Button createAccountBtn = new Button(AppContext.getMessage(OpportunityI18nEnum.BUTTON_NEW_OPPORTUNITY), new Button.ClickListener() {
+    protected Component buildExtraControls() {
+        Button newBtn = new Button(AppContext.getMessage(OpportunityI18nEnum.BUTTON_NEW_OPPORTUNITY), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -80,10 +80,10 @@ public class OpportunitySearchPanel extends DefaultGenericSearchPanel<Opportunit
                 EventBusFactory.getInstance().post(new OpportunityEvent.GotoAdd(OpportunitySearchPanel.this, null));
             }
         });
-        createAccountBtn.setIcon(FontAwesome.PLUS);
-        createAccountBtn.setStyleName(UIConstants.BUTTON_ACTION);
-        createAccountBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY));
-        addHeaderRight(createAccountBtn);
+        newBtn.setIcon(FontAwesome.PLUS);
+        newBtn.setStyleName(UIConstants.BUTTON_ACTION);
+        newBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY));
+        return newBtn;
     }
 
     @SuppressWarnings("unchecked")
@@ -98,7 +98,7 @@ public class OpportunitySearchPanel extends DefaultGenericSearchPanel<Opportunit
     }
 
     @SuppressWarnings("rawtypes")
-    private class OpportunityBasicSearchLayout extends BasicSearchLayout {
+    private class OpportunityBasicSearchLayout extends BasicSearchLayout<OpportunitySearchCriteria> {
         private static final long serialVersionUID = 1L;
         private TextField nameField;
         private CheckBox myItemCheckbox;
@@ -168,7 +168,7 @@ public class OpportunitySearchPanel extends DefaultGenericSearchPanel<Opportunit
         }
 
         @Override
-        protected SearchCriteria fillUpSearchCriteria() {
+        protected OpportunitySearchCriteria fillUpSearchCriteria() {
             OpportunitySearchCriteria searchCriteria = new OpportunitySearchCriteria();
             searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
 

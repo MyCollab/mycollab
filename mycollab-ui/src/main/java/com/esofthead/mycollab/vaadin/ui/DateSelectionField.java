@@ -35,7 +35,7 @@ import java.util.Map;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class DateComboboxSelectionField extends CustomField<Date> {
+public class DateSelectionField extends CustomField<Date> {
     private static final long serialVersionUID = 1L;
 
     private ComboBox cboYear;
@@ -44,7 +44,7 @@ public class DateComboboxSelectionField extends CustomField<Date> {
 
     private Map<String, Integer> mapNumberMonth = new HashMap<>();
 
-    public DateComboboxSelectionField() {
+    public DateSelectionField() {
         cboMonth = new ComboBox();
         cboMonth.setNullSelectionAllowed(true);
         cboMonth.setPageLength(12);

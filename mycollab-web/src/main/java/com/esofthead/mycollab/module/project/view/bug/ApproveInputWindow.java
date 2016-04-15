@@ -20,8 +20,10 @@ package com.esofthead.mycollab.module.project.view.bug;
 import com.esofthead.mycollab.common.domain.CommentWithBLOBs;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CommentService;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
 import com.esofthead.mycollab.module.tracker.domain.BugWithBLOBs;
@@ -29,7 +31,10 @@ import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
+import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.event.ShortcutAction;
@@ -50,15 +55,13 @@ import java.util.GregorianCalendar;
 public class ApproveInputWindow extends Window {
     private static final long serialVersionUID = 1L;
     private final SimpleBug bug;
-    private final IBugCallbackStatusComp callbackForm;
 
-    public ApproveInputWindow(IBugCallbackStatusComp callbackForm, SimpleBug bug) {
+    public ApproveInputWindow(SimpleBug bug) {
         super("Approve bug '" + bug.getSummary() + "'");
         this.setResizable(false);
         this.setModal(true);
         this.setWidth("750px");
         this.bug = bug;
-        this.callbackForm = callbackForm;
 
         MVerticalLayout contentLayout = new MVerticalLayout().withMargin(new MarginInfo(false, false, true, false));
         EditForm editForm = new EditForm();
@@ -121,8 +124,8 @@ public class ApproveInputWindow extends Window {
                                 commentService.saveWithSession(comment, AppContext.getUsername());
                             }
 
-                            ApproveInputWindow.this.close();
-                            callbackForm.refreshBugItem();
+                            close();
+                            EventBusFactory.getInstance().post(new BugEvent.BugChanged(this, bug.getId()));
                         }
                     }
                 });
@@ -134,11 +137,11 @@ public class ApproveInputWindow extends Window {
 
                     @Override
                     public void buttonClick(Button.ClickEvent event) {
-                        ApproveInputWindow.this.close();
+                        close();
                     }
                 });
                 cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
-                controlsBtn.with(approveBtn, cancelBtn);
+                controlsBtn.with(cancelBtn, approveBtn);
 
                 layout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
                 return layout;

@@ -32,6 +32,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
+import com.esofthead.mycollab.vaadin.web.ui.AbstractToggleSummaryField;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
@@ -41,7 +42,6 @@ import com.vaadin.event.FieldEvents;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -52,19 +52,17 @@ import static com.esofthead.mycollab.utils.TooltipHelper.TOOLTIP_ID;
  * @author MyCollab Ltd
  * @since 5.2.3
  */
-public class ToggleGenericTaskSummaryField extends CssLayout {
+public class ToggleGenericTaskSummaryField extends AbstractToggleSummaryField {
     private ProjectGenericTask genericTask;
-    private ELabel taskLbl;
-    private MHorizontalLayout buttonControls;
     private boolean isRead = true;
 
     ToggleGenericTaskSummaryField(final ProjectGenericTask genericTask) {
         this.genericTask = genericTask;
         this.setWidth("100%");
-        taskLbl = new ELabel(buildGenericTaskLink(), ContentMode.HTML).withWidthUndefined();
-        taskLbl.addStyleName(ValoTheme.LABEL_NO_MARGIN);
-        taskLbl.addStyleName(UIConstants.LABEL_WORD_WRAP);
-        this.addComponent(taskLbl);
+        titleLinkLbl = new ELabel(buildGenericTaskLink(), ContentMode.HTML).withWidthUndefined();
+        titleLinkLbl.addStyleName(ValoTheme.LABEL_NO_MARGIN);
+        titleLinkLbl.addStyleName(UIConstants.LABEL_WORD_WRAP);
+        this.addComponent(titleLinkLbl);
         if ((genericTask.isTask() && CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) ||
                 (genericTask.isBug() && CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS)) ||
                 (genericTask.isRisk() && CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.RISKS))) {
@@ -74,14 +72,14 @@ public class ToggleGenericTaskSummaryField extends CssLayout {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
                     if (isRead) {
-                        ToggleGenericTaskSummaryField.this.removeComponent(taskLbl);
-                        ToggleGenericTaskSummaryField.this.removeComponent(buttonControls);
+                        removeComponent(titleLinkLbl);
+                        removeComponent(buttonControls);
                         final TextField editField = new TextField();
                         editField.setValue(genericTask.getName());
                         editField.setWidth("100%");
                         editField.focus();
-                        ToggleGenericTaskSummaryField.this.addComponent(editField);
-                        ToggleGenericTaskSummaryField.this.removeStyleName("editable-field");
+                        addComponent(editField);
+                        removeStyleName("editable-field");
                         editField.addValueChangeListener(new Property.ValueChangeListener() {
                             @Override
                             public void valueChange(Property.ValueChangeEvent event) {
@@ -110,13 +108,13 @@ public class ToggleGenericTaskSummaryField extends CssLayout {
 
     private void updateFieldValue(TextField editField) {
         removeComponent(editField);
-        addComponent(taskLbl);
+        addComponent(titleLinkLbl);
         addComponent(buttonControls);
         addStyleName("editable-field");
         String newValue = editField.getValue();
         if (StringUtils.isNotBlank(newValue) && !newValue.equals(genericTask.getName())) {
             genericTask.setName(newValue);
-            taskLbl.setValue(buildGenericTaskLink());
+            titleLinkLbl.setValue(buildGenericTaskLink());
             if (genericTask.isBug()) {
                 BugWithBLOBs bug = new BugWithBLOBs();
                 bug.setId(genericTask.getTypeId());
@@ -160,11 +158,7 @@ public class ToggleGenericTaskSummaryField extends CssLayout {
 
         taskLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(genericTask.getType(), genericTask.getTypeId() + ""));
         taskLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
-        if (genericTask.isBug() || genericTask.isTask()) {
-            taskLink.appendText(String.format("[#%d] - %s", genericTask.getExtraTypeId(), genericTask.getName()));
-        } else if (genericTask.isRisk()) {
-            taskLink.appendText(genericTask.getName());
-        }
+        taskLink.appendText(genericTask.getName());
 
         issueDiv.appendChild(taskLink);
 

@@ -116,7 +116,7 @@ public class AddNewColumnWindow extends Window {
         });
         cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
 
-        MHorizontalLayout controls = new MHorizontalLayout().with(saveBtn, cancelBtn).withMargin(
+        MHorizontalLayout controls = new MHorizontalLayout().with(cancelBtn, saveBtn).withMargin(
                 new MarginInfo(false, true, false, false));
         layout.with(gridFormLayoutHelper.getLayout(), controls).withAlign(controls, Alignment.BOTTOM_RIGHT);
     }

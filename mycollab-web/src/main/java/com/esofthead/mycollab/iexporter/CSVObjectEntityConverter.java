@@ -16,129 +16,130 @@
  */
 package com.esofthead.mycollab.iexporter;
 
-import org.apache.commons.beanutils.PropertyUtils;
-
 import com.esofthead.mycollab.iexporter.CSVObjectEntityConverter.CSVItemMapperDef;
 import com.esofthead.mycollab.iexporter.csv.CSVFormatter;
 import com.esofthead.mycollab.vaadin.AppContext;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class CSVObjectEntityConverter<E> implements
-		ObjectEntityConverter<CSVItemMapperDef, E> {
-	@Override
-	public E convert(Class<E> cls, CSVItemMapperDef unit) {
-		try {
-			E bean = cls.newInstance();
-			String[] csvLine = unit.getCsvLine();
+/**
+ * @param <E>
+ * @author MyCollab Ltd
+ * @since 1.0.0
+ */
+public class CSVObjectEntityConverter<E> implements ObjectEntityConverter<CSVItemMapperDef, E> {
+    private static final Logger LOG = LoggerFactory.getLogger(CSVObjectEntityConverter.class);
 
-			PropertyUtils.setProperty(bean, "saccountid",
-					AppContext.getAccountId());
-			for (ImportFieldDef importFieldDef : unit.getFieldsDef()) {
-				try {
-					String csvFieldItem = csvLine[importFieldDef
-							.getColumnIndex()];
-					if (importFieldDef.getFieldFormatter() != null) {
-						PropertyUtils.setProperty(bean, importFieldDef
-								.getFieldname(), importFieldDef
-								.getFieldFormatter().format(csvFieldItem));
-					} else
-						PropertyUtils.setProperty(bean,
-								importFieldDef.getFieldname(), csvFieldItem);
+    @Override
+    public E convert(Class<E> cls, CSVItemMapperDef unit) {
+        try {
+            E bean = cls.newInstance();
+            String[] csvLine = unit.getCsvLine();
 
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			return bean;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
+            PropertyUtils.setProperty(bean, "saccountid", AppContext.getAccountId());
+            for (ImportFieldDef importFieldDef : unit.getFieldsDef()) {
+                try {
+                    String csvFieldItem = csvLine[importFieldDef.getColumnIndex()];
+                    if (importFieldDef.getFieldFormatter() != null) {
+                        PropertyUtils.setProperty(bean, importFieldDef.getFieldname(),
+                                importFieldDef.getFieldFormatter().format(csvFieldItem));
+                    } else
+                        PropertyUtils.setProperty(bean, importFieldDef.getFieldname(), csvFieldItem);
 
-	public static class FieldMapperDef {
-		private String fieldname;
+                } catch (Exception e) {
+                    LOG.error("Error", e);
+                }
+            }
+            return bean;
+        } catch (Exception e) {
+            LOG.error("Error", e);
+            return null;
+        }
+    }
 
-		private String description;
+    public static class FieldMapperDef {
+        private String fieldname;
+        private String description;
 
-		private CSVFormatter fieldFormatter;
+        private CSVFormatter fieldFormatter;
 
-		public FieldMapperDef(String fieldname, String description) {
-			this(fieldname, description, null);
-		}
+        public FieldMapperDef(String fieldname, String description) {
+            this(fieldname, description, null);
+        }
 
-		public FieldMapperDef(String fieldname, String description,
-				CSVFormatter formatter) {
-			this.fieldname = fieldname;
-			this.description = description;
-			this.fieldFormatter = formatter;
-		}
+        public FieldMapperDef(String fieldname, String description, CSVFormatter formatter) {
+            this.fieldname = fieldname;
+            this.description = description;
+            this.fieldFormatter = formatter;
+        }
 
-		public String getFieldname() {
-			return fieldname;
-		}
+        public String getFieldname() {
+            return fieldname;
+        }
 
-		public String getDescription() {
-			return description;
-		}
+        public String getDescription() {
+            return description;
+        }
 
-		public CSVFormatter getFieldFormatter() {
-			return fieldFormatter;
-		}
-	}
+        public CSVFormatter getFieldFormatter() {
+            return fieldFormatter;
+        }
+    }
 
-	public static class ImportFieldDef {
-		private int columnIndex;
-		private FieldMapperDef fieldMapperDef;
+    public static class ImportFieldDef {
+        private int columnIndex;
+        private FieldMapperDef fieldMapperDef;
 
-		public ImportFieldDef(int columnIndex, FieldMapperDef fieldMapperDef) {
-			this.columnIndex = columnIndex;
-			this.fieldMapperDef = fieldMapperDef;
-		}
+        public ImportFieldDef(int columnIndex, FieldMapperDef fieldMapperDef) {
+            this.columnIndex = columnIndex;
+            this.fieldMapperDef = fieldMapperDef;
+        }
 
-		public int getColumnIndex() {
-			return columnIndex;
-		}
+        public int getColumnIndex() {
+            return columnIndex;
+        }
 
-		public void setColumnIndex(int columnIndex) {
-			this.columnIndex = columnIndex;
-		}
+        public void setColumnIndex(int columnIndex) {
+            this.columnIndex = columnIndex;
+        }
 
-		public String getFieldname() {
-			return fieldMapperDef.getFieldname();
-		}
+        public String getFieldname() {
+            return fieldMapperDef.getFieldname();
+        }
 
-		public String getDescription() {
-			return fieldMapperDef.getDescription();
-		}
+        public String getDescription() {
+            return fieldMapperDef.getDescription();
+        }
 
-		public CSVFormatter getFieldFormatter() {
-			return fieldMapperDef.getFieldFormatter();
-		}
-	}
+        public CSVFormatter getFieldFormatter() {
+            return fieldMapperDef.getFieldFormatter();
+        }
+    }
 
-	public static class CSVItemMapperDef {
-		private String[] csvLine;
-		private ImportFieldDef[] fieldsDef;
+    public static class CSVItemMapperDef {
+        private String[] csvLine;
+        private ImportFieldDef[] fieldsDef;
 
-		public CSVItemMapperDef(String[] csvLine, ImportFieldDef[] fieldDefs) {
-			this.csvLine = csvLine;
-			this.fieldsDef = fieldDefs;
-		}
+        public CSVItemMapperDef(String[] csvLine, ImportFieldDef[] fieldDefs) {
+            this.csvLine = csvLine;
+            this.fieldsDef = fieldDefs;
+        }
 
-		public String[] getCsvLine() {
-			return csvLine;
-		}
+        public String[] getCsvLine() {
+            return csvLine;
+        }
 
-		public void setCsvLine(String[] csvLine) {
-			this.csvLine = csvLine;
-		}
+        public void setCsvLine(String[] csvLine) {
+            this.csvLine = csvLine;
+        }
 
-		public ImportFieldDef[] getFieldsDef() {
-			return fieldsDef;
-		}
+        public ImportFieldDef[] getFieldsDef() {
+            return fieldsDef;
+        }
 
-		public void setFieldsDef(ImportFieldDef[] fieldsDef) {
-			this.fieldsDef = fieldsDef;
-		}
-	}
+        public void setFieldsDef(ImportFieldDef[] fieldsDef) {
+            this.fieldsDef = fieldsDef;
+        }
+    }
 }

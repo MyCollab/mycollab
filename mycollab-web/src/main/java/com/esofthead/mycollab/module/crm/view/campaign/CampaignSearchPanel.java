@@ -66,8 +66,8 @@ public class CampaignSearchPanel extends DefaultGenericSearchPanel<CampaignSearc
     }
 
     @Override
-    protected void buildExtraControls() {
-        Button createCampaignBtn = new Button(AppContext.getMessage(CampaignI18nEnum.BUTTON_NEW_CAMPAIGN), new Button.ClickListener() {
+    protected Component buildExtraControls() {
+        Button newBtn = new Button(AppContext.getMessage(CampaignI18nEnum.BUTTON_NEW_CAMPAIGN), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -76,10 +76,10 @@ public class CampaignSearchPanel extends DefaultGenericSearchPanel<CampaignSearc
 
             }
         });
-        createCampaignBtn.setIcon(FontAwesome.PLUS);
-        createCampaignBtn.setStyleName(UIConstants.BUTTON_ACTION);
-        createCampaignBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CAMPAIGN));
-        addHeaderRight(createCampaignBtn);
+        newBtn.setIcon(FontAwesome.PLUS);
+        newBtn.setStyleName(UIConstants.BUTTON_ACTION);
+        newBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CAMPAIGN));
+        return newBtn;
     }
 
     @Override

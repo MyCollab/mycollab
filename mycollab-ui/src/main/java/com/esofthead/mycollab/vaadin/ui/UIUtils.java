@@ -16,10 +16,7 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import com.vaadin.ui.Component;
-import com.vaadin.ui.HasComponents;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.Window;
+import com.vaadin.ui.*;
 
 import java.util.Collection;
 
@@ -40,8 +37,25 @@ public class UIUtils {
         return null;
     }
 
+    public static boolean removeChildAssociate(Component container, Class type) {
+        HasComponents parent = container.getParent();
+        while (parent != null) {
+            if (type.isAssignableFrom(parent.getClass()) && (parent instanceof ComponentContainer)) {
+                ((ComponentContainer) parent).removeComponent(container);
+                return true;
+            } else {
+                return removeChildAssociate(parent, type);
+            }
+        }
+        return false;
+    }
+
     public static Integer getBrowserWidth() {
         return UI.getCurrent().getPage().getBrowserWindowWidth();
+    }
+
+    public static Integer getBrowserHeight() {
+        return UI.getCurrent().getPage().getBrowserWindowHeight();
     }
 
     public static void removeAllWindows() {

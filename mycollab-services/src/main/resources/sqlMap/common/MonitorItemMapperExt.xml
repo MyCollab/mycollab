@@ -99,7 +99,7 @@
 
     <select id="getWatchers" parameterType="map"
             resultMap="com.esofthead.mycollab.module.user.dao.UserMapperExt.SimpleUserResult" lang="velocity">
-        SELECT s_user.firstname, s_user.lastname, s_user.username, s_user.avatarId
+        SELECT DISTINCT s_user.firstname, s_user.lastname, s_user.username, s_user.avatarId
         FROM m_monitor_item, s_user
         WHERE m_monitor_item.type=@{type} AND m_monitor_item.typeId=@{typeId} AND m_monitor_item.user=s_user.username
 

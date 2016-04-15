@@ -44,8 +44,7 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearchCriteria, SimpleBug>
-        implements IBugCallbackStatusComp {
+public class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearchCriteria, SimpleBug> {
     private static final long serialVersionUID = 1L;
 
     public BugTableDisplay(List<TableViewField> displayColumns) {
@@ -86,10 +85,7 @@ public class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearch
             @Override
             public Component generateCell(Table source, Object itemId, Object columnId) {
                 SimpleBug bug = getBeanByIndex(itemId);
-                String bugName = "[#%d] - %s";
-                bugName = String.format(bugName, bug.getBugkey(), bug.getSummary());
-                LabelLink b = new LabelLink(bugName, ProjectLinkBuilder
-                        .generateBugPreviewFullLink(bug.getBugkey(), bug.getProjectShortName()));
+                LabelLink b = new LabelLink(bug.getSummary(), ProjectLinkBuilder.generateBugPreviewFullLink(bug.getBugkey(), bug.getProjectShortName()));
 
                 if (StringUtils.isNotBlank(bug.getPriority())) {
                     b.setIconLink(ProjectAssetsManager.getBugPriority(bug.getPriority()));
@@ -159,10 +155,5 @@ public class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearch
             }
         });
         this.setWidth("100%");
-    }
-
-    @Override
-    public void refreshBugItem() {
-        this.refresh();
     }
 }

@@ -108,10 +108,8 @@ class ContactInfoChangeWindow extends Window {
         saveBtn.setStyleName(UIConstants.BUTTON_ACTION);
         saveBtn.setIcon(FontAwesome.SAVE);
 
-        hlayoutControls.with(saveBtn, cancelBtn).alignAll(Alignment.MIDDLE_CENTER);
-
+        hlayoutControls.with(cancelBtn, saveBtn).alignAll(Alignment.MIDDLE_CENTER);
         mainLayout.with(hlayoutControls).withAlign(hlayoutControls, Alignment.MIDDLE_RIGHT);
-
         this.setContent(mainLayout);
     }
 
@@ -120,7 +118,7 @@ class ContactInfoChangeWindow extends Window {
         if (violations.size() > 0) {
             final StringBuilder errorMsg = new StringBuilder();
 
-            for (@SuppressWarnings("rawtypes") ConstraintViolation violation : violations) {
+            for (ConstraintViolation violation : violations) {
                 errorMsg.append(violation.getMessage()).append("<br/>");
 
                 if (violation.getPropertyPath() != null && !violation.getPropertyPath().toString().equals("")) {

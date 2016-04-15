@@ -23,7 +23,6 @@ import com.esofthead.mycollab.common.service.OptionValService;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
-import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -47,6 +46,7 @@ import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.UIUtils;
 import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
@@ -60,7 +60,6 @@ import com.vaadin.event.dd.DropHandler;
 import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
 import com.vaadin.event.dd.acceptcriteria.Not;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.server.Page;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.colorpicker.Color;
 import com.vaadin.shared.ui.dd.HorizontalDropLocation;
@@ -103,6 +102,9 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
     private DDHorizontalLayout kanbanLayout;
     private Map<String, KanbanBlock> kanbanBlocks;
     private ComponentContainer newTaskComp = null;
+    private Button toggleShowColumsBtn;
+    private boolean displayHiddenColumns = false;
+    private TaskSearchCriteria baseCriteria;
 
     private ApplicationEventListener<TaskEvent.SearchRequest> searchHandler = new
             ApplicationEventListener<TaskEvent.SearchRequest>() {
@@ -126,11 +128,23 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
         groupWrapLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
         searchPanel.addHeaderRight(groupWrapLayout);
 
+        toggleShowColumsBtn = new Button("");
+        toggleShowColumsBtn.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                displayHiddenColumns = !displayHiddenColumns;
+                reload();
+                toggleShowButton();
+            }
+        });
+        toggleShowColumsBtn.addStyleName(UIConstants.BUTTON_LINK);
+        groupWrapLayout.addComponent(toggleShowColumsBtn);
+        toggleShowButton();
+
         Button addNewColumnBtn = new Button("New column", new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                UI.getCurrent().addWindow(new AddNewColumnWindow(TaskKanbanviewImpl.this, ProjectTypeConstants.TASK,
-                        "status"));
+                UI.getCurrent().addWindow(new AddNewColumnWindow(TaskKanbanviewImpl.this, ProjectTypeConstants.TASK, "status"));
             }
         });
         addNewColumnBtn.setIcon(FontAwesome.PLUS);
@@ -221,6 +235,14 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
         this.with(searchPanel, kanbanLayout).expand(kanbanLayout);
     }
 
+    void toggleShowButton() {
+        if (displayHiddenColumns) {
+            toggleShowColumsBtn.setCaption("Hide invisible columns");
+        } else {
+            toggleShowColumsBtn.setCaption("Display invisible columns");
+        }
+    }
+
     @Override
     public HasSearchHandlers<TaskSearchCriteria> getSearchHandlers() {
         return searchPanel;
@@ -251,8 +273,17 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
         searchPanel.selectQueryInfo(TaskSavedFilterComboBox.ALL_TASKS);
     }
 
+    private void reload() {
+        if (baseCriteria == null) {
+            display();
+        } else {
+            queryTask(baseCriteria);
+        }
+    }
+
     @Override
     public void queryTask(final TaskSearchCriteria searchCriteria) {
+        baseCriteria = searchCriteria;
         kanbanLayout.removeAllComponents();
         kanbanBlocks = new ConcurrentHashMap<>();
 
@@ -263,6 +294,9 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
                 List<OptionVal> optionVals = optionValService.findOptionVals(ProjectTypeConstants.TASK,
                         CurrentProjectVariables.getProjectId(), AppContext.getAccountId());
                 for (OptionVal optionVal : optionVals) {
+                    if (!displayHiddenColumns && Boolean.FALSE.equals(optionVal.getIsshow())) {
+                        continue;
+                    }
                     KanbanBlock kanbanBlock = new KanbanBlock(optionVal);
                     kanbanBlocks.put(optionVal.getTypeval(), kanbanBlock);
                     kanbanLayout.addComponent(kanbanBlock);
@@ -278,10 +312,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
                         for (SimpleTask task : tasks) {
                             String status = task.getStatus();
                             KanbanBlock kanbanBlock = kanbanBlocks.get(status);
-                            if (kanbanBlock == null) {
-                                LOG.error("Can not find a kanban block for status: " + status + " for task: "
-                                        + BeanUtility.printBeanObj(task));
-                            } else {
+                            if (kanbanBlock != null) {
                                 kanbanBlock.addBlockItem(new KanbanTaskBlockItem(task));
                             }
                         }
@@ -317,7 +348,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
 
             MHorizontalLayout headerLayout = new MHorizontalLayout();
 
-            ToggleTaskSummaryField toggleTaskSummaryField = new ToggleTaskSummaryField(task, 70, false);
+            ToggleTaskSummaryField toggleTaskSummaryField = new ToggleTaskSummaryField(task, 70);
             PopupView priorityField = popupFieldFactory.createPriorityPopupField(task);
             headerLayout.with(priorityField, toggleTaskSummaryField).expand(toggleTaskSummaryField);
 
@@ -344,6 +375,8 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
     private class KanbanBlock extends MVerticalLayout {
         private OptionVal optionVal;
         private DDVerticalLayout dragLayoutContainer;
+        private MHorizontalLayout buttonControls;
+        private Button hideColumnBtn;
         private Label header;
 
         public KanbanBlock(final OptionVal stage) {
@@ -411,27 +444,19 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
                     return new Not(VerticalLocationIs.MIDDLE);
                 }
             });
-            new Restrain(dragLayoutContainer).setMinHeight("50px").setMaxHeight((Page.getCurrent()
-                    .getBrowserWindowHeight() - 450) + "px");
+            new Restrain(dragLayoutContainer).setMinHeight("50px").setMaxHeight((UIUtils.getBrowserHeight() - 450) + "px");
 
-            HorizontalLayout headerLayout = new HorizontalLayout();
-            headerLayout.setWidth("100%");
+            MHorizontalLayout headerLayout = new MHorizontalLayout().withSpacing(false).withFullWidth().withStyleName("header");
             header = new Label(AppContext.getMessage(StatusI18nEnum.class, optionVal.getTypeval()));
-            header.addStyleName("header");
-            headerLayout.addComponent(header);
-            headerLayout.setComponentAlignment(header, Alignment.MIDDLE_LEFT);
-            headerLayout.setExpandRatio(header, 1.0f);
+            headerLayout.with(header).expand(header);
 
             final PopupButton controlsBtn = new PopupButton();
             controlsBtn.addStyleName(UIConstants.BUTTON_LINK);
-            headerLayout.addComponent(controlsBtn);
-            headerLayout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
+            headerLayout.with(controlsBtn);
 
-            String typeval = optionVal.getTypeval();
-            boolean canExecute = !typeval.equals(StatusI18nEnum.Closed.name()) && !typeval.equals(StatusI18nEnum.Archived.name())
-                    && !typeval.equals(StatusI18nEnum.Open.name()) && !typeval.equals(StatusI18nEnum.Pending.name())
-                    && !typeval.equals(StatusI18nEnum.InProgress.name());
-            canExecute = canExecute && CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS);
+            String typeVal = optionVal.getTypeval();
+            boolean canRename = !typeVal.equals(StatusI18nEnum.Closed.name()) && !typeVal.equals(StatusI18nEnum.Open.name());
+            boolean canExecute = CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS);
 
             OptionPopupContent popupContent = new OptionPopupContent();
             Button renameColumnBtn = new Button("Rename column", new Button.ClickListener() {
@@ -442,8 +467,28 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
                 }
             });
             renameColumnBtn.setIcon(FontAwesome.EDIT);
-            renameColumnBtn.setEnabled(canExecute);
+            renameColumnBtn.setEnabled(canExecute && canRename);
             popupContent.addOption(renameColumnBtn);
+
+            hideColumnBtn = new Button("");
+            hideColumnBtn.addClickListener(new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent clickEvent) {
+                    controlsBtn.setPopupVisible(false);
+                    if (Boolean.FALSE.equals(optionVal.getIsshow())) {
+                        optionVal.setIsshow(Boolean.TRUE);
+                    } else {
+                        optionVal.setIsshow(Boolean.FALSE);
+                    }
+                    optionValService.updateWithSession(optionVal, AppContext.getUsername());
+                    toggleShowButton();
+                    if (!displayHiddenColumns && Boolean.FALSE.equals(optionVal.getIsshow())) {
+                        ((ComponentContainer) KanbanBlock.this.getParent()).removeComponent(KanbanBlock.this);
+                    }
+                }
+            });
+            hideColumnBtn.setEnabled(canExecute);
+            popupContent.addOption(hideColumnBtn);
 
             Button changeColorBtn = new Button("Change color", new Button.ClickListener() {
                 @Override
@@ -495,7 +540,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
                 }
             });
             deleteColumnBtn.setIcon(FontAwesome.TRASH_O);
-            deleteColumnBtn.setEnabled(canExecute);
+            deleteColumnBtn.setEnabled(canExecute && canRename);
             popupContent.addDangerOption(deleteColumnBtn);
 
             popupContent.addSeparator();
@@ -521,7 +566,25 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
             addNewBtn.setIcon(FontAwesome.PLUS);
             addNewBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
             addNewBtn.addStyleName(UIConstants.BUTTON_ACTION);
-            this.with(headerLayout, dragLayoutContainer, addNewBtn);
+            buttonControls = new MHorizontalLayout(addNewBtn).withAlign(addNewBtn, Alignment.MIDDLE_LEFT).withFullWidth();
+            this.with(headerLayout, dragLayoutContainer, buttonControls);
+            toggleShowButton();
+        }
+
+        void toggleShowButton() {
+            if (Boolean.FALSE.equals(optionVal.getIsshow())) {
+                hideColumnBtn.setCaption("Show column");
+                hideColumnBtn.setIcon(FontAwesome.TOGGLE_ON);
+                ELabel invisibleLbl = new ELabel("Inv").withWidthUndefined().withStyleName(UIConstants.FIELD_NOTE).withDescription
+                        ("This column is invisible by default. Change its value by clicking the button menu, and select 'Show column'");
+                buttonControls.with(invisibleLbl).withAlign(invisibleLbl, Alignment.MIDDLE_RIGHT);
+            } else {
+                hideColumnBtn.setCaption("Hide column");
+                hideColumnBtn.setIcon(FontAwesome.TOGGLE_OFF);
+                if (buttonControls.getComponentCount() > 1) {
+                    buttonControls.removeComponent(buttonControls.getComponent(1));
+                }
+            }
         }
 
         void addBlockItem(KanbanTaskBlockItem comp) {
@@ -611,7 +674,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
                 Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
                     @Override
                     public void buttonClick(Button.ClickEvent event) {
-                        RenameColumnWindow.this.close();
+                        close();
                     }
                 });
                 cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);

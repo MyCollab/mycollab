@@ -267,7 +267,7 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
           val criteria = new BugSearchCriteria
           criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId))
           criteria.setStatuses(new SetSearchField[String](BugStatus.InProgress.name,
-            BugStatus.Open.name, BugStatus.ReOpened.name, BugStatus.Resolved.name))
+            BugStatus.Open.name, BugStatus.ReOpen.name, BugStatus.Resolved.name))
           presenter.go(projectView, new BugScreenData.Search(criteria))
         }
         else if (params.isInstanceOf[BugSearchCriteria]) {

@@ -54,7 +54,6 @@ Version 5.2.12
 * Allow to upload project logo
 * Can adjust the parent-child relationship of tasks
 * New Project list view
-* Support crowdsourcing translation
 * Other minor improvements
 
 **Bug Fixes**

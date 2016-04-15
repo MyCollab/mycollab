@@ -129,7 +129,7 @@ class GroupPageAddWindow extends Window {
                 saveBtn.setIcon(FontAwesome.SAVE);
                 saveBtn.setStyleName(UIConstants.BUTTON_ACTION);
                 saveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
-                controlsBtn.with(saveBtn, cancelBtn);
+                controlsBtn.with(cancelBtn, saveBtn);
 
                 layout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
 

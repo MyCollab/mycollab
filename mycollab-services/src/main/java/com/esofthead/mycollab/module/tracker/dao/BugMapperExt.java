@@ -16,53 +16,41 @@
  */
 package com.esofthead.mycollab.module.tracker.dao;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
-
 import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.module.tracker.domain.BugStatusGroupItem;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public interface BugMapperExt extends ISearchableDAO<BugSearchCriteria> {
 
-	SimpleBug getBugById(int bugid);
+    SimpleBug getBugById(int bugid);
 
-	SimpleBug findByProjectAndBugKey(@Param("bugkey") int bugKey,
-			@Param("prjShortName") String projectShortName,
-			@Param("sAccountId") int sAccountId);
+    SimpleBug findByProjectAndBugKey(@Param("bugkey") int bugKey, @Param("prjShortName") String projectShortName,
+                                     @Param("sAccountId") int sAccountId);
 
-	List<GroupItem> getStatusSummary(
-			@Param("searchCriteria") BugSearchCriteria criteria);
+    List<GroupItem> getStatusSummary(@Param("searchCriteria") BugSearchCriteria criteria);
 
-	List<GroupItem> getPrioritySummary(
-			@Param("searchCriteria") BugSearchCriteria criteria);
+    List<GroupItem> getPrioritySummary(@Param("searchCriteria") BugSearchCriteria criteria);
 
-	List<GroupItem> getAssignedDefectsSummary(
-			@Param("searchCriteria") BugSearchCriteria criteria);
+    List<GroupItem> getAssignedDefectsSummary(@Param("searchCriteria") BugSearchCriteria criteria);
 
-	List<GroupItem> getResolutionDefectsSummary(
-			@Param("searchCriteria") BugSearchCriteria criteria);
+    List<GroupItem> getResolutionDefectsSummary(@Param("searchCriteria") BugSearchCriteria criteria);
 
-	List<GroupItem> getReporterDefectsSummary(
-			@Param("searchCriteria") BugSearchCriteria criteria);
+    List<GroupItem> getReporterDefectsSummary(@Param("searchCriteria") BugSearchCriteria criteria);
 
-	List<GroupItem> getVersionDefectsSummary(
-			@Param("searchCriteria") BugSearchCriteria criteria);
+    List<GroupItem> getVersionDefectsSummary(@Param("searchCriteria") BugSearchCriteria criteria);
 
-	List<GroupItem> getComponentDefectsSummary(
-			@Param("searchCriteria") BugSearchCriteria criteria);
+    List<GroupItem> getComponentDefectsSummary(@Param("searchCriteria") BugSearchCriteria criteria);
 
-	List<BugStatusGroupItem> getBugStatusGroupItemBaseComponent(
-			@Param("searchCriteria") BugSearchCriteria criteria);
+    List<BugStatusGroupItem> getBugStatusGroupItemBaseComponent(@Param("searchCriteria") BugSearchCriteria criteria);
 
-	Integer getMaxKey(int projectId);
+    Integer getMaxKey(int projectId);
 }

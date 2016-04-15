@@ -18,35 +18,27 @@ package com.esofthead.mycollab.module.project.view.bug.components;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.UserInvalidInputException;
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
-import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
-import com.esofthead.mycollab.module.project.view.bug.IBugCallbackStatusComp;
 import com.esofthead.mycollab.module.tracker.domain.RelatedBug;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
-import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugRelationService;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
+import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
-import org.vaadin.suggestfield.BeanSuggestionConverter;
-import org.vaadin.suggestfield.SuggestField;
-import org.vaadin.suggestfield.client.SuggestFieldSuggestion;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * @author MyCollab Ltd.
@@ -56,23 +48,16 @@ public class LinkIssueWindow extends Window {
     private BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
 
     private RelatedBugEditForm editForm;
-
-    private BugSearchCriteria searchCriteria;
-    private SimpleBug selectedBug;
+    private BugSelectionField bugSelectionField;
     private SimpleBug hostedBug;
     private RelatedBug relatedBug;
-    private IBugCallbackStatusComp callbackForm;
 
-    public LinkIssueWindow(IBugCallbackStatusComp callbackForm, SimpleBug bug) {
-        super("Link");
-        this.callbackForm = callbackForm;
+    public LinkIssueWindow(SimpleBug bug) {
+        super("Dependencies");
         this.setResizable(false);
         this.setModal(true);
 
         this.hostedBug = bug;
-        searchCriteria = new BugSearchCriteria();
-        searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-
         MVerticalLayout contentLayout = new MVerticalLayout().withMargin(false).withWidth("100%");
 
         editForm = new RelatedBugEditForm();
@@ -82,7 +67,7 @@ public class LinkIssueWindow extends Window {
         editForm.setBean(relatedBug);
         contentLayout.add(editForm);
         this.center();
-        this.setWidth("700px");
+        this.setWidth("750px");
         this.setContent(contentLayout);
     }
 
@@ -114,6 +99,7 @@ public class LinkIssueWindow extends Window {
                         if (editForm.validateForm()) {
                             BugRelationService relatedBugService = ApplicationContextUtil.getSpringBean(BugRelationService.class);
 
+                            SimpleBug selectedBug = bugSelectionField.getSelectedBug();
                             if (selectedBug == null) {
                                 throw new UserInvalidInputException("The related bug must be not null");
                             }
@@ -124,8 +110,8 @@ public class LinkIssueWindow extends Window {
 
                             relatedBug.setRelatedid(selectedBug.getId());
                             relatedBugService.saveWithSession(relatedBug, AppContext.getUsername());
-                            LinkIssueWindow.this.close();
-                            callbackForm.refreshBugItem();
+                            close();
+                            EventBusFactory.getInstance().post(new BugEvent.BugChanged(this, hostedBug.getId()));
                         }
                     }
                 });
@@ -141,7 +127,7 @@ public class LinkIssueWindow extends Window {
                 });
                 cancelBtn.addStyleName(UIConstants.BUTTON_OPTION);
 
-                controlsBtn.with(saveBtn, cancelBtn).alignAll(Alignment.MIDDLE_RIGHT);
+                controlsBtn.with(cancelBtn, saveBtn).alignAll(Alignment.MIDDLE_RIGHT);
                 return layout;
             }
 
@@ -167,88 +153,12 @@ public class LinkIssueWindow extends Window {
                 if (RelatedBug.Field.relatetype.equalTo(propertyId)) {
                     return new BugRelationComboBox();
                 } else if (RelatedBug.Field.relatedid.equalTo(propertyId)) {
-                    return new RelatedBugField();
+                    bugSelectionField = new BugSelectionField();
+                    return bugSelectionField;
                 } else if (RelatedBug.Field.comment.equalTo(propertyId)) {
                     return new RichTextArea();
                 }
                 return null;
-            }
-        }
-
-        private class RelatedBugField extends CustomField<SimpleBug> implements FieldSelection<SimpleBug> {
-            SuggestField suggestField;
-            List<SimpleBug> items;
-
-            RelatedBugField() {
-                suggestField = new SuggestField();
-                suggestField.setPopupWidth(600);
-                suggestField.setWidth("400px");
-                suggestField.setInputPrompt("Enter related bug's name");
-                suggestField.setInvalidAllowed(false);
-
-                suggestField.setSuggestionHandler(new SuggestField.SuggestionHandler() {
-                    @Override
-                    public List<Object> searchItems(String query) {
-                        return handleSearchQuery(query);
-                    }
-                });
-
-                suggestField.setSuggestionConverter(new BugSuggestionConverter());
-            }
-
-            @Override
-            protected Component initContent() {
-                MHorizontalLayout layout = new MHorizontalLayout();
-                Button browseBtn = new Button(FontAwesome.ELLIPSIS_H);
-                browseBtn.addStyleName(UIConstants.BUTTON_OPTION);
-                browseBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
-                browseBtn.addClickListener(new Button.ClickListener() {
-                    @Override
-                    public void buttonClick(Button.ClickEvent event) {
-                        UI.getCurrent().addWindow(new BugSelectionWindow(RelatedBugField.this));
-                    }
-                });
-                layout.with(suggestField, new Label("or browse"), browseBtn);
-                return layout;
-            }
-
-            @Override
-            public Class<? extends SimpleBug> getType() {
-                return SimpleBug.class;
-            }
-
-            @Override
-            public void fireValueChange(SimpleBug data) {
-                selectedBug = data;
-                suggestField.setValue(selectedBug);
-            }
-
-            private List<Object> handleSearchQuery(String query) {
-                if ("" .equals(query) || query == null) {
-                    return Collections.emptyList();
-                }
-                searchCriteria.setSummary(StringSearchField.and(query));
-                items = bugService.findPagableListByCriteria(new SearchRequest<>(searchCriteria));
-                return new ArrayList<Object>(items);
-            }
-
-            private class BugSuggestionConverter extends BeanSuggestionConverter {
-
-                public BugSuggestionConverter() {
-                    super(SimpleBug.class, "id", "summary", "summary");
-                }
-
-                @Override
-                public Object toItem(SuggestFieldSuggestion suggestion) {
-                    for (SimpleBug bean : items) {
-                        if (bean.getId().toString().equals(suggestion.getId())) {
-                            selectedBug = bean;
-                            break;
-                        }
-                    }
-                    assert selectedBug != null : "This should not be happening";
-                    return selectedBug;
-                }
             }
         }
     }

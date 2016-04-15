@@ -58,6 +58,10 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 
+/**
+ * @author MyCollab Ltd.
+ * @since 1.0.0
+ */
 @Service
 @Transactional
 @Traceable(nameField = "summary", extraFieldName = "projectid")
@@ -125,21 +129,21 @@ public class BugServiceImpl extends DefaultService<Integer, BugWithBLOBs, BugSea
 
     @Override
     public Integer updateWithSession(BugWithBLOBs record, String username) {
+        cleanAfterUpdate(record);
+        return super.updateWithSession(record, username);
+    }
+
+    private void cleanAfterUpdate(BugWithBLOBs record) {
         asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectService.class,
                 ProjectGenericTaskService.class, ProjectMemberService.class, ProjectActivityStreamService.class,
                 ItemTimeLoggingService.class, TimelineTrackingService.class}));
         asyncEventBus.post(new TimelineTrackingUpdateEvent(ProjectTypeConstants.BUG, record.getId(), "status", record.getStatus(),
                 record.getProjectid(), record.getSaccountid()));
-        return super.updateWithSession(record, username);
     }
 
     @Override
     public Integer updateSelectiveWithSession(BugWithBLOBs record, String username) {
-        asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectService.class,
-                ProjectGenericTaskService.class, ProjectMemberService.class, ProjectActivityStreamService.class,
-                ItemTimeLoggingService.class, TimelineTrackingService.class}));
-        asyncEventBus.post(new TimelineTrackingUpdateEvent(ProjectTypeConstants.BUG, record.getId(), "status", record.getStatus(),
-                record.getProjectid(), record.getSaccountid()));
+        cleanAfterUpdate(record);
         return super.updateSelectiveWithSession(record, username);
     }
 

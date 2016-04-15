@@ -19,7 +19,6 @@ package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -32,8 +31,8 @@ import com.esofthead.mycollab.module.project.i18n.VersionI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.ComponentUtils;
 import com.esofthead.mycollab.module.tracker.domain.criteria.VersionSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
+import com.esofthead.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.ShortcutListener;
@@ -64,7 +63,7 @@ public class VersionSearchPanel extends DefaultGenericSearchPanel<VersionSearchC
     }
 
     @Override
-    protected void buildExtraControls() {
+    protected Component buildExtraControls() {
         Button createBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_NEW_VERSION), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
@@ -76,16 +75,14 @@ public class VersionSearchPanel extends DefaultGenericSearchPanel<VersionSearchC
         createBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.VERSIONS));
         createBtn.setStyleName(UIConstants.BUTTON_ACTION);
         createBtn.setIcon(FontAwesome.PLUS);
-        this.addHeaderRight(createBtn);
+        return createBtn;
     }
 
-    @SuppressWarnings("rawtypes")
-    private class VersionBasicSearchLayout extends BasicSearchLayout {
+    private class VersionBasicSearchLayout extends BasicSearchLayout<VersionSearchCriteria> {
         private static final long serialVersionUID = 1L;
         private TextField nameField;
 
-        @SuppressWarnings("unchecked")
-        public VersionBasicSearchLayout() {
+        VersionBasicSearchLayout() {
             super(VersionSearchPanel.this);
         }
 
@@ -136,7 +133,7 @@ public class VersionSearchPanel extends DefaultGenericSearchPanel<VersionSearchC
         }
 
         @Override
-        protected SearchCriteria fillUpSearchCriteria() {
+        protected VersionSearchCriteria fillUpSearchCriteria() {
             searchCriteria = new VersionSearchCriteria();
             searchCriteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
             searchCriteria.setVersionname(StringSearchField.and(nameField.getValue().trim()));

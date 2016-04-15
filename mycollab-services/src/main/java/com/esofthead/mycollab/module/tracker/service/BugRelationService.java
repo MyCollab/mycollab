@@ -30,4 +30,6 @@ import java.util.List;
 @IgnoreCacheClass
 public interface BugRelationService extends ICrudService<Integer, RelatedBug> {
     List<SimpleRelatedBug> findRelatedBugs(Integer bugId);
+
+    int removeDuplicatedBugs(Integer bugId);
 }

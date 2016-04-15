@@ -147,7 +147,7 @@ public class BugAddPresenter extends ProjectGenericPresenter<BugAddView> {
 
             int bugId = bug.getId();
             BugRelatedItemService bugRelatedItemService = ApplicationContextUtil.getSpringBean(BugRelatedItemService.class);
-            bugRelatedItemService.updateAfftedVersionsOfBug(bugId, view.getAffectedVersions());
+            bugRelatedItemService.updateAffectedVersionsOfBug(bugId, view.getAffectedVersions());
             bugRelatedItemService.updateFixedVersionsOfBug(bugId, view.getFixedVersion());
             bugRelatedItemService.updateComponentsOfBug(bugId, view.getComponents());
             asyncEventBus.post(new CleanCacheEvent(AppContext.getAccountId(), new Class[]{BugService.class}));

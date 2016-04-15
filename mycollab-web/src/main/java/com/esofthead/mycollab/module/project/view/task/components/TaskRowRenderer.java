@@ -122,12 +122,6 @@ public class TaskRowRenderer extends MVerticalLayout {
         taskSettingPopupBtn.setContent(filterBtnLayout);
     }
 
-    private void pendingTask() {
-        toogleTaskField.pendingTask();
-        OptionPopupContent filterBtnLayout = createPopupContent();
-        taskSettingPopupBtn.setContent(filterBtnLayout);
-    }
-
     private void deleteTask() {
         IGroupComponent root = UIUtils.getRoot(this, IGroupComponent.class);
         ComponentContainer parent = (ComponentContainer) this.getParent();
@@ -191,48 +185,6 @@ public class TaskRowRenderer extends MVerticalLayout {
                     projectTaskService.updateSelectiveWithSession(task, AppContext.getUsername());
                     reOpenTask();
                     EventBusFactory.getInstance().post(new TaskEvent.HasTaskChange(TaskRowRenderer.this, null));
-                }
-            });
-            reOpenBtn.setIcon(FontAwesome.UNLOCK);
-            reOpenBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
-            filterBtnLayout.addOption(reOpenBtn);
-        }
-
-        if (!OptionI18nEnum.StatusI18nEnum.Pending.name().equals(task.getStatus())) {
-            if (!OptionI18nEnum.StatusI18nEnum.Closed.name().equals(task.getStatus())) {
-                Button pendingBtn = new Button(AppContext.getMessage(OptionI18nEnum.StatusI18nEnum.Pending), new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void buttonClick(Button.ClickEvent event) {
-                        taskSettingPopupBtn.setPopupVisible(false);
-                        task.setStatus(OptionI18nEnum.StatusI18nEnum.Pending.name());
-                        task.setPercentagecomplete(0d);
-
-                        ProjectTaskService projectTaskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
-                        projectTaskService.updateSelectiveWithSession(task, AppContext.getUsername());
-                        pendingTask();
-                        EventBusFactory.getInstance().post(new TaskEvent.HasTaskChange(TaskRowRenderer.this, null));
-                    }
-                });
-                pendingBtn.setIcon(FontAwesome.HDD_O);
-                pendingBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
-                filterBtnLayout.addOption(pendingBtn);
-            }
-        } else {
-            Button reOpenBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN), new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(Button.ClickEvent event) {
-                    taskSettingPopupBtn.setPopupVisible(false);
-                    task.setStatus(OptionI18nEnum.StatusI18nEnum.Open.name());
-                    task.setPercentagecomplete(0d);
-
-                    ProjectTaskService projectTaskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
-                    projectTaskService.updateSelectiveWithSession(task, AppContext.getUsername());
-
-                    reOpenTask();
                 }
             });
             reOpenBtn.setIcon(FontAwesome.UNLOCK);

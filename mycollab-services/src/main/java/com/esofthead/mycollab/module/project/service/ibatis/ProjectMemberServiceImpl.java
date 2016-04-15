@@ -143,8 +143,7 @@ public class ProjectMemberServiceImpl extends DefaultService<Integer, ProjectMem
             ex.createCriteria().andUsernameNotIn(usernames).andProjectidEqualTo(members.get(0).getProjectid())
                     .andIsadminEqualTo(true).andStatusEqualTo(ProjectMemberStatusConstants.ACTIVE);
             if (projectMemberMapper.countByExample(ex) == 0) {
-                throw new UserInvalidInputException("Can not delete users. The reason is there is no " +
-                        "project owner in the rest users");
+                throw new UserInvalidInputException("Can not delete users. The reason is there is no project owner in the rest users");
             }
 
             ProjectMember updateMember = new ProjectMember();
@@ -173,8 +172,8 @@ public class ProjectMemberServiceImpl extends DefaultService<Integer, ProjectMem
     }
 
     @Override
-    public void acceptProjectInvitationByNewUser(String email, String password, Integer projectId,
-                                                 Integer projectRoleId, Integer sAccountId) {
+    public void acceptProjectInvitationByNewUser(String email, String password, Integer projectId, Integer projectRoleId,
+                                                 Integer sAccountId) {
         SimpleProject project = projectService.findById(projectId, sAccountId);
         if (project == null) {
             throw new UserInvalidInputException("Project not found");

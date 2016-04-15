@@ -73,7 +73,7 @@ class AdvancedInfoChangeWindow extends Window {
 
         mainLayout.with(passInfo.getLayout()).withAlign(passInfo.getLayout(), Alignment.TOP_LEFT);
 
-        MHorizontalLayout hlayoutControls = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true));
+        MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true));
         Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
@@ -95,8 +95,8 @@ class AdvancedInfoChangeWindow extends Window {
         saveBtn.setStyleName(UIConstants.BUTTON_ACTION);
         saveBtn.setIcon(FontAwesome.SAVE);
 
-        hlayoutControls.with(saveBtn, cancelBtn).alignAll(Alignment.MIDDLE_CENTER);
-        mainLayout.with(hlayoutControls).withAlign(hlayoutControls, Alignment.MIDDLE_RIGHT);
+        buttonControls.with(cancelBtn, saveBtn).alignAll(Alignment.MIDDLE_CENTER);
+        mainLayout.with(buttonControls).withAlign(buttonControls, Alignment.MIDDLE_RIGHT);
         this.setModal(true);
         this.setContent(mainLayout);
     }

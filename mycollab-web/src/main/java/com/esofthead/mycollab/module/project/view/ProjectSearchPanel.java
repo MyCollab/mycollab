@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.module.project.view;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.db.query.Param;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
@@ -62,7 +61,7 @@ public class ProjectSearchPanel extends DefaultGenericSearchPanel<ProjectSearchC
     }
 
     @Override
-    protected void buildExtraControls() {
+    protected Component buildExtraControls() {
         Button createBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.BUTTON_NEW_PROJECT), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
@@ -74,10 +73,10 @@ public class ProjectSearchPanel extends DefaultGenericSearchPanel<ProjectSearchC
         createBtn.setStyleName(UIConstants.BUTTON_ACTION);
         createBtn.setIcon(FontAwesome.PLUS);
         createBtn.setEnabled(AppContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT));
-        this.addHeaderRight(createBtn);
+        return createBtn;
     }
 
-    private class ProjectBasicSearchLayout extends BasicSearchLayout {
+    private class ProjectBasicSearchLayout extends BasicSearchLayout<ProjectSearchCriteria> {
         private static final long serialVersionUID = 1L;
 
         private TextField nameField;
@@ -141,7 +140,7 @@ public class ProjectSearchPanel extends DefaultGenericSearchPanel<ProjectSearchC
         }
 
         @Override
-        protected SearchCriteria fillUpSearchCriteria() {
+        protected ProjectSearchCriteria fillUpSearchCriteria() {
             ProjectSearchCriteria searchCriteria = new ProjectSearchCriteria();
             searchCriteria.setProjectName(StringSearchField.and(this.nameField.getValue().trim()));
             return searchCriteria;

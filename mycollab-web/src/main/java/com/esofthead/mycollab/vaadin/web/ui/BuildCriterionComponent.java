@@ -40,6 +40,8 @@ import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.apache.commons.collections.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -52,6 +54,8 @@ import java.util.*;
  */
 public class BuildCriterionComponent<S extends SearchCriteria> extends MVerticalLayout {
     private static final long serialVersionUID = 1L;
+
+    private static final Logger LOG = LoggerFactory.getLogger(BuildCriterionComponent.class);
 
     private Param[] paramFields;
     private String searchCategory;
@@ -204,14 +208,17 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
     private void fillSearchFieldInfoAndInvokeSearchRequest(List<SearchFieldInfo> searchFieldInfos) {
         searchContainer.removeAllComponents();
 
-        for (int i = 0; i < searchFieldInfos.size(); i++) {
-            SearchFieldInfo searchFieldInfo = searchFieldInfos.get(i);
-            CriteriaSelectionLayout newCriteriaBar = new CriteriaSelectionLayout(searchContainer.getComponentCount() + 1);
+        try {
+            for (int i = 0; i < searchFieldInfos.size(); i++) {
+                SearchFieldInfo searchFieldInfo = searchFieldInfos.get(i);
+                CriteriaSelectionLayout newCriteriaBar = new CriteriaSelectionLayout(searchContainer.getComponentCount() + 1);
 
-            newCriteriaBar.fillSearchFieldInfo(searchFieldInfo);
-            searchContainer.addComponent(newCriteriaBar);
+                newCriteriaBar.fillSearchFieldInfo(searchFieldInfo);
+                searchContainer.addComponent(newCriteriaBar);
+            }
+        } catch (Exception e) {
+            LOG.error("Error while build criterion", e);
         }
-
     }
 
     private class CriteriaSelectionLayout extends GridLayout {

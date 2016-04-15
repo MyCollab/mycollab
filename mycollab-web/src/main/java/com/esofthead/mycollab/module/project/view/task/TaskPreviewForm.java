@@ -18,16 +18,18 @@ package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.StorageFactory;
+import com.esofthead.mycollab.core.arguments.BooleanSearchField;
+import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.utils.HumanTime;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.eventmanager.EventBusFactory$;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.Task;
+import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
@@ -35,15 +37,13 @@ import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.form.ProjectFormAttachmentDisplayField;
 import com.esofthead.mycollab.module.project.ui.form.ProjectItemViewField;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
-import com.esofthead.mycollab.module.project.view.task.components.ToggleTaskSummaryField;
+import com.esofthead.mycollab.module.project.view.task.components.TaskSearchPanel;
+import com.esofthead.mycollab.module.project.view.task.components.ToggleTaskSummaryWithParentRelationshipField;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.ELabel;
-import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.vaadin.web.ui.DynaFormLayout;
-import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.events.SearchHandler;
+import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.web.ui.*;
 import com.esofthead.mycollab.vaadin.web.ui.field.DateViewField;
 import com.esofthead.mycollab.vaadin.web.ui.field.DefaultViewField;
 import com.esofthead.mycollab.vaadin.web.ui.field.I18nFormViewField;
@@ -58,6 +58,8 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.vaadin.jouni.restrain.Restrain;
+import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -148,7 +150,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                     }
                 };
 
-        private VerticalLayout tasksLayout;
+        private MVerticalLayout tasksLayout;
         private SimpleTask beanItem;
 
         SubTasksComp(SimpleTask task) {
@@ -170,7 +172,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
         @Override
         protected Component initContent() {
             MHorizontalLayout contentLayout = new MHorizontalLayout().withWidth("100%");
-            tasksLayout = new MVerticalLayout().withWidth("100%").withMargin(new MarginInfo(false, true, true, false));
+            tasksLayout = new VerticalRemoveInlineComponentMarker().withWidth("100%").withMargin(new MarginInfo(false, true, true, false));
             contentLayout.with(tasksLayout).expand(tasksLayout);
 
             Button addNewTaskBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADD), new Button.ClickListener() {
@@ -185,14 +187,29 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                     task.setProjectid(beanItem.getProjectid());
                     task.setSaccountid(beanItem.getSaccountid());
                     UI.getCurrent().addWindow(new TaskAddWindow(task));
-
                 }
             });
             addNewTaskBtn.setStyleName(UIConstants.BUTTON_ACTION);
             addNewTaskBtn.setIcon(FontAwesome.PLUS);
             addNewTaskBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
 
-            contentLayout.addComponent(addNewTaskBtn);
+            final SplitButton splitButton = new SplitButton(addNewTaskBtn);
+            splitButton.setWidthUndefined();
+            splitButton.addStyleName(UIConstants.BUTTON_ACTION);
+
+            OptionPopupContent popupButtonsControl = new OptionPopupContent();
+            Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent clickEvent) {
+                    splitButton.setPopupVisible(false);
+                    UI.getCurrent().addWindow(new SelectChildTaskWindow(beanItem));
+                }
+            });
+            selectBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
+            popupButtonsControl.addOption(selectBtn);
+            splitButton.setContent(popupButtonsControl);
+
+            contentLayout.addComponent(splitButton);
 
             ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
             List<SimpleTask> subTasks = taskService.findSubTasks(beanItem.getId(), AppContext.getAccountId(), new
@@ -212,6 +229,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
 
         private HorizontalLayout generateSubTaskContent(final SimpleTask subTask) {
             MHorizontalLayout layout = new MHorizontalLayout().withStyleName(UIConstants.HOVER_EFFECT_NOT_BOX);
+            layout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
             final CheckBox checkBox = new CheckBox("", subTask.isCompleted());
             checkBox.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
@@ -225,8 +243,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
             Img avatarImg = new Img(subTask.getAssignUserFullName(), avatarLink).setTitle(subTask.getAssignUserFullName());
             layout.with(new ELabel(avatarImg.write(), ContentMode.HTML).withWidthUndefined());
 
-            final ToggleTaskSummaryField toggleTaskSummaryField = new ToggleTaskSummaryField(subTask, Integer.MAX_VALUE, true);
-
+            final ToggleTaskSummaryWithParentRelationshipField toggleTaskSummaryField = new ToggleTaskSummaryWithParentRelationshipField(subTask);
             layout.with(toggleTaskSummaryField).expand(toggleTaskSummaryField);
 
             checkBox.addValueChangeListener(new ValueChangeListener() {
@@ -252,6 +269,63 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                 }
             });
             return layout;
+        }
+    }
+
+    private static class SelectChildTaskWindow extends Window {
+        private TaskSearchPanel taskSearchPanel;
+        private SimpleTask parentTask;
+
+        SelectChildTaskWindow(SimpleTask parentTask) {
+            super("Select Task");
+            this.setWidth("800px");
+            this.setModal(true);
+            this.setResizable(false);
+            this.parentTask = parentTask;
+
+            TaskSearchCriteria baseSearchCriteria = new TaskSearchCriteria();
+            baseSearchCriteria.setProjectId(NumberSearchField.and(CurrentProjectVariables.getProjectId()));
+            baseSearchCriteria.setHasParentTask(new BooleanSearchField(false));
+
+            taskSearchPanel = new TaskSearchPanel(false);
+            final DefaultBeanPagedList<ProjectTaskService, TaskSearchCriteria, SimpleTask> taskList = new DefaultBeanPagedList<>(
+                    ApplicationContextUtil.getSpringBean(ProjectTaskService.class), new TaskRowRenderer(), 10);
+            new Restrain(taskList).setMaxHeight((UIUtils.getBrowserHeight() - 120) + "px");
+            taskSearchPanel.addSearchHandler(new SearchHandler<TaskSearchCriteria>() {
+                @Override
+                public void onSearch(TaskSearchCriteria criteria) {
+                    criteria.setProjectId(NumberSearchField.and(CurrentProjectVariables.getProjectId()));
+                    criteria.setHasParentTask(new BooleanSearchField(false));
+                    taskList.setSearchCriteria(criteria);
+                }
+            });
+            MVerticalLayout content = new MVerticalLayout(taskSearchPanel, taskList).withSpacing(false);
+            taskList.setSearchCriteria(baseSearchCriteria);
+            setContent(content);
+        }
+
+        private class TaskRowRenderer implements AbstractBeanPagedList.RowDisplayHandler<SimpleTask> {
+            @Override
+            public Component generateRow(AbstractBeanPagedList host, final SimpleTask item, int rowIndex) {
+                Button taskLink = new Button(item.getTaskname());
+                taskLink.addStyleName(UIConstants.BUTTON_LINK);
+                taskLink.addClickListener(new Button.ClickListener() {
+                    @Override
+                    public void buttonClick(Button.ClickEvent clickEvent) {
+                        if (item.getId().equals(parentTask.getId())) {
+                            NotificationUtil.showErrorNotification("Can not assign the parent task to itself");
+                        } else {
+                            item.setParenttaskid(parentTask.getId());
+                            ProjectTaskService projectTaskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                            projectTaskService.updateWithSession(item, AppContext.getUsername());
+                            EventBusFactory.getInstance().post(new TaskEvent.NewTaskAdded(this, item.getId()));
+                        }
+
+                        close();
+                    }
+                });
+                return new MCssLayout(taskLink).withStyleName("list-row").withFullWidth();
+            }
         }
     }
 }

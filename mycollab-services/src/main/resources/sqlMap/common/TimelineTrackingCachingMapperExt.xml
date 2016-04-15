@@ -34,8 +34,8 @@
         ]]>
     </sql>
 
-    <select id="findTimelineItems" parameterType="map"
-            resultMap="com.esofthead.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
+    <select id="findTimelineItems" parameterType="map" resultMap="com.esofthead.mycollab.common.dao.GroupItemMapper.BaseResultMap"
+            lang="velocity">
         #repeat(${_parameter.groupVals} $groupVal "UNION" "" "")
           #repeat(${_parameter.dates} $date "UNION" "" "")
             SELECT s_timeline_tracking_cache.fieldval AS groupid, s_timeline_tracking_cache.count AS value,

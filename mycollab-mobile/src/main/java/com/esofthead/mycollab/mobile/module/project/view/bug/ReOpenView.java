@@ -70,7 +70,7 @@ class ReOpenView extends AbstractMobilePageView {
             @Override
             public void buttonClick(final Button.ClickEvent event) {
                 if (editForm.validateForm()) {
-                    ReOpenView.this.bug.setStatus(BugStatus.ReOpened.name());
+                    ReOpenView.this.bug.setStatus(BugStatus.ReOpen.name());
 
                     // Save bug status and assignee
                     final BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);

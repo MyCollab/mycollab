@@ -105,7 +105,7 @@ public class ProjectAddBaseTemplateWindow extends Window {
             }
         });
         cancelBtn.addStyleName(UIConstants.BUTTON_OPTION);
-        buttonControls.with(okBtn, cancelBtn);
+        buttonControls.with(cancelBtn, okBtn);
         this.setContent(content);
     }
 

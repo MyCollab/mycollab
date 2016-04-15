@@ -23,6 +23,7 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.tracker.dao.RelatedBugMapper;
 import com.esofthead.mycollab.module.tracker.dao.RelatedBugMapperExt;
 import com.esofthead.mycollab.module.tracker.domain.RelatedBug;
+import com.esofthead.mycollab.module.tracker.domain.RelatedBugExample;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.SimpleRelatedBug;
 import com.esofthead.mycollab.module.tracker.service.BugRelationService;
@@ -32,6 +33,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * @author MyCollab Ltd.
+ * @since 1.0.0
+ */
 @Service
 public class BugRelationServiceImpl extends DefaultCrudService<Integer, RelatedBug> implements BugRelationService {
     @Autowired
@@ -54,11 +59,18 @@ public class BugRelationServiceImpl extends DefaultCrudService<Integer, RelatedB
             SimpleBug bug = bugService.findById(bugId, 0);
             if (bug != null) {
                 bug.setStatus(OptionI18nEnum.BugStatus.Resolved.name());
-                bug.setResolution(OptionI18nEnum.BugResolution.Duplicate.name());
+                bug.setResolution(OptionI18nEnum.BugRelation.Duplicated.name());
                 bugService.updateSelectiveWithSession(bug, username);
             }
         }
         return super.saveWithSession(record, username);
+    }
+
+    @Override
+    public int removeDuplicatedBugs(Integer bugId) {
+        RelatedBugExample ex = new RelatedBugExample();
+        ex.createCriteria().andBugidEqualTo(bugId).andRelatetypeEqualTo(OptionI18nEnum.BugRelation.Duplicated.name());
+        return relatedBugMapper.deleteByExample(ex);
     }
 
     @Override

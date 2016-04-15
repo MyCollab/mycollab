@@ -37,7 +37,7 @@ public interface BugRelatedItemService extends IService {
 
     void saveComponentsOfBug(Integer bugId, List<Component> components);
 
-    void updateAfftedVersionsOfBug(Integer bugId, List<Version> versions);
+    void updateAffectedVersionsOfBug(Integer bugId, List<Version> versions);
 
     void updateFixedVersionsOfBug(Integer bugId, List<Version> versions);
 

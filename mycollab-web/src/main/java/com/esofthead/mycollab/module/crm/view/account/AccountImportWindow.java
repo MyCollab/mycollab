@@ -73,9 +73,7 @@ public class AccountImportWindow extends EntityImportWindow<Account> {
 
     @Override
     protected void reloadWhenBackToListView() {
-        EventBusFactory.getInstance().post(
-                new AccountEvent.GotoList(AccountListView.class,
-                        new AccountSearchCriteria()));
+        EventBusFactory.getInstance().post(new AccountEvent.GotoList(AccountListView.class, new AccountSearchCriteria()));
     }
 
 }

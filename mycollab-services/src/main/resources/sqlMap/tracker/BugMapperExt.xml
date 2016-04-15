@@ -329,7 +329,7 @@
 
     <sql id="selectBug">
         <![CDATA[
-          SELECT DISTINCT m_tracker_bug.id, m_tracker_bug.summary, m_tracker_bug.detail, m_tracker_bug.assignuser, m_tracker_bug.createdTime, 
+            SELECT DISTINCT m_tracker_bug.id, m_tracker_bug.summary, m_tracker_bug.detail, m_tracker_bug.assignuser, m_tracker_bug.createdTime,
                  m_tracker_bug.logby, m_tracker_bug.severity, m_tracker_bug.priority, m_tracker_bug.lastUpdatedTime,
                  m_tracker_bug.status, m_tracker_bug.duedate, m_tracker_bug.environment, m_tracker_bug.resolution,
                  m_tracker_bug.cus_int_01, m_tracker_bug.cus_int_02, m_tracker_bug.cus_int_03, m_tracker_bug.cus_int_04, 
@@ -366,17 +366,17 @@
                  (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = m_tracker_bug.projectId
                      AND m_prj_time_logging.type='Project-Bug' AND m_prj_time_logging.typeId=m_tracker_bug.id AND m_prj_time_logging.isBillable = 0) AS nonBillableHours,
                  (SELECT COUNT(*) FROM m_monitor_item WHERE m_monitor_item.typeId = m_tracker_bug.id AND m_monitor_item.type = 'Project-Bug') AS numFollowers
-           FROM m_tracker_bug
-               LEFT OUTER JOIN m_prj_project ON (m_tracker_bug.projectId = m_prj_project.id)
-               LEFT OUTER JOIN s_user AS assignuserTbl ON (m_tracker_bug.assignuser=assignuserTbl.username)
-               LEFT OUTER JOIN s_user AS loguserTbl ON (m_tracker_bug.logby=loguserTbl.username)
-               LEFT OUTER JOIN m_tracker_bug_related_item AS relatedItem1 ON (relatedItem1.bugid = m_tracker_bug.id AND relatedItem1.type='AffVersion')
-               LEFT OUTER JOIN m_tracker_version AS affectedversion ON (affectedversion.id = relatedItem1.typeId)
-               LEFT OUTER JOIN m_tracker_bug_related_item AS relatedItem2 ON (relatedItem2.bugid = m_tracker_bug.id AND relatedItem2.type='FixVersion')
-               LEFT OUTER JOIN m_tracker_version AS fixedversion ON (fixedversion.id = relatedItem2.typeId)
-               LEFT OUTER JOIN m_tracker_bug_related_item AS relatedItem3 ON (relatedItem3.bugid = m_tracker_bug.id AND relatedItem3.type='Component')
-               LEFT OUTER JOIN m_tracker_component AS component ON (component.id = relatedItem3.typeId)
-               LEFT OUTER JOIN m_prj_milestone AS milestone ON (m_tracker_bug.milestoneId=milestone.id)
+            FROM m_tracker_bug
+                LEFT OUTER JOIN m_prj_project ON (m_tracker_bug.projectId = m_prj_project.id)
+                LEFT OUTER JOIN s_user AS assignuserTbl ON (m_tracker_bug.assignuser=assignuserTbl.username)
+                LEFT OUTER JOIN s_user AS loguserTbl ON (m_tracker_bug.logby=loguserTbl.username)
+                LEFT OUTER JOIN m_tracker_bug_related_item AS relatedItem1 ON (relatedItem1.bugid = m_tracker_bug.id AND relatedItem1.type='AffVersion')
+                LEFT OUTER JOIN m_tracker_version AS affectedversion ON (affectedversion.id = relatedItem1.typeId)
+                LEFT OUTER JOIN m_tracker_bug_related_item AS relatedItem2 ON (relatedItem2.bugid = m_tracker_bug.id AND relatedItem2.type='FixVersion')
+                LEFT OUTER JOIN m_tracker_version AS fixedversion ON (fixedversion.id = relatedItem2.typeId)
+                LEFT OUTER JOIN m_tracker_bug_related_item AS relatedItem3 ON (relatedItem3.bugid = m_tracker_bug.id AND relatedItem3.type='Component')
+                LEFT OUTER JOIN m_tracker_component AS component ON (component.id = relatedItem3.typeId)
+                LEFT OUTER JOIN m_prj_milestone AS milestone ON (m_tracker_bug.milestoneId=milestone.id)
                
         ]]>
     </sql>
@@ -564,8 +564,7 @@
         #end
     </select>
 
-    <select id="getMaxKey" parameterType="java.lang.Integer"
-        resultType="java.lang.Integer" lang="velocity">
+    <select id="getMaxKey" parameterType="java.lang.Integer" resultType="java.lang.Integer" lang="velocity">
         <![CDATA[
         SELECT MAX(bugkey) 
             FROM m_tracker_bug
@@ -583,8 +582,8 @@
         <result column="numReOpenned" jdbcType="INTEGER" property="numReOpenned" />
     </resultMap>
 
-    <select id="getBugStatusGroupItemBaseComponent"
-        parameterType="BugSearchCriteria" resultMap="BugStatusGroupItemResult" lang="velocity">
+    <select id="getBugStatusGroupItemBaseComponent" parameterType="BugSearchCriteria"
+            resultMap="BugStatusGroupItemResult" lang="velocity">
         <![CDATA[
         SELECT m_tracker_component.componentname AS groupname, 
             (SELECT COUNT(*) 
@@ -593,25 +592,25 @@
                     AND m_tracker_bug.id = m_tracker_bug_related_item.bugid
                     AND m_tracker_bug_related_item.type = 'Component' 
                     AND m_tracker_component.id = m_tracker_bug_related_item.typeId) AS numOpen,
-             (SELECT COUNT(*) 
+            (SELECT COUNT(*)
                 FROM m_tracker_bug, m_tracker_bug_related_item
                 WHERE m_tracker_bug.status="InProgress" 
                     AND m_tracker_bug.id = m_tracker_bug_related_item.bugid
                     AND m_tracker_bug_related_item.type = 'Component' 
                     AND m_tracker_component.id = m_tracker_bug_related_item.typeId) AS numInProgress,
-              (SELECT COUNT(*) 
+            (SELECT COUNT(*)
                 FROM m_tracker_bug, m_tracker_bug_related_item
                 WHERE m_tracker_bug.status="Verified" 
                     AND m_tracker_bug.id = m_tracker_bug_related_item.bugid
                     AND m_tracker_bug_related_item.type = 'Component' 
                     AND m_tracker_component.id = m_tracker_bug_related_item.typeId) AS numVerified,
-               (SELECT COUNT(*) 
+            (SELECT COUNT(*)
                 FROM m_tracker_bug, m_tracker_bug_related_item
                 WHERE m_tracker_bug.status="Resolved" 
                     AND m_tracker_bug.id = m_tracker_bug_related_item.bugid
                     AND m_tracker_bug_related_item.type = 'Component' 
                     AND m_tracker_component.id = m_tracker_bug_related_item.typeId) AS numResolved,
-                (SELECT COUNT(*) 
+            (SELECT COUNT(*)
                 FROM m_tracker_bug, m_tracker_bug_related_item
                 WHERE m_tracker_bug.status="Reopenned" 
                     AND m_tracker_bug.id = m_tracker_bug_related_item.bugid

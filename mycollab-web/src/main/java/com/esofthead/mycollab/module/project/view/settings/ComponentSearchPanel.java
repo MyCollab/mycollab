@@ -19,7 +19,6 @@ package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -31,8 +30,8 @@ import com.esofthead.mycollab.module.project.i18n.ComponentI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.ComponentUtils;
 import com.esofthead.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
+import com.esofthead.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.web.ui.ShortcutExtension;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.event.ShortcutAction;
@@ -64,7 +63,7 @@ public class ComponentSearchPanel extends DefaultGenericSearchPanel<ComponentSea
     }
 
     @Override
-    protected void buildExtraControls() {
+    protected Component buildExtraControls() {
         Button createBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_NEW_COMPONENT), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
@@ -76,16 +75,14 @@ public class ComponentSearchPanel extends DefaultGenericSearchPanel<ComponentSea
         createBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.COMPONENTS));
         createBtn.setStyleName(UIConstants.BUTTON_ACTION);
         createBtn.setIcon(FontAwesome.PLUS);
-        this.addHeaderRight(createBtn);
+        return createBtn;
     }
 
-    @SuppressWarnings("rawtypes")
-    private class ComponentBasicSearchLayout extends BasicSearchLayout {
+    private class ComponentBasicSearchLayout extends BasicSearchLayout<ComponentSearchCriteria> {
         private static final long serialVersionUID = 1L;
         private TextField nameField;
         private CheckBox myItemCheckbox;
 
-        @SuppressWarnings("unchecked")
         public ComponentBasicSearchLayout() {
             super(ComponentSearchPanel.this);
         }
@@ -139,7 +136,7 @@ public class ComponentSearchPanel extends DefaultGenericSearchPanel<ComponentSea
         }
 
         @Override
-        protected SearchCriteria fillUpSearchCriteria() {
+        protected ComponentSearchCriteria fillUpSearchCriteria() {
             ComponentSearchCriteria searchCriteria = new ComponentSearchCriteria();
             searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
             searchCriteria.setComponentName(StringSearchField.and(this.nameField.getValue().trim()));

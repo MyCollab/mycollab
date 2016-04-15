@@ -102,7 +102,7 @@ public class VersionPreviewForm extends AdvancedPreviewBeanForm<Version> {
 
             final CheckBox openSelection = new BugStatusCheckbox(OptionI18nEnum.BugStatus.Open, true);
             CheckBox inprogressSelection = new BugStatusCheckbox(OptionI18nEnum.BugStatus.InProgress, true);
-            CheckBox reOpenSelection = new BugStatusCheckbox(OptionI18nEnum.BugStatus.ReOpened, true);
+            CheckBox reOpenSelection = new BugStatusCheckbox(OptionI18nEnum.BugStatus.ReOpen, true);
             CheckBox verifiedSelection = new BugStatusCheckbox(OptionI18nEnum.BugStatus.Verified, true);
             CheckBox resolvedSelection = new BugStatusCheckbox(OptionI18nEnum.BugStatus.Resolved, true);
             CheckBox wontFixSelection = new BugStatusCheckbox(OptionI18nEnum.BugStatus.WontFix, true);
@@ -118,7 +118,7 @@ public class VersionPreviewForm extends AdvancedPreviewBeanForm<Version> {
             searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
             searchCriteria.setVersionids(new SetSearchField<>(beanItem.getId()));
             searchCriteria.setStatuses(new SetSearchField<>(new String[]{OptionI18nEnum.BugStatus.Open.name(),
-                    OptionI18nEnum.BugStatus.InProgress.name(), OptionI18nEnum.BugStatus.ReOpened.name(),
+                    OptionI18nEnum.BugStatus.InProgress.name(), OptionI18nEnum.BugStatus.ReOpen.name(),
                     OptionI18nEnum.BugStatus.Verified.name(), OptionI18nEnum.BugStatus.Resolved.name(),
                     OptionI18nEnum.BugStatus.WontFix.name()}));
             updateSearchStatus();

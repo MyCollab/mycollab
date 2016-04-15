@@ -17,7 +17,10 @@
 package com.esofthead.mycollab.module.crm.view.contact;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.core.arguments.*;
+import com.esofthead.mycollab.core.arguments.NumberSearchField;
+import com.esofthead.mycollab.core.arguments.SearchField;
+import com.esofthead.mycollab.core.arguments.SetSearchField;
+import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.db.query.Param;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
@@ -64,7 +67,7 @@ public class ContactSearchPanel extends DefaultGenericSearchPanel<ContactSearchC
     }
 
     @Override
-    protected void buildExtraControls() {
+    protected Component buildExtraControls() {
         Button createBtn = new Button(AppContext.getMessage(ContactI18nEnum.BUTTON_NEW_CONTACT), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
@@ -76,7 +79,7 @@ public class ContactSearchPanel extends DefaultGenericSearchPanel<ContactSearchC
         createBtn.setIcon(FontAwesome.PLUS);
         createBtn.setStyleName(UIConstants.BUTTON_ACTION);
         createBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CONTACT));
-        this.addHeaderRight(createBtn);
+        return createBtn;
     }
 
     @SuppressWarnings("unchecked")
@@ -90,7 +93,7 @@ public class ContactSearchPanel extends DefaultGenericSearchPanel<ContactSearchC
         return new ContactAdvancedSearchLayout();
     }
 
-    private class ContactBasicSearchLayout extends BasicSearchLayout {
+    private class ContactBasicSearchLayout extends BasicSearchLayout<ContactSearchCriteria> {
         private static final long serialVersionUID = 1L;
         private TextField nameField;
         private CheckBox myItemCheckbox;
@@ -158,7 +161,7 @@ public class ContactSearchPanel extends DefaultGenericSearchPanel<ContactSearchC
         }
 
         @Override
-        protected SearchCriteria fillUpSearchCriteria() {
+        protected ContactSearchCriteria fillUpSearchCriteria() {
             ContactSearchCriteria searchCriteria = new ContactSearchCriteria();
             searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
             if (StringUtils.isNotBlank(this.nameField.getValue().trim())) {

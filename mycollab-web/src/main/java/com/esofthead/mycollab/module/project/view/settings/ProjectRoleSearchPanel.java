@@ -18,7 +18,6 @@ package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -28,8 +27,8 @@ import com.esofthead.mycollab.module.project.events.ProjectRoleEvent;
 import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectRoleI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
+import com.esofthead.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.web.ui.ShortcutExtension;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.event.ShortcutAction;
@@ -62,7 +61,7 @@ public class ProjectRoleSearchPanel extends DefaultGenericSearchPanel<ProjectRol
     }
 
     @Override
-    protected void buildExtraControls() {
+    protected Component buildExtraControls() {
         Button createBtn = new Button(AppContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_ROLE), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
@@ -74,15 +73,13 @@ public class ProjectRoleSearchPanel extends DefaultGenericSearchPanel<ProjectRol
         createBtn.setStyleName(UIConstants.BUTTON_ACTION);
         createBtn.setIcon(FontAwesome.PLUS);
         createBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.ROLES));
-        this.addHeaderRight(createBtn);
+        return createBtn;
     }
 
-    @SuppressWarnings("rawtypes")
-    private class ProjectRoleBasicSearchLayout extends BasicSearchLayout {
+    private class ProjectRoleBasicSearchLayout extends BasicSearchLayout<ProjectRoleSearchCriteria> {
         private static final long serialVersionUID = 1L;
         private TextField nameField;
 
-        @SuppressWarnings("unchecked")
         public ProjectRoleBasicSearchLayout() {
             super(ProjectRoleSearchPanel.this);
         }
@@ -135,7 +132,7 @@ public class ProjectRoleSearchPanel extends DefaultGenericSearchPanel<ProjectRol
         }
 
         @Override
-        protected SearchCriteria fillUpSearchCriteria() {
+        protected ProjectRoleSearchCriteria fillUpSearchCriteria() {
             ProjectRoleSearchCriteria searchCriteria = new ProjectRoleSearchCriteria();
             searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
             searchCriteria.setRolename(StringSearchField.and(nameField.getValue()));

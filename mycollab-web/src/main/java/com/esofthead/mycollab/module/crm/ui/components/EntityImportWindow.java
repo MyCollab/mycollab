@@ -23,8 +23,8 @@ import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.persistence.service.ICrudService;
 import com.esofthead.mycollab.iexporter.CSVObjectEntityConverter.FieldMapperDef;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
+import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -61,8 +61,7 @@ public abstract class EntityImportWindow<E> extends Window {
     private boolean isSupportCSV = true;
     private boolean isSupportVCard = false;
 
-    public EntityImportWindow(boolean isSupportVCard, String title,
-                              ICrudService service, Class<E> cls) {
+    public EntityImportWindow(boolean isSupportVCard, String title, ICrudService service, Class<E> cls) {
         super(title);
         center();
         this.setWidth("1000px");
@@ -92,7 +91,6 @@ public abstract class EntityImportWindow<E> extends Window {
 
         public FileConfigurationLayout() {
             MVerticalLayout layout = new MVerticalLayout().withWidth("100%");
-
             MHorizontalLayout informationLayout = new MHorizontalLayout().withWidth("100%");
 
             CssLayout fileUploadLayout = fileUploadLayout();
@@ -102,8 +100,7 @@ public abstract class EntityImportWindow<E> extends Window {
             informationLayout.addComponent(fileInfomationLayout);
             layout.addComponent(informationLayout);
 
-            MHorizontalLayout controlGroupBtn = new MHorizontalLayout()
-                    .withSpacing(true);
+            MHorizontalLayout controlGroupBtn = new MHorizontalLayout();
             Button nextBtn = new Button("Next");
 
             nextBtn.addClickListener(new ClickListener() {
@@ -114,31 +111,24 @@ public abstract class EntityImportWindow<E> extends Window {
                     try {
                         contentStream = uploadField.getContentAsStream();
                     } catch (Exception e) {
-                        NotificationUtil.showWarningNotification(AppContext
-                                .getMessage(FileI18nEnum.NOT_ATTACH_FILE_WARNING));
+                        NotificationUtil.showWarningNotification(AppContext.getMessage(FileI18nEnum.NOT_ATTACH_FILE_WARNING));
                     }
                     if (contentStream != null) {
                         String filename = uploadField.getFileName();
-                        String fileuploadType = filename.substring(
-                                filename.indexOf(".") + 1, filename.length());
+                        String fileuploadType = filename.substring(filename.indexOf(".") + 1, filename.length());
                         if (fileuploadType.equals("vcf") && isSupportVCard) {
-                            ConfirmDialogExt.show(
-                                    UI.getCurrent(),
+                            ConfirmDialogExt.show(UI.getCurrent(),
                                     "Message information",
                                     "You choose a vcf file. This step will import to database. Do you want to do it?",
-                                    AppContext
-                                            .getMessage(FileI18nEnum.IMPORT_FILE),
-                                    AppContext
-                                            .getMessage(GenericI18Enum.BUTTON_CANCEL),
+                                    AppContext.getMessage(FileI18nEnum.IMPORT_FILE),
+                                    AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
                                     new ConfirmDialog.Listener() {
                                         private static final long serialVersionUID = 1L;
 
                                         @Override
                                         public void onClose(ConfirmDialog dialog) {
                                             if (dialog.isConfirmed()) {
-
-                                                throw new MyCollabException(
-                                                        "did not support this feature");
+                                                throw new MyCollabException("did not support this feature");
                                             }
                                         }
                                     });
@@ -160,10 +150,8 @@ public abstract class EntityImportWindow<E> extends Window {
                             }
 
                         } else {
-                            int uploadFieldIndex = uploadFieldVerticalLayout
-                                    .getComponentIndex(uploadField);
-                            uploadFieldVerticalLayout
-                                    .removeComponent(uploadField);
+                            int uploadFieldIndex = uploadFieldVerticalLayout.getComponentIndex(uploadField);
+                            uploadFieldVerticalLayout.removeComponent(uploadField);
 
                             uploadField = new SingleFileUploadField();
                             uploadField.addListener(new ValueChangeListener() {
@@ -172,9 +160,7 @@ public abstract class EntityImportWindow<E> extends Window {
                                 @Override
                                 public void valueChange(ValueChangeEvent event) {
                                     String filename = uploadField.getFileName();
-                                    String fileuploadType = filename.substring(
-                                            filename.indexOf(".") + 1,
-                                            filename.length());
+                                    String fileuploadType = filename.substring(filename.indexOf(".") + 1, filename.length());
                                     if (fileuploadType.equals("vcf")) {
                                         fileformatComboBox.setValue("VCard");
                                         fileformatComboBox.setEnabled(false);
@@ -185,19 +171,14 @@ public abstract class EntityImportWindow<E> extends Window {
                                 }
                             });
 
-                            uploadFieldVerticalLayout.addComponent(uploadField,
-                                    uploadFieldIndex);
-
-                            NotificationUtil.showWarningNotification(AppContext
-                                    .getMessage(FileI18nEnum.CHOOSE_SUPPORT_FILE_TYPES_WARNING));
-
+                            uploadFieldVerticalLayout.addComponent(uploadField, uploadFieldIndex);
+                            NotificationUtil.showWarningNotification(AppContext.getMessage(FileI18nEnum.CHOOSE_SUPPORT_FILE_TYPES_WARNING));
                         }
                     }
                 }
             });
             nextBtn.addStyleName(UIConstants.BUTTON_ACTION);
-            controlGroupBtn.with(nextBtn).withAlign(nextBtn,
-                    Alignment.MIDDLE_CENTER);
+            controlGroupBtn.with(nextBtn).withAlign(nextBtn, Alignment.MIDDLE_CENTER);
 
             Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new ClickListener() {
                 private static final long serialVersionUID = 1L;
@@ -214,7 +195,6 @@ public abstract class EntityImportWindow<E> extends Window {
             this.addComponent(layout);
         }
 
-        @SuppressWarnings("unchecked")
         private CssLayout fileConfigurationLayout() {
             final CssLayout bodyLayoutWapper = new CssLayout();
             bodyLayoutWapper.addStyleName(UIConstants.BOX);
@@ -254,17 +234,14 @@ public abstract class EntityImportWindow<E> extends Window {
             gridLayout.addComponent(fileformatComboBox, "File Type", 0, 0);
 
             ComboBox encodingCombobox = new ComboBox();
-            encodingCombobox
-                    .setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
+            encodingCombobox.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
             encodingCombobox.addItem("UTF-8");
             encodingCombobox.setValue("UTF-8");
             encodingCombobox.setEnabled(false);
-            gridLayout.addComponent(encodingCombobox, "Character Encoding", 0,
-                    1);
+            gridLayout.addComponent(encodingCombobox, "Character Encoding", 0, 1);
 
             ComboBox delimiterComboBox = new ComboBox();
-            delimiterComboBox
-                    .setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
+            delimiterComboBox.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
             delimiterComboBox.addItem(",(comma)");
             delimiterComboBox.addItem("#,(sharp)");
 
@@ -276,12 +253,10 @@ public abstract class EntityImportWindow<E> extends Window {
             hasHeaderCheckBox = new CheckBox();
             checkboxHorizontalLayout.addComponent(hasHeaderCheckBox);
 
-            Label checkboxMessageLabel = new Label(
-                    "(Has header at first-line?)");
+            Label checkboxMessageLabel = new Label("(Has header at first-line?)");
             checkboxHorizontalLayout.addComponent(checkboxMessageLabel);
 
-            gridLayout.addComponent(checkboxHorizontalLayout, "Has header", 0,
-                    3);
+            gridLayout.addComponent(checkboxHorizontalLayout, "Has header", 0, 3);
             informationLayout.addComponent(gridLayout.getLayout());
 
             bodyLayout.addComponent(informationLayout);
@@ -297,8 +272,7 @@ public abstract class EntityImportWindow<E> extends Window {
             bodyLayoutWapper.setHeight("100%");
             bodyLayoutWapper.addStyleName(UIConstants.BOX);
 
-            final MHorizontalLayout bodyLayout = new MHorizontalLayout()
-                    .withSpacing(true).withMargin(true).withHeight("100%");
+            final MHorizontalLayout bodyLayout = new MHorizontalLayout().withMargin(true).withHeight("100%");
 
             Label title = new Label("Step 1:");
             title.addStyleName("h3");
@@ -320,8 +294,7 @@ public abstract class EntityImportWindow<E> extends Window {
                 @Override
                 public void valueChange(ValueChangeEvent event) {
                     String filename = uploadField.getFileName();
-                    String fileuploadType = filename.substring(
-                            filename.indexOf(".") + 1, filename.length());
+                    String fileuploadType = filename.substring(filename.indexOf(".") + 1, filename.length());
                     if (fileuploadType.equals("vcf")) {
                         fileformatComboBox.setValue("VCard");
                         fileformatComboBox.setEnabled(false);
@@ -333,10 +306,8 @@ public abstract class EntityImportWindow<E> extends Window {
             });
             uploadFieldVerticalLayout.addComponent(uploadField);
 
-            String fileTypeSupportString = (isSupportVCard) ? "Supported Fileds Type : VCF, CSV"
-                    : "Supported Files Type : CSV";
-            uploadFieldVerticalLayout.addComponent(new Label(
-                    fileTypeSupportString));
+            String fileTypeSupportString = (isSupportVCard) ? "Supported Fileds Type : VCF, CSV" : "Supported Files Type : CSV";
+            uploadFieldVerticalLayout.addComponent(new Label(fileTypeSupportString));
 
             bodyLayout.addComponent(uploadFieldVerticalLayout);
             bodyLayout.setExpandRatio(uploadFieldVerticalLayout, 1.0f);
@@ -360,9 +331,7 @@ public abstract class EntityImportWindow<E> extends Window {
             this.setWidth("100%");
             this.addStyleName(UIConstants.BOX);
 
-            final MHorizontalLayout bodyLayout = new MHorizontalLayout()
-                    .withMargin(new MarginInfo(false, false, false, true))
-                    .withSpacing(true);
+            final MHorizontalLayout bodyLayout = new MHorizontalLayout().withMargin(new MarginInfo(false, false, false, true));
 
             final HorizontalLayout titleHorizontal = new HorizontalLayout();
             Label title = new Label("Step 3:");
@@ -537,8 +506,7 @@ public abstract class EntityImportWindow<E> extends Window {
                 String[] stringHeader = csvReader.readNext();
                 for (int i = 0; i < stringHeader.length; i++) {
 
-                    final CSVBeanFieldComboBox crmFieldComboBox = new CSVBeanFieldComboBox(
-                            contactCrmFields);
+                    final CSVBeanFieldComboBox crmFieldComboBox = new CSVBeanFieldComboBox(contactCrmFields);
 
                     // String headerStr = stringHeader[i];
                     // gridCrmMapping.addComponent(new Label(headerStr),

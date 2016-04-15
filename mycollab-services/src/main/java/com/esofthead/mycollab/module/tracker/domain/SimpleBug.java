@@ -169,7 +169,11 @@ public class SimpleBug extends BugWithBLOBs {
     }
 
     public boolean isCompleted() {
-        return BugStatus.Verified.name().equals(getStatus()) || BugStatus.Resolved.name().equals(getStatus());
+        return isCompleted(this);
+    }
+
+    public static final boolean isCompleted(BugWithBLOBs bug) {
+        return BugStatus.Verified.name().equals(bug.getStatus()) || BugStatus.Resolved.name().equals(bug.getStatus());
     }
 
     public Double getBillableHours() {
@@ -189,16 +193,19 @@ public class SimpleBug extends BugWithBLOBs {
     }
 
     public boolean isOverdue() {
-        if (BugStatus.Verified.name().equals(getStatus())) {
+        return isOverdue(this);
+    }
+
+    public static boolean isOverdue(BugWithBLOBs bug) {
+        if (BugStatus.Verified.name().equals(bug.getStatus())) {
             return false;
         }
 
-        if (this.getDuedate() != null) {
+        if (bug.getDuedate() != null) {
             Calendar today = Calendar.getInstance();
             today.set(Calendar.HOUR_OF_DAY, 0);
             Date todayDate = today.getTime();
-
-            return todayDate.after(this.getDuedate());
+            return todayDate.after(bug.getDuedate());
         } else {
             return false;
         }

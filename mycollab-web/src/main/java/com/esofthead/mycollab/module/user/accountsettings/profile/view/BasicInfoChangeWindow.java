@@ -24,7 +24,7 @@ import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.module.user.ui.components.LanguageComboBox;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.DateComboboxSelectionField;
+import com.esofthead.mycollab.vaadin.ui.DateSelectionField;
 import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.web.ui.TimeZoneSelectionField;
@@ -52,7 +52,7 @@ class BasicInfoChangeWindow extends Window {
     private TextField txtFirstName = new TextField();
     private TextField txtLastName = new TextField();
     private TextField txtEmail = new TextField();
-    private DateComboboxSelectionField birthdayField = new DateComboboxSelectionField();
+    private DateSelectionField birthdayField = new DateSelectionField();
     private TimeZoneSelectionField timeZoneField = new TimeZoneSelectionField(true);
     private LanguageComboBox languageBox = new LanguageComboBox();
 
@@ -116,7 +116,7 @@ class BasicInfoChangeWindow extends Window {
         saveBtn.setStyleName(UIConstants.BUTTON_ACTION);
         saveBtn.setIcon(FontAwesome.SAVE);
 
-        hlayoutControls.with(saveBtn, cancelBtn).alignAll(Alignment.MIDDLE_CENTER);
+        hlayoutControls.with(cancelBtn, saveBtn).alignAll(Alignment.MIDDLE_CENTER);
         mainLayout.with(hlayoutControls).withAlign(hlayoutControls, Alignment.MIDDLE_RIGHT);
 
         this.setModal(true);
@@ -153,6 +153,5 @@ class BasicInfoChangeWindow extends Window {
         userService.updateWithSession(user, AppContext.getUsername());
         close();
         Page.getCurrent().getJavaScript().execute("window.location.reload();");
-
     }
 }

@@ -25,7 +25,7 @@ import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.utils.XStreamJsonDeSerializer;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.events.PagableHandler;
+import com.esofthead.mycollab.vaadin.events.PageableHandler;
 import com.esofthead.mycollab.vaadin.events.SelectableItemHandler;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItem;
@@ -42,6 +42,8 @@ import org.slf4j.LoggerFactory;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.*;
+
+import static com.esofthead.mycollab.vaadin.web.ui.UIConstants.SCROLLABLE_CONTAINER;
 
 /**
  * @param <S>
@@ -72,7 +74,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
     protected HorizontalLayout controlBarWrapper;
 
     protected Set<SelectableItemHandler<B>> selectableHandlers;
-    protected Set<PagableHandler> pagableHandlers;
+    protected Set<PageableHandler> pageableHandlers;
 
     protected Class<B> type;
 
@@ -116,6 +118,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
         this.defaultSelectedColumns = displayColumns;
         this.requiredColumn = requiredColumn;
         this.type = type;
+        addStyleName(SCROLLABLE_CONTAINER);
     }
 
     public void setDisplayColumns(List<TableViewField> viewFields) {
@@ -173,11 +176,11 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
     }
 
     @Override
-    public void addPagableHandler(final PagableHandler handler) {
-        if (pagableHandlers == null) {
-            pagableHandlers = new HashSet<>();
+    public void addPageableHandler(final PageableHandler handler) {
+        if (pageableHandlers == null) {
+            pageableHandlers = new HashSet<>();
         }
-        pagableHandlers.add(handler);
+        pageableHandlers.add(handler);
 
     }
 
@@ -235,8 +238,8 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
             searchRequest.setCurrentPage(currentPage);
             doSearch();
 
-            if (pagableHandlers != null) {
-                for (final PagableHandler handler : pagableHandlers) {
+            if (pageableHandlers != null) {
+                for (final PageableHandler handler : pageableHandlers) {
                     handler.move(currentPage);
                 }
             }

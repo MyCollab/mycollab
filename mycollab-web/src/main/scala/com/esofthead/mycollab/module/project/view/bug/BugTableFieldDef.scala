@@ -35,7 +35,7 @@ object BugTableFieldDef {
     val duedate = new TableViewField(BugI18nEnum.FORM_DUE_DATE, "duedate", UIConstants.TABLE_DATE_WIDTH)
     val logBy = new TableViewField(BugI18nEnum.FORM_LOG_BY, "loguserFullName", UIConstants.TABLE_X_LABEL_WIDTH)
     val priority = new TableViewField(BugI18nEnum.FORM_PRIORITY, "priority", UIConstants.TABLE_S_LABEL_WIDTH)
-    val resolution = new TableViewField(BugI18nEnum.FORM_RESOLUTION, "resolution", UIConstants.TABLE_S_LABEL_WIDTH)
+    val resolution = new TableViewField(BugI18nEnum.FORM_RESOLUTION, "resolution", UIConstants.TABLE_M_LABEL_WIDTH)
     val createdTime = new TableViewField(BugI18nEnum.FORM_CREATED_TIME, "createdtime", UIConstants.TABLE_DATE_TIME_WIDTH)
     val assignUser = new TableViewField(GenericI18Enum.FORM_ASSIGNEE, "assignuserFullName", UIConstants.TABLE_X_LABEL_WIDTH)
     val billableHours = new TableViewField(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS, "billableHours",

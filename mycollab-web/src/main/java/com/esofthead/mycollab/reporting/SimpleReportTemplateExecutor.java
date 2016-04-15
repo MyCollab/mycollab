@@ -55,8 +55,7 @@ public abstract class SimpleReportTemplateExecutor<T> extends ReportTemplateExec
     protected Class<T> classType;
     protected RpFieldsBuilder fieldBuilder;
 
-    public SimpleReportTemplateExecutor(String reportTitle, RpFieldsBuilder fieldBuilder, ReportExportType outputForm,
-                                        Class<T> classType) {
+    public SimpleReportTemplateExecutor(String reportTitle, RpFieldsBuilder fieldBuilder, ReportExportType outputForm, Class<T> classType) {
         super(AppContext.getUserTimezone(), AppContext.getUserLocale(), reportTitle, outputForm);
         this.fieldBuilder = fieldBuilder;
         this.classType = classType;
@@ -103,8 +102,9 @@ public abstract class SimpleReportTemplateExecutor<T> extends ReportTemplateExec
         if (outputForm == ReportExportType.PDF) {
             reportBuilder.toPdf(outputStream);
         } else if (outputForm == ReportExportType.CSV) {
-            JasperCsvExporterBuilder csvExporter = export.csvExporter(outputStream);
             reportBuilder.ignorePageWidth();
+            reportBuilder.ignorePagination();
+            JasperCsvExporterBuilder csvExporter = export.csvExporter(outputStream);
             reportBuilder.toCsv(csvExporter);
         } else if (outputForm == ReportExportType.EXCEL) {
             JasperXlsxExporterBuilder xlsExporter = export.xlsxExporter(outputStream)
@@ -121,25 +121,22 @@ public abstract class SimpleReportTemplateExecutor<T> extends ReportTemplateExec
         reportBuilder.setParameters(parameters);
         if (outputForm == ReportExportType.PDF) {
             reportBuilder
-                    .title(defaultTitleComponent())
+                    .title(headerCreator(reportTitle), cmp.verticalGap(10))
                     .setPageFormat(PageType.A3, PageOrientation.LANDSCAPE)
                     .setHighlightDetailEvenRows(true)
                     .setColumnStyle(stl.style(stl.style().setLeftPadding(4)))
                     .setColumnTitleStyle(reportTemplate.getColumnTitleStyle())
                     .pageFooter(cmp.pageXofY())
                     .setLocale(locale);
-
         } else if (outputForm == ReportExportType.CSV) {
-            reportBuilder.setIgnorePagination(true);
+            reportBuilder.title(headerCreator(reportTitle));
         } else if (outputForm == ReportExportType.EXCEL) {
-            reportBuilder.title(defaultTitleComponent()).setColumnTitleStyle(reportTemplate.getColumnTitleStyle())
+            reportBuilder.title(headerCreator(reportTitle), cmp.verticalGap(10)).setColumnTitleStyle(reportTemplate.getColumnTitleStyle())
                     .addProperty(JasperProperty.EXPORT_XLS_FREEZE_ROW, "2").ignorePageWidth().ignorePagination();
 
         } else {
             throw new IllegalArgumentException("Do not support output type " + outputForm);
         }
-
-        reportBuilder.title(headerCreator(reportTitle), cmp.verticalGap(10));
 
         return reportBuilder;
     }
@@ -159,6 +156,7 @@ public abstract class SimpleReportTemplateExecutor<T> extends ReportTemplateExec
             this.searchService = searchService;
         }
 
+        @Override
         protected ComponentBuilder headerCreator(String title) {
             S searchCriteria = (S) parameters.get(CRITERIA);
             totalItems = searchService.getTotalCount(searchCriteria);
@@ -180,6 +178,7 @@ public abstract class SimpleReportTemplateExecutor<T> extends ReportTemplateExec
             this.data = data;
         }
 
+        @Override
         protected ComponentBuilder headerCreator(String title) {
             int totalItems = data.size();
             return super.headerCreator(title + "(" + totalItems + ")");

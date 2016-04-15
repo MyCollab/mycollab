@@ -62,17 +62,17 @@ public class AccountSearchPanel extends DefaultGenericSearchPanel<AccountSearchC
     }
 
     @Override
-    protected void buildExtraControls() {
-        Button createAccountBtn = new Button(AppContext.getMessage(AccountI18nEnum.BUTTON_NEW_ACCOUNT), new Button.ClickListener() {
+    protected Component buildExtraControls() {
+        Button newBtn = new Button(AppContext.getMessage(AccountI18nEnum.BUTTON_NEW_ACCOUNT), new Button.ClickListener() {
             @Override
             public void buttonClick(final ClickEvent event) {
                 EventBusFactory.getInstance().post(new AccountEvent.GotoAdd(this, null));
             }
         });
-        createAccountBtn.setStyleName(UIConstants.BUTTON_ACTION);
-        createAccountBtn.setIcon(FontAwesome.PLUS);
-        createAccountBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_ACCOUNT));
-        this.addHeaderRight(createAccountBtn);
+        newBtn.setStyleName(UIConstants.BUTTON_ACTION);
+        newBtn.setIcon(FontAwesome.PLUS);
+        newBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_ACCOUNT));
+        return newBtn;
     }
 
     @Override

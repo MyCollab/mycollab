@@ -57,19 +57,15 @@ public class ContactImportWindow extends EntityImportWindow<Contact> {
                 new FieldMapperDef("assistant", "Assistant"),
                 new FieldMapperDef("assistantphone", "Assistant Phone"),
                 new FieldMapperDef("leadsource", "Leader Source"),
-                new FieldMapperDef("officephone",
-                        AppContext
-                                .getMessage(ContactI18nEnum.FORM_OFFICE_PHONE)),
+                new FieldMapperDef("officephone", AppContext
+                        .getMessage(ContactI18nEnum.FORM_OFFICE_PHONE)),
                 new FieldMapperDef("mobile", "Mobile"),
                 new FieldMapperDef("homephone", "Home Phone"),
                 new FieldMapperDef("otherphone", "Other Phone"),
                 new FieldMapperDef("fax", "Fax"),
-                new FieldMapperDef("birthday", "Birthday",
-                        new CSVDateFormatter()),
-                new FieldMapperDef("iscallable", "Callable",
-                        new CSVBooleanFormatter()),
-                new FieldMapperDef("assignuser",
-                        AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)),
+                new FieldMapperDef("birthday", "Birthday", new CSVDateFormatter()),
+                new FieldMapperDef("iscallable", "Callable", new CSVBooleanFormatter()),
+                new FieldMapperDef("assignuser", AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)),
                 new FieldMapperDef("primaddress", "Address"),
                 new FieldMapperDef("primcity", "City"),
                 new FieldMapperDef("primstate", "State"),
@@ -88,9 +84,6 @@ public class ContactImportWindow extends EntityImportWindow<Contact> {
     protected void reloadWhenBackToListView() {
         ContactSearchCriteria contactSearchCriteria = new ContactSearchCriteria();
         contactSearchCriteria.setContactName(StringSearchField.and(""));
-        EventBusFactory.getInstance().post(
-                new ContactEvent.GotoList(ContactListView.class,
-                        contactSearchCriteria));
+        EventBusFactory.getInstance().post(new ContactEvent.GotoList(ContactListView.class, contactSearchCriteria));
     }
-
 }

@@ -64,20 +64,32 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
             BugSearchCriteria.p_duedate, BugSearchCriteria.p_createdtime,
             BugSearchCriteria.p_lastupdatedtime};
 
+    public BugSearchPanel() {
+        super();
+    }
+
+    public BugSearchPanel(boolean canSwitchToAdvanceLayout) {
+        super(canSwitchToAdvanceLayout);
+    }
+
     @Override
     protected ComponentContainer buildSearchTitle() {
-        savedFilterComboBox = new BugSavedFilterComboBox();
-        savedFilterComboBox.addQuerySelectListener(new SavedFilterComboBox.QuerySelectListener() {
-            @Override
-            public void querySelect(SavedFilterComboBox.QuerySelectEvent querySelectEvent) {
-                List<SearchFieldInfo> fieldInfos = querySelectEvent.getSearchFieldInfos();
-                BugSearchCriteria criteria = SearchFieldInfo.buildSearchCriteria(BugSearchCriteria.class, fieldInfos);
-                criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-                EventBusFactory.getInstance().post(new BugEvent.SearchRequest(BugSearchPanel.this, criteria));
-            }
-        });
-        ELabel taskIcon = ELabel.h2(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG).getHtml()).withWidthUndefined();
-        return new MHorizontalLayout(taskIcon, savedFilterComboBox).expand(savedFilterComboBox).alignAll(Alignment.MIDDLE_LEFT);
+        if (canSwitchToAdvanceLayout) {
+            savedFilterComboBox = new BugSavedFilterComboBox();
+            savedFilterComboBox.addQuerySelectListener(new SavedFilterComboBox.QuerySelectListener() {
+                @Override
+                public void querySelect(SavedFilterComboBox.QuerySelectEvent querySelectEvent) {
+                    List<SearchFieldInfo> fieldInfos = querySelectEvent.getSearchFieldInfos();
+                    BugSearchCriteria criteria = SearchFieldInfo.buildSearchCriteria(BugSearchCriteria.class, fieldInfos);
+                    criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+                    EventBusFactory.getInstance().post(new BugEvent.SearchRequest(BugSearchPanel.this, criteria));
+                }
+            });
+            ELabel taskIcon = ELabel.h2(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG).getHtml()).withWidthUndefined();
+            return new MHorizontalLayout(taskIcon, savedFilterComboBox).expand(savedFilterComboBox).alignAll(Alignment.MIDDLE_LEFT);
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -147,14 +159,16 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
             cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
             basicSearchBody.addComponent(cancelBtn);
 
-            Button advancedSearchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH), new Button.ClickListener() {
-                @Override
-                public void buttonClick(final ClickEvent event) {
-                    moveToAdvancedSearchLayout();
-                }
-            });
-            advancedSearchBtn.setStyleName(UIConstants.BUTTON_LINK);
-            basicSearchBody.with(advancedSearchBtn).withAlign(advancedSearchBtn, Alignment.MIDDLE_CENTER);
+            if (canSwitchToAdvanceLayout) {
+                Button advancedSearchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH), new Button.ClickListener() {
+                    @Override
+                    public void buttonClick(final ClickEvent event) {
+                        moveToAdvancedSearchLayout();
+                    }
+                });
+                advancedSearchBtn.setStyleName(UIConstants.BUTTON_LINK);
+                basicSearchBody.with(advancedSearchBtn).withAlign(advancedSearchBtn, Alignment.MIDDLE_CENTER);
+            }
 
             return basicSearchBody;
         }

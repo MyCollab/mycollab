@@ -20,6 +20,7 @@ import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
@@ -33,8 +34,14 @@ public abstract class DefaultGenericSearchPanel<S extends SearchCriteria> extend
 
     private MHorizontalLayout header;
     private ComponentContainer headerText;
+    protected boolean canSwitchToAdvanceLayout;
 
     public DefaultGenericSearchPanel() {
+        this(true);
+    }
+
+    public DefaultGenericSearchPanel(boolean canSwitchToAdvanceLayout) {
+        this.canSwitchToAdvanceLayout = canSwitchToAdvanceLayout;
         moveToBasicSearchLayout();
     }
 
@@ -44,20 +51,25 @@ public abstract class DefaultGenericSearchPanel<S extends SearchCriteria> extend
 
     abstract protected ComponentContainer buildSearchTitle();
 
-    protected void buildExtraControls() {
+    protected Component buildExtraControls() {
+        return null;
     }
 
     protected ComponentContainer constructHeader() {
         if (header == null) {
             headerText = buildSearchTitle();
-            MHorizontalLayout rightComponent = new MHorizontalLayout();
+            if (headerText != null) {
+                MHorizontalLayout rightComponent = new MHorizontalLayout();
+                header = new MHorizontalLayout().withWidth("100%").withMargin(new MarginInfo(true, false, true, false));
 
-            header = new MHorizontalLayout().withWidth("100%").withMargin(new MarginInfo(true, false, true, false));
+                header.with(headerText, rightComponent).withAlign(headerText, Alignment.MIDDLE_LEFT)
+                        .withAlign(rightComponent, Alignment.MIDDLE_RIGHT).expand(headerText);
+            }
 
-            header.with(headerText, rightComponent).withAlign(headerText, Alignment.MIDDLE_LEFT)
-                    .withAlign(rightComponent, Alignment.MIDDLE_RIGHT).expand(headerText);
-
-            buildExtraControls();
+            Component extraControls = buildExtraControls();
+            if (extraControls != null) {
+                addHeaderRight(extraControls);
+            }
             return header;
         } else {
             return header;

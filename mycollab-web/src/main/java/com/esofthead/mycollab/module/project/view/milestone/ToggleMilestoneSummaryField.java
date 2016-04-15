@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.milestone;
 
+import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
@@ -26,6 +27,7 @@ import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
+import com.esofthead.mycollab.vaadin.web.ui.AbstractToggleSummaryField;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
@@ -35,20 +37,16 @@ import com.vaadin.event.FieldEvents;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.themes.ValoTheme;
-import org.vaadin.teemu.VaadinIcons;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
  * @author MyCollab Ltd
  * @since 5.2.3
  */
-public class ToggleMilestoneSummaryField extends CssLayout {
+public class ToggleMilestoneSummaryField extends AbstractToggleSummaryField {
     private boolean isRead = true;
-    private ELabel milestoneLbl;
-    private MHorizontalLayout buttonControls;
     private SimpleMilestone milestone;
     private int maxLength;
 
@@ -60,10 +58,10 @@ public class ToggleMilestoneSummaryField extends CssLayout {
         this.milestone = milestone;
         this.maxLength = maxLength;
         this.setWidth("100%");
-        milestoneLbl = new ELabel(buildMilestoneLink(), ContentMode.HTML).withStyleName(ValoTheme.LABEL_H3).withWidthUndefined();
-        milestoneLbl.addStyleName(ValoTheme.LABEL_NO_MARGIN);
-        milestoneLbl.addStyleName(UIConstants.LABEL_WORD_WRAP);
-        this.addComponent(milestoneLbl);
+        titleLinkLbl = new ELabel(buildMilestoneLink(), ContentMode.HTML).withStyleName(ValoTheme.LABEL_H3).withWidthUndefined();
+        titleLinkLbl.addStyleName(ValoTheme.LABEL_NO_MARGIN);
+        titleLinkLbl.addStyleName(UIConstants.LABEL_WORD_WRAP);
+        this.addComponent(titleLinkLbl);
         buttonControls = new MHorizontalLayout().withStyleName("toggle").withSpacing(false);
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES)) {
             this.addStyleName("editable-field");
@@ -71,7 +69,7 @@ public class ToggleMilestoneSummaryField extends CssLayout {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
                     if (isRead) {
-                        ToggleMilestoneSummaryField.this.removeComponent(milestoneLbl);
+                        ToggleMilestoneSummaryField.this.removeComponent(titleLinkLbl);
                         ToggleMilestoneSummaryField.this.removeComponent(buttonControls);
                         final TextField editField = new TextField();
                         editField.setValue(milestone.getName());
@@ -106,15 +104,15 @@ public class ToggleMilestoneSummaryField extends CssLayout {
 
     private void updateFieldValue(TextField editField) {
         removeComponent(editField);
-        addComponent(milestoneLbl);
+        addComponent(titleLinkLbl);
         addComponent(buttonControls);
         addStyleName("editable-field");
         String newValue = editField.getValue();
         if (StringUtils.isNotBlank(newValue) && !newValue.equals(milestone.getName())) {
             milestone.setName(newValue);
-            milestoneLbl.setValue(buildMilestoneLink());
+            titleLinkLbl.setValue(buildMilestoneLink());
             MilestoneService milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
-            milestoneService.updateWithSession(milestone, AppContext.getUsername());
+            milestoneService.updateSelectiveWithSession(BeanUtility.deepClone(milestone), AppContext.getUsername());
         }
 
         isRead = !isRead;
@@ -124,8 +122,7 @@ public class ToggleMilestoneSummaryField extends CssLayout {
         A milestoneLink = new A(ProjectLinkBuilder.generateMilestonePreviewFullLink(milestone.getProjectid(), milestone.getId()));
         milestoneLink.appendText(StringUtils.trim(milestone.getName(), maxLength, true));
 
-        Div milestoneDiv = new Div().appendText(VaadinIcons.CALENDAR_BRIEFCASE.getHtml() + " ").appendChild(milestoneLink)
-                .appendText(" (" + AppContext.getMessage(OptionI18nEnum.MilestoneStatus.class, milestone.getStatus()) + ")");
+        Div milestoneDiv = new Div().appendChild(milestoneLink);
         if (milestone.isOverdue()) {
             milestoneLink.setCSSClass("overdue");
             milestoneDiv.appendChild(new Span().setCSSClass(UIConstants.LABEL_META_INFO).appendText(" - Due in " + AppContext

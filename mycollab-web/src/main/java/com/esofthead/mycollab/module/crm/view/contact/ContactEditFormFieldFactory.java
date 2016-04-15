@@ -22,7 +22,7 @@ import com.esofthead.mycollab.module.crm.view.lead.LeadSourceComboBox;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserComboBox;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.CompoundCustomField;
-import com.esofthead.mycollab.vaadin.ui.DateComboboxSelectionField;
+import com.esofthead.mycollab.vaadin.ui.DateSelectionField;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.web.ui.CountryComboBox;
 import com.esofthead.mycollab.vaadin.web.ui.PrefixNameComboBox;
@@ -79,7 +79,7 @@ class ContactEditFormFieldFactory<B extends Contact> extends AbstractBeanFieldGr
         } else if (propertyId.equals("primcountry") || propertyId.equals("othercountry")) {
             return new CountryComboBox();
         } else if (propertyId.equals("birthday")) {
-            return new DateComboboxSelectionField();
+            return new DateSelectionField();
         }
         return null;
     }
@@ -104,14 +104,14 @@ class ContactEditFormFieldFactory<B extends Contact> extends AbstractBeanFieldGr
                 }
             });
 
-            TextField firstnameTxtField = new TextField();
-            firstnameTxtField.setWidth("100%");
-            firstnameTxtField.setNullRepresentation("");
-            layout.with(firstnameTxtField).expand(firstnameTxtField);
+            TextField firstNameField = new TextField();
+            firstNameField.setWidth("100%");
+            firstNameField.setNullRepresentation("");
+            layout.with(firstNameField).expand(firstNameField);
 
             // binding field group
             fieldGroup.bind(prefixSelect, "prefix");
-            fieldGroup.bind(firstnameTxtField, "firstname");
+            fieldGroup.bind(firstNameField, "firstname");
 
             return layout;
         }

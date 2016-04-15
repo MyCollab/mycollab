@@ -18,7 +18,6 @@ package com.esofthead.mycollab.module.crm.view.lead;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.db.query.Param;
@@ -66,18 +65,18 @@ public class LeadSearchPanel extends DefaultGenericSearchPanel<LeadSearchCriteri
     }
 
     @Override
-    protected void buildExtraControls() {
-        Button createLeadBtn = new Button(AppContext.getMessage(LeadI18nEnum.BUTTON_NEW_LEAD), new Button.ClickListener() {
+    protected Component buildExtraControls() {
+        Button newBtn = new Button(AppContext.getMessage(LeadI18nEnum.BUTTON_NEW_LEAD), new Button.ClickListener() {
 
             @Override
             public void buttonClick(final ClickEvent event) {
                 EventBusFactory.getInstance().post(new LeadEvent.GotoAdd(this, null));
             }
         });
-        createLeadBtn.setIcon(FontAwesome.PLUS);
-        createLeadBtn.setStyleName(UIConstants.BUTTON_ACTION);
-        createLeadBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_LEAD));
-        this.addHeaderRight(createLeadBtn);
+        newBtn.setIcon(FontAwesome.PLUS);
+        newBtn.setStyleName(UIConstants.BUTTON_ACTION);
+        newBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_LEAD));
+        return newBtn;
     }
 
     @Override
@@ -90,7 +89,7 @@ public class LeadSearchPanel extends DefaultGenericSearchPanel<LeadSearchCriteri
         return new LeadAdvancedSearchLayout();
     }
 
-    private class LeadBasicSearchLayout extends BasicSearchLayout {
+    private class LeadBasicSearchLayout extends BasicSearchLayout<LeadSearchCriteria> {
         private TextField nameField;
         private CheckBox myItemCheckbox;
 
@@ -156,7 +155,7 @@ public class LeadSearchPanel extends DefaultGenericSearchPanel<LeadSearchCriteri
         }
 
         @Override
-        protected SearchCriteria fillUpSearchCriteria() {
+        protected LeadSearchCriteria fillUpSearchCriteria() {
             LeadSearchCriteria searchCriteria = new LeadSearchCriteria();
             searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
 

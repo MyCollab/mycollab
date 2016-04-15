@@ -19,7 +19,7 @@ package com.esofthead.mycollab.vaadin.web.ui;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.vaadin.events.HasPagableHandlers;
-import com.esofthead.mycollab.vaadin.events.PagableHandler;
+import com.esofthead.mycollab.vaadin.events.PageableHandler;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -48,7 +48,7 @@ public abstract class AbstractBeanBlockList<S extends SearchCriteria, T> extends
     protected CssLayout controlBarWrapper;
     protected MHorizontalLayout pageManagement;
 
-    private Set<PagableHandler> pagableHandlers;
+    private Set<PageableHandler> pageableHandlers;
 
     protected SearchRequest<S> searchRequest;
 
@@ -77,11 +77,11 @@ public abstract class AbstractBeanBlockList<S extends SearchCriteria, T> extends
     }
 
     @Override
-    public void addPagableHandler(final PagableHandler handler) {
-        if (pagableHandlers == null) {
-            pagableHandlers = new HashSet<>();
+    public void addPageableHandler(final PageableHandler handler) {
+        if (pageableHandlers == null) {
+            pageableHandlers = new HashSet<>();
         }
-        pagableHandlers.add(handler);
+        pageableHandlers.add(handler);
     }
 
     protected CssLayout createPageControls() {
@@ -238,8 +238,8 @@ public abstract class AbstractBeanBlockList<S extends SearchCriteria, T> extends
             searchRequest.setCurrentPage(currentPage);
             doSearch();
 
-            if (pagableHandlers != null) {
-                for (final PagableHandler handler : pagableHandlers) {
+            if (pageableHandlers != null) {
+                for (final PageableHandler handler : pageableHandlers) {
                     handler.move(currentPage);
                 }
             }

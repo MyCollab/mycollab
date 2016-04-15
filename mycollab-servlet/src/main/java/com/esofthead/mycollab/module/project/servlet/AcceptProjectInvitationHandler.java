@@ -30,12 +30,16 @@ import com.esofthead.mycollab.module.project.esb.NewProjectMemberJoinEvent;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.user.dao.UserAccountMapper;
+import com.esofthead.mycollab.module.user.domain.SimpleRole;
 import com.esofthead.mycollab.module.user.domain.User;
 import com.esofthead.mycollab.module.user.domain.UserAccount;
 import com.esofthead.mycollab.module.user.domain.UserAccountExample;
+import com.esofthead.mycollab.module.user.service.RoleService;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.servlet.VelocityWebServletRequestHandler;
 import com.google.common.eventbus.AsyncEventBus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.ServletException;
@@ -54,6 +58,8 @@ import java.util.*;
  */
 @WebServlet(name = "acceptMemberInvitationServlet", urlPatterns = "project/member/invitation/confirm_invite/*")
 public class AcceptProjectInvitationHandler extends VelocityWebServletRequestHandler {
+    private static final Logger LOG = LoggerFactory.getLogger(AcceptProjectInvitationHandler.class);
+
     static final String OUTSIDE_MEMBER_WELCOME_PAGE = "templates/page/project/OutsideMemberAcceptInvitationPage.mt";
     static final String EXPIRE_PAGE = "templates/page/ExpirePage.mt";
 
@@ -62,6 +68,9 @@ public class AcceptProjectInvitationHandler extends VelocityWebServletRequestHan
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RoleService roleService;
 
     @Autowired
     private UserAccountMapper userAccountMapper;
@@ -135,17 +144,20 @@ public class AcceptProjectInvitationHandler extends VelocityWebServletRequestHan
 
         Date now = new GregorianCalendar().getTime();
         try {
-            List<UserAccount> users = userAccountMapper.selectByExample(example);
-            if (users.size() > 0) {
-                for (UserAccount record : users) {
-                    record.setRegisterstatus(RegisterStatusConstants.ACTIVE);
-                    userAccountMapper.updateByPrimaryKeySelective(record);
-                }
+            if (userAccountMapper.countByExample(example) > 0) {
+                UserAccount record = new UserAccount();
+                record.setRegisterstatus(RegisterStatusConstants.ACTIVE);
+                userAccountMapper.updateByExampleSelective(record, example);
             } else {
                 UserAccount userAccount = new UserAccount();
                 userAccount.setUsername(username);
                 userAccount.setAccountid(sAccountId);
                 userAccount.setRegisterstatus(RegisterStatusConstants.ACTIVE);
+                Integer systemGuestRoleId = roleService.getSystemRoleId(SimpleRole.GUEST, sAccountId);
+                if (systemGuestRoleId == null) {
+                    LOG.error("Can not find guess role for account {}", sAccountId);
+                }
+                userAccount.setRoleid(systemGuestRoleId);
                 userAccount.setIsaccountowner(false);
                 userAccount.setRegisteredtime(now);
                 userAccountMapper.insert(userAccount);

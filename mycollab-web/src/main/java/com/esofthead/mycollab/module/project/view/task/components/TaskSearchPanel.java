@@ -58,21 +58,33 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
             TaskSearchCriteria.p_status, TaskSearchCriteria.p_startdate, TaskSearchCriteria.p_enddate,
             TaskSearchCriteria.p_milestoneId, TaskSearchCriteria.p_taskkey};
 
+    public TaskSearchPanel(boolean canSwitchToAdvanceLayout) {
+        super(canSwitchToAdvanceLayout);
+    }
+
+    public TaskSearchPanel() {
+        super();
+    }
+
     @Override
     protected ComponentContainer buildSearchTitle() {
-        savedFilterComboBox = new TaskSavedFilterComboBox();
-        savedFilterComboBox.addQuerySelectListener(new SavedFilterComboBox.QuerySelectListener() {
-            @Override
-            public void querySelect(SavedFilterComboBox.QuerySelectEvent querySelectEvent) {
-                List<SearchFieldInfo> fieldInfos = querySelectEvent.getSearchFieldInfos();
-                TaskSearchCriteria criteria = SearchFieldInfo.buildSearchCriteria(TaskSearchCriteria.class,
-                        fieldInfos);
-                criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-                EventBusFactory.getInstance().post(new TaskEvent.SearchRequest(TaskSearchPanel.this, criteria));
-            }
-        });
-        ELabel taskIcon = ELabel.h2(ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK).getHtml()).withWidthUndefined();
-        return new MHorizontalLayout(taskIcon, savedFilterComboBox).expand(savedFilterComboBox).alignAll(Alignment.MIDDLE_LEFT);
+        if (canSwitchToAdvanceLayout) {
+            savedFilterComboBox = new TaskSavedFilterComboBox();
+            savedFilterComboBox.addQuerySelectListener(new SavedFilterComboBox.QuerySelectListener() {
+                @Override
+                public void querySelect(SavedFilterComboBox.QuerySelectEvent querySelectEvent) {
+                    List<SearchFieldInfo> fieldInfos = querySelectEvent.getSearchFieldInfos();
+                    TaskSearchCriteria criteria = SearchFieldInfo.buildSearchCriteria(TaskSearchCriteria.class,
+                            fieldInfos);
+                    criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+                    EventBusFactory.getInstance().post(new TaskEvent.SearchRequest(TaskSearchPanel.this, criteria));
+                }
+            });
+            ELabel taskIcon = ELabel.h2(ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK).getHtml()).withWidthUndefined();
+            return new MHorizontalLayout(taskIcon, savedFilterComboBox).expand(savedFilterComboBox).alignAll(Alignment.MIDDLE_LEFT);
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -153,17 +165,18 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
             });
             basicSearchBody.with(cancelBtn).withAlign(cancelBtn, Alignment.MIDDLE_CENTER);
 
-            Button advancedSearchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH), new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
+            if (canSwitchToAdvanceLayout) {
+                Button advancedSearchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH), new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-                @Override
-                public void buttonClick(final ClickEvent event) {
-                    moveToAdvancedSearchLayout();
-                }
-            });
-            advancedSearchBtn.setStyleName(UIConstants.BUTTON_LINK);
-
-            basicSearchBody.with(advancedSearchBtn).withAlign(advancedSearchBtn, Alignment.MIDDLE_CENTER);
+                    @Override
+                    public void buttonClick(final ClickEvent event) {
+                        moveToAdvancedSearchLayout();
+                    }
+                });
+                advancedSearchBtn.setStyleName(UIConstants.BUTTON_LINK);
+                basicSearchBody.with(advancedSearchBtn).withAlign(advancedSearchBtn, Alignment.MIDDLE_CENTER);
+            }
             return basicSearchBody;
         }
 

@@ -19,7 +19,7 @@ package com.esofthead.mycollab.vaadin.web.ui;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.vaadin.events.HasPagableHandlers;
-import com.esofthead.mycollab.vaadin.events.PagableHandler;
+import com.esofthead.mycollab.vaadin.events.PageableHandler;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -37,7 +37,7 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T> extends
     private static final long serialVersionUID = 1L;
 
     private int defaultNumberSearchItems = 10;
-    private Set<PagableHandler> pagableHandlers;
+    private Set<PageableHandler> pageableHandlers;
     private String listControlStyle = "listControl";
 
     protected CssLayout listContainer;
@@ -57,14 +57,15 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T> extends
         listContainer.setWidth("100%");
         this.addComponent(listContainer);
         this.setExpandRatio(listContainer, 1.0f);
+        this.addStyleName(UIConstants.SCROLLABLE_CONTAINER);
     }
 
     @Override
-    public void addPagableHandler(PagableHandler handler) {
-        if (pagableHandlers == null) {
-            pagableHandlers = new HashSet<>();
+    public void addPageableHandler(PageableHandler handler) {
+        if (pageableHandlers == null) {
+            pageableHandlers = new HashSet<>();
         }
-        pagableHandlers.add(handler);
+        pageableHandlers.add(handler);
     }
 
     public void setControlStyle(String style) {
@@ -72,13 +73,13 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T> extends
     }
 
     protected CssLayout createPageControls() {
-        this.controlBarWrapper = new CssLayout();
-        this.controlBarWrapper.setStyleName(listControlStyle);
-        this.controlBarWrapper.setWidth("100%");
+        controlBarWrapper = new CssLayout();
+        controlBarWrapper.setStyleName(listControlStyle);
+        controlBarWrapper.setWidth("100%");
 
         HorizontalLayout controlBar = new HorizontalLayout();
         controlBar.setWidth("100%");
-        this.controlBarWrapper.addComponent(controlBar);
+        controlBarWrapper.addComponent(controlBar);
 
         pageManagement = new MHorizontalLayout().withWidth(null);
 
@@ -184,7 +185,7 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T> extends
         controlBar.addComponent(pageManagement);
         controlBar.setComponentAlignment(pageManagement, Alignment.MIDDLE_RIGHT);
 
-        return this.controlBarWrapper;
+        return controlBarWrapper;
     }
 
     public void setCurrentDataList(List<T> list) {
@@ -255,8 +256,8 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T> extends
         }
 
         if (totalPage > 1) {
-            if (this.controlBarWrapper != null) {
-                this.removeComponent(this.controlBarWrapper);
+            if (controlBarWrapper != null) {
+                this.removeComponent(controlBarWrapper);
             }
             this.addComponent(this.createPageControls());
         } else {
@@ -286,8 +287,8 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T> extends
             searchRequest.setCurrentPage(currentPage);
             doSearch();
 
-            if (pagableHandlers != null) {
-                for (PagableHandler handler : pagableHandlers) {
+            if (pageableHandlers != null) {
+                for (PageableHandler handler : pageableHandlers) {
                     handler.move(currentPage);
                 }
             }

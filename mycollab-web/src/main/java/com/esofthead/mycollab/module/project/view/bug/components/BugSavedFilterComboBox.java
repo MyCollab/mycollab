@@ -55,7 +55,7 @@ public class BugSavedFilterComboBox extends SavedFilterComboBox {
                 BugSearchCriteria.p_status, new VariableInjector() {
                     @Override
                     public Object eval() {
-                        return Arrays.asList(BugStatus.InProgress.name(), BugStatus.Open.name(), BugStatus.ReOpened.name());
+                        return Arrays.asList(BugStatus.InProgress.name(), BugStatus.Open.name(), BugStatus.ReOpen.name());
                     }
                 }));
 

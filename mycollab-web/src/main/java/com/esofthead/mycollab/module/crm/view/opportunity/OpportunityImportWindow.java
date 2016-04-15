@@ -35,9 +35,7 @@ public class OpportunityImportWindow extends EntityImportWindow<SimpleOpportunit
 	private static final long serialVersionUID = 1L;
 
 	public OpportunityImportWindow() {
-		super(false, "Import Opportunities", ApplicationContextUtil
-				.getSpringBean(OpportunityService.class),
-				SimpleOpportunity.class);
+		super(false, "Import Opportunities", ApplicationContextUtil.getSpringBean(OpportunityService.class), SimpleOpportunity.class);
 	}
 
 	@Override
@@ -47,13 +45,10 @@ public class OpportunityImportWindow extends EntityImportWindow<SimpleOpportunit
 				new FieldMapperDef("amount", "Amount"),
 				new FieldMapperDef("type", "Type"),
 				new FieldMapperDef("source", "Source"),
-				new FieldMapperDef("expectedcloseddate",
-						"Expected Closed Date", new CSVDateFormatter()),
+				new FieldMapperDef("expectedcloseddate", "Expected Closed Date", new CSVDateFormatter()),
 				new FieldMapperDef("nextstep", "Next Step"),
 				new FieldMapperDef("probability", "Probability"),
-				new FieldMapperDef("assignuser",
-						AppContext
-								.getMessage(GenericI18Enum.FORM_ASSIGNEE)),
+				new FieldMapperDef("assignuser", AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)),
 				new FieldMapperDef("opportunitytype", "Opportunity Type"),
 				new FieldMapperDef("salesstage", "Sales Stage"),
 				new FieldMapperDef("description", "Description") };

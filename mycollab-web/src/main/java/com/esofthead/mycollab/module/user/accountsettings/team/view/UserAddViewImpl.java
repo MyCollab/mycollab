@@ -39,6 +39,7 @@ import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.DateSelectionField;
 import com.esofthead.mycollab.vaadin.web.ui.*;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.data.Property;
@@ -296,7 +297,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
                     tf.setRequiredError("This field must be not null");
                     return tf;
                 } else if (propertyId.equals("dateofbirth")) {
-                    return new DateComboboxSelectionField();
+                    return new DateSelectionField();
                 } else if (propertyId.equals("timezone")) {
                     TimeZoneSelectionField cboTimezone = new TimeZoneSelectionField(false);
                     if (user.getTimezone() != null) {

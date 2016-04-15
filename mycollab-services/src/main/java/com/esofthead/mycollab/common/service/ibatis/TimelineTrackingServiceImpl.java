@@ -91,9 +91,7 @@ public class TimelineTrackingServiceImpl extends DefaultCrudService<Integer, Tim
                 GroupItem item = cacheTimelineItems.get(cacheTimelineItems.size() - 1);
                 String dateValue = item.getGroupname();
                 calculatedDate = DateTime.parse(dateValue, DateTimeFormat.forPattern("yyyy-MM-dd"));
-            }
 
-            if (cacheTimelineItems.size() > 0) {
                 for (GroupItem map : cacheTimelineItems) {
                     String groupVal = map.getGroupid();
                     Object obj = items.get(groupVal);
@@ -126,7 +124,7 @@ public class TimelineTrackingServiceImpl extends DefaultCrudService<Integer, Tim
                 final List<Map> timelineItems = timelineTrackingMapperExt.findTimelineItems(groupVals, dates, criteria);
                 if (isValidForBatchSave) {
                     final Integer sAccountId = (Integer) criteria.getSaccountid().getValue();
-                    final String fieldgroup = criteria.getFieldgroup().getValue();
+                    final String itemFieldGroup = criteria.getFieldgroup().getValue();
                     JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
                     final DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
@@ -152,7 +150,7 @@ public class TimelineTrackingServiceImpl extends DefaultCrudService<Integer, Tim
                             String dateStr = (String) item.get("groupname");
                             DateTime dt = formatter.parseDateTime(dateStr);
                             preparedStatement.setDate(5, new java.sql.Date(dt.toDate().getTime()));
-                            preparedStatement.setString(6, fieldgroup);
+                            preparedStatement.setString(6, itemFieldGroup);
                             int value = ((BigDecimal) item.get("value")).intValue();
                             preparedStatement.setInt(7, value);
                         }

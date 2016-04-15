@@ -74,7 +74,7 @@ public class BugSearchCriteria extends SearchCriteria {
     public static final StringListParam p_status = new StringListParam("bug-status",
             BugI18nEnum.FORM_STATUS, "m_tracker_bug", "status", Arrays.asList(
             BugStatus.Verified.name(), BugStatus.InProgress.name(),
-            BugStatus.Open.name(), BugStatus.ReOpened.name(),
+            BugStatus.Open.name(), BugStatus.ReOpen.name(),
             BugStatus.Resolved.name()));
 
     public static final Param p_affectedVersions = new BugTypeCustomSql(

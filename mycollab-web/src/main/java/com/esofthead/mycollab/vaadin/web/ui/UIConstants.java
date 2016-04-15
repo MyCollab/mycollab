@@ -36,7 +36,6 @@ public class UIConstants {
     public static final String BUTTON_DANGER = "redbtn";
     public static final String BUTTON_LINK = "link";
     public static final String THEME_NO_BORDER = "no-border";
-    public static final String LABEL_CLICKABLE = "clickable-label";
     public static final String LINK_COMPLETED = "completed";
     public static final String LINK_OVERDUE = "overdue";
     public static final String LINK_PENDING = "pending";

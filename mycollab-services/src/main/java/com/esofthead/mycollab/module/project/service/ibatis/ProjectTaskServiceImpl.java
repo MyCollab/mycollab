@@ -58,7 +58,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -155,12 +154,7 @@ public class ProjectTaskServiceImpl extends DefaultService<Integer, Task, TaskSe
     public Integer updateWithSession(Task record, String username) {
         beforeUpdate(record);
         int result = super.updateWithSession(record, username);
-        asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectService.class,
-                ProjectGenericTaskService.class, ProjectActivityStreamService.class, ProjectMemberService.class,
-                MilestoneService.class, ItemTimeLoggingService.class, TimelineTrackingService.class,
-                GanttAssignmentService.class}));
-        asyncEventBus.post(new TimelineTrackingUpdateEvent(ProjectTypeConstants.TASK, record.getId(), "status",
-                record.getStatus(), record.getProjectid(), record.getSaccountid()));
+        cleanCacheUpdate(record);
         return result;
     }
 
@@ -178,13 +172,17 @@ public class ProjectTaskServiceImpl extends DefaultService<Integer, Task, TaskSe
     public Integer updateSelectiveWithSession(Task record, String username) {
         beforeUpdate(record);
         int result = super.updateSelectiveWithSession(record, username);
+        cleanCacheUpdate(record);
+        return result;
+    }
+
+    private void cleanCacheUpdate(Task record) {
         asyncEventBus.post(new CleanCacheEvent(record.getSaccountid(), new Class[]{ProjectService.class,
                 ProjectGenericTaskService.class, ProjectActivityStreamService.class, ProjectMemberService.class,
                 MilestoneService.class, ItemTimeLoggingService.class, TimelineTrackingService.class,
                 GanttAssignmentService.class}));
         asyncEventBus.post(new TimelineTrackingUpdateEvent(ProjectTypeConstants.TASK, record.getId(), "status",
                 record.getStatus(), record.getProjectid(), record.getSaccountid()));
-        return result;
     }
 
     @Override

@@ -126,7 +126,7 @@ public class TaskAddWindow extends Window {
                     }
                 });
                 cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
-                buttonControls.with(updateAllBtn, saveBtn, cancelBtn);
+                buttonControls.with(updateAllBtn, cancelBtn, saveBtn);
 
                 layout.addComponent(buttonControls);
                 layout.setComponentAlignment(buttonControls, Alignment.MIDDLE_RIGHT);

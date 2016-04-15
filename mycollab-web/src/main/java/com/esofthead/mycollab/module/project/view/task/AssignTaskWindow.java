@@ -20,6 +20,7 @@ package com.esofthead.mycollab.module.project.view.task;
 import com.esofthead.mycollab.common.domain.CommentWithBLOBs;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CommentService;
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
@@ -101,7 +102,7 @@ public class AssignTaskWindow extends Window {
 
                     @Override
                     public void buttonClick(Button.ClickEvent event) {
-                        AssignTaskWindow.this.close();
+                        close();
                     }
                 });
                 cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
@@ -118,7 +119,7 @@ public class AssignTaskWindow extends Window {
 
                             // Save comment
                             String commentValue = commentArea.getValue();
-                            if (commentValue != null && !commentValue.trim().equals("")) {
+                            if (StringUtils.isNotBlank(commentValue)) {
                                 CommentWithBLOBs comment = new CommentWithBLOBs();
                                 comment.setComment(commentArea.getValue());
                                 comment.setCreatedtime(new GregorianCalendar().getTime());
@@ -141,10 +142,8 @@ public class AssignTaskWindow extends Window {
                 approveBtn.setStyleName(UIConstants.BUTTON_ACTION);
                 approveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 
-                controlsBtn.with(approveBtn, cancelBtn).alignAll(Alignment.MIDDLE_RIGHT);
-
+                controlsBtn.with(cancelBtn, approveBtn).alignAll(Alignment.MIDDLE_RIGHT);
                 layout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
-
                 return layout;
             }
 

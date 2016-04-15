@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.module.project.view;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
@@ -74,15 +73,13 @@ public class FollowingTicketSearchPanel extends DefaultGenericSearchPanel<Follow
         basicSearchLayout.callSearchAction();
     }
 
-    @SuppressWarnings("rawtypes")
-    private class FollowingTicketBasicSearchLayout extends BasicSearchLayout {
+    private class FollowingTicketBasicSearchLayout extends BasicSearchLayout<FollowingTicketSearchCriteria> {
         private static final long serialVersionUID = 1L;
 
         private UserInvolvedProjectsListSelect projectField;
         private TextField summaryField;
         private CheckBox taskSelect, bugSelect, riskSelect;
 
-        @SuppressWarnings("unchecked")
         public FollowingTicketBasicSearchLayout() {
             super(FollowingTicketSearchPanel.this);
         }
@@ -157,8 +154,7 @@ public class FollowingTicketSearchPanel extends DefaultGenericSearchPanel<Follow
         }
 
         @Override
-        @SuppressWarnings("unchecked")
-        protected SearchCriteria fillUpSearchCriteria() {
+        protected FollowingTicketSearchCriteria fillUpSearchCriteria() {
             FollowingTicketSearchCriteria searchCriteria = new FollowingTicketSearchCriteria();
             searchCriteria.setUser(StringSearchField.and(AppContext.getUsername()));
 

@@ -60,7 +60,6 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
         layout.setDefaultComponentAlignment(Alignment.MIDDLE_RIGHT);
         popupButtonsControl = new OptionPopupContent();
         editButtons = new MHorizontalLayout();
-
     }
 
     public HorizontalLayout createButtonControls(int buttonEnableFlags, String permissionItem) {

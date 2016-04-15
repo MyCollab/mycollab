@@ -32,6 +32,7 @@ import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.web.ui.ProjectPreviewFormControlsGenerator;
+import com.esofthead.mycollab.vaadin.web.ui.ReadViewLayout;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
@@ -39,6 +40,7 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.themes.ValoTheme;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,7 +62,8 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
     private MilestoneTimeLogComp milestoneTimeLogComp;
 
     public MilestoneReadViewImpl() {
-        super(AppContext.getMessage(MilestoneI18nEnum.VIEW_DETAIL_TITLE), ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE));
+        super(AppContext.getMessage(MilestoneI18nEnum.VIEW_DETAIL_TITLE), ProjectAssetsManager.getAsset
+                (ProjectTypeConstants.MILESTONE), new MilestonePreviewFormLayout());
     }
 
     @Override
@@ -106,14 +109,12 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
 
     @Override
     protected void onPreviewItem() {
+        ((MilestonePreviewFormLayout) previewLayout).displayHeader(beanItem);
         tagViewComponent.display(ProjectTypeConstants.MILESTONE, beanItem.getId());
         activityComponent.loadActivities("" + beanItem.getId());
         dateInfoComp.displayEntryDateTime(beanItem);
         peopleInfoComp.displayEntryPeople(beanItem);
         milestoneTimeLogComp.displayTime(beanItem);
-        if (OptionI18nEnum.StatusI18nEnum.Closed.name().equals(beanItem.getStatus())) {
-            addLayoutStyleName(UIConstants.LINK_COMPLETED);
-        }
     }
 
     @Override
@@ -124,6 +125,36 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
     @Override
     protected String getType() {
         return ProjectTypeConstants.MILESTONE;
+    }
+
+    private static class MilestonePreviewFormLayout extends ReadViewLayout {
+        private ToggleMilestoneSummaryField toggleMilestoneSummaryField;
+
+        void displayHeader(SimpleMilestone milestone) {
+            toggleMilestoneSummaryField = new ToggleMilestoneSummaryField(milestone);
+            toggleMilestoneSummaryField.addLabelStyleName(ValoTheme.LABEL_H3);
+            toggleMilestoneSummaryField.addLabelStyleName(ValoTheme.LABEL_NO_MARGIN);
+            if (OptionI18nEnum.StatusI18nEnum.Closed.name().equals(milestone.getStatus())) {
+                toggleMilestoneSummaryField.addLabelStyleName(UIConstants.LINK_COMPLETED);
+            } else {
+                toggleMilestoneSummaryField.removeLabelStyleName(UIConstants.LINK_COMPLETED);
+            }
+            this.addHeader(toggleMilestoneSummaryField);
+        }
+
+        @Override
+        public void setTitle(String title) {
+        }
+
+        @Override
+        public void removeTitleStyleName(String styleName) {
+            toggleMilestoneSummaryField.removeLabelStyleName(styleName);
+        }
+
+        @Override
+        public void addTitleStyleName(String styleName) {
+            toggleMilestoneSummaryField.addLabelStyleName(styleName);
+        }
     }
 
     private static class PeopleInfoComp extends MVerticalLayout {

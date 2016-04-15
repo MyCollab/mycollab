@@ -18,7 +18,6 @@
 package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
@@ -61,7 +60,7 @@ public class RoleSearchPanel extends DefaultGenericSearchPanel<RoleSearchCriteri
     }
 
     @Override
-    protected void buildExtraControls() {
+    protected Component buildExtraControls() {
         Button createBtn = new Button(AppContext.getMessage(RoleI18nEnum.BUTTON_NEW_ROLE), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
@@ -73,10 +72,10 @@ public class RoleSearchPanel extends DefaultGenericSearchPanel<RoleSearchCriteri
         createBtn.setStyleName(UIConstants.BUTTON_ACTION);
         createBtn.setIcon(FontAwesome.PLUS);
         createBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.ACCOUNT_ROLE));
-        this.addHeaderRight(createBtn);
+        return createBtn;
     }
 
-    private class RoleBasicSearchLayout extends GenericSearchPanel.BasicSearchLayout {
+    private class RoleBasicSearchLayout extends GenericSearchPanel.BasicSearchLayout<RoleSearchCriteria> {
         private static final long serialVersionUID = 1L;
 
         private TextField nameField;
@@ -133,7 +132,7 @@ public class RoleSearchPanel extends DefaultGenericSearchPanel<RoleSearchCriteri
         }
 
         @Override
-        protected SearchCriteria fillUpSearchCriteria() {
+        protected RoleSearchCriteria fillUpSearchCriteria() {
             RoleSearchCriteria searchCriteria = new RoleSearchCriteria();
             if (StringUtils.isNotBlank(this.nameField.getValue())) {
                 searchCriteria.setRoleName(StringSearchField.and(this.nameField.getValue()));

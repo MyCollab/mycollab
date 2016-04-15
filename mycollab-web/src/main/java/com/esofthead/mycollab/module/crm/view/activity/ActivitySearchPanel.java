@@ -18,7 +18,6 @@ package com.esofthead.mycollab.module.crm.view.activity;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
@@ -26,7 +25,7 @@ import com.esofthead.mycollab.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.module.crm.ui.components.ComponentUtils;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.esofthead.mycollab.vaadin.web.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.esofthead.mycollab.vaadin.web.ui.SplitButton;
@@ -55,15 +54,15 @@ public class ActivitySearchPanel extends DefaultGenericSearchPanel<ActivitySearc
     }
 
     @Override
-    protected void buildExtraControls() {
-        final SplitButton controlsBtn = new SplitButton();
-        controlsBtn.setSizeUndefined();
-        controlsBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CALL)
+    protected Component buildExtraControls() {
+        final SplitButton splitBtn = new SplitButton();
+        splitBtn.setSizeUndefined();
+        splitBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CALL)
                 || AppContext.canWrite(RolePermissionCollections.CRM_MEETING));
-        controlsBtn.addStyleName(UIConstants.BUTTON_ACTION);
-        controlsBtn.setIcon(FontAwesome.PLUS);
-        controlsBtn.setCaption("New Task");
-        controlsBtn.addClickListener(new SplitButton.SplitButtonClickListener() {
+        splitBtn.addStyleName(UIConstants.BUTTON_ACTION);
+        splitBtn.setIcon(FontAwesome.PLUS);
+        splitBtn.setCaption("New Task");
+        splitBtn.addClickListener(new SplitButton.SplitButtonClickListener() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -74,46 +73,41 @@ public class ActivitySearchPanel extends DefaultGenericSearchPanel<ActivitySearc
         });
 
         OptionPopupContent btnControlsLayout = new OptionPopupContent();
-        controlsBtn.setContent(btnControlsLayout);
+        splitBtn.setContent(btnControlsLayout);
 
-        Button createMeetingBtn = new Button("New Meeting",
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        Button createMeetingBtn = new Button("New Meeting", new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(final Button.ClickEvent event) {
-                        controlsBtn.setPopupVisible(false);
-                        EventBusFactory.getInstance().post(new ActivityEvent.MeetingAdd(this, null));
-                    }
-                });
+            @Override
+            public void buttonClick(final Button.ClickEvent event) {
+                splitBtn.setPopupVisible(false);
+                EventBusFactory.getInstance().post(new ActivityEvent.MeetingAdd(this, null));
+            }
+        });
         btnControlsLayout.addOption(createMeetingBtn);
         createMeetingBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_MEETING));
-        final Button createCallBtn = new Button("New Call",
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        final Button createCallBtn = new Button("New Call", new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(final Button.ClickEvent event) {
-                        controlsBtn.setPopupVisible(false);
-                        EventBusFactory.getInstance().post(new ActivityEvent.CallAdd(this, null));
-                    }
-                });
+            @Override
+            public void buttonClick(final Button.ClickEvent event) {
+                splitBtn.setPopupVisible(false);
+                EventBusFactory.getInstance().post(new ActivityEvent.CallAdd(this, null));
+            }
+        });
         createCallBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CALL));
         btnControlsLayout.addOption(createCallBtn);
 
-        addHeaderRight(controlsBtn);
-
         ButtonGroup viewSwitcher = new ButtonGroup();
 
-        Button calendarViewBtn = new Button("Calendar",
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = -793215433929884575L;
+        Button calendarViewBtn = new Button("Calendar", new Button.ClickListener() {
+            private static final long serialVersionUID = -793215433929884575L;
 
-                    @Override
-                    public void buttonClick(ClickEvent evt) {
-                        EventBusFactory.getInstance().post(new ActivityEvent.GotoCalendar(this, null));
-                    }
-                });
+            @Override
+            public void buttonClick(ClickEvent evt) {
+                EventBusFactory.getInstance().post(new ActivityEvent.GotoCalendar(this, null));
+            }
+        });
         calendarViewBtn.addStyleName(UIConstants.BUTTON_ACTION);
         viewSwitcher.addButton(calendarViewBtn);
 
@@ -122,7 +116,7 @@ public class ActivitySearchPanel extends DefaultGenericSearchPanel<ActivitySearc
         activityListBtn.addStyleName(UIConstants.BUTTON_ACTION);
         viewSwitcher.addButton(activityListBtn);
 
-        addHeaderRight(viewSwitcher);
+        return new MHorizontalLayout(splitBtn, viewSwitcher);
     }
 
     @Override
@@ -130,13 +124,11 @@ public class ActivitySearchPanel extends DefaultGenericSearchPanel<ActivitySearc
         return new EventBasicSearchLayout();
     }
 
-    @SuppressWarnings({"serial", "rawtypes"})
-    private class EventBasicSearchLayout extends BasicSearchLayout {
+    private class EventBasicSearchLayout extends BasicSearchLayout<ActivitySearchCriteria> {
 
         private TextField nameField;
         private CheckBox myItemCheckbox;
 
-        @SuppressWarnings("unchecked")
         public EventBasicSearchLayout() {
             super(ActivitySearchPanel.this);
         }
@@ -184,7 +176,7 @@ public class ActivitySearchPanel extends DefaultGenericSearchPanel<ActivitySearc
         }
 
         @Override
-        protected SearchCriteria fillUpSearchCriteria() {
+        protected ActivitySearchCriteria fillUpSearchCriteria() {
             ActivitySearchCriteria searchCriteria = new ActivitySearchCriteria();
             searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
             return searchCriteria;

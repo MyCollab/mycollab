@@ -62,7 +62,7 @@ public class BugStatusTrendChartWidget extends Depot {
     private static final DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd").withZone(DateTimeZone.UTC);
 
     public BugStatusTrendChartWidget() {
-        super("Trend in 30 days", new MVerticalLayout());
+        super("Resolving trend in 30 days", new MVerticalLayout());
         setContentBorder(true);
     }
 
@@ -89,13 +89,32 @@ public class BugStatusTrendChartWidget extends Depot {
             dataset = new TimeSeriesCollection();
             if (groupItems != null) {
                 Set<Map.Entry<String, List<GroupItem>>> entries = groupItems.entrySet();
+                Map<Date, Integer> openMap = new HashMap<>(30);
                 for (Map.Entry<String, List<GroupItem>> entry : entries) {
-                    TimeSeries series = new TimeSeries(entry.getKey());
-                    for (GroupItem item : entry.getValue()) {
-                        series.add(new Day(formatter.parseDateTime(item.getGroupname()).toDate()), item.getValue());
+                    if (OptionI18nEnum.BugStatus.Verified.name().equals(entry.getKey())) {
+                        TimeSeries series = new TimeSeries(entry.getKey());
+                        for (GroupItem item : entry.getValue()) {
+                            series.add(new Day(formatter.parseDateTime(item.getGroupname()).toDate()), item.getValue());
+                        }
+                        dataset.addSeries(series);
+                    } else {
+                        for (GroupItem item : entry.getValue()) {
+                            Date date = formatter.parseDateTime(item.getGroupname()).toDate();
+                            Integer val = openMap.get(date);
+                            if (val == null) {
+                                openMap.put(date, item.getValue());
+                            } else {
+                                openMap.put(date, val + item.getValue());
+                            }
+                        }
                     }
-                    dataset.addSeries(series);
                 }
+
+                TimeSeries series = new TimeSeries("Unverified");
+                for (Map.Entry<Date, Integer> entry : openMap.entrySet()) {
+                    series.add(new Day(entry.getKey()), entry.getValue());
+                }
+                dataset.addSeries(series);
 
                 JFreeChart chart = ChartFactory.createTimeSeriesChart("", "", "", dataset, false, true, false);
                 chart.setBackgroundPaint(Color.white);
@@ -160,7 +179,7 @@ public class BugStatusTrendChartWidget extends Depot {
             LocalDate endDate = new LocalDate(new GregorianCalendar().getTime());
             LocalDate startDate = endDate.minusDays(30);
             groupItems = timelineTrackingService.findTimelineItems("status", Arrays.asList(OptionI18nEnum.BugStatus.InProgress.name(),
-                    OptionI18nEnum.BugStatus.Open.name(), OptionI18nEnum.BugStatus.ReOpened.name(),
+                    OptionI18nEnum.BugStatus.Open.name(), OptionI18nEnum.BugStatus.ReOpen.name(),
                     OptionI18nEnum.BugStatus.Resolved.name(), OptionI18nEnum.BugStatus.WontFix.name(),
                     OptionI18nEnum.BugStatus.Verified.name()),
                     startDate.toDate(), endDate.toDate(), searchCriteria);

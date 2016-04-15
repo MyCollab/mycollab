@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.task.components;
 
+import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -27,6 +28,7 @@ import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.web.ui.AbstractToggleSummaryField;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
@@ -36,7 +38,6 @@ import com.vaadin.event.FieldEvents;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.themes.ValoTheme;
@@ -48,26 +49,24 @@ import static com.esofthead.mycollab.utils.TooltipHelper.TOOLTIP_ID;
  * @author MyCollab Ltd
  * @since 5.2.3
  */
-public class ToggleTaskSummaryField extends CssLayout {
+public class ToggleTaskSummaryField extends AbstractToggleSummaryField {
     private boolean isRead = true;
     private SimpleTask task;
     private int maxLength;
-    private Label taskLinkLbl;
-    private MHorizontalLayout buttonControls;
 
     public ToggleTaskSummaryField(final SimpleTask task) {
-        this(task, Integer.MAX_VALUE, false);
+        this(task, Integer.MAX_VALUE);
     }
 
-    public ToggleTaskSummaryField(final SimpleTask task, int maxLength, boolean canRemoveParentLink) {
+    public ToggleTaskSummaryField(final SimpleTask task, int maxLength) {
         this.setWidth("100%");
         this.maxLength = maxLength;
         this.task = task;
-        taskLinkLbl = new Label(buildTaskLink(), ContentMode.HTML);
-        taskLinkLbl.setWidthUndefined();
-        taskLinkLbl.addStyleName(UIConstants.LABEL_WORD_WRAP);
+        titleLinkLbl = new Label(buildTaskLink(), ContentMode.HTML);
+        titleLinkLbl.setWidthUndefined();
+        titleLinkLbl.addStyleName(UIConstants.LABEL_WORD_WRAP);
 
-        this.addComponent(taskLinkLbl);
+        this.addComponent(titleLinkLbl);
         buttonControls = new MHorizontalLayout().withStyleName("toggle").withSpacing(false);
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) {
             this.addStyleName("editable-field");
@@ -76,7 +75,7 @@ public class ToggleTaskSummaryField extends CssLayout {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
                     if (isRead) {
-                        ToggleTaskSummaryField.this.removeComponent(taskLinkLbl);
+                        ToggleTaskSummaryField.this.removeComponent(titleLinkLbl);
                         ToggleTaskSummaryField.this.removeComponent(buttonControls);
                         final TextField editField = new TextField();
                         editField.setValue(task.getTaskname());
@@ -105,46 +104,28 @@ public class ToggleTaskSummaryField extends CssLayout {
             instantEditBtn.addStyleName(ValoTheme.BUTTON_ICON_ALIGN_TOP);
             instantEditBtn.setIcon(FontAwesome.EDIT);
             buttonControls.with(instantEditBtn);
-
-            if (canRemoveParentLink) {
-                Button unlinkBtn = new Button(null, new Button.ClickListener() {
-                    @Override
-                    public void buttonClick(Button.ClickEvent clickEvent) {
-                        task.setParenttaskid(null);
-                        ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
-                        taskService.updateWithSession(task, AppContext.getUsername());
-                        fireEvent(null);
-                    }
-                });
-                unlinkBtn.setIcon(FontAwesome.UNLINK);
-                unlinkBtn.setDescription("Remove parent-child relationship");
-                unlinkBtn.addStyleName(ValoTheme.BUTTON_ICON_ALIGN_TOP);
-                unlinkBtn.addStyleName(ValoTheme.BUTTON_ICON_ONLY);
-                buttonControls.with(unlinkBtn);
-            }
-
             this.addComponent(buttonControls);
         }
     }
 
     private void updateFieldValue(TextField editField) {
         removeComponent(editField);
-        addComponent(taskLinkLbl);
+        addComponent(titleLinkLbl);
         addComponent(buttonControls);
         addStyleName("editable-field");
         String newValue = editField.getValue();
         if (StringUtils.isNotBlank(newValue) && !newValue.equals(task.getTaskname())) {
             task.setTaskname(newValue);
-            taskLinkLbl.setValue(buildTaskLink());
+            titleLinkLbl.setValue(buildTaskLink());
             ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
-            taskService.updateWithSession(task, AppContext.getUsername());
+            taskService.updateSelectiveWithSession(BeanUtility.deepClone(task), AppContext.getUsername());
         }
 
         isRead = !isRead;
     }
 
     private String buildTaskLink() {
-        String linkName = String.format("[#%d] - %s", task.getTaskkey(), StringUtils.trim(task.getTaskname(), maxLength, true));
+        String linkName = StringUtils.trim(task.getTaskname(), maxLength, true);
         A taskLink = new A().setId("tag" + TOOLTIP_ID).setHref(ProjectLinkBuilder.generateTaskPreviewFullLink(task.getTaskkey(),
                 CurrentProjectVariables.getShortName())).appendText(linkName).setStyle("display:inline");
         Div resultDiv = new DivLessFormatter().appendChild(taskLink);
@@ -163,25 +144,20 @@ public class ToggleTaskSummaryField extends CssLayout {
     }
 
     public void updateLabel() {
-        taskLinkLbl.setValue(buildTaskLink());
+        titleLinkLbl.setValue(buildTaskLink());
     }
 
     public void closeTask() {
-        taskLinkLbl.removeStyleName("overdue pending");
-        taskLinkLbl.addStyleName("completed");
+        titleLinkLbl.removeStyleName("overdue");
+        titleLinkLbl.addStyleName("completed");
     }
 
     public void overdueTask() {
-        taskLinkLbl.removeStyleName("completed pending");
-        taskLinkLbl.addStyleName("overdue");
+        titleLinkLbl.removeStyleName("completed");
+        titleLinkLbl.addStyleName("overdue");
     }
 
     public void reOpenTask() {
-        taskLinkLbl.removeStyleName("overdue pending completed");
-    }
-
-    public void pendingTask() {
-        taskLinkLbl.removeStyleName("overdue completed");
-        taskLinkLbl.addStyleName("pending");
+        titleLinkLbl.removeStyleName("overdue completed");
     }
 }

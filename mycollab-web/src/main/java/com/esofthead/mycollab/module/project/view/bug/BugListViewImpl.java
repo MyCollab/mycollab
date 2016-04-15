@@ -336,7 +336,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
         baseCriteria = new BugSearchCriteria();
         baseCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
         baseCriteria.setStatuses(new SetSearchField<>(OptionI18nEnum.BugStatus.InProgress.name(),
-                OptionI18nEnum.BugStatus.Open.name(), OptionI18nEnum.BugStatus.ReOpened.name()));
+                OptionI18nEnum.BugStatus.Open.name(), OptionI18nEnum.BugStatus.ReOpen.name()));
         statisticSearchCriteria = BeanUtility.deepClone(baseCriteria);
         searchPanel.selectQueryInfo(BugSavedFilterComboBox.OPEN_BUGS);
     }

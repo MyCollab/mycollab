@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.project.events
 
 import com.esofthead.mycollab.eventmanager.ApplicationEvent
+import com.esofthead.mycollab.module.tracker.domain.SimpleBug
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria
 
 /**
@@ -38,5 +39,7 @@ object BugEvent {
   class SearchRequest(source: AnyRef, data: BugSearchCriteria) extends ApplicationEvent(source, data) {}
 
   class NewBugAdded(source: AnyRef, data: Integer) extends ApplicationEvent(source, data) {}
+
+  class BugChanged(source: AnyRef, data: Integer) extends ApplicationEvent(source, data) {}
 
 }

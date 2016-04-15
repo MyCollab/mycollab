@@ -117,6 +117,8 @@ public class DesktopApplication extends MyCollabUI {
         mainWindowContainer = new MainWindowContainer();
         this.setContent(mainWindowContainer);
 
+        getPage().setTitle("MyCollab - Online project management");
+
         getPage().addUriFragmentChangedListener(new UriFragmentChangedListener() {
             private static final long serialVersionUID = 1L;
 

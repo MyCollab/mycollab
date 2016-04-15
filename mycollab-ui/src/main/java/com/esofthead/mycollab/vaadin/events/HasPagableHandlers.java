@@ -30,5 +30,5 @@ public interface HasPagableHandlers extends Serializable {
      *
      * @param handler page handler
      */
-    void addPagableHandler(PagableHandler handler);
+    void addPageableHandler(PageableHandler handler);
 }

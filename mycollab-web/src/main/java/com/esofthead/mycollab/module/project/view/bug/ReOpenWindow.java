@@ -20,8 +20,10 @@ package com.esofthead.mycollab.module.project.view.bug;
 import com.esofthead.mycollab.common.domain.CommentWithBLOBs;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CommentService;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
@@ -31,10 +33,14 @@ import com.esofthead.mycollab.module.project.view.settings.component.VersionMult
 import com.esofthead.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.service.BugRelatedItemService;
+import com.esofthead.mycollab.module.tracker.service.BugRelationService;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
+import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.event.ShortcutAction;
@@ -55,25 +61,20 @@ import java.util.GregorianCalendar;
 public class ReOpenWindow extends Window {
     private final SimpleBug bug;
     private VersionMultiSelectField fixedVersionSelect;
-    private final IBugCallbackStatusComp callbackForm;
 
-    public ReOpenWindow(final IBugCallbackStatusComp callbackForm, final SimpleBug bug) {
+    public ReOpenWindow(final SimpleBug bug) {
         super("Reopen bug '" + bug.getSummary() + "'");
         this.setResizable(false);
         this.setModal(true);
         this.setWidth("750px");
         this.bug = bug;
-        this.callbackForm = callbackForm;
 
-        MVerticalLayout contentLayout = new MVerticalLayout().withSpacing(false).withMargin(new MarginInfo(false,
-                false, true, false));
-
+        MVerticalLayout contentLayout = new MVerticalLayout().withSpacing(false).withMargin(new MarginInfo(false, false, true, false));
         EditForm editForm = new EditForm();
         editForm.setBean(bug);
         contentLayout.addComponent(editForm);
 
         this.setContent(contentLayout);
-
         this.center();
     }
 
@@ -106,7 +107,8 @@ public class ReOpenWindow extends Window {
                     @Override
                     public void buttonClick(final Button.ClickEvent event) {
                         if (EditForm.this.validateForm()) {
-                            bug.setStatus(BugStatus.ReOpened.name());
+                            bug.setStatus(BugStatus.ReOpen.name());
+                            bug.setResolution(OptionI18nEnum.BugResolution.ReOpen.name());
 
                             BugRelatedItemService bugRelatedItemService = ApplicationContextUtil.getSpringBean(BugRelatedItemService.class);
                             bugRelatedItemService.updateFixedVersionsOfBug(bug.getId(), fixedVersionSelect.getSelectedItems());
@@ -114,6 +116,10 @@ public class ReOpenWindow extends Window {
                             // Save bug status and assignee
                             BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
                             bugService.updateSelectiveWithSession(bug, AppContext.getUsername());
+
+                            BugRelationService bugRelationService = ApplicationContextUtil.getSpringBean
+                                    (BugRelationService.class);
+                            bugRelationService.removeDuplicatedBugs(bug.getId());
 
                             // Save comment
                             String commentValue = commentArea.getValue();
@@ -131,8 +137,8 @@ public class ReOpenWindow extends Window {
                                 commentService.saveWithSession(comment, AppContext.getUsername());
                             }
 
-                            ReOpenWindow.this.close();
-                            callbackForm.refreshBugItem();
+                            close();
+                            EventBusFactory.getInstance().post(new BugEvent.BugChanged(this, bug.getId()));
                         }
 
                     }
@@ -143,7 +149,7 @@ public class ReOpenWindow extends Window {
                 Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
                     @Override
                     public void buttonClick(Button.ClickEvent event) {
-                        ReOpenWindow.this.close();
+                        close();
                     }
                 });
                 cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);

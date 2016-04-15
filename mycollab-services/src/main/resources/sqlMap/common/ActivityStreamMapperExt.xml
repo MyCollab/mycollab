@@ -5,13 +5,8 @@
     <resultMap id="SimpleActivityStreamResult"
         extends="com.esofthead.mycollab.common.dao.ActivityStreamMapper.ResultMapWithBLOBs"
         type="com.esofthead.mycollab.common.domain.SimpleActivityStream">
-
-        <result column="createdUserAvatarId" jdbcType="VARCHAR"
-            property="createdUserAvatarId" />
-
-        <result column="createdUserFullName" jdbcType="VARCHAR"
-            property="createdUserFullName" />
-
+        <result column="createdUserAvatarId" jdbcType="VARCHAR" property="createdUserAvatarId" />
+        <result column="createdUserFullName" jdbcType="VARCHAR" property="createdUserFullName" />
         <association property="assoAuditLog" columnPrefix="log_"
             javaType="com.esofthead.mycollab.common.domain.SimpleAuditLog"
             resultMap="com.esofthead.mycollab.common.dao.AuditLogMapperExt.SimpleAuditLogResult" />

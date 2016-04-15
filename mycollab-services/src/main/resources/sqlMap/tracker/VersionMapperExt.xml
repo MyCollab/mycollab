@@ -2,10 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.esofthead.mycollab.module.tracker.dao.VersionMapperExt">
 
-    <resultMap
-        type="com.esofthead.mycollab.module.tracker.domain.SimpleVersion"
-        extends="com.esofthead.mycollab.module.tracker.dao.VersionMapper.ResultMapWithBLOBs"
-        id="SimpleVersionResult">
+    <resultMap type="com.esofthead.mycollab.module.tracker.domain.SimpleVersion"
+        extends="com.esofthead.mycollab.module.tracker.dao.VersionMapper.ResultMapWithBLOBs" id="SimpleVersionResult">
         <result column="numOpenBugs" jdbcType="INTEGER" property="numOpenBugs" />
         <result column="numBugs" jdbcType="INTEGER" property="numBugs" />
         <result column="projectName" jdbcType="VARCHAR" property="projectName" />
@@ -58,61 +56,52 @@
     <sql id="orderStatement">
         ORDER BY
         #ifnotnull($_parameter.searchCriteria.orderFields)
-        #repeat(${_parameter.searchCriteria.orderFields} $orderField "" "" "")
-        ${orderField.field} ${orderField.direction},
-        #end
+            #repeat(${_parameter.searchCriteria.orderFields} $orderField "" "" "")
+                ${orderField.field} ${orderField.direction},
+            #end
         #end
         m_tracker_version.lastUpdatedTime DESC
     </sql>
 
-    <select id="getTotalCount" resultType="int" parameterType="VersionSearchCriteria"
-        lang="velocity">
+    <select id="getTotalCount" resultType="int" parameterType="VersionSearchCriteria" lang="velocity">
         SELECT count(*) as totalCount FROM m_tracker_version
         #ifnotnull($_parameter.searchCriteria)
-        #trimext("WHERE" "AND|OR")
-        <include refid="querySearchCriteria" />
-        #end
+            #trimext("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
         #end
     </select>
 
-    <select id="findPagableListByCriteria" resultMap="SimpleVersionResult"
-        parameterType="VersionSearchCriteria" lang="velocity">
+    <select id="findPagableListByCriteria" resultMap="SimpleVersionResult" parameterType="VersionSearchCriteria" lang="velocity">
         <include refid="selectVersion" />
         #ifnotnull($_parameter.searchCriteria)
-        #trimext("WHERE" "AND|OR")
-        <include refid="querySearchCriteria" />
-        #end
+            #trimext("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
         #end
         <include refid="orderStatement" />
     </select>
 
-    <select id="findVersionById" parameterType="java.lang.Integer"
-        resultMap="SimpleVersionResult" lang="velocity">
+    <select id="findVersionById" parameterType="java.lang.Integer" resultMap="SimpleVersionResult" lang="velocity">
         <include refid="selectVersion" />
-
         WHERE m_tracker_version.id=@{versionId, jdbcType=NUMERIC}
     </select>
 
-    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer"
-        lang="velocity">
+    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer" lang="velocity">
         SELECT MIN(id) FROM m_tracker_version
-
         #trimext("WHERE" "AND|OR")
-        <include refid="querySearchCriteria" />
+            <include refid="querySearchCriteria" />
         #end
     </select>
 
-    <select id="getPreviousItemKey" parameterType="map"
-        resultType="java.lang.Integer" lang="velocity">
+    <select id="getPreviousItemKey" parameterType="map" resultType="java.lang.Integer" lang="velocity">
         SELECT MAX(id) FROM m_tracker_version
-
         #trimext("WHERE" "AND|OR")
-        <include refid="querySearchCriteria" />
+            <include refid="querySearchCriteria" />
         #end
     </select>
 
-    <select id="getTotalBillableHours" parameterType="int"
-            resultType="double" lang="velocity">
+    <select id="getTotalBillableHours" parameterType="int" resultType="double" lang="velocity">
         SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0)
             FROM m_tracker_version, m_tracker_bug, m_tracker_bug_related_item, m_prj_time_logging
             WHERE m_tracker_version.id = @{versionid} AND m_tracker_version.id = m_tracker_bug_related_item.typeId

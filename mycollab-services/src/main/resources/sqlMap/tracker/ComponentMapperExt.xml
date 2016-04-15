@@ -95,8 +95,7 @@
         <include refid="orderStatement" />
     </select>
 
-    <select id="findComponentById" parameterType="java.lang.Integer"
-        resultMap="SimpleComponentResult" lang="velocity">
+    <select id="findComponentById" parameterType="java.lang.Integer" resultMap="SimpleComponentResult" lang="velocity">
         <include refid="selectComponents" />
         WHERE m_tracker_component.id=@{componentId, jdbcType=NUMERIC}
     </select>

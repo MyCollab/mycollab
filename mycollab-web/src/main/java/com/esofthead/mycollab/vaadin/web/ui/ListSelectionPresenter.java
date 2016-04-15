@@ -19,7 +19,7 @@ package com.esofthead.mycollab.vaadin.web.ui;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
-import com.esofthead.mycollab.vaadin.events.PagableHandler;
+import com.esofthead.mycollab.vaadin.events.PageableHandler;
 import com.esofthead.mycollab.vaadin.events.SearchHandler;
 import com.esofthead.mycollab.vaadin.events.SelectableItemHandler;
 import com.esofthead.mycollab.vaadin.events.SelectionOptionHandler;
@@ -54,7 +54,7 @@ public abstract class ListSelectionPresenter<V extends IListView<S, B>, S extend
                 doSearch(criteria);
             }
         });
-        view.getPagedBeanTable().addPagableHandler(new PagableHandler() {
+        view.getPagedBeanTable().addPageableHandler(new PageableHandler() {
             private static final long serialVersionUID = 1L;
 
             @Override

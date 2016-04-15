@@ -84,7 +84,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
 
     private void displayWorkflowControl() {
         bugWorkFlowControl.removeAllComponents();
-        if (BugStatus.Open.name().equals(beanItem.getStatus()) || BugStatus.ReOpened.name().equals(beanItem.getStatus())) {
+        if (BugStatus.Open.name().equals(beanItem.getStatus()) || BugStatus.ReOpen.name().equals(beanItem.getStatus())) {
             final Button startProgressBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_START_PROGRESS), new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;
 

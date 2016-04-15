@@ -35,14 +35,14 @@ public class BugRelatedItemServiceImpl implements BugRelatedItemService {
     private BugRelatedItemMapper bugRelatedItemMapper;
 
     @Override
-    public void saveAffectedVersionsOfBug(Integer bugid, List<Version> versions) {
-        insertAffectedVersionsOfBug(bugid, versions);
+    public void saveAffectedVersionsOfBug(Integer bugId, List<Version> versions) {
+        insertAffectedVersionsOfBug(bugId, versions);
     }
 
-    private void insertAffectedVersionsOfBug(Integer bugid, List<Version> versions) {
+    private void insertAffectedVersionsOfBug(Integer bugId, List<Version> versions) {
         for (Version version : versions) {
             BugRelatedItem relatedItem = new BugRelatedItem();
-            relatedItem.setBugid(bugid);
+            relatedItem.setBugid(bugId);
             relatedItem.setTypeid(version.getId());
             relatedItem.setType(SimpleRelatedBug.AFFVERSION);
             bugRelatedItemMapper.insert(relatedItem);
@@ -50,14 +50,14 @@ public class BugRelatedItemServiceImpl implements BugRelatedItemService {
     }
 
     @Override
-    public void saveFixedVersionsOfBug(Integer bugid, List<Version> versions) {
-        insertFixedVersionsOfBug(bugid, versions);
+    public void saveFixedVersionsOfBug(Integer bugId, List<Version> versions) {
+        insertFixedVersionsOfBug(bugId, versions);
     }
 
-    private void insertFixedVersionsOfBug(Integer bugid, List<Version> versions) {
+    private void insertFixedVersionsOfBug(Integer bugId, List<Version> versions) {
         for (Version version : versions) {
             BugRelatedItem relatedItem = new BugRelatedItem();
-            relatedItem.setBugid(bugid);
+            relatedItem.setBugid(bugId);
             relatedItem.setTypeid(version.getId());
             relatedItem.setType(SimpleRelatedBug.FIXVERSION);
             bugRelatedItemMapper.insert(relatedItem);
@@ -65,14 +65,14 @@ public class BugRelatedItemServiceImpl implements BugRelatedItemService {
     }
 
     @Override
-    public void saveComponentsOfBug(Integer bugid, List<Component> components) {
-        insertComponentsOfBug(bugid, components);
+    public void saveComponentsOfBug(Integer bugId, List<Component> components) {
+        insertComponentsOfBug(bugId, components);
     }
 
-    public void insertComponentsOfBug(Integer bugid, List<Component> components) {
+    public void insertComponentsOfBug(Integer bugId, List<Component> components) {
         for (Component component : components) {
             BugRelatedItem relatedItem = new BugRelatedItem();
-            relatedItem.setBugid(bugid);
+            relatedItem.setBugid(bugId);
             relatedItem.setTypeid(component.getId());
             relatedItem.setType(SimpleRelatedBug.COMPONENT);
             bugRelatedItemMapper.insert(relatedItem);
@@ -88,26 +88,26 @@ public class BugRelatedItemServiceImpl implements BugRelatedItemService {
 
 
     @Override
-    public void updateAfftedVersionsOfBug(Integer bugid, List<Version> versions) {
-        deleteTrackerBugRelatedItem(bugid, SimpleRelatedBug.AFFVERSION);
+    public void updateAffectedVersionsOfBug(Integer bugId, List<Version> versions) {
+        deleteTrackerBugRelatedItem(bugId, SimpleRelatedBug.AFFVERSION);
         if (versions.size() > 0) {
-            insertAffectedVersionsOfBug(bugid, versions);
+            insertAffectedVersionsOfBug(bugId, versions);
         }
     }
 
     @Override
-    public void updateFixedVersionsOfBug(Integer bugid, List<Version> versions) {
-        deleteTrackerBugRelatedItem(bugid, SimpleRelatedBug.FIXVERSION);
+    public void updateFixedVersionsOfBug(Integer bugId, List<Version> versions) {
+        deleteTrackerBugRelatedItem(bugId, SimpleRelatedBug.FIXVERSION);
         if (versions.size() > 0) {
-            insertFixedVersionsOfBug(bugid, versions);
+            insertFixedVersionsOfBug(bugId, versions);
         }
     }
 
     @Override
-    public void updateComponentsOfBug(Integer bugid, List<Component> components) {
-        deleteTrackerBugRelatedItem(bugid, SimpleRelatedBug.COMPONENT);
+    public void updateComponentsOfBug(Integer bugId, List<Component> components) {
+        deleteTrackerBugRelatedItem(bugId, SimpleRelatedBug.COMPONENT);
         if (components.size() > 0) {
-            insertComponentsOfBug(bugid, components);
+            insertComponentsOfBug(bugId, components);
         }
     }
 }

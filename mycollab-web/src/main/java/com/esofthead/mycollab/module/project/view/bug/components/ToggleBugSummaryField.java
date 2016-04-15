@@ -16,17 +16,20 @@
  */
 package com.esofthead.mycollab.module.project.view.bug.components;
 
+import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.web.ui.AbstractToggleSummaryField;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
@@ -36,7 +39,6 @@ import com.vaadin.event.FieldEvents;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.themes.ValoTheme;
@@ -48,25 +50,22 @@ import static com.esofthead.mycollab.utils.TooltipHelper.TOOLTIP_ID;
  * @author MyCollab Ltd
  * @since 5.2.3
  */
-public class ToggleBugSummaryField extends CssLayout {
+public class ToggleBugSummaryField extends AbstractToggleSummaryField {
     private boolean isRead = true;
-    private Label bugLinkLbl;
-    private MHorizontalLayout buttonControls;
-    private SimpleBug bug;
+    private BugWithBLOBs bug;
     private int maxLength;
 
-    public ToggleBugSummaryField(final SimpleBug bug) {
+    public ToggleBugSummaryField(final BugWithBLOBs bug) {
         this(bug, Integer.MAX_VALUE);
     }
 
-    public ToggleBugSummaryField(final SimpleBug bug, int trimCharacters) {
+    public ToggleBugSummaryField(final BugWithBLOBs bug, int trimCharacters) {
         this.bug = bug;
         this.maxLength = trimCharacters;
-        bugLinkLbl = new Label(buildBugLink(), ContentMode.HTML);
-
-        bugLinkLbl.addStyleName(UIConstants.LABEL_WORD_WRAP);
-        bugLinkLbl.setWidthUndefined();
-        this.addComponent(bugLinkLbl);
+        titleLinkLbl = new Label(buildBugLink(), ContentMode.HTML);
+        titleLinkLbl.addStyleName(UIConstants.LABEL_WORD_WRAP);
+        titleLinkLbl.setWidthUndefined();
+        this.addComponent(titleLinkLbl);
         buttonControls = new MHorizontalLayout().withStyleName("toggle").withSpacing(false);
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS)) {
             this.addStyleName("editable-field");
@@ -74,7 +73,7 @@ public class ToggleBugSummaryField extends CssLayout {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
                     if (isRead) {
-                        ToggleBugSummaryField.this.removeComponent(bugLinkLbl);
+                        ToggleBugSummaryField.this.removeComponent(titleLinkLbl);
                         ToggleBugSummaryField.this.removeComponent(buttonControls);
                         final TextField editField = new TextField();
                         editField.setValue(bug.getSummary());
@@ -108,31 +107,31 @@ public class ToggleBugSummaryField extends CssLayout {
     }
 
     private void updateFieldValue(TextField editField) {
-        ToggleBugSummaryField.this.removeComponent(editField);
-        ToggleBugSummaryField.this.addComponent(bugLinkLbl);
-        ToggleBugSummaryField.this.addComponent(buttonControls);
-        ToggleBugSummaryField.this.addStyleName("editable-field");
+        removeComponent(editField);
+        addComponent(titleLinkLbl);
+        addComponent(buttonControls);
+        addStyleName("editable-field");
         String newValue = editField.getValue();
         if (StringUtils.isNotBlank(newValue) && !newValue.equals(bug.getSummary())) {
             bug.setSummary(newValue);
-            bugLinkLbl.setValue(buildBugLink());
+            titleLinkLbl.setValue(buildBugLink());
             BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
-            bugService.updateWithSession(bug, AppContext.getUsername());
+            bugService.updateSelectiveWithSession(BeanUtility.deepClone(bug), AppContext.getUsername());
         }
 
         isRead = !isRead;
     }
 
     private String buildBugLink() {
-        String linkName = String.format("[#%d] - %s", bug.getBugkey(), StringUtils.trim(bug.getSummary(), maxLength, true));
+        String linkName = StringUtils.trim(bug.getSummary(), maxLength, true);
         A bugLink = new A().setId("tag" + TOOLTIP_ID).setHref(ProjectLinkBuilder.generateBugPreviewFullLink(bug.getBugkey(),
                 CurrentProjectVariables.getShortName())).appendText(linkName).setStyle("display:inline");
         Div resultDiv = new DivLessFormatter().appendChild(bugLink);
-        if (bug.isOverdue()) {
+        if (SimpleBug.isOverdue(bug)) {
             bugLink.setCSSClass("overdue");
             resultDiv.appendChild(new Span().setCSSClass(UIConstants.LABEL_META_INFO).appendText(" - Due in " + AppContext
                     .formatDuration(bug.getDuedate())));
-        } else if (bug.isCompleted()) {
+        } else if (SimpleBug.isCompleted(bug)) {
             bugLink.setCSSClass("completed");
         }
 

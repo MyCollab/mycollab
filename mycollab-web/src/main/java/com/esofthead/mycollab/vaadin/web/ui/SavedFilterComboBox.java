@@ -166,8 +166,7 @@ public abstract class SavedFilterComboBox extends CustomField<String> {
                 public void buttonClick(ClickEvent event) {
                     selectedQueryName = queryInfo.getQueryName();
                     updateQueryNameField(selectedQueryName);
-                    SavedFilterComboBox.this.fireEvent(new QuerySelectEvent(SavedFilterComboBox.this, queryInfo
-                            .getSearchFieldInfos()));
+                    SavedFilterComboBox.this.fireEvent(new QuerySelectEvent(SavedFilterComboBox.this, queryInfo.getSearchFieldInfos()));
                     componentPopupSelection.setPopupVisible(false);
                 }
             });

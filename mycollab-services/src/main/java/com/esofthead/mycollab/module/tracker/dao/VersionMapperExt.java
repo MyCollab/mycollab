@@ -23,8 +23,8 @@ import com.esofthead.mycollab.module.tracker.domain.criteria.VersionSearchCriter
 import org.apache.ibatis.annotations.Param;
 
 /**
- *
  * @author MyCollab Ltd.
+ * @since 1.0.0
  */
 public interface VersionMapperExt extends ISearchableDAO<VersionSearchCriteria> {
 
@@ -32,7 +32,7 @@ public interface VersionMapperExt extends ISearchableDAO<VersionSearchCriteria> 
 
     Double getTotalBillableHours(@Param("versionid") int versionId);
 
-    Double getTotalNonBillableHours(@Param("versionid")int versionId);
+    Double getTotalNonBillableHours(@Param("versionid") int versionId);
 
-    Double getRemainHours(@Param("versionid")int versionId);
+    Double getRemainHours(@Param("versionid") int versionId);
 }

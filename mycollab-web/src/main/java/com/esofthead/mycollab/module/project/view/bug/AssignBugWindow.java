@@ -20,15 +20,20 @@ package com.esofthead.mycollab.module.project.view.bug;
 import com.esofthead.mycollab.common.domain.CommentWithBLOBs;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CommentService;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
 import com.esofthead.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
+import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.event.ShortcutAction;
@@ -49,16 +54,14 @@ import java.util.GregorianCalendar;
 class AssignBugWindow extends Window {
     private static final long serialVersionUID = 1L;
     private final SimpleBug bug;
-    private final IBugCallbackStatusComp callbackForm;
 
-    AssignBugWindow(IBugCallbackStatusComp callbackForm, SimpleBug bug) {
+    AssignBugWindow(SimpleBug bug) {
         super("Assign bug '" + bug.getSummary() + "'");
         this.setWidth("750px");
         this.setResizable(false);
         this.setModal(true);
 
         this.bug = bug;
-        this.callbackForm = callbackForm;
 
         VerticalLayout contentLayout = new VerticalLayout();
 
@@ -101,7 +104,6 @@ class AssignBugWindow extends Window {
 
                     @Override
                     public void buttonClick(final Button.ClickEvent event) {
-
                         if (EditForm.this.validateForm()) {
                             // Save bug status and assignee
                             final BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
@@ -123,8 +125,8 @@ class AssignBugWindow extends Window {
                                 commentService.saveWithSession(comment, AppContext.getUsername());
                             }
 
-                            AssignBugWindow.this.close();
-                            AssignBugWindow.this.callbackForm.refreshBugItem();
+                            close();
+                            EventBusFactory.getInstance().post(new BugEvent.BugChanged(this, bug.getId()));
                         }
                     }
                 });
@@ -137,11 +139,11 @@ class AssignBugWindow extends Window {
 
                     @Override
                     public void buttonClick(final Button.ClickEvent event) {
-                        AssignBugWindow.this.close();
+                        close();
                     }
                 });
                 cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
-                controlsBtn.with(approveBtn, cancelBtn);
+                controlsBtn.with(cancelBtn, approveBtn);
 
                 layout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
 

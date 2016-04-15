@@ -143,7 +143,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
         return CurrentProjectVariables.canWrite(permissionItem);
     }
 
-    private void unfollowItem(String username) {
+    private void unFollowItem(String username) {
         try {
             MonitorSearchCriteria criteria = new MonitorSearchCriteria();
             criteria.setTypeId(new NumberSearchField((Integer) PropertyUtils.getProperty(bean, "id")));
@@ -179,7 +179,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
                     } else if (!hasEditPermission()) {
                         NotificationUtil.showMessagePermissionAlert();
                     } else {
-                        unfollowItem(user.getUsername());
+                        unFollowItem(user.getUsername());
                         ((ComponentContainer) FollowerComp.this.getParent()).removeComponent(FollowerComp.this);
                     }
                 }
@@ -248,7 +248,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
                             }
                         } else {
                             if (isWatching) {
-                                unfollowItem(member.getUsername());
+                                unFollowItem(member.getUsername());
                                 isWatching = false;
                             } else {
                                 unsavedMembers.remove(member);

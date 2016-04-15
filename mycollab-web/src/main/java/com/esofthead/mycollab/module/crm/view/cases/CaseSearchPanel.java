@@ -17,7 +17,10 @@
 package com.esofthead.mycollab.module.crm.view.cases;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.core.arguments.*;
+import com.esofthead.mycollab.core.arguments.NumberSearchField;
+import com.esofthead.mycollab.core.arguments.SearchField;
+import com.esofthead.mycollab.core.arguments.SetSearchField;
+import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.db.query.Param;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
@@ -63,8 +66,8 @@ public class CaseSearchPanel extends DefaultGenericSearchPanel<CaseSearchCriteri
     }
 
     @Override
-    protected void buildExtraControls() {
-        Button createCaseBtn = new Button(AppContext.getMessage(CaseI18nEnum.BUTTON_NEW_CASE), new Button.ClickListener() {
+    protected Component buildExtraControls() {
+        Button newBtn = new Button(AppContext.getMessage(CaseI18nEnum.BUTTON_NEW_CASE), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -72,10 +75,10 @@ public class CaseSearchPanel extends DefaultGenericSearchPanel<CaseSearchCriteri
                 EventBusFactory.getInstance().post(new CaseEvent.GotoAdd(this, null));
             }
         });
-        createCaseBtn.setIcon(FontAwesome.PLUS);
-        createCaseBtn.setStyleName(UIConstants.BUTTON_ACTION);
-        createCaseBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CASE));
-        this.addHeaderRight(createCaseBtn);
+        newBtn.setIcon(FontAwesome.PLUS);
+        newBtn.setStyleName(UIConstants.BUTTON_ACTION);
+        newBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CASE));
+        return newBtn;
     }
 
     @SuppressWarnings("unchecked")
@@ -122,7 +125,7 @@ public class CaseSearchPanel extends DefaultGenericSearchPanel<CaseSearchCriteri
         }
     }
 
-    private class CaseBasicSearchLayout extends BasicSearchLayout {
+    private class CaseBasicSearchLayout extends BasicSearchLayout<CaseSearchCriteria> {
         private static final long serialVersionUID = 1L;
         private TextField subjectField;
         private CheckBox myItemCheckbox;
@@ -167,33 +170,30 @@ public class CaseSearchPanel extends DefaultGenericSearchPanel<CaseSearchCriteri
 
             basicSearchBody.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_LEFT);
 
-            Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
-            cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
-            cancelBtn.addClickListener(new Button.ClickListener() {
+            Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), new Button.ClickListener() {
                 @Override
-                public void buttonClick(final ClickEvent event) {
-                    CaseBasicSearchLayout.this.subjectField.setValue("");
+                public void buttonClick(ClickEvent clickEvent) {
+                    subjectField.setValue("");
                 }
             });
-            basicSearchBody.with(cancelBtn).withAlign(cancelBtn,
-                    Alignment.MIDDLE_CENTER);
+            cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
+            basicSearchBody.with(cancelBtn).withAlign(cancelBtn, Alignment.MIDDLE_CENTER);
 
-            Button advancedSearchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            Button advancedSearchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH), new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(final ClickEvent event) {
-                            CaseSearchPanel.this.moveToAdvancedSearchLayout();
-                        }
-                    });
+                @Override
+                public void buttonClick(final ClickEvent event) {
+                    CaseSearchPanel.this.moveToAdvancedSearchLayout();
+                }
+            });
             advancedSearchBtn.setStyleName(UIConstants.BUTTON_LINK);
             basicSearchBody.with(advancedSearchBtn).withAlign(advancedSearchBtn, Alignment.MIDDLE_CENTER);
             return basicSearchBody;
         }
 
         @Override
-        protected SearchCriteria fillUpSearchCriteria() {
+        protected CaseSearchCriteria fillUpSearchCriteria() {
             CaseSearchCriteria searchCriteria = new CaseSearchCriteria();
             searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
 

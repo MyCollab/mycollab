@@ -297,8 +297,11 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
             this.setMargin(new MarginInfo(true, false, true, false));
             this.setStyleName("roadmap-block");
 
+            ELabel statusLbl = new ELabel(AppContext.getMessage(OptionI18nEnum.BugStatus.class, milestone.getStatus()))
+                    .withStyleName(UIConstants.FIELD_NOTE).withWidthUndefined();
             ToggleMilestoneSummaryField toggleMilestoneSummaryField = new ToggleMilestoneSummaryField(milestone);
-            this.with(toggleMilestoneSummaryField).expand(toggleMilestoneSummaryField);
+            MHorizontalLayout headerLayout = new MHorizontalLayout(statusLbl, toggleMilestoneSummaryField);
+            this.with(headerLayout);
 
             CssLayout metaBlock = new CssLayout();
             MilestonePopupFieldFactory popupFieldFactory = ViewManager.getCacheComponent(MilestonePopupFieldFactory.class);
