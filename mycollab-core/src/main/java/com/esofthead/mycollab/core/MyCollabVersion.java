@@ -24,11 +24,11 @@ import java.util.regex.Pattern;
  * @since 4.4.0
  */
 public class MyCollabVersion {
-    public static final String THEME_VERSION = "mycollab_20160325";
+    public static final String THEME_VERSION = "mycollab_20160416";
     public static final String THEME_MOBILE_VERSION = "mycollab_20151229";
 
     public static String getVersion() {
-        return "5.2.11";
+        return "5.2.12";
     }
 
     static int[] getVersionNumbers(String ver) {

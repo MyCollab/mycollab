@@ -20,6 +20,7 @@ import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.user.AccountLinkBuilder;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
+import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.hp.gagawa.java.elements.A;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Image;
@@ -35,7 +36,8 @@ import static com.esofthead.mycollab.utils.TooltipHelper.TOOLTIP_ID;
 public class UserBlock extends MVerticalLayout {
     public UserBlock(String username, String userAvatarId, String displayName) {
         withMargin(false).withWidth("80px");
-        Image avatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(userAvatarId, 48);
+        Image avatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(userAvatarId, 64);
+        avatar.addStyleName(UIConstants.CIRCLE_BOX);
 
         A userLink = new A().setId("tag" + TOOLTIP_ID).setHref(AccountLinkBuilder.generatePreviewFullUserLink(username))
                 .appendText(StringUtils.trim(displayName, 30, true));

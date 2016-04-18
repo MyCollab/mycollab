@@ -183,6 +183,7 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
         blockContent.setStyleName("member-block");
         MHorizontalLayout blockTop = new MHorizontalLayout().withWidth("100%");
         Image memberAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(member.getAvatarid(), 100);
+        memberAvatar.addStyleName(UIConstants.CIRCLE_BOX);
         blockTop.addComponent(memberAvatar);
 
         MVerticalLayout memberInfo = new MVerticalLayout().withMargin(false);

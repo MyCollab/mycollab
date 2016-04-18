@@ -45,6 +45,11 @@ object DeleteResourcesCommandImpl {
   @Subscribe
   def removeResource(event: DeleteResourcesEvent): Unit = {
     if (event.sAccountId == null) {
+      for (path <- event.paths) {
+        if (StringUtils.isNotBlank(path)) {
+          rawContentService.removePath(path)
+        }
+      }
       return
     }
     val lock = DistributionLockUtil.getLock("ecm-" + event.sAccountId)

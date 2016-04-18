@@ -230,8 +230,7 @@ public class CrmActivityComponent extends MVerticalLayout implements ReloadableC
 
         List<Content> attachments = comment.getAttachments();
         if (!CollectionUtils.isEmpty(attachments)) {
-            MVerticalLayout messageFooter = new MVerticalLayout().withMargin(false).withSpacing(false).withWidth
-                    ("100%").withStyleName("message-footer");
+            MVerticalLayout messageFooter = new MVerticalLayout().withMargin(false).withSpacing(false).withWidth("100%");
             AttachmentDisplayComponent attachmentDisplay = new AttachmentDisplayComponent(attachments);
             attachmentDisplay.setWidth("100%");
             messageFooter.with(attachmentDisplay);

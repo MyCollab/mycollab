@@ -44,23 +44,21 @@ public class EditFormControlsGenerator<T> implements Serializable {
         return this.createButtonControls(true, true, true);
     }
 
-    public ComponentContainer createButtonControls(boolean isSaveBtnVisible, boolean isSaveAndNewBtnVisible, boolean
-            isCancelBtnVisible) {
+    public ComponentContainer createButtonControls(boolean isSaveBtnVisible, boolean isSaveAndNewBtnVisible, boolean isCancelBtnVisible) {
         MHorizontalLayout layout = new MHorizontalLayout();
-        if (isSaveBtnVisible) {
-            final Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
+
+        if (isCancelBtnVisible) {
+            Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;
 
                 @Override
                 public void buttonClick(final ClickEvent event) {
-                    if (editForm.validateForm()) {
-                        editForm.fireSaveForm();
-                    }
+                    editForm.fireCancelForm();
                 }
             });
-            saveBtn.setIcon(FontAwesome.SAVE);
-            saveBtn.setStyleName(UIConstants.BUTTON_ACTION);
-            layout.addComponent(saveBtn);
+            cancelBtn.setIcon(FontAwesome.MINUS);
+            cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
+            layout.addComponent(cancelBtn);
         }
 
         if (isSaveAndNewBtnVisible) {
@@ -79,18 +77,20 @@ public class EditFormControlsGenerator<T> implements Serializable {
             layout.addComponent(saveAndNewBtn);
         }
 
-        if (isCancelBtnVisible) {
-            Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
+        if (isSaveBtnVisible) {
+            final Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;
 
                 @Override
                 public void buttonClick(final ClickEvent event) {
-                    editForm.fireCancelForm();
+                    if (editForm.validateForm()) {
+                        editForm.fireSaveForm();
+                    }
                 }
             });
-            cancelBtn.setIcon(FontAwesome.MINUS);
-            cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
-            layout.addComponent(cancelBtn);
+            saveBtn.setIcon(FontAwesome.SAVE);
+            saveBtn.setStyleName(UIConstants.BUTTON_ACTION);
+            layout.addComponent(saveBtn);
         }
 
         return layout;

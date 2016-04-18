@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.vaadin.easyuploads;
 
 import java.io.File;
@@ -44,6 +43,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.ProgressBar;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import org.apache.jackrabbit.util.Text;
 
 /**
  *
@@ -98,7 +98,7 @@ public class MultiFileUploadExt extends CssLayout implements DropHandler {
                 }
 
                 File file = receiver.getFile();
-                String candidateFileName = event.getFileName();
+                String candidateFileName = Text.escape(event.getFileName());
                 if (!FileUtils.isValidFileName(candidateFileName)) {
                     String extension = FilenameUtils.getExtension(candidateFileName);
                     candidateFileName = StringUtils.generateSoftUniqueId();

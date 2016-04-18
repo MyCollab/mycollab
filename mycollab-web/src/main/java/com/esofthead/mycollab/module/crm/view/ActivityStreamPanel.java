@@ -99,7 +99,6 @@ public class ActivityStreamPanel extends CssLayout {
         private Date currentDate;
 
         public CrmActivityStreamPagedList() {
-            listContainer.setStyleName("beanlist-content");
             listContainer.setWidth("100%");
             this.addComponent(listContainer);
             activityStreamService = ApplicationContextUtil.getSpringBean(ActivityStreamService.class);

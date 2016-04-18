@@ -14,14 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.module.project.view.user;
 
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.view.*;
-import com.esofthead.mycollab.module.project.view.assignments.GanttChartViewPresenter;
 import com.esofthead.mycollab.module.project.view.assignments.ICalendarPresenter;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.StandupScreenData;
@@ -73,7 +71,7 @@ public class ProjectDashboardPresenter extends AbstractPresenter<ProjectDashboar
             ProjectSearchItemPresenter presenter = PresenterResolver.getPresenter(ProjectSearchItemPresenter.class);
             presenter.go(view, data);
         } else if (data instanceof ProjectScreenData.GotoGanttChart) {
-            GanttChartViewPresenter presenter = PresenterResolver.getPresenter(GanttChartViewPresenter.class);
+            IGanttChartPresenter presenter = PresenterResolver.getPresenter(IGanttChartPresenter.class);
             presenter.go(view, data);
         } else if (data instanceof ProjectScreenData.GotoCalendarView) {
             ICalendarPresenter presenter = PresenterResolver.getPresenter(ICalendarPresenter.class);

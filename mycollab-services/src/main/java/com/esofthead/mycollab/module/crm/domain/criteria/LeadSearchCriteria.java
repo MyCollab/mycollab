@@ -54,20 +54,18 @@ public class LeadSearchCriteria extends SearchCriteria {
 	public static final Param p_anyEmail = new CompositionStringParam(
 			"lead-anyEmail",
 			LeadI18nEnum.FORM_ANY_EMAIL,
-			new StringParam[] { new StringParam("", null, "m_crm_lead", "email") });
+			new StringParam("", null, "m_crm_lead", "email"));
 
 	public static final Param p_anyPhone = new CompositionStringParam(
-			"lead-anyPhone", LeadI18nEnum.FORM_ANY_PHONE, new StringParam[] {
-					new StringParam("", null, "m_crm_lead", "officePhone"),
-					new StringParam("", null, "m_crm_lead", "homePhone"),
-					new StringParam("", null, "m_crm_lead", "mobile"),
-					new StringParam("", null, "m_crm_lead", "otherPhone"),
-					new StringParam("", null, "m_crm_lead", "fax") });
+			"lead-anyPhone", LeadI18nEnum.FORM_ANY_PHONE, new StringParam("", null, "m_crm_lead", "officePhone"),
+			new StringParam("", null, "m_crm_lead", "homePhone"),
+			new StringParam("", null, "m_crm_lead", "mobile"),
+			new StringParam("", null, "m_crm_lead", "otherPhone"),
+			new StringParam("", null, "m_crm_lead", "fax"));
 
 	public static final Param p_anyCity = new CompositionStringParam("lead-anyCity",
-			LeadI18nEnum.FORM_ANY_CITY, new StringParam[] {
-					new StringParam("", null, "m_crm_lead", "primCity"),
-					new StringParam("", null, "m_crm_lead", "otherCity") });
+			LeadI18nEnum.FORM_ANY_CITY, new StringParam("", null, "m_crm_lead", "primCity"),
+			new StringParam("", null, "m_crm_lead", "otherCity"));
 
 	public static final Param p_billingCountry = new StringListParam(
 			"lead-billingCountry", LeadI18nEnum.FORM_PRIMARY_COUNTRY,

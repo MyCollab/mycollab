@@ -75,7 +75,7 @@ public class MeetingListDashlet extends Depot {
     public void display() {
         final MeetingSearchCriteria criteria = new MeetingSearchCriteria();
         criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-        criteria.setAssignUsers(new SetSearchField<>(new String[]{AppContext.getUsername()}));
+        criteria.setAssignUsers(new SetSearchField<>(AppContext.getUsername()));
         tableItem.setSearchCriteria(criteria);
     }
 }

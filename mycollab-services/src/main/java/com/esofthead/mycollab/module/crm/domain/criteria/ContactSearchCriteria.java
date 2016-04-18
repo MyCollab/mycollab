@@ -66,24 +66,22 @@ public class ContactSearchCriteria extends SearchCriteria {
 	public static final Param p_anyPhone = new CompositionStringParam(
 			"contact-anyPhone",
 			ContactI18nEnum.FORM_ANY_PHONE,
-			new StringParam[] {
-					new StringParam("", null, "m_crm_contact", "officePhone"),
-					new StringParam("", null, "m_crm_contact", "mobile"),
-					new StringParam("", null, "m_crm_contact", "homePhone"),
-					new StringParam("", null, "m_crm_contact", "otherPhone"),
-					new StringParam("", null, "m_crm_contact", "fax"),
-					new StringParam("", null, "m_crm_contact", "assistantPhone") });
+			new StringParam("", null, "m_crm_contact", "officePhone"),
+			new StringParam("", null, "m_crm_contact", "mobile"),
+			new StringParam("", null, "m_crm_contact", "homePhone"),
+			new StringParam("", null, "m_crm_contact", "otherPhone"),
+			new StringParam("", null, "m_crm_contact", "fax"),
+			new StringParam("", null, "m_crm_contact", "assistantPhone"));
 
 	public static final Param p_anyEmail = new CompositionStringParam(
 			"contact-anyEmail", ContactI18nEnum.FORM_ANY_EMAIL,
-			new StringParam[] { new StringParam("", null, "m_crm_contact",
-					"email") });
+			new StringParam("", null, "m_crm_contact",
+					"email"));
 
 	public static final Param p_anyCity = new CompositionStringParam(
 			"contact-anyCity", ContactI18nEnum.FORM_ANY_CITY,
-			new StringParam[] {
-					new StringParam("", null, "m_crm_contact", "primCity"),
-					new StringParam("", null, "m_crm_contact", "otherCity") });
+			new StringParam("", null, "m_crm_contact", "primCity"),
+			new StringParam("", null, "m_crm_contact", "otherCity"));
 
 	public static final Param p_account = new PropertyParam("contact-account",
 			ContactI18nEnum.FORM_ACCOUNTS, "m_crm_contact", "accountId");

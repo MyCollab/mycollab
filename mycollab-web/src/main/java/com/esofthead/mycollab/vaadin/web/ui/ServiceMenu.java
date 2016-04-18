@@ -39,21 +39,24 @@ public class ServiceMenu extends ButtonGroup {
         this.setStyleName(COMPONENT_STYLENAME);
     }
 
-    public void addService(String serviceName, Resource linkIcon, ClickListener listener) {
-        Button newService = new Button(serviceName, listener);
-        newService.setIcon(linkIcon);
-        this.addButton(newService);
+    public Button addService(String serviceName, Resource linkIcon, ClickListener listener) {
+        Button serviceBtn = new Button(serviceName, listener);
+        serviceBtn.setIcon(linkIcon);
+        this.addButton(serviceBtn);
+        return serviceBtn;
     }
 
-    public void addService(String serviceName, ClickListener listener) {
-        Button newService = new Button(serviceName, listener);
-        this.addButton(newService);
+    public Button addService(String serviceName, ClickListener listener) {
+        Button serviceBtn = new Button(serviceName, listener);
+        this.addButton(serviceBtn);
+        return serviceBtn;
     }
 
-    public void addService(String id, String serviceName, ClickListener listener) {
-        Button newService = new Button(serviceName, listener);
-        newService.setId(id);
-        this.addButton(newService);
+    public Button addService(String id, String serviceName, ClickListener listener) {
+        Button serviceBtn = new Button(serviceName, listener);
+        serviceBtn.setId(id);
+        this.addButton(serviceBtn);
+        return serviceBtn;
     }
 
     public void selectService(int index) {

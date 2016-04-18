@@ -37,8 +37,7 @@ public class StorageFactory {
 
     private StorageFactory() {
         // Load storage configuration
-        String storageSystem = ApplicationProperties.getString(ApplicationProperties.STORAGE_SYSTEM,
-                FILE_STORAGE_SYSTEM);
+        String storageSystem = ApplicationProperties.getString(ApplicationProperties.STORAGE_SYSTEM, FILE_STORAGE_SYSTEM);
         if (FILE_STORAGE_SYSTEM.equals(storageSystem)) {
             storage = FileStorage.getInstance();
         } else if (S3_STORAGE_SYSTEM.equals(storageSystem)) {

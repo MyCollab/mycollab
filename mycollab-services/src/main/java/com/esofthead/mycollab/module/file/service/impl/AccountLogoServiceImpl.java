@@ -40,10 +40,10 @@ import java.util.UUID;
  * @author MyCollab Ltd.
  * @since 4.1
  */
-
 @Service
 public class AccountLogoServiceImpl implements AccountLogoService {
     private static final Logger LOG = LoggerFactory.getLogger(AccountLogoServiceImpl.class);
+    private static final int[] SUPPORT_SIZES = {150, 100, 64};
 
     @Autowired
     private ResourceService resourceService;
@@ -51,15 +51,11 @@ public class AccountLogoServiceImpl implements AccountLogoService {
     @Autowired
     private BillingAccountService billingAccountService;
 
-
-    private static final int[] SUPPORT_SIZES = {150, 100, 64};
-
     @Override
     public String upload(String uploadedUser, BufferedImage image, Integer sAccountId) {
         BillingAccount account = billingAccountService.getAccountById(sAccountId);
         if (account == null) {
-            throw new MyCollabException(
-                    "There's no account associated with provided id " + sAccountId);
+            throw new MyCollabException("There's no account associated with provided id " + sAccountId);
         }
 
         // Construct new logoid

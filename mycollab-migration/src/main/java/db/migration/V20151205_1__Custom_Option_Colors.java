@@ -16,6 +16,6 @@ public class V20151205_1__Custom_Option_Colors implements SpringJdbcMigration {
 
         jdbcTemplate.update("UPDATE s_account_theme SET vTabsheetBg=?, vTabsheetBgSelected=?, " +
                 "topMenuBgSelected=?, vTabsheetText=?, actionBtnText=?, optionBtnText=?, dangerBtnText=? WHERE " +
-                "isDefault=? ", new Object[]{"24A3E3", "f7f7f7", "f7f7f7", "f7f7f7", "f7f7f7", "f7f7f7", "f7f7f7", 1});
+                "isDefault=? ", "24A3E3", "f7f7f7", "f7f7f7", "f7f7f7", "f7f7f7", "f7f7f7", "f7f7f7", 1);
     }
 }

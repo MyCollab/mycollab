@@ -34,6 +34,6 @@ public interface SessionHolderProviderManager {
      * @param repository
      * @return
      */
-    public SessionHolderProvider getSessionProvider(Repository repository);
+    SessionHolderProvider getSessionProvider(Repository repository);
 
 }

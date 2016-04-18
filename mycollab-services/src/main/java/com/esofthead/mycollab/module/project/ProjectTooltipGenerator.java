@@ -495,9 +495,7 @@ public class ProjectTooltipGenerator {
 
             return tooltipManager.create().write();
         } catch (Exception e) {
-            LOG.error(
-                    "Error while generate tooltip for servlet project tooltip",
-                    e);
+            LOG.error("Error while generate tooltip for servlet project tooltip", e);
             return null;
         }
     }

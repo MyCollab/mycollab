@@ -25,11 +25,15 @@ public class PathUtils {
         return ((sAccountId == null) ? "" : sAccountId + "/") + objectPath;
     }
 
+    public static String getProjectLogoPath(Integer accountId, Integer projectId) {
+        return String.format("%d/project/%d/.attachments", accountId, projectId);
+    }
+
     public static String buildLogoPath(Integer sAccountId, String logoFileName, Integer logoSize) {
-        return String.format("%s/.assets/%s_%d.png", sAccountId, logoFileName, logoSize);
+        return String.format("%d/.assets/%s_%d.png", sAccountId, logoFileName, logoSize);
     }
 
     public static String buildFavIconPath(Integer sAccountId, String favIconFileName) {
-        return String.format("%s/.assets/%s.ico", sAccountId, favIconFileName);
+        return String.format("%d/.assets/%s.ico", sAccountId, favIconFileName);
     }
 }

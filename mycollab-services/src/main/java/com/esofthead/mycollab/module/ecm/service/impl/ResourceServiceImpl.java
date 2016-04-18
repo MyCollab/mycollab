@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.ecm.service.impl;
 
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.UserInvalidInputException;
+import com.esofthead.mycollab.core.utils.FileUtils;
 import com.esofthead.mycollab.core.utils.ImageUtil;
 import com.esofthead.mycollab.core.utils.MimeTypesUtil;
 import com.esofthead.mycollab.core.utils.StringUtils;
@@ -84,13 +85,16 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Override
     public Folder createNewFolder(String baseFolderPath, String folderName, String createdBy) {
-        String folderPath = baseFolderPath + "/" + folderName;
-        Folder folder = new Folder(folderPath);
-        folder.setName(folderName);
-        folder.setCreatedBy(createdBy);
-        folder.setCreated(new GregorianCalendar());
-        contentJcrDao.createFolder(folder, createdBy);
-        return folder;
+        if (FileUtils.isValidFileName(folderName)) {
+            String folderPath = baseFolderPath + "/" + folderName;
+            Folder folder = new Folder(folderPath);
+            folder.setName(folderName);
+            folder.setCreatedBy(createdBy);
+            folder.setCreated(new GregorianCalendar());
+            contentJcrDao.createFolder(folder, createdBy);
+            return folder;
+        }
+        throw new UserInvalidInputException("Invalid file name");
     }
 
     @Override

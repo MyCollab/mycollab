@@ -23,7 +23,7 @@ import com.esofthead.mycollab.core.MyCollabException;
  * @since 1.0
  */
 public enum ReportExportType {
-    CSV, EXCEL, PDF;
+    CSV, EXCEL, PDF, DOCX;
 
     public String getDefaultFileName() {
         switch (this) {
@@ -33,6 +33,8 @@ public enum ReportExportType {
                 return "export.pdf";
             case EXCEL:
                 return "export.xlsx";
+            case DOCX:
+                return "docx";
             default:
                 throw new MyCollabException("Do not support export type " + this);
         }

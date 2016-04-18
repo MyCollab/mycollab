@@ -44,12 +44,11 @@ Version 5.2.12
 -----------------------------
 **Library Upgrades**
 
+* Cglib 3.2.2
 * Other libraries
 
 **Improvements & New Features**
 
-* [Premium] Manage companies
-* [Premium] Print invoice and send to client
 * [Premium] Allow to upload client logo
 * Allow to upload project logo
 * Can adjust the parent-child relationship of tasks
@@ -58,8 +57,10 @@ Version 5.2.12
 
 **Bug Fixes**
 
-* None
-
+* [Premium] Can not print client page
+* Can not modify basic properties of kanban columns
+* Several cases of bug dependencies do not work as expected
+* Can not upload/rename the file include the special unicode characters
 
 Version 5.2.11
 -----------------------------
@@ -75,6 +76,7 @@ Version 5.2.11
 * [Premium] Edit overtime field of time tracking
 * Optimize dependency libraries to reduce the distribution file
 * Support print function
+* Slightly change the JVM settings
 * Other minor improvements
 
 **Bug Fixes**

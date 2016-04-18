@@ -75,7 +75,7 @@ public class PopupFieldBuilder {
                 return layout;
             }
         });
-        view.setDescription(description);
+        view.setDescription(description + " - This edition is not presented on the community edition");
         view.setStyleName("block-popupedit");
         return view;
     }

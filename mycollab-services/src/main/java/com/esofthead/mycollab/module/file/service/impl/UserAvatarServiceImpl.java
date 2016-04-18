@@ -17,11 +17,10 @@
 package com.esofthead.mycollab.module.file.service.impl;
 
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.core.utils.ImageUtil;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.events.SessionEvent;
-import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
+import com.esofthead.mycollab.module.file.service.EntityUploaderService;
 import com.esofthead.mycollab.module.file.service.UserAvatarService;
 import com.esofthead.mycollab.module.user.dao.UserMapper;
 import com.esofthead.mycollab.module.user.domain.User;
@@ -32,11 +31,8 @@ import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.UUID;
 
 /**
  * @author MyCollab Ltd.
@@ -48,6 +44,9 @@ public class UserAvatarServiceImpl implements UserAvatarService {
 
     @Autowired
     private ResourceService resourceService;
+
+    @Autowired
+    private EntityUploaderService entityUploaderService;
 
     @Autowired
     private UserMapper userMapper;
@@ -69,46 +68,14 @@ public class UserAvatarServiceImpl implements UserAvatarService {
 
     @Override
     public String uploadAvatar(BufferedImage image, String username, String avatarId) {
-        // Construct new avatarid
-        String randomString = UUID.randomUUID().toString();
-        String newAvatarId = username + "_" + randomString;
-
-        for (int i = 0; i < SUPPORT_SIZES.length; i++) {
-            uploadAvatarToStorage(username, image, newAvatarId, SUPPORT_SIZES[i]);
-        }
+        String newAvatarId = entityUploaderService.upload(image, "avatar", avatarId, username, null, SUPPORT_SIZES);
 
         // save avatar id
         User user = new User();
         user.setUsername(username);
         user.setAvatarid(newAvatarId);
         userMapper.updateByPrimaryKeySelective(user);
-
-        // Delete old avatar
-        if (avatarId != null) {
-            for (int i = 0; i < SUPPORT_SIZES.length; i++) {
-                try {
-                    resourceService.removeResource(String.format("avatar/%s_%d.png", avatarId, SUPPORT_SIZES[i]), username, null);
-                } catch (Exception e) {
-                    LOG.error("Error while delete old avatar", e);
-                }
-            }
-        }
-
-        LOG.debug("Notify user avatar change");
         EventBusFactory.getInstance().post(new SessionEvent.UserProfileChangeEvent(UserAvatarServiceImpl.this, "avatarid", newAvatarId));
-
         return newAvatarId;
-    }
-
-    private void uploadAvatarToStorage(String username, BufferedImage image, String avatarId, int width) {
-        BufferedImage scaleImage = ImageUtil.scaleImage(image, (float) width / image.getWidth());
-        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-        try {
-            ImageIO.write(scaleImage, "png", outStream);
-        } catch (IOException e) {
-            throw new MyCollabException("Error while write image to stream", e);
-        }
-        resourceService.saveContent(Content.buildContentInstance(null, String.format("avatar/%s_%d.png", avatarId, width)),
-                username, new ByteArrayInputStream(outStream.toByteArray()), null);
     }
 }

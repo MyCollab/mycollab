@@ -19,7 +19,7 @@ public class V20150803_2__Remove_TaskGroup_Related implements SpringJdbcMigratio
             Long id = (Long) row.get("id");
             Integer milestoneId = (Integer) row.get("milestoneId");
 
-            jdbcTemplate.update("UPDATE m_prj_task SET milestoneId=? WHERE tasklistid=?", new Object[]{milestoneId, id});
+            jdbcTemplate.update("UPDATE m_prj_task SET milestoneId=? WHERE tasklistid=?", milestoneId, id);
 
         }
 

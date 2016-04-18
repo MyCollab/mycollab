@@ -62,6 +62,7 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.jackrabbit.util.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.dialogs.ConfirmDialog;
@@ -135,8 +136,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
 
             @Override
             public void buttonClick(ClickEvent event) {
-                AddNewFolderWindow addnewFolderWindow = new AddNewFolderWindow();
-                UI.getCurrent().addWindow(addnewFolderWindow);
+                UI.getCurrent().addWindow(new AddNewFolderWindow());
             }
         });
         createBtn.setIcon(FontAwesome.PLUS);
@@ -162,7 +162,6 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
         resourcesContainer = new ResourcesContainer();
         MVerticalLayout floatControl = new MVerticalLayout(headerLayout, fileBreadCrumb).withMargin(new MarginInfo
                 (false, false, true, false)).withStyleName("floatControl");
-//        FloatingComponent.floatThis(floatControl).setContainerId("main-body");
         this.with(floatControl, resourcesContainer);
 
         fileBreadCrumb.initBreadcrumb();
@@ -413,7 +412,9 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                     }
                 }
             });
+            resourceLinkBtn.setWidth("100%");
             resourceLinkBtn.addStyleName(UIConstants.BUTTON_LINK);
+            resourceLinkBtn.addStyleName(UIConstants.TEXT_ELLIPSIS);
             informationLayout.addComponent(resourceLinkBtn);
 
             MHorizontalLayout moreInfoAboutResLayout = new MHorizontalLayout();
@@ -510,7 +511,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                     String oldPath = renameResource.getPath();
                     String parentOldPath = oldPath.substring(0, oldPath.lastIndexOf("/") + 1);
 
-                    String newNameValue = folderName.getValue();
+                    String newNameValue = Text.escape(folderName.getValue());
                     String newPath = parentOldPath + newNameValue;
 
                     if (renameResource.isExternalResource()) {
@@ -574,6 +575,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                     if (StringUtils.isNotBlank(folderVal)) {
                         FileUtils.assertValidFolderName(folderVal);
                         String baseFolderPath = baseFolder.getPath();
+                        folderVal = Text.escape(folderVal);
 
                         if (baseFolder instanceof ExternalFolder) {
                             String path = baseFolder.getPath() + "/" + folderVal;
@@ -644,11 +646,12 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                     if (CollectionUtils.isNotEmpty(attachments)) {
                         for (File attachment : attachments) {
                             try {
-                                if (!FileUtils.isValidFileName(attachment.getName())) {
+                                String attachmentName = Text.escape(attachment.getName());
+                                if (!FileUtils.isValidFileName(attachmentName)) {
                                     NotificationUtil.showWarningNotification("Please upload valid file-name except any follow characters : <>:&/\\|?*&");
                                     return;
                                 }
-                                Content content = new Content(String.format("%s/%s", baseFolder.getPath(), attachment.getName()));
+                                Content content = new Content(String.format("%s/%s", baseFolder.getPath(), attachmentName));
                                 content.setSize(attachment.length());
                                 FileInputStream fileInputStream = new FileInputStream(attachment);
 
@@ -705,8 +708,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             if (!checking) {
                 NotificationUtil.showNotification("Congrats", "Moved asset(s) successfully.");
             } else {
-                NotificationUtil
-                        .showWarningNotification("Moving assets is finished, some items can't move to destination. Please " +
+                NotificationUtil.showWarningNotification("Moving assets is finished, some items can't move to destination. Please " +
                                 "check duplicated file-name and try again.");
             }
         }

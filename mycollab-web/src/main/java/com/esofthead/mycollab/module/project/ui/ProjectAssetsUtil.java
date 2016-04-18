@@ -16,8 +16,19 @@
  */
 package com.esofthead.mycollab.module.project.ui;
 
+import com.esofthead.mycollab.configuration.StorageFactory;
+import com.esofthead.mycollab.core.utils.StringUtils;
+import com.esofthead.mycollab.module.file.PathUtils;
+import com.esofthead.mycollab.module.project.domain.Project;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
+import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
+import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
+import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Sizeable;
+import com.vaadin.ui.*;
+import org.vaadin.jouni.restrain.Restrain;
 
 /**
  * @author MyCollab Ltd.
@@ -33,5 +44,25 @@ public class ProjectAssetsUtil {
         } else {
             return FontAwesome.SPINNER;
         }
+    }
+
+    public static final Component buildProjectLogo(Project project, int size) {
+        AbstractComponent wrapper;
+        if (!StringUtils.isBlank(project.getAvatarid())) {
+            wrapper = new Image(null, new ExternalResource(StorageFactory.getInstance().getResourcePath
+                    (String.format("%s/%s_%d.png", PathUtils.getProjectLogoPath(AppContext.getAccountId(), project
+                            .getId()), project.getAvatarid(), size))));
+        } else {
+            ELabel projectIcon = new ELabel(project.getShortname()).withStyleName(UIConstants.TEXT_ELLIPSIS, "center");
+            wrapper = new VerticalLayout();
+            ((VerticalLayout) wrapper).addComponent(projectIcon);
+            ((VerticalLayout) wrapper).setComponentAlignment(projectIcon, Alignment.MIDDLE_CENTER);
+        }
+        wrapper.setWidth(size, Sizeable.Unit.PIXELS);
+        wrapper.setHeight(size, Sizeable.Unit.PIXELS);
+        wrapper.addStyleName(UIConstants.CIRCLE_BOX);
+        wrapper.setDescription("To change the project logo, go to project menu, select 'Edit Project' and upload the " +
+                "new project logo");
+        return wrapper;
     }
 }

@@ -208,7 +208,7 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
                 Component attachmentDisplayComp = ProjectAttachmentDisplayComponentFactory
                         .getAttachmentDisplayComponent(message.getProjectid(), ProjectTypeConstants.MESSAGE, message.getId());
 
-                MVerticalLayout messageFooter = new MVerticalLayout().withWidth("100%").withStyleName("message-footer")
+                MVerticalLayout messageFooter = new MVerticalLayout().withWidth("100%")
                         .with(attachmentField, attachmentDisplayComp);
 
                 rowLayout.addComponent(messageFooter);

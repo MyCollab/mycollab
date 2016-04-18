@@ -300,7 +300,8 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
             ELabel statusLbl = new ELabel(AppContext.getMessage(OptionI18nEnum.BugStatus.class, milestone.getStatus()))
                     .withStyleName(UIConstants.FIELD_NOTE).withWidthUndefined();
             ToggleMilestoneSummaryField toggleMilestoneSummaryField = new ToggleMilestoneSummaryField(milestone);
-            MHorizontalLayout headerLayout = new MHorizontalLayout(statusLbl, toggleMilestoneSummaryField);
+            MHorizontalLayout headerLayout = new MHorizontalLayout(statusLbl, toggleMilestoneSummaryField).expand
+                    (toggleMilestoneSummaryField).withFullWidth();
             this.with(headerLayout);
 
             CssLayout metaBlock = new CssLayout();

@@ -187,7 +187,7 @@ public abstract class SavedFilterComboBox extends CustomField<String> {
 
     static {
         try {
-            QUERY_SELECT = QuerySelectListener.class.getDeclaredMethod("querySelect", new Class[]{QuerySelectEvent.class});
+            QUERY_SELECT = QuerySelectListener.class.getDeclaredMethod("querySelect", QuerySelectEvent.class);
         } catch (final NoSuchMethodException e) {
             // This should never happen
             throw new java.lang.RuntimeException("Internal error finding methods in AbstractField");

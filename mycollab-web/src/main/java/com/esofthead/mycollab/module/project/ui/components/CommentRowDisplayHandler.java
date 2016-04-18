@@ -106,8 +106,7 @@ public class CommentRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleC
 
         List<Content> attachments = comment.getAttachments();
         if (!CollectionUtils.isEmpty(attachments)) {
-            MVerticalLayout messageFooter = new MVerticalLayout().withSpacing(false).withWidth
-                    ("100%").withStyleName("message-footer");
+            MVerticalLayout messageFooter = new MVerticalLayout().withSpacing(false).withWidth("100%");
             AttachmentDisplayComponent attachmentDisplay = new AttachmentDisplayComponent(attachments);
             attachmentDisplay.setWidth("100%");
             messageFooter.with(attachmentDisplay).withAlign(attachmentDisplay, Alignment.MIDDLE_RIGHT);

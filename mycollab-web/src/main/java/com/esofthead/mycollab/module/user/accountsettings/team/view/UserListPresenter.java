@@ -54,8 +54,8 @@ public class UserListPresenter extends AbstractPresenter<UserListView> {
             criteria = new UserSearchCriteria();
             criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
             criteria.setRegisterStatuses(new SetSearchField<>(
-                    new String[]{RegisterStatusConstants.ACTIVE, RegisterStatusConstants.SENT_VERIFICATION_EMAIL,
-                            RegisterStatusConstants.VERIFICATING}));
+                    RegisterStatusConstants.ACTIVE, RegisterStatusConstants.SENT_VERIFICATION_EMAIL,
+                    RegisterStatusConstants.VERIFICATING));
         } else {
             criteria = (UserSearchCriteria) data.getParams();
         }

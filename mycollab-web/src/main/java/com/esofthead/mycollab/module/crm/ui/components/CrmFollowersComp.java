@@ -22,6 +22,7 @@ import com.esofthead.mycollab.common.i18n.FollowerI18nEnum;
 import com.esofthead.mycollab.common.service.MonitorItemService;
 import com.esofthead.mycollab.core.arguments.*;
 import com.esofthead.mycollab.core.utils.StringUtils;
+import com.esofthead.mycollab.module.user.CommonTooltipGenerator;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.domain.criteria.UserSearchCriteria;
 import com.esofthead.mycollab.module.user.service.UserService;
@@ -35,7 +36,6 @@ import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.data.Property;
 import com.vaadin.event.LayoutEvents;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
@@ -136,19 +136,17 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
 
     private class FollowerComp extends CssLayout {
         FollowerComp(final SimpleUser user) {
-            Resource userAvatarBtn = UserAvatarControlFactory.createAvatarResource(user.getAvatarid(), 32);
-            final Label icon = new Label();
-            icon.setIcon(userAvatarBtn);
-            icon.setDescription(user.getDisplayName());
-            icon.setWidthUndefined();
-            addComponent(icon);
+            final Image userAvatarBtn = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(user.getAvatarid(), 32);
+            userAvatarBtn.addStyleName(UIConstants.CIRCLE_BOX);
+            userAvatarBtn.setDescription(CommonTooltipGenerator.generateTooltipUser(AppContext.getUserLocale(), user,
+                    AppContext.getSiteUrl(), AppContext.getUserTimezone()));
+            addComponent(userAvatarBtn);
             this.addStyleName("removeable-btn");
-
             this.setWidthUndefined();
             this.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
                 @Override
                 public void layoutClick(LayoutEvents.LayoutClickEvent event) {
-                    if (event.getClickedComponent() == icon) {
+                    if (event.getClickedComponent() == userAvatarBtn) {
                     } else if (!hasEditPermission()) {
                         NotificationUtil.showMessagePermissionAlert();
                     } else {
@@ -171,7 +169,7 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
             criteria.setType(StringSearchField.and(type));
             criteria.setUser(StringSearchField.and(username));
             monitorItemService.removeByCriteria(criteria, AppContext.getAccountId());
-            for (SimpleUser user: followers) {
+            for (SimpleUser user : followers) {
                 if (username.equals(user.getUsername())) {
                     followers.remove(user);
                     break;

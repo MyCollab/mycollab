@@ -33,8 +33,6 @@
 
     <inherits name="com.esofthead.vaadin.cropField.WidgetSet" />
 
-    <inherits name="org.tltv.gantt.WidgetSet" />
-
     <inherits name="com.esofthead.vaadin.floatingcomponent.WidgetSet" />
 
     <inherits name="org.vaadin.suggestfield.WidgetSet" />

@@ -157,6 +157,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
             HorizontalLayout blockContent = new HorizontalLayout();
             blockContent.addStyleName("member-block");
             Image memberAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(beanItem.getMemberAvatarId(), 100);
+            memberAvatar.addStyleName(UIConstants.CIRCLE_BOX);
             blockContent.addComponent(memberAvatar);
 
             MVerticalLayout memberInfo = new MVerticalLayout().withMargin(new MarginInfo(false, false, false, true));

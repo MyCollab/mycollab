@@ -169,7 +169,7 @@ public class MyProjectListComponent extends MVerticalLayout {
     private ProjectSearchCriteria getActiveProjectsSearchCriteria() {
         ProjectSearchCriteria prjSearchCriteria = new ProjectSearchCriteria();
         prjSearchCriteria.setInvolvedMember(StringSearchField.and(AppContext.getUsername()));
-        prjSearchCriteria.setProjectStatuses(new SetSearchField<>(new String[]{StatusI18nEnum.Open.name()}));
+        prjSearchCriteria.setProjectStatuses(new SetSearchField<>(StatusI18nEnum.Open.name()));
         prjSearchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("name", SearchCriteria.ASC)));
         return prjSearchCriteria;
     }
@@ -177,7 +177,7 @@ public class MyProjectListComponent extends MVerticalLayout {
     private ProjectSearchCriteria getArchivedProjectsSearchCriteria() {
         ProjectSearchCriteria prjSearchCriteria = new ProjectSearchCriteria();
         prjSearchCriteria.setInvolvedMember(StringSearchField.and(AppContext.getUsername()));
-        prjSearchCriteria.setProjectStatuses(new SetSearchField<>(new String[]{StatusI18nEnum.Archived.name()}));
+        prjSearchCriteria.setProjectStatuses(new SetSearchField<>(StatusI18nEnum.Archived.name()));
         prjSearchCriteria.setOrderFields(Collections.singletonList(new SearchCriteria.OrderField("name", SearchCriteria.ASC)));
         return prjSearchCriteria;
     }

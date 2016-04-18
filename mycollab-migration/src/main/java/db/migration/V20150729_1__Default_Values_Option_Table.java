@@ -52,7 +52,7 @@ public class V20150729_1__Default_Values_Option_Table implements SpringJdbcMigra
             //get all default options
             List<Map<String, Object>> rows = jdbcTemplate.queryForList("SELECT id, type, typeVal, orderIndex, sAccountId, createdtime, createdUser, " +
                     "extraId, isDefault, refOption, description FROM m_options WHERE sAccountId = ? AND " +
-                    "isDefault='1'", new Object[]{accountId});
+                    "isDefault='1'", accountId);
 
             List<Integer> projectIds = jdbcTemplate.queryForList("SELECT id FROM m_prj_project WHERE sAccountId=?", new Object[]{accountId}, Integer.class);
             for (Integer projectId : projectIds) {

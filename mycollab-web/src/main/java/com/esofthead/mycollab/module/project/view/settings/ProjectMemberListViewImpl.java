@@ -188,6 +188,7 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
 
         MHorizontalLayout blockTop = new MHorizontalLayout().withWidth("100%");
         Image memberAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(member.getMemberAvatarId(), 100);
+        memberAvatar.addStyleName(UIConstants.CIRCLE_BOX);
         blockTop.addComponent(memberAvatar);
 
         MHorizontalLayout buttonControls = new MHorizontalLayout();

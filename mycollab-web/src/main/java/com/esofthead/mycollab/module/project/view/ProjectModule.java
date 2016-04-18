@@ -45,7 +45,6 @@ import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.teemu.VaadinIcons;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 /**
@@ -76,6 +75,7 @@ public class ProjectModule extends AbstractPageView implements IDesktopModule {
                     serviceMenu.selectService(0);
                 }
             });
+
             serviceMenu.addService("Clients", new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
@@ -83,7 +83,6 @@ public class ProjectModule extends AbstractPageView implements IDesktopModule {
                     serviceMenu.selectService(1);
                 }
             });
-
             serviceMenuContainer.with(serviceMenu);
 
             Button newPrjBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.BUTTON_NEW_PROJECT), new Button.ClickListener() {
@@ -120,7 +119,7 @@ public class ProjectModule extends AbstractPageView implements IDesktopModule {
 
             searchCriteria = new ProjectSearchCriteria();
             searchCriteria.setInvolvedMember(StringSearchField.and(AppContext.getUsername()));
-            searchCriteria.setProjectStatuses(new SetSearchField<>(new String[]{OptionI18nEnum.StatusI18nEnum.Open.name()}));
+            searchCriteria.setProjectStatuses(new SetSearchField<>(OptionI18nEnum.StatusI18nEnum.Open.name()));
 
             titleLbl = ELabel.h2(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_ACTIVE_PROJECTS_TITLE, 0));
             OptionPopupContent contentLayout = new OptionPopupContent();

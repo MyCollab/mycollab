@@ -28,16 +28,16 @@ public interface JcrOptionalOperations extends JcrModel2Operations {
     /**
      * @see javax.jcr.Session#addLockToken(java.lang.String)
      */
-    public void addLockToken(String lock);
+    void addLockToken(String lock);
 
     /**
      * @see javax.jcr.Session#getLockTokens()
      */
-    public String[] getLockTokens();
+    String[] getLockTokens();
 
     /**
      * @see javax.jcr.Session#removeLockToken(java.lang.String)
      */
-    public void removeLockToken(String lt);
+    void removeLockToken(String lt);
 
 }

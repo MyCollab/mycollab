@@ -57,14 +57,12 @@ public class AccountSearchCriteria extends SearchCriteria {
 
     public static final Param p_anyCity = new CompositionStringParam("account-anyCity",
             AccountI18nEnum.FORM_ANY_CITY,
-            new StringParam[]{
-                    new StringParam("", null, "m_crm_account", "city"),
-                    new StringParam("", null, "m_crm_account", "shippingCity")});
+            new StringParam("", null, "m_crm_account", "city"),
+            new StringParam("", null, "m_crm_account", "shippingCity"));
 
     public static final Param p_anyPhone = new CompositionStringParam("account-anyPhone", AccountI18nEnum.FORM_ANY_PHONE,
-            new StringParam[]{
-                    new StringParam("", null, "m_crm_account", "alternatePhone"),
-                    new StringParam("", null, "m_crm_account", "phoneOffice")});
+            new StringParam("", null, "m_crm_account", "alternatePhone"),
+            new StringParam("", null, "m_crm_account", "phoneOffice"));
 
     public static final Param p_industries = new StringListParam("account-industry",
             AccountI18nEnum.FORM_INDUSTRY, "m_crm_account", "industry",

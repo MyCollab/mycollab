@@ -59,8 +59,7 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
         jcrTemplate.execute(new JcrCallback() {
 
             @Override
-            public Object doInJcr(Session session) throws IOException,
-                    RepositoryException {
+            public Object doInJcr(Session session) throws IOException, RepositoryException {
                 Node rootNode = session.getRootNode();
                 Node node = getNode(rootNode, content.getPath());
                 // forward to current path
@@ -108,8 +107,7 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
                     }
 
                     String nodeName = pathStr[pathStr.length - 1];
-                    Node addNode = parentNode.addNode(nodeName,
-                            "{http://www.esofthead.com/mycollab}content");
+                    Node addNode = parentNode.addNode(nodeName, "{http://www.esofthead.com/mycollab}content");
                     addNode.addMixin(NodeType.MIX_LAST_MODIFIED);
                     addNode.addMixin(NodeType.MIX_TITLE);
 
@@ -144,21 +142,16 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
                         // move to lastest node of the path
                         Node childNode = getNode(parentNode, pathStr[i]);
                         if (childNode != null) {
-                            LOG.debug("Found node with path {} in sub node ",
-                                    pathStr[i], parentNode.getPath());
+                            LOG.debug("Found node with path {} in sub node ", pathStr[i], parentNode.getPath());
                             if (!isNodeFolder(childNode)) {
                                 // node must be the folder
                                 String errorString = "Invalid path. User want to create folder has path %s but there is a content has path %s";
-                                throw new ContentException(String.format(
-                                        errorString, folder.getPath(),
-                                        childNode.getPath()));
+                                throw new ContentException(String.format(errorString, folder.getPath(), childNode.getPath()));
                             } else {
-                                LOG.debug("Found folder node {}",
-                                        childNode.getPath());
+                                LOG.debug("Found folder node {}", childNode.getPath());
                             }
                         } else { // add node
-                            LOG.debug("Create new folder {} of sub node {}",
-                                    pathStr[i], parentNode.getPath());
+                            LOG.debug("Create new folder {} of sub node {}", pathStr[i], parentNode.getPath());
                             childNode = JcrUtils.getOrAddNode(parentNode, pathStr[i], "mycollab:folder");
                             childNode.setProperty("mycollab:createdUser", createdUser);
                             session.save();
@@ -167,12 +160,10 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
                         parentNode = childNode;
                     }
 
-                    LOG.debug("Node path {} is existed {}", path,
-                            (getNode(rootNode, path) != null));
+                    LOG.debug("Node path {} is existed {}", path, (getNode(rootNode, path) != null));
                 } catch (Exception e) {
                     String errorString = "Error while create folder with path %s";
-                    throw new MyCollabException(String.format(errorString,
-                            folder.getPath()), e);
+                    throw new MyCollabException(String.format(errorString, folder.getPath()), e);
                 }
                 return null;
             }
@@ -207,8 +198,7 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
     public Resource getResource(final String path) {
         return jcrTemplate.execute(new JcrCallback<Resource>() {
             @Override
-            public Resource doInJcr(Session session) throws IOException,
-                    RepositoryException {
+            public Resource doInJcr(Session session) throws IOException, RepositoryException {
                 Node rootNode = session.getRootNode();
                 Node node = getNode(rootNode, path);
 
@@ -219,8 +209,7 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
                     } else if (isNodeFolder(node)) {
                         return convertNodeToFolder(node);
                     } else {
-                        throw new MyCollabException(
-                                "Resource does not have type be mycollab:folder or mycollab:content. Its path is " + node.getPath());
+                        throw new MyCollabException("Resource does not have type be mycollab:folder or mycollab:content. Its path is " + node.getPath());
                     }
                 }
                 return null;
@@ -234,8 +223,7 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
         jcrTemplate.execute(new JcrCallback() {
 
             @Override
-            public Content doInJcr(Session session) throws IOException,
-                    RepositoryException {
+            public Content doInJcr(Session session) throws IOException, RepositoryException {
                 Node rootNode = session.getRootNode();
                 Node node = getNode(rootNode, path);
 
@@ -272,16 +260,14 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
                                 resources.add(content);
                             } else {
                                 String errorString = "Node %s has type not mycollab:content or mycollab:folder";
-                                LOG.error(String.format(errorString,
-                                        childNode.getPath()));
+                                LOG.error(String.format(errorString, childNode.getPath()));
                             }
                         }
 
                         return resources;
                     } else {
-                        throw new ContentException(
-                                "Do not support any node type except mycollab:folder. The current node has type "
-                                        + node.getPrimaryNodeType().getName());
+                        throw new ContentException("Do not support any node type except mycollab:folder. The current node has type "
+                                + node.getPrimaryNodeType().getName());
                     }
                 }
 
@@ -296,8 +282,7 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
         return jcrTemplate.execute(new JcrCallback<List<Content>>() {
 
             @Override
-            public List<Content> doInJcr(Session session) throws IOException,
-                    RepositoryException {
+            public List<Content> doInJcr(Session session) throws IOException, RepositoryException {
                 Node rootNode = session.getRootNode();
                 Node node = getNode(rootNode, path);
                 if (node != null) {
@@ -314,10 +299,8 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 
                         return resources;
                     } else {
-                        throw new ContentException(
-                                "Do not support any node type except mycollab:folder. The current node has type: "
-                                        + node.getPrimaryNodeType().getName()
-                                        + " and its path is " + path);
+                        throw new ContentException("Do not support any node type except mycollab:folder. The current node has type: "
+                                + node.getPrimaryNodeType().getName() + " and its path is " + path);
                     }
                 }
                 return null;
@@ -330,8 +313,7 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
         return jcrTemplate.execute(new JcrCallback<List<Folder>>() {
 
             @Override
-            public List<Folder> doInJcr(Session session) throws IOException,
-                    RepositoryException {
+            public List<Folder> doInJcr(Session session) throws IOException, RepositoryException {
                 Node rootNode = session.getRootNode();
                 Node node = getNode(rootNode, path);
                 if (node != null) {
@@ -348,9 +330,8 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
                         }
                         return folders;
                     } else {
-                        throw new ContentException(
-                                "Do not support any node type except mycollab:folder. The current node has type "
-                                        + node.getPrimaryNodeType().getName());
+                        throw new ContentException("Do not support any node type except mycollab:folder. The current node has type "
+                                + node.getPrimaryNodeType().getName());
                     }
                 }
 
@@ -359,15 +340,13 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
         });
     }
 
-    private static void convertContentToNode(Content content, Node node,
-                                             String createdUser) {
+    private static void convertContentToNode(Content content, Node node, String createdUser) {
         try {
             node.setProperty("jcr:title", content.getTitle());
             node.setProperty("jcr:description", content.getDescription());
             node.setProperty("mycollab:createdUser", createdUser);
             if (StringUtils.isNotBlank(content.getThumbnail())) {
-                node.setProperty("mycollab:thumbnailPath",
-                        content.getThumbnail());
+                node.setProperty("mycollab:thumbnailPath", content.getThumbnail());
             }
 
             node.setProperty("mycollab:lastModifiedUser", createdUser);
@@ -389,16 +368,11 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
             content.setCreatedBy(NodesUtil.getString(node, "jcr:createdBy"));
             content.setTitle(NodesUtil.getString(node, "jcr:title"));
             content.setDescription(NodesUtil.getString(node, "jcr:description"));
-            content.setThumbnail(NodesUtil.getString(node,
-                    "mycollab:thumbnailPath"));
-            content.setMimeType(NodesUtil.getString(node, "mycollab:mimeType",
-                    MimeTypesUtil.BINARY_MIME_TYPE));
+            content.setThumbnail(NodesUtil.getString(node, "mycollab:thumbnailPath"));
+            content.setMimeType(NodesUtil.getString(node, "mycollab:mimeType", MimeTypesUtil.BINARY_MIME_TYPE));
             content.setSize(node.getProperty("mycollab:size").getLong());
-            content.setCreatedUser(NodesUtil.getString(node,
-                    "mycollab:createdUser"));
-
-            content.setLastModified(node.getProperty("jcr:lastModified")
-                    .getDate());
+            content.setCreatedUser(NodesUtil.getString(node, "mycollab:createdUser"));
+            content.setLastModified(node.getProperty("jcr:lastModified").getDate());
             return content;
         } catch (Exception e) {
             throw new MyCollabException(e);
@@ -415,8 +389,7 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
             Folder folder = new Folder(folderPath);
             folder.setCreated(node.getProperty("jcr:created").getDate());
             folder.setCreatedBy(node.getProperty("jcr:createdBy").getString());
-            folder.setCreatedUser(node.getProperty("mycollab:createdUser")
-                    .getString());
+            folder.setCreatedUser(node.getProperty("mycollab:createdUser").getString());
             return folder;
         } catch (Exception e) {
             throw new MyCollabException(e);
@@ -424,14 +397,12 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
     }
 
     @Override
-    public List<Resource> searchResourcesByName(final String baseFolderPath,
-                                                final String resourceName) {
+    public List<Resource> searchResourcesByName(final String baseFolderPath, final String resourceName) {
         return jcrTemplate.execute(new JcrCallback<List<Resource>>() {
 
             @Override
-            public List<Resource> doInJcr(Session session) throws IOException,
-                    RepositoryException {
-                return new ArrayList<Resource>();
+            public List<Resource> doInJcr(Session session) throws IOException, RepositoryException {
+                return new ArrayList<>();
             }
         });
     }
@@ -442,21 +413,17 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
         LOG.debug("Rename content {} {}", oldPath, newPath);
         jcrTemplate.execute(new JcrCallback() {
             @Override
-            public Object doInJcr(Session session) throws IOException,
-                    RepositoryException {
+            public Object doInJcr(Session session) throws IOException, RepositoryException {
                 Node rootNode = session.getRootNode();
                 Node currentNode = getNode(rootNode, oldPath);
                 if (getNode(rootNode, newPath) != null) {
-                    throw new ContentException(
-                            "Folder/file has already existed: " + newPath);
+                    throw new ContentException("Folder/file has already existed: " + newPath);
                 }
                 if (currentNode != null) {
-                    currentNode.getSession().move(currentNode.getPath(),
-                            "/" + newPath);
+                    currentNode.getSession().move(currentNode.getPath(), "/" + newPath);
                     currentNode.getSession().save();
                 } else {
-                    throw new MyCollabException("Resource path " + oldPath
-                            + " not found");
+                    throw new MyCollabException("Resource path " + oldPath + " not found");
                 }
                 return null;
             }
@@ -469,25 +436,20 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
         jcrTemplate.execute(new JcrCallback() {
 
             @Override
-            public Object doInJcr(Session session) throws IOException,
-                    RepositoryException {
+            public Object doInJcr(Session session) throws IOException, RepositoryException {
                 try {
                     int index = destinationPath.lastIndexOf("/");
                     if (index >= 0) {
-                        String parentDestPath = destinationPath.substring(0,
-                                index);
+                        String parentDestPath = destinationPath.substring(0, index);
                         Folder folder = new Folder(parentDestPath);
                         createFolder(folder, "");
                     }
                     session.move("/" + oldPath, "/" + destinationPath);
                     session.save();
                 } catch (ItemExistsException e) {
-                    throw new UserInvalidInputException(
-                            "Please check duplicate file/folder before move.",
-                            e);
+                    throw new UserInvalidInputException("Please check duplicate file/folder before move.", e);
                 } catch (Exception e) {
-                    throw new MyCollabException(
-                            "Illegal move source to destination.", e);
+                    throw new MyCollabException("Illegal move source to destination.", e);
                 }
                 return null;
             }

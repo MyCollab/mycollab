@@ -134,7 +134,7 @@
         m_prj_project.targetBudget, m_prj_project.homePage, m_prj_project.actualBudget, m_prj_project.projectType, 
         m_prj_project.projectStatus, m_prj_project.description, m_prj_project.defaultBillingRate,
         m_prj_project.defaultOvertimeBillingRate, m_prj_project.sAccountId,
-        m_prj_project.createdtime, m_prj_project.lastUpdatedTime, m_prj_project.contextAsk, m_prj_project.lead,
+        m_prj_project.createdtime, m_prj_project.lastUpdatedTime, m_prj_project.avatarId, m_prj_project.contextAsk, m_prj_project.lead,
         concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS createUserFullName,
         concat(leadUser.firstname, ' ', LTRIM(concat(IFNULL(leadUser.middlename, ''), ' ')), leadUser.lastname) AS leadFullName,
         leadUser.avatarId AS leadAvatarId, m_prj_project.accountId,

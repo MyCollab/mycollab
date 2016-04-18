@@ -25,6 +25,7 @@ import com.esofthead.mycollab.module.project.ProjectTooltipGenerator;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.esofthead.mycollab.module.project.service.ProjectService;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsUtil;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
@@ -38,7 +39,6 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.layouts.MCssLayout;
@@ -59,29 +59,20 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
 
         @Override
         public Component generateRow(AbstractBeanPagedList host, final SimpleProject project, final int rowIndex) {
-            final CssLayout layout = new CssLayout();
-            layout.setWidth("100%");
-            layout.addStyleName("projectblock");
-
+            final MHorizontalLayout layout = new MHorizontalLayout().withFullWidth().withStyleName("projectblock");
+            layout.addComponent(ProjectAssetsUtil.buildProjectLogo(project, 64));
+            if (project.isArchived()) {
+                layout.addStyleName("projectlink-wrapper-archived");
+            }
             final VerticalLayout linkIconFix = new VerticalLayout();
             linkIconFix.setSpacing(true);
-            linkIconFix.setWidth("100%");
-            if (project.isArchived()) {
-                linkIconFix.addStyleName("projectlink-wrapper-archived");
-            } else {
-                linkIconFix.addStyleName("projectlink-wrapper");
-            }
 
-            MCssLayout prjHeaderLayout = new MCssLayout().withFullWidth();
-            A projectDiv = new A(ProjectLinkBuilder.generateProjectFullLink(project.getId())).appendText(String.format("[%s] %s", project.getShortname(), project.getName()));
-            ELabel projectLbl = new ELabel(projectDiv.write(), ContentMode.HTML).withStyleName(ValoTheme.LABEL_LARGE,
-                    ValoTheme.LABEL_NO_MARGIN, UIConstants.TEXT_ELLIPSIS).withWidth("100%");
+            A projectDiv = new A(ProjectLinkBuilder.generateProjectFullLink(project.getId())).appendText(project.getName());
+            ELabel projectLbl = ELabel.h3(projectDiv.write()).withStyleName(UIConstants.TEXT_ELLIPSIS).withWidth("100%");
             projectLbl.setDescription(ProjectTooltipGenerator.generateToolTipProject(AppContext.getUserLocale(),
                     project, AppContext.getSiteUrl(), AppContext.getUserTimezone()));
 
-            prjHeaderLayout.addComponent(projectLbl);
-
-            linkIconFix.addComponent(prjHeaderLayout);
+            linkIconFix.addComponent(projectLbl);
 
             MHorizontalLayout metaInfo = new MHorizontalLayout().withFullWidth();
             metaInfo.setDefaultComponentAlignment(Alignment.TOP_LEFT);
@@ -130,7 +121,7 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
                 progressInfoLbl = new ELabel("No issue").withStyleName(UIConstants.LABEL_META_INFO);
             }
             linkIconFix.addComponent(progressInfoLbl);
-            layout.addComponent(linkIconFix);
+            layout.with(linkIconFix).expand(linkIconFix);
             return layout;
         }
     }

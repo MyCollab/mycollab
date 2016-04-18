@@ -57,7 +57,8 @@ public class CommonTooltipGenerator {
                             new A().setHref("mailto:" + user.getEmail()).appendText(StringUtils.trimHtmlTags(user.getEmail()))));
 
             Td trRow1_value = new Td().setStyle("width:150px;text-align: right; vertical-align: top;")
-                    .appendChild(new Img("", StorageFactory.getInstance().getAvatarPath(user.getAvatarid(), 100)));
+                    .appendChild(new Img("", StorageFactory.getInstance().getAvatarPath(user.getAvatarid(), 100))
+                            .setCSSClass("circle-box"));
             trRow1_value.setAttribute("rowspan", "5");
             trRow1.appendChild(new Td().setStyle("width: 0px; vertical-align: top; text-align: right;").appendChild(trRow1_value));
 
@@ -84,9 +85,7 @@ public class CommonTooltipGenerator {
             div.appendChild(table);
             return div.write();
         } catch (Exception e) {
-            LOG.error(
-                    "Error while generate tooltip for servlet project-task tooltip",
-                    e);
+            LOG.error("Error while generate tooltip for servlet project-task tooltip", e);
             return null;
         }
     }

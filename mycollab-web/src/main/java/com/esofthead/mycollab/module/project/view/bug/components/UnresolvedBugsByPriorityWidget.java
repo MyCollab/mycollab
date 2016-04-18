@@ -120,7 +120,7 @@ public class UnresolvedBugsByPriorityWidget extends DepotWithChart {
         @Override
         public void buttonClick(final ClickEvent event) {
             String key = ((ButtonI18nComp) event.getButton()).getKey();
-            searchCriteria.setPriorities(new SetSearchField<>(new String[]{key}));
+            searchCriteria.setPriorities(new SetSearchField<>(key));
             EventBusFactory.getInstance().post(new BugEvent.SearchRequest(this, searchCriteria));
         }
     }

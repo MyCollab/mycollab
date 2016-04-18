@@ -19,13 +19,13 @@ package com.esofthead.mycollab.module.user.accountsettings.profile.view;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.LangI18Enum;
 import com.esofthead.mycollab.common.i18n.ShellI18nEnum;
-import com.esofthead.mycollab.core.UserInvalidInputException;
-import com.esofthead.mycollab.core.utils.ImageUtil;
 import com.esofthead.mycollab.core.utils.TimezoneMapper;
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.module.file.service.UserAvatarService;
 import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
-import com.esofthead.mycollab.module.user.accountsettings.view.events.ProfileEvent;
 import com.esofthead.mycollab.module.user.domain.User;
+import com.esofthead.mycollab.module.user.ui.components.ImagePreviewCropWindow;
+import com.esofthead.mycollab.module.user.ui.components.UploadImageField;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -35,20 +35,21 @@ import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.field.UrlLinkViewField;
 import com.esofthead.mycollab.vaadin.web.ui.field.UrlSocialNetworkLinkViewField;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
+import com.vaadin.server.Page;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import org.vaadin.easyuploads.UploadField;
-import org.vaadin.easyuploads.UploadField.FieldType;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+
+import java.awt.image.BufferedImage;
 
 /**
  * @author MyCollab Ltd.
  * @since 2.0
  */
 @ViewComponent
-public class ProfileReadViewImpl extends AbstractPageView implements ProfileReadView {
+public class ProfileReadViewImpl extends AbstractPageView implements ProfileReadView, ImagePreviewCropWindow.ImageSelectionCommand {
     private static final long serialVersionUID = 1L;
 
     private final PreviewForm formItem;
@@ -67,45 +68,19 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
     private void displayUserAvatar() {
         avatarAndPass.removeAllComponents();
         Image cropField = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(AppContext.getUserAvatarId(), 100);
+        cropField.addStyleName(UIConstants.CIRCLE_BOX);
         CssLayout avatarWrapper = new CssLayout();
         avatarWrapper.addComponent(cropField);
         MVerticalLayout userAvatar = new MVerticalLayout().withMargin(false).with(avatarWrapper);
         userAvatar.setSizeUndefined();
 
-        final UploadField avatarUploadField = new UploadField() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            protected void updateDisplay() {
-                byte[] imageData = (byte[]) this.getValue();
-                String mimeType = this.getLastMimeType();
-                if (mimeType.equals("image/jpeg")) {
-                    imageData = ImageUtil.convertJpgToPngFormat(imageData);
-                    if (imageData == null) {
-                        throw new UserInvalidInputException("Can not convert image to jpg format");
-                    } else {
-                        mimeType = "image/png";
-                    }
-                }
-
-                if (mimeType.equals("image/png")) {
-                    EventBusFactory.getInstance().post(new ProfileEvent.GotoUploadPhoto(ProfileReadViewImpl.this, imageData));
-                } else {
-                    throw new UserInvalidInputException(
-                            "Upload file does not have valid image format. The supported formats are jpg/png");
-                }
-            }
-        };
-        avatarUploadField.addStyleName("upload-field");
+        final UploadImageField avatarUploadField = new UploadImageField(this);
         avatarUploadField.setButtonCaption(AppContext.getMessage(UserI18nEnum.BUTTON_CHANGE_AVATAR));
-        avatarUploadField.setSizeUndefined();
-        avatarUploadField.setFieldType(FieldType.BYTE_ARRAY);
         userAvatar.addComponent(avatarUploadField);
 
         avatarAndPass.with(userAvatar);
 
         User user = formItem.getBean();
-
         MVerticalLayout basicLayout = new MVerticalLayout().withMargin(false);
         HorizontalLayout userWrapper = new HorizontalLayout();
 
@@ -153,6 +128,13 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
         basicLayout.addComponent(userFormLayout.getLayout());
 
         avatarAndPass.with(basicLayout).expand(basicLayout);
+    }
+
+    @Override
+    public void process(BufferedImage image) {
+        UserAvatarService userAvatarService = ApplicationContextUtil.getSpringBean(UserAvatarService.class);
+        userAvatarService.uploadAvatar(image, AppContext.getUsername(), AppContext.getUserAvatarId());
+        Page.getCurrent().getJavaScript().execute("window.location.reload();");
     }
 
     private class PreviewForm extends AdvancedPreviewBeanForm<User> {

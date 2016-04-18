@@ -117,10 +117,10 @@ public class VersionPreviewForm extends AdvancedPreviewBeanForm<Version> {
             searchCriteria = new BugSearchCriteria();
             searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
             searchCriteria.setVersionids(new SetSearchField<>(beanItem.getId()));
-            searchCriteria.setStatuses(new SetSearchField<>(new String[]{OptionI18nEnum.BugStatus.Open.name(),
+            searchCriteria.setStatuses(new SetSearchField<>(OptionI18nEnum.BugStatus.Open.name(),
                     OptionI18nEnum.BugStatus.InProgress.name(), OptionI18nEnum.BugStatus.ReOpen.name(),
                     OptionI18nEnum.BugStatus.Verified.name(), OptionI18nEnum.BugStatus.Resolved.name(),
-                    OptionI18nEnum.BugStatus.WontFix.name()}));
+                    OptionI18nEnum.BugStatus.WontFix.name()));
             updateSearchStatus();
 
             this.with(header, issueLayout);

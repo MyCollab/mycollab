@@ -36,13 +36,15 @@ import com.esofthead.mycollab.module.project.ui.components.ProjectListNoItemView
 import com.esofthead.mycollab.module.project.ui.components.ProjectMemberBlock;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.events.IEditFormHandler;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
+import com.esofthead.mycollab.vaadin.events.IEditFormHandler;
 import com.esofthead.mycollab.vaadin.events.SearchHandler;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
+import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
+import com.esofthead.mycollab.vaadin.ui.SafeHtmlLabel;
 import com.esofthead.mycollab.vaadin.web.ui.*;
 import com.esofthead.mycollab.vaadin.web.ui.AbstractBeanPagedList.RowDisplayHandler;
 import com.hp.gagawa.java.elements.A;
@@ -74,7 +76,7 @@ import java.util.Set;
 public class MessageListViewImpl extends AbstractPageView implements MessageListView, HasEditFormHandlers<Message> {
     private static final long serialVersionUID = 8433776359091397422L;
 
-    private DefaultBeanPagedList<MessageService, MessageSearchCriteria, SimpleMessage> tableItem;
+    private DefaultBeanPagedList<MessageService, MessageSearchCriteria, SimpleMessage> messageList;
     private Set<IEditFormHandler<Message>> editFormHandlers;
     private MessageSearchCriteria searchCriteria;
     private TopMessagePanel topMessagePanel;
@@ -88,13 +90,11 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
         topMessagePanel.getSearchHandlers().addSearchHandler(new SearchHandler<MessageSearchCriteria>() {
             @Override
             public void onSearch(final MessageSearchCriteria criteria) {
-                tableItem.setSearchCriteria(criteria);
+                messageList.setSearchCriteria(criteria);
             }
         });
-        tableItem = new DefaultBeanPagedList<>(ApplicationContextUtil.getSpringBean(MessageService.class),
-                new MessageRowDisplayHandler());
-        tableItem.setStyleName("message-list");
-        tableItem.setControlStyle("borderlessControl");
+        messageList = new DefaultBeanPagedList<>(ApplicationContextUtil.getSpringBean(MessageService.class), new MessageRowDisplayHandler());
+        messageList.setControlStyle("borderlessControl");
     }
 
     @Override
@@ -132,8 +132,8 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
         if (this.isEmpty) {
             addComponent(new MessageListNoItemView());
         } else {
-            tableItem.setSearchCriteria(searchCriteria);
-            addComponent(tableItem);
+            messageList.setSearchCriteria(searchCriteria);
+            addComponent(messageList);
         }
 
     }
@@ -185,7 +185,7 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
                                                 .getSpringBean(MessageService.class);
                                         messageService.removeWithSession(message,
                                                 AppContext.getUsername(), AppContext.getAccountId());
-                                        tableItem.setSearchCriteria(searchCriteria);
+                                        messageList.setSearchCriteria(searchCriteria);
                                     }
                                 }
                             });
@@ -233,7 +233,7 @@ public class MessageListViewImpl extends AbstractPageView implements MessageList
 
             if (notification.getComponentCount() > 0) {
                 MVerticalLayout messageFooter = new MVerticalLayout().withSpacing(false).withWidth("100%")
-                        .withStyleName("message-footer").with(notification).withAlign(notification, Alignment.MIDDLE_RIGHT);
+                        .with(notification).withAlign(notification, Alignment.MIDDLE_RIGHT);
                 rowLayout.addComponent(messageFooter);
             }
 

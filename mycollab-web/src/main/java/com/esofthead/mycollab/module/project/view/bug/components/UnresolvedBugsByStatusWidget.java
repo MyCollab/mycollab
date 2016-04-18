@@ -113,7 +113,7 @@ public class UnresolvedBugsByStatusWidget extends DepotWithChart {
         @Override
         public void buttonClick(final Button.ClickEvent event) {
             String key = ((ButtonI18nComp) event.getButton()).getKey();
-            searchCriteria.setStatuses(new SetSearchField<>(new String[]{key}));
+            searchCriteria.setStatuses(new SetSearchField<>(key));
             EventBusFactory.getInstance().post(new BugEvent.SearchRequest(this, searchCriteria));
         }
     }

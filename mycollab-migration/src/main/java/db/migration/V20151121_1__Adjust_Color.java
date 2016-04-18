@@ -11,6 +11,6 @@ public class V20151121_1__Adjust_Color  implements SpringJdbcMigration {
     @Override
     public void migrate(JdbcTemplate jdbcTemplate) throws Exception {
         jdbcTemplate.update("UPDATE s_account_theme SET vTabsheetBg=?, vTabsheetBgSelected=?, " +
-                "vTabsheetTextSelected=? WHERE isDefault=? ", new Object[]{"1A90CB", "f7f7f7", "000000", 1});
+                "vTabsheetTextSelected=? WHERE isDefault=? ", "1A90CB", "f7f7f7", "000000", 1);
     }
 }

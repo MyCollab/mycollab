@@ -560,7 +560,7 @@ public class Task extends ValuedBean {
         this.description = description;
     }
 
-    public static enum Field {
+    public enum Field {
         id,
         subject,
         startdate,

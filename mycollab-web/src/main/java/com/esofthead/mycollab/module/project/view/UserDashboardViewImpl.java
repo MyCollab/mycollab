@@ -147,22 +147,17 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
     }
 
     private ComponentContainer setupHeader() {
-        VerticalLayout headerWrapper = new VerticalLayout();
+        HorizontalLayout headerWrapper = new HorizontalLayout();
         headerWrapper.setWidth("100%");
         headerWrapper.setStyleName("projectfeed-hdr-wrapper");
 
-        MHorizontalLayout header = new MHorizontalLayout().withWidth("100%");
-        header.addStyleName("projectfeed-hdr");
-
-        Image avatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(AppContext.getUserAvatarId(), 32);
-        header.addComponent(avatar);
+        Image avatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(AppContext.getUserAvatarId(), 64);
+        avatar.setStyleName(UIConstants.CIRCLE_BOX);
+        headerWrapper.addComponent(avatar);
 
         MVerticalLayout headerContent = new MVerticalLayout().withMargin(new MarginInfo(false, false, false, true));
-        headerContent.addStyleName("projectfeed-hdr-content");
 
-        ELabel headerLabel = ELabel.h2(AppContext.getUser().getDisplayName());
-        headerLabel.addStyleName(UIConstants.LABEL_WORD_WRAP);
-
+        ELabel headerLabel = ELabel.h2(AppContext.getUser().getDisplayName()).withStyleName(UIConstants.TEXT_ELLIPSIS);
         MHorizontalLayout headerContentTop = new MHorizontalLayout();
         headerContentTop.with(headerLabel).withAlign(headerLabel, Alignment.TOP_LEFT).expand(headerLabel);
 
@@ -178,11 +173,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
             }
         };
         headerContentTop.with(searchTextField).withAlign(searchTextField, Alignment.TOP_RIGHT);
-
         headerContent.with(headerContentTop);
-        header.with(headerContent).expand(headerContent);
-        headerWrapper.addComponent(header);
-
         MHorizontalLayout metaInfoLayout = new MHorizontalLayout().with(new ELabel("Email:").withStyleName
                 (UIConstants.LABEL_META_INFO), new ELabel(new A(String.format("mailto:%s", AppContext.getUsername()))
                 .appendText(AppContext.getUsername()).write(), ContentMode.HTML));
@@ -191,7 +182,9 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
         metaInfoLayout.with(new ELabel("Logged in: ").withStyleName(UIConstants.LABEL_META_INFO),
                 new ELabel(AppContext.formatPrettyTime(AppContext.getUser().getLastaccessedtime())));
         metaInfoLayout.alignAll(Alignment.TOP_LEFT);
-        headerWrapper.addComponent(metaInfoLayout);
+        headerContent.addComponent(metaInfoLayout);
+        headerWrapper.addComponent(headerContent);
+        headerWrapper.setExpandRatio(headerContent, 1.0f);
         return headerWrapper;
     }
 

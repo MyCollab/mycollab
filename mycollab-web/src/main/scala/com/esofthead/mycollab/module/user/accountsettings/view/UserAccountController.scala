@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.user.accountsettings.team.view.UserPermissi
 import com.esofthead.mycollab.module.user.accountsettings.view.AccountModule
 import com.esofthead.mycollab.module.user.accountsettings.view.events.{AccountBillingEvent, ProfileEvent, SettingEvent, SetupEvent}
 import com.esofthead.mycollab.module.user.accountsettings.view.parameters.SettingExtScreenData.{GeneralSetting, ThemeCustomize}
-import com.esofthead.mycollab.module.user.accountsettings.view.parameters.{BillingScreenData, ProfileScreenData, RoleScreenData, UserScreenData}
+import com.esofthead.mycollab.module.user.accountsettings.view.parameters.{BillingScreenData, RoleScreenData, UserScreenData}
 import com.esofthead.mycollab.module.user.domain.criteria.{RoleSearchCriteria, UserSearchCriteria}
 import com.esofthead.mycollab.module.user.domain.{Role, SimpleUser}
 import com.esofthead.mycollab.module.user.events.{RoleEvent, UserEvent}
@@ -67,12 +67,6 @@ class UserAccountController(container: AccountModule) extends AbstractController
   }
 
   private def bindProfileEvents(): Unit = {
-    this.register(new ApplicationEventListener[ProfileEvent.GotoUploadPhoto]() {
-      @Subscribe def handle(event: ProfileEvent.GotoUploadPhoto) {
-        val presenter = PresenterResolver.getPresenter(classOf[ProfilePresenter])
-        presenter.go(container, new ProfileScreenData.UploadPhoto(event.getData.asInstanceOf[Array[Byte]]))
-      }
-    })
     this.register(new ApplicationEventListener[ProfileEvent.GotoProfileView]() {
       @Subscribe def handle(event: ProfileEvent.GotoProfileView) {
         val presenter = PresenterResolver.getPresenter(classOf[ProfilePresenter])

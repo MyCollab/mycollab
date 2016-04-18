@@ -50,6 +50,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MMarginInfo;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.ArrayList;
@@ -109,7 +110,7 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
                 .withAlign(sortDirection, Alignment.MIDDLE_RIGHT);
 
         commentBox = new ProjectCommentInput(this, type, extraTypeId);
-        activityBox = new MVerticalLayout();
+        activityBox = new MVerticalLayout().withMargin(new MMarginInfo(true, true, true, false));
         this.with(headerPanel, commentBox, activityBox);
 
         commentService = ApplicationContextUtil.getSpringBean(CommentService.class);
@@ -227,8 +228,7 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
 
         List<Content> attachments = comment.getAttachments();
         if (!CollectionUtils.isEmpty(attachments)) {
-            MVerticalLayout messageFooter = new MVerticalLayout().withMargin(false).withSpacing(false).withWidth
-                    ("100%").withStyleName("message-footer");
+            MVerticalLayout messageFooter = new MVerticalLayout().withMargin(false).withSpacing(false).withWidth("100%");
             AttachmentDisplayComponent attachmentDisplay = new AttachmentDisplayComponent(attachments);
             attachmentDisplay.setWidth("100%");
             messageFooter.with(attachmentDisplay);

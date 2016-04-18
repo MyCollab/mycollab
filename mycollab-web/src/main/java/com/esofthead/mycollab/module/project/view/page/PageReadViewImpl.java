@@ -104,7 +104,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
 
         header.addComponent(headerLbl, 0);
         header.addComponent(pageVersionsSelection, 1);
-        ((MHorizontalLayout) header).withWidth("100%").withStyleName("hdr-view").expand(pageVersionsSelection)
+        header.withWidth("100%").withStyleName("hdr-view").expand(pageVersionsSelection)
                 .alignAll(Alignment.MIDDLE_LEFT);
     }
 
@@ -142,9 +142,8 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
 
     @Override
     protected ComponentContainer createButtonControls() {
-        ProjectPreviewFormControlsGenerator<Page> pagesPreviewForm = new ProjectPreviewFormControlsGenerator<>(
-                previewForm);
-        HorizontalLayout topPanel = pagesPreviewForm.createButtonControls(
+        ProjectPreviewFormControlsGenerator<Page> pagesPreviewForm = new ProjectPreviewFormControlsGenerator<>(previewForm);
+        HorizontalLayout buttonControls = pagesPreviewForm.createButtonControls(
                 ProjectPreviewFormControlsGenerator.ADD_BTN_PRESENTED
                         | ProjectPreviewFormControlsGenerator.EDIT_BTN_PRESENTED
                         | ProjectPreviewFormControlsGenerator.DELETE_BTN_PRESENTED,
@@ -157,8 +156,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
         fileDownloader.extend(exportPdfBtn);
 
         pagesPreviewForm.insertToControlBlock(exportPdfBtn);
-
-        return topPanel;
+        return buttonControls;
     }
 
     private StreamResource getPDFStream() {

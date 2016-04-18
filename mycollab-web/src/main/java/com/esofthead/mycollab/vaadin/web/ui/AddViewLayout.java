@@ -56,12 +56,25 @@ public class AddViewLayout extends CustomLayoutExt {
         addComponent(header, "addViewHeader");
     }
 
+    public AddViewLayout() {
+        super("addView");
+        header = new MHorizontalLayout().withWidth("100%").withMargin(new MarginInfo(true, false, true, false));
+        header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+        addComponent(header, "addViewHeader");
+    }
+
     public void addBody(final ComponentContainer body) {
         addComponent(body, "addViewBody");
     }
 
     public void addBottomControls(final ComponentContainer bottomControls) {
         this.addComponent(bottomControls, "addViewBottomControls");
+    }
+
+    public void addHeaderTitle(ComponentContainer headerContainer) {
+        header.addComponent(headerContainer, 0);
+        header.setComponentAlignment(headerContainer, Alignment.TOP_LEFT);
+        header.setExpandRatio(headerContainer, 1.0f);
     }
 
     public void addHeaderRight(final ComponentContainer headerRight) {

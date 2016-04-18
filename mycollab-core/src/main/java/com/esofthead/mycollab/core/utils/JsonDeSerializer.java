@@ -111,7 +111,7 @@ public class JsonDeSerializer {
 	 */
 	@Retention(RetentionPolicy.RUNTIME)
 	@Target({ ElementType.FIELD })
-	public static @interface Exclude {
+	public @interface Exclude {
 		// Field tag only annotation
 	}
 

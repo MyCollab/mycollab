@@ -56,7 +56,7 @@ public class ProjectCommentInput extends MHorizontalLayout {
 
     ProjectCommentInput(final ReloadableComponent component, final String typeVal, Integer extraTypeIdVal) {
         super();
-        this.withMargin(new MarginInfo(true, true, false, true)).withWidth("100%").withStyleName("message");
+        this.withMargin(new MarginInfo(true, true, false, false)).withWidth("100%").withStyleName("message");
 
         SimpleUser currentUser = AppContext.getUser();
         ProjectMemberBlock userBlock = new ProjectMemberBlock(currentUser.getUsername(), currentUser.getAvatarid(),
@@ -89,7 +89,6 @@ public class ProjectCommentInput extends MHorizontalLayout {
                 commentArea.setValue("");
             }
         });
-        cancelBtn.setWidthUndefined();
         cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
 
         final Button newCommentBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_POST), new Button.ClickListener() {

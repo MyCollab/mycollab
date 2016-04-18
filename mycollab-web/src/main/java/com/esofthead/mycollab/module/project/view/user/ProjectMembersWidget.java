@@ -42,10 +42,7 @@ import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Span;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -138,7 +135,9 @@ public class ProjectMembersWidget extends Depot {
         @Override
         public Component generateRow(AbstractBeanPagedList host, SimpleProjectMember member, int rowIndex) {
             MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%").withStyleName("list-row");
-            layout.addComponent(UserAvatarControlFactory.createUserAvatarEmbeddedComponent(member.getMemberAvatarId(), 48));
+            Image userAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(member.getMemberAvatarId(), 48);
+            userAvatar.addStyleName(UIConstants.CIRCLE_BOX);
+            layout.addComponent(userAvatar);
 
             VerticalLayout content = new VerticalLayout();
             content.addComponent(new ELabel(buildAssigneeValue(member), ContentMode.HTML).withStyleName(UIConstants.TEXT_ELLIPSIS));

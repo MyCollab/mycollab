@@ -43,5 +43,5 @@ public interface JcrCallback<T> {
      * @throws java.io.IOException
      * @throws javax.jcr.RepositoryException
      */
-    public T doInJcr(Session session) throws IOException, RepositoryException;
+    T doInJcr(Session session) throws IOException, RepositoryException;
 }
