@@ -175,6 +175,7 @@
                m_crm_account.shippingCountry, m_crm_account.shippingState, m_crm_account.numemployees, m_crm_account.createdTime,
                m_crm_account.lastUpdatedTime,
                m_crm_account.createdUser, m_crm_account.sAccountId, m_crm_account.assignUser, m_crm_account.type, m_crm_account.industry,
+               m_crm_account.avatarId,
                s_user.avatarId AS assignUserAvatarId, 
                LTRIM(concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname)) as assignUserFullName,
                createdUserTabl.avatarId AS createdUserAvatarId,

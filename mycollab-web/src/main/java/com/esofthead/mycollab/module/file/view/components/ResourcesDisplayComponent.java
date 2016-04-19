@@ -536,9 +536,9 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 }
             });
             cancelBtn.addStyleName(UIConstants.BUTTON_OPTION);
-            controlButtons.with(saveBtn, cancelBtn).alignAll(Alignment.MIDDLE_CENTER);
+            controlButtons.with(cancelBtn, saveBtn);
             contentLayout.addComponent(controlButtons);
-            contentLayout.setComponentAlignment(controlButtons, Alignment.MIDDLE_CENTER);
+            contentLayout.setComponentAlignment(controlButtons, Alignment.MIDDLE_RIGHT);
 
             this.setContent(contentLayout);
         }
@@ -557,7 +557,8 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             this.setCaption("New Folder");
             this.center();
 
-            MVerticalLayout contentLayout = new MVerticalLayout().withSpacing(false).withMargin(new MarginInfo(false, false, true, false));
+            MVerticalLayout contentLayout = new MVerticalLayout().withSpacing(false).withMargin(new MarginInfo(false,
+                    true, true, false));
             this.setContent(contentLayout);
 
             GridFormLayoutHelper layoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 1);
@@ -590,7 +591,6 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             });
             saveBtn.addStyleName(UIConstants.BUTTON_ACTION);
             saveBtn.setIcon(FontAwesome.SAVE);
-            controlsLayout.addComponent(saveBtn);
 
             Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;
@@ -601,10 +601,9 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 }
             });
             cancelBtn.addStyleName(UIConstants.BUTTON_OPTION);
-            controlsLayout.addComponent(cancelBtn);
-            controlsLayout.setComponentAlignment(cancelBtn, Alignment.MIDDLE_RIGHT);
+            controlsLayout.with(cancelBtn, saveBtn);
 
-            contentLayout.with(controlsLayout).withAlign(controlsLayout, Alignment.MIDDLE_CENTER);
+            contentLayout.with(controlsLayout).withAlign(controlsLayout, Alignment.MIDDLE_RIGHT);
         }
     }
 
@@ -635,7 +634,8 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             this.layoutHelper.addComponent(multiFileUploadExt, "File", 0, 0);
             contentLayout.addComponent(this.layoutHelper.getLayout());
 
-            MHorizontalLayout controlsLayout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, false, false));
+            MHorizontalLayout controlsLayout = new MHorizontalLayout().withMargin(new MarginInfo(true, true, false,
+                    false));
 
             final Button uploadBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_UPLOAD), new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;
@@ -675,7 +675,6 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             });
             uploadBtn.addStyleName(UIConstants.BUTTON_ACTION);
             uploadBtn.setIcon(FontAwesome.UPLOAD);
-            controlsLayout.addComponent(uploadBtn);
 
             Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;
@@ -686,11 +685,10 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 }
             });
             cancelBtn.addStyleName(UIConstants.BUTTON_OPTION);
-            controlsLayout.addComponent(cancelBtn);
-            controlsLayout.setComponentAlignment(cancelBtn, Alignment.MIDDLE_RIGHT);
+            controlsLayout.with(cancelBtn, uploadBtn);
 
             contentLayout.addComponent(controlsLayout);
-            contentLayout.setComponentAlignment(controlsLayout, Alignment.MIDDLE_CENTER);
+            contentLayout.setComponentAlignment(controlsLayout, Alignment.MIDDLE_RIGHT);
         }
     }
 
@@ -709,7 +707,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 NotificationUtil.showNotification("Congrats", "Moved asset(s) successfully.");
             } else {
                 NotificationUtil.showWarningNotification("Moving assets is finished, some items can't move to destination. Please " +
-                                "check duplicated file-name and try again.");
+                        "check duplicated file-name and try again.");
             }
         }
     }

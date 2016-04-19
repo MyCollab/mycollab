@@ -30,8 +30,6 @@ object ClientScreenData {
 
   class Add(param: Account) extends ScreenData[Account](param) {}
 
-  class Edit(param: Account) extends ScreenData[Account](param) {}
-
   class Search(param: AccountSearchCriteria) extends ScreenData[AccountSearchCriteria](param) {}
 
 }

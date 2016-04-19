@@ -64,7 +64,7 @@ public class UserProjectDashboardViewImpl extends AbstractPageView implements Us
         contentWrapper.addComponent(layout);
 
         UserDashboardView userDashboardView = UIUtils.getRoot(this, UserDashboardView.class);
-        List<Integer> prjKeys = userDashboardView.getInvoledProjKeys();
+        List<Integer> prjKeys = userDashboardView.getInvolvedProjectKeys();
         if (CollectionUtils.isNotEmpty(prjKeys)) {
             activityStreamComponent.showFeeds(prjKeys);
             milestoneTimelineWidget.display();

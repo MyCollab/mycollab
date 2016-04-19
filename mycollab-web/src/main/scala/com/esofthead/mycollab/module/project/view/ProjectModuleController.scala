@@ -22,9 +22,9 @@ import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria
 import com.esofthead.mycollab.module.project.events.ProjectEvent.GotoMyProject
 import com.esofthead.mycollab.module.project.events.{ClientEvent, ProjectEvent}
 import com.esofthead.mycollab.module.project.view.client.IClientPresenter
-import com.esofthead.mycollab.module.project.view.parameters.ClientScreenData
+import com.esofthead.mycollab.module.project.view.parameters.{ClientScreenData, ProjectScreenData}
 import com.esofthead.mycollab.module.project.view.parameters.ClientScreenData.{Add, Read}
-import com.esofthead.mycollab.vaadin.mvp.{AbstractController, PageActionChain, PresenterResolver}
+import com.esofthead.mycollab.vaadin.mvp.{AbstractController, PageActionChain, PresenterResolver, ScreenData}
 import com.google.common.eventbus.Subscribe
 
 /**
@@ -36,6 +36,13 @@ class ProjectModuleController(val container: ProjectModule) extends AbstractCont
     @Subscribe override def handle(event: GotoMyProject): Unit = {
       val presenter = PresenterResolver.getPresenter(classOf[ProjectViewPresenter])
       presenter.handleChain(container, event.getData.asInstanceOf[PageActionChain])
+    }
+  })
+
+  this.register(new ApplicationEventListener[ProjectEvent.GotoList]() {
+    @Subscribe override def handle(event: ProjectEvent.GotoList): Unit = {
+      val presenter = PresenterResolver.getPresenter(classOf[UserDashboardPresenter])
+      presenter.go(container, new ProjectScreenData.GotoList())
     }
   })
 
@@ -58,8 +65,7 @@ class ProjectModuleController(val container: ProjectModule) extends AbstractCont
   this.register(new ApplicationEventListener[ClientEvent.GotoEdit]() {
     @Subscribe def handle(event: ClientEvent.GotoEdit): Unit = {
       val presenter = PresenterResolver.getPresenter(classOf[IClientPresenter])
-      val account = event.getData.asInstanceOf[SimpleAccount]
-      presenter.go(container, new Add(account))
+      presenter.go(container, new ScreenData.Edit[Any](event.getData))
     }
   })
 

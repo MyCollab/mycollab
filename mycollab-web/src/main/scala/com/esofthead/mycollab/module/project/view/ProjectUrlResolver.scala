@@ -45,6 +45,7 @@ import com.esofthead.mycollab.vaadin.web.ui.ModuleHelper
   */
 class ProjectUrlResolver extends UrlResolver {
   def build: UrlResolver = {
+    this.addSubResolver("list", new ProjectListUrlResolver)
     this.addSubResolver("dashboard", new ProjectDashboardUrlResolver)
     this.addSubResolver("edit", new ProjectEditUrlResolver)
     this.addSubResolver("tag", new ProjectTagUrlResolver)
@@ -102,6 +103,11 @@ class ProjectUrlResolver extends UrlResolver {
     }
   }
 
+  class ProjectListUrlResolver extends ProjectUrlResolver {
+    protected override def handlePage(params: String*): Unit = {
+      EventBusFactory.getInstance().post(new ProjectEvent.GotoList(this, null))
+    }
+  }
 
   class ProjectDashboardUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {

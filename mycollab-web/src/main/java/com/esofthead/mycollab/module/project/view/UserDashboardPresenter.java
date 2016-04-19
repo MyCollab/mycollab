@@ -17,6 +17,7 @@
 
 package com.esofthead.mycollab.module.project.view;
 
+import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -41,7 +42,11 @@ public class UserDashboardPresenter extends AbstractPresenter<UserDashboardView>
         ProjectModule prjContainer = (ProjectModule) container;
         prjContainer.removeAllComponents();
         prjContainer.addComponent(view);
-        view.lazyLoadView();
+        if (data instanceof ProjectScreenData.GotoList) {
+            view.showProjectList();
+        } else {
+            view.showDashboard();
+        }
         AppContext.addFragment("project", "Project");
     }
 }

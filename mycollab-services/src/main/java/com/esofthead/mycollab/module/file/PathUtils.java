@@ -29,6 +29,10 @@ public class PathUtils {
         return String.format("%d/project/%d/.attachments", accountId, projectId);
     }
 
+    public static String getEntityLogoPath(Integer accountId) {
+        return String.format("%d/.assets", accountId);
+    }
+
     public static String buildLogoPath(Integer sAccountId, String logoFileName, Integer logoSize) {
         return String.format("%d/.assets/%s_%d.png", sAccountId, logoFileName, logoSize);
     }

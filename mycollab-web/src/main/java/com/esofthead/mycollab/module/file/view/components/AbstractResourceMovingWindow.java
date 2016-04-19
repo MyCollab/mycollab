@@ -216,7 +216,7 @@ public abstract class AbstractResourceMovingWindow extends Window {
         });
         moveBtn.setIcon(FontAwesome.ARROWS);
         moveBtn.addStyleName(UIConstants.BUTTON_ACTION);
-        controlGroupBtnLayout.addComponent(moveBtn);
+
         Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new ClickListener() {
             private static final long serialVersionUID = 1L;
 
@@ -226,9 +226,9 @@ public abstract class AbstractResourceMovingWindow extends Window {
             }
         });
         cancelBtn.addStyleName(UIConstants.BUTTON_OPTION);
-        controlGroupBtnLayout.addComponent(cancelBtn);
+        controlGroupBtnLayout.with(cancelBtn, moveBtn);
 
-        contentLayout.with(controlGroupBtnLayout).withAlign(controlGroupBtnLayout, Alignment.MIDDLE_CENTER);
+        contentLayout.with(controlGroupBtnLayout).withAlign(controlGroupBtnLayout, Alignment.MIDDLE_RIGHT);
     }
 
     public abstract void displayAfterMoveSuccess(Folder folder, boolean checking);

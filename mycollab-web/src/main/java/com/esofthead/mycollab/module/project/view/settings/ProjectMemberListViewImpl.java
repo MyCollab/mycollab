@@ -186,11 +186,6 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
         blockContent.setStyleName("member-block");
         blockContent.setWidth("350px");
 
-        MHorizontalLayout blockTop = new MHorizontalLayout().withWidth("100%");
-        Image memberAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(member.getMemberAvatarId(), 100);
-        memberAvatar.addStyleName(UIConstants.CIRCLE_BOX);
-        blockTop.addComponent(memberAvatar);
-
         MHorizontalLayout buttonControls = new MHorizontalLayout();
         Button editBtn = new Button("", FontAwesome.EDIT);
         editBtn.addClickListener(new Button.ClickListener() {
@@ -236,6 +231,11 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
         buttonControls.with(editBtn, deleteBtn);
         blockContent.addComponent(buttonControls);
         blockContent.setComponentAlignment(buttonControls, Alignment.TOP_RIGHT);
+
+        MHorizontalLayout blockTop = new MHorizontalLayout().withWidth("100%");
+        Image memberAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(member.getMemberAvatarId(), 100);
+        memberAvatar.addStyleName(UIConstants.CIRCLE_BOX);
+        blockTop.addComponent(memberAvatar);
 
         A memberLink = new A(ProjectLinkBuilder.generateProjectMemberFullLink(member.getProjectid(), member
                 .getUsername())).appendText(member.getMemberFullName()).setTitle(member.getMemberFullName());

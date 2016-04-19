@@ -21,6 +21,7 @@
         <result column="leadFullName" jdbcType="VARCHAR" property="leadFullName" />
         <result column="leadAvatarId" jdbcType="VARCHAR" property="leadAvatarId" />
         <result column="clientName" jdbcType="VARCHAR" property="clientName" />
+        <result column="clientAvatarId" jdbcType="VARCHAR" property="clientAvatarId" />
         <association property="currency"
             resultMap="com.esofthead.mycollab.common.dao.CurrencyMapper.BaseResultMap"
             columnPrefix="curr_"/>
@@ -138,7 +139,7 @@
         concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS createUserFullName,
         concat(leadUser.firstname, ' ', LTRIM(concat(IFNULL(leadUser.middlename, ''), ' ')), leadUser.lastname) AS leadFullName,
         leadUser.avatarId AS leadAvatarId, m_prj_project.accountId,
-        m_crm_account.accountName AS clientName, m_prj_project.currencyid, m_prj_project.progress,
+        m_crm_account.accountName AS clientName, m_crm_account.avatarId AS clientAvatarId, m_prj_project.currencyid, m_prj_project.progress,
         (SELECT COUNT(*) FROM m_tracker_bug WHERE m_tracker_bug.projectId=m_prj_project.id) AS numBugs,
         (SELECT COUNT(*) FROM m_tracker_bug WHERE m_tracker_bug.projectId=m_prj_project.id AND m_tracker_bug.status NOT IN ('Resolved', 'Verified')) AS numOpenBugs,
         (SELECT COUNT(*) FROM m_prj_task WHERE m_prj_task.projectId=m_prj_project.id) AS numTasks,

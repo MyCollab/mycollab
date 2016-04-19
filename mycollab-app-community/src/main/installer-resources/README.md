@@ -53,6 +53,7 @@ Version 5.2.12
 * Allow to upload project logo
 * Can adjust the parent-child relationship of tasks
 * New Project list view
+* Adjust the java memory settings
 * Other minor improvements
 
 **Bug Fixes**

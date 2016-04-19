@@ -227,10 +227,8 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Activi
     }
 
     @Override
-    protected CssLayout createPageControls() {
-        this.controlBarWrapper = new CssLayout();
-        this.controlBarWrapper.setWidth("100%");
-        this.controlBarWrapper.setStyleName("page-controls");
+    protected MHorizontalLayout createPageControls() {
+        this.controlBarWrapper = new MHorizontalLayout().withFullHeight().withStyleName("page-controls");
         ButtonGroup controlBtns = new ButtonGroup();
         controlBtns.setStyleName(UIConstants.BUTTON_ACTION);
         Button prevBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_NAV_NEWER), new Button.ClickListener() {

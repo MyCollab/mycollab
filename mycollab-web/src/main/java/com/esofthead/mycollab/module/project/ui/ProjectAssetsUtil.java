@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.project.ui;
 
 import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.utils.StringUtils;
+import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.file.PathUtils;
 import com.esofthead.mycollab.module.project.domain.Project;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
@@ -28,7 +29,6 @@ import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.*;
-import org.vaadin.jouni.restrain.Restrain;
 
 /**
  * @author MyCollab Ltd.
@@ -63,6 +63,26 @@ public class ProjectAssetsUtil {
         wrapper.addStyleName(UIConstants.CIRCLE_BOX);
         wrapper.setDescription("To change the project logo, go to project menu, select 'Edit Project' and upload the " +
                 "new project logo");
+        return wrapper;
+    }
+
+    public static final Component buildClientLogo(SimpleAccount account, int size) {
+        AbstractComponent wrapper;
+        if (!StringUtils.isBlank(account.getAvatarid())) {
+            wrapper = new Image(null, new ExternalResource(StorageFactory.getInstance().getEntityLogoPath(AppContext
+                    .getAccountId(), account.getAvatarid(), 100)));
+        } else {
+            String accountName = account.getAccountname();
+            accountName = (accountName.length() > 3) ? accountName.substring(0, 3) : accountName;
+            ELabel projectIcon = new ELabel(accountName).withStyleName(UIConstants.TEXT_ELLIPSIS, "center");
+            wrapper = new VerticalLayout();
+            ((VerticalLayout) wrapper).addComponent(projectIcon);
+            ((VerticalLayout) wrapper).setComponentAlignment(projectIcon, Alignment.MIDDLE_CENTER);
+        }
+        wrapper.setWidth(size, Sizeable.Unit.PIXELS);
+        wrapper.setHeight(size, Sizeable.Unit.PIXELS);
+        wrapper.addStyleName(UIConstants.CIRCLE_BOX);
+        wrapper.setDescription("To change the client logo, select 'Edit client' and upload the new client logo");
         return wrapper;
     }
 }

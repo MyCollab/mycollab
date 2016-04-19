@@ -26,6 +26,7 @@ import com.esofthead.mycollab.module.project.ui.components.GenericItemRowDisplay
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.view.AbstractLazyPageView;
@@ -50,10 +51,13 @@ import java.util.List;
  * @since 1.0
  */
 @ViewComponent
-public class UserDashboardViewImpl extends AbstractLazyPageView implements UserDashboardView {
+public class UserDashboardViewImpl extends AbstractPageView implements UserDashboardView {
     private static final long serialVersionUID = 1L;
 
+    private ProjectService prjService;
     private List<Integer> prjKeys;
+
+    private TabSheet tabSheet;
 
     private UserProjectDashboardPresenter userProjectDashboardPresenter;
     private ProjectListPresenter projectListPresenter;
@@ -64,15 +68,11 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
 
     public UserDashboardViewImpl() {
         this.withMargin(false).withWidth("100%");
-    }
 
-    @Override
-    protected void displayView() {
-        removeAllComponents();
-        ProjectService prjService = ApplicationContextUtil.getSpringBean(ProjectService.class);
+        prjService = ApplicationContextUtil.getSpringBean(ProjectService.class);
         prjKeys = prjService.getProjectKeysUserInvolved(AppContext.getUsername(), AppContext.getAccountId());
 
-        final TabSheet tabSheet = new TabSheet();
+        tabSheet = new TabSheet();
         tabSheet.addTab(buildDashboardComp(), "Dashboard", FontAwesome.DASHBOARD);
         tabSheet.addTab(buildProjectListComp(), "Projects", FontAwesome.BUILDING_O);
         tabSheet.addTab(buildFollowingTicketComp(), "Following Items", FontAwesome.EYE);
@@ -101,6 +101,11 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
         });
 
         this.with(setupHeader(), tabSheet).expand(tabSheet);
+
+    }
+
+    @Override
+    public void showDashboard() {
         userProjectDashboardPresenter.onGo(UserDashboardViewImpl.this, null);
 
         if (AppContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT)) {
@@ -112,7 +117,12 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
     }
 
     @Override
-    public List<Integer> getInvoledProjKeys() {
+    public void showProjectList() {
+        tabSheet.setSelectedTab(projectListPresenter.getView());
+    }
+
+    @Override
+    public List<Integer> getInvolvedProjectKeys() {
         return prjKeys;
     }
 
@@ -202,7 +212,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
         Button backDashboard = new Button("Back to workboard", new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                displayView();
+                showDashboard();
             }
         });
         backDashboard.setStyleName(UIConstants.BUTTON_ACTION);

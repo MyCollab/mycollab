@@ -142,7 +142,7 @@ public class SetupViewImpl extends AbstractPageView implements SetupView {
             saveBtn.setStyleName(UIConstants.BUTTON_ACTION);
             saveBtn.setIcon(FontAwesome.SAVE);
             saveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
-            buttonControls.with(saveBtn, closeBtn).alignAll(Alignment.MIDDLE_RIGHT);
+            buttonControls.with(closeBtn, saveBtn).alignAll(Alignment.MIDDLE_RIGHT);
             return buttonControls;
         }
 

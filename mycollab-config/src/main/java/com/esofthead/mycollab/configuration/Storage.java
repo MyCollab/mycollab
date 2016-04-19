@@ -45,6 +45,11 @@ public abstract class Storage {
                 logoName, size);
     }
 
+    public static String getEntityLogoPath(Integer accountId, String id, Integer size) {
+        return String.format("%s%d/.assets/%s_%d.png", SiteConfiguration.getResourceDownloadUrl(), accountId,
+                id, size);
+    }
+
     public String getFavIconPath(Integer sAccountId, String favIconName) {
         if (favIconName == null || "".equals(favIconName)) {
             return MyCollabAssets.newAssetLink("favicon.ico");

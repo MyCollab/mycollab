@@ -44,6 +44,7 @@ import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -100,7 +101,9 @@ public class ProjectAddViewImpl extends AbstractPageView implements ProjectAddVi
 
         @Override
         public ComponentContainer getLayout() {
-            final AddViewLayout projectAddLayout = new AddViewLayout();
+            MHorizontalLayout header = new MHorizontalLayout().withWidth("100%").withMargin(new MarginInfo(true, false, true, false));
+            header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+            final AddViewLayout projectAddLayout = new AddViewLayout(header);
             projectInformationLayout = new ProjectInformationLayout();
             projectAddLayout.addHeaderTitle(buildHeaderTitle());
             projectAddLayout.addHeaderRight(createButtonControls());
@@ -192,7 +195,7 @@ public class ProjectAddViewImpl extends AbstractPageView implements ProjectAddVi
         }
     }
 
-    private class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Project> {
+    private static class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Project> {
         private static final long serialVersionUID = 1L;
 
         public EditFormFieldFactory(GenericBeanForm<Project> form) {
@@ -201,6 +204,7 @@ public class ProjectAddViewImpl extends AbstractPageView implements ProjectAddVi
 
         @Override
         protected Field<?> onCreateField(final Object propertyId) {
+            Project project = attachForm.getBean();
             if (Project.Field.description.equalTo(propertyId)) {
                 final RichTextArea field = new RichTextArea();
                 field.setHeight("350px");

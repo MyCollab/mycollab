@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view;
 
-import com.esofthead.mycollab.vaadin.mvp.LazyPageView;
+import com.esofthead.mycollab.vaadin.mvp.PageView;
 
 import java.util.List;
 
@@ -24,11 +24,11 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public interface UserDashboardView extends LazyPageView {
-    String DASHBOARD = "dashboard";
-    String FOLLOWING_ITEMS = "following";
-    String TIME = "time";
-    String SETTING = "setting";
+public interface UserDashboardView extends PageView {
 
-    List<Integer> getInvoledProjKeys();
+    void showDashboard();
+
+    void showProjectList();
+
+    List<Integer> getInvolvedProjectKeys();
 }

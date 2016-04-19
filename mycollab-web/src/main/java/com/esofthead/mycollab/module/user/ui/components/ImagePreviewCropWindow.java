@@ -107,6 +107,7 @@ public class ImagePreviewCropWindow extends Window {
                     try {
                         BufferedImage image = ImageIO.read(new ByteArrayInputStream(scaleImageData));
                         imageSelectionCommand.process(image);
+                        close();
                     } catch (IOException e) {
                         throw new MyCollabException("Error when saving user avatar", e);
                     }

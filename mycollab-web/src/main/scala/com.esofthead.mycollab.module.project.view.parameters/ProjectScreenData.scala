@@ -25,6 +25,8 @@ import com.esofthead.mycollab.vaadin.mvp.ScreenData
   */
 object ProjectScreenData {
 
+  class GotoList() extends ScreenData(null) {}
+
   class Goto(params: Integer) extends ScreenData[Integer](params) {}
 
   class Edit(params: Project) extends ScreenData[Project](params) {}

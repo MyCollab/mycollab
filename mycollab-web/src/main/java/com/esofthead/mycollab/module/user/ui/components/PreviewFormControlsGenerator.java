@@ -64,15 +64,14 @@ public class PreviewFormControlsGenerator<T> implements Serializable {
     }
 
     public HorizontalLayout createButtonControls(int buttonEnableFlags, String permissionItem) {
-        Button optionParentBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_OPTION),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        Button optionParentBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_OPTION), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(ClickEvent event) {
-                        optionBtn.setPopupVisible(true);
-                    }
-                });
+            @Override
+            public void buttonClick(ClickEvent event) {
+                optionBtn.setPopupVisible(true);
+            }
+        });
 
         optionBtn = new SplitButton(optionParentBtn);
         optionBtn.setWidthUndefined();
@@ -85,18 +84,16 @@ public class PreviewFormControlsGenerator<T> implements Serializable {
             boolean canRead = AppContext.canRead(permissionItem);
 
             if ((buttonEnableFlags & ADD_BTN_PRESENTED) == ADD_BTN_PRESENTED) {
-                Button addBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADD),
-                        new Button.ClickListener() {
+                Button addBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADD), new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-                            private static final long serialVersionUID = 1L;
-
-                            @Override
-                            public void buttonClick(final ClickEvent event) {
-                                optionBtn.setPopupVisible(false);
-                                T item = previewForm.getBean();
-                                previewForm.fireAddForm(item);
-                            }
-                        });
+                    @Override
+                    public void buttonClick(final ClickEvent event) {
+                        optionBtn.setPopupVisible(false);
+                        T item = previewForm.getBean();
+                        previewForm.fireAddForm(item);
+                    }
+                });
                 addBtn.setIcon(FontAwesome.PLUS);
                 addBtn.setStyleName(UIConstants.BUTTON_ACTION);
                 addBtn.setEnabled(canWrite);
@@ -104,18 +101,16 @@ public class PreviewFormControlsGenerator<T> implements Serializable {
             }
 
             if ((buttonEnableFlags & EDIT_BTN_PRESENTED) == EDIT_BTN_PRESENTED) {
-                Button editBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
-                        new Button.ClickListener() {
+                Button editBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-                            private static final long serialVersionUID = 1L;
-
-                            @Override
-                            public void buttonClick(final ClickEvent event) {
-                                optionBtn.setPopupVisible(false);
-                                T item = previewForm.getBean();
-                                previewForm.fireEditForm(item);
-                            }
-                        });
+                    @Override
+                    public void buttonClick(final ClickEvent event) {
+                        optionBtn.setPopupVisible(false);
+                        T item = previewForm.getBean();
+                        previewForm.fireEditForm(item);
+                    }
+                });
                 editBtn.setIcon(FontAwesome.EDIT);
                 editBtn.setStyleName(UIConstants.BUTTON_ACTION);
                 editBtn.setEnabled(canWrite);
@@ -123,17 +118,15 @@ public class PreviewFormControlsGenerator<T> implements Serializable {
             }
 
             if ((buttonEnableFlags & DELETE_BTN_PRESENTED) == DELETE_BTN_PRESENTED) {
-                Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
-                        new Button.ClickListener() {
+                Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-                            private static final long serialVersionUID = 1L;
-
-                            @Override
-                            public void buttonClick(final ClickEvent event) {
-                                T item = previewForm.getBean();
-                                previewForm.fireDeleteForm(item);
-                            }
-                        });
+                    @Override
+                    public void buttonClick(final ClickEvent event) {
+                        T item = previewForm.getBean();
+                        previewForm.fireDeleteForm(item);
+                    }
+                });
                 deleteBtn.setIcon(FontAwesome.TRASH_O);
                 deleteBtn.setStyleName(UIConstants.BUTTON_DANGER);
                 deleteBtn.setEnabled(canAccess);
@@ -141,19 +134,17 @@ public class PreviewFormControlsGenerator<T> implements Serializable {
             }
 
             if ((buttonEnableFlags & CLONE_BTN_PRESENTED) == CLONE_BTN_PRESENTED) {
-                Button cloneBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLONE),
-                        new Button.ClickListener() {
-                            private static final long serialVersionUID = 1L;
+                Button cloneBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLONE), new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-                            @Override
-                            public void buttonClick(final ClickEvent event) {
-                                optionBtn.setPopupVisible(false);
-                                T item = previewForm.getBean();
-                                previewForm.fireCloneForm(item);
-                            }
-                        });
+                    @Override
+                    public void buttonClick(final ClickEvent event) {
+                        optionBtn.setPopupVisible(false);
+                        T item = previewForm.getBean();
+                        previewForm.fireCloneForm(item);
+                    }
+                });
                 cloneBtn.setIcon(FontAwesome.ROAD);
-                cloneBtn.setStyleName(UIConstants.BUTTON_LINK);
                 cloneBtn.setEnabled(canWrite);
                 popupButtonsControl.addOption(cloneBtn);
             }

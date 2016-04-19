@@ -36,7 +36,7 @@ import static com.esofthead.mycollab.utils.TooltipHelper.TOOLTIP_ID;
 public class UserBlock extends MVerticalLayout {
     public UserBlock(String username, String userAvatarId, String displayName) {
         withMargin(false).withWidth("80px");
-        Image avatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(userAvatarId, 64);
+        Image avatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(userAvatarId, 48);
         avatar.addStyleName(UIConstants.CIRCLE_BOX);
 
         A userLink = new A().setId("tag" + TOOLTIP_ID).setHref(AccountLinkBuilder.generatePreviewFullUserLink(username))

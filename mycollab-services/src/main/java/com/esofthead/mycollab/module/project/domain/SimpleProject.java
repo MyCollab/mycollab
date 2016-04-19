@@ -55,6 +55,8 @@ public class SimpleProject extends Project {
 
     private String clientName;
 
+    private String clientAvatarId;
+
     @NotBindable
     private ProjectCustomizeView customizeView;
 
@@ -211,6 +213,14 @@ public class SimpleProject extends Project {
 
     public void setClientName(String clientName) {
         this.clientName = clientName;
+    }
+
+    public String getClientAvatarId() {
+        return clientAvatarId;
+    }
+
+    public void setClientAvatarId(String clientAvatarId) {
+        this.clientAvatarId = clientAvatarId;
     }
 
     public enum Field {

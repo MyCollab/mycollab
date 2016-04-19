@@ -29,6 +29,8 @@ object ProjectEvent {
 
   class GotoEdit(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
+  class GotoList(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+
   class GotoMyProject(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
   class GotoTagListView(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
