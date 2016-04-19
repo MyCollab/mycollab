@@ -17,7 +17,27 @@ a {
             <div style="color: rgb(167, 221, 249); font-size: 35px; line-height: 10px; text-align: right;">&bdquo;</div>
         </div>
     #end
-    
+
+    #macro( linkBlock $webLink $displayName)
+        <table style="width: auto; border-collapse: collapse; margin: 10px auto">
+            <tbody>
+                <tr>
+                    <td>
+                        <div style="border: 1px solid ${styles.border_color}; border-radius: 3px">
+                            <table style="width: auto; border-collapse: collapse">
+                                <tr>
+                                    <td style="font: 14px/1.4285714 Arial, sans-serif; padding: 4px 10px; background-color: ${styles.action_color}">
+                                        <a href="$webLink" style="color: white; text-decoration: none; font-weight: bold">$displayName</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    #end
+
     <table width="600" cellpadding="0" cellspacing="0" border="0" style="margin: 20px auto;">
         #parse("templates/email/logo.mt")
         <tr>
