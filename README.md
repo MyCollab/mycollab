@@ -73,11 +73,11 @@ MyCollab provides the rich set features of Project Management, Customer Manageme
   * Online Document Editor
   * Activity stream and audit logging
   * Kanban board
-  * Gantt chart
   * Roadmap view
   * Issues Management
   * Tasks and dependencies management
   * Milestones
+  * Gantt chart (for premium users only)
   * Time tracking (for premium users only)
   * Risk Management (For premium users only)
   * Calendar (For premium users only)

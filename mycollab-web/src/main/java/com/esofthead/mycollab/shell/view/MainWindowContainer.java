@@ -19,9 +19,9 @@ package com.esofthead.mycollab.shell.view;
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
-import com.esofthead.mycollab.module.user.view.LoginPresenter;
-import com.esofthead.mycollab.module.user.view.LoginView;
+import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.shell.ShellController;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
@@ -56,35 +56,41 @@ public class MainWindowContainer extends CssLayout {
     }
 
     private void setDefaultView() {
-        // Read previously stored cookie value
-        BrowserCookie.detectCookieValue(DesktopApplication.ACCOUNT_COOKIE, new CookieCallbackSerializable() {
-            @Override
-            public void onValueDetected(String value) {
-                if (value != null && !value.equals("")) {
-                    String[] loginParams = value.split("\\$");
-                    if (loginParams.length == 2) {
-                        try {
-                            ((DesktopApplication) UI.getCurrent()).doLogin(loginParams[0], PasswordEncryptHelper.decryptText(loginParams[1]), false);
-                        } catch (UserInvalidInputException e) {
+        UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
+        int activeUsersCount = userService.getTotalActiveUsersInAccount(AppContext.getAccountId());
+        if (activeUsersCount == 0) {
+            this.setContent(new SetupNewInstanceView());
+        } else {
+            // Read previously stored cookie value
+            BrowserCookie.detectCookieValue(DesktopApplication.ACCOUNT_COOKIE, new CookieCallbackSerializable() {
+                @Override
+                public void onValueDetected(String value) {
+                    if (value != null && !value.equals("")) {
+                        String[] loginParams = value.split("\\$");
+                        if (loginParams.length == 2) {
+                            try {
+                                ((DesktopApplication) UI.getCurrent()).doLogin(loginParams[0], PasswordEncryptHelper.decryptText(loginParams[1]), false);
+                            } catch (UserInvalidInputException e) {
+                                navigateToLoginView();
+                            }
+                        } else {
                             navigateToLoginView();
                         }
                     } else {
-                        navigateToLoginView();
-                    }
-                } else {
-                    try {
-                        SimpleUser user = (SimpleUser) MyCollabSession.getSessionVariable(USER_VAL);
-                        if (user != null) {
-                            ((DesktopApplication) UI.getCurrent()).afterDoLogin(user);
-                        } else {
-                            authenticateWithTempCookieValue();
+                        try {
+                            SimpleUser user = (SimpleUser) MyCollabSession.getSessionVariable(USER_VAL);
+                            if (user != null) {
+                                ((DesktopApplication) UI.getCurrent()).afterDoLogin(user);
+                            } else {
+                                authenticateWithTempCookieValue();
+                            }
+                        } catch (Exception e) {
+                            navigateToLoginView();
                         }
-                    } catch (Exception e) {
-                        navigateToLoginView();
                     }
                 }
-            }
-        });
+            });
+        }
     }
 
     private void authenticateWithTempCookieValue() {
@@ -112,8 +118,6 @@ public class MainWindowContainer extends CssLayout {
     private void navigateToLoginView() {
         final LoginPresenter presenter = PresenterResolver.getPresenter(LoginPresenter.class);
         LoginView loginView = presenter.getView();
-        this.setStyleName("loginView");
-        this.setSizeFull();
         this.setContent(loginView.getWidget());
     }
 

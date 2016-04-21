@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.project;
 
 import com.esofthead.mycollab.core.SecureAccessException;
+import com.esofthead.mycollab.module.file.PathUtils;
 import com.esofthead.mycollab.module.project.dao.ProjectRolePermissionMapper;
 import com.esofthead.mycollab.module.project.domain.*;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
@@ -82,7 +83,7 @@ public class CurrentProjectVariables {
     }
 
     public static void setProjectToggleMenu(Boolean visibility) {
-        MyCollabSession.putCurrentUIVariable(TOGGLE_MENU_FLAG,  visibility);
+        MyCollabSession.putCurrentUIVariable(TOGGLE_MENU_FLAG, visibility);
     }
 
     private static void setProjectMember(SimpleProjectMember prjMember) {
@@ -225,15 +226,11 @@ public class CurrentProjectVariables {
     public static String getCurrentPagePath() {
         String path = (String) MyCollabSession.getCurrentUIVariable(CURRENT_PAGE_VAR);
         if (path == null) {
-            path = getBasePagePath();
+            path = PathUtils.getProjectDocumentPath(AppContext.getAccountId(), getProjectId());
             setCurrentPagePath(path);
         }
 
         return path;
-    }
-
-    public static String getBasePagePath() {
-        return String.format("%d/project/%d/.page", AppContext.getAccountId(), getProjectId());
     }
 
     public static void setCurrentPagePath(String path) {

@@ -100,8 +100,7 @@ public class DefaultMailer implements IMailer {
     }
 
     @Override
-    public void sendHTMLMail(String fromEmail, String fromName,
-                             List<MailRecipientField> toEmail, List<MailRecipientField> ccEmail,
+    public void sendHTMLMail(String fromEmail, String fromName, List<MailRecipientField> toEmail, List<MailRecipientField> ccEmail,
                              List<MailRecipientField> bccEmail, String subject, String html) {
         try {
             HtmlEmail email = getBasicEmail(fromEmail, fromName, toEmail, ccEmail, bccEmail, subject, html);
@@ -133,10 +132,8 @@ public class DefaultMailer implements IMailer {
     }
 
     @Override
-    public void sendHTMLMail(String fromEmail, String fromName,
-                             List<SimpleUser> users, String subject, String html,
+    public void sendHTMLMail(String fromEmail, String fromName, List<SimpleUser> users, String subject, String html,
                              List<EmailAttachementSource> attachment) {
-
         List<MailRecipientField> lstRecipient = new ArrayList<>();
         for (int i = 0; i < users.size(); i++) {
             String mail = users.get(i).getEmail();

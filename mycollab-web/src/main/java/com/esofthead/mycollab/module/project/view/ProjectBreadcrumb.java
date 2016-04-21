@@ -21,6 +21,7 @@ import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.module.file.PathUtils;
 import com.esofthead.mycollab.module.page.domain.Folder;
 import com.esofthead.mycollab.module.page.domain.Page;
 import com.esofthead.mycollab.module.page.service.PageService;
@@ -240,7 +241,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
     }
 
     private void buildPageBreadcrumbChain() {
-        String basePath = CurrentProjectVariables.getBasePagePath();
+        String basePath = PathUtils.getProjectDocumentPath(AppContext.getAccountId(), CurrentProjectVariables.getProjectId());
         String currentPath = CurrentProjectVariables.getCurrentPagePath();
 
         this.addLink(new Button(AppContext.getMessage(BreadcrumbI18nEnum.PAGES), new GotoPageListListener(basePath)));

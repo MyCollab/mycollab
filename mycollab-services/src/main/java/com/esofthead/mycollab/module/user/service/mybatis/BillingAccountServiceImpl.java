@@ -17,19 +17,30 @@
 package com.esofthead.mycollab.module.user.service.mybatis;
 
 import com.esofthead.mycollab.configuration.IDeploymentMode;
+import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultCrudService;
+import com.esofthead.mycollab.core.utils.StringUtils;
+import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
+import com.esofthead.mycollab.module.billing.UserStatusConstants;
+import com.esofthead.mycollab.module.billing.esb.AccountCreatedEvent;
 import com.esofthead.mycollab.module.user.dao.BillingAccountMapper;
 import com.esofthead.mycollab.module.user.dao.BillingAccountMapperExt;
-import com.esofthead.mycollab.module.user.domain.BillingAccount;
-import com.esofthead.mycollab.module.user.domain.BillingAccountExample;
-import com.esofthead.mycollab.module.user.domain.SimpleBillingAccount;
+import com.esofthead.mycollab.module.user.dao.UserAccountMapper;
+import com.esofthead.mycollab.module.user.dao.UserMapper;
+import com.esofthead.mycollab.module.user.domain.*;
 import com.esofthead.mycollab.module.user.service.BillingAccountService;
+import com.esofthead.mycollab.module.user.service.RoleService;
+import com.esofthead.mycollab.security.PermissionMap;
+import com.google.common.eventbus.AsyncEventBus;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -44,6 +55,18 @@ public class BillingAccountServiceImpl extends DefaultCrudService<Integer, Billi
 
     @Autowired
     private BillingAccountMapperExt billingAccountMapperExt;
+
+    @Autowired
+    private AsyncEventBus asyncEventBus;
+
+    @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
+    private UserAccountMapper userAccountMapper;
+
+    @Autowired
+    private RoleService roleService;
 
     @Autowired
     private IDeploymentMode deploymentMode;
@@ -99,4 +122,104 @@ public class BillingAccountServiceImpl extends DefaultCrudService<Integer, Billi
         }
     }
 
+    @Override
+    public void createDefaultAccountData(String username, String password, String timezoneId, Boolean isEmailVerified,
+                                         Boolean isCreatedDefaultData, Integer sAccountId) {
+        // Check whether user has registered to the system before
+        String encryptedPassword = PasswordEncryptHelper.encryptSaltPassword(password);
+        UserExample ex = new UserExample();
+        ex.createCriteria().andUsernameEqualTo(username);
+        List<User> users = userMapper.selectByExample(ex);
+
+        Date now = new GregorianCalendar().getTime();
+
+        if (CollectionUtils.isNotEmpty(users)) {
+            for (User tmpUser : users) {
+                if (!encryptedPassword.equals(tmpUser.getPassword())) {
+                    throw new UserInvalidInputException("There is already user " + username
+                            + " in the MyCollab database. If it is yours, you must enter the same password you registered to MyCollab. Otherwise " +
+                            "you must use the different email.");
+                }
+            }
+        } else {
+            // Register the new user to this account
+            User user = new User();
+            user.setEmail(username);
+            user.setPassword(encryptedPassword);
+            user.setTimezone(timezoneId);
+            user.setUsername(username);
+            user.setRegisteredtime(now);
+            user.setLastaccessedtime(now);
+
+            if (isEmailVerified) {
+                user.setStatus(UserStatusConstants.EMAIL_VERIFIED);
+            } else {
+                user.setStatus(UserStatusConstants.EMAIL_NOT_VERIFIED);
+            }
+
+            if (user.getFirstname() == null) {
+                user.setFirstname("");
+            }
+
+            if (StringUtils.isBlank(user.getLastname())) {
+                user.setLastname(StringUtils.extractNameFromEmail(username));
+            }
+            userMapper.insert(user);
+        }
+
+        // save default roles
+        saveEmployeeRole(sAccountId);
+        int adminRoleId = saveAdminRole(sAccountId);
+        saveGuestRole(sAccountId);
+
+        // save user account
+        UserAccount userAccount = new UserAccount();
+        userAccount.setAccountid(sAccountId);
+        userAccount.setIsaccountowner(true);
+        userAccount.setRegisteredtime(now);
+        userAccount.setRegisterstatus(RegisterStatusConstants.ACTIVE);
+        userAccount.setRegistrationsource("Web");
+        userAccount.setRoleid(adminRoleId);
+        userAccount.setUsername(username);
+
+        userAccountMapper.insert(userAccount);
+        asyncEventBus.post(new AccountCreatedEvent(sAccountId, username, true));
+    }
+
+    private int saveEmployeeRole(int accountId) {
+        // Register default role for account
+        Role role = new Role();
+        role.setRolename(SimpleRole.EMPLOYEE);
+        role.setDescription("");
+        role.setSaccountid(accountId);
+        role.setIssystemrole(true);
+        Integer roleId = roleService.saveWithSession(role, "");
+        roleService.savePermission(roleId, PermissionMap.buildEmployeePermissionCollection(), accountId);
+        return roleId;
+    }
+
+    private int saveAdminRole(int accountId) {
+        // Register default role for account
+        Role role = new Role();
+        role.setRolename(SimpleRole.ADMIN);
+        role.setDescription("");
+        role.setSaccountid(accountId);
+        role.setIssystemrole(true);
+        Integer roleId = roleService.saveWithSession(role, "");
+        roleService.savePermission(roleId, PermissionMap.buildAdminPermissionCollection(), accountId);
+        return roleId;
+    }
+
+    private int saveGuestRole(int accountid) {
+        // Register default role for account
+        final Role role = new Role();
+        role.setRolename(SimpleRole.GUEST);
+        role.setDescription("");
+        role.setSaccountid(accountid);
+        role.setIssystemrole(true);
+        final int roleId = roleService.saveWithSession(role, "");
+
+        roleService.savePermission(roleId, PermissionMap.buildGuestPermissionCollection(), accountid);
+        return roleId;
+    }
 }

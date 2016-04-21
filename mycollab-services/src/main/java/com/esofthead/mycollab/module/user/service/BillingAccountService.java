@@ -36,4 +36,6 @@ public interface BillingAccountService extends ICrudService<Integer, BillingAcco
 
     @Cacheable
     BillingAccount getAccountById(@CacheKey Integer accountId);
+
+    void createDefaultAccountData(String username, String password, String timezoneId, Boolean isEmailVerified, Boolean isCreatedDefaultData, Integer sAccountId);
 }

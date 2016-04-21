@@ -32,7 +32,7 @@ public class SimpleRelayEmailNotification extends RelayEmailNotificationWithBLOB
     private List<SimpleUser> notifyUsers;
 
     public String getChangeByUserFullName() {
-        if (changeByUserFullName == null || changeByUserFullName.trim().equals("")) {
+        if (StringUtils.isBlank(changeByUserFullName)) {
             return StringUtils.extractNameFromEmail(getChangeby());
         }
         return changeByUserFullName;

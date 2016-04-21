@@ -28,8 +28,6 @@ import java.io.File;
 public class ServerInstance {
     private static ServerInstance instance = new ServerInstance();
     private GenericServerRunner server;
-
-    private boolean isFirstTimeRunner = false;
     private boolean isUpgrading = false;
 
     private ServerInstance() {
@@ -60,13 +58,5 @@ public class ServerInstance {
 
     public static ServerInstance getInstance() {
         return instance;
-    }
-
-    public boolean isFirstTimeRunner() {
-        return isFirstTimeRunner;
-    }
-
-    public void setIsFirstTimeRunner(boolean isFirstTimeRunner) {
-        this.isFirstTimeRunner = isFirstTimeRunner;
     }
 }

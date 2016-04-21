@@ -16,47 +16,45 @@
  */
 package com.esofthead.mycollab.module.page.domain;
 
-import java.util.Calendar;
-
 import com.esofthead.mycollab.core.arguments.NotBindable;
 
+import java.util.Calendar;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.4.0
- *
  */
 public class PageResource {
-	@NotBindable
-	private Calendar createdTime;
+    @NotBindable
+    private Calendar createdTime;
 
-	@NotBindable
-	private String createdUser;
+    @NotBindable
+    private String createdUser;
 
-	@NotBindable
-	protected String path = "";
+    @NotBindable
+    protected String path = "";
 
-	public Calendar getCreatedTime() {
-		return createdTime;
-	}
+    public Calendar getCreatedTime() {
+        return createdTime;
+    }
 
-	public void setCreatedTime(Calendar createdTime) {
-		this.createdTime = createdTime;
-	}
+    public void setCreatedTime(Calendar createdTime) {
+        this.createdTime = createdTime;
+    }
 
-	public String getCreatedUser() {
-		return createdUser;
-	}
+    public String getCreatedUser() {
+        return createdUser;
+    }
 
-	public void setCreatedUser(String createdUser) {
-		this.createdUser = createdUser;
-	}
+    public void setCreatedUser(String createdUser) {
+        this.createdUser = createdUser;
+    }
 
-	public String getPath() {
-		return path;
-	}
+    public String getPath() {
+        return path;
+    }
 
-	public void setPath(String path) {
-		this.path = path;
-	}
+    public void setPath(String path) {
+        this.path = path;
+    }
 }

@@ -22,6 +22,7 @@ import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.module.file.PathUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.ProjectMemberStatusConstants;
@@ -145,7 +146,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
                         filePresenter.go(ProjectViewImpl.this, new FileScreenData.GotoDashboard());
                     } else if (ProjectTypeConstants.PAGE.equals(caption)) {
                         pagePresenter.go(ProjectViewImpl.this,
-                                new PageScreenData.Search(CurrentProjectVariables.getBasePagePath()));
+                                new PageScreenData.Search(PathUtils.getProjectDocumentPath(AppContext.getAccountId(), project.getId())));
                     } else if (ProjectTypeConstants.DASHBOARD.equals(caption)) {
                         dashboardPresenter.go(ProjectViewImpl.this, null);
                     } else if (ProjectTypeConstants.MEMBER.equals(caption)) {

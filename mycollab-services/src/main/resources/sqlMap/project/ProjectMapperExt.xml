@@ -493,9 +493,9 @@
         notifier.email AS notifiers_email, notifier.language AS notifiers_language, s_relay_email_notification.sAccountId AS notifiers_accountId
         FROM s_relay_email_notification
             LEFT OUTER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
-            LEFT OUTER JOIN m_monitor_item ON (m_monitor_item.typeId=s_relay_email_notification.typeId AND s_relay_email_notification.type=m_monitor_item.type)
-            LEFT OUTER JOIN s_user AS notifier ON (m_monitor_item.user=notifier.username)
-            JOIN m_tracker_bug ON  (s_relay_email_notification.type="Project-Bug" AND m_tracker_bug.id=s_relay_email_notification.typeId))
+            INNER JOIN m_monitor_item ON (m_monitor_item.typeId=s_relay_email_notification.typeId AND s_relay_email_notification.type=m_monitor_item.type)
+            INNER JOIN s_user AS notifier ON (m_monitor_item.user=notifier.username)
+            INNER JOIN m_tracker_bug ON  (s_relay_email_notification.type="Project-Bug" AND m_tracker_bug.id=s_relay_email_notification.typeId))
             
         UNION
         (SELECT s_relay_email_notification.id,
@@ -513,9 +513,9 @@
         notifier.email AS notifiers_email, notifier.language AS notifiers_language, s_relay_email_notification.sAccountId AS notifiers_accountId
         FROM s_relay_email_notification
             LEFT OUTER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
-            LEFT OUTER JOIN m_monitor_item ON (m_monitor_item.typeId=s_relay_email_notification.typeId AND s_relay_email_notification.type=m_monitor_item.type)
-            LEFT OUTER JOIN s_user AS notifier ON (m_monitor_item.user=notifier.username)
-            JOIN m_prj_task ON (s_relay_email_notification.type="Project-Task" AND m_prj_task.id=s_relay_email_notification.typeId))
+            INNER JOIN m_monitor_item ON (m_monitor_item.typeId=s_relay_email_notification.typeId AND s_relay_email_notification.type=m_monitor_item.type)
+            INNER JOIN s_user AS notifier ON (m_monitor_item.user=notifier.username)
+            INNER JOIN m_prj_task ON (s_relay_email_notification.type="Project-Task" AND m_prj_task.id=s_relay_email_notification.typeId))
 
         UNION
         (SELECT s_relay_email_notification.id,
@@ -533,9 +533,9 @@
         s_relay_email_notification.sAccountId AS notifiers_accountId
         FROM s_relay_email_notification
             LEFT OUTER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
-            LEFT OUTER JOIN m_monitor_item ON (m_monitor_item.typeId=s_relay_email_notification.typeId AND s_relay_email_notification.type=m_monitor_item.type)
-            LEFT OUTER JOIN s_user AS notifier ON (m_monitor_item.user=notifier.username)
-            JOIN m_prj_message ON (s_relay_email_notification.type="Project-Message" AND m_prj_message.id=s_relay_email_notification.typeId))
+            INNER JOIN m_monitor_item ON (m_monitor_item.typeId=s_relay_email_notification.typeId AND s_relay_email_notification.type=m_monitor_item.type)
+            INNER JOIN s_user AS notifier ON (m_monitor_item.user=notifier.username)
+            INNER JOIN m_prj_message ON (s_relay_email_notification.type="Project-Message" AND m_prj_message.id=s_relay_email_notification.typeId))
 
         UNION
         (SELECT s_relay_email_notification.id,
@@ -553,9 +553,9 @@
         notifier.email AS notifiers_email, notifier.language AS notifiers_language, s_relay_email_notification.sAccountId AS notifiers_accountId
         FROM s_relay_email_notification
             LEFT OUTER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
-            LEFT OUTER JOIN m_monitor_item ON (m_monitor_item.typeId=s_relay_email_notification.typeId AND s_relay_email_notification.type=m_monitor_item.type)
-            LEFT OUTER JOIN s_user AS notifier ON (m_monitor_item.user=notifier.username)
-            JOIN m_prj_milestone ON (s_relay_email_notification.type="Project-Milestone" AND m_prj_milestone.id=s_relay_email_notification.typeId))
+            INNER JOIN m_monitor_item ON (m_monitor_item.typeId=s_relay_email_notification.typeId AND s_relay_email_notification.type=m_monitor_item.type)
+            INNER JOIN s_user AS notifier ON (m_monitor_item.user=notifier.username)
+            INNER JOIN m_prj_milestone ON (s_relay_email_notification.type="Project-Milestone" AND m_prj_milestone.id=s_relay_email_notification.typeId))
 
         UNION
         (SELECT s_relay_email_notification.id,
@@ -573,9 +573,9 @@
         notifier.email AS notifiers_email, notifier.language AS notifiers_language, s_relay_email_notification.sAccountId AS notifiers_accountId
         FROM s_relay_email_notification
             LEFT OUTER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
-            LEFT OUTER JOIN m_monitor_item ON (m_monitor_item.typeId=s_relay_email_notification.typeId AND s_relay_email_notification.type=m_monitor_item.type)
-            LEFT OUTER JOIN s_user AS notifier ON (m_monitor_item.user=notifier.username)
-            JOIN m_prj_risk ON (s_relay_email_notification.type="Project-Risk" AND m_prj_risk.id=s_relay_email_notification.typeId))
+            INNER JOIN m_monitor_item ON (m_monitor_item.typeId=s_relay_email_notification.typeId AND s_relay_email_notification.type=m_monitor_item.type)
+            INNER JOIN s_user AS notifier ON (m_monitor_item.user=notifier.username)
+            INNER JOIN m_prj_risk ON (s_relay_email_notification.type="Project-Risk" AND m_prj_risk.id=s_relay_email_notification.typeId))
         UNION
         (SELECT s_relay_email_notification.id,
         s_relay_email_notification.sAccountId,
@@ -592,10 +592,9 @@
         s_relay_email_notification.sAccountId AS notifiers_accountId
         FROM s_relay_email_notification
             LEFT OUTER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
-            LEFT OUTER JOIN m_monitor_item ON (m_monitor_item.typeId=s_relay_email_notification.typeId AND s_relay_email_notification.type=m_monitor_item.type)
-            LEFT OUTER JOIN s_user AS notifier ON (m_monitor_item.user=notifier.username)
-            JOIN m_tracker_component ON (s_relay_email_notification.type="Project-Component" AND m_tracker_component.id=s_relay_email_notification.typeId))
-            
+            INNER JOIN m_monitor_item ON (m_monitor_item.typeId=s_relay_email_notification.typeId AND s_relay_email_notification.type=m_monitor_item.type)
+            INNER JOIN s_user AS notifier ON (m_monitor_item.user=notifier.username)
+            INNER JOIN m_tracker_component ON (s_relay_email_notification.type="Project-Component" AND m_tracker_component.id=s_relay_email_notification.typeId))
         UNION
         (SELECT s_relay_email_notification.id,
         s_relay_email_notification.sAccountId,
@@ -612,9 +611,9 @@
         s_relay_email_notification.sAccountId AS notifiers_accountId
         FROM s_relay_email_notification
             LEFT OUTER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
-            LEFT OUTER JOIN m_monitor_item ON (m_monitor_item.typeId=s_relay_email_notification.typeId AND s_relay_email_notification.type=m_monitor_item.type)
-            LEFT OUTER JOIN s_user AS notifier ON (m_monitor_item.user=notifier.username)
-            JOIN m_tracker_version ON (s_relay_email_notification.type="Project-Version" AND m_tracker_version.id=s_relay_email_notification.typeId))
+            INNER JOIN m_monitor_item ON (m_monitor_item.typeId=s_relay_email_notification.typeId AND s_relay_email_notification.type=m_monitor_item.type)
+            INNER JOIN s_user AS notifier ON (m_monitor_item.user=notifier.username)
+            INNER JOIN m_tracker_version ON (s_relay_email_notification.type="Project-Version" AND m_tracker_version.id=s_relay_email_notification.typeId))
         ]]>
     </select>
 </mapper>

@@ -20,41 +20,39 @@ import java.io.Serializable;
 import java.util.Calendar;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.4.0
- *
  */
 public class PageVersion implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String name;
-	
-	private int index;
-	
-	private Calendar createdTime;
+    private String name;
 
-	public String getName() {
-		return name;
-	}
+    private int index;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    private Calendar createdTime;
 
-	public int getIndex() {
-		return index;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setIndex(int index) {
-		this.index = index;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public Calendar getCreatedTime() {
-		return createdTime;
-	}
+    public int getIndex() {
+        return index;
+    }
 
-	public void setCreatedTime(Calendar createdTime) {
-		this.createdTime = createdTime;
-	}
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    public Calendar getCreatedTime() {
+        return createdTime;
+    }
+
+    public void setCreatedTime(Calendar createdTime) {
+        this.createdTime = createdTime;
+    }
 }

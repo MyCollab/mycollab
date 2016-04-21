@@ -40,6 +40,26 @@ understanding in a matter of minutes.
 Last changelog
 ==============
 
+Version 5.2.13
+-----------------------------
+**Library Upgrades**
+
+* Mybatis 3.4.0
+* Mybatis spring 1.3.0
+* Jsoup 1.9.1
+* Vaadin 7.6.5
+* Other libraries
+
+**Improvements & New Features**
+
+* Allow site owner create the admin user instead of system default user
+* Create sample project for the new MyCollab installation
+* Other minor improvements
+
+**Bug Fixes**
+
+* Get following items return the wrong list in several cases
+
 Version 5.2.12
 -----------------------------
 **Library Upgrades**
@@ -49,8 +69,8 @@ Version 5.2.12
 
 **Improvements & New Features**
 
-* [Premium] Allow to upload client logo
-* Allow to upload project logo
+* [Premium] Allow uploading client logo
+* Allow uploading project logo
 * Can adjust the parent-child relationship of tasks
 * New Project list view
 * Adjust the java memory settings
@@ -61,7 +81,7 @@ Version 5.2.12
 * [Premium] Can not print client page
 * Can not modify basic properties of kanban columns
 * Several cases of bug dependencies do not work as expected
-* Can not upload/rename the file include the special unicode characters
+* Can not upload/rename the file include the special Unicode characters
 
 Version 5.2.11
 -----------------------------

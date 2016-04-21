@@ -25,7 +25,6 @@ import ch.qos.cal10n.LocaleData;
 public enum ProjectSettingI18nEnum {
 	VIEW_TITLE,
 	WIDGET_CUSTOMIZE_FEATURES,
-	EXT_LEVEL,
 	DIALOG_UPDATE_SUCCESS,
 	OPT_DEFAULT_SETTING,
 	OPT_NONE_SETTING,

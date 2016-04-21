@@ -432,8 +432,6 @@ function updateInfoAction(){
                     $('#setupBtn').html('<span>Setup</span>');
                     alert(res);
                 } else {
-                    alert("Setup is completed successfully. Default username/password is \n    User name: admin@mycollab.com\n    password: admin123\nRedirect to the app?");
-                    $('#setupBtn').html('<span>Setup</span>');
                     window.location.assign(location.protocol + "//" + document.getElementById("serverAddress").value + ((location.port != "")? (":" + location.port) : ""));
                 }
              }

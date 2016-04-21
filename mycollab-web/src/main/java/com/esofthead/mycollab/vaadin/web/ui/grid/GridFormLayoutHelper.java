@@ -16,9 +16,11 @@
  */
 package com.esofthead.mycollab.vaadin.web.ui.grid;
 
-import com.esofthead.mycollab.vaadin.web.ui.MultiSelectComp;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.Label;
 import org.apache.commons.lang3.StringUtils;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
@@ -71,17 +73,18 @@ public class GridFormLayoutHelper implements Serializable {
         return layout.getRows();
     }
 
-    public void addComponent(Component field, String caption, int columns, int rows, int colspan, String width) {
-        this.addComponent(field, caption, columns, rows, colspan, width, this.captionAlignment);
+    public <T extends Component> T addComponent(T field, String caption, int columns, int rows, int colspan, String width) {
+        return this.addComponent(field, caption, columns, rows, colspan, width, this.captionAlignment);
     }
 
-    public void addComponent(Component field, String caption, int columns, int rows) {
-        this.addComponent(field, caption, columns, rows, 1, this.fieldControlWidth, captionAlignment);
+    public <T extends Component> T addComponent(T field, String caption, int columns, int rows) {
+        return this.addComponent(field, caption, columns, rows, 1, this.fieldControlWidth, captionAlignment);
     }
 
-    private void addComponent(Component field, String caption, int columns, int rows, int colspan, String width, Alignment alignment) {
+    private <T extends Component> T addComponent(T field, String caption, int columns, int rows, int colspan, String width, Alignment alignment) {
         GridCellWrapper cell = buildCell(caption, columns, rows, colspan, width, alignment);
         cell.addComponent(field);
+        return field;
     }
 
     public GridCellWrapper buildCell(String caption, int columns, int rows) {

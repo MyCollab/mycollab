@@ -39,8 +39,7 @@ public interface IMailer {
 	 * @param subject
 	 * @param html
 	 */
-	void sendHTMLMail(String fromEmail, String fromName,
-			List<MailRecipientField> toEmail, List<MailRecipientField> ccEmail,
+	void sendHTMLMail(String fromEmail, String fromName, List<MailRecipientField> toEmail, List<MailRecipientField> ccEmail,
 			List<MailRecipientField> bccEmail, String subject, String html);
 
 	/**
@@ -54,10 +53,8 @@ public interface IMailer {
 	 * @param html
 	 * @param attachments
 	 */
-	void sendHTMLMail(String fromEmail, String fromName,
-			List<MailRecipientField> toEmail, List<MailRecipientField> ccEmail,
-			List<MailRecipientField> bccEmail, String subject, String html,
-			List<EmailAttachementSource> attachments);
+	void sendHTMLMail(String fromEmail, String fromName, List<MailRecipientField> toEmail, List<MailRecipientField> ccEmail,
+			List<MailRecipientField> bccEmail, String subject, String html, List<EmailAttachementSource> attachments);
 
 	/**
 	 * 
@@ -68,7 +65,6 @@ public interface IMailer {
 	 * @param html
 	 * @param attachment
 	 */
-	void sendHTMLMail(String fromEmail, String fromName,
-			List<SimpleUser> users, String subject, String html,
+	void sendHTMLMail(String fromEmail, String fromName, List<SimpleUser> users, String subject, String html,
 			List<EmailAttachementSource> attachment);
 }

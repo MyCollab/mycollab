@@ -33,24 +33,20 @@ public class NullMailer implements IMailer {
     private static final Logger LOG = LoggerFactory.getLogger(NullMailer.class);
 
     @Override
-    public void sendHTMLMail(String fromEmail, String fromName,
-                             List<MailRecipientField> toEmail, List<MailRecipientField> ccEmail,
+    public void sendHTMLMail(String fromEmail, String fromName, List<MailRecipientField> toEmail, List<MailRecipientField> ccEmail,
                              List<MailRecipientField> bccEmail, String subject, String html) {
         LOG.info("You did not configure email. So Email feature is disable and MyCollab can not send any notification via email.");
     }
 
     @Override
-    public void sendHTMLMail(String fromEmail, String fromName,
-                             List<MailRecipientField> toEmail, List<MailRecipientField> ccEmail,
-                             List<MailRecipientField> bccEmail, String subject, String html,
-                             List<EmailAttachementSource> attachments) {
+    public void sendHTMLMail(String fromEmail, String fromName, List<MailRecipientField> toEmail, List<MailRecipientField> ccEmail,
+                             List<MailRecipientField> bccEmail, String subject, String html, List<EmailAttachementSource> attachments) {
         LOG.info("You did not configure email. So Email feature is disable and MyCollab can not send any notification via email.");
 
     }
 
     @Override
-    public void sendHTMLMail(String fromEmail, String fromName,
-                             List<SimpleUser> users, String subject, String html,
+    public void sendHTMLMail(String fromEmail, String fromName, List<SimpleUser> users, String subject, String html,
                              List<EmailAttachementSource> attachment) {
         LOG.info("You did not configure email. So Email feature is disable and MyCollab can not send any notification via email.");
 

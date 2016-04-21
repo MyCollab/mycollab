@@ -17,13 +17,11 @@
 package com.esofthead.mycollab.shell.view;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.common.ui.components.notification.ChangeDefaultUsernameNotification;
 import com.esofthead.mycollab.common.ui.components.notification.RequestUploadAvatarNotification;
 import com.esofthead.mycollab.common.ui.components.notification.SmtpSetupNotification;
 import com.esofthead.mycollab.common.ui.components.notification.TimezoneNotification;
 import com.esofthead.mycollab.configuration.IDeploymentMode;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -129,7 +127,6 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         bodyLayout.addStyleName("main-view");
         bodyLayout.setId("main-body");
         bodyLayout.setSizeFull();
-
         this.with(createTopMenu(), bodyLayout, createFooter()).expand(bodyLayout);
     }
 
@@ -367,10 +364,6 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         if (StringUtils.isBlank(AppContext.getUser().getAvatarid())) {
             EventBusFactory.getInstance().post(new ShellEvent.NewNotification(this,
                     new RequestUploadAvatarNotification()));
-        }
-
-        if ("admin@mycollab.com".equals(AppContext.getUsername())) {
-            EventBusFactory.getInstance().post(new ShellEvent.NewNotification(this, new ChangeDefaultUsernameNotification()));
         }
 
         if (!SiteConfiguration.isDemandEdition()) {

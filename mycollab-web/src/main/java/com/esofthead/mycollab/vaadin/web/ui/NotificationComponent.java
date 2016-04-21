@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.vaadin.web.ui;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.common.ui.components.notification.ChangeDefaultUsernameNotification;
 import com.esofthead.mycollab.common.ui.components.notification.RequestUploadAvatarNotification;
 import com.esofthead.mycollab.common.ui.components.notification.SmtpSetupNotification;
 import com.esofthead.mycollab.common.ui.components.notification.TimezoneNotification;
@@ -35,7 +34,6 @@ import com.google.common.eventbus.Subscribe;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Span;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.Position;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import elemental.json.JsonArray;
@@ -187,22 +185,7 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
         wrapper.setData(item);
         wrapper.setDefaultComponentAlignment(Alignment.TOP_LEFT);
 
-        if (item instanceof ChangeDefaultUsernameNotification) {
-            MCssLayout cssWrapper = new MCssLayout(new Label(FontAwesome.EXCLAMATION_TRIANGLE.getHtml() + " You are " +
-                    "using the default email " +
-                    "'admin@mycollab.com'. You can not receive the site notifications without using your right email",
-                    ContentMode.HTML));
-
-            Button actionBtn = new Button("Change it", new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent event) {
-                    EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"preview"}));
-                    NotificationComponent.this.setPopupVisible(false);
-                }
-            });
-            actionBtn.setStyleName(UIConstants.BUTTON_BLOCK);
-            wrapper.with(cssWrapper, actionBtn).expand(cssWrapper);
-        } else if (item instanceof NewUpdateAvailableNotification) {
+        if (item instanceof NewUpdateAvailableNotification) {
             final NewUpdateAvailableNotification notification = (NewUpdateAvailableNotification) item;
             Span spanEl = new Span();
             spanEl.appendText("There is the new MyCollab version " + notification.getVersion() + " . For the " +

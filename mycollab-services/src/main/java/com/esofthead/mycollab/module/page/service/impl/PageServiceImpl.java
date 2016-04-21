@@ -51,482 +51,480 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.4.0
- *
  */
 @Repository
 @Transactional
 public class PageServiceImpl implements PageService {
-	private static final Logger LOG = LoggerFactory.getLogger(PageServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(PageServiceImpl.class);
 
-	@Qualifier("pageJcrTemplate")
-	@Autowired
-	private JcrTemplate jcrTemplate;
+    @Qualifier("pageJcrTemplate")
+    @Autowired
+    private JcrTemplate jcrTemplate;
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@Override
-	public void savePage(final Page page, final String createdUser) {
-		jcrTemplate.execute(new JcrCallback() {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    @Override
+    public void savePage(final Page page, final String createdUser) {
+        jcrTemplate.execute(new JcrCallback() {
 
-			@Override
-			public Object doInJcr(Session session) throws IOException, RepositoryException {
-				page.setCreatedTime(new GregorianCalendar());
-				page.setCreatedUser(createdUser);
+            @Override
+            public Object doInJcr(Session session) throws IOException, RepositoryException {
+                page.setCreatedTime(new GregorianCalendar());
+                page.setCreatedUser(createdUser);
                 page.setLastUpdatedTime(new GregorianCalendar());
                 page.setLastUpdatedUser(createdUser);
-				Node rootNode = session.getRootNode();
-				Node node = JcrUtils.getNodeIfExists(rootNode, page.getPath());
-				// forward to current path
-				if (node != null) {
-					if (isNodeFolder(node)) {
-						String errorStr = String.format("Resource is existed. Search node is not a folder. It has path %s and type is %s",
+                Node rootNode = session.getRootNode();
+                Node node = JcrUtils.getNodeIfExists(rootNode, page.getPath());
+                // forward to current path
+                if (node != null) {
+                    if (isNodeFolder(node)) {
+                        String errorStr = String.format("Resource is existed. Search node is not a folder. It has path %s and type is %s",
                                 node.getPath(), node.getPrimaryNodeType().getName());
-						throw new ContentException(errorStr);
-					} else if (isNodePage(node)) {
-						LOG.debug("Found existing resource. Override");
-						VersionManager vm = session.getWorkspace().getVersionManager();
-						vm.checkout("/" + page.getPath());
-						convertPageToNode(node, page, createdUser);
-						session.save();
-						vm.checkin("/" + page.getPath());
-					} else {
-						String errorStr = String.format("Resource is existed. But its node type is not mycollab:content. It has path %s and type is %s",
+                        throw new ContentException(errorStr);
+                    } else if (isNodePage(node)) {
+                        LOG.debug("Found existing resource. Override");
+                        VersionManager vm = session.getWorkspace().getVersionManager();
+                        vm.checkout("/" + page.getPath());
+                        convertPageToNode(node, page, createdUser);
+                        session.save();
+                        vm.checkin("/" + page.getPath());
+                    } else {
+                        String errorStr = String.format("Resource is existed. But its node type is not mycollab:content. It has path %s and type is %s",
                                 node.getPath(), node.getPrimaryNodeType().getName());
-						throw new ContentException(errorStr);
-					}
-				} else {
-					try {
-						String path = page.getPath();
-						String[] pathStr = path.split("/");
-						Node parentNode = rootNode;
-						// create folder note
-						for (int i = 0; i < pathStr.length - 1; i++) {
-							// move to lastest node of the path
-							Node childNode = JcrUtils.getNodeIfExists(parentNode, pathStr[i]);
-							if (childNode != null) {
-								if (!isNodeFolder(childNode)) {
-									// node must is folder
-									String errorString = "Invalid path. User want to create a content has path %s but there is a folder has path %s";
-									throw new ContentException(String.format(errorString, page.getPath(), childNode.getPath()));
-								}
-							} else {
-								// add node
-								childNode = parentNode.addNode(pathStr[i], "{http://www.esofthead.com/wiki}folder");
-								childNode.setProperty("wiki:createdUser", createdUser);
-								childNode.setProperty("wiki:name", pathStr[i]);
-								childNode.setProperty("wiki:description", "");
-							}
-							parentNode = childNode;
-						}
+                        throw new ContentException(errorStr);
+                    }
+                } else {
+                    try {
+                        String path = page.getPath();
+                        String[] pathStr = path.split("/");
+                        Node parentNode = rootNode;
+                        // create folder note
+                        for (int i = 0; i < pathStr.length - 1; i++) {
+                            // move to lastest node of the path
+                            Node childNode = JcrUtils.getNodeIfExists(parentNode, pathStr[i]);
+                            if (childNode != null) {
+                                if (!isNodeFolder(childNode)) {
+                                    // node must is folder
+                                    String errorString = "Invalid path. User want to create a content has path %s but there is a folder has path %s";
+                                    throw new ContentException(String.format(errorString, page.getPath(), childNode.getPath()));
+                                }
+                            } else {
+                                // add node
+                                childNode = parentNode.addNode(pathStr[i], "{http://www.esofthead.com/wiki}folder");
+                                childNode.setProperty("wiki:createdUser", createdUser);
+                                childNode.setProperty("wiki:name", pathStr[i]);
+                                childNode.setProperty("wiki:description", "");
+                            }
+                            parentNode = childNode;
+                        }
 
-						Node addNode = parentNode.addNode(pathStr[pathStr.length - 1], "{http://www.esofthead.com/wiki}page");
-						convertPageToNode(addNode, page, createdUser);
-						session.save();
-					} catch (Exception e) {
-						LOG.error("error in convertToNode Method", e);
-						throw new MyCollabException(e);
-					}
-				}
-				return null;
-			}
-		});
+                        Node addNode = parentNode.addNode(pathStr[pathStr.length - 1], "{http://www.esofthead.com/wiki}page");
+                        convertPageToNode(addNode, page, createdUser);
+                        session.save();
+                    } catch (Exception e) {
+                        LOG.error("error in convertToNode Method", e);
+                        throw new MyCollabException(e);
+                    }
+                }
+                return null;
+            }
+        });
 
-	}
+    }
 
-	@Override
-	public Page getPage(final String path, final String requestedUser) {
-		return jcrTemplate.execute(new JcrCallback<Page>() {
+    @Override
+    public Page getPage(final String path, final String requestedUser) {
+        return jcrTemplate.execute(new JcrCallback<Page>() {
 
-			@Override
-			public Page doInJcr(Session session) throws IOException,
-					RepositoryException {
-				Node rootNode = session.getRootNode();
-				Node node = JcrUtils.getNodeIfExists(rootNode, path);
-				if (node != null) {
-					if (isNodePage(node)) {
-						if (isAccessible(node, requestedUser)) {
-							return convertNodeToPage(node);
-						} else {
-							return null;
-						}
+            @Override
+            public Page doInJcr(Session session) throws IOException,
+                    RepositoryException {
+                Node rootNode = session.getRootNode();
+                Node node = JcrUtils.getNodeIfExists(rootNode, path);
+                if (node != null) {
+                    if (isNodePage(node)) {
+                        if (isAccessible(node, requestedUser)) {
+                            return convertNodeToPage(node);
+                        } else {
+                            return null;
+                        }
 
-					}
-				}
+                    }
+                }
 
-				return null;
-			}
-		});
-	}
+                return null;
+            }
+        });
+    }
 
-	@Override
-	public Folder getFolder(final String path) {
-		return jcrTemplate.execute(new JcrCallback<Folder>() {
+    @Override
+    public Folder getFolder(final String path) {
+        return jcrTemplate.execute(new JcrCallback<Folder>() {
 
-			@Override
-			public Folder doInJcr(Session session) throws IOException,
-					RepositoryException {
-				Node rootNode = session.getRootNode();
-				Node node = JcrUtils.getNodeIfExists(rootNode, path);
-				if (node != null) {
-					if (isNodeFolder(node)) {
-						return convertNodeToFolder(node);
-					}
-				}
+            @Override
+            public Folder doInJcr(Session session) throws IOException,
+                    RepositoryException {
+                Node rootNode = session.getRootNode();
+                Node node = JcrUtils.getNodeIfExists(rootNode, path);
+                if (node != null) {
+                    if (isNodeFolder(node)) {
+                        return convertNodeToFolder(node);
+                    }
+                }
 
-				return null;
-			}
-		});
-	}
+                return null;
+            }
+        });
+    }
 
-	private static boolean isNodeFolder(Node node) {
-		try {
-			return node.isNodeType("wiki:folder");
-		} catch (RepositoryException e) {
-			return false;
-		}
-	}
+    private static boolean isNodeFolder(Node node) {
+        try {
+            return node.isNodeType("wiki:folder");
+        } catch (RepositoryException e) {
+            return false;
+        }
+    }
 
-	private static boolean isNodePage(Node node) {
-		try {
-			return node.isNodeType("wiki:page");
-		} catch (RepositoryException e) {
-			return false;
-		}
-	}
+    private static boolean isNodePage(Node node) {
+        try {
+            return node.isNodeType("wiki:page");
+        } catch (RepositoryException e) {
+            return false;
+        }
+    }
 
-	@Override
-	public List<PageVersion> getPageVersions(final String path) {
-		return jcrTemplate.execute(new JcrCallback<List<PageVersion>>() {
+    @Override
+    public List<PageVersion> getPageVersions(final String path) {
+        return jcrTemplate.execute(new JcrCallback<List<PageVersion>>() {
 
-			@Override
-			public List<PageVersion> doInJcr(Session session)
-					throws IOException, RepositoryException {
-				Node rootNode = session.getRootNode();
-				Node node = JcrUtils.getNodeIfExists(rootNode, path);
-				if (node != null) {
-					VersionManager vm = session.getWorkspace().getVersionManager();
-					VersionHistory history = vm.getVersionHistory("/" + path);
-					List<PageVersion> versions = new ArrayList<>();
-					for (VersionIterator it = history.getAllVersions(); it.hasNext();) {
-						Version version = (Version) it.next();
-						if (!"jcr:rootVersion".equals(version.getName())) {
-							versions.add(convertNodeToPageVersion(version));
-						}
-					}
-					return versions;
-				} else {
-					return null;
-				}
-			}
-		});
-	}
+            @Override
+            public List<PageVersion> doInJcr(Session session)
+                    throws IOException, RepositoryException {
+                Node rootNode = session.getRootNode();
+                Node node = JcrUtils.getNodeIfExists(rootNode, path);
+                if (node != null) {
+                    VersionManager vm = session.getWorkspace().getVersionManager();
+                    VersionHistory history = vm.getVersionHistory("/" + path);
+                    List<PageVersion> versions = new ArrayList<>();
+                    for (VersionIterator it = history.getAllVersions(); it.hasNext(); ) {
+                        Version version = (Version) it.next();
+                        if (!"jcr:rootVersion".equals(version.getName())) {
+                            versions.add(convertNodeToPageVersion(version));
+                        }
+                    }
+                    return versions;
+                } else {
+                    return null;
+                }
+            }
+        });
+    }
 
-	@Override
-	public Page restorePage(final String path, final String versionName) {
-		return jcrTemplate.execute(new JcrCallback<Page>() {
+    @Override
+    public Page restorePage(final String path, final String versionName) {
+        return jcrTemplate.execute(new JcrCallback<Page>() {
 
-			@Override
-			public Page doInJcr(Session session) throws IOException, RepositoryException {
-				Node rootNode = session.getRootNode();
-				Node node = JcrUtils.getNodeIfExists(rootNode, path);
-				if (node != null) {
-					VersionManager vm = session.getWorkspace().getVersionManager();
-					try {
-						vm.restore("/" + path, versionName, true);
-						node = JcrUtils.getNodeIfExists(rootNode, path);
-						return convertNodeToPage(node);
-					} catch (Exception e) {
-						LOG.error("Error when restore document {} to version {}", path, versionName, e);
-					}
-				}
-				return null;
-			}
-		});
+            @Override
+            public Page doInJcr(Session session) throws IOException, RepositoryException {
+                Node rootNode = session.getRootNode();
+                Node node = JcrUtils.getNodeIfExists(rootNode, path);
+                if (node != null) {
+                    VersionManager vm = session.getWorkspace().getVersionManager();
+                    try {
+                        vm.restore("/" + path, versionName, true);
+                        node = JcrUtils.getNodeIfExists(rootNode, path);
+                        return convertNodeToPage(node);
+                    } catch (Exception e) {
+                        LOG.error("Error when restore document {} to version {}", path, versionName, e);
+                    }
+                }
+                return null;
+            }
+        });
 
-	}
+    }
 
-	private PageVersion convertNodeToPageVersion(Version node) {
-		try {
-			PageVersion version = new PageVersion();
-			version.setName(node.getName());
-			version.setIndex(node.getIndex());
-			version.setCreatedTime(node.getCreated());
-			return version;
-		} catch (Exception e) {
-			LOG.error("Error while get detail node version");
-			throw new MyCollabException(e);
-		}
-	}
+    private PageVersion convertNodeToPageVersion(Version node) {
+        try {
+            PageVersion version = new PageVersion();
+            version.setName(node.getName());
+            version.setIndex(node.getIndex());
+            version.setCreatedTime(node.getCreated());
+            return version;
+        } catch (Exception e) {
+            LOG.error("Error while get detail node version");
+            throw new MyCollabException(e);
+        }
+    }
 
-	@Override
-	public Page getPageByVersion(final String path, final String versionName) {
-		return jcrTemplate.execute(new JcrCallback<Page>() {
+    @Override
+    public Page getPageByVersion(final String path, final String versionName) {
+        return jcrTemplate.execute(new JcrCallback<Page>() {
 
-			@Override
-			public Page doInJcr(Session session) throws IOException,
-					RepositoryException {
-				Node rootNode = session.getRootNode();
-				Node node = JcrUtils.getNodeIfExists(rootNode, path);
-				if (node != null) {
-					VersionManager vm = session.getWorkspace().getVersionManager();
-					VersionHistory history = vm.getVersionHistory("/" + path);
-					Version version = history.getVersion(versionName);
-					if (version != null) {
-						Node frozenNode = version.getFrozenNode();
-						return convertNodeToPage(frozenNode);
-					} else {
-						return null;
-					}
-				} else {
-					return null;
-				}
-			}
-		});
-	}
+            @Override
+            public Page doInJcr(Session session) throws IOException,
+                    RepositoryException {
+                Node rootNode = session.getRootNode();
+                Node node = JcrUtils.getNodeIfExists(rootNode, path);
+                if (node != null) {
+                    VersionManager vm = session.getWorkspace().getVersionManager();
+                    VersionHistory history = vm.getVersionHistory("/" + path);
+                    Version version = history.getVersion(versionName);
+                    if (version != null) {
+                        Node frozenNode = version.getFrozenNode();
+                        return convertNodeToPage(frozenNode);
+                    } else {
+                        return null;
+                    }
+                } else {
+                    return null;
+                }
+            }
+        });
+    }
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@Override
-	public void removeResource(final String path) {
-		jcrTemplate.execute(new JcrCallback() {
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    @Override
+    public void removeResource(final String path) {
+        jcrTemplate.execute(new JcrCallback() {
 
-			@Override
-			public Object doInJcr(Session session) throws IOException,
-					RepositoryException {
-				Node rootNode = session.getRootNode();
-				if ("".equals(path) || "/".equals(path)) {
-					NodeIterator nodes = rootNode.getNodes();
-					while (nodes.hasNext()) {
-						Node node = nodes.nextNode();
-						if (isNodeFolder(node) || isNodePage(node)) {
-							node.remove();
-						}
-					}
-					session.save();
-				} else {
-					Node node = JcrUtils.getNodeIfExists(rootNode, path);
-					if (node != null && (isNodeFolder(node) || isNodePage(node))) {
-						node.remove();
-						session.save();
-					}
-				}
+            @Override
+            public Object doInJcr(Session session) throws IOException,
+                    RepositoryException {
+                Node rootNode = session.getRootNode();
+                if ("".equals(path) || "/".equals(path)) {
+                    NodeIterator nodes = rootNode.getNodes();
+                    while (nodes.hasNext()) {
+                        Node node = nodes.nextNode();
+                        if (isNodeFolder(node) || isNodePage(node)) {
+                            node.remove();
+                        }
+                    }
+                    session.save();
+                } else {
+                    Node node = JcrUtils.getNodeIfExists(rootNode, path);
+                    if (node != null && (isNodeFolder(node) || isNodePage(node))) {
+                        node.remove();
+                        session.save();
+                    }
+                }
 
-				return null;
-			}
-		});
-	}
+                return null;
+            }
+        });
+    }
 
-	@Override
-	public List<Page> getPages(final String path, final String requestedUser) {
-		return jcrTemplate.execute(new JcrCallback<List<Page>>() {
+    @Override
+    public List<Page> getPages(final String path, final String requestedUser) {
+        return jcrTemplate.execute(new JcrCallback<List<Page>>() {
 
-			@Override
-			public List<Page> doInJcr(Session session) throws IOException,
-					RepositoryException {
-				Node rootNode = session.getRootNode();
-				Node node = JcrUtils.getNodeIfExists(rootNode, path);
-				if (node != null) {
-					if (isNodeFolder(node)) {
-						List<Page> pages = new ArrayList<>();
-						NodeIterator childNodes = node.getNodes();
-						while (childNodes.hasNext()) {
-							Node childNode = childNodes.nextNode();
-							if (isNodePage(childNode)) {
-								if (isAccessible(childNode, requestedUser)) {
-									Page page = convertNodeToPage(childNode);
-									pages.add(page);
-								}
-							}
-						}
+            @Override
+            public List<Page> doInJcr(Session session) throws IOException,
+                    RepositoryException {
+                Node rootNode = session.getRootNode();
+                Node node = JcrUtils.getNodeIfExists(rootNode, path);
+                if (node != null) {
+                    if (isNodeFolder(node)) {
+                        List<Page> pages = new ArrayList<>();
+                        NodeIterator childNodes = node.getNodes();
+                        while (childNodes.hasNext()) {
+                            Node childNode = childNodes.nextNode();
+                            if (isNodePage(childNode)) {
+                                if (isAccessible(childNode, requestedUser)) {
+                                    Page page = convertNodeToPage(childNode);
+                                    pages.add(page);
+                                }
+                            }
+                        }
 
-						return pages;
-					} else {
-						throw new ContentException(String.format("Do not support any node type except mycollab:folder. The current node has type: %s and its path is %s",
-								node.getPrimaryNodeType().getName(), path));
-					}
-				}
-				return new ArrayList<Page>();
-			}
-		});
-	}
+                        return pages;
+                    } else {
+                        throw new ContentException(String.format("Do not support any node type except mycollab:folder. The current node has type: %s and its path is %s",
+                                node.getPrimaryNodeType().getName(), path));
+                    }
+                }
+                return new ArrayList<Page>();
+            }
+        });
+    }
 
-	@Override
-	public List<PageResource> getResources(final String path, final String requestedUser) {
-		return jcrTemplate.execute(new JcrCallback<List<PageResource>>() {
+    @Override
+    public List<PageResource> getResources(final String path, final String requestedUser) {
+        return jcrTemplate.execute(new JcrCallback<List<PageResource>>() {
 
-			@Override
-			public List<PageResource> doInJcr(Session session)
-					throws IOException, RepositoryException {
-				Node rootNode = session.getRootNode();
-				Node node = JcrUtils.getNodeIfExists(rootNode, path);
-				if (node != null) {
-					if (isNodeFolder(node)) {
-						List<PageResource> resources = new ArrayList<PageResource>();
-						NodeIterator childNodes = node.getNodes();
-						while (childNodes.hasNext()) {
-							Node childNode = childNodes.nextNode();
-							if (isNodeFolder(childNode)) {
-								Folder subFolder = convertNodeToFolder(childNode);
-								resources.add(subFolder);
-							} else if (isNodePage(childNode)) {
-								if (isAccessible(childNode, requestedUser)) {
-									Page page = convertNodeToPage(childNode);
-									resources.add(page);
-								}
-							} else {
-								String errorString = "Node %s has type not mycollab:content or mycollab:folder";
-								LOG.error(String.format(errorString,
-										childNode.getPath()));
-							}
-						}
+            @Override
+            public List<PageResource> doInJcr(Session session)
+                    throws IOException, RepositoryException {
+                Node rootNode = session.getRootNode();
+                Node node = JcrUtils.getNodeIfExists(rootNode, path);
+                if (node != null) {
+                    if (isNodeFolder(node)) {
+                        List<PageResource> resources = new ArrayList<PageResource>();
+                        NodeIterator childNodes = node.getNodes();
+                        while (childNodes.hasNext()) {
+                            Node childNode = childNodes.nextNode();
+                            if (isNodeFolder(childNode)) {
+                                Folder subFolder = convertNodeToFolder(childNode);
+                                resources.add(subFolder);
+                            } else if (isNodePage(childNode)) {
+                                if (isAccessible(childNode, requestedUser)) {
+                                    Page page = convertNodeToPage(childNode);
+                                    resources.add(page);
+                                }
+                            } else {
+                                String errorString = "Node %s has type not mycollab:content or mycollab:folder";
+                                LOG.error(String.format(errorString,
+                                        childNode.getPath()));
+                            }
+                        }
 
-						return resources;
-					} else {
-						throw new ContentException(
-								"Do not support any node type except mycollab:folder. The current node has type "
-										+ node.getPrimaryNodeType().getName());
-					}
-				}
+                        return resources;
+                    } else {
+                        throw new ContentException(
+                                "Do not support any node type except mycollab:folder. The current node has type "
+                                        + node.getPrimaryNodeType().getName());
+                    }
+                }
 
-				LOG.debug("There is no resource in path {}", path);
-				return new ArrayList<>();
-			}
-		});
-	}
+                LOG.debug("There is no resource in path {}", path);
+                return new ArrayList<>();
+            }
+        });
+    }
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@Override
-	public void createFolder(final Folder folder, final String createdUser) {
-		jcrTemplate.execute(new JcrCallback() {
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    @Override
+    public void createFolder(final Folder folder, final String createdUser) {
+        jcrTemplate.execute(new JcrCallback() {
 
-			@Override
-			public Object doInJcr(Session session) throws IOException,
-					RepositoryException {
-				try {
-					Node rootNode = session.getRootNode();
-					String folderPath = folder.getPath();
-					String[] pathStr = folderPath.split("/");
-					Node parentNode = rootNode;
-					// create folder note
-					for (int i = 0; i < pathStr.length; i++) {
-						if ("".equals(pathStr[i])) {
-							continue;
-						}
-						// move to lastest node of the path
-						Node childNode = JcrUtils.getNodeIfExists(parentNode, pathStr[i]);
-						if (childNode != null) {
-							LOG.debug("Found node with path {} in sub node ", pathStr[i], parentNode.getPath());
-							if (!isNodeFolder(childNode)) {
-								// node must be the folder
-								String errorString = "Invalid path. User want to create folder has path %s but there is a content has path %s";
-								throw new ContentException(String.format(errorString, folderPath, childNode.getPath()));
-							} else {
-								LOG.debug("Found folder node {}", childNode.getPath());
+            @Override
+            public Object doInJcr(Session session) throws IOException,
+                    RepositoryException {
+                try {
+                    Node rootNode = session.getRootNode();
+                    String folderPath = folder.getPath();
+                    String[] pathStr = folderPath.split("/");
+                    Node parentNode = rootNode;
+                    // create folder note
+                    for (int i = 0; i < pathStr.length; i++) {
+                        if ("".equals(pathStr[i])) {
+                            continue;
+                        }
+                        // move to lastest node of the path
+                        Node childNode = JcrUtils.getNodeIfExists(parentNode, pathStr[i]);
+                        if (childNode != null) {
+                            LOG.debug("Found node with path {} in sub node ", pathStr[i], parentNode.getPath());
+                            if (!isNodeFolder(childNode)) {
+                                // node must be the folder
+                                String errorString = "Invalid path. User want to create folder has path %s but there is a content has path %s";
+                                throw new ContentException(String.format(errorString, folderPath, childNode.getPath()));
+                            } else {
+                                LOG.debug("Found folder node {}", childNode.getPath());
 
-								if (i == pathStr.length - 1) {
-									childNode.setProperty("wiki:createdUser", createdUser);
-									childNode.setProperty("wiki:description", StringUtils.getStrOptionalNullValue(folder.getDescription()));
-									childNode.setProperty("wiki:name", folder.getName());
-									session.save();
-								}
-							}
-						} else { // add node
-							LOG.debug("Create new folder {} of sub node {}", pathStr[i], parentNode.getPath());
-							childNode = parentNode.addNode(pathStr[i], "{http://www.esofthead.com/wiki}folder");
-							childNode.setProperty("wiki:createdUser", createdUser);
-							childNode.setProperty("wiki:description", StringUtils.getStrOptionalNullValue(folder.getDescription()));
-							childNode.setProperty("wiki:name", folder.getName());
-							session.save();
-						}
+                                if (i == pathStr.length - 1) {
+                                    childNode.setProperty("wiki:createdUser", createdUser);
+                                    childNode.setProperty("wiki:description", StringUtils.getStrOptionalNullValue(folder.getDescription()));
+                                    childNode.setProperty("wiki:name", folder.getName());
+                                    session.save();
+                                }
+                            }
+                        } else { // add node
+                            LOG.debug("Create new folder {} of sub node {}", pathStr[i], parentNode.getPath());
+                            childNode = parentNode.addNode(pathStr[i], "{http://www.esofthead.com/wiki}folder");
+                            childNode.setProperty("wiki:createdUser", createdUser);
+                            childNode.setProperty("wiki:description", StringUtils.getStrOptionalNullValue(folder.getDescription()));
+                            childNode.setProperty("wiki:name", folder.getName());
+                            session.save();
+                        }
 
-						parentNode = childNode;
-					}
+                        parentNode = childNode;
+                    }
 
-					LOG.debug("Node path {} is existed {}", folderPath,
-							(JcrUtils.getNodeIfExists(rootNode, folderPath) != null));
-				} catch (Exception e) {
-					String errorString = "Error while create folder with path %s";
-					throw new MyCollabException(String.format(errorString, folder.getPath()), e);
-				}
-				return null;
-			}
-		});
-	}
+                    LOG.debug("Node path {} is existed {}", folderPath,
+                            (JcrUtils.getNodeIfExists(rootNode, folderPath) != null));
+                } catch (Exception e) {
+                    String errorString = "Error while create folder with path %s";
+                    throw new MyCollabException(String.format(errorString, folder.getPath()), e);
+                }
+                return null;
+            }
+        });
+    }
 
-	private static Node convertPageToNode(Node node, Page page,
-			String createdUser) {
-		try {
-			node.addMixin(NodeType.MIX_VERSIONABLE);
+    private static Node convertPageToNode(Node node, Page page,
+                                          String createdUser) {
+        try {
+            node.addMixin(NodeType.MIX_VERSIONABLE);
 
-			node.setProperty("wiki:subject", page.getSubject());
-			node.setProperty("wiki:content", page.getContent());
-			node.setProperty("wiki:status", page.getStatus());
-			node.setProperty("wiki:category", page.getCategory());
-			node.setProperty("wiki:isLock", page.isLock());
-			node.setProperty("wiki:createdUser", createdUser);
-			return node;
-		} catch (Exception e) {
-			throw new MyCollabException(e);
-		}
-	}
+            node.setProperty("wiki:subject", page.getSubject());
+            node.setProperty("wiki:content", page.getContent());
+            node.setProperty("wiki:status", page.getStatus());
+            node.setProperty("wiki:category", page.getCategory());
+            node.setProperty("wiki:isLock", page.isLock());
+            node.setProperty("wiki:createdUser", createdUser);
+            return node;
+        } catch (Exception e) {
+            throw new MyCollabException(e);
+        }
+    }
 
-	private static boolean isAccessible(Node node, String requestedUser) {
-		String status = NodesUtil.getString(node, "wiki:status");
-		String createdUser = NodesUtil.getString(node, "wiki:createdUser");
-		if (WikiI18nEnum.status_private.name().equals(status)) {
-			return (requestedUser.equals(createdUser));
-		}
+    private static boolean isAccessible(Node node, String requestedUser) {
+        String status = NodesUtil.getString(node, "wiki:status");
+        String createdUser = NodesUtil.getString(node, "wiki:createdUser");
+        if (WikiI18nEnum.status_private.name().equals(status)) {
+            return (requestedUser.equals(createdUser));
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	private Page convertNodeToPage(Node node) {
-		try {
-			Page page = new Page();
-			String contentPath = node.getPath();
-			if (contentPath.startsWith("/")) {
-				contentPath = contentPath.substring(1);
-			}
-			page.setPath(contentPath);
-			page.setSubject(NodesUtil.getString(node, "wiki:subject"));
-			page.setContent(NodesUtil.getString(node, "wiki:content"));
-			page.setLock(node.getProperty("wiki:isLock").getBoolean());
-			page.setStatus(NodesUtil.getString(node, "wiki:status"));
-			page.setCategory(NodesUtil.getString(node, "wiki:category"));
-			page.setCreatedTime(node.getProperty("jcr:created").getDate());
-			page.setCreatedUser(NodesUtil.getString(node, "wiki:createdUser"));
-			page.setNew(false);
-			page.setLastUpdatedTime(page.getCreatedTime());
-			page.setLastUpdatedUser(page.getCreatedUser());
-			return page;
-		} catch (Exception e) {
-			throw new MyCollabException(e);
-		}
-	}
+    private Page convertNodeToPage(Node node) {
+        try {
+            Page page = new Page();
+            String contentPath = node.getPath();
+            if (contentPath.startsWith("/")) {
+                contentPath = contentPath.substring(1);
+            }
+            page.setPath(contentPath);
+            page.setSubject(NodesUtil.getString(node, "wiki:subject"));
+            page.setContent(NodesUtil.getString(node, "wiki:content"));
+            page.setLock(node.getProperty("wiki:isLock").getBoolean());
+            page.setStatus(NodesUtil.getString(node, "wiki:status"));
+            page.setCategory(NodesUtil.getString(node, "wiki:category"));
+            page.setCreatedTime(node.getProperty("jcr:created").getDate());
+            page.setCreatedUser(NodesUtil.getString(node, "wiki:createdUser"));
+            page.setNew(false);
+            page.setLastUpdatedTime(page.getCreatedTime());
+            page.setLastUpdatedUser(page.getCreatedUser());
+            return page;
+        } catch (Exception e) {
+            throw new MyCollabException(e);
+        }
+    }
 
-	private Folder convertNodeToFolder(Node node) {
-		try {
-			Folder folder = new Folder();
-			folder.setCreatedTime(node.getProperty("jcr:created").getDate());
-			folder.setCreatedUser(node.getProperty("wiki:createdUser").getString());
-			if (node.hasProperty("wiki:description")) {
-				folder.setDescription(node.getProperty("wiki:description")
-						.getString());
-			} else {
-				folder.setDescription("");
-			}
+    private Folder convertNodeToFolder(Node node) {
+        try {
+            Folder folder = new Folder();
+            folder.setCreatedTime(node.getProperty("jcr:created").getDate());
+            folder.setCreatedUser(node.getProperty("wiki:createdUser").getString());
+            if (node.hasProperty("wiki:description")) {
+                folder.setDescription(node.getProperty("wiki:description")
+                        .getString());
+            } else {
+                folder.setDescription("");
+            }
 
-			folder.setName(node.getProperty("wiki:name").getString());
+            folder.setName(node.getProperty("wiki:name").getString());
 
-			String folderPath = node.getPath();
-			if (folderPath.startsWith("/")) {
-				folderPath = folderPath.substring(1);
-			}
-			folder.setPath(folderPath);
-			return folder;
-		} catch (Exception e) {
-			throw new MyCollabException(e);
-		}
-	}
+            String folderPath = node.getPath();
+            if (folderPath.startsWith("/")) {
+                folderPath = folderPath.substring(1);
+            }
+            folder.setPath(folderPath);
+            return folder;
+        } catch (Exception e) {
+            throw new MyCollabException(e);
+        }
+    }
 }

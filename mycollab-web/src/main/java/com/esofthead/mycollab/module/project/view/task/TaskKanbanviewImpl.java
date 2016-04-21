@@ -566,7 +566,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
             addNewBtn.setIcon(FontAwesome.PLUS);
             addNewBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
             addNewBtn.addStyleName(UIConstants.BUTTON_ACTION);
-            buttonControls = new MHorizontalLayout(addNewBtn).withAlign(addNewBtn, Alignment.MIDDLE_LEFT).withFullWidth();
+            buttonControls = new MHorizontalLayout(addNewBtn).withAlign(addNewBtn, Alignment.MIDDLE_RIGHT).withFullWidth();
             this.with(headerLayout, dragLayoutContainer, buttonControls);
             toggleShowButton();
         }
@@ -646,7 +646,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
                     }
                 });
                 cancelBtn.addStyleName(UIConstants.BUTTON_OPTION);
-                controlsBtn.with(saveBtn, cancelBtn);
+                controlsBtn.with(cancelBtn, saveBtn);
                 layout.with(controlsBtn).withAlign(controlsBtn, Alignment.MIDDLE_RIGHT);
                 if (newTaskComp != null && newTaskComp.getParent() != null) {
                     ((ComponentContainer) newTaskComp.getParent()).removeComponent(newTaskComp);

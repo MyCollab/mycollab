@@ -51,19 +51,6 @@ public class ProjectNotificationSettingViewComponent extends BlockWidget {
         MVerticalLayout bodyWrapper = new MVerticalLayout().withWidth("100%");
         bodyWrapper.setSizeFull();
 
-        HorizontalLayout notificationLabelWrapper = new HorizontalLayout();
-        notificationLabelWrapper.setSizeFull();
-        notificationLabelWrapper.setMargin(true);
-
-        notificationLabelWrapper.setStyleName("notification-label");
-
-        ELabel notificationLabel = ELabel.h3(AppContext.getMessage(ProjectSettingI18nEnum.EXT_LEVEL));
-
-        notificationLabel.setHeightUndefined();
-        notificationLabelWrapper.addComponent(notificationLabel);
-
-        bodyWrapper.addComponent(notificationLabelWrapper);
-
         MVerticalLayout body = new MVerticalLayout().withMargin(new MarginInfo(true, false, false, false));
 
         final OptionGroup optionGroup = new OptionGroup(null);
@@ -111,8 +98,7 @@ public class ProjectNotificationSettingViewComponent extends BlockWidget {
                     } else {
                         projectNotificationSettingService.updateWithSession(bean, AppContext.getUsername());
                     }
-                    NotificationUtil.showNotification("Congrats", AppContext
-                            .getMessage(ProjectSettingI18nEnum.DIALOG_UPDATE_SUCCESS));
+                    NotificationUtil.showNotification("Congrats", AppContext.getMessage(ProjectSettingI18nEnum.DIALOG_UPDATE_SUCCESS));
                 } catch (Exception e) {
                     throw new MyCollabException(e);
                 }

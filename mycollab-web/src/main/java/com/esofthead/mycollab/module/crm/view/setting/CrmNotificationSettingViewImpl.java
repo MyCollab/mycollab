@@ -34,10 +34,7 @@ import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.OptionGroup;
-import com.vaadin.ui.themes.ValoTheme;
-import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
@@ -54,17 +51,6 @@ public class CrmNotificationSettingViewImpl extends AbstractPageView implements 
 
         MVerticalLayout bodyWrapper = new MVerticalLayout();
         bodyWrapper.setSizeFull();
-
-        MHorizontalLayout notificationLabelWrapper = new MHorizontalLayout().withMargin(true).withStyleName("notification-label");
-        notificationLabelWrapper.setSizeFull();
-
-        Label notificationLabel = new Label(AppContext.getMessage(ProjectSettingI18nEnum.EXT_LEVEL));
-        notificationLabel.addStyleName(ValoTheme.LABEL_H2);
-
-        notificationLabel.setHeightUndefined();
-        notificationLabelWrapper.addComponent(notificationLabel);
-
-        bodyWrapper.addComponent(notificationLabelWrapper);
 
         MVerticalLayout body = new MVerticalLayout().withMargin(new MarginInfo(true, false, false, false));
 

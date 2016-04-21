@@ -33,6 +33,10 @@ public class PathUtils {
         return String.format("%d/.assets", accountId);
     }
 
+    public static final String getProjectDocumentPath(Integer accountId, Integer projectId) {
+        return String.format("%d/project/%d/.page", accountId, projectId);
+    }
+
     public static String buildLogoPath(Integer sAccountId, String logoFileName, Integer logoSize) {
         return String.format("%d/.assets/%s_%d.png", sAccountId, logoFileName, logoSize);
     }

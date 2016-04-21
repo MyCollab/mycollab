@@ -995,7 +995,7 @@
  */
 
 .v-vaadin-version:after {
-	content: "7.6.4";
+	content: "7.6.5";
 }
 
 .v-widget {
@@ -16289,6 +16289,10 @@ input.noBorderRight {
 	margin-right: 3px;
 }
 
+.v-app {
+	background-color: #fff;
+}
+
 .v-window-modalitycurtain {
 	background-color: #666;
 	opacity: 0.8;
@@ -17756,10 +17760,6 @@ div.v-csslayout.bean-block .icon-wrap {
 
 div.v-csslayout.bean-block .icon-wrap .v-icon {
 	font-size: 48px;
-}
-
-.notification-label {
-	background-color: #fff0e3;
 }
 
 .activityCalendar .switcher-wrap {

@@ -17,9 +17,8 @@
 package com.esofthead.mycollab.shell
 
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener
-import com.esofthead.mycollab.module.user.view.ForgotPasswordPresenter
 import com.esofthead.mycollab.shell.events.ShellEvent
-import com.esofthead.mycollab.shell.view.{MainViewPresenter, MainWindowContainer}
+import com.esofthead.mycollab.shell.view.{ForgotPasswordPresenter, MainViewPresenter, MainWindowContainer}
 import com.esofthead.mycollab.vaadin.mvp.{AbstractController, PresenterResolver}
 import com.esofthead.mycollab.web.DesktopApplication
 import com.google.common.eventbus.Subscribe
