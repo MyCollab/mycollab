@@ -39,6 +39,7 @@ import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.esofthead.mycollab.vaadin.web.ui.SplitButton;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
+import com.google.common.base.MoreObjects;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
@@ -170,28 +171,21 @@ public class AccountLeadListComp extends RelatedListComp2<LeadService, LeadSearc
             blockContent.addComponent(btnDelete);
             blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);
 
-            Label leadName = new Label("Name: <a href='"
-                    + SiteConfiguration.getSiteUrl(AppContext.getUser()
-                    .getSubdomain())
+            Label leadName = new Label("Name: <a href='" + SiteConfiguration.getSiteUrl(AppContext.getUser().getSubdomain())
                     + CrmLinkGenerator.generateCrmItemLink(
                     CrmTypeConstants.LEAD, lead.getId()) + "'>"
                     + lead.getLeadName() + "</a>", ContentMode.HTML);
 
             leadInfo.addComponent(leadName);
 
-            Label leadStatus = new Label("Status: "
-                    + (lead.getStatus() != null ? lead.getStatus() : ""));
+            Label leadStatus = new Label("Status: " + MoreObjects.firstNonNull(lead.getStatus(), ""));
             leadInfo.addComponent(leadStatus);
 
-            Label leadEmail = new Label("Email: "
-                    + (lead.getEmail() != null ? "<a href='mailto:"
-                    + lead.getEmail() + "'>" + lead.getEmail() + "</a>"
-                    : ""), ContentMode.HTML);
+            Label leadEmail = new Label("Email: " + (lead.getEmail() != null ? "<a href='mailto:"
+                    + lead.getEmail() + "'>" + lead.getEmail() + "</a>" : ""), ContentMode.HTML);
             leadInfo.addComponent(leadEmail);
 
-            Label leadOfficePhone = new Label("Office Phone: "
-                    + (lead.getOfficephone() != null ? lead.getOfficephone()
-                    : ""));
+            Label leadOfficePhone = new Label("Office Phone: " + MoreObjects.firstNonNull(lead.getOfficephone(), ""));
             leadInfo.addComponent(leadOfficePhone);
 
             blockTop.with(leadInfo).expand(leadInfo);

@@ -47,7 +47,7 @@ public class UserListPresenter extends AbstractPresenter<UserListView> {
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         UserContainer userContainer = (UserContainer) container;
         userContainer.removeAllComponents();
-        userContainer.addComponent(view.getWidget());
+        userContainer.addComponent(view);
 
         UserSearchCriteria criteria;
         if (data == null) {

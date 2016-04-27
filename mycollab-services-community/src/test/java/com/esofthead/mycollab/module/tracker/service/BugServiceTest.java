@@ -44,7 +44,7 @@ public class BugServiceTest extends IntergrationServiceTest {
     @DataSet
     @Test
     public void testGetListBugs() {
-        List<SimpleBug> bugs = bugService.findPagableListByCriteria(new SearchRequest<BugSearchCriteria>(
+        List<SimpleBug> bugs = bugService.findPagableListByCriteria(new BasicSearchRequest<BugSearchCriteria>(
                 null, 0, Integer.MAX_VALUE));
 
         assertThat(bugs.size()).isEqualTo(3);
@@ -63,7 +63,7 @@ public class BugServiceTest extends IntergrationServiceTest {
         criteria.setSummary(StringSearchField.and("summary"));
         criteria.setDetail(StringSearchField.and("detail"));
 
-        List<SimpleBug> bugs = bugService.findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<SimpleBug> bugs = bugService.findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
         assertThat(bugs.size()).isEqualTo(1);
         assertThat(bugs).extracting("id", "detail", "summary").contains(tuple(2, "detail 2", "summary 2"));
     }
@@ -85,7 +85,7 @@ public class BugServiceTest extends IntergrationServiceTest {
         BugSearchCriteria criteria = new BugSearchCriteria();
         criteria.setComponentids(new SetSearchField<>(1, 2));
 
-        List<SimpleBug> bugs = bugService.findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<SimpleBug> bugs = bugService.findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 
         assertThat(bugs.size()).isEqualTo(1);
         assertThat(bugs).extracting("id", "detail", "summary").contains(
@@ -107,7 +107,7 @@ public class BugServiceTest extends IntergrationServiceTest {
         criteria.setFixedversionids(new SetSearchField<>(1, 2, 3));
         criteria.setAffectedversionids(new SetSearchField<>(1, 2, 3));
 
-        List<SimpleBug> bugs = bugService.findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<SimpleBug> bugs = bugService.findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 
         assertThat(bugs.size()).isEqualTo(1);
         assertThat(bugs).extracting("id", "detail", "summary").contains(tuple(1, "detail 1", "summary 1"));
@@ -135,7 +135,7 @@ public class BugServiceTest extends IntergrationServiceTest {
 
         criteria.setUpdatedDate(new DateSearchField(date.getTime()));
 
-        assertThat(bugService.findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE)).size()).isEqualTo(0);
+        assertThat(bugService.findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE)).size()).isEqualTo(0);
     }
 
     @DataSet

@@ -16,11 +16,12 @@
  */
 package com.esofthead.mycollab.module.project.service;
 
-import com.esofthead.mycollab.common.domain.GroupItem;
+import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.cache.Cacheable;
 import com.esofthead.mycollab.core.persistence.service.IDefaultService;
 import com.esofthead.mycollab.module.project.domain.SimpleStandupReport;
+import com.esofthead.mycollab.module.project.domain.StandupReportStatistic;
 import com.esofthead.mycollab.module.project.domain.StandupReportWithBLOBs;
 import com.esofthead.mycollab.module.project.domain.criteria.StandupReportSearchCriteria;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
@@ -40,9 +41,7 @@ public interface StandupReportService extends IDefaultService<Integer, StandupRe
     SimpleStandupReport findStandupReportByDateUser(Integer projectId, String username, Date onDate, @CacheKey Integer sAccountId);
 
     @Cacheable
-    List<GroupItem> getReportsCount(@CacheKey StandupReportSearchCriteria criteria);
-
-    @Cacheable
     List<SimpleUser> findUsersNotDoReportYet(Integer projectId, Date onDate, @CacheKey Integer sAccountId);
 
+    List<StandupReportStatistic> getProjectReportsStatistic(List<Integer> projectIds, Date onDate, SearchRequest searchRequest);
 }

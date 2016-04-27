@@ -36,6 +36,6 @@ public class ReportPresenter extends AbstractPresenter<IReportContainer> impleme
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         ProjectDashboardContainer projectViewContainer = (ProjectDashboardContainer) container;
         projectViewContainer.removeAllComponents();
-        projectViewContainer.addComponent(view.getWidget());
+        projectViewContainer.addComponent(view);
     }
 }

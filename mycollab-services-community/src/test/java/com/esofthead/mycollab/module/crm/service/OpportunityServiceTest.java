@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.crm.service;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
@@ -45,7 +45,7 @@ public class OpportunityServiceTest extends IntergrationServiceTest {
     @Test
     public void testSearchByCriteria() {
         List<SimpleOpportunity> opportunities = opportunityService
-                .findPagableListByCriteria(new SearchRequest<>(
+                .findPagableListByCriteria(new BasicSearchRequest<>(
                         getCriteria(), 0, Integer.MAX_VALUE));
 
         assertThat(opportunities.size()).isEqualTo(2);
@@ -58,7 +58,7 @@ public class OpportunityServiceTest extends IntergrationServiceTest {
     @Test
     public void testGetTotalCount() {
         List<SimpleOpportunity> opportunities = opportunityService
-                .findPagableListByCriteria(new SearchRequest<>(
+                .findPagableListByCriteria(new BasicSearchRequest<>(
                         getCriteria(), 0, Integer.MAX_VALUE));
 
         assertThat(opportunities.size()).isEqualTo(2);
@@ -82,7 +82,7 @@ public class OpportunityServiceTest extends IntergrationServiceTest {
         criteria.setSaccountid(new NumberSearchField(1));
 
         List<SimpleOpportunity> opportunities = opportunityService
-                .findPagableListByCriteria(new SearchRequest<>(
+                .findPagableListByCriteria(new BasicSearchRequest<>(
                         criteria, 0, Integer.MAX_VALUE));
 
         assertThat(opportunities.size()).isEqualTo(2);

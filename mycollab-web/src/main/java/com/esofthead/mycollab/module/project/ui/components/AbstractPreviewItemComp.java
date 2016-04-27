@@ -233,11 +233,6 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
         previewLayout.removeTitleStyleName(styleName);
     }
 
-    @Override
-    public ComponentContainer getWidget() {
-        return this;
-    }
-
     @SuppressWarnings("rawtypes")
     @Override
     final public void addViewListener(ViewListener listener) {

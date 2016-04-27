@@ -111,7 +111,7 @@ public class RoleListPresenter extends ListSelectionPresenter<RoleListView, Role
         if (AppContext.canRead(RolePermissionCollections.ACCOUNT_ROLE)) {
             RoleContainer roleContainer = (RoleContainer) container;
             roleContainer.removeAllComponents();
-            roleContainer.addComponent(view.getWidget());
+            roleContainer.addComponent(view);
             searchCriteria = (RoleSearchCriteria) data.getParams();
             doSearch(searchCriteria);
 

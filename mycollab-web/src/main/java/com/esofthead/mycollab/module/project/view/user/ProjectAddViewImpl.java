@@ -117,7 +117,8 @@ public class ProjectAddViewImpl extends AbstractPageView implements ProjectAddVi
             UploadImageField uploadImageField = new UploadImageField(this);
             uploadImageField.setButtonCaption("Change logo");
 
-            MVerticalLayout logoLayout = new MVerticalLayout(ProjectAssetsUtil.buildProjectLogo(project, 100),
+            MVerticalLayout logoLayout = new MVerticalLayout(ProjectAssetsUtil.buildProjectLogo(project.getShortname(),
+                    project.getId(), project.getAvatarid(), 100),
                     uploadImageField).withMargin(false).withWidth("-1px").alignAll(Alignment.TOP_CENTER);
             return new MHorizontalLayout(logoLayout, titleLbl).expand(titleLbl);
         }

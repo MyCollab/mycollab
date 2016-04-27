@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.project.view.settings.component;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.tracker.domain.Version;
@@ -49,7 +49,7 @@ public class VersionListSelect extends ListSelect {
 
         VersionService versionService = ApplicationContextUtil.getSpringBean(VersionService.class);
         List<Version> versions = versionService
-                .findPagableListByCriteria(new SearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
+                .findPagableListByCriteria(new BasicSearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
         for (Version version : versions) {
             this.addItem(version.getId());
             this.setItemCaption(version.getId(), version.getVersionname());

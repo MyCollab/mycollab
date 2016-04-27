@@ -135,16 +135,14 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         headerLayout.removeComponent("serviceMenu");
         ModuleHelper.setCurrentModule(module);
         bodyLayout.removeAllComponents();
-
-        ComponentContainer widget = module.getWidget();
-        bodyLayout.addComponent(widget);
+        bodyLayout.addComponent(module);
 
         IDeploymentMode mode = ApplicationContextUtil.getSpringBean(IDeploymentMode.class);
         if (mode.isCommunityEdition()) {
             SliderPanel sliderPanel = CommunitySliderPanel.buildCommunitySliderPanel();
             bodyLayout.addComponent(sliderPanel);
         }
-        bodyLayout.setExpandRatio(widget, 1.0f);
+        bodyLayout.setExpandRatio(module, 1.0f);
 
         MHorizontalLayout serviceMenu = module.buildMenu();
         if (serviceMenu != null) {

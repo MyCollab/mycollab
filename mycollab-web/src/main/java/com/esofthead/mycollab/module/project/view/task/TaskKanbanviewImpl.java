@@ -22,7 +22,7 @@ import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.common.service.OptionValService;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -270,7 +270,7 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
 
     @Override
     public void display() {
-        searchPanel.selectQueryInfo(TaskSavedFilterComboBox.ALL_TASKS);
+        searchPanel.selectQueryInfo(TaskSavedFilterComboBox.OPEN_TASKS);
     }
 
     private void reload() {
@@ -305,9 +305,9 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
 
                 int totalTasks = taskService.getTotalCount(searchCriteria);
                 searchPanel.setTotalCountNumber(totalTasks);
-                int pages = totalTasks / 20;
+                int pages = totalTasks / 50;
                 for (int page = 0; page < pages + 1; page++) {
-                    List<SimpleTask> tasks = taskService.findPagableListByCriteria(new SearchRequest<>(searchCriteria, page + 1, 20));
+                    List<SimpleTask> tasks = taskService.findPagableListByCriteria(new BasicSearchRequest<>(searchCriteria, page + 1, 50));
                     if (CollectionUtils.isNotEmpty(tasks)) {
                         for (SimpleTask task : tasks) {
                             String status = task.getStatus();
@@ -577,12 +577,13 @@ public class TaskKanbanviewImpl extends AbstractPageView implements TaskKanbanvi
                 hideColumnBtn.setIcon(FontAwesome.TOGGLE_ON);
                 ELabel invisibleLbl = new ELabel("Inv").withWidthUndefined().withStyleName(UIConstants.FIELD_NOTE).withDescription
                         ("This column is invisible by default. Change its value by clicking the button menu, and select 'Show column'");
-                buttonControls.with(invisibleLbl).withAlign(invisibleLbl, Alignment.MIDDLE_RIGHT);
+                buttonControls.addComponent(invisibleLbl, 0);
+                buttonControls.withAlign(invisibleLbl, Alignment.MIDDLE_LEFT);
             } else {
                 hideColumnBtn.setCaption("Hide column");
                 hideColumnBtn.setIcon(FontAwesome.TOGGLE_OFF);
                 if (buttonControls.getComponentCount() > 1) {
-                    buttonControls.removeComponent(buttonControls.getComponent(1));
+                    buttonControls.removeComponent(buttonControls.getComponent(0));
                 }
             }
         }

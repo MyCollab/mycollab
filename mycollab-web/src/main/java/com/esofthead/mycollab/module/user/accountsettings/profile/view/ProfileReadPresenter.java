@@ -39,7 +39,7 @@ public class ProfileReadPresenter extends AbstractPresenter<ProfileReadView> {
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         ProfileContainer profileContainer = (ProfileContainer) container;
         profileContainer.removeAllComponents();
-        profileContainer.addComponent(view.getWidget());
+        profileContainer.addComponent(view);
         User currentUser = AppContext.getUser();
         view.previewItem(currentUser);
 

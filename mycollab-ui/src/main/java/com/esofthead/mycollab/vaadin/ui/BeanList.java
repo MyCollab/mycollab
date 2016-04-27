@@ -19,7 +19,7 @@ package com.esofthead.mycollab.vaadin.ui;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.ui.*;
@@ -92,11 +92,11 @@ public class BeanList<SearchService extends ISearchableService<S>, S extends Sea
     }
 
     public int setSearchCriteria(S searchCriteria) {
-        SearchRequest<S> searchRequest = new SearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE);
+        BasicSearchRequest<S> searchRequest = new BasicSearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE);
         return setSearchRequest(searchRequest);
     }
 
-    public int setSearchRequest(SearchRequest<S> searchRequest) {
+    public int setSearchRequest(BasicSearchRequest<S> searchRequest) {
         List<T> currentListData = searchService.findPagableListByCriteria(searchRequest);
         loadItems(currentListData);
         return currentListData.size();

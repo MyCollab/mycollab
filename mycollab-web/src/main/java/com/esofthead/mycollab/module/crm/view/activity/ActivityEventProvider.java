@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.crm.view.activity;
 
 import com.esofthead.mycollab.core.arguments.DateTimeSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.module.crm.domain.SimpleMeeting;
 import com.esofthead.mycollab.module.crm.domain.criteria.MeetingSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.MeetingService;
@@ -61,7 +61,7 @@ public class ActivityEventProvider implements CalendarEventProvider {
 
         LOG.debug("Get events from: " + startDate + " to " + endDate);
         List<SimpleMeeting> crmEvents = meetingService
-                .findPagableListByCriteria(new SearchRequest<>(
+                .findPagableListByCriteria(new BasicSearchRequest<>(
                         searchCriteria, 0, Integer.MAX_VALUE));
         LOG.debug("There are " + crmEvents.size() + " events from " + startDate
                 + " to " + endDate);

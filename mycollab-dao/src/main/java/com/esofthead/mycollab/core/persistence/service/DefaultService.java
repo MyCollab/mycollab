@@ -18,7 +18,7 @@ package com.esofthead.mycollab.core.persistence.service;
 
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.persistence.IMassUpdateDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import org.apache.commons.beanutils.PropertyUtils;
@@ -49,7 +49,7 @@ public abstract class DefaultService<K extends Serializable, T, S extends Search
     }
 
     @Override
-    public List findPagableListByCriteria(SearchRequest<S> searchRequest) {
+    public List findPagableListByCriteria(BasicSearchRequest<S> searchRequest) {
         return getSearchMapper().findPagableListByCriteria(searchRequest.getSearchCriteria(),
                 new RowBounds((searchRequest.getCurrentPage() - 1) * searchRequest.getNumberOfItems(),
                         searchRequest.getNumberOfItems()));

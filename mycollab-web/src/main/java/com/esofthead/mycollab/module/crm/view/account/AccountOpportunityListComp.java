@@ -70,8 +70,7 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
     }
 
     public AccountOpportunityListComp() {
-        super(ApplicationContextUtil.getSpringBean(OpportunityService.class),
-                20);
+        super(ApplicationContextUtil.getSpringBean(OpportunityService.class), 20);
         this.setBlockDisplayHandler(new AccountOpportunityBlockDisplay());
     }
 
@@ -208,7 +207,6 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
 
             blockTop.with(opportunityInfo).expand(opportunityInfo);
             blockContent.addComponent(blockTop);
-
             blockContent.setWidth("100%");
 
             beanBlock.addComponent(blockContent);

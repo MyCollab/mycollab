@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.project.view.bug.components;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
@@ -103,7 +103,7 @@ public class BugSelectionField extends CustomField<SimpleBug> implements FieldSe
         BugSearchCriteria searchCriteria = new BugSearchCriteria();
         searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
         searchCriteria.setSummary(StringSearchField.and(query));
-        items = bugService.findPagableListByCriteria(new SearchRequest<>(searchCriteria));
+        items = bugService.findPagableListByCriteria(new BasicSearchRequest<>(searchCriteria));
         return new ArrayList<Object>(items);
     }
 

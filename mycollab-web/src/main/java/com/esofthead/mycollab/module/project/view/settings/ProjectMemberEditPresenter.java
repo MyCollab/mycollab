@@ -78,7 +78,7 @@ public class ProjectMemberEditPresenter extends AbstractPresenter<ProjectMemberE
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS)) {
             ProjectUserContainer userGroupContainer = (ProjectUserContainer) container;
             userGroupContainer.removeAllComponents();
-            userGroupContainer.addComponent(view.getWidget());
+            userGroupContainer.addComponent(view);
 
             SimpleProjectMember member = (SimpleProjectMember) data.getParams();
             view.editItem(member);

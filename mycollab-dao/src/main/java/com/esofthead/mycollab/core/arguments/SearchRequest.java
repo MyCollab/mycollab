@@ -19,52 +19,36 @@ package com.esofthead.mycollab.core.arguments;
 import java.io.Serializable;
 
 /**
- * @param <S>
- * @author MyCollab Ltd.
- * @since 1.0
+ * @author MyCollab Ltd
+ * @since 5.3.0
  */
-public class SearchRequest<S extends SearchCriteria> implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class SearchRequest implements Serializable {
     public static final int DEFAULT_NUMBER_SEARCH_ITEMS = 25;
 
-    private S searchCriteria;
-    private int currentPage = 1;
-    private int numberOfItems = 1;
+    private Integer currentPage = 1;
+    private Integer numberOfItems = 1;
     private String requestedUser;
 
-    public SearchRequest() {
-        this(null, 1, 1);
-    }
-
-    public SearchRequest(S searchCriteria) {
-        this(searchCriteria, 0, Integer.MAX_VALUE);
-    }
-
-    public SearchRequest(S searchCriteria, int currentPage, int numberOfItems) {
-        this.searchCriteria = searchCriteria;
+    public SearchRequest(int currentPage, int numberOfItems) {
         this.currentPage = currentPage;
         this.numberOfItems = numberOfItems;
         this.requestedUser = GroupIdProvider.getRequestedUser();
     }
 
-    public S getSearchCriteria() {
-        return searchCriteria;
-    }
-
-    public void setSearchCriteria(S searchCriteria) {
-        this.searchCriteria = searchCriteria;
-    }
-
-    public int getCurrentPage() {
+    public Integer getCurrentPage() {
         return currentPage;
     }
 
-    public void setCurrentPage(int currentPage) {
+    public void setCurrentPage(Integer currentPage) {
         this.currentPage = currentPage;
     }
 
-    public int getNumberOfItems() {
+    public Integer getNumberOfItems() {
         return numberOfItems;
+    }
+
+    public void setNumberOfItems(Integer numberOfItems) {
+        this.numberOfItems = numberOfItems;
     }
 
     public String getRequestedUser() {

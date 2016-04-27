@@ -205,7 +205,7 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
                     final ProjectGenericTaskService genericTaskService = ApplicationContextUtil.getSpringBean(ProjectGenericTaskService.class);
                     int totalCount = genericTaskService.getTotalCount(searchCriteria);
                     for (int i = 0; i < (totalCount / 20) + 1; i++) {
-                        List<ProjectGenericTask> genericTasks = genericTaskService.findPagableListByCriteria(new SearchRequest<>(searchCriteria, i + 1, 20));
+                        List<ProjectGenericTask> genericTasks = genericTaskService.findPagableListByCriteria(new BasicSearchRequest<>(searchCriteria, i + 1, 20));
                         if (CollectionUtils.isNotEmpty(genericTasks)) {
                             for (ProjectGenericTask genericTask : genericTasks) {
 

@@ -47,7 +47,7 @@ public class ProfilePresenter extends AbstractPresenter<ProfileContainer> {
             throw new MyCollabException("Do not support screen data");
         }
 
-        presenter.go(view.getWidget(), data);
+        presenter.go(view, data);
     }
 
 }

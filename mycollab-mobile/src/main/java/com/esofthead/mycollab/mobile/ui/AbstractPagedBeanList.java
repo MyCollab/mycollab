@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.mobile.ui;
 
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.vaadin.mobilecomponent.InfiniteScrollLayout;
 import com.vaadin.ui.Component;
@@ -33,13 +33,13 @@ import java.util.List;
 public abstract class AbstractPagedBeanList<S extends SearchCriteria, B> extends CssLayout implements IPagedBeanList<S, B> {
     private static final long serialVersionUID = 1504984093640864283L;
 
-    protected int displayNumItems = SearchRequest.DEFAULT_NUMBER_SEARCH_ITEMS;
+    protected int displayNumItems = BasicSearchRequest.DEFAULT_NUMBER_SEARCH_ITEMS;
     protected List<B> currentListData;
     private RowDisplayHandler<B> rowDisplayHandler;
 
     protected CssLayout listContainer;
 
-    protected SearchRequest<S> searchRequest;
+    protected BasicSearchRequest<S> searchRequest;
     protected int currentPage = 1;
     protected int totalPage = 1;
     protected int currentViewCount;
@@ -68,17 +68,17 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B> extends
     @Override
     public void search(final S searchCriteria) {
         currentPage = 1;
-        searchRequest = new SearchRequest<>(searchCriteria, currentPage, displayNumItems);
+        searchRequest = new BasicSearchRequest<>(searchCriteria, currentPage, displayNumItems);
         doSearch();
     }
 
     @Override
     public void setSearchCriteria(S searchCriteria) {
         currentPage = 1;
-        searchRequest = new SearchRequest<>(searchCriteria, currentPage, displayNumItems);
+        searchRequest = new BasicSearchRequest<>(searchCriteria, currentPage, displayNumItems);
     }
 
-    public SearchRequest<S> getSearchRequest() {
+    public BasicSearchRequest<S> getSearchRequest() {
         return searchRequest;
     }
 

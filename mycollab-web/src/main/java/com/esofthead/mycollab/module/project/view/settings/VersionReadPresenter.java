@@ -132,7 +132,7 @@ public class VersionReadPresenter extends AbstractPresenter<VersionReadView> {
                 if (version != null) {
                     VersionContainer versionContainer = (VersionContainer) container;
                     versionContainer.removeAllComponents();
-                    versionContainer.addComponent(view.getWidget());
+                    versionContainer.addComponent(view);
                     view.previewItem(version);
 
                     ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);

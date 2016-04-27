@@ -78,7 +78,7 @@ public class PageAddPresenter extends ProjectGenericPresenter<PageAddView> {
             PageContainer pageContainer = (PageContainer) container;
             pageContainer.navigateToContainer(ProjectTypeConstants.PAGE);
             pageContainer.removeAllComponents();
-            pageContainer.addComponent(view.getWidget());
+            pageContainer.addComponent(view);
 
             Page page = (Page) data.getParams();
             view.editItem(page);

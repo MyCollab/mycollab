@@ -27,7 +27,7 @@ import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.core.SimpleLogging;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -144,8 +144,8 @@ public class ProjectActivityComponent extends MVerticalLayout implements Reloada
         final int logCount = auditLogService.getTotalCount(logCriteria);
         setTotalNums(commentCount + logCount);
 
-        List<SimpleComment> comments = commentService.findPagableListByCriteria(new SearchRequest<>(commentCriteria, 0, Integer.MAX_VALUE));
-        List<SimpleAuditLog> auditLogs = auditLogService.findPagableListByCriteria(new SearchRequest<>(logCriteria, 0, Integer.MAX_VALUE));
+        List<SimpleComment> comments = commentService.findPagableListByCriteria(new BasicSearchRequest<>(commentCriteria, 0, Integer.MAX_VALUE));
+        List<SimpleAuditLog> auditLogs = auditLogService.findPagableListByCriteria(new BasicSearchRequest<>(logCriteria, 0, Integer.MAX_VALUE));
         List activities = new ArrayList(commentCount + logCount);
         activities.addAll(comments);
         activities.addAll(auditLogs);

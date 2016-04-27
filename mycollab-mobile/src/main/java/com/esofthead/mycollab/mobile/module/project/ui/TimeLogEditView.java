@@ -18,7 +18,7 @@ package com.esofthead.mycollab.mobile.module.project.ui;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.mobile.ui.AbstractMobilePageView;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList.RowDisplayHandler;
@@ -190,7 +190,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends AbstractMobi
     private double getTotalInvest() {
         double total = 0;
         final ItemTimeLoggingSearchCriteria searchCriteria = this.getItemSearchCriteria();
-        final List<SimpleItemTimeLogging> listTime = itemTimeLoggingService.findPagableListByCriteria(new SearchRequest<>(
+        final List<SimpleItemTimeLogging> listTime = itemTimeLoggingService.findPagableListByCriteria(new BasicSearchRequest<>(
                 searchCriteria, 0, Integer.MAX_VALUE));
         for (final SimpleItemTimeLogging simpleItemTimeLogging : listTime) {
             total += simpleItemTimeLogging.getLogvalue();

@@ -16,14 +16,6 @@
  */
 package com.esofthead.mycollab.form.service.ibatis;
 
-import java.util.List;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.utils.JsonDeSerializer;
@@ -39,132 +31,125 @@ import com.esofthead.mycollab.form.view.builder.type.AbstractDynaField;
 import com.esofthead.mycollab.form.view.builder.type.DynaForm;
 import com.esofthead.mycollab.form.view.builder.type.DynaSection;
 import com.esofthead.mycollab.form.view.builder.type.DynaSection.LayoutType;
+import org.apache.commons.collections.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class MasterFormServiceImpl implements MasterFormService {
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(MasterFormServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MasterFormServiceImpl.class);
+    private static final String TYPE_PACKAGE = "com.esofthead.mycollab.form.view.builder.type.";
 
-	private static final String TYPE_PACKAGE = "com.esofthead.mycollab.form.view.builder.type.";
+    @Autowired
+    private FormSectionMapper formSectionMapper;
 
-	@Autowired
-	private FormSectionMapper formSectionMapper;
+    @Autowired
+    private FormSectionMapperExt formSectionMapperExt;
 
-	@Autowired
-	private FormSectionMapperExt formSectionMapperExt;
+    @Autowired
+    private FormSectionFieldMapper formSectionFieldMapper;
 
-	@Autowired
-	private FormSectionFieldMapper formSectionFieldMapper;
+    @SuppressWarnings({"unchecked"})
+    @Override
+    public DynaForm findCustomForm(@CacheKey Integer sAccountId, String moduleName) {
+        List<SimpleFormSection> sections = formSectionMapperExt.findSections(sAccountId, moduleName);
 
-	@SuppressWarnings({ "unchecked" })
-	@Override
-	public DynaForm findCustomForm(@CacheKey Integer sAccountId,
-			String moduleName) {
-		List<SimpleFormSection> sections = formSectionMapperExt.findSections(
-				sAccountId, moduleName);
+        if (CollectionUtils.isEmpty(sections)) {
+            return null;
+        } else {
+            DynaForm form = new DynaForm();
 
-		if (CollectionUtils.isEmpty(sections)) {
-			return null;
-		} else {
-			DynaForm form = new DynaForm();
+            for (SimpleFormSection section : sections) {
+                DynaSection dySection = new DynaSection();
+                dySection.setLayoutType(LayoutType.from(section.getLayouttype()));
 
-			for (SimpleFormSection section : sections) {
-				DynaSection dySection = new DynaSection();
+                dySection.setHeader(section.getName());
+                dySection.setOrderIndex(section.getLayoutindex());
+                dySection.setDeletedSection(section.getIsdeletesection());
 
-				dySection
-						.setLayoutType(LayoutType.from(section.getLayouttype()));
+                List<FormSectionField> fields = section.getFields();
+                if (CollectionUtils.isNotEmpty(fields)) {
+                    for (FormSectionField field : fields) {
+                        String fieldtype = TYPE_PACKAGE + field.getFieldtype();
+                        Class clsType;
+                        try {
+                            clsType = Class.forName(fieldtype);
+                        } catch (ClassNotFoundException e) {
+                            throw new MyCollabException(e);
+                        }
+                        AbstractDynaField dynaField = (AbstractDynaField) JsonDeSerializer.fromJson(field.getFieldformat(), clsType);
+                        dynaField.setDisplayName(field.getDisplayname());
+                        dynaField.setFieldIndex(field.getFieldindex());
+                        dynaField.setFieldName(field.getFieldname());
+                        dynaField.setMandatory(field.getIsmandatory());
+                        dynaField.setRequired(field.getIsrequired());
+                        dynaField.setCustom(field.getIscustom());
 
-				dySection.setHeader(section.getName());
-				dySection.setOrderIndex(section.getLayoutindex());
-				dySection.setDeletedSection(section.getIsdeletesection());
+                        dySection.addField(dynaField);
+                    }
+                }
 
-				List<FormSectionField> fields = section.getFields();
-				if (CollectionUtils.isNotEmpty(fields)) {
-					for (FormSectionField field : fields) {
-						String fieldtype = TYPE_PACKAGE + field.getFieldtype();
-						Class clsType;
-						try {
-							clsType = Class.forName(fieldtype);
-						} catch (ClassNotFoundException e) {
-							throw new MyCollabException(e);
-						}
-						AbstractDynaField dynaField = (AbstractDynaField) JsonDeSerializer
-								.fromJson(field.getFieldformat(), clsType);
-						dynaField.setDisplayName(field.getDisplayname());
-						dynaField.setFieldIndex(field.getFieldindex());
-						dynaField.setFieldName(field.getFieldname());
-						dynaField.setMandatory(field.getIsmandatory());
-						dynaField.setRequired(field.getIsrequired());
-						dynaField.setCustom(field.getIscustom());
+                form.addSection(dySection);
+            }
 
-						dySection.addField(dynaField);
-					}
-				}
+            return form;
+        }
+    }
 
-				form.addSection(dySection);
-			}
+    @Override
+    public void saveCustomForm(@CacheKey Integer sAccountId, String moduleName, DynaForm form) {
+        LOG.debug("Save form section");
 
-			return form;
-		}
-	}
+        int sectionCount = form.getSectionCount();
 
-	@Override
-	public void saveCustomForm(@CacheKey Integer sAccountId, String moduleName,
-			DynaForm form) {
-		LOG.debug("Save form section");
+        if (sectionCount > 0) {
+            LOG.debug("Remove existing form section of module {}", moduleName);
+            FormSectionExample ex = new FormSectionExample();
+            ex.createCriteria().andSaccountidEqualTo(sAccountId).andModuleEqualTo(moduleName);
+            formSectionMapper.deleteByExample(ex);
+        }
 
-		int sectionCount = form.getSectionCount();
+        for (int i = 0; i < sectionCount; i++) {
+            DynaSection section = form.getSection(i);
 
-		if (sectionCount > 0) {
-			LOG.debug("Remove existing form section of module {}", moduleName);
-			FormSectionExample ex = new FormSectionExample();
-			ex.createCriteria().andSaccountidEqualTo(sAccountId)
-					.andModuleEqualTo(moduleName);
-			formSectionMapper.deleteByExample(ex);
-		}
+            FormSection formSection = new FormSection();
+            formSection.setModule(moduleName);
+            formSection.setLayoutindex(section.getOrderIndex());
+            formSection.setLayouttype(LayoutType.to(section.getLayoutType()));
+            formSection.setName(section.getHeader());
+            formSection.setIsdeletesection(section.isDeletedSection());
+            formSection.setSaccountid(sAccountId);
 
-		for (int i = 0; i < sectionCount; i++) {
-			DynaSection section = form.getSection(i);
+            formSectionMapper.insertAndReturnKey(formSection);
+            Integer sectionId = formSection.getId();
 
-			FormSection formSection = new FormSection();
-			formSection.setModule(moduleName);
-			formSection.setLayoutindex(section.getOrderIndex());
-			formSection.setLayouttype(LayoutType.to(section.getLayoutType()));
-			formSection.setName(section.getHeader());
-			formSection.setIsdeletesection(section.isDeletedSection());
-			formSection.setSaccountid(sAccountId);
+            LOG.debug("Save section name {} of module {} of account {} successfully, Return id is {}",
+                    section.getHeader(), moduleName, sAccountId, sectionId);
 
-			formSectionMapper.insertAndReturnKey(formSection);
-			Integer sectionId = formSection.getId();
+            int fieldCount = section.getFieldCount();
+            for (int j = 0; j < fieldCount; j++) {
+                AbstractDynaField field = section.getField(j);
 
-			LOG.debug(
-					"Save section name {} of module {} of account {} successfully, Return id is {}",
-					section.getHeader(), moduleName, sAccountId,
-					sectionId);
+                FormSectionField dbField = new FormSectionField();
+                dbField.setSectionid(sectionId);
+                dbField.setDisplayname(field.getDisplayName());
+                dbField.setFieldformat(JsonDeSerializer.toJson(field));
+                dbField.setFieldindex(field.getFieldIndex());
+                dbField.setFieldname(field.getFieldName());
+                dbField.setFieldtype(field.getClass().getSimpleName());
+                dbField.setIsmandatory(field.isMandatory());
+                dbField.setIsrequired(field.isRequired());
+                dbField.setIscustom(field.isCustom());
 
-			int fieldCount = section.getFieldCount();
-			for (int j = 0; j < fieldCount; j++) {
-				AbstractDynaField field = section.getField(j);
-
-				FormSectionField dbField = new FormSectionField();
-				dbField.setSectionid(sectionId);
-				dbField.setDisplayname(field.getDisplayName());
-				dbField.setFieldformat(JsonDeSerializer.toJson(field));
-				dbField.setFieldindex(field.getFieldIndex());
-				dbField.setFieldname(field.getFieldName());
-				dbField.setFieldtype(field.getClass().getSimpleName());
-				dbField.setIsmandatory(field.isMandatory());
-				dbField.setIsrequired(field.isRequired());
-				dbField.setIscustom(field.isCustom());
-
-				LOG.debug(
-						"Save field {} with name {}",
-						new Object[] { field.getDisplayName(),
-								field.getFieldName() });
-				formSectionFieldMapper.insertAndReturnKey(dbField);
-			}
-		}
-	}
+                LOG.debug("Save field {} with name {}", new Object[]{field.getDisplayName(), field.getFieldName()});
+                formSectionFieldMapper.insertAndReturnKey(dbField);
+            }
+        }
+    }
 
 }

@@ -152,7 +152,7 @@ public class ProjectMemberReadPresenter extends AbstractPresenter<ProjectMemberR
             if (prjMember != null) {
                 ProjectUserContainer userGroupContainer = (ProjectUserContainer) container;
                 userGroupContainer.removeAllComponents();
-                userGroupContainer.addComponent(view.getWidget());
+                userGroupContainer.addComponent(view);
                 view.previewItem(prjMember);
                 ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
                 breadCrumb.gotoUserRead(prjMember);

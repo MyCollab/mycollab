@@ -31,11 +31,6 @@ public abstract class AbstractMobileMainView extends VerticalLayout implements P
     private static final long serialVersionUID = 1L;
 
     @Override
-    public ComponentContainer getWidget() {
-        return this;
-    }
-
-    @Override
     public void addViewListener(ViewListener listener) {
         addListener(ViewEvent.VIEW_IDENTIFIER(), ViewEvent.class, listener, ViewListener.viewInitMethod);
     }

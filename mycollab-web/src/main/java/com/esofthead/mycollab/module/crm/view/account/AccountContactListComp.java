@@ -37,12 +37,14 @@ import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.esofthead.mycollab.vaadin.web.ui.SplitButton;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
+import com.google.common.base.MoreObjects;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -126,8 +128,7 @@ public class AccountContactListComp extends RelatedListComp2<ContactService, Con
             beanBlock.setWidth("350px");
 
             VerticalLayout blockContent = new VerticalLayout();
-            HorizontalLayout blockTop = new HorizontalLayout();
-            blockTop.setSpacing(true);
+            MHorizontalLayout blockTop = new MHorizontalLayout();
             CssLayout iconWrap = new CssLayout();
             iconWrap.setStyleName("icon-wrap");
             ELabel contactAvatar = ELabel.fontIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT));
@@ -153,12 +154,9 @@ public class AccountContactListComp extends RelatedListComp2<ContactService, Con
                                 @Override
                                 public void onClose(ConfirmDialog dialog) {
                                     if (dialog.isConfirmed()) {
-                                        ContactService contactService = ApplicationContextUtil
-                                                .getSpringBean(ContactService.class);
+                                        ContactService contactService = ApplicationContextUtil.getSpringBean(ContactService.class);
                                         contact.setAccountid(null);
-                                        contactService.updateWithSession(
-                                                contact,
-                                                AppContext.getUsername());
+                                        contactService.updateWithSession(contact, AppContext.getUsername());
                                         AccountContactListComp.this.refresh();
                                     }
                                 }
@@ -170,23 +168,18 @@ public class AccountContactListComp extends RelatedListComp2<ContactService, Con
             blockContent.addComponent(btnDelete);
             blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);
 
-            Label contactName = new Label(String.format("Name: <a href='%s%s'>%s</a>", SiteConfiguration.getSiteUrl(AppContext.getUser()
-                    .getSubdomain()), CrmLinkGenerator.generateCrmItemLink(
+            Label contactName = new Label(String.format("Name: <a href='%s%s'>%s</a>", AppContext.getSiteUrl(), CrmLinkGenerator.generateCrmItemLink(
                     CrmTypeConstants.CONTACT, contact.getId()), contact.getContactName()), ContentMode.HTML);
-
             contactInfo.addComponent(contactName);
 
-            Label contactTitle = new Label("Title: "
-                    + (contact.getTitle() != null ? contact.getTitle() : ""));
+            Label contactTitle = new Label("Title: " + MoreObjects.firstNonNull(contact.getTitle(), ""));
             contactInfo.addComponent(contactTitle);
 
-            Label contactEmail = new Label(String.format("Email: %s", contact.getEmail() != null ?
-                    String.format("<a href='mailto:%s'>%s</a>", contact.getEmail(), contact.getEmail()) : ""), ContentMode.HTML);
+            Label contactEmail = new Label(String.format("Email: %s", contact.getEmail() == null ? "" :
+                    String.format("<a href='mailto:%s'>%s</a>", contact.getEmail(), contact.getEmail())), ContentMode.HTML);
             contactInfo.addComponent(contactEmail);
 
-            Label contactOfficePhone = new Label(
-                    String.format("Office Phone: %s", contact.getOfficephone() != null ? contact
-                            .getOfficephone() : ""));
+            Label contactOfficePhone = new Label(String.format("Office Phone: %s", MoreObjects.firstNonNull(contact.getOfficephone(), "")));
             contactInfo.addComponent(contactOfficePhone);
 
             blockTop.addComponent(contactInfo);
@@ -199,7 +192,5 @@ public class AccountContactListComp extends RelatedListComp2<ContactService, Con
             beanBlock.addComponent(blockContent);
             return beanBlock;
         }
-
     }
-
 }

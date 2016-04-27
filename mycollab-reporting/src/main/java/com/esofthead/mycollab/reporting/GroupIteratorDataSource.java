@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.reporting;
 
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -53,7 +53,7 @@ public class GroupIteratorDataSource<SearchService extends ISearchableService<S>
         this.searchCriteria = searchCriteria;
 
         this.totalItems = totalItems;
-        SearchRequest<S> searchRequest = new SearchRequest<>(searchCriteria, currentPage, ITEMS_PER_PAGE);
+        BasicSearchRequest<S> searchRequest = new BasicSearchRequest<>(searchCriteria, currentPage, ITEMS_PER_PAGE);
         currentData = searchService.findPagableListByCriteria(searchRequest);
     }
 
@@ -63,7 +63,7 @@ public class GroupIteratorDataSource<SearchService extends ISearchableService<S>
         if (result) {
             if (currentIndex == (currentPage + 1) * ITEMS_PER_PAGE) {
                 currentPage = currentPage + 1;
-                SearchRequest<S> searchRequest = new SearchRequest<>(searchCriteria, currentPage, ITEMS_PER_PAGE);
+                BasicSearchRequest<S> searchRequest = new BasicSearchRequest<>(searchCriteria, currentPage, ITEMS_PER_PAGE);
                 currentData = searchService.findPagableListByCriteria(searchRequest);
                 LOG.debug("Current data {}", currentData.size());
             }

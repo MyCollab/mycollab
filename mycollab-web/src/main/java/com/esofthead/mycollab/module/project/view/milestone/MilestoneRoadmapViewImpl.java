@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.project.view.milestone;
 import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.core.utils.StringUtils;
@@ -185,7 +185,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
 
     private void displayMilestones() {
         roadMapView.removeAllComponents();
-        List<SimpleMilestone> milestones = milestoneService.findPagableListByCriteria(new SearchRequest<>(baseCriteria, 0,
+        List<SimpleMilestone> milestones = milestoneService.findPagableListByCriteria(new BasicSearchRequest<>(baseCriteria, 0,
                 Integer.MAX_VALUE));
         for (SimpleMilestone milestone : milestones) {
             roadMapView.addComponent(new MilestoneBlock(milestone));
@@ -350,7 +350,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
                         ProjectGenericTaskService genericTaskService = ApplicationContextUtil.getSpringBean
                                 (ProjectGenericTaskService.class);
                         List<ProjectGenericTask> genericTasks = genericTaskService.findPagableListByCriteria(new
-                                SearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
+                                BasicSearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
                         for (ProjectGenericTask genericTask : genericTasks) {
                             ToggleGenericTaskSummaryField toggleGenericTaskSummaryField = new ToggleGenericTaskSummaryField(genericTask);
                             MHorizontalLayout rowComp = new MHorizontalLayout();

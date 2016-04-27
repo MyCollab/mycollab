@@ -27,7 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.module.crm.domain.SimpleTask;
 import com.esofthead.mycollab.module.crm.domain.criteria.TodoSearchCriteria;
 import com.esofthead.mycollab.test.DataSet;
@@ -44,7 +44,7 @@ public class TaskServiceTest extends IntergrationServiceTest {
 	@Test
 	public void testSearchByCriteria() {
 		List<SimpleTask> tasks = taskService
-				.findPagableListByCriteria(new SearchRequest<>(
+				.findPagableListByCriteria(new BasicSearchRequest<>(
 						getCriteria(), 0, Integer.MAX_VALUE));
 
 		assertThat(tasks.size()).isEqualTo(1);
@@ -57,7 +57,7 @@ public class TaskServiceTest extends IntergrationServiceTest {
 	@Test
 	public void testGetTotalCounts() {
 		List<SimpleTask> tasks = taskService
-				.findPagableListByCriteria(new SearchRequest<>(
+				.findPagableListByCriteria(new BasicSearchRequest<>(
 						getCriteria(), 0, Integer.MAX_VALUE));
 
 		assertThat(tasks.size()).isEqualTo(1);

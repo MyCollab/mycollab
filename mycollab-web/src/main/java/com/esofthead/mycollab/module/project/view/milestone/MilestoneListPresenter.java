@@ -18,7 +18,7 @@
 package com.esofthead.mycollab.module.project.view.milestone;
 
 import com.esofthead.mycollab.core.SecureAccessException;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -62,7 +62,7 @@ public class MilestoneListPresenter extends ProjectGenericListPresenter<Mileston
             MilestoneContainer milestoneContainer = (MilestoneContainer) container;
             milestoneContainer.navigateToContainer(ProjectTypeConstants.MILESTONE);
             milestoneContainer.removeAllComponents();
-            milestoneContainer.addComponent(view.getWidget());
+            milestoneContainer.addComponent(view);
 
             MilestoneSearchCriteria searchCriteria;
 
@@ -92,7 +92,7 @@ public class MilestoneListPresenter extends ProjectGenericListPresenter<Mileston
     @SuppressWarnings("unchecked")
     @Override
     public void doSearch(MilestoneSearchCriteria searchCriteria) {
-        List<SimpleMilestone> milestones = milestoneService.findPagableListByCriteria(new SearchRequest<>(
+        List<SimpleMilestone> milestones = milestoneService.findPagableListByCriteria(new BasicSearchRequest<>(
                 searchCriteria, 0, Integer.MAX_VALUE));
         view.displayMilestones(milestones);
     }

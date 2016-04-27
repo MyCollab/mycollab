@@ -37,6 +37,6 @@ public class GanttChartPresenter extends AbstractPresenter<IGanttChartView> impl
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         ProjectDashboardContainer projectViewContainer = (ProjectDashboardContainer) container;
         projectViewContainer.removeAllComponents();
-        projectViewContainer.addComponent(view.getWidget());
+        projectViewContainer.addComponent(view);
     }
 }

@@ -155,7 +155,7 @@ public class MilestoneReadPresenter extends ProjectGenericPresenter<MilestoneRea
                 SimpleMilestone milestone = milestoneService.findById((Integer) data.getParams(), AppContext.getAccountId());
                 if (milestone != null) {
                     milestoneContainer.removeAllComponents();
-                    milestoneContainer.addComponent(view.getWidget());
+                    milestoneContainer.addComponent(view);
                     view.previewItem(milestone);
 
                     ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);

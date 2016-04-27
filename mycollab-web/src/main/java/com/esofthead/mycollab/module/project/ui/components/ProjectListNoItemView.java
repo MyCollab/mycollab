@@ -21,7 +21,9 @@ import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -65,11 +67,6 @@ public abstract class ProjectListNoItemView extends VerticalLayout implements Pa
     abstract protected Button.ClickListener actionListener();
 
     abstract protected boolean hasPermission();
-
-    @Override
-    public ComponentContainer getWidget() {
-        return this;
-    }
 
     @Override
     public <E> void addViewListener(ViewListener<E> listener) {

@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.project.view.settings.component;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.tracker.domain.Component;
@@ -47,7 +47,7 @@ public class ComponentListSelect extends ListSelect {
 
         ComponentService componentService = ApplicationContextUtil.getSpringBean(ComponentService.class);
         List<Component> components = componentService
-                .findPagableListByCriteria(new SearchRequest<ComponentSearchCriteria>(searchCriteria, 0, Integer.MAX_VALUE));
+                .findPagableListByCriteria(new BasicSearchRequest<ComponentSearchCriteria>(searchCriteria, 0, Integer.MAX_VALUE));
         for (Component component : components) {
             this.addItem(component.getId());
             this.setItemCaption(component.getId(), component.getComponentname());

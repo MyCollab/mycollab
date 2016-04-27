@@ -114,7 +114,7 @@ public class ProjectRoleListPresenter extends ListSelectionPresenter<ProjectRole
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.ROLES)) {
             ProjectRoleContainer roleContainer = (ProjectRoleContainer) container;
             roleContainer.removeAllComponents();
-            roleContainer.addComponent(view.getWidget());
+            roleContainer.addComponent(view);
             searchCriteria = (ProjectRoleSearchCriteria) data.getParams();
             doSearch(searchCriteria);
 

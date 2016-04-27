@@ -20,7 +20,7 @@ import com.esofthead.mycollab.common.domain.OptionVal;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -193,7 +193,7 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
                 searchPanel.setTotalCountNumber(totalBugs);
                 int pages = totalBugs / 20;
                 for (int page = 0; page < pages + 1; page++) {
-                    List<SimpleBug> bugs = bugService.findPagableListByCriteria(new SearchRequest<>(searchCriteria, page + 1, 20));
+                    List<SimpleBug> bugs = bugService.findPagableListByCriteria(new BasicSearchRequest<>(searchCriteria, page + 1, 20));
                     if (CollectionUtils.isNotEmpty(bugs)) {
                         for (SimpleBug bug : bugs) {
                             String status = bug.getStatus();

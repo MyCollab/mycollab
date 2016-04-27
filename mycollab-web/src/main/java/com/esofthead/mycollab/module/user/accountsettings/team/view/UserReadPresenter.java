@@ -110,7 +110,7 @@ public class UserReadPresenter extends AbstractPresenter<UserReadView> {
             if (user != null) {
                 UserContainer userContainer = (UserContainer) container;
                 userContainer.removeAllComponents();
-                userContainer.addComponent(view.getWidget());
+                userContainer.addComponent(view);
                 view.previewItem(user);
 
                 AccountSettingBreadcrumb breadcrumb = ViewManager.getCacheComponent(AccountSettingBreadcrumb.class);

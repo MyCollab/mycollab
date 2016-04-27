@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.project.view.milestone;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -100,7 +100,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
                     searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
                     MilestoneService milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
                     List<SimpleMilestone> milestoneList = milestoneService.findPagableListByCriteria(new
-                            SearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
+                            BasicSearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
                     displayMilestones(milestoneList);
                 }
             };

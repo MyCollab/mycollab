@@ -53,7 +53,7 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         container.removeAllComponents();
-        container.addComponent(view.getWidget());
+        container.addComponent(view);
         AppContext.addFragment("user/login", "Login Page");
     }
 }

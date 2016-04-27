@@ -57,7 +57,7 @@ public class TaskKanbanPresenter extends ProjectGenericPresenter<TaskKanbanview>
             TaskContainer taskContainer = (TaskContainer) container;
             taskContainer.navigateToContainer(ProjectTypeConstants.TASK);
             taskContainer.removeAllComponents();
-            taskContainer.addComponent(view.getWidget());
+            taskContainer.addComponent(view);
             view.display();
 
             ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);

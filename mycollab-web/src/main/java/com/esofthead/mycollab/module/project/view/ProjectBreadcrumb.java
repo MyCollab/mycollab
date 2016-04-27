@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.module.project.view;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
@@ -45,8 +44,6 @@ import com.vaadin.breadcrumb.Breadcrumb;
 import com.vaadin.breadcrumb.BreadcrumbLayout;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-
-import java.util.Date;
 
 /**
  * @author MyCollab Ltd.
@@ -512,12 +509,6 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
         AppContext.addFragment("project/favorite/" + UrlEncodeDecoder.encode(project.getId()), "Favorites");
     }
 
-    public void gotoReportConsole() {
-        this.select(0);
-        this.addLink(new Button("Reports"));
-        AppContext.addFragment("project/reports/" + UrlEncodeDecoder.encode(project.getId()), "Reports");
-    }
-
     public void gotoComponentList() {
         this.select(0);
         this.addLink(new Button(AppContext.getMessage(BreadcrumbI18nEnum.COMPONENTS)));
@@ -582,34 +573,6 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
         this.addLink(new Button(AppContext.getMessage(BreadcrumbI18nEnum.FILES)));
         AppContext.addFragment(ProjectLinkGenerator.generateFileDashboardLink(project.getId()),
                 AppContext.getMessage(BreadcrumbI18nEnum.FRA_FILES));
-    }
-
-    public void gotoStandupList(Date onDate) {
-        this.select(0);
-        this.addLink(new Button(AppContext.getMessage(BreadcrumbI18nEnum.REPORTS), new GotoReportsListener()));
-        this.setLinkEnabled(true, 1);
-        this.addLink(new Button(AppContext.getMessage(BreadcrumbI18nEnum.STANDUP)));
-        if (onDate == null) {
-            AppContext.addFragment("project/reports/standup/list/" + UrlEncodeDecoder.encode(project.getId()),
-                    AppContext.getMessage(BreadcrumbI18nEnum.FRA_STANDUP));
-        } else {
-            AppContext.addFragment("project/reports/standup/list/" + UrlEncodeDecoder.encode(project.getId() + "/" +
-                    AppContext.formatDate(onDate)), AppContext.getMessage(BreadcrumbI18nEnum.FRA_STANDUP));
-        }
-
-    }
-
-    public void gotoStandupAdd(Date date) {
-        this.select(0);
-        this.addLink(new Button(AppContext.getMessage(BreadcrumbI18nEnum.REPORTS), new GotoReportsListener()));
-        this.setLinkEnabled(true, 1);
-        this.addLink(new Button(AppContext.getMessage(BreadcrumbI18nEnum.STANDUP), new GotoStandupListener()));
-        this.setLinkEnabled(true, 2);
-        this.addLink(new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADD)));
-
-        AppContext.addFragment("project/reports/standup/add/" + UrlEncodeDecoder.encode(CurrentProjectVariables.getProjectId()
-                + "/" + AppContext.formatDate(date)), AppContext.getMessage(BreadcrumbI18nEnum.FRA_STANDUP_FOR_DAY,
-                AppContext.formatDate(date)));
     }
 
     public void gotoUserList() {
@@ -705,30 +668,12 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
         }
     }
 
-    private static class GotoStandupListener implements Button.ClickListener {
-        private static final long serialVersionUID = 1L;
-
-        @Override
-        public void buttonClick(ClickEvent event) {
-            EventBusFactory.getInstance().post(new StandUpEvent.GotoList(this, null));
-        }
-    }
-
     private static class GotoUserListener implements Button.ClickListener {
         private static final long serialVersionUID = 1L;
 
         @Override
         public void buttonClick(ClickEvent event) {
             EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null));
-        }
-    }
-
-    private static class GotoReportsListener implements Button.ClickListener {
-        private static final long serialVersionUID = 1L;
-
-        @Override
-        public void buttonClick(ClickEvent event) {
-            EventBusFactory.getInstance().post(new ProjectEvent.GotoReportConsole(this));
         }
     }
 

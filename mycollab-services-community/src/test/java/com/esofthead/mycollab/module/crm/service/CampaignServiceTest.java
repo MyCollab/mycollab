@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.crm.service;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
@@ -45,7 +45,7 @@ public class CampaignServiceTest extends IntergrationServiceTest {
     @Test
     public void testSearchByCriteria() {
         List<SimpleCampaign> campaigns = campaignService.findPagableListByCriteria(
-                new SearchRequest<>(getCriteria(), 0, Integer.MAX_VALUE));
+                new BasicSearchRequest<>(getCriteria(), 0, Integer.MAX_VALUE));
 
         assertThat(campaigns.size()).isEqualTo(2);
         assertThat(campaigns).extracting("id", "campaignname", "status")
@@ -57,7 +57,7 @@ public class CampaignServiceTest extends IntergrationServiceTest {
     @Test
     public void testGetTotalCounts() {
         List<SimpleCampaign> campaigns = campaignService.findPagableListByCriteria(
-                new SearchRequest<>(getCriteria(), 0, Integer.MAX_VALUE));
+                new BasicSearchRequest<>(getCriteria(), 0, Integer.MAX_VALUE));
 
         assertThat(campaigns.size()).isEqualTo(2);
     }

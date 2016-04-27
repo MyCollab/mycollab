@@ -135,7 +135,7 @@ public class ComponentReadPresenter extends AbstractPresenter<ComponentReadView>
                 if (component != null) {
                     ComponentContainer componentContainer = container;
                     componentContainer.removeAllComponents();
-                    componentContainer.addComponent(view.getWidget());
+                    componentContainer.addComponent(view);
                     view.previewItem(component);
 
                     ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);

@@ -21,7 +21,7 @@ import java.util.Arrays
 import com.esofthead.mycollab.common.domain.MailRecipientField
 import com.esofthead.mycollab.common.{GenericLinkUtils, UrlEncodeDecoder}
 import com.esofthead.mycollab.configuration.SiteConfiguration
-import com.esofthead.mycollab.core.arguments.{SearchRequest, SetSearchField}
+import com.esofthead.mycollab.core.arguments.{BasicSearchRequest, SetSearchField}
 import com.esofthead.mycollab.i18n.LocalizationHelper
 import com.esofthead.mycollab.module.billing.UserStatusConstants
 import com.esofthead.mycollab.module.mail.service.{IContentGenerator, ExtMailService}
@@ -59,7 +59,7 @@ class UserSignUpEmailNotificationJob extends GenericQuartzJobBean {
         criteria.setSaccountid(null)
 
         import scala.collection.JavaConverters._
-        val users = userService.findPagableListByCriteria(new SearchRequest[UserSearchCriteria](criteria,
+        val users = userService.findPagableListByCriteria(new BasicSearchRequest[UserSearchCriteria](criteria,
             0, Integer.MAX_VALUE)).asScala.toList.asInstanceOf[List[SimpleUser]]
         if (users != null && users.nonEmpty) {
             for (user <- users) {

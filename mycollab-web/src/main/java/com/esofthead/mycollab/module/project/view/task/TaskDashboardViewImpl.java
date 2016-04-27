@@ -22,7 +22,7 @@ import com.esofthead.mycollab.common.service.OptionValService;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.db.query.VariableInjector;
 import com.esofthead.mycollab.core.utils.BeanUtility;
@@ -331,7 +331,7 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
                     int totalTasks = projectTaskService.getTotalCount(baseCriteria);
                     int pages = totalTasks / 20;
                     currentPage++;
-                    List<SimpleTask> otherTasks = projectTaskService.findPagableListByCriteria(new SearchRequest<>(baseCriteria, currentPage + 1, 20));
+                    List<SimpleTask> otherTasks = projectTaskService.findPagableListByCriteria(new BasicSearchRequest<>(baseCriteria, currentPage + 1, 20));
                     taskGroupOrderComponent.insertTasks(otherTasks);
                     if (currentPage == pages) {
                         wrapBody.removeComponent(wrapBody.getComponent(1));
@@ -341,7 +341,7 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
             moreBtn.addStyleName(UIConstants.BUTTON_ACTION);
             wrapBody.addComponent(moreBtn);
         }
-        List<SimpleTask> tasks = projectTaskService.findPagableListByCriteria(new SearchRequest<>(baseCriteria, currentPage + 1, 20));
+        List<SimpleTask> tasks = projectTaskService.findPagableListByCriteria(new BasicSearchRequest<>(baseCriteria, currentPage + 1, 20));
         taskGroupOrderComponent.insertTasks(tasks);
     }
 

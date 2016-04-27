@@ -93,8 +93,7 @@ public class PageReadPresenter extends ProjectGenericPresenter<PageReadView> {
             PageContainer pageContainer = (PageContainer) container;
             pageContainer.navigateToContainer(ProjectTypeConstants.PAGE);
             pageContainer.removeAllComponents();
-            pageContainer.addComponent(view.getWidget());
-
+            pageContainer.addComponent(view);
             Page page = (Page) data.getParams();
             view.previewItem(page);
 

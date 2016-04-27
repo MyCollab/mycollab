@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.project.service;
 
 import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.cache.Cacheable;
 import com.esofthead.mycollab.core.persistence.service.IService;
@@ -34,5 +34,5 @@ public interface ProjectActivityStreamService extends IService {
     int getTotalActivityStream(@CacheKey ActivityStreamSearchCriteria criteria);
 
     @Cacheable
-    List<ProjectActivityStream> getProjectActivityStreams(@CacheKey SearchRequest<ActivityStreamSearchCriteria> searchRequest);
+    List<ProjectActivityStream> getProjectActivityStreams(@CacheKey BasicSearchRequest<ActivityStreamSearchCriteria> searchRequest);
 }

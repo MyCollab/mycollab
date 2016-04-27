@@ -23,4 +23,7 @@ import com.esofthead.mycollab.vaadin.mvp.PageView;
  * @since 5.2.10
  */
 public interface IReportContainer extends PageView {
+    void addView(PageView view);
+
+    void showDashboard();
 }

@@ -34,7 +34,7 @@ import java.util.List;
  * @since 2.0
  */
 public class StyleCalendarExp extends VerticalLayout {
-    private List<Date> selectedDateList = new ArrayList<Date>();
+    private List<Date> selectedDateList = new ArrayList<>();
     private StyleCalendar styleCalendar = new StyleCalendar();
 
     private Button btnShowNextMonth;
@@ -84,29 +84,22 @@ public class StyleCalendarExp extends VerticalLayout {
         HorizontalLayout layoutButtonPrevious = new HorizontalLayout();
         layoutButtonPrevious.setSpacing(true);
         layoutButtonPrevious.addComponent(btnShowPreviousYear);
-        layoutButtonPrevious.setComponentAlignment(btnShowPreviousYear,
-                Alignment.MIDDLE_LEFT);
+        layoutButtonPrevious.setComponentAlignment(btnShowPreviousYear, Alignment.MIDDLE_LEFT);
         layoutButtonPrevious.addComponent(btnShowPreviousMonth);
-        layoutButtonPrevious.setComponentAlignment(btnShowPreviousMonth,
-                Alignment.MIDDLE_LEFT);
+        layoutButtonPrevious.setComponentAlignment(btnShowPreviousMonth, Alignment.MIDDLE_LEFT);
         layoutControl.addComponent(layoutButtonPrevious);
-        layoutControl.setComponentAlignment(layoutButtonPrevious,
-                Alignment.MIDDLE_LEFT);
+        layoutControl.setComponentAlignment(layoutButtonPrevious, Alignment.MIDDLE_LEFT);
 
         layoutControl.addComponent(lbSelectedDate);
-        layoutControl.setComponentAlignment(lbSelectedDate,
-                Alignment.MIDDLE_CENTER);
+        layoutControl.setComponentAlignment(lbSelectedDate, Alignment.MIDDLE_CENTER);
 
         MHorizontalLayout layoutButtonNext = new MHorizontalLayout();
         layoutButtonNext.addComponent(btnShowNextMonth);
-        layoutButtonNext.setComponentAlignment(btnShowNextMonth,
-                Alignment.MIDDLE_RIGHT);
+        layoutButtonNext.setComponentAlignment(btnShowNextMonth, Alignment.MIDDLE_RIGHT);
         layoutButtonNext.addComponent(btnShowNextYear);
-        layoutButtonNext.setComponentAlignment(btnShowNextYear,
-                Alignment.MIDDLE_RIGHT);
+        layoutButtonNext.setComponentAlignment(btnShowNextYear, Alignment.MIDDLE_RIGHT);
         layoutControl.addComponent(layoutButtonNext);
-        layoutControl.setComponentAlignment(layoutButtonNext,
-                Alignment.MIDDLE_RIGHT);
+        layoutControl.setComponentAlignment(layoutButtonNext, Alignment.MIDDLE_RIGHT);
 
         this.addComponent(layoutControl);
         this.setComponentAlignment(layoutControl, Alignment.TOP_CENTER);
@@ -153,8 +146,7 @@ public class StyleCalendarExp extends VerticalLayout {
                     Calendar c1 = Calendar.getInstance();
                     c1.setTime(redDate);
 
-                    if (dateEquals(date, redDate)
-                            && dateIsTodayOrBefore(redDate)) {
+                    if (dateEquals(date, redDate) && dateIsTodayOrBefore(redDate)) {
                         return "selected-ext";
                     }
                 }
@@ -170,9 +162,7 @@ public class StyleCalendarExp extends VerticalLayout {
         c1.setTime(date);
         c2.setTime(styleCalendar.getShowingDate());
 
-        return c1.get(Calendar.DATE) <= c2
-                .getActualMaximum(Calendar.DAY_OF_MONTH)
-                && c1.get(Calendar.MONTH) == c2.get(Calendar.MONTH);
+        return c1.get(Calendar.DATE) <= c2.getActualMaximum(Calendar.DAY_OF_MONTH) && c1.get(Calendar.MONTH) == c2.get(Calendar.MONTH);
     }
 
     private boolean dateEquals(Date first, Date second) {

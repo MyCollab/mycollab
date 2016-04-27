@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.milestone;
 
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.mobile.ui.ValueComboBox;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -43,7 +43,7 @@ public class MilestoneComboBox extends ValueComboBox {
         criteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
 
         MilestoneService milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
-        List<SimpleMilestone> milestoneList = milestoneService.findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<SimpleMilestone> milestoneList = milestoneService.findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 
         BeanContainer<String, SimpleMilestone> beanItem = new BeanContainer<>(SimpleMilestone.class);
         beanItem.setBeanIdProperty("id");

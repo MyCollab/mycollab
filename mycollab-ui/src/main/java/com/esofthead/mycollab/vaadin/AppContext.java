@@ -52,8 +52,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.USER_TIMEZONE;
-import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.USER_VAL;
+import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.*;
 
 /**
  * The core class that keep user session data while user login to MyCollab
@@ -169,6 +168,8 @@ public class AppContext implements Serializable {
         session = null;
         billingAccount = null;
         MyCollabSession.removeSessionVariable(USER_VAL);
+        MyCollabSession.removeCurrentUIVariable(PRESENTER_VAL);
+        MyCollabSession.removeCurrentUIVariable(VIEW_MANAGER_VAL);
     }
 
     public static String getSiteName() {

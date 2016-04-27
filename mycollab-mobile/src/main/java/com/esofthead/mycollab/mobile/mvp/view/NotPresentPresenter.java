@@ -37,7 +37,7 @@ public class NotPresentPresenter extends AbstractPresenter<NotPresenterView> {
     protected void onGo(ComponentContainer navigator, ScreenData<?> data) {
         if (navigator instanceof NavigationManager) {
             NavigationManager navManager = ((NavigationManager) navigator);
-            navManager.navigateTo(view.getWidget());
+            navManager.navigateTo(view);
             view.display();
             if (navManager.getPreviousComponent() == null) {
                 UserProjectListPresenter projectListPresenter = PresenterResolver.getPresenter(UserProjectListPresenter.class);

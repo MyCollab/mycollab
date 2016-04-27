@@ -3,7 +3,7 @@ Release Notes
 ==============
 MyCollab is an open source Collaboration Platform of Project Management, CRM and Document.
 
-MyCollab is licensed under the Affero GPL 3 terms.
+MyCollab is licensed under the Affero GPLv3 terms.
 
 You can checkout our latest development source codes at [https://github.com/esofthead/mycollab](https://github.com/esofthead/mycollab)
 
@@ -40,24 +40,33 @@ understanding in a matter of minutes.
 Last changelog
 ==============
 
-Version 5.2.13
+Version 5.3.0
 -----------------------------
 **Library Upgrades**
 
 * Mybatis 3.4.0
 * Mybatis spring 1.3.0
+* Quartz 2.2.3
 * Jsoup 1.9.1
 * Vaadin 7.6.5
 * Other libraries
 
 **Improvements & New Features**
 
+* [Premium] Add views to manage projects/tasks and time of client
+* [Premium] Print invoice page
+* [Premium] Associate client information to invoice
+* [Premium] Member weekly hours report
 * Allow site owner create the admin user instead of system default user
 * Create sample project for the new MyCollab installation
 * Other minor improvements
 
 **Bug Fixes**
 
+* [Premium] Report url resolver redirect to the user dashboard when browser page reload
+* [Premium] Standup url resolver redirect to the user dashboard when browser page reload
+* [Premium] It is difficult to quick edit value of popup field
+* Clean resources properly when user signout MyCollab
 * Get following items return the wrong list in several cases
 
 Version 5.2.12

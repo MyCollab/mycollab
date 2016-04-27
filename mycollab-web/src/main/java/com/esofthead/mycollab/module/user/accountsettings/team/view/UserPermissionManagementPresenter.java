@@ -62,10 +62,9 @@ public class UserPermissionManagementPresenter extends AbstractPresenter<UserPer
                 || (data instanceof RoleScreenData.Search)) {
             presenter = PresenterResolver.getPresenter(RolePresenter.class);
         } else {
-            throw new MyCollabException("There is no presenter handle data "
-                    + BeanUtility.printBeanObj(data));
+            throw new MyCollabException("There is no presenter handle data " + BeanUtility.printBeanObj(data));
         }
 
-        presenter.go(view.getWidget(), data);
+        presenter.go(view, data);
     }
 }

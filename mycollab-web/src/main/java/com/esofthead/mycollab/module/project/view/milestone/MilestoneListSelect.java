@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.milestone;
 
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
@@ -57,7 +57,7 @@ public class MilestoneListSelect extends ListSelect {
         MilestoneService milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
         MilestoneSearchCriteria criteria = new MilestoneSearchCriteria();
         criteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
-        List<SimpleMilestone> milestones = milestoneService.findPagableListByCriteria(new SearchRequest<>(criteria));
+        List<SimpleMilestone> milestones = milestoneService.findPagableListByCriteria(new BasicSearchRequest<>(criteria));
         for (SimpleMilestone milestone : milestones) {
             this.addItem(milestone.getId());
             this.setItemCaption(milestone.getId(), milestone.getName());

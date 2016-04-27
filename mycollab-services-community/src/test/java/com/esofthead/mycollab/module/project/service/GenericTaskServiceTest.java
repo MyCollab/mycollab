@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.project.service;
 
 import com.esofthead.mycollab.core.arguments.DateSearchField;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.module.project.domain.ProjectGenericTask;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
@@ -47,7 +47,7 @@ public class GenericTaskServiceTest extends IntergrationServiceTest {
     @DataSet
     @Test
     public void testGenericTaskListFindPageable() {
-        List<ProjectGenericTask> tasks = genericTaskService.findPagableListByCriteria(new SearchRequest<ProjectGenericTaskSearchCriteria>(
+        List<ProjectGenericTask> tasks = genericTaskService.findPagableListByCriteria(new BasicSearchRequest<ProjectGenericTaskSearchCriteria>(
                         null, 0, Integer.MAX_VALUE));
         assertThat(tasks.size()).isEqualTo(2);
         assertThat(tasks).extracting("type", "name").contains(tuple("Project-Risk", "b"), tuple("Project-Bug", "summary 1"));
@@ -63,7 +63,7 @@ public class GenericTaskServiceTest extends IntergrationServiceTest {
         criteria.setDueDate(new DateSearchField(d));
         criteria.setProjectIds(new SetSearchField<>(1));
         criteria.setSaccountid(new NumberSearchField(1));
-        List<ProjectGenericTask> tasks = genericTaskService.findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<ProjectGenericTask> tasks = genericTaskService.findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
         assertThat(tasks.size()).isEqualTo(1);
         assertThat(tasks).extracting("type", "name").contains(tuple("Project-Risk", "b"));
     }
@@ -79,7 +79,7 @@ public class GenericTaskServiceTest extends IntergrationServiceTest {
         criteria.setDueDate(new DateSearchField(d));
         criteria.setProjectIds(new SetSearchField<>(1));
         criteria.setSaccountid(new NumberSearchField(1));
-        List<ProjectGenericTask> taskList = genericTaskService.findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<ProjectGenericTask> taskList = genericTaskService.findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 
         assertThat(taskList.size()).isEqualTo(1);
         assertThat(taskList).extracting("type", "name").contains(tuple("Project-Risk", "b"));

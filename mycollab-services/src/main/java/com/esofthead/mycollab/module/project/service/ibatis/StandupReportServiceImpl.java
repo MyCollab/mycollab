@@ -18,12 +18,12 @@ package com.esofthead.mycollab.module.project.service.ibatis;
 
 import com.esofthead.mycollab.cache.CleanCacheEvent;
 import com.esofthead.mycollab.common.ModuleNameConstants;
-import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.common.interceptor.aspect.ClassInfo;
 import com.esofthead.mycollab.common.interceptor.aspect.ClassInfoMap;
 import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
 import com.esofthead.mycollab.core.arguments.DateSearchField;
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
+import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
@@ -33,6 +33,7 @@ import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.dao.StandupReportMapper;
 import com.esofthead.mycollab.module.project.dao.StandupReportMapperExt;
 import com.esofthead.mycollab.module.project.domain.SimpleStandupReport;
+import com.esofthead.mycollab.module.project.domain.StandupReportStatistic;
 import com.esofthead.mycollab.module.project.domain.StandupReportWithBLOBs;
 import com.esofthead.mycollab.module.project.domain.criteria.StandupReportSearchCriteria;
 import com.esofthead.mycollab.module.project.service.ProjectActivityStreamService;
@@ -41,6 +42,7 @@ import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.google.common.eventbus.AsyncEventBus;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -88,7 +90,7 @@ public class StandupReportServiceImpl extends DefaultService<Integer, StandupRep
     @Override
     public SimpleStandupReport findStandupReportByDateUser(Integer projectId, String username, Date onDate, Integer sAccountId) {
         StandupReportSearchCriteria criteria = new StandupReportSearchCriteria();
-        criteria.setProjectId(new NumberSearchField(projectId));
+        criteria.setProjectIds(new SetSearchField<>(projectId));
         criteria.setLogBy(StringSearchField.and(username));
         criteria.setOnDate(new DateSearchField(onDate));
         List reports = standupReportMapperExt.findPagableListByCriteria(criteria, new RowBounds(0, Integer.MAX_VALUE));
@@ -120,12 +122,15 @@ public class StandupReportServiceImpl extends DefaultService<Integer, StandupRep
     }
 
     @Override
-    public List<GroupItem> getReportsCount(StandupReportSearchCriteria criteria) {
-        return standupReportMapperExt.getReportsCount(criteria);
+    public List<SimpleUser> findUsersNotDoReportYet(Integer projectId, Date onDate, @CacheKey Integer sAccountId) {
+        LocalDate dateOnly = new LocalDate(onDate);
+        return standupReportMapperExt.findUsersNotDoReportYet(projectId, dateOnly.toDate());
     }
 
     @Override
-    public List<SimpleUser> findUsersNotDoReportYet(Integer projectId, Date onDate, @CacheKey Integer sAccountId) {
-        return standupReportMapperExt.findUsersNotDoReportYet(projectId, onDate);
+    public List<StandupReportStatistic> getProjectReportsStatistic(List<Integer> projectIds, Date onDate, SearchRequest searchRequest) {
+        LocalDate dateOnly = new LocalDate(onDate);
+        return standupReportMapperExt.getProjectReportsStatistic(projectIds, dateOnly.toDate(), new RowBounds((searchRequest.getCurrentPage() - 1) * searchRequest.getNumberOfItems(),
+                searchRequest.getNumberOfItems()));
     }
 }

@@ -21,6 +21,7 @@ import com.esofthead.mycollab.form.view.builder.type.AbstractDynaField;
 /**
  * @param <F>
  * @author MyCollab Ltd.
+ * @since 1.0.0
  */
 public abstract class AbstractDynaFieldBuilder<F extends AbstractDynaField> {
     protected F field;

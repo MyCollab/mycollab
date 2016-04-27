@@ -94,7 +94,7 @@ public class ComponentAddPresenter extends AbstractPresenter<ComponentAddView> {
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.COMPONENTS)) {
             BugComponentContainer componentContainer = (BugComponentContainer) container;
             componentContainer.removeAllComponents();
-            componentContainer.addComponent(view.getWidget());
+            componentContainer.addComponent(view);
 
             Component component = (Component) data.getParams();
             view.editItem(component);

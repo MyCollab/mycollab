@@ -87,7 +87,7 @@ public class VersionListPresenter extends ProjectGenericListPresenter<VersionLis
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.VERSIONS)) {
             VersionContainer versionContainer = (VersionContainer) container;
             versionContainer.removeAllComponents();
-            versionContainer.addComponent(view.getWidget());
+            versionContainer.addComponent(view);
 
             searchCriteria = (VersionSearchCriteria) data.getParams();
             int totalCount = versionService.getTotalCount(searchCriteria);

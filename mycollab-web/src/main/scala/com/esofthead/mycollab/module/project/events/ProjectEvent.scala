@@ -45,8 +45,6 @@ object ProjectEvent {
 
   class GotoGanttChart(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
-  class GotoReportConsole(source: AnyRef) extends ApplicationEvent(source, null) {}
-
   class GotoDashboard(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
 }

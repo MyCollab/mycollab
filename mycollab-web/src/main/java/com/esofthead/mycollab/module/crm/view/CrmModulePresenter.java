@@ -20,38 +20,34 @@ package com.esofthead.mycollab.module.crm.view;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.shell.view.MainView;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
-import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.esofthead.mycollab.web.DesktopApplication;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@LoadPolicy(scope = ViewScope.PROTOTYPE)
 public class CrmModulePresenter extends AbstractPresenter<CrmModule> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public CrmModulePresenter() {
-		super(CrmModule.class);
-	}
+    public CrmModulePresenter() {
+        super(CrmModule.class);
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		MainView mainView = (MainView) container;
-		mainView.addModule(view);
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        MainView mainView = (MainView) container;
+        mainView.addModule(view);
 
-		String[] params = (String[]) data.getParams();
-		if (params == null || params.length == 0) {
-			view.gotoCrmDashboard();
-		} else {
-			DesktopApplication.rootUrlResolver.getSubResolver("crm").handle(params);
-		}
+        String[] params = (String[]) data.getParams();
+        if (params == null || params.length == 0) {
+            view.gotoCrmDashboard();
+        } else {
+            DesktopApplication.rootUrlResolver.getSubResolver("crm").handle(params);
+        }
 
-		AppContext.getInstance().updateLastModuleVisit(ModuleNameConstants.CRM);
-	}
+        AppContext.getInstance().updateLastModuleVisit(ModuleNameConstants.CRM);
+    }
 }

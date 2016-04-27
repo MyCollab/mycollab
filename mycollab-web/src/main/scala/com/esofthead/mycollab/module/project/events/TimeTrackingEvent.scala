@@ -24,7 +24,7 @@ import com.esofthead.mycollab.eventmanager.ApplicationEvent
   */
 object TimeTrackingEvent {
 
-  class TimeLoggingEntryChange(source: AnyRef) extends ApplicationEvent(source, null);
+  class TimeLoggingEntryChange(source: AnyRef) extends ApplicationEvent(source, null) {}
 
   class GotoList(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 

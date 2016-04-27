@@ -21,7 +21,6 @@ import com.vaadin.addon.touchkit.ui.TabBarView;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.TabSheet.Tab;
 
 /**
@@ -30,11 +29,6 @@ import com.vaadin.ui.TabSheet.Tab;
  */
 public class AbstractMobileTabPageView extends TabBarView implements PageView {
     private static final long serialVersionUID = 664039475002291943L;
-
-    @Override
-    public ComponentContainer getWidget() {
-        return this;
-    }
 
     /*
      * Now we use EventBus to manage events

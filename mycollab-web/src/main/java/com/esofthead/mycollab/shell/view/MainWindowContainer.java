@@ -118,7 +118,7 @@ public class MainWindowContainer extends CssLayout {
     private void navigateToLoginView() {
         final LoginPresenter presenter = PresenterResolver.getPresenter(LoginPresenter.class);
         LoginView loginView = presenter.getView();
-        this.setContent(loginView.getWidget());
+        this.setContent(loginView);
     }
 
     interface CookieCallbackSerializable extends BrowserCookie.Callback, Serializable {

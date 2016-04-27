@@ -14,14 +14,17 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.project.view;
+package com.esofthead.mycollab.module.project.view.parameters
 
-import com.esofthead.mycollab.vaadin.mvp.PageView;
+import com.esofthead.mycollab.vaadin.mvp.ScreenData
 
 /**
- * @author MyCollab Ltd.
- * @since 1.0
- */
-public interface ITimeTrackingView extends PageView {
-    void display();
+  * @author MyCollab Ltd
+  * @since 5.3.0
+  */
+object ReportScreenData {
+
+  class GotoHoursWeekly() extends ScreenData(null) {}
+
+  class GotoTimesheet() extends ScreenData(null) {}
 }

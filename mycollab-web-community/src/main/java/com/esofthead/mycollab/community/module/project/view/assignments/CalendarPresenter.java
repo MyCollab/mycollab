@@ -38,7 +38,7 @@ public class CalendarPresenter extends AbstractPresenter<CalendarView> implement
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         ProjectDashboardContainer projectDashboardContainer = (ProjectDashboardContainer) container;
         projectDashboardContainer.removeAllComponents();
-        projectDashboardContainer.addComponent(view.getWidget());
+        projectDashboardContainer.addComponent(view);
         view.lazyLoadView();
 
         ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);

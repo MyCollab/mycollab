@@ -43,7 +43,7 @@ public class LeadServiceTest extends IntergrationServiceTest {
     @Test
     public void testSearchByCriteria() {
         List<SimpleLead> leads = leadService.findPagableListByCriteria(
-                new SearchRequest<>(getCriteria(), 0, 2));
+                new BasicSearchRequest<>(getCriteria(), 0, 2));
         assertThat(leads.size()).isEqualTo(2);
         assertThat(leads).extracting("id", "source").contains(
                 tuple(1, "Cold Call"), tuple(2, "Employee"));
@@ -72,7 +72,7 @@ public class LeadServiceTest extends IntergrationServiceTest {
         criteria.setSaccountid(new NumberSearchField(1));
 
         List<SimpleLead> leads = leadService.findPagableListByCriteria(
-                new SearchRequest<>(criteria, 0, 2));
+                new BasicSearchRequest<>(criteria, 0, 2));
         assertThat(leads.size()).isEqualTo(1);
         assertThat(leads).extracting("id", "source").contains(
                 tuple(1, "Cold Call"));
@@ -87,7 +87,7 @@ public class LeadServiceTest extends IntergrationServiceTest {
         criteria.setSaccountid(new NumberSearchField(1));
 
         List<SimpleLead> leads = leadService
-                .findPagableListByCriteria(new SearchRequest<>(criteria, 0, 2));
+                .findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, 2));
         assertThat(leads.size()).isEqualTo(2);
         assertThat(leads).extracting("id", "source").contains(
                 tuple(1, "Cold Call"), tuple(2, "Employee"));

@@ -16,8 +16,9 @@
  */
 package com.esofthead.mycollab.module.project.view.parameters
 
+import java.util.Date
+
 import com.esofthead.mycollab.module.project.domain.StandupReportWithBLOBs
-import com.esofthead.mycollab.module.project.domain.criteria.StandupReportSearchCriteria
 import com.esofthead.mycollab.vaadin.mvp.ScreenData
 
 /**
@@ -26,10 +27,6 @@ import com.esofthead.mycollab.vaadin.mvp.ScreenData
   */
 object StandupScreenData {
 
-  class Search(param: StandupReportSearchCriteria) extends ScreenData[StandupReportSearchCriteria](param) {}
-
-  class Add(param: StandupReportWithBLOBs) extends ScreenData[StandupReportWithBLOBs](param) {}
-
-  class Edit(param: StandupReportWithBLOBs) extends ScreenData[StandupReportWithBLOBs](param) {}
+  class Search(param: Date) extends ScreenData[Date](param) {}
 
 }

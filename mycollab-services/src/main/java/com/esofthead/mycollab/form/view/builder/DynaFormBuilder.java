@@ -19,26 +19,25 @@ package com.esofthead.mycollab.form.view.builder;
 import com.esofthead.mycollab.form.view.builder.type.DynaForm;
 
 /**
- * 
  * @author MyCollab Ltd.
- *
+ * @since 1.0.0
  */
 public class DynaFormBuilder {
 
-	private DynaForm form;
+    private DynaForm form;
 
-	public DynaFormBuilder() {
-		form = new DynaForm();
-	}
+    public DynaFormBuilder() {
+        form = new DynaForm();
+    }
 
-	public DynaFormBuilder sections(DynaSectionBuilder... sections) {
-		for (DynaSectionBuilder section : sections) {
-			form.addSection(section.build());
-		}
-		return this;
-	}
+    public DynaFormBuilder sections(DynaSectionBuilder... sections) {
+        for (DynaSectionBuilder section : sections) {
+            form.addSection(section.build());
+        }
+        return this;
+    }
 
-	public DynaForm build() {
-		return form;
-	}
+    public DynaForm build() {
+        return form;
+    }
 }

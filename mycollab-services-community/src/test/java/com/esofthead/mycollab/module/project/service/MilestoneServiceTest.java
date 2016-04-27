@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.project.service;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
@@ -62,7 +62,7 @@ public class MilestoneServiceTest extends IntergrationServiceTest {
         criteria.setStatuses(new SetSearchField<>("Open"));
         criteria.setMilestoneName(StringSearchField.and("milestone 1"));
 
-        List<SimpleMilestone> milestones = itemTimeLoggingService.findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<SimpleMilestone> milestones = itemTimeLoggingService.findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 
         assertThat(milestones.size()).isEqualTo(1);
         assertThat(milestones).extracting("id", "description", "createdUserFullName", "createdtime", "ownerFullName",
@@ -76,7 +76,7 @@ public class MilestoneServiceTest extends IntergrationServiceTest {
     @Test
     public void testGetListMilestonesByCriteria() throws ParseException {
         List<SimpleMilestone> milestones = itemTimeLoggingService
-                .findPagableListByCriteria(new SearchRequest<>(getCriteria(), 0, Integer.MAX_VALUE));
+                .findPagableListByCriteria(new BasicSearchRequest<>(getCriteria(), 0, Integer.MAX_VALUE));
 
         assertThat(milestones.size()).isEqualTo(4);
         assertThat(milestones).extracting("id", "description",

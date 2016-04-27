@@ -83,6 +83,14 @@ public class ProjectModule extends AbstractPageView implements IDesktopModule {
                     serviceMenu.selectService(1);
                 }
             });
+
+            serviceMenu.addService("Reports", new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent clickEvent) {
+                    EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, new String[]{"reports"}));
+                    serviceMenu.selectService(2);
+                }
+            });
             serviceMenuContainer.with(serviceMenu);
 
             Button newPrjBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.BUTTON_NEW_PROJECT), new Button.ClickListener() {

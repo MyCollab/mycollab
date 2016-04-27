@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.project.view.settings.component;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -51,7 +51,7 @@ public class ComponentMultiSelectField extends MultiSelectComp {
         searchCriteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
 
         ComponentService componentService = ApplicationContextUtil.getSpringBean(ComponentService.class);
-        return componentService.findPagableListByCriteria(new SearchRequest<>(
+        return componentService.findPagableListByCriteria(new BasicSearchRequest<>(
                 searchCriteria, 0, Integer.MAX_VALUE));
     }
 

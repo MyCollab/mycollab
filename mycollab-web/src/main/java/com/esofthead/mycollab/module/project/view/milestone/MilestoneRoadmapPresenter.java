@@ -41,7 +41,7 @@ public class MilestoneRoadmapPresenter extends ProjectGenericPresenter<Milestone
             MilestoneContainer milestoneContainer = (MilestoneContainer) container;
             milestoneContainer.navigateToContainer(ProjectTypeConstants.MILESTONE);
             milestoneContainer.removeAllComponents();
-            milestoneContainer.addComponent(view.getWidget());
+            milestoneContainer.addComponent(view);
 
             view.lazyLoadView();
             ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);

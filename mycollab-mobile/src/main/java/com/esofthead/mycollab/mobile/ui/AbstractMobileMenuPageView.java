@@ -24,7 +24,6 @@ import com.esofthead.mycollab.vaadin.mvp.ViewEvent;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import org.vaadin.thomas.slidemenu.SlideMenu;
@@ -65,11 +64,6 @@ public abstract class AbstractMobileMenuPageView extends SlideMenuView implement
     }
 
     protected abstract void buildNavigateMenu();
-
-    @Override
-    public ComponentContainer getWidget() {
-        return this;
-    }
 
     @Override
     public void addViewListener(ViewListener listener) {

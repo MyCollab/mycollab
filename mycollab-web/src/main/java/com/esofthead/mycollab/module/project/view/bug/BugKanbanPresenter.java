@@ -59,7 +59,7 @@ public class BugKanbanPresenter extends ProjectGenericPresenter<BugKanbanView> {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.BUGS)) {
             BugContainer bugContainer = (BugContainer) container;
             bugContainer.removeAllComponents();
-            bugContainer.addComponent(view.getWidget());
+            bugContainer.addComponent(view);
 
             view.displayView();
 

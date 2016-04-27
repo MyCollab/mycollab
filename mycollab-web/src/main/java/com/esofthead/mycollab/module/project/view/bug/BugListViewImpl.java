@@ -20,7 +20,7 @@ import com.esofthead.mycollab.common.domain.criteria.TimelineTrackingSearchCrite
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.db.query.VariableInjector;
 import com.esofthead.mycollab.core.utils.BeanUtility;
@@ -315,7 +315,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
                     int totalTasks = bugService.getTotalCount(baseCriteria);
                     int pages = totalTasks / 20;
                     currentPage++;
-                    List<SimpleBug> otherBugs = bugService.findPagableListByCriteria(new SearchRequest<>
+                    List<SimpleBug> otherBugs = bugService.findPagableListByCriteria(new BasicSearchRequest<>
                             (baseCriteria, currentPage + 1, 20));
                     bugGroupOrderComponent.insertBugs(otherBugs);
                     if (currentPage == pages) {
@@ -326,7 +326,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
             moreBtn.addStyleName(UIConstants.BUTTON_ACTION);
             wrapBody.addComponent(moreBtn);
         }
-        List<SimpleBug> bugs = bugService.findPagableListByCriteria(new SearchRequest<>(baseCriteria, currentPage + 1, 20));
+        List<SimpleBug> bugs = bugService.findPagableListByCriteria(new BasicSearchRequest<>(baseCriteria, currentPage + 1, 20));
         bugGroupOrderComponent.insertBugs(bugs);
         displayBugStatistic();
     }

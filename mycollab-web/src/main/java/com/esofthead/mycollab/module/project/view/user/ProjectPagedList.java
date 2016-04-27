@@ -78,7 +78,7 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
         @Override
         public Component generateRow(AbstractBeanPagedList host, final SimpleProject project, final int rowIndex) {
             final MHorizontalLayout layout = new MHorizontalLayout().withFullWidth().withStyleName("projectblock");
-            layout.addComponent(ProjectAssetsUtil.buildProjectLogo(project, 64));
+            layout.addComponent(ProjectAssetsUtil.buildProjectLogo(project.getShortname(), project.getId(), project.getAvatarid(), 64));
             if (project.isArchived()) {
                 layout.addStyleName("projectlink-wrapper-archived");
             }

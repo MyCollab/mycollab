@@ -80,7 +80,7 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount> 
         return new CrmPreviewFormControlsGenerator<>(previewForm).createButtonControls(RolePermissionCollections.CRM_ACCOUNT);
     }
 
-    protected void displayActivities() {
+    private void displayActivities() {
         ActivitySearchCriteria criteria = new ActivitySearchCriteria();
         criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
         criteria.setType(StringSearchField.and(CrmTypeConstants.ACCOUNT));
@@ -88,15 +88,15 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount> 
         associateActivityList.setSearchCriteria(criteria);
     }
 
-    protected void displayAssociateCaseList() {
+    private void displayAssociateCaseList() {
         associateCaseList.displayCases(beanItem);
     }
 
-    protected void displayAssociateLeadList() {
+    private void displayAssociateLeadList() {
         associateLeadList.displayLeads(beanItem);
     }
 
-    protected void displayAssociateOpportunityList() {
+    private void displayAssociateOpportunityList() {
         associateOpportunityList.displayOpportunities(beanItem);
     }
 
@@ -132,29 +132,18 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount> 
         MVerticalLayout basicInfo = new MVerticalLayout().withWidth("100%").withStyleName("basic-info");
 
         dateInfoComp = new DateInfoComp();
-        basicInfo.addComponent(dateInfoComp);
-
         peopleInfoComp = new PeopleInfoComp();
-        basicInfo.addComponent(peopleInfoComp);
-
         compFollowers = new CrmFollowersComp<>(CrmTypeConstants.ACCOUNT, RolePermissionCollections.CRM_ACCOUNT);
-        basicInfo.addComponent(compFollowers);
 
+        basicInfo.with(dateInfoComp, peopleInfoComp, compFollowers);
         navigatorWrapper.addComponentAsFirst(basicInfo);
 
-        previewItemContainer.addTab(previewContent, CrmTypeConstants.DETAIL,
-                AppContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
-        previewItemContainer.addTab(associateContactList, CrmTypeConstants.CONTACT,
-                AppContext.getMessage(CrmCommonI18nEnum.TAB_CONTACT));
-        previewItemContainer.addTab(associateLeadList, CrmTypeConstants.LEAD,
-                AppContext.getMessage(CrmCommonI18nEnum.TAB_LEAD));
-        previewItemContainer.addTab(associateOpportunityList, CrmTypeConstants.OPPORTUNITY,
-                AppContext.getMessage(CrmCommonI18nEnum.TAB_OPPORTUNITY));
-        previewItemContainer.addTab(associateCaseList, CrmTypeConstants.CASE,
-                AppContext.getMessage(CrmCommonI18nEnum.TAB_CASE));
-        previewItemContainer.addTab(associateActivityList, CrmTypeConstants.ACTIVITY,
-                AppContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY));
-
+        previewItemContainer.addTab(previewContent, CrmTypeConstants.DETAIL, AppContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
+        previewItemContainer.addTab(associateContactList, CrmTypeConstants.CONTACT, AppContext.getMessage(CrmCommonI18nEnum.TAB_CONTACT));
+        previewItemContainer.addTab(associateLeadList, CrmTypeConstants.LEAD, AppContext.getMessage(CrmCommonI18nEnum.TAB_LEAD));
+        previewItemContainer.addTab(associateOpportunityList, CrmTypeConstants.OPPORTUNITY, AppContext.getMessage(CrmCommonI18nEnum.TAB_OPPORTUNITY));
+        previewItemContainer.addTab(associateCaseList, CrmTypeConstants.CASE, AppContext.getMessage(CrmCommonI18nEnum.TAB_CASE));
+        previewItemContainer.addTab(associateActivityList, CrmTypeConstants.ACTIVITY, AppContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY));
         previewItemContainer.selectTab(CrmTypeConstants.DETAIL);
     }
 

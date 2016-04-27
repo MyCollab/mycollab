@@ -20,6 +20,7 @@ import com.esofthead.mycollab.common.ActivityStreamConstants;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
 import com.esofthead.mycollab.configuration.StorageFactory;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.utils.StringUtils;
@@ -83,9 +84,16 @@ public class ActivityStreamComponent extends CssLayout {
     static class ProjectActivityStreamPagedList2 extends ProjectActivityStreamPagedList {
         private static final long serialVersionUID = 1L;
 
+        public int setSearchCriteria(final ActivityStreamSearchCriteria searchCriteria) {
+            listContainer.removeAllComponents();
+            searchRequest = new BasicSearchRequest<>(searchCriteria, currentPage, defaultNumberSearchItems);
+            doSearch();
+            return totalCount;
+        }
+
         @Override
-        public void doSearch() {
-            totalCount = projectActivityStreamService.getTotalActivityStream(searchRequest.getSearchCriteria());
+        protected void doSearch() {
+            totalCount = projectActivityStreamService.getTotalActivityStream(((BasicSearchRequest<ActivityStreamSearchCriteria>) searchRequest).getSearchCriteria());
             totalPage = (totalCount - 1) / searchRequest.getNumberOfItems() + 1;
             if (searchRequest.getCurrentPage() > totalPage) {
                 searchRequest.setCurrentPage(totalPage);
@@ -102,7 +110,8 @@ public class ActivityStreamComponent extends CssLayout {
                 }
             }
 
-            List<ProjectActivityStream> currentListData = projectActivityStreamService.getProjectActivityStreams(searchRequest);
+            List<ProjectActivityStream> currentListData = projectActivityStreamService.getProjectActivityStreams(
+                    (BasicSearchRequest<ActivityStreamSearchCriteria>) searchRequest);
             listContainer.removeAllComponents();
 
             Date currentDate = new GregorianCalendar(2100, 1, 1).getTime();
@@ -243,13 +252,18 @@ public class ActivityStreamComponent extends CssLayout {
         }
 
         @Override
-        protected int queryTotalCount() {
-            return 0;
-        }
+        protected QueryHandler<ProjectActivityStream> buildQueryHandler() {
+            return new QueryHandler<ProjectActivityStream>() {
+                @Override
+                public int queryTotalCount() {
+                    return 0;
+                }
 
-        @Override
-        protected List<ProjectActivityStream> queryCurrentData() {
-            return null;
+                @Override
+                public List<ProjectActivityStream> queryCurrentData() {
+                    return null;
+                }
+            };
         }
     }
 }

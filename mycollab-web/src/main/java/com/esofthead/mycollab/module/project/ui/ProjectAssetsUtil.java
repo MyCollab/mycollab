@@ -20,7 +20,6 @@ import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.file.PathUtils;
-import com.esofthead.mycollab.module.project.domain.Project;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
@@ -46,14 +45,14 @@ public class ProjectAssetsUtil {
         }
     }
 
-    public static final Component buildProjectLogo(Project project, int size) {
+    public static final Component buildProjectLogo(String projectShortname, Integer projectId, String projectAvatarId, int size) {
         AbstractComponent wrapper;
-        if (!StringUtils.isBlank(project.getAvatarid())) {
+        if (!StringUtils.isBlank(projectAvatarId)) {
             wrapper = new Image(null, new ExternalResource(StorageFactory.getInstance().getResourcePath
-                    (String.format("%s/%s_%d.png", PathUtils.getProjectLogoPath(AppContext.getAccountId(), project
-                            .getId()), project.getAvatarid(), size))));
+                    (String.format("%s/%s_%d.png", PathUtils.getProjectLogoPath(AppContext.getAccountId(), projectId),
+                            projectAvatarId, size))));
         } else {
-            ELabel projectIcon = new ELabel(project.getShortname()).withStyleName(UIConstants.TEXT_ELLIPSIS, "center");
+            ELabel projectIcon = new ELabel(projectShortname).withStyleName(UIConstants.TEXT_ELLIPSIS, "center");
             wrapper = new VerticalLayout();
             ((VerticalLayout) wrapper).addComponent(projectIcon);
             ((VerticalLayout) wrapper).setComponentAlignment(projectIcon, Alignment.MIDDLE_CENTER);

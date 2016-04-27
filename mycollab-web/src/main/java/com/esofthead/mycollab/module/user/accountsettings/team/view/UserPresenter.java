@@ -55,17 +55,16 @@ public class UserPresenter extends AbstractPresenter<UserContainer> {
             criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
             criteria.setRegisterStatuses(new SetSearchField<>(RegisterStatusConstants.ACTIVE,
                     RegisterStatusConstants.SENT_VERIFICATION_EMAIL, RegisterStatusConstants.VERIFICATING));
-            listPresenter.go(view.getWidget(), new ScreenData.Search<>(criteria));
+            listPresenter.go(view, new ScreenData.Search<>(criteria));
         } else if (data instanceof UserScreenData.Read) {
             UserReadPresenter presenter = PresenterResolver.getPresenter(UserReadPresenter.class);
-            presenter.go(view.getWidget(), data);
+            presenter.go(view, data);
         } else if (data instanceof UserScreenData.Search) {
             UserListPresenter presenter = PresenterResolver.getPresenter(UserListPresenter.class);
-            presenter.go(view.getWidget(), data);
-        } else if (data instanceof UserScreenData.Add
-                || data instanceof UserScreenData.Edit) {
+            presenter.go(view, data);
+        } else if (data instanceof UserScreenData.Add || data instanceof UserScreenData.Edit) {
             UserAddPresenter presenter = PresenterResolver.getPresenter(UserAddPresenter.class);
-            presenter.go(view.getWidget(), data);
+            presenter.go(view, data);
         }
     }
 }

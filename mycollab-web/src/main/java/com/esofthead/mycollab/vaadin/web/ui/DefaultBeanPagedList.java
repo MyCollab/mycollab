@@ -14,9 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.vaadin.web.ui;
 
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 
@@ -26,7 +26,7 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class DefaultBeanPagedList<SearchService extends ISearchableService<S>, S extends SearchCriteria, T> extends AbstractBeanPagedList<S, T> {
+public class DefaultBeanPagedList<SearchService extends ISearchableService<S>, S extends SearchCriteria, T> extends AbstractBeanPagedList<T> {
     private static final long serialVersionUID = 1L;
 
     private final SearchService searchService;
@@ -40,14 +40,25 @@ public class DefaultBeanPagedList<SearchService extends ISearchableService<S>, S
         this.searchService = searchService;
     }
 
-    @Override
-    protected int queryTotalCount() {
-        return searchService.getTotalCount(searchRequest.getSearchCriteria());
+    public int setSearchCriteria(final S searchCriteria) {
+        listContainer.removeAllComponents();
+        searchRequest = new BasicSearchRequest<>(searchCriteria, currentPage, defaultNumberSearchItems);
+        doSearch();
+        return totalCount;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    protected List<T> queryCurrentData() {
-        return searchService.findPagableListByCriteria(searchRequest);
+    protected QueryHandler<T> buildQueryHandler() {
+        return new QueryHandler<T>() {
+            @Override
+            public int queryTotalCount() {
+                return searchService.getTotalCount(((BasicSearchRequest<S>) searchRequest).getSearchCriteria());
+            }
+
+            @Override
+            public List<T> queryCurrentData() {
+                return searchService.findPagableListByCriteria((BasicSearchRequest<S>) searchRequest);
+            }
+        };
     }
 }

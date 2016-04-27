@@ -47,7 +47,7 @@ public class ProjectMemberListPresenter extends AbstractPresenter<ProjectMemberL
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.USERS)) {
             ProjectUserContainer userGroupContainer = (ProjectUserContainer) container;
             userGroupContainer.removeAllComponents();
-            userGroupContainer.addComponent(view.getWidget());
+            userGroupContainer.addComponent(view);
             ProjectMemberSearchCriteria criteria;
             if (data.getParams() == null) {
                 criteria = new ProjectMemberSearchCriteria();

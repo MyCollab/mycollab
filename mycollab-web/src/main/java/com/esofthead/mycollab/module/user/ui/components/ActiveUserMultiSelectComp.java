@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.user.ui.components;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
@@ -53,7 +53,7 @@ public class ActiveUserMultiSelectComp extends MultiSelectComp<SimpleUser> {
         criteria.setRegisterStatuses(new SetSearchField<>(RegisterStatusConstants.ACTIVE));
 
         UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
-        return userService.findPagableListByCriteria(new SearchRequest<>(
+        return userService.findPagableListByCriteria(new BasicSearchRequest<>(
                 criteria, 0, Integer.MAX_VALUE));
     }
 

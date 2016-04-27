@@ -25,7 +25,6 @@ import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.addon.touchkit.ui.NavigationView;
-import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
 
 import java.io.Serializable;
@@ -46,11 +45,6 @@ public abstract class AbstractMobilePageView extends NavigationView implements P
         if (this.getLeftComponent() == null) {
             this.setLeftComponent(new ELabel("").withWidth("72px"));
         }
-    }
-
-    @Override
-    public ComponentContainer getWidget() {
-        return this;
     }
 
     @Override

@@ -85,7 +85,7 @@ public class TaskAddPresenter extends ProjectGenericPresenter<TaskAddView> {
             TaskContainer taskContainer = (TaskContainer) container;
             taskContainer.navigateToContainer(ProjectTypeConstants.TASK);
             taskContainer.removeAllComponents();
-            taskContainer.addComponent(view.getWidget());
+            taskContainer.addComponent(view);
             SimpleTask task = (SimpleTask) data.getParams();
 
             ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);

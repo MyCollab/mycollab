@@ -89,8 +89,7 @@ public class RoleAddPresenter extends AbstractPresenter<RoleAddView> {
         if (AppContext.canWrite(RolePermissionCollections.ACCOUNT_ROLE)) {
             RoleContainer roleContainer = (RoleContainer) container;
             roleContainer.removeAllComponents();
-            roleContainer.addComponent(view.getWidget());
-
+            roleContainer.addComponent(view);
             Role role = (Role) data.getParams();
             view.editItem(role);
 

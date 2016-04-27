@@ -32,7 +32,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.esofthead.mycollab.core.arguments.DateTimeSearchField;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.test.DataSet;
@@ -52,7 +52,7 @@ public class EventServiceTest extends IntergrationServiceTest {
 		criteria.setSaccountid(new NumberSearchField(1));
 
 		List<SimpleActivity> list = eventService
-				.findPagableListByCriteria(new SearchRequest<>(
+				.findPagableListByCriteria(new BasicSearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 
 		assertThat(list.size()).isEqualTo(1);
@@ -73,7 +73,7 @@ public class EventServiceTest extends IntergrationServiceTest {
 				DateTimeSearchField.LESSTHANEQUAL, endDate));
 		criteria.setSaccountid(new NumberSearchField(1));
 
-		List<SimpleActivity> list = eventService.findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+		List<SimpleActivity> list = eventService.findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 		assertThat(list.size()).isEqualTo(1);
 		assertThat(list).extracting("id", "subject").contains(tuple(1, "aaa"));
 	}

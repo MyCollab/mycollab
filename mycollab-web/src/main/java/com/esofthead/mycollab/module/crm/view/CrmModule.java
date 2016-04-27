@@ -23,8 +23,8 @@ import com.esofthead.mycollab.module.crm.i18n.*;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.web.ui.ModuleHelper;
 import com.esofthead.mycollab.vaadin.mvp.*;
+import com.esofthead.mycollab.vaadin.web.ui.ModuleHelper;
 import com.esofthead.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.esofthead.mycollab.vaadin.web.ui.ServiceMenu;
 import com.esofthead.mycollab.web.IDesktopModule;
@@ -32,7 +32,6 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.ComponentContainer;
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
@@ -62,8 +61,7 @@ public class CrmModule extends AbstractPageView implements IDesktopModule {
 
     public void addView(PageView view) {
         this.removeAllComponents();
-        ComponentContainer wrapContainer = view.getWidget();
-        this.with(wrapContainer).expand(wrapContainer);
+        this.with(view).expand(view);
     }
 
     @Override

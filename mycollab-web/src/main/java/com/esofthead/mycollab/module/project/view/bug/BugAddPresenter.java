@@ -88,7 +88,7 @@ public class BugAddPresenter extends ProjectGenericPresenter<BugAddView> {
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS)) {
             BugContainer bugContainer = (BugContainer) container;
             bugContainer.removeAllComponents();
-            bugContainer.addComponent(view.getWidget());
+            bugContainer.addComponent(view);
 
             SimpleBug bug = (SimpleBug) data.getParams();
             view.editItem(bug);

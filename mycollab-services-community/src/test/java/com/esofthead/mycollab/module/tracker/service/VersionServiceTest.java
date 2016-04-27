@@ -31,7 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.tracker.domain.SimpleVersion;
 import com.esofthead.mycollab.module.tracker.domain.Version;
@@ -59,7 +59,7 @@ public class VersionServiceTest extends IntergrationServiceTest {
 	@Test
 	public void testGetListVersions() throws ParseException {
 		List<SimpleVersion> versions = versionService
-				.findPagableListByCriteria(new SearchRequest<>(
+				.findPagableListByCriteria(new BasicSearchRequest<>(
 						getCriteria(), 0, Integer.MAX_VALUE));
 
 		assertThat(versions.size()).isEqualTo(4);
@@ -77,7 +77,7 @@ public class VersionServiceTest extends IntergrationServiceTest {
 	@Test
 	public void testTotalCount() {
 		List<SimpleVersion> versions = versionService
-				.findPagableListByCriteria(new SearchRequest<>(
+				.findPagableListByCriteria(new BasicSearchRequest<>(
 						getCriteria(), 0, Integer.MAX_VALUE));
 
 		assertThat(versions.size()).isEqualTo(4);
@@ -91,7 +91,7 @@ public class VersionServiceTest extends IntergrationServiceTest {
 		criteria.setId(new NumberSearchField(1));
 
 		List<SimpleVersion> versions = versionService
-				.findPagableListByCriteria(new SearchRequest<>(
+				.findPagableListByCriteria(new BasicSearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 		assertThat(versions.size()).isEqualTo(1);
 		assertThat(versions).extracting("id", "description", "status",
@@ -109,7 +109,7 @@ public class VersionServiceTest extends IntergrationServiceTest {
 		criteria.setVersionname(StringSearchField.and("2.0.0"));
 
 		List<SimpleVersion> versions = versionService
-				.findPagableListByCriteria(new SearchRequest<>(
+				.findPagableListByCriteria(new BasicSearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 		assertThat(versions.size()).isEqualTo(1);
 		assertThat(versions).extracting("id", "description", "status",

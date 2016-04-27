@@ -83,11 +83,6 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
     }
 
     @Override
-    public ComponentContainer getWidget() {
-        return this;
-    }
-
-    @Override
     public HasPreviewFormHandlers<SimpleTask> getPreviewFormHandlers() {
         return previewForm;
     }

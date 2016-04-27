@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.project.service.ibatis;
 
 import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.module.project.dao.ProjectMapperExt;
 import com.esofthead.mycollab.module.project.domain.ProjectActivityStream;
 import com.esofthead.mycollab.module.project.service.ProjectActivityStreamService;
@@ -39,7 +39,7 @@ public class ProjectActivityStreamServiceImpl implements ProjectActivityStreamSe
     }
 
     @Override
-    public List<ProjectActivityStream> getProjectActivityStreams(SearchRequest<ActivityStreamSearchCriteria> searchRequest) {
+    public List<ProjectActivityStream> getProjectActivityStreams(BasicSearchRequest<ActivityStreamSearchCriteria> searchRequest) {
         return projectMapperExt.getProjectActivityStreams(searchRequest.getSearchCriteria(),
                 new RowBounds((searchRequest.getCurrentPage() - 1) * searchRequest.getNumberOfItems(),
                         searchRequest.getNumberOfItems()));

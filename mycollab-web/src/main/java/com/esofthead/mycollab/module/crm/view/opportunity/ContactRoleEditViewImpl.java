@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.crm.view.opportunity;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
@@ -202,7 +202,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements Contact
             ContactSearchCriteria criteria = new ContactSearchCriteria();
             criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
             criteria.setOpportunityId(new NumberSearchField(SearchField.AND, opportunity.getId()));
-            List<SimpleContactOpportunityRel> contactOppoRels = contactOppoService.findPagableListByCriteria(new SearchRequest<>(criteria));
+            List<SimpleContactOpportunityRel> contactOppoRels = contactOppoService.findPagableListByCriteria(new BasicSearchRequest<>(criteria));
             boolean oddRow = true;
             if (!CollectionUtils.isEmpty(contactOppoRels)) {
                 for (SimpleContactOpportunityRel contactOppoRel : contactOppoRels) {

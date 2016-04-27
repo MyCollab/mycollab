@@ -66,7 +66,7 @@ public class MessageReadPresenter extends ProjectGenericPresenter<MessageReadVie
             MessageContainer messageContainer = (MessageContainer) container;
             messageContainer.navigateToContainer(ProjectTypeConstants.MESSAGE);
             messageContainer.removeAllComponents();
-            messageContainer.addComponent(view.getWidget());
+            messageContainer.addComponent(view);
 
             if (data.getParams() instanceof Integer) {
                 MessageService messageService = ApplicationContextUtil.getSpringBean(MessageService.class);

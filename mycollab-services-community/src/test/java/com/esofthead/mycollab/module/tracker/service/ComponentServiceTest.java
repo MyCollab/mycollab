@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.tracker.service;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.tracker.domain.SimpleComponent;
 import com.esofthead.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria;
@@ -55,7 +55,7 @@ public class ComponentServiceTest extends IntergrationServiceTest {
     @Test
     public void testGetListComponents() throws ParseException {
         List<SimpleComponent> components = componentService
-                .findPagableListByCriteria(new SearchRequest<>(
+                .findPagableListByCriteria(new BasicSearchRequest<>(
                         getCriteria(), 0, Integer.MAX_VALUE));
 
         assertThat(components.size()).isEqualTo(4);
@@ -73,7 +73,7 @@ public class ComponentServiceTest extends IntergrationServiceTest {
     @Test
     public void testTotalCount() {
         List<SimpleComponent> components = componentService
-                .findPagableListByCriteria(new SearchRequest<>(getCriteria(), 0, Integer.MAX_VALUE));
+                .findPagableListByCriteria(new BasicSearchRequest<>(getCriteria(), 0, Integer.MAX_VALUE));
         assertThat(components.size()).isEqualTo(4);
     }
 
@@ -84,7 +84,7 @@ public class ComponentServiceTest extends IntergrationServiceTest {
         ComponentSearchCriteria criteria = new ComponentSearchCriteria();
         criteria.setId(new NumberSearchField(1));
 
-        List<SimpleComponent> components = componentService.findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<SimpleComponent> components = componentService.findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
         assertThat(components.size()).isEqualTo(1);
         assertThat(components).extracting("id", "description", "status",
                 "componentname", "numBugs", "numOpenBugs").contains(
@@ -102,7 +102,7 @@ public class ComponentServiceTest extends IntergrationServiceTest {
         criteria.setUserlead(StringSearchField.and("nghiemle"));
 
         List<SimpleComponent> components = componentService
-                .findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+                .findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
         assertThat(components.size()).isEqualTo(1);
         assertThat(components).extracting("id", "description", "status",
                 "componentname", "numBugs", "numOpenBugs").contains(

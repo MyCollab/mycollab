@@ -19,9 +19,7 @@ package com.esofthead.mycollab.module.user.accountsettings.view;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.shell.view.MainView;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
-import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.esofthead.mycollab.web.DesktopApplication;
 import com.vaadin.ui.ComponentContainer;
@@ -30,7 +28,6 @@ import com.vaadin.ui.ComponentContainer;
  * @author MyCollab Ltd.
  * @since 2.0
  */
-@LoadPolicy(scope = ViewScope.PROTOTYPE)
 public class AccountModulePresenter extends AbstractPresenter<AccountModule> {
     private static final long serialVersionUID = 1L;
 

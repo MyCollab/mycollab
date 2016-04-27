@@ -78,7 +78,7 @@ public class MilestoneAddPresenter extends AbstractPresenter<MilestoneAddView> {
             MilestoneContainer milestoneContainer = (MilestoneContainer) container;
             milestoneContainer.navigateToContainer(ProjectTypeConstants.MILESTONE);
             milestoneContainer.removeAllComponents();
-            milestoneContainer.addComponent(view.getWidget());
+            milestoneContainer.addComponent(view);
 
             SimpleMilestone milestone = (SimpleMilestone) data.getParams();
             view.editItem(milestone);

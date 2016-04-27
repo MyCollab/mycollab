@@ -17,7 +17,7 @@
 
 package com.esofthead.mycollab.module.project.view.milestone;
 
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -53,7 +53,7 @@ public class MilestoneComboBox extends ComboBox {
             criteria.setProjectIds(new SetSearchField<>(project.getId()));
             MilestoneService milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
             List<SimpleMilestone> milestoneList = (List<SimpleMilestone>) milestoneService
-                    .findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+                    .findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
             Collections.sort(milestoneList, new MilestoneComparator());
 
             for (SimpleMilestone milestone : milestoneList) {

@@ -198,7 +198,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
             criteria.addOrderField(new SearchCriteria.OrderField("memberFullName", SearchCriteria.ASC));
 
             ProjectMemberService projectMemberService = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
-            projectMembers = projectMemberService.findPagableListByCriteria(new SearchRequest<>(
+            projectMembers = projectMemberService.findPagableListByCriteria(new BasicSearchRequest<>(
                     criteria, 0, Integer.MAX_VALUE));
             for (SimpleProjectMember member : projectMembers) {
                 this.addComponent(new FollowerRow(member));

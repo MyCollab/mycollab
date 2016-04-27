@@ -22,11 +22,14 @@ import com.esofthead.mycollab.core.cache.Cacheable;
 import com.esofthead.mycollab.core.persistence.service.IService;
 import com.esofthead.mycollab.form.view.builder.type.DynaForm;
 
+/**
+ * @author MyCollab Ltd
+ * @since 1.0.0
+ */
 public interface MasterFormService extends IService {
-	@Cacheable
-	DynaForm findCustomForm(@CacheKey Integer sAccountId, String moduleName);
+    @Cacheable
+    DynaForm findCustomForm(@CacheKey Integer sAccountId, String moduleName);
 
-	@CacheEvict
-	void saveCustomForm(@CacheKey Integer sAccountId, String moduleName,
-			DynaForm form);
+    @CacheEvict
+    void saveCustomForm(@CacheKey Integer sAccountId, String moduleName, DynaForm form);
 }

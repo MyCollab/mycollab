@@ -21,7 +21,7 @@ import com.esofthead.mycollab.common.dao.RelayEmailNotificationMapper
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification
 import com.esofthead.mycollab.common.domain.criteria.RelayEmailNotificationSearchCriteria
 import com.esofthead.mycollab.common.service.RelayEmailNotificationService
-import com.esofthead.mycollab.core.arguments.{SearchRequest, SetSearchField}
+import com.esofthead.mycollab.core.arguments.{BasicSearchRequest, SetSearchField}
 import com.esofthead.mycollab.module.crm.CrmTypeConstants
 import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction
 import com.esofthead.mycollab.spring.ApplicationContextUtil
@@ -53,7 +53,7 @@ class CrmSendingRelayEmailNotificationJob extends GenericQuartzJobBean {
 
     import scala.collection.JavaConverters._
     val relayEmaiNotifications = relayEmailService.findPagableListByCriteria(
-      new SearchRequest[RelayEmailNotificationSearchCriteria](criteria, 0,
+      new BasicSearchRequest[RelayEmailNotificationSearchCriteria](criteria, 0,
         Integer.MAX_VALUE)).asScala.toList.asInstanceOf[List[SimpleRelayEmailNotification]]
     var emailNotificationAction: SendingRelayEmailNotificationAction = null
 

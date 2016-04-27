@@ -17,7 +17,7 @@
 
 package com.esofthead.mycollab.module.user.view.component;
 
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.module.user.domain.SimpleRole;
 import com.esofthead.mycollab.module.user.domain.criteria.RoleSearchCriteria;
 import com.esofthead.mycollab.module.user.service.RoleService;
@@ -42,7 +42,7 @@ public class RoleComboBox extends ComboBox {
         RoleSearchCriteria criteria = new RoleSearchCriteria();
 
         RoleService roleService = ApplicationContextUtil.getSpringBean(RoleService.class);
-        List<SimpleRole> roleList = roleService.findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+        List<SimpleRole> roleList = roleService.findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 
         BeanContainer<String, SimpleRole> beanItem = new BeanContainer<>(SimpleRole.class);
         beanItem.setBeanIdProperty("id");

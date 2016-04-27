@@ -36,6 +36,6 @@ public class FavoritePresenter extends AbstractPresenter<IFavoriteView> implemen
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         ProjectDashboardContainer projectViewContainer = (ProjectDashboardContainer) container;
         projectViewContainer.removeAllComponents();
-        projectViewContainer.addComponent(view.getWidget());
+        projectViewContainer.addComponent(view);
     }
 }

@@ -20,7 +20,7 @@ import com.esofthead.mycollab.common.domain.SaveSearchResultWithBLOBs;
 import com.esofthead.mycollab.common.domain.criteria.SaveSearchResultCriteria;
 import com.esofthead.mycollab.common.service.SaveSearchResultService;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.db.query.SearchFieldInfo;
 import com.esofthead.mycollab.core.db.query.SearchQueryInfo;
@@ -67,7 +67,7 @@ public abstract class SavedFilterComboBox extends CustomField<String> {
 
         SaveSearchResultService saveSearchResultService = ApplicationContextUtil.getSpringBean(SaveSearchResultService.class);
         List<SaveSearchResultWithBLOBs> savedSearchResults = saveSearchResultService.findPagableListByCriteria(new
-                SearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
+                BasicSearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
         savedQueries = new ArrayList<>();
         for (SaveSearchResultWithBLOBs searchResultWithBLOBs : savedSearchResults) {
             try {

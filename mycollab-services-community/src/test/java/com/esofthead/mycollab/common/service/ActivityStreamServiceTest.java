@@ -19,7 +19,7 @@ package com.esofthead.mycollab.common.service;
 import com.esofthead.mycollab.common.domain.SimpleActivityStream;
 import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.test.DataSet;
 import com.esofthead.mycollab.test.service.IntergrationServiceTest;
@@ -48,7 +48,7 @@ public class ActivityStreamServiceTest extends IntergrationServiceTest {
         searchCriteria.setSaccountid(new NumberSearchField(1));
 
         List<SimpleActivityStream> activities = activityStreamService
-                .findPagableListByCriteria(new SearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
+                .findPagableListByCriteria(new BasicSearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
 
         assertThat(activities.size()).isEqualTo(3);
     }
@@ -62,7 +62,7 @@ public class ActivityStreamServiceTest extends IntergrationServiceTest {
         searchCriteria.setSaccountid(new NumberSearchField(1));
 
         List<SimpleActivityStream> activities = activityStreamService
-                .findPagableListByCriteria(new SearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
+                .findPagableListByCriteria(new BasicSearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
 
         assertThat(activities.size()).isEqualTo(1);
         assertThat(activities).extracting("saccountid", "module", "action").contains(tuple(1, "bb", "update"));

@@ -61,7 +61,7 @@ public class ActivityRootPresenter extends CrmGenericPresenter<ActivityRootView>
 			presenter = PresenterResolver.getPresenter(ActivityCalendarPresenter.class);
 		}
 
-		presenter.go(view.getWidget(), data);
+		presenter.go(view, data);
 	}
 
 }

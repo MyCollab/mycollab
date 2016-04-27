@@ -162,13 +162,13 @@ public class TaskReadPresenter extends AbstractPresenter<TaskReadView> {
             TaskContainer taskContainer = (TaskContainer) container;
             taskContainer.removeAllComponents();
 
-            taskContainer.addComponent(this.view.getWidget());
+            taskContainer.addComponent(view);
             if (data.getParams() instanceof Integer) {
                 ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
                 SimpleTask task = taskService.findById((Integer) data.getParams(), AppContext.getAccountId());
 
                 if (task != null) {
-                    this.view.previewItem(task);
+                    view.previewItem(task);
 
                     ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
                     breadCrumb.gotoTaskRead(task);

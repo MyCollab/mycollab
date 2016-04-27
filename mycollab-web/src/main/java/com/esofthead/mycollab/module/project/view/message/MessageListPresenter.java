@@ -69,7 +69,7 @@ public class MessageListPresenter extends ProjectGenericPresenter<MessageListVie
             MessageContainer messageContainer = (MessageContainer) container;
             messageContainer.navigateToContainer(ProjectTypeConstants.MESSAGE);
             messageContainer.removeAllComponents();
-            messageContainer.addComponent(view.getWidget());
+            messageContainer.addComponent(view);
             doSearch((MessageSearchCriteria) data.getParams());
         } else {
             throw new SecureAccessException();

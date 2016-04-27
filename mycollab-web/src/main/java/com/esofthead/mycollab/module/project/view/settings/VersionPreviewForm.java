@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
@@ -145,7 +145,7 @@ public class VersionPreviewForm extends AdvancedPreviewBeanForm<Version> {
             BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
             int totalCount = bugService.getTotalCount(searchCriteria);
             for (int i = 0; i < (totalCount / 20) + 1; i++) {
-                List<SimpleBug> bugs = bugService.findPagableListByCriteria(new SearchRequest<>(searchCriteria, i + 1, 20));
+                List<SimpleBug> bugs = bugService.findPagableListByCriteria(new BasicSearchRequest<>(searchCriteria, i + 1, 20));
                 if (CollectionUtils.isNotEmpty(bugs)) {
                     for (SimpleBug bug : bugs) {
                         ToggleBugSummaryField toggleBugSummaryField = new ToggleBugSummaryField(bug);

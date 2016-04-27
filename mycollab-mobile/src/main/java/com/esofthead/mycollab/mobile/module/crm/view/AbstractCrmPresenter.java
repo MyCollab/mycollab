@@ -35,7 +35,7 @@ public class AbstractCrmPresenter<V extends PageView> extends AbstractPresenter<
     @Override
     protected void onGo(ComponentContainer navigator, ScreenData<?> data) {
         if (navigator instanceof NavigationManager) {
-            ((NavigationManager) navigator).navigateTo(view.getWidget());
+            ((NavigationManager) navigator).navigateTo(view);
         } else {
             throw new MyCollabException("Invalid flow");
         }

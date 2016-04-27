@@ -48,17 +48,18 @@ abstract class UrlResolver {
           handlePage(params: _*)
         }
         else {
-          var urlResolver = subResolvers(key)
-          if (urlResolver == null) {
-            if (defaultUrlResolver != null) {
-              urlResolver = defaultUrlResolver
-            }
-            else {
-              throw new MyCollabException(String.format("Can not register resolver key %s for Resolver: %s", key, this))
+          val urlResolver = subResolvers.get(key)
+          urlResolver match {
+            case Some(value) => value.handle(params.tail: _*)
+            case None => {
+              if (defaultUrlResolver != null) {
+                defaultUrlResolver.handle(params: _*)
+              }
+              else {
+                throw new MyCollabException(String.format("Can not register resolver key %s for Resolver: %s", key, this))
+              }
             }
           }
-
-          urlResolver.handle(params.tail: _*)
         }
       }
       else {

@@ -192,7 +192,7 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
             criteria.setStatuses(new SetSearchField<>("Active"));
 
             UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
-            users = userService.findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+            users = userService.findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
             for (SimpleUser member : users) {
                 this.addComponent(new FollowerRow(member));
             }

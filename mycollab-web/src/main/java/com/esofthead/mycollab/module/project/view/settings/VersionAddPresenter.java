@@ -88,8 +88,7 @@ public class VersionAddPresenter extends AbstractPresenter<VersionAddView> {
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.VERSIONS)) {
             VersionContainer versionContainer = (VersionContainer) container;
-            versionContainer.addComponent(view.getWidget());
-
+            versionContainer.addComponent(view);
             Version version = (Version) data.getParams();
             view.editItem(version);
 

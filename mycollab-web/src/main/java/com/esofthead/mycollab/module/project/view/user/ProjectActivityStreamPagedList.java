@@ -22,6 +22,7 @@ import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteri
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.StorageFactory;
 import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.page.domain.Page;
@@ -62,7 +63,7 @@ import static com.esofthead.mycollab.utils.TooltipHelper.TOOLTIP_ID;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<ActivityStreamSearchCriteria, ProjectActivityStream> {
+public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<ProjectActivityStream> {
     private static final long serialVersionUID = 1L;
 
     protected final ProjectActivityStreamService projectActivityStreamService;
@@ -73,9 +74,16 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Activi
         projectActivityStreamService = ApplicationContextUtil.getSpringBean(ProjectActivityStreamService.class);
     }
 
+    public int setSearchCriteria(final ActivityStreamSearchCriteria searchCriteria) {
+        listContainer.removeAllComponents();
+        searchRequest = new BasicSearchRequest<>(searchCriteria, currentPage, defaultNumberSearchItems);
+        doSearch();
+        return totalCount;
+    }
+
     @Override
-    public void doSearch() {
-        totalCount = projectActivityStreamService.getTotalActivityStream(searchRequest.getSearchCriteria());
+    protected void doSearch() {
+        totalCount = projectActivityStreamService.getTotalActivityStream(((BasicSearchRequest<ActivityStreamSearchCriteria>) searchRequest).getSearchCriteria());
         totalPage = (totalCount - 1) / searchRequest.getNumberOfItems() + 1;
         if (searchRequest.getCurrentPage() > totalPage) {
             searchRequest.setCurrentPage(totalPage);
@@ -92,7 +100,7 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Activi
             }
         }
 
-        List<ProjectActivityStream> currentListData = projectActivityStreamService.getProjectActivityStreams(searchRequest);
+        List<ProjectActivityStream> currentListData = projectActivityStreamService.getProjectActivityStreams((BasicSearchRequest<ActivityStreamSearchCriteria>) searchRequest);
         this.listContainer.removeAllComponents();
         Date currentDate = new GregorianCalendar(2100, 1, 1).getTime();
 
@@ -267,12 +275,17 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Activi
     }
 
     @Override
-    protected int queryTotalCount() {
-        return 0;
-    }
+    protected QueryHandler<ProjectActivityStream> buildQueryHandler() {
+        return new QueryHandler<ProjectActivityStream>() {
+            @Override
+            public int queryTotalCount() {
+                return 0;
+            }
 
-    @Override
-    protected List<ProjectActivityStream> queryCurrentData() {
-        return null;
+            @Override
+            public List<ProjectActivityStream> queryCurrentData() {
+                return null;
+            }
+        };
     }
 }

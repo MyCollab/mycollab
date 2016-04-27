@@ -71,7 +71,7 @@ object NewUserJoinCommand {
     searchCriteria.setRegisterStatuses(new SetSearchField[String](RegisterStatusConstants.ACTIVE))
     searchCriteria.addExtraField(new OneValueSearchField(SearchField.AND, "s_user_account.isAccountOwner = ", 1))
     import scala.collection.JavaConverters._
-    val accountOwners = userService.findPagableListByCriteria(new SearchRequest[UserSearchCriteria](searchCriteria, 0,
+    val accountOwners = userService.findPagableListByCriteria(new BasicSearchRequest[UserSearchCriteria](searchCriteria, 0,
       Integer.MAX_VALUE)).asScala.toList
     val newUser = userService.findUserByUserNameInAccount(username, sAccountId)
     val recipients = ListBuffer[MailRecipientField]()

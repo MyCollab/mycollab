@@ -111,8 +111,9 @@ public class ProjectListViewImpl extends AbstractPageView implements ProjectList
                 LabelLink b = new LabelLink(project.getName(), ProjectLinkBuilder.generateProjectFullLink(project.getId()));
                 b.setDescription(ProjectTooltipGenerator.generateToolTipProject(AppContext.getUserLocale(), project,
                         AppContext.getSiteUrl(), AppContext.getUserTimezone()));
-                MHorizontalLayout layout = new MHorizontalLayout(ProjectAssetsUtil.buildProjectLogo(project, 32), b)
-                        .expand(b).alignAll(Alignment.MIDDLE_LEFT).withMargin(true);
+                MHorizontalLayout layout = new MHorizontalLayout(ProjectAssetsUtil.buildProjectLogo(project
+                        .getShortname(), project.getId(), project.getAvatarid(), 32), b)
+                        .expand(b).alignAll(Alignment.MIDDLE_LEFT).withMargin(false).withFullHeight();
                 return layout;
             }
         });

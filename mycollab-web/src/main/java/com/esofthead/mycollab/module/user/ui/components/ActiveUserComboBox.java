@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.user.ui.components;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
@@ -46,7 +46,7 @@ public class ActiveUserComboBox extends ComboBox {
         criteria.setRegisterStatuses(new SetSearchField<>(RegisterStatusConstants.ACTIVE));
 
         UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
-        List<SimpleUser> userList = userService.findPagableListByCriteria(new SearchRequest<>(
+        List<SimpleUser> userList = userService.findPagableListByCriteria(new BasicSearchRequest<>(
                 criteria, 0, Integer.MAX_VALUE));
         loadUserList(userList);
     }

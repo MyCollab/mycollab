@@ -100,7 +100,7 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS)) {
             ProjectUserContainer userGroupContainer = (ProjectUserContainer) container;
             userGroupContainer.removeAllComponents();
-            userGroupContainer.addComponent(view.getWidget());
+            userGroupContainer.addComponent(view);
 
             view.display();
 

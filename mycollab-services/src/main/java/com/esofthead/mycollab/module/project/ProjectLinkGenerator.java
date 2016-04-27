@@ -189,12 +189,16 @@ public class ProjectLinkGenerator {
         return "project/time/list/" + GenericLinkUtils.encodeParam(projectId, timeId);
     }
 
-    public static String generateStandUpPreviewLink(Integer projectId, Integer reportId) {
-        return "project/standup/list/" + GenericLinkUtils.encodeParam(projectId);
+    public static String generateStandupDashboardLink() {
+        return "project/reports/standup/list/";
     }
 
-    public static String generateStandupDashboardLink(Integer projectId) {
-        return "project/reports/standup/list/" + UrlEncodeDecoder.encode(projectId);
+    public static String generateHoursWeeklyReportLink() {
+        return "project/reports/weeklytiming/";
+    }
+
+    public static String generateTimesheetReportLink() {
+        return "project/reports/timesheet/";
     }
 
     public static String generateProjectCalendarLink(Integer projectId) {

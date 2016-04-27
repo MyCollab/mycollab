@@ -53,7 +53,7 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
 
     @Override
     protected void onGo(ComponentContainer navigationManager, ScreenData<?> data) {
-        ((NavigationManager) navigationManager).navigateTo(view.getWidget());
+        ((NavigationManager) navigationManager).navigateTo(view);
         AppContext.addFragment("", "Login Page");
     }
 }

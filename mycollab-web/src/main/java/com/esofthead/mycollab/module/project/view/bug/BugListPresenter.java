@@ -60,7 +60,7 @@ public class BugListPresenter extends ProjectGenericListPresenter<BugListView, B
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.BUGS)) {
             BugContainer trackerContainer = (BugContainer) container;
             trackerContainer.removeAllComponents();
-            trackerContainer.addComponent(view.getWidget());
+            trackerContainer.addComponent(view);
 
             this.displayListView(container, data);
             view.displayView();

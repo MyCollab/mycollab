@@ -86,10 +86,9 @@ public class ComponentListPresenter extends ProjectGenericListPresenter<Componen
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.COMPONENTS)) {
             BugComponentContainer trackerContainer = (BugComponentContainer) container;
             trackerContainer.removeAllComponents();
-            trackerContainer.addComponent(view.getWidget());
+            trackerContainer.addComponent(view);
 
             searchCriteria = (ComponentSearchCriteria) data.getParams();
-
             int totalCount = componentService.getTotalCount(searchCriteria);
 
             if (totalCount > 0) {

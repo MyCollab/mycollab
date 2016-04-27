@@ -21,7 +21,7 @@ import com.esofthead.mycollab.common.domain.OptionVal;
 import com.esofthead.mycollab.common.domain.OptionValExample;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.project.ProjectMemberStatusConstants;
@@ -132,7 +132,7 @@ public class ProjectTemplateServiceImpl implements ProjectTemplateService {
         Map<Integer, Integer> mapRoleIds = new HashMap<>();
         ProjectRoleSearchCriteria searchCriteria = new ProjectRoleSearchCriteria();
         searchCriteria.setProjectId(new NumberSearchField(projectId));
-        List<SimpleProjectRole> roles = projectRoleService.findPagableListByCriteria(new SearchRequest<>(searchCriteria));
+        List<SimpleProjectRole> roles = projectRoleService.findPagableListByCriteria(new BasicSearchRequest<>(searchCriteria));
         for (SimpleProjectRole role : roles) {
             role.setId(null);
             role.setProjectid(newProjectId);
@@ -148,7 +148,7 @@ public class ProjectTemplateServiceImpl implements ProjectTemplateService {
         Map<Integer, Integer> taskMapIds = new HashMap<>();
         TaskSearchCriteria searchCriteria = new TaskSearchCriteria();
         searchCriteria.setProjectId(NumberSearchField.and(projectId));
-        List<SimpleTask> tasks = projectTaskService.findPagableListByCriteria(new SearchRequest<>(searchCriteria));
+        List<SimpleTask> tasks = projectTaskService.findPagableListByCriteria(new BasicSearchRequest<>(searchCriteria));
         cloneProjectTasks(newProjectId, milestoneMapIds, taskMapIds, tasks, username);
     }
 
@@ -188,7 +188,7 @@ public class ProjectTemplateServiceImpl implements ProjectTemplateService {
         Map<Integer, Integer> versionMapIds = new HashMap<>();
         VersionSearchCriteria searchCriteria = new VersionSearchCriteria();
         searchCriteria.setProjectId(NumberSearchField.and(projectId));
-        List<SimpleVersion> versions = versionService.findPagableListByCriteria(new SearchRequest<>(searchCriteria));
+        List<SimpleVersion> versions = versionService.findPagableListByCriteria(new BasicSearchRequest<>(searchCriteria));
         for (SimpleVersion version : versions) {
             Integer versionId = version.getId();
             version.setId(null);
@@ -204,7 +204,7 @@ public class ProjectTemplateServiceImpl implements ProjectTemplateService {
         Map<Integer, Integer> componentMapIds = new HashMap<>();
         ComponentSearchCriteria searchCriteria = new ComponentSearchCriteria();
         searchCriteria.setProjectId(NumberSearchField.and(projectId));
-        List<SimpleComponent> components = componentService.findPagableListByCriteria(new SearchRequest<>(searchCriteria));
+        List<SimpleComponent> components = componentService.findPagableListByCriteria(new BasicSearchRequest<>(searchCriteria));
         for (SimpleComponent component : components) {
             Integer componentId = component.getId();
             component.setId(null);
@@ -221,7 +221,7 @@ public class ProjectTemplateServiceImpl implements ProjectTemplateService {
         LOG.info("Clone project bugs");
         BugSearchCriteria searchCriteria = new BugSearchCriteria();
         searchCriteria.setProjectId(NumberSearchField.and(projectId));
-        List<SimpleBug> bugs = bugService.findPagableListByCriteria(new SearchRequest<>(searchCriteria));
+        List<SimpleBug> bugs = bugService.findPagableListByCriteria(new BasicSearchRequest<>(searchCriteria));
         for (SimpleBug bug : bugs) {
             bug.setId(null);
             bug.setProjectid(newProjectId);
@@ -262,7 +262,7 @@ public class ProjectTemplateServiceImpl implements ProjectTemplateService {
         ProjectMemberSearchCriteria searchCriteria = new ProjectMemberSearchCriteria();
         searchCriteria.setProjectId(new NumberSearchField(projectId));
         searchCriteria.setStatus(StringSearchField.and(ProjectMemberStatusConstants.ACTIVE));
-        List<SimpleProjectMember> members = projectMemberService.findPagableListByCriteria(new SearchRequest<>(searchCriteria));
+        List<SimpleProjectMember> members = projectMemberService.findPagableListByCriteria(new BasicSearchRequest<>(searchCriteria));
         for (SimpleProjectMember member : members) {
             member.setId(null);
             member.setProjectid(newProjectId);
@@ -278,7 +278,7 @@ public class ProjectTemplateServiceImpl implements ProjectTemplateService {
         LOG.info("Clone project messages");
         MessageSearchCriteria searchCriteria = new MessageSearchCriteria();
         searchCriteria.setProjectids(new SetSearchField<>(projectId));
-        List<SimpleMessage> messages = messageService.findPagableListByCriteria(new SearchRequest<>
+        List<SimpleMessage> messages = messageService.findPagableListByCriteria(new BasicSearchRequest<>
                 (searchCriteria, 0, Integer.MAX_VALUE));
         for (SimpleMessage message : messages) {
             message.setId(null);
@@ -291,7 +291,7 @@ public class ProjectTemplateServiceImpl implements ProjectTemplateService {
         LOG.info("Clone project risks");
         RiskSearchCriteria searchCriteria = new RiskSearchCriteria();
         searchCriteria.setProjectId(NumberSearchField.and(projectId));
-        List<SimpleRisk> risks = riskService.findPagableListByCriteria(new SearchRequest<>(searchCriteria));
+        List<SimpleRisk> risks = riskService.findPagableListByCriteria(new BasicSearchRequest<>(searchCriteria));
         for (SimpleRisk risk : risks) {
             risk.setId(null);
             risk.setProjectid(newProjectId);
@@ -304,7 +304,7 @@ public class ProjectTemplateServiceImpl implements ProjectTemplateService {
         Map<Integer, Integer> milestoneMapIds = new HashMap<>();
         MilestoneSearchCriteria searchCriteria = new MilestoneSearchCriteria();
         searchCriteria.setProjectIds(new SetSearchField<>(projectId));
-        List<SimpleMilestone> milestones = milestoneService.findPagableListByCriteria(new SearchRequest<>(searchCriteria));
+        List<SimpleMilestone> milestones = milestoneService.findPagableListByCriteria(new BasicSearchRequest<>(searchCriteria));
         for (SimpleMilestone milestone : milestones) {
             Integer milestoneId = milestone.getId();
             milestone.setId(null);

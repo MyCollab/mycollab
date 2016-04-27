@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.project.view;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
@@ -114,7 +114,7 @@ public class ProjectAddBaseTemplateWindow extends Window {
             ProjectService projectService = ApplicationContextUtil.getSpringBean(ProjectService.class);
             ProjectSearchCriteria searchCriteria = new ProjectSearchCriteria();
             searchCriteria.addExtraField(ProjectSearchCriteria.p_template.buildParamIsEqual(SearchField.AND, 1));
-            List<SimpleProject> projectTemplates = projectService.findPagableListByCriteria(new SearchRequest<>
+            List<SimpleProject> projectTemplates = projectService.findPagableListByCriteria(new BasicSearchRequest<>
                     (searchCriteria, 0, Integer.MAX_VALUE));
             this.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
             for (SimpleProject prjTemplate : projectTemplates) {

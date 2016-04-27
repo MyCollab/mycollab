@@ -26,7 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.domain.criteria.UserSearchCriteria;
 import com.esofthead.mycollab.module.user.service.UserService;
@@ -45,7 +45,7 @@ public class UserServiceTest extends IntergrationServiceTest {
 		UserSearchCriteria criteria = new UserSearchCriteria();
 		criteria.setSaccountid(new NumberSearchField(1));
 		List<SimpleUser> users = userService
-				.findPagableListByCriteria(new SearchRequest<>(criteria, 0, Integer.MAX_VALUE));
+				.findPagableListByCriteria(new BasicSearchRequest<>(criteria, 0, Integer.MAX_VALUE));
 		assertThat(users.size()).isEqualTo(4);
 		assertThat(users).extracting("username").contains(
 				"hainguyen@esofthead.com", "linhduong@esofthead.com",

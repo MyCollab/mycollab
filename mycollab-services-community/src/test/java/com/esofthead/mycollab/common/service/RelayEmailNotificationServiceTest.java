@@ -24,7 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.domain.criteria.RelayEmailNotificationSearchCriteria;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 
 //@RunWith(SpringJUnit4ClassRunner.class)
 //@ContextConfiguration(locations = {"classpath:META-INF/spring/service-context-test.xml"})
@@ -38,7 +38,7 @@ public class RelayEmailNotificationServiceTest {
 	public void testRemoveItems() {
 		RelayEmailNotificationSearchCriteria criteria = new RelayEmailNotificationSearchCriteria();
 		List<SimpleRelayEmailNotification> items = relayEmailNotificationService
-				.findPagableListByCriteria(new SearchRequest<RelayEmailNotificationSearchCriteria>(
+				.findPagableListByCriteria(new BasicSearchRequest<RelayEmailNotificationSearchCriteria>(
 						criteria, 0, Integer.MAX_VALUE));
 		assertThat(items.size()).isEqualTo(1);
 	}

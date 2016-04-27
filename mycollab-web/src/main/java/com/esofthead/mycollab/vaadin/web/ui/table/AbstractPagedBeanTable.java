@@ -21,7 +21,7 @@ import com.esofthead.mycollab.common.domain.CustomViewStore;
 import com.esofthead.mycollab.common.domain.NullCustomViewStore;
 import com.esofthead.mycollab.common.service.CustomViewStoreService;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.utils.XStreamJsonDeSerializer;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -56,9 +56,9 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractPagedBeanTable.class);
 
-    protected int displayNumItems = SearchRequest.DEFAULT_NUMBER_SEARCH_ITEMS;
+    protected int displayNumItems = BasicSearchRequest.DEFAULT_NUMBER_SEARCH_ITEMS;
     protected Collection<B> currentListData;
-    protected SearchRequest<S> searchRequest;
+    protected BasicSearchRequest<S> searchRequest;
 
     protected MHorizontalLayout pageManagement;
 
@@ -211,7 +211,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B> extend
 
     @Override
     public int setSearchCriteria(final S searchCriteria) {
-        searchRequest = new SearchRequest<>(searchCriteria, currentPage, displayNumItems);
+        searchRequest = new BasicSearchRequest<>(searchCriteria, currentPage, displayNumItems);
         doSearch();
         return totalCount;
     }

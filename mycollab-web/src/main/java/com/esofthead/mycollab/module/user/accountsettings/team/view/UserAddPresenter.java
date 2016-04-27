@@ -107,7 +107,7 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         UserContainer userContainer = (UserContainer) container;
         userContainer.removeAllComponents();
-        userContainer.addComponent(view.getWidget());
+        userContainer.addComponent(view);
 
         SimpleUser user = (SimpleUser) data.getParams();
         if (user.getUsername() != null) {

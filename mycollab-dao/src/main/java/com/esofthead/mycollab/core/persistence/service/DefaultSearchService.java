@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.core.persistence.service;
 
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import org.apache.ibatis.session.RowBounds;
 
@@ -38,7 +38,7 @@ public abstract class DefaultSearchService<S extends SearchCriteria> implements 
     }
 
     @Override
-    public List findPagableListByCriteria(SearchRequest<S> searchRequest) {
+    public List findPagableListByCriteria(BasicSearchRequest<S> searchRequest) {
         return getSearchMapper().findPagableListByCriteria(searchRequest.getSearchCriteria(),
                 new RowBounds((searchRequest.getCurrentPage() - 1) * searchRequest.getNumberOfItems(),
                         searchRequest.getNumberOfItems()));

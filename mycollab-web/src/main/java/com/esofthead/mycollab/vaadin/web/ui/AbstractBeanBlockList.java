@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.vaadin.web.ui;
 
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.vaadin.events.HasPagableHandlers;
 import com.esofthead.mycollab.vaadin.events.PageableHandler;
 import com.vaadin.ui.*;
@@ -50,7 +50,7 @@ public abstract class AbstractBeanBlockList<S extends SearchCriteria, T> extends
 
     private Set<PageableHandler> pageableHandlers;
 
-    protected SearchRequest<S> searchRequest;
+    protected BasicSearchRequest<S> searchRequest;
 
     public static final String[] COLOR_STYLENAME_LIST = new String[]{"red-block",
             "cyan-block", "blue-block", "lightblue-block", "purple-block",
@@ -251,7 +251,7 @@ public abstract class AbstractBeanBlockList<S extends SearchCriteria, T> extends
     }
 
     public void setSearchCriteria(final S searchCriteria) {
-        searchRequest = new SearchRequest<S>(searchCriteria, currentPage,
+        searchRequest = new BasicSearchRequest<S>(searchCriteria, currentPage,
                 defaultNumberSearchItems);
         doSearch();
     }

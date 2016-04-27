@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
@@ -168,7 +168,7 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
         }
 
         UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
-        List<SimpleUser> userAccountList = userService.findPagableListByCriteria(new SearchRequest<>(searchCriteria, 0,
+        List<SimpleUser> userAccountList = userService.findPagableListByCriteria(new BasicSearchRequest<>(searchCriteria, 0,
                 Integer.MAX_VALUE));
         headerText.updateTitle(AppContext.getMessage(UserI18nEnum.VIEW_LIST_TITLE, userAccountList.size()));
 

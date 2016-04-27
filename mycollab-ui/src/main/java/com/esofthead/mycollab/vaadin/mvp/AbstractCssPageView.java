@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.vaadin.mvp;
 
-import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.VerticalLayout;
 
 import java.io.Serializable;
@@ -29,11 +28,6 @@ public abstract class AbstractCssPageView extends VerticalLayout implements Page
     public AbstractCssPageView() {
         this.setStyleName("page-view");
         this.setSizeFull();
-    }
-
-    @Override
-    public ComponentContainer getWidget() {
-        return this;
     }
 
     @SuppressWarnings("rawtypes")

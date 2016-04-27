@@ -72,8 +72,7 @@ object ProjectPresenterDataMapper {
     classOf[BugScreenData.GotoKanbanView] -> classOf[BugPresenter])
 
   val standupMapper = Map[Class[_ <: ScreenData[_]], Class[_ <: IPresenter[_]]](
-    classOf[StandupScreenData.Search] -> classOf[ProjectDashboardPresenter],
-    classOf[StandupScreenData.Add] -> classOf[ProjectDashboardPresenter])
+    classOf[StandupScreenData.Search] -> classOf[ProjectDashboardPresenter])
 
   val userMapper = Map[Class[_ <: ScreenData[_]], Class[_ <: IPresenter[_]]](
     classOf[ProjectMemberScreenData.Add] -> classOf[UserSettingPresenter],
@@ -107,7 +106,8 @@ object ProjectPresenterDataMapper {
     classOf[ProjectScreenData.GotoCalendarView] -> classOf[ProjectDashboardPresenter],
     classOf[ProjectScreenData.GotoReportConsole] -> classOf[ProjectDashboardPresenter],
     classOf[ProjectScreenData.SearchItem] -> classOf[UserProjectDashboardPresenter],
-    classOf[ProjectScreenData.Edit] -> classOf[ProjectDashboardPresenter])
+    classOf[ProjectScreenData.Edit] -> classOf[ProjectDashboardPresenter],
+    classOf[ReportScreenData.GotoHoursWeekly] -> classOf[ProjectDashboardPresenter])
 
   val allMapper = milestoneMapper ++ messageMapper ++ pageMapper  ++ riskMapper ++ taskMapper ++
     trackerMapper ++ standupMapper ++ userMapper ++ timeMapper ++ fileMapper ++ projectMapper

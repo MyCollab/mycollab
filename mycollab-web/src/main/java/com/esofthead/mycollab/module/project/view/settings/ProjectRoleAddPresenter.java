@@ -96,7 +96,7 @@ public class ProjectRoleAddPresenter extends AbstractPresenter<ProjectRoleAddVie
         if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.ROLES)) {
             ProjectRoleContainer roleContainer = (ProjectRoleContainer) container;
             roleContainer.removeAllComponents();
-            roleContainer.addComponent(view.getWidget());
+            roleContainer.addComponent(view);
 
             ProjectRole role = (ProjectRole) data.getParams();
 

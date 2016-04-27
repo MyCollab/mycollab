@@ -112,7 +112,7 @@ public class RoleReadPresenter extends AbstractPresenter<RoleReadView> {
             if (role != null) {
                 RoleContainer roleContainer = (RoleContainer) container;
                 roleContainer.removeAllComponents();
-                roleContainer.addComponent(view.getWidget());
+                roleContainer.addComponent(view);
                 view.previewItem(role);
 
                 AccountSettingBreadcrumb breadcrumb = ViewManager.getCacheComponent(AccountSettingBreadcrumb.class);

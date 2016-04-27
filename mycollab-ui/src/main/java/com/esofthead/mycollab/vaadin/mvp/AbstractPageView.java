@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.vaadin.mvp;
 
-import com.vaadin.ui.ComponentContainer;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.io.Serializable;
@@ -29,11 +28,6 @@ public abstract class AbstractPageView extends MVerticalLayout implements PageVi
 
     public AbstractPageView() {
         this.withStyleName("page-view").withSpacing(false).withMargin(false);
-    }
-
-    @Override
-    public ComponentContainer getWidget() {
-        return this;
     }
 
     @SuppressWarnings("rawtypes")

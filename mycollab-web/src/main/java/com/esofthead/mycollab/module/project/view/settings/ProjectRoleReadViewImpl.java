@@ -171,11 +171,6 @@ public class ProjectRoleReadViewImpl extends VerticalLayout implements ProjectRo
     }
 
     @Override
-    public ComponentContainer getWidget() {
-        return this;
-    }
-
-    @Override
     public void addViewListener(ViewListener listener) {
 
     }

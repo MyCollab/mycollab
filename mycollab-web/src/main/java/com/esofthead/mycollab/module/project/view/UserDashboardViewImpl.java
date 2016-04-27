@@ -29,7 +29,6 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.mvp.view.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.esofthead.mycollab.vaadin.web.ui.DefaultBeanPagedList;
@@ -62,7 +61,6 @@ public class UserDashboardViewImpl extends AbstractPageView implements UserDashb
     private UserProjectDashboardPresenter userProjectDashboardPresenter;
     private ProjectListPresenter projectListPresenter;
     private FollowingTicketPresenter followingTicketPresenter;
-    private TimeTrackingPresenter timeTrackingPresenter;
     private ICalendarDashboardPresenter calendarPresenter;
     private SettingPresenter settingPresenter;
 
@@ -77,7 +75,6 @@ public class UserDashboardViewImpl extends AbstractPageView implements UserDashb
         tabSheet.addTab(buildProjectListComp(), "Projects", FontAwesome.BUILDING_O);
         tabSheet.addTab(buildFollowingTicketComp(), "Following Items", FontAwesome.EYE);
         tabSheet.addTab(buildCalendarComp(), "Calendar", FontAwesome.CALENDAR);
-        tabSheet.addTab(buildTimesheetComp(), "Time", FontAwesome.CLOCK_O);
 //        tabSheet.addTab(buildSettingComp(), "Settings", FontAwesome.COG);
 
         tabSheet.addSelectedTabChangeListener(new TabSheet.SelectedTabChangeListener() {
@@ -88,8 +85,6 @@ public class UserDashboardViewImpl extends AbstractPageView implements UserDashb
                     userProjectDashboardPresenter.onGo(UserDashboardViewImpl.this, null);
                 } else if (comp instanceof FollowingTicketView) {
                     followingTicketPresenter.onGo(UserDashboardViewImpl.this, null);
-                } else if (comp instanceof ITimeTrackingView) {
-                    timeTrackingPresenter.onGo(UserDashboardViewImpl.this, null);
                 } else if (comp instanceof SettingView) {
                     settingPresenter.onGo(UserDashboardViewImpl.this, null);
                 } else if (comp instanceof ICalendarDashboardView) {
@@ -139,11 +134,6 @@ public class UserDashboardViewImpl extends AbstractPageView implements UserDashb
     private Component buildFollowingTicketComp() {
         followingTicketPresenter = PresenterResolver.getPresenter(FollowingTicketPresenter.class);
         return followingTicketPresenter.getView();
-    }
-
-    private Component buildTimesheetComp() {
-        timeTrackingPresenter = PresenterResolver.getPresenter(TimeTrackingPresenter.class);
-        return timeTrackingPresenter.getView();
     }
 
     private Component buildCalendarComp() {

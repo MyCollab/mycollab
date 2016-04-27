@@ -171,8 +171,7 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
                                 public void onClose(ConfirmDialog dialog) {
                                     if (dialog.isConfirmed()) {
                                         CaseService caseService = ApplicationContextUtil.getSpringBean(CaseService.class);
-                                        caseService.removeWithSession(oneCase,
-                                                AppContext.getUsername(), AppContext.getAccountId());
+                                        caseService.removeWithSession(oneCase, AppContext.getUsername(), AppContext.getAccountId());
                                         AccountCaseListComp.this.refresh();
                                     }
                                 }

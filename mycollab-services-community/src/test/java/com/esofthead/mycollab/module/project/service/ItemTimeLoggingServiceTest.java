@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.project.service;
 
 import com.esofthead.mycollab.core.arguments.BooleanSearchField;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.module.project.domain.ItemTimeLogging;
 import com.esofthead.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria;
@@ -57,7 +57,7 @@ public class ItemTimeLoggingServiceTest extends IntergrationServiceTest {
     @Test
     public void testGetListItemTimeLoggings() throws ParseException {
         List<ItemTimeLogging> itemTimeLoggings = itemTimeLoggingService
-                .findPagableListByCriteria(new SearchRequest<>(getCriteria(), 0, Integer.MAX_VALUE));
+                .findPagableListByCriteria(new BasicSearchRequest<>(getCriteria(), 0, Integer.MAX_VALUE));
 
         assertThat(itemTimeLoggings.size()).isEqualTo(2);
         assertThat(itemTimeLoggings).extracting("id", "type", "logforday", "loguser", "summary").contains(
@@ -69,7 +69,7 @@ public class ItemTimeLoggingServiceTest extends IntergrationServiceTest {
     @Test
     public void testGetTotalCount() {
         List<ItemTimeLogging> itemTimeLoggings = itemTimeLoggingService.findPagableListByCriteria(
-                new SearchRequest<>(getCriteria(), 0, Integer.MAX_VALUE));
+                new BasicSearchRequest<>(getCriteria(), 0, Integer.MAX_VALUE));
         assertThat(itemTimeLoggings.size()).isEqualTo(2);
     }
 }

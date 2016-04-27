@@ -27,7 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.project.domain.Risk;
 import com.esofthead.mycollab.module.project.domain.SimpleRisk;
@@ -46,7 +46,7 @@ public class RiskServiceTest extends IntergrationServiceTest {
 	@Test
 	public void testGetListRisks() {
 		List<SimpleRisk> risks = riskService
-				.findPagableListByCriteria(new SearchRequest<RiskSearchCriteria>(
+				.findPagableListByCriteria(new BasicSearchRequest<RiskSearchCriteria>(
 						null, 0, Integer.MAX_VALUE));
 
 		assertThat(risks.size()).isEqualTo(3);
@@ -61,7 +61,7 @@ public class RiskServiceTest extends IntergrationServiceTest {
 		RiskSearchCriteria criteria = new RiskSearchCriteria();
 		criteria.setRiskname(StringSearchField.and("a"));
 		criteria.setSaccountid(new NumberSearchField(1));
-		List<SimpleRisk> risks = riskService.findPagableListByCriteria(new SearchRequest<>(
+		List<SimpleRisk> risks = riskService.findPagableListByCriteria(new BasicSearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 
 		assertThat(risks.size()).isEqualTo(2);

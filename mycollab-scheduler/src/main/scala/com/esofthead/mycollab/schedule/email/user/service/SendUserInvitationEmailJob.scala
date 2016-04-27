@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.schedule.email.user.service
 
-import com.esofthead.mycollab.core.arguments.{SearchRequest, SetSearchField}
+import com.esofthead.mycollab.core.arguments.{BasicSearchRequest, SetSearchField}
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants
 import com.esofthead.mycollab.module.mail.service.{ExtMailService, IContentGenerator}
 import com.esofthead.mycollab.module.user.domain.SimpleUser
@@ -49,7 +49,7 @@ import org.springframework.stereotype.Component
         searchCriteria.setSaccountid(null)
         import scala.collection.JavaConverters._
         val inviteUsers = userService.findPagableListByCriteria(new
-                SearchRequest[UserSearchCriteria](searchCriteria, 0, Integer.MAX_VALUE)).asScala.toList
+                BasicSearchRequest[UserSearchCriteria](searchCriteria, 0, Integer.MAX_VALUE)).asScala.toList
         for (item <- inviteUsers) {
             val invitedUser = item.asInstanceOf[SimpleUser]
             val inviteUserEvent = new SendUserInvitationEvent(invitedUser.getUsername, invitedUser.getInviteUser,

@@ -48,18 +48,16 @@ public class RolePresenter extends AbstractPresenter<RoleContainer> {
         if (data == null) {
             RoleListPresenter listPresenter = PresenterResolver.getPresenter(RoleListPresenter.class);
             RoleSearchCriteria criteria = new RoleSearchCriteria();
-            listPresenter.go(view.getWidget(), new ScreenData.Search<>(criteria));
-        } else if (data instanceof RoleScreenData.Add
-                || data instanceof RoleScreenData.Edit) {
-            RoleAddPresenter presenter = PresenterResolver
-                    .getPresenter(RoleAddPresenter.class);
-            presenter.go(view.getWidget(), data);
+            listPresenter.go(view, new ScreenData.Search<>(criteria));
+        } else if (data instanceof RoleScreenData.Add || data instanceof RoleScreenData.Edit) {
+            RoleAddPresenter presenter = PresenterResolver.getPresenter(RoleAddPresenter.class);
+            presenter.go(view, data);
         } else if (data instanceof RoleScreenData.Read) {
             RoleReadPresenter presenter = PresenterResolver.getPresenter(RoleReadPresenter.class);
-            presenter.go(view.getWidget(), data);
+            presenter.go(view, data);
         } else if (data instanceof RoleScreenData.Search) {
             RoleListPresenter presenter = PresenterResolver.getPresenter(RoleListPresenter.class);
-            presenter.go(view.getWidget(), data);
+            presenter.go(view, data);
         }
     }
 }

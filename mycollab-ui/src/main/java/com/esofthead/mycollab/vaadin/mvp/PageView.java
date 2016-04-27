@@ -14,10 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-ui.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.vaadin.mvp;
 
-import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.util.ReflectTools;
 
@@ -30,8 +28,6 @@ import java.util.EventListener;
  * @since 1.0
  */
 public interface PageView extends ComponentContainer, CacheableComponent {
-
-    ComponentContainer getWidget();
 
     <E> void addViewListener(ViewListener<E> listener);
 

@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.vaadin.web.ui;
 
-import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.vaadin.events.HasPagableHandlers;
 import com.esofthead.mycollab.vaadin.events.PageableHandler;
@@ -34,10 +33,10 @@ import java.util.Set;
  * @author MyCollab Ltd.
  * @since 2.0
  */
-public abstract class AbstractBeanPagedList<S extends SearchCriteria, T> extends VerticalLayout implements HasPagableHandlers {
+public abstract class AbstractBeanPagedList<T> extends VerticalLayout implements HasPagableHandlers {
     private static final long serialVersionUID = 1L;
 
-    private int defaultNumberSearchItems = 10;
+    protected int defaultNumberSearchItems = 10;
     private Set<PageableHandler> pageableHandlers;
     private String listControlStyle = "listControl";
 
@@ -49,7 +48,8 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T> extends
     protected List<T> currentListData;
     protected MHorizontalLayout controlBarWrapper;
     protected MHorizontalLayout pageManagement;
-    protected SearchRequest<S> searchRequest;
+    private QueryHandler<T> queryHandler;
+    protected SearchRequest searchRequest;
 
     public AbstractBeanPagedList(RowDisplayHandler<T> rowDisplayHandler, int defaultNumberSearchItems) {
         this.defaultNumberSearchItems = defaultNumberSearchItems;
@@ -59,6 +59,7 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T> extends
         this.addComponent(listContainer);
         this.setExpandRatio(listContainer, 1.0f);
         this.addStyleName(UIConstants.SCROLLABLE_CONTAINER);
+        queryHandler = buildQueryHandler();
     }
 
     @Override
@@ -201,6 +202,8 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T> extends
         }
     }
 
+    abstract protected QueryHandler<T> buildQueryHandler();
+
     protected String stringWhenEmptyList() {
         return null;
     }
@@ -208,10 +211,6 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T> extends
     private Component msgWhenEmptyList() {
         return new MHorizontalLayout().withMargin(true).withWidth("100%").withStyleName("panel-body").with(new Label(stringWhenEmptyList()));
     }
-
-    abstract protected int queryTotalCount();
-
-    abstract protected List<T> queryCurrentData();
 
     public Component insertRowAt(T item, int index) {
         Component row = rowDisplayHandler.generateRow(this, item, index);
@@ -238,12 +237,19 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T> extends
         }
     }
 
+    public Integer getRowCount() {
+        return currentListData.size();
+    }
+
     public int getTotalCount() {
         return totalCount;
     }
 
     protected void doSearch() {
-        totalCount = queryTotalCount();
+        if (searchRequest == null) {
+            searchRequest = new SearchRequest(0, defaultNumberSearchItems);
+        }
+        totalCount = queryHandler.queryTotalCount();
         totalPage = (totalCount - 1) / searchRequest.getNumberOfItems() + 1;
         if (searchRequest.getCurrentPage() > totalPage) {
             searchRequest.setCurrentPage(totalPage);
@@ -260,7 +266,7 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T> extends
             }
         }
 
-        currentListData = queryCurrentData();
+        currentListData = queryHandler.queryCurrentData();
         listContainer.removeAllComponents();
 
         if (currentListData.size() != 0) {
@@ -289,13 +295,6 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T> extends
         }
     }
 
-    public int setSearchCriteria(final S searchCriteria) {
-        listContainer.removeAllComponents();
-        searchRequest = new SearchRequest<>(searchCriteria, currentPage, defaultNumberSearchItems);
-        doSearch();
-        return totalCount;
-    }
-
     public void removeRow(Component row) {
         listContainer.removeComponent(row);
     }
@@ -309,5 +308,11 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T> extends
 
     public interface RowDisplayHandler<T> {
         Component generateRow(AbstractBeanPagedList host, T item, int rowIndex);
+    }
+
+    public interface QueryHandler<T> {
+        int queryTotalCount();
+
+        List<T> queryCurrentData();
     }
 }

@@ -1612,6 +1612,10 @@ a.pending {
 	color: #0083ce;
 }
 
+.v-table-cell-wrapper {
+	height: 100%;
+}
+
 .meta-info {
 	color: #999;
 	font-size: 13px;
@@ -14226,6 +14230,10 @@ a.pending {
 
 .v-button.v-button-link, .v-button.v-button-link:hover {
 	color: #0083ce;
+}
+
+.v-table-cell-wrapper {
+	height: 100%;
 }
 
 .meta-info {

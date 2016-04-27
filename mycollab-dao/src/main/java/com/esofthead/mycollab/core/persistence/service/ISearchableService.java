@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.core.persistence.service;
 
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.cache.CacheEvict;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.cache.Cacheable;
@@ -42,7 +42,7 @@ public interface ISearchableService<S extends SearchCriteria> extends IService {
      * @return
      */
     @Cacheable
-    List findPagableListByCriteria(@CacheKey SearchRequest<S> searchRequest);
+    List findPagableListByCriteria(@CacheKey BasicSearchRequest<S> searchRequest);
 
     /**
      * @param searchCriteria

@@ -40,6 +40,7 @@ public class LazyPopupView extends PopupView {
             }
         });
         this.setStyleName("block-popupedit");
+        this.setHideOnMouseOut(false);
     }
 
     final public MVerticalLayout getWrapContent() {

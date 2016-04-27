@@ -22,34 +22,32 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class DynaForm {
-	private List<DynaSection> sections = new ArrayList<>();
+    private List<DynaSection> sections = new ArrayList<>();
 
-	public int getSectionCount() {
-		return sections.size();
-	}
+    public int getSectionCount() {
+        return sections.size();
+    }
 
-	public void addSection(DynaSection section) {
-		sections.add(section);
-		section.setParentForm(this);
-		Collections.sort(sections);
-	}
+    public void addSection(DynaSection section) {
+        sections.add(section);
+        section.setParentForm(this);
+        Collections.sort(sections);
+    }
 
-	public void addSections(Collection<DynaSection> sectionCol) {
-		for (DynaSection section : sectionCol) {
-			sections.add(section);
-			section.setParentForm(this);
-		}
+    public void addSections(Collection<DynaSection> sectionCol) {
+        for (DynaSection section : sectionCol) {
+            sections.add(section);
+            section.setParentForm(this);
+        }
 
-		Collections.sort(sections);
-	}
+        Collections.sort(sections);
+    }
 
-	public DynaSection getSection(int index) {
-		return sections.get(index);
-	}
+    public DynaSection getSection(int index) {
+        return sections.get(index);
+    }
 }

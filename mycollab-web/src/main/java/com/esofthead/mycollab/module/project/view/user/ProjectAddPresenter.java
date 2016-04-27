@@ -81,7 +81,7 @@ public class ProjectAddPresenter extends AbstractPresenter<ProjectAddView> {
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         container.removeAllComponents();
-        container.addComponent(view.getWidget());
+        container.addComponent(view);
         Project project = (Project) data.getParams();
         view.editItem(project);
 

@@ -40,8 +40,7 @@ public class ForgotPasswordPresenter extends AbstractPresenter<ForgotPasswordVie
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         MainWindowContainer windowContainer = (MainWindowContainer) container;
         windowContainer.removeAllComponents();
-
-        windowContainer.addComponent(view.getWidget());
+        windowContainer.addComponent(view);
 
         ExtMailService extMailService = ApplicationContextUtil.getSpringBean(ExtMailService.class);
         if (!extMailService.isMailSetupValid()) {
