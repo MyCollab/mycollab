@@ -1,7 +1,7 @@
 # Free, open source CRM, Document and Project Management software
 [![License](http://img.shields.io/badge/License-GPLv3-orange.svg)](http://www.gnu.org/copyleft/gpl.html) [![Project Stats](https://www.openhub.net/p/mycollab/widgets/project_thin_badge.gif)](https://www.openhub.net/p/mycollab) [![Build](https://travis-ci.org/MyCollab/mycollab.svg)](https://travis-ci.org/MyCollab/mycollab)
 [![Version](https://img.shields.io/badge/Version-5.2.12-brightgreen.svg)](https://community.mycollab.com/)
-[![SourceForge](https://img.shields.io/sourceforge/dt/mycollab.svg)](https://community.mycollab.com/download)
+[![SourceForge](https://img.shields.io/sourceforge/dt/mycollab.svg)](https://www.mycollab.com/ce-registration/)
 
 
 ## Introduction
