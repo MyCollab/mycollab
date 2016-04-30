@@ -50,12 +50,8 @@ public class VersionDefaultFormLayoutFactory {
                 .displayName(AppContext.getMessage(VersionI18nEnum.FORM_DUE_DATE))
                 .fieldIndex(2).build());
 
-        mainSection.addField(new TextDynaFieldBuilder().fieldName(Version.Field.status)
-                .displayName(AppContext.getMessage(VersionI18nEnum.FORM_STATUS))
-                .fieldIndex(3).build());
-
         mainSection.addField(new TextDynaFieldBuilder().fieldName(Version.Field.id).displayName(AppContext
-                .getMessage(VersionI18nEnum.FORM_BUGS)).colSpan(true).fieldIndex(4).build());
+                .getMessage(VersionI18nEnum.FORM_BUGS)).colSpan(true).fieldIndex(3).build());
 
         defaultForm.addSection(mainSection);
     }

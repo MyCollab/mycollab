@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.community.module.project.view.reports;
 
+import com.esofthead.mycollab.module.project.view.ProjectModule;
 import com.esofthead.mycollab.module.project.view.reports.IReportContainer;
 import com.esofthead.mycollab.module.project.view.reports.IReportPresenter;
 import com.esofthead.mycollab.module.project.view.user.ProjectDashboardContainer;
@@ -34,7 +35,7 @@ public class ReportPresenter extends AbstractPresenter<IReportContainer> impleme
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        ProjectDashboardContainer projectViewContainer = (ProjectDashboardContainer) container;
+        ProjectModule projectViewContainer = (ProjectModule) container;
         projectViewContainer.removeAllComponents();
         projectViewContainer.addComponent(view);
     }

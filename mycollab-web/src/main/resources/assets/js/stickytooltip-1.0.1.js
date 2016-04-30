@@ -23,9 +23,9 @@ var mousePosition = {
 mousePosition.getMousePosition();
 
 var stickytooltip = {
-  tooltipoffsets: [10, 15], // additional x and y offset from mouse cursor
-                // for tooltips
+  tooltipoffsets: [10, 15], // additional x and y offset from mouse cursor for tooltips
   fadeinspeed: 200, // duration of fade effect in milliseconds
+  isShow: false,
 
   // ***** NO NEED TO EDIT BEYOND HERE
 
@@ -73,13 +73,14 @@ var stickytooltip = {
 }
 
 function overIt(uid, type, typeId, url, sAccountId, siteURL, timeZone, locale) {
+  stickytooltip.isShow = true
   var idDIVserverdata = "div14" + uid;
   var idStickyToolTipDiv = "div1" + uid;
   var idTagA = "tag" + uid;
   currentIdRequest=type+typeId+ sAccountId
   setTimeout(function(){
     var newIdRequest=type+typeId+ sAccountId
-    if ((newIdRequest === currentIdRequest) && (new Date() - lastSuccessTime > 2000)) {
+    if ((newIdRequest === currentIdRequest) && (new Date() - lastSuccessTime > 2000) && stickytooltip.isShow) {
       $.ajax({
               type: 'POST',
               url: url,
@@ -97,7 +98,8 @@ function overIt(uid, type, typeId, url, sAccountId, siteURL, timeZone, locale) {
   }, 2000);
 }
 
-function crmActivityOverIt(uid, type, typeId, url, sAccountId, siteURL, timeZone, locale) { 
+function crmActivityOverIt(uid, type, typeId, url, sAccountId, siteURL, timeZone, locale) {
+  stickytooltip.isShow = true
   var idDIVserverdata = "div14" + uid;
   var idStickyToolTipDiv = "div1" + uid;
   var idTagA = "tag" + uid;
@@ -105,7 +107,7 @@ function crmActivityOverIt(uid, type, typeId, url, sAccountId, siteURL, timeZone
   currentIdRequest = type + typeId + sAccountId
   setTimeout(function(){
     var newIdRequest = type + typeId + sAccountId
-    if ((newIdRequest === currentIdRequest) && (new Date() - lastSuccessTime > 2000)) {
+    if ((newIdRequest === currentIdRequest) && (new Date() - lastSuccessTime > 2000) && stickytooltip.isShow) {
       $.ajax({
              type: 'POST',
              url: url,
@@ -124,13 +126,14 @@ function crmActivityOverIt(uid, type, typeId, url, sAccountId, siteURL, timeZone
 }
 
 function showUserTooltip(uid, username, url, siteURL, timeZone, sAccountId, locale) {
+  stickytooltip.isShow = true
   var idDIVserverdata = "div14" + uid;
   var idStickyToolTipDiv = "div1" + uid;
   var idTagA = "tag"+ uid;
   currentIdRequest=username + sAccountId
   setTimeout(function(){
     var newIdRequest=username + sAccountId
-    if ((newIdRequest === currentIdRequest) && (new Date() - lastSuccessTime > 2000)) {
+    if ((newIdRequest === currentIdRequest) && (new Date() - lastSuccessTime > 2000) && stickytooltip.isShow) {
       $.ajax({
               type: 'POST',
               url: url,
@@ -149,6 +152,7 @@ function showUserTooltip(uid, username, url, siteURL, timeZone, sAccountId, loca
 }
 
 function hideTooltip(uid) {
-  var $tooltip=$('#div1' + uid);
+  var $tooltip=$('#div1' + uid)
   stickytooltip.hidebox($, $tooltip)
+  stickytooltip.isShow = false
 }

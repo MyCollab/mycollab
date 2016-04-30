@@ -39,9 +39,6 @@ public class CrmCustomViewPresenter extends AbstractPresenter<ICrmCustomView> im
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         CrmSettingContainer settingContainer = (CrmSettingContainer) container;
         settingContainer.gotoSubView("Custom Layouts");
-
         AppContext.addFragment("crm/setting/customlayout", "Custom Layouts");
-
     }
-
 }

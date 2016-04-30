@@ -17,6 +17,7 @@
 
 package com.esofthead.mycollab.module.project.view.settings.component;
 
+import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
@@ -30,6 +31,7 @@ import com.esofthead.mycollab.module.tracker.service.ComponentService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.web.ui.MultiSelectComp;
 import com.vaadin.data.Property;
+import com.vaadin.ui.UI;
 
 import java.util.List;
 
@@ -47,7 +49,7 @@ public class ComponentMultiSelectField extends MultiSelectComp {
     @Override
     protected List<Component> createData() {
         ComponentSearchCriteria searchCriteria = new ComponentSearchCriteria();
-        searchCriteria.setStatus(StringSearchField.and("Open"));
+        searchCriteria.setStatus(StringSearchField.and(OptionI18nEnum.StatusI18nEnum.Open.name()));
         searchCriteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
 
         ComponentService componentService = ApplicationContextUtil.getSpringBean(ComponentService.class);
@@ -57,7 +59,7 @@ public class ComponentMultiSelectField extends MultiSelectComp {
 
     @Override
     protected void requestAddNewComp() {
-        EventBusFactory.getInstance().post(new BugComponentEvent.GotoAdd(ComponentMultiSelectField.this, null));
+        UI.getCurrent().addWindow(new ComponentAddWindow());
     }
 
     @Override

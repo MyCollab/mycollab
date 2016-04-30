@@ -109,14 +109,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                     return field;
                 }
             } else if (Task.Field.isestimated.equalTo(propertyId)) {
-                CheckBox field;
-                if (beanItem.getIsestimated() != null) {
-                    field = new CheckBox("", beanItem.getIsestimated());
-                } else {
-                    field = new CheckBox("", false);
-                }
-                field.setReadOnly(true);
-                return field;
+                return new DefaultViewField(Boolean.TRUE.equals(beanItem.getIsestimated()) ? "Yes" : "No");
             } else if (Task.Field.duration.equalTo(propertyId)) {
                 if (beanItem.getDuration() != null) {
                     HumanTime humanTime = new HumanTime(beanItem.getDuration().longValue());

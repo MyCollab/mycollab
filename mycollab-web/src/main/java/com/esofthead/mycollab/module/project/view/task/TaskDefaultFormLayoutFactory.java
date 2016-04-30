@@ -32,10 +32,8 @@ import com.esofthead.mycollab.vaadin.AppContext;
  */
 public class TaskDefaultFormLayoutFactory {
 
-    private static final DynaForm defaultForm;
-
-    static {
-        defaultForm = new DynaForm();
+    public static DynaForm getForm() {
+        DynaForm defaultForm = new DynaForm();
 
         DynaSection mainSection = new DynaSectionBuilder().layoutType(LayoutType.TWO_COLUMN).build();
 
@@ -66,6 +64,7 @@ public class TaskDefaultFormLayoutFactory {
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(Task.Field.isestimated)
                 .displayName(AppContext.getMessage(TaskI18nEnum.FORM_IS_ESTIMATED))
+                .contextHelp(AppContext.getMessage(TaskI18nEnum.FORM_IS_ESTIMATED_HELP))
                 .fieldIndex(6).build());
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(Task.Field.assignuser)
@@ -78,11 +77,11 @@ public class TaskDefaultFormLayoutFactory {
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(Task.Field.percentagecomplete)
                 .displayName(AppContext.getMessage(TaskI18nEnum.FORM_PERCENTAGE_COMPLETE))
-               .fieldIndex(9).build());
+                .fieldIndex(9).build());
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(Task.Field.status)
                 .displayName(AppContext.getMessage(TaskI18nEnum.FORM_STATUS))
-                .fieldIndex(10).build());
+                .contextHelp(AppContext.getMessage(TaskI18nEnum.FORM_STATUS_HELP)).fieldIndex(10).build());
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(Task.Field.notes)
                 .displayName(AppContext.getMessage(TaskI18nEnum.FORM_NOTES))
@@ -94,12 +93,10 @@ public class TaskDefaultFormLayoutFactory {
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(Task.Field.parenttaskid)
                 .displayName(AppContext.getMessage(TaskI18nEnum.FORM_SUB_TASKS))
+                .contextHelp(AppContext.getMessage(TaskI18nEnum.FORM_SUB_TASKS_HELP))
                 .colSpan(true).fieldIndex(13).build());
 
         defaultForm.addSection(mainSection);
-    }
-
-    public static DynaForm getForm() {
         return defaultForm;
     }
 }

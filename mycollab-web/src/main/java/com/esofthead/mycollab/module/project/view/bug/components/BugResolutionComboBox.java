@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.module.project.view.bug.components;
 
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
@@ -31,18 +30,8 @@ public class BugResolutionComboBox extends I18nValueComboBox {
         super(nullIsAllowable, values);
     }
 
-    public static BugResolutionComboBox getInstanceForWontFixWindow() {
-        return new BugResolutionComboBox(false, BugResolution.CannotReproduce,
-                BugResolution.Duplicate, BugResolution.Invalid,
-                BugResolution.Won_Fix);
-    }
-
-    public static BugResolutionComboBox getInstanceForValidBugWindow() {
-        return new BugResolutionComboBox(false, BugResolution.Newissue,
-                BugResolution.ReOpen, BugResolution.WaitforVerification);
-    }
-
     public static BugResolutionComboBox getInstanceForResolvedBugWindow() {
-        return new BugResolutionComboBox(false, BugResolution.Fixed);
+        return new BugResolutionComboBox(false, BugResolution.Fixed, BugResolution.CannotReproduce,
+                BugResolution.Duplicate, BugResolution.Invalid, BugResolution.InComplete);
     }
 }

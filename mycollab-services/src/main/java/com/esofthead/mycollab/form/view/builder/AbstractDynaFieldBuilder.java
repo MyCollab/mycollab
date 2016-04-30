@@ -36,7 +36,6 @@ public abstract class AbstractDynaFieldBuilder<F extends AbstractDynaField> {
         return this;
     }
 
-    @SuppressWarnings("rawtypes")
     public AbstractDynaFieldBuilder<F> fieldName(Enum fieldName) {
         field.setFieldName(fieldName.name());
         return this;
@@ -44,6 +43,11 @@ public abstract class AbstractDynaFieldBuilder<F extends AbstractDynaField> {
 
     public AbstractDynaFieldBuilder<F> displayName(String displayName) {
         field.setDisplayName(displayName);
+        return this;
+    }
+
+    public AbstractDynaFieldBuilder<F> contextHelp(String contextHelp) {
+        field.setContextHelp(contextHelp);
         return this;
     }
 

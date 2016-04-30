@@ -201,6 +201,10 @@ public class ProjectLinkGenerator {
         return "project/reports/timesheet/";
     }
 
+    public static String generateUsersWorkloadReportLink() {
+        return "project/reports/usersworkload/";
+    }
+
     public static String generateProjectCalendarLink(Integer projectId) {
         return "project/calendar/" + UrlEncodeDecoder.encode(projectId);
     }

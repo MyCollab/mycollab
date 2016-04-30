@@ -24,7 +24,9 @@ import com.esofthead.mycollab.vaadin.mvp.ScreenData
   */
 object ReportScreenData {
 
-  class GotoHoursWeekly() extends ScreenData(null) {}
+  class GotoWeeklyTiming() extends ScreenData(null) {}
 
   class GotoTimesheet() extends ScreenData(null) {}
+
+  class GotoUserWorkload() extends ScreenData(null) {}
 }

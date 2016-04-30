@@ -111,7 +111,6 @@ public class BugAddPresenter extends ProjectGenericPresenter<BugAddView> {
         AsyncEventBus asyncEventBus = ApplicationContextUtil.getSpringBean(AsyncEventBus.class);
         if (bug.getId() == null) {
             bug.setStatus(BugStatus.Open.name());
-            bug.setResolution(BugResolution.Newissue.name());
             bug.setLogby(AppContext.getUsername());
             int bugId = bugService.saveWithSession(bug, AppContext.getUsername());
             ProjectFormAttachmentUploadField uploadField = view.getAttachUploadField();

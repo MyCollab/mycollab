@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.settings;
 
+import com.esofthead.mycollab.common.i18n.SecurityI18nEnum;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.ProjectRole;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectRole;
@@ -121,22 +122,25 @@ public class ProjectRoleAddViewImpl extends AbstractEditItemComp<ProjectRole> im
         }
 
         final GridFormLayoutHelper permissionFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(
-                2, (ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length + 1) / 2);
+                2, (ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length + 1) / 2, "180px");
 
         for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
             final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
             KeyCaptionComboBox permissionBox;
+            Enum captionHelp;
             if (ProjectRolePermissionCollections.FINANCE.equals(permissionPath)) {
                 permissionBox = new YesNoPermissionComboBox();
+                captionHelp = SecurityI18nEnum.BOOLEAN_PERMISSION_HELP;
             } else {
                 permissionBox = new AccessPermissionComboBox();
+                captionHelp = SecurityI18nEnum.ACCESS_PERMISSION_HELP;
             }
 
             final Integer flag = perMap.getPermissionFlag(permissionPath);
             permissionBox.setValue(flag);
             permissionControlsMap.put(permissionPath, permissionBox);
-            permissionFormHelper.addComponent(permissionBox,
-                    AppContext.getMessage(RolePermissionI18nEnum.valueOf(permissionPath)), i % 2, i / 2);
+            permissionFormHelper.addComponent(permissionBox, AppContext.getMessage(RolePermissionI18nEnum.valueOf(permissionPath)),
+                    AppContext.getMessage(captionHelp), i % 2, i / 2);
         }
         permissionsPanel.addSection(AppContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS), permissionFormHelper.getLayout());
 

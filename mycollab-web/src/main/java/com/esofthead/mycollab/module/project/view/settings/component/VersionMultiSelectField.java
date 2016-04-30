@@ -14,23 +14,21 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.module.project.view.settings.component;
 
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.events.BugVersionEvent;
 import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.module.tracker.domain.criteria.VersionSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.VersionService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.web.ui.MultiSelectComp;
 import com.vaadin.data.Property;
+import com.vaadin.ui.UI;
 
 import java.util.List;
 
@@ -57,7 +55,7 @@ public class VersionMultiSelectField extends MultiSelectComp {
 
     @Override
     protected void requestAddNewComp() {
-        EventBusFactory.getInstance().post(new BugVersionEvent.GotoAdd(VersionMultiSelectField.this, null));
+        UI.getCurrent().addWindow(new VersionAddWindow());
     }
 
     @SuppressWarnings("unchecked")

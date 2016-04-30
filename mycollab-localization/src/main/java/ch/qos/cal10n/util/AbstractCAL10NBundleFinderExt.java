@@ -12,7 +12,7 @@ import java.util.Locale;
 public abstract class AbstractCAL10NBundleFinderExt implements
         CAL10NBundleFinder {
 
-    public CAL10NBundle getBundle(String baseName, Locale locale, String charset) {
+    public CAL10NBundleExt getBundle(String baseName, Locale locale, String charset) {
         // same as the JDK convention
         //
         // It generates a path name from the candidate bundle name by replacing
@@ -27,9 +27,9 @@ public abstract class AbstractCAL10NBundleFinderExt implements
         String languageOnlyCandidate = computeLanguageOnlyCandidate(baseName,
                 locale);
 
-        CAL10NBundle cprbLanguageOnly = makePropertyResourceBundle(
+        CAL10NBundleExt cprbLanguageOnly = makePropertyResourceBundle(
                 languageOnlyCandidate, charset);
-        CAL10NBundle cprbLanguageAndCountry = null;
+        CAL10NBundleExt cprbLanguageAndCountry = null;
 
         if (languageAndCountryCandidate != null) {
             cprbLanguageAndCountry = makePropertyResourceBundle(
@@ -56,17 +56,17 @@ public abstract class AbstractCAL10NBundleFinderExt implements
 
     abstract protected URL getResource(String resourceCandidate);
 
-    private CAL10NBundle makePropertyResourceBundle(String resourceCandidate,
+    private CAL10NBundleExt makePropertyResourceBundle(String resourceCandidate,
                                                     String charset) {
 
-        CAL10NBundle prb = null;
+        CAL10NBundleExt prb = null;
         URL url = getResource(resourceCandidate);
         if (url != null) {
             try {
                 InputStream in = openConnectionForUrl(url);
 
                 Reader reader = toReader(in, charset);
-                prb = new CAL10NBundle(reader, urlToFile(url));
+                prb = new CAL10NBundleExt(reader, urlToFile(url));
                 in.close();
             } catch (IOException e) {
             }

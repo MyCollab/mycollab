@@ -55,7 +55,7 @@ public class BugSavedFilterComboBox extends SavedFilterComboBox {
                 BugSearchCriteria.p_status, new VariableInjector() {
                     @Override
                     public Object eval() {
-                        return Arrays.asList(BugStatus.InProgress.name(), BugStatus.Open.name(), BugStatus.ReOpen.name());
+                        return Arrays.asList(BugStatus.Open.name(), BugStatus.ReOpen.name());
                     }
                 }));
 
@@ -97,7 +97,7 @@ public class BugSavedFilterComboBox extends SavedFilterComboBox {
                 SearchFieldInfo.inCollection(BugSearchCriteria.p_status, new VariableInjector() {
                     @Override
                     public Object eval() {
-                        return Arrays.asList(BugStatus.Resolved.name(), BugStatus.WontFix.name());
+                        return Arrays.asList(BugStatus.Resolved.name());
                     }
                 }));
 

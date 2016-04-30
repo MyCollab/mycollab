@@ -208,14 +208,14 @@ public class ProjectAddWindow extends Window implements WizardProgressListener {
             DynaSection mainSection = new DynaSectionBuilder().layoutType(DynaSection.LayoutType.TWO_COLUMN).build();
 
             mainSection.addField(new TextDynaFieldBuilder().fieldName(Project.Field.name).displayName(AppContext
-                    .getMessage(ProjectI18nEnum.FORM_NAME)).fieldIndex(0).mandatory(true).required(true)
-                    .build());
+                    .getMessage(ProjectI18nEnum.FORM_NAME)).fieldIndex(0).mandatory(true).required(true).build());
 
             mainSection.addField(new TextDynaFieldBuilder().fieldName(Project.Field.homepage).displayName(AppContext
                     .getMessage(ProjectI18nEnum.FORM_HOME_PAGE)).fieldIndex(1).build());
 
             mainSection.addField(new TextDynaFieldBuilder().fieldName(Project.Field.shortname).displayName(AppContext
-                    .getMessage(ProjectI18nEnum.FORM_SHORT_NAME)).fieldIndex(2).mandatory(true).required(true).build());
+                    .getMessage(ProjectI18nEnum.FORM_SHORT_NAME)).contextHelp(AppContext.getMessage(ProjectI18nEnum
+                    .FORM_SHORT_NAME_HELP)).fieldIndex(2).mandatory(true).required(true).build());
 
             mainSection.addField(new TextDynaFieldBuilder().fieldName(Project.Field.planstartdate).displayName
                     (AppContext.getMessage(ProjectI18nEnum.FORM_START_DATE)).fieldIndex(3).build());
@@ -317,20 +317,26 @@ public class ProjectAddWindow extends Window implements WizardProgressListener {
             DynaForm defaultForm = new DynaForm();
             DynaSection mainSection = new DynaSectionBuilder().layoutType(DynaSection.LayoutType.TWO_COLUMN).build();
 
-            mainSection.addField(new TextDynaFieldBuilder().fieldName(Project.Field.accountid).displayName(AppContext
-                    .getMessage(ProjectI18nEnum.FORM_ACCOUNT_NAME)).fieldIndex(0).colSpan(true).build());
+            mainSection.addField(new TextDynaFieldBuilder().fieldName(Project.Field.accountid)
+                    .displayName(AppContext.getMessage(ProjectI18nEnum.FORM_ACCOUNT_NAME))
+                    .contextHelp(AppContext.getMessage(ProjectI18nEnum.FORM_ACCOUNT_NAME_HELP))
+                    .fieldIndex(0).colSpan(true).build());
 
-            mainSection.addField(new TextDynaFieldBuilder().fieldName(Project.Field.currencyid).displayName
-                    (AppContext.getMessage(ProjectI18nEnum.FORM_CURRENCY)).fieldIndex(1).build());
+            mainSection.addField(new TextDynaFieldBuilder().fieldName(Project.Field.currencyid)
+                    .displayName(AppContext.getMessage(ProjectI18nEnum.FORM_CURRENCY))
+                    .contextHelp(AppContext.getMessage(ProjectI18nEnum.FORM_CURRENCY_HELP)).fieldIndex(1).build());
 
             mainSection.addField(new TextDynaFieldBuilder().fieldName(Project.Field.targetbudget).displayName
-                    (AppContext.getMessage(ProjectI18nEnum.FORM_TARGET_BUDGET)).fieldIndex(2).build());
+                    (AppContext.getMessage(ProjectI18nEnum.FORM_TARGET_BUDGET))
+                    .contextHelp(AppContext.getMessage(ProjectI18nEnum.FORM_TARGET_BUDGET_HELP)).fieldIndex(2).build());
 
             mainSection.addField(new TextDynaFieldBuilder().fieldName(Project.Field.defaultbillingrate).displayName
-                    (AppContext.getMessage(ProjectI18nEnum.FORM_BILLING_RATE)).fieldIndex(3).build());
+                    (AppContext.getMessage(ProjectI18nEnum.FORM_BILLING_RATE))
+                    .contextHelp(AppContext.getMessage(ProjectI18nEnum.FORM_BILLING_RATE_HELP)).fieldIndex(3).build());
 
             mainSection.addField(new TextDynaFieldBuilder().fieldName(Project.Field.defaultovertimebillingrate)
-                    .displayName(AppContext.getMessage(ProjectI18nEnum.FORM_OVERTIME_BILLING_RATE)).fieldIndex(4).build());
+                    .displayName(AppContext.getMessage(ProjectI18nEnum.FORM_OVERTIME_BILLING_RATE))
+                    .contextHelp(AppContext.getMessage(ProjectI18nEnum.FORM_OVERTIME_BILLING_RATE_HELP)).fieldIndex(4).build());
 
             defaultForm.addSection(mainSection);
             return new DynaFormLayout(defaultForm);

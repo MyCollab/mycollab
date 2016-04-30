@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.project.i18n;
 import ch.qos.cal10n.BaseName;
 import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
+import com.esofthead.mycollab.core.MyCollabException;
 
 /**
  * @author MyCollab Ltd.
@@ -30,8 +31,8 @@ public class OptionI18nEnum {
             TaskPriority.None};
 
     public static BugStatus[] bug_statuses = {BugStatus.Open,
-            BugStatus.InProgress, BugStatus.Verified, BugStatus.Resolved,
-            BugStatus.ReOpen, BugStatus.WontFix};
+            BugStatus.Verified, BugStatus.Resolved,
+            BugStatus.ReOpen};
 
     public static BugPriority[] bug_priorities = {BugPriority.Blocker,
             BugPriority.Critical, BugPriority.Major, BugPriority.Minor,
@@ -42,9 +43,7 @@ public class OptionI18nEnum {
 
     public static BugResolution[] bug_resolutions = {BugResolution.Fixed,
             BugResolution.Won_Fix, BugResolution.Duplicate,
-            BugResolution.Invalid, BugResolution.CannotReproduce,
-            BugResolution.WaitforVerification, BugResolution.Newissue,
-            BugResolution.ReOpen};
+            BugResolution.Invalid, BugResolution.CannotReproduce, BugResolution.InComplete};
 
     public static InvoiceStatus[] invoiceStatuses = {InvoiceStatus.Paid,
             InvoiceStatus.Sent, InvoiceStatus.Scheduled};
@@ -70,7 +69,7 @@ public class OptionI18nEnum {
     @BaseName("localization/project-bug-status")
     @LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
     public enum BugStatus {
-        Open, InProgress, Verified, Resolved, ReOpen, WontFix
+        Open, Verified, Resolved, ReOpen
     }
 
     @BaseName("localization/project-bug-priority")
@@ -93,14 +92,24 @@ public class OptionI18nEnum {
         Duplicate,
         Invalid,
         CannotReproduce,
-        WaitforVerification,
-        Newissue,
-        ReOpen
+        InComplete,
+        None
     }
 
     @BaseName("localization/project-bug-related")
     @LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
     public enum BugRelation {
-        Related, Duplicated, Block
+        Related, Duplicated, Block, DependsOn, Duplicate, Relation;
+        public Enum getReverse() {
+            if (this == Duplicated) {
+                return Duplicate;
+            } else if (this == Related) {
+                return Relation;
+            } else if (this == Block) {
+                return DependsOn;
+            } else {
+                throw new MyCollabException("Not support");
+            }
+        }
     }
 }

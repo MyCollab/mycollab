@@ -107,7 +107,7 @@ object ProjectPresenterDataMapper {
     classOf[ProjectScreenData.GotoReportConsole] -> classOf[ProjectDashboardPresenter],
     classOf[ProjectScreenData.SearchItem] -> classOf[UserProjectDashboardPresenter],
     classOf[ProjectScreenData.Edit] -> classOf[ProjectDashboardPresenter],
-    classOf[ReportScreenData.GotoHoursWeekly] -> classOf[ProjectDashboardPresenter])
+    classOf[ReportScreenData.GotoWeeklyTiming] -> classOf[ProjectDashboardPresenter])
 
   val allMapper = milestoneMapper ++ messageMapper ++ pageMapper  ++ riskMapper ++ taskMapper ++
     trackerMapper ++ standupMapper ++ userMapper ++ timeMapper ++ fileMapper ++ projectMapper

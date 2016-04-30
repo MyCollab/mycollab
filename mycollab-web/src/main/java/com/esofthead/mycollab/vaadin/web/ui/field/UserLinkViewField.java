@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.vaadin.web.ui.field;
 
-import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.UserLink;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
@@ -45,8 +44,6 @@ public class UserLinkViewField extends CustomField {
 
     @Override
     protected Component initContent() {
-        UserLink userLink = new UserLink(username, userAvatarId, fullName);
-        userLink.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
-        return userLink;
+        return new UserLink(username, userAvatarId, fullName);
     }
 }

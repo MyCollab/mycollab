@@ -28,6 +28,7 @@ public class SimpleRelatedBug {
     private Integer id;
     private BugWithBLOBs relatedBug;
     private String relatedType;
+    private Boolean isRelated;
 
     public Integer getId() {
         return id;
@@ -51,5 +52,13 @@ public class SimpleRelatedBug {
 
     public void setRelatedType(String relatedType) {
         this.relatedType = relatedType;
+    }
+
+    public Boolean getRelated() {
+        return isRelated;
+    }
+
+    public void setRelated(Boolean related) {
+        isRelated = related;
     }
 }

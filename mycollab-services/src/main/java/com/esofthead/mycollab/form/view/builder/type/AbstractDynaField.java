@@ -48,6 +48,9 @@ public class AbstractDynaField implements Comparable<AbstractDynaField> {
     private String displayName;
 
     @Exclude
+    private String contextHelp;
+
+    @Exclude
     private boolean isMandatory = false;
 
     @Exclude
@@ -68,6 +71,14 @@ public class AbstractDynaField implements Comparable<AbstractDynaField> {
 
     public void setFieldName(String fieldName) {
         this.fieldName = fieldName;
+    }
+
+    public String getContextHelp() {
+        return contextHelp;
+    }
+
+    public void setContextHelp(String contextHelp) {
+        this.contextHelp = contextHelp;
     }
 
     public int getFieldIndex() {

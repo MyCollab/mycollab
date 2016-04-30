@@ -40,7 +40,6 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
-import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
@@ -85,57 +84,6 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
     private void displayWorkflowControl() {
         bugWorkFlowControl.removeAllComponents();
         if (BugStatus.Open.name().equals(beanItem.getStatus()) || BugStatus.ReOpen.name().equals(beanItem.getStatus())) {
-            final Button startProgressBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_START_PROGRESS), new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(final ClickEvent event) {
-                    beanItem.setStatus(BugStatus.InProgress.name());
-                    final BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
-                    bugService.updateSelectiveWithSession(beanItem, AppContext.getUsername());
-                    displayWorkflowControl();
-                }
-            });
-            startProgressBtn.setWidth("100%");
-            bugWorkFlowControl.addComponent(startProgressBtn);
-
-            final Button resolveBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_RESOLVED), new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(final ClickEvent event) {
-                    EventBusFactory.getInstance().post(new ShellEvent.PushView(this,
-                            new ResolvedInputView(BugReadViewImpl.this, beanItem)));
-                }
-            });
-            resolveBtn.setWidth("100%");
-            bugWorkFlowControl.addComponent(resolveBtn);
-
-            final Button wontFixBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_WONTFIX), new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(final ClickEvent event) {
-                    EventBusFactory.getInstance().post(new ShellEvent.PushView(this, new WontFixExplainView(BugReadViewImpl.this, beanItem)));
-                }
-            });
-            wontFixBtn.setWidth("100%");
-            bugWorkFlowControl.addComponent(wontFixBtn);
-        } else if (BugStatus.InProgress.name().equals(beanItem.getStatus())) {
-            final Button stopProgressBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_STOP_PROGRESS), new Button.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(final ClickEvent event) {
-                    beanItem.setStatus(BugStatus.Open.name());
-                    final BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
-                    bugService.updateSelectiveWithSession(beanItem, AppContext.getUsername());
-                    displayWorkflowControl();
-                }
-            });
-            stopProgressBtn.setWidth("100%");
-            bugWorkFlowControl.addComponent(stopProgressBtn);
-
             final Button resolveBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_RESOLVED), new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;
 
@@ -159,7 +107,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
             });
             reopenBtn.setWidth("100%");
             bugWorkFlowControl.addComponent(reopenBtn);
-        } else if (BugStatus.Resolved.name().equals(beanItem.getStatus()) || BugStatus.WontFix.name().equals(beanItem.getStatus())) {
+        } else if (BugStatus.Resolved.name().equals(beanItem.getStatus())) {
             final Button reopenBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN), new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;
 

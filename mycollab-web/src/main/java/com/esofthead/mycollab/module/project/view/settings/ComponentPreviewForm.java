@@ -70,7 +70,7 @@ public class ComponentPreviewForm extends AdvancedPreviewBeanForm<SimpleComponen
     private static class ReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<SimpleComponent> {
         private static final long serialVersionUID = 1L;
 
-        public ReadFormFieldFactory(GenericBeanForm<SimpleComponent> form) {
+        ReadFormFieldFactory(GenericBeanForm<SimpleComponent> form) {
             super(form);
         }
 
@@ -98,15 +98,13 @@ public class ComponentPreviewForm extends AdvancedPreviewBeanForm<SimpleComponen
             MHorizontalLayout header = new MHorizontalLayout().withWidth("100%");
 
             final CheckBox openSelection = new BugStatusCheckbox(OptionI18nEnum.BugStatus.Open, true);
-            CheckBox inprogressSelection = new BugStatusCheckbox(OptionI18nEnum.BugStatus.InProgress, true);
             CheckBox reOpenSelection = new BugStatusCheckbox(OptionI18nEnum.BugStatus.ReOpen, true);
             CheckBox verifiedSelection = new BugStatusCheckbox(OptionI18nEnum.BugStatus.Verified, true);
             CheckBox resolvedSelection = new BugStatusCheckbox(OptionI18nEnum.BugStatus.Resolved, true);
-            CheckBox wontFixSelection = new BugStatusCheckbox(OptionI18nEnum.BugStatus.WontFix, true);
 
             Label spacingLbl1 = new Label("");
 
-            header.with(openSelection, inprogressSelection, reOpenSelection, wontFixSelection, verifiedSelection,
+            header.with(openSelection, reOpenSelection, verifiedSelection,
                     resolvedSelection, spacingLbl1).alignAll(Alignment.MIDDLE_LEFT).expand(spacingLbl1);
 
             issueLayout = new MVerticalLayout();
@@ -114,10 +112,8 @@ public class ComponentPreviewForm extends AdvancedPreviewBeanForm<SimpleComponen
             searchCriteria = new BugSearchCriteria();
             searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
             searchCriteria.setComponentids(new SetSearchField<>(beanItem.getId()));
-            searchCriteria.setStatuses(new SetSearchField<>(OptionI18nEnum.BugStatus.Open.name(),
-                    OptionI18nEnum.BugStatus.InProgress.name(), OptionI18nEnum.BugStatus.ReOpen.name(),
-                    OptionI18nEnum.BugStatus.Verified.name(), OptionI18nEnum.BugStatus.Resolved.name(),
-                    OptionI18nEnum.BugStatus.WontFix.name()));
+            searchCriteria.setStatuses(new SetSearchField<>(OptionI18nEnum.BugStatus.Open.name(), OptionI18nEnum.BugStatus.ReOpen.name(),
+                    OptionI18nEnum.BugStatus.Verified.name(), OptionI18nEnum.BugStatus.Resolved.name()));
             updateSearchStatus();
 
             this.with(header, issueLayout);

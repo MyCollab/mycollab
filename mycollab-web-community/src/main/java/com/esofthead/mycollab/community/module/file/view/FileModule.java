@@ -46,8 +46,7 @@ public class FileModule extends NotPresentedView implements IFileModule {
             serviceMenu.addService("Projects", new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
-                    EventBusFactory.getInstance().post(
-                            new ShellEvent.GotoProjectModule(this, new String[]{"dashboard"}));
+                    EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, new String[]{"dashboard"}));
                     serviceMenu.selectService(0);
                 }
             });
@@ -74,8 +73,7 @@ public class FileModule extends NotPresentedView implements IFileModule {
             serviceMenu.addService("People", new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
-                    EventBusFactory.getInstance().post(
-                            new ShellEvent.GotoUserAccountModule(this, new String[]{"user", "list"}));
+                    EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"user", "list"}));
 
                 }
             });

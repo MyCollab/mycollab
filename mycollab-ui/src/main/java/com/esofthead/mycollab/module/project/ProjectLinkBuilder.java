@@ -166,6 +166,11 @@ public class ProjectLinkBuilder {
                 .generateTimesheetReportLink();
     }
 
+    public static final String generateUsersWorkloadReportLink() {
+        return AppContext.getSiteUrl() + GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator
+                .generateUsersWorkloadReportLink();
+    }
+
     public static String generateProjectItemHtmlLinkAndTooltip(String prjShortName, Integer projectId, String summary, String type, String typeId) {
         Text image = new Text(ProjectAssetsManager.getAsset(type).getHtml());
         A link = new A().setId("tag" + TOOLTIP_ID);

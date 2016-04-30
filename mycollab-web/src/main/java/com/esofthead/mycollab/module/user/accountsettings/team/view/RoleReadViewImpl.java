@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
+import com.esofthead.mycollab.common.i18n.SecurityI18nEnum;
 import com.esofthead.mycollab.module.user.domain.Role;
 import com.esofthead.mycollab.module.user.domain.SimpleRole;
 import com.esofthead.mycollab.module.user.ui.components.PreviewFormControlsGenerator;
@@ -96,20 +97,17 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
         return this.previewForm;
     }
 
-    private static String getValueFromPerPath(PermissionMap permissionMap, String permissionItem) {
-        final Integer perVal = permissionMap.get(permissionItem);
-        return AppContext.getMessage(AccessPermissionFlag.toVal(perVal));
-    }
 
-    protected ComponentContainer constructPermissionSectionView(String depotTitle, PermissionMap permissionMap,
-                                                                List<PermissionDefItem> defItems) {
+    protected ComponentContainer constructPermissionSectionView(String depotTitle, PermissionMap permissionMap, List<PermissionDefItem> defItems) {
         GridFormLayoutHelper formHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, defItems.size() / 2 + 1);
         FormContainer permissionsPanel = new FormContainer();
 
         for (int i = 0; i < defItems.size(); i++) {
             PermissionDefItem permissionDefItem = defItems.get(i);
-            formHelper.addComponent(new Label(getValueFromPerPath(permissionMap,
-                    permissionDefItem.getKey())), permissionDefItem.getCaption(), i % 2, i / 2);
+            final Integer perVal = permissionMap.get(permissionDefItem.getKey());
+            SecurityI18nEnum enumVal = AccessPermissionFlag.toVal(perVal);
+            formHelper.addComponent(new Label(AppContext.getMessage(enumVal)), permissionDefItem.getCaption(), AppContext.getMessage(enumVal.desc()),
+                    i % 2, i / 2);
         }
         permissionsPanel.addSection(depotTitle, formHelper.getLayout());
         return permissionsPanel;

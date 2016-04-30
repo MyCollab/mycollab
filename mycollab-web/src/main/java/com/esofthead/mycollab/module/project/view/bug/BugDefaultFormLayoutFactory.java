@@ -31,10 +31,8 @@ import com.esofthead.mycollab.vaadin.AppContext;
  * @since 5.0.1
  */
 public class BugDefaultFormLayoutFactory {
-    private static final DynaForm defaultForm;
-
-    static {
-        defaultForm = new DynaForm();
+    public static DynaForm getForm() {
+        DynaForm defaultForm = new DynaForm();
         DynaSection mainSection = new DynaSectionBuilder().layoutType(DynaSection.LayoutType.TWO_COLUMN).build();
 
         //Row 1
@@ -59,15 +57,16 @@ public class BugDefaultFormLayoutFactory {
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(SimpleBug.Field.components)
                 .displayName(AppContext.getMessage(BugI18nEnum.FORM_COMPONENTS))
+                .contextHelp(AppContext.getMessage(BugI18nEnum.FORM_COMPONENTS_HELP))
                 .fieldIndex(4).build());
 
         //Row 4
         mainSection.addField(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.startdate)
-                .displayName(AppContext.getMessage(BugI18nEnum.FORM_START_DATE))
-                .fieldIndex(5).build());
+                .displayName(AppContext.getMessage(BugI18nEnum.FORM_START_DATE)).fieldIndex(5).build());
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(SimpleBug.Field.affectedVersions)
                 .displayName(AppContext.getMessage(BugI18nEnum.FORM_AFFECTED_VERSIONS))
+                .contextHelp(AppContext.getMessage(BugI18nEnum.FORM_AFFECTED_VERSIONS_HELP))
                 .fieldIndex(6).build());
 
 
@@ -77,6 +76,7 @@ public class BugDefaultFormLayoutFactory {
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(SimpleBug.Field.fixedVersions)
                 .displayName(AppContext.getMessage(BugI18nEnum.FORM_FIXED_VERSIONS))
+                .contextHelp(AppContext.getMessage(BugI18nEnum.FORM_FIXED_VERSIONS_HELP))
                 .fieldIndex(8).build());
 
         //Row 5
@@ -90,10 +90,12 @@ public class BugDefaultFormLayoutFactory {
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.estimatetime)
                 .displayName(AppContext.getMessage(BugI18nEnum.FORM_ORIGINAL_ESTIMATE))
+                .contextHelp(AppContext.getMessage(BugI18nEnum.FORM_ORIGINAL_ESTIMATE_HELP))
                 .fieldIndex(11).build());
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.estimateremaintime)
                 .displayName(AppContext.getMessage(BugI18nEnum.FORM_REMAIN_ESTIMATE))
+                .contextHelp(AppContext.getMessage(BugI18nEnum.FORM_REMAIN_ESTIMATE_HELP))
                 .fieldIndex(12).build());
 
 
@@ -113,9 +115,6 @@ public class BugDefaultFormLayoutFactory {
                 .displayName("Notifiers").fieldIndex(16).colSpan(true).build());
 
         defaultForm.addSection(mainSection);
-    }
-
-    public static DynaForm getForm() {
         return defaultForm;
     }
 }

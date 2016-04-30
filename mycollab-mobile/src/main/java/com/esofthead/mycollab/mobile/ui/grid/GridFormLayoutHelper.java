@@ -76,19 +76,9 @@ public class GridFormLayoutHelper implements Serializable {
             MHorizontalLayout captionWrapper = new MHorizontalLayout().withSpacing(false).withMargin(true)
                     .withWidth(this.defaultCaptionWidth).withHeight("100%").withStyleName("gridform-caption").with(captionLbl)
                     .withAlign(captionLbl, alignment);
-            if (columns == 0) {
-                captionWrapper.addStyleName("first-col");
-            }
-            if (rows == 0) {
-                captionWrapper.addStyleName("first-row");
-            }
             layout.addComponent(captionWrapper, 2 * columns, rows);
         }
         GridCellWrapper fieldWrapper = new GridCellWrapper();
-
-        if (rows == 0) {
-            fieldWrapper.addStyleName("first-row");
-        }
         fieldWrapper.setWidth(width);
         layout.addComponent(fieldWrapper, 2 * columns + 1, rows);
         layout.setColumnExpandRatio(2 * columns + 1, 1.0f);

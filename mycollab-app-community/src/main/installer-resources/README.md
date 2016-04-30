@@ -44,11 +44,10 @@ Version 5.3.0
 -----------------------------
 **Library Upgrades**
 
-* Mybatis 3.4.0
-* Mybatis spring 1.3.0
+* Mybatis 3.4.0, Mybatis spring 1.3.0
 * Quartz 2.2.3
-* Jsoup 1.9.1
 * Vaadin 7.6.5
+* Hiraki CP 2.4.6
 * Other libraries
 
 **Improvements & New Features**
@@ -59,6 +58,8 @@ Version 5.3.0
 * [Premium] Member weekly hours report
 * Allow site owner create the admin user instead of system default user
 * Create sample project for the new MyCollab installation
+* Add the context help for project forms
+* Change the issue workflow similar than Bugzilla
 * Other minor improvements
 
 **Bug Fixes**
@@ -68,6 +69,7 @@ Version 5.3.0
 * [Premium] It is difficult to quick edit value of popup field
 * Clean resources properly when user signout MyCollab
 * Get following items return the wrong list in several cases
+* Tooltip still show after mouse over event occurs
 
 Version 5.2.12
 -----------------------------

@@ -16,10 +16,12 @@
  */
 package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
+import com.esofthead.mycollab.common.i18n.SecurityI18nEnum;
 import com.esofthead.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
 import com.esofthead.mycollab.module.user.domain.Role;
 import com.esofthead.mycollab.module.user.domain.SimpleRole;
 import com.esofthead.mycollab.module.user.view.component.PermissionComboBoxFactory;
+import com.esofthead.mycollab.module.user.view.component.YesNoPermissionComboBox;
 import com.esofthead.mycollab.security.PermissionDefItem;
 import com.esofthead.mycollab.security.PermissionMap;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -172,8 +174,14 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
                 KeyCaptionComboBox permissionBox = PermissionComboBoxFactory.createPermissionSelection(permissionDefItem.getPermissionCls());
                 Integer flag = perMap.getPermissionFlag(permissionDefItem.getKey());
                 permissionBox.setValue(flag);
+                Enum captionHelp;
+                if (permissionBox instanceof YesNoPermissionComboBox) {
+                    captionHelp = SecurityI18nEnum.BOOLEAN_PERMISSION_HELP;
+                } else {
+                    captionHelp = SecurityI18nEnum.ACCESS_PERMISSION_HELP;
+                }
                 permissionControlsMap.put(permissionDefItem.getKey(), permissionBox);
-                formHelper.addComponent(permissionBox, permissionDefItem.getCaption(), i % 2, i / 2);
+                formHelper.addComponent(permissionBox, permissionDefItem.getCaption(), AppContext.getMessage(captionHelp), i % 2, i / 2);
             }
 
             return permissionsPanel;

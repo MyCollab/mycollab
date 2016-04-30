@@ -31,12 +31,11 @@ public class BugResolutionComboBox extends I18nValueComboBox {
     }
 
     public static BugResolutionComboBox getInstanceForWontFixWindow() {
-        return new BugResolutionComboBox(false, BugResolution.CannotReproduce, BugResolution.Duplicate, BugResolution.Invalid,
-                BugResolution.Won_Fix);
+        return new BugResolutionComboBox(false, BugResolution.CannotReproduce, BugResolution.Duplicate, BugResolution.Invalid);
     }
 
     public static BugResolutionComboBox getInstanceForValidBugWindow() {
-        return new BugResolutionComboBox(false, BugResolution.Newissue, BugResolution.ReOpen, BugResolution.WaitforVerification);
+        return new BugResolutionComboBox(false);
     }
 
     public static BugResolutionComboBox getInstanceForResolvedBugWindow() {

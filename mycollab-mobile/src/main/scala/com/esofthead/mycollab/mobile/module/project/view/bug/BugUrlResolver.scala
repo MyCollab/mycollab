@@ -47,7 +47,7 @@ class BugUrlResolver extends ProjectUrlResolver {
       val projectId = new UrlTokenizer(params(0)).getInt
       val criteria = new BugSearchCriteria
       criteria.setProjectId(new NumberSearchField(projectId))
-      criteria.setStatuses(new SetSearchField[String](BugStatus.InProgress.name, BugStatus.Open.name, BugStatus.ReOpen.name))
+      criteria.setStatuses(new SetSearchField[String](BugStatus.Open.name, BugStatus.ReOpen.name))
       val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new BugScreenData.Search(criteria))
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }

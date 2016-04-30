@@ -82,15 +82,21 @@ public class LocalizationHelper {
         if (StringUtils.isBlank(option)) {
             return "";
         }
-        Enum key = Enum.valueOf(cls, option);
+        Enum key = null;
         try {
+            key = Enum.valueOf(cls, option);
             IMessageConveyor messageConveyor = getMessageConveyor(locale);
             return messageConveyor.getMessage(key, objects);
         } catch (Exception e) {
-            try {
-                return defaultMessage.getMessage(key, objects);
-            } catch (Exception e1) {
-                LOG.error("Can not find resource key " + cls + "---" + option, e);
+            if (key != null) {
+                try {
+                    return defaultMessage.getMessage(key, objects);
+                } catch (Exception e1) {
+                    LOG.error("Can not find resource key " + cls + "---" + option, e);
+                    return "Undefined";
+                }
+            } else {
+                LOG.error("Error", e);
                 return "Undefined";
             }
         }

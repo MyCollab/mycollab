@@ -71,10 +71,8 @@ public class BugSearchCriteria extends SearchCriteria {
                     BugSeverity.Minor.name(), BugSeverity.Trivial.name()));
 
     public static final StringListParam p_status = new StringListParam("bug-status",
-            BugI18nEnum.FORM_STATUS, "m_tracker_bug", "status", Arrays.asList(
-            BugStatus.Verified.name(), BugStatus.InProgress.name(),
-            BugStatus.Open.name(), BugStatus.ReOpen.name(),
-            BugStatus.Resolved.name()));
+            BugI18nEnum.FORM_STATUS, "m_tracker_bug", "status", Arrays.asList(BugStatus.Verified.name(),
+            BugStatus.Open.name(), BugStatus.ReOpen.name(), BugStatus.Resolved.name()));
 
     public static final Param p_affectedVersions = new BugTypeCustomSql(
             "bug_affected_versions", BugI18nEnum.FORM_AFFECTED_VERSIONS,

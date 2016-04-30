@@ -61,6 +61,7 @@ public class UIConstants {
     public static final String FORM = "form";
     public static final String FORM_SECTION = "section";
     public static final String FIELD_NOTE = "field-note";
+    public static final String ARROW_BTN = "arrow-btn";
 
     public static final String CURSOR_POINTER = "cursor_pointer";
     public static final String HOVER_EFFECT_NOT_BOX = "hover-effect-not-box";

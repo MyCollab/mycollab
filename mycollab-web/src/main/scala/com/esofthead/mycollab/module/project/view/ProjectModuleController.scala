@@ -94,6 +94,20 @@ class ProjectModuleController(val container: ProjectModule) extends AbstractCont
     }
   })
 
+  this.register(new ApplicationEventListener[ReportEvent.GotoWeeklyTimingReport]() {
+    @Subscribe override def handle(event: ReportEvent.GotoWeeklyTimingReport): Unit = {
+      val presenter = PresenterResolver.getPresenter(classOf[IReportPresenter])
+      presenter.go(container, new ReportScreenData.GotoWeeklyTiming())
+    }
+  })
+
+  this.register(new ApplicationEventListener[ReportEvent.GotoUserWorkloadReport]() {
+    @Subscribe override def handle(event: ReportEvent.GotoUserWorkloadReport): Unit = {
+      val presenter = PresenterResolver.getPresenter(classOf[IReportPresenter])
+      presenter.go(container, new ReportScreenData.GotoUserWorkload())
+    }
+  })
+
   this.register(new ApplicationEventListener[StandUpEvent.GotoList] {
     @Subscribe def handle(event: StandUpEvent.GotoList) {
       val presenter = PresenterResolver.getPresenter(classOf[IReportPresenter])

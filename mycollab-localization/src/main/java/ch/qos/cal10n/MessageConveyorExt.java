@@ -1,7 +1,7 @@
 package ch.qos.cal10n;
 
 import ch.qos.cal10n.util.AnnotationExtractorViaEnumClass;
-import ch.qos.cal10n.util.CAL10NBundle;
+import ch.qos.cal10n.util.CAL10NBundleExt;
 import ch.qos.cal10n.util.CAL10NBundleFinderByClassloaderExt;
 
 import java.text.MessageFormat;
@@ -14,8 +14,9 @@ import java.util.concurrent.ConcurrentHashMap;
  * @since 4.5.2
  */
 public class MessageConveyorExt implements IMessageConveyor {
+//    static final ResourceLoader resourceLoader = new ResourceLoader();
     final Locale locale;
-    final Map<String, CAL10NBundle> cache = new ConcurrentHashMap<>();
+    final Map<String, CAL10NBundleExt> cache = new ConcurrentHashMap<>();
 
     /**
      * The {@link Locale} associated with this instance.
@@ -43,10 +44,11 @@ public class MessageConveyorExt implements IMessageConveyor {
         Class<? extends Enum<?>> declaringClass = key.getDeclaringClass();
 
         String declaringClassName = declaringClass.getName();
-        CAL10NBundle rb = cache.get(declaringClassName);
+        CAL10NBundleExt rb = cache.get(declaringClassName);
         if (rb == null || rb.hasChanged()) {
             rb = lookupResourceBundleByEnumClassAndLocale(declaringClass);
             cache.put(declaringClassName, rb);
+//            resourceLoader.registerBundleAndFile(rb);
         }
 
         String keyAsStr = key.toString();
@@ -58,7 +60,7 @@ public class MessageConveyorExt implements IMessageConveyor {
         }
     }
 
-    private <E extends Enum<?>> CAL10NBundle lookupResourceBundleByEnumClassAndLocale(
+    private <E extends Enum<?>> CAL10NBundleExt lookupResourceBundleByEnumClassAndLocale(
             Class<E> declaringClass) throws MessageConveyorException {
 
         AnnotationExtractorViaEnumClass annotationExtractor = new AnnotationExtractorViaEnumClass(
@@ -81,7 +83,7 @@ public class MessageConveyorExt implements IMessageConveyor {
         // see also http://jira.qos.ch/browse/CAL-8
         CAL10NBundleFinderByClassloaderExt cal10NBundleFinderByClassloader = new CAL10NBundleFinderByClassloaderExt(
                 declaringClass.getClassLoader());
-        CAL10NBundle rb = cal10NBundleFinderByClassloader.getBundle(baseName,
+        CAL10NBundleExt rb = cal10NBundleFinderByClassloader.getBundle(baseName,
                 locale, charset);
 
         if (rb == null) {

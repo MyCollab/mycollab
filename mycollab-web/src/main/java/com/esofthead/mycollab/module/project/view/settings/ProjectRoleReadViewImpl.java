@@ -16,10 +16,12 @@
  */
 package com.esofthead.mycollab.module.project.view.settings;
 
+import com.esofthead.mycollab.common.i18n.SecurityI18nEnum;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectRole;
 import com.esofthead.mycollab.module.project.i18n.ProjectRoleI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.RolePermissionI18nEnum;
+import com.esofthead.mycollab.security.PermissionFlag;
 import com.esofthead.mycollab.security.PermissionMap;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
@@ -34,15 +36,17 @@ import com.esofthead.mycollab.vaadin.web.ui.ProjectPreviewFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.web.ui.ReadViewLayout;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @ViewComponent
-public class ProjectRoleReadViewImpl extends VerticalLayout implements ProjectRoleReadView {
+public class ProjectRoleReadViewImpl extends MVerticalLayout implements ProjectRoleReadView {
     private static final long serialVersionUID = 1L;
 
     private SimpleProjectRole beanItem;
@@ -54,6 +58,7 @@ public class ProjectRoleReadViewImpl extends VerticalLayout implements ProjectRo
     private GridFormLayoutHelper projectFormHelper;
 
     public ProjectRoleReadViewImpl() {
+        withMargin(new MarginInfo(true, false, true, false));
         headerText = HeaderWithFontAwesome.h2(FontAwesome.USERS, AppContext.getMessage(ProjectRoleI18nEnum.FORM_READ_TITLE));
         headerText.setSizeUndefined();
         this.addComponent(constructHeader());
@@ -85,7 +90,7 @@ public class ProjectRoleReadViewImpl extends VerticalLayout implements ProjectRo
         FormContainer permissionsPanel = new FormContainer();
 
         projectFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, (ProjectRolePermissionCollections
-                .PROJECT_PERMISSIONS.length + 1) / 2);
+                .PROJECT_PERMISSIONS.length + 1) / 2, "180px");
         permissionsPanel.addSection(AppContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS), projectFormHelper.getLayout());
 
         return permissionsPanel;
@@ -98,8 +103,10 @@ public class ProjectRoleReadViewImpl extends VerticalLayout implements ProjectRo
         for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
             String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
             Enum permissionKey = RolePermissionI18nEnum.valueOf(permissionPath);
-            projectFormHelper.addComponent(new Label(AppContext.getPermissionCaptionValue(permissionMap, permissionKey.name())),
-                    AppContext.getMessage(permissionKey), i % 2, i / 2);
+            Integer perVal = permissionMap.get(permissionKey.name());
+            SecurityI18nEnum permissionVal = PermissionFlag.toVal(perVal);
+            projectFormHelper.addComponent(new Label(AppContext.getMessage(permissionVal)),
+                    AppContext.getMessage(permissionKey), AppContext.getMessage(permissionVal.desc()), i % 2, i / 2);
         }
 
     }

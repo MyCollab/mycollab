@@ -14,38 +14,42 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.module.project.view.bug;
 
 import com.esofthead.mycollab.common.domain.CommentWithBLOBs;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CommentService;
+import com.esofthead.mycollab.core.UserInvalidInputException;
+import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.view.bug.components.BugResolutionComboBox;
+import com.esofthead.mycollab.module.project.view.bug.components.BugSelectionField;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
 import com.esofthead.mycollab.module.project.view.settings.component.VersionMultiSelectField;
 import com.esofthead.mycollab.module.tracker.domain.BugWithBLOBs;
+import com.esofthead.mycollab.module.tracker.domain.RelatedBug;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.service.BugRelatedItemService;
+import com.esofthead.mycollab.module.tracker.service.BugRelationService;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
+import com.vaadin.data.Property;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
+import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.GregorianCalendar;
@@ -58,12 +62,13 @@ public class ResolvedInputWindow extends Window {
     private static final long serialVersionUID = 1L;
 
     private final SimpleBug bug;
+    private BugSelectionField bugSelectionField;
     private VersionMultiSelectField fixedVersionSelect;
 
-    public ResolvedInputWindow(SimpleBug bug) {
-        super("Resolve bug '" + bug.getSummary() + "'");
-        this.bug = bug;
-        this.setWidth("800px");
+    public ResolvedInputWindow(SimpleBug bugValue) {
+        super("Resolve bug '" + bugValue.getSummary() + "'");
+        this.bug = BeanUtility.deepClone(bugValue);
+        this.setWidth("900px");
         this.setResizable(false);
         this.setModal(true);
         EditForm editForm = new EditForm();
@@ -82,7 +87,7 @@ public class ResolvedInputWindow extends Window {
         @Override
         public void setBean(BugWithBLOBs newDataSource) {
             this.setFormLayoutFactory(new FormLayoutFactory());
-            this.setBeanFormFieldFactory(new EditFormFieldFactory(EditForm.this));
+            this.setBeanFormFieldFactory(new EditFormFieldFactory(this));
             super.setBean(newDataSource);
         }
 
@@ -93,8 +98,8 @@ public class ResolvedInputWindow extends Window {
             @Override
             public ComponentContainer getLayout() {
                 final VerticalLayout layout = new VerticalLayout();
-                this.informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
-                layout.addComponent(this.informationLayout.getLayout());
+                informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
+                layout.addComponent(informationLayout.getLayout());
 
                 final MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(new MarginInfo(true, true, false, false));
                 layout.addComponent(controlsBtn);
@@ -105,10 +110,36 @@ public class ResolvedInputWindow extends Window {
                     @Override
                     public void buttonClick(Button.ClickEvent event) {
                         if (EditForm.this.validateForm()) {
+                            String commentValue = commentArea.getValue();
+                            if (BugResolution.Duplicate.name().equals(bug.getResolution())) {
+                                if (bugSelectionField != null && bugSelectionField.getSelectedBug() != null) {
+                                    SimpleBug selectedBug = bugSelectionField.getSelectedBug();
+                                    if (selectedBug.getId().equals(bug.getId())) {
+                                        throw new UserInvalidInputException("The relation is invalid since the both entries are " + "the same");
+                                    }
+                                    BugRelationService relatedBugService = ApplicationContextUtil.getSpringBean(BugRelationService.class);
+                                    RelatedBug relatedBug = new RelatedBug();
+                                    relatedBug.setBugid(bug.getId());
+                                    relatedBug.setRelatetype(OptionI18nEnum.BugRelation.Duplicated.name());
+                                    relatedBug.setRelatedid(selectedBug.getId());
+                                    relatedBugService.saveWithSession(relatedBug, AppContext.getUsername());
+                                } else {
+                                    NotificationUtil.showErrorNotification("You must select the duplicated bug for " +
+                                            "the resolution 'Duplicate'");
+                                    return;
+                                }
+                            } else if (BugResolution.InComplete.name().equals(bug.getResolution()) ||
+                                    BugResolution.CannotReproduce.name().equals(bug.getResolution()) ||
+                                    BugResolution.Invalid.name().equals(bug.getResolution())) {
+                                if (StringUtils.isBlank(commentValue)) {
+                                    NotificationUtil.showErrorNotification("Comment must be not blank for the " +
+                                            "resolution " + bug.getResolution());
+                                    return;
+                                }
+                            }
                             bug.setStatus(BugStatus.Resolved.name());
 
-                            BugRelatedItemService bugRelatedItemService = ApplicationContextUtil.
-                                    getSpringBean(BugRelatedItemService.class);
+                            BugRelatedItemService bugRelatedItemService = ApplicationContextUtil.getSpringBean(BugRelatedItemService.class);
                             bugRelatedItemService.updateFixedVersionsOfBug(bug.getId(), fixedVersionSelect.getSelectedItems());
 
                             // Save bug status and assignee
@@ -116,7 +147,6 @@ public class ResolvedInputWindow extends Window {
                             bugService.updateSelectiveWithSession(bug, AppContext.getUsername());
 
                             // Save comment
-                            String commentValue = commentArea.getValue();
                             if (StringUtils.isNotBlank(commentValue)) {
                                 CommentWithBLOBs comment = new CommentWithBLOBs();
                                 comment.setComment(commentValue);
@@ -145,7 +175,7 @@ public class ResolvedInputWindow extends Window {
 
                     @Override
                     public void buttonClick(Button.ClickEvent event) {
-                        ResolvedInputWindow.this.close();
+                        close();
                     }
                 });
                 cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
@@ -159,13 +189,15 @@ public class ResolvedInputWindow extends Window {
             @Override
             public void attachField(Object propertyId, Field<?> field) {
                 if (propertyId.equals("resolution")) {
-                    this.informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_RESOLUTION), 0, 0);
+                    informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_RESOLUTION),
+                            AppContext.getMessage(BugI18nEnum.FORM_RESOLUTION_HELP), 0, 0);
                 } else if (propertyId.equals("assignuser")) {
-                    this.informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 1);
+                    informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 1);
                 } else if (propertyId.equals("fixedVersions")) {
-                    this.informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_FIXED_VERSIONS), 0, 2);
+                    informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_FIXED_VERSIONS),
+                            AppContext.getMessage(BugI18nEnum.FORM_FIXED_VERSIONS_HELP), 0, 2);
                 } else if (propertyId.equals("comment")) {
-                    this.informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_COMMENT), 0, 3, 2, "100%");
+                    informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_COMMENT), 0, 3, 2, "100%");
                 }
             }
         }
@@ -180,13 +212,18 @@ public class ResolvedInputWindow extends Window {
             @Override
             protected Field<?> onCreateField(final Object propertyId) {
                 if (propertyId.equals("resolution")) {
-                    bug.setResolution(BugResolution.Fixed.name());
-                    return BugResolutionComboBox.getInstanceForResolvedBugWindow();
+                    if (StringUtils.isBlank(bean.getResolution()) || AppContext.getMessage(BugResolution.None).equals(bug.getResolution())) {
+                        bean.setResolution(BugResolution.Fixed.name());
+                    }
+                    return new ResolutionField();
                 } else if (propertyId.equals("assignuser")) {
                     bug.setAssignuser(bug.getLogby());
                     return new ProjectMemberSelectionField();
                 } else if (propertyId.equals("fixedVersions")) {
                     fixedVersionSelect = new VersionMultiSelectField();
+                    if (CollectionUtils.isEmpty(bug.getFixedVersions()) && CollectionUtils.isNotEmpty(bug.getAffectedVersions())) {
+                        bug.setFixedVersions(bug.getAffectedVersions());
+                    }
                     return fixedVersionSelect;
                 } else if (propertyId.equals("comment")) {
                     commentArea = new RichTextArea();
@@ -195,6 +232,42 @@ public class ResolvedInputWindow extends Window {
                 }
 
                 return null;
+            }
+
+            private class ResolutionField extends CompoundCustomField<BugWithBLOBs> {
+                private MHorizontalLayout layout;
+                private BugResolutionComboBox resolutionComboBox;
+
+                ResolutionField() {
+                    resolutionComboBox = BugResolutionComboBox.getInstanceForResolvedBugWindow();
+                }
+
+                @Override
+                protected Component initContent() {
+                    layout = new MHorizontalLayout(resolutionComboBox);
+                    fieldGroup.bind(resolutionComboBox, BugWithBLOBs.Field.resolution.name());
+                    resolutionComboBox.addValueChangeListener(new ValueChangeListener() {
+                        @Override
+                        public void valueChange(Property.ValueChangeEvent event) {
+                            String value = (String) resolutionComboBox.getValue();
+                            if (OptionI18nEnum.BugResolution.Duplicate.name().equals(value)) {
+                                bugSelectionField = new BugSelectionField();
+                                layout.with(new Label(" with "), bugSelectionField);
+                            } else {
+                                if (layout.getComponentCount() > 1) {
+                                    layout.removeComponent(layout.getComponent(1));
+                                    layout.removeComponent(layout.getComponent(1));
+                                }
+                            }
+                        }
+                    });
+                    return layout;
+                }
+
+                @Override
+                public Class<? extends BugWithBLOBs> getType() {
+                    return BugWithBLOBs.class;
+                }
             }
         }
     }

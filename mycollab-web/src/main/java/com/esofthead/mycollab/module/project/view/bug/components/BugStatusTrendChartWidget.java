@@ -178,9 +178,9 @@ public class BugStatusTrendChartWidget extends Depot {
             searchCriteria.setFieldgroup(StringSearchField.and("status"));
             LocalDate endDate = new LocalDate(new GregorianCalendar().getTime());
             LocalDate startDate = endDate.minusDays(30);
-            groupItems = timelineTrackingService.findTimelineItems("status", Arrays.asList(OptionI18nEnum.BugStatus.InProgress.name(),
+            groupItems = timelineTrackingService.findTimelineItems("status", Arrays.asList(
                     OptionI18nEnum.BugStatus.Open.name(), OptionI18nEnum.BugStatus.ReOpen.name(),
-                    OptionI18nEnum.BugStatus.Resolved.name(), OptionI18nEnum.BugStatus.WontFix.name(),
+                    OptionI18nEnum.BugStatus.Resolved.name(),
                     OptionI18nEnum.BugStatus.Verified.name()),
                     startDate.toDate(), endDate.toDate(), searchCriteria);
             displayChart();

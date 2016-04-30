@@ -21,19 +21,18 @@ import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.ComponentI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.AbstractEditItemComp;
-import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
+import com.esofthead.mycollab.module.project.view.settings.component.ComponentEditFormFieldFactory;
 import com.esofthead.mycollab.module.tracker.domain.Component;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.web.ui.DynaFormLayout;
 import com.esofthead.mycollab.vaadin.web.ui.EditFormControlsGenerator;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.RichTextArea;
-import com.vaadin.ui.TextField;
 
 /**
  * @author MyCollab Ltd.
@@ -77,39 +76,12 @@ public class ComponentAddViewImpl extends AbstractEditItemComp<Component> implem
 
     @Override
     protected AbstractBeanFieldGroupEditFieldFactory<Component> initBeanFormFieldFactory() {
-        return new EditFormFieldFactory(editForm);
+        return new ComponentEditFormFieldFactory(editForm);
     }
 
     @Override
     public HasEditFormHandlers<Component> getEditFormHandlers() {
         return this.editForm;
-    }
-
-    private static class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Component> {
-        private static final long serialVersionUID = 1L;
-
-        public EditFormFieldFactory(GenericBeanForm<Component> form) {
-            super(form);
-        }
-
-        @Override
-        protected Field<?> onCreateField(final Object propertyId) {
-            if (Component.Field.componentname.equalTo(propertyId)) {
-                final TextField tf = new TextField();
-                if (isValidateForm) {
-                    tf.setNullRepresentation("");
-                    tf.setRequired(true);
-                    tf.setRequiredError(AppContext.getMessage(ComponentI18nEnum.FORM_COMPONENT_ERROR));
-                }
-                return tf;
-            } else if (Component.Field.description.equalTo(propertyId)) {
-                return new RichTextArea();
-            } else if (Component.Field.userlead.equalTo(propertyId)) {
-                return new ProjectMemberSelectionField();
-            }
-
-            return null;
-        }
     }
 
 }

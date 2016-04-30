@@ -20,6 +20,7 @@ package com.esofthead.mycollab.module.tracker.service.ibatis;
 import com.esofthead.mycollab.module.tracker.dao.BugRelatedItemMapper;
 import com.esofthead.mycollab.module.tracker.domain.*;
 import com.esofthead.mycollab.module.tracker.service.BugRelatedItemService;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -79,9 +80,9 @@ public class BugRelatedItemServiceImpl implements BugRelatedItemService {
         }
     }
 
-    private void deleteTrackerBugRelatedItem(Integer bugid, String type) {
+    private void deleteTrackerBugRelatedItem(Integer bugId, String type) {
         BugRelatedItemExample ex = new BugRelatedItemExample();
-        ex.createCriteria().andBugidEqualTo(bugid).andTypeEqualTo(type);
+        ex.createCriteria().andBugidEqualTo(bugId).andTypeEqualTo(type);
 
         bugRelatedItemMapper.deleteByExample(ex);
     }
@@ -90,7 +91,7 @@ public class BugRelatedItemServiceImpl implements BugRelatedItemService {
     @Override
     public void updateAffectedVersionsOfBug(Integer bugId, List<Version> versions) {
         deleteTrackerBugRelatedItem(bugId, SimpleRelatedBug.AFFVERSION);
-        if (versions.size() > 0) {
+        if (CollectionUtils.isNotEmpty(versions)) {
             insertAffectedVersionsOfBug(bugId, versions);
         }
     }
@@ -98,7 +99,7 @@ public class BugRelatedItemServiceImpl implements BugRelatedItemService {
     @Override
     public void updateFixedVersionsOfBug(Integer bugId, List<Version> versions) {
         deleteTrackerBugRelatedItem(bugId, SimpleRelatedBug.FIXVERSION);
-        if (versions.size() > 0) {
+        if (CollectionUtils.isNotEmpty(versions)) {
             insertFixedVersionsOfBug(bugId, versions);
         }
     }
@@ -106,7 +107,7 @@ public class BugRelatedItemServiceImpl implements BugRelatedItemService {
     @Override
     public void updateComponentsOfBug(Integer bugId, List<Component> components) {
         deleteTrackerBugRelatedItem(bugId, SimpleRelatedBug.COMPONENT);
-        if (components.size() > 0) {
+        if (CollectionUtils.isNotEmpty(components)) {
             insertComponentsOfBug(bugId, components);
         }
     }

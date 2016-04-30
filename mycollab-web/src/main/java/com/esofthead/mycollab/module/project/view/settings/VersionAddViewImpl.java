@@ -21,19 +21,18 @@ import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.VersionI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.AbstractEditItemComp;
+import com.esofthead.mycollab.module.project.view.settings.component.VersionEditFormFieldFactory;
 import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.web.ui.DynaFormLayout;
 import com.esofthead.mycollab.vaadin.web.ui.EditFormControlsGenerator;
 import com.vaadin.server.Resource;
-import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.RichTextArea;
-import com.vaadin.ui.TextField;
 
 /**
  * @author MyCollab Ltd.
@@ -83,35 +82,6 @@ public class VersionAddViewImpl extends AbstractEditItemComp<Version> implements
 
     @Override
     protected AbstractBeanFieldGroupEditFieldFactory<Version> initBeanFormFieldFactory() {
-        return new EditFormFieldFactory(editForm);
-    }
-
-    private static class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Version> {
-        private static final long serialVersionUID = 1L;
-
-        public EditFormFieldFactory(GenericBeanForm<Version> form) {
-            super(form);
-        }
-
-        @Override
-        protected Field<?> onCreateField(final Object propertyId) {
-            if (Version.Field.versionname.equalTo(propertyId)) {
-                final TextField tf = new TextField();
-                if (isValidateForm) {
-                    tf.setNullRepresentation("");
-                    tf.setRequired(true);
-                    tf.setRequiredError(AppContext.getMessage(VersionI18nEnum.FORM_VERSION_ERROR_MSG));
-                }
-                return tf;
-            } else if (Version.Field.description.equalTo(propertyId)) {
-                return new RichTextArea();
-            } else if (Version.Field.duedate.equalTo(propertyId)) {
-                final DateFieldExt dateField = new DateFieldExt();
-                dateField.setResolution(Resolution.DAY);
-                return dateField;
-            }
-
-            return null;
-        }
+        return new VersionEditFormFieldFactory(editForm);
     }
 }
