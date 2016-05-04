@@ -22,10 +22,12 @@ import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
+import com.esofthead.mycollab.module.project.events.ClientEvent;
+import com.esofthead.mycollab.module.project.events.ProjectEvent;
+import com.esofthead.mycollab.module.project.events.ReportEvent;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.view.user.ProjectPagedList;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
@@ -71,7 +73,7 @@ public class ProjectModule extends AbstractPageView implements IDesktopModule {
             serviceMenu.addService("Projects", new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
-                    EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, new String[]{"dashboard"}));
+                    EventBusFactory.getInstance().post(new ProjectEvent.GotoUserDashboard(this, null));
                     serviceMenu.selectService(0);
                 }
             });
@@ -79,7 +81,7 @@ public class ProjectModule extends AbstractPageView implements IDesktopModule {
             serviceMenu.addService("Clients", new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
-                    EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, new String[]{"client"}));
+                    EventBusFactory.getInstance().post(new ClientEvent.GotoList(this, null));
                     serviceMenu.selectService(1);
                 }
             });
@@ -87,7 +89,7 @@ public class ProjectModule extends AbstractPageView implements IDesktopModule {
             serviceMenu.addService("Reports", new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
-                    EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, new String[]{"reports"}));
+                    EventBusFactory.getInstance().post(new ReportEvent.GotoConsole(this));
                     serviceMenu.selectService(2);
                 }
             });

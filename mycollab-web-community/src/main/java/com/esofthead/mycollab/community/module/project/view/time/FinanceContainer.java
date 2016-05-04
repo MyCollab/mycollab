@@ -35,6 +35,16 @@ public class FinanceContainer extends NotPresentedView implements IFinanceContai
     }
 
     @Override
+    public void showTimeView() {
+
+    }
+
+    @Override
+    public void showInvoiceView() {
+
+    }
+
+    @Override
     public Component gotoSubView(String name) {
         return null;
     }

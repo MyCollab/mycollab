@@ -18,9 +18,9 @@ package com.esofthead.mycollab.module.project.view.bug;
 
 import com.esofthead.mycollab.common.domain.criteria.TimelineTrackingSearchCriteria;
 import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.db.query.VariableInjector;
 import com.esofthead.mycollab.core.utils.BeanUtility;
@@ -63,7 +63,8 @@ import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author MyCollab Ltd.
@@ -358,31 +359,31 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 
     @Override
     public HasSelectableItemHandlers<SimpleBug> getSelectableItemHandlers() {
-        throw new UnsupportedOperationException("This view doesn't support this operation");
+        return null;
     }
 
     @Override
     public void enableActionControls(int numOfSelectedItem) {
-        throw new UnsupportedOperationException("This view doesn't support this operation");
+
     }
 
     @Override
     public void disableActionControls() {
-        throw new UnsupportedOperationException("This view doesn't support this operation");
+
     }
 
     @Override
     public HasSelectionOptionHandlers getOptionSelectionHandlers() {
-        throw new UnsupportedOperationException("This view doesn't support this operation");
+        return null;
     }
 
     @Override
     public HasMassItemActionHandler getPopupActionHandlers() {
-        throw new UnsupportedOperationException("This view doesn't support this operation");
+        return null;
     }
 
     @Override
     public AbstractPagedBeanTable<BugSearchCriteria, SimpleBug> getPagedBeanTable() {
-        throw new UnsupportedOperationException("This view doesn't support this operation");
+        return null;
     }
 }

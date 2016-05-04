@@ -21,7 +21,7 @@ import java.util.GregorianCalendar
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria
-import com.esofthead.mycollab.module.project.events.ProjectEvent.GotoMyProject
+import com.esofthead.mycollab.module.project.events.ProjectEvent.{GotoMyProject, GotoUserDashboard}
 import com.esofthead.mycollab.module.project.events.{ClientEvent, ProjectEvent, ReportEvent, StandUpEvent}
 import com.esofthead.mycollab.module.project.view.client.IClientPresenter
 import com.esofthead.mycollab.module.project.view.parameters.ClientScreenData.{Add, Read}
@@ -35,6 +35,13 @@ import com.google.common.eventbus.Subscribe
   * @since 5.0.9
   */
 class ProjectModuleController(val container: ProjectModule) extends AbstractController {
+  this.register(new ApplicationEventListener[ProjectEvent.GotoUserDashboard]() {
+    @Subscribe override def handle(event: GotoUserDashboard): Unit = {
+      val presenter = PresenterResolver.getPresenter(classOf[UserDashboardPresenter])
+      presenter.go(container, null)
+    }
+  })
+
   this.register(new ApplicationEventListener[ProjectEvent.GotoMyProject]() {
     @Subscribe override def handle(event: GotoMyProject): Unit = {
       val presenter = PresenterResolver.getPresenter(classOf[ProjectViewPresenter])

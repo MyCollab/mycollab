@@ -40,6 +40,14 @@ understanding in a matter of minutes.
 Last changelog
 ==============
 
+Version 5.3.1
+-----------------------------
+**Library Upgrades**
+
+**Improvements & New Features**
+
+**Bug Fixes**
+
 Version 5.3.0
 -----------------------------
 **Library Upgrades**

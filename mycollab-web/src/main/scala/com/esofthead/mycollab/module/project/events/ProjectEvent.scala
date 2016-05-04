@@ -47,4 +47,6 @@ object ProjectEvent {
 
   class GotoDashboard(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
+  class GotoUserDashboard(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+
 }

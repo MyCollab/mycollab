@@ -16,6 +16,9 @@
  */
 package com.esofthead.mycollab.vaadin.web.ui;
 
+import com.esofthead.mycollab.vaadin.mvp.PageView;
+import com.vaadin.server.Resource;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.TabSheet;
 
 /**
@@ -40,5 +43,20 @@ public class TabSheetDecorator extends TabSheet {
 
     public Tab getSelectedTabInfo() {
         return this.getTab(this.getSelectedTab());
+    }
+
+    public void addWrappedTab(String tabName, Resource icon) {
+        addTab(new WrappedTab(), tabName, icon);
+    }
+
+    public static class WrappedTab extends CssLayout {
+        public WrappedTab() {
+            setSizeFull();
+        }
+
+        public void addView(PageView view) {
+            removeAllComponents();
+            addComponent(view);
+        }
     }
 }

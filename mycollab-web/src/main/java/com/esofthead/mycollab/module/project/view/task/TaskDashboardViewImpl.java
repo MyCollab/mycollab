@@ -360,12 +360,12 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
 
     @Override
     public void enableActionControls(int numOfSelectedItem) {
-        throw new UnsupportedOperationException("This view doesn't support this operation");
+
     }
 
     @Override
     public void disableActionControls() {
-        throw new UnsupportedOperationException("This view doesn't support this operation");
+
     }
 
     @Override

@@ -393,36 +393,36 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
 
     @Override
     public void enableActionControls(int numOfSelectedItem) {
-        throw new UnsupportedOperationException("This view doesn't support this operation");
+
     }
 
     @Override
     public void disableActionControls() {
-        throw new UnsupportedOperationException("This view doesn't support this operation");
+
     }
 
     @Override
     public HasSearchHandlers<MilestoneSearchCriteria> getSearchHandlers() {
-        throw new UnsupportedOperationException("This view doesn't support this operation");
+        return null;
     }
 
     @Override
     public HasSelectionOptionHandlers getOptionSelectionHandlers() {
-        throw new UnsupportedOperationException("This view doesn't support this operation");
+        return null;
     }
 
     @Override
     public HasMassItemActionHandler getPopupActionHandlers() {
-        throw new UnsupportedOperationException("This view doesn't support this operation");
+        return null;
     }
 
     @Override
     public HasSelectableItemHandlers<SimpleMilestone> getSelectableItemHandlers() {
-        throw new UnsupportedOperationException("This view doesn't support this operation");
+        return null;
     }
 
     @Override
     public AbstractPagedBeanTable<MilestoneSearchCriteria, SimpleMilestone> getPagedBeanTable() {
-        throw new UnsupportedOperationException("This view doesn't support this operation");
+        return null;
     }
 }

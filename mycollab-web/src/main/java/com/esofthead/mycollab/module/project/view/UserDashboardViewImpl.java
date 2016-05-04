@@ -101,7 +101,6 @@ public class UserDashboardViewImpl extends AbstractPageView implements UserDashb
         });
 
         this.with(setupHeader(), tabSheet).expand(tabSheet);
-
     }
 
     @Override
@@ -154,9 +153,7 @@ public class UserDashboardViewImpl extends AbstractPageView implements UserDashb
     }
 
     private ComponentContainer setupHeader() {
-        HorizontalLayout headerWrapper = new HorizontalLayout();
-        headerWrapper.setWidth("100%");
-        headerWrapper.setStyleName("projectfeed-hdr-wrapper");
+        MHorizontalLayout headerWrapper = new MHorizontalLayout().withFullWidth().withStyleName("projectfeed-hdr-wrapper");
 
         Image avatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(AppContext.getUserAvatarId(), 64);
         avatar.setStyleName(UIConstants.CIRCLE_BOX);
@@ -190,8 +187,7 @@ public class UserDashboardViewImpl extends AbstractPageView implements UserDashb
                 new ELabel(AppContext.formatPrettyTime(AppContext.getUser().getLastaccessedtime())));
         metaInfoLayout.alignAll(Alignment.TOP_LEFT);
         headerContent.addComponent(metaInfoLayout);
-        headerWrapper.addComponent(headerContent);
-        headerWrapper.setExpandRatio(headerContent, 1.0f);
+        headerWrapper.with(headerContent).expand(headerContent);
         return headerWrapper;
     }
 
@@ -249,14 +245,14 @@ public class UserDashboardViewImpl extends AbstractPageView implements UserDashb
             Button skipBtn = new Button("Skip", new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent event) {
-                    AskCreateNewProjectWindow.this.close();
+                    close();
                 }
             });
             skipBtn.setStyleName(UIConstants.BUTTON_OPTION);
             Button createNewBtn = new Button("New Project", new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent event) {
-                    AskCreateNewProjectWindow.this.close();
+                    close();
                     UI.getCurrent().addWindow(new ProjectAddWindow());
                 }
             });
