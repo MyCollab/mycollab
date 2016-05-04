@@ -1,6 +1,6 @@
 # Free, open source CRM, Document and Project Management software
 [![License](http://img.shields.io/badge/License-GPLv3-orange.svg)](http://www.gnu.org/copyleft/gpl.html) [![Project Stats](https://www.openhub.net/p/mycollab/widgets/project_thin_badge.gif)](https://www.openhub.net/p/mycollab) [![Build](https://travis-ci.org/MyCollab/mycollab.svg)](https://travis-ci.org/MyCollab/mycollab)
-[![Version](https://img.shields.io/badge/Version-5.2.12-brightgreen.svg)](https://community.mycollab.com/)
+[![Version](https://img.shields.io/badge/Version-5.3.0-brightgreen.svg)](https://community.mycollab.com/)
 [![SourceForge](https://img.shields.io/sourceforge/dt/mycollab.svg)](https://www.mycollab.com/ce-registration/)
 
 
@@ -96,7 +96,7 @@ MyCollab requires a running Java Runtime Environment (7 or greater), Java comman
 
 ## Installation
 
-The current MyCollab version is 5.2.12 released on 19th April, 2016. This branch focuses in mobile devices, reporting and customize options for on-demand edition.
+The current MyCollab version is 5.3.0 released on 2nd May, 2016. This branch focuses in mobile devices, reporting and customize options for on-demand edition.
 
 1. Download MyCollab binary - https://www.mycollab.com/self-hosted/
 2. Follow installation guideline at https://community.mycollab.com/installing-mycollab/
