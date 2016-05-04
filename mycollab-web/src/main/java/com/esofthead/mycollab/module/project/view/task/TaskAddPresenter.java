@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
@@ -118,20 +117,14 @@ public class TaskAddPresenter extends ProjectGenericPresenter<TaskAddView> {
 
         if (item.getId() == null) {
             item.setLogby(AppContext.getUsername());
-            int taskId = taskService.saveWithSession(item, AppContext.getUsername());
-            AttachmentUploadField uploadField = view.getAttachUploadField();
-            String attachPath = AttachmentUtils.getProjectEntityAttachmentPath(
-                    AppContext.getAccountId(), CurrentProjectVariables.getProjectId(),
-                    ProjectTypeConstants.TASK, "" + taskId);
-            uploadField.saveContentsToRepo(attachPath);
+            taskService.saveWithSession(item, AppContext.getUsername());
         } else {
             taskService.updateWithSession(item, AppContext.getUsername());
-            AttachmentUploadField uploadField = view.getAttachUploadField();
-            String attachPath = AttachmentUtils.getProjectEntityAttachmentPath(
-                    AppContext.getAccountId(), CurrentProjectVariables.getProjectId(),
-                    ProjectTypeConstants.TASK, "" + item.getId());
-            uploadField.saveContentsToRepo(attachPath);
         }
+        AttachmentUploadField uploadField = view.getAttachUploadField();
+        String attachPath = AttachmentUtils.getProjectEntityAttachmentPath(AppContext.getAccountId(), item.getProjectid(),
+                ProjectTypeConstants.TASK, "" + item.getId());
+        uploadField.saveContentsToRepo(attachPath);
         return item.getId();
     }
 }

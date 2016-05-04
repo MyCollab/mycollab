@@ -89,13 +89,13 @@ public class AttachmentPanel extends VerticalLayout implements AttachmentUploadC
             }
         });
         removeBtn.setIcon(FontAwesome.TRASH_O);
-        removeBtn.setStyleName(UIConstants.BUTTON_ICON_ONLY);
+        removeBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
         removeBtn.setWidthUndefined();
-        Label fileLbl = new Label(fileName, ContentMode.HTML);
-        fileLbl.setWidthUndefined();
-        fileAttachmentLayout.with(new ELabel(FileAssetsUtil.getFileIconResource(fileName).getHtml(), ContentMode
-                .HTML).withWidth("-1px"), fileLbl, new ELabel(" - " + FileUtils.getVolumeDisplay(file.length()))
-                .withStyleName(UIConstants.LABEL_META_INFO).withWidth("-1px"), removeBtn).expand(fileLbl);
+
+        ELabel fileLbl = new ELabel(fileName, ContentMode.HTML).withDescription(fileName).withStyleName(UIConstants.TEXT_ELLIPSIS);
+        fileAttachmentLayout.with(new ELabel(FileAssetsUtil.getFileIconResource(fileName).getHtml(), ContentMode.HTML).withWidthUndefined(),
+                fileLbl, new ELabel(" - " + FileUtils.getVolumeDisplay(file.length())).withStyleName(UIConstants
+                        .LABEL_META_INFO).withWidthUndefined(), removeBtn).expand(fileLbl);
         this.addComponent(fileAttachmentLayout);
     }
 

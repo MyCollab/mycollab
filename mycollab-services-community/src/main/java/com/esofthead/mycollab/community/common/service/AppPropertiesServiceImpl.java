@@ -61,6 +61,7 @@ public class AppPropertiesServiceImpl implements AppPropertiesService, Initializ
                 properties.setProperty("id", UUID.randomUUID().toString() + new LocalDateTime().getMillisOfSecond());
                 properties.setProperty("startdate", DateTimeUtils.formatDateToW3C(new GregorianCalendar().getTime()));
                 properties.store(new FileOutputStream(sysFile), "");
+
             }
         } catch (IOException e) {
             LOG.error("Error", e);

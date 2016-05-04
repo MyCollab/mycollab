@@ -19,10 +19,7 @@ package com.esofthead.mycollab.core.utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TimeZone;
+import java.util.*;
 
 /**
  * Class keep all timezones of system
@@ -39,38 +36,23 @@ public class TimezoneMapper {
             "Pacific"};
 
     static {
-        timeMap = new HashMap<>();
+        timeMap = new LinkedHashMap<>();
 
-        timeMap.put("3", new TimezoneExt("3", "(GMT-11:00) Midway", "Pacific",
-                "Pacific/Midway"));
-        timeMap.put("4", new TimezoneExt("4", "(GMT-11:00) Niue", "Pacific",
-                "Pacific/Niue"));
-        timeMap.put("5", new TimezoneExt("5", "(GMT-11:00) Pago Pago",
-                "Pacific", "Pacific/Pago_Pago"));
-        timeMap.put("6", new TimezoneExt("6", "(GMT-11:00) Samoa", "Pacific",
-                "Pacific/Samoa"));
-        timeMap.put("8", new TimezoneExt("8", "(GMT-10:00) Adak", "America",
-                "America/Adak"));
-        timeMap.put("9", new TimezoneExt("9", "(GMT-10:00) Atka", "America",
-                "America/Atka"));
-        timeMap.put("12", new TimezoneExt("12", "(GMT-10:00) Fakaofo",
-                "Pacific", "Pacific/Fakaofo"));
-        timeMap.put("13", new TimezoneExt("13", "(GMT-10:00) Honolulu",
-                "Pacific", "Pacific/Honolulu"));
-        timeMap.put("14", new TimezoneExt("14", "(GMT-10:00) Johnston",
-                "Pacific", "Pacific/Johnston"));
-        timeMap.put("15", new TimezoneExt("15", "(GMT-10:00) Rarotonga",
-                "Pacific", "Pacific/Rarotonga"));
-        timeMap.put("16", new TimezoneExt("16", "(GMT-10:00) Tahiti",
-                "Pacific", "Pacific/Tahiti"));
-        timeMap.put("20", new TimezoneExt("20", "(GMT-09:00) Marquesas",
-                "Pacific", "Pacific/Marquesas"));
-        timeMap.put("22", new TimezoneExt("22", "(GMT-09:00) Anchorage",
-                "America", "America/Anchorage"));
-        timeMap.put("23", new TimezoneExt("23", "(GMT-09:00) Juneau",
-                "America", "America/Juneau"));
-        timeMap.put("24", new TimezoneExt("24", "(GMT-09:00) Nome", "America",
-                "America/Nome"));
+        timeMap.put("3", new TimezoneExt("3", "(GMT-11:00) Midway", "Pacific", "Pacific/Midway"));
+        timeMap.put("4", new TimezoneExt("4", "(GMT-11:00) Niue", "Pacific", "Pacific/Niue"));
+        timeMap.put("5", new TimezoneExt("5", "(GMT-11:00) Pago Pago", "Pacific", "Pacific/Pago_Pago"));
+        timeMap.put("6", new TimezoneExt("6", "(GMT-11:00) Samoa", "Pacific", "Pacific/Samoa"));
+        timeMap.put("8", new TimezoneExt("8", "(GMT-10:00) Adak", "America", "America/Adak"));
+        timeMap.put("9", new TimezoneExt("9", "(GMT-10:00) Atka", "America", "America/Atka"));
+        timeMap.put("12", new TimezoneExt("12", "(GMT-10:00) Fakaofo", "Pacific", "Pacific/Fakaofo"));
+        timeMap.put("13", new TimezoneExt("13", "(GMT-10:00) Honolulu", "Pacific", "Pacific/Honolulu"));
+        timeMap.put("14", new TimezoneExt("14", "(GMT-10:00) Johnston", "Pacific", "Pacific/Johnston"));
+        timeMap.put("15", new TimezoneExt("15", "(GMT-10:00) Rarotonga", "Pacific", "Pacific/Rarotonga"));
+        timeMap.put("16", new TimezoneExt("16", "(GMT-10:00) Tahiti", "Pacific", "Pacific/Tahiti"));
+        timeMap.put("20", new TimezoneExt("20", "(GMT-09:00) Marquesas", "Pacific", "Pacific/Marquesas"));
+        timeMap.put("22", new TimezoneExt("22", "(GMT-09:00) Anchorage", "America", "America/Anchorage"));
+        timeMap.put("23", new TimezoneExt("23", "(GMT-09:00) Juneau", "America", "America/Juneau"));
+        timeMap.put("24", new TimezoneExt("24", "(GMT-09:00) Nome", "America", "America/Nome"));
         timeMap.put("25", new TimezoneExt("25", "(GMT-09:00) Sitka", "America",
                 "America/Sitka"));
         timeMap.put("26", new TimezoneExt("26", "(GMT-09:00) Yakutat",
@@ -356,24 +338,12 @@ public class TimezoneMapper {
         timeMap.put("219", new TimezoneExt("219",
                 "(GMT-03:00) Argentina/ComodRivadavia", "America",
                 "America/Argentina/ComodRivadavia"));
-        timeMap.put("220", new TimezoneExt("220",
-                "(GMT-03:00) Argentina/Cordoba", "America",
-                "America/Argentina/Cordoba"));
-        timeMap.put("221", new TimezoneExt("221",
-                "(GMT-03:00) Argentina/Jujuy", "America",
-                "America/Argentina/Jujuy"));
-        timeMap.put("222", new TimezoneExt("222",
-                "(GMT-03:00) Argentina/La Rioja", "America",
-                "America/Argentina/La_Rioja"));
-        timeMap.put("223", new TimezoneExt("223",
-                "(GMT-03:00) Argentina/Mendoza", "America",
-                "America/Argentina/Mendoza"));
-        timeMap.put("224", new TimezoneExt("224",
-                "(GMT-03:00) Argentina/Rio Gallegos", "America",
-                "America/Argentina/Rio_Gallegos"));
-        timeMap.put("225", new TimezoneExt("225",
-                "(GMT-03:00) Argentina/Salta", "America",
-                "America/Argentina/Salta"));
+        timeMap.put("220", new TimezoneExt("220", "(GMT-03:00) Argentina/Cordoba", "America", "America/Argentina/Cordoba"));
+        timeMap.put("221", new TimezoneExt("221", "(GMT-03:00) Argentina/Jujuy", "America", "America/Argentina/Jujuy"));
+        timeMap.put("222", new TimezoneExt("222", "(GMT-03:00) Argentina/La Rioja", "America", "America/Argentina/La_Rioja"));
+        timeMap.put("223", new TimezoneExt("223", "(GMT-03:00) Argentina/Mendoza", "America", "America/Argentina/Mendoza"));
+        timeMap.put("224", new TimezoneExt("224", "(GMT-03:00) Argentina/Rio Gallegos", "America", "America/Argentina/Rio_Gallegos"));
+        timeMap.put("225", new TimezoneExt("225", "(GMT-03:00) Argentina/Salta", "America", "America/Argentina/Salta"));
         timeMap.put("226", new TimezoneExt("226",
                 "(GMT-03:00) Argentina/San Juan", "America",
                 "America/Argentina/San_Juan"));
@@ -449,20 +419,13 @@ public class TimezoneMapper {
                 "Africa", "Africa/Dakar"));
         timeMap.put("267", new TimezoneExt("267", "(GMT+00:00) El Aaiun",
                 "Africa", "Africa/El_Aaiun"));
-        timeMap.put("268", new TimezoneExt("268", "(GMT+00:00) Freetown",
-                "Africa", "Africa/Freetown"));
-        timeMap.put("269", new TimezoneExt("269", "(GMT+00:00) Lome", "Africa",
-                "Africa/Lome"));
-        timeMap.put("270", new TimezoneExt("270", "(GMT+00:00) Monrovia",
-                "Africa", "Africa/Monrovia"));
-        timeMap.put("271", new TimezoneExt("271", "(GMT+00:00) Nouakchott",
-                "Africa", "Africa/Nouakchott"));
-        timeMap.put("272", new TimezoneExt("272", "(GMT+00:00) Ouagadougou",
-                "Africa", "Africa/Ouagadougou"));
-        timeMap.put("273", new TimezoneExt("273", "(GMT+00:00) Sao Tome",
-                "Africa", "Africa/Sao_Tome"));
-        timeMap.put("274", new TimezoneExt("274", "(GMT+00:00) Timbuktu",
-                "Africa", "Africa/Timbuktu"));
+        timeMap.put("268", new TimezoneExt("268", "(GMT+00:00) Freetown", "Africa", "Africa/Freetown"));
+        timeMap.put("269", new TimezoneExt("269", "(GMT+00:00) Lome", "Africa", "Africa/Lome"));
+        timeMap.put("270", new TimezoneExt("270", "(GMT+00:00) Monrovia", "Africa", "Africa/Monrovia"));
+        timeMap.put("271", new TimezoneExt("271", "(GMT+00:00) Nouakchott", "Africa", "Africa/Nouakchott"));
+        timeMap.put("272", new TimezoneExt("272", "(GMT+00:00) Ouagadougou", "Africa", "Africa/Ouagadougou"));
+        timeMap.put("273", new TimezoneExt("273", "(GMT+00:00) Sao Tome", "Africa", "Africa/Sao_Tome"));
+        timeMap.put("274", new TimezoneExt("274", "(GMT+00:00) Timbuktu", "Africa", "Africa/Timbuktu"));
         timeMap.put("275", new TimezoneExt("275", "(GMT+00:00) Danmarkshavn",
                 "America", "America/Danmarkshavn"));
         timeMap.put("276", new TimezoneExt("276", "(GMT+00:00) Canary",
@@ -946,58 +909,32 @@ public class TimezoneMapper {
                 "Asia", "Asia/Sakhalin"));
         timeMap.put("579", new TimezoneExt("579", "(GMT+11:00) Vladivostok",
                 "Asia", "Asia/Vladivostok"));
-        timeMap.put("581", new TimezoneExt("581", "(GMT+11:00) Efate",
-                "Pacific", "Pacific/Efate"));
-        timeMap.put("582", new TimezoneExt("582", "(GMT+11:00) Guadalcanal",
-                "Pacific", "Pacific/Guadalcanal"));
-        timeMap.put("583", new TimezoneExt("583", "(GMT+11:00) Kosrae",
-                "Pacific", "Pacific/Kosrae"));
-        timeMap.put("584", new TimezoneExt("584", "(GMT+11:00) Noumea",
-                "Pacific", "Pacific/Noumea"));
-        timeMap.put("585", new TimezoneExt("585", "(GMT+11:00) Pohnpei",
-                "Pacific", "Pacific/Pohnpei"));
-        timeMap.put("586", new TimezoneExt("586", "(GMT+11:00) Ponape",
-                "Pacific", "Pacific/Ponape"));
-        timeMap.put("588", new TimezoneExt("588", "(GMT+11:00) Norfolk",
-                "Pacific", "Pacific/Norfolk"));
-        timeMap.put("589", new TimezoneExt("589", "(GMT+12:00) McMurdo",
-                "Antarctica", "Antarctica/McMurdo"));
-        timeMap.put("590", new TimezoneExt("590", "(GMT+12:00) South Pole",
-                "Antarctica", "Antarctica/South_Pole"));
-        timeMap.put("591", new TimezoneExt("591", "(GMT+12:00) Anadyr", "Asia",
-                "Asia/Anadyr"));
-        timeMap.put("592", new TimezoneExt("592", "(GMT+12:00) Kamchatka",
-                "Asia", "Asia/Kamchatka"));
-        timeMap.put("593", new TimezoneExt("593", "(GMT+12:00) Magadan",
-                "Asia", "Asia/Magadan"));
-        timeMap.put("598", new TimezoneExt("598", "(GMT+12:00) Auckland",
-                "Pacific", "Pacific/Auckland"));
-        timeMap.put("599", new TimezoneExt("599", "(GMT+12:00) Fiji",
-                "Pacific", "Pacific/Fiji"));
-        timeMap.put("600", new TimezoneExt("600", "(GMT+12:00) Funafuti",
-                "Pacific", "Pacific/Funafuti"));
-        timeMap.put("601", new TimezoneExt("601", "(GMT+12:00) Kwajalein",
-                "Pacific", "Pacific/Kwajalein"));
-        timeMap.put("602", new TimezoneExt("602", "(GMT+12:00) Majuro",
-                "Pacific", "Pacific/Majuro"));
-        timeMap.put("603", new TimezoneExt("603", "(GMT+12:00) Nauru",
-                "Pacific", "Pacific/Nauru"));
-        timeMap.put("604", new TimezoneExt("604", "(GMT+12:00) Tarawa",
-                "Pacific", "Pacific/Tarawa"));
-        timeMap.put("605", new TimezoneExt("605", "(GMT+12:00) Wake",
-                "Pacific", "Pacific/Wake"));
-        timeMap.put("606", new TimezoneExt("606", "(GMT+12:00) Wallis",
-                "Pacific", "Pacific/Wallis"));
-        timeMap.put("608", new TimezoneExt("608", "(GMT+12:00) Chatham",
-                "Pacific", "Pacific/Chatham"));
-        timeMap.put("611", new TimezoneExt("611", "(GMT+13:00) Apia",
-                "Pacific", "Pacific/Apia"));
-        timeMap.put("612", new TimezoneExt("612", "(GMT+13:00) Enderbury",
-                "Pacific", "Pacific/Enderbury"));
-        timeMap.put("613", new TimezoneExt("613", "(GMT+13:00) Tongatapu",
-                "Pacific", "Pacific/Tongatapu"));
-        timeMap.put("615", new TimezoneExt("615", "(GMT+14:00) Kiritimati",
-                "Pacific", "Pacific/Kiritimati"));
+        timeMap.put("581", new TimezoneExt("581", "(GMT+11:00) Efate", "Pacific", "Pacific/Efate"));
+        timeMap.put("582", new TimezoneExt("582", "(GMT+11:00) Guadalcanal", "Pacific", "Pacific/Guadalcanal"));
+        timeMap.put("583", new TimezoneExt("583", "(GMT+11:00) Kosrae", "Pacific", "Pacific/Kosrae"));
+        timeMap.put("584", new TimezoneExt("584", "(GMT+11:00) Noumea", "Pacific", "Pacific/Noumea"));
+        timeMap.put("585", new TimezoneExt("585", "(GMT+11:00) Pohnpei", "Pacific", "Pacific/Pohnpei"));
+        timeMap.put("586", new TimezoneExt("586", "(GMT+11:00) Ponape", "Pacific", "Pacific/Ponape"));
+        timeMap.put("588", new TimezoneExt("588", "(GMT+11:00) Norfolk", "Pacific", "Pacific/Norfolk"));
+        timeMap.put("589", new TimezoneExt("589", "(GMT+12:00) McMurdo", "Antarctica", "Antarctica/McMurdo"));
+        timeMap.put("590", new TimezoneExt("590", "(GMT+12:00) South Pole", "Antarctica", "Antarctica/South_Pole"));
+        timeMap.put("591", new TimezoneExt("591", "(GMT+12:00) Anadyr", "Asia", "Asia/Anadyr"));
+        timeMap.put("592", new TimezoneExt("592", "(GMT+12:00) Kamchatka", "Asia", "Asia/Kamchatka"));
+        timeMap.put("593", new TimezoneExt("593", "(GMT+12:00) Magadan", "Asia", "Asia/Magadan"));
+        timeMap.put("598", new TimezoneExt("598", "(GMT+12:00) Auckland", "Pacific", "Pacific/Auckland"));
+        timeMap.put("599", new TimezoneExt("599", "(GMT+12:00) Fiji", "Pacific", "Pacific/Fiji"));
+        timeMap.put("600", new TimezoneExt("600", "(GMT+12:00) Funafuti", "Pacific", "Pacific/Funafuti"));
+        timeMap.put("601", new TimezoneExt("601", "(GMT+12:00) Kwajalein", "Pacific", "Pacific/Kwajalein"));
+        timeMap.put("602", new TimezoneExt("602", "(GMT+12:00) Majuro", "Pacific", "Pacific/Majuro"));
+        timeMap.put("603", new TimezoneExt("603", "(GMT+12:00) Nauru", "Pacific", "Pacific/Nauru"));
+        timeMap.put("604", new TimezoneExt("604", "(GMT+12:00) Tarawa", "Pacific", "Pacific/Tarawa"));
+        timeMap.put("605", new TimezoneExt("605", "(GMT+12:00) Wake", "Pacific", "Pacific/Wake"));
+        timeMap.put("606", new TimezoneExt("606", "(GMT+12:00) Wallis", "Pacific", "Pacific/Wallis"));
+        timeMap.put("608", new TimezoneExt("608", "(GMT+12:00) Chatham", "Pacific", "Pacific/Chatham"));
+        timeMap.put("611", new TimezoneExt("611", "(GMT+13:00) Apia", "Pacific", "Pacific/Apia"));
+        timeMap.put("612", new TimezoneExt("612", "(GMT+13:00) Enderbury", "Pacific", "Pacific/Enderbury"));
+        timeMap.put("613", new TimezoneExt("613", "(GMT+13:00) Tongatapu", "Pacific", "Pacific/Tongatapu"));
+        timeMap.put("615", new TimezoneExt("615", "(GMT+14:00) Kiritimati", "Pacific", "Pacific/Kiritimati"));
         timeMap = Collections.unmodifiableMap(timeMap);
     }
 
@@ -1041,8 +978,7 @@ public class TimezoneMapper {
         private final TimeZone timezone;
         private final String area;
 
-        TimezoneExt(String id, String displayName, String area,
-                    String javaTimeZoneId) {
+        TimezoneExt(String id, String displayName, String area, String javaTimeZoneId) {
             this.id = id;
             this.displayName = displayName;
             this.area = area;
@@ -1068,11 +1004,9 @@ public class TimezoneMapper {
 
     private static String getArea(String timeZoneDisplay) {
         String areas[] = new String[]{"Africa", "America", "Antarctica",
-                "Asia", "Atlantic", "Australia", "Europe", "Etc", "Indian",
-                "Pacific"};
+                "Asia", "Atlantic", "Australia", "Europe", "Etc", "Indian", "Pacific"};
         if (timeZoneDisplay.indexOf("/") > -1) {
-            String area = timeZoneDisplay.substring(0,
-                    timeZoneDisplay.indexOf("/"));
+            String area = timeZoneDisplay.substring(0, timeZoneDisplay.indexOf("/"));
             for (String item : areas) {
                 if (item.equalsIgnoreCase(area.trim())) {
                     return (area.equalsIgnoreCase("etc")) ? "GMT Offset" : item;
@@ -1093,8 +1027,7 @@ public class TimezoneMapper {
             timeZoneDisplay = "";
         }
 
-        String strOffSetNum = (Math.abs(offset) < 10) ? ("0" + Math.abs(offset))
-                : Math.abs(offset) + "";
+        String strOffSetNum = (Math.abs(offset) < 10) ? ("0" + Math.abs(offset)) : Math.abs(offset) + "";
         timeZoneDisplay = timeZoneDisplay.replace("_", " ");
         String strOffset = strOffSetNum + ":" + "00) " + timeZoneDisplay;
         return (offset < 0) ? "(GMT-" + strOffset : "(GMT+" + strOffset;

@@ -34,6 +34,7 @@ public class UserProjectDashboardPresenter extends AbstractPresenter<UserProject
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData data) {
+        container.addComponent(view);
         view.display();
     }
 }

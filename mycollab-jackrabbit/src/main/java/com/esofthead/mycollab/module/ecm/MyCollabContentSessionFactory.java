@@ -64,7 +64,6 @@ public class MyCollabContentSessionFactory extends JcrSessionFactory {
         session.logout();
     }
 
-    @SuppressWarnings("unchecked")
     private NodeTypeTemplate createMyCollabContentType(NodeTypeManager manager) throws RepositoryException {
         LOG.info("Register mycollab content type");
         NodeType hierachyNode = manager.getNodeType(NodeType.NT_HIERARCHY_NODE);
@@ -78,9 +77,6 @@ public class MyCollabContentSessionFactory extends JcrSessionFactory {
         contentTypeTemplate.setDeclaredSuperTypeNames(new String[]{NodeType.NT_HIERARCHY_NODE});
         contentTypeTemplate.setQueryable(true);
         contentTypeTemplate.setOrderableChildNodes(false);
-        LOG.debug("PROPERTY {} {}",
-                contentTypeTemplate.getDeclaredPropertyDefinitions().length,
-                contentTypeTemplate.getDeclaredChildNodeDefinitions().length);
 
         PropertyDefinitionTemplate createdUserPropertyTemplate = manager
                 .createPropertyDefinitionTemplate();
@@ -131,7 +127,6 @@ public class MyCollabContentSessionFactory extends JcrSessionFactory {
         return contentTypeTemplate;
     }
 
-    @SuppressWarnings("unchecked")
     private NodeTypeTemplate createMyCollabFolderType(NodeTypeManager manager) throws RepositoryException {
         // Create content node type
         NodeTypeTemplate contentTypeTemplate = manager.createNodeTypeTemplate();
@@ -151,6 +146,15 @@ public class MyCollabContentSessionFactory extends JcrSessionFactory {
         createdPropertyTemplate.setMandatory(true);
         createdPropertyTemplate.setRequiredType(PropertyType.STRING);
         contentTypeTemplate.getPropertyDefinitionTemplates().add(createdPropertyTemplate);
+
+        PropertyDefinitionTemplate descPropertyTemplate = manager
+                .createPropertyDefinitionTemplate();
+        descPropertyTemplate.setMultiple(false);
+        descPropertyTemplate.setName("jcr:description");
+        descPropertyTemplate.setMandatory(false);
+        descPropertyTemplate.setRequiredType(PropertyType.STRING);
+        contentTypeTemplate.getPropertyDefinitionTemplates().add(descPropertyTemplate);
+
         return contentTypeTemplate;
     }
 }

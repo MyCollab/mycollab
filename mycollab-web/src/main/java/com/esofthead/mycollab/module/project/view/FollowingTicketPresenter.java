@@ -34,7 +34,7 @@ public class FollowingTicketPresenter extends AbstractPresenter<FollowingTicketV
     }
 
     @Override
-    protected void postInitView() {
+    protected void viewAttached() {
         view.getSearchHandlers().addSearchHandler(new SearchHandler<FollowingTicketSearchCriteria>() {
             @Override
             public void onSearch(FollowingTicketSearchCriteria criteria) {
@@ -45,6 +45,7 @@ public class FollowingTicketPresenter extends AbstractPresenter<FollowingTicketV
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        container.addComponent(view);
         view.displayTickets();
     }
 }

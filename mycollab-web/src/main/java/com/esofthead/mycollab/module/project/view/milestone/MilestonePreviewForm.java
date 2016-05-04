@@ -29,6 +29,7 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsUtil;
+import com.esofthead.mycollab.module.project.ui.form.ProjectFormAttachmentDisplayField;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -98,6 +99,9 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
                 ContainerViewField containerField = new ContainerViewField();
                 containerField.addComponentField(new AssignmentsComp(beanItem));
                 return containerField;
+            } else if (Milestone.Field.saccountid.equalTo(propertyId)) {
+                return new ProjectFormAttachmentDisplayField(beanItem.getProjectid(), ProjectTypeConstants.MILESTONE,
+                        beanItem.getId());
             }
             return null;
         }

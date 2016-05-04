@@ -62,11 +62,11 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.jackrabbit.util.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.easyuploads.MultiFileUploadExt;
+import org.vaadin.jouni.restrain.Restrain;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -130,7 +130,6 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
         });
         ELabel headerLbl = ELabel.h2(ProjectAssetsManager.getAsset(ProjectTypeConstants.FILE).getHtml() + " Files");
 
-        // Construct controllGroupBtn
         Button createBtn = new Button("New folder", new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
@@ -343,8 +342,8 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             if (resource.getName().startsWith(".")) {
                 return null;
             }
-            final MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%").withStyleName
-                    (UIConstants.HOVER_EFFECT_NOT_BOX, "border-bottom");
+            final MHorizontalLayout layout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
+                    .withWidth("100%").withStyleName(UIConstants.HOVER_EFFECT_NOT_BOX, "border-bottom");
             layout.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
                 @Override
                 public void layoutClick(LayoutEvents.LayoutClickEvent event) {
@@ -392,16 +391,15 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             }
             resIconWrapper.addComponent(resourceIcon);
 
-            layout.addComponent(resIconWrapper);
-            layout.setComponentAlignment(resIconWrapper, Alignment.MIDDLE_LEFT);
+            layout.with(resIconWrapper).withAlign(resIconWrapper, Alignment.TOP_LEFT);
 
             MVerticalLayout informationLayout = new MVerticalLayout().withSpacing(false).withMargin(false);
 
-            Button resourceLinkBtn = new Button(resource.getName(), new ClickListener() {
-                private static final long serialVersionUID = 1L;
-
+            ELabel resourceLbl = ELabel.h3(resource.getName()).withWidth("100%").withStyleName("link", UIConstants.TEXT_ELLIPSIS);
+            CssLayout resourceLinkLayout = new CssLayout(resourceLbl);
+            resourceLinkLayout.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
                 @Override
-                public void buttonClick(ClickEvent event) {
+                public void layoutClick(LayoutEvents.LayoutClickEvent layoutClickEvent) {
                     if (resource instanceof Folder) {
                         baseFolder = (Folder) resource;
                         resourcesContainer.constructBody((Folder) resource);
@@ -412,10 +410,12 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                     }
                 }
             });
-            resourceLinkBtn.setWidth("100%");
-            resourceLinkBtn.addStyleName(UIConstants.BUTTON_LINK);
-            resourceLinkBtn.addStyleName(UIConstants.TEXT_ELLIPSIS);
-            informationLayout.addComponent(resourceLinkBtn);
+            resourceLinkLayout.setWidth("100%");
+            informationLayout.addComponent(resourceLinkLayout);
+
+            if (StringUtils.isNotBlank(resource.getDescription())) {
+                informationLayout.addComponent(new Label(resource.getDescription()));
+            }
 
             MHorizontalLayout moreInfoAboutResLayout = new MHorizontalLayout();
 
@@ -485,7 +485,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
         private Resource renameResource;
 
         public RenameResourceWindow(Resource resource) {
-            super("Rename folder/file");
+            super("Edit folder/file name");
             this.center();
             this.setResizable(false);
             this.setModal(true);
@@ -497,9 +497,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
         private void constructBody() {
             VerticalLayout contentLayout = new VerticalLayout();
             GridFormLayoutHelper layoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 1);
-            final TextField folderName = new TextField();
-            folderName.setValue(renameResource.getName());
-            layoutHelper.addComponent(folderName, "Folder/File Name", 0, 0);
+            final TextField folderName = layoutHelper.addComponent(new TextField("", renameResource.getName()), "Folder/File Name", 0, 0);
             contentLayout.addComponent(layoutHelper.getLayout());
 
             final MHorizontalLayout controlButtons = new MHorizontalLayout().withMargin(true);
@@ -511,7 +509,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                     String oldPath = renameResource.getPath();
                     String parentOldPath = oldPath.substring(0, oldPath.lastIndexOf("/") + 1);
 
-                    String newNameValue = Text.escape(folderName.getValue());
+                    String newNameValue = FileUtils.escape(folderName.getValue());
                     String newPath = parentOldPath + newNameValue;
 
                     if (renameResource.isExternalResource()) {
@@ -547,8 +545,6 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
     private class AddNewFolderWindow extends Window {
         private static final long serialVersionUID = 1L;
 
-        private TextField folderName;
-        private TextArea descriptionArea;
 
         public AddNewFolderWindow() {
             this.setModal(true);
@@ -561,9 +557,10 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                     true, true, false));
             this.setContent(contentLayout);
 
-            GridFormLayoutHelper layoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 1);
-            this.folderName = new TextField();
-            layoutHelper.addComponent(folderName, "Folder Name", 0, 0);
+            GridFormLayoutHelper layoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 2);
+            final TextField folderName = layoutHelper.addComponent(new TextField(), "Folder Name", 0, 0);
+            final TextArea descAreaField = layoutHelper.addComponent(new TextArea(), AppContext.getMessage
+                    (GenericI18Enum.FORM_DESCRIPTION), 0, 1);
             contentLayout.addComponent(layoutHelper.getLayout());
             MHorizontalLayout controlsLayout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, false, false));
             Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
@@ -576,16 +573,19 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                     if (StringUtils.isNotBlank(folderVal)) {
                         FileUtils.assertValidFolderName(folderVal);
                         String baseFolderPath = baseFolder.getPath();
-                        folderVal = Text.escape(folderVal);
+                        String desc = descAreaField.getValue();
+                        folderVal = FileUtils.escape(folderVal);
 
                         if (baseFolder instanceof ExternalFolder) {
                             String path = baseFolder.getPath() + "/" + folderVal;
                             externalResourceService.createNewFolder(((ExternalFolder) baseFolder).getExternalDrive(), path);
                         } else {
-                            resourceService.createNewFolder(baseFolderPath, folderVal, AppContext.getUsername());
+                            resourceService.createNewFolder(baseFolderPath, folderVal, desc, AppContext.getUsername());
                         }
                         resourcesContainer.constructBody(baseFolder);
                         close();
+                    } else {
+                        NotificationUtil.showErrorNotification("Folder name must be not null");
                     }
                 }
             });
@@ -615,7 +615,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
 
         public MultiUploadContentWindow() {
             super("Upload");
-            this.setWidth("500px");
+            this.setWidth("600px");
             this.setResizable(false);
             this.setModal(true);
             center();
@@ -625,17 +625,16 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             this.setContent(contentLayout);
             final AttachmentPanel attachmentPanel = new AttachmentPanel();
 
-            this.layoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 1);
+            layoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 1);
 
             multiFileUploadExt = new MultiFileUploadExt(attachmentPanel);
             multiFileUploadExt.addComponent(attachmentPanel);
             multiFileUploadExt.setWidth("100%");
 
-            this.layoutHelper.addComponent(multiFileUploadExt, "File", 0, 0);
-            contentLayout.addComponent(this.layoutHelper.getLayout());
+            layoutHelper.addComponent(multiFileUploadExt, "File", 0, 0);
+            contentLayout.addComponent(layoutHelper.getLayout());
 
-            MHorizontalLayout controlsLayout = new MHorizontalLayout().withMargin(new MarginInfo(true, true, false,
-                    false));
+            MHorizontalLayout controlsLayout = new MHorizontalLayout().withMargin(new MarginInfo(true, true, false, false));
 
             final Button uploadBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_UPLOAD), new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;
@@ -646,7 +645,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                     if (CollectionUtils.isNotEmpty(attachments)) {
                         for (File attachment : attachments) {
                             try {
-                                String attachmentName = Text.escape(attachment.getName());
+                                String attachmentName = FileUtils.escape(attachment.getName());
                                 if (!FileUtils.isValidFileName(attachmentName)) {
                                     NotificationUtil.showWarningNotification("Please upload valid file-name except any follow characters : <>:&/\\|?*&");
                                     return;

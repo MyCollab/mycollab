@@ -44,8 +44,7 @@ public interface ContentJcrDao {
 
     List<Folder> getSubFolders(String path);
 
-    List<Resource> searchResourcesByName(String baseFolderPath,
-                                         String resourceName);
+    List<Resource> searchResourcesByName(String baseFolderPath, String resourceName);
 
     void moveResource(String oldPath, String destinationPath);
 }

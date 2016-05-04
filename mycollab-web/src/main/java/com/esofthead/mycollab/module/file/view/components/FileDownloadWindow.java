@@ -73,15 +73,15 @@ public class FileDownloadWindow extends Window {
 
         final GridFormLayoutHelper inforLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 4);
 
-        if (this.content.getDescription() != null) {
-            final Label desvalue = new Label();
-            if (!this.content.getDescription().equals("")) {
-                desvalue.setData(this.content.getDescription());
+        if (content.getDescription() != null) {
+            final Label descLbl = new Label();
+            if (!content.getDescription().equals("")) {
+                descLbl.setData(content.getDescription());
             } else {
-                desvalue.setValue("&nbsp;");
-                desvalue.setContentMode(ContentMode.HTML);
+                descLbl.setValue("&nbsp;");
+                descLbl.setContentMode(ContentMode.HTML);
             }
-            inforLayout.addComponent(desvalue, "Description", 0, 0);
+            inforLayout.addComponent(descLbl, "Description", 0, 0);
         }
 
         UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
@@ -115,19 +115,17 @@ public class FileDownloadWindow extends Window {
         downloadBtn.setIcon(FontAwesome.DOWNLOAD);
         downloadBtn.addStyleName(UIConstants.BUTTON_ACTION);
 
-        buttonControls.with(downloadBtn).withAlign(downloadBtn, Alignment.MIDDLE_CENTER);
-
         final Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new ClickListener() {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void buttonClick(final ClickEvent event) {
-                FileDownloadWindow.this.close();
+            public void buttonClick(ClickEvent event) {
+                close();
             }
         });
         cancelBtn.addStyleName(UIConstants.BUTTON_OPTION);
-        buttonControls.with(cancelBtn).withAlign(cancelBtn, Alignment.MIDDLE_CENTER);
-        layout.with(buttonControls).withAlign(buttonControls, Alignment.MIDDLE_CENTER);
+        buttonControls.with(cancelBtn, downloadBtn).alignAll(Alignment.TOP_RIGHT);
+        layout.with(buttonControls).withAlign(buttonControls, Alignment.TOP_RIGHT);
         this.setContent(layout);
     }
 }

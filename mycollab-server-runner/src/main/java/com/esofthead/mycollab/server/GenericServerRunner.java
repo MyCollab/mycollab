@@ -129,7 +129,7 @@ public abstract class GenericServerRunner {
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException(Thread t, Throwable e) {
-                LOG.error("There is uncatch exception", e);
+                LOG.error("There is uncaught exception", e);
             }
         });
         server = new Server();

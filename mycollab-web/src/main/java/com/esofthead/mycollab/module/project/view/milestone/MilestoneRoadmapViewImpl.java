@@ -17,9 +17,9 @@
 package com.esofthead.mycollab.module.project.view.milestone;
 
 import com.esofthead.mycollab.configuration.StorageFactory;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.core.utils.StringUtils;
@@ -297,7 +297,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
             this.setMargin(new MarginInfo(true, false, true, false));
             this.setStyleName("roadmap-block");
 
-            ELabel statusLbl = new ELabel(AppContext.getMessage(OptionI18nEnum.BugStatus.class, milestone.getStatus()))
+            ELabel statusLbl = new ELabel(AppContext.getMessage(OptionI18nEnum.MilestoneStatus.class, milestone.getStatus()))
                     .withStyleName(UIConstants.FIELD_NOTE).withWidthUndefined();
             ToggleMilestoneSummaryField toggleMilestoneSummaryField = new ToggleMilestoneSummaryField(milestone);
             MHorizontalLayout headerLayout = new MHorizontalLayout(statusLbl, toggleMilestoneSummaryField).expand

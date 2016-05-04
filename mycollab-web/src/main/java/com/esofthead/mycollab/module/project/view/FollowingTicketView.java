@@ -19,14 +19,14 @@ package com.esofthead.mycollab.module.project.view;
 import com.esofthead.mycollab.module.project.domain.FollowingTicket;
 import com.esofthead.mycollab.module.project.domain.criteria.FollowingTicketSearchCriteria;
 import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
-import com.esofthead.mycollab.vaadin.mvp.PageView;
+import com.esofthead.mycollab.vaadin.web.ui.InitializingView;
 import com.esofthead.mycollab.vaadin.web.ui.table.AbstractPagedBeanTable;
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public interface FollowingTicketView extends PageView {
+public interface FollowingTicketView extends InitializingView {
     void displayTickets();
 
     HasSearchHandlers<FollowingTicketSearchCriteria> getSearchHandlers();

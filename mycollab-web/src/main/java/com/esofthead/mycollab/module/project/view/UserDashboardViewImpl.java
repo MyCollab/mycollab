@@ -40,6 +40,7 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.apache.commons.collections.CollectionUtils;
+import org.vaadin.viritin.layouts.MCssLayout;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -58,12 +59,6 @@ public class UserDashboardViewImpl extends AbstractPageView implements UserDashb
 
     private TabSheet tabSheet;
 
-    private UserProjectDashboardPresenter userProjectDashboardPresenter;
-    private ProjectListPresenter projectListPresenter;
-    private FollowingTicketPresenter followingTicketPresenter;
-    private ICalendarDashboardPresenter calendarPresenter;
-    private SettingPresenter settingPresenter;
-
     public UserDashboardViewImpl() {
         this.withMargin(false).withWidth("100%");
 
@@ -80,17 +75,27 @@ public class UserDashboardViewImpl extends AbstractPageView implements UserDashb
         tabSheet.addSelectedTabChangeListener(new TabSheet.SelectedTabChangeListener() {
             @Override
             public void selectedTabChange(TabSheet.SelectedTabChangeEvent event) {
-                Component comp = tabSheet.getSelectedTab();
-                if (comp instanceof UserProjectDashboardView) {
-                    userProjectDashboardPresenter.onGo(UserDashboardViewImpl.this, null);
-                } else if (comp instanceof FollowingTicketView) {
-                    followingTicketPresenter.onGo(UserDashboardViewImpl.this, null);
-                } else if (comp instanceof SettingView) {
-                    settingPresenter.onGo(UserDashboardViewImpl.this, null);
-                } else if (comp instanceof ICalendarDashboardView) {
-                    calendarPresenter.go(UserDashboardViewImpl.this, null);
-                } else if (comp instanceof ProjectListView) {
-                    projectListPresenter.go(UserDashboardViewImpl.this, null);
+                CssLayout comp = (CssLayout) tabSheet.getSelectedTab();
+                comp.removeAllComponents();
+                int tabIndex = tabSheet.getTabPosition(tabSheet.getTab(comp));
+                if (tabIndex == 0) {
+                    UserProjectDashboardPresenter userProjectDashboardPresenter = PresenterResolver.getPresenterAndInitView
+                            (UserProjectDashboardPresenter.class);
+                    userProjectDashboardPresenter.onGo(comp, null);
+                } else if (tabIndex == 2) {
+                    FollowingTicketPresenter followingTicketPresenter = PresenterResolver.getPresenterAndInitView
+                            (FollowingTicketPresenter.class);
+                    followingTicketPresenter.onGo(comp, null);
+                } else if (tabIndex == 4) {
+                    SettingPresenter settingPresenter = PresenterResolver.getPresenter(SettingPresenter.class);
+                    settingPresenter.onGo(comp, null);
+                } else if (tabIndex == 3) {
+                    ICalendarDashboardPresenter calendarPresenter = PresenterResolver.getPresenterAndInitView
+                            (ICalendarDashboardPresenter.class);
+                    calendarPresenter.go(comp, null);
+                } else if (tabIndex == 1) {
+                    ProjectListPresenter projectListPresenter = PresenterResolver.getPresenterAndInitView(ProjectListPresenter.class);
+                    projectListPresenter.onGo(comp, null);
                 }
             }
         });
@@ -101,7 +106,14 @@ public class UserDashboardViewImpl extends AbstractPageView implements UserDashb
 
     @Override
     public void showDashboard() {
-        userProjectDashboardPresenter.onGo(UserDashboardViewImpl.this, null);
+        CssLayout comp = (CssLayout) tabSheet.getSelectedTab();
+        if (tabSheet.getTabPosition(tabSheet.getTab(comp)) == 0) {
+            UserProjectDashboardPresenter userProjectDashboardPresenter = PresenterResolver.getPresenterAndInitView
+                    (UserProjectDashboardPresenter.class);
+            userProjectDashboardPresenter.onGo(comp, null);
+        } else {
+            tabSheet.setSelectedTab(0);
+        }
 
         if (AppContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT)) {
             int countActiveProjects = prjService.getTotalActiveProjectsOfInvolvedUsers(AppContext.getUsername(), AppContext.getAccountId());
@@ -113,7 +125,7 @@ public class UserDashboardViewImpl extends AbstractPageView implements UserDashb
 
     @Override
     public void showProjectList() {
-        tabSheet.setSelectedTab(projectListPresenter.getView());
+        tabSheet.setSelectedTab(1);
     }
 
     @Override
@@ -122,28 +134,23 @@ public class UserDashboardViewImpl extends AbstractPageView implements UserDashb
     }
 
     private Component buildDashboardComp() {
-        userProjectDashboardPresenter = PresenterResolver.getPresenter(UserProjectDashboardPresenter.class);
-        return userProjectDashboardPresenter.getView();
+        return new MCssLayout().withFullWidth();
     }
 
     private Component buildProjectListComp() {
-        projectListPresenter = PresenterResolver.getPresenter(ProjectListPresenter.class);
-        return projectListPresenter.getView();
+        return new MCssLayout().withFullWidth();
     }
 
     private Component buildFollowingTicketComp() {
-        followingTicketPresenter = PresenterResolver.getPresenter(FollowingTicketPresenter.class);
-        return followingTicketPresenter.getView();
+        return new MCssLayout().withFullWidth();
     }
 
     private Component buildCalendarComp() {
-        calendarPresenter = PresenterResolver.getPresenter(ICalendarDashboardPresenter.class);
-        return calendarPresenter.getView();
+        return new MCssLayout().withFullWidth();
     }
 
     private Component buildSettingComp() {
-        settingPresenter = PresenterResolver.getPresenter(SettingPresenter.class);
-        return settingPresenter.getView();
+        return new MCssLayout().withFullWidth();
     }
 
     private ComponentContainer setupHeader() {

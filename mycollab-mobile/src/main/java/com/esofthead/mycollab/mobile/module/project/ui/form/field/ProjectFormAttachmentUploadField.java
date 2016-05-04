@@ -163,7 +163,7 @@ public class ProjectFormAttachmentUploadField extends CustomField {
         rowWrap.setWidth("100%");
         rowWrap.setStyleName("attachment-row-wrap");
 
-        Label compHeader = new Label(AppContext.getMessage(GenericI18Enum.M_FORM_ATTACHMENT));
+        Label compHeader = new Label(AppContext.getMessage(GenericI18Enum.FORM_ATTACHMENTS));
         compHeader.setStyleName("h2");
 
         content.addComponent(compHeader);

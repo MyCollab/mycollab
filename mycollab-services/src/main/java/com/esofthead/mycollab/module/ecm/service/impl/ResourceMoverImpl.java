@@ -50,8 +50,7 @@ public class ResourceMoverImpl implements ResourceMover {
                 createdFolder = destService.createNewFolder(
                         ResourceUtils.getExternalDrive(destRes), destMovePath);
             } else {
-                createdFolder = resourceService.createNewFolder(
-                        destRes.getPath(), srcRes.getName(), userMove);
+                createdFolder = resourceService.createNewFolder(destRes.getPath(), srcRes.getName(), "", userMove);
             }
 
             if (ResourceUtils.getType(srcRes) != ResourceType.MyCollab) {

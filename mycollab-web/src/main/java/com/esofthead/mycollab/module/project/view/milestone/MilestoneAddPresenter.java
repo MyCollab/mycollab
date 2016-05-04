@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.project.view.milestone;
 
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
@@ -34,6 +35,7 @@ import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
+import com.esofthead.mycollab.vaadin.web.ui.field.AttachmentUploadField;
 import com.vaadin.ui.ComponentContainer;
 
 /**
@@ -101,12 +103,14 @@ public class MilestoneAddPresenter extends AbstractPresenter<MilestoneAddView> {
 
         if (milestone.getId() == null) {
             milestone.setCreateduser(AppContext.getUsername());
-            milestoneService.saveWithSession(milestone,
-                    AppContext.getUsername());
+            milestoneService.saveWithSession(milestone, AppContext.getUsername());
         } else {
-            milestoneService.updateWithSession(milestone,
-                    AppContext.getUsername());
+            milestoneService.updateWithSession(milestone, AppContext.getUsername());
         }
+        AttachmentUploadField uploadField = view.getAttachUploadField();
+        String attachPath = AttachmentUtils.getProjectEntityAttachmentPath(AppContext.getAccountId(), milestone.getProjectid(),
+                ProjectTypeConstants.MILESTONE, "" + milestone.getId());
+        uploadField.saveContentsToRepo(attachPath);
         return milestone.getId();
     }
 

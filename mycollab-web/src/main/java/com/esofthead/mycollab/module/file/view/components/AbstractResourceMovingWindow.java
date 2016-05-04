@@ -36,6 +36,8 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Tree.CollapseEvent;
 import com.vaadin.ui.Tree.ExpandEvent;
 import org.apache.commons.collections.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.jouni.restrain.Restrain;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -49,22 +51,23 @@ import java.util.*;
  */
 public abstract class AbstractResourceMovingWindow extends Window {
     private static final long serialVersionUID = 1L;
+    private static Logger LOG = LoggerFactory.getLogger(AbstractResourceMovingWindow.class);
 
     private final ResourceService resourceService;
     private final ExternalResourceService externalResourceService;
     private final ExternalDriveService externalDriveService;
 
-    protected Tree folderTree;
-    protected Folder baseFolder;
+    private Tree folderTree;
+    private Folder baseFolder;
     private Collection<Resource> movedResources;
     private final ResourceMover resourceMover;
 
-    public AbstractResourceMovingWindow(Folder baseFolder, Resource resource) {
+    AbstractResourceMovingWindow(Folder baseFolder, Resource resource) {
         this(baseFolder, Collections.singletonList(resource));
     }
 
-    public AbstractResourceMovingWindow(Folder baseFolder, Collection<Resource> lstRes) {
-        super("Move asset(s)");
+    AbstractResourceMovingWindow(Folder baseFolder, Collection<Resource> lstRes) {
+        super("Moving asset(s)");
         this.baseFolder = baseFolder;
         center();
         this.setWidth("600px");
@@ -83,16 +86,11 @@ public abstract class AbstractResourceMovingWindow extends Window {
         new Restrain(contentLayout).setMaxHeight("600px");
         this.setContent(contentLayout);
 
-        final HorizontalLayout resourceContainer = new HorizontalLayout();
-        resourceContainer.setSizeFull();
-
         folderTree = new Tree();
         folderTree.setMultiSelect(false);
         folderTree.setSelectable(true);
         folderTree.setImmediate(true);
-        folderTree.setWidth("100%");
-
-        resourceContainer.addComponent(folderTree);
+        folderTree.setSizeFull();
 
         folderTree.addExpandListener(new Tree.ExpandListener() {
             private static final long serialVersionUID = 1L;
@@ -188,7 +186,9 @@ public abstract class AbstractResourceMovingWindow extends Window {
             }
         });
 
-        contentLayout.addComponent(resourceContainer);
+        CssLayout treeWrapper = new CssLayout(folderTree);
+        treeWrapper.setSizeFull();
+        contentLayout.addComponent(treeWrapper);
         displayFiles();
 
         MHorizontalLayout controlGroupBtnLayout = new MHorizontalLayout();
@@ -202,13 +202,13 @@ public abstract class AbstractResourceMovingWindow extends Window {
                     boolean checkingFail = false;
                     for (Resource res : movedResources) {
                         try {
-                            resourceMover.moveResource(res, baseFolder,
-                                    AppContext.getUsername(), AppContext.getAccountId());
+                            resourceMover.moveResource(res, baseFolder, AppContext.getUsername(), AppContext.getAccountId());
                         } catch (Exception e) {
                             checkingFail = true;
+                            LOG.error("Error", e);
                         }
                     }
-                    AbstractResourceMovingWindow.this.close();
+                    close();
                     displayAfterMoveSuccess(baseFolder, checkingFail);
                 }
             }
@@ -222,7 +222,7 @@ public abstract class AbstractResourceMovingWindow extends Window {
 
             @Override
             public void buttonClick(ClickEvent event) {
-                AbstractResourceMovingWindow.this.close();
+                close();
             }
         });
         cancelBtn.addStyleName(UIConstants.BUTTON_OPTION);

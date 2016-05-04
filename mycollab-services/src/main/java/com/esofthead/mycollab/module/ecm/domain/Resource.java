@@ -35,6 +35,7 @@ public class Resource implements Comparable<Resource> {
     private String createdBy = "";
     private Calendar created;
     private String path = "";
+    private String description;
 
     // length is Kilobyte value
     private Long size = 0L;
@@ -71,6 +72,14 @@ public class Resource implements Comparable<Resource> {
 
     public void setSize(Long size) {
         this.size = size;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getUuid() {

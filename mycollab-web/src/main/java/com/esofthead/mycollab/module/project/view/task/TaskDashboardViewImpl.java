@@ -375,21 +375,21 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
 
     @Override
     public HasSelectionOptionHandlers getOptionSelectionHandlers() {
-        throw new UnsupportedOperationException("This view doesn't support this operation");
+        return null;
     }
 
     @Override
     public HasMassItemActionHandler getPopupActionHandlers() {
-        throw new UnsupportedOperationException("This view doesn't support this operation");
+        return null;
     }
 
     @Override
     public HasSelectableItemHandlers<SimpleTask> getSelectableItemHandlers() {
-        throw new UnsupportedOperationException("This view doesn't support this operation");
+        return null;
     }
 
     @Override
     public AbstractPagedBeanTable<TaskSearchCriteria, SimpleTask> getPagedBeanTable() {
-        throw new UnsupportedOperationException("This view doesn't support this operation");
+        return null;
     }
 }

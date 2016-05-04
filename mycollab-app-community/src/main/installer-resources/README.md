@@ -45,6 +45,7 @@ Version 5.3.0
 **Library Upgrades**
 
 * Mybatis 3.4.0, Mybatis spring 1.3.0
+* Jetty 9.2.16.v20160414
 * Quartz 2.2.3
 * Vaadin 7.6.5
 * Hiraki CP 2.4.6
@@ -54,12 +55,18 @@ Version 5.3.0
 
 * [Premium] Add views to manage projects/tasks and time of client
 * [Premium] Print invoice page
+* [Premium] Allow attachment in the invoice form
+* [Premium] Allow attachment in the risk form
 * [Premium] Associate client information to invoice
 * [Premium] Member weekly hours report
 * Allow site owner create the admin user instead of system default user
 * Create sample project for the new MyCollab installation
 * Add the context help for project forms
 * Change the issue workflow similar than Bugzilla
+* Allow to edit description in file management
+* Allow user add attachments in phase form
+* Revise the bug workflow in  the kanban view
+* General performance improvement in project module
 * Other minor improvements
 
 **Bug Fixes**
@@ -70,6 +77,7 @@ Version 5.3.0
 * Clean resources properly when user signout MyCollab
 * Get following items return the wrong list in several cases
 * Tooltip still show after mouse over event occurs
+* Can not preview image file which has special characters
 
 Version 5.2.12
 -----------------------------

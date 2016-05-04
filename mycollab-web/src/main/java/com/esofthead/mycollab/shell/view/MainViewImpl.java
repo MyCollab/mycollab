@@ -22,6 +22,7 @@ import com.esofthead.mycollab.common.ui.components.notification.SmtpSetupNotific
 import com.esofthead.mycollab.common.ui.components.notification.TimezoneNotification;
 import com.esofthead.mycollab.configuration.IDeploymentMode;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -79,7 +80,6 @@ import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
@@ -291,17 +291,16 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
                     });
                     accountLayout.with(informBox).withAlign(informBox, Alignment.MIDDLE_LEFT);
 
-                    Date createdTime = billingAccount.getCreatedtime();
                     Duration dur = new Duration(new DateTime(), new DateTime(billingAccount.getCreatedtime()));
                     int daysLeft = dur.toStandardDays().getDays();
                     if (daysLeft > 30) {
                         BillingService billingService = ApplicationContextUtil.getSpringBean(BillingService.class);
                         BillingPlan freeBillingPlan = billingService.getFreeBillingPlan();
-//                        billingAccount.setBillingPlan(freeBillingPlan);
-//                        informLbl.setValue("<div class='informBlock'>TRIAL ENDING<br>"
-//                                + " 0 DAYS LEFT</div><div class='informBlock'>&gt;&gt;</div>");
+                        billingAccount.setBillingPlan(freeBillingPlan);
+                        informLbl.setValue("<div class='informBlock'>TRIAL ENDING<br>"
+                                + " 0 DAYS LEFT</div><div class='informBlock'>&gt;&gt;</div>");
                     } else {
-//                        informLbl.setValue(String.format("<div class='informBlock'>TRIAL ENDING<br>%d DAYS LEFT</div><div class='informBlock'>&gt;&gt;</div>", 30 - daysLeft));
+                        informLbl.setValue(String.format("<div class='informBlock'>TRIAL ENDING<br>%d DAYS LEFT</div><div class='informBlock'>&gt;&gt;</div>", 30 - daysLeft));
                     }
                 }
             }

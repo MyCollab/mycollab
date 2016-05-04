@@ -52,14 +52,17 @@ public class MilestoneDefaultFormLayoutFactory {
                 .build());
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(Milestone.Field.status).displayName(AppContext
-                .getMessage(MilestoneI18nEnum.FORM_STATUS_FIELD)).fieldIndex(4)
-                .build());
+                .getMessage(MilestoneI18nEnum.FORM_STATUS_FIELD)).contextHelp(AppContext.getMessage(MilestoneI18nEnum
+                .FORM_STATUS_FIELD_HELP)).fieldIndex(4).build());
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(Milestone.Field.description).displayName(AppContext
                 .getMessage(GenericI18Enum.FORM_DESCRIPTION)).fieldIndex(5).colSpan(true).build());
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(Milestone.Field.id).displayName(AppContext
                 .getMessage(MilestoneI18nEnum.FORM_ASSIGNMENTS)).fieldIndex(6).colSpan(true).build());
+
+        mainSection.addField(new TextDynaFieldBuilder().fieldName(Milestone.Field.saccountid).displayName(AppContext
+                .getMessage(GenericI18Enum.FORM_ATTACHMENTS)).fieldIndex(7).colSpan(true).build());
 
         defaultForm.addSection(mainSection);
     }

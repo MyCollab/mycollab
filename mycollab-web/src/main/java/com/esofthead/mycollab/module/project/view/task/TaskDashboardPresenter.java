@@ -49,16 +49,6 @@ public class TaskDashboardPresenter extends ProjectGenericListPresenter<TaskDash
     }
 
     @Override
-    protected void postInitView() {
-        view.getSearchHandlers().addSearchHandler(new SearchHandler<TaskSearchCriteria>() {
-            @Override
-            public void onSearch(TaskSearchCriteria criteria) {
-                doSearch(criteria);
-            }
-        });
-    }
-
-    @Override
     public void doSearch(TaskSearchCriteria searchCriteria) {
         view.queryTask(searchCriteria);
     }

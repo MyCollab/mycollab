@@ -33,12 +33,14 @@ import java.util.List;
 public interface ResourceService extends IService {
 
     /**
+     * 
      * @param baseFolderPath
      * @param folderName
+     * @param description
      * @param createdBy
      * @return
      */
-    Folder createNewFolder(String baseFolderPath, String folderName, String createdBy);
+    Folder createNewFolder(String baseFolderPath, String folderName, String description, String createdBy);
 
     /**
      * @param path

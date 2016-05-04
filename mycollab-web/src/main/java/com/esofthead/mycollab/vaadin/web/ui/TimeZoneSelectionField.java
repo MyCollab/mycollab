@@ -27,6 +27,7 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author MyCollab Ltd.
@@ -75,9 +76,9 @@ public class TimeZoneSelectionField extends CustomField<String> {
     }
 
     private void setCboTimeZone(String area) {
-        for (TimezoneExt timezone : TimezoneMapper.timeMap.values()) {
-            if (timezone.getArea().trim().equals(area)) {
-                timezoneAreas.add(timezone.getDisplayName());
+        for (Map.Entry<String, TimezoneExt> timezone : TimezoneMapper.timeMap.entrySet()) {
+            if (timezone.getValue().getArea().trim().equals(area)) {
+                timezoneAreas.add(timezone.getValue().getDisplayName());
             }
         }
 
@@ -111,6 +112,16 @@ public class TimeZoneSelectionField extends CustomField<String> {
 
         }
         super.setPropertyDataSource(newDataSource);
+    }
+
+    @Override
+    public String getValue() {
+        TimezoneExt timezoneExt = getTimeZone();
+        if (timezoneExt != null) {
+            return timezoneExt.getId();
+        } else {
+            return null;
+        }
     }
 
     @Override

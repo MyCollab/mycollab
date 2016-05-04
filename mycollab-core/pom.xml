@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.esofthead.mycollab</groupId>
         <artifactId>mycollab-parent-community</artifactId>
-        <version>5.2.12</version>
+        <version>5.3.0</version>
         <relativePath>../mycollab-parent-community/pom.xml</relativePath>
     </parent>
     <packaging>jar</packaging>
@@ -58,6 +58,12 @@
             <groupId>javax.el</groupId>
             <artifactId>el-api</artifactId>
             <version>2.2.1-b04</version>
+        </dependency>
+
+        <dependency>
+            <groupId> org.apache.jackrabbit</groupId>
+            <artifactId>jackrabbit-spi-commons</artifactId>
+            <version>${jackrabbitVersion}</version>
         </dependency>
 
         <dependency>

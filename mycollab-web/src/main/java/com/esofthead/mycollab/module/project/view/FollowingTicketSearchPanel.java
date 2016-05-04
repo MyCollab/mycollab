@@ -57,7 +57,6 @@ public class FollowingTicketSearchPanel extends DefaultGenericSearchPanel<Follow
         return null;
     }
 
-
     @Override
     protected SearchLayout<FollowingTicketSearchCriteria> createBasicSearchLayout() {
         basicSearchLayout = new FollowingTicketBasicSearchLayout();

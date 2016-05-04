@@ -54,6 +54,12 @@ public final class PresenterResolver {
         }
     }
 
+    public static <P extends IPresenter> P getPresenterAndInitView(Class<P> presenterClass) {
+        P presenter = getPresenter(presenterClass);
+        presenter.getView();
+        return presenter;
+    }
+
     private static <P extends IPresenter> P initPresenter(Class<P> presenterClass) {
         P value = null;
         try {

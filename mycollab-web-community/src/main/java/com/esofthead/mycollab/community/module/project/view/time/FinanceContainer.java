@@ -30,6 +30,11 @@ public class FinanceContainer extends NotPresentedView implements IFinanceContai
     private static final long serialVersionUID = 1L;
 
     @Override
+    public void initContent() {
+
+    }
+
+    @Override
     public Component gotoSubView(String name) {
         return null;
     }

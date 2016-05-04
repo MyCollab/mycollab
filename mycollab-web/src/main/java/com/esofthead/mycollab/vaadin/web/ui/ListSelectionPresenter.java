@@ -47,67 +47,76 @@ public abstract class ListSelectionPresenter<V extends IListView<S, B>, S extend
     }
 
     @Override
-    protected void postInitView() {
-        view.getSearchHandlers().addSearchHandler(new SearchHandler<S>() {
-            @Override
-            public void onSearch(S criteria) {
-                doSearch(criteria);
-            }
-        });
-        view.getPagedBeanTable().addPageableHandler(new PageableHandler() {
-            private static final long serialVersionUID = 1L;
+    protected void viewAttached() {
+        if (view.getSearchHandlers() != null) {
+            view.getSearchHandlers().addSearchHandler(new SearchHandler<S>() {
+                @Override
+                public void onSearch(S criteria) {
+                    doSearch(criteria);
+                }
+            });
+        }
 
-            @Override
-            public void move(int newPageNumber) {
-                pageChange();
-            }
+        if (view.getPagedBeanTable() != null) {
+            view.getPagedBeanTable().addPageableHandler(new PageableHandler() {
+                private static final long serialVersionUID = 1L;
 
-            private void pageChange() {
-                if (isSelectAll) {
+                @Override
+                public void move(int newPageNumber) {
+                    pageChange();
+                }
+
+                private void pageChange() {
+                    if (isSelectAll) {
+                        selectAllItemsInCurrentPage();
+                    }
+                    checkWhetherEnableTableActionControl();
+                }
+            });
+        }
+
+        if (view.getOptionSelectionHandlers() != null) {
+            view.getOptionSelectionHandlers().addSelectionOptionHandler(new SelectionOptionHandler() {
+                private static final long serialVersionUID = 1L;
+
+                @Override
+                public void onSelectCurrentPage() {
+                    isSelectAll = false;
                     selectAllItemsInCurrentPage();
+                    checkWhetherEnableTableActionControl();
                 }
-                checkWhetherEnableTableActionControl();
-            }
-        });
 
-        view.getOptionSelectionHandlers().addSelectionOptionHandler(new SelectionOptionHandler() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void onSelectCurrentPage() {
-                isSelectAll = false;
-                selectAllItemsInCurrentPage();
-                checkWhetherEnableTableActionControl();
-            }
-
-            @Override
-            public void onDeSelect() {
-                Collection<B> currentDataList = view.getPagedBeanTable().getCurrentDataList();
-                isSelectAll = false;
-                for (B item : currentDataList) {
-                    item.setSelected(false);
-                    CheckBoxDecor checkBox = (CheckBoxDecor) item.getExtraData();
-                    checkBox.setValueWithoutNotifyListeners(false);
+                @Override
+                public void onDeSelect() {
+                    Collection<B> currentDataList = view.getPagedBeanTable().getCurrentDataList();
+                    isSelectAll = false;
+                    for (B item : currentDataList) {
+                        item.setSelected(false);
+                        CheckBoxDecor checkBox = (CheckBoxDecor) item.getExtraData();
+                        checkBox.setValueWithoutNotifyListeners(false);
+                    }
+                    checkWhetherEnableTableActionControl();
                 }
-                checkWhetherEnableTableActionControl();
-            }
 
-            @Override
-            public void onSelectAll() {
-                isSelectAll = true;
-                selectAllItemsInCurrentPage();
-                checkWhetherEnableTableActionControl();
-            }
-        });
+                @Override
+                public void onSelectAll() {
+                    isSelectAll = true;
+                    selectAllItemsInCurrentPage();
+                    checkWhetherEnableTableActionControl();
+                }
+            });
+        }
 
-        view.getSelectableItemHandlers().addSelectableItemHandler(new SelectableItemHandler<B>() {
-            @Override
-            public void onSelect(B item) {
-                isSelectAll = false;
-                item.setSelected(!item.isSelected());
-                checkWhetherEnableTableActionControl();
-            }
-        });
+        if (view.getSelectableItemHandlers() != null) {
+            view.getSelectableItemHandlers().addSelectableItemHandler(new SelectableItemHandler<B>() {
+                @Override
+                public void onSelect(B item) {
+                    isSelectAll = false;
+                    item.setSelected(!item.isSelected());
+                    checkWhetherEnableTableActionControl();
+                }
+            });
+        }
     }
 
     protected void selectAllItemsInCurrentPage() {

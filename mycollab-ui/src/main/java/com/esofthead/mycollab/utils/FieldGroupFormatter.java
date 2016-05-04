@@ -109,6 +109,32 @@ public class FieldGroupFormatter {
         }
     }
 
+    public static class LocalizationHistoryFieldFormat implements HistoryFieldFormat {
+        private Class<? extends Enum> enumCls;
+
+        public LocalizationHistoryFieldFormat(Class<? extends Enum> enumCls) {
+            this.enumCls = enumCls;
+        }
+
+        @Override
+        public String toString(String value) {
+            return toString(value, true, AppContext.getMessage(GenericI18Enum.FORM_EMPTY));
+        }
+
+        @Override
+        public String toString(String value, Boolean displayAsHtml, String msgIfBlank) {
+            String content;
+            if (StringUtils.isNotBlank(value)) {
+                content = AppContext.getMessage(enumCls, value);
+                content = (content.length() > 150) ? (content.substring(0, 150) + "...") : content;
+            } else {
+                content = msgIfBlank;
+            }
+
+            return content;
+        }
+    }
+
     public static class DefaultHistoryFieldFormat implements HistoryFieldFormat {
 
         @Override

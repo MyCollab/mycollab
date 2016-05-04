@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.project.view.milestone;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.Milestone;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
@@ -29,6 +30,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.esofthead.mycollab.vaadin.web.ui.DynaFormLayout;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.web.ui.field.AttachmentUploadField;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
@@ -54,12 +56,13 @@ public class MilestoneAddWindow extends Window {
         this.setResizable(false);
         VerticalLayout content = new VerticalLayout();
         this.setContent(content);
-        final AdvancedEditBeanForm<SimpleMilestone> editBeanForm = new AdvancedEditBeanForm<>();
-        content.addComponent(editBeanForm);
-        editBeanForm.setFormLayoutFactory(new DynaFormLayout(ProjectTypeConstants.MILESTONE,
+        final AdvancedEditBeanForm<SimpleMilestone> editForm = new AdvancedEditBeanForm<>();
+        content.addComponent(editForm);
+        editForm.setFormLayoutFactory(new DynaFormLayout(ProjectTypeConstants.MILESTONE,
                 MilestoneDefaultFormLayoutFactory.getForm(), Milestone.Field.id.name()));
-        editBeanForm.setBeanFormFieldFactory(new MilestoneEditFormFieldFactory(editBeanForm));
-        editBeanForm.setBean(milestone);
+        final MilestoneEditFormFieldFactory milestoneEditFormFieldFactory = new MilestoneEditFormFieldFactory(editForm);
+        editForm.setBeanFormFieldFactory(milestoneEditFormFieldFactory);
+        editForm.setBean(milestone);
 
         MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false));
         buttonControls.setDefaultComponentAlignment(Alignment.MIDDLE_RIGHT);
@@ -76,7 +79,7 @@ public class MilestoneAddWindow extends Window {
         Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                if (editBeanForm.validateForm()) {
+                if (editForm.validateForm()) {
                     MilestoneService milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
                     Integer milestoneId;
                     if (milestone.getId() == null) {
@@ -85,6 +88,11 @@ public class MilestoneAddWindow extends Window {
                         milestoneService.updateWithSession(milestone, AppContext.getUsername());
                         milestoneId = milestone.getId();
                     }
+
+                    AttachmentUploadField uploadField = milestoneEditFormFieldFactory.getAttachmentUploadField();
+                    String attachPath = AttachmentUtils.getProjectEntityAttachmentPath(AppContext.getAccountId(), milestone.getProjectid(),
+                            ProjectTypeConstants.MILESTONE, "" + milestone.getId());
+                    uploadField.saveContentsToRepo(attachPath);
 
                     EventBusFactory.getInstance().post(new MilestoneEvent.NewMilestoneAdded(MilestoneAddWindow.this, milestoneId));
                     EventBusFactory.getInstance().post(new AssignmentEvent.NewAssignmentAdd(MilestoneAddWindow.this,

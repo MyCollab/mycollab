@@ -84,11 +84,12 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public Folder createNewFolder(String baseFolderPath, String folderName, String createdBy) {
+    public Folder createNewFolder(String baseFolderPath, String folderName, String description, String createdBy) {
         if (FileUtils.isValidFileName(folderName)) {
             String folderPath = baseFolderPath + "/" + folderName;
             Folder folder = new Folder(folderPath);
             folder.setName(folderName);
+            folder.setDescription(description);
             folder.setCreatedBy(createdBy);
             folder.setCreated(new GregorianCalendar());
             contentJcrDao.createFolder(folder, createdBy);

@@ -110,7 +110,7 @@ public class BugPreviewForm extends AdvancedPreviewBeanForm<SimpleBug> {
                 informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_REMAIN_ESTIMATE),
                         AppContext.getMessage(BugI18nEnum.FORM_REMAIN_ESTIMATE_HELP), 1, 11);
             } else if (BugWithBLOBs.Field.id.equalTo(propertyId)) {
-                informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_ATTACHMENT), 0, 12, 2, "100%");
+                informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ATTACHMENTS), 0, 12, 2, "100%");
             }
         }
 

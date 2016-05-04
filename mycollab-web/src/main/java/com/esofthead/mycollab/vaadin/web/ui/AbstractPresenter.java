@@ -68,6 +68,9 @@ public abstract class AbstractPresenter<V extends PageView> implements IPresente
                 view.addAttachListener(new ClientConnector.AttachListener() {
                     @Override
                     public void attach(ClientConnector.AttachEvent event) {
+                        if (view instanceof InitializingView) {
+                            ((InitializingView) view).initContent();
+                        }
                         viewAttached();
                     }
                 });

@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.project.service.ibatis;
 
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
 import com.esofthead.mycollab.core.UserInvalidInputException;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.cache.CacheKey;
@@ -247,6 +248,11 @@ public class ProjectMemberServiceImpl extends DefaultService<Integer, ProjectMem
     @Override
     public List<SimpleUser> getActiveUsersInProjects(List<Integer> projectIds, Integer sAccountId) {
         return projectMemberMapperExt.getActiveUsersInProjects(projectIds, sAccountId);
+    }
+
+    @Override
+    public List findPagableListByCriteria(BasicSearchRequest<ProjectMemberSearchCriteria> searchRequest) {
+        return super.findPagableListByCriteria(searchRequest);
     }
 
     @Override

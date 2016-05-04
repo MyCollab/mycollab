@@ -66,6 +66,11 @@ public class ProjectListViewImpl extends AbstractPageView implements ProjectList
 
     public ProjectListViewImpl() {
         withMargin(true);
+    }
+
+    @Override
+    public void initContent() {
+        removeAllComponents();
         projectSearchPanel = new ProjectSearchPanel();
         with(projectSearchPanel);
 

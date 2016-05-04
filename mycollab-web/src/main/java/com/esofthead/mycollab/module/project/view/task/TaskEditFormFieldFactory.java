@@ -21,7 +21,6 @@ import com.esofthead.mycollab.core.utils.BusinessDayTimeUtils;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.HumanTime;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.Task;
@@ -99,8 +98,8 @@ class TaskEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Si
                     Integer duration = new Integer(humanTime.getDelta() + "");
                     DateField startDateField = (DateField) fieldGroup.getField(Task.Field.startdate.name());
                     Date startDateVal = startDateField.getValue();
-                    if (duration.intValue() > 0 && startDateVal != null) {
-                        int durationIndays = duration.intValue() / (int) DateTimeUtils.MILLISECONDS_IN_A_DAY;
+                    if (duration > 0 && startDateVal != null) {
+                        int durationIndays = duration/ (int) DateTimeUtils.MILLISECONDS_IN_A_DAY;
                         if (durationIndays > 0) {
                             LocalDate startDateJoda = new LocalDate(startDateVal);
                             LocalDate endDateJoda = BusinessDayTimeUtils.plusDays(startDateJoda, durationIndays);
@@ -134,7 +133,7 @@ class TaskEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Si
             Task beanItem = attachForm.getBean();
             if (beanItem.getId() != null) {
                 String attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(AppContext.getAccountId(),
-                        CurrentProjectVariables.getProjectId(), ProjectTypeConstants.TASK, "" + beanItem.getId());
+                        beanItem.getProjectid(), ProjectTypeConstants.TASK, "" + beanItem.getId());
                 attachmentUploadField.getAttachments(attachmentPath);
             }
             return attachmentUploadField;

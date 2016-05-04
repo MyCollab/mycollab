@@ -45,7 +45,11 @@ public class ApplicationContextUtil implements ApplicationContextAware {
         if (ctx == null) {
             return null;
         }
-        return ctx.getBean(name, classType);
+        try {
+            return ctx.getBean(name, classType);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public static Validator getValidator() {
@@ -58,7 +62,7 @@ public class ApplicationContextUtil implements ApplicationContextAware {
         }
         try {
             return ctx.getBean(classType);
-        } catch (NoSuchBeanDefinitionException e) {
+        } catch (Exception e) {
             return null;
         }
     }

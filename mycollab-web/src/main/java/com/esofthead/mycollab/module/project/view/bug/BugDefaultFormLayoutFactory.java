@@ -108,7 +108,7 @@ public class BugDefaultFormLayoutFactory {
                 .fieldIndex(14).colSpan(true).build());
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.id)
-                .displayName(AppContext.getMessage(BugI18nEnum.FORM_ATTACHMENT))
+                .displayName(AppContext.getMessage(GenericI18Enum.FORM_ATTACHMENTS))
                 .fieldIndex(15).colSpan(true).build());
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(SimpleBug.Field.selected)

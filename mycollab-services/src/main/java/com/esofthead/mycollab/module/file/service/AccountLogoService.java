@@ -16,15 +16,14 @@
  */
 package com.esofthead.mycollab.module.file.service;
 
-import java.awt.image.BufferedImage;
-
 import com.esofthead.mycollab.core.persistence.service.IService;
+
+import java.awt.image.BufferedImage;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.1.2
- * 
  */
 public interface AccountLogoService extends IService {
-	String upload(String uploadedUser, BufferedImage logo, Integer sAccountId);
+    String upload(String uploadedUser, BufferedImage logo, Integer sAccountId);
 }

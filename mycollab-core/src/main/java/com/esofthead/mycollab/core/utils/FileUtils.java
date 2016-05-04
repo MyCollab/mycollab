@@ -124,7 +124,7 @@ public class FileUtils {
         return Arrays.binarySearch(INVALID_RESOURCE_FULLNAMES, name.toLowerCase()) < 0;
     }
 
-    private static final Pattern ILLEGAL_FOLDER_PATTERN = Pattern.compile("[.<>:&/\\|?*&%()+-]");
+    private static final Pattern ILLEGAL_FOLDER_PATTERN = Pattern.compile("[.<>:&/\\|?*&%()\\+\\-\\[\\]]");
 
     public static void assertValidFolderName(String name) {
         Matcher matcher = ILLEGAL_FOLDER_PATTERN.matcher(name);
@@ -132,5 +132,9 @@ public class FileUtils {
             throw new UserInvalidInputException("Please enter valid folder name except any " +
                     "follow characters : " + ILLEGAL_FOLDER_PATTERN.pattern());
         }
+    }
+
+    public static String escape(String fileName) {
+        return fileName.replaceAll("[<>:&/\\|?*&%()\\+\\-\\[\\]]", "");
     }
 }

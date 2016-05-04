@@ -16,12 +16,17 @@
  */
 package com.esofthead.mycollab.module.project.view.milestone;
 
+import com.esofthead.mycollab.module.file.AttachmentUtils;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.domain.Milestone;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.web.ui.I18nValueComboBox;
+import com.esofthead.mycollab.vaadin.web.ui.field.AttachmentUploadField;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.RichTextArea;
@@ -35,6 +40,8 @@ import java.util.Arrays;
  */
 public class MilestoneEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<SimpleMilestone> {
     private static final long serialVersionUID = 1L;
+
+    private AttachmentUploadField attachmentUploadField;
 
     MilestoneEditFormFieldFactory(GenericBeanForm<SimpleMilestone> form) {
         super(form);
@@ -64,9 +71,22 @@ public class MilestoneEditFormFieldFactory extends AbstractBeanFieldGroupEditFie
             RichTextArea descArea = new RichTextArea();
             descArea.setNullRepresentation("");
             return descArea;
+        } else if (Milestone.Field.saccountid.equalTo(propertyId)) {
+            attachmentUploadField = new AttachmentUploadField();
+            Milestone beanItem = attachForm.getBean();
+            if (beanItem.getId() != null) {
+                String attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(AppContext.getAccountId(),
+                        beanItem.getProjectid(), ProjectTypeConstants.MILESTONE, "" + beanItem.getId());
+                attachmentUploadField.getAttachments(attachmentPath);
+            }
+            return attachmentUploadField;
         }
 
         return null;
+    }
+
+    public AttachmentUploadField getAttachmentUploadField() {
+        return attachmentUploadField;
     }
 
     private static class ProgressStatusComboBox extends I18nValueComboBox {

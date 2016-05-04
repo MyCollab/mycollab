@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.file.servlet;
 
+import com.esofthead.mycollab.core.utils.FileUtils;
 import com.esofthead.mycollab.core.utils.MimeTypesUtil;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.servlet.GenericHttpServlet;
@@ -44,8 +45,7 @@ public class ResourceGetHandler extends GenericHttpServlet {
     private ResourceService resourceService;
 
     @Override
-    protected void onHandleRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void onHandleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getPathInfo();
         InputStream inputStream = resourceService.getContentStream(path);
 

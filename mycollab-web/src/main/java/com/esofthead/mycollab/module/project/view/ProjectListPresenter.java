@@ -45,8 +45,8 @@ public class ProjectListPresenter extends ListSelectionPresenter<ProjectListView
     }
 
     @Override
-    protected void postInitView() {
-        super.postInitView();
+    protected void viewAttached() {
+        super.viewAttached();
 
         view.getPopupActionHandlers().setMassActionHandler(new DefaultMassEditActionHandler(this) {
             @Override
@@ -68,6 +68,7 @@ public class ProjectListPresenter extends ListSelectionPresenter<ProjectListView
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        container.addComponent(view);
         ProjectSearchCriteria searchCriteria = new ProjectSearchCriteria();
         doSearch(searchCriteria);
     }

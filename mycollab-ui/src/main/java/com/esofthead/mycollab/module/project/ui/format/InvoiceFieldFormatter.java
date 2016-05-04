@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.ui.format;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.project.domain.Invoice;
 import com.esofthead.mycollab.module.project.i18n.InvoiceI18nEnum;
 import com.esofthead.mycollab.utils.FieldGroupFormatter;
@@ -30,7 +31,18 @@ public class InvoiceFieldFormatter extends FieldGroupFormatter {
     private InvoiceFieldFormatter() {
         super();
 
+        this.generateFieldDisplayHandler(Invoice.Field.noid.name(), InvoiceI18nEnum.FORM_NOID_FIELD);
+        this.generateFieldDisplayHandler(Invoice.Field.issuedate.name(), InvoiceI18nEnum.FORM_ISSUE_DATE_FIELD, DATE_FIELD);
+        this.generateFieldDisplayHandler(Invoice.Field.currentid.name(), InvoiceI18nEnum.FORM_CURRENCY_FIELD, CURRENCY_FIELD);
+        this.generateFieldDisplayHandler(Invoice.Field.assignuser.name(), GenericI18Enum.FORM_ASSIGNEE, new
+                ProjectMemberHistoryFieldFormat());
+        this.generateFieldDisplayHandler(Invoice.Field.status.name(), InvoiceI18nEnum.FORM_STATUS);
         this.generateFieldDisplayHandler(Invoice.Field.contactuserfullname.name(), InvoiceI18nEnum.FORM_CONTACT_PERSON);
+        this.generateFieldDisplayHandler(Invoice.Field.type.name(), InvoiceI18nEnum.FORM_TYPE, new
+                LocalizationHistoryFieldFormat(InvoiceI18nEnum.class));
+        this.generateFieldDisplayHandler(Invoice.Field.amount.name(), InvoiceI18nEnum.FORM_AMOUNT);
+        this.generateFieldDisplayHandler(Invoice.Field.note.name(), InvoiceI18nEnum.FORM_NOTE);
+        this.generateFieldDisplayHandler(Invoice.Field.description.name(), GenericI18Enum.FORM_DESCRIPTION);
     }
 
     public static InvoiceFieldFormatter instance() {

@@ -16,18 +16,10 @@
  */
 package org.vaadin.easyuploads;
 
-import java.io.File;
-import java.io.OutputStream;
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.LinkedList;
-
 import com.esofthead.mycollab.common.i18n.FileI18nEnum;
 import com.esofthead.mycollab.core.utils.FileUtils;
-import com.esofthead.mycollab.vaadin.AppContext;
-import org.apache.commons.io.FilenameUtils;
-
 import com.esofthead.mycollab.core.utils.StringUtils;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.web.ui.AttachmentUploadComponent;
 import com.vaadin.event.dd.DragAndDropEvent;
 import com.vaadin.event.dd.DropHandler;
@@ -35,18 +27,16 @@ import com.vaadin.event.dd.acceptcriteria.AcceptAll;
 import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
 import com.vaadin.server.StreamVariable;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.DragAndDropWrapper;
-import com.vaadin.ui.Html5File;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.ProgressBar;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
-import org.apache.jackrabbit.util.Text;
+import com.vaadin.ui.*;
+import org.apache.commons.io.FilenameUtils;
+
+import java.io.File;
+import java.io.OutputStream;
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.LinkedList;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 1.0
  */
@@ -98,7 +88,7 @@ public class MultiFileUploadExt extends CssLayout implements DropHandler {
                 }
 
                 File file = receiver.getFile();
-                String candidateFileName = Text.escape(event.getFileName());
+                String candidateFileName = FileUtils.escape(event.getFileName());
                 if (!FileUtils.isValidFileName(candidateFileName)) {
                     String extension = FilenameUtils.getExtension(candidateFileName);
                     candidateFileName = StringUtils.generateSoftUniqueId();
@@ -310,8 +300,7 @@ public class MultiFileUploadExt extends CssLayout implements DropHandler {
 
     }
 
-    private interface MultiUploadHandlerExt extends MultiUploadHandler,
-            Serializable {
+    private interface MultiUploadHandlerExt extends MultiUploadHandler, Serializable {
 
     }
 }

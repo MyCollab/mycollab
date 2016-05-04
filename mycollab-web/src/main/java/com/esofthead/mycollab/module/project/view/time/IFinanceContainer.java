@@ -17,13 +17,16 @@
 package com.esofthead.mycollab.module.project.view.time;
 
 import com.esofthead.mycollab.vaadin.mvp.PageView;
+import com.esofthead.mycollab.vaadin.web.ui.InitializingView;
 import com.vaadin.ui.Component;
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public interface IFinanceContainer extends PageView {
+public interface IFinanceContainer extends InitializingView {
+
+    void initContent();
 
     Component gotoSubView(String name);
 }

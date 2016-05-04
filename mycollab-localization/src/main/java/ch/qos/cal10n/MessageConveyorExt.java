@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @since 4.5.2
  */
 public class MessageConveyorExt implements IMessageConveyor {
-//    static final ResourceLoader resourceLoader = new ResourceLoader();
+    static final ResourceLoader resourceLoader = new ResourceLoader();
     final Locale locale;
     final Map<String, CAL10NBundleExt> cache = new ConcurrentHashMap<>();
 
@@ -48,7 +48,7 @@ public class MessageConveyorExt implements IMessageConveyor {
         if (rb == null || rb.hasChanged()) {
             rb = lookupResourceBundleByEnumClassAndLocale(declaringClass);
             cache.put(declaringClassName, rb);
-//            resourceLoader.registerBundleAndFile(rb);
+            resourceLoader.registerBundleAndFile(rb);
         }
 
         String keyAsStr = key.toString();

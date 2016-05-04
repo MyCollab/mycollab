@@ -51,7 +51,6 @@ public class AttachmentDisplayComponent extends CssLayout {
     }
 
     public AttachmentDisplayComponent(List<Content> attachments) {
-        this();
         for (Content attachment : attachments) {
             this.addAttachmentRow(attachment);
         }

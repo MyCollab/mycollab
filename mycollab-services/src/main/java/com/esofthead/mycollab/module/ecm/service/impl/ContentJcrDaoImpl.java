@@ -135,14 +135,14 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
                     String[] pathStr = path.split("/");
                     Node parentNode = rootNode;
                     // create folder note
-                    for (int i = 0; i < pathStr.length; i++) {
-                        if ("".equals(pathStr[i])) {
+                    for (String aPathStr : pathStr) {
+                        if ("".equals(aPathStr)) {
                             continue;
                         }
                         // move to lastest node of the path
-                        Node childNode = getNode(parentNode, pathStr[i]);
+                        Node childNode = getNode(parentNode, aPathStr);
                         if (childNode != null) {
-                            LOG.debug("Found node with path {} in sub node ", pathStr[i], parentNode.getPath());
+                            LOG.debug("Found node with path {} in sub node ", aPathStr, parentNode.getPath());
                             if (!isNodeFolder(childNode)) {
                                 // node must be the folder
                                 String errorString = "Invalid path. User want to create folder has path %s but there is a content has path %s";
@@ -151,9 +151,10 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
                                 LOG.debug("Found folder node {}", childNode.getPath());
                             }
                         } else { // add node
-                            LOG.debug("Create new folder {} of sub node {}", pathStr[i], parentNode.getPath());
-                            childNode = JcrUtils.getOrAddNode(parentNode, pathStr[i], "mycollab:folder");
+                            LOG.debug("Create new folder {} of sub node {}", aPathStr, parentNode.getPath());
+                            childNode = JcrUtils.getOrAddNode(parentNode, aPathStr, "mycollab:folder");
                             childNode.setProperty("mycollab:createdUser", createdUser);
+                            childNode.setProperty("jcr:description", folder.getDescription());
                             session.save();
                         }
 
@@ -204,8 +205,7 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 
                 if (node != null) {
                     if (isNodeContent(node)) {
-                        Content content = convertNodeToContent(node);
-                        return content;
+                        return convertNodeToContent(node);
                     } else if (isNodeFolder(node)) {
                         return convertNodeToFolder(node);
                     } else {
@@ -221,7 +221,6 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
     @Override
     public void removeResource(final String path) {
         jcrTemplate.execute(new JcrCallback() {
-
             @Override
             public Content doInJcr(Session session) throws IOException, RepositoryException {
                 Node rootNode = session.getRootNode();
@@ -242,8 +241,7 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
         return jcrTemplate.execute(new JcrCallback<List<Resource>>() {
 
             @Override
-            public List<Resource> doInJcr(Session session) throws IOException,
-                    RepositoryException {
+            public List<Resource> doInJcr(Session session) throws IOException, RepositoryException {
                 Node rootNode = session.getRootNode();
                 Node node = getNode(rootNode, path);
                 if (node != null) {
@@ -287,7 +285,7 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
                 Node node = getNode(rootNode, path);
                 if (node != null) {
                     if (isNodeFolder(node)) {
-                        List<Content> resources = new ArrayList<Content>();
+                        List<Content> resources = new ArrayList<>();
                         NodeIterator childNodes = node.getNodes();
                         while (childNodes.hasNext()) {
                             Node childNode = childNodes.nextNode();
@@ -318,7 +316,7 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
                 Node node = getNode(rootNode, path);
                 if (node != null) {
                     if (node.isNodeType("mycollab:folder")) {
-                        List<Folder> folders = new ArrayList<Folder>();
+                        List<Folder> folders = new ArrayList<>();
                         NodeIterator childNodes = node.getNodes();
                         while (childNodes.hasNext()) {
                             Node childNode = (Node) childNodes.next();
@@ -389,6 +387,7 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
             Folder folder = new Folder(folderPath);
             folder.setCreated(node.getProperty("jcr:created").getDate());
             folder.setCreatedBy(node.getProperty("jcr:createdBy").getString());
+            folder.setDescription(NodesUtil.getString(node, "jcr:description"));
             folder.setCreatedUser(node.getProperty("mycollab:createdUser").getString());
             return folder;
         } catch (Exception e) {

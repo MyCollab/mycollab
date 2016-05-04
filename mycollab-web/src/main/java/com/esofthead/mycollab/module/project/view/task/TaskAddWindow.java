@@ -154,7 +154,7 @@ public class TaskAddWindow extends Window {
                 } else if (Task.Field.notes.equalTo(propertyId)) {
                     informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 4, 2, "100%");
                 } else if (Task.Field.id.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, AppContext.getMessage(TaskI18nEnum.FORM_ATTACHMENT), 0, 5, 2, "100%");
+                    informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ATTACHMENTS), 0, 5, 2, "100%");
                 }
             }
         }

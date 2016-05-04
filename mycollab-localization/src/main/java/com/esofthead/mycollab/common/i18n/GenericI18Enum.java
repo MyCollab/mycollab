@@ -104,6 +104,7 @@ public enum GenericI18Enum {
     FORM_LAST_ACCESSED_TIME,
     FORM_EMPTY,
     FORM_PROGRESS,
+    FORM_ATTACHMENTS,
 
     MODULE_CRM,
     MODULE_PROJECT,
@@ -129,6 +130,5 @@ public enum GenericI18Enum {
 
     M_BUTTON_BACK,
     M_BUTTON_SEND,
-    M_NOTE_INPUT_PROMPT,
-    M_FORM_ATTACHMENT
+    M_NOTE_INPUT_PROMPT
 }

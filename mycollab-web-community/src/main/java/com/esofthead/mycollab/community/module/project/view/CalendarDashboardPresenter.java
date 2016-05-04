@@ -33,6 +33,7 @@ public class CalendarDashboardPresenter extends AbstractPresenter<ICalendarDashb
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        container.addComponent(view);
         view.display();
     }
 }

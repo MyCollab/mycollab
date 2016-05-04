@@ -191,9 +191,10 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
 
                 int totalBugs = bugService.getTotalCount(searchCriteria);
                 searchPanel.setTotalCountNumber(totalBugs);
-                int pages = totalBugs / 20;
+                int pages = totalBugs / 50;
                 for (int page = 0; page < pages + 1; page++) {
-                    List<SimpleBug> bugs = bugService.findPagableListByCriteria(new BasicSearchRequest<>(searchCriteria, page + 1, 20));
+                    List<SimpleBug> bugs = bugService.findPagableListByCriteria(new BasicSearchRequest<>
+                            (searchCriteria, page + 1, 50));
                     if (CollectionUtils.isNotEmpty(bugs)) {
                         for (SimpleBug bug : bugs) {
                             String status = bug.getStatus();
@@ -346,33 +347,37 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
             headerLayout.setComponentAlignment(header, Alignment.MIDDLE_LEFT);
             headerLayout.setExpandRatio(header, 1.0f);
 
-            PopupButton controlsBtn = new PopupButton();
-            controlsBtn.addStyleName(UIConstants.BUTTON_LINK);
-            headerLayout.addComponent(controlsBtn);
-            headerLayout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
+            root.with(headerLayout, dragLayoutContainer);
 
-            OptionPopupContent popupContent = new OptionPopupContent();
-            Button addBtn = new Button("New issue", new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent clickEvent) {
-                    addNewBugComp();
-                }
-            });
-            addBtn.setIcon(FontAwesome.PLUS);
-            addBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS));
-            popupContent.addOption(addBtn);
-            controlsBtn.setContent(popupContent);
+            if (OptionI18nEnum.BugStatus.Open.name().equals(optionVal.getTypeval())) {
+                OptionPopupContent popupContent = new OptionPopupContent();
+                PopupButton controlsBtn = new PopupButton();
+                controlsBtn.addStyleName(UIConstants.BUTTON_LINK);
+                headerLayout.addComponent(controlsBtn);
+                headerLayout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
 
-            Button addNewBtn = new Button("New issue", new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent clickEvent) {
-                    addNewBugComp();
-                }
-            });
-            addNewBtn.setIcon(FontAwesome.PLUS);
-            addNewBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS));
-            addNewBtn.addStyleName(UIConstants.BUTTON_ACTION);
-            root.with(headerLayout, dragLayoutContainer, addNewBtn);
+                Button addBtn = new Button("New issue", new Button.ClickListener() {
+                    @Override
+                    public void buttonClick(Button.ClickEvent clickEvent) {
+                        addNewBugComp();
+                    }
+                });
+                addBtn.setIcon(FontAwesome.PLUS);
+                addBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS));
+                popupContent.addOption(addBtn);
+                controlsBtn.setContent(popupContent);
+
+                Button addNewBtn = new Button("New issue", new Button.ClickListener() {
+                    @Override
+                    public void buttonClick(Button.ClickEvent clickEvent) {
+                        addNewBugComp();
+                    }
+                });
+                addNewBtn.setIcon(FontAwesome.PLUS);
+                addNewBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS));
+                addNewBtn.addStyleName(UIConstants.BUTTON_ACTION);
+                root.with(addNewBtn).withAlign(addNewBtn, Alignment.TOP_RIGHT);
+            }
         }
 
         void addBlockItem(KanbanBugBlockItem comp) {
@@ -426,7 +431,7 @@ public class BugKanbanViewImpl extends AbstractPageView implements BugKanbanView
                     }
                 });
                 cancelBtn.addStyleName(UIConstants.BUTTON_OPTION);
-                controlsBtn.with(saveBtn, cancelBtn);
+                controlsBtn.with(cancelBtn, saveBtn);
                 layout.with(controlsBtn).withAlign(controlsBtn, Alignment.MIDDLE_RIGHT);
                 if (newBugComp != null) {
                     if (newBugComp.getParent() != null) {

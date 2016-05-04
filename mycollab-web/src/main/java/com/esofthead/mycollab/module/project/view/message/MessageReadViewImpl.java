@@ -202,7 +202,7 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
                 attachmentIcon.addStyleName(UIConstants.BUTTON_ICON_ONLY);
                 attachmentField.addComponent(attachmentIcon);
 
-                Label lbAttachment = new Label(AppContext.getMessage(MessageI18nEnum.FORM_ATTACHMENT_FIELD));
+                Label lbAttachment = new Label(AppContext.getMessage(GenericI18Enum.FORM_ATTACHMENTS));
                 attachmentField.addComponent(lbAttachment);
 
                 Component attachmentDisplayComp = ProjectAttachmentDisplayComponentFactory

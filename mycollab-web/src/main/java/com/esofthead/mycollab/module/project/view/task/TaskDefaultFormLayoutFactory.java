@@ -88,7 +88,7 @@ public class TaskDefaultFormLayoutFactory {
                 .colSpan(true).fieldIndex(11).build());
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(Task.Field.id)
-                .displayName(AppContext.getMessage(TaskI18nEnum.FORM_ATTACHMENT))
+                .displayName(AppContext.getMessage(GenericI18Enum.FORM_ATTACHMENTS))
                 .colSpan(true).fieldIndex(12).build());
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(Task.Field.parenttaskid)

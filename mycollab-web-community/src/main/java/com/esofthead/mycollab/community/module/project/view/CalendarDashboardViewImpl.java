@@ -34,6 +34,11 @@ public class CalendarDashboardViewImpl extends NotPresentedView implements ICale
     }
 
     @Override
+    public void initContent() {
+
+    }
+
+    @Override
     public void queryAssignments(ProjectGenericTaskSearchCriteria criteria) {
 
     }

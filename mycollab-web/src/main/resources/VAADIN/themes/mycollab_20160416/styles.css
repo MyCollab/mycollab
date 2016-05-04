@@ -16070,6 +16070,24 @@ div.v-button.token-field {
 	background-color: #f5f5f5;
 }
 
+.invoice {
+	border-radius: 6px;
+	padding: 0px 5px;
+	color: #fff;
+}
+
+.invoice.paid {
+	background-color: #25c278;
+}
+
+.invoice.scheduled {
+	background-color: #feb195;
+}
+
+.invoice.sent {
+	background-color: #75b5f7;
+}
+
 .gantt {
 	background: #fff;
 	overflow: hidden;
@@ -16360,6 +16378,11 @@ input.noBorderRight {
 .v-label.wordWrap {
 	word-wrap: break-word;
 	white-space: normal;
+}
+
+.v-label.link {
+	color: #0083ce;
+	cursor: pointer;
 }
 
 .v-label.link img {
