@@ -112,8 +112,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version> implem
 
     @Override
     protected ComponentContainer createButtonControls() {
-        ProjectPreviewFormControlsGenerator<Version> versionPreviewForm = new ProjectPreviewFormControlsGenerator<>(
-                previewForm);
+        ProjectPreviewFormControlsGenerator<Version> versionPreviewForm = new ProjectPreviewFormControlsGenerator<>(previewForm);
         HorizontalLayout topPanel = versionPreviewForm.createButtonControls(ProjectRolePermissionCollections.VERSIONS);
 
         quickActionStatusBtn = new Button("", new Button.ClickListener() {

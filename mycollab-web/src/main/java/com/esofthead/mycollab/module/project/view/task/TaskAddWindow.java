@@ -79,7 +79,7 @@ public class TaskAddWindow extends Window {
                 MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false));
                 buttonControls.setDefaultComponentAlignment(Alignment.MIDDLE_RIGHT);
 
-                Button updateAllBtn = new Button("Update other fields", new Button.ClickListener() {
+                Button updateAllBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_OTHER_FIELDS), new Button.ClickListener() {
                     @Override
                     public void buttonClick(Button.ClickEvent clickEvent) {
                         EventBusFactory.getInstance().post(new TaskEvent.GotoAdd(TaskAddWindow.this, EditForm.this.bean));
@@ -143,8 +143,9 @@ public class TaskAddWindow extends Window {
                     informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DUE_DATE), 0, 2);
                 } else if (Task.Field.assignuser.equalTo(propertyId)) {
                     informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 1, 2);
-                } else if (Task.Field.percentagecomplete.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, AppContext.getMessage(TaskI18nEnum.FORM_PERCENTAGE_COMPLETE), 0, 3);
+                } else if (Task.Field.priority.equalTo(propertyId)) {
+                    informationLayout.addComponent(field, AppContext.getMessage(TaskI18nEnum.FORM_PRIORITY),
+                            AppContext.getMessage(TaskI18nEnum.FORM_PRIORITY_HELP), 0, 3);
                 } else if (Task.Field.milestoneid.equalTo(propertyId)) {
                     informationLayout.addComponent(field, AppContext.getMessage(TaskI18nEnum.FORM_PHASE), 1, 3);
                 } else if (Task.Field.notes.equalTo(propertyId)) {

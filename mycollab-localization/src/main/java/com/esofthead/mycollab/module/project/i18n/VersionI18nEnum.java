@@ -27,7 +27,6 @@ public enum VersionI18nEnum {
     NEW,
     DETAIL,
 
-    FORM_BUGS,
     FORM_VERSION_ERROR_MSG,
 
     MAIL_CREATE_ITEM_SUBJECT,

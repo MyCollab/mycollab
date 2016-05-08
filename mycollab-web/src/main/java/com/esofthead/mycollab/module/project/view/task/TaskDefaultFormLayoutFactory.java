@@ -56,6 +56,7 @@ public class TaskDefaultFormLayoutFactory {
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(Task.Field.priority)
                 .displayName(AppContext.getMessage(TaskI18nEnum.FORM_PRIORITY))
+                .contextHelp(AppContext.getMessage(TaskI18nEnum.FORM_PRIORITY_HELP))
                 .fieldIndex(4).build());
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(Task.Field.duration)

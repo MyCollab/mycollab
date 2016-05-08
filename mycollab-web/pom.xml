@@ -283,7 +283,6 @@
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-sass-compiler</artifactId>
             <version>0.9.13</version>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>

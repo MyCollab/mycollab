@@ -17,8 +17,8 @@
 package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.configuration.StorageFactory;
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
+import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
@@ -43,6 +43,7 @@ import com.esofthead.mycollab.vaadin.web.ui.field.ContainerViewField;
 import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Span;
 import com.vaadin.data.Property;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CheckBox;
@@ -144,16 +145,21 @@ public class ComponentPreviewForm extends AdvancedPreviewBeanForm<SimpleComponen
                         ToggleBugSummaryField toggleBugSummaryField = new ToggleBugSummaryField(bug);
 
                         MHorizontalLayout rowComp = new MHorizontalLayout().withStyleName(UIConstants.HOVER_EFFECT_NOT_BOX);
+                        rowComp.addStyleName("margin-bottom");
                         rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
 
                         String bugPriority = bug.getPriority();
                         Span priorityLink = new Span().appendText(ProjectAssetsManager.getBugPriorityHtml(bugPriority)).setTitle(bugPriority);
+
+                        Span statusSpan = new Span().appendText(AppContext.getMessage(OptionI18nEnum.BugStatus.class,
+                                bug.getStatus())).setCSSClass(UIConstants.FIELD_NOTE);
 
                         String avatarLink = StorageFactory.getInstance().getAvatarPath(bug.getAssignUserAvatarId(), 16);
                         Img img = new Img(bug.getAssignuserFullName(), avatarLink).setTitle(bug.getAssignuserFullName());
 
                         rowComp.with(new ELabel(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG).getHtml(), ContentMode.HTML)
                                         .withWidthUndefined(), new ELabel(priorityLink.write(), ContentMode.HTML).withWidthUndefined(),
+                                new ELabel(statusSpan.write(), ContentMode.HTML).withWidthUndefined(),
                                 new ELabel(img.write(), ContentMode.HTML).withWidthUndefined(),
                                 toggleBugSummaryField).expand(toggleBugSummaryField);
                         issueLayout.add(rowComp);

@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-services.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.module.project.service.ibatis;
 
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;

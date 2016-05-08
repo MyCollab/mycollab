@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-services.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.module.project.domain;
 
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
@@ -96,6 +95,10 @@ public class ProjectGenericTask implements Serializable {
 
     public boolean isBug() {
         return ProjectTypeConstants.BUG.equals(getType());
+    }
+
+    public boolean isMilestone() {
+        return ProjectTypeConstants.MILESTONE.equals(getType());
     }
 
     public boolean isTask() {

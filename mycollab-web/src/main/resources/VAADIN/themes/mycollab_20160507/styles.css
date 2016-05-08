@@ -1675,6 +1675,10 @@ a.pending {
 	margin-top: 10px;
 }
 
+.margin-bottom {
+	margin-bottom: 10px;
+}
+
 .margin-left {
 	margin-left: 10px;
 }
@@ -2076,10 +2080,10 @@ div.v-window {
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
-	background-color: #cae9f8;
+	background-color: #7ec8ef;
 	padding: 0px 5px;
 	margin: 3px 3px 0px 0px;
-	color: #999;
+	color: #f2f2f2;
 	font-size: 13px;
 }
 
@@ -14335,6 +14339,10 @@ a.pending {
 	margin-top: 10px;
 }
 
+.margin-bottom {
+	margin-bottom: 10px;
+}
+
 .margin-left {
 	margin-left: 10px;
 }
@@ -14736,10 +14744,10 @@ div.v-window {
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
-	background-color: #cae9f8;
+	background-color: #7ec8ef;
 	padding: 0px 5px;
 	margin: 3px 3px 0px 0px;
-	color: #999;
+	color: #f2f2f2;
 	font-size: 13px;
 }
 

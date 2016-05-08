@@ -22,7 +22,7 @@ import com.esofthead.mycollab.form.view.builder.TextDynaFieldBuilder;
 import com.esofthead.mycollab.form.view.builder.type.DynaForm;
 import com.esofthead.mycollab.form.view.builder.type.DynaSection;
 import com.esofthead.mycollab.form.view.builder.type.DynaSection.LayoutType;
-import com.esofthead.mycollab.module.project.i18n.VersionI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.vaadin.AppContext;
 
@@ -51,7 +51,7 @@ public class VersionDefaultFormLayoutFactory {
                 .fieldIndex(2).build());
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(Version.Field.id).displayName(AppContext
-                .getMessage(VersionI18nEnum.FORM_BUGS)).colSpan(true).fieldIndex(3).build());
+                .getMessage(BugI18nEnum.LIST)).colSpan(true).fieldIndex(3).build());
 
         defaultForm.addSection(mainSection);
     }

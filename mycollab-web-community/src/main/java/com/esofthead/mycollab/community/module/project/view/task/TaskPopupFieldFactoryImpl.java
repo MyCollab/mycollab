@@ -44,7 +44,7 @@ public class TaskPopupFieldFactoryImpl implements TaskPopupFieldFactory {
     @Override
     public PopupView createPriorityPopupField(SimpleTask task) {
         return new PopupFieldBuilder().withCaption(ProjectAssetsManager.getTaskPriorityHtml(task.getPriority()))
-                .withDescription(AppContext.getMessage(TaskI18nEnum.FORM_PRIORITY)).build();
+                .withDescription(AppContext.getMessage(TaskI18nEnum.FORM_PRIORITY_HELP)).build();
     }
 
     @Override

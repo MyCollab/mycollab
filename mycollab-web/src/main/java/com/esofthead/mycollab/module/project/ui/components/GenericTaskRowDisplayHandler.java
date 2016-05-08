@@ -17,9 +17,11 @@
 package com.esofthead.mycollab.module.project.ui.components;
 
 import com.esofthead.mycollab.configuration.StorageFactory;
+import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ProjectGenericTask;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -50,13 +52,34 @@ public class GenericTaskRowDisplayHandler implements DefaultBeanPagedList.RowDis
     public Component generateRow(AbstractBeanPagedList host, ProjectGenericTask genericTask, int rowIndex) {
         MHorizontalLayout rowComp = new MHorizontalLayout().withStyleName("list-row").withWidth("100%");
         rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
+
         Div issueDiv = new Div();
+
+        issueDiv.appendText(ProjectAssetsManager.getAsset(genericTask.getType()).getHtml());
+
+        String status = "";
+        if (genericTask.isBug()) {
+            status = AppContext.getMessage(OptionI18nEnum.BugStatus.class, genericTask.getStatus());
+        } else if (genericTask.isMilestone()) {
+            status = AppContext.getMessage(OptionI18nEnum.MilestoneStatus.class, genericTask.getStatus());
+        } else if (genericTask.isRisk()) {
+            status = AppContext.getMessage(com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.class,
+                    genericTask.getStatus());
+        } else if (genericTask.isTask()) {
+            status = AppContext.getMessage(com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.class, genericTask.getStatus());
+        }
+        issueDiv.appendChild(new Span().appendText(status).setCSSClass(UIConstants.FIELD_NOTE));
+
+        String avatarLink = StorageFactory.getInstance().getAvatarPath(genericTask.getAssignUserAvatarId(), 16);
+        Img img = new Img(genericTask.getAssignUserFullName(), avatarLink).setTitle(genericTask
+                .getAssignUserFullName());
+        issueDiv.appendChild(img, DivLessFormatter.EMPTY_SPACE());
 
         A taskLink = new A().setId("tag" + TOOLTIP_ID);
         taskLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(genericTask.getType(), genericTask.getTypeId() + ""));
         taskLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction());
         if (ProjectTypeConstants.BUG.equals(genericTask.getType()) || ProjectTypeConstants.TASK.equals(genericTask.getType())) {
-            taskLink.appendText(String.format("[#%d] - %s", genericTask.getExtraTypeId(), genericTask.getName()));
+            taskLink.appendText(genericTask.getName());
             taskLink.setHref(ProjectLinkBuilder.generateProjectItemLink(genericTask.getProjectShortName(),
                     genericTask.getProjectId(), genericTask.getType(), genericTask.getExtraTypeId() + ""));
         } else {
@@ -75,14 +98,7 @@ public class GenericTaskRowDisplayHandler implements DefaultBeanPagedList.RowDis
         }
 
         Label issueLbl = new Label(issueDiv.write(), ContentMode.HTML);
-        String avatarLink = StorageFactory.getInstance().getAvatarPath(genericTask.getAssignUserAvatarId(), 16);
-        Img img = new Img(genericTask.getAssignUserFullName(), avatarLink).setTitle(genericTask
-                .getAssignUserFullName());
-
-        MHorizontalLayout iconsLayout = new MHorizontalLayout().with(new ELabel(ProjectAssetsManager.getAsset
-                (genericTask.getType()).getHtml(), ContentMode.HTML), new ELabel(img.write(), ContentMode.HTML));
-        MCssLayout issueWrapper = new MCssLayout(issueLbl);
-        rowComp.with(iconsLayout, issueWrapper).expand(issueWrapper);
+        rowComp.with(issueLbl);
         return rowComp;
     }
 }

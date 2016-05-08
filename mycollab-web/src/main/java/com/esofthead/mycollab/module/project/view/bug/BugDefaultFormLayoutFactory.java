@@ -44,6 +44,7 @@ public class BugDefaultFormLayoutFactory {
         mainSection.addField(new TextDynaFieldBuilder()
                 .fieldName(BugWithBLOBs.Field.priority)
                 .displayName(AppContext.getMessage(BugI18nEnum.FORM_PRIORITY))
+                .contextHelp(AppContext.getMessage(BugI18nEnum.FORM_PRIORITY_HELP))
                 .fieldIndex(1).build());
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.assignuser)

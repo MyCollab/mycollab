@@ -71,10 +71,11 @@ public class BugPreviewForm extends AdvancedPreviewBeanForm<SimpleBug> {
             } else if (BugWithBLOBs.Field.environment.equalTo(propertyId)) {
                 informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_ENVIRONMENT), 0, 1, 2, "100%");
             } else if (BugWithBLOBs.Field.status.equalTo(propertyId)) {
-                informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_STATUS), AppContext
-                        .getMessage(BugI18nEnum.FORM_STATUS_HELP), 0, 2);
+                informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_STATUS),
+                        AppContext.getMessage(BugI18nEnum.FORM_STATUS_HELP), 0, 2);
             } else if (BugWithBLOBs.Field.priority.equalTo(propertyId)) {
-                informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_PRIORITY), 1, 2);
+                informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_PRIORITY),
+                        AppContext.getMessage(BugI18nEnum.FORM_PRIORITY_HELP), 1, 2);
             } else if (BugWithBLOBs.Field.severity.equalTo(propertyId)) {
                 informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_SEVERITY), 0, 3);
             } else if (BugWithBLOBs.Field.resolution.equalTo(propertyId)) {

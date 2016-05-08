@@ -43,6 +43,7 @@ import com.esofthead.mycollab.vaadin.web.ui.field.I18nFormViewField;
 import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Span;
 import com.vaadin.data.Property;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CheckBox;
@@ -98,7 +99,7 @@ public class VersionPreviewForm extends AdvancedPreviewBeanForm<Version> {
 
         BugsComp(Version beanItem) {
             withMargin(false).withWidth("100%");
-            MHorizontalLayout header = new MHorizontalLayout().withWidth("100%");
+            MHorizontalLayout header = new MHorizontalLayout();
 
             final CheckBox openSelection = new BugStatusCheckbox(OptionI18nEnum.BugStatus.Open, true);
             CheckBox reOpenSelection = new BugStatusCheckbox(OptionI18nEnum.BugStatus.ReOpen, true);
@@ -146,7 +147,9 @@ public class VersionPreviewForm extends AdvancedPreviewBeanForm<Version> {
                     for (SimpleBug bug : bugs) {
                         ToggleBugSummaryField toggleBugSummaryField = new ToggleBugSummaryField(bug);
 
-                        MHorizontalLayout rowComp = new MHorizontalLayout().withStyleName(UIConstants.HOVER_EFFECT_NOT_BOX);
+                        MHorizontalLayout rowComp = new MHorizontalLayout().withStyleName(UIConstants
+                                .HOVER_EFFECT_NOT_BOX);
+                        rowComp.addStyleName("margin-bottom");
                         rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
                         rowComp.with(new ELabel(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG).getHtml(),
                                 ContentMode.HTML).withWidthUndefined());
@@ -154,6 +157,10 @@ public class VersionPreviewForm extends AdvancedPreviewBeanForm<Version> {
                         String bugPriority = bug.getPriority();
                         Span priorityLink = new Span().appendText(ProjectAssetsManager.getBugPriorityHtml(bugPriority)).setTitle(bugPriority);
                         rowComp.with(new ELabel(priorityLink.write(), ContentMode.HTML).withWidthUndefined());
+
+                        Span statusSpan = new Span().appendText(AppContext.getMessage(OptionI18nEnum.BugStatus.class,
+                                bug.getStatus())).setCSSClass(UIConstants.FIELD_NOTE);
+                        rowComp.with(new ELabel(statusSpan.write(), ContentMode.HTML).withWidthUndefined());
 
                         String avatarLink = StorageFactory.getInstance().getAvatarPath(bug.getAssignUserAvatarId(), 16);
                         Img img = new Img(bug.getAssignuserFullName(), avatarLink).setTitle(bug.getAssignuserFullName());
