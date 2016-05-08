@@ -43,13 +43,13 @@ public class RiskSearchCriteria extends SearchCriteria {
             RiskI18nEnum.FORM_RAISED_BY, "m_prj_risk", "raisedbyuser");
 
     public static final Param p_duedate = new DateParam("risk-duedate",
-            RiskI18nEnum.FORM_DATE_DUE, "m_prj_risk", "datedue");
+            GenericI18Enum.FORM_DUE_DATE, "m_prj_risk", "datedue");
 
     public static final Param p_raiseddate = new DateParam("risk-raiseddate",
             GenericI18Enum.FORM_CREATED_TIME, "m_prj_risk", "dateraised");
 
     public static final Param p_status = new StringListParam("risk-status",
-            RiskI18nEnum.FORM_STATUS, "m_prj_risk", "status", Arrays.asList(
+            GenericI18Enum.FORM_STATUS, "m_prj_risk", "status", Arrays.asList(
             StatusI18nEnum.Open.name(), StatusI18nEnum.Closed.name()));
 
     public static final Param p_probalitity = new StringListParam("risk-probalitity",

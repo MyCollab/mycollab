@@ -42,7 +42,7 @@ public interface ProjectTaskService extends IDefaultService<Integer, Task, TaskS
     List<SimpleTask> findSubTasks(Integer parentTaskId, @CacheKey Integer sAccountId, SearchCriteria.OrderField orderField);
 
     @Cacheable
-    SimpleTask findByProjectAndTaskKey(Integer taskkey, String projectShortName, @CacheKey Integer sAccountId);
+    SimpleTask findByProjectAndTaskKey(Integer taskKey, String projectShortName, @CacheKey Integer sAccountId);
 
     @Cacheable
     List<GroupItem> getPrioritySummary(@CacheKey TaskSearchCriteria criteria);

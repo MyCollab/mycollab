@@ -113,6 +113,11 @@ public class RoleListViewImpl extends AbstractPageView implements RoleListView {
     }
 
     @Override
+    public void showNoItemView() {
+
+    }
+
+    @Override
     public HasSelectionOptionHandlers getOptionSelectionHandlers() {
         return selectOptionButton;
     }

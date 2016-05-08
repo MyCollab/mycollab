@@ -119,7 +119,7 @@ public class GridFormLayoutHelper implements Serializable {
                     .withAlign(captionLbl, alignment);
             if (StringUtils.isNotBlank(contextHelp)) {
                 ELabel contextHelpLbl = new ELabel("&nbsp;" + FontAwesome.QUESTION_CIRCLE.getHtml(), ContentMode.HTML)
-                        .withStyleName("inline-help").withDescription(contextHelp).withWidthUndefined();
+                        .withStyleName(UIConstants.INLINE_HELP).withDescription(contextHelp).withWidthUndefined();
                 captionWrapper.with(contextHelpLbl);
             }
             layout.addComponent(captionWrapper, 2 * columns, rows);

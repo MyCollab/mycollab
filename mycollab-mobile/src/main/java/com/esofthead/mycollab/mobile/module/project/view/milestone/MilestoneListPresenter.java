@@ -46,7 +46,7 @@ public class MilestoneListPresenter extends ProjectListPresenter<MilestoneListVi
             super.onGo(container, data);
             view.displayStatus(OptionI18nEnum.MilestoneStatus.InProgress);
             AppContext.addFragment("project/milestone/list/" + GenericLinkUtils.encodeParam(CurrentProjectVariables.getProjectId()),
-                    AppContext.getMessage(MilestoneI18nEnum.VIEW_LIST_TITLE));
+                    AppContext.getMessage(MilestoneI18nEnum.LIST));
         } else {
             NotificationUtil.showMessagePermissionAlert();
         }

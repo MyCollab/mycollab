@@ -84,7 +84,7 @@ class CallRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmailAc
 
     class CallFieldNameMapper extends ItemFieldMapper {
         put(CallWithBLOBs.Field.subject, CallI18nEnum.FORM_SUBJECT, isColSpan = true)
-        put(CallWithBLOBs.Field.status, CallI18nEnum.FORM_STATUS)
+        put(CallWithBLOBs.Field.status, GenericI18Enum.FORM_STATUS)
         put(CallWithBLOBs.Field.startdate, new DateTimeFieldFormat(CallWithBLOBs.Field.startdate.name, CallI18nEnum.FORM_START_DATE_TIME))
         put(CallWithBLOBs.Field.typeid, CallI18nEnum.FORM_RELATED)
         put(CallWithBLOBs.Field.durationinseconds, CallI18nEnum.FORM_DURATION)

@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.project.view.page;
 
 import com.esofthead.mycollab.module.page.domain.Page;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
-import com.esofthead.mycollab.module.project.i18n.Page18InEnum;
+import com.esofthead.mycollab.module.project.i18n.PageI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -38,7 +38,7 @@ public class PageAddViewImpl extends AbstractEditItemComp<Page> implements PageA
 
     @Override
     protected String initFormHeader() {
-        return (beanItem.isNew()) ? AppContext.getMessage(Page18InEnum.VIEW_NEW_TITLE) : AppContext.getMessage(Page18InEnum.VIEW_EDIT_TITLE);
+        return (beanItem.isNew()) ? AppContext.getMessage(PageI18nEnum.NEW) : AppContext.getMessage(PageI18nEnum.DETAIL);
     }
 
     @Override

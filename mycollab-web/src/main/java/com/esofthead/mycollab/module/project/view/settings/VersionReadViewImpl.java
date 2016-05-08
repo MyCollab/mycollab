@@ -57,7 +57,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version> implem
     private VersionTimeLogComp versionTimeLogComp;
 
     public VersionReadViewImpl() {
-        super(AppContext.getMessage(VersionI18nEnum.VIEW_READ_TITLE),
+        super(AppContext.getMessage(VersionI18nEnum.DETAIL),
                 ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG_VERSION));
     }
 

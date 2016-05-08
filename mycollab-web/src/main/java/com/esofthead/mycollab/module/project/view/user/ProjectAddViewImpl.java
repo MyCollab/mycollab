@@ -165,25 +165,25 @@ public class ProjectAddViewImpl extends AbstractPageView implements ProjectAddVi
         @Override
         public void attachField(Object propertyId, final Field<?> field) {
             if (propertyId.equals("name")) {
-                informationLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_NAME), 0, 0);
+                informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_NAME), 0, 0);
             } else if (propertyId.equals("homepage")) {
                 informationLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_HOME_PAGE), 1, 0);
             } else if (propertyId.equals("shortname")) {
                 informationLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_SHORT_NAME),
                         AppContext.getMessage(ProjectI18nEnum.FORM_SHORT_NAME_HELP), 0, 1);
             } else if (propertyId.equals("projectstatus")) {
-                informationLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_STATUS), 1, 1);
+                informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_STATUS), 1, 1);
             } else if (Project.Field.lead.equalTo(propertyId)) {
                 informationLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_LEADER), 0, 2);
             } else if (propertyId.equals("planstartdate")) {
-                financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_START_DATE), 0, 0);
+                financialLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_START_DATE), 0, 0);
             } else if (Project.Field.accountid.equalTo(propertyId)) {
                 financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_ACCOUNT_NAME),
                         AppContext.getMessage(ProjectI18nEnum.FORM_ACCOUNT_NAME_HELP), 1, 0);
             } else if (propertyId.equals("planenddate")) {
-                financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_END_DATE), 0, 1);
+                financialLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_END_DATE), 0, 1);
             } else if (Project.Field.currencyid.equalTo(propertyId)) {
-                financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_CURRENCY),
+                financialLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_CURRENCY),
                         AppContext.getMessage(ProjectI18nEnum.FORM_CURRENCY_HELP), 1, 1);
             } else if (propertyId.equals("defaultbillingrate")) {
                 financialLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_BILLING_RATE),

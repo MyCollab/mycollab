@@ -93,12 +93,12 @@ class ProjectRiskRelayEmailNotificationActionImpl extends SendMailToAllMembersAc
     }
 
     class ProjectFieldNameMapper extends ItemFieldMapper {
-        put(Risk.Field.riskname, RiskI18nEnum.FORM_NAME, isColSpan = true)
+        put(Risk.Field.riskname, GenericI18Enum.FORM_NAME, isColSpan = true)
         put(Risk.Field.description, GenericI18Enum.FORM_DESCRIPTION, isColSpan = true)
         put(Risk.Field.probalitity, RiskI18nEnum.FORM_PROBABILITY)
         put(Risk.Field.consequence, RiskI18nEnum.FORM_CONSEQUENCE)
-        put(Risk.Field.datedue, new DateFieldFormat(Risk.Field.datedue.name, RiskI18nEnum.FORM_DATE_DUE))
-        put(Risk.Field.status, new I18nFieldFormat(Risk.Field.status.name, RiskI18nEnum.FORM_STATUS,
+        put(Risk.Field.datedue, new DateFieldFormat(Risk.Field.datedue.name, GenericI18Enum.FORM_DUE_DATE))
+        put(Risk.Field.status, new I18nFieldFormat(Risk.Field.status.name, GenericI18Enum.FORM_STATUS,
             classOf[OptionI18nEnum.StatusI18nEnum]))
         put(Risk.Field.assigntouser, new AssigneeFieldFormat(Risk.Field.assigntouser.name, GenericI18Enum.FORM_ASSIGNEE))
         put(Risk.Field.raisedbyuser, new RaisedByFieldFormat(Risk.Field.raisedbyuser.name, RiskI18nEnum.FORM_RAISED_BY))

@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.crm.view.activity;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.form.view.builder.DateTimeDynaFieldBuilder;
 import com.esofthead.mycollab.form.view.builder.DynaSectionBuilder;
 import com.esofthead.mycollab.form.view.builder.TextAreaDynaFieldBuilder;
@@ -31,70 +32,53 @@ import com.esofthead.mycollab.vaadin.AppContext;
  * @since 1.0
  */
 public class MeetingDefaultFormLayoutFactory {
-	public static final DynaForm defaultForm;
+    public static final DynaForm defaultForm;
 
-	static {
-		defaultForm = new DynaForm();
+    static {
+        defaultForm = new DynaForm();
 
-		DynaSection meetingSection = new DynaSectionBuilder()
-				.layoutType(LayoutType.TWO_COLUMN).orderIndex(0)
-				.header("Meeting Information").build();
+        DynaSection meetingSection = new DynaSectionBuilder().layoutType(LayoutType.TWO_COLUMN).orderIndex(0)
+                .header("Meeting Information").build();
 
-		meetingSection.addField(new TextDynaFieldBuilder()
-				.fieldName("subject")
-				.displayName(
-						AppContext.getMessage(MeetingI18nEnum.FORM_SUBJECT))
-				.mandatory(true).fieldIndex(0).build());
+        meetingSection.addField(new TextDynaFieldBuilder().fieldName("subject")
+                .displayName(AppContext.getMessage(MeetingI18nEnum.FORM_SUBJECT))
+                .mandatory(true).fieldIndex(0).build());
 
-		meetingSection
-				.addField(new TextDynaFieldBuilder()
-						.fieldName("status")
-						.displayName(
-								AppContext
-										.getMessage(MeetingI18nEnum.FORM_STATUS))
-						.fieldIndex(1).build());
+        meetingSection.addField(new TextDynaFieldBuilder().fieldName("status")
+                .displayName(AppContext.getMessage(GenericI18Enum.FORM_STATUS))
+                .fieldIndex(1).build());
 
-		meetingSection
-				.addField(new DateTimeDynaFieldBuilder()
-						.fieldName("startdate")
-						.displayName(
-								AppContext
-										.getMessage(MeetingI18nEnum.FORM_START_DATE_TIME))
-						.fieldIndex(2).build());
+        meetingSection.addField(new DateTimeDynaFieldBuilder().fieldName("startdate")
+                .displayName(AppContext.getMessage(MeetingI18nEnum.FORM_START_DATE_TIME))
+                .fieldIndex(2).build());
 
-		meetingSection.addField(new TextDynaFieldBuilder().fieldName("type")
-				.displayName("Related To").fieldIndex(3).build());
+        meetingSection.addField(new TextDynaFieldBuilder().fieldName("type")
+                .displayName("Related To").fieldIndex(3).build());
 
-		meetingSection
-				.addField(new DateTimeDynaFieldBuilder()
-						.fieldName("enddate")
-						.displayName(
-								AppContext
-										.getMessage(MeetingI18nEnum.FORM_END_DATE_TIME))
-						.fieldIndex(4).build());
+        meetingSection.addField(new DateTimeDynaFieldBuilder().fieldName("enddate")
+                .displayName(AppContext.getMessage(MeetingI18nEnum.FORM_END_DATE_TIME))
+                .fieldIndex(4).build());
 
-		meetingSection.addField(new TextDynaFieldBuilder()
-				.fieldName("location")
-				.displayName(
-						AppContext.getMessage(MeetingI18nEnum.FORM_LOCATION))
-				.fieldIndex(5).build());
-		// meetingSection.addField(new CheckBoxDynaFieldBuilder()
-		// .fieldName("isrecurrence").displayName("Recurring Activity")
-		// .fieldIndex(6).build());
+        meetingSection.addField(new TextDynaFieldBuilder().fieldName("location")
+                .displayName(AppContext.getMessage(MeetingI18nEnum.FORM_LOCATION))
+                .fieldIndex(5).build());
+        // meetingSection.addField(new CheckBoxDynaFieldBuilder()
+        // .fieldName("isrecurrence").displayName("Recurring Activity")
+        // .fieldIndex(6).build());
 
-		defaultForm.addSection(meetingSection);
+        defaultForm.addSection(meetingSection);
 
-		DynaSection descSection = new DynaSectionBuilder()
-				.layoutType(LayoutType.ONE_COLUMN).orderIndex(1)
-				.header("Description").build();
-		descSection.addField(new TextAreaDynaFieldBuilder()
-				.fieldName("description").displayName("Description")
-				.fieldIndex(0).build());
+        DynaSection descSection = new DynaSectionBuilder()
+                .layoutType(LayoutType.ONE_COLUMN).orderIndex(1)
+                .header("Description").build();
+        descSection.addField(new TextAreaDynaFieldBuilder()
+                .fieldName("description").displayName("Description")
+                .fieldIndex(0).build());
 
-		defaultForm.addSection(descSection);
-	}
+        defaultForm.addSection(descSection);
+    }
 
-	public static DynaForm getForm() {
-		return defaultForm;
-	}
+    public static DynaForm getForm() {
+        return defaultForm;
+    }
 }

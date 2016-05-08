@@ -47,7 +47,7 @@ public class MilestoneListPresenter extends ProjectGenericListPresenter<Mileston
     private final MilestoneService milestoneService;
 
     public MilestoneListPresenter() {
-        super(MilestoneListView.class, MilestoneListNoItemView.class);
+        super(MilestoneListView.class);
         milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
     }
 
@@ -76,10 +76,9 @@ public class MilestoneListPresenter extends ProjectGenericListPresenter<Mileston
             int totalCount = milestoneService.getTotalCount(searchCriteria);
 
             if (totalCount > 0) {
-                displayListView(container, data);
                 doSearch(searchCriteria);
             } else {
-                displayNoExistItems(container, data);
+                view.showNoItemView();
             }
 
             ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);

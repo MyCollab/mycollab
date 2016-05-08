@@ -29,15 +29,15 @@ public class OpportunityFieldFormatter extends FieldGroupFormatter {
     private static final OpportunityFieldFormatter _instance = new OpportunityFieldFormatter();
 
     private OpportunityFieldFormatter() {
-        generateFieldDisplayHandler("opportunityname", OpportunityI18nEnum.FORM_NAME);
-        generateFieldDisplayHandler("currencyid", OpportunityI18nEnum.FORM_CURRENCY, CURRENCY_FIELD);
+        generateFieldDisplayHandler("opportunityname", GenericI18Enum.FORM_NAME);
+        generateFieldDisplayHandler("currencyid", GenericI18Enum.FORM_CURRENCY, CURRENCY_FIELD);
         generateFieldDisplayHandler("amount", OpportunityI18nEnum.FORM_AMOUNT);
         generateFieldDisplayHandler("salesstage", OpportunityI18nEnum.FORM_SALE_STAGE);
         generateFieldDisplayHandler("probability", OpportunityI18nEnum.FORM_SALE_STAGE);
         generateFieldDisplayHandler("nextstep", OpportunityI18nEnum.FORM_NEXT_STEP);
         generateFieldDisplayHandler("accountid", OpportunityI18nEnum.FORM_ACCOUNT_NAME, new AccountHistoryFieldFormat());
         generateFieldDisplayHandler("expectedcloseddate", OpportunityI18nEnum.FORM_EXPECTED_CLOSE_DATE, PRETTY_DATE_FIELD);
-        generateFieldDisplayHandler("opportunitytype", OpportunityI18nEnum.FORM_TYPE);
+        generateFieldDisplayHandler("opportunitytype", GenericI18Enum.FORM_TYPE);
         generateFieldDisplayHandler("source", OpportunityI18nEnum.FORM_LEAD_SOURCE);
         generateFieldDisplayHandler("campaignid", OpportunityI18nEnum.FORM_CAMPAIGN_NAME, new CampaignHistoryFieldFormat());
         generateFieldDisplayHandler("assignuser", GenericI18Enum.FORM_ASSIGNEE, new UserHistoryFieldFormat());

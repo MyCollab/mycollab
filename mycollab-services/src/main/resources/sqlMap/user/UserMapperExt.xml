@@ -171,6 +171,12 @@
         WHERE s_user.username=@{username}
     </select>
 
+    <select id="getUsersNotBelongToAnyAccount" resultMap="com.esofthead.mycollab.module.user.dao.UserMapper.BaseResultMap"
+            lang="velocity">
+        SELECT username, avatarId FROM s_user
+        WHERE (SELECT COUNT(*) FROM s_user_account WHERE s_user.username = s_user_account.username) = 0
+    </select>
+
     <delete id="removeKeysWithSession" parameterType="java.util.List">
         <!--WARNING - @mbggenerated -->
         delete from s_user where username IN

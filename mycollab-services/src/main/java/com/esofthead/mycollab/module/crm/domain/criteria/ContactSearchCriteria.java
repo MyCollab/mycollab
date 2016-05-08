@@ -45,7 +45,7 @@ public class ContactSearchCriteria extends SearchCriteria {
 	private static final long serialVersionUID = 1L;
 
 	public static final Param p_name = new ConcatStringParam("contact-firstname",
-			ContactI18nEnum.FORM_NAME, "m_crm_contact", new String[] {
+			GenericI18Enum.FORM_NAME, "m_crm_contact", new String[] {
 					"firstname", "lastname" });
 
 	public static final Param p_leadsource = new StringListParam(

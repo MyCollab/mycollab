@@ -91,7 +91,7 @@ public class LeadDefaultDynaFormLayoutFactory {
                 .fieldIndex(12).build());
 
         infoSection.addField(new TextDynaFieldBuilder().fieldName("status")
-                .displayName(AppContext.getMessage(LeadI18nEnum.FORM_STATUS))
+                .displayName(AppContext.getMessage(GenericI18Enum.FORM_STATUS))
                 .fieldIndex(13).build());
 
         infoSection.addField(new IntDynaFieldBuilder().fieldName("noemployees")

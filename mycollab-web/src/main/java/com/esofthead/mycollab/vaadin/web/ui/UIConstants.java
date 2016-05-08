@@ -52,6 +52,7 @@ public class UIConstants {
     public static final String BUTTON_SMALL_PADDING = "small-padding";
     public static final String BUTTON_ICON_ONLY = "button-icon-only";
 
+    public static final String INLINE_HELP = "inline-help";
     public static final String LABEL_META_INFO = "meta-info";
     public static final String LABEL_OVERDUE = "overdue";
 

@@ -78,7 +78,7 @@ public class ActivityRelatedItemView extends AbstractRelatedListView<SimpleActiv
 
         MVerticalLayout addButtons = new MVerticalLayout().withWidth("100%");
 
-        Button addTaskBtn = new Button(AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASK), new Button.ClickListener() {
+        Button addTaskBtn = new Button(AppContext.getMessage(TaskI18nEnum.NEW), new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 fireNewRelatedItem(CrmTypeConstants.TASK);
@@ -86,7 +86,7 @@ public class ActivityRelatedItemView extends AbstractRelatedListView<SimpleActiv
         });
         addButtons.addComponent(addTaskBtn);
 
-        Button addCallBtn = new Button(AppContext.getMessage(CallI18nEnum.BUTTON_NEW_CALL), new Button.ClickListener() {
+        Button addCallBtn = new Button(AppContext.getMessage(CallI18nEnum.NEW), new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 fireNewRelatedItem(CrmTypeConstants.CALL);
@@ -94,7 +94,7 @@ public class ActivityRelatedItemView extends AbstractRelatedListView<SimpleActiv
         });
         addButtons.addComponent(addCallBtn);
 
-        Button addMeetingBtn = new Button(AppContext.getMessage(MeetingI18nEnum.BUTTON_NEW_MEETING), new Button.ClickListener() {
+        Button addMeetingBtn = new Button(AppContext.getMessage(MeetingI18nEnum.NEW), new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 fireNewRelatedItem(CrmTypeConstants.MEETING);

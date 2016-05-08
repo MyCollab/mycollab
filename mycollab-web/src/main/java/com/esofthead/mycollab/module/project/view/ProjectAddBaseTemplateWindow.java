@@ -62,7 +62,7 @@ public class ProjectAddBaseTemplateWindow extends Window {
         gridFormLayoutHelper.addComponent(new MHorizontalLayout().withFullWidth().with(templateProjectComboBox,
                 helpBtn).expand(templateProjectComboBox), "Template", 0, 0);
         final TextField prjNameField = new TextField();
-        gridFormLayoutHelper.addComponent(prjNameField, AppContext.getMessage(ProjectI18nEnum.FORM_NAME), 0, 1);
+        gridFormLayoutHelper.addComponent(prjNameField, AppContext.getMessage(GenericI18Enum.FORM_NAME), 0, 1);
         final TextField prjKeyField = new TextField();
         gridFormLayoutHelper.addComponent(prjKeyField, AppContext.getMessage(ProjectI18nEnum.FORM_SHORT_NAME), 0, 2);
         MHorizontalLayout buttonControls = new MHorizontalLayout();

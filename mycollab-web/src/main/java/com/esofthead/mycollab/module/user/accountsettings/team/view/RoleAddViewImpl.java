@@ -115,8 +115,7 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
             }
 
             protected String initFormHeader() {
-                return role.getId() == null ? AppContext.getMessage(RoleI18nEnum.VIEW_NEW_TITLE) :
-                        AppContext.getMessage(RoleI18nEnum.VIEW_EDIT_TITLE);
+                return role.getId() == null ? AppContext.getMessage(RoleI18nEnum.NEW) : AppContext.getMessage(RoleI18nEnum.DETAIL);
             }
 
             protected String initFormTitle() {

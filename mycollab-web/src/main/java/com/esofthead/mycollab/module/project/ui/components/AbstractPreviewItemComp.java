@@ -176,7 +176,10 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implemen
     public void previewItem(final B item) {
         this.beanItem = item;
         initLayout();
-        previewLayout.setTitle(initFormTitle());
+
+        if (previewLayout instanceof DefaultReadViewLayout) {
+            ((DefaultReadViewLayout) previewLayout).setTitle(initFormTitle());
+        }
 
         previewForm.setBean(item);
 

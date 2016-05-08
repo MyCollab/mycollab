@@ -77,7 +77,7 @@ public class MassUpdateAccountWindow extends MassUpdateWindow<Account> {
             if (propertyId.equals("industry")) {
                 informationLayout.addComponent(field, AppContext.getMessage(AccountI18nEnum.FORM_INDUSTRY), 0, 0);
             } else if (propertyId.equals("type")) {
-                informationLayout.addComponent(field, AppContext.getMessage(AccountI18nEnum.FORM_TYPE), 1, 0);
+                informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_TYPE), 1, 0);
             } else if (propertyId.equals("ownership")) {
                 informationLayout.addComponent(field, AppContext.getMessage(AccountI18nEnum.FORM_OWNERSHIP), 0, 1);
             } else if (propertyId.equals("assignuser")) {

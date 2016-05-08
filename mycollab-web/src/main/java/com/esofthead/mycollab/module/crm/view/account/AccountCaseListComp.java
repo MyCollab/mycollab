@@ -104,7 +104,7 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
         Button createBtn = new Button();
         createBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CASE));
         createBtn.addStyleName(UIConstants.BUTTON_ACTION);
-        createBtn.setCaption(AppContext.getMessage(CaseI18nEnum.BUTTON_NEW_CASE));
+        createBtn.setCaption(AppContext.getMessage(CaseI18nEnum.NEW));
         createBtn.setIcon(FontAwesome.PLUS);
         createBtn.addClickListener(new Button.ClickListener() {
             private static final long serialVersionUID = -8725970955325733072L;

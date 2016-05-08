@@ -29,14 +29,14 @@ import com.esofthead.mycollab.module.tracker.domain.criteria.ComponentSearchCrit
 import com.esofthead.mycollab.module.tracker.service.ComponentService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.web.ui.DefaultMassEditActionHandler;
 import com.esofthead.mycollab.vaadin.events.ViewItemAction;
 import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
-import com.esofthead.mycollab.vaadin.web.ui.MailFormWindow;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
+import com.esofthead.mycollab.vaadin.web.ui.DefaultMassEditActionHandler;
+import com.esofthead.mycollab.vaadin.web.ui.MailFormWindow;
 import com.vaadin.ui.UI;
 
 import java.util.ArrayList;
@@ -53,7 +53,7 @@ public class ComponentListPresenter extends ProjectGenericListPresenter<Componen
     private ComponentService componentService;
 
     public ComponentListPresenter() {
-        super(ComponentListView.class, ComponentListNoItemView.class);
+        super(ComponentListView.class);
         componentService = ApplicationContextUtil.getSpringBean(ComponentService.class);
     }
 
@@ -71,7 +71,7 @@ public class ComponentListPresenter extends ProjectGenericListPresenter<Componen
 
             @Override
             protected String getReportTitle() {
-                return AppContext.getMessage(ComponentI18nEnum.VIEW_LIST_TITLE);
+                return AppContext.getMessage(ComponentI18nEnum.LIST);
             }
 
             @Override
@@ -92,10 +92,9 @@ public class ComponentListPresenter extends ProjectGenericListPresenter<Componen
             int totalCount = componentService.getTotalCount(searchCriteria);
 
             if (totalCount > 0) {
-                displayListView(container, data);
                 doSearch(searchCriteria);
             } else {
-                displayNoExistItems(container, data);
+                view.showNoItemView();
             }
 
             ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
@@ -126,10 +125,9 @@ public class ComponentListPresenter extends ProjectGenericListPresenter<Componen
         int totalCount = componentService.getTotalCount(searchCriteria);
 
         if (totalCount > 0) {
-            displayListView((BugComponentContainer) view.getParent(), null);
             doSearch(searchCriteria);
         } else {
-            displayNoExistItems((BugComponentContainer) view.getParent(), null);
+            view.showNoItemView();
         }
 
     }

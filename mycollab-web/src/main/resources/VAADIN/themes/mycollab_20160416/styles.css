@@ -1614,6 +1614,7 @@ a.pending {
 
 .v-table-cell-wrapper {
 	height: 100%;
+	white-space: initial;
 }
 
 .meta-info {
@@ -14273,6 +14274,7 @@ a.pending {
 
 .v-table-cell-wrapper {
 	height: 100%;
+	white-space: initial;
 }
 
 .meta-info {

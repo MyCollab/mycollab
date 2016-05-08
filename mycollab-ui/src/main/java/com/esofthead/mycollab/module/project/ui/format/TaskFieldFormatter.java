@@ -35,13 +35,13 @@ public final class TaskFieldFormatter extends FieldGroupFormatter {
     private static TaskFieldFormatter _instance = new TaskFieldFormatter();
 
     private TaskFieldFormatter() {
-        generateFieldDisplayHandler("taskname", TaskI18nEnum.FORM_TASK_NAME);
-        generateFieldDisplayHandler("startdate", TaskI18nEnum.FORM_START_DATE, DATE_FIELD);
-        generateFieldDisplayHandler("enddate", TaskI18nEnum.FORM_END_DATE, DATE_FIELD);
-        generateFieldDisplayHandler("deadline", TaskI18nEnum.FORM_DEADLINE, DATE_FIELD);
+        generateFieldDisplayHandler("taskname", GenericI18Enum.FORM_NAME);
+        generateFieldDisplayHandler("startdate", GenericI18Enum.FORM_START_DATE, DATE_FIELD);
+        generateFieldDisplayHandler("enddate", GenericI18Enum.FORM_END_DATE, DATE_FIELD);
+        generateFieldDisplayHandler("deadline", GenericI18Enum.FORM_DUE_DATE, DATE_FIELD);
         generateFieldDisplayHandler("priority", TaskI18nEnum.FORM_PRIORITY,
                 new I18nHistoryFieldFormat(OptionI18nEnum.TaskPriority.class));
-        generateFieldDisplayHandler("status", TaskI18nEnum.FORM_STATUS,
+        generateFieldDisplayHandler("status", GenericI18Enum.FORM_STATUS,
                 new I18nHistoryFieldFormat(com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.class));
         generateFieldDisplayHandler("isestimated", TaskI18nEnum.FORM_IS_ESTIMATED);
         generateFieldDisplayHandler("remainestimate", TaskI18nEnum.FORM_REMAIN_ESTIMATE);

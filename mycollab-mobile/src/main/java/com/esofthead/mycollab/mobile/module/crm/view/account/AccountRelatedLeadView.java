@@ -74,7 +74,7 @@ public class AccountRelatedLeadView extends AbstractRelatedListView<SimpleLead, 
 
         MVerticalLayout addButtons = new MVerticalLayout().withWidth("100%");
 
-        Button newLeadBtn = new Button(AppContext.getMessage(LeadI18nEnum.VIEW_NEW_TITLE), new Button.ClickListener() {
+        Button newLeadBtn = new Button(AppContext.getMessage(LeadI18nEnum.NEW), new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 fireNewRelatedItem("");

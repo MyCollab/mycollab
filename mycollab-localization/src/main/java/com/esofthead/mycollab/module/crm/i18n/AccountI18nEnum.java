@@ -23,12 +23,8 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/crm-account")
 @LocaleData(value = { @Locale("en-US"), @Locale("ja-JP") }, defaultCharset = "UTF-8")
 public enum AccountI18nEnum {
-	VIEW_NO_ITEM_TITLE,
-	VIEW_NO_ITEM_HINT,
-	VIEW_LIST_TITLE,
-	VIEW_NEW_TITLE,
-
-	BUTTON_NEW_ACCOUNT,
+	LIST,
+	NEW,
 
 	SECTION_ACCOUNT_INFORMATION,
 	SECTION_ADDRESS_INFORMATION,
@@ -42,7 +38,6 @@ public enum AccountI18nEnum {
 	FORM_OTHER_PHONE,
 	FORM_INDUSTRY,
 	FORM_EMAIL,
-	FORM_TYPE,
 	FORM_OWNERSHIP,
 	FORM_ANNUAL_REVENUE,
 	FORM_BILLING_ADDRESS,

@@ -72,7 +72,8 @@ import java.util.List;
 public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
     @Override
     public void setBean(SimpleTask bean) {
-        this.setFormLayoutFactory(new DynaFormLayout(ProjectTypeConstants.TASK, TaskDefaultFormLayoutFactory.getForm(), Task.Field.taskname.name()));
+        this.setFormLayoutFactory(new DynaFormLayout(ProjectTypeConstants.TASK, TaskDefaultFormLayoutFactory.getForm(),
+                Task.Field.taskname.name()));
         this.setBeanFormFieldFactory(new PreviewFormFieldFactory(this));
         super.setBean(bean);
     }
@@ -222,7 +223,7 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
 
         private HorizontalLayout generateSubTaskContent(final SimpleTask subTask) {
             MHorizontalLayout layout = new MHorizontalLayout().withStyleName(UIConstants.HOVER_EFFECT_NOT_BOX);
-            layout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+            layout.setDefaultComponentAlignment(Alignment.TOP_LEFT);
 
             final CheckBox checkBox = new CheckBox("", subTask.isCompleted());
             checkBox.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));

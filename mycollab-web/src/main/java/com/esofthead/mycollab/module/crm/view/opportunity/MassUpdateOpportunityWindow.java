@@ -66,9 +66,9 @@ public class MassUpdateOpportunityWindow extends MassUpdateWindow<Opportunity> {
         @Override
         public void attachField(Object propertyId, final Field<?> field) {
             if (propertyId.equals("opportunityname")) {
-                informationLayout.addComponent(field, AppContext.getMessage(OpportunityI18nEnum.FORM_NAME), 0, 0);
+                informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_NAME), 0, 0);
             } else if (propertyId.equals("currencyid")) {
-                informationLayout.addComponent(field, AppContext.getMessage(OpportunityI18nEnum.FORM_CURRENCY), 0, 1);
+                informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_CURRENCY), 0, 1);
             } else if (propertyId.equals("amount")) {
                 informationLayout.addComponent(field, AppContext.getMessage(OpportunityI18nEnum.FORM_AMOUNT), 0, 2);
             } else if (propertyId.equals("salesstage")) {
@@ -82,7 +82,7 @@ public class MassUpdateOpportunityWindow extends MassUpdateWindow<Opportunity> {
             } else if (propertyId.equals("expectedcloseddate")) {
                 informationLayout.addComponent(field, AppContext.getMessage(OpportunityI18nEnum.FORM_EXPECTED_CLOSE_DATE), 1, 1);
             } else if (propertyId.equals("opportunitytype")) {
-                informationLayout.addComponent(field, AppContext.getMessage(OpportunityI18nEnum.FORM_TYPE), 1, 2);
+                informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_TYPE), 1, 2);
             } else if (propertyId.equals("source")) {
                 informationLayout.addComponent(field, AppContext.getMessage(OpportunityI18nEnum.FORM_LEAD_SOURCE), 1, 3);
             } else if (propertyId.equals("campaignid")) {

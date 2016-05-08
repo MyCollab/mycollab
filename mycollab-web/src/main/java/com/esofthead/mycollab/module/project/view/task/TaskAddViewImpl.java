@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
@@ -55,8 +54,7 @@ public class TaskAddViewImpl extends AbstractEditItemComp<SimpleTask> implements
 
     @Override
     protected String initFormHeader() {
-        return (beanItem.getId() == null) ? AppContext.getMessage(TaskI18nEnum.FORM_NEW_TASK_TITLE) :
-                AppContext.getMessage(TaskI18nEnum.FORM_EDIT_TASK_TITLE);
+        return (beanItem.getId() == null) ? AppContext.getMessage(TaskI18nEnum.NEW) : AppContext.getMessage(TaskI18nEnum.DETAIL);
     }
 
     @Override

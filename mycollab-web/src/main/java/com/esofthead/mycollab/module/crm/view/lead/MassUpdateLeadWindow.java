@@ -86,7 +86,7 @@ public class MassUpdateLeadWindow extends MassUpdateWindow<Lead> {
             } else if (propertyId.equals("industry")) {
                 informationLayout.addComponent(field, AppContext.getMessage(LeadI18nEnum.FORM_INDUSTRY), 1, 1);
             } else if (propertyId.equals("status")) {
-                informationLayout.addComponent(field, AppContext.getMessage(LeadI18nEnum.FORM_STATUS), 0, 2);
+                informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_STATUS), 0, 2);
             } else if (propertyId.equals("assignuser")) {
                 informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 1, 2);
             } else if (propertyId.equals("primcity")) {

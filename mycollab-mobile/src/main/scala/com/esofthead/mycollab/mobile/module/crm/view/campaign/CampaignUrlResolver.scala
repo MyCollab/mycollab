@@ -21,7 +21,7 @@ import com.esofthead.mycollab.eventmanager.EventBusFactory
 import com.esofthead.mycollab.mobile.module.crm.events.{CampaignEvent, CrmEvent}
 import com.esofthead.mycollab.mobile.module.crm.{CrmModuleScreenData, CrmUrlResolver}
 import com.esofthead.mycollab.module.crm.domain.Account
-import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum
+import com.esofthead.mycollab.module.crm.i18n.CampaignI18nEnum
 import com.esofthead.mycollab.vaadin.AppContext
 
 /**
@@ -37,7 +37,7 @@ class CampaignUrlResolver extends CrmUrlResolver{
     class CampaignListUrlResolver extends CrmUrlResolver {
         protected override def handlePage(params: String*) {
             EventBusFactory.getInstance().post(new CrmEvent.GotoContainer(this,
-                new CrmModuleScreenData.GotoModule(AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_CAMPAIGNS_HEADER))))
+                new CrmModuleScreenData.GotoModule(AppContext.getMessage(CampaignI18nEnum.LIST))))
         }
     }
 
@@ -49,14 +49,14 @@ class CampaignUrlResolver extends CrmUrlResolver{
 
     class CampaignEditUrlResolver extends CrmUrlResolver {
         protected override def handlePage(params: String*) {
-            val campaignId: Int = new UrlTokenizer(params(0)).getInt
+            val campaignId = new UrlTokenizer(params(0)).getInt
             EventBusFactory.getInstance().post(new CampaignEvent.GotoEdit(this, campaignId))
         }
     }
 
     class CampaignPreviewUrlResolver extends CrmUrlResolver {
         protected override def handlePage(params: String*) {
-            val campaignId: Int = new UrlTokenizer(params(0)).getInt
+            val campaignId = new UrlTokenizer(params(0)).getInt
             EventBusFactory.getInstance().post(new CampaignEvent.GotoRead(this, campaignId))
         }
     }

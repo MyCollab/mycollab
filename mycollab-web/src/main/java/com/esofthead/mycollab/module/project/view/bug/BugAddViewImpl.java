@@ -76,8 +76,7 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements B
 
     @Override
     protected String initFormHeader() {
-        return (beanItem.getId() == null) ? AppContext.getMessage(BugI18nEnum.FORM_NEW_BUG_TITLE) :
-                AppContext.getMessage(BugI18nEnum.FORM_EDIT_BUG_TITLE);
+        return (beanItem.getId() == null) ? AppContext.getMessage(BugI18nEnum.NEW) : AppContext.getMessage(BugI18nEnum.DETAIL);
     }
 
     @Override

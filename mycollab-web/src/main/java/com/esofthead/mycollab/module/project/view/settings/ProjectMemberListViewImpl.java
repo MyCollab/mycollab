@@ -85,7 +85,7 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
         MHorizontalLayout viewHeader = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false)).withWidth("100%");
         viewHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-        headerText = ComponentUtils.headerH2(ProjectTypeConstants.MEMBER, AppContext.getMessage(ProjectMemberI18nEnum.VIEW_LIST_TITLE, 0));
+        headerText = ComponentUtils.headerH2(ProjectTypeConstants.MEMBER, AppContext.getMessage(ProjectMemberI18nEnum.LIST));
         viewHeader.with(headerText).expand(headerText);
 
         final Button sortBtn = new Button();
@@ -174,7 +174,7 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
         List<SimpleProjectMember> memberLists = prjMemberService.findPagableListByCriteria(new BasicSearchRequest<>(searchCriteria, 0,
                 Integer.MAX_VALUE));
 
-        headerText.updateTitle(AppContext.getMessage(ProjectMemberI18nEnum.VIEW_LIST_TITLE, memberLists.size()));
+        headerText.updateTitle(String.format("%s (%d)", AppContext.getMessage(ProjectMemberI18nEnum.LIST), memberLists.size()));
         for (SimpleProjectMember member : memberLists) {
             contentLayout.addComponent(generateMemberBlock(member));
         }

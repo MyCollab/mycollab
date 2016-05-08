@@ -28,73 +28,65 @@ import com.esofthead.mycollab.module.crm.i18n.CallI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
 public class CallDefaultFormLayoutFactory {
-	public static final DynaForm defaultForm;
+    public static final DynaForm defaultForm;
 
-	static {
-		defaultForm = new DynaForm();
+    static {
+        defaultForm = new DynaForm();
 
-		DynaSection callSection = new DynaSectionBuilder()
-				.layoutType(LayoutType.TWO_COLUMN).orderIndex(0)
-				.header("Call Information").build();
+        DynaSection callSection = new DynaSectionBuilder()
+                .layoutType(LayoutType.TWO_COLUMN).orderIndex(0)
+                .header("Call Information").build();
 
-		callSection.addField(new TextDynaFieldBuilder().fieldName("subject")
-				.displayName(AppContext.getMessage(CallI18nEnum.FORM_SUBJECT))
-				.fieldIndex(0).mandatory(true).build());
+        callSection.addField(new TextDynaFieldBuilder().fieldName("subject")
+                .displayName(AppContext.getMessage(CallI18nEnum.FORM_SUBJECT))
+                .fieldIndex(0).mandatory(true).build());
 
-		callSection.addField(new TextDynaFieldBuilder().fieldName("status")
-				.displayName(AppContext.getMessage(CallI18nEnum.FORM_STATUS))
-				.fieldIndex(1).build());
+        callSection.addField(new TextDynaFieldBuilder().fieldName("status")
+                .displayName(AppContext.getMessage(GenericI18Enum.FORM_STATUS))
+                .fieldIndex(1).build());
 
-		callSection.addField(new DateTimeDynaFieldBuilder()
-				.fieldName("startdate")
-				.displayName(
-						AppContext
-								.getMessage(CallI18nEnum.FORM_START_DATE_TIME))
-				.fieldIndex(2).build());
+        callSection.addField(new DateTimeDynaFieldBuilder().fieldName("startdate")
+                .displayName(AppContext.getMessage(CallI18nEnum.FORM_START_DATE_TIME))
+                .fieldIndex(2).build());
 
-		callSection.addField(new TextDynaFieldBuilder().fieldName("type")
-				.displayName(AppContext.getMessage(CallI18nEnum.FORM_RELATED))
-				.fieldIndex(3).build());
+        callSection.addField(new TextDynaFieldBuilder().fieldName("type")
+                .displayName(AppContext.getMessage(CallI18nEnum.FORM_RELATED))
+                .fieldIndex(3).build());
 
-		callSection.addField(new TextDynaFieldBuilder()
-				.fieldName("durationinseconds")
-				.displayName(AppContext.getMessage(CallI18nEnum.FORM_DURATION))
-				.fieldIndex(4).build());
+        callSection.addField(new TextDynaFieldBuilder()
+                .fieldName("durationinseconds")
+                .displayName(AppContext.getMessage(CallI18nEnum.FORM_DURATION))
+                .fieldIndex(4).build());
 
-		callSection.addField(new TextDynaFieldBuilder().fieldName("purpose")
-				.displayName(AppContext.getMessage(CallI18nEnum.FORM_PURPOSE))
-				.fieldIndex(5).build());
+        callSection.addField(new TextDynaFieldBuilder().fieldName("purpose")
+                .displayName(AppContext.getMessage(CallI18nEnum.FORM_PURPOSE))
+                .fieldIndex(5).build());
 
-		defaultForm.addSection(callSection);
+        defaultForm.addSection(callSection);
 
-		DynaSection descSection = new DynaSectionBuilder()
-				.layoutType(LayoutType.ONE_COLUMN).orderIndex(1)
-				.header("Description").build();
-		descSection.addField(new TextAreaDynaFieldBuilder()
-				.fieldName("description")
-				.displayName(
-						AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION))
-				.fieldIndex(0).build());
-		defaultForm.addSection(descSection);
+        DynaSection descSection = new DynaSectionBuilder()
+                .layoutType(LayoutType.ONE_COLUMN).orderIndex(1)
+                .header("Description").build();
+        descSection.addField(new TextAreaDynaFieldBuilder().fieldName("description")
+                .displayName(AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION))
+                .fieldIndex(0).build());
+        defaultForm.addSection(descSection);
 
-		DynaSection resultSection = new DynaSectionBuilder()
-				.layoutType(LayoutType.ONE_COLUMN).orderIndex(2)
-				.header("Result").build();
-		resultSection.addField(new TextAreaDynaFieldBuilder()
-				.fieldName("result")
-				.displayName(AppContext.getMessage(CallI18nEnum.FORM_RESULT))
-				.fieldIndex(0).build());
+        DynaSection resultSection = new DynaSectionBuilder()
+                .layoutType(LayoutType.ONE_COLUMN).orderIndex(2)
+                .header("Result").build();
+        resultSection.addField(new TextAreaDynaFieldBuilder().fieldName("result")
+                .displayName(AppContext.getMessage(CallI18nEnum.FORM_RESULT))
+                .fieldIndex(0).build());
 
-		defaultForm.addSection(resultSection);
-	}
+        defaultForm.addSection(resultSection);
+    }
 
-	public static DynaForm getForm() {
-		return defaultForm;
-	}
+    public static DynaForm getForm() {
+        return defaultForm;
+    }
 }

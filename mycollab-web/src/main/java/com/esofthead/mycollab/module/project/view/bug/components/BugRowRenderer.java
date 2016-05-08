@@ -84,7 +84,7 @@ public class BugRowRenderer extends MVerticalLayout {
         PopupView milestoneField = popupFieldFactory.createMilestonePopupField(bug);
         footer.addComponent(milestoneField);
 
-        String deadlineTooltip = String.format("%s: %s", AppContext.getMessage(BugI18nEnum.FORM_DUE_DATE),
+        String deadlineTooltip = String.format("%s: %s", AppContext.getMessage(GenericI18Enum.FORM_DUE_DATE),
                 AppContext.formatDate(bug.getDuedate()));
         PopupView deadlineField = popupFieldFactory.createDeadlinePopupField(bug);
         deadlineField.setDescription(deadlineTooltip);

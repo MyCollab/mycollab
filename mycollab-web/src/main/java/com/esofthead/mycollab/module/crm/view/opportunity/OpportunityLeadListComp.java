@@ -69,7 +69,7 @@ public class OpportunityLeadListComp extends RelatedListComp2<LeadService, LeadS
         controlsBtn.setSizeUndefined();
         controlsBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_LEAD));
         controlsBtn.addStyleName(UIConstants.BUTTON_ACTION);
-        controlsBtn.setCaption(AppContext.getMessage(LeadI18nEnum.BUTTON_NEW_LEAD));
+        controlsBtn.setCaption(AppContext.getMessage(LeadI18nEnum.NEW));
         controlsBtn.setIcon(FontAwesome.PLUS);
         controlsBtn.addClickListener(new SplitButton.SplitButtonClickListener() {
             private static final long serialVersionUID = 1L;

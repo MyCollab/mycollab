@@ -58,12 +58,12 @@ public class AccountSearchPanel extends DefaultGenericSearchPanel<AccountSearchC
 
     @Override
     protected HeaderWithFontAwesome buildSearchTitle() {
-        return ComponentUtils.header(CrmTypeConstants.ACCOUNT, AppContext.getMessage(AccountI18nEnum.VIEW_LIST_TITLE));
+        return ComponentUtils.header(CrmTypeConstants.ACCOUNT, AppContext.getMessage(AccountI18nEnum.LIST));
     }
 
     @Override
     protected Component buildExtraControls() {
-        Button newBtn = new Button(AppContext.getMessage(AccountI18nEnum.BUTTON_NEW_ACCOUNT), new Button.ClickListener() {
+        Button newBtn = new Button(AppContext.getMessage(AccountI18nEnum.NEW), new Button.ClickListener() {
             @Override
             public void buttonClick(final ClickEvent event) {
                 EventBusFactory.getInstance().post(new AccountEvent.GotoAdd(this, null));

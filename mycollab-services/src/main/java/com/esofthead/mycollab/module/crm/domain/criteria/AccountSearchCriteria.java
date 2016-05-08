@@ -69,7 +69,7 @@ public class AccountSearchCriteria extends SearchCriteria {
             Arrays.asList(CrmDataTypeFactory.getAccountIndustryList()));
 
     public static final Param p_types = new I18nStringListParam("account-type",
-            AccountI18nEnum.FORM_TYPE, "m_crm_account", "type",
+            GenericI18Enum.FORM_TYPE, "m_crm_account", "type",
             CrmDataTypeFactory.getAccountTypeList());
 
     public static final Param p_billingCountry = new StringListParam(

@@ -97,4 +97,10 @@ public class OpportunityListViewImpl extends AbstractListItemComp<OpportunitySea
 
         return container;
     }
+
+    @Override
+    public void showNoItemView() {
+        removeAllComponents();
+        addComponent(new OpportunityCrmListNoItemView());
+    }
 }

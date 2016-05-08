@@ -87,10 +87,10 @@ import org.springframework.stereotype.Component
 
     class TaskFieldNameMapper extends ItemFieldMapper {
         put(Task.Field.subject, TaskI18nEnum.FORM_SUBJECT, isColSpan = true)
-        put(Task.Field.status, TaskI18nEnum.FORM_STATUS)
-        put(Task.Field.startdate, new DateFieldFormat(Task.Field.startdate.name, TaskI18nEnum.FORM_START_DATE))
+        put(Task.Field.status, GenericI18Enum.FORM_STATUS)
+        put(Task.Field.startdate, new DateFieldFormat(Task.Field.startdate.name, GenericI18Enum.FORM_START_DATE))
         put(Task.Field.assignuser, new AssigneeFieldFormat(Task.Field.assignuser.name, GenericI18Enum.FORM_ASSIGNEE))
-        put(Task.Field.duedate, new DateFieldFormat(Task.Field.duedate.name, TaskI18nEnum.FORM_DUE_DATE))
+        put(Task.Field.duedate, new DateFieldFormat(Task.Field.duedate.name, GenericI18Enum.FORM_DUE_DATE))
         put(Task.Field.contactid, new ContactFieldFormat(Task.Field.contactid.name, TaskI18nEnum.FORM_CONTACT))
         put(Task.Field.priority, TaskI18nEnum.FORM_PRIORITY)
         put(Task.Field.description, GenericI18Enum.FORM_DESCRIPTION, isColSpan = true)

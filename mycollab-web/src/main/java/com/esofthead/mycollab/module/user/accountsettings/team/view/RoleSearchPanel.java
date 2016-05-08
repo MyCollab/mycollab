@@ -56,12 +56,12 @@ public class RoleSearchPanel extends DefaultGenericSearchPanel<RoleSearchCriteri
 
     @Override
     protected HeaderWithFontAwesome buildSearchTitle() {
-        return HeaderWithFontAwesome.h2(FontAwesome.USERS, AppContext.getMessage(RoleI18nEnum.VIEW_LIST_TITLE));
+        return HeaderWithFontAwesome.h2(FontAwesome.USERS, AppContext.getMessage(RoleI18nEnum.LIST));
     }
 
     @Override
     protected Component buildExtraControls() {
-        Button createBtn = new Button(AppContext.getMessage(RoleI18nEnum.BUTTON_NEW_ROLE), new Button.ClickListener() {
+        Button createBtn = new Button(AppContext.getMessage(RoleI18nEnum.NEW), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
             @Override

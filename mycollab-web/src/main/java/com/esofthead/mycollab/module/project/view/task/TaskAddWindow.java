@@ -45,11 +45,7 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  */
 public class TaskAddWindow extends Window {
     public TaskAddWindow(SimpleTask task) {
-        if (task.getId() == null) {
-            setCaption(AppContext.getMessage(TaskI18nEnum.FORM_NEW_TASK_TITLE));
-        } else {
-            setCaption(AppContext.getMessage(TaskI18nEnum.FORM_EDIT_TASK_TITLE));
-        }
+        setCaption(task.getId() == null ? AppContext.getMessage(TaskI18nEnum.NEW) : AppContext.getMessage(TaskI18nEnum.DETAIL));
         this.setWidth("800px");
         this.setModal(true);
         this.setResizable(false);
@@ -138,13 +134,13 @@ public class TaskAddWindow extends Window {
             @Override
             public void attachField(Object propertyId, Field<?> field) {
                 if (Task.Field.taskname.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, AppContext.getMessage(TaskI18nEnum.FORM_TASK_NAME), 0, 0, 2, "100%");
+                    informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_NAME), 0, 0, 2, "100%");
                 } else if (Task.Field.startdate.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, AppContext.getMessage(TaskI18nEnum.FORM_START_DATE), 0, 1);
+                    informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_START_DATE), 0, 1);
                 } else if (Task.Field.enddate.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, AppContext.getMessage(TaskI18nEnum.FORM_END_DATE), 1, 1);
+                    informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_END_DATE), 1, 1);
                 } else if (Task.Field.deadline.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, AppContext.getMessage(TaskI18nEnum.FORM_DEADLINE), 0, 2);
+                    informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DUE_DATE), 0, 2);
                 } else if (Task.Field.assignuser.equalTo(propertyId)) {
                     informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 1, 2);
                 } else if (Task.Field.percentagecomplete.equalTo(propertyId)) {

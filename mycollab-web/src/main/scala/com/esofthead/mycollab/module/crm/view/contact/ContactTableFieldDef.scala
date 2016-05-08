@@ -28,7 +28,7 @@ import com.esofthead.mycollab.vaadin.web.ui.UIConstants
 object ContactTableFieldDef {
   val selected = new TableViewField(null, "selected", UIConstants.TABLE_CONTROL_WIDTH)
   val action = new TableViewField(null, "id", UIConstants.TABLE_ACTION_CONTROL_WIDTH)
-  val name = new TableViewField(ContactI18nEnum.FORM_NAME, "contactName", UIConstants.TABLE_X_LABEL_WIDTH)
+  val name = new TableViewField(GenericI18Enum.FORM_NAME, "contactName", UIConstants.TABLE_X_LABEL_WIDTH)
   val account = new TableViewField(ContactI18nEnum.FORM_ACCOUNTS, "accountName", UIConstants.TABLE_EX_LABEL_WIDTH)
   val decisionRole = new TableViewField(ContactI18nEnum.FORM_DECISION_ROLE, "decisionRole", UIConstants.TABLE_M_LABEL_WIDTH)
   val title = new TableViewField(ContactI18nEnum.FORM_TITLE, "title", UIConstants.TABLE_S_LABEL_WIDTH)

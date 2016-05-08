@@ -44,7 +44,7 @@ public class OpportunityListViewImpl extends
 	public OpportunityListViewImpl() {
 		super();
 
-		setCaption(AppContext.getMessage(OpportunityI18nEnum.VIEW_LIST_TITLE));
+		setCaption(AppContext.getMessage(OpportunityI18nEnum.LIST));
 	}
 
 	@Override

@@ -72,7 +72,7 @@ public class AccountListPresenter extends CrmGenericListPresenter<AccountListVie
 
             @Override
             protected String getReportTitle() {
-                return AppContext.getMessage(AccountI18nEnum.VIEW_LIST_TITLE);
+                return AppContext.getMessage(AccountI18nEnum.LIST);
             }
 
             @Override
@@ -135,7 +135,7 @@ public class AccountListPresenter extends CrmGenericListPresenter<AccountListVie
                 this.displayNoExistItems(container, data);
             }
 
-            AppContext.addFragment("crm/account/list", AppContext.getMessage(AccountI18nEnum.VIEW_LIST_TITLE));
+            AppContext.addFragment("crm/account/list", AppContext.getMessage(AccountI18nEnum.LIST));
         } else {
             throw new SecureAccessException();
         }

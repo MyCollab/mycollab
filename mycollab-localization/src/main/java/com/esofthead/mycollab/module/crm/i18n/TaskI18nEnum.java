@@ -23,17 +23,11 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/crm-assignment")
 @LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
 public enum TaskI18nEnum {
-    VIEW_NEW_TITLE,
-    BUTTON_NEW_TASK,
+    NEW,
 
     FORM_SUBJECT,
-    FORM_START_DATE,
-    FORM_STATUS,
-    FORM_DUE_DATE,
     FORM_CONTACT,
     FORM_PRIORITY,
-    TABLE_TYPE_HEADER,
-    TABLE_END_DATE_HEADER,
 
     MAIL_CREATE_ITEM_SUBJECT,
     MAIL_UPDATE_ITEM_SUBJECT,

@@ -422,6 +422,20 @@
         m_tracker_bug.lastUpdatedTime DESC
     </sql>
 
+    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer" lang="velocity">
+        SELECT MIN(id) FROM m_tracker_bug
+        #trimext("WHERE" "AND|OR")
+            <include refid="querySearchCriteria"/>
+        #end
+    </select>
+
+    <select id="getPreviousItemKey" parameterType="map" resultType="java.lang.Integer" lang="velocity">
+        SELECT MAX(id) FROM m_tracker_bug
+        #trimext("WHERE" "AND|OR")
+            <include refid="querySearchCriteria"/>
+        #end
+    </select>
+
     <select id="getStatusSummary" parameterType="BugSearchCriteria"
         resultMap="com.esofthead.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
         <![CDATA[

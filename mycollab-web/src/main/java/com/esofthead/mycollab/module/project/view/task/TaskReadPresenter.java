@@ -14,11 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
+import com.esofthead.mycollab.core.arguments.SearchField;
+import com.esofthead.mycollab.core.db.query.NumberParam;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -29,7 +30,6 @@ import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
-import com.esofthead.mycollab.module.project.ui.format.TaskFieldFormatter;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.TaskScreenData;
@@ -124,28 +124,29 @@ public class TaskReadPresenter extends AbstractPresenter<TaskReadView> {
             }
 
             @Override
-            public void gotoNext(SimpleTask data) {
+            public void gotoNext(SimpleTask task) {
                 ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
 
                 TaskSearchCriteria criteria = new TaskSearchCriteria();
                 criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
+                criteria.addExtraField(TaskSearchCriteria.p_taskkey.buildSearchField(SearchField.AND, NumberParam
+                        .GREATER_THAN, task.getTaskkey()));
                 Integer nextId = taskService.getNextItemKey(criteria);
                 if (nextId != null) {
                     EventBusFactory.getInstance().post(new TaskEvent.GotoRead(this, nextId));
                 } else {
                     NotificationUtil.showGotoLastRecordNotification();
                 }
-
             }
 
             @Override
-            public void gotoPrevious(final SimpleTask data) {
+            public void gotoPrevious(final SimpleTask task) {
                 ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
 
                 TaskSearchCriteria criteria = new TaskSearchCriteria();
-                criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
+                criteria.setProjectId(new NumberSearchField(task.getProjectid()));
+                criteria.addExtraField(TaskSearchCriteria.p_taskkey.buildSearchField(SearchField.AND, NumberParam.LESS_THAN,
+                        task.getTaskkey()));
                 Integer nextId = taskService.getNextItemKey(criteria);
                 if (nextId != null) {
                     EventBusFactory.getInstance().post(new TaskEvent.GotoRead(this, nextId));
@@ -169,7 +170,6 @@ public class TaskReadPresenter extends AbstractPresenter<TaskReadView> {
 
                 if (task != null) {
                     view.previewItem(task);
-
                     ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
                     breadCrumb.gotoTaskRead(task);
                 } else {

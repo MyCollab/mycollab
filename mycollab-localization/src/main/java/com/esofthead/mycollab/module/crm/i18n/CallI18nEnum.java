@@ -23,11 +23,9 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/crm-call")
 @LocaleData(value = { @Locale("en-US"), @Locale("ja-JP") }, defaultCharset = "UTF-8")
 public enum CallI18nEnum {
-	VIEW_NEW_TITLE,
-	BUTTON_NEW_CALL,
+	NEW,
 
 	FORM_SUBJECT,
-	FORM_STATUS,
 	FORM_START_DATE_TIME,
 	FORM_RELATED,
 	FORM_DURATION,

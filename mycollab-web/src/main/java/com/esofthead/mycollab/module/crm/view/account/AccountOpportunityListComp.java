@@ -101,7 +101,7 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
         controlsBtnWrap.addComponent(notesWrap);
 
         controlsBtnWrap.setWidth("100%");
-        final Button createBtn = new Button(AppContext.getMessage(OpportunityI18nEnum.BUTTON_NEW_OPPORTUNITY), new Button.ClickListener() {
+        final Button createBtn = new Button(AppContext.getMessage(OpportunityI18nEnum.NEW), new Button.ClickListener() {
             private static final long serialVersionUID = -8101659779838108951L;
 
             @Override

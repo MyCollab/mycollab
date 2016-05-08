@@ -91,7 +91,7 @@ class AccountRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmai
     put(Account.Field.alternatephone, AccountI18nEnum.FORM_OTHER_PHONE)
     put(Account.Field.industry, AccountI18nEnum.FORM_INDUSTRY)
     put(Account.Field.email, AccountI18nEnum.FORM_EMAIL)
-    put(Account.Field.`type`, new I18nFieldFormat(Account.Field.`type`.name, AccountI18nEnum.FORM_TYPE,
+    put(Account.Field.`type`, new I18nFieldFormat(Account.Field.`type`.name, GenericI18Enum.FORM_TYPE,
       classOf[OptionI18nEnum.AccountType]))
     put(Account.Field.ownership, AccountI18nEnum.FORM_OWNERSHIP)
     put(Account.Field.assignuser, new AssigneeFieldFormat(Account.Field.assignuser.name, GenericI18Enum.FORM_ASSIGNEE))

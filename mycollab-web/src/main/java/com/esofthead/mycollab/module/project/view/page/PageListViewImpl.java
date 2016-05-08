@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.events.PageEvent;
-import com.esofthead.mycollab.module.project.i18n.Page18InEnum;
+import com.esofthead.mycollab.module.project.i18n.PageI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.ComponentUtils;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -123,18 +123,18 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 
     private void initHeader() {
         HeaderWithFontAwesome headerText = ComponentUtils.headerH2(ProjectTypeConstants.PAGE,
-                AppContext.getMessage(Page18InEnum.VIEW_LIST_TITLE));
+                AppContext.getMessage(PageI18nEnum.LIST));
 
         headerLayout.with(headerText).alignAll(Alignment.MIDDLE_LEFT).expand(headerText);
 
-        Label sortLbl = new Label(AppContext.getMessage(Page18InEnum.OPT_SORT_LABEL));
+        Label sortLbl = new Label(AppContext.getMessage(PageI18nEnum.OPT_SORT_LABEL));
         sortLbl.setSizeUndefined();
         headerLayout.with(sortLbl).withAlign(sortLbl, Alignment.MIDDLE_RIGHT);
 
         ToggleButtonGroup sortGroup = new ToggleButtonGroup();
         headerLayout.with(sortGroup).withAlign(sortGroup, Alignment.MIDDLE_RIGHT);
 
-        SortButton sortDateBtn = new SortButton(AppContext.getMessage(Page18InEnum.OPT_SORT_BY_DATE), new Button.ClickListener() {
+        SortButton sortDateBtn = new SortButton(AppContext.getMessage(PageI18nEnum.OPT_SORT_BY_DATE), new Button.ClickListener() {
             private static final long serialVersionUID = -6987503077975316907L;
 
             @Override
@@ -151,7 +151,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
         });
         sortGroup.addButton(sortDateBtn);
 
-        SortButton sortNameBtn = new SortButton(AppContext.getMessage(Page18InEnum.OPT_SORT_BY_NAME), new Button.ClickListener() {
+        SortButton sortNameBtn = new SortButton(AppContext.getMessage(PageI18nEnum.OPT_SORT_BY_NAME), new Button.ClickListener() {
             private static final long serialVersionUID = 2847554379518387585L;
 
             @Override
@@ -168,7 +168,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
         });
         sortGroup.addButton(sortNameBtn);
 
-        SortButton sortKindBtn = new SortButton(AppContext.getMessage(Page18InEnum.OPT_SORT_BY_KIND), new Button.ClickListener() {
+        SortButton sortKindBtn = new SortButton(AppContext.getMessage(PageI18nEnum.OPT_SORT_BY_KIND), new Button.ClickListener() {
             private static final long serialVersionUID = 2230933690084074590L;
 
             @Override
@@ -186,7 +186,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
         sortGroup.addButton(sortKindBtn);
         sortGroup.withDefaultButton(sortDateBtn);
 
-        Button newGroupBtn = new Button(AppContext.getMessage(Page18InEnum.BUTTON_NEW_GROUP), new Button.ClickListener() {
+        Button newGroupBtn = new Button(AppContext.getMessage(PageI18nEnum.NEW_GROUP), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -199,7 +199,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
         newGroupBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.PAGES));
         headerLayout.with(newGroupBtn).withAlign(newGroupBtn, Alignment.MIDDLE_RIGHT);
 
-        Button newPageBtn = new Button(AppContext.getMessage(Page18InEnum.BUTTON_NEW_PAGE), new Button.ClickListener() {
+        Button newPageBtn = new Button(AppContext.getMessage(PageI18nEnum.NEW), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -227,6 +227,12 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
     }
 
     @Override
+    public void showNoItemView() {
+        removeAllComponents();
+        this.addComponent(new PageListNoItemView());
+    }
+
+    @Override
     public void displayDefaultPages(List<PageResource> resources) {
         Collections.sort(resources, Ordering.from(dateSort));
         displayPages(resources);
@@ -243,7 +249,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
             container.addComponent(new Label(StringUtils.trimHtmlTags(resource.getDescription())));
         }
 
-        Label lastUpdateInfo = new ELabel(AppContext.getMessage(Page18InEnum.LABEL_LAST_UPDATE,
+        Label lastUpdateInfo = new ELabel(AppContext.getMessage(PageI18nEnum.LABEL_LAST_UPDATE,
                 ProjectLinkBuilder.generateProjectMemberHtmlLink(CurrentProjectVariables.getProjectId(), resource.getCreatedUser(), true),
                 AppContext.formatPrettyTime(resource.getCreatedTime()
                         .getTime())), ContentMode.HTML).withDescription(AppContext.formatDateTime(resource.getCreatedTime().getTime()));
@@ -310,7 +316,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
         container.with(pageLink, new SafeHtmlLabel(resource.getContent(), 400));
 
         Label lastUpdateInfo = new ELabel(AppContext.getMessage(
-                Page18InEnum.LABEL_LAST_UPDATE, ProjectLinkBuilder.generateProjectMemberHtmlLink(
+                PageI18nEnum.LABEL_LAST_UPDATE, ProjectLinkBuilder.generateProjectMemberHtmlLink(
                         CurrentProjectVariables.getProjectId(), resource.getLastUpdatedUser(), true),
                 AppContext.formatPrettyTime(resource.getLastUpdatedTime().getTime())), ContentMode.HTML)
                 .withDescription(AppContext.formatDateTime(resource.getLastUpdatedTime().getTime()));

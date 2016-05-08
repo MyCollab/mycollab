@@ -76,7 +76,7 @@ public class CampaignListPresenter extends CrmGenericListPresenter<CampaignListV
 
             @Override
             protected String getReportTitle() {
-                return AppContext.getMessage(CampaignI18nEnum.VIEW_LIST_TITLE);
+                return AppContext.getMessage(CampaignI18nEnum.LIST);
             }
 
             @Override
@@ -100,7 +100,7 @@ public class CampaignListPresenter extends CrmGenericListPresenter<CampaignListV
                 this.displayNoExistItems(container, data);
             }
 
-            AppContext.addFragment("crm/campaign/list", AppContext.getMessage(CampaignI18nEnum.VIEW_LIST_TITLE));
+            AppContext.addFragment("crm/campaign/list", AppContext.getMessage(CampaignI18nEnum.LIST));
         } else {
             throw new SecureAccessException();
         }

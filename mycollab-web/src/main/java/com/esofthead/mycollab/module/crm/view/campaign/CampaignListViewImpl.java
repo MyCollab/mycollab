@@ -105,4 +105,10 @@ public class CampaignListViewImpl extends AbstractListItemComp<CampaignSearchCri
 
         return container;
     }
+
+    @Override
+    public void showNoItemView() {
+        removeAllComponents();
+        addComponent(new CampaignCrmListNoItemView());
+    }
 }

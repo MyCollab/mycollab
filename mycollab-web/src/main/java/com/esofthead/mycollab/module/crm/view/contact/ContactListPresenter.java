@@ -67,7 +67,7 @@ public class ContactListPresenter extends CrmGenericListPresenter<ContactListVie
 
             @Override
             protected String getReportTitle() {
-                return AppContext.getMessage(ContactI18nEnum.VIEW_LIST_TITLE);
+                return AppContext.getMessage(ContactI18nEnum.LIST);
             }
 
             @Override
@@ -117,7 +117,7 @@ public class ContactListPresenter extends CrmGenericListPresenter<ContactListVie
                 this.displayNoExistItems(container, data);
             }
 
-            AppContext.addFragment("crm/contact/list", AppContext.getMessage(ContactI18nEnum.VIEW_LIST_TITLE));
+            AppContext.addFragment("crm/contact/list", AppContext.getMessage(ContactI18nEnum.LIST));
         } else {
             throw new SecureAccessException();
         }

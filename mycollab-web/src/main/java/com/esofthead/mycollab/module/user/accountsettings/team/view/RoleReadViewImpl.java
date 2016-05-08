@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
 import com.esofthead.mycollab.common.i18n.SecurityI18nEnum;
+import com.esofthead.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
 import com.esofthead.mycollab.module.user.domain.Role;
 import com.esofthead.mycollab.module.user.domain.SimpleRole;
 import com.esofthead.mycollab.module.user.ui.components.PreviewFormControlsGenerator;
@@ -59,7 +60,7 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
                 .withWidth("100%");
         header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-        ELabel headerText = ELabel.h2(FontAwesome.USERS.getHtml() + " Detail Role");
+        ELabel headerText = ELabel.h2(FontAwesome.USERS.getHtml() + " " + AppContext.getMessage(RoleI18nEnum.DETAIL));
         header.with(headerText).expand(headerText);
         this.addComponent(header);
 

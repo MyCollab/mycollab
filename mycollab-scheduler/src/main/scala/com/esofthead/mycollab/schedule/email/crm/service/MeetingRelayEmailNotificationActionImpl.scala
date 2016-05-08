@@ -81,7 +81,7 @@ class MeetingRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmai
 
     class MeetingFieldNameMapper extends ItemFieldMapper {
         put(MeetingWithBLOBs.Field.subject, MeetingI18nEnum.FORM_SUBJECT, isColSpan = true)
-        put(MeetingWithBLOBs.Field.status, MeetingI18nEnum.FORM_STATUS)
+        put(MeetingWithBLOBs.Field.status, GenericI18Enum.FORM_STATUS)
         put(MeetingWithBLOBs.Field.startdate, new DateTimeFieldFormat(MeetingWithBLOBs.Field.startdate.name,
             MeetingI18nEnum.FORM_START_DATE_TIME))
         put(MeetingWithBLOBs.Field.location, MeetingI18nEnum.FORM_LOCATION)

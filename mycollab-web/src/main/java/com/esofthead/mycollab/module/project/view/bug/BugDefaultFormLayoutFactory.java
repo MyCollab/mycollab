@@ -62,7 +62,7 @@ public class BugDefaultFormLayoutFactory {
 
         //Row 4
         mainSection.addField(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.startdate)
-                .displayName(AppContext.getMessage(BugI18nEnum.FORM_START_DATE)).fieldIndex(5).build());
+                .displayName(AppContext.getMessage(GenericI18Enum.FORM_START_DATE)).fieldIndex(5).build());
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(SimpleBug.Field.affectedVersions)
                 .displayName(AppContext.getMessage(BugI18nEnum.FORM_AFFECTED_VERSIONS))
@@ -71,7 +71,7 @@ public class BugDefaultFormLayoutFactory {
 
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.enddate)
-                .displayName(AppContext.getMessage(BugI18nEnum.FORM_END_DATE))
+                .displayName(AppContext.getMessage(GenericI18Enum.FORM_END_DATE))
                 .fieldIndex(7).build());
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(SimpleBug.Field.fixedVersions)
@@ -81,7 +81,7 @@ public class BugDefaultFormLayoutFactory {
 
         //Row 5
         mainSection.addField(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.duedate)
-                .displayName(AppContext.getMessage(BugI18nEnum.FORM_DUE_DATE))
+                .displayName(AppContext.getMessage(GenericI18Enum.FORM_DUE_DATE))
                 .fieldIndex(9).build());
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(BugWithBLOBs.Field.milestoneid)

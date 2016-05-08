@@ -61,12 +61,12 @@ public class LeadSearchPanel extends DefaultGenericSearchPanel<LeadSearchCriteri
 
     @Override
     protected HeaderWithFontAwesome buildSearchTitle() {
-        return ComponentUtils.header(CrmTypeConstants.LEAD, AppContext.getMessage(LeadI18nEnum.VIEW_LIST_TITLE));
+        return ComponentUtils.header(CrmTypeConstants.LEAD, AppContext.getMessage(LeadI18nEnum.LIST));
     }
 
     @Override
     protected Component buildExtraControls() {
-        Button newBtn = new Button(AppContext.getMessage(LeadI18nEnum.BUTTON_NEW_LEAD), new Button.ClickListener() {
+        Button newBtn = new Button(AppContext.getMessage(LeadI18nEnum.NEW), new Button.ClickListener() {
 
             @Override
             public void buttonClick(final ClickEvent event) {

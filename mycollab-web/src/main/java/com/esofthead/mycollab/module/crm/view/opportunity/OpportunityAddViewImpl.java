@@ -41,7 +41,7 @@ public class OpportunityAddViewImpl extends AbstractEditItemComp<SimpleOpportuni
 
     @Override
     protected String initFormTitle() {
-        return (beanItem.getId() == null) ? AppContext.getMessage(OpportunityI18nEnum.VIEW_NEW_TITLE) : beanItem.getOpportunityname();
+        return (beanItem.getId() == null) ? AppContext.getMessage(OpportunityI18nEnum.NEW) : beanItem.getOpportunityname();
     }
 
     @Override

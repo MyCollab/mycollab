@@ -19,6 +19,9 @@ package com.esofthead.mycollab.module.project.view.bug;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.ResourceNotFoundException;
 import com.esofthead.mycollab.core.SecureAccessException;
+import com.esofthead.mycollab.core.arguments.NumberSearchField;
+import com.esofthead.mycollab.core.arguments.SearchField;
+import com.esofthead.mycollab.core.db.query.NumberParam;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -28,6 +31,7 @@ import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.module.project.view.ProjectGenericPresenter;
 import com.esofthead.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
+import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.reporting.FormReportLayout;
 import com.esofthead.mycollab.reporting.PrintButton;
@@ -38,6 +42,7 @@ import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
+import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
@@ -103,6 +108,35 @@ public class BugReadPresenter extends ProjectGenericPresenter<BugReadView> {
                 SimpleBug cloneData = (SimpleBug) data.copy();
                 cloneData.setId(null);
                 EventBusFactory.getInstance().post(new BugEvent.GotoEdit(this, cloneData));
+            }
+
+            @Override
+            public void gotoNext(SimpleBug data) {
+                BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+                BugSearchCriteria searchCriteria = new BugSearchCriteria();
+                searchCriteria.setProjectId(NumberSearchField.and(data.getProjectid()));
+                searchCriteria.addExtraField(BugSearchCriteria.p_bugkey.buildSearchField(SearchField.AND, NumberParam.GREATER_THAN, data.getBugkey()));
+                Integer nextId = bugService.getNextItemKey(searchCriteria);
+                if (nextId != null) {
+                    EventBusFactory.getInstance().post(new BugEvent.GotoRead(this, nextId));
+                } else {
+                    NotificationUtil.showGotoLastRecordNotification();
+                }
+            }
+
+            @Override
+            public void gotoPrevious(SimpleBug data) {
+                BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+                BugSearchCriteria searchCriteria = new BugSearchCriteria();
+                searchCriteria.setProjectId(NumberSearchField.and(data.getProjectid()));
+                searchCriteria.addExtraField(BugSearchCriteria.p_bugkey.buildSearchField(SearchField.AND, NumberParam.LESS_THAN,
+                        data.getBugkey()));
+                Integer previousId = bugService.getNextItemKey(searchCriteria);
+                if (previousId != null) {
+                    EventBusFactory.getInstance().post(new BugEvent.GotoRead(this, previousId));
+                } else {
+                    NotificationUtil.showGotoLastRecordNotification();
+                }
             }
 
             @Override

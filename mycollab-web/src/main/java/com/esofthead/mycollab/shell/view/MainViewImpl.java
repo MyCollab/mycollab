@@ -22,7 +22,6 @@ import com.esofthead.mycollab.common.ui.components.notification.SmtpSetupNotific
 import com.esofthead.mycollab.common.ui.components.notification.TimezoneNotification;
 import com.esofthead.mycollab.configuration.IDeploymentMode;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -409,7 +408,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         userMgtBtn.setIcon(SettingAssetsManager.getAsset(SettingUIConstants.USERS));
         accountPopupContent.addOption(userMgtBtn);
 
-        Button generalSettingBtn = new Button("Setting", new ClickListener() {
+        Button generalSettingBtn = new Button(AppContext.getMessage(AdminI18nEnum.VIEW_SETTING), new ClickListener() {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
                 accountMenu.setPopupVisible(false);
@@ -443,7 +442,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         }
 
         accountPopupContent.addSeparator();
-        Button supportBtn = new Button("Support");
+        Button supportBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SUPPORT));
         supportBtn.setIcon(FontAwesome.LIFE_SAVER);
         ExternalResource supportRes = new ExternalResource("http://support.mycollab.com/");
         BrowserWindowOpener supportOpener = new BrowserWindowOpener(supportRes);

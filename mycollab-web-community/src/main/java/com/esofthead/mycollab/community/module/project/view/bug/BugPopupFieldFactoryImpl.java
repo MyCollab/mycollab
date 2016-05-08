@@ -84,7 +84,7 @@ public class BugPopupFieldFactoryImpl implements BugPopupFieldFactory {
     @Override
     public PopupView createStatusPopupField(SimpleBug bug) {
         return new PopupFieldBuilder().withCaptionAndIcon(FontAwesome.INFO_CIRCLE, AppContext.getMessage(OptionI18nEnum.BugStatus
-                .class, bug.getStatus())).withDescription(AppContext.getMessage(BugI18nEnum.FORM_STATUS)).build();
+                .class, bug.getStatus())).withDescription(AppContext.getMessage(GenericI18Enum.FORM_STATUS)).build();
     }
 
     @Override
@@ -94,11 +94,11 @@ public class BugPopupFieldFactoryImpl implements BugPopupFieldFactory {
             divHint.appendText(FontAwesome.CLOCK_O.getHtml());
             divHint.appendChild(new Span().appendText(" Click to edit").setCSSClass("hide"));
             return new PopupFieldBuilder().withCaption(divHint.write()).withDescription(AppContext.getMessage
-                    (BugI18nEnum.FORM_DUE_DATE)).build();
+                    (GenericI18Enum.FORM_DUE_DATE)).build();
         } else {
             return new PopupFieldBuilder().withCaption(String.format("%s %s", FontAwesome.CLOCK_O.getHtml(),
                     AppContext.formatPrettyTime(bug.getDueDateRoundPlusOne()))).withDescription(AppContext.getMessage
-                    (BugI18nEnum.FORM_DUE_DATE)).build();
+                    (GenericI18Enum.FORM_DUE_DATE)).build();
         }
     }
 
@@ -109,11 +109,11 @@ public class BugPopupFieldFactoryImpl implements BugPopupFieldFactory {
             divHint.appendText(VaadinIcons.TIME_FORWARD.getHtml());
             divHint.appendChild(new Span().appendText(" Click to edit").setCSSClass("hide"));
             return new PopupFieldBuilder().withCaption(divHint.write()).withDescription(AppContext.getMessage
-                    (BugI18nEnum.FORM_START_DATE)).build();
+                    (GenericI18Enum.FORM_START_DATE)).build();
         } else {
             return new PopupFieldBuilder().withCaption(String.format("%s %s", VaadinIcons.TIME_FORWARD.getHtml(),
                     AppContext.formatPrettyTime(bug.getStartdate()))).withDescription(AppContext.getMessage
-                    (BugI18nEnum.FORM_START_DATE)).build();
+                    (GenericI18Enum.FORM_START_DATE)).build();
         }
     }
 
@@ -124,11 +124,11 @@ public class BugPopupFieldFactoryImpl implements BugPopupFieldFactory {
             divHint.appendText(VaadinIcons.TIME_BACKWARD.getHtml());
             divHint.appendChild(new Span().appendText(" Click to edit").setCSSClass("hide"));
             return new PopupFieldBuilder().withCaption(divHint.write()).withDescription(AppContext.getMessage
-                    (BugI18nEnum.FORM_END_DATE)).build();
+                    (GenericI18Enum.FORM_END_DATE)).build();
         } else {
             return new PopupFieldBuilder().withCaption(String.format("%s %s", VaadinIcons.TIME_BACKWARD.getHtml(),
                     AppContext.formatPrettyTime(bug.getEnddate()))).withDescription(AppContext.getMessage
-                    (BugI18nEnum.FORM_END_DATE)).build();
+                    (GenericI18Enum.FORM_END_DATE)).build();
         }
     }
 

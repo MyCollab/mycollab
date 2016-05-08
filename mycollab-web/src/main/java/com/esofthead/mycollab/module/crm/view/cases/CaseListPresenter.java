@@ -92,7 +92,7 @@ public class CaseListPresenter extends CrmGenericListPresenter<CaseListView, Cas
 
             @Override
             protected String getReportTitle() {
-                return AppContext.getMessage(CaseI18nEnum.VIEW_LIST_TITLE);
+                return AppContext.getMessage(CaseI18nEnum.LIST);
             }
 
             @Override
@@ -115,7 +115,7 @@ public class CaseListPresenter extends CrmGenericListPresenter<CaseListView, Cas
                 this.displayNoExistItems(container, data);
             }
 
-            AppContext.addFragment("crm/cases/list", AppContext.getMessage(CaseI18nEnum.VIEW_LIST_TITLE));
+            AppContext.addFragment("crm/cases/list", AppContext.getMessage(CaseI18nEnum.LIST));
         } else {
             throw new SecureAccessException();
         }

@@ -70,12 +70,12 @@ class ProjectMilestoneRelayEmailNotificationActionImpl extends SendMailToAllMemb
         findById(context.getTypeid.toInt, context.getSaccountid)
 
     class MilestoneFieldNameMapper extends ItemFieldMapper {
-        put(Milestone.Field.name, MilestoneI18nEnum.FORM_NAME_FIELD, isColSpan = true)
-        put(Milestone.Field.status, new I18nFieldFormat(Milestone.Field.status.name, MilestoneI18nEnum.FORM_STATUS_FIELD,
+        put(Milestone.Field.name, GenericI18Enum.FORM_NAME, isColSpan = true)
+        put(Milestone.Field.status, new I18nFieldFormat(Milestone.Field.status.name, GenericI18Enum.FORM_STATUS,
             classOf[OptionI18nEnum.MilestoneStatus]))
         put(Milestone.Field.owner, new AssigneeFieldFormat(Milestone.Field.owner.name, GenericI18Enum.FORM_ASSIGNEE))
-        put(Milestone.Field.startdate, new DateFieldFormat(Milestone.Field.startdate.name, MilestoneI18nEnum.FORM_START_DATE_FIELD))
-        put(Milestone.Field.enddate, new DateFieldFormat(Milestone.Field.enddate.name, MilestoneI18nEnum.FORM_END_DATE_FIELD))
+        put(Milestone.Field.startdate, new DateFieldFormat(Milestone.Field.startdate.name, GenericI18Enum.FORM_START_DATE))
+        put(Milestone.Field.enddate, new DateFieldFormat(Milestone.Field.enddate.name, GenericI18Enum.FORM_END_DATE))
         put(Milestone.Field.description, GenericI18Enum.FORM_DESCRIPTION, isColSpan = true)
     }
 

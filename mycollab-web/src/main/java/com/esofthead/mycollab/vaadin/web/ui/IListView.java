@@ -45,4 +45,6 @@ public interface IListView<S extends SearchCriteria, B> extends PageView {
     HasSelectableItemHandlers<B> getSelectableItemHandlers();
 
     IPagedBeanTable<S, B> getPagedBeanTable();
+
+    void showNoItemView();
 }

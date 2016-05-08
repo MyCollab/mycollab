@@ -82,17 +82,17 @@ class CampaignRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEma
   override protected def getUpdateSubjectKey: Enum[_] = CampaignI18nEnum.MAIL_UPDATE_ITEM_SUBJECT
 
   class CampaignFieldNameMapper extends ItemFieldMapper {
-    put(CampaignWithBLOBs.Field.campaignname, CampaignI18nEnum.FORM_CAMPAIGN_NAME, isColSpan = true)
-    put(CampaignWithBLOBs.Field.status, CampaignI18nEnum.FORM_STATUS)
-    put(CampaignWithBLOBs.Field.`type`, CampaignI18nEnum.FORM_TYPE)
-    put(CampaignWithBLOBs.Field.currencyid, new CurrencyFieldFormat(CampaignWithBLOBs.Field.currencyid.name, CampaignI18nEnum.FORM_CURRENCY))
+    put(CampaignWithBLOBs.Field.campaignname, GenericI18Enum.FORM_NAME, isColSpan = true)
+    put(CampaignWithBLOBs.Field.status, GenericI18Enum.FORM_STATUS)
+    put(CampaignWithBLOBs.Field.`type`, GenericI18Enum.FORM_TYPE)
+    put(CampaignWithBLOBs.Field.currencyid, new CurrencyFieldFormat(CampaignWithBLOBs.Field.currencyid.name, GenericI18Enum.FORM_CURRENCY))
     put(CampaignWithBLOBs.Field.budget, CampaignI18nEnum.FORM_BUDGET)
     put(CampaignWithBLOBs.Field.expectedcost, CampaignI18nEnum.FORM_EXPECTED_COST)
     put(CampaignWithBLOBs.Field.expectedrevenue, CampaignI18nEnum.FORM_EXPECTED_REVENUE)
     put(CampaignWithBLOBs.Field.actualcost, CampaignI18nEnum.FORM_ACTUAL_COST)
     put(CampaignWithBLOBs.Field.assignuser, new AssigneeFieldFormat(CampaignWithBLOBs.Field.assignuser.name, GenericI18Enum.FORM_ASSIGNEE))
-    put(CampaignWithBLOBs.Field.startdate, new DateFieldFormat(CampaignWithBLOBs.Field.startdate.name, CampaignI18nEnum.FORM_START_DATE))
-    put(CampaignWithBLOBs.Field.enddate, new DateFieldFormat(CampaignWithBLOBs.Field.enddate.name, CampaignI18nEnum.FORM_END_DATE))
+    put(CampaignWithBLOBs.Field.startdate, new DateFieldFormat(CampaignWithBLOBs.Field.startdate.name, GenericI18Enum.FORM_START_DATE))
+    put(CampaignWithBLOBs.Field.enddate, new DateFieldFormat(CampaignWithBLOBs.Field.enddate.name, GenericI18Enum.FORM_END_DATE))
     put(CampaignWithBLOBs.Field.description, GenericI18Enum.FORM_DESCRIPTION, isColSpan = true)
   }
 

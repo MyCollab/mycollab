@@ -84,7 +84,7 @@ public class LeadCampaignListComp extends RelatedListComp2<CampaignService, Camp
         controlsBtn.setSizeUndefined();
         controlsBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CAMPAIGN));
         controlsBtn.addStyleName(UIConstants.BUTTON_ACTION);
-        controlsBtn.setCaption(AppContext.getMessage(CampaignI18nEnum.BUTTON_NEW_CAMPAIGN));
+        controlsBtn.setCaption(AppContext.getMessage(CampaignI18nEnum.NEW));
         controlsBtn.setIcon(FontAwesome.PLUS);
         controlsBtn.addClickListener(new SplitButton.SplitButtonClickListener() {
             private static final long serialVersionUID = 1099580202385205069L;
@@ -95,7 +95,7 @@ public class LeadCampaignListComp extends RelatedListComp2<CampaignService, Camp
                 fireNewRelatedItem("");
             }
         });
-        Button selectBtn = new Button("Select from existing campaigns", new Button.ClickListener() {
+        Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), new Button.ClickListener() {
             private static final long serialVersionUID = 3046728004767791528L;
 
             @Override

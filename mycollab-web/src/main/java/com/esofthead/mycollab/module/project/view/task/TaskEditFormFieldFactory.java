@@ -33,6 +33,7 @@ import com.esofthead.mycollab.module.project.view.task.components.TaskStatusComb
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
+import com.esofthead.mycollab.vaadin.web.ui.DoubleField;
 import com.esofthead.mycollab.vaadin.web.ui.field.AttachmentUploadField;
 import com.vaadin.data.Property;
 import com.vaadin.event.FieldEvents;
@@ -99,7 +100,7 @@ class TaskEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Si
                     DateField startDateField = (DateField) fieldGroup.getField(Task.Field.startdate.name());
                     Date startDateVal = startDateField.getValue();
                     if (duration > 0 && startDateVal != null) {
-                        int durationIndays = duration/ (int) DateTimeUtils.MILLISECONDS_IN_A_DAY;
+                        int durationIndays = duration / (int) DateTimeUtils.MILLISECONDS_IN_A_DAY;
                         if (durationIndays > 0) {
                             LocalDate startDateJoda = new LocalDate(startDateVal);
                             LocalDate endDateJoda = BusinessDayTimeUtils.plusDays(startDateJoda, durationIndays);
@@ -110,6 +111,8 @@ class TaskEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Si
                 }
             });
             return field;
+        } else if (Task.Field.originalestimate.equalTo(propertyId) || Task.Field.remainestimate.equalTo(propertyId)) {
+            return new DoubleField();
         } else if (Task.Field.startdate.equalTo(propertyId)) {
             final DateField startDateField = new DateField();
             startDateField.addValueChangeListener(new Property.ValueChangeListener() {

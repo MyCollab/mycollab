@@ -23,27 +23,15 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/project-milestone")
 @LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
 public enum MilestoneI18nEnum {
-    VIEW_LIST_TITLE,
-    VIEW_NEW_TITLE,
-    VIEW_DETAIL_TITLE,
-    VIEW_NO_ITEM_TITLE,
-    VIEW_NO_ITEM_HINT,
-
-    BUTTON_NEW_PHASE,
+    LIST,
+    NEW,
+    DETAIL,
 
     WIDGET_CLOSED_PHASE_TITLE,
     WIDGET_INPROGRESS_PHASE_TITLE,
     WIDGET_FUTURE_PHASE_TITLE,
 
-    FORM_NEW_TITLE,
-    FORM_EDIT_TITLE,
-    FORM_NAME_FIELD,
-    FORM_START_DATE_FIELD,
-    FORM_END_DATE_FIELD,
-    FORM_STATUS_FIELD,
     FORM_STATUS_FIELD_HELP,
-    FORM_TASK_FIELD,
-    FORM_BUG_FIELD,
     FORM_ASSIGNMENTS,
 
     MAIL_CREATE_ITEM_SUBJECT,
@@ -54,6 +42,5 @@ public enum MilestoneI18nEnum {
     MAIL_COMMENT_ITEM_HEADING,
 
     M_LIST_DATE_INFO,
-    M_LIST_TASK_BUG_INFO,
     M_FORM_READ_TITLE
 }

@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
-import com.esofthead.mycollab.module.project.i18n.Page18InEnum;
+import com.esofthead.mycollab.module.project.i18n.PageI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.module.project.ui.components.ComponentUtils;
@@ -99,7 +99,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
         pageVersionsSelection = new PageVersionSelectionBox();
 
         HeaderWithFontAwesome headerLbl = ComponentUtils.headerH2(ProjectTypeConstants.PAGE, AppContext.getMessage
-                (Page18InEnum.VIEW_READ_TITLE));
+                (PageI18nEnum.DETAIL));
         headerLbl.setWidthUndefined();
 
         header.addComponent(headerLbl, 0);
@@ -225,10 +225,6 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
             header.addComponent(new Label(footer.write(), ContentMode.HTML));
             this.addHeader(header);
         }
-
-        @Override
-        public void setTitle(String title) {
-        }
     }
 
     private class PageVersionSelectionBox extends CustomComponent {
@@ -259,7 +255,6 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
                             Page page = pageService.getPageByVersion(beanItem.getPath(), selectedVersion.getName());
                             page.setPath(beanItem.getPath());
                             previewForm.setBean(page);
-                            previewLayout.setTitle(page.getSubject());
                             ((PagePreviewFormLayout) previewLayout).displayPageInfo(page);
                         }
                     }

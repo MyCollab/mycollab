@@ -88,7 +88,7 @@ public class TaskRowRenderer extends MVerticalLayout {
         PopupView percentageField = popupFieldFactory.createPercentagePopupField(task);
         footer.addComponent(percentageField);
 
-        String deadlineTooltip = String.format("%s: %s", AppContext.getMessage(TaskI18nEnum.FORM_DEADLINE),
+        String deadlineTooltip = String.format("%s: %s", AppContext.getMessage(GenericI18Enum.FORM_DUE_DATE),
                 AppContext.formatDate(task.getDeadline()));
         PopupView deadlineField = popupFieldFactory.createDeadlinePopupField(task);
         deadlineField.setDescription(deadlineTooltip);

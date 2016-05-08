@@ -52,6 +52,7 @@ public class MessageConveyorExt implements IMessageConveyor {
         }
 
         String keyAsStr = key.toString();
+
         String value = rb.getString(keyAsStr);
         if (args == null || args.length == 0) {
             return value;

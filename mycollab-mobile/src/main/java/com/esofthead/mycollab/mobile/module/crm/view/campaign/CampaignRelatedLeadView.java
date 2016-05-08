@@ -71,7 +71,7 @@ public class CampaignRelatedLeadView extends AbstractRelatedListView<SimpleLead,
 
         MVerticalLayout addBtns = new MVerticalLayout().withWidth("100%");
 
-        Button newLead = new Button(AppContext.getMessage(LeadI18nEnum.VIEW_NEW_TITLE), new Button.ClickListener() {
+        Button newLead = new Button(AppContext.getMessage(LeadI18nEnum.NEW), new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 fireNewRelatedItem("");

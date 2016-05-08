@@ -23,22 +23,19 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/project")
 @LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
 public enum ProjectI18nEnum {
-    VIEW_NEW_TITLE,
+    NEW,
+    EDIT,
+    LIST,
 
     FORM_HOME_PAGE,
-    FORM_NAME,
     FORM_ACCOUNT_NAME,
     FORM_ACCOUNT_NAME_HELP,
     FORM_SHORT_NAME,
     FORM_SHORT_NAME_HELP,
-    FORM_STATUS,
-    FORM_START_DATE,
-    FORM_END_DATE,
     FORM_BILLING_RATE,
     FORM_BILLING_RATE_HELP,
     FORM_OVERTIME_BILLING_RATE,
     FORM_OVERTIME_BILLING_RATE_HELP,
-    FORM_CURRENCY,
     FORM_CURRENCY_HELP,
     FORM_TARGET_BUDGET,
     FORM_TARGET_BUDGET_HELP,

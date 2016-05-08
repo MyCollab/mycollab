@@ -73,7 +73,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
     private MHorizontalLayout bottomLayout;
 
     public ProjectMemberReadViewImpl() {
-        super(AppContext.getMessage(ProjectMemberI18nEnum.VIEW_READ_TITLE), FontAwesome.USER);
+        super(AppContext.getMessage(ProjectMemberI18nEnum.DETAIL), FontAwesome.USER);
 
         previewForm = initPreviewForm();
         previewForm.setWidth("100%");

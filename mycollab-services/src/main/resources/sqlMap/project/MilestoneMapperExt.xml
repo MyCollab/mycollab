@@ -174,7 +174,7 @@
 
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
-            <include refid="queryTotalCountSearchCriteria" />
+                <include refid="queryTotalCountSearchCriteria" />
             #end    
         #end
     </select>

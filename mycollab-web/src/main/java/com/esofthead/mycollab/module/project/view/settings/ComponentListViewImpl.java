@@ -79,9 +79,9 @@ public class ComponentListViewImpl extends AbstractPageView implements Component
         tableItem = new DefaultPagedBeanTable<>(ApplicationContextUtil.getSpringBean(ComponentService.class),
                 SimpleComponent.class, new TableViewField(null, "selected", UIConstants.TABLE_CONTROL_WIDTH),
                 Arrays.asList(
-                        new TableViewField(ComponentI18nEnum.FORM_NAME, "componentname", UIConstants.TABLE_EX_LABEL_WIDTH),
+                        new TableViewField(GenericI18Enum.FORM_NAME, "componentname", UIConstants.TABLE_EX_LABEL_WIDTH),
                         new TableViewField(ComponentI18nEnum.FORM_LEAD, "userLeadFullName", UIConstants.TABLE_X_LABEL_WIDTH),
-                        new TableViewField(ComponentI18nEnum.FORM_STATUS, "status", UIConstants.TABLE_M_LABEL_WIDTH),
+                        new TableViewField(GenericI18Enum.FORM_STATUS, "status", UIConstants.TABLE_M_LABEL_WIDTH),
                         new TableViewField(GenericI18Enum.FORM_DESCRIPTION, "description", 500),
                         new TableViewField(GenericI18Enum.FORM_PROGRESS, "id", UIConstants.TABLE_EX_LABEL_WIDTH)));
 
@@ -183,6 +183,12 @@ public class ComponentListViewImpl extends AbstractPageView implements Component
         layout.with(tableActionControls, selectedItemsNumberLabel)
                 .withAlign(selectedItemsNumberLabel, Alignment.MIDDLE_CENTER);
         return layoutWrapper;
+    }
+
+    @Override
+    public void showNoItemView() {
+        removeAllComponents();
+        this.addComponent(new ComponentListNoItemView());
     }
 
     @Override

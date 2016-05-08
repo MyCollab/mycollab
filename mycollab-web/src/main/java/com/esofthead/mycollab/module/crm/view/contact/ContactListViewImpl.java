@@ -94,4 +94,10 @@ public class ContactListViewImpl extends AbstractListItemComp<ContactSearchCrite
 
         return container;
     }
+
+    @Override
+    public void showNoItemView() {
+        removeAllComponents();
+        addComponent(new ContactCrmListNoItemView());
+    }
 }

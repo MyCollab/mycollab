@@ -77,7 +77,7 @@ public class CrmModule extends AbstractPageView implements IDesktopModule {
                         }
                     });
 
-            serviceMenu.addService(CrmTypeConstants.ACCOUNT, AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_ACCOUNTS_HEADER),
+            serviceMenu.addService(CrmTypeConstants.ACCOUNT, AppContext.getMessage(AccountI18nEnum.LIST),
                     new Button.ClickListener() {
                         @Override
                         public void buttonClick(Button.ClickEvent clickEvent) {
@@ -85,7 +85,7 @@ public class CrmModule extends AbstractPageView implements IDesktopModule {
                         }
                     });
 
-            serviceMenu.addService(CrmTypeConstants.CONTACT, AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_CONTACTS_HEADER),
+            serviceMenu.addService(CrmTypeConstants.CONTACT, AppContext.getMessage(ContactI18nEnum.LIST),
                     new Button.ClickListener() {
                         @Override
                         public void buttonClick(Button.ClickEvent clickEvent) {
@@ -93,7 +93,7 @@ public class CrmModule extends AbstractPageView implements IDesktopModule {
                         }
                     });
 
-            serviceMenu.addService(CrmTypeConstants.LEAD, AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_LEADS_HEADER),
+            serviceMenu.addService(CrmTypeConstants.LEAD, AppContext.getMessage(LeadI18nEnum.LIST),
                     new Button.ClickListener() {
                         @Override
                         public void buttonClick(Button.ClickEvent clickEvent) {
@@ -101,24 +101,21 @@ public class CrmModule extends AbstractPageView implements IDesktopModule {
                         }
                     });
 
-            serviceMenu.addService(CrmTypeConstants.CAMPAIGN, AppContext.getMessage(CrmCommonI18nEnum
-                    .TOOLBAR_CAMPAIGNS_HEADER), new Button.ClickListener() {
+            serviceMenu.addService(CrmTypeConstants.CAMPAIGN, AppContext.getMessage(CampaignI18nEnum.LIST), new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
                     EventBusFactory.getInstance().post(new CampaignEvent.GotoList(this, null));
                 }
             });
 
-            serviceMenu.addService(CrmTypeConstants.OPPORTUNITY, AppContext.getMessage(CrmCommonI18nEnum
-                    .TOOLBAR_OPPORTUNTIES_HEADER), new Button.ClickListener() {
+            serviceMenu.addService(CrmTypeConstants.OPPORTUNITY, AppContext.getMessage(OpportunityI18nEnum.LIST), new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
                     EventBusFactory.getInstance().post(new OpportunityEvent.GotoList(this, null));
                 }
             });
 
-            serviceMenu.addService(CrmTypeConstants.CASE, AppContext.getMessage(CrmCommonI18nEnum
-                    .TOOLBAR_CASES_HEADER), new Button.ClickListener() {
+            serviceMenu.addService(CrmTypeConstants.CASE, AppContext.getMessage(CaseI18nEnum.LIST), new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
                     EventBusFactory.getInstance().post(new CaseEvent.GotoList(this, null));
@@ -135,47 +132,47 @@ public class CrmModule extends AbstractPageView implements IDesktopModule {
             addPopupMenu.setDirection(Alignment.BOTTOM_LEFT);
             OptionPopupContent popupButtonsControl = new OptionPopupContent();
 
-            Button newAccountBtn = new Button(AppContext.getMessage(AccountI18nEnum.BUTTON_NEW_ACCOUNT), listener);
+            Button newAccountBtn = new Button(AppContext.getMessage(AccountI18nEnum.NEW), listener);
             newAccountBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_ACCOUNT));
             newAccountBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT));
             popupButtonsControl.addOption(newAccountBtn);
 
-            Button newContactBtn = new Button(AppContext.getMessage(ContactI18nEnum.BUTTON_NEW_CONTACT), listener);
+            Button newContactBtn = new Button(AppContext.getMessage(ContactI18nEnum.NEW), listener);
             newContactBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CONTACT));
             newContactBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT));
             popupButtonsControl.addOption(newContactBtn);
 
-            Button newCampaignBtn = new Button(AppContext.getMessage(CampaignI18nEnum.BUTTON_NEW_CAMPAIGN), listener);
+            Button newCampaignBtn = new Button(AppContext.getMessage(CampaignI18nEnum.NEW), listener);
             newCampaignBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CAMPAIGN));
             newCampaignBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CAMPAIGN));
             popupButtonsControl.addOption(newCampaignBtn);
 
-            Button newOpportunityBtn = new Button(AppContext.getMessage(OpportunityI18nEnum.BUTTON_NEW_OPPORTUNITY), listener);
+            Button newOpportunityBtn = new Button(AppContext.getMessage(OpportunityI18nEnum.NEW), listener);
             newOpportunityBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY));
             newOpportunityBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.OPPORTUNITY));
             popupButtonsControl.addOption(newOpportunityBtn);
 
-            Button newLeadBtn = new Button(AppContext.getMessage(LeadI18nEnum.BUTTON_NEW_LEAD), listener);
+            Button newLeadBtn = new Button(AppContext.getMessage(LeadI18nEnum.NEW), listener);
             newLeadBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_LEAD));
             newLeadBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.LEAD));
             popupButtonsControl.addOption(newLeadBtn);
 
-            Button newCaseBtn = new Button(AppContext.getMessage(CaseI18nEnum.BUTTON_NEW_CASE), listener);
+            Button newCaseBtn = new Button(AppContext.getMessage(CaseI18nEnum.NEW), listener);
             newCaseBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CASE));
             newCaseBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CASE));
             popupButtonsControl.addOption(newCaseBtn);
 
-            Button newTaskBtn = new Button(AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASK), listener);
+            Button newTaskBtn = new Button(AppContext.getMessage(TaskI18nEnum.NEW), listener);
             newTaskBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_TASK));
             newTaskBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.TASK));
             popupButtonsControl.addOption(newTaskBtn);
 
-            Button newCallBtn = new Button(AppContext.getMessage(CallI18nEnum.BUTTON_NEW_CALL), listener);
+            Button newCallBtn = new Button(AppContext.getMessage(CallI18nEnum.NEW), listener);
             newCallBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CALL));
             newCallBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CALL));
             popupButtonsControl.addOption(newCallBtn);
 
-            Button newMeetingBtn = new Button(AppContext.getMessage(MeetingI18nEnum.BUTTON_NEW_MEETING), listener);
+            Button newMeetingBtn = new Button(AppContext.getMessage(MeetingI18nEnum.NEW), listener);
             newMeetingBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_MEETING));
             newMeetingBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.MEETING));
             popupButtonsControl.addOption(newMeetingBtn);
@@ -192,41 +189,41 @@ public class CrmModule extends AbstractPageView implements IDesktopModule {
             String selectedBtnCaption = "";
             String caption = event.getButton().getCaption();
 
-            if (AppContext.getMessage(AccountI18nEnum.BUTTON_NEW_ACCOUNT).equals(caption)) {
+            if (AppContext.getMessage(AccountI18nEnum.NEW).equals(caption)) {
                 EventBusFactory.getInstance().post(new AccountEvent.GotoAdd(this, null));
-                selectedBtnCaption = AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_ACCOUNTS_HEADER);
-            } else if (AppContext.getMessage(CampaignI18nEnum.BUTTON_NEW_CAMPAIGN).equals(caption)) {
+                selectedBtnCaption = AppContext.getMessage(AccountI18nEnum.LIST);
+            } else if (AppContext.getMessage(CampaignI18nEnum.NEW).equals(caption)) {
                 EventBusFactory.getInstance().post(new CampaignEvent.GotoAdd(this, null));
-                selectedBtnCaption = AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_CAMPAIGNS_HEADER);
-            } else if (AppContext.getMessage(CaseI18nEnum.BUTTON_NEW_CASE).equals(caption)) {
+                selectedBtnCaption = AppContext.getMessage(CampaignI18nEnum.LIST);
+            } else if (AppContext.getMessage(CaseI18nEnum.NEW).equals(caption)) {
                 EventBusFactory.getInstance().post(new CaseEvent.GotoAdd(this, null));
-                selectedBtnCaption = AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_CASES_HEADER);
-            } else if (AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_CONTACTS_HEADER).equals(caption)) {
+                selectedBtnCaption = AppContext.getMessage(CaseI18nEnum.LIST);
+            } else if (AppContext.getMessage(ContactI18nEnum.LIST).equals(caption)) {
                 EventBusFactory.getInstance().post(new ContactEvent.GotoList(this, null));
                 selectedBtnCaption = caption;
-            } else if (AppContext.getMessage(ContactI18nEnum.BUTTON_NEW_CONTACT).equals(caption)) {
+            } else if (AppContext.getMessage(ContactI18nEnum.NEW).equals(caption)) {
                 EventBusFactory.getInstance().post(new ContactEvent.GotoAdd(this, null));
-                selectedBtnCaption = AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_CONTACTS_HEADER);
-            } else if (AppContext.getMessage(LeadI18nEnum.BUTTON_NEW_LEAD).equals(caption)) {
+                selectedBtnCaption = AppContext.getMessage(ContactI18nEnum.LIST);
+            } else if (AppContext.getMessage(LeadI18nEnum.NEW).equals(caption)) {
                 EventBusFactory.getInstance().post(new LeadEvent.GotoAdd(this, null));
-                selectedBtnCaption = AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_LEADS_HEADER);
-            } else if (AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_LEADS_HEADER).equals(caption)) {
+                selectedBtnCaption = AppContext.getMessage(LeadI18nEnum.LIST);
+            } else if (AppContext.getMessage(LeadI18nEnum.LIST).equals(caption)) {
                 EventBusFactory.getInstance().post(new LeadEvent.GotoList(this, null));
                 selectedBtnCaption = caption;
-            } else if (AppContext.getMessage(OpportunityI18nEnum.BUTTON_NEW_OPPORTUNITY).equals(caption)) {
+            } else if (AppContext.getMessage(OpportunityI18nEnum.NEW).equals(caption)) {
                 EventBusFactory.getInstance().post(new OpportunityEvent.GotoAdd(this, null));
-                selectedBtnCaption = AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_OPPORTUNTIES_HEADER);
-            } else if (AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_OPPORTUNTIES_HEADER).equals(caption)) {
+                selectedBtnCaption = AppContext.getMessage(OpportunityI18nEnum.LIST);
+            } else if (AppContext.getMessage(OpportunityI18nEnum.LIST).equals(caption)) {
                 EventBusFactory.getInstance().post(new OpportunityEvent.GotoList(this, null));
                 selectedBtnCaption = caption;
             } else if (AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER).equals(caption)) {
                 EventBusFactory.getInstance().post(new ActivityEvent.GotoCalendar(this, null));
                 selectedBtnCaption = caption;
-            } else if (AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASK).equals(caption)) {
+            } else if (AppContext.getMessage(TaskI18nEnum.NEW).equals(caption)) {
                 EventBusFactory.getInstance().post(new ActivityEvent.TaskAdd(this, null));
-            } else if (AppContext.getMessage(CallI18nEnum.BUTTON_NEW_CALL).equals(caption)) {
+            } else if (AppContext.getMessage(CallI18nEnum.NEW).equals(caption)) {
                 EventBusFactory.getInstance().post(new ActivityEvent.CallAdd(this, null));
-            } else if (AppContext.getMessage(MeetingI18nEnum.BUTTON_NEW_MEETING).equals(caption)) {
+            } else if (AppContext.getMessage(MeetingI18nEnum.NEW).equals(caption)) {
                 EventBusFactory.getInstance().post(new ActivityEvent.MeetingAdd(this, null));
             } else if (AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_DOCUMENT_HEADER).equals(caption)) {
                 EventBusFactory.getInstance().post(new DocumentEvent.GotoDashboard(this, null));

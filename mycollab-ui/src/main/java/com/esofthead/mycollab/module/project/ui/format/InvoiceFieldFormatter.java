@@ -33,10 +33,10 @@ public class InvoiceFieldFormatter extends FieldGroupFormatter {
 
         this.generateFieldDisplayHandler(Invoice.Field.noid.name(), InvoiceI18nEnum.FORM_NOID_FIELD);
         this.generateFieldDisplayHandler(Invoice.Field.issuedate.name(), InvoiceI18nEnum.FORM_ISSUE_DATE_FIELD, DATE_FIELD);
-        this.generateFieldDisplayHandler(Invoice.Field.currentid.name(), InvoiceI18nEnum.FORM_CURRENCY_FIELD, CURRENCY_FIELD);
+        this.generateFieldDisplayHandler(Invoice.Field.currentid.name(), GenericI18Enum.FORM_CURRENCY, CURRENCY_FIELD);
         this.generateFieldDisplayHandler(Invoice.Field.assignuser.name(), GenericI18Enum.FORM_ASSIGNEE, new
                 ProjectMemberHistoryFieldFormat());
-        this.generateFieldDisplayHandler(Invoice.Field.status.name(), InvoiceI18nEnum.FORM_STATUS);
+        this.generateFieldDisplayHandler(Invoice.Field.status.name(), GenericI18Enum.FORM_STATUS);
         this.generateFieldDisplayHandler(Invoice.Field.contactuserfullname.name(), InvoiceI18nEnum.FORM_CONTACT_PERSON);
         this.generateFieldDisplayHandler(Invoice.Field.type.name(), InvoiceI18nEnum.FORM_TYPE, new
                 LocalizationHistoryFieldFormat(InvoiceI18nEnum.class));

@@ -92,10 +92,10 @@ class VersionRelayEmailNotificationActionImpl extends SendMailToAllMembersAction
 
     class VersionFieldNameMapper extends ItemFieldMapper {
         put(Version.Field.description, GenericI18Enum.FORM_DESCRIPTION, isColSpan = true)
-        put(Version.Field.status, new I18nFieldFormat(Version.Field.status.name, VersionI18nEnum.FORM_STATUS,
+        put(Version.Field.status, new I18nFieldFormat(Version.Field.status.name, GenericI18Enum.FORM_STATUS,
             classOf[OptionI18nEnum.StatusI18nEnum]))
-        put(Version.Field.versionname, VersionI18nEnum.FORM_NAME)
-        put(Version.Field.duedate, new DateFieldFormat(Version.Field.duedate.name, VersionI18nEnum.FORM_DUE_DATE))
+        put(Version.Field.versionname, GenericI18Enum.FORM_NAME)
+        put(Version.Field.duedate, new DateFieldFormat(Version.Field.duedate.name, GenericI18Enum.FORM_DUE_DATE))
     }
 
 }

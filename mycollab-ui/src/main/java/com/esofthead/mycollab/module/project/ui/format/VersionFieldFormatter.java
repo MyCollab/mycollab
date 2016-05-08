@@ -29,10 +29,10 @@ public final class VersionFieldFormatter extends FieldGroupFormatter {
     private static VersionFieldFormatter _instance = new VersionFieldFormatter();
 
     private VersionFieldFormatter() {
-        generateFieldDisplayHandler("versionname", VersionI18nEnum.FORM_NAME);
-        generateFieldDisplayHandler("status", VersionI18nEnum.FORM_STATUS, new I18nHistoryFieldFormat(OptionI18nEnum.StatusI18nEnum.class));
+        generateFieldDisplayHandler("versionname", GenericI18Enum.FORM_NAME);
+        generateFieldDisplayHandler("status", GenericI18Enum.FORM_STATUS, new I18nHistoryFieldFormat(OptionI18nEnum.StatusI18nEnum.class));
         generateFieldDisplayHandler("description", GenericI18Enum.FORM_DESCRIPTION, TRIM_HTMLS);
-        generateFieldDisplayHandler("duedate", VersionI18nEnum.FORM_DUE_DATE, DATE_FIELD);
+        generateFieldDisplayHandler("duedate", GenericI18Enum.FORM_DUE_DATE, DATE_FIELD);
     }
 
     public static VersionFieldFormatter instance() {

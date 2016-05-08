@@ -88,13 +88,13 @@ class OpportunityRelayEmailNotificationActionImpl extends CrmDefaultSendingRelay
     }
 
     class OpportunityFieldNameMapper extends ItemFieldMapper {
-        put(Opportunity.Field.opportunityname, OpportunityI18nEnum.FORM_NAME)
+        put(Opportunity.Field.opportunityname, GenericI18Enum.FORM_NAME)
         put(Opportunity.Field.accountid, new AccountFieldFormat(Opportunity.Field.accountid.name, OpportunityI18nEnum.FORM_ACCOUNT_NAME))
-        put(Opportunity.Field.currencyid, new CurrencyFieldFormat(Opportunity.Field.currencyid.name, OpportunityI18nEnum.FORM_CURRENCY))
+        put(Opportunity.Field.currencyid, new CurrencyFieldFormat(Opportunity.Field.currencyid.name, GenericI18Enum.FORM_CURRENCY))
         put(Opportunity.Field.expectedcloseddate, new DateFieldFormat(Opportunity.Field.expectedcloseddate.name,
             OpportunityI18nEnum.FORM_EXPECTED_CLOSE_DATE))
         put(Opportunity.Field.amount, OpportunityI18nEnum.FORM_AMOUNT)
-        put(Opportunity.Field.opportunitytype, OpportunityI18nEnum.FORM_TYPE)
+        put(Opportunity.Field.opportunitytype, GenericI18Enum.FORM_TYPE)
         put(Opportunity.Field.salesstage, OpportunityI18nEnum.FORM_SALE_STAGE)
         put(Opportunity.Field.source, OpportunityI18nEnum.FORM_LEAD_SOURCE)
         put(Opportunity.Field.probability, OpportunityI18nEnum.FORM_PROBABILITY)

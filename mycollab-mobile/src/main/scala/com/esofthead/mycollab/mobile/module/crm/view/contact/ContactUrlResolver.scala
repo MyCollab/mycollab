@@ -21,7 +21,7 @@ import com.esofthead.mycollab.eventmanager.EventBusFactory
 import com.esofthead.mycollab.mobile.module.crm.events.{ContactEvent, CrmEvent}
 import com.esofthead.mycollab.mobile.module.crm.{CrmModuleScreenData, CrmUrlResolver}
 import com.esofthead.mycollab.module.crm.domain.Contact
-import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum
+import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum
 import com.esofthead.mycollab.vaadin.AppContext
 
 /**
@@ -37,7 +37,7 @@ class ContactUrlResolver extends CrmUrlResolver {
     class ContactListUrlResolver extends CrmUrlResolver {
         protected override def handlePage(params: String*) {
             EventBusFactory.getInstance().post(new CrmEvent.GotoContainer(this,
-                new CrmModuleScreenData.GotoModule(AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_CONTACTS_HEADER))))
+                new CrmModuleScreenData.GotoModule(AppContext.getMessage(ContactI18nEnum.LIST))))
         }
     }
 
@@ -49,14 +49,14 @@ class ContactUrlResolver extends CrmUrlResolver {
 
     class ContactEditUrlResolver extends CrmUrlResolver {
         protected override def handlePage(params: String*) {
-            val contactId: Int = new UrlTokenizer(params(0)).getInt
+            val contactId = new UrlTokenizer(params(0)).getInt
             EventBusFactory.getInstance().post(new ContactEvent.GotoEdit(this, contactId))
         }
     }
 
     class ContactPreviewUrlResolver extends CrmUrlResolver {
         protected override def handlePage(params: String*) {
-            val contactId: Int = new UrlTokenizer(params(0)).getInt
+            val contactId = new UrlTokenizer(params(0)).getInt
             EventBusFactory.getInstance().post(new ContactEvent.GotoRead(this, contactId))
         }
     }

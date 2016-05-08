@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.crm.view.account;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.events.AccountEvent;
@@ -30,14 +31,12 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.0
- * 
  */
 @ViewComponent
 public class AccountCrmListNoItemView extends CrmListNoItemView {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @Override
     protected FontAwesome titleIcon() {
@@ -46,17 +45,17 @@ public class AccountCrmListNoItemView extends CrmListNoItemView {
 
     @Override
     protected String titleMessage() {
-        return AppContext.getMessage(AccountI18nEnum.VIEW_NO_ITEM_TITLE);
+        return AppContext.getMessage(GenericI18Enum.VIEW_NO_ITEM_TITLE);
     }
 
     @Override
     protected String hintMessage() {
-        return AppContext.getMessage(AccountI18nEnum.VIEW_NO_ITEM_HINT);
+        return AppContext.getMessage(GenericI18Enum.VIEW_NO_ITEM_HINT);
     }
 
     @Override
     protected String actionMessage() {
-        return AppContext.getMessage(AccountI18nEnum.BUTTON_NEW_ACCOUNT);
+        return AppContext.getMessage(AccountI18nEnum.NEW);
     }
 
     @Override
@@ -64,8 +63,7 @@ public class AccountCrmListNoItemView extends CrmListNoItemView {
         return new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
-                EventBusFactory.getInstance().post(
-                        new AccountEvent.GotoAdd(this, null));
+                EventBusFactory.getInstance().post(new AccountEvent.GotoAdd(this, null));
             }
         };
     }

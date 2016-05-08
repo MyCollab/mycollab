@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.settings;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -35,7 +36,6 @@ import com.vaadin.ui.Button.ClickEvent;
  * @author MyCollab Ltd.
  * @since 4.1.2
  */
-@ViewComponent
 public class VersionListNoItemView extends ProjectListNoItemView {
     private static final long serialVersionUID = -232678105178329204L;
 
@@ -46,17 +46,17 @@ public class VersionListNoItemView extends ProjectListNoItemView {
 
     @Override
     protected String viewTitle() {
-        return AppContext.getMessage(VersionI18nEnum.VIEW_NO_ITEM_TITLE);
+        return AppContext.getMessage(GenericI18Enum.VIEW_NO_ITEM_TITLE);
     }
 
     @Override
     protected String viewHint() {
-        return AppContext.getMessage(VersionI18nEnum.VIEW_NO_ITEM_HINT);
+        return AppContext.getMessage(GenericI18Enum.VIEW_NO_ITEM_HINT);
     }
 
     @Override
     protected String actionMessage() {
-        return AppContext.getMessage(BugI18nEnum.BUTTON_NEW_VERSION);
+        return AppContext.getMessage(VersionI18nEnum.NEW);
     }
 
     @Override

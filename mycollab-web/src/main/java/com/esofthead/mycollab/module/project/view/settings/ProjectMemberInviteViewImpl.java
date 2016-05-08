@@ -29,6 +29,7 @@ import com.esofthead.mycollab.module.project.i18n.RolePermissionI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectRoleService;
 import com.esofthead.mycollab.module.project.view.settings.component.InviteUserTokenField;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectRoleComboBox;
+import com.esofthead.mycollab.security.PermissionFlag;
 import com.esofthead.mycollab.security.PermissionMap;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -144,7 +145,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements Pro
         FormContainer permissionsPanel = new FormContainer();
 
         projectFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, ProjectRolePermissionCollections
-                .PROJECT_PERMISSIONS.length / 2 + 1);
+                .PROJECT_PERMISSIONS.length / 2 + 1, "180px");
         permissionsPanel.addSection(AppContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS), projectFormHelper.getLayout());
         roleId = (Integer) roleComboBox.getValue();
         displayRolePermission(roleId);
@@ -161,9 +162,12 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements Pro
                 PermissionMap permissionMap = role.getPermissionMap();
                 for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
                     String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
+                    Enum permissionKey = RolePermissionI18nEnum.valueOf(permissionPath);
+                    Integer perVal = permissionMap.get(permissionKey.name());
+                    SecurityI18nEnum permissionVal = PermissionFlag.toVal(perVal);
                     projectFormHelper.addComponent(new Label(AppContext.getPermissionCaptionValue(
-                            permissionMap, permissionPath)), AppContext
-                            .getMessage(RolePermissionI18nEnum.valueOf(permissionPath)), i%2, i/2);
+                            permissionMap, permissionPath)), AppContext.getMessage(permissionKey),
+                            AppContext.getMessage(permissionVal.desc()), i%2, i/2);
                 }
             }
         } else {

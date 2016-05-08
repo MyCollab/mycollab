@@ -73,7 +73,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
     private Button quickActionStatusBtn;
 
     public TaskReadViewImpl() {
-        super(AppContext.getMessage(TaskI18nEnum.VIEW_DETAIL_TITLE),
+        super(AppContext.getMessage(TaskI18nEnum.DETAIL),
                 ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK), new TaskPreviewFormLayout());
     }
 
@@ -137,7 +137,8 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
                         | ProjectPreviewFormControlsGenerator.CLONE_BTN_PRESENTED
                         | ProjectPreviewFormControlsGenerator.DELETE_BTN_PRESENTED
                         | ProjectPreviewFormControlsGenerator.EDIT_BTN_PRESENTED
-                        | ProjectPreviewFormControlsGenerator.PRINT_BTN_PRESENTED,
+                        | ProjectPreviewFormControlsGenerator.PRINT_BTN_PRESENTED
+                        | ProjectPreviewFormControlsGenerator.NAVIGATOR_BTN_PRESENTED,
                 ProjectRolePermissionCollections.TASKS);
 
         quickActionStatusBtn = new Button("", new Button.ClickListener() {
@@ -215,10 +216,6 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
             } else if (task.isOverdue()) {
                 toggleTaskSummaryField.overdueTask();
             }
-        }
-
-        @Override
-        public void setTitle(String title) {
         }
 
         @Override

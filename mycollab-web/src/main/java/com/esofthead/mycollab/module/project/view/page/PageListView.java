@@ -30,4 +30,6 @@ public interface PageListView extends PageView {
      * @param resources
      */
     void displayDefaultPages(List<PageResource> resources);
+
+    void showNoItemView();
 }

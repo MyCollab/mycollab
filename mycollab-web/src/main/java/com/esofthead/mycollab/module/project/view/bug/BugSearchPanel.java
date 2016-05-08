@@ -62,7 +62,7 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
             BugSearchCriteria.p_fixedVersions, BugSearchCriteria.p_components,
             BugSearchCriteria.p_assignee, BugSearchCriteria.p_resolveddate,
             BugSearchCriteria.p_duedate, BugSearchCriteria.p_createdtime,
-            BugSearchCriteria.p_lastupdatedtime};
+            BugSearchCriteria.p_bugkey, BugSearchCriteria.p_lastupdatedtime};
 
     public BugSearchPanel() {
         super();

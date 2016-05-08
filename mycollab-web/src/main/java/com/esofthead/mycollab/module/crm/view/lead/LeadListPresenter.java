@@ -91,7 +91,7 @@ public class LeadListPresenter extends CrmGenericListPresenter<LeadListView, Lea
 
             @Override
             protected String getReportTitle() {
-                return AppContext.getMessage(LeadI18nEnum.VIEW_LIST_TITLE);
+                return AppContext.getMessage(LeadI18nEnum.LIST);
             }
 
             @Override
@@ -114,7 +114,7 @@ public class LeadListPresenter extends CrmGenericListPresenter<LeadListView, Lea
                 this.displayNoExistItems(container, data);
             }
 
-            AppContext.addFragment("crm/lead/list", AppContext.getMessage(LeadI18nEnum.VIEW_LIST_TITLE));
+            AppContext.addFragment("crm/lead/list", AppContext.getMessage(LeadI18nEnum.LIST));
         } else {
             NotificationUtil.showMessagePermissionAlert();
         }

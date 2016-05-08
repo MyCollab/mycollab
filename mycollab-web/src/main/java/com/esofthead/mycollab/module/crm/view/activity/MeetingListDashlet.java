@@ -18,6 +18,7 @@
 package com.esofthead.mycollab.module.crm.view.activity;
 
 import com.esofthead.mycollab.common.TableViewField;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.module.crm.domain.criteria.MeetingSearchCriteria;
@@ -47,13 +48,10 @@ public class MeetingListDashlet extends Depot {
         super("My Meetings", new VerticalLayout());
         this.setMargin(new MarginInfo(true, false, false, false));
 
-        tableItem = new MeetingTableDisplay(Arrays.asList(new TableViewField(
-                MeetingI18nEnum.FORM_SUBJECT, "subject",
-                UIConstants.TABLE_X_LABEL_WIDTH), new TableViewField(
-                TaskI18nEnum.FORM_START_DATE, "startdate",
-                UIConstants.TABLE_DATE_TIME_WIDTH), new TableViewField(
-                ActivityI18nEnum.FORM_STATUS, "status",
-                UIConstants.TABLE_S_LABEL_WIDTH)));
+        tableItem = new MeetingTableDisplay(Arrays.asList(
+                new TableViewField(MeetingI18nEnum.FORM_SUBJECT, "subject", UIConstants.TABLE_X_LABEL_WIDTH),
+                new TableViewField(GenericI18Enum.FORM_START_DATE, "startdate", UIConstants.TABLE_DATE_TIME_WIDTH),
+                new TableViewField(GenericI18Enum.FORM_STATUS, "status", UIConstants.TABLE_S_LABEL_WIDTH)));
 
         bodyContent.addComponent(tableItem);
 

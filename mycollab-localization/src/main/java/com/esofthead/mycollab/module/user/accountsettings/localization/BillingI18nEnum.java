@@ -24,12 +24,8 @@ import ch.qos.cal10n.LocaleData;
 @LocaleData(value = { @Locale("en-US"), @Locale("ja-JP") }, defaultCharset = "UTF-8")
 public enum BillingI18nEnum {
 	VIEW_CHANGE_BILLING_PLAN_TITLE,
-
 	BUTTON_CANCEL_ACCOUNT,
-
 	HELP_QUESTION, HELP_INFO,
-
 	FORM_BILLING_PRICE,
-
 	QUESTION_CHANGE_PLAN, OPT_CANNOT_CHANGE_PLAN
 }

@@ -28,7 +28,7 @@ import com.esofthead.mycollab.vaadin.web.ui.UIConstants
 object LeadTableFieldDef {
   val selected = new TableViewField(null, "selected", UIConstants.TABLE_CONTROL_WIDTH)
   val action = new TableViewField(null, "id", UIConstants.TABLE_ACTION_CONTROL_WIDTH)
-  val name = new TableViewField(LeadI18nEnum.FORM_NAME, "leadName", UIConstants.TABLE_X_LABEL_WIDTH)
+  val name = new TableViewField(GenericI18Enum.FORM_NAME, "leadName", UIConstants.TABLE_X_LABEL_WIDTH)
   val title = new TableViewField(LeadI18nEnum.FORM_TITLE, "title", UIConstants.TABLE_S_LABEL_WIDTH)
   val department = new TableViewField(LeadI18nEnum.FORM_DEPARTMENT, "department", UIConstants.TABLE_X_LABEL_WIDTH)
   val accountName = new TableViewField(LeadI18nEnum.FORM_ACCOUNT_NAME, "accountname", UIConstants.TABLE_X_LABEL_WIDTH)
@@ -38,7 +38,7 @@ object LeadTableFieldDef {
   val phoneoffice = new TableViewField(LeadI18nEnum.FORM_OFFICE_PHONE, "officephone", UIConstants.TABLE_M_LABEL_WIDTH)
   val mobile = new TableViewField(LeadI18nEnum.FORM_MOBILE, "mobile", UIConstants.TABLE_M_LABEL_WIDTH)
   val fax = new TableViewField(LeadI18nEnum.FORM_FAX, "fax", UIConstants.TABLE_M_LABEL_WIDTH)
-  val status = new TableViewField(LeadI18nEnum.FORM_STATUS, "status", UIConstants.TABLE_M_LABEL_WIDTH)
+  val status = new TableViewField(GenericI18Enum.FORM_STATUS, "status", UIConstants.TABLE_M_LABEL_WIDTH)
   val website = new TableViewField(LeadI18nEnum.FORM_WEBSITE, "website", UIConstants.TABLE_X_LABEL_WIDTH)
   val assignedUser = new TableViewField(GenericI18Enum.FORM_ASSIGNEE, "assignUserFullName", UIConstants.TABLE_X_LABEL_WIDTH)
 }

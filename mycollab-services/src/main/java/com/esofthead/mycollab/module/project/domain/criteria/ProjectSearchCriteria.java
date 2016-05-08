@@ -22,8 +22,10 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.core.db.query.*;
-import com.esofthead.mycollab.module.project.domain.Project;
+import com.esofthead.mycollab.core.db.query.DateParam;
+import com.esofthead.mycollab.core.db.query.NumberParam;
+import com.esofthead.mycollab.core.db.query.StringListParam;
+import com.esofthead.mycollab.core.db.query.StringParam;
 import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
 
 import java.util.Arrays;
@@ -35,14 +37,14 @@ import java.util.Arrays;
 public class ProjectSearchCriteria extends SearchCriteria {
     private static final long serialVersionUID = 1L;
 
-    public static final NumberParam p_template = new NumberParam("project-template", ProjectI18nEnum.FORM_NAME,
+    public static final NumberParam p_template = new NumberParam("project-template", GenericI18Enum.FORM_NAME,
             "m_prj_project", "istemplate");
 
-    public static final StringParam p_name = new StringParam("project-name", ProjectI18nEnum.FORM_NAME, "m_prj_project", "name");
-    public static final DateParam p_startdate = new DateParam("project-startdate", ProjectI18nEnum.FORM_START_DATE, "m_prj_project", "planStartDate");
-    public static final DateParam p_enddate = new DateParam("project-enddate", ProjectI18nEnum.FORM_END_DATE, "m_prj_project", "planEndDate");
+    public static final StringParam p_name = new StringParam("project-name", GenericI18Enum.FORM_NAME, "m_prj_project", "name");
+    public static final DateParam p_startdate = new DateParam("project-startdate", GenericI18Enum.FORM_START_DATE, "m_prj_project", "planStartDate");
+    public static final DateParam p_enddate = new DateParam("project-enddate", GenericI18Enum.FORM_END_DATE, "m_prj_project", "planEndDate");
     public static final DateParam p_createdtime = new DateParam("project-createdtime", GenericI18Enum.FORM_CREATED_TIME, "m_prj_project", "createdTime");
-    public static final StringListParam p_status = new StringListParam("project-status", ProjectI18nEnum.FORM_STATUS,
+    public static final StringListParam p_status = new StringListParam("project-status", GenericI18Enum.FORM_STATUS,
             "m_prj_project", "projectStatus", Arrays.asList(OptionI18nEnum.StatusI18nEnum.Open.name(), OptionI18nEnum
             .StatusI18nEnum.Closed.name(), OptionI18nEnum.StatusI18nEnum.Archived.name()));
 

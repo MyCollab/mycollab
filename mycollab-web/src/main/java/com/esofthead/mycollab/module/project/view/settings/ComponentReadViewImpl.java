@@ -65,7 +65,7 @@ public class ComponentReadViewImpl extends AbstractPreviewItemComp<SimpleCompone
     private ComponentTimeLogComp componentTimeLogComp;
 
     public ComponentReadViewImpl() {
-        super(AppContext.getMessage(ComponentI18nEnum.VIEW_READ_TITLE),
+        super(AppContext.getMessage(ComponentI18nEnum.DETAIL),
                 ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG_COMPONENT));
     }
 

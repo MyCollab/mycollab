@@ -20,8 +20,7 @@ package com.esofthead.mycollab.module.project.view.settings;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.ClassUtils;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
-import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
-import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.*;
 import com.esofthead.mycollab.module.project.view.ProjectView;
 import com.esofthead.mycollab.module.project.view.parameters.*;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -54,23 +53,23 @@ public class UserSettingPresenter extends AbstractPresenter<UserSettingView> {
         AbstractPresenter<?> presenter;
         if (ClassUtils.instanceOf(data, ProjectRoleScreenData.Search.class, ProjectRoleScreenData.Add.class,
                 ProjectRoleScreenData.Read.class)) {
-            view.gotoSubView(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_ROLES));
+            view.gotoSubView(AppContext.getMessage(ProjectRoleI18nEnum.LIST));
             presenter = PresenterResolver.getPresenter(ProjectRolePresenter.class);
         } else if (ClassUtils.instanceOf(data, ProjectMemberScreenData.Read.class,
                 ProjectMemberScreenData.Search.class, ProjectMemberScreenData.Add.class,
                 ProjectMemberScreenData.InviteProjectMembers.class)) {
-            view.gotoSubView(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_USERS));
+            view.gotoSubView(AppContext.getMessage(ProjectMemberI18nEnum.LIST));
             presenter = PresenterResolver.getPresenter(ProjectUserPresenter.class);
         } else if (ClassUtils.instanceOf(data, ProjectSettingScreenData.ViewSettings.class)) {
             view.gotoSubView(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_SETTINGS));
             presenter = PresenterResolver.getPresenter(ProjectSettingPresenter.class);
         } else if (ClassUtils.instanceOf(data, ComponentScreenData.Add.class, ComponentScreenData.Edit.class,
                 ComponentScreenData.Read.class, ComponentScreenData.Search.class)) {
-            view.gotoSubView(AppContext.getMessage(BugI18nEnum.TAB_COMPONENT));
+            view.gotoSubView(AppContext.getMessage(ComponentI18nEnum.LIST));
             presenter = PresenterResolver.getPresenter(ComponentPresenter.class);
         } else if (ClassUtils.instanceOf(data, VersionScreenData.Add.class, VersionScreenData.Edit.class,
                 VersionScreenData.Read.class, VersionScreenData.Search.class)) {
-            view.gotoSubView(AppContext.getMessage(BugI18nEnum.TAB_VERSION));
+            view.gotoSubView(AppContext.getMessage(VersionI18nEnum.LIST));
             presenter = PresenterResolver.getPresenter(VersionPresenter.class);
         } else {
             throw new MyCollabException("No support screen data: " + data);

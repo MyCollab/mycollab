@@ -41,7 +41,7 @@ public class CaseAddViewImpl extends AbstractEditItemComp<SimpleCase> implements
 
     @Override
     protected String initFormTitle() {
-        return (beanItem.getId() == null) ? AppContext.getMessage(CaseI18nEnum.VIEW_NEW_TITLE) : beanItem.getSubject();
+        return (beanItem.getId() == null) ? AppContext.getMessage(CaseI18nEnum.NEW) : beanItem.getSubject();
     }
 
     @Override

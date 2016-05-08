@@ -38,7 +38,7 @@ public class ComponentDefaultFormLayoutFactory {
         DynaSection mainSection = new DynaSectionBuilder().layoutType(LayoutType.ONE_COLUMN).build();
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(Component.Field.componentname)
-                .displayName(AppContext.getMessage(ComponentI18nEnum.FORM_NAME))
+                .displayName(AppContext.getMessage(GenericI18Enum.FORM_NAME))
                 .required(true).mandatory(true).fieldIndex(0).build());
 
         mainSection.addField(new TextDynaFieldBuilder().fieldName(Component.Field.description)

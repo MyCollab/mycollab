@@ -73,7 +73,7 @@ public class AccountRelatedContactView extends AbstractRelatedListView<SimpleCon
         addContact.setStyleName("add-btn");
 
         MVerticalLayout addButtons = new MVerticalLayout().withWidth("100%");
-        Button newContact = new Button(AppContext.getMessage(ContactI18nEnum.VIEW_NEW_TITLE), new Button.ClickListener() {
+        Button newContact = new Button(AppContext.getMessage(ContactI18nEnum.NEW), new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 fireNewRelatedItem("");

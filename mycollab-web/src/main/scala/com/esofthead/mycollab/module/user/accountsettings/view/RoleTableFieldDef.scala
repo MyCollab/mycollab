@@ -27,6 +27,6 @@ import com.esofthead.mycollab.vaadin.web.ui.UIConstants
   */
 object RoleTableFieldDef {
   val selected = new TableViewField(null, "selected", UIConstants.TABLE_CONTROL_WIDTH)
-  val rolename = new TableViewField(RoleI18nEnum.FORM_NAME, "rolename", UIConstants.TABLE_EX_LABEL_WIDTH)
+  val rolename = new TableViewField(GenericI18Enum.FORM_NAME, "rolename", UIConstants.TABLE_EX_LABEL_WIDTH)
   val description = new TableViewField(GenericI18Enum.FORM_DESCRIPTION, "description", UIConstants.TABLE_EX_LABEL_WIDTH)
 }

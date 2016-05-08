@@ -16,12 +16,13 @@
  */
 package com.esofthead.mycollab.module.project.view.page;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.events.PageEvent;
-import com.esofthead.mycollab.module.project.i18n.Page18InEnum;
+import com.esofthead.mycollab.module.project.i18n.PageI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.ProjectListNoItemView;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -38,7 +39,6 @@ import org.vaadin.viritin.layouts.MHorizontalLayout;
  * @author MyCollab Ltd.
  * @since 5.0.2
  */
-@ViewComponent
 public class PageListNoItemView extends ProjectListNoItemView {
     @Override
     protected FontAwesome viewIcon() {
@@ -47,17 +47,17 @@ public class PageListNoItemView extends ProjectListNoItemView {
 
     @Override
     protected String viewTitle() {
-        return AppContext.getMessage(Page18InEnum.VIEW_NO_ITEM_TITLE);
+        return AppContext.getMessage(GenericI18Enum.VIEW_NO_ITEM_TITLE);
     }
 
     @Override
     protected String viewHint() {
-        return AppContext.getMessage(Page18InEnum.VIEW_NO_ITEM_HINT);
+        return AppContext.getMessage(GenericI18Enum.VIEW_NO_ITEM_HINT);
     }
 
     @Override
     protected String actionMessage() {
-        return AppContext.getMessage(Page18InEnum.BUTTON_NEW_PAGE);
+        return AppContext.getMessage(PageI18nEnum.NEW);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class PageListNoItemView extends ProjectListNoItemView {
         createPageBtn.setEnabled(hasPermission());
         createPageBtn.addStyleName(UIConstants.BUTTON_ACTION);
 
-        Button createPageGroupBtn = new Button(AppContext.getMessage(Page18InEnum.BUTTON_NEW_GROUP), new Button.ClickListener() {
+        Button createPageGroupBtn = new Button(AppContext.getMessage(PageI18nEnum.NEW_GROUP), new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
                 UI.getCurrent().addWindow(new GroupPageAddWindow());

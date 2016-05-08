@@ -118,6 +118,8 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
             });
             header.addComponent(addPopupView);
         }
+        header.addComponent(ELabel.fontIcon(FontAwesome.QUESTION_CIRCLE).withStyleName(UIConstants.INLINE_HELP)
+                .withDescription(AppContext.getMessage(FollowerI18nEnum.FOLLOWER_EXPLAIN_HELP)));
 
         this.addComponent(header);
 

@@ -68,8 +68,8 @@ public class PageListPresenter extends ProjectGenericPresenter<PageListView> {
                 pageContainer.addComponent(view);
                 view.displayDefaultPages(resources);
             } else {
-                PageListNoItemView alternativeView = ViewManager.getCacheComponent(PageListNoItemView.class);
-                pageContainer.addComponent(alternativeView);
+                pageContainer.addComponent(view);
+                view.showNoItemView();
             }
 
             ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);

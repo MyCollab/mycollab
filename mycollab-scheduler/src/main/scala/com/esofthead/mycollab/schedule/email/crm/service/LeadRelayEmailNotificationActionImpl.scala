@@ -98,7 +98,7 @@ class LeadRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmailAc
         put(Lead.Field.leadsourcedesc, LeadI18nEnum.FORM_LEAD_SOURCE)
         put(Lead.Field.website, LeadI18nEnum.FORM_WEBSITE)
         put(Lead.Field.industry, LeadI18nEnum.FORM_INDUSTRY)
-        put(Lead.Field.status, LeadI18nEnum.FORM_STATUS)
+        put(Lead.Field.status, GenericI18Enum.FORM_STATUS)
         put(Lead.Field.noemployees, LeadI18nEnum.FORM_NO_EMPLOYEES)
         put(Lead.Field.assignuser, new LeadAssigneeFieldFormat(Lead.Field.assignuser.name, GenericI18Enum.FORM_ASSIGNEE))
         put(Lead.Field.primaddress, LeadI18nEnum.FORM_PRIMARY_ADDRESS)

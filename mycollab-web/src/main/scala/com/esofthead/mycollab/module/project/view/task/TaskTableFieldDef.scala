@@ -27,11 +27,11 @@ import com.esofthead.mycollab.vaadin.web.ui.UIConstants
   */
 object TaskTableFieldDef {
   val id = new TableViewField(null, "id", UIConstants.TABLE_CONTROL_WIDTH)
-  val taskname = new TableViewField(TaskI18nEnum.FORM_TASK_NAME, "taskname", UIConstants.TABLE_X_LABEL_WIDTH)
-  val status = new TableViewField(TaskI18nEnum.FORM_STATUS, "status", UIConstants.TABLE_X_LABEL_WIDTH)
+  val taskname = new TableViewField(GenericI18Enum.FORM_NAME, "taskname", UIConstants.TABLE_X_LABEL_WIDTH)
+  val status = new TableViewField(GenericI18Enum.FORM_STATUS, "status", UIConstants.TABLE_X_LABEL_WIDTH)
   val priority = new TableViewField(TaskI18nEnum.FORM_PRIORITY, "priority", UIConstants.TABLE_M_LABEL_WIDTH)
-  val startdate = new TableViewField(TaskI18nEnum.FORM_START_DATE, "startdate", UIConstants.TABLE_DATE_WIDTH)
-  val duedate = new TableViewField(TaskI18nEnum.FORM_DEADLINE, "deadline", UIConstants.TABLE_DATE_WIDTH)
+  val startdate = new TableViewField(GenericI18Enum.FORM_START_DATE, "startdate", UIConstants.TABLE_DATE_WIDTH)
+  val duedate = new TableViewField(GenericI18Enum.FORM_DUE_DATE, "deadline", UIConstants.TABLE_DATE_WIDTH)
   val percentagecomplete = new TableViewField(TaskI18nEnum.FORM_PERCENTAGE_COMPLETE, "percentagecomplete", UIConstants.TABLE_S_LABEL_WIDTH)
   val assignee = new TableViewField(GenericI18Enum.FORM_ASSIGNEE, "assignUserFullName", UIConstants.TABLE_X_LABEL_WIDTH)
   val billableHours = new TableViewField(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS, "billableHours",

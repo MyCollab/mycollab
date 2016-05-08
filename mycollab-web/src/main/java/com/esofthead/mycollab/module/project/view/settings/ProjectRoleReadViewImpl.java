@@ -33,7 +33,6 @@ import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.web.ui.DefaultReadViewLayout;
 import com.esofthead.mycollab.vaadin.web.ui.ProjectPreviewFormControlsGenerator;
-import com.esofthead.mycollab.vaadin.web.ui.ReadViewLayout;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
@@ -51,7 +50,7 @@ public class ProjectRoleReadViewImpl extends MVerticalLayout implements ProjectR
 
     private SimpleProjectRole beanItem;
     private AdvancedPreviewBeanForm<SimpleProjectRole> previewForm;
-    private ReadViewLayout previewLayout;
+    private DefaultReadViewLayout previewLayout;
     private HeaderWithFontAwesome headerText;
     private MHorizontalLayout header;
 
@@ -59,7 +58,7 @@ public class ProjectRoleReadViewImpl extends MVerticalLayout implements ProjectR
 
     public ProjectRoleReadViewImpl() {
         withMargin(new MarginInfo(true, false, true, false));
-        headerText = HeaderWithFontAwesome.h2(FontAwesome.USERS, AppContext.getMessage(ProjectRoleI18nEnum.FORM_READ_TITLE));
+        headerText = HeaderWithFontAwesome.h2(FontAwesome.USERS, AppContext.getMessage(ProjectRoleI18nEnum.DETAIL));
         headerText.setSizeUndefined();
         this.addComponent(constructHeader());
 

@@ -57,17 +57,17 @@ public class CrmContainerViewImpl extends AbstractMobileTabPageView implements C
     private void buildComponents() {
         this.addTab(getAccountTab(), "<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\"" + IconConstants.CRM_ACCOUNT
                 + "\"></span><div class=\"screen-reader-text\">"
-                + AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_ACCOUNTS_HEADER)
+                + AppContext.getMessage(AccountI18nEnum.LIST)
                 + "</div>");
         this.addTab(getContactTab(), "<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\"" + IconConstants.CRM_CONTACT
                 + "\"></span><div class=\"screen-reader-text\">"
-                + AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_CONTACTS_HEADER)
+                + AppContext.getMessage(ContactI18nEnum.LIST)
                 + "</div>");
 
         this.addTab(getCampaignTab(), "<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\""
                 + IconConstants.CRM_CAMPAIGN
                 + "\"></span><div class=\"screen-reader-text\">"
-                + AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_CAMPAIGNS_HEADER)
+                + AppContext.getMessage(CampaignI18nEnum.LIST)
                 + "</div>");
         this.addTab(
                 getLeadTab(),
@@ -75,7 +75,7 @@ public class CrmContainerViewImpl extends AbstractMobileTabPageView implements C
                         + IconConstants.CRM_LEAD
                         + "\"></span><div class=\"screen-reader-text\">"
                         + AppContext
-                        .getMessage(CrmCommonI18nEnum.TOOLBAR_LEADS_HEADER)
+                        .getMessage(LeadI18nEnum.LIST)
                         + "</div>");
         this.addTab(
                 getOpportunityTab(),
@@ -83,7 +83,7 @@ public class CrmContainerViewImpl extends AbstractMobileTabPageView implements C
                         + IconConstants.CRM_OPPORTUNITY
                         + "\"></span><div class=\"screen-reader-text\">"
                         + AppContext
-                        .getMessage(CrmCommonI18nEnum.TOOLBAR_OPPORTUNTIES_HEADER)
+                        .getMessage(OpportunityI18nEnum.LIST)
                         + "</div>");
         this.addTab(
                 getCaseTab(),
@@ -91,7 +91,7 @@ public class CrmContainerViewImpl extends AbstractMobileTabPageView implements C
                         + IconConstants.CRM_CASE
                         + "\"></span><div class=\"screen-reader-text\">"
                         + AppContext
-                        .getMessage(CrmCommonI18nEnum.TOOLBAR_CASES_HEADER)
+                        .getMessage(CaseI18nEnum.LIST)
                         + "</div>");
         this.addTab(
                 getActivityTab(),
@@ -112,32 +112,32 @@ public class CrmContainerViewImpl extends AbstractMobileTabPageView implements C
                     AccountSearchCriteria criteria = new AccountSearchCriteria();
                     criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
                     accountPresenter.getView().getPagedBeanTable().search(criteria);
-                    AppContext.addFragment("crm/account/list", AppContext.getMessage(AccountI18nEnum.VIEW_LIST_TITLE));
+                    AppContext.addFragment("crm/account/list", AppContext.getMessage(AccountI18nEnum.LIST));
                 } else if (currentComponent == getContactTab()) {
                     ContactSearchCriteria criteria = new ContactSearchCriteria();
                     criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
                     contactPresenter.getView().getPagedBeanTable().search(criteria);
-                    AppContext.addFragment("crm/contact/list", AppContext.getMessage(ContactI18nEnum.VIEW_LIST_TITLE));
+                    AppContext.addFragment("crm/contact/list", AppContext.getMessage(ContactI18nEnum.LIST));
                 } else if (currentComponent == getCampaignTab()) {
                     CampaignSearchCriteria criteria = new CampaignSearchCriteria();
                     criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
                     campaignPresenter.getView().getPagedBeanTable().search(criteria);
-                    AppContext.addFragment("crm/campaign/list", AppContext.getMessage(CampaignI18nEnum.VIEW_LIST_TITLE));
+                    AppContext.addFragment("crm/campaign/list", AppContext.getMessage(CampaignI18nEnum.LIST));
                 } else if (currentComponent == getLeadTab()) {
                     LeadSearchCriteria criteria = new LeadSearchCriteria();
                     criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
                     leadPresenter.getView().getPagedBeanTable().search(criteria);
-                    AppContext.addFragment("crm/lead/list", AppContext.getMessage(LeadI18nEnum.VIEW_LIST_TITLE));
+                    AppContext.addFragment("crm/lead/list", AppContext.getMessage(LeadI18nEnum.LIST));
                 } else if (currentComponent == getOpportunityTab()) {
                     OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
                     criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
                     opportunityPresenter.getView().getPagedBeanTable().search(criteria);
-                    AppContext.addFragment("crm/opportunity/list", AppContext.getMessage(OpportunityI18nEnum.VIEW_LIST_TITLE));
+                    AppContext.addFragment("crm/opportunity/list", AppContext.getMessage(OpportunityI18nEnum.LIST));
                 } else if (currentComponent == getCaseTab()) {
                     CaseSearchCriteria criteria = new CaseSearchCriteria();
                     criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
                     casePresenter.getView().getPagedBeanTable().search(criteria);
-                    AppContext.addFragment("crm/cases/list", AppContext.getMessage(CaseI18nEnum.VIEW_LIST_TITLE));
+                    AppContext.addFragment("crm/cases/list", AppContext.getMessage(CaseI18nEnum.LIST));
                 } else if (currentComponent == getActivityTab()) {
                     ActivitySearchCriteria criteria = new ActivitySearchCriteria();
                     criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));

@@ -82,7 +82,7 @@ public class CaseContactListComp extends RelatedListComp2<ContactService, Contac
         controlsBtn.setSizeUndefined();
         controlsBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CONTACT));
         controlsBtn.addStyleName(UIConstants.BUTTON_ACTION);
-        controlsBtn.setCaption(AppContext.getMessage(ContactI18nEnum.BUTTON_NEW_CONTACT));
+        controlsBtn.setCaption(AppContext.getMessage(ContactI18nEnum.NEW));
         controlsBtn.setIcon(FontAwesome.PLUS);
         controlsBtn.addClickListener(new SplitButton.SplitButtonClickListener() {
             private static final long serialVersionUID = 1L;

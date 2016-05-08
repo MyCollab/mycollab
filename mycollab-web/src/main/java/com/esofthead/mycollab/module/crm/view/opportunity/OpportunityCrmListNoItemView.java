@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.crm.view.opportunity;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.events.OpportunityEvent;
@@ -44,17 +45,17 @@ public class OpportunityCrmListNoItemView extends CrmListNoItemView {
 
     @Override
     protected String titleMessage() {
-        return AppContext.getMessage(OpportunityI18nEnum.VIEW_NO_ITEM_TITLE);
+        return AppContext.getMessage(GenericI18Enum.VIEW_NO_ITEM_TITLE);
     }
 
     @Override
     protected String hintMessage() {
-        return AppContext.getMessage(OpportunityI18nEnum.VIEW_NO_ITEM_HINT);
+        return AppContext.getMessage(GenericI18Enum.VIEW_NO_ITEM_HINT);
     }
 
     @Override
     protected String actionMessage() {
-        return AppContext.getMessage(OpportunityI18nEnum.BUTTON_NEW_OPPORTUNITY);
+        return AppContext.getMessage(OpportunityI18nEnum.NEW);
     }
 
     @Override

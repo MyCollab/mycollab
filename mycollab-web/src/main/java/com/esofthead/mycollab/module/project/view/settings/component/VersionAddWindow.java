@@ -40,7 +40,7 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  */
 public class VersionAddWindow extends Window implements IEditFormHandler<Version> {
     public VersionAddWindow() {
-        super(AppContext.getMessage(VersionI18nEnum.VIEW_NEW_TITLE));
+        super(AppContext.getMessage(VersionI18nEnum.NEW));
         this.setWidth("750px");
         this.setResizable(false);
         this.setModal(true);

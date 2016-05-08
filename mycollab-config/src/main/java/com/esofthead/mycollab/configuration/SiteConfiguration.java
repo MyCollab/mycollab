@@ -75,7 +75,7 @@ public class SiteConfiguration {
         instance.serverAddress = ApplicationProperties.getString(SERVER_ADDRESS, "localhost");
         instance.defaultLocale = toLocale(ApplicationProperties.getString(DEFAULT_LOCALE, "en_US"));
 
-        instance.supportedLanguages = getSupportedLocales(ApplicationProperties.getString(LOCALES, "en_US, ja_JP"));
+        instance.supportedLanguages = getSupportedLocales("en_US, ja_JP,fr,de,pt");
 
         instance.serverPort = serverPort;
 

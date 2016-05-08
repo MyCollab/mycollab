@@ -16,120 +16,113 @@
  */
 package com.esofthead.mycollab.module.crm.domain.criteria;
 
-import java.util.Arrays;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.core.db.query.DateParam;
-import com.esofthead.mycollab.core.db.query.Param;
-import com.esofthead.mycollab.core.db.query.PropertyListParam;
-import com.esofthead.mycollab.core.db.query.StringListParam;
-import com.esofthead.mycollab.core.db.query.StringParam;
+import com.esofthead.mycollab.core.db.query.*;
 import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
 import com.esofthead.mycollab.module.crm.i18n.CampaignI18nEnum;
 
+import java.util.Arrays;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class CampaignSearchCriteria extends SearchCriteria {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public static final Param p_campaignName = new StringParam("campaign-name",
-			CampaignI18nEnum.FORM_CAMPAIGN_NAME, "m_crm_campaign",
-			"campaignName");
+    public static final Param p_campaignName = new StringParam("campaign-name",
+            GenericI18Enum.FORM_NAME, "m_crm_campaign", "campaignName");
 
-	public static final Param p_startDate = new DateParam("campaign-startdate",
-			CampaignI18nEnum.FORM_START_DATE, "m_crm_campaign", "startDate");
+    public static final Param p_startDate = new DateParam("campaign-startdate",
+            GenericI18Enum.FORM_START_DATE, "m_crm_campaign", "startDate");
 
-	public static final Param p_endDate = new DateParam("campaign-enddate",
-			CampaignI18nEnum.FORM_END_DATE, "m_crm_campaign", "endDate");
+    public static final Param p_endDate = new DateParam("campaign-enddate",
+            GenericI18Enum.FORM_END_DATE, "m_crm_campaign", "endDate");
 
-	public static final Param p_createdtime = new DateParam("campaign-createdtime",
-			GenericI18Enum.FORM_CREATED_TIME, "m_crm_campaign", "createdTime");
+    public static final Param p_createdtime = new DateParam("campaign-createdtime",
+            GenericI18Enum.FORM_CREATED_TIME, "m_crm_campaign", "createdTime");
 
-	public static final Param p_lastUpdatedTime = new DateParam(
-			"campaign-lastUpdatedTime", GenericI18Enum.FORM_LAST_UPDATED_TIME,
-			"m_crm_campaign", "lastUpdatedTime");
+    public static final Param p_lastUpdatedTime = new DateParam(
+            "campaign-lastUpdatedTime", GenericI18Enum.FORM_LAST_UPDATED_TIME,
+            "m_crm_campaign", "lastUpdatedTime");
 
-	public static final Param p_types = new StringListParam("campaign-type",
-			CampaignI18nEnum.FORM_TYPE, "m_crm_campaign", "type",
-			Arrays.asList(CrmDataTypeFactory.getCampaignTypeList()));
+    public static final Param p_types = new StringListParam("campaign-type",
+            GenericI18Enum.FORM_TYPE, "m_crm_campaign", "type",
+            Arrays.asList(CrmDataTypeFactory.getCampaignTypeList()));
 
-	public static final Param p_statuses = new StringListParam("campaign-status",
-			CampaignI18nEnum.FORM_STATUS, "m_crm_campaign", "status",
-			Arrays.asList(CrmDataTypeFactory.getCampaignStatusList()));
+    public static final Param p_statuses = new StringListParam("campaign-status",
+            GenericI18Enum.FORM_STATUS, "m_crm_campaign", "status",
+            Arrays.asList(CrmDataTypeFactory.getCampaignStatusList()));
 
-	public static final Param p_assignee = new PropertyListParam(
-			"campaign-assignuser", GenericI18Enum.FORM_ASSIGNEE,
-			"m_crm_campaign", "assignUser");
+    public static final Param p_assignee = new PropertyListParam(
+            "campaign-assignuser", GenericI18Enum.FORM_ASSIGNEE,
+            "m_crm_campaign", "assignUser");
 
-	private StringSearchField campaignName;
-	private StringSearchField assignUser;
-	private NumberSearchField leadId;
-	private SetSearchField<String> statuses;
-	private SetSearchField<String> types;
-	private SetSearchField<String> assignUsers;
-	private NumberSearchField id;
+    private StringSearchField campaignName;
+    private StringSearchField assignUser;
+    private NumberSearchField leadId;
+    private SetSearchField<String> statuses;
+    private SetSearchField<String> types;
+    private SetSearchField<String> assignUsers;
+    private NumberSearchField id;
 
-	public StringSearchField getCampaignName() {
-		return campaignName;
-	}
+    public StringSearchField getCampaignName() {
+        return campaignName;
+    }
 
-	public void setCampaignName(StringSearchField campaignName) {
-		this.campaignName = campaignName;
-	}
+    public void setCampaignName(StringSearchField campaignName) {
+        this.campaignName = campaignName;
+    }
 
-	public StringSearchField getAssignUser() {
-		return assignUser;
-	}
+    public StringSearchField getAssignUser() {
+        return assignUser;
+    }
 
-	public void setAssignUser(StringSearchField assignUser) {
-		this.assignUser = assignUser;
-	}
+    public void setAssignUser(StringSearchField assignUser) {
+        this.assignUser = assignUser;
+    }
 
-	public NumberSearchField getLeadId() {
-		return leadId;
-	}
+    public NumberSearchField getLeadId() {
+        return leadId;
+    }
 
-	public void setLeadId(NumberSearchField leadId) {
-		this.leadId = leadId;
-	}
+    public void setLeadId(NumberSearchField leadId) {
+        this.leadId = leadId;
+    }
 
-	public SetSearchField<String> getStatuses() {
-		return statuses;
-	}
+    public SetSearchField<String> getStatuses() {
+        return statuses;
+    }
 
-	public void setStatuses(SetSearchField<String> statuses) {
-		this.statuses = statuses;
-	}
+    public void setStatuses(SetSearchField<String> statuses) {
+        this.statuses = statuses;
+    }
 
-	public SetSearchField<String> getTypes() {
-		return types;
-	}
+    public SetSearchField<String> getTypes() {
+        return types;
+    }
 
-	public void setTypes(SetSearchField<String> types) {
-		this.types = types;
-	}
+    public void setTypes(SetSearchField<String> types) {
+        this.types = types;
+    }
 
-	public SetSearchField<String> getAssignUsers() {
-		return assignUsers;
-	}
+    public SetSearchField<String> getAssignUsers() {
+        return assignUsers;
+    }
 
-	public void setAssignUsers(SetSearchField<String> assignUsers) {
-		this.assignUsers = assignUsers;
-	}
+    public void setAssignUsers(SetSearchField<String> assignUsers) {
+        this.assignUsers = assignUsers;
+    }
 
-	public void setId(NumberSearchField id) {
-		this.id = id;
-	}
+    public void setId(NumberSearchField id) {
+        this.id = id;
+    }
 
-	public NumberSearchField getId() {
-		return id;
-	}
+    public NumberSearchField getId() {
+        return id;
+    }
 }

@@ -19,8 +19,8 @@ package com.esofthead.mycollab.module.user.service.mybatis;
 import com.esofthead.mycollab.configuration.IDeploymentMode;
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
 import com.esofthead.mycollab.core.UserInvalidInputException;
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
+import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
@@ -393,5 +393,10 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
     @Override
     public void requestToResetPassword(String username) {
         asyncEventBus.post(new RequestToResetPasswordEvent(username));
+    }
+
+    @Override
+    public List<User> getUsersNotBelongToAnyAccount() {
+        return userMapperExt.getUsersNotBelongToAnyAccount();
     }
 }

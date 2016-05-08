@@ -50,8 +50,4 @@ public abstract class ReadViewLayout extends CustomLayoutExt {
     public void removeTitleStyleName(String styleName) {
         throw new MyCollabException("Must be implemented in the sub class");
     }
-
-    public void setTitle(String title) {
-        throw new MyCollabException("Must be implemented in the sub class");
-    }
 }

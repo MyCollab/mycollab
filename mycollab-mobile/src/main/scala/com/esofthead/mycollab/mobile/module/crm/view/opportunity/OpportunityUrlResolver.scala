@@ -21,7 +21,7 @@ import com.esofthead.mycollab.eventmanager.EventBusFactory
 import com.esofthead.mycollab.mobile.module.crm.{CrmModuleScreenData, CrmUrlResolver}
 import com.esofthead.mycollab.mobile.module.crm.events.{CrmEvent, OpportunityEvent}
 import com.esofthead.mycollab.module.crm.domain.Account
-import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum
+import com.esofthead.mycollab.module.crm.i18n.OpportunityI18nEnum
 import com.esofthead.mycollab.vaadin.AppContext
 
 /**
@@ -37,7 +37,7 @@ class OpportunityUrlResolver extends CrmUrlResolver {
     class OpportunityListUrlResolver extends CrmUrlResolver {
         protected override def handlePage(params: String*) {
             EventBusFactory.getInstance().post(new CrmEvent.GotoContainer(this,
-                new CrmModuleScreenData.GotoModule(AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_OPPORTUNTIES_HEADER))))
+                new CrmModuleScreenData.GotoModule(AppContext.getMessage(OpportunityI18nEnum.LIST))))
         }
     }
 

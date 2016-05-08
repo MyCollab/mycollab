@@ -44,9 +44,8 @@ public class ComponentAddViewImpl extends AbstractEditItemComp<Component> implem
 
     @Override
     protected String initFormHeader() {
-        return (beanItem.getId() == null) ? AppContext
-                .getMessage(ComponentI18nEnum.FORM_NEW_TITLE) : AppContext
-                .getMessage(ComponentI18nEnum.FORM_EDIT_TITLE);
+        return (beanItem.getId() == null) ? AppContext.getMessage(ComponentI18nEnum.NEW)
+                : AppContext.getMessage(ComponentI18nEnum.DETAIL);
     }
 
     @Override

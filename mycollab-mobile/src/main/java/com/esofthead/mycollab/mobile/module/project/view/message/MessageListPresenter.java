@@ -44,7 +44,7 @@ public class MessageListPresenter extends ProjectListPresenter<MessageListView, 
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.MESSAGES)) {
             super.onGo(container, data);
             AppContext.addFragment(ProjectLinkGenerator.generateMessagesLink(CurrentProjectVariables.getProjectId()),
-                    AppContext.getMessage(MessageI18nEnum.VIEW_LIST_TITLE));
+                    AppContext.getMessage(MessageI18nEnum.LIST));
         } else {
             NotificationUtil.showMessagePermissionAlert();
         }

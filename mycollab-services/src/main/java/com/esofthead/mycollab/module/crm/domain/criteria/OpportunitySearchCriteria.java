@@ -35,7 +35,7 @@ public class OpportunitySearchCriteria extends SearchCriteria {
     private static final long serialVersionUID = 1L;
 
     public static final Param p_opportunityName = new StringParam("opportunity-name",
-            OpportunityI18nEnum.FORM_NAME, "m_crm_opportunity",
+            GenericI18Enum.FORM_NAME, "m_crm_opportunity",
             "opportunityName");
 
     public static final Param p_account = new PropertyParam("opportunity-account",
@@ -60,7 +60,7 @@ public class OpportunitySearchCriteria extends SearchCriteria {
             .getLeadSourceList()));
 
     public static final Param p_type = new StringListParam("opportunity-type",
-            OpportunityI18nEnum.FORM_TYPE, "m_crm_opportunity", "type",
+            GenericI18Enum.FORM_TYPE, "m_crm_opportunity", "type",
             Arrays.asList(CrmDataTypeFactory.getOpportunityTypeList()));
 
     public static final Param p_assignee = new PropertyListParam(

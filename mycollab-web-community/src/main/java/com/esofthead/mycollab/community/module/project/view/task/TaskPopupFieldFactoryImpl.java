@@ -64,7 +64,7 @@ public class TaskPopupFieldFactoryImpl implements TaskPopupFieldFactory {
     @Override
     public PopupView createStatusPopupField(SimpleTask task) {
         return new PopupFieldBuilder().withCaptionAndIcon(FontAwesome.INFO_CIRCLE, task.getStatus()).withDescription
-                (AppContext.getMessage(TaskI18nEnum.FORM_STATUS)).build();
+                (AppContext.getMessage(GenericI18Enum.FORM_STATUS)).build();
     }
 
     @Override

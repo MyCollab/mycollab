@@ -41,7 +41,7 @@ public class ProjectMemberListViewImpl extends AbstractListPageView<ProjectMembe
     private static final long serialVersionUID = 3008732621100597514L;
 
     public ProjectMemberListViewImpl() {
-        this.setCaption(AppContext.getMessage(ProjectMemberI18nEnum.VIEW_LIST_TITLE));
+        this.setCaption(AppContext.getMessage(ProjectMemberI18nEnum.LIST));
     }
 
     @Override

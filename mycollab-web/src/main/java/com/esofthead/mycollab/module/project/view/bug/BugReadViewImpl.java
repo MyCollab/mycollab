@@ -98,7 +98,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
     private ProjectActivityComponent activityComponent;
 
     public BugReadViewImpl() {
-        super(AppContext.getMessage(BugI18nEnum.VIEW_READ_TITLE),
+        super(AppContext.getMessage(BugI18nEnum.DETAIL),
                 ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG), new BugPreviewFormLayout());
     }
 
@@ -223,7 +223,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
 
     @Override
     protected String initFormTitle() {
-        return AppContext.getMessage(BugI18nEnum.FORM_READ_TITLE, beanItem.getBugkey(), beanItem.getSummary());
+        return "";
     }
 
     @Override
@@ -281,10 +281,6 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
         public void removeTitleStyleName(String styleName) {
             toggleBugSummaryField.removeLabelStyleName(styleName);
         }
-
-        @Override
-        public void setTitle(String title) {
-        }
     }
 
     @Override
@@ -310,7 +306,8 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug> implemen
                         | ProjectPreviewFormControlsGenerator.DELETE_BTN_PRESENTED
                         | ProjectPreviewFormControlsGenerator.EDIT_BTN_PRESENTED
                         | ProjectPreviewFormControlsGenerator.PRINT_BTN_PRESENTED
-                        | ProjectPreviewFormControlsGenerator.CLONE_BTN_PRESENTED,
+                        | ProjectPreviewFormControlsGenerator.CLONE_BTN_PRESENTED
+                        | ProjectPreviewFormControlsGenerator.NAVIGATOR_BTN_PRESENTED,
                 ProjectRolePermissionCollections.BUGS);
 
         Button assignBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ASSIGN), new Button.ClickListener() {

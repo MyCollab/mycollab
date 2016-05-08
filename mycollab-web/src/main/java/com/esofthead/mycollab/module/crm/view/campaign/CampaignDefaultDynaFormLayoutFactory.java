@@ -39,25 +39,23 @@ public class CampaignDefaultDynaFormLayoutFactory {
                 .build();
 
         campaignSection.addField(new TextDynaFieldBuilder().fieldName("campaignname")
-                .displayName(AppContext.getMessage(CampaignI18nEnum.FORM_CAMPAIGN_NAME))
+                .displayName(AppContext.getMessage(GenericI18Enum.FORM_NAME))
                 .mandatory(true).fieldIndex(0).build());
 
         campaignSection.addField(new TextDynaFieldBuilder().fieldName("status")
-                .displayName(AppContext.getMessage(CampaignI18nEnum.FORM_STATUS))
+                .displayName(AppContext.getMessage(GenericI18Enum.FORM_STATUS))
                 .fieldIndex(1).build());
 
         campaignSection.addField(new DateDynaFieldBuilder().fieldName("startdate")
-                .displayName(AppContext.getMessage(CampaignI18nEnum.FORM_START_DATE))
+                .displayName(AppContext.getMessage(GenericI18Enum.FORM_START_DATE))
                 .fieldIndex(2).build());
 
         campaignSection.addField(new TextDynaFieldBuilder().fieldName("type")
-                .displayName(AppContext.getMessage(CampaignI18nEnum.FORM_TYPE))
+                .displayName(AppContext.getMessage(GenericI18Enum.FORM_TYPE))
                 .fieldIndex(3).build());
 
-        campaignSection.addField(new DateDynaFieldBuilder()
-                .fieldName("enddate")
-                .displayName(
-                        AppContext.getMessage(CampaignI18nEnum.FORM_END_DATE))
+        campaignSection.addField(new DateDynaFieldBuilder().fieldName("enddate")
+                .displayName(AppContext.getMessage(GenericI18Enum.FORM_END_DATE))
                 .fieldIndex(4).build());
 
         campaignSection.addField(new TextDynaFieldBuilder().fieldName("assignuser")
@@ -70,10 +68,8 @@ public class CampaignDefaultDynaFormLayoutFactory {
                 .header(AppContext.getMessage(CampaignI18nEnum.SECTION_GOAL))
                 .build();
 
-        goalSection.addField(new CurrencyDynaFieldBuilder()
-                .fieldName("currencyid")
-                .displayName(
-                        AppContext.getMessage(CampaignI18nEnum.FORM_CURRENCY))
+        goalSection.addField(new CurrencyDynaFieldBuilder().fieldName("currencyid")
+                .displayName(AppContext.getMessage(GenericI18Enum.FORM_CURRENCY))
                 .fieldIndex(0).build());
 
         goalSection.addField(new NumberDynaFieldBuilder().fieldName("expectedcost")

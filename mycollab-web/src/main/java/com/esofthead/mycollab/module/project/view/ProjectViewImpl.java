@@ -31,7 +31,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
 import com.esofthead.mycollab.module.project.domain.criteria.RiskSearchCriteria;
 import com.esofthead.mycollab.module.project.events.ProjectMemberEvent;
-import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.*;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.view.bug.BugPresenter;
@@ -210,7 +210,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 
             if (CurrentProjectVariables.hasMessageFeature()) {
                 myProjectTab.addTab(constructProjectMessageComponent(), ProjectTypeConstants.MESSAGE, 2,
-                        AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MESSAGE),
+                        AppContext.getMessage(MessageI18nEnum.LIST),
                         GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateMessagesLink(prjId));
             } else {
                 myProjectTab.removeTab(ProjectTypeConstants.MESSAGE);
@@ -218,7 +218,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 
             if (CurrentProjectVariables.hasPhaseFeature()) {
                 myProjectTab.addTab(constructProjectMilestoneComponent(), ProjectTypeConstants.MILESTONE, 3,
-                        AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MILESTONE),
+                        AppContext.getMessage(MilestoneI18nEnum.LIST),
                         GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateMilestonesLink(prjId));
             } else {
                 myProjectTab.removeTab(ProjectTypeConstants.MILESTONE);
@@ -226,7 +226,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 
             if (CurrentProjectVariables.hasTaskFeature()) {
                 myProjectTab.addTab(constructTaskDashboardComponent(),
-                        ProjectTypeConstants.TASK, 4, AppContext.getMessage(ProjectCommonI18nEnum.VIEW_TASK),
+                        ProjectTypeConstants.TASK, 4, AppContext.getMessage(TaskI18nEnum.LIST),
                         GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateTaskDashboardLink(prjId));
             } else {
                 myProjectTab.removeTab(ProjectTypeConstants.TASK);
@@ -234,7 +234,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 
             if (CurrentProjectVariables.hasBugFeature()) {
                 myProjectTab.addTab(constructProjectBugComponent(), ProjectTypeConstants.BUG, 5,
-                        AppContext.getMessage(ProjectCommonI18nEnum.VIEW_BUG),
+                        AppContext.getMessage(BugI18nEnum.LIST),
                         GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateProjectLink(prjId));
             } else {
                 myProjectTab.removeTab(ProjectTypeConstants.BUG);
@@ -242,7 +242,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 
             if (CurrentProjectVariables.hasPageFeature()) {
                 myProjectTab.addTab(constructProjectPageComponent(), ProjectTypeConstants.PAGE, 6,
-                        AppContext.getMessage(ProjectCommonI18nEnum.VIEW_PAGE),
+                        AppContext.getMessage(PageI18nEnum.LIST),
                         GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateProjectLink(prjId));
             } else {
                 myProjectTab.removeTab(ProjectTypeConstants.PAGE);
@@ -258,7 +258,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 
             if (CurrentProjectVariables.hasRiskFeature()) {
                 myProjectTab.addTab(constructProjectRiskComponent(), ProjectTypeConstants.RISK, 8,
-                        AppContext.getMessage(ProjectCommonI18nEnum.VIEW_RISK),
+                        AppContext.getMessage(RiskI18nEnum.LIST),
                         GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateRisksLink(prjId));
             } else {
                 myProjectTab.removeTab(ProjectTypeConstants.RISK);

@@ -70,7 +70,7 @@ public class CaseRelatedContactView extends AbstractRelatedListView<SimpleContac
 
         MVerticalLayout addBtns = new MVerticalLayout().withWidth("100%");
 
-        Button newContactBtn = new Button(AppContext.getMessage(ContactI18nEnum.VIEW_NEW_TITLE), new Button.ClickListener() {
+        Button newContactBtn = new Button(AppContext.getMessage(ContactI18nEnum.NEW), new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 fireNewRelatedItem("");

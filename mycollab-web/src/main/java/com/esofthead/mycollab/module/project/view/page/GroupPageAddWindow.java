@@ -23,7 +23,7 @@ import com.esofthead.mycollab.module.page.domain.Folder;
 import com.esofthead.mycollab.module.page.service.PageService;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.events.PageEvent;
-import com.esofthead.mycollab.module.project.i18n.Page18InEnum;
+import com.esofthead.mycollab.module.project.i18n.PageI18nEnum;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
@@ -59,12 +59,12 @@ class GroupPageAddWindow extends Window {
 
         if (editFolder == null) {
             folder = new Folder();
-            this.setCaption(AppContext.getMessage(Page18InEnum.DIALOG_NEW_GROUP_TITLE));
+            this.setCaption(AppContext.getMessage(PageI18nEnum.NEW_GROUP));
             String pagePath = CurrentProjectVariables.getCurrentPagePath();
             folder.setPath(pagePath + "/" + StringUtils.generateSoftUniqueId());
         } else {
             folder = editFolder;
-            this.setCaption(AppContext.getMessage(Page18InEnum.DIALOG_EDIT_GROUP_TITLE));
+            this.setCaption(AppContext.getMessage(PageI18nEnum.DETAIL_GROUP));
         }
 
         editForm.setBean(folder);
@@ -139,7 +139,7 @@ class GroupPageAddWindow extends Window {
             @Override
             public void attachField(Object propertyId, Field<?> field) {
                 if (propertyId.equals("name")) {
-                    informationLayout.addComponent(field, AppContext.getMessage(Page18InEnum.FORM_GROUP), 0, 0);
+                    informationLayout.addComponent(field, AppContext.getMessage(PageI18nEnum.FORM_GROUP), 0, 0);
                 } else if (propertyId.equals("description")) {
                     informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 1, 2, "100%");
                 }

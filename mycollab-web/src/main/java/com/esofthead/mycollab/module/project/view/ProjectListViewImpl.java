@@ -240,6 +240,11 @@ public class ProjectListViewImpl extends AbstractPageView implements ProjectList
     }
 
     @Override
+    public void showNoItemView() {
+
+    }
+
+    @Override
     public void enableActionControls(int numOfSelectedItems) {
         tableActionControls.setVisible(true);
         selectedItemsNumberLabel.setValue(AppContext.getMessage(GenericI18Enum.TABLE_SELECTED_ITEM_TITLE, numOfSelectedItems));

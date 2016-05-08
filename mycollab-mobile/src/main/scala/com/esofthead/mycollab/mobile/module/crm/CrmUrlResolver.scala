@@ -27,7 +27,7 @@ import com.esofthead.mycollab.mobile.module.crm.view.lead.LeadUrlResolver
 import com.esofthead.mycollab.mobile.module.crm.view.opportunity.OpportunityUrlResolver
 import com.esofthead.mycollab.mobile.shell.ModuleHelper
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent
-import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum
+import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum
 import com.esofthead.mycollab.vaadin.AppContext
 import com.esofthead.mycollab.vaadin.mvp.UrlResolver
 
@@ -59,7 +59,7 @@ class CrmUrlResolver extends UrlResolver {
     protected override def handlePage(params: String*) {
         super.handlePage(params:_*)
         EventBusFactory.getInstance().post(new CrmEvent.GotoContainer(this,
-            new CrmModuleScreenData.GotoModule(AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_ACCOUNTS_HEADER))))
+            new CrmModuleScreenData.GotoModule(AppContext.getMessage(AccountI18nEnum.LIST))))
     }
 
     protected def defaultPageErrorHandler() {

@@ -70,7 +70,7 @@ public class AccountDefaultDynaFormLayoutFactory {
                 .customField(false).build());
 
         accountSection.addField(new PickListDynaFieldBuilder<String>().fieldName("type").fieldIndex(8)
-                .displayName(AppContext.getMessage(AccountI18nEnum.FORM_TYPE))
+                .displayName(AppContext.getMessage(GenericI18Enum.FORM_TYPE))
                 .customField(false).build());
 
         accountSection.addField(new TextDynaFieldBuilder().fieldName("ownership").fieldIndex(9)

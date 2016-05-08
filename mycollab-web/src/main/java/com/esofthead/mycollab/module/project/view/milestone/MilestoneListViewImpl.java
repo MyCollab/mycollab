@@ -151,7 +151,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
 
     private void initUI() {
         HeaderWithFontAwesome headerText = ComponentUtils.headerH2(ProjectTypeConstants.MILESTONE, AppContext.getMessage
-                (MilestoneI18nEnum.VIEW_LIST_TITLE));
+                (MilestoneI18nEnum.LIST));
 
         MHorizontalLayout header = new MHorizontalLayout().withStyleName("hdr-view").withWidth("100%").withMargin(true)
                 .with(headerText, createHeaderRight()).withAlign(headerText, Alignment.MIDDLE_LEFT).expand(headerText);
@@ -161,7 +161,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
     private HorizontalLayout createHeaderRight() {
         MHorizontalLayout layout = new MHorizontalLayout();
 
-        Button createBtn = new Button(AppContext.getMessage(MilestoneI18nEnum.BUTTON_NEW_PHASE), new Button.ClickListener() {
+        Button createBtn = new Button(AppContext.getMessage(MilestoneI18nEnum.NEW), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -218,6 +218,12 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
         layout.with(viewButtons);
 
         return layout;
+    }
+
+    @Override
+    public void showNoItemView() {
+        removeAllComponents();
+        this.addComponent(new MilestoneListNoItemView());
     }
 
     private void constructBody() {

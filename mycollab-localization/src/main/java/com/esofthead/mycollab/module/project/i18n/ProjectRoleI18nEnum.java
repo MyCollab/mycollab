@@ -23,11 +23,10 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/project-role")
 @LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
 public enum ProjectRoleI18nEnum {
-    VIEW_LIST_TITLE,
-
-    FORM_READ_TITLE, FORM_NEW_TITLE, FORM_EDIT_TITLE, FORM_NAME,
+    LIST,
+    DETAIL,
+    NEW,
 
     SECTION_PERMISSIONS,
-
     OPT_ADMIN_ROLE_DISPLAY
 }

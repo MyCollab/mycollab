@@ -101,4 +101,10 @@ public class CaseListViewImpl extends AbstractListItemComp<CaseSearchCriteria, S
 
         return container;
     }
+
+    @Override
+    public void showNoItemView() {
+        removeAllComponents();
+        addComponent(new CaseCrmListNoItemView());
+    }
 }

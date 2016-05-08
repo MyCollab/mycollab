@@ -41,7 +41,7 @@ public class AssignmentAddViewImpl extends AbstractEditItemComp<Task> implements
 	@Override
 	protected String initFormTitle() {
 		return beanItem.getSubject() != null ? beanItem.getSubject()
-				: AppContext.getMessage(TaskI18nEnum.VIEW_NEW_TITLE);
+				: AppContext.getMessage(TaskI18nEnum.NEW);
 	}
 
 	@Override

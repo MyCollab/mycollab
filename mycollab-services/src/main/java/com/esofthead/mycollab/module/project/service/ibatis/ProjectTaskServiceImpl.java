@@ -219,8 +219,8 @@ public class ProjectTaskServiceImpl extends DefaultService<Integer, Task, TaskSe
     }
 
     @Override
-    public SimpleTask findByProjectAndTaskKey(Integer taskkey, String projectShortName, Integer sAccountId) {
-        return taskMapperExt.findByProjectAndTaskKey(taskkey, projectShortName, sAccountId);
+    public SimpleTask findByProjectAndTaskKey(Integer taskKey, String projectShortName, Integer sAccountId) {
+        return taskMapperExt.findByProjectAndTaskKey(taskKey, projectShortName, sAccountId);
     }
 
     @SuppressWarnings("unchecked")

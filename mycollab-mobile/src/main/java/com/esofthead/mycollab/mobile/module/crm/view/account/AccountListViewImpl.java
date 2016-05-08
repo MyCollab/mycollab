@@ -39,7 +39,7 @@ public class AccountListViewImpl extends AbstractListViewComp<AccountSearchCrite
 
     public AccountListViewImpl() {
         super();
-        setCaption(AppContext.getMessage(AccountI18nEnum.VIEW_LIST_TITLE));
+        setCaption(AppContext.getMessage(AccountI18nEnum.LIST));
     }
 
     @Override

@@ -40,7 +40,7 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  */
 public class ComponentAddWindow extends Window implements IEditFormHandler<Component> {
     public ComponentAddWindow() {
-        super(AppContext.getMessage(ComponentI18nEnum.FORM_NEW_TITLE));
+        super(AppContext.getMessage(ComponentI18nEnum.NEW));
         this.setWidth("750px");
         this.setResizable(false);
         this.setModal(true);

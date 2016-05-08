@@ -38,7 +38,7 @@ public class CaseListViewImpl extends AbstractListViewComp<CaseSearchCriteria, S
 
     public CaseListViewImpl() {
         super();
-        setCaption(AppContext.getMessage(CaseI18nEnum.VIEW_NEW_TITLE));
+        setCaption(AppContext.getMessage(CaseI18nEnum.NEW));
     }
 
     @Override

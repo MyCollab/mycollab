@@ -186,7 +186,7 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
 
         groupWrapLayout.with(exportButtonGroup);
 
-        Button newTaskBtn = new Button(AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASK), new Button.ClickListener() {
+        Button newTaskBtn = new Button(AppContext.getMessage(TaskI18nEnum.NEW), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -262,6 +262,11 @@ public class TaskDashboardViewImpl extends AbstractPageView implements TaskDashb
         statisticSearchCriteria = BeanUtility.deepClone(baseCriteria);
 
         taskSearchPanel.selectQueryInfo(TaskSavedFilterComboBox.OPEN_TASKS);
+    }
+
+    @Override
+    public void showNoItemView() {
+
     }
 
     private void displayTaskStatistic() {

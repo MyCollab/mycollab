@@ -97,4 +97,10 @@ public class AccountListViewImpl extends AbstractListItemComp<AccountSearchCrite
         importBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_ACCOUNT));
         this.addExtraButton(importBtn);
     }
+
+    @Override
+    public void showNoItemView() {
+        removeAllComponents();
+        addComponent(new AccountCrmListNoItemView());
+    }
 }

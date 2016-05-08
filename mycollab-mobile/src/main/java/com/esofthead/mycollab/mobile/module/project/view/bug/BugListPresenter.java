@@ -44,7 +44,7 @@ public class BugListPresenter extends ProjectListPresenter<BugListView, BugSearc
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.BUGS)) {
             super.onGo(container, data);
             AppContext.addFragment("project/bug/list/" + GenericLinkUtils.encodeParam(CurrentProjectVariables.getProjectId()),
-                    AppContext.getMessage(BugI18nEnum.VIEW_LIST_TITLE));
+                    AppContext.getMessage(BugI18nEnum.LIST));
         } else {
             NotificationUtil.showMessagePermissionAlert();
         }

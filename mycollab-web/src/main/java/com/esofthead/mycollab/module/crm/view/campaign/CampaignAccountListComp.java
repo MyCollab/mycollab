@@ -86,7 +86,7 @@ public class CampaignAccountListComp extends RelatedListComp2<AccountService, Ac
         controlsBtn.setSizeUndefined();
         controlsBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_ACCOUNT));
         controlsBtn.addStyleName(UIConstants.BUTTON_ACTION);
-        controlsBtn.setCaption(AppContext.getMessage(AccountI18nEnum.BUTTON_NEW_ACCOUNT));
+        controlsBtn.setCaption(AppContext.getMessage(AccountI18nEnum.NEW));
         controlsBtn.setIcon(FontAwesome.PLUS);
         controlsBtn.addClickListener(new SplitButton.SplitButtonClickListener() {
                     private static final long serialVersionUID = 1L;
@@ -185,7 +185,6 @@ public class CampaignAccountListComp extends RelatedListComp2<AccountService, Ac
                             + (account.getPhoneoffice() != null ? account
                             .getPhoneoffice() : ""));
             accountInfo.addComponent(accountOfficePhone);
-
             Label accountEmail = new Label("Email: "
                     + (account.getEmail() != null ? "<a href='mailto:"
                     + account.getEmail() + "'>" + account.getEmail()

@@ -32,7 +32,7 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  * @author MyCollab Ltd.
  * @since 5.0.0
  */
-public abstract class ProjectListNoItemView extends VerticalLayout implements PageView {
+public abstract class ProjectListNoItemView extends VerticalLayout {
     public ProjectListNoItemView() {
         MVerticalLayout content = new MVerticalLayout().withWidth("700px");
         ELabel image = new ELabel(viewIcon().getHtml(), ContentMode.HTML).withStyleName(ValoTheme.LABEL_H1).withWidthUndefined();
@@ -67,9 +67,4 @@ public abstract class ProjectListNoItemView extends VerticalLayout implements Pa
     abstract protected Button.ClickListener actionListener();
 
     abstract protected boolean hasPermission();
-
-    @Override
-    public <E> void addViewListener(ViewListener<E> listener) {
-
-    }
 }

@@ -62,11 +62,9 @@ public class PasswordEncryptHelper {
      * @param isPasswordEncrypt flag to denote <code>inputPassword</code> is encrypted or not
      * @return
      */
-    public static boolean checkPassword(String inputPassword,
-                                        String expectedPassword, boolean isPasswordEncrypt) {
+    public static boolean checkPassword(String inputPassword, String expectedPassword, boolean isPasswordEncrypt) {
         if (!isPasswordEncrypt) {
-            return passwordEncryptor.checkPassword(inputPassword,
-                    expectedPassword);
+            return passwordEncryptor.checkPassword(inputPassword, expectedPassword);
         } else {
             return inputPassword.equals(expectedPassword);
         }

@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.project.view.task.components;
 
 import com.esofthead.mycollab.common.domain.OptionVal;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.common.service.OptionValService;
 import com.esofthead.mycollab.core.arguments.SearchField;
@@ -76,7 +77,7 @@ public class TaskSavedFilterComboBox extends SavedFilterComboBox {
                     public Object eval() {
                         return new LocalDate().toDate();
                     }
-                }), new SearchFieldInfo(SearchField.AND, new StringParam("id-status", TaskI18nEnum.FORM_STATUS,
+                }), new SearchFieldInfo(SearchField.AND, new StringParam("id-status", GenericI18Enum.FORM_STATUS,
                 "m_prj_task", "status"), StringParam.IS_NOT, new VariableInjector() {
             @Override
             public Object eval() {

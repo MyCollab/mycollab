@@ -23,18 +23,12 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/project-component")
 @LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
 public enum ComponentI18nEnum {
-    VIEW_LIST_TITLE,
-    VIEW_NO_ITEM_TITLE,
-    VIEW_NO_ITEM_HINT,
-    VIEW_READ_TITLE,
+    LIST,
+    DETAIL,
+    NEW,
 
-    FORM_NEW_TITLE,
-    FORM_EDIT_TITLE,
-    FORM_NAME,
     FORM_LEAD,
-    FORM_STATUS,
     FORM_BUGS,
-
     FORM_COMPONENT_ERROR,
 
     MAIL_CREATE_ITEM_SUBJECT,

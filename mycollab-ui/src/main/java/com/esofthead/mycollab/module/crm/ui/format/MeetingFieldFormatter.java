@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.crm.ui.format;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.crm.i18n.MeetingI18nEnum;
 import com.esofthead.mycollab.utils.FieldGroupFormatter;
 
@@ -28,7 +29,7 @@ public class MeetingFieldFormatter extends FieldGroupFormatter {
 
     private MeetingFieldFormatter() {
         generateFieldDisplayHandler("subject", MeetingI18nEnum.FORM_SUBJECT);
-        generateFieldDisplayHandler("status", MeetingI18nEnum.FORM_STATUS);
+        generateFieldDisplayHandler("status", GenericI18Enum.FORM_STATUS);
         generateFieldDisplayHandler("startdate", MeetingI18nEnum.FORM_START_DATE_TIME, DATETIME_FIELD);
         generateFieldDisplayHandler("enddate", MeetingI18nEnum.FORM_END_DATE_TIME, DATETIME_FIELD);
         generateFieldDisplayHandler("location", MeetingI18nEnum.FORM_LOCATION);

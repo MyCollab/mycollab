@@ -39,7 +39,7 @@ public class AccountAddViewImpl extends AbstractEditItemComp<SimpleAccount> impl
 
     @Override
     protected String initFormTitle() {
-        return (beanItem.getId() == null) ? AppContext.getMessage(AccountI18nEnum.VIEW_NEW_TITLE) :
+        return (beanItem.getId() == null) ? AppContext.getMessage(AccountI18nEnum.NEW) :
                 beanItem.getAccountname();
     }
 

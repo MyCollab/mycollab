@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.core.MyCollabException;
@@ -144,7 +143,7 @@ public class ComponentReadPresenter extends AbstractPresenter<ComponentReadView>
                     NotificationUtil.showRecordNotExistNotification();
                 }
             } else {
-                throw new MyCollabException("Unhanddle this case yet");
+                throw new MyCollabException("Unhandle this case yet");
             }
         } else {
             NotificationUtil.showMessagePermissionAlert();

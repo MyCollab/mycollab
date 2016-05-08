@@ -29,9 +29,9 @@ public final class AssignmentFieldFormatter extends FieldGroupFormatter {
 
     private AssignmentFieldFormatter() {
         generateFieldDisplayHandler("subject", TaskI18nEnum.FORM_SUBJECT);
-        generateFieldDisplayHandler("startdate", TaskI18nEnum.FORM_START_DATE);
-        generateFieldDisplayHandler("duedate", TaskI18nEnum.FORM_DUE_DATE);
-        generateFieldDisplayHandler("status", TaskI18nEnum.FORM_STATUS);
+        generateFieldDisplayHandler("startdate", GenericI18Enum.FORM_START_DATE);
+        generateFieldDisplayHandler("duedate", GenericI18Enum.FORM_DUE_DATE);
+        generateFieldDisplayHandler("status", GenericI18Enum.FORM_STATUS);
         generateFieldDisplayHandler("assignuser", GenericI18Enum.FORM_ASSIGNEE);
         generateFieldDisplayHandler("priority", TaskI18nEnum.FORM_PRIORITY);
         generateFieldDisplayHandler("description", GenericI18Enum.FORM_DESCRIPTION);

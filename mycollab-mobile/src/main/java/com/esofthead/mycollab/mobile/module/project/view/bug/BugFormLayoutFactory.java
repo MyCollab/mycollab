@@ -59,7 +59,7 @@ public class BugFormLayoutFactory implements IFormLayoutFactory {
         } else if (propertyId.equals("environment")) {
             informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_ENVIRONMENT), 0, 2);
         } else if (propertyId.equals("status")) {
-            informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_STATUS), 0, 3);
+            informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_STATUS), 0, 3);
         } else if (propertyId.equals("priority")) {
             informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_PRIORITY), 0, 4);
         } else if (propertyId.equals("severity")) {
@@ -67,13 +67,13 @@ public class BugFormLayoutFactory implements IFormLayoutFactory {
         } else if (propertyId.equals("resolution")) {
             informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_RESOLUTION), 0, 6);
         } else if (propertyId.equals("startdate")) {
-            informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_START_DATE), 0, 7);
+            informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_START_DATE), 0, 7);
         } else if (propertyId.equals("enddate")) {
-            informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_END_DATE), 0, 8);
+            informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_END_DATE), 0, 8);
         } else if (propertyId.equals("duedate")) {
-            informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_DUE_DATE), 0, 9);
+            informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DUE_DATE), 0, 9);
         } else if (propertyId.equals("createdtime")) {
-            informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_CREATED_TIME), 0, 10);
+            informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_CREATED_TIME), 0, 10);
         } else if (propertyId.equals("loguserFullName")) {
             informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_LOG_BY), 0, 11);
         } else if (propertyId.equals("assignuserFullName")) {

@@ -181,12 +181,12 @@ public class BugAddWindow extends Window {
                     informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_COMPONENTS),
                             AppContext.getMessage(BugI18nEnum.FORM_COMPONENTS_HELP), 1, 2);
                 } else if (BugWithBLOBs.Field.startdate.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_START_DATE), 0, 3);
+                    informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_START_DATE), 0, 3);
                 } else if (SimpleBug.Field.affectedVersions.equalTo(propertyId)) {
                     informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_AFFECTED_VERSIONS),
                             AppContext.getMessage(BugI18nEnum.FORM_AFFECTED_VERSIONS_HELP), 1, 3);
                 } else if (BugWithBLOBs.Field.duedate.equalTo(propertyId)) {
-                    informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_DUE_DATE), 0, 4);
+                    informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DUE_DATE), 0, 4);
                 } else if (BugWithBLOBs.Field.milestoneid.equalTo(propertyId)) {
                     informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_PHASE), 1, 4);
                 } else if (BugWithBLOBs.Field.summary.equalTo(propertyId)) {

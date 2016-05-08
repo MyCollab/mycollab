@@ -158,7 +158,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
             footer.addComponents(accountBtn);
         }
 
-        Button tagBtn = new Button("Tag", new Button.ClickListener() {
+        Button tagBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_TAG), new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 EventBusFactory.getInstance().post(new ProjectEvent.GotoTagListView(this, null));
@@ -170,7 +170,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
         tagBtn.setIcon(FontAwesome.TAGS);
         footer.addComponents(tagBtn);
 
-        Button favoriteBtn = new Button("Favorite", new Button.ClickListener() {
+        Button favoriteBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_FAVORITES), new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 EventBusFactory.getInstance().post(new ProjectEvent.GotoFavoriteView(this, null));
@@ -183,7 +183,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
         favoriteBtn.setDescription("Your favorite list");
         footer.addComponents(favoriteBtn);
 
-        Button eventBtn = new Button("Calendar", new Button.ClickListener() {
+        Button eventBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_CALENDAR), new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 EventBusFactory.getInstance().post(new ProjectEvent.GotoCalendarView(this));
@@ -195,7 +195,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
         eventBtn.setDescription("Calendar");
         footer.addComponents(eventBtn);
 
-        Button ganttChartBtn = new Button("Gantt", new Button.ClickListener() {
+        Button ganttChartBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_GANTT_CHART), new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 EventBusFactory.getInstance().post(new ProjectEvent.GotoGanttChart(this, null));
@@ -248,7 +248,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
 
             OptionPopupContent popupButtonsControl = new OptionPopupContent();
 
-            Button createPhaseBtn = new Button(AppContext.getMessage(MilestoneI18nEnum.BUTTON_NEW_PHASE), new Button.ClickListener() {
+            Button createPhaseBtn = new Button(AppContext.getMessage(MilestoneI18nEnum.NEW), new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent event) {
                     controlsBtn.setPopupVisible(false);
@@ -259,7 +259,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
             createPhaseBtn.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE));
             popupButtonsControl.addOption(createPhaseBtn);
 
-            Button createTaskBtn = new Button(AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASK), new Button.ClickListener() {
+            Button createTaskBtn = new Button(AppContext.getMessage(TaskI18nEnum.NEW), new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent event) {
                     controlsBtn.setPopupVisible(false);
@@ -270,7 +270,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
             createTaskBtn.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK));
             popupButtonsControl.addOption(createTaskBtn);
 
-            Button createBugBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_NEW_BUG), new Button.ClickListener() {
+            Button createBugBtn = new Button(AppContext.getMessage(BugI18nEnum.NEW), new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent event) {
                     controlsBtn.setPopupVisible(false);
@@ -281,7 +281,8 @@ public class ProjectInfoComponent extends MHorizontalLayout {
             createBugBtn.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG));
             popupButtonsControl.addOption(createBugBtn);
 
-            Button createComponentBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_NEW_COMPONENT), new Button.ClickListener() {
+            Button createComponentBtn = new Button(AppContext.getMessage(ComponentI18nEnum.NEW), new Button
+                    .ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent event) {
                     controlsBtn.setPopupVisible(false);
@@ -292,7 +293,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
             createComponentBtn.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG_COMPONENT));
             popupButtonsControl.addOption(createComponentBtn);
 
-            Button createVersionBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_NEW_VERSION), new Button.ClickListener() {
+            Button createVersionBtn = new Button(AppContext.getMessage(VersionI18nEnum.NEW), new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent event) {
                     controlsBtn.setPopupVisible(false);
@@ -303,7 +304,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
             createVersionBtn.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG_VERSION));
             popupButtonsControl.addOption(createVersionBtn);
 
-            Button createRiskBtn = new Button(AppContext.getMessage(RiskI18nEnum.BUTTON_NEW_RISK), new Button.ClickListener() {
+            Button createRiskBtn = new Button(AppContext.getMessage(RiskI18nEnum.NEW), new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent event) {
                     controlsBtn.setPopupVisible(false);
@@ -363,7 +364,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
             markProjectTemplateBtn.setEnabled(AppContext.canAccess(RolePermissionCollections.CREATE_NEW_PROJECT));
             popupButtonsControl.addOption(markProjectTemplateBtn);
 
-            Button editProjectBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.BUTTON_EDIT_PROJECT), new Button.ClickListener() {
+            Button editProjectBtn = new Button(AppContext.getMessage(ProjectI18nEnum.EDIT), new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent event) {
                     controlsBtn.setPopupVisible(false);

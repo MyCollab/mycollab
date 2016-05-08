@@ -71,7 +71,7 @@ public class ProjectAddWindow extends Window implements WizardProgressListener {
     }
 
     public ProjectAddWindow(Project valuePrj) {
-        setCaption(AppContext.getMessage(ProjectI18nEnum.VIEW_NEW_TITLE));
+        setCaption(AppContext.getMessage(ProjectI18nEnum.NEW));
         this.setWidth("900px");
         this.center();
         this.setResizable(false);
@@ -208,7 +208,7 @@ public class ProjectAddWindow extends Window implements WizardProgressListener {
             DynaSection mainSection = new DynaSectionBuilder().layoutType(DynaSection.LayoutType.TWO_COLUMN).build();
 
             mainSection.addField(new TextDynaFieldBuilder().fieldName(Project.Field.name).displayName(AppContext
-                    .getMessage(ProjectI18nEnum.FORM_NAME)).fieldIndex(0).mandatory(true).required(true).build());
+                    .getMessage(GenericI18Enum.FORM_NAME)).fieldIndex(0).mandatory(true).required(true).build());
 
             mainSection.addField(new TextDynaFieldBuilder().fieldName(Project.Field.homepage).displayName(AppContext
                     .getMessage(ProjectI18nEnum.FORM_HOME_PAGE)).fieldIndex(1).build());
@@ -218,13 +218,13 @@ public class ProjectAddWindow extends Window implements WizardProgressListener {
                     .FORM_SHORT_NAME_HELP)).fieldIndex(2).mandatory(true).required(true).build());
 
             mainSection.addField(new TextDynaFieldBuilder().fieldName(Project.Field.planstartdate).displayName
-                    (AppContext.getMessage(ProjectI18nEnum.FORM_START_DATE)).fieldIndex(3).build());
+                    (AppContext.getMessage(GenericI18Enum.FORM_START_DATE)).fieldIndex(3).build());
 
             mainSection.addField(new TextDynaFieldBuilder().fieldName(Project.Field.projectstatus).displayName
-                    (AppContext.getMessage(ProjectI18nEnum.FORM_STATUS)).fieldIndex(4).build());
+                    (AppContext.getMessage(GenericI18Enum.FORM_STATUS)).fieldIndex(4).build());
 
             mainSection.addField(new TextDynaFieldBuilder().fieldName(Project.Field.planenddate).displayName
-                    (AppContext.getMessage(ProjectI18nEnum.FORM_END_DATE)).fieldIndex(5).build());
+                    (AppContext.getMessage(GenericI18Enum.FORM_END_DATE)).fieldIndex(5).build());
 
             mainSection.addField(new TextDynaFieldBuilder().fieldName(Project.Field.lead).displayName
                     (AppContext.getMessage(ProjectI18nEnum.FORM_LEADER)).fieldIndex(6).build());
@@ -323,7 +323,7 @@ public class ProjectAddWindow extends Window implements WizardProgressListener {
                     .fieldIndex(0).colSpan(true).build());
 
             mainSection.addField(new TextDynaFieldBuilder().fieldName(Project.Field.currencyid)
-                    .displayName(AppContext.getMessage(ProjectI18nEnum.FORM_CURRENCY))
+                    .displayName(AppContext.getMessage(GenericI18Enum.FORM_CURRENCY))
                     .contextHelp(AppContext.getMessage(ProjectI18nEnum.FORM_CURRENCY_HELP)).fieldIndex(1).build());
 
             mainSection.addField(new TextDynaFieldBuilder().fieldName(Project.Field.targetbudget).displayName

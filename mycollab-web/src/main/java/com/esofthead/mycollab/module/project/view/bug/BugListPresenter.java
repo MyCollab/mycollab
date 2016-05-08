@@ -41,7 +41,7 @@ public class BugListPresenter extends ProjectGenericListPresenter<BugListView, B
     private BugService bugService;
 
     public BugListPresenter() {
-        super(BugListView.class, BugListNoItemView.class);
+        super(BugListView.class);
         bugService = ApplicationContextUtil.getSpringBean(BugService.class);
     }
 
@@ -61,8 +61,6 @@ public class BugListPresenter extends ProjectGenericListPresenter<BugListView, B
             BugContainer trackerContainer = (BugContainer) container;
             trackerContainer.removeAllComponents();
             trackerContainer.addComponent(view);
-
-            this.displayListView(container, data);
             view.displayView();
 
             ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);

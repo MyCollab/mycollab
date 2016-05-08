@@ -54,7 +54,7 @@ public class VersionListPresenter extends ProjectGenericListPresenter<VersionLis
     private final VersionService versionService;
 
     public VersionListPresenter() {
-        super(VersionListView.class, VersionListNoItemView.class);
+        super(VersionListView.class);
         versionService = ApplicationContextUtil.getSpringBean(VersionService.class);
     }
 
@@ -72,7 +72,7 @@ public class VersionListPresenter extends ProjectGenericListPresenter<VersionLis
 
             @Override
             protected String getReportTitle() {
-                return AppContext.getMessage(VersionI18nEnum.VIEW_LIST_TITLE);
+                return AppContext.getMessage(VersionI18nEnum.LIST);
             }
 
             @Override
@@ -93,10 +93,9 @@ public class VersionListPresenter extends ProjectGenericListPresenter<VersionLis
             int totalCount = versionService.getTotalCount(searchCriteria);
 
             if (totalCount > 0) {
-                displayListView(container, data);
                 doSearch(searchCriteria);
             } else {
-                displayNoExistItems(container, data);
+                view.showNoItemView();
             }
 
             ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
@@ -127,10 +126,9 @@ public class VersionListPresenter extends ProjectGenericListPresenter<VersionLis
         int totalCount = versionService.getTotalCount(searchCriteria);
 
         if (totalCount > 0) {
-            displayListView((ComponentContainer) view.getParent(), null);
             doSearch(searchCriteria);
         } else {
-            displayNoExistItems((ComponentContainer) view.getParent(), null);
+            view.showNoItemView();
         }
 
     }

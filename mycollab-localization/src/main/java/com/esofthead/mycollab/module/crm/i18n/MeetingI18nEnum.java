@@ -23,12 +23,10 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/crm-meeting")
 @LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
 public enum MeetingI18nEnum {
-    VIEW_NEW_TITLE,
-    BUTTON_NEW_MEETING,
+    NEW,
 
     FORM_SUBJECT,
     FORM_START_DATE_TIME,
-    FORM_STATUS,
     FORM_END_DATE_TIME,
     FORM_LOCATION,
 

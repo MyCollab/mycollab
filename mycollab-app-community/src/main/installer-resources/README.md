@@ -46,6 +46,15 @@ Version 5.3.1
 
 **Improvements & New Features**
 
+* [Premium] Associate client information to invoice
+* [Premium] Member weekly hours report
+* [Premium] Revise client views
+* [Premium] Manage assignments per client
+* [Premium] Manage invoices per client
+* Add the new task navigation buttons
+* Add the new issue navigation buttons
+* Other minor improvements
+
 **Bug Fixes**
 
 Version 5.3.0
@@ -65,8 +74,6 @@ Version 5.3.0
 * [Premium] Print invoice page
 * [Premium] Allow attachment in the invoice form
 * [Premium] Allow attachment in the risk form
-* [Premium] Associate client information to invoice
-* [Premium] Member weekly hours report
 * Allow site owner create the admin user instead of system default user
 * Create sample project for the new MyCollab installation
 * Add the context help for project forms

@@ -39,7 +39,7 @@ public class OpportunityDefaultDynaFormLayoutFactory {
                 .build();
 
         infoSection.addField(new TextDynaFieldBuilder().fieldName("opportunityname")
-                .displayName(AppContext.getMessage(OpportunityI18nEnum.FORM_NAME))
+                .displayName(AppContext.getMessage(GenericI18Enum.FORM_NAME))
                 .mandatory(true).fieldIndex(0).build());
 
         infoSection.addField(new TextDynaFieldBuilder().fieldName("accountid")
@@ -47,7 +47,7 @@ public class OpportunityDefaultDynaFormLayoutFactory {
                 .fieldIndex(1).build());
 
         infoSection.addField(new CurrencyDynaFieldBuilder().fieldName("currencyid")
-                .displayName(AppContext.getMessage(OpportunityI18nEnum.FORM_CURRENCY))
+                .displayName(AppContext.getMessage(GenericI18Enum.FORM_CURRENCY))
                 .fieldIndex(2).build());
 
         infoSection.addField(new DateDynaFieldBuilder().fieldName("expectedcloseddate")
@@ -59,7 +59,7 @@ public class OpportunityDefaultDynaFormLayoutFactory {
                 .fieldIndex(4).build());
 
         infoSection.addField(new TextDynaFieldBuilder().fieldName("opportunitytype")
-                .displayName(AppContext.getMessage(OpportunityI18nEnum.FORM_TYPE))
+                .displayName(AppContext.getMessage(GenericI18Enum.FORM_TYPE))
                 .fieldIndex(5).build());
 
         infoSection.addField(new TextDynaFieldBuilder().fieldName("salesstage")

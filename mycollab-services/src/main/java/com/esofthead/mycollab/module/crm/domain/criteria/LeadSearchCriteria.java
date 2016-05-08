@@ -42,7 +42,7 @@ public class LeadSearchCriteria extends SearchCriteria {
 	private static final long serialVersionUID = 1L;
 
 	public static final Param p_leadContactName = new ConcatStringParam(
-			"lead-contactname", LeadI18nEnum.FORM_NAME, "m_crm_lead",
+			"lead-contactname", GenericI18Enum.FORM_NAME, "m_crm_lead",
 			new String[] { "firstname", "lastname" });
 
 	public static final Param p_accountName = new StringParam("lead-accountname",
@@ -51,10 +51,8 @@ public class LeadSearchCriteria extends SearchCriteria {
 	public static final Param p_website = new StringParam("lead-accountname",
 			LeadI18nEnum.FORM_WEBSITE, "m_crm_lead", "website");
 
-	public static final Param p_anyEmail = new CompositionStringParam(
-			"lead-anyEmail",
-			LeadI18nEnum.FORM_ANY_EMAIL,
-			new StringParam("", null, "m_crm_lead", "email"));
+	public static final Param p_anyEmail = new CompositionStringParam("lead-anyEmail",
+			LeadI18nEnum.FORM_ANY_EMAIL, new StringParam("", null, "m_crm_lead", "email"));
 
 	public static final Param p_anyPhone = new CompositionStringParam(
 			"lead-anyPhone", LeadI18nEnum.FORM_ANY_PHONE, new StringParam("", null, "m_crm_lead", "officePhone"),
@@ -78,7 +76,7 @@ public class LeadSearchCriteria extends SearchCriteria {
 					.getCountryList()));
 
 	public static final Param p_statuses = new StringListParam("lead-status",
-			LeadI18nEnum.FORM_STATUS, "m_crm_lead", "status",
+			GenericI18Enum.FORM_STATUS, "m_crm_lead", "status",
 			Arrays.asList(CrmDataTypeFactory.getLeadStatusList()));
 
 	public static final Param p_sources = new StringListParam("lead-source",

@@ -96,7 +96,7 @@ class ComponentRelayEmailNotificationActionImpl extends SendMailToAllMembersActi
 
     class ComponentFieldNameMapper extends ItemFieldMapper {
         put(Component.Field.description, GenericI18Enum.FORM_DESCRIPTION, isColSpan = true)
-        put(Component.Field.status, new I18nFieldFormat(Component.Field.status.name, ComponentI18nEnum.FORM_STATUS,
+        put(Component.Field.status, new I18nFieldFormat(Component.Field.status.name, GenericI18Enum.FORM_STATUS,
             classOf[OptionI18nEnum.StatusI18nEnum]))
         put(Component.Field.userlead, new LeadFieldFormat(Component.Field.userlead.name, ComponentI18nEnum.FORM_LEAD))
     }

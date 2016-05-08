@@ -21,20 +21,16 @@ import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
 @BaseName("localization/account-role")
-@LocaleData(value = { @Locale("en-US"), @Locale("ja-JP") }, defaultCharset = "UTF-8")
+@LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
 public enum RoleI18nEnum {
-	VIEW_LIST_TITLE,
-	VIEW_NEW_TITLE,
-	VIEW_EDIT_TITLE,
+    LIST,
+    NEW,
+    DETAIL,
 
-	BUTTON_NEW_ROLE,
-
-	SECTION_INFORMATION,
-	FORM_PERMISSION_HEADER,
-	SECTION_PROJECT_MANAGEMENT_TITLE,
-	SECTION_CRM_TITLE,
-	SECTION_DOCUMENT_TITLE,
-	SECTION_ACCOUNT_MANAGEMENT_TITLE,
-
-	FORM_NAME
+    SECTION_INFORMATION,
+    FORM_PERMISSION_HEADER,
+    SECTION_PROJECT_MANAGEMENT_TITLE,
+    SECTION_CRM_TITLE,
+    SECTION_DOCUMENT_TITLE,
+    SECTION_ACCOUNT_MANAGEMENT_TITLE
 }

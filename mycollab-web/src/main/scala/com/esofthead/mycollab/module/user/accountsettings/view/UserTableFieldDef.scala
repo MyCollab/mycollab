@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.user.accountsettings.view
 
 import com.esofthead.mycollab.common.TableViewField
+import com.esofthead.mycollab.common.i18n.GenericI18Enum
 import com.esofthead.mycollab.module.user.accountsettings.localization.{RoleI18nEnum, UserI18nEnum}
 import com.esofthead.mycollab.module.user.domain.{SimpleUser, User}
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants
@@ -26,7 +27,7 @@ import com.esofthead.mycollab.vaadin.web.ui.UIConstants
   * @since 5.2.12
   */
 object UserTableFieldDef {
-  val username = new TableViewField(UserI18nEnum.FORM_NAME, User.Field.username.name(), UIConstants.TABLE_EX_LABEL_WIDTH)
+  val username = new TableViewField(GenericI18Enum.FORM_NAME, User.Field.username.name(), UIConstants.TABLE_EX_LABEL_WIDTH)
   val rolename = new TableViewField(UserI18nEnum.FORM_ROLE, SimpleUser.Field.roleid.name(), UIConstants.TABLE_EX_LABEL_WIDTH)
   val email = new TableViewField(UserI18nEnum.FORM_EMAIL, User.Field.email.name(), UIConstants.TABLE_X_LABEL_WIDTH)
   val birthday = new TableViewField(UserI18nEnum.FORM_BIRTHDAY, User.Field.dateofbirth.name(), UIConstants.TABLE_DATE_WIDTH)

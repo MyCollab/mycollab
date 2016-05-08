@@ -23,28 +23,17 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/project-risk")
 @LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
 public enum RiskI18nEnum {
-    VIEW_LIST_TITLE,
-    VIEW_NO_ITEM_TITLE,
-    VIEW_NO_ITEM_HINT,
-    VIEW_NEW_TITLE,
-    VIEW_EDIT_TITLE,
+    LIST,
+    NEW,
+    DETAIL,
 
-    BUTTON_NEW_RISK,
-
-    FORM_READ_TITLE,
-    FORM_NAME,
-    FORM_DESCRIPTION,
     FORM_RAISED_BY,
     FORM_RELATED,
     FORM_PHASE,
-    FORM_DATE_DUE,
-    FORM_STATUS,
     FORM_RESPONSE,
     FORM_CONSEQUENCE,
     FORM_PROBABILITY,
     FORM_RATING,
-    FORM_START_DATE,
-    FORM_END_DATE,
 
     MAIL_CREATE_ITEM_SUBJECT,
     MAIL_UPDATE_ITEM_SUBJECT,

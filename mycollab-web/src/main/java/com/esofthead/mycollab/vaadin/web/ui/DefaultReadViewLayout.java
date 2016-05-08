@@ -50,7 +50,6 @@ public class DefaultReadViewLayout extends ReadViewLayout {
         titleLbl.removeStyleName(styleName);
     }
 
-    @Override
     public void setTitle(final String title) {
         titleLbl.setValue(title);
     }

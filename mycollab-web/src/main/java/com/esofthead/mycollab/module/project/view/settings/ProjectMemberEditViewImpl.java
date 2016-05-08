@@ -31,6 +31,7 @@ import com.esofthead.mycollab.module.project.service.ProjectRoleService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectRoleComboBox;
+import com.esofthead.mycollab.security.PermissionFlag;
 import com.esofthead.mycollab.security.PermissionMap;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -57,8 +58,8 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
 
     @Override
     protected String initFormHeader() {
-        return (beanItem.getId() == null) ? AppContext.getMessage(ProjectMemberI18nEnum.FORM_NEW_TITLE) :
-                AppContext.getMessage(ProjectMemberI18nEnum.FORM_EDIT_TITLE);
+        return (beanItem.getId() == null) ? AppContext.getMessage(ProjectMemberI18nEnum.NEW) :
+                AppContext.getMessage(ProjectMemberI18nEnum.DETAIL);
     }
 
     @Override
@@ -129,7 +130,8 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
             layout.addComponent(formLayoutFactory.getLayout());
 
             FormContainer permissionsPanel = new FormContainer();
-            projectFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, (ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length + 1) / 2);
+            projectFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, (ProjectRolePermissionCollections
+                    .PROJECT_PERMISSIONS.length + 1) / 2, "180px");
             permissionsPanel.addSection(AppContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS),
                     projectFormHelper.getLayout());
             layout.addComponent(permissionsPanel);
@@ -157,9 +159,12 @@ public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjec
                 final PermissionMap permissionMap = role.getPermissionMap();
                 for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
                     final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
+                    Enum permissionKey = RolePermissionI18nEnum.valueOf(permissionPath);
+                    Integer perVal = permissionMap.get(permissionKey.name());
+                    SecurityI18nEnum permissionVal = PermissionFlag.toVal(perVal);
                     projectFormHelper.addComponent(new Label(AppContext.getPermissionCaptionValue(
-                            permissionMap, permissionPath)), AppContext.getMessage(RolePermissionI18nEnum
-                            .valueOf(permissionPath)), i % 2, i / 2);
+                            permissionMap, permissionPath)), AppContext.getMessage(permissionKey),
+                            AppContext.getMessage(permissionVal.desc()),i % 2, i / 2);
                 }
             }
         } else {

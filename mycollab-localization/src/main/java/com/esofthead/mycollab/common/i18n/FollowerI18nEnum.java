@@ -21,11 +21,12 @@ import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
 @BaseName("localization/common-follower")
-@LocaleData(value = { @Locale("en-US"), @Locale("ja-JP") }, defaultCharset = "UTF-8")
+@LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
 public enum FollowerI18nEnum {
-	FORM_PROJECT_NAME,
-	FORM_SUMMARY,
+    FORM_PROJECT_NAME,
+    FORM_SUMMARY,
 
-	OPT_FOLLOWER_CREATE_DATE,
-	OPT_SUB_INFO_WATCHERS,
+	FOLLOWER_EXPLAIN_HELP,
+    OPT_FOLLOWER_CREATE_DATE,
+    OPT_SUB_INFO_WATCHERS,
 }

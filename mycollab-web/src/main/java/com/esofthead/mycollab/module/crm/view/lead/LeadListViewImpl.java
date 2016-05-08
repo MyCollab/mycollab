@@ -98,4 +98,10 @@ public class LeadListViewImpl extends AbstractListItemComp<LeadSearchCriteria, S
 
         return container;
     }
+
+    @Override
+    public void showNoItemView() {
+        removeAllComponents();
+        addComponent(new LeadCrmListNoItemView());
+    }
 }

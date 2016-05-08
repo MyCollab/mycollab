@@ -30,15 +30,15 @@ object MilestoneTableFieldDef {
   val id = new TableViewField(GenericI18Enum.FORM_PROGRESS, Milestone.Field.id.name(), UIConstants
     .TABLE_M_LABEL_WIDTH)
 
-  val milestonename = new TableViewField(MilestoneI18nEnum.FORM_NAME_FIELD, Milestone.Field.name.name(), UIConstants.TABLE_X_LABEL_WIDTH)
+  val milestonename = new TableViewField(GenericI18Enum.FORM_NAME, Milestone.Field.name.name(), UIConstants.TABLE_X_LABEL_WIDTH)
 
-  val status = new TableViewField(MilestoneI18nEnum.FORM_STATUS_FIELD, Milestone.Field.status.name(), UIConstants
+  val status = new TableViewField(GenericI18Enum.FORM_STATUS, Milestone.Field.status.name(), UIConstants
     .TABLE_S_LABEL_WIDTH)
 
-  val startdate = new TableViewField(MilestoneI18nEnum.FORM_START_DATE_FIELD, Milestone.Field.startdate.name(), UIConstants
+  val startdate = new TableViewField(GenericI18Enum.FORM_START_DATE, Milestone.Field.startdate.name(), UIConstants
     .TABLE_DATE_WIDTH)
 
-  val enddate = new TableViewField(MilestoneI18nEnum.FORM_END_DATE_FIELD, Milestone.Field.enddate.name(), UIConstants
+  val enddate = new TableViewField(GenericI18Enum.FORM_END_DATE, Milestone.Field.enddate.name(), UIConstants
     .TABLE_DATE_WIDTH)
 
   val assignee = new TableViewField(GenericI18Enum.FORM_ASSIGNEE, SimpleMilestone.Field.ownerFullName.name(), UIConstants

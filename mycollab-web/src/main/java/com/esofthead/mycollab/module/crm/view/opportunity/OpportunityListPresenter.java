@@ -77,7 +77,7 @@ public class OpportunityListPresenter extends CrmGenericListPresenter<Opportunit
 
             @Override
             protected String getReportTitle() {
-                return AppContext.getMessage(OpportunityI18nEnum.VIEW_LIST_TITLE);
+                return AppContext.getMessage(OpportunityI18nEnum.LIST);
             }
 
             @Override
@@ -100,7 +100,7 @@ public class OpportunityListPresenter extends CrmGenericListPresenter<Opportunit
                 this.displayNoExistItems(container, data);
             }
 
-            AppContext.addFragment("crm/opportunity/list", AppContext.getMessage(OpportunityI18nEnum.VIEW_LIST_TITLE));
+            AppContext.addFragment("crm/opportunity/list", AppContext.getMessage(OpportunityI18nEnum.LIST));
         } else {
             throw new SecureAccessException();
         }

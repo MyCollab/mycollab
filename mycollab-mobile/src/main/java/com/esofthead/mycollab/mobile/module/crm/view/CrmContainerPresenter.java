@@ -20,7 +20,7 @@ import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.mobile.MobileApplication;
 import com.esofthead.mycollab.mobile.module.crm.CrmModuleScreenData;
 import com.esofthead.mycollab.mobile.shell.ModuleHelper;
-import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
+import com.esofthead.mycollab.module.crm.i18n.*;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.vaadin.ui.ComponentContainer;
@@ -59,17 +59,17 @@ public class CrmContainerPresenter extends AbstractCrmPresenter<CrmContainerView
         }
 
         String submodule = ((CrmModuleScreenData.GotoModule) data).getParams();
-        if (AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_ACCOUNTS_HEADER).equals(submodule)) {
+        if (AppContext.getMessage(AccountI18nEnum.LIST).equals(submodule)) {
             view.goToAccounts();
-        } else if (AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_CONTACTS_HEADER).equals(submodule)) {
+        } else if (AppContext.getMessage(ContactI18nEnum.LIST).equals(submodule)) {
             view.goToContacts();
-        } else if (AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_CASES_HEADER).equals(submodule)) {
+        } else if (AppContext.getMessage(CaseI18nEnum.LIST).equals(submodule)) {
             view.goToCases();
-        } else if (AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_CAMPAIGNS_HEADER).equals(submodule)) {
+        } else if (AppContext.getMessage(CampaignI18nEnum.LIST).equals(submodule)) {
             view.goToCampaigns();
-        } else if (AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_LEADS_HEADER).equals(submodule)) {
+        } else if (AppContext.getMessage(LeadI18nEnum.LIST).equals(submodule)) {
             view.goToLeads();
-        } else if (AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_OPPORTUNTIES_HEADER).equals(submodule)) {
+        } else if (AppContext.getMessage(OpportunityI18nEnum.LIST).equals(submodule)) {
             view.goToOpportunities();
         } else if (AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER).equals(submodule)) {
             view.goToActivities();

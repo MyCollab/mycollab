@@ -64,7 +64,6 @@ public abstract class DefaultMassEditActionHandler implements MassItemActionHand
 
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public StreamResource buildStreamResource(ReportExportType exportType) {
         IPagedBeanTable pagedBeanTable = ((IListView) presenter.getView()).getPagedBeanTable();

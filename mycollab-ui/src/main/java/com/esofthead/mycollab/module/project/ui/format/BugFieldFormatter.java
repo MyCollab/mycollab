@@ -32,7 +32,7 @@ public final class BugFieldFormatter extends FieldGroupFormatter {
         generateFieldDisplayHandler("description", GenericI18Enum.FORM_DESCRIPTION, TRIM_HTMLS);
         generateFieldDisplayHandler("environment", BugI18nEnum.FORM_ENVIRONMENT, TRIM_HTMLS);
         generateFieldDisplayHandler("summary", BugI18nEnum.FORM_SUMMARY);
-        generateFieldDisplayHandler("status", BugI18nEnum.FORM_STATUS,
+        generateFieldDisplayHandler("status", GenericI18Enum.FORM_STATUS,
                 new I18nHistoryFieldFormat(OptionI18nEnum.BugStatus.class));
         generateFieldDisplayHandler("priority", BugI18nEnum.FORM_PRIORITY,
                 new I18nHistoryFieldFormat(OptionI18nEnum.BugPriority.class));
@@ -42,10 +42,10 @@ public final class BugFieldFormatter extends FieldGroupFormatter {
                 new I18nHistoryFieldFormat(OptionI18nEnum.BugResolution.class));
         generateFieldDisplayHandler("estimateremaintime", BugI18nEnum.FORM_REMAIN_ESTIMATE);
         generateFieldDisplayHandler("estimatetime", BugI18nEnum.FORM_ORIGINAL_ESTIMATE);
-        generateFieldDisplayHandler("startdate", BugI18nEnum.FORM_START_DATE, DATE_FIELD);
-        generateFieldDisplayHandler("enddate", BugI18nEnum.FORM_END_DATE, DATE_FIELD);
-        generateFieldDisplayHandler("duedate", BugI18nEnum.FORM_DUE_DATE, DATE_FIELD);
-        generateFieldDisplayHandler("createdTime", BugI18nEnum.FORM_CREATED_TIME, PRETTY_DATE_TIME_FIELD);
+        generateFieldDisplayHandler("startdate", GenericI18Enum.FORM_START_DATE, DATE_FIELD);
+        generateFieldDisplayHandler("enddate", GenericI18Enum.FORM_END_DATE, DATE_FIELD);
+        generateFieldDisplayHandler("duedate", GenericI18Enum.FORM_DUE_DATE, DATE_FIELD);
+        generateFieldDisplayHandler("createdTime", GenericI18Enum.FORM_CREATED_TIME, PRETTY_DATE_TIME_FIELD);
         generateFieldDisplayHandler("loguserFullName",
                 BugI18nEnum.FORM_LOG_BY, new ProjectMemberHistoryFieldFormat());
         generateFieldDisplayHandler("assignuser", GenericI18Enum.FORM_ASSIGNEE, new ProjectMemberHistoryFieldFormat());

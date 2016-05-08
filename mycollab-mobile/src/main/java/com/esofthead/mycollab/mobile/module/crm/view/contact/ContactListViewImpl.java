@@ -38,7 +38,7 @@ public class ContactListViewImpl extends AbstractListViewComp<ContactSearchCrite
 
     public ContactListViewImpl() {
         super();
-        setCaption(AppContext.getMessage(ContactI18nEnum.VIEW_LIST_TITLE));
+        setCaption(AppContext.getMessage(ContactI18nEnum.LIST));
     }
 
     @Override

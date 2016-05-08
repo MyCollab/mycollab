@@ -74,15 +74,12 @@ public class ProjectRoleListViewImpl extends AbstractPageView implements Project
     }
 
     private void generateDisplayTable() {
-        this.tableItem = new DefaultPagedBeanTable<>(ApplicationContextUtil.getSpringBean(ProjectRoleService.class),
-                SimpleProjectRole.class,
-                new TableViewField(null, "selected", UIConstants.TABLE_CONTROL_WIDTH),
-                Arrays.asList(new TableViewField(ProjectRoleI18nEnum.FORM_NAME,
-                                "rolename", UIConstants.TABLE_EX_LABEL_WIDTH),
-                        new TableViewField(GenericI18Enum.FORM_DESCRIPTION,
-                                "description", UIConstants.TABLE_EX_LABEL_WIDTH)));
+        tableItem = new DefaultPagedBeanTable<>(ApplicationContextUtil.getSpringBean(ProjectRoleService.class),
+                SimpleProjectRole.class, new TableViewField(null, "selected", UIConstants.TABLE_CONTROL_WIDTH),
+                Arrays.asList(new TableViewField(GenericI18Enum.FORM_NAME, "rolename", UIConstants.TABLE_EX_LABEL_WIDTH),
+                        new TableViewField(GenericI18Enum.FORM_DESCRIPTION, "description", UIConstants.TABLE_EX_LABEL_WIDTH)));
 
-        this.tableItem.addGeneratedColumn("selected", new Table.ColumnGenerator() {
+        tableItem.addGeneratedColumn("selected", new Table.ColumnGenerator() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -104,7 +101,7 @@ public class ProjectRoleListViewImpl extends AbstractPageView implements Project
             }
         });
 
-        this.tableItem.addGeneratedColumn("rolename", new Table.ColumnGenerator() {
+        tableItem.addGeneratedColumn("rolename", new Table.ColumnGenerator() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -116,8 +113,13 @@ public class ProjectRoleListViewImpl extends AbstractPageView implements Project
             }
         });
 
-        this.listLayout.addComponent(this.constructTableActionControls());
-        this.listLayout.addComponent(this.tableItem);
+        listLayout.addComponent(this.constructTableActionControls());
+        listLayout.addComponent(this.tableItem);
+    }
+
+    @Override
+    public void showNoItemView() {
+
     }
 
     @Override
@@ -132,13 +134,13 @@ public class ProjectRoleListViewImpl extends AbstractPageView implements Project
         layoutWrapper.addStyleName(UIConstants.TABLE_ACTION_CONTROLS);
         layoutWrapper.addComponent(layout);
 
-        this.selectOptionButton = new SelectionOptionButton(this.tableItem);
+        selectOptionButton = new SelectionOptionButton(this.tableItem);
         layout.addComponent(this.selectOptionButton);
 
         Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE));
         deleteBtn.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.ROLES));
 
-        this.tableActionControls = new DefaultMassItemActionHandlerContainer();
+        tableActionControls = new DefaultMassItemActionHandlerContainer();
         if (CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.ROLES)) {
             tableActionControls.addDeleteActionItem();
         }
@@ -154,16 +156,15 @@ public class ProjectRoleListViewImpl extends AbstractPageView implements Project
 
     @Override
     public void enableActionControls(int numOfSelectedItems) {
-        this.tableActionControls.setVisible(true);
-        this.selectedItemsNumberLabel.setValue(AppContext.getMessage(
-                GenericI18Enum.TABLE_SELECTED_ITEM_TITLE, numOfSelectedItems));
+        tableActionControls.setVisible(true);
+        selectedItemsNumberLabel.setValue(AppContext.getMessage(GenericI18Enum.TABLE_SELECTED_ITEM_TITLE, numOfSelectedItems));
     }
 
     @Override
     public void disableActionControls() {
-        this.tableActionControls.setVisible(false);
-        this.selectOptionButton.setSelectedCheckbox(false);
-        this.selectedItemsNumberLabel.setValue("");
+        tableActionControls.setVisible(false);
+        selectOptionButton.setSelectedCheckbox(false);
+        selectedItemsNumberLabel.setValue("");
     }
 
     @Override

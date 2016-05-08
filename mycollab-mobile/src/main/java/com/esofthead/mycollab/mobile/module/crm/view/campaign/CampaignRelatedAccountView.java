@@ -71,7 +71,7 @@ public class CampaignRelatedAccountView extends AbstractRelatedListView<SimpleAc
 
         MVerticalLayout addButtons = new MVerticalLayout().withWidth("100%");
 
-        Button newAccountBtn = new Button(AppContext.getMessage(AccountI18nEnum.VIEW_NEW_TITLE), new Button.ClickListener() {
+        Button newAccountBtn = new Button(AppContext.getMessage(AccountI18nEnum.NEW), new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 fireNewRelatedItem("");

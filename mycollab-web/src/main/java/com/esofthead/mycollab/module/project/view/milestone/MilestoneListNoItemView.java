@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.milestone;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -34,7 +35,6 @@ import com.vaadin.ui.Button.ClickEvent;
  * @author MyCollab Ltd.
  * @since 4.1
  */
-@ViewComponent
 public class MilestoneListNoItemView extends ProjectListNoItemView {
     private static final long serialVersionUID = 740826537581761743L;
 
@@ -45,17 +45,17 @@ public class MilestoneListNoItemView extends ProjectListNoItemView {
 
     @Override
     protected String viewTitle() {
-        return AppContext.getMessage(MilestoneI18nEnum.VIEW_NO_ITEM_TITLE);
+        return AppContext.getMessage(GenericI18Enum.VIEW_NO_ITEM_TITLE);
     }
 
     @Override
     protected String viewHint() {
-        return AppContext.getMessage(MilestoneI18nEnum.VIEW_NO_ITEM_HINT);
+        return AppContext.getMessage(GenericI18Enum.VIEW_NO_ITEM_HINT);
     }
 
     @Override
     protected String actionMessage() {
-        return AppContext.getMessage(MilestoneI18nEnum.BUTTON_NEW_PHASE);
+        return AppContext.getMessage(MilestoneI18nEnum.NEW);
     }
 
     @Override

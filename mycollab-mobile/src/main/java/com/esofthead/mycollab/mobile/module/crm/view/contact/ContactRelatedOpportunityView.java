@@ -74,7 +74,7 @@ public class ContactRelatedOpportunityView extends AbstractRelatedListView<Simpl
 
         MVerticalLayout addBtns = new MVerticalLayout().withWidth("100%");
 
-        Button newOpportunityBtn = new Button(AppContext.getMessage(OpportunityI18nEnum.VIEW_NEW_TITLE), new Button.ClickListener() {
+        Button newOpportunityBtn = new Button(AppContext.getMessage(OpportunityI18nEnum.NEW), new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 fireNewRelatedItem("");

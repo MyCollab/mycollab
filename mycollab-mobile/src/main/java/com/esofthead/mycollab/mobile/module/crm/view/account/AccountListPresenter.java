@@ -38,7 +38,7 @@ public class AccountListPresenter extends CrmListPresenter<AccountListView, Acco
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         super.onGo(container, data);
-        AppContext.addFragment("crm/account/list", AppContext.getMessage(AccountI18nEnum.VIEW_LIST_TITLE));
+        AppContext.addFragment("crm/account/list", AppContext.getMessage(AccountI18nEnum.LIST));
     }
 
 }

@@ -37,7 +37,7 @@ public class LeadListViewImpl extends AbstractListViewComp<LeadSearchCriteria, S
     private static final long serialVersionUID = -5311139413938817084L;
 
     public LeadListViewImpl() {
-        setCaption(AppContext.getMessage(LeadI18nEnum.VIEW_LIST_TITLE));
+        setCaption(AppContext.getMessage(LeadI18nEnum.LIST));
     }
 
     @Override

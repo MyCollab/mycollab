@@ -68,7 +68,7 @@ public class CampaignContactListComp extends RelatedListComp2<ContactService, Co
         controlsBtn.setSizeUndefined();
         controlsBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CONTACT));
         controlsBtn.addStyleName(UIConstants.BUTTON_ACTION);
-        controlsBtn.setCaption(AppContext.getMessage(ContactI18nEnum.BUTTON_NEW_CONTACT));
+        controlsBtn.setCaption(AppContext.getMessage(ContactI18nEnum.NEW));
         controlsBtn.setIcon(FontAwesome.PLUS);
         controlsBtn.addClickListener(new SplitButton.SplitButtonClickListener() {
                     private static final long serialVersionUID = -5166203461087915517L;
@@ -79,7 +79,7 @@ public class CampaignContactListComp extends RelatedListComp2<ContactService, Co
                         fireNewRelatedItem("");
                     }
                 });
-        final Button selectBtn = new Button("Select from existing contacts",
+        final Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = -4257729842567787799L;
 

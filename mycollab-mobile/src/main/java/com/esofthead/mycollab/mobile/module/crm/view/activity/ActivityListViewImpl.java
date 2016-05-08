@@ -58,7 +58,7 @@ public class ActivityListViewImpl extends AbstractListViewComp<ActivitySearchCri
 
         MVerticalLayout addButtons = new MVerticalLayout().withWidth("100%");
 
-        Button addTask = new Button(AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASK), new Button.ClickListener() {
+        Button addTask = new Button(AppContext.getMessage(TaskI18nEnum.NEW), new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 EventBusFactory.getInstance().post(new ActivityEvent.TaskAdd(this, null));
@@ -66,7 +66,7 @@ public class ActivityListViewImpl extends AbstractListViewComp<ActivitySearchCri
         });
         addButtons.addComponent(addTask);
 
-        Button addCall = new Button(AppContext.getMessage(CallI18nEnum.BUTTON_NEW_CALL), new Button.ClickListener() {
+        Button addCall = new Button(AppContext.getMessage(CallI18nEnum.NEW), new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 EventBusFactory.getInstance().post(new ActivityEvent.CallAdd(this, null));
@@ -74,7 +74,7 @@ public class ActivityListViewImpl extends AbstractListViewComp<ActivitySearchCri
         });
         addButtons.addComponent(addCall);
 
-        Button addMeeting = new Button(AppContext.getMessage(MeetingI18nEnum.BUTTON_NEW_MEETING), new Button.ClickListener() {
+        Button addMeeting = new Button(AppContext.getMessage(MeetingI18nEnum.NEW), new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 EventBusFactory.getInstance().post(new ActivityEvent.MeetingAdd(this, null));

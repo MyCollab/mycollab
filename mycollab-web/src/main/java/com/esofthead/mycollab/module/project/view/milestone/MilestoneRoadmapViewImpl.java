@@ -212,7 +212,7 @@ public class MilestoneRoadmapViewImpl extends AbstractLazyPageView implements Mi
     private HorizontalLayout createHeaderRight() {
         MHorizontalLayout layout = new MHorizontalLayout();
 
-        createBtn = new Button(AppContext.getMessage(MilestoneI18nEnum.BUTTON_NEW_PHASE), new Button.ClickListener() {
+        createBtn = new Button(AppContext.getMessage(MilestoneI18nEnum.NEW), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
             @Override

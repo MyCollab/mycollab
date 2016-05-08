@@ -23,30 +23,30 @@ import com.esofthead.mycollab.vaadin.mvp.UrlResolver
 import com.esofthead.mycollab.vaadin.web.ui.ModuleHelper
 
 /**
- * @author MyCollab Ltd
- * @since 5.0.9
- */
+  * @author MyCollab Ltd
+  * @since 5.0.9
+  */
 class FileUrlResolver extends UrlResolver {
-    def build: UrlResolver = {
-        this.addSubResolver("list", new FileListUrlResolver)
-        this
-    }
+  def build: UrlResolver = {
+    this.addSubResolver("list", new FileListUrlResolver)
+    this
+  }
 
-    override def handle(params: String*) {
-        if (!ModuleHelper.isCurrentFileModule) {
-            EventBusFactory.getInstance().post(new ShellEvent.GotoFileModule(this, params))
-        }
-        else {
-            super.handle(params: _*)
-        }
+  override def handle(params: String*) {
+    if (!ModuleHelper.isCurrentFileModule) {
+      EventBusFactory.getInstance().post(new ShellEvent.GotoFileModule(this, params))
     }
+    else {
+      super.handle(params: _*)
+    }
+  }
 
-    protected def defaultPageErrorHandler() {
-    }
+  protected def defaultPageErrorHandler() {
+  }
 
-    class FileListUrlResolver extends CrmUrlResolver {
-        protected override def handlePage(params: String*) {
-        }
+  class FileListUrlResolver extends CrmUrlResolver {
+    protected override def handlePage(params: String*) {
     }
+  }
 
 }

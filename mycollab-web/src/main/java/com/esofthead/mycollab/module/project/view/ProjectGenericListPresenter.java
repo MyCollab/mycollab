@@ -37,36 +37,9 @@ public abstract class ProjectGenericListPresenter<V extends IListView<S, B>, S e
     private static final long serialVersionUID = 7270489652418186012L;
 
     private PageView candidateView;
-    private Class<? extends PageView> noItemFallbackViewClass;
 
-    public ProjectGenericListPresenter(Class<V> viewClass, Class<? extends PageView> noItemFallbackViewClass) {
+    public ProjectGenericListPresenter(Class<V> viewClass) {
         super(viewClass);
-        this.noItemFallbackViewClass = noItemFallbackViewClass;
-    }
-
-    @Override
-    public V getView() {
-        super.getView();
-        this.candidateView = view;
-        return view;
-    }
-
-    public void displayListView(ComponentContainer container, ScreenData<?> data) {
-        this.candidateView = view;
-        displayView(container, data);
-    }
-
-    public void displayNoExistItems(ComponentContainer container, ScreenData<?> data) {
-        this.candidateView = ViewManager.getCacheComponent(noItemFallbackViewClass);
-        displayView(container, data);
-    }
-
-    private void displayView(ComponentContainer container, ScreenData<?> data) {
-        container.removeAllComponents();
-        if (candidateView instanceof LazyPageView) {
-            candidateView.removeAllComponents();
-        }
-        container.addComponent(candidateView);
     }
 
     @Override
@@ -74,5 +47,4 @@ public abstract class ProjectGenericListPresenter<V extends IListView<S, B>, S e
         super.onErrorStopChain(throwable);
         EventBusFactory.getInstance().post(new ProjectEvent.GotoDashboard(this, null));
     }
-
 }

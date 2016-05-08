@@ -44,7 +44,7 @@ public class ProjectMemberListPresenter extends ProjectListPresenter<ProjectMemb
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.USERS)) {
             super.onGo(container, data);
             AppContext.addFragment("project/user/list/" + GenericLinkUtils.encodeParam(CurrentProjectVariables.getProjectId()),
-                    AppContext.getMessage(ProjectMemberI18nEnum.VIEW_LIST_TITLE));
+                    AppContext.getMessage(ProjectMemberI18nEnum.LIST));
         } else {
             NotificationUtil.showMessagePermissionAlert();
         }

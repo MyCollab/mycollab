@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.bug.components;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.db.query.*;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
@@ -65,7 +66,7 @@ public class BugSavedFilterComboBox extends SavedFilterComboBox {
                     public Object eval() {
                         return new LocalDate().toDate();
                     }
-                }), new SearchFieldInfo(SearchField.AND, new StringParam("id-status", BugI18nEnum.FORM_STATUS,
+                }), new SearchFieldInfo(SearchField.AND, new StringParam("id-status", GenericI18Enum.FORM_STATUS,
                 "m_tracker_bug", "status"), StringParam.IS_NOT, new VariableInjector() {
             @Override
             public Object eval() {

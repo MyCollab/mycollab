@@ -65,7 +65,7 @@ public class ContactOpportunityListComp extends RelatedListComp2<OpportunityServ
         controlsBtnWrap.setWidth("100%");
         final SplitButton controlsBtn = new SplitButton();
         controlsBtn.addStyleName(UIConstants.BUTTON_ACTION);
-        controlsBtn.setCaption(AppContext.getMessage(OpportunityI18nEnum.BUTTON_NEW_OPPORTUNITY));
+        controlsBtn.setCaption(AppContext.getMessage(OpportunityI18nEnum.NEW));
         controlsBtn.setIcon(FontAwesome.PLUS);
         controlsBtn.addClickListener(new SplitButton.SplitButtonClickListener() {
             private static final long serialVersionUID = 1L;

@@ -180,7 +180,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 
         groupWrapLayout.with(exportGroup);
 
-        Button newBugBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_NEW_BUG), new Button.ClickListener() {
+        Button newBugBtn = new Button(AppContext.getMessage(BugI18nEnum.NEW), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -194,7 +194,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
         });
         newBugBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
         newBugBtn.setIcon(FontAwesome.PLUS);
-        newBugBtn.setDescription(AppContext.getMessage(BugI18nEnum.BUTTON_NEW_BUG));
+        newBugBtn.setDescription(AppContext.getMessage(BugI18nEnum.NEW));
         newBugBtn.setStyleName(UIConstants.BUTTON_ACTION);
         groupWrapLayout.addComponent(newBugBtn);
 
@@ -226,6 +226,11 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 
         mainLayout.with(wrapBody, rightColumn).expand(wrapBody);
         this.with(searchPanel, mainLayout);
+    }
+
+    @Override
+    public void showNoItemView() {
+
     }
 
     private StreamResource buildStreamSource(ReportExportType exportType) {

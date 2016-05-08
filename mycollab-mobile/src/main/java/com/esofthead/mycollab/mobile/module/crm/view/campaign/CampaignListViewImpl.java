@@ -44,7 +44,7 @@ public class CampaignListViewImpl extends
 	public CampaignListViewImpl() {
 		super();
 
-		setCaption(AppContext.getMessage(CampaignI18nEnum.VIEW_LIST_TITLE));
+		setCaption(AppContext.getMessage(CampaignI18nEnum.LIST));
 	}
 
 	@Override
