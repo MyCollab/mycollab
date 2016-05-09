@@ -20,7 +20,6 @@ package com.esofthead.mycollab.mobile.module.crm.view.opportunity;
  * @author MyCollab Ltd.
  * @since 4.1
  */
-
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -49,8 +48,8 @@ public class OpportunityReadFormFieldFactory extends AbstractBeanFieldGroupViewF
         } else if (propertyId.equals("expectedcloseddate")) {
             field = new DefaultViewField(AppContext.formatDate(opportunity.getExpectedcloseddate()));
         } else if (propertyId.equals("currencyid")) {
-            if (opportunity.getCurrency() != null) {
-                return new DefaultViewField(opportunity.getCurrency().getShortname());
+            if (opportunity.getCurrencyid() != null) {
+                return new DefaultViewField(opportunity.getCurrencyid());
             } else {
                 return new DefaultViewField("");
             }

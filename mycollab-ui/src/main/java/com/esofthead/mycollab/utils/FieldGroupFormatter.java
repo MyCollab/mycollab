@@ -17,18 +17,17 @@
 package com.esofthead.mycollab.utils;
 
 import com.esofthead.mycollab.common.domain.AuditChangeItem;
-import com.esofthead.mycollab.common.domain.Currency;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.common.service.CurrencyService;
+import com.esofthead.mycollab.core.utils.CurrencyUtils;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.hp.gagawa.java.elements.Li;
 import com.hp.gagawa.java.elements.Span;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Currency;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -272,22 +271,16 @@ public class FieldGroupFormatter {
 
         @Override
         public String toString(String value, Boolean displayAsHtml, String msgIfBlank) {
-            String content;
             if (StringUtils.isNotBlank(value)) {
-                try {
-                    Integer currencyId = Integer.parseInt(value);
-                    CurrencyService currencyService = ApplicationContextUtil.getSpringBean(CurrencyService.class);
-                    Currency currency = currencyService.getCurrency(currencyId);
-                    content = currency.getSymbol();
-                } catch (Exception e) {
-                    LOG.error("Error while get currency id" + value, e);
-                    content = msgIfBlank;
+                Currency currency = CurrencyUtils.getInstance(value);
+                if (displayAsHtml) {
+                    return new Span().appendText(value).setTitle(currency.getDisplayName(AppContext.getUserLocale())).write();
+                } else {
+                    return value;
                 }
             } else {
-                content = msgIfBlank;
+                return msgIfBlank;
             }
-
-            return content;
         }
     }
 

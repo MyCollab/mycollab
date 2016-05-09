@@ -7,8 +7,6 @@
         <result column="createUserAvatarId" jdbcType="VARCHAR" property="createUserAvatarId" />
         <result column="assignUserFullName" jdbcType="VARCHAR" property="assignUserFullName" />
         <result column="assignUserAvatarId" jdbcType="VARCHAR" property="assignUserAvatarId" />
-        <association property="currency" resultMap="com.esofthead.mycollab.common.dao.CurrencyMapper.BaseResultMap"
-                     columnPrefix="curr_"/>
         <association property="client" resultMap="com.esofthead.mycollab.module.crm.dao.AccountMapper.BaseResultMap"
                      columnPrefix="client_"/>
     </resultMap>
@@ -41,8 +39,6 @@
             m_prj_invoice.assignUser, m_prj_invoice.amount, m_prj_invoice.currentId, m_prj_invoice.clientId,
             m_prj_invoice.contactUserFullName, m_prj_invoice.sAccountId, m_prj_invoice.status, m_prj_invoice.note,
             m_prj_invoice.type, m_prj_invoice.noId, m_prj_invoice.projectId, m_prj_invoice.description, m_prj_invoice.issuedate,
-            s_currency.id AS curr_id, s_currency.shortname AS curr_shortname, s_currency.isocode AS curr_isocode,
-            s_currency.symbol AS curr_symbol, s_currency.conversionrate AS curr_conversionrate, s_currency.fullname AS curr_fullname,
             m_crm_account.id AS client_id, m_crm_account.accountName AS client_accountName,
             m_crm_account.website AS client_website, m_crm_account.phoneOffice AS client_phoneOffice,
             m_crm_account.fax AS client_fax, m_crm_account.billingAddress AS client_billingAddress, m_crm_account.city AS client_city,
@@ -52,7 +48,6 @@
             concat(assignUserTbl.firstname, ' ', LTRIM(concat(IFNULL(assignUserTbl.middlename, ''), ' ')), assignUserTbl.lastname) AS assignUserFullName,
             assignUserTbl.avatarId AS assignUserAvatarId
         FROM m_prj_invoice
-            LEFT OUTER JOIN s_currency ON (s_currency.id = m_prj_invoice.currentId)
             LEFT OUTER JOIN m_crm_account ON (m_crm_account.id = m_prj_invoice.clientId)
             LEFT OUTER JOIN s_user AS createUserTbl ON (m_prj_invoice.createdUser = createUserTbl.username)
             LEFT OUTER JOIN s_user AS assignUserTbl ON (m_prj_invoice.assignUser = assignUserTbl.username)

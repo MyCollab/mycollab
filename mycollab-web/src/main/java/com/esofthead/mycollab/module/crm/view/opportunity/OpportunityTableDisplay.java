@@ -49,7 +49,6 @@ public class OpportunityTableDisplay extends DefaultPagedBeanTable<OpportunitySe
 
     public OpportunityTableDisplay(TableViewField requiredColumn, List<TableViewField> displayColumns) {
         this(null, requiredColumn, displayColumns);
-
     }
 
     public OpportunityTableDisplay(String viewId, TableViewField requiredColumn, List<TableViewField> displayColumns) {
@@ -60,8 +59,7 @@ public class OpportunityTableDisplay extends DefaultPagedBeanTable<OpportunitySe
             private static final long serialVersionUID = 1L;
 
             @Override
-            public Object generateCell(final Table source, final Object itemId,
-                                       Object columnId) {
+            public Object generateCell(final Table source, final Object itemId, Object columnId) {
                 final SimpleOpportunity opportunity = getBeanByIndex(itemId);
                 final CheckBoxDecor cb = new CheckBoxDecor("", opportunity.isSelected());
                 cb.setImmediate(true);
@@ -82,12 +80,10 @@ public class OpportunityTableDisplay extends DefaultPagedBeanTable<OpportunitySe
 
         this.addGeneratedColumn("opportunityname", new Table.ColumnGenerator() {
             @Override
-            public Object generateCell(Table source, Object itemId,
-                                       Object columnId) {
+            public Object generateCell(Table source, Object itemId, Object columnId) {
                 final SimpleOpportunity opportunity = getBeanByIndex(itemId);
 
-                LabelLink b = new LabelLink(opportunity.getOpportunityname(),
-                        CrmLinkBuilder.generateOpportunityPreviewLinkFull(opportunity.getId()));
+                LabelLink b = new LabelLink(opportunity.getOpportunityname(), CrmLinkBuilder.generateOpportunityPreviewLinkFull(opportunity.getId()));
                 if ("Closed Won".equals(opportunity.getSalesstage()) || "Closed Lost".equals(opportunity.getSalesstage())) {
                     b.addStyleName(UIConstants.LINK_COMPLETED);
                 } else {
@@ -111,8 +107,8 @@ public class OpportunityTableDisplay extends DefaultPagedBeanTable<OpportunitySe
                 if (opportunity.getAmount() != null) {
                     amount = opportunity.getAmount() + "";
 
-                    if (opportunity.getCurrency() != null) {
-                        amount += " " + opportunity.getCurrency().getSymbol();
+                    if (opportunity.getCurrencyid() != null) {
+                        amount += " " + opportunity.getCurrencyid();
                     }
                 }
 
@@ -141,12 +137,10 @@ public class OpportunityTableDisplay extends DefaultPagedBeanTable<OpportunitySe
 
         this.addGeneratedColumn("campaignName", new Table.ColumnGenerator() {
             @Override
-            public Object generateCell(Table source, Object itemId,
-                                       Object columnId) {
+            public Object generateCell(Table source, Object itemId, Object columnId) {
                 final SimpleOpportunity opportunity = OpportunityTableDisplay.this.getBeanByIndex(itemId);
 
-                return new LabelLink(opportunity.getCampaignName(), CrmLinkBuilder
-                                .generateCampaignPreviewLinkFull(opportunity.getCampaignid()));
+                return new LabelLink(opportunity.getCampaignName(), CrmLinkBuilder.generateCampaignPreviewLinkFull(opportunity.getCampaignid()));
             }
         });
 

@@ -405,7 +405,7 @@ public class ProjectTooltipGenerator {
             String planStartDate = DateTimeUtils.convertToStringWithUserTimeZone(project.getPlanstartdate(), dateFormat, timeZone);
             Td cell22 = buildCellValue(planStartDate);
             Td cell23 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_CURRENCY));
-            String currency = (project.getCurrency() != null) ? StringUtils.trimHtmlTags(project.getCurrency().getSymbol()) : "";
+            String currency = (project.getCurrencyid() != null) ? project.getCurrencyid() : "";
             Td cell24 = buildCellValue(currency);
             trRow2.appendChild(cell21, cell22, cell23, cell24);
             tooltipManager.appendRow(trRow2);

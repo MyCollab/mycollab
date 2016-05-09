@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.module.crm.view.campaign;
 
 import com.esofthead.mycollab.common.TableViewField;
-import com.esofthead.mycollab.common.domain.Currency;
 import com.esofthead.mycollab.module.crm.CrmTooltipGenerator;
 import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
@@ -60,17 +59,14 @@ public class CampaignTableDisplay extends DefaultPagedBeanTable<CampaignService,
             private static final long serialVersionUID = 1L;
 
             @Override
-            public Object generateCell(final Table source, final Object itemId,
-                                       Object columnId) {
+            public Object generateCell(final Table source, final Object itemId, Object columnId) {
                 final SimpleCampaign campaign = getBeanByIndex(itemId);
                 final CheckBoxDecor cb = new CheckBoxDecor("", campaign.isSelected());
                 cb.addValueChangeListener(new Property.ValueChangeListener() {
-
                     @Override
                     public void valueChange(ValueChangeEvent event) {
                         CampaignTableDisplay.this.fireSelectItemEvent(campaign);
                         fireTableEvent(new TableClickEvent(CampaignTableDisplay.this, campaign, "selected"));
-
                     }
                 });
 
@@ -83,14 +79,11 @@ public class CampaignTableDisplay extends DefaultPagedBeanTable<CampaignService,
             private static final long serialVersionUID = 1L;
 
             @Override
-            public com.vaadin.ui.Component generateCell(Table source,
-                                                        final Object itemId, Object columnId) {
+            public com.vaadin.ui.Component generateCell(Table source, final Object itemId, Object columnId) {
                 final SimpleCampaign campaign = getBeanByIndex(itemId);
 
-                LabelLink b = new LabelLink(campaign.getCampaignname(),
-                        CrmLinkBuilder.generateCampaignPreviewLinkFull(campaign.getId()));
-                b.setDescription(CrmTooltipGenerator.generateTooltipCampaign(
-                        AppContext.getUserLocale(), campaign,
+                LabelLink b = new LabelLink(campaign.getCampaignname(), CrmLinkBuilder.generateCampaignPreviewLinkFull(campaign.getId()));
+                b.setDescription(CrmTooltipGenerator.generateTooltipCampaign(AppContext.getUserLocale(), campaign,
                         AppContext.getSiteUrl(), AppContext.getUserTimezone()));
                 b.setStyleName(UIConstants.BUTTON_LINK);
 
@@ -112,9 +105,7 @@ public class CampaignTableDisplay extends DefaultPagedBeanTable<CampaignService,
             @Override
             public com.vaadin.ui.Component generateCell(Table source, final Object itemId, Object columnId) {
                 final SimpleCampaign campaign = getBeanByIndex(itemId);
-                return new UserLink(campaign.getAssignuser(), campaign.getAssignUserAvatarId(), campaign
-                        .getAssignUserFullName());
-
+                return new UserLink(campaign.getAssignuser(), campaign.getAssignUserAvatarId(), campaign.getAssignUserFullName());
             }
         });
 
@@ -126,9 +117,8 @@ public class CampaignTableDisplay extends DefaultPagedBeanTable<CampaignService,
                 final SimpleCampaign campaign = getBeanByIndex(itemId);
                 if (campaign.getExpectedrevenue() != null) {
                     String expectedRevenueText = campaign.getExpectedrevenue() + "";
-                    Currency currency = campaign.getCurrency();
-                    if (currency != null) {
-                        expectedRevenueText += " " + currency.getSymbol();
+                    if (campaign.getCurrencyid() != null) {
+                        expectedRevenueText += " " + campaign.getCurrencyid();
                     }
 
                     return new Label(expectedRevenueText);
@@ -147,9 +137,8 @@ public class CampaignTableDisplay extends DefaultPagedBeanTable<CampaignService,
                 final SimpleCampaign campaign = getBeanByIndex(itemId);
                 if (campaign.getExpectedrevenue() != null) {
                     String expectedCostText = campaign.getExpectedcost() + "";
-                    Currency currency = campaign.getCurrency();
-                    if (currency != null) {
-                        expectedCostText += " " + currency.getSymbol();
+                    if (campaign.getCurrencyid() != null) {
+                        expectedCostText += " " + campaign.getCurrencyid();
                     }
 
                     return new Label(expectedCostText);
@@ -164,8 +153,7 @@ public class CampaignTableDisplay extends DefaultPagedBeanTable<CampaignService,
             private static final long serialVersionUID = 1L;
 
             @Override
-            public com.vaadin.ui.Component generateCell(Table source,
-                                                        Object itemId, Object columnId) {
+            public com.vaadin.ui.Component generateCell(Table source, Object itemId, Object columnId) {
                 final SimpleCampaign campaign = getBeanByIndex(itemId);
                 return new ELabel().prettyDate(campaign.getStartdate());
             }
@@ -175,8 +163,7 @@ public class CampaignTableDisplay extends DefaultPagedBeanTable<CampaignService,
             private static final long serialVersionUID = 1L;
 
             @Override
-            public com.vaadin.ui.Component generateCell(Table source,
-                                                        Object itemId, Object columnId) {
+            public com.vaadin.ui.Component generateCell(Table source, Object itemId, Object columnId) {
                 final SimpleCampaign campaign = getBeanByIndex(itemId);
                 return new ELabel().prettyDate(campaign.getEnddate());
             }

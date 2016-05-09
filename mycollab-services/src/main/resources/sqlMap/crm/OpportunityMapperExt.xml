@@ -1,24 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.esofthead.mycollab.module.crm.dao.OpportunityMapperExt">
-
-    <resultMap
-        extends="com.esofthead.mycollab.module.crm.dao.OpportunityMapper.ResultMapWithBLOBs"
+    <resultMap extends="com.esofthead.mycollab.module.crm.dao.OpportunityMapper.ResultMapWithBLOBs"
         id="SimpleOpportunityResult" type="com.esofthead.mycollab.module.crm.domain.SimpleOpportunity">
-        <result column="createdUserAvatarId" jdbcType="VARCHAR"
-            property="createdUserAvatarId" />
-        <result column="createdUserFullName" jdbcType="VARCHAR"
-            property="createdUserFullName" />
+        <result column="createdUserAvatarId" jdbcType="VARCHAR" property="createdUserAvatarId" />
+        <result column="createdUserFullName" jdbcType="VARCHAR" property="createdUserFullName" />
         <result column="accountName" jdbcType="VARCHAR" property="accountName" />
-        <result column="campaignName" jdbcType="VARCHAR"
-            property="campaignName" />
-        <result column="assignUserAvatarId" jdbcType="VARCHAR"
-            property="assignUserAvatarId" />
-        <result column="assignUserFullName" jdbcType="VARCHAR"
-            property="assignUserFullName" />
-        <association property="currency"
-            resultMap="com.esofthead.mycollab.common.dao.CurrencyMapper.BaseResultMap"
-            columnPrefix="curr_"></association>
+        <result column="campaignName" jdbcType="VARCHAR" property="campaignName" />
+        <result column="assignUserAvatarId" jdbcType="VARCHAR" property="assignUserAvatarId" />
+        <result column="assignUserFullName" jdbcType="VARCHAR" property="assignUserFullName" />
     </resultMap>
 
     <sql id="querySearchCriteria">
@@ -152,8 +142,6 @@
                s_user.avatarId AS assignUserAvatarId,
                LTRIM(concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname)) AS assignUserFullName,
                m_crm_account.accountName, m_crm_campaign.campaignName,
-               s_currency.id, s_currency.shortname AS curr_shortname,  s_currency.fullname AS curr_fullname, s_currency.isocode AS curr_isocode, 
-               s_currency.symbol AS curr_symbol, s_currency.conversionrate AS curr_conversionrate,
                createdUserTabl.avatarId AS createdUserAvatarId,
                LTRIM(concat(createdUserTabl.firstname, ' ', LTRIM(concat(IFNULL(createdUserTabl.middlename, ''), ' ')), createdUserTabl.lastname)) as createdUserFullName
       
@@ -161,8 +149,7 @@
                LEFT OUTER JOIN m_crm_account ON (m_crm_opportunity.accountid=m_crm_account.id)
                LEFT OUTER JOIN s_user ON (m_crm_opportunity.assignUser = s_user.username)
                LEFT OUTER JOIN s_user AS createdUserTabl ON (m_crm_opportunity.createdUser = createdUserTabl.username)
-               LEFT OUTER JOIN m_crm_campaign ON (m_crm_opportunity.campaignid = m_crm_campaign.id) 
-               LEFT OUTER JOIN s_currency ON (m_crm_opportunity.currencyid=s_currency.id)
+               LEFT OUTER JOIN m_crm_campaign ON (m_crm_opportunity.campaignid = m_crm_campaign.id)
         ]]>
     </sql>
 

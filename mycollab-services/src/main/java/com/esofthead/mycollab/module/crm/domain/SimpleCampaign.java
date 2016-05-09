@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.domain;
 
-import com.esofthead.mycollab.common.domain.Currency;
 import com.esofthead.mycollab.core.arguments.NotBindable;
 import com.esofthead.mycollab.core.utils.StringUtils;
 
@@ -36,9 +35,6 @@ public class SimpleCampaign extends CampaignWithBLOBs {
 	private String assignUserAvatarId;
 
 	private String assignUserFullName;
-
-	@NotBindable
-	private Currency currency;
 
 	public String getCreatedUserAvatarId() {
 		return createdUserAvatarId;
@@ -76,13 +72,5 @@ public class SimpleCampaign extends CampaignWithBLOBs {
 
 	public void setAssignUserAvatarId(String assignUserAvatarId) {
 		this.assignUserAvatarId = assignUserAvatarId;
-	}
-
-	public Currency getCurrency() {
-		return currency;
-	}
-
-	public void setCurrency(Currency currency) {
-		this.currency = currency;
 	}
 }

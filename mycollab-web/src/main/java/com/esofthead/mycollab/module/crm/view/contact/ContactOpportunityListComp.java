@@ -77,7 +77,7 @@ public class ContactOpportunityListComp extends RelatedListComp2<OpportunityServ
             }
         });
         controlsBtn.setSizeUndefined();
-        Button selectBtn = new Button("Select from existing opportunities", new Button.ClickListener() {
+        Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -143,8 +143,7 @@ public class ContactOpportunityListComp extends RelatedListComp2<OpportunityServ
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
                     ConfirmDialogExt.show(UI.getCurrent(),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
-                                    AppContext.getSiteName()),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
                             AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                             AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                             AppContext.getMessage(GenericI18Enum.BUTTON_NO),
@@ -154,14 +153,11 @@ public class ContactOpportunityListComp extends RelatedListComp2<OpportunityServ
                                 @Override
                                 public void onClose(ConfirmDialog dialog) {
                                     if (dialog.isConfirmed()) {
-                                        ContactService contactService = ApplicationContextUtil
-                                                .getSpringBean(ContactService.class);
+                                        ContactService contactService = ApplicationContextUtil.getSpringBean(ContactService.class);
                                         ContactOpportunity associateOpportunity = new ContactOpportunity();
                                         associateOpportunity.setContactid(contact.getId());
                                         associateOpportunity.setOpportunityid(opportunity.getId());
-                                        contactService.removeContactOpportunityRelationship(
-                                                associateOpportunity,
-                                                AppContext.getAccountId());
+                                        contactService.removeContactOpportunityRelationship(associateOpportunity, AppContext.getAccountId());
                                         ContactOpportunityListComp.this.refresh();
                                     }
                                 }
@@ -182,19 +178,13 @@ public class ContactOpportunityListComp extends RelatedListComp2<OpportunityServ
 
             opportunityInfo.addComponent(opportunityName);
 
-            Label opportunityAmount = new Label("Amount: "
-                    + (opportunity.getAmount() != null ? opportunity
-                    .getAmount() : ""));
-            if (opportunity.getCurrency() != null && opportunity.getAmount() != null) {
-                opportunityAmount.setValue(opportunityAmount.getValue()
-                        + opportunity.getCurrency().getSymbol());
+            Label opportunityAmount = new Label("Amount: " + (opportunity.getAmount() != null ? opportunity.getAmount() : ""));
+            if (opportunity.getCurrencyid() != null && opportunity.getAmount() != null) {
+                opportunityAmount.setValue(opportunityAmount.getValue() + opportunity.getCurrencyid());
             }
             opportunityInfo.addComponent(opportunityAmount);
 
-            Label opportunitySaleStage = new Label(
-                    "Sale Stage: "
-                            + (opportunity.getSalesstage() != null ? opportunity
-                            .getSalesstage() : ""));
+            Label opportunitySaleStage = new Label("Sale Stage: " + (opportunity.getSalesstage() != null ? opportunity.getSalesstage() : ""));
             opportunityInfo.addComponent(opportunitySaleStage);
 
             ELabel opportunityExpectedCloseDate = new ELabel("Expected Closed Date: " +
@@ -212,5 +202,4 @@ public class ContactOpportunityListComp extends RelatedListComp2<OpportunityServ
         }
 
     }
-
 }

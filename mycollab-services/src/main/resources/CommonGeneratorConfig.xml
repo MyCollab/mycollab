@@ -12,15 +12,11 @@
                         driverClass="com.mysql.jdbc.Driver" password="esofthead321"
                         userId="root"/>
 
-        <javaModelGenerator targetPackage="com.esofthead.mycollab.common.domain"
-                            targetProject="src/main/java">
-
-            <property name="rootClass"
-                      value="com.esofthead.mycollab.core.arguments.ValuedBean"/>
+        <javaModelGenerator targetPackage="com.esofthead.mycollab.common.domain" targetProject="src/main/java">
+            <property name="rootClass" value="com.esofthead.mycollab.core.arguments.ValuedBean"/>
         </javaModelGenerator>
 
-        <sqlMapGenerator targetPackage="."
-                         targetProject="src/main/resources/sqlMap/common"/>
+        <sqlMapGenerator targetPackage="." targetProject="src/main/resources/sqlMap/common"/>
 
         <javaClientGenerator targetPackage="com.esofthead.mycollab.common.dao"
                              targetProject="src/main/java" type="XMLMAPPER">
@@ -31,7 +27,6 @@
                       value="com.esofthead.mycollab.core.persistence.ICrudGenericDAO"/>
         </javaClientGenerator>
 
-        <table domainObjectName="Currency" schema="mycollab_base" tableName="s_currency"/>
         <table domainObjectName="MonitorItem" schema="mycollab_base" tableName="m_monitor_item"/>
         <table domainObjectName="ActivityStream" schema="mycollab_base" tableName="s_activitystream"/>
         <table domainObjectName="ReportBugIssue" schema="mycollab_base" tableName="s_report_bug_issue"/>

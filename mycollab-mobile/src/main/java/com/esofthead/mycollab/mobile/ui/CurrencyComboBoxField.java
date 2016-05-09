@@ -16,65 +16,29 @@
  */
 package com.esofthead.mycollab.mobile.ui;
 
-import com.esofthead.mycollab.common.domain.Currency;
-import com.esofthead.mycollab.common.service.CurrencyService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
-import com.vaadin.data.Property;
-import com.vaadin.data.Validator.InvalidValueException;
-import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CustomField;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.ui.ListSelect;
 
-import java.util.List;
+import java.util.Currency;
+import java.util.Set;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.1
  */
-public class CurrencyComboBoxField extends CustomField<Integer> {
+public class CurrencyComboBoxField extends ListSelect {
     private static final long serialVersionUID = 1L;
-
-    private ListSelect currencyBox;
 
     public CurrencyComboBoxField() {
         super();
+        this.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
+        this.setRows(1);
 
-        currencyBox = new ListSelect();
-        currencyBox.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
-        currencyBox.setRows(1);
-
-        CurrencyService currencyService = ApplicationContextUtil.getSpringBean(CurrencyService.class);
-        List<Currency> currencyList = currencyService.getCurrencies();
-        for (Currency currency : currencyList) {
-            currencyBox.addItem(currency.getId());
-            currencyBox.setItemCaption(currency.getId(), String.format("%s (%s)", currency.getShortname(), currency.getSymbol()));
+        Set<Currency> availableCurrencies = Currency.getAvailableCurrencies();
+        for (Currency currency : availableCurrencies) {
+            this.addItem(currency.getCurrencyCode());
+            this.setItemCaption(currency.getCurrencyCode(), String.format("%s (%s)", currency.getDisplayName
+                    (AppContext.getUserLocale()), currency.getCurrencyCode()));
         }
-    }
-
-    @Override
-    protected Component initContent() {
-        return currencyBox;
-    }
-
-    @Override
-    public Class<? extends Integer> getType() {
-        return Integer.class;
-    }
-
-    @Override
-    public void setPropertyDataSource(Property newDataSource) {
-        Object value = newDataSource.getValue();
-        if (value instanceof Integer) {
-            currencyBox.setValue(value);
-        }
-        super.setPropertyDataSource(newDataSource);
-    }
-
-    @Override
-    public void commit() throws SourceException, InvalidValueException {
-        Integer value = (Integer) currencyBox.getValue();
-        this.setInternalValue(value);
-        super.commit();
     }
 }

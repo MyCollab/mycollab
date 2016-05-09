@@ -239,8 +239,7 @@ public class CrmTooltipGenerator {
 
             Tr trRow3 = new Tr();
             Td cell31 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_CURRENCY));
-            String currency = (campaign.getCurrency() != null) ? campaign
-                    .getCurrency().getSymbol() : "";
+            String currency = (campaign.getCurrencyid() != null) ? campaign.getCurrencyid() : "";
             Td cell32 = buildCellValue(currency);
             Td cell33 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_ASSIGNEE));
 
@@ -384,7 +383,7 @@ public class CrmTooltipGenerator {
 
             Tr trRow1 = new Tr();
             Td cell11 = buildCellName(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_CURRENCY));
-            String currency = (opportunity.getCurrency() != null) ? opportunity.getCurrency().getSymbol() : "";
+            String currency = (opportunity.getCurrencyid() != null) ? opportunity.getCurrencyid() : "";
             Td cell12 = buildCellValue(currency);
             Td cell13 = buildCellName(LocalizationHelper.getMessage(locale, OpportunityI18nEnum.FORM_ACCOUNT_NAME));
             String accountLink = (opportunity.getAccountid() != null) ? CrmLinkGenerator

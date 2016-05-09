@@ -188,8 +188,8 @@ public class AccountOpportunityListComp extends RelatedListComp2<OpportunityServ
             opportunityInfo.addComponent(ELabel.h3(opportunityLink.write()));
 
             Label opportunityAmount = new Label("Amount: " + (opportunity.getAmount() != null ? opportunity.getAmount() : ""));
-            if (opportunity.getCurrency() != null && opportunity.getAmount() != null) {
-                opportunityAmount.setValue(opportunityAmount.getValue() + opportunity.getCurrency().getSymbol());
+            if (opportunity.getCurrencyid() != null && opportunity.getAmount() != null) {
+                opportunityAmount.setValue(opportunityAmount.getValue() + opportunity.getCurrencyid());
             }
             opportunityInfo.addComponent(opportunityAmount);
 

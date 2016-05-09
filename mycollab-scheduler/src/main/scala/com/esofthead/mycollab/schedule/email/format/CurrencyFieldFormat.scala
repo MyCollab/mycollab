@@ -16,9 +16,9 @@
  */
 package com.esofthead.mycollab.schedule.email.format
 
-import com.esofthead.mycollab.common.domain.Currency
-import com.esofthead.mycollab.common.service.CurrencyService
-import com.esofthead.mycollab.core.utils.StringUtils
+import java.util.Currency
+
+import com.esofthead.mycollab.core.utils.{CurrencyUtils, StringUtils}
 import com.esofthead.mycollab.schedule.email.MailContext
 import com.esofthead.mycollab.spring.ApplicationContextUtil
 import com.hp.gagawa.java.elements.Span
@@ -40,13 +40,8 @@ class CurrencyFieldFormat(fieldName: String, displayName: Enum[_]) extends Field
             if (value == null) {
                 new Span().write
             }
-            else if (value.isInstanceOf[Currency]) {
-                new Span().appendText(value.asInstanceOf[Currency].getSymbol).write
-            }
             else {
-                val currencyService = ApplicationContextUtil.getSpringBean(classOf[CurrencyService])
-                val currency = currencyService.getCurrency(value.asInstanceOf[Integer])
-                new Span().appendText(currency.getSymbol).write
+                new Span().appendText(value.asInstanceOf[String]).write
             }
         } catch {
             case e: Any =>
@@ -60,17 +55,6 @@ class CurrencyFieldFormat(fieldName: String, displayName: Enum[_]) extends Field
             return new Span().write
         }
 
-        try {
-            val currencyService = ApplicationContextUtil.getSpringBean(classOf[CurrencyService])
-            val currencyId = value.toInt
-            val currency = currencyService.findByPrimaryKey(currencyId, context.getUser.getAccountId)
-            if (currency != null) {
-                return currency.getFullname
-            }
-        } catch {
-            case e: Exception => LOG.error("Error", e)
-        }
-
-        value
+        CurrencyUtils.getInstance(value).getDisplayName
     }
 }

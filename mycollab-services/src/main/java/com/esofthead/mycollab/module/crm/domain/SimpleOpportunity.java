@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.domain;
 
-import com.esofthead.mycollab.common.domain.Currency;
 import com.esofthead.mycollab.core.arguments.NotBindable;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
@@ -41,9 +40,6 @@ public class SimpleOpportunity extends Opportunity {
     private String assignUserAvatarId;
 
     private String assignUserFullName;
-
-    @NotBindable
-    private Currency currency;
 
     public String getCreatedUserAvatarId() {
         return createdUserAvatarId;
@@ -89,14 +85,6 @@ public class SimpleOpportunity extends Opportunity {
 
     public void setAssignUserFullName(String assignUserFullName) {
         this.assignUserFullName = assignUserFullName;
-    }
-
-    public Currency getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(Currency currency) {
-        this.currency = currency;
     }
 
     public String getAssignUserAvatarId() {

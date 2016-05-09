@@ -22,9 +22,6 @@
         <result column="leadAvatarId" jdbcType="VARCHAR" property="leadAvatarId" />
         <result column="clientName" jdbcType="VARCHAR" property="clientName" />
         <result column="clientAvatarId" jdbcType="VARCHAR" property="clientAvatarId" />
-        <association property="currency"
-            resultMap="com.esofthead.mycollab.common.dao.CurrencyMapper.BaseResultMap"
-            columnPrefix="curr_"/>
         <association property="customizeView"
             resultMap="com.esofthead.mycollab.module.project.dao.ProjectCustomizeViewMapper.BaseResultMap"
             columnPrefix="view_"/>
@@ -152,8 +149,6 @@
         (SELECT COUNT(*) FROM m_prj_milestone WHERE m_prj_milestone.projectId = m_prj_project.id AND m_prj_milestone.status = 'Future') AS numFuturePhase,
         (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = m_prj_project.id AND m_prj_time_logging.isBillable = 1) AS totalBillableHours,
         (SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = m_prj_project.id AND m_prj_time_logging.isBillable = 0) AS totalNonBillableHours,
-        s_currency.id, s_currency.shortname AS curr_shortname, s_currency.fullname AS curr_fullname, s_currency.isocode AS curr_isocode, 
-        s_currency.symbol AS curr_symbol, s_currency.conversionrate AS curr_conversionrate,
         m_prj_customize_view.id AS view_id, m_prj_customize_view.projectId AS view_projectId,
         m_prj_customize_view.displayMessage AS view_displayMessage, m_prj_customize_view.displayMilestone AS view_displayMilestone,
         m_prj_customize_view.displayTask AS view_displayTask, m_prj_customize_view.displayBug AS view_displayBug,
@@ -165,7 +160,6 @@
             LEFT OUTER JOIN m_crm_account ON (m_crm_account.id=m_prj_project.accountId)
             LEFT OUTER JOIN s_user ON (m_prj_project.createUser = s_user.username)
             LEFT OUTER JOIN s_user AS leadUser ON (m_prj_project.lead = leadUser.username)
-            LEFT OUTER JOIN s_currency ON (m_prj_project.currencyid=s_currency.id)
             LEFT OUTER JOIN m_prj_customize_view ON (m_prj_project.id=m_prj_customize_view.projectId)
         ]]>
     </sql>

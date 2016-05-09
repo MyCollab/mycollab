@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.domain;
 
-import com.esofthead.mycollab.common.domain.Currency;
 import com.esofthead.mycollab.module.crm.domain.Account;
 
 /**
@@ -29,7 +28,6 @@ public class SimpleInvoice extends Invoice {
     private String assignUserFullName;
     private String assignUserAvatarId;
     private Account client;
-    private Currency currency;
 
     public Account getClient() {
         return client;
@@ -37,14 +35,6 @@ public class SimpleInvoice extends Invoice {
 
     public void setClient(Account client) {
         this.client = client;
-    }
-
-    public Currency getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(Currency currency) {
-        this.currency = currency;
     }
 
     public String getCreateUserFullName() {

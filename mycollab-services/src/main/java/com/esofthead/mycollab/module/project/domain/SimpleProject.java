@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.domain;
 
-import com.esofthead.mycollab.common.domain.Currency;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.core.arguments.NotBindable;
 
@@ -59,9 +58,6 @@ public class SimpleProject extends Project {
 
     @NotBindable
     private ProjectCustomizeView customizeView;
-
-    @NotBindable
-    private Currency currency;
 
     public String getCreateUserFullName() {
         return createUserFullName;
@@ -165,14 +161,6 @@ public class SimpleProject extends Project {
 
     public void setTotalNonBillableHours(Double totalNonBillableHours) {
         this.totalNonBillableHours = totalNonBillableHours;
-    }
-
-    public Currency getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(Currency currency) {
-        this.currency = currency;
     }
 
     public boolean isProjectArchived() {

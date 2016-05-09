@@ -16,9 +16,7 @@
  */
 package com.esofthead.mycollab.reporting;
 
-import com.esofthead.mycollab.common.domain.Currency;
 import com.esofthead.mycollab.core.reporting.NotInReport;
-import net.sf.dynamicreports.report.base.datatype.AbstractDataType;
 import net.sf.dynamicreports.report.definition.datatype.DRIDataType;
 import net.sf.dynamicreports.report.exception.DRException;
 
@@ -31,7 +29,6 @@ import static net.sf.dynamicreports.report.builder.DynamicReports.type;
  * @since 1.0
  */
 class DRIDataTypeFactory {
-    private static final CurrencyType currencyType = new CurrencyType();
 
     static <T extends DRIDataType<?, ?>> T detectType(Field field) throws DRException {
         if (field.getAnnotation(NotInReport.class) != null) {
@@ -39,16 +36,6 @@ class DRIDataTypeFactory {
         }
 
         String dataType = field.getType().getName();
-
-        String dataTypeLC = dataType.toLowerCase().trim();
-        if (dataTypeLC.equals("currency") || dataType.equals(Currency.class.getName())) {
-            return (T) currencyType;
-        } else {
-            return type.detectType(dataType);
-        }
-    }
-
-    static class CurrencyType extends AbstractDataType<Currency, Currency> {
-        private static final long serialVersionUID = 1L;
+        return type.detectType(dataType);
     }
 }
