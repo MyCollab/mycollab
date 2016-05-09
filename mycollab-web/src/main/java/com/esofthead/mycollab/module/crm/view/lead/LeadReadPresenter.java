@@ -27,6 +27,7 @@ import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.module.crm.events.CampaignEvent;
 import com.esofthead.mycollab.module.crm.events.LeadEvent;
+import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
@@ -210,7 +211,8 @@ public class LeadReadPresenter extends CrmGenericPresenter<LeadReadView> {
                 super.onGo(container, data);
                 view.previewItem(lead);
                 AppContext.addFragment(CrmLinkGenerator.generateLeadPreviewLink(lead.getId()),
-                        AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE, "Lead", lead.getLeadName()));
+                        AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
+                                AppContext.getMessage(LeadI18nEnum.SINGLE), lead.getLeadName()));
 
             }
         } else {

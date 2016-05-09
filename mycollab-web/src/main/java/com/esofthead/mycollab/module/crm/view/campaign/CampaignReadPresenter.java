@@ -26,6 +26,7 @@ import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.*;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.esofthead.mycollab.module.crm.events.*;
+import com.esofthead.mycollab.module.crm.i18n.CampaignI18nEnum;
 import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
 import com.esofthead.mycollab.module.crm.view.CrmModule;
@@ -268,7 +269,8 @@ public class CampaignReadPresenter extends CrmGenericPresenter<CampaignReadView>
                     super.onGo(container, data);
                     view.previewItem(campaign);
                     AppContext.addFragment(CrmLinkGenerator.generateCampaignPreviewLink(campaign.getId()),
-                            AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE, "Campaign", campaign.getCampaignname()));
+                            AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
+                                    AppContext.getMessage(CampaignI18nEnum.SINGLE), campaign.getCampaignname()));
                 } else {
                     throw new ResourceNotFoundException();
                 }

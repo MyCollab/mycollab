@@ -28,6 +28,7 @@ import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.esofthead.mycollab.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.module.crm.events.ContactEvent;
 import com.esofthead.mycollab.module.crm.events.OpportunityEvent;
+import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
 import com.esofthead.mycollab.module.crm.view.CrmModule;
@@ -210,7 +211,7 @@ public class ContactReadPresenter extends CrmGenericPresenter<ContactReadView> {
 
                     AppContext.addFragment(CrmLinkGenerator.generateContactPreviewLink(contact.getId()),
                             AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
-                                    "Contact", contact.getContactName()));
+                                    AppContext.getMessage(ContactI18nEnum.SINGLE), contact.getContactName()));
 
                 } else {
                     throw new ResourceNotFoundException();

@@ -30,7 +30,6 @@ import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ProjectActivityStream;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
-import com.esofthead.mycollab.module.project.i18n.ProjectTypeI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectActivityStreamService;
 import com.esofthead.mycollab.module.project.service.ProjectPageService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
@@ -126,11 +125,7 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Projec
                     currentDate = itemCreatedDate;
                 }
                 StringBuilder content = new StringBuilder();
-                ProjectTypeI18nEnum typeEnum = ProjectLocalizationTypeMap.getType(activityStream.getType());
-                if (typeEnum == null) {
-                    continue;
-                }
-                String itemType = AppContext.getMessage(typeEnum);
+                String itemType = ProjectLocalizationTypeMap.getType(activityStream.getType());
                 String assigneeParam = buildAssigneeValue(activityStream);
                 String itemParam = buildItemValue(activityStream);
 

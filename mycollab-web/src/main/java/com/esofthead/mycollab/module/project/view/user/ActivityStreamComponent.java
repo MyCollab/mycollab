@@ -139,7 +139,7 @@ public class ActivityStreamComponent extends CssLayout {
                     StringBuffer content = new StringBuffer("");
 
                     // --------------Item hidden div tooltip----------------
-                    String type = AppContext.getMessage(ProjectLocalizationTypeMap.getType(activityStream.getType()));
+                    String type = ProjectLocalizationTypeMap.getType(activityStream.getType());
                     String assigneeValue = buildAssigneeValue(activityStream);
                     String itemLink = buildItemValue(activityStream);
                     String projectLink = buildProjectValue(activityStream);

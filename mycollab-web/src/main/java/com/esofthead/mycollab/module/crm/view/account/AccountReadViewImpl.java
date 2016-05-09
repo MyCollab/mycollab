@@ -22,8 +22,7 @@ import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.*;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
-import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
-import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
+import com.esofthead.mycollab.module.crm.i18n.*;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.*;
@@ -139,10 +138,11 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount> 
         navigatorWrapper.addComponentAsFirst(basicInfo);
 
         previewItemContainer.addTab(previewContent, CrmTypeConstants.DETAIL, AppContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
-        previewItemContainer.addTab(associateContactList, CrmTypeConstants.CONTACT, AppContext.getMessage(CrmCommonI18nEnum.TAB_CONTACT));
-        previewItemContainer.addTab(associateLeadList, CrmTypeConstants.LEAD, AppContext.getMessage(CrmCommonI18nEnum.TAB_LEAD));
-        previewItemContainer.addTab(associateOpportunityList, CrmTypeConstants.OPPORTUNITY, AppContext.getMessage(CrmCommonI18nEnum.TAB_OPPORTUNITY));
-        previewItemContainer.addTab(associateCaseList, CrmTypeConstants.CASE, AppContext.getMessage(CrmCommonI18nEnum.TAB_CASE));
+        previewItemContainer.addTab(associateContactList, CrmTypeConstants.CONTACT, AppContext.getMessage(ContactI18nEnum.LIST));
+        previewItemContainer.addTab(associateLeadList, CrmTypeConstants.LEAD, AppContext.getMessage(LeadI18nEnum.LIST));
+        previewItemContainer.addTab(associateOpportunityList, CrmTypeConstants.OPPORTUNITY,
+                AppContext.getMessage(OpportunityI18nEnum.LIST.LIST));
+        previewItemContainer.addTab(associateCaseList, CrmTypeConstants.CASE, AppContext.getMessage(CaseI18nEnum.LIST));
         previewItemContainer.addTab(associateActivityList, CrmTypeConstants.ACTIVITY, AppContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY));
         previewItemContainer.selectTab(CrmTypeConstants.DETAIL);
     }

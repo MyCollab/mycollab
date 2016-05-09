@@ -27,6 +27,7 @@ import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.domain.SimpleTask;
 import com.esofthead.mycollab.module.crm.domain.Task;
 import com.esofthead.mycollab.module.crm.domain.criteria.TodoSearchCriteria;
+import com.esofthead.mycollab.module.crm.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.crm.service.TaskService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -41,8 +42,7 @@ import com.vaadin.ui.UI;
  * @author MyCollab Ltd.
  * @since 4.1
  */
-public class AssignmentReadPresenter extends
-        AbstractCrmPresenter<AssignmentReadView> {
+public class AssignmentReadPresenter extends AbstractCrmPresenter<AssignmentReadView> {
     private static final long serialVersionUID = -5145707856679650546L;
 
     public AssignmentReadPresenter() {
@@ -75,8 +75,7 @@ public class AssignmentReadPresenter extends
                             public void onClose(ConfirmDialog dialog) {
                                 if (dialog.isConfirmed()) {
                                     TaskService taskService = ApplicationContextUtil.getSpringBean(TaskService.class);
-                                    taskService.removeWithSession(data,
-                                            AppContext.getUsername(), AppContext.getAccountId());
+                                    taskService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
                                     EventBusFactory.getInstance().post(new ActivityEvent.GotoList(this, null));
                                 }
                             }
@@ -87,29 +86,23 @@ public class AssignmentReadPresenter extends
             public void onClone(SimpleTask data) {
                 Task cloneData = (Task) data.copy();
                 cloneData.setId(null);
-                EventBusFactory.getInstance().post(
-                        new ActivityEvent.TaskEdit(this, cloneData));
+                EventBusFactory.getInstance().post(new ActivityEvent.TaskEdit(this, cloneData));
             }
 
             @Override
             public void onCancel() {
-                EventBusFactory.getInstance().post(
-                        new ActivityEvent.GotoList(this, null));
+                EventBusFactory.getInstance().post(new ActivityEvent.GotoList(this, null));
             }
 
             @Override
             public void gotoNext(SimpleTask data) {
-                TaskService taskService = ApplicationContextUtil
-                        .getSpringBean(TaskService.class);
+                TaskService taskService = ApplicationContextUtil.getSpringBean(TaskService.class);
                 TodoSearchCriteria criteria = new TodoSearchCriteria();
-                criteria.setSaccountid(new NumberSearchField(AppContext
-                        .getAccountId()));
-                criteria.setId(new NumberSearchField(data.getId(),
-                        NumberSearchField.GREATER));
+                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
                 Integer nextId = taskService.getNextItemKey(criteria);
                 if (nextId != null) {
-                    EventBusFactory.getInstance().post(
-                            new ActivityEvent.TaskRead(this, nextId));
+                    EventBusFactory.getInstance().post(new ActivityEvent.TaskRead(this, nextId));
                 } else {
                     NotificationUtil.showGotoLastRecordNotification();
                 }
@@ -118,18 +111,13 @@ public class AssignmentReadPresenter extends
 
             @Override
             public void gotoPrevious(SimpleTask data) {
-                TaskService taskService = ApplicationContextUtil
-                        .getSpringBean(TaskService.class);
+                TaskService taskService = ApplicationContextUtil.getSpringBean(TaskService.class);
                 TodoSearchCriteria criteria = new TodoSearchCriteria();
-                criteria.setSaccountid(new NumberSearchField(AppContext
-                        .getAccountId()));
-                criteria.setId(new NumberSearchField(data.getId(),
-                        NumberSearchField.LESSTHAN));
-                Integer nextId = taskService
-                        .getPreviousItemKey(criteria);
+                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
+                Integer nextId = taskService.getPreviousItemKey(criteria);
                 if (nextId != null) {
-                    EventBusFactory.getInstance().post(
-                            new ActivityEvent.TaskRead(this, nextId));
+                    EventBusFactory.getInstance().post(new ActivityEvent.TaskRead(this, nextId));
                 } else {
                     NotificationUtil.showGotoFirstRecordNotification();
                 }
@@ -156,7 +144,8 @@ public class AssignmentReadPresenter extends
             super.onGo(container, data);
 
             AppContext.addFragment(CrmLinkGenerator.generateTaskPreviewLink(task.getId()),
-                    AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE, "Task", task.getSubject()));
+                    AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
+                            AppContext.getMessage(TaskI18nEnum.SINGLE), task.getSubject()));
         } else {
             NotificationUtil.showMessagePermissionAlert();
         }

@@ -83,7 +83,7 @@ public class LeadListPresenter extends CrmGenericListPresenter<LeadListView, Lea
 
                 } else if (ViewItemAction.MASS_UPDATE_ACTION().equals(id)) {
                     MassUpdateLeadWindow massUpdateWindow = new MassUpdateLeadWindow(AppContext.getMessage(
-                            GenericI18Enum.WINDOW_MASS_UPDATE_TITLE, "Lead"),
+                            GenericI18Enum.WINDOW_MASS_UPDATE_TITLE, AppContext.getMessage(LeadI18nEnum.LIST)),
                             LeadListPresenter.this);
                     UI.getCurrent().addWindow(massUpdateWindow);
                 }

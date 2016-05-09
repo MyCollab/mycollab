@@ -16,153 +16,49 @@
  */
 package com.esofthead.mycollab.module.project.view.bug.components;
 
-import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
-import com.esofthead.mycollab.module.project.events.BugEvent;
-import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
-import com.esofthead.mycollab.module.project.ui.components.IGroupComponent;
-import com.esofthead.mycollab.module.project.view.bug.BugPopupFieldFactory;
+import com.esofthead.mycollab.configuration.StorageFactory;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
-import com.esofthead.mycollab.module.tracker.service.BugService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.mvp.ViewManager;
-import com.esofthead.mycollab.vaadin.ui.UIUtils;
-import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
-import com.esofthead.mycollab.vaadin.web.ui.OptionPopupContent;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
+import com.esofthead.mycollab.vaadin.web.ui.AbstractBeanPagedList;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
-import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.*;
-import org.vaadin.dialogs.ConfirmDialog;
-import org.vaadin.hene.popupbutton.PopupButton;
+import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Span;
+import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Component;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
-import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd
- * @since 5.1.1
+ * @since 5.3.1
  */
-public class BugRowRenderer extends MVerticalLayout {
-    private SimpleBug bug;
+public class BugRowRenderer implements AbstractBeanPagedList.RowDisplayHandler<SimpleBug> {
+    @Override
+    public Component generateRow(AbstractBeanPagedList host, SimpleBug bug, int rowIndex) {
+        ToggleBugSummaryField toggleBugSummaryField = new ToggleBugSummaryField(bug);
 
-    private PopupButton bugSettingPopupBtn;
+        MHorizontalLayout rowComp = new MHorizontalLayout().withStyleName(UIConstants.HOVER_EFFECT_NOT_BOX);
+        rowComp.addStyleName("margin-bottom");
+        rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
 
-    public BugRowRenderer(final SimpleBug bug) {
-        this.bug = bug;
-        withSpacing(true).withMargin(false).withWidth("100%").addStyleName(UIConstants.BORDER_LIST_ROW);
+        String bugPriority = bug.getPriority();
+        Span priorityLink = new Span().appendText(ProjectAssetsManager.getBugPriorityHtml(bugPriority)).setTitle(bugPriority);
 
-        bugSettingPopupBtn = new PopupButton();
-        bugSettingPopupBtn.setIcon(FontAwesome.COGS);
-        bugSettingPopupBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
-        OptionPopupContent filterBtnLayout = createPopupContent();
-        bugSettingPopupBtn.setContent(filterBtnLayout);
+        Span statusSpan = new Span().appendText(AppContext.getMessage(OptionI18nEnum.BugStatus.class,
+                bug.getStatus())).setCSSClass(UIConstants.FIELD_NOTE);
 
+        String avatarLink = StorageFactory.getInstance().getAvatarPath(bug.getAssignUserAvatarId(), 16);
+        Img img = new Img(bug.getAssignuserFullName(), avatarLink).setTitle(bug.getAssignuserFullName());
 
-        final ToggleBugSummaryField bugWrapper = new ToggleBugSummaryField(bug);
-
-        BugPopupFieldFactory popupFieldFactory = ViewManager.getCacheComponent(BugPopupFieldFactory.class);
-        MHorizontalLayout headerLayout = new MHorizontalLayout().withWidth("100%").withMargin(new MarginInfo(false,
-                true, false, false));
-        PopupView priorityField = popupFieldFactory.createPriorityPopupField(bug);
-        PopupView assigneeField = popupFieldFactory.createAssigneePopupField(bug);
-        headerLayout.with(bugSettingPopupBtn, priorityField, assigneeField, bugWrapper).expand(bugWrapper);
-
-        CssLayout footer = new CssLayout();
-
-        PopupView commentsField = popupFieldFactory.createCommentsPopupField(bug);
-        footer.addComponent(commentsField);
-
-        PopupView followerField = popupFieldFactory.createFollowersPopupField(bug);
-        footer.addComponent(followerField);
-
-        PopupView statusField = popupFieldFactory.createStatusPopupField(bug);
-        footer.addComponent(statusField);
-
-        PopupView milestoneField = popupFieldFactory.createMilestonePopupField(bug);
-        footer.addComponent(milestoneField);
-
-        String deadlineTooltip = String.format("%s: %s", AppContext.getMessage(GenericI18Enum.FORM_DUE_DATE),
-                AppContext.formatDate(bug.getDuedate()));
-        PopupView deadlineField = popupFieldFactory.createDeadlinePopupField(bug);
-        deadlineField.setDescription(deadlineTooltip);
-        footer.addComponent(deadlineField);
-
-        PopupView startdateField = popupFieldFactory.createStartDatePopupField(bug);
-        footer.addComponent(startdateField);
-
-        PopupView enddateField = popupFieldFactory.createEndDatePopupField(bug);
-        footer.addComponent(enddateField);
-
-        PopupView billableHoursView = popupFieldFactory.createBillableHoursPopupField(bug);
-        footer.addComponent(billableHoursView);
-
-        PopupView nonBillableHoursView = popupFieldFactory.createNonbillableHoursPopupField(bug);
-        footer.addComponent(nonBillableHoursView);
-
-        this.with(headerLayout, footer);
-    }
-
-
-    private void deleteBug() {
-        IGroupComponent root = UIUtils.getRoot(this, IGroupComponent.class);
-        ComponentContainer parent = (ComponentContainer) this.getParent();
-        if (parent != null) {
-            parent.removeComponent(this);
-            if (root != null) {
-                ComponentContainer parentRoot = (ComponentContainer) root.getParent();
-                if (parentRoot != null && parent.getComponentCount() == 0) {
-                    parentRoot.removeComponent(root);
-                }
-            }
-        }
-    }
-
-    private OptionPopupContent createPopupContent() {
-        OptionPopupContent filterBtnLayout = new OptionPopupContent();
-
-        Button editButton = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-                bugSettingPopupBtn.setPopupVisible(false);
-                EventBusFactory.getInstance().post(new BugEvent.GotoEdit(BugRowRenderer.this, bug));
-            }
-        });
-        editButton.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS));
-        editButton.setIcon(FontAwesome.EDIT);
-        filterBtnLayout.addOption(editButton);
-        Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-                bugSettingPopupBtn.setPopupVisible(false);
-                ConfirmDialogExt.show(UI.getCurrent(),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                        new ConfirmDialog.Listener() {
-                            private static final long serialVersionUID = 1L;
-
-                            @Override
-                            public void onClose(ConfirmDialog dialog) {
-                                if (dialog.isConfirmed()) {
-                                    BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
-                                    bugService.removeWithSession(bug, AppContext.getUsername(), AppContext.getAccountId());
-                                    deleteBug();
-                                }
-                            }
-                        });
-            }
-        });
-        deleteBtn.setIcon(FontAwesome.TRASH_O);
-        deleteBtn.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS));
-        filterBtnLayout.addDangerOption(deleteBtn);
-        return filterBtnLayout;
+        rowComp.with(new ELabel(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG).getHtml(), ContentMode.HTML)
+                        .withWidthUndefined(), new ELabel(priorityLink.write(), ContentMode.HTML).withWidthUndefined(),
+                new ELabel(statusSpan.write(), ContentMode.HTML).withWidthUndefined(),
+                new ELabel(img.write(), ContentMode.HTML).withWidthUndefined(),
+                toggleBugSummaryField).expand(toggleBugSummaryField);
+        return rowComp;
     }
 }

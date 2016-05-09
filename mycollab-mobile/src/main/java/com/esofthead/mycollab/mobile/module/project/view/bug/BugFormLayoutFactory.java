@@ -41,7 +41,7 @@ public class BugFormLayoutFactory implements IFormLayoutFactory {
         final VerticalLayout layout = new VerticalLayout();
         layout.setMargin(false);
         layout.setWidth("100%");
-        layout.addComponent(FormSectionBuilder.build(AppContext.getMessage(BugI18nEnum.M_FORM_READ_TITLE)));
+        layout.addComponent(FormSectionBuilder.build(AppContext.getMessage(BugI18nEnum.SINGLE)));
 
         informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 14);
         layout.addComponent(informationLayout.getLayout());

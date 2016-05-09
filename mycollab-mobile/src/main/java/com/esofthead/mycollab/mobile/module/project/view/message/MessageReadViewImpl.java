@@ -54,7 +54,7 @@ public class MessageReadViewImpl extends AbstractMobilePageView implements Messa
     public MessageReadViewImpl() {
         super();
         this.addStyleName("message-read-view");
-        this.setCaption(AppContext.getMessage(MessageI18nEnum.M_VIEW_READ_TITLE));
+        this.setCaption(AppContext.getMessage(MessageI18nEnum.SINGLE));
         mainLayout = new VerticalLayout();
         mainLayout.setWidth("100%");
         this.setContent(mainLayout);

@@ -208,7 +208,7 @@ public class ActivityStreamPanel extends CssLayout {
             }
 
             // --------------Item hidden div tooltip----------------
-            String itemType = AppContext.getMessage(CrmLocalizationTypeMap.getType(activityStream.getType()));
+            String itemType = CrmLocalizationTypeMap.getType(activityStream.getType());
             String assigneeValue = buildAssigneeValue(activityStream);
             String itemValue = buildItemValue(activityStream);
 

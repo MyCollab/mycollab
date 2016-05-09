@@ -96,7 +96,7 @@ public class StartDateOrderComponent extends BugGroupOrderComponent {
         }
 
         void insertTask(SimpleBug bug) {
-            wrapBody.addComponent(new BugRowRenderer(bug));
+            wrapBody.addComponent(new BugRowComponent(bug));
         }
     }
 }

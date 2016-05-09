@@ -27,32 +27,26 @@ import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
-
 @ViewComponent
-public class MeetingAddViewImpl extends AbstractEditItemComp<MeetingWithBLOBs>
-		implements MeetingAddView {
-	private static final long serialVersionUID = 2739924176536721587L;
+public class MeetingAddViewImpl extends AbstractEditItemComp<MeetingWithBLOBs> implements MeetingAddView {
+    private static final long serialVersionUID = 2739924176536721587L;
 
-	@Override
-	protected String initFormTitle() {
-		return beanItem.getSubject() != null ? beanItem.getSubject()
-				: AppContext.getMessage(MeetingI18nEnum.NEW);
-	}
+    @Override
+    protected String initFormTitle() {
+        return beanItem.getSubject() != null ? beanItem.getSubject() : AppContext.getMessage(MeetingI18nEnum.NEW);
+    }
 
-	@Override
-	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new DynaFormLayout(CrmTypeConstants.MEETING,
-				MeetingDefaultFormLayoutFactory.getForm());
-	}
+    @Override
+    protected IFormLayoutFactory initFormLayoutFactory() {
+        return new DynaFormLayout(CrmTypeConstants.MEETING, MeetingDefaultFormLayoutFactory.getForm());
+    }
 
-	@Override
-	protected AbstractBeanFieldGroupEditFieldFactory<MeetingWithBLOBs> initBeanFormFieldFactory() {
-		return new MeetingEditFormFieldFactory(editForm);
-	}
+    @Override
+    protected AbstractBeanFieldGroupEditFieldFactory<MeetingWithBLOBs> initBeanFormFieldFactory() {
+        return new MeetingEditFormFieldFactory(editForm);
+    }
 
 }

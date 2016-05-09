@@ -14,12 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.module.project.view.user;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.domain.Project;
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
+import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.security.BooleanPermissionFlag;
@@ -31,8 +32,8 @@ import com.esofthead.mycollab.vaadin.events.IEditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewPermission;
-import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
+import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.vaadin.ui.ComponentContainer;
 
 import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.CURRENT_PROJECT;
@@ -86,7 +87,8 @@ public class ProjectAddPresenter extends AbstractPresenter<ProjectAddView> {
         view.editItem(project);
 
         if (project.getId() == null) {
-            AppContext.addFragment("project/add", "New Project");
+            AppContext.addFragment("project/add", AppContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
+                    AppContext.getMessage(ProjectI18nEnum.SINGLE)));
         }
     }
 

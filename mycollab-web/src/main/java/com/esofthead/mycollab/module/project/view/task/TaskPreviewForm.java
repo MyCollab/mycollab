@@ -233,6 +233,11 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                     .setTitle(subTask.getPriority());
             layout.with(new ELabel(priorityLink.write(), ContentMode.HTML).withWidthUndefined());
 
+            final ELabel statusLbl = new ELabel(AppContext.getMessage(com.esofthead.mycollab.common.i18n
+                    .OptionI18nEnum.StatusI18nEnum.class, subTask.getStatus())).withStyleName(UIConstants.FIELD_NOTE)
+                    .withWidthUndefined();
+            layout.with(statusLbl);
+
             String avatarLink = StorageFactory.getInstance().getAvatarPath(subTask.getAssignUserAvatarId(), 16);
             Img avatarImg = new Img(subTask.getAssignUserFullName(), avatarLink).setTitle(subTask.getAssignUserFullName());
             layout.with(new ELabel(avatarImg.write(), ContentMode.HTML).withWidthUndefined());
@@ -246,10 +251,15 @@ public class TaskPreviewForm extends AdvancedPreviewBeanForm<SimpleTask> {
                     Boolean selectedFlag = checkBox.getValue();
                     ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
                     if (selectedFlag) {
+                        statusLbl.setValue(AppContext.getMessage(com.esofthead.mycollab.common.i18n.OptionI18nEnum
+                                .StatusI18nEnum.class, com.esofthead.mycollab.common.i18n.OptionI18nEnum
+                                .StatusI18nEnum.Closed.name()));
                         subTask.setStatus(com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.Closed.name());
                         subTask.setPercentagecomplete(100d);
                         toggleTaskSummaryField.closeTask();
                     } else {
+                        statusLbl.setValue(AppContext.getMessage(com.esofthead.mycollab.common.i18n.OptionI18nEnum
+                                .StatusI18nEnum.class, com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.Open.name()));
                         subTask.setStatus(com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.Open.name());
                         subTask.setPercentagecomplete(0d);
                         if (subTask.isOverdue()) {

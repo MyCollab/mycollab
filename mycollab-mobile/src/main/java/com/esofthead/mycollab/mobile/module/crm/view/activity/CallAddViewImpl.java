@@ -28,28 +28,19 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.vaadin.addon.touchkit.ui.DatePicker;
 import com.vaadin.data.Property;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CustomField;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.TextArea;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.1
  */
-
 @ViewComponent
 public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs> implements CallAddView {
     private static final long serialVersionUID = -7038760697823160315L;
 
     @Override
     protected String initFormTitle() {
-        return beanItem.getSubject() != null ? beanItem.getSubject()
-                : AppContext.getMessage(CallI18nEnum.NEW);
+        return beanItem.getSubject() != null ? beanItem.getSubject() : AppContext.getMessage(CallI18nEnum.NEW);
     }
 
     @Override

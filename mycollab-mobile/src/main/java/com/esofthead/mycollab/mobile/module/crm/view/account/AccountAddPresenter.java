@@ -20,10 +20,11 @@ import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.AccountEvent;
-import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.module.crm.view.AbstractCrmPresenter;
+import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
+import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -81,11 +82,13 @@ public class AccountAddPresenter extends AbstractCrmPresenter<AccountAddView> {
             super.onGo(container, data);
             view.editItem(account);
             if (account.getId() == null) {
-                AppContext.addFragment("crm/account/add", AppContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE, "Account"));
+                AppContext.addFragment("crm/account/add", AppContext.getMessage(GenericI18Enum
+                        .BROWSER_ADD_ITEM_TITLE, AppContext.getMessage(AccountI18nEnum.SINGLE)));
 
             } else {
                 AppContext.addFragment("crm/account/edit/" + UrlEncodeDecoder.encode(account.getId()),
-                        AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, "Account", account.getAccountname()));
+                        AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
+                                AppContext.getMessage(AccountI18nEnum.SINGLE), account.getAccountname()));
             }
         } else {
             NotificationUtil.showMessagePermissionAlert();

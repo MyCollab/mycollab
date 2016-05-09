@@ -26,6 +26,7 @@ public enum ComponentI18nEnum {
     LIST,
     DETAIL,
     NEW,
+    SINGLE,
 
     FORM_LEAD,
     FORM_COMPONENT_ERROR,

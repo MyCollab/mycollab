@@ -28,6 +28,7 @@ import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
+import com.esofthead.mycollab.module.crm.i18n.OpportunityI18nEnum;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.*;
@@ -153,7 +154,7 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact> 
         previewItemContainer.addTab(previewContent, CrmTypeConstants.DETAIL,
                 AppContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
         previewItemContainer.addTab(associateOpportunityList, CrmTypeConstants.OPPORTUNITY,
-                AppContext.getMessage(CrmCommonI18nEnum.TAB_OPPORTUNITY));
+                AppContext.getMessage(OpportunityI18nEnum.LIST));
         previewItemContainer.addTab(associateActivityList, CrmTypeConstants.ACTIVITY,
                 AppContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY));
     }

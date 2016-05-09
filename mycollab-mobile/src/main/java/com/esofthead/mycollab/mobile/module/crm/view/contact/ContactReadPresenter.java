@@ -29,6 +29,7 @@ import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.*;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
+import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -204,7 +205,8 @@ public class ContactReadPresenter extends AbstractCrmPresenter<ContactReadView> 
                     super.onGo(container, data);
 
                     AppContext.addFragment(CrmLinkGenerator.generateContactPreviewLink(contact.getId()),
-                            AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE, "Contact", contact.getContactName()));
+                            AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
+                                    AppContext.getMessage(ContactI18nEnum.SINGLE), contact.getContactName()));
 
                 } else {
                     NotificationUtil.showRecordNotExistNotification();

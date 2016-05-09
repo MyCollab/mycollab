@@ -26,6 +26,7 @@ public enum ProjectI18nEnum {
     NEW,
     EDIT,
     LIST,
+    SINGLE,
 
     FORM_HOME_PAGE,
     FORM_ACCOUNT_NAME,

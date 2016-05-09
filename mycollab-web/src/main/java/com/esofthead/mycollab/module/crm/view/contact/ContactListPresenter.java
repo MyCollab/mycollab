@@ -25,7 +25,6 @@ import com.esofthead.mycollab.module.crm.domain.Contact;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
-import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericListPresenter;
 import com.esofthead.mycollab.module.crm.view.CrmModule;
@@ -95,7 +94,7 @@ public class ContactListPresenter extends CrmGenericListPresenter<ContactListVie
                 } else if ("massUpdate".equals(id)) {
                     MassUpdateContactWindow massUpdateWindow = new MassUpdateContactWindow(
                             AppContext.getMessage(GenericI18Enum.WINDOW_MASS_UPDATE_TITLE,
-                                    AppContext.getMessage(CrmCommonI18nEnum.CONTACT)),
+                                    AppContext.getMessage(ContactI18nEnum.LIST)),
                             ContactListPresenter.this);
                     UI.getCurrent().addWindow(massUpdateWindow);
                 }

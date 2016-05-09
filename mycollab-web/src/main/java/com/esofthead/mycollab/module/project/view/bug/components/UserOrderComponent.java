@@ -98,7 +98,7 @@ public class UserOrderComponent extends BugGroupOrderComponent {
         }
 
         void insertBug(SimpleBug bug) {
-            wrapBody.addComponent(new BugRowRenderer(bug));
+            wrapBody.addComponent(new BugRowComponent(bug));
         }
     }
 }

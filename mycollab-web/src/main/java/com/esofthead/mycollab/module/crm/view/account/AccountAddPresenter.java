@@ -25,6 +25,7 @@ import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.events.AccountEvent;
+import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
 import com.esofthead.mycollab.module.crm.view.CrmModule;
@@ -95,11 +96,13 @@ public class AccountAddPresenter extends CrmGenericPresenter<AccountAddView> {
             super.onGo(container, data);
             view.editItem(account);
             if (account.getId() == null) {
-                AppContext.addFragment("crm/account/add", AppContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE, "Account"));
+                AppContext.addFragment("crm/account/add", AppContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
+                        AppContext.getMessage(AccountI18nEnum.SINGLE)));
 
             } else {
                 AppContext.addFragment("crm/account/edit/" + UrlEncodeDecoder.encode(account.getId()),
-                        AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, "Account", account.getAccountname()));
+                        AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
+                                AppContext.getMessage(AccountI18nEnum.SINGLE), account.getAccountname()));
             }
         } else {
             throw new SecureAccessException();

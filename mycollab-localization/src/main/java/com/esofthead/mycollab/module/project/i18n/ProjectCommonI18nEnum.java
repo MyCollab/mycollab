@@ -58,7 +58,6 @@ public enum ProjectCommonI18nEnum {
     VIEW_FILE,
     VIEW_FINANCE,
     VIEW_TIME,
-    VIEW_INVOICE,
     VIEW_STANDUP,
     VIEW_CALENDAR,
     VIEW_MEMBER,

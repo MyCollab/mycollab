@@ -23,6 +23,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
+import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.*;
@@ -116,7 +117,7 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase> implem
         navigatorWrapper.addComponentAsFirst(basicInfo);
 
         previewItemContainer.addTab(previewContent, CrmTypeConstants.DETAIL, AppContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
-        previewItemContainer.addTab(associateContactList, CrmTypeConstants.CONTACT, AppContext.getMessage(CrmCommonI18nEnum.TAB_CONTACT));
+        previewItemContainer.addTab(associateContactList, CrmTypeConstants.CONTACT, AppContext.getMessage(ContactI18nEnum.LIST));
         previewItemContainer.addTab(associateActivityList, CrmTypeConstants.ACTIVITY, AppContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY));
     }
 

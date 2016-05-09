@@ -20,10 +20,11 @@ import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.ContactEvent;
-import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.module.crm.view.AbstractCrmPresenter;
+import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.module.crm.domain.Contact;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
+import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -81,10 +82,12 @@ public class ContactAddPresenter extends AbstractCrmPresenter<ContactAddView> {
             view.editItem(contact);
 
             if (contact.getId() == null) {
-                AppContext.addFragment("crm/contact/add", AppContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE, "Contact"));
+                AppContext.addFragment("crm/contact/add", AppContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
+                        AppContext.getMessage(ContactI18nEnum.SINGLE)));
             } else {
                 AppContext.addFragment("crm/contact/edit/" + UrlEncodeDecoder.encode(contact.getId()),
-                        AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, "Contact", contact.getLastname()));
+                        AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
+                                AppContext.getMessage(ContactI18nEnum.SINGLE), contact.getLastname()));
             }
         } else {
             NotificationUtil.showMessagePermissionAlert();

@@ -33,7 +33,7 @@ public class SimpleListOrderComponent extends BugGroupOrderComponent {
     @Override
     public void insertBugs(List<SimpleBug> bugs) {
         for (SimpleBug bug : bugs) {
-            this.addComponent(new BugRowRenderer(bug));
+            this.addComponent(new BugRowComponent(bug));
         }
     }
 }

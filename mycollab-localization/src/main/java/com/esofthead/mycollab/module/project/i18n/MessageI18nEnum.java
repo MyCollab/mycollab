@@ -25,6 +25,7 @@ import ch.qos.cal10n.LocaleData;
 public enum MessageI18nEnum {
     LIST,
     NEW,
+    SINGLE,
 
     FORM_TITLE,
     FORM_IS_STICK,
@@ -39,7 +40,5 @@ public enum MessageI18nEnum {
     MAIL_UPDATE_ITEM_HEADING,
     MAIL_COMMENT_ITEM_HEADING,
 
-    M_VIEW_READ_TITLE,
-    M_VIEW_ADD_TITLE,
     M_FORM_CONTENT_FIELD_PROMPT
 }

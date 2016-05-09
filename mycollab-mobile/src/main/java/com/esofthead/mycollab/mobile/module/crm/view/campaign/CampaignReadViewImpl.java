@@ -27,7 +27,10 @@ import com.esofthead.mycollab.mobile.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.mobile.ui.IconConstants;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.*;
+import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
+import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
+import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
@@ -111,7 +114,7 @@ public class CampaignReadViewImpl extends AbstractPreviewItemComp<SimpleCampaign
         relatedAccounts.setCaption("<span aria-hidden=\"true\" data-icon=\""
                 + IconConstants.CRM_ACCOUNT
                 + "\"></span><div class=\"screen-reader-text\">"
-                + AppContext.getMessage(CrmCommonI18nEnum.TAB_ACCOUNT)
+                + AppContext.getMessage(AccountI18nEnum.LIST)
                 + "</div>");
         relatedAccounts.setHtmlContentAllowed(true);
         relatedAccounts.addClickListener(new Button.ClickListener() {
@@ -129,7 +132,7 @@ public class CampaignReadViewImpl extends AbstractPreviewItemComp<SimpleCampaign
         relatedContacts.setCaption("<span aria-hidden=\"true\" data-icon=\""
                 + IconConstants.CRM_CONTACT
                 + "\"></span><div class=\"screen-reader-text\">"
-                + AppContext.getMessage(CrmCommonI18nEnum.TAB_CONTACT)
+                + AppContext.getMessage(ContactI18nEnum.LIST)
                 + "</div>");
         relatedContacts.setHtmlContentAllowed(true);
         relatedContacts.addClickListener(new Button.ClickListener() {
@@ -147,7 +150,7 @@ public class CampaignReadViewImpl extends AbstractPreviewItemComp<SimpleCampaign
         relatedLeads.setCaption("<span aria-hidden=\"true\" data-icon=\""
                 + IconConstants.CRM_LEAD
                 + "\"></span><div class=\"screen-reader-text\">"
-                + AppContext.getMessage(CrmCommonI18nEnum.TAB_LEAD) + "</div>");
+                + AppContext.getMessage(LeadI18nEnum.LIST) + "</div>");
         relatedLeads.setHtmlContentAllowed(true);
         relatedLeads.addClickListener(new Button.ClickListener() {
             private static final long serialVersionUID = 7589415773039335559L;
@@ -172,8 +175,8 @@ public class CampaignReadViewImpl extends AbstractPreviewItemComp<SimpleCampaign
 
             @Override
             public void buttonClick(ClickEvent arg0) {
-                EventBusFactory.getInstance().post(
-                        new CampaignEvent.GoToRelatedItems(this, new CrmRelatedItemsScreenData(associateActivities)));
+                EventBusFactory.getInstance().post(new CampaignEvent.GoToRelatedItems(this,
+                        new CrmRelatedItemsScreenData(associateActivities)));
             }
         });
         toolbarLayout.addComponent(relatedActivities);

@@ -26,6 +26,7 @@ public enum MilestoneI18nEnum {
     LIST,
     NEW,
     DETAIL,
+    SINGLE,
 
     WIDGET_CLOSED_PHASE_TITLE,
     WIDGET_INPROGRESS_PHASE_TITLE,
@@ -42,5 +43,4 @@ public enum MilestoneI18nEnum {
     MAIL_COMMENT_ITEM_HEADING,
 
     M_LIST_DATE_INFO,
-    M_FORM_READ_TITLE
 }

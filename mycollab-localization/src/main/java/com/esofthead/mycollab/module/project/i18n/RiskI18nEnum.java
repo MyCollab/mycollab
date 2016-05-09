@@ -26,6 +26,7 @@ public enum RiskI18nEnum {
     LIST,
     NEW,
     DETAIL,
+    SINGLE,
 
     FORM_RAISED_BY,
     FORM_RELATED,

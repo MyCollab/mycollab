@@ -26,6 +26,7 @@ public enum VersionI18nEnum {
     LIST,
     NEW,
     DETAIL,
+    SINGLE,
 
     FORM_VERSION_ERROR_MSG,
 

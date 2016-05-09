@@ -20,10 +20,11 @@ import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.CaseEvent;
-import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.module.crm.view.AbstractCrmPresenter;
+import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.module.crm.domain.CaseWithBLOBs;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
+import com.esofthead.mycollab.module.crm.i18n.CaseI18nEnum;
 import com.esofthead.mycollab.module.crm.service.CaseService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -82,10 +83,12 @@ public class CaseAddPresenter extends AbstractCrmPresenter<CaseAddView> {
             view.editItem(cases);
 
             if (cases.getId() == null) {
-                AppContext.addFragment("crm/cases/add", AppContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE, "Case"));
+                AppContext.addFragment("crm/cases/add", AppContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
+                        AppContext.getMessage(CaseI18nEnum.SINGLE)));
             } else {
                 AppContext.addFragment("crm/cases/edit/" + UrlEncodeDecoder.encode(cases.getId()),
-                        AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, "Case", cases.getSubject()));
+                        AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
+                                AppContext.getMessage(CaseI18nEnum.SINGLE), cases.getSubject()));
             }
         } else {
             NotificationUtil.showMessagePermissionAlert();

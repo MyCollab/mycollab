@@ -22,13 +22,14 @@ import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.CampaignEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.LeadEvent;
-import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.module.crm.view.AbstractCrmPresenter;
+import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.*;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
+import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -62,14 +63,12 @@ public class LeadReadPresenter extends AbstractCrmPresenter<LeadReadView> {
         view.getPreviewFormHandlers().addFormHandler(new DefaultPreviewFormHandler<SimpleLead>() {
             @Override
             public void onEdit(SimpleLead data) {
-                EventBusFactory.getInstance().post(
-                        new LeadEvent.GotoEdit(this, data));
+                EventBusFactory.getInstance().post(new LeadEvent.GotoEdit(this, data));
             }
 
             @Override
             public void onAdd(SimpleLead data) {
-                EventBusFactory.getInstance().post(
-                        new LeadEvent.GotoAdd(this, null));
+                EventBusFactory.getInstance().post(new LeadEvent.GotoAdd(this, null));
             }
 
             @Override
@@ -85,8 +84,7 @@ public class LeadReadPresenter extends AbstractCrmPresenter<LeadReadView> {
                             public void onClose(ConfirmDialog dialog) {
                                 if (dialog.isConfirmed()) {
                                     LeadService LeadService = ApplicationContextUtil.getSpringBean(LeadService.class);
-                                    LeadService.removeWithSession(data,
-                                            AppContext.getUsername(), AppContext.getAccountId());
+                                    LeadService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
                                     EventBusFactory.getInstance().post(new LeadEvent.GotoList(this, null));
                                 }
                             }
@@ -141,32 +139,25 @@ public class LeadReadPresenter extends AbstractCrmPresenter<LeadReadView> {
                     @Override
                     public void selectAssociateItems(Set<SimpleCampaign> items) {
                         SimpleLead lead = view.getItem();
-                        List<CampaignLead> associateCampaigns = new ArrayList<CampaignLead>();
+                        List<CampaignLead> associateCampaigns = new ArrayList<>();
                         for (SimpleCampaign campaign : items) {
                             CampaignLead associateCampaign = new CampaignLead();
                             associateCampaign.setCampaignid(campaign.getId());
                             associateCampaign.setLeadid(lead.getId());
-                            associateCampaign
-                                    .setCreatedtime(new GregorianCalendar()
-                                            .getTime());
+                            associateCampaign.setCreatedtime(new GregorianCalendar().getTime());
                             associateCampaigns.add(associateCampaign);
                         }
 
-                        CampaignService campaignService = ApplicationContextUtil
-                                .getSpringBean(CampaignService.class);
-                        campaignService.saveCampaignLeadRelationship(
-                                associateCampaigns, AppContext.getAccountId());
-                        EventBusFactory.getInstance().post(
-                                new ShellEvent.NavigateBack(this, null));
+                        CampaignService campaignService = ApplicationContextUtil.getSpringBean(CampaignService.class);
+                        campaignService.saveCampaignLeadRelationship(associateCampaigns, AppContext.getAccountId());
+                        EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
                     }
 
                     @Override
                     public void createNewRelatedItem(String itemId) {
                         SimpleCampaign campaign = new SimpleCampaign();
                         campaign.setExtraData(view.getItem());
-                        EventBusFactory.getInstance().post(
-                                new CampaignEvent.GotoEdit(
-                                        LeadReadPresenter.this, campaign));
+                        EventBusFactory.getInstance().post(new CampaignEvent.GotoEdit(LeadReadPresenter.this, campaign));
 
                     }
                 });
@@ -185,23 +176,17 @@ public class LeadReadPresenter extends AbstractCrmPresenter<LeadReadView> {
                             final SimpleTask task = new SimpleTask();
                             task.setType(CrmTypeConstants.ACCOUNT);
                             task.setTypeid(view.getItem().getId());
-                            EventBusFactory.getInstance().post(
-                                    new ActivityEvent.TaskEdit(
-                                            LeadReadPresenter.this, task));
+                            EventBusFactory.getInstance().post(new ActivityEvent.TaskEdit(LeadReadPresenter.this, task));
                         } else if (itemId.equals(CrmTypeConstants.MEETING)) {
                             final SimpleMeeting meeting = new SimpleMeeting();
                             meeting.setType(CrmTypeConstants.ACCOUNT);
                             meeting.setTypeid(view.getItem().getId());
-                            EventBusFactory.getInstance().post(
-                                    new ActivityEvent.MeetingEdit(
-                                            LeadReadPresenter.this, meeting));
+                            EventBusFactory.getInstance().post(new ActivityEvent.MeetingEdit(LeadReadPresenter.this, meeting));
                         } else if (itemId.equals(CrmTypeConstants.CALL)) {
                             final SimpleCall call = new SimpleCall();
                             call.setType(CrmTypeConstants.ACCOUNT);
                             call.setTypeid(view.getItem().getId());
-                            EventBusFactory.getInstance().post(
-                                    new ActivityEvent.CallEdit(
-                                            LeadReadPresenter.this, call));
+                            EventBusFactory.getInstance().post(new ActivityEvent.CallEdit(LeadReadPresenter.this, call));
                         }
                     }
                 });
@@ -212,19 +197,15 @@ public class LeadReadPresenter extends AbstractCrmPresenter<LeadReadView> {
         if (AppContext.canRead(RolePermissionCollections.CRM_LEAD)) {
 
             if (data.getParams() instanceof Integer) {
-                LeadService leadService = ApplicationContextUtil
-                        .getSpringBean(LeadService.class);
-                SimpleLead lead = leadService.findById(
-                        (Integer) data.getParams(), AppContext.getAccountId());
+                LeadService leadService = ApplicationContextUtil.getSpringBean(LeadService.class);
+                SimpleLead lead = leadService.findById((Integer) data.getParams(), AppContext.getAccountId());
                 if (lead != null) {
                     view.previewItem(lead);
                     super.onGo(container, data);
 
-                    AppContext.addFragment(CrmLinkGenerator
-                            .generateLeadPreviewLink(lead.getId()), AppContext
-                            .getMessage(
-                                    GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
-                                    "Lead", lead.getLeadName()));
+                    AppContext.addFragment(CrmLinkGenerator.generateLeadPreviewLink(lead.getId()),
+                            AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
+                                    AppContext.getMessage(LeadI18nEnum.SINGLE), lead.getLeadName()));
 
                 } else {
                     NotificationUtil.showRecordNotExistNotification();

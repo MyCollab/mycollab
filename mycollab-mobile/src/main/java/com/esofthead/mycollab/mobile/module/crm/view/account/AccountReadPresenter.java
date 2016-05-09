@@ -27,6 +27,7 @@ import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.*;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
+import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -192,8 +193,7 @@ public class AccountReadPresenter extends AbstractCrmPresenter<AccountReadView> 
         view.getRelatedOpportunityHandlers().addRelatedListHandler(new RelatedListHandler<SimpleOpportunity>() {
 
             @Override
-            public void selectAssociateItems(
-                    Set<SimpleOpportunity> items) {
+            public void selectAssociateItems(Set<SimpleOpportunity> items) {
                 // TODO Auto-generated method stub
 
             }
@@ -246,7 +246,8 @@ public class AccountReadPresenter extends AbstractCrmPresenter<AccountReadView> 
                     super.onGo(container, data);
 
                     AppContext.addFragment(CrmLinkGenerator.generateAccountPreviewLink(account.getId()),
-                            AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE, "Account", account.getAccountname()));
+                            AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
+                                    AppContext.getMessage(AccountI18nEnum.SINGLE), account.getAccountname()));
                 } else {
                     NotificationUtil.showRecordNotExistNotification();
                 }

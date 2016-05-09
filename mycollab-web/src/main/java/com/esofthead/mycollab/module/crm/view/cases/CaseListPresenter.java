@@ -84,7 +84,7 @@ public class CaseListPresenter extends CrmGenericListPresenter<CaseListView, Cas
 
                 } else if (ViewItemAction.MASS_UPDATE_ACTION().equals(id)) {
                     MassUpdateCaseWindow massUpdateWindow = new MassUpdateCaseWindow(
-                            AppContext.getMessage(GenericI18Enum.WINDOW_MASS_UPDATE_TITLE, "Case"),
+                            AppContext.getMessage(GenericI18Enum.WINDOW_MASS_UPDATE_TITLE, AppContext.getMessage(CaseI18nEnum.LIST)),
                             CaseListPresenter.this);
                     UI.getCurrent().addWindow(massUpdateWindow);
                 }

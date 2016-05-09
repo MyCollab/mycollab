@@ -17,10 +17,12 @@
 package com.esofthead.mycollab.module.crm.view.activity;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.domain.Task;
 import com.esofthead.mycollab.module.crm.events.ActivityEvent;
+import com.esofthead.mycollab.module.crm.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.crm.service.TaskService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -38,9 +40,7 @@ import com.vaadin.ui.ComponentContainer;
  * @author MyCollab Ltd.
  * @since 2.0
  */
-public class AssignmentAddPresenter extends
-        CrmGenericPresenter<AssignmentAddView> {
-
+public class AssignmentAddPresenter extends CrmGenericPresenter<AssignmentAddView> {
     private static final long serialVersionUID = 1L;
 
     public AssignmentAddPresenter() {
@@ -70,8 +70,7 @@ public class AssignmentAddPresenter extends
             @Override
             public void onSaveAndNew(final Task item) {
                 save(item);
-                EventBusFactory.getInstance().post(
-                        new ActivityEvent.TaskAdd(this, null));
+                EventBusFactory.getInstance().post(new ActivityEvent.TaskAdd(this, null));
             }
         });
     }
@@ -83,29 +82,26 @@ public class AssignmentAddPresenter extends
             if (data.getParams() instanceof Task) {
                 task = (Task) data.getParams();
             } else if (data.getParams() instanceof Integer) {
-                TaskService taskService = ApplicationContextUtil
-                        .getSpringBean(TaskService.class);
-                task = taskService.findByPrimaryKey((Integer) data.getParams(),
-                        AppContext.getAccountId());
+                TaskService taskService = ApplicationContextUtil.getSpringBean(TaskService.class);
+                task = taskService.findByPrimaryKey((Integer) data.getParams(), AppContext.getAccountId());
                 if (task == null) {
                     NotificationUtil.showRecordNotExistNotification();
                     return;
                 }
             } else {
-                throw new MyCollabException("Do not support param data: "
-                        + data);
+                throw new MyCollabException("Do not support param data: " + data);
             }
 
             super.onGo(container, data);
             view.editItem(task);
 
             if (task.getId() == null) {
-                AppContext.addFragment("crm/activity/task/add/",
-                        "Add Activity Task");
+                AppContext.addFragment("crm/activity/task/add/", AppContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
+                        AppContext.getMessage(TaskI18nEnum.SINGLE)));
             } else {
-                AppContext.addFragment("crm/activity/task/edit/"
-                                + UrlEncodeDecoder.encode(task.getId()),
-                        "Edit Activity Task: " + task.getSubject());
+                AppContext.addFragment("crm/activity/task/edit/" + UrlEncodeDecoder.encode(task.getId()),
+                        AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
+                                AppContext.getMessage(TaskI18nEnum.SINGLE), task.getSubject()));
             }
         } else {
             NotificationUtil.showMessagePermissionAlert();
@@ -113,15 +109,12 @@ public class AssignmentAddPresenter extends
     }
 
     public void save(Task item) {
-        TaskService taskService = ApplicationContextUtil
-                .getSpringBean(TaskService.class);
-
+        TaskService taskService = ApplicationContextUtil.getSpringBean(TaskService.class);
         item.setSaccountid(AppContext.getAccountId());
         if (item.getId() == null) {
             taskService.saveWithSession(item, AppContext.getUsername());
         } else {
             taskService.updateWithSession(item, AppContext.getUsername());
         }
-
     }
 }

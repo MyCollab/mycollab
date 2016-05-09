@@ -23,6 +23,7 @@ import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.mobile.module.crm.view.AbstractCrmPresenter;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.module.crm.domain.MeetingWithBLOBs;
+import com.esofthead.mycollab.module.crm.i18n.MeetingI18nEnum;
 import com.esofthead.mycollab.module.crm.service.MeetingService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -82,10 +83,12 @@ public class MeetingAddPresenter extends AbstractCrmPresenter<MeetingAddView> {
             view.editItem(meeting);
 
             if (meeting.getId() == null) {
-                AppContext.addFragment("crm/activity/meeting/add/", AppContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE, "Meeting"));
+                AppContext.addFragment("crm/activity/meeting/add/", AppContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
+                        AppContext.getMessage(MeetingI18nEnum.SINGLE)));
             } else {
                 AppContext.addFragment("crm/activity/meeting/edit/" + UrlEncodeDecoder.encode(meeting.getId()),
-                        AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, "Meeting", meeting.getSubject()));
+                        AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
+                                AppContext.getMessage(MeetingI18nEnum.SINGLE), meeting.getSubject()));
             }
         } else {
             NotificationUtil.showMessagePermissionAlert();

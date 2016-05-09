@@ -101,8 +101,9 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 
     public void gotoSearchProjectItems() {
         this.select(0);
-        this.addLink(new Button("Search"));
-        AppContext.addFragment(ProjectLinkGenerator.generateProjectLink(project.getId()), "Search");
+        this.addLink(new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH)));
+        AppContext.addFragment(ProjectLinkGenerator.generateProjectLink(project.getId()),
+                AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
     }
 
     public void gotoMessageList() {
@@ -124,9 +125,9 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
         }));
         this.setLinkEnabled(true, 1);
         this.addLink(generateBreadcrumbLink(message.getTitle()));
-        AppContext.addFragment(ProjectLinkGenerator.generateMessagePreviewLink(
-                project.getId(), message.getId()), AppContext.getMessage(
-                BreadcrumbI18nEnum.FRA_MESSAGE_READ, message.getTitle()));
+        AppContext.addFragment(ProjectLinkGenerator.generateMessagePreviewLink(project.getId(), message.getId()),
+                AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
+                        AppContext.getMessage(MessageI18nEnum.SINGLE), message.getTitle()));
     }
 
     public void gotoRiskList() {
@@ -142,7 +143,8 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
         this.setLinkEnabled(true, 1);
         this.addLink(generateBreadcrumbLink(risk.getRiskname()));
         AppContext.addFragment(ProjectLinkGenerator.generateRiskPreviewLink(project.getId(), risk.getId()),
-                AppContext.getMessage(BreadcrumbI18nEnum.FRA_RISK_READ, risk.getRiskname()));
+                AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
+                        AppContext.getMessage(RiskI18nEnum.SINGLE), risk.getRiskname()));
     }
 
     public void gotoRiskEdit(final Risk risk) {
@@ -159,7 +161,8 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
         }));
         this.addLink(new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
         AppContext.addFragment(ProjectLinkGenerator.generateRiskEditLink(project.getId(), risk.getId()),
-                AppContext.getMessage(BreadcrumbI18nEnum.FRA_RISK_EDIT, risk.getRiskname()));
+                AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
+                        AppContext.getMessage(RiskI18nEnum.SINGLE), risk.getRiskname()));
     }
 
     public void gotoRiskAdd() {
@@ -168,7 +171,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
         this.setLinkEnabled(true, 1);
         this.addLink(new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADD)));
         AppContext.addFragment(ProjectLinkGenerator.generateRiskAddLink(project.getId()),
-                AppContext.getMessage(BreadcrumbI18nEnum.FRA_RISK_NEW));
+                AppContext.getMessage(RiskI18nEnum.NEW));
     }
 
     private static class GotoRiskListListener implements Button.ClickListener {
@@ -199,7 +202,8 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
         this.setLinkEnabled(true, 1);
         this.addLink(generateBreadcrumbLink(milestone.getName()));
         AppContext.addFragment(ProjectLinkGenerator.generateMilestonePreviewLink(project.getId(), milestone.getId()),
-                AppContext.getMessage(BreadcrumbI18nEnum.FRA_PHASE_READ, milestone.getName()));
+                AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
+                        AppContext.getMessage(MilestoneI18nEnum.SINGLE), milestone.getName()));
     }
 
     public void gotoMilestoneEdit(final Milestone milestone) {
@@ -216,7 +220,8 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
         }));
         this.addLink(new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
         AppContext.addFragment("project/milestone/edit/" + UrlEncodeDecoder.encode(project.getId() + "/" + milestone.getId()),
-                AppContext.getMessage(BreadcrumbI18nEnum.FRA_PHASE_EDIT, milestone.getName()));
+                AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
+                        AppContext.getMessage(MilestoneI18nEnum.SINGLE), milestone.getName()));
     }
 
     public void gotoMilestoneAdd() {
@@ -225,7 +230,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
         this.setLinkEnabled(true, 1);
         this.addLink(new Button(AppContext.getMessage(MilestoneI18nEnum.NEW)));
         AppContext.addFragment("project/milestone/add/" + UrlEncodeDecoder.encode(project.getId()),
-                AppContext.getMessage(BreadcrumbI18nEnum.FRA_PHASE_NEW));
+                AppContext.getMessage(MilestoneI18nEnum.NEW));
     }
 
     private static class GotoMilestoneListListener implements Button.ClickListener {
@@ -325,9 +330,9 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
         this.select(0);
         this.addLink(new Button(AppContext.getMessage(TaskI18nEnum.LIST), new GotoTaskAssignmentDashboard()));
         this.setLinkEnabled(true, 1);
-        this.addLink(new Button(AppContext.getMessage(BreadcrumbI18nEnum.FRA_TASK_NEW)));
+        this.addLink(new Button(AppContext.getMessage(TaskI18nEnum.NEW)));
         AppContext.addFragment("project/task/add/" + UrlEncodeDecoder.encode(project.getId()),
-                AppContext.getMessage(BreadcrumbI18nEnum.FRA_TASK_NEW));
+                AppContext.getMessage(TaskI18nEnum.NEW));
     }
 
     public void gotoGanttView() {
@@ -354,10 +359,11 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
         this.select(0);
         this.addLink(new Button(AppContext.getMessage(TaskI18nEnum.LIST), new GotoTaskAssignmentDashboard()));
         this.setLinkEnabled(true, 1);
-        this.addLink(generateBreadcrumbLink(AppContext.getMessage(
-                BreadcrumbI18nEnum.FRA_TASK_READ, task.getTaskname())));
+        this.addLink(generateBreadcrumbLink(AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
+                AppContext.getMessage(TaskI18nEnum.SINGLE), task.getTaskname())));
         AppContext.addFragment(ProjectLinkGenerator.generateTaskPreviewLink(task.getTaskkey(), task.getProjectShortname()),
-                AppContext.getMessage(BreadcrumbI18nEnum.FRA_TASK_READ, task.getTaskname()));
+                AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
+                        AppContext.getMessage(TaskI18nEnum.SINGLE), task.getTaskname()));
     }
 
     public void gotoTaskEdit(final SimpleTask task) {
@@ -365,8 +371,8 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
         this.addLink(new Button(AppContext.getMessage(TaskI18nEnum.LIST),
                 new GotoTaskAssignmentDashboard()));
         this.setLinkEnabled(true, 1);
-        this.addLink(generateBreadcrumbLink(AppContext.getMessage(BreadcrumbI18nEnum.FRA_TASK_READ,
-                task.getTaskname()), new Button.ClickListener() {
+        this.addLink(generateBreadcrumbLink(AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
+                AppContext.getMessage(TaskI18nEnum.SINGLE), task.getTaskname()), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -377,7 +383,8 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
         this.setLinkEnabled(true, 2);
         this.addLink(new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
         AppContext.addFragment(ProjectLinkGenerator.generateTaskEditLink(task.getTaskkey(), task.getProjectShortname()),
-                AppContext.getMessage(BreadcrumbI18nEnum.FRA_TASK_EDIT, task.getTaskname()));
+                AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
+                        AppContext.getMessage(TaskI18nEnum.SINGLE), task.getTaskname()));
     }
 
     private static class GotoTaskAssignmentDashboard implements Button.ClickListener {
@@ -410,9 +417,9 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
         this.addLink(new Button(AppContext.getMessage(BugI18nEnum.LIST), new GotoBugListListener()));
         this.setLinkEnabled(true, 1);
 
-        this.addLink(new Button(AppContext.getMessage(BreadcrumbI18nEnum.FRA_BUG_NEW)));
+        this.addLink(new Button(AppContext.getMessage(BugI18nEnum.NEW)));
         AppContext.addFragment("project/bug/add/" + UrlEncodeDecoder.encode(project.getId()),
-                AppContext.getMessage(BreadcrumbI18nEnum.FRA_BUG_NEW));
+                AppContext.getMessage(BugI18nEnum.NEW));
     }
 
     public void gotoBugEdit(final SimpleBug bug) {
@@ -431,7 +438,8 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
         }));
         this.addLink(new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
         AppContext.addFragment(ProjectLinkGenerator.generateBugEditLink(bug.getBugkey(),
-                bug.getProjectShortName()), AppContext.getMessage(BreadcrumbI18nEnum.FRA_BUG_EDIT, bug.getSummary()));
+                bug.getProjectShortName()), AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
+                AppContext.getMessage(BugI18nEnum.SINGLE), bug.getSummary()));
     }
 
     public void gotoBugRead(SimpleBug bug) {
@@ -442,7 +450,8 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 
         this.addLink(generateBreadcrumbLink(bug.getSummary()));
         AppContext.addFragment(ProjectLinkGenerator.generateBugPreviewLink(bug.getBugkey(), bug.getProjectShortName()),
-                AppContext.getMessage(BreadcrumbI18nEnum.FRA_BUG_READ, bug.getSummary()));
+                AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
+                        AppContext.getMessage(BugI18nEnum.SINGLE), bug.getSummary()));
     }
 
     public void gotoVersionList() {
@@ -458,7 +467,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
         this.setLinkEnabled(true, 1);
         this.addLink(new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADD)));
         AppContext.addFragment("project/version/add/" + UrlEncodeDecoder.encode(project.getId()),
-                AppContext.getMessage(BreadcrumbI18nEnum.FRA_VERSION_NEW));
+                AppContext.getMessage(VersionI18nEnum.NEW));
     }
 
     public void gotoVersionEdit(final Version version) {
@@ -474,9 +483,9 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
             }
         }));
         this.addLink(new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
-        AppContext.addFragment("project/version/edit/"
-                        + UrlEncodeDecoder.encode(project.getId() + "/" + version.getId()),
-                AppContext.getMessage(BreadcrumbI18nEnum.FRA_VERSION_EDIT, version.getVersionname()));
+        AppContext.addFragment("project/version/edit/" + UrlEncodeDecoder.encode(project.getId() + "/" + version.getId()),
+                AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
+                        AppContext.getMessage(VersionI18nEnum.SINGLE), version.getVersionname()));
     }
 
     public void gotoVersionRead(Version version) {
@@ -485,7 +494,8 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
         this.setLinkEnabled(true, 1);
         this.addLink(generateBreadcrumbLink(version.getVersionname()));
         AppContext.addFragment(ProjectLinkGenerator.generateBugVersionPreviewLink(project.getId(), version.getId()),
-                AppContext.getMessage(BreadcrumbI18nEnum.FRA_VERSION_READ, version.getVersionname()));
+                AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
+                        AppContext.getMessage(VersionI18nEnum.SINGLE), version.getVersionname()));
     }
 
     private static class GotoVersionListener implements Button.ClickListener {
@@ -540,33 +550,32 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
             }
         }));
         this.addLink(new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
-        AppContext.addFragment("project/component/edit/" + UrlEncodeDecoder.encode(project.getId() + "/"
-                + component.getId()), AppContext.getMessage(BreadcrumbI18nEnum.FRA_COMPONENT_EDIT,
-                component.getComponentname()));
+        AppContext.addFragment("project/component/edit/" + UrlEncodeDecoder.encode(project.getId() + "/" + component.getId()),
+                AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
+                        AppContext.getMessage(ComponentI18nEnum.SINGLE), component.getComponentname()));
     }
 
     public void gotoComponentRead(Component component) {
         this.select(0);
         this.addLink(new Button(AppContext.getMessage(ComponentI18nEnum.LIST), new GotoComponentListener()));
         this.addLink(generateBreadcrumbLink(component.getComponentname()));
-        AppContext.addFragment(ProjectLinkGenerator.generateBugComponentPreviewLink(project.getId(),
-                component.getId()), AppContext.getMessage(BreadcrumbI18nEnum.FRA_COMPONENT_READ,
-                component.getComponentname()));
+        AppContext.addFragment(ProjectLinkGenerator.generateBugComponentPreviewLink(project.getId(), component.getId()),
+                AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
+                        AppContext.getMessage(ComponentI18nEnum.SINGLE), component.getComponentname()));
     }
 
     public void gotoTimeTrackingList() {
         this.select(0);
         this.addLink(new Button(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_TIME)));
-        AppContext.addFragment(
-                ProjectLinkGenerator.generateTimeReportLink(project.getId()),
+        AppContext.addFragment(ProjectLinkGenerator.generateTimeReportLink(project.getId()),
                 AppContext.getMessage(BreadcrumbI18nEnum.FRA_TIME_TRACKING));
     }
 
     public void gotoInvoiceView() {
         this.select(0);
-        this.addLink(new Button(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_INVOICE)));
+        this.addLink(new Button(AppContext.getMessage(InvoiceI18nEnum.LIST)));
         AppContext.addFragment(ProjectLinkGenerator.generateInvoiceListLink(project.getId()),
-                AppContext.getMessage(ProjectCommonI18nEnum.VIEW_INVOICE));
+                AppContext.getMessage(InvoiceI18nEnum.LIST));
     }
 
     public void gotoFileList() {
@@ -614,7 +623,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
         this.select(0);
         this.addLink(new Button(AppContext.getMessage(ProjectRoleI18nEnum.LIST)));
         AppContext.addFragment("project/role/list/" + UrlEncodeDecoder.encode(project.getId()),
-                AppContext.getMessage(BreadcrumbI18nEnum.FRA_ROLES));
+                AppContext.getMessage(ProjectRoleI18nEnum.LIST));
     }
 
     public void gotoRoleRead(SimpleProjectRole role) {
@@ -622,8 +631,9 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
         this.addLink(new Button(AppContext.getMessage(ProjectRoleI18nEnum.LIST), new GotoRoleListener()));
         this.setLinkEnabled(true, 1);
         this.addLink(generateBreadcrumbLink(role.getRolename()));
-        AppContext.addFragment("project/role/preview/" + UrlEncodeDecoder.encode(project.getId() + "/"
-                + role.getId()), AppContext.getMessage(BreadcrumbI18nEnum.FRA_ROLE_READ, role.getRolename()));
+        AppContext.addFragment("project/role/preview/" + UrlEncodeDecoder.encode(project.getId() + "/" + role.getId()),
+                AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
+                        AppContext.getMessage(ProjectRoleI18nEnum.SINGLE), role.getRolename()));
     }
 
     public void gotoProjectSetting() {
@@ -639,7 +649,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
         this.setLinkEnabled(true, 1);
         this.addLink(new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADD)));
         AppContext.addFragment("project/role/add/" + UrlEncodeDecoder.encode(project.getId()),
-                AppContext.getMessage(BreadcrumbI18nEnum.FRA_ROLE_NEW));
+                AppContext.getMessage(ProjectRoleI18nEnum.NEW));
     }
 
     public void gotoRoleEdit(ProjectRole role) {
@@ -647,8 +657,9 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
         this.addLink(new Button(AppContext.getMessage(ProjectRoleI18nEnum.LIST), new GotoUserListener()));
         this.setLinkEnabled(true, 1);
         this.addLink(generateBreadcrumbLink(role.getRolename()));
-        AppContext.addFragment("project/role/edit/" + UrlEncodeDecoder.encode(project.getId() + "/"
-                + role.getId()), AppContext.getMessage(BreadcrumbI18nEnum.FRA_ROLE_EDIT, role.getRolename()));
+        AppContext.addFragment("project/role/edit/" + UrlEncodeDecoder.encode(project.getId() + "/" + role.getId()),
+                AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
+                        AppContext.getMessage(ProjectRoleI18nEnum.SINGLE), role.getRolename()));
     }
 
     private static class GotoNotificationSettingListener implements Button.ClickListener {
@@ -698,14 +709,16 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 
     public void gotoProjectDashboard() {
         this.select(0);
-        AppContext.addFragment(ProjectLinkGenerator.generateProjectLink(project.getId()), "Dashboard");
+        AppContext.addFragment(ProjectLinkGenerator.generateProjectLink(project.getId()),
+                AppContext.getMessage(GenericI18Enum.VIEW_DASHBOARD));
     }
 
     public void gotoProjectEdit() {
         this.select(0);
         this.addLink(new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
         AppContext.addFragment("project/edit/" + UrlEncodeDecoder.encode(project.getId()),
-                "Edit Project: " + project.getName());
+                AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
+                        AppContext.getMessage(ProjectI18nEnum.SINGLE), project.getName()));
     }
 
     @Override
@@ -725,8 +738,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
         return CommonUIFactory.createButtonTooltip(menuLinkGenerator.handleText(linkname), linkname, listener);
     }
 
-    private static class BreadcrumbLabelStringGenerator implements
-            LabelStringGenerator {
+    private static class BreadcrumbLabelStringGenerator implements LabelStringGenerator {
         @Override
         public String handleText(String value) {
             if (value.length() > 35) {

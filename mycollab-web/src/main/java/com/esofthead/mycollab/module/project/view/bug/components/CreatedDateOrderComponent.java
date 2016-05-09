@@ -105,7 +105,7 @@ public class CreatedDateOrderComponent extends BugGroupOrderComponent {
         }
 
         void insertTask(SimpleBug bug) {
-            wrapBody.addComponent(new BugRowRenderer(bug));
+            wrapBody.addComponent(new BugRowComponent(bug));
             numElements++;
             updateHeader();
         }

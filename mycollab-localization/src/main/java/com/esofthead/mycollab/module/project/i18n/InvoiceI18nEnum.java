@@ -27,6 +27,9 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/project-invoice")
 @LocaleData(value = {@Locale("en-US")}, defaultCharset = "UTF-8")
 public enum InvoiceI18nEnum {
+    SINGLE,
+    LIST,
+
     BUTTON_NEW_INVOICE,
     FORM_NOID_FIELD,
     FORM_NOID_FIELD_HELP,

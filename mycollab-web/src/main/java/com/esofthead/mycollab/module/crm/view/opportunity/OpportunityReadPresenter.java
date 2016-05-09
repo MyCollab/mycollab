@@ -29,6 +29,7 @@ import com.esofthead.mycollab.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.module.crm.events.ContactEvent;
 import com.esofthead.mycollab.module.crm.events.LeadEvent;
 import com.esofthead.mycollab.module.crm.events.OpportunityEvent;
+import com.esofthead.mycollab.module.crm.i18n.OpportunityI18nEnum;
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
@@ -235,8 +236,8 @@ public class OpportunityReadPresenter extends CrmGenericPresenter<OpportunityRea
                     view.previewItem(opportunity);
 
                     AppContext.addFragment(CrmLinkGenerator.generateOpportunityPreviewLink(opportunity.getId()),
-                            AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE, "Opportunity",
-                                    opportunity.getOpportunityname()));
+                            AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
+                                    AppContext.getMessage(OpportunityI18nEnum.SINGLE), opportunity.getOpportunityname()));
                 } else {
                     throw new ResourceNotFoundException();
                 }

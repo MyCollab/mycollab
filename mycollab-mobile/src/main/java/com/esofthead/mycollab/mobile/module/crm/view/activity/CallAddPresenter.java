@@ -24,6 +24,7 @@ import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.mobile.module.crm.view.AbstractCrmPresenter;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.module.crm.domain.CallWithBLOBs;
+import com.esofthead.mycollab.module.crm.i18n.CallI18nEnum;
 import com.esofthead.mycollab.module.crm.service.CallService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -85,10 +86,12 @@ public class CallAddPresenter extends AbstractCrmPresenter<CallAddView> {
             super.onGo(container, data);
             view.editItem(call);
             if (call.getId() == null) {
-                AppContext.addFragment("crm/activity/call/add/", AppContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE, "Call"));
+                AppContext.addFragment("crm/activity/call/add/", AppContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
+                        AppContext.getMessage(CallI18nEnum.SINGLE)));
             } else {
                 AppContext.addFragment("crm/activity/call/edit/" + UrlEncodeDecoder.encode(call.getId()),
-                        AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, "Call", call.getSubject()));
+                        AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
+                                AppContext.getMessage(CallI18nEnum.SINGLE), call.getSubject()));
             }
         } else {
             NotificationUtil.showMessagePermissionAlert();

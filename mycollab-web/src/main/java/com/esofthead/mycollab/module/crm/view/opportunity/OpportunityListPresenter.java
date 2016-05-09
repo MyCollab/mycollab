@@ -69,7 +69,8 @@ public class OpportunityListPresenter extends CrmGenericListPresenter<Opportunit
                     UI.getCurrent().addWindow(new MailFormWindow());
                 } else if ("massUpdate".equals(id)) {
                     MassUpdateOpportunityWindow massUpdateWindow = new MassUpdateOpportunityWindow(
-                            AppContext.getMessage(GenericI18Enum.WINDOW_MASS_UPDATE_TITLE, "Opportunity"),
+                            AppContext.getMessage(GenericI18Enum.WINDOW_MASS_UPDATE_TITLE, AppContext.getMessage
+                                    (OpportunityI18nEnum.LIST)),
                             OpportunityListPresenter.this);
                     UI.getCurrent().addWindow(massUpdateWindow);
                 }

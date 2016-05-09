@@ -25,7 +25,6 @@ import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
-import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericListPresenter;
 import com.esofthead.mycollab.module.crm.view.CrmModule;
@@ -93,7 +92,7 @@ public class AccountListPresenter extends CrmGenericListPresenter<AccountListVie
                 } else if (ViewItemAction.MASS_UPDATE_ACTION().equals(id)) {
                     MassUpdateAccountWindow massUpdateWindow = new MassUpdateAccountWindow(
                             AppContext.getMessage(GenericI18Enum.WINDOW_MASS_UPDATE_TITLE,
-                                    AppContext.getMessage(CrmCommonI18nEnum.ACCOUNT)), AccountListPresenter.this);
+                                    AppContext.getMessage(AccountI18nEnum.LIST)), AccountListPresenter.this);
                     UI.getCurrent().addWindow(massUpdateWindow);
                 }
             }

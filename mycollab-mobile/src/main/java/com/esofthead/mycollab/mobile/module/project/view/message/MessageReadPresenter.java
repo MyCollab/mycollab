@@ -16,13 +16,14 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.message;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.mobile.module.project.view.AbstractProjectPresenter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
-import com.esofthead.mycollab.module.project.i18n.BreadcrumbI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.MessageI18nEnum;
 import com.esofthead.mycollab.module.project.service.MessageService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -51,7 +52,8 @@ public class MessageReadPresenter extends AbstractProjectPresenter<MessageReadVi
                 super.onGo(container, data);
 
                 AppContext.addFragment(ProjectLinkGenerator.generateMessagePreviewLink(CurrentProjectVariables.getProjectId(), message.getId()),
-                        AppContext.getMessage(BreadcrumbI18nEnum.FRA_MESSAGE_READ, message.getTitle()));
+                        AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
+                                AppContext.getMessage(MessageI18nEnum.SINGLE), message.getTitle()));
             } else {
                 throw new MyCollabException("Unhanddle this case yet");
             }

@@ -23,6 +23,7 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/project-standup")
 @LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
 public enum StandupI18nEnum {
+    SINGLE,
     VIEW_LIST_TITLE,
     CHOOSE_REPORT_DATE,
     BUTTON_ADD_REPORT_LABEL,

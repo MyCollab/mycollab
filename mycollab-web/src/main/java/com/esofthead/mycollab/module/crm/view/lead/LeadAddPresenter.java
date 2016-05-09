@@ -25,6 +25,7 @@ import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.Lead;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.events.LeadEvent;
+import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
 import com.esofthead.mycollab.module.crm.view.CrmModule;
@@ -97,10 +98,12 @@ public class LeadAddPresenter extends CrmGenericPresenter<LeadAddView> {
             view.editItem(lead);
 
             if (lead.getId() == null) {
-                AppContext.addFragment("crm/lead/add", AppContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE, "Lead"));
+                AppContext.addFragment("crm/lead/add", AppContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
+                        AppContext.getMessage(LeadI18nEnum.SINGLE)));
             } else {
                 AppContext.addFragment("crm/lead/edit/" + UrlEncodeDecoder.encode(lead.getId()),
-                        AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, "Lead", lead.getLastname()));
+                        AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
+                                AppContext.getMessage(LeadI18nEnum.SINGLE), lead.getLastname()));
             }
         } else {
             throw new SecureAccessException();

@@ -27,6 +27,7 @@ import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.domain.CallWithBLOBs;
 import com.esofthead.mycollab.module.crm.domain.SimpleCall;
 import com.esofthead.mycollab.module.crm.domain.criteria.CallSearchCriteria;
+import com.esofthead.mycollab.module.crm.i18n.CallI18nEnum;
 import com.esofthead.mycollab.module.crm.service.CallService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -136,10 +137,8 @@ public class CallReadPresenter extends AbstractCrmPresenter<CallReadView> {
             view.previewItem(call);
             super.onGo(container, data);
 
-            AppContext.addFragment(CrmLinkGenerator
-                    .generateCallPreviewLink(call.getId()), AppContext
-                    .getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
-                            "Call", call.getSubject()));
+            AppContext.addFragment(CrmLinkGenerator.generateCallPreviewLink(call.getId()), AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
+                    AppContext.getMessage(CallI18nEnum.SINGLE), call.getSubject()));
         } else {
             NotificationUtil.showMessagePermissionAlert();
         }

@@ -25,6 +25,7 @@ import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.Contact;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.events.ContactEvent;
+import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
 import com.esofthead.mycollab.module.crm.view.CrmModule;
@@ -94,10 +95,12 @@ public class ContactAddPresenter extends CrmGenericPresenter<ContactAddView> {
             view.editItem(contact);
 
             if (contact.getId() == null) {
-                AppContext.addFragment("crm/contact/add", AppContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE, "Contact"));
+                AppContext.addFragment("crm/contact/add", AppContext.getMessage(GenericI18Enum
+                        .BROWSER_ADD_ITEM_TITLE, AppContext.getMessage(ContactI18nEnum.SINGLE)));
             } else {
                 AppContext.addFragment("crm/contact/edit/" + UrlEncodeDecoder.encode(contact.getId()),
-                        AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, "Contact", contact.getLastname()));
+                        AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
+                                AppContext.getMessage(ContactI18nEnum.SINGLE), contact.getLastname()));
             }
         } else {
             throw new SecureAccessException();

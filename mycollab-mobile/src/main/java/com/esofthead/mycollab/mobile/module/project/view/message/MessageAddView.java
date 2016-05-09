@@ -23,9 +23,7 @@ import com.esofthead.mycollab.vaadin.mvp.PageView;
 
 /**
  * @author MyCollab Ltd.
- *
  * @since 4.5.0
- *
  */
 public interface MessageAddView extends PageView {
     HasEditFormHandlers<SimpleMessage> getEditFormHandlers();

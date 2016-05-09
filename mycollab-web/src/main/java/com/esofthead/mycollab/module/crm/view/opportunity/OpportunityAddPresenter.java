@@ -25,6 +25,7 @@ import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.Opportunity;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.events.OpportunityEvent;
+import com.esofthead.mycollab.module.crm.i18n.OpportunityI18nEnum;
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
 import com.esofthead.mycollab.module.crm.view.CrmModule;
@@ -94,11 +95,12 @@ public class OpportunityAddPresenter extends CrmGenericPresenter<OpportunityAddV
             view.editItem(opportunity);
 
             if (opportunity.getId() == null) {
-                AppContext.addFragment("crm/opportunity/add", AppContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE, "Opportunity"));
+                AppContext.addFragment("crm/opportunity/add", AppContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
+                        AppContext.getMessage(OpportunityI18nEnum.SINGLE)));
             } else {
                 AppContext.addFragment("crm/opportunity/edit/" + UrlEncodeDecoder.encode(opportunity.getId()),
-                        AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, "Opportunity",
-                                opportunity.getOpportunityname()));
+                        AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
+                                AppContext.getMessage(OpportunityI18nEnum.SINGLE), opportunity.getOpportunityname()));
             }
         } else {
             throw new SecureAccessException();

@@ -17,7 +17,10 @@
 package com.esofthead.mycollab.module.project.view.milestone;
 
 import com.esofthead.mycollab.configuration.StorageFactory;
-import com.esofthead.mycollab.core.arguments.*;
+import com.esofthead.mycollab.core.arguments.DateSearchField;
+import com.esofthead.mycollab.core.arguments.NumberSearchField;
+import com.esofthead.mycollab.core.arguments.SearchField;
+import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
@@ -25,7 +28,10 @@ import com.esofthead.mycollab.module.project.domain.Milestone;
 import com.esofthead.mycollab.module.project.domain.ProjectGenericTask;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
+import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.RiskI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsUtil;
@@ -33,13 +39,10 @@ import com.esofthead.mycollab.module.project.ui.form.ProjectFormAttachmentDispla
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.AsyncInvoker;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.vaadin.web.ui.DynaFormLayout;
-import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.web.ui.*;
 import com.esofthead.mycollab.vaadin.web.ui.field.ContainerViewField;
 import com.esofthead.mycollab.vaadin.web.ui.field.DateViewField;
 import com.esofthead.mycollab.vaadin.web.ui.field.DefaultViewField;
@@ -47,16 +50,11 @@ import com.esofthead.mycollab.vaadin.web.ui.field.RichTextViewField;
 import com.hp.gagawa.java.elements.Img;
 import com.vaadin.data.Property;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.Label;
-import org.apache.commons.collections.CollectionUtils;
+import com.vaadin.ui.*;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
-
-import java.util.List;
 
 /**
  * @author MyCollab Ltd
@@ -110,7 +108,7 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
     private static class AssignmentsComp extends MVerticalLayout {
         private ProjectGenericTaskSearchCriteria searchCriteria;
         private SimpleMilestone beanItem;
-        private MVerticalLayout assignmentsLayout;
+        private DefaultBeanPagedList<ProjectGenericTaskService, ProjectGenericTaskSearchCriteria, ProjectGenericTask> assignmentsLayout;
 
         AssignmentsComp(SimpleMilestone milestone) {
             this.beanItem = milestone;
@@ -146,7 +144,7 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
             Label spacingLbl1 = new Label("");
             Label spacingLbl2 = new Label("");
 
-            final CheckBox taskSelection = new CheckBox("Tasks", true);
+            final CheckBox taskSelection = new CheckBox(AppContext.getMessage(TaskI18nEnum.LIST), true);
             taskSelection.addValueChangeListener(new Property.ValueChangeListener() {
                 @Override
                 public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
@@ -154,7 +152,7 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
                 }
             });
 
-            final CheckBox bugSelection = new CheckBox("Bugs", true);
+            final CheckBox bugSelection = new CheckBox(AppContext.getMessage(BugI18nEnum.LIST), true);
             bugSelection.addValueChangeListener(new Property.ValueChangeListener() {
                 @Override
                 public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
@@ -162,7 +160,7 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
                 }
             });
 
-            final CheckBox riskSelection = new CheckBox("Risks", true);
+            final CheckBox riskSelection = new CheckBox(AppContext.getMessage(RiskI18nEnum.LIST), true);
             riskSelection.addValueChangeListener(new Property.ValueChangeListener() {
                 @Override
                 public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
@@ -175,7 +173,9 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
                     .withAlign(taskSelection, Alignment.MIDDLE_LEFT).withAlign(bugSelection, Alignment.MIDDLE_LEFT)
                     .withAlign(riskSelection, Alignment.MIDDLE_LEFT).expand(spacingLbl1, spacingLbl2);
 
-            assignmentsLayout = new MVerticalLayout();
+            assignmentsLayout = new DefaultBeanPagedList<>(ApplicationContextUtil.getSpringBean(ProjectGenericTaskService.class), new GenericTaskRowRenderer());
+            assignmentsLayout.setMargin(new MarginInfo(true, true, true, false));
+            assignmentsLayout.setControlStyle("");
             this.with(header, assignmentsLayout);
             searchCriteria = new ProjectGenericTaskSearchCriteria();
             searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
@@ -201,36 +201,38 @@ public class MilestonePreviewForm extends AdvancedPreviewBeanForm<SimpleMileston
         }
 
         private void updateSearchStatus() {
-            assignmentsLayout.removeAllComponents();
+            assignmentsLayout.setSearchCriteria(searchCriteria);
+        }
+    }
 
-            AsyncInvoker.access(new AsyncInvoker.PageCommand() {
-                @Override
-                public void run() {
-                    final ProjectGenericTaskService genericTaskService = ApplicationContextUtil.getSpringBean(ProjectGenericTaskService.class);
-                    int totalCount = genericTaskService.getTotalCount(searchCriteria);
-                    for (int i = 0; i < (totalCount / 20) + 1; i++) {
-                        List<ProjectGenericTask> genericTasks = genericTaskService.findPagableListByCriteria(new BasicSearchRequest<>(searchCriteria, i + 1, 20));
-                        if (CollectionUtils.isNotEmpty(genericTasks)) {
-                            for (ProjectGenericTask genericTask : genericTasks) {
+    private static class GenericTaskRowRenderer implements AbstractBeanPagedList.RowDisplayHandler<ProjectGenericTask> {
+        @Override
+        public Component generateRow(AbstractBeanPagedList host, ProjectGenericTask genericTask, int rowIndex) {
+            MHorizontalLayout rowComp = new MHorizontalLayout().withStyleName(UIConstants.HOVER_EFFECT_NOT_BOX);
+            rowComp.addStyleName("margin-bottom");
+            rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
+            rowComp.with(new ELabel(ProjectAssetsManager.getAsset(genericTask.getType()).getHtml(),
+                    ContentMode.HTML).withWidthUndefined());
+            String status = "";
+            if (genericTask.isBug()) {
+                status = AppContext.getMessage(OptionI18nEnum.BugStatus.class, genericTask.getStatus());
+            } else if (genericTask.isMilestone()) {
+                status = AppContext.getMessage(OptionI18nEnum.MilestoneStatus.class, genericTask.getStatus());
+            } else if (genericTask.isRisk()) {
+                status = AppContext.getMessage(com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.class,
+                        genericTask.getStatus());
+            } else if (genericTask.isTask()) {
+                status = AppContext.getMessage(com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum.class, genericTask.getStatus());
+            }
+            rowComp.with(new ELabel(status).withStyleName(UIConstants.FIELD_NOTE).withWidthUndefined());
+            String avatarLink = StorageFactory.getInstance().getAvatarPath(genericTask.getAssignUserAvatarId(), 16);
+            Img img = new Img(genericTask.getAssignUserFullName(), avatarLink).setTitle(genericTask
+                    .getAssignUserFullName());
 
-                                MHorizontalLayout rowComp = new MHorizontalLayout().withStyleName(UIConstants.HOVER_EFFECT_NOT_BOX);
-                                rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
-                                rowComp.with(new ELabel(ProjectAssetsManager.getAsset(genericTask.getType()).getHtml(),
-                                        ContentMode.HTML).withWidthUndefined());
-                                String avatarLink = StorageFactory.getInstance().getAvatarPath(genericTask.getAssignUserAvatarId(), 16);
-                                Img img = new Img(genericTask.getAssignUserFullName(), avatarLink).setTitle(genericTask
-                                        .getAssignUserFullName());
-
-                                ToggleGenericTaskSummaryField toggleGenericTaskSummaryField = new ToggleGenericTaskSummaryField(genericTask);
-                                rowComp.with(new ELabel(img.write(), ContentMode.HTML).withWidthUndefined(),
-                                        toggleGenericTaskSummaryField).expand(toggleGenericTaskSummaryField);
-                                assignmentsLayout.add(rowComp);
-                            }
-                            this.push();
-                        }
-                    }
-                }
-            });
+            ToggleGenericTaskSummaryField toggleGenericTaskSummaryField = new ToggleGenericTaskSummaryField(genericTask);
+            rowComp.with(new ELabel(img.write(), ContentMode.HTML).withWidthUndefined(),
+                    toggleGenericTaskSummaryField).expand(toggleGenericTaskSummaryField);
+            return rowComp;
         }
     }
 }

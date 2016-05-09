@@ -25,6 +25,7 @@ import ch.qos.cal10n.LocaleData;
 public enum AccountI18nEnum {
 	LIST,
 	NEW,
+	SINGLE,
 
 	SECTION_ACCOUNT_INFORMATION,
 	SECTION_ADDRESS_INFORMATION,

@@ -25,6 +25,7 @@ import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.CampaignWithBLOBs;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.events.CampaignEvent;
+import com.esofthead.mycollab.module.crm.i18n.CampaignI18nEnum;
 import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
 import com.esofthead.mycollab.module.crm.view.CrmModule;
@@ -96,10 +97,11 @@ public class CampaignAddPresenter extends CrmGenericPresenter<CampaignAddView> {
 
             if (campaign.getId() == null) {
                 AppContext.addFragment("crm/campaign/add", AppContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
-                        "Campaign"));
+                        AppContext.getMessage(CampaignI18nEnum.SINGLE)));
             } else {
                 AppContext.addFragment("crm/campaign/edit/" + UrlEncodeDecoder.encode(campaign.getId()),
-                        AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, "Campaign", campaign.getCampaignname()));
+                        AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
+                                AppContext.getMessage(CampaignI18nEnum.SINGLE), campaign.getCampaignname()));
             }
         } else {
             throw new SecureAccessException();

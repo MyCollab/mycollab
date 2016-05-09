@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.crm.ui.components;
 
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.*;
-import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
+import com.esofthead.mycollab.module.crm.i18n.*;
 import com.esofthead.mycollab.module.crm.service.*;
 import com.esofthead.mycollab.module.crm.view.account.AccountSelectionWindow;
 import com.esofthead.mycollab.module.crm.view.campaign.CampaignSelectionWindow;
@@ -228,12 +228,12 @@ public class RelatedEditItemField extends CustomField<String> implements FieldSe
             super(true);
             setCaption(null);
             this.setWidth("100px");
-            this.addItem(CrmTypeConstants.ACCOUNT, AppContext.getMessage(CrmCommonI18nEnum.ACCOUNT));
-            this.addItem(CrmTypeConstants.CAMPAIGN, AppContext.getMessage(CrmCommonI18nEnum.CAMPAIGN));
-            this.addItem(CrmTypeConstants.CONTACT, AppContext.getMessage(CrmCommonI18nEnum.CONTACT));
-            this.addItem(CrmTypeConstants.LEAD, AppContext.getMessage(CrmCommonI18nEnum.LEAD));
-            this.addItem(CrmTypeConstants.OPPORTUNITY, AppContext.getMessage(CrmCommonI18nEnum.OPPORTUNITY));
-            this.addItem(CrmTypeConstants.CASE, AppContext.getMessage(CrmCommonI18nEnum.CASE));
+            this.addItem(CrmTypeConstants.ACCOUNT, AppContext.getMessage(AccountI18nEnum.SINGLE));
+            this.addItem(CrmTypeConstants.CAMPAIGN, AppContext.getMessage(CampaignI18nEnum.SINGLE));
+            this.addItem(CrmTypeConstants.CONTACT, AppContext.getMessage(ContactI18nEnum.SINGLE));
+            this.addItem(CrmTypeConstants.LEAD, AppContext.getMessage(LeadI18nEnum.SINGLE));
+            this.addItem(CrmTypeConstants.OPPORTUNITY, AppContext.getMessage(OpportunityI18nEnum.SINGLE));
+            this.addItem(CrmTypeConstants.CASE, AppContext.getMessage(CaseI18nEnum.SINGLE));
             this.select(getNullSelectionItemId());
         }
     }

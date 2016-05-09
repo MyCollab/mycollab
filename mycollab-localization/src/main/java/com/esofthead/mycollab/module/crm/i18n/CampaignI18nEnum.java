@@ -25,6 +25,7 @@ import ch.qos.cal10n.LocaleData;
 public enum CampaignI18nEnum {
     LIST,
     NEW,
+    SINGLE,
 
     SECTION_CAMPAIGN_INFORMATION,
     SECTION_GOAL,

@@ -29,6 +29,7 @@ import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
+import com.esofthead.mycollab.module.crm.i18n.CampaignI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -47,7 +48,6 @@ import com.vaadin.ui.HorizontalLayout;
  * @author MyCollab Ltd.
  * @since 4.1
  */
-
 @ViewComponent
 public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead> implements LeadReadView {
     private static final long serialVersionUID = 5288751461504873888L;
@@ -106,7 +106,7 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead> implem
         relatedCampaigns.setCaption("<span aria-hidden=\"true\" data-icon=\""
                 + IconConstants.CRM_CAMPAIGN
                 + "\"></span><div class=\"screen-reader-text\">"
-                + AppContext.getMessage(CrmCommonI18nEnum.TAB_CAMPAIGN)
+                + AppContext.getMessage(CampaignI18nEnum.LIST)
                 + "</div>");
         relatedCampaigns.setHtmlContentAllowed(true);
         relatedCampaigns.addClickListener(new Button.ClickListener() {
@@ -116,8 +116,7 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead> implem
             public void buttonClick(ClickEvent event) {
                 EventBusFactory.getInstance().post(
                         new LeadEvent.GoToRelatedItems(LeadReadViewImpl.this,
-                                new CrmRelatedItemsScreenData(
-                                        associateCampaigns)));
+                                new CrmRelatedItemsScreenData(associateCampaigns)));
             }
         });
         toolbarLayout.addComponent(relatedCampaigns);

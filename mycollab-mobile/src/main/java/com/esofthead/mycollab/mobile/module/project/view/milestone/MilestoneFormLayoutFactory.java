@@ -57,7 +57,7 @@ public class MilestoneFormLayoutFactory implements IFormLayoutFactory {
         final VerticalLayout layout = new VerticalLayout();
         layout.setWidth("100%");
         layout.setMargin(false);
-        layout.addComponent(FormSectionBuilder.build(AppContext.getMessage(MilestoneI18nEnum.M_FORM_READ_TITLE)));
+        layout.addComponent(FormSectionBuilder.build(AppContext.getMessage(MilestoneI18nEnum.SINGLE)));
 
         informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 8);
         layout.addComponent(informationLayout.getLayout());

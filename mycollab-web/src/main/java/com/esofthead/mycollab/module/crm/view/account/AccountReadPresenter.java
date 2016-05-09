@@ -26,6 +26,7 @@ import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.*;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.esofthead.mycollab.module.crm.events.*;
+import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.module.crm.service.ContactService;
@@ -249,7 +250,7 @@ public class AccountReadPresenter extends CrmGenericPresenter<AccountReadView> {
                     view.previewItem(account);
                     AppContext.addFragment(CrmLinkGenerator.generateAccountPreviewLink(account.getId()),
                             AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
-                                    AppContext.getMessage(CrmCommonI18nEnum.ACCOUNT), account.getAccountname()));
+                                    AppContext.getMessage(AccountI18nEnum.SINGLE), account.getAccountname()));
                 } else {
                     throw new ResourceNotFoundException();
                 }

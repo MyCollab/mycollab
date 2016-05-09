@@ -29,6 +29,7 @@ import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
+import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -106,7 +107,7 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase> implem
         relatedContacts.setCaption("<span aria-hidden=\"true\" data-icon=\""
                 + IconConstants.CRM_CONTACT
                 + "\"></span><div class=\"screen-reader-text\">"
-                + AppContext.getMessage(CrmCommonI18nEnum.TAB_CONTACT)
+                + AppContext.getMessage(ContactI18nEnum.LIST)
                 + "</div>");
         relatedContacts.setHtmlContentAllowed(true);
         relatedContacts.addClickListener(new Button.ClickListener() {
@@ -133,9 +134,7 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase> implem
             @Override
             public void buttonClick(ClickEvent arg0) {
                 EventBusFactory.getInstance().post(
-                        new CaseEvent.GoToRelatedItems(this,
-                                new CrmRelatedItemsScreenData(
-                                        associateActivities)));
+                        new CaseEvent.GoToRelatedItems(this, new CrmRelatedItemsScreenData(associateActivities)));
             }
         });
         toolbarLayout.addComponent(relatedActivities);

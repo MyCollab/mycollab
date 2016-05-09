@@ -43,19 +43,6 @@ public enum CrmCommonI18nEnum {
     ITEM_CREATED_PEOPLE,
     ITEM_ASSIGN_PEOPLE,
 
-    ACCOUNT,
-    CONTACT,
-    CAMPAIGN,
-    LEAD,
-    OPPORTUNITY,
-    CASE,
-
     TAB_ABOUT,
-    TAB_ACCOUNT,
     TAB_ACTIVITY,
-    TAB_CAMPAIGN,
-    TAB_CASE,
-    TAB_CONTACT,
-    TAB_LEAD,
-    TAB_OPPORTUNITY
 }

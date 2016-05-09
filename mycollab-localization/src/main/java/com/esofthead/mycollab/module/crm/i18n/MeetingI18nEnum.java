@@ -24,6 +24,7 @@ import ch.qos.cal10n.LocaleData;
 @LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
 public enum MeetingI18nEnum {
     NEW,
+    SINGLE,
 
     FORM_SUBJECT,
     FORM_START_DATE_TIME,

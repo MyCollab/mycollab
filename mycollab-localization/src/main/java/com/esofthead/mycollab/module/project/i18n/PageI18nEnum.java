@@ -26,6 +26,7 @@ public enum PageI18nEnum {
     LIST,
     NEW,
     DETAIL,
+    SINGLE,
 
     NEW_GROUP,
     DETAIL_GROUP,

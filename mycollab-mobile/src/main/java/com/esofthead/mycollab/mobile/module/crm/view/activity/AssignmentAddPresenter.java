@@ -17,12 +17,14 @@
 package com.esofthead.mycollab.mobile.module.crm.view.activity;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.mobile.module.crm.view.AbstractCrmPresenter;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.module.crm.domain.Task;
+import com.esofthead.mycollab.module.crm.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.crm.service.TaskService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -84,10 +86,12 @@ public class AssignmentAddPresenter extends AbstractCrmPresenter<AssignmentAddVi
             view.editItem(task);
 
             if (task.getId() == null) {
-                AppContext.addFragment("crm/activity/task/add/", "Add Activity Task");
+                AppContext.addFragment("crm/activity/task/add/", AppContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
+                        AppContext.getMessage(TaskI18nEnum.SINGLE)));
             } else {
                 AppContext.addFragment("crm/activity/task/edit/" + UrlEncodeDecoder.encode(task.getId()),
-                        "Edit Activity Task: " + task.getSubject());
+                        AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
+                                AppContext.getMessage(TaskI18nEnum.SINGLE), task.getSubject()));
             }
         } else {
             NotificationUtil.showMessagePermissionAlert();

@@ -69,7 +69,7 @@ public class CampaignListPresenter extends CrmGenericListPresenter<CampaignListV
                 } else if ("massUpdate".equals(id)) {
                     MassUpdateCampaignWindow massUpdateWindow = new MassUpdateCampaignWindow(
                             AppContext.getMessage(GenericI18Enum.WINDOW_MASS_UPDATE_TITLE,
-                                    "Campaign"), CampaignListPresenter.this);
+                                    AppContext.getMessage(CampaignI18nEnum.LIST)), CampaignListPresenter.this);
                     UI.getCurrent().addWindow(massUpdateWindow);
                 }
             }

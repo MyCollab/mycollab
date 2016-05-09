@@ -21,21 +21,22 @@ import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
 @BaseName("localization/crm-call")
-@LocaleData(value = { @Locale("en-US"), @Locale("ja-JP") }, defaultCharset = "UTF-8")
+@LocaleData(value = {@Locale("en-US"), @Locale("ja-JP")}, defaultCharset = "UTF-8")
 public enum CallI18nEnum {
-	NEW,
+    NEW,
+    SINGLE,
 
-	FORM_SUBJECT,
-	FORM_START_DATE_TIME,
-	FORM_RELATED,
-	FORM_DURATION,
-	FORM_PURPOSE,
-	FORM_RESULT,
+    FORM_SUBJECT,
+    FORM_START_DATE_TIME,
+    FORM_RELATED,
+    FORM_DURATION,
+    FORM_PURPOSE,
+    FORM_RESULT,
 
-	MAIL_CREATE_ITEM_SUBJECT,
-	MAIL_UPDATE_ITEM_SUBJECT,
-	MAIL_COMMENT_ITEM_SUBJECT,
-	MAIL_CREATE_ITEM_HEADING,
-	MAIL_UPDATE_ITEM_HEADING,
-	MAIL_COMMENT_ITEM_HEADING
+    MAIL_CREATE_ITEM_SUBJECT,
+    MAIL_UPDATE_ITEM_SUBJECT,
+    MAIL_COMMENT_ITEM_SUBJECT,
+    MAIL_CREATE_ITEM_HEADING,
+    MAIL_UPDATE_ITEM_HEADING,
+    MAIL_COMMENT_ITEM_HEADING
 }

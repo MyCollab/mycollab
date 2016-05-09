@@ -28,6 +28,7 @@ import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.esofthead.mycollab.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.module.crm.events.CaseEvent;
 import com.esofthead.mycollab.module.crm.events.ContactEvent;
+import com.esofthead.mycollab.module.crm.i18n.CaseI18nEnum;
 import com.esofthead.mycollab.module.crm.service.CaseService;
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
@@ -208,7 +209,8 @@ public class CaseReadPresenter extends CrmGenericPresenter<CaseReadView> {
                     view.previewItem(cases);
 
                     AppContext.addFragment(CrmLinkGenerator.generateCasePreviewLink(cases.getId()),
-                            AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE, "Case", cases.getSubject()));
+                            AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
+                                    AppContext.getMessage(CaseI18nEnum.SINGLE), cases.getSubject()));
                 } else {
                     throw new ResourceNotFoundException();
                 }

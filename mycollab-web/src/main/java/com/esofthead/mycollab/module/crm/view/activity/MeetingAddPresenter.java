@@ -21,6 +21,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.domain.MeetingWithBLOBs;
 import com.esofthead.mycollab.module.crm.events.ActivityEvent;
+import com.esofthead.mycollab.module.crm.i18n.MeetingI18nEnum;
 import com.esofthead.mycollab.module.crm.service.MeetingService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -35,92 +36,81 @@ import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class MeetingAddPresenter extends CrmGenericPresenter<MeetingAddView> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public MeetingAddPresenter() {
-		super(MeetingAddView.class);
-	}
+    public MeetingAddPresenter() {
+        super(MeetingAddView.class);
+    }
 
-	@Override
-	protected void postInitView() {
-		view.getEditFormHandlers().addFormHandler(
-				new IEditFormHandler<MeetingWithBLOBs>() {
-					private static final long serialVersionUID = 1L;
+    @Override
+    protected void postInitView() {
+        view.getEditFormHandlers().addFormHandler(new IEditFormHandler<MeetingWithBLOBs>() {
+            private static final long serialVersionUID = 1L;
 
-					@Override
-					public void onSave(final MeetingWithBLOBs item) {
-						save(item);
-						EventBusFactory.getInstance().post(new ActivityEvent.MeetingRead(this, item.getId()));
-					}
+            @Override
+            public void onSave(final MeetingWithBLOBs item) {
+                save(item);
+                EventBusFactory.getInstance().post(new ActivityEvent.MeetingRead(this, item.getId()));
+            }
 
-					@Override
-					public void onCancel() {
-						ViewState viewState = HistoryViewManager.back();
-						if (viewState instanceof NullViewState) {
-							EventBusFactory.getInstance().post(
-									new ActivityEvent.GotoTodoList(this, null));
-						}
-					}
+            @Override
+            public void onCancel() {
+                ViewState viewState = HistoryViewManager.back();
+                if (viewState instanceof NullViewState) {
+                    EventBusFactory.getInstance().post(new ActivityEvent.GotoTodoList(this, null));
+                }
+            }
 
-					@Override
-					public void onSaveAndNew(final MeetingWithBLOBs item) {
-						save(item);
-						EventBusFactory.getInstance().post(
-								new ActivityEvent.MeetingAdd(this, null));
-					}
-				});
-	}
+            @Override
+            public void onSaveAndNew(final MeetingWithBLOBs item) {
+                save(item);
+                EventBusFactory.getInstance().post(new ActivityEvent.MeetingAdd(this, null));
+            }
+        });
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		if (AppContext.canWrite(RolePermissionCollections.CRM_MEETING)) {
-			MeetingWithBLOBs meeting = null;
-			if (data.getParams() instanceof MeetingWithBLOBs) {
-				meeting = (MeetingWithBLOBs) data.getParams();
-			} else if (data.getParams() instanceof Integer) {
-				MeetingService meetingService = ApplicationContextUtil
-						.getSpringBean(MeetingService.class);
-				meeting = meetingService.findByPrimaryKey(
-						(Integer) data.getParams(), AppContext.getAccountId());
-			}
-			if (meeting == null) {
-				NotificationUtil.showRecordNotExistNotification();
-				return;
-			}
-			super.onGo(container, data);
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        if (AppContext.canWrite(RolePermissionCollections.CRM_MEETING)) {
+            MeetingWithBLOBs meeting = null;
+            if (data.getParams() instanceof MeetingWithBLOBs) {
+                meeting = (MeetingWithBLOBs) data.getParams();
+            } else if (data.getParams() instanceof Integer) {
+                MeetingService meetingService = ApplicationContextUtil.getSpringBean(MeetingService.class);
+                meeting = meetingService.findByPrimaryKey((Integer) data.getParams(), AppContext.getAccountId());
+            }
+            if (meeting == null) {
+                NotificationUtil.showRecordNotExistNotification();
+                return;
+            }
+            super.onGo(container, data);
 
-			view.editItem(meeting);
+            view.editItem(meeting);
 
-			if (meeting.getId() == null) {
-				AppContext.addFragment("crm/activity/meeting/add/", AppContext
-						.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
-								"Meeting"));
-			} else {
-				AppContext.addFragment("crm/activity/meeting/edit/"
-						+ UrlEncodeDecoder.encode(meeting.getId()), AppContext
-						.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
-								"Meeting", meeting.getSubject()));
-			}
-		} else {
-			NotificationUtil.showMessagePermissionAlert();
-		}
-	}
+            if (meeting.getId() == null) {
+                AppContext.addFragment("crm/activity/meeting/add/", AppContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
+                        AppContext.getMessage(MeetingI18nEnum.SINGLE)));
+            } else {
+                AppContext.addFragment("crm/activity/meeting/edit/" + UrlEncodeDecoder.encode(meeting.getId()),
+                        AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
+                                AppContext.getMessage(MeetingI18nEnum.SINGLE), meeting.getSubject()));
+            }
+        } else {
+            NotificationUtil.showMessagePermissionAlert();
+        }
+    }
 
-	public void save(MeetingWithBLOBs item) {
-		MeetingService meetingService = ApplicationContextUtil
-				.getSpringBean(MeetingService.class);
-
-		item.setSaccountid(AppContext.getAccountId());
-		if (item.getId() == null) {
-			meetingService.saveWithSession(item, AppContext.getUsername());
-		} else {
-			meetingService.updateWithSession(item, AppContext.getUsername());
-		}
-	}
+    public void save(MeetingWithBLOBs item) {
+        MeetingService meetingService = ApplicationContextUtil.getSpringBean(MeetingService.class);
+        item.setSaccountid(AppContext.getAccountId());
+        if (item.getId() == null) {
+            meetingService.saveWithSession(item, AppContext.getUsername());
+        } else {
+            meetingService.updateWithSession(item, AppContext.getUsername());
+        }
+    }
 }

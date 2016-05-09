@@ -33,6 +33,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
+import com.esofthead.mycollab.module.crm.i18n.OpportunityI18nEnum;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -71,8 +72,7 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact> 
                 .setCaption("<span aria-hidden=\"true\" data-icon=\""
                         + IconConstants.CRM_OPPORTUNITY
                         + "\"></span><div class=\"screen-reader-text\">"
-                        + AppContext
-                        .getMessage(CrmCommonI18nEnum.TAB_OPPORTUNITY)
+                        + AppContext.getMessage(OpportunityI18nEnum.LIST)
                         + "</div>");
         relatedOpportunities.setHtmlContentAllowed(true);
         relatedOpportunities.addClickListener(new Button.ClickListener() {

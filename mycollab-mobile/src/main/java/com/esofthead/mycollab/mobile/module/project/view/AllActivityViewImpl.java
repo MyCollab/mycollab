@@ -125,7 +125,7 @@ public class AllActivityViewImpl extends AbstractListPageView<ActivityStreamSear
             String assigneeValue = buildAssigneeValue(activityStream);
             String itemLink = buildItemValue(activityStream);
             String projectLink = buildProjectValue(activityStream);
-            String type = AppContext.getMessage(ProjectLocalizationTypeMap.getType(activityStream.getType()));
+            String type = ProjectLocalizationTypeMap.getType(activityStream.getType());
             AuditLogRegistry auditLogRegistry = ApplicationContextUtil.getSpringBean(AuditLogRegistry.class);
 
             if (ActivityStreamConstants.ACTION_CREATE.equals(activityStream.getAction())) {

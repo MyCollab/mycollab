@@ -26,6 +26,7 @@ public enum TaskI18nEnum {
     NEW,
     DETAIL,
     LIST,
+    SINGLE,
 
     FORM_PHASE,
     FORM_COMMENT,

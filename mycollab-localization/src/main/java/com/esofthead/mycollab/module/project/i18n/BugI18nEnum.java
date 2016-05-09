@@ -39,6 +39,7 @@ public enum BugI18nEnum {
     NEW,
     DETAIL,
     LIST,
+    SINGLE,
 
     FORM_SUMMARY,
     FORM_SEVERITY,
@@ -71,7 +72,5 @@ public enum BugI18nEnum {
 
     MAIL_CREATE_ITEM_HEADING,
     MAIL_UPDATE_ITEM_HEADING,
-    MAIL_COMMENT_ITEM_HEADING,
-
-    M_FORM_READ_TITLE
+    MAIL_COMMENT_ITEM_HEADING
 }

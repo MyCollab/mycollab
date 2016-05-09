@@ -21,7 +21,10 @@ import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.*;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
+import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
+import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
+import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.*;
 import com.esofthead.mycollab.module.crm.view.activity.ActivityRelatedItemListComp;
@@ -106,11 +109,11 @@ public class CampaignReadViewImpl extends AbstractPreviewItemComp<SimpleCampaign
         previewItemContainer.addTab(previewContent, CrmTypeConstants.DETAIL,
                 AppContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
         previewItemContainer.addTab(associateAccountList, CrmTypeConstants.ACCOUNT,
-                AppContext.getMessage(CrmCommonI18nEnum.TAB_ACCOUNT));
+                AppContext.getMessage(AccountI18nEnum.LIST));
         previewItemContainer.addTab(associateContactList, CrmTypeConstants.CONTACT,
-                AppContext.getMessage(CrmCommonI18nEnum.TAB_CONTACT));
+                AppContext.getMessage(ContactI18nEnum.LIST));
         previewItemContainer.addTab(associateLeadList, CrmTypeConstants.LEAD,
-                AppContext.getMessage(CrmCommonI18nEnum.TAB_LEAD));
+                AppContext.getMessage(LeadI18nEnum.LIST));
         previewItemContainer.addTab(associateActivityList, CrmTypeConstants.ACTIVITY,
                 AppContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY));
     }

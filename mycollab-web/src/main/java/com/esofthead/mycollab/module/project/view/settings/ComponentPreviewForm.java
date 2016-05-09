@@ -16,15 +16,14 @@
  */
 package com.esofthead.mycollab.module.project.view.settings;
 
-import com.esofthead.mycollab.configuration.StorageFactory;
-import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
+import com.esofthead.mycollab.core.arguments.SearchCriteria;
+import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
-import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
-import com.esofthead.mycollab.module.project.view.bug.components.ToggleBugSummaryField;
+import com.esofthead.mycollab.module.project.view.bug.components.BugRowRenderer;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.esofthead.mycollab.module.tracker.domain.Component;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
@@ -34,26 +33,19 @@ import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.web.ui.AdvancedPreviewBeanForm;
+import com.esofthead.mycollab.vaadin.web.ui.DefaultBeanPagedList;
 import com.esofthead.mycollab.vaadin.web.ui.DynaFormLayout;
-import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.field.ContainerViewField;
-import com.hp.gagawa.java.elements.Img;
-import com.hp.gagawa.java.elements.Span;
 import com.vaadin.data.Property;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Label;
-import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
-
-import java.util.List;
 
 /**
  * @author MyCollab Ltd
@@ -92,7 +84,7 @@ public class ComponentPreviewForm extends AdvancedPreviewBeanForm<SimpleComponen
 
     private static class BugsComp extends MVerticalLayout {
         private BugSearchCriteria searchCriteria;
-        private MVerticalLayout issueLayout;
+        private DefaultBeanPagedList<BugService, BugSearchCriteria, SimpleBug> bugList;
 
         BugsComp(SimpleComponent beanItem) {
             withMargin(false).withWidth("100%");
@@ -108,7 +100,10 @@ public class ComponentPreviewForm extends AdvancedPreviewBeanForm<SimpleComponen
             header.with(openSelection, reOpenSelection, verifiedSelection,
                     resolvedSelection, spacingLbl1).alignAll(Alignment.MIDDLE_LEFT).expand(spacingLbl1);
 
-            issueLayout = new MVerticalLayout();
+            bugList = new DefaultBeanPagedList(ApplicationContextUtil.getSpringBean(BugService.class), new
+                    BugRowRenderer());
+            bugList.setControlStyle("");
+            bugList.setMargin(new MarginInfo(true, true, true, false));
 
             searchCriteria = new BugSearchCriteria();
             searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
@@ -117,7 +112,7 @@ public class ComponentPreviewForm extends AdvancedPreviewBeanForm<SimpleComponen
                     OptionI18nEnum.BugStatus.Verified.name(), OptionI18nEnum.BugStatus.Resolved.name()));
             updateSearchStatus();
 
-            this.with(header, issueLayout);
+            this.with(header, bugList);
         }
 
         private void updateTypeSearchStatus(boolean selection, String type) {
@@ -135,37 +130,7 @@ public class ComponentPreviewForm extends AdvancedPreviewBeanForm<SimpleComponen
         }
 
         private void updateSearchStatus() {
-            issueLayout.removeAllComponents();
-            BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
-            int totalCount = bugService.getTotalCount(searchCriteria);
-            for (int i = 0; i < (totalCount / 20) + 1; i++) {
-                List<SimpleBug> bugs = bugService.findPagableListByCriteria(new BasicSearchRequest<>(searchCriteria, i + 1, 20));
-                if (CollectionUtils.isNotEmpty(bugs)) {
-                    for (SimpleBug bug : bugs) {
-                        ToggleBugSummaryField toggleBugSummaryField = new ToggleBugSummaryField(bug);
-
-                        MHorizontalLayout rowComp = new MHorizontalLayout().withStyleName(UIConstants.HOVER_EFFECT_NOT_BOX);
-                        rowComp.addStyleName("margin-bottom");
-                        rowComp.setDefaultComponentAlignment(Alignment.TOP_LEFT);
-
-                        String bugPriority = bug.getPriority();
-                        Span priorityLink = new Span().appendText(ProjectAssetsManager.getBugPriorityHtml(bugPriority)).setTitle(bugPriority);
-
-                        Span statusSpan = new Span().appendText(AppContext.getMessage(OptionI18nEnum.BugStatus.class,
-                                bug.getStatus())).setCSSClass(UIConstants.FIELD_NOTE);
-
-                        String avatarLink = StorageFactory.getInstance().getAvatarPath(bug.getAssignUserAvatarId(), 16);
-                        Img img = new Img(bug.getAssignuserFullName(), avatarLink).setTitle(bug.getAssignuserFullName());
-
-                        rowComp.with(new ELabel(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG).getHtml(), ContentMode.HTML)
-                                        .withWidthUndefined(), new ELabel(priorityLink.write(), ContentMode.HTML).withWidthUndefined(),
-                                new ELabel(statusSpan.write(), ContentMode.HTML).withWidthUndefined(),
-                                new ELabel(img.write(), ContentMode.HTML).withWidthUndefined(),
-                                toggleBugSummaryField).expand(toggleBugSummaryField);
-                        issueLayout.add(rowComp);
-                    }
-                }
-            }
+            bugList.setSearchCriteria(searchCriteria);
         }
 
         private class BugStatusCheckbox extends CheckBox {

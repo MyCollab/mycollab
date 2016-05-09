@@ -26,6 +26,7 @@ public enum ProjectRoleI18nEnum {
     LIST,
     DETAIL,
     NEW,
+    SINGLE,
 
     SECTION_PERMISSIONS,
     OPT_ADMIN_ROLE_DISPLAY

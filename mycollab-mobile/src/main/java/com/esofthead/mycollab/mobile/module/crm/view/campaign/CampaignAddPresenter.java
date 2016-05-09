@@ -20,10 +20,11 @@ import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.CampaignEvent;
-import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.module.crm.view.AbstractCrmPresenter;
+import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.module.crm.domain.CampaignWithBLOBs;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
+import com.esofthead.mycollab.module.crm.i18n.CampaignI18nEnum;
 import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -81,10 +82,12 @@ public class CampaignAddPresenter extends AbstractCrmPresenter<CampaignAddview> 
             view.editItem(campaign);
 
             if (campaign.getId() == null) {
-                AppContext.addFragment("crm/campaign/add", AppContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE, "Campaign"));
+                AppContext.addFragment("crm/campaign/add", AppContext.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
+                        AppContext.getMessage(CampaignI18nEnum.SINGLE)));
             } else {
                 AppContext.addFragment("crm/campaign/edit/" + UrlEncodeDecoder.encode(campaign.getId()),
-                        AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, "Campaign", campaign.getCampaignname()));
+                        AppContext.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
+                                AppContext.getMessage(CampaignI18nEnum.SINGLE), campaign.getCampaignname()));
             }
         } else {
             NotificationUtil.showMessagePermissionAlert();
