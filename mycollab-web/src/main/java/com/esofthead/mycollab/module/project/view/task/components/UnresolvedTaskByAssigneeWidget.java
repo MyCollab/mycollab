@@ -151,7 +151,7 @@ public class UnresolvedTaskByAssigneeWidget extends DepotWithChart {
             UserService service = ApplicationContextUtil.getSpringBean(UserService.class);
             SimpleUser user = service.findUserByUserNameInAccount(assignee, AppContext.getAccountId());
             this.setDescription(CommonTooltipGenerator.generateTooltipUser(AppContext.getUserLocale(), user,
-                    AppContext.getSiteUrl(), AppContext.getUserTimezone()));
+                    AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
         }
     }
 }

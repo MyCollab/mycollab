@@ -26,6 +26,7 @@ import org.ocpsoft.prettytime.PrettyTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -152,14 +153,18 @@ public class DateTimeUtils {
         return simpleDateFormat.format(date);
     }
 
-    private static SimpleDateFormat getDateFormat(String format) {
+    public static final SimpleDateFormat getDateFormat(String format) {
         SimpleDateFormat dateFormat = dateFormats.get(format);
         if (dateFormat != null) {
             return dateFormat;
         } else {
-            dateFormat = new SimpleDateFormat(format);
-            dateFormats.put(format, dateFormat);
-            return dateFormat;
+            try {
+                dateFormat = new SimpleDateFormat(format);
+                dateFormats.put(format, dateFormat);
+                return dateFormat;
+            } catch (Exception e) {
+                return null;
+            }
         }
     }
 
@@ -224,5 +229,13 @@ public class DateTimeUtils {
             }
         }
         return max;
+    }
+
+    public static final DateFormat getFullDateFormat(String dateFormat) {
+        DateFormat format = getDateFormat(dateFormat);
+        if (format == null) {
+            format = getDateFormat("yyyy-MM-dd");
+        }
+        return format;
     }
 }

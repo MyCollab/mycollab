@@ -18,6 +18,7 @@ package com.esofthead.mycollab.servlet;
 
 import com.esofthead.mycollab.configuration.LocaleHelper;
 import com.esofthead.mycollab.core.utils.TimezoneMapper;
+import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.module.crm.CrmTooltipGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.*;
@@ -69,7 +70,7 @@ public class TooltipGeneratorServletRequestHandler extends GenericHttpServlet {
             TimeZone timeZone = TimezoneMapper.getTimezone(timeZoneId);
             String username = request.getParameter("username");
             String localeParam = request.getParameter("locale");
-            Locale locale = LocaleHelper.toLocale(localeParam);
+            Locale locale = LocalizationHelper.getLocaleInstance(localeParam);
 
             String html = "";
             if (ProjectTypeConstants.PROJECT.equals(type)) {

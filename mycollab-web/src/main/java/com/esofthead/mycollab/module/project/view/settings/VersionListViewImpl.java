@@ -122,7 +122,7 @@ public class VersionListViewImpl extends AbstractPageView implements VersionList
                 }
                 b.setDescription(ProjectTooltipGenerator.generateToolTipVersion(
                         AppContext.getUserLocale(), bugVersion, AppContext.getSiteUrl(),
-                        AppContext.getUserTimezone()));
+                        AppContext.getUserTimeZone()));
                 return b;
 
             }

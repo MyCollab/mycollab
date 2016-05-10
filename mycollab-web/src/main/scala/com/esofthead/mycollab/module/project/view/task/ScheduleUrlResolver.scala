@@ -61,18 +61,15 @@ class ScheduleUrlResolver extends ProjectUrlResolver {
 
   private class ReadUrlResolver extends ProjectUrlResolver {
     protected override def handlePage(params: String*) {
-      var projectId: Integer = 0
-      var taskId: Integer = 0
       if (ProjectLinkParams.isValidParam(params(0))) {
         val prjShortName = ProjectLinkParams.getProjectShortName(params(0))
         val itemKey = ProjectLinkParams.getItemKey(params(0))
         val taskService = ApplicationContextUtil.getSpringBean(classOf[ProjectTaskService])
         val task = taskService.findByProjectAndTaskKey(itemKey, prjShortName, AppContext.getAccountId)
         if (task != null) {
-          projectId = task.getProjectid
-          taskId = task.getId
-          val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId),
-            new TaskScreenData.Read(taskId))
+          val projectId = task.getProjectid
+          val taskId = task.getId
+          val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new TaskScreenData.Read(taskId))
           EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
         }
         else {
@@ -110,5 +107,4 @@ class ScheduleUrlResolver extends ProjectUrlResolver {
       EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain))
     }
   }
-
 }

@@ -116,7 +116,7 @@ public class OpportunityContactListComp extends RelatedListComp2<ContactOpportun
                 EventBusFactory.getInstance().post(new OpportunityEvent.GotoContactRoleEdit(this, opportunity));
             }
         });
-        final Button selectBtn = new Button("Select from existing contacts", new Button.ClickListener() {
+        final Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
             @Override

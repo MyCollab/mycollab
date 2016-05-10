@@ -41,10 +41,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 
 import java.awt.*;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author MyCollab Ltd.
@@ -285,8 +282,7 @@ public class CrmColumnBuilderMapper implements InitializingBean {
         ConditionalStyleBuilder overDueStyle = DynamicReports.stl.conditionalStyle(overDueExpr).setForegroundColor(Color.RED);
         ConditionalStyleBuilder isCompleteStyle = DynamicReports.stl.conditionalStyle(isCompleteExpr).setStrikeThrough(true);
 
-        StyleBuilder styleBuilder = DynamicReports.stl.style(ReportTemplateFactory.getTemplate(
-                SiteConfiguration.getDefaultLocale())
+        StyleBuilder styleBuilder = DynamicReports.stl.style(ReportTemplateFactory.getTemplate(Locale.US)
                 .getUnderlineStyle()).addConditionalStyle(overDueStyle)
                 .addConditionalStyle(isCompleteStyle);
 

@@ -92,7 +92,7 @@ public class CaseSelectionWindow extends Window {
                     }
                 });
                 b.setDescription(CrmTooltipGenerator.generateTooltipCases(
-                        AppContext.getUserLocale(), cases, AppContext.getSiteUrl(), AppContext.getUserTimezone()));
+                        AppContext.getUserLocale(), cases, AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
                 return b;
             }
         });

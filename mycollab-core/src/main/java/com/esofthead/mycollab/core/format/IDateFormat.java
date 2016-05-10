@@ -27,5 +27,5 @@ public interface IDateFormat {
 
     String getDateTimeFormat();
 
-    String getDayMonthFormat();
+    String getLongDateFormat();
 }

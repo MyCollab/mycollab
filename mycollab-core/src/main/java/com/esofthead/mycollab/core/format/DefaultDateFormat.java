@@ -38,7 +38,7 @@ public class DefaultDateFormat implements IDateFormat {
     }
 
     @Override
-    public String getDayMonthFormat() {
+    public String getLongDateFormat() {
         return "MM/dd";
     }
 }

@@ -141,7 +141,7 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
             final Image userAvatarBtn = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(user.getAvatarid(), 32);
             userAvatarBtn.addStyleName(UIConstants.CIRCLE_BOX);
             userAvatarBtn.setDescription(CommonTooltipGenerator.generateTooltipUser(AppContext.getUserLocale(), user,
-                    AppContext.getSiteUrl(), AppContext.getUserTimezone()));
+                    AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
             addComponent(userAvatarBtn);
             this.addStyleName("removeable-btn");
             this.setWidthUndefined();

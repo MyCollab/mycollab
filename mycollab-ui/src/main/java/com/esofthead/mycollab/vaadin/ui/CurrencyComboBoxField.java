@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.vaadin.ui;
 
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.vaadin.data.Property;
 import com.vaadin.ui.ComboBox;
 
 import java.util.Currency;
@@ -39,5 +40,15 @@ public class CurrencyComboBoxField extends ComboBox {
             this.setItemCaption(currency.getCurrencyCode(), String.format("%s (%s)", currency.getDisplayName
                     (AppContext.getUserLocale()), currency.getCurrencyCode()));
         }
+    }
+
+    @Override
+    public void setPropertyDataSource(Property newDataSource) {
+        Object value = newDataSource.getValue();
+        if (value == null) {
+            Currency currency = AppContext.getDefaultCurrency();
+            newDataSource.setValue(currency.getCurrencyCode());
+        }
+        super.setPropertyDataSource(newDataSource);
     }
 }

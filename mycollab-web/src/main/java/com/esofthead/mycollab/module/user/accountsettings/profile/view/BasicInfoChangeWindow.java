@@ -42,8 +42,6 @@ import com.vaadin.ui.Window;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
-import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.USER_TIMEZONE;
-
 /**
  * @author MyCollab Ltd.
  * @since 1.0
@@ -145,9 +143,6 @@ class BasicInfoChangeWindow extends Window {
         user.setDateofbirth(birthdayField.getDate());
         user.setLanguage((String) languageBox.getValue());
         user.setTimezone(timeZoneField.getTimeZone().getId());
-
-        MyCollabSession.removeCurrentUIVariable(USER_TIMEZONE);
-        MyCollabSession.putCurrentUIVariable(USER_TIMEZONE, timeZoneField.getTimeZone().getTimezone());
 
         final UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
         userService.updateWithSession(user, AppContext.getUsername());

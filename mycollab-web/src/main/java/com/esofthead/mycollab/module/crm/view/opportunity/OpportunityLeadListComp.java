@@ -80,7 +80,7 @@ public class OpportunityLeadListComp extends RelatedListComp2<LeadService, LeadS
                 fireNewRelatedItem("");
             }
         });
-        final Button selectBtn = new Button("Select from existing leads", new Button.ClickListener() {
+        final Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -144,35 +144,22 @@ public class OpportunityLeadListComp extends RelatedListComp2<LeadService, LeadS
             btnDelete.addClickListener(new Button.ClickListener() {
                 @Override
                 public void buttonClick(ClickEvent clickEvent) {
-                    ConfirmDialogExt.show(
-                            UI.getCurrent(),
-                            AppContext.getMessage(
-                                    GenericI18Enum.DIALOG_DELETE_TITLE,
-                                    AppContext.getSiteName()),
-                            AppContext
-                                    .getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                            AppContext
-                                    .getMessage(GenericI18Enum.BUTTON_YES),
-                            AppContext
-                                    .getMessage(GenericI18Enum.BUTTON_NO),
+                    ConfirmDialogExt.show(UI.getCurrent(),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_NO),
                             new ConfirmDialog.Listener() {
                                 private static final long serialVersionUID = 1L;
 
                                 @Override
                                 public void onClose(ConfirmDialog dialog) {
                                     if (dialog.isConfirmed()) {
-                                        final OpportunityService accountService = ApplicationContextUtil
-                                                .getSpringBean(OpportunityService.class);
+                                        final OpportunityService accountService = ApplicationContextUtil.getSpringBean(OpportunityService.class);
                                         final OpportunityLead associateLead = new OpportunityLead();
-                                        associateLead
-                                                .setOpportunityid(opportunity
-                                                        .getId());
+                                        associateLead.setOpportunityid(opportunity.getId());
                                         associateLead.setLeadid(lead.getId());
-                                        accountService
-                                                .removeOpportunityLeadRelationship(
-                                                        associateLead,
-                                                        AppContext
-                                                                .getAccountId());
+                                        accountService.removeOpportunityLeadRelationship(associateLead, AppContext.getAccountId());
                                         OpportunityLeadListComp.this.refresh();
                                     }
                                 }

@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.schedule.email.user.service
 
-import java.util.Arrays
+import java.util.{Arrays, Locale}
 
 import com.esofthead.mycollab.common.domain.MailRecipientField
 import com.esofthead.mycollab.common.{GenericLinkUtils, UrlEncodeDecoder}
@@ -24,14 +24,14 @@ import com.esofthead.mycollab.configuration.SiteConfiguration
 import com.esofthead.mycollab.core.arguments.{BasicSearchRequest, SetSearchField}
 import com.esofthead.mycollab.i18n.LocalizationHelper
 import com.esofthead.mycollab.module.billing.UserStatusConstants
-import com.esofthead.mycollab.module.mail.service.{IContentGenerator, ExtMailService}
+import com.esofthead.mycollab.module.mail.service.{ExtMailService, IContentGenerator}
 import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum
 import com.esofthead.mycollab.module.user.domain.SimpleUser
 import com.esofthead.mycollab.module.user.domain.criteria.UserSearchCriteria
 import com.esofthead.mycollab.module.user.service.UserService
 import com.esofthead.mycollab.schedule.jobs.GenericQuartzJobBean
 import org.quartz.{JobExecutionContext, JobExecutionException}
-import org.slf4j.{LoggerFactory, Logger}
+import org.slf4j.{Logger, LoggerFactory}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.config.BeanDefinition
 import org.springframework.context.annotation.Scope
@@ -79,9 +79,9 @@ class UserSignUpEmailNotificationJob extends GenericQuartzJobBean {
             contentGenerator.putVariable("linkConfirm", confirmLink)
             extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getDefaultSiteName,
                 Arrays.asList(new MailRecipientField(user.getEmail, user.getDisplayName)), null, null,
-                contentGenerator.parseString(LocalizationHelper.getMessage(SiteConfiguration.getDefaultLocale,
+                contentGenerator.parseString(LocalizationHelper.getMessage(Locale.US,
                     UserI18nEnum.MAIL_CONFIRM_PASSWORD_SUBJECT)),
-                contentGenerator.parseFile(CONFIRM_EMAIL_TEMPLATE, SiteConfiguration.getDefaultLocale), null)
+                contentGenerator.parseFile(CONFIRM_EMAIL_TEMPLATE, Locale.US), null)
         } catch {
             case e: Exception => LOG.error("Can not send confirm email ", e)
         }

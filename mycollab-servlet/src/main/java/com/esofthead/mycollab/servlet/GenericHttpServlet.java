@@ -18,6 +18,7 @@ package com.esofthead.mycollab.servlet;
 
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.UserInvalidInputException;
+import com.esofthead.mycollab.i18n.LocalizationHelper;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import javax.servlet.ServletConfig;
@@ -59,11 +60,7 @@ public abstract class GenericHttpServlet extends HttpServlet {
 
     protected Locale getResponseLocale(HttpServletRequest request) {
         String locale = request.getParameter("locale");
-        if (locale != null) {
-            return SiteConfiguration.toLocale(locale);
-        }
-
-        return SiteConfiguration.getDefaultLocale();
+        return LocalizationHelper.getLocaleInstance(locale);
     }
 
     abstract protected void onHandleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;

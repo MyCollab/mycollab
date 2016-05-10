@@ -100,7 +100,7 @@ public class ProjectInfoComponent extends MHorizontalLayout {
         this.with(projectIcon).withAlign(projectIcon, Alignment.TOP_LEFT);
         ELabel headerLbl = ELabel.h2(project.getName());
         headerLbl.setDescription(ProjectTooltipGenerator.generateToolTipProject(AppContext.getUserLocale(), project,
-                AppContext.getSiteUrl(), AppContext.getUserTimezone()));
+                AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
         headerLbl.addStyleName(UIConstants.TEXT_ELLIPSIS);
         MVerticalLayout headerLayout = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, true));
 

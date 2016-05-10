@@ -94,8 +94,7 @@ public class ContactListPresenter extends CrmGenericListPresenter<ContactListVie
                 } else if ("massUpdate".equals(id)) {
                     MassUpdateContactWindow massUpdateWindow = new MassUpdateContactWindow(
                             AppContext.getMessage(GenericI18Enum.WINDOW_MASS_UPDATE_TITLE,
-                                    AppContext.getMessage(ContactI18nEnum.LIST)),
-                            ContactListPresenter.this);
+                                    AppContext.getMessage(ContactI18nEnum.LIST)), ContactListPresenter.this);
                     UI.getCurrent().addWindow(massUpdateWindow);
                 }
 

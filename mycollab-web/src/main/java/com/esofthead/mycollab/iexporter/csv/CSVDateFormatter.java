@@ -16,36 +16,32 @@
  */
 package com.esofthead.mycollab.iexporter.csv;
 
+import com.esofthead.mycollab.core.MyCollabException;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.vaadin.AppContext;
-
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class CSVDateFormatter implements CSVFormatter<Date> {
 
-	@Override
-	public Date format(String value) {
-		if (value.length() == 0 || value.trim().length() == 0)
-			return null;
-		else {
-			try {
-				DateFormat formatter = new SimpleDateFormat(
-						AppContext.getUserDateFormat().getDateFormat());
-				formatter.setLenient(false);
-				return formatter.parse(value);
-			} catch (Exception e) {
-				throw new MyCollabException("Can't parse value = \'" + value
-						+ "\' to DateType, please input follow mm/dd/yyyy.");
-			}
-		}
-	}
+    @Override
+    public Date format(String value) {
+        if (value.length() == 0 || value.trim().length() == 0)
+            return null;
+        else {
+            try {
+                DateFormat formatter = new SimpleDateFormat("mm/dd/yyyy");
+                formatter.setLenient(false);
+                return formatter.parse(value);
+            } catch (Exception e) {
+                throw new MyCollabException("Can't parse value = \'" + value
+                        + "\' to DateType, please input follow mm/dd/yyyy.");
+            }
+        }
+    }
 
 }

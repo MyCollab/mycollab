@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.project.esb.impl
 
 import java.util
-import java.util.Date
+import java.util.{Date, Locale}
 
 import com.esofthead.mycollab.common.domain.MailRecipientField
 import com.esofthead.mycollab.configuration.SiteConfiguration
@@ -64,10 +64,10 @@ import org.springframework.stereotype.Component
       contentGenerator.putVariable("urlDeny", SiteConfiguration.getSiteUrl(subDomain) + "project/member/invitation/deny_invite/" +
         ProjectLinkGenerator.generateDenyInvitationParams(inviteeEmail, event.sAccountId, event.projectId, user.getEmail,
           event.inviteUser))
-      val subject = contentGenerator.parseString(LocalizationHelper.getMessage(SiteConfiguration.getDefaultLocale,
+      val subject = contentGenerator.parseString(LocalizationHelper.getMessage(Locale.US,
         ProjectMemberI18nEnum.MAIL_INVITE_USERS_SUBJECT, member.getProjectName, SiteConfiguration.getDefaultSiteName))
       val content = contentGenerator.parseFile("templates/email/project/memberInvitationNotifier.mt",
-        SiteConfiguration.getDefaultLocale)
+        Locale.US)
       val toUser = util.Arrays.asList(new MailRecipientField(inviteeEmail, inviteeEmail))
       extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getDefaultSiteName,
         toUser, null, null, subject, content, null)

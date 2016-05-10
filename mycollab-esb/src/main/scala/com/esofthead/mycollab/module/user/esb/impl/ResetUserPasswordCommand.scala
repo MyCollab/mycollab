@@ -50,7 +50,7 @@ import org.springframework.stereotype.Component
       val subDomain = "api"
       val recoveryPasswordURL = SiteConfiguration.getSiteUrl(subDomain) + "user/recoverypassword/" +
         UrlEncodeDecoder.encode(username)
-      val locale: Locale = LocaleHelper.toLocale(user.getLanguage)
+      val locale: Locale = LocalizationHelper.getLocaleInstance(user.getLanguage)
       contentGenerator.putVariable("username", user.getUsername)
       contentGenerator.putVariable("urlRecoveryPassword", recoveryPasswordURL)
       val recipient = new MailRecipientField(user.getEmail, user.getUsername)
@@ -60,7 +60,7 @@ import org.springframework.stereotype.Component
         contentGenerator.parseString(LocalizationHelper.getMessage(locale, UserI18nEnum.MAIL_RECOVERY_PASSWORD_SUBJECT,
           SiteConfiguration.getDefaultSiteName)),
         contentGenerator.parseFile("templates/email/user/userRecoveryPasswordNotifier.mt", locale,
-          SiteConfiguration.getDefaultLocale), null)
+          Locale.US), null)
     }
   }
 }

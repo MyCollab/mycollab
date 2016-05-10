@@ -51,7 +51,7 @@ public class LocalizationHelper {
 
     public static IMessageConveyor getMessageConveyor(Locale language) {
         if (language == null) {
-            return languageMap.get(SiteConfiguration.getDefaultLocale());
+            return languageMap.get(Locale.US);
         } else {
             IMessageConveyor messageConveyor = languageMap.get(language);
             if (messageConveyor == null) {
@@ -130,8 +130,7 @@ public class LocalizationHelper {
      */
     public static Reader templateReader(String fileTemplatePath, Locale locale) {
         String templatePath = templatePath(fileTemplatePath, locale);
-        InputStream resourceStream = LocalizationHelper.class.getClassLoader()
-                .getResourceAsStream(templatePath);
+        InputStream resourceStream = LocalizationHelper.class.getClassLoader().getResourceAsStream(templatePath);
         if (resourceStream == null) {
             return null;
         }
@@ -156,5 +155,18 @@ public class LocalizationHelper {
             }
         }
         return reader;
+    }
+
+    public static final Locale[] getAvailableLocales() {
+        Locale[] locales = Locale.getAvailableLocales();
+        return locales;
+    }
+
+    public final static Locale getLocaleInstance(String languageTag) {
+        try {
+            return Locale.forLanguageTag(languageTag);
+        } catch (Exception e) {
+            return Locale.US;
+        }
     }
 }

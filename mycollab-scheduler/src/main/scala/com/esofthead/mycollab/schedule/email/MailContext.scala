@@ -33,7 +33,7 @@ import scala.beans.BeanProperty
  */
 class MailContext[B](@BeanProperty val emailNotification: SimpleRelayEmailNotification,
                      @BeanProperty val user: SimpleUser, val siteUrl: String) {
-    @BeanProperty val locale: Locale = LocaleHelper.toLocale(user.getLanguage)
+    @BeanProperty val locale: Locale = LocalizationHelper.getLocaleInstance(user.getLanguage)
     @BeanProperty val timeZone: TimeZone = TimezoneMapper.getTimezone(user.getTimezone)
     @BeanProperty var wrappedBean: B = _
 

@@ -89,7 +89,7 @@ public class CaseTableDisplay extends DefaultPagedBeanTable<CaseService, CaseSea
                     b.addStyleName(UIConstants.LINK_COMPLETED);
                 }
                 b.setDescription(CrmTooltipGenerator.generateTooltipCases(AppContext.getUserLocale(), cases,
-                        AppContext.getSiteUrl(), AppContext.getUserTimezone()));
+                        AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
                 return b;
             }
         });

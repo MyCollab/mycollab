@@ -27,7 +27,7 @@ public class CurrencyUtils {
     public static Currency getInstance(String currencyCode) {
         try {
             return Currency.getInstance(currencyCode);
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             return Currency.getInstance(Locale.US);
         }
     }

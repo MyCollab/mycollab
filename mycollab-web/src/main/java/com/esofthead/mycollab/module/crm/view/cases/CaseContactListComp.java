@@ -93,7 +93,7 @@ public class CaseContactListComp extends RelatedListComp2<ContactService, Contac
                 fireNewRelatedItem("");
             }
         });
-        Button selectBtn = new Button("Select from existing contacts", new Button.ClickListener() {
+        Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
             @Override

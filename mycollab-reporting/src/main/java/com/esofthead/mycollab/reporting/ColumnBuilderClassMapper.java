@@ -16,9 +16,9 @@
  */
 package com.esofthead.mycollab.reporting;
 
-import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.reporting.generator.ComponentBuilderGenerator;
 
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -30,7 +30,7 @@ public class ColumnBuilderClassMapper {
     private static Map<Class, Map<String, ComponentBuilderGenerator>> mapInjection = new ConcurrentHashMap<>();
 
     static {
-        ReportTemplateFactory.getTemplate(SiteConfiguration.getDefaultLocale());
+        ReportTemplateFactory.getTemplate(Locale.US);
     }
 
     public static void put(Class cls, Map<String, ComponentBuilderGenerator> columns) {

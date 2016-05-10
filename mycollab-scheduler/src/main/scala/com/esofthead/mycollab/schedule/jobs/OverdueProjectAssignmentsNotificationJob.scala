@@ -17,13 +17,13 @@
 package com.esofthead.mycollab.schedule.jobs
 
 import java.util
-import java.util.Date
+import java.util.{Date, Locale}
 
 import com.esofthead.mycollab.common.domain.MailRecipientField
 import com.esofthead.mycollab.common.{FontAwesomeUtils, NotificationType}
 import com.esofthead.mycollab.configuration.{SiteConfiguration, StorageFactory}
 import com.esofthead.mycollab.core.MyCollabException
-import com.esofthead.mycollab.core.arguments.{SearchField, NumberSearchField, RangeDateSearchField, SetSearchField}
+import com.esofthead.mycollab.core.arguments.{NumberSearchField, RangeDateSearchField, SearchField, SetSearchField}
 import com.esofthead.mycollab.core.utils.{BeanUtility, DateTimeUtils}
 import com.esofthead.mycollab.html.DivLessFormatter
 import com.esofthead.mycollab.module.mail.service.{ExtMailService, IContentGenerator}
@@ -129,7 +129,7 @@ class OverdueProjectAssignmentsNotificationJob extends GenericQuartzJobBean {
             for (notifier <- notifiers) {
               val userMail = new MailRecipientField(notifier.getEmail, notifier.getDisplayName)
               val recipients = util.Arrays.asList(userMail)
-              val content = contentGenerator.parseFile("templates/email/project/overdueAssignmentsNotifier.mt", SiteConfiguration.getDefaultLocale)
+              val content = contentGenerator.parseFile("templates/email/project/overdueAssignmentsNotifier.mt", Locale.US)
               extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getDefaultSiteName, recipients,
                 null, null,
                 contentGenerator.parseString("[" + projectName + "] Overdue assignments"), content, null)

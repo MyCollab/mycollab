@@ -67,11 +67,6 @@ public class DateSelectionField extends GridLayout {
         this.dateSelectionBox = dateSelectionBox;
     }
 
-    public DateSelectionField(String width) {
-        this();
-        dateSelectionBox.setWidth(width);
-    }
-
     public DateSelectionField() {
         setDateWidth(120);
         this.setSpacing(true);

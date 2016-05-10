@@ -24,4 +24,10 @@ ALTER TABLE `m_prj_invoice` CHANGE COLUMN `currentId` `currentId` VARCHAR(4) NUL
 
 DROP TABLE `s_currency`;
 
+ALTER TABLE `s_account`
+ADD COLUMN `defaultCurrencyId` VARCHAR(4) NULL,
+ADD COLUMN `defaultYYMMDDFormat` VARCHAR(45) NULL,
+ADD COLUMN `defaultHumanDateFormat` VARCHAR(45) NULL,
+ADD COLUMN `defaultMMDDFormat` VARCHAR(45) NULL,
+ADD COLUMN `defaultLanguageTag` VARCHAR(10) NULL;
 

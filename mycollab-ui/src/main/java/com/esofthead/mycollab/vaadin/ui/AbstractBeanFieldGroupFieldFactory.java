@@ -100,8 +100,8 @@ public abstract class AbstractBeanFieldGroupFieldFactory<B> implements IBeanFiel
                 } else if (formField instanceof RichTextArea) {
                     ((RichTextArea) formField).setNullRepresentation("");
                 } else if (formField instanceof DateField) {
-                    ((DateField) formField).setTimeZone(AppContext.getUserTimezone());
-                    ((DateField) formField).setDateFormat(AppContext.getUserDateFormat().getShortDateFormat());
+                    ((DateField) formField).setTimeZone(AppContext.getUserTimeZone());
+                    ((DateField) formField).setDateFormat(AppContext.getDateFormat().toPattern());
                 }
                 postCreateField(bindField, formField);
                 attachForm.attachField(bindField, formField);
@@ -142,8 +142,8 @@ public abstract class AbstractBeanFieldGroupFieldFactory<B> implements IBeanFiel
                 } else if (formField instanceof RichTextArea) {
                     ((RichTextArea) formField).setNullRepresentation("");
                 } else if (formField instanceof DateField) {
-                    ((DateField) formField).setTimeZone(AppContext.getUserTimezone());
-                    ((DateField) formField).setDateFormat(AppContext.getUserDateFormat().getShortDateFormat());
+                    ((DateField) formField).setTimeZone(AppContext.getUserTimeZone());
+                    ((DateField) formField).setDateFormat(AppContext.getDateFormat().toPattern());
                 }
                 postCreateField(field.getName(), formField);
                 attachForm.attachField(field.getName(), formField);

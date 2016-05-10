@@ -34,7 +34,7 @@ import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.web.ui.OptionPopupContent;
 import com.esofthead.mycollab.vaadin.web.ui.SplitButton;
@@ -89,28 +89,27 @@ public class CampaignAccountListComp extends RelatedListComp2<AccountService, Ac
         controlsBtn.setCaption(AppContext.getMessage(AccountI18nEnum.NEW));
         controlsBtn.setIcon(FontAwesome.PLUS);
         controlsBtn.addClickListener(new SplitButton.SplitButtonClickListener() {
-                    private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void splitButtonClick(
-                            final SplitButton.SplitButtonClickEvent event) {
-                        fireNewRelatedItem("");
-                    }
-                });
-        final Button selectBtn = new Button("Select from existing accounts",
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+            @Override
+            public void splitButtonClick(
+                    final SplitButton.SplitButtonClickEvent event) {
+                fireNewRelatedItem("");
+            }
+        });
+        final Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        final CampaignAccountSelectionWindow accountsWindow = new CampaignAccountSelectionWindow(CampaignAccountListComp.this);
-                        final AccountSearchCriteria criteria = new AccountSearchCriteria();
-                        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-                        UI.getCurrent().addWindow(accountsWindow);
-                        accountsWindow.setSearchCriteria(criteria);
-                        controlsBtn.setPopupVisible(false);
-                    }
-                });
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                final CampaignAccountSelectionWindow accountsWindow = new CampaignAccountSelectionWindow(CampaignAccountListComp.this);
+                final AccountSearchCriteria criteria = new AccountSearchCriteria();
+                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                UI.getCurrent().addWindow(accountsWindow);
+                accountsWindow.setSearchCriteria(criteria);
+                controlsBtn.setPopupVisible(false);
+            }
+        });
         selectBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT));
         OptionPopupContent buttonControlLayout = new OptionPopupContent();
         buttonControlLayout.addOption(selectBtn);

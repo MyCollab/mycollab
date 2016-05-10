@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.module.user.esb.impl
 
+import java.util.Locale
+
 import com.esofthead.mycollab.common.domain.MailRecipientField
 import com.esofthead.mycollab.configuration.SiteConfiguration
 import com.esofthead.mycollab.core.arguments._
@@ -85,6 +87,6 @@ object NewUserJoinCommand {
     contentGenerator.putVariable("formatter", new Formatter)
     extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getDefaultSiteName, recipients.asJava,
       null, null, String.format("%s has just joined on MyCollab workspace", newUser.getDisplayName),
-      contentGenerator.parseFile("templates/email/user/newUserJoinAccountNotifier.mt", SiteConfiguration.getDefaultLocale), null)
+      contentGenerator.parseFile("templates/email/user/newUserJoinAccountNotifier.mt", Locale.US), null)
   }
 }

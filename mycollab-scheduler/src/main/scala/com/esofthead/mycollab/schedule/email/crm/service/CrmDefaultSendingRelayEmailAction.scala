@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.schedule.email.crm.service
 
+import java.util.Locale
+
 import com.esofthead.mycollab.common.MonitorTypeConstants
 import com.esofthead.mycollab.common.domain.{MailRecipientField, SimpleAuditLog, SimpleRelayEmailNotification}
 import com.esofthead.mycollab.common.service.AuditLogService
@@ -73,7 +75,7 @@ abstract class CrmDefaultSendingRelayEmailAction[B] extends SendingRelayEmailNot
                     val recipients = List(userMail)
                     extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getDefaultSiteName, recipients,
                         null, null, contentGenerator.parseString(subject),
-                        contentGenerator.parseFile(getCreateContentPath, context.getLocale, SiteConfiguration.getDefaultLocale), null)
+                        contentGenerator.parseFile(getCreateContentPath, context.getLocale, Locale.US), null)
                 }
             }
         }
@@ -106,7 +108,7 @@ abstract class CrmDefaultSendingRelayEmailAction[B] extends SendingRelayEmailNot
                     val recipients = List(userMail)
                     extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getDefaultSiteName, recipients,
                         null, null, contentGenerator.parseString(subject),
-                        contentGenerator.parseFile(getUpdateContentPath, context.getLocale, SiteConfiguration.getDefaultLocale), null)
+                        contentGenerator.parseFile(getUpdateContentPath, context.getLocale, Locale.US), null)
                 }
             }
         }
@@ -142,7 +144,7 @@ abstract class CrmDefaultSendingRelayEmailAction[B] extends SendingRelayEmailNot
                 extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getDefaultSiteName, seqAsJavaList
                     (recipients), null, null,
                     contentGenerator.parseString(subject), contentGenerator.parseFile(getNoteContentPath,
-                        context.getLocale, SiteConfiguration.getDefaultLocale), null)
+                        context.getLocale, Locale.US), null)
             }
         }
     }

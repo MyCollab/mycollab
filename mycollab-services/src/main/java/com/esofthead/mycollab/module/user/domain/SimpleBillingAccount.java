@@ -17,6 +17,13 @@
 package com.esofthead.mycollab.module.user.domain;
 
 import com.esofthead.mycollab.core.arguments.NotBindable;
+import com.esofthead.mycollab.core.utils.CurrencyUtils;
+import com.esofthead.mycollab.i18n.LocalizationHelper;
+import com.google.common.base.MoreObjects;
+
+import java.text.SimpleDateFormat;
+import java.util.Currency;
+import java.util.Locale;
 
 /**
  * @author MyCollab Ltd.
@@ -28,11 +35,78 @@ public class SimpleBillingAccount extends BillingAccount {
     @NotBindable
     private BillingPlan billingPlan;
 
+    @NotBindable
+    private SimpleDateFormat dateTimeFormatInstance;
+
+    @NotBindable
+    private SimpleDateFormat dateFormatInstance;
+
+    @NotBindable
+    private SimpleDateFormat shortDateFormatInstance;
+
+    @NotBindable
+    private SimpleDateFormat humanDateFormatInstance;
+
+    @NotBindable
+    private Currency currencyInstance;
+
+    @NotBindable
+    private Locale localeInstance;
+
     public BillingPlan getBillingPlan() {
         return billingPlan;
     }
 
     public void setBillingPlan(BillingPlan billingPlan) {
         this.billingPlan = billingPlan;
+    }
+
+    @Override
+    public void setDefaultlanguagetag(String defaultlanguagetag) {
+        super.setDefaultlanguagetag(defaultlanguagetag);
+    }
+
+    public SimpleDateFormat getDateFormatInstance() {
+        if (dateFormatInstance == null) {
+            dateFormatInstance = new SimpleDateFormat(MoreObjects.firstNonNull(getDefaultyymmddformat(), "MM/dd/yyyy"));
+        }
+        return dateFormatInstance;
+    }
+
+    public SimpleDateFormat getShortDateFormatInstance() {
+        if (shortDateFormatInstance == null) {
+            shortDateFormatInstance = new SimpleDateFormat(MoreObjects.firstNonNull(getDefaultmmddformat(), "MM/dd"));
+        }
+        return shortDateFormatInstance;
+    }
+
+    public SimpleDateFormat getHumanDateFormatInstance() {
+        if (humanDateFormatInstance == null) {
+            humanDateFormatInstance = new SimpleDateFormat(MoreObjects.firstNonNull(getDefaulthumandateformat(), "E, " +
+                    "dd MMM yyyy"));
+        }
+        return humanDateFormatInstance;
+    }
+
+    public SimpleDateFormat getDateTimeFormatInstance() {
+        if (dateTimeFormatInstance == null) {
+            dateTimeFormatInstance = new SimpleDateFormat(MoreObjects.firstNonNull(getDefaultyymmddformat() + " HH:mm:ss Z",
+                    "MM/dd/yyyy HH:mm:ss Z"));
+        }
+        return dateTimeFormatInstance;
+    }
+
+    public Locale getLocaleInstance() {
+        if (localeInstance == null) {
+            localeInstance = LocalizationHelper.getLocaleInstance(getDefaultlanguagetag());
+        }
+        return localeInstance;
+    }
+
+    public Currency getCurrencyInstance() {
+        if (currencyInstance == null) {
+            currencyInstance = CurrencyUtils.getInstance(getDefaultcurrencyid());
+        }
+        return currencyInstance;
     }
 }

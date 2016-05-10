@@ -19,7 +19,6 @@ package com.esofthead.mycollab.configuration;
 import com.esofthead.mycollab.core.format.DefaultDateFormat;
 import com.esofthead.mycollab.core.format.IDateFormat;
 import com.esofthead.mycollab.core.format.JpDateFormat;
-import org.apache.commons.lang3.LocaleUtils;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -35,15 +34,6 @@ public class LocaleHelper {
     static {
         dateFormats.put(Locale.JAPAN, new JpDateFormat());
         dateFormats.put(Locale.US, new DefaultDateFormat());
-    }
-
-    public static Locale toLocale(String language) {
-        if (language == null) {
-            return Locale.US;
-        }
-
-        Locale locale = LocaleUtils.toLocale(language);
-        return (locale != null) ? locale : SiteConfiguration.getDefaultLocale();
     }
 
     public static IDateFormat getDateFormatInstance(Locale locale) {

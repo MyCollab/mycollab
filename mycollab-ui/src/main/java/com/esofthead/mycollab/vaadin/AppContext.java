@@ -22,7 +22,6 @@ import com.esofthead.mycollab.common.i18n.ErrorI18nEnum;
 import com.esofthead.mycollab.configuration.LocaleHelper;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.SessionExpireException;
-import com.esofthead.mycollab.core.format.IDateFormat;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
@@ -48,6 +47,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Currency;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -84,7 +85,6 @@ public class AppContext implements Serializable {
      * only for on-demand edition
      */
     private String subDomain;
-
     private String siteName;
 
     /**
@@ -95,7 +95,7 @@ public class AppContext implements Serializable {
     private Integer accountId = null;
     private transient IMessageConveyor messageHelper;
     private Locale userLocale = Locale.US;
-    private IDateFormat dateFormat;
+    private TimeZone userTimeZone;
     private static GoogleAnalyticsService googleAnalyticsService = ApplicationContextUtil.getSpringBean(GoogleAnalyticsService.class);
 
     public AppContext() {
@@ -149,18 +149,15 @@ public class AppContext implements Serializable {
         billingAccount = billingAc;
 
         String language = session.getLanguage();
-        userLocale = LocaleHelper.toLocale(language);
-        dateFormat = LocaleHelper.getDateFormatInstance(userLocale);
+        userLocale = language != null ? LocalizationHelper.getLocaleInstance(language) : billingAccount.getLocaleInstance();
         VaadinSession.getCurrent().setLocale(userLocale);
         messageHelper = LocalizationHelper.getMessageConveyor(userLocale);
 
-        TimeZone timezone;
-        if (session.getTimezone() == null) {
-            timezone = TimeZone.getDefault();
-        } else {
-            timezone = TimezoneMapper.getTimezone(session.getTimezone());
-        }
-        MyCollabSession.putCurrentUIVariable(USER_TIMEZONE, timezone);
+        userTimeZone = session.getTimezone() != null ? TimezoneMapper.getTimezone(session.getTimezone()) : TimeZone.getDefault();
+        billingAccount.getDateFormatInstance().setTimeZone(userTimeZone);
+        billingAccount.getShortDateFormatInstance().setTimeZone(userTimeZone);
+        billingAccount.getHumanDateFormatInstance().setTimeZone(userTimeZone);
+        billingAccount.getDateTimeFormatInstance().setTimeZone(userTimeZone);
         MyCollabSession.putSessionVariable(USER_VAL, userSession);
     }
 
@@ -182,10 +179,6 @@ public class AppContext implements Serializable {
 
     public static Locale getUserLocale() {
         return getInstance().userLocale;
-    }
-
-    public static IDateFormat getUserDateFormat() {
-        return getInstance().dateFormat;
     }
 
     public static String getMessage(Enum<?> key, Object... objects) {
@@ -324,6 +317,29 @@ public class AppContext implements Serializable {
         return getInstance().billingAccount;
     }
 
+    public static final TimeZone getUserTimeZone() {
+        return getInstance().userTimeZone;
+    }
+
+    public static final SimpleDateFormat getDateTimeFormat() {
+        return getInstance().billingAccount.getDateTimeFormatInstance();
+    }
+
+    public static final SimpleDateFormat getDateFormat() {
+        return getInstance().billingAccount.getDateFormatInstance();
+    }
+
+    public static final SimpleDateFormat getShortDateFormat() {
+        return getInstance().billingAccount.getShortDateFormatInstance();
+    }
+
+    public static final SimpleDateFormat getLongDateFormat() {
+        return getInstance().billingAccount.getHumanDateFormatInstance();
+    }
+
+    public static final Currency getDefaultCurrency() {
+        return getInstance().billingAccount.getCurrencyInstance();
+    }
 
     /**
      * Check whether current user is admin or system
@@ -412,21 +428,12 @@ public class AppContext implements Serializable {
         return AppContext.getMessage(PermissionFlag.toVal(perVal));
     }
 
-    public static TimeZone getUserTimezone() {
-        try {
-            return (TimeZone) MyCollabSession.getCurrentUIVariable(USER_TIMEZONE);
-        } catch (Exception e) {
-            return TimeZone.getDefault();
-        }
-    }
-
     /**
      * @param date
      * @return
      */
     public static String formatDateTime(Date date) {
-        return DateTimeUtils.formatDate(date, AppContext.getUserDateFormat().getDateTimeFormat(),
-                (TimeZone) MyCollabSession.getCurrentUIVariable(USER_TIMEZONE));
+        return date == null ? "" : getDateTimeFormat().format(date);
     }
 
     /**
@@ -434,8 +441,7 @@ public class AppContext implements Serializable {
      * @return
      */
     public static String formatDate(Date date) {
-        return DateTimeUtils.formatDate(date, AppContext.getUserDateFormat().getDateFormat(),
-                (TimeZone) MyCollabSession.getCurrentUIVariable(USER_TIMEZONE));
+        return date == null ? "" : getDateFormat().format(date);
     }
 
     /**
@@ -444,19 +450,15 @@ public class AppContext implements Serializable {
      * @return
      */
     public static String formatDate(Date date, String textIfDateIsNull) {
-        if (date == null) {
-            return textIfDateIsNull;
-        } else {
-            return formatDate(date);
-        }
+        return date == null ? textIfDateIsNull : formatDate(date);
     }
 
     public static String formatPrettyTime(Date date) {
         return DateTimeUtils.getPrettyDateValue(date, getUserLocale());
     }
 
-    public static String formatDayMonth(Date date) {
-        return DateTimeUtils.formatDate(date, AppContext.getUserDateFormat().getDayMonthFormat());
+    public static String formatShortDate(Date date) {
+        return date == null ? "" : getShortDateFormat().format(date);
     }
 
     public static String formatDuration(Date date) {

@@ -32,6 +32,7 @@ import com.hp.gagawa.java.elements.Tr;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.DateFormat;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -565,7 +566,6 @@ public class CrmTooltipGenerator {
         try {
             TooltipBuilder tooltipManager = new TooltipBuilder();
             tooltipManager.appendTitle(call.getSubject());
-
             String dateFormat = LocaleHelper.getDateFormatInstance(locale).getDateFormat();
 
             Tr trRow1 = new Tr();

@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.schedule.email.project.service
 
+import java.util.Locale
+
 import com.esofthead.mycollab.common.domain.{MailRecipientField, SimpleAuditLog, SimpleRelayEmailNotification}
 import com.esofthead.mycollab.common.service.AuditLogService
 import com.esofthead.mycollab.configuration.SiteConfiguration
@@ -57,7 +59,7 @@ abstract class SendMailToFollowersAction[B] extends SendingRelayEmailNotificatio
           extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getDefaultSiteName, recipients, null, null,
             contentGenerator.parseString(getCreateSubject(context)),
             contentGenerator.parseFile("templates/email/project/itemCreatedNotifier.mt", context.getLocale,
-              SiteConfiguration.getDefaultLocale), null)
+              Locale.US), null)
         }
       }
     }
@@ -85,7 +87,7 @@ abstract class SendMailToFollowersAction[B] extends SendingRelayEmailNotificatio
           extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getDefaultSiteName, recipients, null, null,
             contentGenerator.parseString(getUpdateSubject(context)),
             contentGenerator.parseFile("templates/email/project/itemUpdatedNotifier.mt", context.getLocale,
-              SiteConfiguration.getDefaultLocale), null)
+              Locale.US), null)
         }
       }
     }
@@ -108,7 +110,7 @@ abstract class SendMailToFollowersAction[B] extends SendingRelayEmailNotificatio
           extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getDefaultSiteName, toRecipients,
             null, null, contentGenerator.parseString(getCommentSubject(context)),
             contentGenerator.parseFile("templates/email/project/itemCommentNotifier.mt", context.getLocale,
-              SiteConfiguration.getDefaultLocale), null)
+              Locale.US), null)
         }
       }
     }

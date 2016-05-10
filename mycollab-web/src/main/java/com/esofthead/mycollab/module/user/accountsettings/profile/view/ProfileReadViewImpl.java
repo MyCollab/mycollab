@@ -17,9 +17,9 @@
 package com.esofthead.mycollab.module.user.accountsettings.profile.view;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.common.i18n.LangI18Enum;
 import com.esofthead.mycollab.common.i18n.ShellI18nEnum;
 import com.esofthead.mycollab.core.utils.TimezoneMapper;
+import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.module.file.service.UserAvatarService;
 import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.esofthead.mycollab.module.user.domain.User;
@@ -111,7 +111,8 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
         userFormLayout.addComponent(new Label(user.getEmail()), AppContext.getMessage(UserI18nEnum.FORM_EMAIL), 0, 1);
         userFormLayout.addComponent(new Label(TimezoneMapper.getTimezoneExt(user.getTimezone()).getDisplayName()),
                 AppContext.getMessage(UserI18nEnum.FORM_TIMEZONE), 0, 2);
-        userFormLayout.addComponent(new Label(AppContext.getMessage(LangI18Enum.class, user.getLanguage())),
+        userFormLayout.addComponent(new Label(LocalizationHelper.getLocaleInstance(user.getLanguage())
+                        .getDisplayLanguage(AppContext.getUserLocale())),
                 AppContext.getMessage(UserI18nEnum.FORM_LANGUAGE), 0, 3);
 
         Button btnChangePassword = new Button("Change", new Button.ClickListener() {

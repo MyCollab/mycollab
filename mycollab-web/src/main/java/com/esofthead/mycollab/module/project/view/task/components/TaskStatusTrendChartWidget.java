@@ -145,8 +145,7 @@ public class TaskStatusTrendChartWidget extends Depot {
                 valueAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
                 return chart;
             } else {
-                return ChartFactory.createTimeSeriesChart("", "", "", new TimeSeriesCollection(),
-                        false, true, false);
+                return ChartFactory.createTimeSeriesChart("", "", "", new TimeSeriesCollection(), false, true, false);
             }
         }
 
@@ -163,8 +162,7 @@ public class TaskStatusTrendChartWidget extends Depot {
 
                 final TimeSeries key = (TimeSeries) series.get(i);
                 int colorIndex = i % CHART_COLOR_STR.size();
-                final String color = "<div style = \" width:13px;height:13px;background: #"
-                        + CHART_COLOR_STR.get(colorIndex) + "\" />";
+                final String color = "<div style = \" width:13px;height:13px;background: #" + CHART_COLOR_STR.get(colorIndex) + "\" />";
                 final Label lblCircle = new Label(color);
                 lblCircle.setContentMode(ContentMode.HTML);
                 String captionBtn = AppContext.getMessage(OptionI18nEnum.BugStatus.class, (String) key.getKey());

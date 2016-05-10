@@ -221,7 +221,7 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Projec
         } else {
             blockWrapper.setMargin(new MarginInfo(true, false, false, false));
         }
-        Label dateLbl = new Label(AppContext.formatDayMonth(nextDate));
+        Label dateLbl = new Label(AppContext.formatShortDate(nextDate));
         dateLbl.setStyleName("date-lbl");
         dateLbl.setWidthUndefined();
         blockWrapper.with(dateLbl, currentBlock).expand(currentBlock);

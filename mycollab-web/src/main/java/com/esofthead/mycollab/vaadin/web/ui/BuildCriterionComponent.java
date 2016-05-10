@@ -437,14 +437,14 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                 valueBox.addComponent(tempTextField);
             } else if (field instanceof DateParam) {
                 if (DateParam.BETWEEN.equals(compareItem) || DateParam.NOT_BETWEEN.equals(compareItem)) {
-                    DateField field1 = new DateField();
-                    DateField field2 = new DateField();
+                    DateFieldExt field1 = new DateFieldExt();
+                    DateFieldExt field2 = new DateFieldExt();
                     field1.setWidth(width);
                     field2.setWidth(width);
                     valueBox.addComponent(field1);
                     valueBox.addComponent(field2);
                 } else {
-                    DateField tempDateField = new DateField();
+                    DateFieldExt tempDateField = new DateFieldExt();
                     tempDateField.setWidth(width);
                     valueBox.addComponent(tempDateField);
                 }
@@ -630,14 +630,14 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                         if (valueBox.getComponentCount() != 2) {
                             return null;
                         }
-                        Date dateValue1 = ((DateField) valueBox.getComponent(0)).getValue();
-                        Date dateValue2 = ((DateField) valueBox.getComponent(1)).getValue();
+                        Date dateValue1 = ((DateFieldExt) valueBox.getComponent(0)).getValue();
+                        Date dateValue2 = ((DateFieldExt) valueBox.getComponent(1)).getValue();
                         return wrapParam.buildSearchField(prefixOperation, compareOper, dateValue1, dateValue2);
                     } else {
                         if (valueBox.getComponentCount() != 1) {
                             return null;
                         }
-                        Date dateValue = ((DateField) valueBox.getComponent(0)).getValue();
+                        Date dateValue = ((DateFieldExt) valueBox.getComponent(0)).getValue();
                         return wrapParam.buildSearchField(prefixOperation, compareOper, dateValue);
                     }
                 } else {

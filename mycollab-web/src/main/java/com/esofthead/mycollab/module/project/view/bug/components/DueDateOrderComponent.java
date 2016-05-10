@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.project.view.bug.components;
 import com.esofthead.mycollab.core.utils.SortedArrayMap;
 import com.esofthead.mycollab.module.project.ui.components.IGroupComponent;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.vaadin.shared.ui.MarginInfo;
@@ -81,7 +82,7 @@ public class DueDateOrderComponent extends BugGroupOrderComponent {
         GroupComponent(DateTime startDate) {
             initComponent();
             DateTime maxValue = startDate.dayOfWeek().withMaximumValue();
-            DateTimeFormatter formatter = DateTimeFormat.forPattern("E, dd MMM yyyy");
+            DateTimeFormatter formatter = DateTimeFormat.forPattern(AppContext.getLongDateFormat().toPattern());
             String monDayStr = formatter.print(startDate);
             String sundayStr = formatter.print(maxValue);
             durationLbl = String.format("%s - %s", monDayStr, sundayStr);

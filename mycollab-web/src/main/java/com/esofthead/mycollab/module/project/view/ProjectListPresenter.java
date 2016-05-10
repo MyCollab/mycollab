@@ -20,6 +20,7 @@ import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
+import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -56,7 +57,7 @@ public class ProjectListPresenter extends ListSelectionPresenter<ProjectListView
 
             @Override
             protected String getReportTitle() {
-                return "Projects";
+                return AppContext.getMessage(ProjectI18nEnum.LIST);
             }
 
             @Override

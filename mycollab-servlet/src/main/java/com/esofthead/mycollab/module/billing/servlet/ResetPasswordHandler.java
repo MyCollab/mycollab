@@ -33,6 +33,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Locale;
 
 /**
  * @author MyCollab Ltd.
@@ -57,7 +58,7 @@ public class ResetPasswordHandler extends GenericHttpServlet {
 
         User user = userService.findUserByUserName(username);
         if (user == null) {
-            throw new UserInvalidInputException(LocalizationHelper.getMessage(SiteConfiguration.getDefaultLocale(),
+            throw new UserInvalidInputException(LocalizationHelper.getMessage(Locale.US,
                     ErrorI18nEnum.ERROR_USER_IS_NOT_EXISTED, username));
         } else {
             user.setPassword(PasswordEncryptHelper.encryptSaltPassword(password));

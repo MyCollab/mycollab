@@ -88,7 +88,7 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
             A projectDiv = new A(ProjectLinkBuilder.generateProjectFullLink(project.getId())).appendText(project.getName());
             ELabel projectLbl = ELabel.h3(projectDiv.write()).withStyleName(UIConstants.TEXT_ELLIPSIS).withWidth("100%");
             projectLbl.setDescription(ProjectTooltipGenerator.generateToolTipProject(AppContext.getUserLocale(),
-                    project, AppContext.getSiteUrl(), AppContext.getUserTimezone()));
+                    project, AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
 
             linkIconFix.addComponent(projectLbl);
 

@@ -65,8 +65,6 @@ public class ApplicationProperties {
     public static final String ERROR_SENDTO = "error.sendTo";
     public static final String STORAGE_SYSTEM = "storageSystem";
 
-    public static final String LOCALES = "locale.list";
-    public static final String DEFAULT_LOCALE = "locale.default";
     public static final String SITE_NAME = "site.name";
     public static final String SERVER_ADDRESS = "server.address";
 

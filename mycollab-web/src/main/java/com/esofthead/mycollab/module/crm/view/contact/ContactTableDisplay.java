@@ -90,7 +90,7 @@ public class ContactTableDisplay extends DefaultPagedBeanTable<ContactService, C
 
                 LabelLink b = new LabelLink(contact.getContactName(), CrmLinkBuilder.generateContactPreviewLinkFull(contact.getId()));
                 b.setDescription(CrmTooltipGenerator.generateToolTipContact(AppContext.getUserLocale(), contact,
-                        AppContext.getSiteUrl(), AppContext.getUserTimezone()));
+                        AppContext.getSiteUrl(), AppContext.getUserTimeZone()));
                 return b;
             }
         });

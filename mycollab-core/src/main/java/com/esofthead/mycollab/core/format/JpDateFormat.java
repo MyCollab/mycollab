@@ -38,7 +38,7 @@ public class JpDateFormat implements IDateFormat {
     }
 
     @Override
-    public String getDayMonthFormat() {
+    public String getLongDateFormat() {
         return "MM/dd";
     }
 }

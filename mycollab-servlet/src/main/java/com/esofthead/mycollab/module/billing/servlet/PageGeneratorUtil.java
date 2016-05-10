@@ -28,6 +28,7 @@ import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -39,7 +40,7 @@ class PageGeneratorUtil {
         String pageNotFoundTemplate = "templates/page/UserNotExistPage.mt";
         TemplateContext context = new TemplateContext();
 
-        Reader reader = LocalizationHelper.templateReader(pageNotFoundTemplate, SiteConfiguration.getDefaultLocale());
+        Reader reader = LocalizationHelper.templateReader(pageNotFoundTemplate, Locale.US);
 
         context.put("loginURL", loginURL);
         context.put("username", username);

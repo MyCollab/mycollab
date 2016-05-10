@@ -79,7 +79,7 @@ public class FormReportTemplateExecutor<B> extends ReportTemplateExecutor {
     private MultiPageListBuilder titleContent;
 
     public FormReportTemplateExecutor(String reportTitle) {
-        super(AppContext.getUserTimezone(), AppContext.getUserLocale(), reportTitle, ReportExportType.PDF);
+        super(AppContext.getUserTimeZone(), AppContext.getUserLocale(), reportTitle, ReportExportType.PDF);
     }
 
     @Override

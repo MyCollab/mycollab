@@ -28,6 +28,7 @@ public class PopupDateFieldExt extends PopupDateField {
 
     public PopupDateFieldExt() {
         super();
-        this.setTimeZone(AppContext.getUserTimezone());
+        this.setTimeZone(AppContext.getUserTimeZone());
+        this.setDateFormat(AppContext.getDateFormat().toPattern());
     }
 }

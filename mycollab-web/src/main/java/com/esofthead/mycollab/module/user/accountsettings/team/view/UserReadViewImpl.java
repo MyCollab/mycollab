@@ -16,8 +16,8 @@
  */
 package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
-import com.esofthead.mycollab.common.i18n.LangI18Enum;
 import com.esofthead.mycollab.core.utils.TimezoneMapper;
+import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.user.AccountLinkBuilder;
 import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
@@ -105,7 +105,8 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
                 ContentMode.HTML), AppContext.getMessage(UserI18nEnum.FORM_EMAIL), 0, 2);
         formLayoutHelper.addComponent(new Label(TimezoneMapper.getTimezoneExt(user.getTimezone()).getDisplayName()),
                 AppContext.getMessage(UserI18nEnum.FORM_TIMEZONE), 0, 3);
-        formLayoutHelper.addComponent(new Label(AppContext.getMessage(LangI18Enum.class, user.getLanguage())),
+        formLayoutHelper.addComponent(new Label(LocalizationHelper.getLocaleInstance(user.getLanguage())
+                .getDisplayLanguage(AppContext.getUserLocale())),
                 AppContext.getMessage(UserI18nEnum.FORM_LANGUAGE), 0, 4);
 
         avatarAndPass.with(basicLayout).withAlign(basicLayout, Alignment.TOP_LEFT).expand(basicLayout);

@@ -6,9 +6,6 @@
 #=====================================================
 #    SITE CONFIGURATION
 #=====================================================
-locale.default=en_US
-locale.list=en_US
-
 site.name=${sitename}
 server.address=${serveraddress}
 

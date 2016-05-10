@@ -35,8 +35,6 @@ public class MyCollabSession {
 
     public static final String PROJECT_MEMBER = "project_member";
 
-    public static final String USER_TIMEZONE = "USER_TIMEZONE";
-
     public static final String CURRENT_MODULE = "currentModule";
 
     public static final String CONTROLLER_REGISTRY = "CONTROLLER_REGISTRY";

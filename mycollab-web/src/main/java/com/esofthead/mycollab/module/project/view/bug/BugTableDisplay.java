@@ -93,7 +93,7 @@ public class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearch
                 }
 
                 b.setDescription(ProjectTooltipGenerator.generateToolTipBug(
-                        AppContext.getUserLocale(), bug, AppContext.getSiteUrl(), AppContext.getUserTimezone(), false));
+                        AppContext.getUserLocale(), bug, AppContext.getSiteUrl(), AppContext.getUserTimeZone(), false));
 
                 if (bug.isCompleted()) {
                     b.addStyleName(UIConstants.LINK_COMPLETED);

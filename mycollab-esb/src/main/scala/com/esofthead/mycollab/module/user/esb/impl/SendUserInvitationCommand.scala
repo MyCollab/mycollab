@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.user.esb.impl
 
-import java.util.Arrays
+import java.util.{Arrays, Locale}
 
 import com.esofthead.mycollab.common.domain.MailRecipientField
 import com.esofthead.mycollab.configuration.{SiteConfiguration, StorageFactory}
@@ -71,10 +71,10 @@ object SendUserInvitationCommand {
       contentGenerator.putVariable("inviter", inviterUser)
       extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getDefaultSiteName,
         Arrays.asList(new MailRecipientField(event.invitee, event.invitee)), null, null,
-        contentGenerator.parseString(LocalizationHelper.getMessage(SiteConfiguration.getDefaultLocale,
+        contentGenerator.parseString(LocalizationHelper.getMessage(Locale.US,
           UserI18nEnum.MAIL_INVITE_USER_SUBJECT, SiteConfiguration.getDefaultSiteName)),
         contentGenerator.parseFile("templates/email/user/userInvitationNotifier.mt",
-          SiteConfiguration.getDefaultLocale), null)
+          Locale.US), null)
       userService.updateUserAccountStatus(event.invitee, event.sAccountId,
         RegisterStatusConstants.SENT_VERIFICATION_EMAIL)
     } catch {

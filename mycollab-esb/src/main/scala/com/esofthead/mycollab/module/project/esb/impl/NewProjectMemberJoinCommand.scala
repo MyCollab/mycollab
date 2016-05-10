@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.module.project.esb.impl
 
+import java.util.Locale
+
 import com.esofthead.mycollab.common.FontAwesomeUtils
 import com.esofthead.mycollab.common.domain.MailRecipientField
 import com.esofthead.mycollab.configuration.SiteConfiguration
@@ -84,6 +86,6 @@ object NewProjectMemberJoinCommand {
     membersInProjects.foreach(user => recipients.append(new MailRecipientField(user.getUsername, user.getDisplayName)))
     extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getDefaultSiteName, recipients.asJava,
       null, null, String.format("%s has just joined on project %s", newMember.getDisplayName, newMember.getProjectName),
-      contentGenerator.parseFile("templates/email/project/newMemberJoinProjectNotifier.mt", SiteConfiguration.getDefaultLocale), null)
+      contentGenerator.parseFile("templates/email/project/newMemberJoinProjectNotifier.mt", Locale.US), null)
   }
 }

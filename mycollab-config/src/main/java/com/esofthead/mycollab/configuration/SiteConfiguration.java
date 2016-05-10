@@ -17,14 +17,10 @@
 package com.esofthead.mycollab.configuration;
 
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
-import org.apache.commons.lang3.LocaleUtils;
 import org.joda.time.DateTimeZone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 import java.util.TimeZone;
 
 import static com.esofthead.mycollab.configuration.ApplicationProperties.*;
@@ -58,9 +54,6 @@ public class SiteConfiguration {
     private String twitterUrl;
     private String googleUrl;
     private String linkedinUrl;
-
-    private Locale defaultLocale;
-    private List<Locale> supportedLanguages;
     private PullMethod pullMethod;
 
     public static void loadConfiguration() {
@@ -73,10 +66,6 @@ public class SiteConfiguration {
         instance.sentErrorEmail = ApplicationProperties.getString(ERROR_SENDTO, "support@mycollab.com");
         instance.siteName = ApplicationProperties.getString(SITE_NAME, "MyCollab");
         instance.serverAddress = ApplicationProperties.getString(SERVER_ADDRESS, "localhost");
-        instance.defaultLocale = toLocale(ApplicationProperties.getString(DEFAULT_LOCALE, "en_US"));
-
-        instance.supportedLanguages = getSupportedLocales("en_US, ja_JP,fr,de,pt");
-
         instance.serverPort = serverPort;
 
         String pullMethodValue = ApplicationProperties.getString(ApplicationProperties.PULL_METHOD, "push");
@@ -190,14 +179,6 @@ public class SiteConfiguration {
         return getInstance().sentErrorEmail;
     }
 
-    public static Locale getDefaultLocale() {
-        return getInstance().defaultLocale;
-    }
-
-    public static List<Locale> getSupportedLanguages() {
-        return getInstance().supportedLanguages;
-    }
-
     public static String getSiteUrl(String subDomain) {
         String siteUrl;
         IDeploymentMode modeService = ApplicationContextUtil.getSpringBean(IDeploymentMode.class);
@@ -238,29 +219,6 @@ public class SiteConfiguration {
 
     public static int getServerPort() {
         return getInstance().serverPort;
-    }
-
-    public static Locale toLocale(String language) {
-        if (language == null) {
-            return Locale.US;
-        }
-
-        return LocaleUtils.toLocale(language);
-    }
-
-    private static List<Locale> getSupportedLocales(String languageVal) {
-        List<Locale> locales = new ArrayList<>();
-        String[] languages = languageVal.split(",");
-        for (String language : languages) {
-            Locale locale = toLocale(language.trim());
-            if (locale == null) {
-                LOG.error("Do not support native language {}", language);
-                continue;
-            }
-
-            locales.add(locale);
-        }
-        return locales;
     }
 
     public enum PullMethod {

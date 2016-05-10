@@ -31,7 +31,7 @@ object ContactTableFieldDef {
   val name = new TableViewField(GenericI18Enum.FORM_NAME, "contactName", UIConstants.TABLE_X_LABEL_WIDTH)
   val account = new TableViewField(ContactI18nEnum.FORM_ACCOUNTS, "accountName", UIConstants.TABLE_EX_LABEL_WIDTH)
   val decisionRole = new TableViewField(ContactI18nEnum.FORM_DECISION_ROLE, "decisionRole", UIConstants.TABLE_M_LABEL_WIDTH)
-  val title = new TableViewField(ContactI18nEnum.FORM_TITLE, "title", UIConstants.TABLE_S_LABEL_WIDTH)
+  val title = new TableViewField(ContactI18nEnum.FORM_TITLE, "title", UIConstants.TABLE_M_LABEL_WIDTH)
   val department = new TableViewField(ContactI18nEnum.FORM_DEPARTMENT, "department", UIConstants.TABLE_M_LABEL_WIDTH)
   val email = new TableViewField(ContactI18nEnum.FORM_EMAIL, "email", UIConstants.TABLE_EMAIL_WIDTH)
   val assistant = new TableViewField(ContactI18nEnum.FORM_ASSISTANT, "assistant", UIConstants.TABLE_X_LABEL_WIDTH)

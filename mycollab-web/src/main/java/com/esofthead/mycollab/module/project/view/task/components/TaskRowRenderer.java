@@ -94,11 +94,11 @@ public class TaskRowRenderer extends MVerticalLayout {
         deadlineField.setDescription(deadlineTooltip);
         footer.addComponent(deadlineField);
 
-        PopupView startdateField = popupFieldFactory.createStartDatePopupField(task);
-        footer.addComponent(startdateField);
+        PopupView startDateField = popupFieldFactory.createStartDatePopupField(task);
+        footer.addComponent(startDateField);
 
-        PopupView enddateField = popupFieldFactory.createEndDatePopupField(task);
-        footer.addComponent(enddateField);
+        PopupView endDateField = popupFieldFactory.createEndDatePopupField(task);
+        footer.addComponent(endDateField);
 
         PopupView billableHoursField = popupFieldFactory.createBillableHoursPopupField(task);
         footer.addComponent(billableHoursField);
@@ -210,8 +210,7 @@ public class TaskRowRenderer extends MVerticalLayout {
                             @Override
                             public void onClose(ConfirmDialog dialog) {
                                 if (dialog.isConfirmed()) {
-                                    ProjectTaskService projectTaskService = ApplicationContextUtil.
-                                            getSpringBean(ProjectTaskService.class);
+                                    ProjectTaskService projectTaskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
                                     projectTaskService.removeWithSession(task, AppContext.getUsername(), AppContext.getAccountId());
                                     deleteTask();
                                 }
