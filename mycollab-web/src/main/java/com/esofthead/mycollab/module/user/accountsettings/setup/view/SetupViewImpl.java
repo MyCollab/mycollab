@@ -31,6 +31,7 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.web.ui.AddViewLayout;
 import com.esofthead.mycollab.vaadin.web.ui.ConfirmDialogExt;
+import com.esofthead.mycollab.vaadin.web.ui.IntegerField;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.event.ShortcutAction;
@@ -58,14 +59,17 @@ public class SetupViewImpl extends AbstractPageView implements SetupView {
 
     public SetupViewImpl() {
         withMargin(new MarginInfo(false, true, false, true));
+    }
+
+    @Override
+    public void initContent() {
+        this.removeAllComponents();
         editForm = new SmtpEditForm();
         addComponent(editForm);
     }
 
     @Override
     public void displaySetup() {
-        this.removeAllComponents();
-        this.addComponent(editForm);
         emailConf = SiteConfiguration.getEmailConfiguration().clone();
         editForm.display(emailConf);
     }
@@ -200,6 +204,8 @@ public class SetupViewImpl extends AbstractPageView implements SetupView {
                 return new CheckBox("", false);
             } else if (propertyId.equals("password")) {
                 return new PasswordField();
+            } else if (propertyId.equals("port")) {
+                return new IntegerField();
             }
             return null;
         }

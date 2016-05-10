@@ -24,6 +24,7 @@ import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.OptionValComboBox;
+import com.vaadin.data.Property;
 
 import java.util.List;
 
@@ -41,5 +42,14 @@ public class TaskStatusComboBox extends OptionValComboBox {
         for (OptionVal option : options) {
             addEntry(option);
         }
+    }
+
+    @Override
+    public void setPropertyDataSource(Property newDataSource) {
+        Object value = newDataSource.getValue();
+        if (value == null) {
+            newDataSource.setValue(OptionI18nEnum.StatusI18nEnum.Open.name());
+        }
+        super.setPropertyDataSource(newDataSource);
     }
 }

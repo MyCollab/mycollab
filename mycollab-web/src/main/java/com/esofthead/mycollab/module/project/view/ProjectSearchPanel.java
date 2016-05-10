@@ -58,7 +58,7 @@ public class ProjectSearchPanel extends DefaultGenericSearchPanel<ProjectSearchC
 
     @Override
     protected ComponentContainer buildSearchTitle() {
-        return ComponentUtils.headerH2(ProjectTypeConstants.PROJECT, "Projects");
+        return ComponentUtils.headerH2(ProjectTypeConstants.PROJECT, AppContext.getMessage(ProjectI18nEnum.LIST));
     }
 
     @Override
@@ -91,7 +91,7 @@ public class ProjectSearchPanel extends DefaultGenericSearchPanel<ProjectSearchC
             MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
 
             nameField = ShortcutExtension.installShortcutAction(new TextField(),
-                    new ShortcutListener("RiskSearchRequest", ShortcutAction.KeyCode.ENTER, null) {
+                    new ShortcutListener("ProjectSearchRequest", ShortcutAction.KeyCode.ENTER, null) {
                         @Override
                         public void handleAction(Object o, Object o1) {
                             callSearchAction();
@@ -186,6 +186,5 @@ public class ProjectSearchPanel extends DefaultGenericSearchPanel<ProjectSearchC
             ProjectSearchCriteria searchCriteria = super.fillUpSearchCriteria();
             return searchCriteria;
         }
-
     }
 }

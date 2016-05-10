@@ -20,6 +20,7 @@ package com.esofthead.mycollab.module.project.view.bug.components;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
 import com.esofthead.mycollab.vaadin.web.ui.I18nValueComboBox;
+import com.vaadin.data.Property;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.ComboBox;
 
@@ -53,5 +54,14 @@ public class BugSeverityComboBox extends I18nValueComboBox {
                 }
             }
         });
+    }
+
+    @Override
+    public void setPropertyDataSource(Property newDataSource) {
+        Object value = newDataSource.getValue();
+        if (value == null) {
+            newDataSource.setValue(OptionI18nEnum.BugSeverity.Major.name());
+        }
+        super.setPropertyDataSource(newDataSource);
     }
 }

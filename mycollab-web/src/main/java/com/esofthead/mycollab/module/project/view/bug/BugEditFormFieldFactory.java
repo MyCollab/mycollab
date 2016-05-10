@@ -18,7 +18,6 @@ package com.esofthead.mycollab.module.project.view.bug;
 
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
-import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.ProjectSubscribersComp;
 import com.esofthead.mycollab.module.project.ui.form.ProjectFormAttachmentUploadField;
 import com.esofthead.mycollab.module.project.view.bug.components.BugPriorityComboBox;
@@ -63,9 +62,6 @@ class BugEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Sim
         } else if (propertyId.equals("description")) {
             return new RichTextArea();
         } else if (propertyId.equals("priority")) {
-            if (beanItem.getPriority() == null) {
-                beanItem.setPriority(OptionI18nEnum.BugPriority.Major.name());
-            }
             return new BugPriorityComboBox();
         } else if (propertyId.equals("assignuser")) {
             ProjectMemberSelectionField field = new ProjectMemberSelectionField();
@@ -87,9 +83,6 @@ class BugEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Sim
             }
             return attachmentUploadField;
         } else if (propertyId.equals("severity")) {
-            if (beanItem.getSeverity() == null) {
-                beanItem.setSeverity(OptionI18nEnum.BugSeverity.Major.name());
-            }
             return new BugSeverityComboBox();
         } else if (propertyId.equals("components")) {
             componentSelect = new ComponentMultiSelectField();

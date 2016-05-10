@@ -84,7 +84,7 @@ public class ProjectListViewImpl extends AbstractPageView implements ProjectList
         tableItem = new DefaultPagedBeanTable<>(
                 ApplicationContextUtil.getSpringBean(ProjectService.class),
                 SimpleProject.class, VIEW_DEF_ID,
-                ProjectTableFieldDef.selected(), Arrays.asList(ProjectTableFieldDef.projectname(),
+                ProjectTableFieldDef.selected(), Arrays.asList(ProjectTableFieldDef.projectName(),
                 ProjectTableFieldDef.lead(), ProjectTableFieldDef.client(), ProjectTableFieldDef.startDate(),
                 ProjectTableFieldDef.homePage(), ProjectTableFieldDef.status()));
 

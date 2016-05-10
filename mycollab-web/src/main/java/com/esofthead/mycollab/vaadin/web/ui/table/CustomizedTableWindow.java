@@ -20,7 +20,7 @@ import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.common.domain.CustomViewStore;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CustomViewStoreService;
-import com.esofthead.mycollab.core.utils.XStreamJsonDeSerializer;
+import com.esofthead.mycollab.common.XStreamJsonDeSerializer;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
@@ -32,9 +32,9 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Window;
+import org.vaadin.tepi.listbuilder.ListBuilder;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
-import org.vaadin.tepi.listbuilder.ListBuilder;
 
 import java.util.*;
 
@@ -82,10 +82,9 @@ public abstract class CustomizedTableWindow extends Window {
         this.setSelectedViewColumns();
         contentLayout.with(listBuilder).withAlign(listBuilder, Alignment.TOP_CENTER);
 
-        Button restoreLink = new Button("Restore to default", new Button.ClickListener() {
+        Button restoreLink = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_RESET), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
-            @SuppressWarnings("unchecked")
             @Override
             public void buttonClick(ClickEvent event) {
                 List<TableViewField> defaultSelectedColumns = tableItem.getDefaultSelectedColumns();
@@ -111,7 +110,6 @@ public abstract class CustomizedTableWindow extends Window {
         restoreLink.setStyleName(UIConstants.BUTTON_LINK);
         contentLayout.with(restoreLink).withAlign(restoreLink, Alignment.TOP_RIGHT);
 
-        final MHorizontalLayout buttonControls = new MHorizontalLayout();
         final Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
@@ -133,23 +131,21 @@ public abstract class CustomizedTableWindow extends Window {
         });
         saveBtn.setStyleName(UIConstants.BUTTON_ACTION);
         saveBtn.setIcon(FontAwesome.SAVE);
-        buttonControls.addComponent(saveBtn);
 
         final Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
             @Override
             public void buttonClick(final ClickEvent event) {
-                CustomizedTableWindow.this.close();
+                close();
             }
         });
         cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
-        buttonControls.addComponent(cancelBtn);
 
+        MHorizontalLayout buttonControls = new MHorizontalLayout(cancelBtn, saveBtn);
         contentLayout.with(buttonControls).withAlign(buttonControls, Alignment.TOP_RIGHT);
     }
 
-    @SuppressWarnings("unchecked")
     private void setSelectedViewColumns() {
         final Collection<String> viewColumnIds = this.getViewColumns();
 
@@ -175,5 +171,4 @@ public abstract class CustomizedTableWindow extends Window {
         String[] copyArr = Arrays.copyOf(visibleColumns, visibleColumns.length, String[].class);
         return Arrays.asList(copyArr);
     }
-
 }

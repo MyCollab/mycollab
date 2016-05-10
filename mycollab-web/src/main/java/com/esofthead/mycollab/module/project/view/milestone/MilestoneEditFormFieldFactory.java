@@ -27,6 +27,7 @@ import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.web.ui.I18nValueComboBox;
 import com.esofthead.mycollab.vaadin.web.ui.field.AttachmentUploadField;
+import com.vaadin.data.Property;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.RichTextArea;
@@ -55,9 +56,6 @@ public class MilestoneEditFormFieldFactory extends AbstractBeanFieldGroupEditFie
             userbox.setRequiredError("Please select an assignee");
             return userbox;
         } else if (propertyId.equals("status")) {
-            if (attachForm.getBean().getStatus() == null) {
-                attachForm.getBean().setStatus(MilestoneStatus.InProgress.toString());
-            }
             return new ProgressStatusComboBox();
         } else if (propertyId.equals("name")) {
             final TextField tf = new TextField();
@@ -92,7 +90,7 @@ public class MilestoneEditFormFieldFactory extends AbstractBeanFieldGroupEditFie
     private static class ProgressStatusComboBox extends I18nValueComboBox {
         private static final long serialVersionUID = 1L;
 
-        public ProgressStatusComboBox() {
+        ProgressStatusComboBox() {
             super();
             setCaption(null);
             this.setNullSelectionAllowed(false);
@@ -101,6 +99,15 @@ public class MilestoneEditFormFieldFactory extends AbstractBeanFieldGroupEditFie
             this.setItemIcon(MilestoneStatus.InProgress.name(), FontAwesome.SPINNER);
             this.setItemIcon(MilestoneStatus.Future.name(), FontAwesome.CLOCK_O);
             this.setItemIcon(MilestoneStatus.Closed.name(), FontAwesome.MINUS_CIRCLE);
+        }
+
+        @Override
+        public void setPropertyDataSource(Property newDataSource) {
+            Object value = newDataSource.getValue();
+            if (value == null) {
+                newDataSource.setValue(MilestoneStatus.InProgress.name());
+            }
+            super.setPropertyDataSource(newDataSource);
         }
     }
 

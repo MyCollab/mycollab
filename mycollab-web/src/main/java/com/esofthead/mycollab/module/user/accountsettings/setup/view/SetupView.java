@@ -16,12 +16,12 @@
  */
 package com.esofthead.mycollab.module.user.accountsettings.setup.view;
 
-import com.esofthead.mycollab.vaadin.mvp.PageView;
+import com.esofthead.mycollab.vaadin.web.ui.InitializingView;
 
 /**
  * @author MyCollab Ltd.
  * @since 5.0.5
  */
-public interface SetupView extends PageView {
+public interface SetupView extends InitializingView {
     void displaySetup();
 }

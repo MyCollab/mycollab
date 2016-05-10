@@ -14,19 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.user.accountsettings.team.view;
+package com.esofthead.mycollab.module.user.accountsettings.customize.view;
 
-import com.esofthead.mycollab.module.user.domain.SimpleUser;
-import com.esofthead.mycollab.module.user.domain.User;
-import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
-import com.esofthead.mycollab.vaadin.mvp.IPreviewView;
+import com.esofthead.mycollab.module.user.domain.AccountTheme;
+import com.esofthead.mycollab.vaadin.mvp.PageView;
 
 /**
  * @author MyCollab Ltd.
- * @since 1.0
+ * @since 4.1
  */
-public interface UserReadView extends IPreviewView<SimpleUser> {
-
-    HasPreviewFormHandlers<User> getPreviewFormHandlers();
-
+public interface IThemeCustomizeView extends PageView {
+    void customizeTheme(AccountTheme accountTheme);
 }

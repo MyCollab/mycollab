@@ -19,7 +19,6 @@ package com.esofthead.mycollab.vaadin.web.ui;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.ui.components.notification.RequestUploadAvatarNotification;
 import com.esofthead.mycollab.common.ui.components.notification.SmtpSetupNotification;
-import com.esofthead.mycollab.common.ui.components.notification.TimezoneNotification;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.AbstractNotification;
 import com.esofthead.mycollab.core.NewUpdateAvailableNotification;
@@ -231,18 +230,6 @@ public class NotificationComponent extends PopupButton implements PopupButton.Po
                     "notification without a proper SMTP setting", ContentMode.HTML);
             MCssLayout lblWrapper = new MCssLayout(lbl);
             wrapper.with(lblWrapper, smtpBtn).expand(lblWrapper);
-        } else if (item instanceof TimezoneNotification) {
-            wrapper.addComponent(new Label(FontAwesome.EXCLAMATION_TRIANGLE.getHtml() + " The correct your timezone will help you get " +
-                    "the event right", ContentMode.HTML));
-            Button actionBtn = new Button("Action", new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent event) {
-                    EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"preview"}));
-                    NotificationComponent.this.setPopupVisible(false);
-                }
-            });
-            actionBtn.setStyleName(UIConstants.BUTTON_BLOCK);
-            wrapper.addComponent(actionBtn);
         } else {
             LOG.error("Do not render notification " + item);
         }

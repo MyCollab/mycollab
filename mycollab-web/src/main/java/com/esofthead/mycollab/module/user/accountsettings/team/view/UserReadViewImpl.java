@@ -169,19 +169,17 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
                         if (Boolean.TRUE.equals(user.getIsAccountOwner())) {
                             return new DefaultViewField("Account Owner");
                         } else {
-                            return new LinkViewField(user.getRoleName(), AccountLinkBuilder
-                                    .generatePreviewFullRoleLink(user.getRoleid()));
+                            return new LinkViewField(user.getRoleName(), AccountLinkBuilder.generatePreviewFullRoleLink(user.getRoleid()));
                         }
                     } else if (propertyId.equals("website")) {
                         return new UrlLinkViewField(user.getWebsite());
                     } else if (propertyId.equals("dateofbirth")) {
                         return new DateViewField(user.getDateofbirth());
                     } else if (propertyId.equals("timezone")) {
-                        return new DefaultViewField(TimezoneMapper.getTimezoneExt(
-                                user.getTimezone()).getDisplayName());
+                        return new DefaultViewField(TimezoneMapper.getTimezoneExt(user.getTimezone()).getDisplayName());
                     } else if (propertyId.equals("facebookaccount")) {
-                        return new UrlSocialNetworkLinkViewField(user.getFacebookaccount(),
-                                "https://www.facebook.com/" + user.getFacebookaccount());
+                        return new UrlSocialNetworkLinkViewField(user.getFacebookaccount(), "https://www.facebook.com/" +
+                                user.getFacebookaccount());
                     } else if (propertyId.equals("twitteraccount")) {
                         return new UrlSocialNetworkLinkViewField(user.getTwitteraccount(),
                                 "https://www.twitter.com/" + user.getTwitteraccount());

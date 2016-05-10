@@ -16,16 +16,19 @@
  */
 package com.esofthead.mycollab.community.module.user.accountsettings.customize.view;
 
-import com.esofthead.mycollab.module.user.accountsettings.customize.view.ISettingContainer;
+import com.esofthead.mycollab.module.user.accountsettings.customize.view.IThemeCustomizeView;
+import com.esofthead.mycollab.module.user.domain.AccountTheme;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.view.NotPresentedView;
 
 /**
- * @author MyCollab Ltd.
- * @since 4.1
+ * @author MyCollab Ltd
+ * @since 5.3.1
  */
 @ViewComponent
-public class SettingContainer extends NotPresentedView implements ISettingContainer {
-    private static final long serialVersionUID = 4147841913888171040L;
+public class ThemeCustomizeView extends NotPresentedView implements IThemeCustomizeView {
+    @Override
+    public void customizeTheme(AccountTheme accountTheme) {
 
+    }
 }

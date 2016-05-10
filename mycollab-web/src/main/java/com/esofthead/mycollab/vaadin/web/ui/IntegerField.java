@@ -14,17 +14,26 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.common.ui.components.notification;
+package com.esofthead.mycollab.vaadin.web.ui;
 
-import com.esofthead.mycollab.core.AbstractNotification;
+import org.vaadin.viritin.fields.AbstractNumberField;
 
 /**
- * @author MyCollab Ltd.
- * @since 4.1
+ * @author MyCollab Ltd
+ * @since 5.3.1
  */
-public class TimezoneNotification extends AbstractNotification {
+public class IntegerField extends AbstractNumberField<Integer> {
+    @Override
+    protected void userInputToValue(String str) {
+        try {
+            this.setValue(Integer.valueOf(Integer.parseInt(str)));
+        } catch (Exception e) {
+            this.setValue(0);
+        }
+    }
 
-    public TimezoneNotification() {
-        super(SCOPE_USER, WARNING);
+    @Override
+    public Class<? extends Integer> getType() {
+        return Integer.class;
     }
 }

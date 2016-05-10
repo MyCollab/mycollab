@@ -90,7 +90,6 @@ public class TaskAddPresenter extends ProjectGenericPresenter<TaskAddView> {
             ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
             if (task.getId() == null) {
                 breadCrumb.gotoTaskAdd();
-                task.setPriority(OptionI18nEnum.TaskPriority.Medium.name());
             } else {
                 breadCrumb.gotoTaskEdit(task);
             }

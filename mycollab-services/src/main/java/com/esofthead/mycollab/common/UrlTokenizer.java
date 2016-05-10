@@ -22,11 +22,16 @@ package com.esofthead.mycollab.common;
  */
 public class UrlTokenizer {
     private String internalVal;
-
     private String remainStrVal;
+    private String query;
 
     public UrlTokenizer(String url) {
         internalVal = (url.startsWith("/")) ? url.substring(1) : url;
+        int queryIndex = internalVal.indexOf("?");
+        if (queryIndex != -1) {
+            query = internalVal.substring(queryIndex + 1);
+            internalVal = internalVal.substring(0, queryIndex);
+        }
         internalVal = UrlEncodeDecoder.decode(internalVal);
         remainStrVal = internalVal;
     }
@@ -70,5 +75,9 @@ public class UrlTokenizer {
 
     public String getRemainValue() {
         return remainStrVal;
+    }
+
+    public String getQuery() {
+        return query;
     }
 }

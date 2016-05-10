@@ -20,7 +20,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.user.accountsettings.billing.view.IBillingPresenter;
-import com.esofthead.mycollab.module.user.accountsettings.customize.view.ISettingPresenter;
+import com.esofthead.mycollab.module.user.accountsettings.customize.view.AccountSettingPresenter;
 import com.esofthead.mycollab.module.user.accountsettings.localization.AdminI18nEnum;
 import com.esofthead.mycollab.module.user.accountsettings.profile.view.ProfilePresenter;
 import com.esofthead.mycollab.module.user.accountsettings.setup.view.SetupPresenter;
@@ -61,7 +61,7 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
     private ProfilePresenter profilePresenter;
     private UserPermissionManagementPresenter userPermissionPresenter;
     private IBillingPresenter billingPresenter;
-    private ISettingPresenter customizePresenter;
+    private AccountSettingPresenter customizePresenter;
     private SetupPresenter setupPresenter;
 
     public AccountModuleImpl() {
@@ -72,8 +72,7 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
 
         MHorizontalLayout topPanel = new MHorizontalLayout().withWidth("100%").withStyleName("top-panel")
                 .withMargin(new MarginInfo(true, true, true, false));
-        AccountSettingBreadcrumb breadcrumb = ViewManager
-                .getCacheComponent(AccountSettingBreadcrumb.class);
+        AccountSettingBreadcrumb breadcrumb = ViewManager.getCacheComponent(AccountSettingBreadcrumb.class);
 
         topPanel.addComponent(breadcrumb);
 
@@ -132,18 +131,18 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
     }
 
     private ComponentContainer constructAccountSettingsComponent() {
-        this.billingPresenter = PresenterResolver.getPresenter(IBillingPresenter.class);
-        return this.billingPresenter.getView();
+        billingPresenter = PresenterResolver.getPresenter(IBillingPresenter.class);
+        return billingPresenter.getView();
     }
 
     private ComponentContainer constructUserInformationComponent() {
-        this.profilePresenter = PresenterResolver.getPresenter(ProfilePresenter.class);
-        return this.profilePresenter.getView();
+        profilePresenter = PresenterResolver.getPresenter(ProfilePresenter.class);
+        return profilePresenter.getView();
     }
 
     private ComponentContainer constructUserRoleComponent() {
-        this.userPermissionPresenter = PresenterResolver.getPresenter(UserPermissionManagementPresenter.class);
-        return this.userPermissionPresenter.getView();
+        userPermissionPresenter = PresenterResolver.getPresenter(UserPermissionManagementPresenter.class);
+        return userPermissionPresenter.getView();
     }
 
     private ComponentContainer constructSetupComponent() {
@@ -152,8 +151,8 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
     }
 
     private ComponentContainer constructThemeComponent() {
-        this.customizePresenter = PresenterResolver.getPresenter(ISettingPresenter.class);
-        return this.customizePresenter.getView();
+        customizePresenter = PresenterResolver.getPresenter(AccountSettingPresenter.class);
+        return customizePresenter.getView();
     }
 
     @Override
@@ -201,8 +200,7 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
             serviceMenu.addService("People", new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
-                    EventBusFactory.getInstance().post(
-                            new ShellEvent.GotoUserAccountModule(this, new String[]{"user", "list"}));
+                    EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"user", "list"}));
 
                 }
             });

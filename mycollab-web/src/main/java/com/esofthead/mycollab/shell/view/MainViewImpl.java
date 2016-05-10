@@ -19,7 +19,6 @@ package com.esofthead.mycollab.shell.view;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.ui.components.notification.RequestUploadAvatarNotification;
 import com.esofthead.mycollab.common.ui.components.notification.SmtpSetupNotification;
-import com.esofthead.mycollab.common.ui.components.notification.TimezoneNotification;
 import com.esofthead.mycollab.configuration.IDeploymentMode;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.utils.StringUtils;
@@ -353,9 +352,6 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
 
         NotificationComponent notificationComponent = new NotificationComponent();
         accountLayout.addComponent(notificationComponent);
-        if (AppContext.getUser().getTimezone() == null) {
-            EventBusFactory.getInstance().post(new ShellEvent.NewNotification(this, new TimezoneNotification()));
-        }
 
         if (StringUtils.isBlank(AppContext.getUser().getAvatarid())) {
             EventBusFactory.getInstance().post(new ShellEvent.NewNotification(this,

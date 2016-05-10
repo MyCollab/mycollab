@@ -21,7 +21,7 @@ import com.esofthead.mycollab.core.arguments.{NumberSearchField, SetSearchField}
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants
 import com.esofthead.mycollab.module.user.accountsettings.billing.view.IBillingPresenter
-import com.esofthead.mycollab.module.user.accountsettings.customize.view.ISettingPresenter
+import com.esofthead.mycollab.module.user.accountsettings.customize.view.AccountSettingPresenter
 import com.esofthead.mycollab.module.user.accountsettings.profile.view.ProfilePresenter
 import com.esofthead.mycollab.module.user.accountsettings.setup.view.SetupPresenter
 import com.esofthead.mycollab.module.user.accountsettings.team.view.UserPermissionManagementPresenter
@@ -139,14 +139,14 @@ class UserAccountController(container: AccountModule) extends AbstractController
   private def bingSettingEvents(): Unit = {
     this.register(new ApplicationEventListener[SettingEvent.GotoGeneralSetting]() {
       @Subscribe def handle(event: SettingEvent.GotoGeneralSetting) {
-        val presenter = PresenterResolver.getPresenter(classOf[ISettingPresenter])
+        val presenter = PresenterResolver.getPresenter(classOf[AccountSettingPresenter])
         presenter.go(container, new GeneralSetting())
       }
     })
 
     this.register(new ApplicationEventListener[SettingEvent.GotoTheme]() {
       @Subscribe def handle(event: SettingEvent.GotoTheme) {
-        val presenter = PresenterResolver.getPresenter(classOf[ISettingPresenter])
+        val presenter = PresenterResolver.getPresenter(classOf[AccountSettingPresenter])
         presenter.go(container, new ThemeCustomize())
       }
     })

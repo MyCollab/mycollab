@@ -316,7 +316,7 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements Proje
     }
 
     private StreamResource buildStreamSource(ReportExportType exportType) {
-        List fields = Arrays.asList(ProjectMemberTableFieldDef.membername(), ProjectMemberTableFieldDef.rolename(),
+        List fields = Arrays.asList(ProjectMemberTableFieldDef.memberName(), ProjectMemberTableFieldDef.roleName(),
                 ProjectMemberTableFieldDef.billingRate(), ProjectMemberTableFieldDef.overtimeRate());
         SimpleReportTemplateExecutor reportTemplateExecutor = new SimpleReportTemplateExecutor.AllItems<>("Project Members",
                 new RpFieldsBuilder(fields), exportType, SimpleProjectMember.class, ApplicationContextUtil.getSpringBean

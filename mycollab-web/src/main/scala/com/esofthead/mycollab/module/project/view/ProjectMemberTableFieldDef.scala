@@ -26,9 +26,9 @@ import com.esofthead.mycollab.vaadin.web.ui.UIConstants
   * @since 5.2.12
   */
 object ProjectMemberTableFieldDef {
-  val membername = new TableViewField(ProjectMemberI18nEnum.FORM_USER, ProjectMember.Field.username.name(), UIConstants.TABLE_X_LABEL_WIDTH)
+  val memberName = new TableViewField(ProjectMemberI18nEnum.FORM_USER, ProjectMember.Field.username.name(), UIConstants.TABLE_X_LABEL_WIDTH)
   val billingRate = new TableViewField(ProjectI18nEnum.FORM_BILLING_RATE, ProjectMember.Field.billingrate.name(), UIConstants.TABLE_S_LABEL_WIDTH)
   val overtimeRate = new TableViewField(ProjectI18nEnum.FORM_OVERTIME_BILLING_RATE, ProjectMember.Field.overtimebillingrate.name(),
     UIConstants.TABLE_S_LABEL_WIDTH)
-  val rolename = new TableViewField(ProjectMemberI18nEnum.FORM_ROLE, ProjectMember.Field.projectroleid.name(), UIConstants.TABLE_X_LABEL_WIDTH)
+  val roleName = new TableViewField(ProjectMemberI18nEnum.FORM_ROLE, ProjectMember.Field.projectroleid.name(), UIConstants.TABLE_X_LABEL_WIDTH)
 }

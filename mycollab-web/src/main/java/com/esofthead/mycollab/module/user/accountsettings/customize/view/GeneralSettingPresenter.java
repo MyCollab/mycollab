@@ -14,39 +14,33 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.user.accountsettings.setup.view;
+package com.esofthead.mycollab.module.user.accountsettings.customize.view;
 
-import com.esofthead.mycollab.module.user.accountsettings.view.AccountModule;
 import com.esofthead.mycollab.module.user.accountsettings.view.AccountSettingBreadcrumb;
-import com.esofthead.mycollab.module.user.ui.SettingUIConstants;
-import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.security.BooleanPermissionFlag;
+import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
+import com.esofthead.mycollab.vaadin.mvp.ViewPermission;
 import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
-import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 
 /**
  * @author MyCollab Ltd
- * @since 5.0.5
+ * @since 5.1.0
  */
-public class SetupPresenter extends AbstractPresenter<SetupView> {
-    public SetupPresenter() {
-        super(SetupView.class);
+@ViewPermission(permissionId = RolePermissionCollections.ACCOUNT_THEME, impliedPermissionVal = BooleanPermissionFlag.TRUE)
+public class GeneralSettingPresenter extends AbstractPresenter<GeneralSettingView> {
+    public GeneralSettingPresenter() {
+        super(GeneralSettingView.class);
     }
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        if (AppContext.isAdmin()) {
-            AccountModule accountContainer = (AccountModule) container;
-            accountContainer.gotoSubView(SettingUIConstants.SETUP);
-            view.displaySetup();
-
-            AccountSettingBreadcrumb breadcrumb = ViewManager.getCacheComponent(AccountSettingBreadcrumb.class);
-            breadcrumb.gotoSetup();
-        } else {
-            NotificationUtil.showMessagePermissionAlert();
-        }
-
+        AccountSettingContainer customizeContainer = (AccountSettingContainer) container;
+        customizeContainer.gotoSubView("General Settings");
+        view.displayView();
+        AccountSettingBreadcrumb breadcrumb = ViewManager.getCacheComponent(AccountSettingBreadcrumb.class);
+        breadcrumb.gotoGeneralSetting();
     }
 }
