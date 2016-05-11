@@ -40,11 +40,6 @@ public class UserPresenter extends AbstractPresenter<UserContainer> {
     }
 
     @Override
-    public boolean go(ComponentContainer container, ScreenData<?> data) {
-        return super.go(container, data, false);
-    }
-
-    @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         UserPermissionManagementView groupContainer = (UserPermissionManagementView) container;
         groupContainer.gotoSubView("Users");

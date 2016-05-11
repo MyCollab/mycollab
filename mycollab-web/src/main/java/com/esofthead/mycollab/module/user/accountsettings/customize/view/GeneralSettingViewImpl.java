@@ -90,7 +90,7 @@ public class GeneralSettingViewImpl extends AbstractPageView implements GeneralS
 
         generalSettingHeader.with(headerLbl, editBtn).alignAll(Alignment.MIDDLE_LEFT);
 
-        GridFormLayoutHelper gridFormLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, 4, "190px");
+        GridFormLayoutHelper gridFormLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, 4, "200px");
         gridFormLayoutHelper.addComponent(new Label(billingAccount.getSitename()),
                 AppContext.getMessage(AdminI18nEnum.FORM_SITE_NAME), 0, 0);
         gridFormLayoutHelper.addComponent(new Label(String.format("https://%s.mycollab.com", billingAccount
@@ -105,17 +105,20 @@ public class GeneralSettingViewImpl extends AbstractPageView implements GeneralS
         String defaultFullDateFormat = billingAccount.getDateFormatInstance().toPattern();
         gridFormLayoutHelper.addComponent(new Label(String.format("%s (%s)",
                 billingAccount.getDateFormatInstance().format(now), defaultFullDateFormat)),
-                AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_YYMMDD_FORMAT), 1, 0);
+                AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_YYMMDD_FORMAT),
+                AppContext.getMessage(GenericI18Enum.FORM_DATE_FORMAT_HELP), 1, 0);
 
         String defaultShortDateFormat = billingAccount.getShortDateFormatInstance().toPattern();
         gridFormLayoutHelper.addComponent(new Label(String.format("%s (%s)",
                 billingAccount.getShortDateFormatInstance().format(now), defaultShortDateFormat)),
-                AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_MMDD_FORMAT), 1, 1);
+                AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_MMDD_FORMAT),
+                AppContext.getMessage(GenericI18Enum.FORM_DATE_FORMAT_HELP), 1, 1);
 
         String defaultLongDateFormat = billingAccount.getHumanDateFormatInstance().toPattern();
         gridFormLayoutHelper.addComponent(new Label(String.format("%s (%s)",
                 billingAccount.getHumanDateFormatInstance().format(now), defaultLongDateFormat)),
-                AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_HUMAN_DATE_FORMAT), 1, 2);
+                AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_HUMAN_DATE_FORMAT),
+                AppContext.getMessage(GenericI18Enum.FORM_DATE_FORMAT_HELP), 1, 2);
 
         gridFormLayoutHelper.addComponent(new Label(LocalizationHelper.getLocaleInstance(billingAccount
                         .getDefaultlanguagetag()).getDisplayLanguage(AppContext.getUserLocale())),

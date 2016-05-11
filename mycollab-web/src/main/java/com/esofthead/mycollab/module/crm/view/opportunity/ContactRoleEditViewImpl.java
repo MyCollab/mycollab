@@ -17,9 +17,9 @@
 package com.esofthead.mycollab.module.crm.view.opportunity;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.core.arguments.BasicSearchRequest;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
@@ -37,7 +37,8 @@ import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.view.contact.ContactSelectionField;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.mvp.*;
+import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
+import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.web.ui.AddViewLayout2;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.web.ui.ValueComboBox;
@@ -101,15 +102,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements Contact
     }
 
     private ComponentContainer createButtonControls() {
-        HorizontalLayout layout = new HorizontalLayout();
-        layout.setSpacing(true);
-        layout.setMargin(true);
-
-        HorizontalLayout buttonWrapper = new HorizontalLayout();
-        buttonWrapper.setWidthUndefined();
-        buttonWrapper.setSpacing(true);
-
-        Button updateBtn = new Button("Update", new Button.ClickListener() {
+        Button updateBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -119,29 +112,20 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements Contact
         });
         updateBtn.setIcon(FontAwesome.SAVE);
         updateBtn.setStyleName(UIConstants.BUTTON_ACTION);
-        buttonWrapper.addComponent(updateBtn);
 
         Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
             @Override
             public void buttonClick(ClickEvent event) {
-                ViewState viewState = HistoryViewManager.back();
-
-                if (viewState instanceof NullViewState) {
-                    EventBusFactory.getInstance().post(new ContactEvent.GotoList(this, null));
-                }
-
+                EventBusFactory.getInstance().post(new ContactEvent.GotoList(this, null));
             }
         });
         cancelBtn.setIcon(FontAwesome.TIMES);
         cancelBtn.setStyleName(UIConstants.BUTTON_OPTION);
-        buttonWrapper.addComponent(cancelBtn);
 
-        layout.addComponent(buttonWrapper);
-        layout.setComponentAlignment(buttonWrapper, Alignment.MIDDLE_CENTER);
-
-        return layout;
+        MHorizontalLayout buttonControls = new MHorizontalLayout(cancelBtn, updateBtn);
+        return buttonControls;
     }
 
     private void updateContactRoles() {
@@ -294,8 +278,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements Contact
 
                 @Override
                 public void buttonClick(ClickEvent event) {
-                    ((CssLayout) ContactRoleRowComp.this.getParent())
-                            .removeComponent(ContactRoleRowComp.this);
+                    ((CssLayout) ContactRoleRowComp.this.getParent()).removeComponent(ContactRoleRowComp.this);
 
                     // The contact opportunity relationship is existed
                     if (contactOpp.getId() != null) {

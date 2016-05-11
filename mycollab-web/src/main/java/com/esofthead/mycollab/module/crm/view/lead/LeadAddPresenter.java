@@ -33,10 +33,7 @@ import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.IEditFormHandler;
-import com.esofthead.mycollab.vaadin.mvp.HistoryViewManager;
-import com.esofthead.mycollab.vaadin.mvp.NullViewState;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
-import com.esofthead.mycollab.vaadin.mvp.ViewState;
 import com.vaadin.ui.ComponentContainer;
 
 /**
@@ -63,10 +60,7 @@ public class LeadAddPresenter extends CrmGenericPresenter<LeadAddView> {
 
             @Override
             public void onCancel() {
-                ViewState viewState = HistoryViewManager.back();
-                if (viewState instanceof NullViewState) {
-                    EventBusFactory.getInstance().post(new LeadEvent.GotoList(this, null));
-                }
+                EventBusFactory.getInstance().post(new LeadEvent.GotoList(this, null));
             }
 
             @Override

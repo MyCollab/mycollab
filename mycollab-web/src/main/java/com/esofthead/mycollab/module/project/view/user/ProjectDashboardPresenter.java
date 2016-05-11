@@ -42,11 +42,6 @@ public class ProjectDashboardPresenter extends AbstractPresenter<ProjectDashboar
     }
 
     @Override
-    public boolean go(ComponentContainer container, ScreenData<?> data) {
-        return super.go(container, data, false);
-    }
-
-    @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         ProjectView projectViewContainer = (ProjectView) container;
         projectViewContainer.gotoSubView(ProjectTypeConstants.DASHBOARD);

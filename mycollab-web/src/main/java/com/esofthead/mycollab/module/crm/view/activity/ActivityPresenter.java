@@ -41,11 +41,6 @@ public class ActivityPresenter extends AbstractPresenter<ActivityContainer> {
         super(ActivityContainer.class);
     }
 
-    @Override
-    public boolean go(ComponentContainer container, ScreenData<?> data) {
-        return super.go(container, data, false);
-    }
-
     @SuppressWarnings({"rawtypes", "unchecked"})
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {

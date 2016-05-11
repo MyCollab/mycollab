@@ -116,6 +116,7 @@ public enum GenericI18Enum {
     FORM_NAME,
     FORM_TYPE,
     FORM_CURRENCY,
+    FORM_DATE_FORMAT_HELP,
 
     MODULE_CRM,
     MODULE_PROJECT,

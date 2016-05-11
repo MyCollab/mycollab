@@ -28,10 +28,7 @@ import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.IEditFormHandler;
-import com.esofthead.mycollab.vaadin.mvp.HistoryViewManager;
-import com.esofthead.mycollab.vaadin.mvp.NullViewState;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
-import com.esofthead.mycollab.vaadin.mvp.ViewState;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 
@@ -59,10 +56,7 @@ public class MeetingAddPresenter extends CrmGenericPresenter<MeetingAddView> {
 
             @Override
             public void onCancel() {
-                ViewState viewState = HistoryViewManager.back();
-                if (viewState instanceof NullViewState) {
-                    EventBusFactory.getInstance().post(new ActivityEvent.GotoTodoList(this, null));
-                }
+                EventBusFactory.getInstance().post(new ActivityEvent.GotoTodoList(this, null));
             }
 
             @Override

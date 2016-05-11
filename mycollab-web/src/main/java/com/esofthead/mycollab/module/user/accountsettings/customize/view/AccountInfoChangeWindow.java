@@ -58,14 +58,15 @@ class AccountInfoChangeWindow extends Window {
         super("Change account info");
         this.setModal(true);
         this.setResizable(false);
-        this.setWidth("600px");
+        this.setWidth("700px");
 
         billingAccount = BeanUtility.deepClone(AppContext.getBillingAccount());
-        MVerticalLayout content = new MVerticalLayout().withMargin(false);
+        MVerticalLayout content = new MVerticalLayout();
         this.setContent(content);
         editForm = new AdvancedEditBeanForm<>();
         editForm.setFormLayoutFactory(new IFormLayoutFactory() {
-            private GridFormLayoutHelper gridFormLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 8, "190px");
+            private GridFormLayoutHelper gridFormLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 8,
+                    "200px");
 
             @Override
             public ComponentContainer getLayout() {
@@ -83,11 +84,14 @@ class AccountInfoChangeWindow extends Window {
                 } else if (BillingAccount.Field.defaultcurrencyid.equalTo(propertyId)) {
                     gridFormLayoutHelper.addComponent(field, AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_CURRENCY), 0, 3);
                 } else if (BillingAccount.Field.defaultyymmddformat.equalTo(propertyId)) {
-                    gridFormLayoutHelper.addComponent(field, AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_YYMMDD_FORMAT), 0, 4);
+                    gridFormLayoutHelper.addComponent(field, AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_YYMMDD_FORMAT),
+                            AppContext.getMessage(GenericI18Enum.FORM_DATE_FORMAT_HELP), 0, 4);
                 } else if (BillingAccount.Field.defaultmmddformat.equalTo(propertyId)) {
-                    gridFormLayoutHelper.addComponent(field, AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_MMDD_FORMAT), 0, 5);
+                    gridFormLayoutHelper.addComponent(field, AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_MMDD_FORMAT),
+                            AppContext.getMessage(GenericI18Enum.FORM_DATE_FORMAT_HELP), 0, 5);
                 } else if (BillingAccount.Field.defaulthumandateformat.equalTo(propertyId)) {
-                    gridFormLayoutHelper.addComponent(field, AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_HUMAN_DATE_FORMAT), 0, 6);
+                    gridFormLayoutHelper.addComponent(field, AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_HUMAN_DATE_FORMAT),
+                            AppContext.getMessage(GenericI18Enum.FORM_DATE_FORMAT_HELP), 0, 6);
                 } else if (BillingAccount.Field.defaultlanguagetag.equalTo(propertyId)) {
                     gridFormLayoutHelper.addComponent(field, AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_LANGUAGE), 0, 7);
                 }

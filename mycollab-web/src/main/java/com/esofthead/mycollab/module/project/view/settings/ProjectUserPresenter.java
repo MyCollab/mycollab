@@ -35,11 +35,6 @@ public class ProjectUserPresenter extends AbstractPresenter<ProjectUserContainer
     }
 
     @Override
-    public boolean go(ComponentContainer container, ScreenData<?> data) {
-        return super.go(container, data, false);
-    }
-
-    @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         view.removeAllComponents();
 

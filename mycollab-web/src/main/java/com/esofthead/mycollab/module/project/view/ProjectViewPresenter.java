@@ -55,8 +55,8 @@ public class ProjectViewPresenter extends ProjectGenericPresenter<ProjectView> {
                 throw new ResourceNotFoundException();
             } else {
                 ProjectMemberService projectMemberService = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
-                boolean userBelongToProject = projectMemberService.isUserBelongToProject(AppContext.getUsername(),
-                        project.getId(), AppContext.getAccountId());
+                boolean userBelongToProject = projectMemberService.isUserBelongToProject(AppContext.getUsername(), project.getId(),
+                        AppContext.getAccountId());
                 if (userBelongToProject) {
                     CurrentProjectVariables.setProject(project);
                     view.initView(project);

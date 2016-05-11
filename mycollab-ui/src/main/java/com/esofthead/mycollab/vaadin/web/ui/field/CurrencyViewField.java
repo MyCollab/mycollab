@@ -37,8 +37,8 @@ public class CurrencyViewField extends CustomField<String> {
             label = new ELabel();
         } else {
             Currency currency = CurrencyUtils.getInstance(value);
-            label = new ELabel(value).withWidth("100%").withStyleName("wordWrap").withWidthUndefined()
-                    .withDescription(currency.getDisplayName(AppContext.getUserLocale()));
+            label = new ELabel(String.format("%s (%s)", currency.getDisplayName(AppContext.getUserLocale()), currency.getCurrencyCode()))
+                    .withWidth("100%").withStyleName("wordWrap");
         }
     }
 

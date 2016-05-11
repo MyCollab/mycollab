@@ -28,40 +28,32 @@ import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
 public class ActivityRootPresenter extends CrmGenericPresenter<ActivityRootView> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public ActivityRootPresenter() {
-		super(ActivityRootView.class);
-	}
+    public ActivityRootPresenter() {
+        super(ActivityRootView.class);
+    }
 
-	@Override
-	public boolean go(ComponentContainer container, ScreenData<?> data) {
-		return super.go(container, data, false);
-	}
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        super.onGo(container, data);
+        AbstractPresenter presenter;
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		super.onGo(container, data);
-		AbstractPresenter presenter;
+        if (ClassUtils.instanceOf(data, AssignmentScreenData.Read.class, AssignmentScreenData.Add.class,
+                AssignmentScreenData.Edit.class, MeetingScreenData.Add.class,
+                MeetingScreenData.Edit.class, MeetingScreenData.Read.class,
+                CallScreenData.Read.class, CallScreenData.Add.class, CallScreenData.Edit.class,
+                ActivityScreenData.GotoActivityList.class)) {
+            presenter = PresenterResolver.getPresenter(ActivityPresenter.class);
+        } else {
+            presenter = PresenterResolver.getPresenter(ActivityCalendarPresenter.class);
+        }
 
-		if (ClassUtils.instanceOf(data, AssignmentScreenData.Read.class, AssignmentScreenData.Add.class,
-				AssignmentScreenData.Edit.class, MeetingScreenData.Add.class,
-				MeetingScreenData.Edit.class, MeetingScreenData.Read.class,
-				CallScreenData.Read.class, CallScreenData.Add.class, CallScreenData.Edit.class,
-				ActivityScreenData.GotoActivityList.class)) {
-			presenter = PresenterResolver.getPresenter(ActivityPresenter.class);
-		} else {
-			presenter = PresenterResolver.getPresenter(ActivityCalendarPresenter.class);
-		}
-
-		presenter.go(view, data);
-	}
+        presenter.go(view, data);
+    }
 
 }

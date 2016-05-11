@@ -36,11 +36,6 @@ public class ProjectRolePresenter extends AbstractPresenter<ProjectRoleContainer
     }
 
     @Override
-    public boolean go(ComponentContainer container, ScreenData<?> data) {
-        return super.go(container, data, false);
-    }
-
-    @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         AbstractPresenter<?> presenter;
 

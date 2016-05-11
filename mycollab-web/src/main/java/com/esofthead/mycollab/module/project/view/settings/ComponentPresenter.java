@@ -25,7 +25,6 @@ import com.esofthead.mycollab.module.tracker.domain.criteria.ComponentSearchCrit
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
-import com.vaadin.ui.ComponentContainer;
 
 /**
  * @author MyCollab Ltd.
@@ -36,11 +35,6 @@ public class ComponentPresenter extends AbstractPresenter<BugComponentContainer>
 
     public ComponentPresenter() {
         super(BugComponentContainer.class);
-    }
-
-    @Override
-    public boolean go(ComponentContainer container, ScreenData<?> data) {
-        return super.go(container, data, false);
     }
 
     @Override

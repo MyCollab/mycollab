@@ -46,6 +46,6 @@ public abstract class ProjectGenericPresenter<V extends PageView> extends Abstra
     @Override
     protected void onDefaultStopChain() {
         ProjectDashboardPresenter presenter = PresenterResolver.getPresenter(ProjectDashboardPresenter.class);
-        presenter.go(this.view, null);
+        presenter.go(view, null);
     }
 }

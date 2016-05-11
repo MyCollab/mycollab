@@ -66,18 +66,7 @@ public abstract class AbstractPresenter<V extends PageView> implements IPresente
 
     @Override
     public boolean go(ComponentContainer container, ScreenData<?> data) {
-        return go(container, data, true);
-    }
-
-    @Override
-    public boolean go(ComponentContainer container, ScreenData<?> data, boolean isHistoryTrack) {
         getView();
-        if (isHistoryTrack) {
-            ViewState state = new ViewState(container, this, data);
-            HistoryViewManager.addHistory(state);
-        } else {
-            LOG.debug("Disable history track for " + this);
-        }
 
         if (checkPermissionAccessIfAny()) {
             try {

@@ -39,8 +39,6 @@ public class MyCollabSession {
 
     public static final String CONTROLLER_REGISTRY = "CONTROLLER_REGISTRY";
 
-    public static final String HISTORY_VAL = "historyVal";
-
     public static final String PRESENTER_VAL = "presenterMap";
 
     public static final String VIEW_MANAGER_VAL = "viewMap";

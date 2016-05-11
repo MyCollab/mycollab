@@ -29,7 +29,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.ClassUtils;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author MyCollab Ltd.
@@ -40,6 +42,9 @@ public class ComponentScannerService implements InitializingBean {
     private static Logger LOG = LoggerFactory.getLogger(ComponentScannerService.class);
     private Set<Class<?>> viewClasses = new HashSet<>();
     private Set<Class<? extends IPresenter>> presenterClasses = new HashSet<>();
+
+    private Map<Class, Class> cacheViewClasses = new ConcurrentHashMap<>();
+    private Map<Class, Class> cachePresenterClasses = new ConcurrentHashMap<>();
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -58,20 +63,30 @@ public class ComponentScannerService implements InitializingBean {
     }
 
     public Class<?> getViewImplCls(Class<?> viewClass) {
-        for (Class<?> classInstance : viewClasses) {
-            if (viewClass.isAssignableFrom(classInstance)) {
-                return classInstance;
+        Class aClass = cacheViewClasses.get(viewClass);
+        if (aClass == null) {
+            for (Class<?> classInstance : viewClasses) {
+                if (viewClass.isAssignableFrom(classInstance)) {
+                    cacheViewClasses.put(viewClass, classInstance);
+                    return classInstance;
+                }
             }
         }
-        return null;
+
+        return aClass;
     }
 
     public Class<?> getPresenterImplCls(Class<?> presenterClass) {
-        for (Class<?> classInstance : presenterClasses) {
-            if (presenterClass.isAssignableFrom(classInstance) && !classInstance.isInterface()) {
-                return classInstance;
+        Class aClass = cachePresenterClasses.get(presenterClass);
+        if (aClass == null) {
+            for (Class<?> classInstance : presenterClasses) {
+                if (presenterClass.isAssignableFrom(classInstance) && !classInstance.isInterface()) {
+                    cachePresenterClasses.put(presenterClass, classInstance);
+                    return classInstance;
+                }
             }
         }
-        return null;
+
+        return aClass;
     }
 }

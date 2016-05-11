@@ -29,7 +29,8 @@ import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.IEditFormHandler;
-import com.esofthead.mycollab.vaadin.mvp.*;
+import com.esofthead.mycollab.vaadin.mvp.ScreenData;
+import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.web.ui.AbstractPresenter;
 import com.vaadin.ui.ComponentContainer;
 
@@ -52,18 +53,12 @@ public class ProjectRoleAddPresenter extends AbstractPresenter<ProjectRoleAddVie
             @Override
             public void onSave(final ProjectRole item) {
                 save(item);
-                ViewState viewState = HistoryViewManager.back();
-                if (viewState instanceof NullViewState) {
-                    EventBusFactory.getInstance().post(new ProjectRoleEvent.GotoList(this, null));
-                }
+                EventBusFactory.getInstance().post(new ProjectRoleEvent.GotoList(this, null));
             }
 
             @Override
             public void onCancel() {
-                ViewState viewState = HistoryViewManager.back();
-                if (viewState instanceof NullViewState) {
-                    EventBusFactory.getInstance().post(new ProjectRoleEvent.GotoList(this, null));
-                }
+                EventBusFactory.getInstance().post(new ProjectRoleEvent.GotoList(this, null));
             }
 
             @Override
