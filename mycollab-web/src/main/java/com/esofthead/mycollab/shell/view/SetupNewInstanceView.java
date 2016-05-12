@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.shell.view;
 
 import com.esofthead.mycollab.core.utils.StringUtils;
+import com.esofthead.mycollab.module.user.accountsettings.localization.AdminI18nEnum;
 import com.esofthead.mycollab.module.user.service.BillingAccountService;
 import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -47,7 +48,7 @@ public class SetupNewInstanceView extends MVerticalLayout {
         final PasswordField retypePasswordField = formLayoutHelper.addComponent(new PasswordField(), "Retype Admin " +
                 "password", 0, 2);
         final TimeZoneSelectionField timeZoneSelectionField = formLayoutHelper.addComponent(new TimeZoneSelectionField(false)
-                , "Timezone", 0, 3);
+                , AppContext.getMessage(AdminI18nEnum.FORM_DEFAULT_TIMEZONE), 0, 3);
         content.with(formLayoutHelper.getLayout());
 
         Button installBtn = new Button("Setup", new Button.ClickListener() {

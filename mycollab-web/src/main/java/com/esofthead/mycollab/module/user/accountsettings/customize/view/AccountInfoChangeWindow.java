@@ -19,7 +19,6 @@ package com.esofthead.mycollab.module.user.accountsettings.customize.view;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.utils.BeanUtility;
-import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.TimezoneMapper;
 import com.esofthead.mycollab.module.user.accountsettings.localization.AdminI18nEnum;
 import com.esofthead.mycollab.module.user.domain.BillingAccount;
@@ -28,22 +27,21 @@ import com.esofthead.mycollab.module.user.service.BillingAccountService;
 import com.esofthead.mycollab.module.user.ui.components.LanguageComboBox;
 import com.esofthead.mycollab.spring.AppContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
+import com.esofthead.mycollab.vaadin.ui.CurrencyComboBoxField;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.web.ui.TimeZoneSelectionField;
 import com.esofthead.mycollab.vaadin.web.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.web.ui.field.DateFormatField;
 import com.esofthead.mycollab.vaadin.web.ui.grid.GridFormLayoutHelper;
 import com.vaadin.data.Property;
 import com.vaadin.data.Validator;
-import com.vaadin.event.FieldEvents;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.ui.*;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 /**
  * @author MyCollab Ltd
@@ -65,8 +63,7 @@ class AccountInfoChangeWindow extends Window {
         this.setContent(content);
         editForm = new AdvancedEditBeanForm<>();
         editForm.setFormLayoutFactory(new IFormLayoutFactory() {
-            private GridFormLayoutHelper gridFormLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 8,
-                    "200px");
+            private GridFormLayoutHelper gridFormLayoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(1, 8, "200px");
 
             @Override
             public ComponentContainer getLayout() {
@@ -116,7 +113,7 @@ class AccountInfoChangeWindow extends Window {
                 } else if (BillingAccount.Field.defaultcurrencyid.equalTo(propertyId)) {
                     return new CurrencyComboBoxField();
                 } else if (BillingAccount.Field.defaultyymmddformat.equalTo(propertyId)) {
-                    return new DateFormatField(billingAccount.getDateFormatInstance().toPattern());
+                    return new DateFormatField("");
                 } else if (BillingAccount.Field.defaultmmddformat.equalTo(propertyId)) {
                     return new DateFormatField(billingAccount.getShortDateFormatInstance().toPattern());
                 } else if (BillingAccount.Field.defaulthumandateformat.equalTo(propertyId)) {
@@ -186,56 +183,6 @@ class AccountInfoChangeWindow extends Window {
         public void commit() throws SourceException, Validator.InvalidValueException {
             setInternalValue(subDomainField.getValue());
             super.commit();
-        }
-
-        @Override
-        public Class<? extends String> getType() {
-            return String.class;
-        }
-    }
-
-    private static final class DateFormatField extends CustomField<String> {
-        String dateFormat;
-        TextField dateInput;
-        Label dateExample;
-        Date now;
-        SimpleDateFormat dateFormatInstance;
-
-        DateFormatField(final String initialFormat) {
-            this.dateFormat = initialFormat;
-            dateInput = new TextField(null, initialFormat);
-            dateInput.setImmediate(true);
-            dateInput.setTextChangeEventMode(AbstractTextField.TextChangeEventMode.LAZY);
-            now = new GregorianCalendar().getTime();
-            dateExample = new Label();
-            dateFormatInstance = DateTimeUtils.getDateFormat(dateFormat);
-            dateExample.setValue("(" + dateFormatInstance.format(now) + ")");
-            dateExample.setWidthUndefined();
-            dateInput.addTextChangeListener(new FieldEvents.TextChangeListener() {
-                @Override
-                public void textChange(FieldEvents.TextChangeEvent event) {
-                    try {
-                        dateFormatInstance.applyPattern(event.getText());
-                        dateExample.setValue("(" + dateFormatInstance.format(now) + ")");
-                    } catch (Exception e) {
-                        NotificationUtil.showErrorNotification("Invalid format");
-                        dateInput.setValue(initialFormat);
-                        dateFormatInstance.applyPattern(initialFormat);
-                        dateExample.setValue("(" + dateFormatInstance.format(now) + ")");
-                    }
-                }
-            });
-        }
-
-        @Override
-        public void commit() throws SourceException, Validator.InvalidValueException {
-            setInternalValue(dateInput.getValue());
-            super.commit();
-        }
-
-        @Override
-        protected Component initContent() {
-            return new MHorizontalLayout(dateInput, dateExample);
         }
 
         @Override

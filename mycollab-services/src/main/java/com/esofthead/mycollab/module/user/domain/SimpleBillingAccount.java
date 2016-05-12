@@ -82,16 +82,15 @@ public class SimpleBillingAccount extends BillingAccount {
 
     public SimpleDateFormat getHumanDateFormatInstance() {
         if (humanDateFormatInstance == null) {
-            humanDateFormatInstance = new SimpleDateFormat(MoreObjects.firstNonNull(getDefaulthumandateformat(), "E, " +
-                    "dd MMM yyyy"));
+            humanDateFormatInstance = new SimpleDateFormat(MoreObjects.firstNonNull(getDefaulthumandateformat(), "E, dd MMM yyyy"));
         }
         return humanDateFormatInstance;
     }
 
     public SimpleDateFormat getDateTimeFormatInstance() {
         if (dateTimeFormatInstance == null) {
-            dateTimeFormatInstance = new SimpleDateFormat(MoreObjects.firstNonNull(getDefaultyymmddformat() + " HH:mm:ss Z",
-                    "MM/dd/yyyy HH:mm:ss Z"));
+            String defaultTimeFormat = MoreObjects.firstNonNull(getDefaultyymmddformat(), "MM/dd/yyyy");
+            dateTimeFormatInstance = new SimpleDateFormat(defaultTimeFormat + " HH:mm:ss Z");
         }
         return dateTimeFormatInstance;
     }
